@@ -9,6 +9,7 @@
         @if($displayFilters)
             <div class="row py-3">
                 <div class="d-flex align-items-center justify-content-between">
+
                     @include('content::admin.content.livewire.card-header')
 
                     <div class="ms-4 input-icon col-xl-5 col-sm-5 col-12  ">
@@ -41,7 +42,21 @@
 
 
                     <div class="text-end">
-                        <a href="" class="btn btn-dark"><?php _e("Create New Page") ?></a>
+                        @if($this->contentType == 'page')
+                        <a href="{{route('admin.page.create')}}" class="btn btn-dark">
+                            {{_e("Create New Page")}}
+                        </a>
+                        @endif
+                        @if($this->contentType == 'post')
+                            <a href="{{route('admin.post.create')}}" class="btn btn-dark">
+                                {{_e("Create New Post")}}
+                            </a>
+                        @endif
+                        @if($this->contentType == 'product')
+                            <a href="{{route('admin.product.create')}}" class="btn btn-dark">
+                                {{_e("Create New Product")}}
+                            </a>
+                        @endif
                     </div>
 
 

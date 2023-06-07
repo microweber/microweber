@@ -79,14 +79,12 @@ class ContentList extends AdminComponent
     {
         $this->deselectAll();
         $this->emit('refreshContentList');
-
-
     }
+
     public function deselectAll()
     {
         $this->checked = [];
         $this->selectAll = false;
-
     }
 
     public function updatedShowColumns($value)
@@ -266,6 +264,26 @@ class ContentList extends AdminComponent
     public function multipleDeleteForever()
     {
         $this->emit('multipleDeleteForever', $this->checked);
+    }
+
+    public function unpublish($id)
+    {
+        $findContent = $this->model::where('id', $id)->first();
+        if ($findContent) {
+            $findContent->is_active = 0;
+            $findContent->save();
+            $this->emit('refreshContentList');
+        }
+    }
+
+    public function publish($id)
+    {
+        $findContent = $this->model::where('id', $id)->first();
+        if ($findContent) {
+            $findContent->is_active = 1;
+            $findContent->save();
+            $this->emit('refreshContentList');
+        }
     }
 
     public function setPaginationFirstPage()

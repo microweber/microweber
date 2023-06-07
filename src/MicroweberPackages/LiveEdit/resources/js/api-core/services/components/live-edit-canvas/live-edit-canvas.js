@@ -60,6 +60,9 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         frame.addEventListener('load', e => {
 
 
+            frame.contentWindow.document.body.addEventListener('click', () => {
+                this.dispatch('canvasDocumentClick')
+            });
 
             this.dispatch('liveEditCanvasLoaded');
             mw.spinner({

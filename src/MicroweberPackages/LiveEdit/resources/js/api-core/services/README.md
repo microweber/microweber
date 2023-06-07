@@ -11,6 +11,19 @@ mw.app.on('ready',function(app){
 ```
 
 
+# Canvas
+
+
+```js
+mw.app.canvas.on('canvasDocumentClick',function(app){
+
+});
+mw.app.canvas.on('liveEditCanvasLoaded',function(app){
+    
+});
+```
+
+
 ### Inserting Modules
 
 ```js

@@ -12,26 +12,17 @@
                               </span>
                         </div>
 
-                        <div class="custom-control custom-checkbox mt-4">
+                        <div class="custom-control custom-checkbox d-flex align-items-center">
                             <input type="checkbox" value="{{ $content->id }}" id="products-{{ $content->id }}"  class="js-select-posts-for-action form-check-input" wire:model="checked">
                             <label for="products-{{ $content->id }}" class="custom-control-label"></label>
                         </div>
                     </div>
 
                     <div class="col manage-post-item-col-2 mx-md-4" style="max-width: 80px; min-width: 80px;">
-
-{{--                        @include('page::admin.page.iframe', [--}}
-{{--                            'iframeWidth'=> '600%',--}}
-{{--                            'iframeHeight'=> '100px',--}}
-{{--                            'transformScale'=>'0.16',--}}
-{{--                            'url'=>$content->link() . '?no_editmode=true'--}}
-{{--                         ])--}}
-
                     @include('content::admin.content.livewire.components.picture', ['content'=>$content])
-
                     </div>
 
-                    <div class="col item-title manage-post-item-col-3 manage-post-main">
+                    <div class="col-md col-12 my-md-0 my-3 item-title manage-post-item-col-3 manage-post-main">
 
                         @include('content::admin.content.livewire.components.title-and-categories', ['content'=>$content])
 
@@ -48,29 +39,28 @@
                     </div>
 
                     <div class="col-auto ms-3">
-                        @if ($content->is_active)
-                            <div class="dropdown">
-                                <a href="#" class=" dropdown-toggle badge bg-green-lt form-label mb-0 fs-5 text-decoration-none" data-bs-toggle="dropdown">
-                                    <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 -960 960 960" width="16"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle badge @if($content->is_active == 1) bg-green-lt @else bg-red-lt @endif form-label mb-0 fs-5 text-decoration-none" data-bs-toggle="dropdown">
+                                @if($content->is_active == 1)
+                                <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg>
+                                     {{ _e("Published") }}
+                                @else
+                                    <svg class="mx-1 text-danger" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M833-41 718-156q-50 36-110 56T480-80q-85 0-158-30.5T195-195q-54-54-84.5-127T80-480q0-68 20-128t56-110L26-848l43-43L876-84l-43 43Zm-353-99q55 0 104-15.5t91-43.5L498-376l-77 78-165-166 45-45 120 120 32-32-254-254q-28 42-43.5 91T140-480q0 145 97.5 242.5T480-140Zm324-102-43-43q28-42 43.5-91T820-480q0-145-97.5-242.5T480-820q-55 0-104 15.5T285-761l-43-43q50-36 110-56t128-20q84 0 157 31t127 85q54 54 85 127t31 157q0 68-20 128t-56 110ZM585-462l-46-45 119-119 46 45-119 119Zm-62-61Zm-86 86Z"/></svg>
 
-                                    {{ _e("Published") }}
-
-                                </a>
-                                <div class="dropdown-menu">
-                                    <a  href="{{$content->editLink()}}" class="dropdown-item">
-                                        <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg>
-                                        {{ _e("Publish") }}
-                                    </a>
-
-                                    <a  href="{{$content->editLink()}}" class="dropdown-item">
-                                        <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M220-80q-24 0-42-18t-18-42v-680q0-24 18-42t42-18h361l219 219v521q0 24-18 42t-42 18H220Zm331-554v-186H220v680h520v-494H551ZM220-820v186-186 680-680Z"/></svg>
-                                        {{ _e("Draft") }}
-                                    </a>
-
-                                </div>
+                                    {{ _e("Unpublish") }}
+                                @endif
+                            </a>
+                            <div class="dropdown-menu">
+                                <button type="button" class="dropdown-item" wire:click="publish({{$content->id}})">
+                                    <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg>
+                                    {{ _e("Publish") }}
+                                </button>
+                                <button type="button" class="dropdown-item" wire:click="unpublish({{$content->id}})">
+                                    <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M833-41 718-156q-50 36-110 56T480-80q-85 0-158-30.5T195-195q-54-54-84.5-127T80-480q0-68 20-128t56-110L26-848l43-43L876-84l-43 43Zm-353-99q55 0 104-15.5t91-43.5L498-376l-77 78-165-166 45-45 120 120 32-32-254-254q-28 42-43.5 91T140-480q0 145 97.5 242.5T480-140Zm324-102-43-43q28-42 43.5-91T820-480q0-145-97.5-242.5T480-820q-55 0-104 15.5T285-761l-43-43q50-36 110-56t128-20q84 0 157 31t127 85q54 54 85 127t31 157q0 68-20 128t-56 110ZM585-462l-46-45 119-119 46 45-119 119Zm-62-61Zm-86 86Z"/></svg>
+                                    {{ _e("Unpublish") }}
+                                </button>
                             </div>
-
-                        @endif
+                        </div>
                     </div>
 
 
@@ -87,13 +77,13 @@
 
                                 </a>
                                 <a href="{{$content->editLink()}}" class="dropdown-item ps-4">
-                                    <svg class="me-1" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6c3.79 0 7.17 2.13 8.82 5.5C19.17 14.87 15.79 17 12 17s-7.17-2.13-8.82-5.5C4.83 8.13 8.21 6 12 6m0-2C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 5c1.38 0 2.5 1.12 2.5 2.5S13.38 14 12 14s-2.5-1.12-2.5-2.5S10.62 9 12 9m0-2c-2.48 0-4.5 2.02-4.5 4.5S9.52 16 12 16s4.5-2.02 4.5-4.5S14.48 7 12 7z"/></svg>
+                                    <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6c3.79 0 7.17 2.13 8.82 5.5C19.17 14.87 15.79 17 12 17s-7.17-2.13-8.82-5.5C4.83 8.13 8.21 6 12 6m0-2C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 5c1.38 0 2.5 1.12 2.5 2.5S13.38 14 12 14s-2.5-1.12-2.5-2.5S10.62 9 12 9m0-2c-2.48 0-4.5 2.02-4.5 4.5S9.52 16 12 16s4.5-2.02 4.5-4.5S14.48 7 12 7z"/></svg>
                                     <?php _e("Live Edit") ?>
                                 </a>
 
                                 <?php if(!$content->is_deleted): ?>
                                     <a href="javascript:mw.admin.content.delete('{{ $content->id }}');" class="dropdown-item ps-4 text-danger js-delete-content-btn-{{ $content->id }}">
-                                        <svg class="me-1 text-danger" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"/></svg>
+                                        <svg class="me-1 text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"/></svg>
                                             <?php _e("Delete") ?>
 
                                     </a>

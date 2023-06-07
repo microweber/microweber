@@ -28,12 +28,16 @@
     @else
 
     <div class="modal-body py-4">
-        <div class="text-muted">
+        <h2>
             {{ 'Your template is up to date' }}
-        </div>
+        </h2>
+
+        <label class="form-label">
+            {{ 'Great! Your template is up to date' }}!
+        </label>
 
         <div class="mt-4 text-end">
-            <a class="btn btn-dark me-2" href="" wire:click="$emit('closeModal')" > {{_e('Cancel')}}</a>
+            <a class="btn btn-dark me-2" href="" wire:click="$emit('closeModal')" > {{_e('Close')}}</a>
         </div>
     </div>
 

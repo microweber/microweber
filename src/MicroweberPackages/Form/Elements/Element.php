@@ -6,7 +6,7 @@ abstract class Element
 {
     protected $attributes = [];
 
-    protected function setAttribute($attribute, $value = null)
+    public function setAttribute($attribute, $value = null)
     {
         if (is_null($value)) {
             return;
@@ -87,6 +87,13 @@ abstract class Element
         }
 
         $this->setAttribute('class', $class);
+
+        return $this;
+    }
+
+    public function xModel($value)
+    {
+        $this->setAttribute('x-model', $value);
 
         return $this;
     }

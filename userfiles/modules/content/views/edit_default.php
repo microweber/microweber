@@ -286,18 +286,8 @@ if (isset($params['quick_edit'])) {
             $backToLink = route('admin.page.index');
             $typeIcon = 'mdi-file-document';
             $backToTypeText = 'Pages';
-
         }
         ?>
-
-        <div class="position-relative mw-modules-toolbar-back-button-holder-wrapper">
-            <div class="main-toolbar mw-modules-toolbar-back-button-holder">
-                <a href="<?php echo $backToLink; ?>" class="btn btn-link text-silver px-0">
-                    <i class="mdi mdi-chevron-left"></i> <?php _e('Back to'); ?> <?php _e($backToTypeText); ?>
-                </a>
-            </div>
-        </div>
-
 
         <div class="row" x-data="{showEditTab: 'details'}">
             <div class="col-md-8 manage-content-body mx-5">
@@ -363,8 +353,7 @@ if (isset($params['quick_edit'])) {
                                 </div>
 
                                 <?php if (isset($edit_page_info['title'])): ?>
-                                    <div class=" ">
-
+                                    <div class=" " x-data="{ title: '' }">
                                         <div class="form-group" id="slug-field-holder">
                                             <label class="form-label"><?php _e($type) ?> <?php _e("title"); ?></label>
 
@@ -377,11 +366,14 @@ if (isset($params['quick_edit'])) {
                                             <?php
                                             echo $formBuilder->text('title')
                                                 ->setModel($contentModel)
+                                                ->xModel('title')
                                                 ->value($title_for_input)
                                                 ->id('content-title-field')
                                                 ->onkeyup('slugFromTitle();')
                                                 ->autocomplete(false);
                                             ?>
+
+                                            <span x-text="title">
 
                                             <?php
                                             if (!\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):

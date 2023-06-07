@@ -1,14 +1,24 @@
 <script>
 
 export default {
-
+    methods: {
+        
+        save: async () => {
+            const btn = document.getElementById('save-button');
+            btn.classList.add('btn-loading');
+            btn.disabled = true;
+            await mw.app.save();
+            btn.classList.remove('btn-loading');
+            btn.disabled = false;
+        }
+    },
     data() {
 
     }
 }
 </script>
 <template>
-    <span class="mw-le-btn mw-le-btn-primary" id="save-button">
+    <button class="btn btn-primary" id="save-button" @click="save()">
                     Save
-     </span>
+     </button>
 </template>

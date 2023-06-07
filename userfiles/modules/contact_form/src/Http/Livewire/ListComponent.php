@@ -4,17 +4,19 @@ namespace MicroweberPackages\Modules\ContactForm\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Form\Models\FormData;
 use MicroweberPackages\Form\Models\FormList;
-use MicroweberPackages\Modules\TodoModuleLivewire\Models\Todo;
 
-class ListComponent extends Component
+class ListComponent extends AdminComponent
 {
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
 
-    public $listeners = ["loadList" => '$refresh'];
+    public $listeners = [
+        "loadListFormData" => 'refresxxxh',
+    ];
 
     public $filter = [
         "keyword" => "",
@@ -50,6 +52,11 @@ class ListComponent extends Component
         $this->gotoPage(1);
     }
 
+    public function refresxxxh()
+    {
+        dd(222);
+    }
+
     public function render()
     {
         $formsLists = FormList::all();
@@ -81,9 +88,54 @@ class ListComponent extends Component
         return view('contact-form::admin.contact-form.list', compact('formsData','formsLists'));
     }
 
+    public function preview($id)
+    {
+        $getFormData = FormData::where('id', $id)->first();
+        if ($getFormData) {
+            if ($getFormData->is_read != 1) {
+                $getFormData->is_read = 1;
+                $getFormData->save();
+            }
+        }
+
+        $this->emit('openModal', 'contact-form.form-data-preview-modal', [
+            'formDataId' => $id
+        ]);
+    }
+
+    public function markAsRead($id)
+    {
+        $formData = FormData::where('id', $id)->first();
+        if ($formData == null) {
+            return [];
+        }
+
+        $formData->is_read = 1;
+        $formData->save();
+    }
+
+    public function markAsUnread($id)
+    {
+        $formData = FormData::where('id', $id)->first();
+        if ($formData == null) {
+            return [];
+        }
+        $formData->is_read = 0;
+        $formData->save();
+    }
+
     public function exportDataExcel()
     {
-        
+        $params = [];
+        $params['id'] = 0;
+        if (isset($filter['formListId'])) {
+            $params['id'] = $filter['formListId'];
+        }
+
+        $data = mw()->forms_manager->export_to_excel($params);
+        if (isset($data['download'])) {
+            return $this->redirect($data['download']);
+        }
     }
 
     public function confirmDelete($id)
