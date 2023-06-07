@@ -68,10 +68,16 @@
         @foreach($comments as $comment)
 
             <div class="card shadow-sm mb-4 bg-silver comments-card">
+
+                @if($comment->isPending())
+                <div class="card-status-start bg-primary"></div>
+                @endif
+
                 <div class="card-body">
                     <div class="gap-5">
 
                         <div class="d-flex align-items-center">
+
                             <div>
                                 @if($comment->created_by > 0)
                                     <img class="rounded-circle shadow-1-strong me-3"
@@ -83,13 +89,26 @@
                                     </div>
                                 @endif
                             </div>
-                            <div class="">
-                                <p class="mb-0">
-                                    {{$comment->comment_name}}
-                                </p>
-                                <span class="text-muted">
-                             {{$comment->comment_email}}
-                            </span>
+
+                            <div class="d-flex justify-content-between gap-5">
+                                <div class="">
+                                    <p class="mb-0">
+                                        {{$comment->comment_name}}
+                                    </p>
+                                    <span class="text-muted">
+                                        {{$comment->created_at->diffForHumans()}}
+                                        <span>·</span>
+                                     {{$comment->comment_email}}
+                                    </span>
+                                </div>
+
+                                @if($comment->isPending())
+                                    <div>
+                                        <span class="badge badge-primary bg-primary">
+                                         {{_e('Waiting for approval')}}
+                                        </span>
+                                    </div>
+                                @endif
                             </div>
 
                         </div>
@@ -104,7 +123,7 @@
                             </div>
 
                             <div class="cursor-pointer" wire:click="preview({{$comment->id}})">
-                               <span class="mb-0 text-muted">
+                               <span class="mb-0 text-bold">
                                   {{$comment->comment_body}}
                                 </span>
                             </div>

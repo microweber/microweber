@@ -21,6 +21,12 @@ class Comment extends Model
         'comment_website',
     ];
 
+    public function isPending() {
+        if ($this->is_new == 1 && $this->is_moderated == 0) {
+            return true;
+        }
+    }
+
     public function scopePending($query)
     {
         return $query->where('is_new', 1)->where('is_moderated', 0);
