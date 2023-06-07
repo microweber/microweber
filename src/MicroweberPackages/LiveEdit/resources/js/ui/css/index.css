@@ -51,7 +51,7 @@ a {
     align-items: center;
     justify-content: space-between;
     flex-wrap: nowrap;
-    background-color: #000;
+    background: var(--tblr-navbar-bg);
     display: flex;
     padding: 0 30px;
     position: relative;
@@ -88,7 +88,7 @@ html.preview #toolbar {
 }
 
 .toolbar-nav {
-    background-color: #2b2b2b;
+    background-color: var(--tblr-bg-surface);
     border-radius: 100px;
     display: inline-flex;
     margin: 15px 0;
@@ -309,12 +309,10 @@ html[dir="rtl"] #user-menu {
 
 .mw-editor-le2 mw-editor-button {
     cursor: pointer;
-    color: white;
+    color: var(--tblr-card-title-color)
 }
 
-.mw-editor-le2 {
-    color: white;
-}
+
 
 .mw-editor-le2 iframe {
     border: none;
@@ -382,6 +380,9 @@ html[dir="rtl"] #user-menu {
     display: flex;
     flex-wrap: nowrap;
     gap: 20px;
+}
+.toolbar-col-container{
+    align-self: center;
 }
 
 #preview-button {
@@ -949,24 +950,7 @@ body.loaded #bubble-nav span {
     padding: 11px;
 }
 
-/*#general-theme-settings .btn {*/
-/*    background: rgb(64, 64, 64);*/
-/*    border-color: #464646;*/
-/*}*/
-/*#general-theme-settings .accordion-flush .accordion-item {*/
-/*    background: #313131;;*/
-/*}*/
-/*#general-theme-settings .accordion-body {*/
-/*    color:#FFF;*/
-/*}*/
-/*#general-theme-settings .accordion-button:not(.collapsed) {*/
-/*    color: #fff;*/
-/*    background-color: #262626;*/
-/*}*/
-/*#general-theme-settings .accordion-flush .accordion-item .accordion-button {*/
-/*    background-color: #262626;*/
-/*    color: #fff;*/
-/*}*/
+
 
 #general-theme-settings.active + #live-edit-frame-holder {
     right: 330px;
