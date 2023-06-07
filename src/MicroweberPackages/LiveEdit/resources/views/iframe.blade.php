@@ -15,6 +15,7 @@
 
 
         mw.lib.require('jqueryui');
+        mw.require('components.css')
     </script>
 
     <?php
