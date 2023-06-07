@@ -48,11 +48,12 @@
   }
   .mw-tree-item-content {
     cursor: pointer;
+
   }
   .mw-tree-item-title {
     flex: 1;
     padding-inline: 4px 0;
- 
+
     display: inline-block;
     border: 1px solid transparent;
     transition: all .3s;
@@ -60,7 +61,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
- 
+
 
     font-size: 14px;
     color: var(--tblr-body-color);
@@ -193,7 +194,7 @@
         }
     }
 
- 
+
 
 
 
@@ -220,7 +221,7 @@
     & > li > .mw-tree-item-content-root {
         .mw-tree-toggler{
             margin-inline: -25px -23px;
- 
+
 
         }
     }
@@ -276,7 +277,7 @@
         display: block;
         position: relative;
         border: 1px solid transparent;
- 
+
         cursor: pointer;
         white-space: nowrap;
         padding: 1px 10px;
@@ -292,7 +293,7 @@
 
   .mw-tree-context-menu-item:hover {
     opacity: 1;
- 
+
       background-color:var(--tblr-body-bg) ;
 
   }
@@ -373,10 +374,10 @@
     margin-inline-end: 5px;
   }
 
- 
- 
 
- 
+
+
+
 
 
   .mw-tree-item-hidden {
@@ -483,9 +484,14 @@ html[dir="rtl"]{
         justify-content: space-between;
         width: 100%;
         &.item-selectable-true{
-            padding-inline-start: 50px !important;
+            padding-inline-start: 25px !important;
             .mw-ui-check{
                 margin-inline: -55px 25px;
+            }
+
+            svg {
+                margin-right: 10px;
+                margin-left: 10px;
             }
         }
 
@@ -555,15 +561,6 @@ html[dir="rtl"]{
 
                     box-shadow: -1px 1px 1px 0 rgba(0, 0, 0, .11);
                 }
-
-                &:before{
-                    content: "\F024B";
-
-                    font: normal normal normal 1.25em/1 "Material Design Icons";
-                    color: #868686;
-                    margin-inline-start: -10px;
-                    margin-inline-end: 10px;
-                }
             }
         }
 
@@ -580,13 +577,7 @@ html[dir="rtl"]{
                 position: relative;
                 overflow: hidden;
                 background-color: rgba(0, 0, 0, .03);
-                &:before{
-                    content: "\F0219";
-                    font: normal normal normal 1.25em/1 "Material Design Icons";
-                    color: #4592ff;
-                    margin-inline-start: -10px;
-                    margin-inline-end: 10px;
-                }
+                margin-bottom: 10px;
             }
         }
     }
@@ -624,5 +615,10 @@ html[dir="rtl"]{
         }
     }
 }
- 
 
+
+.mw-tree-item-content {
+    .form-check {
+        margin-bottom: 0;
+    }
+}

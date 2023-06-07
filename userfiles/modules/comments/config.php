@@ -7,8 +7,14 @@ $config['ui_admin_iframe'] = true;
 $config['ui'] = true;
 $config['categories'] = "content";
 $config['position'] = 200;
-$config['version'] = 1.0;
+$config['version'] = 1.1;
 $config['settings'] = [];
+
+// Here is the index route for admin panel
+$config['settings']['routes'] = [
+    'admin'=>'admin.comments.index'
+];
+
 $config['settings']['autoload_namespace'] = [
     [
         'path' => __DIR__ . '/src/',
@@ -17,5 +23,6 @@ $config['settings']['autoload_namespace'] = [
 ];
 
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Modules\Comments\CommentsServiceProvider::class
+    \MicroweberPackages\Modules\Comments\Providers\CommentsServiceProvider::class
 ];
+

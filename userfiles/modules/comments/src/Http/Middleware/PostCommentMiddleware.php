@@ -6,7 +6,7 @@ use MicroweberPackages\Helper\HTMLClean;
 
 class PostCommentMiddleware
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, \Closure $next)
     {
         $input = $request->all();
 
