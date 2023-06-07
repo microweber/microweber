@@ -29,6 +29,12 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     }
 
+    public function delete($id)
+    {
+        $comment = Comment::find($id);
+        $comment->delete();
+    }
+
     public function markAsModerated($id)
     {
         $comment = Comment::find($id);
@@ -41,6 +47,7 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     {
         $comment = Comment::find($id);
         $comment->is_spam = 1;
+        $comment->is_moderated = 0;
         $comment->save();
     }
 
@@ -48,6 +55,7 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     {
         $comment = Comment::find($id);
         $comment->is_spam = 0;
+        $comment->is_moderated = 1;
         $comment->save();
     }
 
@@ -73,7 +81,24 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
         $countSpam = Comment::where('is_spam', 1)->count();
         $countTrashed = Comment::onlyTrashed()->count();
 
-        $getComments = Comment::paginate($this->itemsPerPage);
+        $getCommentsQuery = Comment::query();
+        if (isset($this->filter['keyword'])) {
+            $keyword = trim($this->filter['keyword']);
+            $getCommentsQuery->where('comment_body', 'like', '%' . $keyword . '%');
+        }
+        if (isset($this->filter['status'])) {
+            if ($this->filter['status'] == 'pending') {
+                $getCommentsQuery->where('is_new', 1);
+            } elseif ($this->filter['status'] == 'approved') {
+                $getCommentsQuery->where('is_new', 0)->where('is_spam', 0);
+            } elseif ($this->filter['status'] == 'spam') {
+                $getCommentsQuery->where('is_spam', 1);
+            } elseif ($this->filter['status'] == 'trash') {
+                $getCommentsQuery->onlyTrashed();
+            }
+        }
+
+        $getComments = $getCommentsQuery->paginate($this->itemsPerPage);
 
         return view('comments::admin.livewire.comments-list', [
             'comments' => $getComments,
