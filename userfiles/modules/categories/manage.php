@@ -1,8 +1,16 @@
-<div class="mw-module-category-manager admin-side-content">
+<div class="col-xl-9 mx-auto mw-module-category-manager admin-side-content">
     <div class="card-body mb-3">
-        <div class="card-header d-flex align-items-center justify-content-between">
-            <h1 class="main-pages-title"><?php _e("Categories"); ?></h1>
+        <div class="card-header d-flex align-items-center justify-content-between mb-5">
+            <h1 class="main-pages-title mb-0"><?php _e("Categories"); ?></h1>
 
+
+            <div class="ms-4 input-icon col-xl-5 col-sm-5 col-12  ">
+                <input type="text" value="" class="form-control" placeholder="Search…">
+                <span class="input-icon-addon">
+                  <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                </span>
+            </div>
 
             <div class="js-hide-when-no-items">
                 <div class="d-flex align-items-center">
@@ -92,7 +100,7 @@
                     selectable: false,
                     singleSelect: true,
                     saveState: false,
-                    searchInput: true,
+                    searchInput: false,
                     skin: 'category-manager',
                     contextMenu: [
 
@@ -126,7 +134,7 @@
                     multiPageSelect: false,
                     allowPageSelect: false,
                     saveState: false,
-                    searchInput: true,
+                    searchInput: false,
                     skin: 'category-manager',
                     contextMenu: [
 
