@@ -140,25 +140,22 @@
 
 </script>
 
-<div class="col-md-3 manage-content-sidebar">
-    <div class="card-body mb-3">
-        <div class="  pb-0">
-            <div class="row">
-                <div class="col-12">
-                    <strong><?php _e("Visibility"); ?></strong>
-                </div>
+<div class="col-md-3 mt-6 pt-4 manage-content-sidebar">
+    <div class="card shadow-none mb-5">
+        <div class="card-body mb-3">
+            <div class="card-header ps-0 pt-1 mb-0">
+                <strong><?php _e("Visibility"); ?></strong>
             </div>
-
-            <div class="row my-3">
+            <div class="row pb-0">
                 <div class="col-12"><input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>"/>
                     <div class="form-group">
-                        <div class="custom-control custom-radio">
-                            <input type="radio" id="is_active_1"  name="is_active" class="form-check-input" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
-                            <label class="custom-control-label" style="cursor:pointer" for="is_active_1"><?php _e("Published"); ?></label>
+                        <div class="custom-control custom-radio mb-3">
+                            <input type="radio" id="is_active_1"  name="is_active" class="form-check-input mt-1" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
+                            <label class="custom-control-label fs-4 mw-admin-edit-post-publish " style="cursor:pointer" for="is_active_1"><?php _e("Published"); ?></label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input type="radio" id="is_active_0" name="is_active" class="form-check-input" value="0" <?php if (!$data['is_active']): ?>checked<?php endif; ?>>
-                            <label class="custom-control-label" style="cursor:pointer" for="is_active_0"><?php _e("Unpublished"); ?></label>
+                            <input type="radio" id="is_active_0" name="is_active" class="form-check-input mt-1" value="0" <?php if (!$data['is_active']): ?>checked<?php endif; ?>>
+                            <label class="custom-control-label fs-4 mw-admin-edit-post-unpublish " style="cursor:pointer" for="is_active_0"><?php _e("Unpublished"); ?></label>
                         </div>
                     </div>
                 </div>
@@ -169,46 +166,55 @@
 
     <module type="content/views/edit_default_sidebar_variants" content-id="<?php echo $data['id']; ?>" />
 
-    <div class="card-body mb-3 categories js-sidebar-categories-card">
-            <div class="  pb-1">
-                <div class="row">
+    <div class="mb-3 categories js-sidebar-categories-card">
 
-
-                    <?php if ($data['content_type'] == 'page') : ?>
-                        <div class="col-12">
-                            <strong><?php _e("Select parent page"); ?></strong>
-
-                            <div class="quick-parent-selector mt-2">
-                                <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"/>
-                            </div>
-                        </div>
-                    <?php else: ?>
-                        <div class="col-12">
-                            <strong><?php _e('Categories'); ?></strong>
-
-                            <script>
-                                function manage_cats_for_add_post() {
-
-                                    var manage_cats_for_add_post_opts = {};
-                                    // opts.width = '900';
-                                    // opts.height = '800';
-
-                                    //  opts.liveedit = true;
-                                    //  opts.mode = 'modal';
-
-                                    var additional_params = {};
-                                    additional_params.show_add_post_to_category_button = 'true';
+               <div class="card shadow-none mb-5">
+                   <div class="card-body">
 
 
 
-                                    manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
-                                }
-                            </script>
+                           <?php if ($data['content_type'] == 'page') : ?>
 
-                            <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>category" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage categories"); ?></a>
-                        </div>
-                    <?php endif; ?>
-                </div>
+                                 <div class="card-header ps-0 pt-1 mb-0">
+                                     <strong>
+                                         <?php _e("Select parent page"); ?>
+                                     </strong>
+                                 </div>
+
+                                  <div class="row">
+                                      <div class="quick-parent-selector mt-2">
+                                          <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"/>
+                                      </div>
+                                  </div>
+
+                           <?php else: ?>
+                               <div class="row">
+                                   <strong><?php _e('Categories'); ?></strong>
+
+                                   <script>
+                                       function manage_cats_for_add_post() {
+
+                                           var manage_cats_for_add_post_opts = {};
+                                           // opts.width = '900';
+                                           // opts.height = '800';
+
+                                           //  opts.liveedit = true;
+                                           //  opts.mode = 'modal';
+
+                                           var additional_params = {};
+                                           additional_params.show_add_post_to_category_button = 'true';
+
+
+
+                                           manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
+                                       }
+                                   </script>
+
+                                   <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>category" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage categories"); ?></a>
+                               </div>
+                           <?php endif; ?>
+                       </div>
+               </div>
 
 
                 <div class="row mb-3">
@@ -338,7 +344,7 @@
                         </div>
                     </div>
                 <?php endif; ?>
-            </div>
+
         </div>
 
     <?php if ($data['content_type'] == 'page'): ?>

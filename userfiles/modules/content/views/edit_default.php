@@ -348,7 +348,7 @@ if (isset($params['quick_edit'])) {
                 $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
                 $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
                 ?>
-                <div class="card"  x-data="{ title: '<?php echo $title_for_input ?>' }">
+                <div class="card shadow-none"  x-data="{ title: '<?php echo $title_for_input ?>' }">
                     <div class="card-body">
 
                         <div x-show="showEditTab=='details'">
@@ -593,7 +593,7 @@ if (isset($params['quick_edit'])) {
 
                                         <div class="mb-3 images">
                                             <div class="no-border" id="post-media-card-header">
-                                                <h6><strong><?php _e('Pictures'); ?></strong></h6>
+                                                <h6><strong><?php _e('Add media'); ?></strong></h6>
                                                 <div class="post-media-type-holder">
                                                     <module id="edit-post-gallery-main-source-selector-holder" type="pictures/admin_upload_pic_source_selector" />
                                                 </div>
@@ -676,8 +676,8 @@ if (isset($params['quick_edit'])) {
 
 
             </div>
-
             <?php include 'edit_default_sidebar.php'; ?>
+
         </div>
     </form>
 </div>
