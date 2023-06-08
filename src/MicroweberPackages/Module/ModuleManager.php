@@ -558,9 +558,9 @@ class ModuleManager
 
     public function get($params = false)
     {
-        if (!mw_is_installed()) {
-            return false;
-        }
+//        if (!mw_is_installed()) {
+//            return false;
+//        }
 
         $table = 'modules';
         if (is_string($params)) {
