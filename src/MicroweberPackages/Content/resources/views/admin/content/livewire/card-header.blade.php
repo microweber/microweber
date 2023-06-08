@@ -2,9 +2,9 @@
     <div class="col d-flex justify-content-start align-items-center">
         <div class="d-flex align-items-center">
 
-            <h1 class="main-pages-title d-md-flex d-none card-title">
+            <h1 class="main-pages-title d-lg-flex d-none card-title">
 
-                <a class="@if(isset($currentCategory) and $currentCategory) text-decoration-none @else text-decoration-none   ms-1 @endif" onclick="livewire.emit('deselectAllCategories');return false;">
+                <a class="@if(isset($currentCategory) and $currentCategory) text-decoration-none @else text-decoration-none @endif" onclick="livewire.emit('deselectAllCategories');return false;">
                     {{_e(ucfirst($this->contentType).'s')}}
                 </a>
 
