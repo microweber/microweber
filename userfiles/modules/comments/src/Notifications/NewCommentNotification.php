@@ -1,12 +1,19 @@
 <?php
 
-namespace MicroweberPackages\Comment\Notifications;
+namespace Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use function get_comments;
+use function get_content_by_id;
+use function get_picture;
+use function get_user_by_id;
+use function MicroweberPackages\Comment\Notifications\view;
+use function thumbnail;
+use function user_picture;
 
 class NewCommentNotification extends Notification implements ShouldQueue
 {

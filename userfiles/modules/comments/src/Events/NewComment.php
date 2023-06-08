@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Comment\Events;
+namespace Events;
 
 use MicroweberPackages\Core\Events\AbstractResourceIsCreating;
 

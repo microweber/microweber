@@ -12,8 +12,8 @@
 namespace MicroweberPackages\Utils\Captcha\Providers;
 
 
+use Events\NewComment;
 use MicroweberPackages\App\Providers\EventServiceProvider;
-use MicroweberPackages\Comment\Events\NewComment;
 use MicroweberPackages\Utils\Captcha\Listeners\NewCommentListener;
 
 class CaptchaEventServiceProvider extends EventServiceProvider
