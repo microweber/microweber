@@ -88,10 +88,10 @@
 
                                     </a>
                                 <?php endif; ?>
-                                @if ($content->is_active < 1)
-                                    <a href="javascript:mw.admin.content.publishContent('{{ $content->id }}');" class="mw-set-content-unpublish dropdown-item badge badge-warning font-weight-normal"><?php _e("Unpublished") ?></a>
+{{--                                @if ($content->is_active < 1)--}}
+{{--                                    <a href="javascript:mw.admin.content.publishContent('{{ $content->id }}');" class="mw-set-content-unpublish dropdown-item badge badge-warning font-weight-normal"><?php _e("Unpublished") ?></a>--}}
 
-                                @endif
+{{--                                @endif--}}
                             </div>
                         </div>
 
