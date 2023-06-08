@@ -8,8 +8,6 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use function MicroweberPackages\Comment\Notifications\view;
-use function thumbnail;
-use function user_picture;
 
 class NewCommentNotification extends Notification implements ShouldQueue
 {
