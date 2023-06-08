@@ -4,6 +4,9 @@ namespace MicroweberPackages\Modules\Comments\Http\LiveWire;
 
 use Livewire\Component;
 use MicroweberPackages\Content\Models\Content;
+use MicroweberPackages\Modules\Comments\Events\NewComment;
+use MicroweberPackages\Modules\Comments\Notifications\NewCommentNotification;
+use MicroweberPackages\User\Models\User;
 
 class UserCommentReplyComponent extends Component
 {
@@ -63,6 +66,10 @@ class UserCommentReplyComponent extends Component
 
         $comment->comment_body = $this->state['comment_body'];
         $comment->save();
+
+        event(new NewComment($comment));
+
+        Notification::send(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
 
         $this->state['comment_body'] = '';
         $this->state['comment_name'] = '';
