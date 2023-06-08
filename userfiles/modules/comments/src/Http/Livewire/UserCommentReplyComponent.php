@@ -25,7 +25,28 @@ class UserCommentReplyComponent extends Component
 
     public function render()
     {
-        return view('comments::livewire.user-comment-reply-component');
+        $enableCaptcha = true;
+        $enableCaptchaOption = get_option('enable_captcha','comments');
+        if ($enableCaptchaOption == 'n') {
+            $enableCaptcha = false;
+        }
+
+        $allowAnonymousComments = true;
+        $allowAnonymousCommentsOption = get_option('allow_anonymous_comments','comments');
+        if ($allowAnonymousCommentsOption == 'n') {
+            $allowAnonymousComments = false;
+        }
+
+        $allowToComment = false;
+        if (user_id() || $allowAnonymousComments) {
+            $allowToComment = true;
+        }
+
+        return view('comments::livewire.user-comment-reply-component',[
+            'enableCaptcha' => $enableCaptcha,
+            'allowAnonymousComments' => $allowAnonymousComments,
+            'allowToComment' => $allowToComment,
+        ]);
     }
 
     public function save()
