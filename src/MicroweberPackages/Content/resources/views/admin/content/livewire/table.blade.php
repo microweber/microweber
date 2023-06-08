@@ -8,11 +8,11 @@
 
         @if($displayFilters)
             <div class="row py-3">
-                <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
 
                     @include('content::admin.content.livewire.card-header')
 
-                    <div class="ms-4 input-icon col-xl-5 col-sm-5 col-12  ">11111111111111
+                    <div class="ms-md-4 me-lg-0 me-4 input-icon col-lg-5 col-sm-6 col-9  ">
                         <div class="input-group input-group-flat ">
                             <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
                             <span class="input-group-text">
@@ -41,19 +41,22 @@
                     </div>
 
 
-                    <div class="text-end">
+                    <div class="col-sm-3 col-12 mt-sm-0 mt-2 text-sm-end text-center d-flex justify-content-sm-end justify-content-center">
                         @if($this->contentType == 'page')
                         <a href="{{route('admin.page.create')}}" class="btn btn-dark">
+                            <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
                             {{_e("Create New Page")}}
                         </a>
                         @endif
                         @if($this->contentType == 'post')
                             <a href="{{route('admin.post.create')}}" class="btn btn-dark">
+                                <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
                                 {{_e("Create New Post")}}
                             </a>
                         @endif
                         @if($this->contentType == 'product')
                             <a href="{{route('admin.product.create')}}" class="btn btn-dark">
+                               <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
                                 {{_e("Create New Product")}}
                             </a>
                         @endif

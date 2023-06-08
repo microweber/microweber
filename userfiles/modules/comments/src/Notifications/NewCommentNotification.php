@@ -1,12 +1,13 @@
 <?php
 
-namespace MicroweberPackages\Comment\Notifications;
+namespace MicroweberPackages\Modules\Comments\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use function MicroweberPackages\Comment\Notifications\view;
 
 class NewCommentNotification extends Notification implements ShouldQueue
 {

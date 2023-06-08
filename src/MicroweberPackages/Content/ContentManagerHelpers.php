@@ -659,6 +659,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         $ref_page_url = false;
         if (isset($_SERVER['HTTP_REFERER'])) {
             $ref_page_url = $_SERVER['HTTP_REFERER'];
+            $ref_page_url = xss_clean($ref_page_url);
         }
 
         if (isset($post_data['id']) and intval($post_data['id']) > 0) {

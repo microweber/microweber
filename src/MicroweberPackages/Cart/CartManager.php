@@ -243,7 +243,7 @@ class CartManager extends Crud
             $params = $params2;
         }
 
-        $table =  'cart';
+        $table = 'cart';
         $params['table'] = $table;
         $skip_sid = false;
         if (!defined('MW_API_CALL')) {
@@ -292,10 +292,36 @@ class CartManager extends Crud
         if (is_array($get)) {
             foreach ($get as $k => $item) {
                 if (is_array($item)) {
+
+
                     if (isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == 'content') {
                         $item['content_data'] = $this->app->content_manager->data($item['rel_id']);
                         $item['url'] = $this->app->content_manager->link($item['rel_id']);
                         $item['picture'] = $this->app->media_manager->get_picture($item['rel_id']);
+
+                        if (isset($params['for_checkout']) and $params['for_checkout']) {
+                            // check if content is unpublished or deleted
+                            $checkContent = get_content_by_id($item['rel_id']);
+                            $removeFromCart = false;
+                            if ($checkContent == false) {
+                                $removeFromCart = true;
+                            }
+
+                            if ($checkContent and isset($checkContent['is_deleted']) and $checkContent['is_deleted'] == 1) {
+                                $removeFromCart = true;
+                            }
+                            if ($checkContent and isset($checkContent['is_active']) and $checkContent['is_active'] == 0) {
+                                $removeFromCart = true;
+                            }
+
+                            if ($removeFromCart) {
+                                $this->remove_item($item['id']);
+                                unset($get[$k]);
+                                continue;
+                            }
+                        }
+
+
                     }
                     if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
                         $item = $this->app->format->render_item_custom_fields_data($item);
@@ -330,7 +356,7 @@ class CartManager extends Crud
             return;
         }
         $params = array();
-        $table =  'cart';
+        $table = 'cart';
         $params['table'] = $table;
         $params['order_id'] = $order_id;
         $get = $this->app->database_manager->get($params);
@@ -455,7 +481,7 @@ class CartManager extends Crud
             $cart_return = $check_cart;
 
 
-            $table =  'cart';
+            $table = 'cart';
             $cart_data_to_save = array();
             $cart_data_to_save['qty'] = $cart['qty'];
             $cart_data_to_save['id'] = $cart['id'];
@@ -477,7 +503,7 @@ class CartManager extends Crud
     public function empty_cart()
     {
         $sid = mw()->user_manager->session_id();
-        $cart_table =  'cart';
+        $cart_table = 'cart';
 
         Cart::where('order_completed', 0)->where('session_id', $sid)->delete();
         $this->no_cache = true;
@@ -659,10 +685,10 @@ class CartManager extends Crud
                 $found = false;
                 foreach ($content_custom_fields as $cf) {
                     if (isset($cf['type']) and isset($cf['name']) and $cf['type'] != 'price') {
-                        if(isset($data[$cf['name_key']])){
+                        if (isset($data[$cf['name_key']])) {
                             $cf['name'] = $data[$cf['name_key']];
                         }
-                   } elseif (isset($cf['type']) and $cf['type'] == 'price' and isset($cf['name']) and isset($cf['value'])) {
+                    } elseif (isset($cf['type']) and $cf['type'] == 'price' and isset($cf['name']) and isset($cf['value'])) {
                         if ($cf['value'] != '') {
                             if (isset($product_prices[$cf['name']])) {
                                 $prices[$cf['name']] = $product_prices[$cf['name']];
@@ -737,7 +763,7 @@ class CartManager extends Crud
             ksort($add);
             asort($add);
             $add = mw()->format->clean_xss($add);
-            $table =  'cart';
+            $table = 'cart';
 
 
             $cart = array();
@@ -873,7 +899,7 @@ class CartManager extends Crud
 
             if ($cur_sid != false) {
                 $c_id = $sid;
-                $table =  'cart';
+                $table = 'cart';
                 $params = array();
                 //   $params['order_completed'] = 0;
                 $params['session_id'] = $c_id;
@@ -942,7 +968,7 @@ class CartManager extends Crud
 
     public function table_name()
     {
-        return  'cart';
+        return 'cart';
     }
 
 

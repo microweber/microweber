@@ -5,6 +5,7 @@ namespace MicroweberPackages\Modules\Comments\Providers;
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
 use MicroweberPackages\Modules\Comments\Http\Livewire\Admin\AdminCommentsListComponent;
+use MicroweberPackages\Modules\Comments\Http\Livewire\Admin\AdminSettingsModalComponent;
 use MicroweberPackages\Modules\Comments\Http\LiveWire\UserCommentListComponent;
 use MicroweberPackages\Modules\Comments\Http\LiveWire\UserCommentPreviewComponent;
 use MicroweberPackages\Modules\Comments\Http\LiveWire\UserCommentReplyComponent;
@@ -19,6 +20,8 @@ class CommentsServiceProvider extends PackageServiceProvider
         $package->hasViews('microweber-module-comments');
         $package->hasRoute('api');
         $package->hasRoute('admin');
+        $package->hasMigration('2023_00_00_000000_create_comments_table2');
+        $package->hasMigration('2023_00_00_000001_add_deleted_at_to_comments_table');
         $package->runsMigrations(true);
     }
 
@@ -27,13 +30,14 @@ class CommentsServiceProvider extends PackageServiceProvider
         View::addNamespace('comments', normalize_path(__DIR__) . '/../resources/views');
 
         Livewire::component('comments::admin-comments', AdminCommentsListComponent::class);
+        Livewire::component('comments::admin.settings-modal', AdminSettingsModalComponent::class);
 
         Livewire::component('comments::user-comment-reply', UserCommentReplyComponent::class);
         Livewire::component('comments::user-comment-list', UserCommentListComponent::class);
         Livewire::component('comments::user-comment-preview', UserCommentPreviewComponent::class);
 
-        $this->loadMigrationsFrom(normalize_path(__DIR__) . '/../database/migrations/');
-        $this->loadRoutesFrom(normalize_path(__DIR__) . '/../routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
 
         parent::register();
 

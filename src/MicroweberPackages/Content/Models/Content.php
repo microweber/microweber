@@ -113,7 +113,13 @@ class Content extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('is_active', 1)->where('is_deleted', 0);
+        return $query
+            ->where('is_active', 1)
+            ->where(function($subQuery) {
+                $subQuery
+                    ->whereNull('is_deleted')
+                    ->orWhere('is_deleted', 0);
+            });
     }
 
     public function related()

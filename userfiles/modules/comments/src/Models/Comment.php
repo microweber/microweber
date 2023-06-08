@@ -2,9 +2,15 @@
 namespace MicroweberPackages\Modules\Comments\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use MicroweberPackages\Content\Models\Content;
 
 class Comment extends Model
 {
+    use SoftDeletes;
+
+    protected $table = 'comments';
+
     public $fillable = [
         'rel_id',
         'rel_type',
@@ -14,6 +20,47 @@ class Comment extends Model
         'comment_email',
         'comment_website',
     ];
+
+    public function isPending() {
+        if ($this->is_new == 1 && $this->is_moderated == 0) {
+            return true;
+        }
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('is_new', 1)->where('is_moderated', 0);
+    }
+
+    public function scopeApproved($query)
+    {
+        return $query->where('is_moderated', 1);
+    }
+
+    public function scopeSpam($query)
+    {
+        return $query->where('is_spam', 1);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('is_spam', 0)->orWhereNull('is_spam');
+    }
+
+    public function content()
+    {
+        return $this->hasOne(Content::class,'id','rel_id');
+    }
+
+    public function contentTitle()
+    {
+        $content = $this->content()->first();
+        if ($content) {
+            return $content->title;
+        } else {
+            return 'No post title';
+        }
+    }
 
     public function getCommentNameAttribute()
     {
@@ -54,8 +101,7 @@ class Comment extends Model
         if ($parent) {
             while ($parent > 0) {
                 $level++;
-                $parent = Comment::select(['id', 'reply_to_comment_id'])
-                    ->where('id', $parent)->value('reply_to_comment_id');
+                $parent = Comment::select(['id', 'reply_to_comment_id'])->where('id', $parent)->value('reply_to_comment_id');
             }
         }
         return $level;
@@ -65,11 +111,9 @@ class Comment extends Model
     {
         $user = user_id();
 
-
         if ($user and $user == $this->created_by) {
             return true;
         }
-
 
         if (is_admin() == true) {
              return true;

@@ -24,7 +24,6 @@ use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryEventServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryServiceProvider;
 use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
-use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\Config\ConfigSave;
 use MicroweberPackages\Config\ConfigSaveServiceProvider;
 use MicroweberPackages\Content\ContentManagerServiceProvider;
@@ -331,11 +330,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(QueueServiceProvider::class);
         $this->app->register(QueueEventServiceProvider::class);
         $this->app->register(ContentFilterServiceProvider::class);
-        $this->app->register(CommentServiceProvider::class);
         $this->app->register(BlogServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
-        $this->app->register(CommentServiceProvider::class);
         $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
 
