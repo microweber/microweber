@@ -401,6 +401,17 @@ class InstallController extends Controller
 //                        TranslationPackageInstallHelper::installLanguage($input['site_lang']);
                     }
 
+                    // load all providers and run migrations
+                    load_all_functions_files_for_modules();
+                    load_all_service_providers_for_modules();
+                    load_functions_files_for_template();
+                    load_service_providers_for_template();
+
+                    $migrator = app()->mw_migrator->run(app()->migrator->paths());
+
+                    $installer = new Install\DbInstaller();
+                    $installer->logger = $this;
+                    $installer->createSchema();
 
                 }
 

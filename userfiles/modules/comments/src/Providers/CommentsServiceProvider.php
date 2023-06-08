@@ -19,6 +19,8 @@ class CommentsServiceProvider extends PackageServiceProvider
         $package->hasViews('microweber-module-comments');
         $package->hasRoute('api');
         $package->hasRoute('admin');
+        $package->hasMigration('2023_00_00_000000_create_comments_table2');
+        $package->hasMigration('2023_00_00_000001_add_deleted_at_to_comments_table');
         $package->runsMigrations(true);
     }
 
@@ -32,8 +34,8 @@ class CommentsServiceProvider extends PackageServiceProvider
         Livewire::component('comments::user-comment-list', UserCommentListComponent::class);
         Livewire::component('comments::user-comment-preview', UserCommentPreviewComponent::class);
 
-        $this->loadMigrationsFrom(normalize_path(__DIR__) . '/../database/migrations/');
-        $this->loadRoutesFrom(normalize_path(__DIR__) . '/../routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
 
         parent::register();
 
