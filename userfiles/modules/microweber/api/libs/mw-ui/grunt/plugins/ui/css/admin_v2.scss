@@ -1345,12 +1345,14 @@ svg.text-danger {
         transition: .5s;
     }
 
-    &:hover {
+    &:hover, &:active, &:focus, &.active {
         &:after {
             width: 100%;
             opacity: 1;
         }
-    }
+        color: var(--tblr-body-color) !important;
+        font-weight: 600;
+    } 
 }
 
 .active>.page-link, .page-link.active {
