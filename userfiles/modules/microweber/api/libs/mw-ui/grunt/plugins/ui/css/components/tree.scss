@@ -555,14 +555,14 @@ html[dir="rtl"]{
     li[data-type="category"] {
         & > .mw-tree-item-content-root {
             .mw-tree-item-content{
-                background: #fcfcfc;
+                background: var(--tblr-bg-surface);
                 padding: 0.5rem 1rem;
 
                 overflow: hidden;
                 border-radius: 10px;
                 margin-bottom: 0.5rem;
                 &:hover{
-                    background: #fcfcfc;
+                    background: var(--tblr-bg-surface);
                     border-color: #eeeff1;
 
                     box-shadow: -1px 1px 1px 0 rgba(0, 0, 0, .11);
@@ -582,7 +582,7 @@ html[dir="rtl"]{
                 border-bottom: 0;
                 position: relative;
                 overflow: hidden;
-                background-color: rgba(0, 0, 0, .03);
+                background-color: var(--tblr-bg-surface);
                 margin-bottom: 10px;
             }
         }
@@ -617,6 +617,7 @@ html[dir="rtl"]{
             transition: .3s;
             &:before{
                 content: "\F0142";
+                color: var(--tblr-body-color);
             }
         }
     }
@@ -627,4 +628,8 @@ html[dir="rtl"]{
     .form-check {
         margin-bottom: 0;
     }
+}
+
+.mw-tree-item-title {
+    color: var(--tblr-body-color);
 }

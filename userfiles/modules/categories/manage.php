@@ -25,6 +25,25 @@
             </div>
         </div>
 
+        <div class=" mb-5">
+            <label for="" class="form-label">  <?php _e("Select action from the field") ?> </label>
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <?php _e('Bulk Actions') ?>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">Move To Category</button></li>
+                    <li><button class="dropdown-item" type="button" wire:click="multiplePublish">Publish</button></li>
+                    <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
+                    <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Move to trash</button></li>
+                    <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">Delete Forever</button></li>
+
+                    <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">Restore from trash</button></li>
+
+                </ul>
+            </div>
+        </div>
+
         <div class=" ">
 
             <?php if(!isset($params['show_add_post_to_category_button'])): ?>
@@ -39,36 +58,18 @@
 
 
 
-                <div class="col-md-10 mb-2">
-                    You have selected all {{ count($checked) }} items.
-                    <button type="button" class="btn btn-link" wire:click="deselectAll">{{ _e('Deselect All') }}</button>
-                </div>
-
-                <div>
-                    You have selected {{ count($checked) }} items,
-                    do you want to select all {{ count($contents->items()) }}?
-                    <button type="button" class="btn btn-link" wire:click="selectAll">{{ _e('Select All') }}</button>
-                </div>
-
-
-                <div class="pull-left">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <?php _e('Bulk Actions') ?>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">Move To Category</button></li>
-                            <li><button class="dropdown-item" type="button" wire:click="multiplePublish">Publish</button></li>
-                            <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
-                            <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Move to trash</button></li>
-                            <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">Delete Forever</button></li>
-
-                                <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">Restore from trash</button></li>
-
-                        </ul>
-                    </div>
-                </div>
             <?php endif; ?>
+<!--                <div class="col-md-10 mb-2">-->
+<!--                    You have selected all {{ count($checked) }} items.-->
+<!--                    <button type="button" class="btn btn-link" wire:click="deselectAll">{{ _e('Deselect All') }}</button>-->
+<!--                </div>-->
+<!---->
+<!--                <div>-->
+<!--                    You have selected {{ count($checked) }} items,-->
+<!--                    do you want to select all {{ count($contents->items()) }}?-->
+<!--                    <button type="button" class="btn btn-link" wire:click="selectAll">{{ _e('Select All') }}</button>-->
+<!--                </div>-->
+
 
 
 
@@ -173,7 +174,7 @@
                     contextMenu: [
 
                         {
-                            title: '<svg class="me-1 ms-0" fill="currentColor" data-bs-toggle="tooltip" aria-label="Edit" data-bs-original-title="Edit" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="18px" viewBox="0 0 24 24" width="18px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>',
+                            title: '<svg class="me-1 ms-0 tblr-body-color" fill="currentColor" data-bs-toggle="tooltip" aria-label="Edit" data-bs-original-title="Edit" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="18px" viewBox="0 0 24 24" width="18px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>',
 
                             icon: 'd-none',
                             action: function (element, data, menuitem) {
@@ -222,7 +223,8 @@
                             is_shop: 1,
                             <?php endif; ?>
                         }
-                    }).then(function (res) {
+
+                    }, 'tree').then(function (res) {
                         res.tree.openAll();
                         $(res.tree).on('orderChange', function (e, obj) {
                             var items = res.tree.getSameLevelObjects(obj).filter(function (obj) {
