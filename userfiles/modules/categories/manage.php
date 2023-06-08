@@ -16,9 +16,15 @@
                 <div class="d-flex align-items-center">
                     <?php if (user_can_access('module.categories.edit')): ?>
                         <?php if (isset($params['is_shop']) && $params['is_shop'] == 1): ?>
-                            <a href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-dark"><?php _e("New Category"); ?></a>
+                            <a href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-dark">
+                            <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
+                                
+                                <?php _e("Create New Category"); ?></a>
                         <?php else: ?>
-                            <a href="<?php echo route('admin.category.create'); ?>" class="btn btn-dark"> <?php _e("New Category"); ?></a>
+                            <a href="<?php echo route('admin.category.create'); ?>" class="btn btn-dark">
+                            <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
+                                
+                                <?php _e("Create New Category"); ?></a>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
