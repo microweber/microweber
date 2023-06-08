@@ -68,9 +68,9 @@ class UserCommentReplyComponent extends Component
         $comment->comment_body = $this->state['comment_body'];
         $comment->save();
 
-        event(new NewComment($comment));
+       // event(new NewComment($comment));
 
-        Notification::send(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
+      //  Notification::send(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
 
         $this->state['comment_body'] = '';
         $this->state['comment_name'] = '';
