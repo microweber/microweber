@@ -127,13 +127,24 @@ class OrderManager
         }
     }
 
-    public function place_order($place_order)
+    public function place_order($place_order = array())
     {
         $sid = mw()->user_manager->session_id();
         if ($sid == false) {
             return $sid;
         }
-
+        if (empty($place_order)) {
+            return;
+        }
+        array_walk_recursive(
+            $place_order,
+            function(&$string) {
+                if (is_string($string)) {
+                    $string = trim(strip_tags($string));
+                }
+            }
+        );
+        $place_order = xss_clean($place_order);
         event($event = new OrderIsCreating($place_order));
         $should_mark_as_paid = false;
         $place_order = array_filter($place_order);

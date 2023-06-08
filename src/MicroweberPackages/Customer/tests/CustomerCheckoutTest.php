@@ -1,18 +1,17 @@
 <?php
+
 namespace MicroweberPackages\Customer\tests;
 
-use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Checkout\CheckoutManager;
+use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Customer\Models\Address;
 use MicroweberPackages\Customer\Models\Customer;
-use MicroweberPackages\Utils\Mail\MailSender;
 
 /**
  * Run test
  * @author Bobi Microweber
  * @command php phpunit.phar --filter CheckoutTest
  */
-
 class CustomerCheckoutTest extends TestCase
 {
     public static $content_id = 1;
@@ -37,7 +36,7 @@ class CustomerCheckoutTest extends TestCase
 
         $saved_id = save_content($params);
         $prices_data = app()->shop_manager->get_product_prices($saved_id, false);
-        $this->assertEquals($prices_data['Price'],$productPrice);
+        $this->assertEquals($prices_data['Price'], $productPrice);
 
 
         $get = get_content_by_id($saved_id);
@@ -50,7 +49,7 @@ class CustomerCheckoutTest extends TestCase
             'price' => $productPrice,
         );
         $cart_add = update_cart($add_to_cart);
- 
+
         $this->assertEquals(isset($cart_add['success']), true);
         $this->assertEquals(isset($cart_add['product']), true);
         $this->assertEquals($cart_add['product']['price'], $productPrice);
@@ -59,7 +58,7 @@ class CustomerCheckoutTest extends TestCase
     public function testCheckout()
     {
 
-         \Config::set('mail.transport', 'array');
+        \Config::set('mail.transport', 'array');
 
         $this->_addProductToCart('Product 1');
         $this->_addProductToCart('Product 2');
@@ -109,7 +108,54 @@ class CustomerCheckoutTest extends TestCase
         $this->assertEquals($address->state, $checkoutDetails['state']);
 
 
-
     }
 
+    public function testCheckoutCustomerWithXss()
+    {
+
+        $this->_addProductToCart('Product 1');
+        $this->_addProductToCart('Product 2');
+        $this->_addProductToCart('Product 3');
+        $this->_addProductToCart('Product 4');
+        $xss = '<style>@keyframes x{}</style><xss style="animation-name:x" onanimationend="alert(document.cookie)"></xss>';
+        $checkoutDetails = array();
+        $checkoutDetails['email'] = 'client_' . uniqid() . '@microweber.com';
+        $checkoutDetails['first_name'] = 'Client First Name<script>alert(1)</script>' . $xss;
+        $checkoutDetails['last_name'] = 'Microweber Last Name' . $xss;
+        $checkoutDetails['phone'] = '08812345' . rand(100, 999) . $xss;
+        $checkoutDetails['address'] = 'Business Park, Mladost 4' . $xss;
+        $checkoutDetails['address2'] = 'Business Park, Mladost 6' . $xss;
+        $checkoutDetails['city'] = 'Sofia' . $xss;
+        $checkoutDetails['state'] = 'Sofia City' . $xss;
+        $checkoutDetails['country'] = 'Bulgaria' . $xss;
+        $checkoutDetails['zip'] = '1000' . $xss;
+
+
+        $checkout = new CheckoutManager();
+        $checkoutStatus = $checkout->checkout($checkoutDetails);
+
+        $this->assertArrayHasKey('success', $checkoutStatus);
+        $this->assertArrayHasKey('id', $checkoutStatus);
+
+
+        // Find customer
+        $customer = Customer::where('email', $checkoutDetails['email'])->first();
+
+        $this->assertEquals($customer->email, $checkoutDetails['email']);
+        $this->assertNotEquals($customer->first_name, $checkoutDetails['first_name']);
+        $this->assertNotEquals($customer->last_name, $checkoutDetails['last_name']);
+        $this->assertNotEquals($customer->phone, $checkoutDetails['phone']);
+
+        // Find customer
+        $address = Address::where('customer_id', $customer->id)->first();
+
+        $this->assertNotEquals($address->phone, $checkoutDetails['phone']);
+        $this->assertNotEquals($address->address_street_1, $checkoutDetails['address']);
+        $this->assertNotEquals($address->address_street_2, $checkoutDetails['address2']);
+        $this->assertNotEquals($address->city, $checkoutDetails['city']);
+        $this->assertNotEquals($address->zip, $checkoutDetails['zip']);
+        $this->assertNotEquals($address->state, $checkoutDetails['state']);
+
+
+    }
 }
