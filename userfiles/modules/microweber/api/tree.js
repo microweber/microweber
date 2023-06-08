@@ -93,6 +93,7 @@
         this.filterLocal = function(val, key){
             key = key || 'title';
             val = (val || '').toLowerCase().trim();
+
             if(!val){
                 scope.showAll();
             }
@@ -123,6 +124,7 @@
         };
 
         this.filter = function(val, key){
+
             if (!!this.options.filterRemoteURL && !!this.options.filterRemoteKey) {
                 this.filterRemote(val, key);
             } else {
@@ -154,10 +156,10 @@
                         margin: '9px 15px 15px 0',
                         width: '100%',
                         maxWidth: '100%',
-    
+
                     });
                 }
-                 
+
                 this.options.searchInput.addEventListener('input', function () {
                     scope.search();
                 });
@@ -483,6 +485,7 @@
             if(!li) return;
             li.classList.remove('mw-tree-item-hidden');
             mw.$(li).parents("li").removeClass('mw-tree-item-hidden').each(function(){
+                scope.show(this);
                 scope.open(this);
             });
         };
@@ -839,9 +842,9 @@
 
         this._ids = [];
 
-        
+
         var iconResolver = function(item) {
- 
+
             return mw.iconResolver(item.icon) || mw.iconResolver(item.subtype) || mw.iconResolver(item.type)
         }
 

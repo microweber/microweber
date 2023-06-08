@@ -20,16 +20,7 @@ if($size != 'auto') {
 }
  ?>
 
-<a href="<?php if (!in_live_edit()) {
-    print site_url();
-} else {
-    if ($logoimage == '' and $text == '') {
-          print 'javascript:mw.drag.module_settings();void(0);';
-    } else {
-          print site_url();
-    }
-
-}; ?>" class="mw-ui-row-nodrop module-logo navbar-brand" style="width: auto;">
+<a href="<?php print site_url(); ?>" class="mw-ui-row-nodrop module-logo navbar-brand" style="width: auto;">
     <?php if ($logoimage == '' and $text == '') {
         if (is_live_edit()) { ?><span class="mw-logo-no-values"><?php _e('Click to add logo'); ?></span><?php }
     } else { ?>

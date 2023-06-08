@@ -39,7 +39,7 @@ export const EditorComponent = function () {
 
             {
                 group: {
-                    icon: 'mdi mdi-format-title',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5,4V7H10.5V19H13.5V7H19V4H5Z" /></svg>',
                     controls: ['format', 'lineHeight']
                 }
             },
@@ -99,7 +99,7 @@ export const EditorComponent = function () {
         regions: '.edit',
         skin: 'le2',
         editMode: 'liveedit',
-      
+
         controls: editorControls,
         smallEditor: editorControls,
 

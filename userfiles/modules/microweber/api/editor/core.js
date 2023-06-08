@@ -54,12 +54,13 @@
             if(this.settings.color === 'inherit') {
                 setTimeout(() => {
                     this.field.style.color = getComputedStyle(this.frame.parentNode).color;
- 
+
                 }, 78)
             }
 
             scope.frame.tabIndex = -1;
             scope.frame.frameborder = 0;
+            scope.frame.setAttribute('allowtransparency', 'true');
             this.setValue = function (val) {
                 scope.field.value = val || '';
             };
@@ -145,7 +146,7 @@
             var cf = new MWEditor.core.capsulatedField({
                 placeholder: '#efecec',
                 width: '100%',
-                
+
                 css: 'text-align: center;'
             });
 
@@ -261,7 +262,7 @@
                         className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
                         innerHTML: options.placeholder || ''
                     },
-                     
+
                 });
 
 

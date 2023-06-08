@@ -115,8 +115,13 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 
     var contentChanged = function (state) {
      //   document.querySelector('.btn-save').disabled = !state;
-        mw.askusertostay = state;
-        document.querySelector('#content-title-field-row .card-header').classList[state ? 'add' : 'remove']('post-header-content-changed')
+     //    mw.askusertostay = state;
+
+        //    !!!!!!!!!! Must revert !!!!!!!!!!!!
+
+
+        mw.askusertostay = false;
+        // document.querySelector('#content-title-field-row .card-header').classList[state ? 'add' : 'remove']('post-header-content-changed')
     }
 
     $(document).ready(function () {
@@ -296,20 +301,46 @@ if (isset($params['quick_edit'])) {
                     <?php include (__DIR__.'/content_delete_btns.php')?>
                 <?php endif; ?>
 
-                <div class="col-12 mt-3">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
                     <div class="d-flex space-x-4">
-                        <a href="#" x-on:click="showEditTab = 'details'"  class="btn btn-link">
-                          <i class="mdi <?php echo $typeIcon; ?>" />  <?php echo $type; ?> <?php echo _e('Details'); ?>
+                        <a href="#" x-on:click="showEditTab = 'details'"  class="btn btn-link text-decoration-none mw-admin-action-links">
+                             <?php echo $type; ?> <?php echo _e('Details'); ?>
                         </a>
-                        <a href="#" x-on:click="showEditTab = 'customFields'"  class="btn btn-link">
-                            <i class="mdi mdi-phone" /> <?php echo _e('Custom Fields'); ?>
+                        <a href="#" x-on:click="showEditTab = 'customFields'"  class="btn btn-link text-decoration-none mw-admin-action-links">
+                            <?php echo _e('Custom Fields'); ?>
                         </a>
-                        <a href="#" x-on:click="showEditTab = 'seo'"  class="btn btn-link">
-                            <i class="mdi mdi-earth" /> <?php echo _e('SEO'); ?>
+                        <a href="#" x-on:click="showEditTab = 'seo'"  class="btn btn-link text-decoration-none mw-admin-action-links">
+                           <?php echo _e('SEO'); ?>
                         </a>
-                        <a href="#" x-on:click="showEditTab = 'advanced'" class="btn btn-link">
-                            <i class="mdi mdi-cogs" />  <?php echo _e('Advanced'); ?>
+                        <a href="#" x-on:click="showEditTab = 'advanced'" class="btn btn-link text-decoration-none link mw-admin-action-links">
+                            <?php echo _e('Advanced'); ?>
                         </a>
+                    </div>
+
+                    <div id="content-title-field-buttons" class="mw-page-component-disabled">
+                        <?php
+                        if($wrapper_class=='in-popup'){ ?>
+                            <?php if (isset($data['url']) and $data['id'] > 0) { ?>
+                                <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn btn-outline-dark mw-admin-bold-outline-dark mw-admin-go-live-now-btn mx-1">
+                                <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M480.078 729.333q72.255 0 122.755-50.578 50.5-50.579 50.5-122.833 0-72.255-50.578-122.755-50.579-50.5-122.833-50.5-72.255 0-122.755 50.578-50.5 50.579-50.5 122.833 0 72.255 50.578 122.755 50.579 50.5 122.833 50.5Zm-.235-62.666q-46.176 0-78.343-32.324-32.167-32.323-32.167-78.5 0-46.176 32.324-78.343 32.323-32.167 78.5-32.167 46.176 0 78.343 32.324 32.167 32.323 32.167 78.5 0 46.176-32.324 78.343-32.323 32.167-78.5 32.167ZM480 856q-146 0-264.667-82.5Q96.667 691 40 556q56.667-135 175.333-217.5Q334 256 480 256q146 0 264.667 82.5Q863.333 421 920 556q-56.667 135-175.333 217.5Q626 856 480 856Zm0-300Zm-.112 233.334q118.445 0 217.612-63.5Q796.667 662.333 848.667 556q-52-106.333-151.054-169.834-99.055-63.5-217.501-63.5-118.445 0-217.612 63.5Q163.333 449.667 110.666 556q52.667 106.333 151.721 169.834 99.055 63.5 217.501 63.5Z"/></svg>
+                                    <span ><?php _e("Live Edit"); ?></span>
+                                </a>
+                            <?php } ?>
+                        <?php } else { ?>
+
+                            <?php if (isset($data['url']) and $data['id'] > 0) { ?>
+                                <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn btn-outline-dark mw-admin-bold-outline-dark mw-admin-go-live-now-btn mx-1">
+                                <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M480.078 729.333q72.255 0 122.755-50.578 50.5-50.579 50.5-122.833 0-72.255-50.578-122.755-50.579-50.5-122.833-50.5-72.255 0-122.755 50.578-50.5 50.579-50.5 122.833 0 72.255 50.578 122.755 50.579 50.5 122.833 50.5Zm-.235-62.666q-46.176 0-78.343-32.324-32.167-32.323-32.167-78.5 0-46.176 32.324-78.343 32.323-32.167 78.5-32.167 46.176 0 78.343 32.324 32.167 32.323 32.167 78.5 0 46.176-32.324 78.343-32.323 32.167-78.5 32.167ZM480 856q-146 0-264.667-82.5Q96.667 691 40 556q56.667-135 175.333-217.5Q334 256 480 256q146 0 264.667 82.5Q863.333 421 920 556q-56.667 135-175.333 217.5Q626 856 480 856Zm0-300Zm-.112 233.334q118.445 0 217.612-63.5Q796.667 662.333 848.667 556q-52-106.333-151.054-169.834-99.055-63.5-217.501-63.5-118.445 0-217.612 63.5Q163.333 449.667 110.666 556q52.667 106.333 151.721 169.834 99.055 63.5 217.501 63.5Z"/></svg>
+                                    <span><?php _e("Live Edit"); ?></span>
+                                </a>
+                            <?php } ?>
+
+                        <?php } ?>
+
+                        <button id="js-admin-save-content-main-btn" type="submit"   class="btn btn-outline-dark mw-admin-bold-outline-dark btn-save js-bottom-save ms-atuo" form="quickform-edit-content"><span>
+                                <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M840-683v503q0 24-18 42t-42 18H180q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h503l157 157Zm-60 27L656-780H180v600h600v-476ZM479.765-245Q523-245 553.5-275.265q30.5-30.264 30.5-73.5Q584-392 553.735-422.5q-30.264-30.5-73.5-30.5Q437-453 406.5-422.735q-30.5 30.264-30.5 73.5Q376-306 406.265-275.5q30.264 30.5 73.5 30.5ZM233-584h358v-143H233v143Zm-53-72v476-600 124Z"/></svg>
+                                <?php _e('Save'); ?></span>
+                        </button>
                     </div>
                 </div>
 
@@ -317,43 +348,20 @@ if (isset($params['quick_edit'])) {
                 $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
                 $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
                 ?>
-                <div class="card">
+                <div class="card"  x-data="{ title: '<?php echo $title_for_input ?>' }">
                     <div class="card-body">
 
-                        <div x-show="showEditTab=='details'" class="row">
+                        <div x-show="showEditTab=='details'">
                             <div class="content-title-field-row card-body mb-3 border-0" id="content-title-field-row">
-                                <div class="">
-                                    <div class="d-flex justify-content-between">
-                                        <h5 class="card-title"><i class="mdi <?php echo $typeIcon; ?> text-primary mr-3"></i> <strong><?php _e($action_text); ?></strong></h5>
 
-                                        <div id="content-title-field-buttons" class="mw-page-component-disabled">
-
-
-                                            <?php
-
-                                            if($wrapper_class=='in-popup'){ ?>
-                                                <?php if (isset($data['url']) and $data['id'] > 0) { ?>
-                                                    <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-outline-primary  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn mx-1">
-                                                        <i class="mdi mdi-eye-outline me-1"></i><span ><?php _e("Live Edit"); ?></span>
-                                                    </a>
-                                                <?php } ?>
-                                            <?php } else { ?>
-
-                                                <?php if (isset($data['url']) and $data['id'] > 0) { ?>
-                                                    <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-outline-primary  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn mx-1">
-                                                        <i class="mdi mdi-eye-outline me-1"></i><span><?php _e("Live Edit"); ?></span>
-                                                    </a>
-                                                <?php } ?>
-
-                                            <?php } ?>
-
-                                            <button id="js-admin-save-content-main-btn" type="submit"   class="btn btn-sm btn-success btn-save js-bottom-save ms-atuo" form="quickform-edit-content"><span><i class="mdi mdi-content-save me-1"></i><?php _e('Save'); ?></span></button>
-                                        </div>
-                                    </div>
+                                <div class="d-flex justify-content-between">
+                                    <h1 class="main-pages-title"><strong x-text="title"><?php _e($action_text); ?></strong></h1>
                                 </div>
 
+
                                 <?php if (isset($edit_page_info['title'])): ?>
-                                    <div class=" " x-data="{ title: '' }">
+
+                                    <div class=" ">
                                         <div class="form-group" id="slug-field-holder">
                                             <label class="form-label"><?php _e($type) ?> <?php _e("title"); ?></label>
 
@@ -372,8 +380,6 @@ if (isset($params['quick_edit'])) {
                                                 ->onkeyup('slugFromTitle();')
                                                 ->autocomplete(false);
                                             ?>
-
-                                            <span x-text="title">
 
                                             <?php
                                             if (!\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):

@@ -71,18 +71,17 @@ html.preview #toolbar {
     }
 }
 
-#preview-nav span {
-    display: inline-flex;
-    width: 40px;
-    height: 40px;
-    justify-content: center;
-    align-items: center;
+#preview-nav .btn {
+ 
+    width: 45px;
+    height: 45px;
+    padding: 0;
     border-radius: 55px;
-    background-color: #464646;
+     
 }
 
-#preview-nav span.active,
-.toolbar-nav span.active {
+#preview-nav .btn.active,
+.toolbar-nav .btn.active {
     background-color: #0078ff;
     transition: .3s;
 }
@@ -108,18 +107,16 @@ html.preview #toolbar {
     background-color: transparent;
 }
 
-.toolbar-nav-hover:hover {
-    background-color: #2b2b2b;
-}
-
+ 
 #preview-nav svg {
     width: 25px;
     fill: transparent;
-    stroke: white;
+    stroke: currentColor;
     stroke-width: 2px;
 }
 
 #live-edit-frame-holder.has-mw-spinner:after {
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
