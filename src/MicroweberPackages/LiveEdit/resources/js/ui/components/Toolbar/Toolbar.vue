@@ -27,7 +27,6 @@ export default {
 </script>
 
 <template>
-
     <div id="toolbar" class="shadow-sm">
         <div class="toolbar-nav toolbar-nav-hover">
             <a href="./" class="mw-le-btn mw-le-btn-icon mw-le-btn-primary2">
@@ -58,14 +57,14 @@ export default {
                     <span></span>
                     <span></span>
                 </span>
-                <div id="user-menu" class="mw-le-nav-box">
+                <div id="user-menu" class="navbar mw-le-nav-box">
                     <div class="mw-le-nav-box-content" id="user-menu-header">
                         <small>Project</small>
                         <h3>Boris Website</h3>
-                        <span class="mw-le-btn mw-le-btn-sm ">
+                        <span class=" btn  btn-sm ">
                             In Test Period
                         </span>
-                        <span class="mw-le-btn mw-le-btn-sm mw-le-btn-primary2">
+                        <span class="btn btn-sm btn-primary">
                             Upgrade
                         </span>
                     </div>
