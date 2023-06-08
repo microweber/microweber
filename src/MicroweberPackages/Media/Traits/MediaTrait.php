@@ -82,7 +82,7 @@ trait MediaTrait
                                 'rel_id' => $model->id,
                                 'title' => 'Picture',
                                 'media_type' => 'picture',
-                                'src' => $url,
+                                'filename' => $url,
                             ));
                         }
                     }

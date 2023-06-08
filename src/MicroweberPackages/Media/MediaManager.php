@@ -380,7 +380,7 @@ class MediaManager
     public function save($data)
     {
         $data = app()->html_clean->cleanArray($data);
-
+        $data = xss_clean($data);
         $s = array();
 
         if (isset($data['content-id'])) {
@@ -513,6 +513,9 @@ class MediaManager
 
             $s['filename'] = $data['src'];
         }
+        if (isset($s['filename']) && !is_string($s['filename'])) {
+           return false;
+        }
 
         if (!isset($data['position']) and !isset($s['id'])) {
             $s['position'] = 9999999;
@@ -525,6 +528,7 @@ class MediaManager
 
         if ((!isset($s['id']) or (isset($s['id']) and $s['id'] == 0))
             and isset($s['filename'])
+            and is_string($s['filename'])
             and isset($s['rel_id'])
             and isset($s['rel_type'])
         ) {
@@ -540,7 +544,7 @@ class MediaManager
             }
         }
 
-        if (!isset($s['id']) and isset($s['filename']) and !isset($data['media_type'])) {
+        if (!isset($s['id']) and isset($s['filename']) and is_string($s['filename']) and !isset($data['media_type'])) {
             $ext = get_file_extension($s['filename']);
             $data['media_type'] = $this->_guess_media_type_from_file_ext($ext);
         }
@@ -559,11 +563,6 @@ class MediaManager
             $s['image_options'] = @json_encode($data['image_options']);
         }
 
-        if (isset($s['filename']) && is_array($s['filename'])) {
-            if (isset($s['filename']['error'])) {
-                return false;
-            }
-        }
 
         if (isset($s['rel_type']) and isset($s['rel_id'])) {
             $s['rel_id'] = trim($s['rel_id']);

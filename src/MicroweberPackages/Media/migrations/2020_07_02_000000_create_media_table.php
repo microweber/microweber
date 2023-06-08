@@ -18,7 +18,7 @@ class CreateMediaTable extends Migration
                 $table->id();
                 $table->text('title')->nullable();
                 $table->text('description')->nullable();
-                $table->text('embed_code')->nullable();
+                //$table->text('embed_code')->nullable();
                 $table->text('filename')->nullable();
                 $table->text('media_type')->nullable()->index();
 
