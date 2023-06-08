@@ -151,11 +151,11 @@
                     <div class="form-group">
                         <div class="custom-control custom-radio mb-3">
                             <input type="radio" id="is_active_1"  name="is_active" class="form-check-input mt-1" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
-                            <label class="custom-control-label fs-4 mw-admin-edit-post-publish " style="cursor:pointer" for="is_active_1"><?php _e("Published"); ?></label>
+                            <label class="custom-control-label ms-1 fs-4 mw-admin-edit-post-publish " style="cursor:pointer" for="is_active_1"><?php _e("Published"); ?></label>
                         </div>
                         <div class="custom-control custom-radio">
                             <input type="radio" id="is_active_0" name="is_active" class="form-check-input mt-1" value="0" <?php if (!$data['is_active']): ?>checked<?php endif; ?>>
-                            <label class="custom-control-label fs-4 mw-admin-edit-post-unpublish " style="cursor:pointer" for="is_active_0"><?php _e("Unpublished"); ?></label>
+                            <label class="custom-control-label ms-1 fs-4 mw-admin-edit-post-unpublish " style="cursor:pointer" for="is_active_0"><?php _e("Unpublished"); ?></label>
                         </div>
                     </div>
                 </div>
