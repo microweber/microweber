@@ -5,6 +5,7 @@ namespace MicroweberPackages\Modules\Comments\Http\LiveWire;
 use Livewire\Component;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Modules\Comments\Events\NewComment;
+use MicroweberPackages\Modules\Comments\Models\Comment;
 use MicroweberPackages\Modules\Comments\Notifications\NewCommentNotification;
 use MicroweberPackages\User\Models\User;
 
@@ -46,7 +47,7 @@ class UserCommentReplyComponent extends Component
             return;
         }
 
-        $comment = new \MicroweberPackages\Comment\Models\Comment();
+        $comment = new Comment();
         $comment->rel_id = $this->state['rel_id'];
         $comment->rel_type = 'content';
 
