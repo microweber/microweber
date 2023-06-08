@@ -28,6 +28,12 @@ class AdminSettingsModalComponent extends AdminModalComponent
 
     public function updatedSettings($value, $key)
     {
+        if ($value === false) {
+            $value = 'n';
+        } elseif ($value === true) {
+            $value = 'y';
+        }
+
         save_option($key, $value, 'comments');
 
         $this->refreshSettings();
