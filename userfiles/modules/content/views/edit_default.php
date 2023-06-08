@@ -303,7 +303,7 @@ if (isset($params['quick_edit'])) {
 
                 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
                     <div class="d-flex space-x-4">
-                        <a href="#" x-on:click="showEditTab = 'details'"  class="btn btn-link text-decoration-none mw-admin-action-links">
+                        <a href="#" x-on:click="showEditTab = 'details'" :class="{ 'active': showEditTab == 'details' }" class="btn btn-link text-decoration-none mw-admin-action-links">
                              <?php echo $type; ?> <?php echo _e('Details'); ?>
                         </a>
                         <a href="#" x-on:click="showEditTab = 'customFields'"  class="btn btn-link text-decoration-none mw-admin-action-links">
