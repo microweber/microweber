@@ -1469,3 +1469,12 @@ svg.text-danger {
 .manage-post-item-title {
     word-break: break-all;
 }
+
+.ts-wrapper.form-select {
+    display: block;
+
+    .dropdown-menu.ts-dropdown.single {
+        position: absolute;
+        background: var(--tblr-bg-surface);
+    }
+}
