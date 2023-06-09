@@ -1,15 +1,15 @@
 <div class="row">
 
     <div class="col-md-12">
-        <h3 class="main-pages-title"><?php _e('Search engine'); ?></h3>
+        <h3 class="main-pages-title"><?php _e('Search engine optimisation (SEO)'); ?></h3>
         <small class="text-muted d-block"><?php _e("Add a title and description to see how this product might appear in a search engine listing"); ?></small>
     </div>
 
     <div class="col-md-12">
         <div class="form-group ">
-            <label class="form-label"><?php _e("Meta title"); ?></label>
+            <label class="form-label mt-4 font-weight-bold"><?php _e("Meta title"); ?></label>
             <small data-bs-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
-            <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
+            <small class="text-muted d-block mb-2"><?php _e("Describe for what is this page about in short title"); ?></small>
 
             <?php
             $value = '';
@@ -29,7 +29,8 @@
 
     <div class="col-md-12">
         <div class="form-group ">
-            <label class="form-label"><?php _e("Meta description"); ?></label>
+            <label class="form-label font-weight-bold"><?php _e("Meta description"); ?></label>
+            <small class="text-muted d-block mb-2" ><?php _e("Please provide a brief summary of this web page"); ?></small>
             <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
 
             <?php
@@ -40,6 +41,7 @@
             echo $formBuilder->textArea('description')
                 ->setModel($contentModel)
                 ->value($description)
+                ->setAttribute('rows' , '8')
                 ->autocomplete(false);
             ?>
         </div>
@@ -48,9 +50,10 @@
 
     <div class="col-md-12">
         <div class="form-group ">
-            <label class="form-label"><?php _e("Meta keywords"); ?></label>
+            <label class="form-label font-weight-bold"><?php _e("Meta keywords"); ?></label>
             <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
             <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
+            <small class="text-muted mb-2"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for sale"); ?></small>
 
             <?php
             $keywords = '';
@@ -64,20 +67,9 @@
             ?>
         </div>
 
-        <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
 
     </div>
 
-
-    <div class="col-md-12">
-        <div class="form-group ">
-            <label><?php _e("OG Images"); ?></label>
-            <small class="text-muted d-block mb-2">
-                <?php _e('Those images will be shown as a post image at facebook shares') ?>.<br/>
-                <?php _e("If you want to attach og images, you must upload them to gallery from 'Add media'"); ?>.
-            </small>
-        </div>
-    </div>
 </div>
 
 
