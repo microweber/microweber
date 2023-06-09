@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Comments\Http\LiveWire;
+namespace MicroweberPackages\Modules\Comments\Http\Livewire;
 
 use Livewire\Component;
 use MicroweberPackages\Modules\Comments\Models\Comment;
