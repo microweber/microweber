@@ -3,7 +3,7 @@
 event_bind(
     'mw.admin.dashboard.content.2', function ($item) {
 
-    $commentsCount = \MicroweberPackages\Modules\Comments\Models\Comment::published()->count();
+    $commentsCount = \MicroweberPackages\Modules\Comments\Models\Comment::forAdminPreview()->count();
 
     print '
 <div class="card mb-4 dashboard-admin-cards">

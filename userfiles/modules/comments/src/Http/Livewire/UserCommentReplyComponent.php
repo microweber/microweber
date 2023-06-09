@@ -11,6 +11,8 @@ use MicroweberPackages\User\Models\User;
 
 class UserCommentReplyComponent extends Component
 {
+    public $successMessage = false;
+
     public $state = [
         'comment_name' => '',
         'comment_email' => '',
@@ -21,6 +23,11 @@ class UserCommentReplyComponent extends Component
     {
         $this->state['rel_id'] = $relId;
         $this->state['reply_to_comment_id'] = $replyToCommentId;
+    }
+
+    public function clearSuccessMessage()
+    {
+        $this->successMessage = false;
     }
 
     public function render()
@@ -106,6 +113,12 @@ class UserCommentReplyComponent extends Component
        // event(new NewComment($comment));
 
       //  Notification::send(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
+
+        if ($needsApproval) {
+            $this->successMessage = _e('Your comment has been added, Waiting moderation.', true);
+        } else {
+            $this->successMessage = _e('Your comment has been added', true);
+        }
 
         $this->state['comment_body'] = '';
         $this->state['comment_name'] = '';

@@ -1,4 +1,12 @@
 <div>
+
+    <div class="alert alert-success" @if(!$successMessage) style="display:none" @endif>
+        {{$successMessage}}
+        <div class="btn btn-outline-primary" wire:click="clearSuccessMessage">
+            {{_e('Ok')}}
+        </div>
+    </div>
+
     <form>
 
         @if (!user_id())
