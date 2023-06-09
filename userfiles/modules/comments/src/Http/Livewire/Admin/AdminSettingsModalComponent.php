@@ -26,16 +26,13 @@ class AdminSettingsModalComponent extends AdminModalComponent
         }
     }
 
-    public function updatedSettings($value, $key)
+    public function toggleSettings($key)
     {
-        if ($value === false) {
+        $value = 'y';
+        if (isset($this->settings[$key]) and $this->settings[$key] == 'y') {
             $value = 'n';
-        } elseif ($value === true) {
-            $value = 'y';
         }
 
         save_option($key, $value, 'comments');
-
-        $this->refreshSettings();
     }
 }

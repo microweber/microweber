@@ -101,7 +101,7 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     public function render()
     {
 
-        $countAll = Comment::published()->count();
+        $countAll = Comment::forAdminPreview()->count();
         $countPending = Comment::pending()->count();
         $countApproved = Comment::approved()->count();
         $countSpam = Comment::spam()->count();
@@ -131,7 +131,7 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
             }
             else {
                 $getCommentsQuery->where(function ($query) {
-                    $query->published();
+                    $query->forAdminPreview();
                 });
             }
         }

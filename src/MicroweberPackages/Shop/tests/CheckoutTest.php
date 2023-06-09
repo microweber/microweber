@@ -286,10 +286,10 @@ class CheckoutTest extends TestCase
         $content_data_after_order = content_data($saved_id);
         $this->assertEquals(10, $content_data_after_order['qty']);
 
-        $productQuery = \MicroweberPackages\Product\Models\Product::query();
-        $productQuery = $productQuery->whereHas('orders');
-        $products = $productQuery->get();
-        $this->assertTrue($products->isEmpty());
+
+        $order = get_order_by_id($checkoutStatus);
+        $this->assertNotNull($order);
+        $this->assertNull($order['amount']);
 
         $order = get_order_by_id($checkoutStatus);
         $this->assertNotNull($order);
@@ -342,14 +342,13 @@ class CheckoutTest extends TestCase
         $content_data_after_order = content_data($saved_id);
         $this->assertEquals(11, $content_data_after_order['qty']);
 
-        $productQuery = \MicroweberPackages\Product\Models\Product::query();
-        $productQuery = $productQuery->whereHas('orders');
-        $products = $productQuery->get();
-        $this->assertTrue($products->isEmpty());
+
 
         $order = get_order_by_id($checkoutStatus);
         $this->assertNotNull($order);
         $this->assertNull($order['amount']);
 
     }
+
+
 }

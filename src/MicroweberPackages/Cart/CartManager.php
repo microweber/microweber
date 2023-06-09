@@ -616,7 +616,7 @@ class CartManager extends Crud
             if ($cont == false) {
                 return array('error' => 'Invalid product?');
             } else {
-                if (is_array($cont) and isset($cont['title'])) {
+                if (is_array($cont) and isset($cont['title']) and $cont['title']) {
                     $data['title'] = $cont['title'];
                 }
             }
@@ -779,6 +779,10 @@ class CartManager extends Crud
             $cart['allow_html'] = 1;
             $cart['price'] = doubleval($found_price);
             $cart['limit'] = 1;
+            if(!isset($data['title']) or $data['title'] == false){
+                $data['title'] = 'Product '.$cart['rel_id'];
+            }
+
             $cart['title'] = mw()->format->clean_html($data['title']);
 
             $cart_return['custom_fields_data'] = $add;

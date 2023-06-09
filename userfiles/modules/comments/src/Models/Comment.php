@@ -42,9 +42,23 @@ class Comment extends Model
         return $query->where('is_spam', 1);
     }
 
+    public function scopeForAdminPreview($query)
+    {
+        return $query
+            ->where(function ($subQuery) {
+                $subQuery->where('is_spam', 0);
+                $subQuery->orWhereNull('is_spam');
+            });
+    }
+
     public function scopePublished($query)
     {
-        return $query->where('is_spam', 0)->orWhereNull('is_spam');
+        return $query
+            ->where('is_moderated', 1)
+            ->where(function ($subQuery) {
+                $subQuery->where('is_spam', 0);
+                $subQuery->orWhereNull('is_spam');
+            });
     }
 
     public function content()
