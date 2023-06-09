@@ -1,7 +1,7 @@
 <div class="row">
 
     <div class="col-md-12">
-        <h6><strong><?php _e('Search engine'); ?></strong></h6>
+        <h3 class="main-pages-title"><?php _e('Search engine'); ?></h3>
         <small class="text-muted d-block"><?php _e("Add a title and description to see how this product might appear in a search engine listing"); ?></small>
     </div>
 

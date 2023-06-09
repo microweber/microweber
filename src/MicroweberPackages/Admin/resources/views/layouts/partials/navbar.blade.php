@@ -22,7 +22,7 @@
         </h1>
 
 
-        <div class="collapse navbar-collapse" id="sidebar-menu">
+        <div class="collapse navbar-collapse overflow-x-hidden" id="sidebar-menu">
             <ul class="navbar-nav navbar-nav-padding" id="mw-admin-main-navigation">
 
                 <?php event_trigger('mw.admin.sidebar.li.first'); ?>

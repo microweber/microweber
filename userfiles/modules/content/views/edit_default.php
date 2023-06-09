@@ -625,7 +625,7 @@ if (isset($params['quick_edit'])) {
 
                         </div>
 
-                        <div x-show="showEditTab=='customFields'" class="row">
+                        <div x-show="showEditTab=='customFields'">
 
                             <?php
                             include_once 'custom_fields.php';
@@ -633,7 +633,7 @@ if (isset($params['quick_edit'])) {
 
                         </div>
 
-                        <div x-show="showEditTab=='seo'" class="row">
+                        <div x-show="showEditTab=='seo'">
                              <?php
                              include_once 'seo.php';
                              ?>
