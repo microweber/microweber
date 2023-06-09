@@ -408,10 +408,10 @@ class CheckoutManager
                     $posted_fields[$value] = $data[$value];
                 }
             }
-
+            $canUseCoupons = $this->app->option_manager->get('enable_coupons', 'shop') == 1;
 
             // Discount details save
-            if ($coupon_code) {
+            if ($canUseCoupons and $coupon_code) {
                 $place_order['promo_code'] = $coupon_code;
                 $place_order['coupon_id'] = $coupon_id;
                 $place_order['discount_type'] = $discount_type;

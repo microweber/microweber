@@ -21,6 +21,11 @@ function coupon_apply($params = array())
     $coupon_code = $params['coupon_code'];
     $coupon_code = xss_clean($coupon_code);
 
+    if (get_option('enable_coupons', 'shop') == 0){
+        $json['error_message'] = _e('The coupon code usage is disabled.', true);
+        return $json;
+    }
+
     $coupon = coupon_get_by_code($coupon_code);
     if (empty($coupon)) {
         $json['error_message'] = _e('The coupon code is not valid.', true);

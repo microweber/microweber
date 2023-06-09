@@ -84,7 +84,7 @@ $coupon_get_count = coupon_get_count();
             if ($coupon_get_count > 0) {
                 ?>
                 <label class="form-check form-check-single form-switch ps-0 mb-4" style="width: unset;">
-                    <input type="checkbox" name="enable_coupons" class="mw_option_field form-check-input" id="enable_coupons" data-option-group="shop" data-value-checked="y" data-value-unchecked="n" <?php if (get_option('enable_coupons', 'shop') == 1): ?>checked<?php endif; ?> />
+                    <input type="checkbox" name="enable_coupons" class="mw_option_field form-check-input" id="enable_coupons" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_coupons', 'shop') == 1): ?>checked<?php endif; ?> />
                     &nbsp; <?php _e('Enable'); ?>
                 </label>
             <?php
