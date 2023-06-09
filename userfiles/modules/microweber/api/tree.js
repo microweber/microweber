@@ -93,19 +93,25 @@
         this.filterLocal = function(val, key){
             key = key || 'title';
             val = (val || '').toLowerCase().trim();
+            
 
             if(!val){
+                this.dispatch( 'searchResults')
                 scope.showAll();
             }
             else{
+                var hasResults = false;
                 scope.options.data.forEach(function(item){
                     if(item[key].toLowerCase().indexOf(val) === -1){
                         scope.hide(item);
                     }
                     else{
                         scope.show(item);
+                        hasResults = true;
                     }
                 });
+                this.dispatch(hasResults ? 'searchResults' : 'searchNoResults')
+                mw.$(scope.options.element)[hasResults ? 'removeClass' : 'addClass']('mw-tree-no-results')
             }
         };
 
@@ -484,10 +490,14 @@
             li = this.get(li, type);
             if(!li) return;
             li.classList.remove('mw-tree-item-hidden');
-            mw.$(li).parents("li").removeClass('mw-tree-item-hidden').each(function(){
+            mw.$(li).parents("li").each(function(){
+                 
                 scope.show(this);
                 scope.open(this);
             });
+            setTimeout(function(li){
+                li.classList.remove('mw-tree-item-hidden');
+            }, 10, li)
         };
 
         this.showAll = function(){
@@ -707,6 +717,9 @@
                 mw.$('ul', this.list).each(function () {
                     items.push(this);
                 });
+                if(this.options.createSortableHandle) {
+                    this.options.createSortableHandle(this.list);
+                }
                 items.sortable({
                     items: selector,
                     axis:'y',
