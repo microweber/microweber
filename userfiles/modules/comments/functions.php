@@ -7,7 +7,7 @@ event_bind(
 
     print '
 <div class="card mb-4 dashboard-admin-cards">
-    <a class="dashboard-admin-cards-a" href="">
+    <a class="dashboard-admin-cards-a" href="'.route('admin.comments.index').'">
         <div class="card-body px-xxl-4 d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
                 <div class="dashboard-icons-wrapper wrapper-icon-comments">
@@ -25,7 +25,7 @@ event_bind(
 
 
             <div>
-                <a href="" class="btn btn-link">'._e('View', true).'</a>
+                <a href="'.route('admin.comments.index').'" class="btn btn-link">'._e('View', true).'</a>
             </div>
 
         </div>

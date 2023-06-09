@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Comments\Http\LiveWire;
+namespace MicroweberPackages\Modules\Comments\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -49,8 +49,10 @@ class UserCommentListComponent extends Component {
             })
             ->where('rel_id', $this->relId)
             ->where('rel_type', 'content')
+            ->published()
             ->orderBy('created_at', 'desc')
             ->paginate(3, ['*'], 'commentsPage');
+
 
         return view('comments::livewire.user-comment-list-component', [
             'comments' => $getComments,

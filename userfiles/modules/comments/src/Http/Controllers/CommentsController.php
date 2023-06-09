@@ -15,7 +15,7 @@ class CommentsController extends ModuleFrontController {
     {
         $moduleId = $request->get('id');
 
-        return $this->view('comments::index');
+        return view('comments::index');
     }
 
 }

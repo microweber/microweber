@@ -1441,3 +1441,27 @@ svg.text-danger {
     background-color: rgba(255, 0, 0, 0.12);
     padding: 3px 10px;
 }
+
+.quick-parent-selector {
+    .mw--global-admin-tree {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+}
+
+.mw-admin-multilang-lang-name {
+    display: none;
+}
+
+.input-group-append .bootstrap-select .dropdown-menu li.active small {
+    color: var(--tblr-body-color) !important;
+
+}
+
+.content-title-field-row {
+
+    .dropdown-toggle:after {
+        width: 0.6em;
+        height: 0.46em;
+    }
+}
