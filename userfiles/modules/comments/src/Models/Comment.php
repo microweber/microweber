@@ -66,9 +66,17 @@ class Comment extends Model
         return $this->hasOne(Content::class,'id','rel_id');
     }
 
+    public function contentId()
+    {
+        $content = $this->content()->select('id')->first();
+        if ($content) {
+            return $content->id;
+        }
+    }
+
     public function contentTitle()
     {
-        $content = $this->content()->first();
+        $content = $this->content()->select('title')->first();
         if ($content) {
             return $content->title;
         } else {
@@ -106,6 +114,18 @@ class Comment extends Model
     public function replies()
     {
         return $this->hasMany(Comment::class, 'reply_to_comment_id');
+    }
+
+    public function parentComment()
+    {
+        return $this->belongsTo(Comment::class, 'reply_to_comment_id');
+    }
+
+    public function parentCommentBody() {
+        $parentComment = $this->parentComment()->first();
+        if ($parentComment) {
+            return $parentComment->comment_body;
+        }
     }
 
     public function getLevel()
