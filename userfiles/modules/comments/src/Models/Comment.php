@@ -44,7 +44,12 @@ class Comment extends Model
 
     public function scopePublished($query)
     {
-        return $query->where('is_spam', 0)->orWhereNull('is_spam');
+        return $query
+            ->where('is_moderated', 1)
+            ->where(function ($subQuery) {
+                $subQuery->where('is_spam', 0);
+                $subQuery->orWhereNull('is_spam');
+            });
     }
 
     public function content()

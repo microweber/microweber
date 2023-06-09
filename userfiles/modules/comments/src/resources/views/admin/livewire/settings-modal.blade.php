@@ -11,28 +11,28 @@
 
         <div class="mb-3">
             <label class="form-check form-switch" style="width: 500px;">
-                <input @if($settings['allow_comments'] == 'y') checked="checked" @endif wire:change="toggleSettings('allow_comments')" class="form-check-input" type="checkbox">
+                <input @if(isset($settings['allow_comments']) && $settings['allow_comments'] == 'n') @else checked="checked" @endif wire:change="toggleSettings('allow_comments')" class="form-check-input" type="checkbox">
                 <span class="form-check-label"> {{_e('Allow people to post comments')}}</span>
             </label>
         </div>
 
         <div class="mb-3">
             <label class="form-check form-switch" style="width: 500px;">
-                <input @if($settings['allow_anonymous_comments'] == 'y') checked="checked" @endif wire:change="toggleSettings('allow_anonymous_comments')" class="form-check-input" type="checkbox">
+                <input @if(isset($settings['allow_anonymous_comments']) && $settings['allow_anonymous_comments'] == 'n') @else checked="checked" @endif wire:change="toggleSettings('allow_anonymous_comments')" class="form-check-input" type="checkbox">
                 <span class="form-check-label"> {{_e('Allow Anonymous Comments')}}</span>
             </label>
         </div>
 
         <div class="mb-3">
             <label class="form-check form-switch" style="width: 500px;">
-                <input @if($settings['requires_approval'] == 'y') checked="checked" @endif wire:change="toggleSettings('requires_approval')" class="form-check-input" type="checkbox">
+                <input @if(isset($settings['requires_approval']) && $settings['requires_approval'] == 'n') @else checked="checked" @endif wire:change="toggleSettings('requires_approval')" class="form-check-input" type="checkbox">
                 <span class="form-check-label"> {{_e('Comments require approval')}}</span>
             </label>
         </div>
 
         <div class="mb-3">
             <label class="form-check form-switch" style="width: 500px;">
-                <input @if($settings['enable_captcha'] == 'y') checked="checked" @endif wire:change="toggleSettings('enable_captcha')" class="form-check-input" type="checkbox">
+                <input @if(isset($settings['enable_captcha']) && $settings['enable_captcha'] == 'n') @else checked="checked" @endif wire:change="toggleSettings('enable_captcha')" class="form-check-input" type="checkbox">
                 <span class="form-check-label"> {{_e('Enable Captcha')}}</span>
             </label>
         </div>
