@@ -9,10 +9,12 @@ abstract class Element
     public function setAttribute($attribute, $value = null)
     {
         if (is_null($value)) {
-            return;
+            return $this;
         }
 
         $this->attributes[$attribute] = $value;
+
+        return $this;
     }
 
     protected function removeAttribute($attribute)
