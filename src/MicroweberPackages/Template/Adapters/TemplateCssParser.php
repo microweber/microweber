@@ -422,20 +422,19 @@ class TemplateCssParser
     private function _getOptionVariables($optionGroupName)
     {
 
-       // $optionGroup = mw()->option_manager->get_all('option_group=' . $optionGroupName);
         $optionGroup = app()->option_repository->getOptionsByGroup($optionGroupName);
-
-
         $variables = array();
-
         if (is_array($optionGroup) and !empty($optionGroup)) {
             foreach ($optionGroup as $optionGroupItem) {
-                $variables[$optionGroupItem['option_key']] = $optionGroupItem['option_value'];
+                $optionKey = $optionGroupItem['option_key'] ?? '';
+                $optionValue = $optionGroupItem['option_value'] ?? '';
+
+                if (is_string($optionKey) && $optionKey !== '' && $optionValue !== '') {
+                    $variables[$optionKey] = $optionValue;
+                }
             }
         }
-
         return $variables;
-
     }
 
     private function _getOutputDir($path = false)
