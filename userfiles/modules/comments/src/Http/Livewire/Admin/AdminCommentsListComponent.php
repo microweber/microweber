@@ -11,6 +11,10 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     protected $paginationTheme = 'bootstrap';
 
+    public $listeners = [
+        'commentAdded' => '$refresh',
+    ];
+
     public $filter = [
         "keyword" => "",
         "orderField" => "id",
@@ -29,6 +33,11 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     public $itemsPerPage = 10;
 
+    public function filterByContentId($id)
+    {
+        $this->filter['content_id'] = $id;
+    }
+
     public function preview()
     {
 
@@ -36,10 +45,14 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     public function delete($id)
     {
-        $comment = Comment::withTrashed()->where('id',$id)->first();
-        if ($comment) {
-            $comment->forceDelete();
-        }
+        $this->emit('openModal', 'admin-confirm-modal', [
+            'action' => 'wowowow'
+        ]);
+
+//        $comment = Comment::withTrashed()->where('id',$id)->first();
+//        if ($comment) {
+//            $comment->forceDelete();
+//        }
     }
 
     public function markAsModerated($id)
@@ -84,10 +97,14 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     public function markAsTrash($id)
     {
-        $comment = Comment::find($id);
-        if ($comment) {
-            $comment->delete();
-        }
+        $this->emit('openModal', 'admin-confirm-modal', [
+            'action' => 'wowowow'
+        ]);
+
+//        $comment = Comment::find($id);
+//        if ($comment) {
+//            $comment->delete();
+//        }
     }
 
     public function markAsNotTrash($id)

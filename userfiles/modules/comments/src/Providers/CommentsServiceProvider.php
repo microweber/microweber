@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Comments\Providers;
 
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
+use MicroweberPackages\Modules\Comments\Http\Livewire\Admin\AdminCommentReplyComponent;
 use MicroweberPackages\Modules\Comments\Http\Livewire\Admin\AdminCommentsListComponent;
 use MicroweberPackages\Modules\Comments\Http\Livewire\Admin\AdminSettingsModalComponent;
 use MicroweberPackages\Modules\Comments\Http\Livewire\UserCommentListComponent;
@@ -31,6 +32,7 @@ class CommentsServiceProvider extends PackageServiceProvider
 
         Livewire::component('comments::admin-comments', AdminCommentsListComponent::class);
         Livewire::component('comments::admin.settings-modal', AdminSettingsModalComponent::class);
+        Livewire::component('comments::admin-comment-reply', AdminCommentReplyComponent::class);
 
         Livewire::component('comments::user-comment-reply', UserCommentReplyComponent::class);
         Livewire::component('comments::user-comment-list', UserCommentListComponent::class);

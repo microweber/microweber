@@ -11,6 +11,7 @@ use MicroweberPackages\User\Models\User;
 
 class UserCommentReplyComponent extends Component
 {
+    public $view = 'comments::livewire.user-comment-reply-component';
     public $successMessage = false;
 
     public $state = [
@@ -30,7 +31,7 @@ class UserCommentReplyComponent extends Component
         $this->successMessage = false;
     }
 
-    public function render()
+    public function getViewData()
     {
         $enableCaptcha = true;
         $enableCaptchaOption = get_option('enable_captcha','comments');
@@ -49,11 +50,21 @@ class UserCommentReplyComponent extends Component
             $allowToComment = true;
         }
 
-        return view('comments::livewire.user-comment-reply-component',[
+        $comment = Comment::where('id', $this->state['reply_to_comment_id'])->first();
+
+        return [
             'enableCaptcha' => $enableCaptcha,
             'allowAnonymousComments' => $allowAnonymousComments,
             'allowToComment' => $allowToComment,
-        ]);
+            'comment' => $comment,
+        ];
+    }
+
+    public function render()
+    {
+        $data = $this->getViewData();
+
+        return view($this->view,$data);
     }
 
     public function save()
@@ -96,6 +107,9 @@ class UserCommentReplyComponent extends Component
         $needsApproval = true;
         $requiresApproval = get_option('requires_approval','comments');
         if ($requiresApproval == 'n') {
+            $needsApproval = false;
+        }
+        if (is_admin()) {
             $needsApproval = false;
         }
 

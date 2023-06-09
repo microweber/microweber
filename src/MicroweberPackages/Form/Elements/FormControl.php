@@ -36,11 +36,13 @@ abstract class FormControl extends Element
         return $this->readValueFromField;
     }
 
-    protected function setName($name)
+    public function setName($name)
     {
         $this->setAttribute('name', $name);
+
+        return $this;
     }
-    
+
     public function required($conditional = true)
     {
         $this->setBooleanAttribute('required', $conditional);

@@ -306,13 +306,13 @@ if (isset($params['quick_edit'])) {
                         <a href="#" x-on:click="showEditTab = 'details'" :class="{ 'active': showEditTab == 'details' }" class="btn btn-link text-decoration-none mw-admin-action-links">
                              <?php echo $type; ?> <?php echo _e('Details'); ?>
                         </a>
-                        <a href="#" x-on:click="showEditTab = 'customFields'"  class="btn btn-link text-decoration-none mw-admin-action-links">
+                        <a href="#" x-on:click="showEditTab = 'customFields'" :class="{ 'active': showEditTab == 'customFields' }"  class="btn btn-link text-decoration-none mw-admin-action-links">
                             <?php echo _e('Custom Fields'); ?>
                         </a>
-                        <a href="#" x-on:click="showEditTab = 'seo'"  class="btn btn-link text-decoration-none mw-admin-action-links">
+                        <a href="#" x-on:click="showEditTab = 'seo'" :class="{ 'active': showEditTab == 'seo' }"  class="btn btn-link text-decoration-none mw-admin-action-links">
                            <?php echo _e('SEO'); ?>
                         </a>
-                        <a href="#" x-on:click="showEditTab = 'advanced'" class="btn btn-link text-decoration-none link mw-admin-action-links">
+                        <a href="#" x-on:click="showEditTab = 'advanced'" :class="{ 'active': showEditTab == 'advanced' }" class="btn btn-link text-decoration-none link mw-admin-action-links">
                             <?php echo _e('Advanced'); ?>
                         </a>
                     </div>
@@ -625,7 +625,7 @@ if (isset($params['quick_edit'])) {
 
                         </div>
 
-                        <div x-show="showEditTab=='customFields'" class="row">
+                        <div x-show="showEditTab=='customFields'">
 
                             <?php
                             include_once 'custom_fields.php';
@@ -633,7 +633,7 @@ if (isset($params['quick_edit'])) {
 
                         </div>
 
-                        <div x-show="showEditTab=='seo'" class="row">
+                        <div x-show="showEditTab=='seo'">
                              <?php
                              include_once 'seo.php';
                              ?>

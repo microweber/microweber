@@ -191,7 +191,7 @@ body, .is_admin {
                 content: '';
                 bottom: -5px;
                 left: 0;
-                height: 1px;
+                height: 2px;
                 width: 0;
                 background-color: var(--tblr-body-color);
                 opacity: 0;
@@ -211,6 +211,7 @@ body, .is_admin {
                 span:after {
                     width: 100%;
                     opacity: 1;
+                    font-weight: bold;
                 }
 
                 &:after {
@@ -1468,4 +1469,21 @@ svg.text-danger {
 
 .manage-post-item-title {
     word-break: break-all;
+}
+
+.ts-wrapper.form-select {
+    display: block;
+
+    .dropdown-menu.ts-dropdown.single {
+        position: absolute;
+        background: var(--tblr-bg-surface);
+
+        .dropdown-item {
+            padding-left: 20px;
+        }
+    }
+}
+
+.flex-none {
+    flex: none !important;
 }

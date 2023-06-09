@@ -67,7 +67,7 @@
 
         @foreach($comments as $comment)
 
-            <div class="card shadow-sm mb-4 bg-silver comments-card">
+            <div class="card shadow-sm mb-4 bg-silver comments-card" x-data="{showReplyForm: false}">
 
                 @if($comment->isPending())
                 <div class="card-status-start bg-primary"></div>
@@ -76,7 +76,7 @@
                 <div class="card-body">
                     <div class="gap-5">
 
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center gap-2">
 
                             <div>
                                 @if($comment->created_by > 0)
@@ -90,7 +90,7 @@
                                 @endif
                             </div>
 
-                            <div class="d-flex justify-content-between gap-5">
+                            <div class="d-flex justify-content-between gap-5" style="width: 100%;">
                                 <div class="">
                                     <p class="mb-0">
                                         {{$comment->comment_name}}
@@ -115,12 +115,25 @@
 
                         <div class="mt-3" style="padding-left:80px">
 
-                            <div>
+                            <div class="cursor-pointer" wire:click="filterByContentId('{{$comment->contentId()}}')">
                                 <p class="mb-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16 19H3v-2h13v2zm5-10H3v2h18V9zM3 5v2h11V5H3zm14 0v2h4V5h-4zm-6 8v2h10v-2H11zm-8 0v2h5v-2H3z"/></svg>
                                 {{$comment->contentTitle()}}
                                 </p>
                             </div>
+
+                            @if($comment->reply_to_comment_id > 0)
+                            <div class="mb-2">
+                                <div class="list-group list-group-flush">
+                                    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                                        {{_e('In reply to:')}}
+                                        <span class="text-muted">
+                                       {{str_limit($comment->parentCommentBody(), 80)}}
+                                      </span>
+                                    </a>
+                                </div>
+                            </div>
+                            @endif
 
                             <div class="cursor-pointer" wire:click="preview({{$comment->id}})">
                                <span class="mb-0 text-bold">
@@ -181,13 +194,25 @@
                                     &nbsp;{{ _e("Edit") }}
                                 </button>
 
-                                <button class="mw-admin-action-links text-decoration-none btn btn-link" wire:click="reply('{{$comment->id}}')">
+                                <button @click="showReplyForm = ! showReplyForm" style="cursor:pointer" class="mw-admin-action-links text-decoration-none btn btn-link">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16h7.2l-2.6 2.6L15 20l5-5l-5-5l-1.4 1.4l2.6 2.6H9c-2.2 0-4-1.8-4-4s1.8-4 4-4h2V4H9c-3.3 0-6 2.7-6 6s2.7 6 6 6z"/></svg>
                                     {{ _e("Reply") }}
                                 </button>
+
                                 @endif
 
                             </div>
+
+                            @if($comment->deleted_at == null)
+                                <div x-show="showReplyForm" style="display:none; background:#fff;" >
+                                    <div class="mt-2 mb-4">
+                                        <div>
+                                            <livewire:comments::admin-comment-reply wire:key="admin-comment-reply-id-{{$comment->id}}" rel_id="{{$comment->rel_id}}" reply_to_comment_id="{{$comment->id}}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
                         </div>
 
                     </div>
