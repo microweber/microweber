@@ -447,14 +447,14 @@ $(mww).on('load', function () {
         });
     }
 
-    // mw.on('adminSaveStart saveStart', function () {
-    //     var btn = document.querySelector('#content-title-field-buttons .btn-save span');
-    //     btn.innerHTML = mw.msg.saving + '...';
-    // });
-    // mw.on('adminSaveEnd saveEnd', function () {
-    //      var btn = document.querySelector('#content-title-field-buttons .btn-save span');
-    //     btn.innerHTML = mw.msg.save;
-    // });
+    mw.on('adminSaveStart saveStart', function () {
+        $(".mw-admin-save-btn-svg").hide();
+        $(".mw-admin-save-btn-loading").show();
+    });
+    mw.on('adminSaveEnd saveEnd', function () {
+        $(".mw-admin-save-btn-svg").show();
+        $(".mw-admin-save-btn-loading").hide();
+    });
 
     mw.$(".dr-item-table > table").click(function(){
         mw.$(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active');
