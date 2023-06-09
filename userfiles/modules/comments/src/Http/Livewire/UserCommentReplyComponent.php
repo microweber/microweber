@@ -86,6 +86,20 @@ class UserCommentReplyComponent extends Component
             $comment->comment_email = $this->state['comment_email'];
         }
 
+        $needsApproval = true;
+        $requiresApproval = get_option('requires_approval','comments');
+        if ($requiresApproval == 'n') {
+            $needsApproval = false;
+        }
+
+        if ($needsApproval) {
+            $comment->is_new = 1;
+            $comment->is_moderated = 0;
+        } else {
+            $comment->is_new = 0;
+            $comment->is_moderated = 1;
+        }
+
         $comment->comment_body = $this->state['comment_body'];
         $comment->save();
 
