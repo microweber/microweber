@@ -16,7 +16,7 @@ if (isset($_COOKIE['admin_theme_dark'])) {
 
     <li class="py-1">
         <a onclick="mw_admin_toggle_dark_theme()"
-           class="nav-link navbar-change-theme-icon navbar-change-theme-icon-light">
+           class="nav-link navbar-change-theme-icon navbar-change-theme-icon-light" style="padding-bottom: 0 !important;">
             <span id="navbar-change-theme-icon-light" <?php if ($bodyTheme == 'dark'): ?> style="display: none;" <?php endif; ?>>
                 <span class="d-flex">
                     <svg fill="currentColor" style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24"

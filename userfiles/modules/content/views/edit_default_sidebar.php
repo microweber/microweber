@@ -166,9 +166,9 @@
 
     <module type="content/views/edit_default_sidebar_variants" content-id="<?php echo $data['id']; ?>" />
 
-    <div class="mb-3 categories js-sidebar-categories-card">
+    <div class="mb-5 categories js-sidebar-categories-card">
 
-               <div class="card shadow-none mb-5">
+               <div class="card shadow-none">
                    <div class="card-body">
 
 
@@ -348,7 +348,7 @@
         </div>
 
     <?php if ($data['content_type'] == 'page'): ?>
-        <div class="card-body mb-3 menus">
+        <div class="card-body mb-5 menus">
             <div class=" ">
                 <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
 
