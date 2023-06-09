@@ -99,7 +99,7 @@
                                 localeIcon = localeIcon.toLowerCase();
                             }
 
-                            outputHtml += '<option data-icon="flag-icon flag-icon-'+localeIcon+'" value="'+locales[i]+'">' + locales[i].toUpperCase() + '</option>';
+                            outputHtml += '<option  data-subtext="'+locales[i].toUpperCase()+'" data-icon="flag-icon flag-icon-'+localeIcon+'" value="'+locales[i]+'"></option>';
                         }
                         outputHtml += '</select>';
                     outputHtml += '</span>';

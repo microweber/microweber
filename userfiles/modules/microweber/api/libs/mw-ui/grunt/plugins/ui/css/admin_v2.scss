@@ -1443,10 +1443,25 @@ svg.text-danger {
 }
 
 .quick-parent-selector {
-    max-height: 400px;
-    overflow-y: auto;
+    .mw--global-admin-tree {
+        max-height: 400px;
+        overflow-y: auto;
+    }
 }
 
 .mw-admin-multilang-lang-name {
     display: none;
+}
+
+.input-group-append .bootstrap-select .dropdown-menu li.active small {
+    color: var(--tblr-body-color) !important;
+
+}
+
+.content-title-field-row {
+
+    .dropdown-toggle:after {
+        width: 0.6em;
+        height: 0.46em;
+    }
 }
