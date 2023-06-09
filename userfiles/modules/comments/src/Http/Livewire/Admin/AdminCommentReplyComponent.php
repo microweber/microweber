@@ -7,7 +7,6 @@ use MicroweberPackages\Modules\Comments\Http\Livewire\UserCommentReplyComponent;
 
 class AdminCommentReplyComponent extends UserCommentReplyComponent
 {
-
     use AuthorizesRequests;
 
     public $view = 'comments::admin.livewire.admin-comment-reply-component';

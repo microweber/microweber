@@ -203,13 +203,15 @@
 
                             </div>
 
-                            <div x-show="showReplyForm" style="display:none; background:#fff;" >
-                                <div class="mt-2 mb-4">
-                                    <div>
-                                        <livewire:comments::admin-comment-reply wire:key="admin-comment-reply-id-{{$comment->id}}" rel_id="{{$comment->rel_id}}" reply_to_comment_id="{{$comment->id}}" />
+                            @if($comment->deleted_at == null)
+                                <div x-show="showReplyForm" style="display:none; background:#fff;" >
+                                    <div class="mt-2 mb-4">
+                                        <div>
+                                            <livewire:comments::admin-comment-reply wire:key="admin-comment-reply-id-{{$comment->id}}" rel_id="{{$comment->rel_id}}" reply_to_comment_id="{{$comment->id}}" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
 
                         </div>
 

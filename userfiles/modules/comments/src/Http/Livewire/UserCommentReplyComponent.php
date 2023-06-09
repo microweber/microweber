@@ -51,9 +51,6 @@ class UserCommentReplyComponent extends Component
         }
 
         $comment = Comment::where('id', $this->state['reply_to_comment_id'])->first();
-        if (!$comment) {
-            $allowToComment = false;
-        }
 
         return [
             'enableCaptcha' => $enableCaptcha,
