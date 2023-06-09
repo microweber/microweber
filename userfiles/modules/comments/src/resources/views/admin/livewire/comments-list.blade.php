@@ -67,7 +67,7 @@
 
         @foreach($comments as $comment)
 
-            <div class="card shadow-sm mb-4 bg-silver comments-card">
+            <div class="card shadow-sm mb-4 bg-silver comments-card" x-data="{showReplyForm: false}">
 
                 @if($comment->isPending())
                 <div class="card-status-start bg-primary"></div>
@@ -194,13 +194,23 @@
                                     &nbsp;{{ _e("Edit") }}
                                 </button>
 
-                                <button class="mw-admin-action-links text-decoration-none btn btn-link" wire:click="reply('{{$comment->id}}')">
+                                <button @click="showReplyForm = ! showReplyForm" style="cursor:pointer" class="mw-admin-action-links text-decoration-none btn btn-link">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16h7.2l-2.6 2.6L15 20l5-5l-5-5l-1.4 1.4l2.6 2.6H9c-2.2 0-4-1.8-4-4s1.8-4 4-4h2V4H9c-3.3 0-6 2.7-6 6s2.7 6 6 6z"/></svg>
                                     {{ _e("Reply") }}
                                 </button>
+
                                 @endif
 
                             </div>
+
+                            <div x-show="showReplyForm" style="display:none; background:#fff;" >
+                                <div class="mt-2 mb-4">
+                                    <div>
+                                        <livewire:comments::admin-comment-reply wire:key="admin-comment-reply-id-{{$comment->id}}" rel_id="{{$comment->rel_id}}" reply_to_comment_id="{{$comment->id}}" />
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
