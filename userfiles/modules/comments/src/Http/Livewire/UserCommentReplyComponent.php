@@ -51,6 +51,9 @@ class UserCommentReplyComponent extends Component
         }
 
         $comment = Comment::where('id', $this->state['reply_to_comment_id'])->first();
+        if (!$comment) {
+            $allowToComment = false;
+        }
 
         return [
             'enableCaptcha' => $enableCaptcha,
@@ -107,6 +110,9 @@ class UserCommentReplyComponent extends Component
         $needsApproval = true;
         $requiresApproval = get_option('requires_approval','comments');
         if ($requiresApproval == 'n') {
+            $needsApproval = false;
+        }
+        if (is_admin()) {
             $needsApproval = false;
         }
 

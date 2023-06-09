@@ -11,6 +11,10 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     protected $paginationTheme = 'bootstrap';
 
+    public $listeners = [
+        'commentAdded' => '$refresh',
+    ];
+
     public $filter = [
         "keyword" => "",
         "orderField" => "id",
