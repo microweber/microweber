@@ -29,6 +29,11 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     public $itemsPerPage = 10;
 
+    public function filterByContentId($id)
+    {
+        $this->filter['content_id'] = $id;
+    }
+
     public function preview()
     {
 
