@@ -1441,3 +1441,8 @@ svg.text-danger {
     background-color: rgba(255, 0, 0, 0.12);
     padding: 3px 10px;
 }
+
+.quick-parent-selector {
+    max-height: 400px;
+    overflow-y: auto;
+}
