@@ -34,7 +34,7 @@ class UserCommentListComponent extends Component {
     public function delete($commentId = false)
     {
         $getComment = Comment::where('id', $commentId)->first();
-        if ($getComment) {
+        if ($getComment->canIdeleteThisComment()) {
             $getComment->deleteWithReplies();
             $this->emit('commentDeleted', $commentId);
             $this->emit('$refresh');
