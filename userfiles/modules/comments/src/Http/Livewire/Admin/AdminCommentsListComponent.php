@@ -45,10 +45,11 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     public function delete($id)
     {
-        $comment = Comment::withTrashed()->where('id',$id)->first();
-        if ($comment) {
-            $comment->forceDelete();
-        }
+        
+//        $comment = Comment::withTrashed()->where('id',$id)->first();
+//        if ($comment) {
+//            $comment->forceDelete();
+//        }
     }
 
     public function markAsModerated($id)
