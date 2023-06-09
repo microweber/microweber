@@ -25,7 +25,28 @@ class UserCommentReplyComponent extends Component
 
     public function render()
     {
-        return view('comments::livewire.user-comment-reply-component');
+        $enableCaptcha = true;
+        $enableCaptchaOption = get_option('enable_captcha','comments');
+        if ($enableCaptchaOption == 'n') {
+            $enableCaptcha = false;
+        }
+
+        $allowAnonymousComments = true;
+        $allowAnonymousCommentsOption = get_option('allow_anonymous_comments','comments');
+        if ($allowAnonymousCommentsOption == 'n') {
+            $allowAnonymousComments = false;
+        }
+
+        $allowToComment = false;
+        if (user_id() || $allowAnonymousComments) {
+            $allowToComment = true;
+        }
+
+        return view('comments::livewire.user-comment-reply-component',[
+            'enableCaptcha' => $enableCaptcha,
+            'allowAnonymousComments' => $allowAnonymousComments,
+            'allowToComment' => $allowToComment,
+        ]);
     }
 
     public function save()
@@ -63,6 +84,20 @@ class UserCommentReplyComponent extends Component
         } else {
             $comment->comment_name = $this->state['comment_name'];
             $comment->comment_email = $this->state['comment_email'];
+        }
+
+        $needsApproval = true;
+        $requiresApproval = get_option('requires_approval','comments');
+        if ($requiresApproval == 'n') {
+            $needsApproval = false;
+        }
+
+        if ($needsApproval) {
+            $comment->is_new = 1;
+            $comment->is_moderated = 0;
+        } else {
+            $comment->is_new = 0;
+            $comment->is_moderated = 1;
         }
 
         $comment->comment_body = $this->state['comment_body'];

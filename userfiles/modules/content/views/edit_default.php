@@ -295,7 +295,7 @@ if (isset($params['quick_edit'])) {
         ?>
 
         <div class="row" x-data="{showEditTab: 'details'}">
-            <div class="col-md-8 manage-content-body mx-5">
+            <div class="col-md-8 manage-content-body px-5">
 
                 <?php if(isset($data['is_deleted']) and $data['is_deleted']) :  ?>
                     <?php include (__DIR__.'/content_delete_btns.php')?>
@@ -337,8 +337,11 @@ if (isset($params['quick_edit'])) {
 
                         <?php } ?>
 
-                        <button id="js-admin-save-content-main-btn" type="submit"   class="btn btn-outline-dark mw-admin-bold-outline-dark btn-save js-bottom-save ms-atuo" form="quickform-edit-content"><span>
-                                <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M840-683v503q0 24-18 42t-42 18H180q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h503l157 157Zm-60 27L656-780H180v600h600v-476ZM479.765-245Q523-245 553.5-275.265q30.5-30.264 30.5-73.5Q584-392 553.735-422.5q-30.264-30.5-73.5-30.5Q437-453 406.5-422.735q-30.5 30.264-30.5 73.5Q376-306 406.265-275.5q30.264 30.5 73.5 30.5ZM233-584h358v-143H233v143Zm-53-72v476-600 124Z"/></svg>
+                        <button id="js-admin-save-content-main-btn" type="submit" class="btn btn-outline-dark mw-admin-bold-outline-dark btn-save js-bottom-save ms-atuo" form="quickform-edit-content"><span>
+                                <svg fill="currentColor" class="mw-admin-save-btn-svg me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M840-683v503q0 24-18 42t-42 18H180q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h503l157 157Zm-60 27L656-780H180v600h600v-476ZM479.765-245Q523-245 553.5-275.265q30.5-30.264 30.5-73.5Q584-392 553.735-422.5q-30.264-30.5-73.5-30.5Q437-453 406.5-422.735q-30.5 30.264-30.5 73.5Q376-306 406.265-275.5q30.264 30.5 73.5 30.5ZM233-584h358v-143H233v143Zm-53-72v476-600 124Z"/></svg>
+
+                                <span class="mw-admin-save-btn-loading spinner-border spinner-border-sm me-2" style="display: none;" role="status"></span>
+
                                 <?php _e('Save'); ?></span>
                         </button>
                     </div>
@@ -348,7 +351,7 @@ if (isset($params['quick_edit'])) {
                 $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
                 $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
                 ?>
-                <div class="card"  x-data="{ title: '<?php echo $title_for_input ?>' }">
+                <div class="card shadow-none"  x-data="{ title: '<?php echo $title_for_input ?>' }">
                     <div class="card-body">
 
                         <div x-show="showEditTab=='details'">
@@ -593,7 +596,7 @@ if (isset($params['quick_edit'])) {
 
                                         <div class="mb-3 images">
                                             <div class="no-border" id="post-media-card-header">
-                                                <h6><strong><?php _e('Pictures'); ?></strong></h6>
+                                                <h6><strong><?php _e('Add media'); ?></strong></h6>
                                                 <div class="post-media-type-holder">
                                                     <module id="edit-post-gallery-main-source-selector-holder" type="pictures/admin_upload_pic_source_selector" />
                                                 </div>
@@ -676,8 +679,8 @@ if (isset($params['quick_edit'])) {
 
 
             </div>
-
             <?php include 'edit_default_sidebar.php'; ?>
+
         </div>
     </form>
 </div>

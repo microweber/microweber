@@ -1428,3 +1428,16 @@ svg.text-danger {
     font-weight: bold;
     border: 2px solid;
 }
+
+.mw-admin-edit-post-publish {
+    border-radius: 10px;
+    background-color: rgba(32, 128, 0, 0.12);
+    padding: 3px 10px;
+
+}
+
+.mw-admin-edit-post-unpublish {
+    border-radius: 10px;
+    background-color: rgba(255, 0, 0, 0.12);
+    padding: 3px 10px;
+}
