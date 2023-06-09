@@ -45,7 +45,9 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     public function delete($id)
     {
-
+        $this->emit('openModal', 'admin-confirm-modal', [
+            'action' => 'wowowow'
+        ]);
 
 //        $comment = Comment::withTrashed()->where('id',$id)->first();
 //        if ($comment) {
@@ -95,10 +97,14 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     public function markAsTrash($id)
     {
-        $comment = Comment::find($id);
-        if ($comment) {
-            $comment->delete();
-        }
+        $this->emit('openModal', 'admin-confirm-modal', [
+            'action' => 'wowowow'
+        ]);
+
+//        $comment = Comment::find($id);
+//        if ($comment) {
+//            $comment->delete();
+//        }
     }
 
     public function markAsNotTrash($id)

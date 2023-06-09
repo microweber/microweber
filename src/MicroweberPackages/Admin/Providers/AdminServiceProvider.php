@@ -14,6 +14,7 @@ namespace MicroweberPackages\Admin\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use MicroweberPackages\Admin\Http\Livewire\AdminConfirmModalComponent;
 use MicroweberPackages\Admin\Services\AdminManager;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemCateogry;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemComponent;
@@ -49,6 +50,7 @@ class AdminServiceProvider extends ServiceProvider
 
         Livewire::component('admin-users-autocomplete', UsersAutoComplete::class);
         Livewire::component('admin-tags-autocomplete', TagsAutoComplete::class);
+        Livewire::component('admin-confirm-modal', AdminConfirmModalComponent::class);
 
         Livewire::component('admin-filter-item', FilterItemComponent::class);
         Livewire::component('admin-filter-item-product', FilterItemProduct::class);

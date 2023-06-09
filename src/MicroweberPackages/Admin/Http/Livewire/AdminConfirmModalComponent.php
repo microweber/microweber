@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Admin\Http\Livewire;
 
-class AdminConfirmModalComponent extends AdminComponent
+class AdminConfirmModalComponent extends AdminModalComponent
 {
     public $action = '';
     public $data = [];
@@ -12,7 +12,7 @@ class AdminConfirmModalComponent extends AdminComponent
 
     public function render()
     {
-        return view('admin::livewire.livewire.modals.confirm');
+        return view('admin::admin.livewire.modals.confirm');
     }
 
     public function confirm()
