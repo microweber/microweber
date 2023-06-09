@@ -295,7 +295,7 @@ if (isset($params['quick_edit'])) {
         ?>
 
         <div class="row" x-data="{showEditTab: 'details'}">
-            <div class="col-md-8 manage-content-body mx-5">
+            <div class="col-md-8 manage-content-body px-5">
 
                 <?php if(isset($data['is_deleted']) and $data['is_deleted']) :  ?>
                     <?php include (__DIR__.'/content_delete_btns.php')?>

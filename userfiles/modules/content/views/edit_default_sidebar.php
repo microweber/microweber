@@ -140,9 +140,9 @@
 
 </script>
 
-<div class="col-md-3 mt-6 pt-4 manage-content-sidebar">
+<div class="col-md-4 mt-6 pt-4 pe-5 manage-content-sidebar">
     <div class="card shadow-none mb-5">
-        <div class="card-body mb-3">
+        <div class="card-body">
             <div class="card-header ps-0 pt-1 mb-0">
                 <strong><?php _e("Visibility"); ?></strong>
             </div>
@@ -364,7 +364,7 @@
     <?php endif; ?>
 
     <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
-        <div class="card-body mb-3">
+        <div class="card-body">
             <div class=" ">
                 <div class="row mb-3">
                     <div class="col-12">
