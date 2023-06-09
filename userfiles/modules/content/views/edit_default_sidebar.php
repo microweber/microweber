@@ -146,7 +146,7 @@
             <div class="card-header ps-0 pt-1 mb-0">
                 <strong><?php _e("Visibility"); ?></strong>
             </div>
-            <div class="row pb-0">
+            <div class="row pb-0 p-3">
                 <div class="col-12"><input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>"/>
                     <div class="form-group">
                         <div class="custom-control custom-radio mb-3">
@@ -181,7 +181,7 @@
                                      </strong>
                                  </div>
 
-                                  <div class="row">
+                                  <div class="row pb-0 p-3">
                                       <div class="quick-parent-selector mt-2">
                                           <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"/>
                                       </div>
@@ -310,7 +310,7 @@
                 <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                     <hr class="thin no-padding"/>
 
-                    <div class="row">
+                    <div class="row pb-0 p-3">
                         <div class="col-12">
                             <div id="show-categories-tree-wrapper" >
 
