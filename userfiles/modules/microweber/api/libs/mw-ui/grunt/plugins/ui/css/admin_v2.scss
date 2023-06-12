@@ -1511,3 +1511,6 @@ svg.text-danger {
     }
 }
 
+.mw-select .mw-select-value:after {
+    content: '';
+}
