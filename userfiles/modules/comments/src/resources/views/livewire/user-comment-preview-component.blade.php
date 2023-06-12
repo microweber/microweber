@@ -120,7 +120,7 @@
                         </span>
                     </div>
 
-                    <div x-show="showReplyForm" style="display:none; background:#fff;" class="mt-2 mb-4 p-4">
+                    <div x-show="showReplyForm" style="display:none; background:#fff;" class="mt-4 mb-4 p-4">
 {{--                        <div class="mb-4">--}}
 {{--                            <b> <i class="fa fa-reply me-1"></i> {{_e('Reply to')}} {{$comment->comment_name}} </b>--}}
 {{--                        </div>--}}

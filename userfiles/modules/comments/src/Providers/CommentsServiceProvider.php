@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Modules\Comments\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
@@ -32,7 +33,7 @@ class CommentsServiceProvider extends PackageServiceProvider
     public function packageBooted()
     {
         $this
-           // ->registerComponents()
+            ->registerComponents()
             ->registerPolicies();
     }
 
@@ -43,8 +44,10 @@ class CommentsServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    public function register(): void
+    public function registerComponents()
     {
+        Blade::componentNamespace('MicroweberPackages\\Modules\\Comments\\View\\Components', 'comments');
+
         View::addNamespace('comments', normalize_path(__DIR__) . '/../resources/views');
 
         Livewire::component('comments::admin-comments', AdminCommentsListComponent::class);
@@ -54,6 +57,11 @@ class CommentsServiceProvider extends PackageServiceProvider
         Livewire::component('comments::user-comment-reply', UserCommentReplyComponent::class);
         Livewire::component('comments::user-comment-list', UserCommentListComponent::class);
         Livewire::component('comments::user-comment-preview', UserCommentPreviewComponent::class);
+
+        return $this;
+    }
+
+    public function register(): void {
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/');
         $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
