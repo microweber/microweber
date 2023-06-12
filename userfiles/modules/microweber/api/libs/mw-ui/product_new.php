@@ -192,7 +192,7 @@
            <div class="card">
                <div class="card-body mb-3">
                    <div class="card-header no-border">
-                       <h6><strong>Shipping</strong></h6>
+                       <h2><strong>Shipping</strong></h2>
                    </div>
 
                    <div class=" ">

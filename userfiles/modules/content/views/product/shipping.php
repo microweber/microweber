@@ -43,11 +43,11 @@
 
 <div class="card-body mb-3">
     <div class="card-header no-border">
-        <h6><strong><?php _e("Shipping"); ?></strong></h6>
+        <h3><strong><?php _e("Shipping"); ?></strong></h3>
     </div>
 
     <div class=" ">
-        <div class="row">
+        <div class="row p-0 ">
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
