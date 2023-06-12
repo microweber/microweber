@@ -58,7 +58,7 @@ class CheckoutManager
         $cart['session_id'] = $sid;
         $cart['order_completed'] = 0;
         $cart['for_checkout'] = true;
-        $cart['limit'] = 1;
+      //  $cart['limit'] = 1;
         $mw_process_payment = true;
         $mw_process_payment_success = false;
         $mw_process_payment_failed = false;

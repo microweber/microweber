@@ -17,7 +17,7 @@ $config['ui'] = true;
 $config['ui_admin'] = true;
 
 $config['categories'] = "online shop";
-$config['version'] = "0.3";
+$config['version'] = "0.6";
 $config['position'] = 26;
 
 
@@ -28,28 +28,8 @@ $config['settings']['autoload_namespace'] = [
     ],
 ];
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Modules\Shop\Coupons\ShopCouponServiceProvider::class
+    \MicroweberPackages\Modules\Shop\Coupons\Providers\ShopCouponServiceProvider::class,
+    \MicroweberPackages\Modules\Shop\Coupons\Providers\ShopCouponEventServiceProvider::class
 ];
 
-$config['tables'] = array(
-	'cart_coupons' => array(
-		'id' => 'integer',
-		'coupon_name' => 'string',
-		'coupon_code' => 'string',
-		'discount_type' => 'string',
-		'discount_value' => 'string',
-		'total_amount' => 'string',
-		'uses_per_coupon' => 'integer',
-		'uses_per_customer' => 'integer',
-		'is_active' => 'integer',
-	),
-	'cart_coupon_logs' => array(
-		'id' => 'integer',
-		'coupon_id' => 'integer',
-		'coupon_code' => 'string',
-		'customer_email' => 'string',
-		'customer_ip' => 'string',
-		'uses_count' => 'integer',
-		'use_date' => 'dateTime'
-	)
-);
+

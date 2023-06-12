@@ -8,9 +8,9 @@ function user_ip()
 }
 
 
-if (!defined('MW_USER_IP')) {
-    define('MW_USER_IP', user_ip());
-}
+//if (!defined('MW_USER_IP')) {
+//    define('MW_USER_IP', user_ip());
+//}
 
 
 function forgot_password_url()
