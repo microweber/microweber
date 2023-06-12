@@ -313,9 +313,7 @@
                     <div class="row pb-0 p-3">
                         <div class="col-12">
                             <div id="show-categories-tree-wrapper" >
-
-                                 <strong><?php _e('Select'); ?> <?php echo $data['content_type']; ?> <?php _e('categories'); ?></strong>
-
+                                <label for="" class="form-label font-weight-bold"><?php _e('Select'); ?> <?php echo $data['content_type']; ?> <?php _e('categories'); ?></label>
 
                                 <div id="show-categories-tree"  >
                                     <div class="mw-admin-edit-page-primary-settings content-category-selector">
