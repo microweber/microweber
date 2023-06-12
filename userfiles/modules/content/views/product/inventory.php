@@ -170,11 +170,11 @@ if(isset($contentData['max_qty_per_order']) and $contentData['max_qty_per_order'
 
         <div class="js-track-quantity">
 
-            <label class="form-label my-3"><?php _e("Quantity"); ?></label>
             <div class="row">
-                <div class="col-md-6 w-100">
+            <label class="form-label mb-2 ps-md-0"><?php _e("Quantity"); ?></label>
+                <div class="col-md-6 ps-md-0 w-100">
                     <div class="form-group">
-                        <label class="form-label"><?php _e("Available"); ?></label>
+                        <label class=""><?php _e("Available"); ?></label>
                         <small class="text-muted d-block mb-3"><?php _e("How many products you have available in stock"); ?></small>
 
                         <?php if(!$qty_selected_is_custom){ ?>
@@ -196,7 +196,7 @@ if(isset($contentData['max_qty_per_order']) and $contentData['max_qty_per_order'
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 ps-md-0">
                     <div class="form-group w-100">
                         <label class="form-label"><?php _e("Max quantity per order"); ?></label>
                         <small class="text-muted d-block mb-3"><?php _e("How many products can be ordered at once"); ?></small>
