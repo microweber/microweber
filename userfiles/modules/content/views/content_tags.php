@@ -81,7 +81,7 @@ if ($all_existing_tags == null) {
 
     });
 </script>
-<div class="row">
+<div class="row py-0">
     <div class="col-12">
         <div id="content-tags-block"></div>
         <div id="content-tags-search-block"></div>

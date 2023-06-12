@@ -217,7 +217,7 @@
                </div>
 
 
-                <div class="row mb-3">
+                <div class="row mb-3 py-0">
                     <div class="col-12">
                         <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                             <script>
@@ -366,9 +366,9 @@
     <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
         <div class="card-body">
             <div class=" ">
-                <div class="row mb-3">
+                <div class="row py-0">
                     <div class="col-12">
-                        <strong><?php _e("Tags"); ?></strong>
+                        <label for="" class="form-label"><?php _e("Tags"); ?></label>
                         <small data-bs-toggle="tooltip" title="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>"></small>
                     </div>
                 </div>
