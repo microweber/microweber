@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Validator;
 
     ->prefix('api')
     ->middleware(['api', 'xss', \Illuminate\Routing\Middleware\ThrottleRequests::class])
- //   ->namespace('MicroweberPackages\Modules\Shop\Coupons')
     ->group(function () {
 
         Route::post('coupon_apply', function () {
@@ -24,8 +23,7 @@ use Illuminate\Support\Facades\Validator;
 \Route::name('api.')
 
     ->prefix('api')
-    ->middleware(['api', 'xss', 'admin', \Illuminate\Routing\Middleware\ThrottleRequests::class])
-    //   ->namespace('MicroweberPackages\Modules\Shop\Coupons')
+    ->middleware(['api', 'xss', 'admin'])
     ->group(function () {
 
         Route::post('coupons_save_coupon', function () {

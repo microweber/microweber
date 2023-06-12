@@ -13,6 +13,8 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     public $listeners = [
         'commentAdded' => '$refresh',
+        'executeCommentDelete'=>'executeCommentDelete',
+        'executeCommentMarkAsTrash'=>'executeCommentMarkAsTrash',
     ];
 
     public $filter = [
@@ -41,18 +43,6 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     public function preview()
     {
 
-    }
-
-    public function delete($id)
-    {
-        $this->emit('openModal', 'admin-confirm-modal', [
-            'action' => 'wowowow'
-        ]);
-
-//        $comment = Comment::withTrashed()->where('id',$id)->first();
-//        if ($comment) {
-//            $comment->forceDelete();
-//        }
     }
 
     public function markAsModerated($id)
@@ -95,16 +85,23 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
         }
     }
 
-    public function markAsTrash($id)
-    {
-        $this->emit('openModal', 'admin-confirm-modal', [
-            'action' => 'wowowow'
-        ]);
+    public function executeCommentDelete($id) {
 
-//        $comment = Comment::find($id);
-//        if ($comment) {
-//            $comment->delete();
-//        }
+        $comment = Comment::withTrashed()->where('id',$id)->first();
+        if ($comment) {
+            if ($comment->canIDeleteThisComment()) {
+                $comment->forceDelete();
+            }
+        }
+    }
+
+    public function executeCommentMarkAsTrash($id) {
+        $comment = Comment::find($id);
+        if ($comment) {
+            if ($comment->canIDeleteThisComment()) {
+                $comment->delete();
+            }
+        }
     }
 
     public function markAsNotTrash($id)

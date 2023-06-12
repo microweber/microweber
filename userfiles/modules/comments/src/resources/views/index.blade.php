@@ -15,4 +15,7 @@
             </div>
         </div>
     </div>
+
+    @stack('comments-scripts')
+
 </section>

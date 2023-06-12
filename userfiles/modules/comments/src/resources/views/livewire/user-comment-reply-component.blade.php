@@ -33,7 +33,7 @@
 
             <div class="mt-2">
                 <label>Comment:</label>
-                <textarea class="form-control" wire:model.lazy="state.comment_body"></textarea>
+                <x-comments::editors.easymde model="state.comment_body" />
             </div>
 
             @if($enableCaptcha)

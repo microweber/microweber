@@ -3,6 +3,7 @@ namespace MicroweberPackages\Modules\Comments\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use League\CommonMark\CommonMarkConverter;
 use MicroweberPackages\Content\Models\Content;
 
 class Comment extends Model
@@ -20,6 +21,25 @@ class Comment extends Model
         'comment_email',
         'comment_website',
     ];
+
+    public static function booted()
+    {
+        static::saving(function ($comment) {
+            foreach ($comment->getAttributes() as $key => $value) {
+                if (is_string($value)) {
+                    $comment->{$key} = app()->format->clean_xss($value);
+                }
+            }
+            if (isset($comment->comment_body)) {
+                $renderer = new CommonMarkConverter([
+                    'html_input' => 'strip',
+                    'allow_unsafe_links' => false,
+                ]);
+                $commentBody = $renderer->convert($comment->comment_body);
+                $comment->comment_body = $commentBody;
+            }
+        });
+    }
 
     public function isPending() {
         if ($this->is_new == 1 && $this->is_moderated == 0) {
@@ -139,20 +159,6 @@ class Comment extends Model
             }
         }
         return $level;
-    }
-
-    public function canIDeleteThisComment()
-    {
-        $user = user_id();
-
-        if ($user and $user == $this->created_by) {
-            return true;
-        }
-
-        if (is_admin() == true) {
-             return true;
-        }
-        return false;
     }
 
     public function deleteWithReplies()

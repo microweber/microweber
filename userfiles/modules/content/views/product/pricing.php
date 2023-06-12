@@ -1,16 +1,16 @@
-<div class="card-body mb-3 js-product-pricing-card">
+<div class="card-body js-product-pricing-card">
     <div class="card-header no-border">
-        <h6><strong><?php _e("Pricing"); ?></strong></h6>
+        <label for="" class="form-label"><?php _e("Pricing"); ?></label>
     </div>
 
     <div class=" ">
-        <div class="row">
+        <div class="row py-0">
 
-            <div class="col-md-12">
+            <div class="col-md-12 ps-md-0">
                 <label><?php _e("Price"); ?></label>
                 <div class="input-group mb-3 prepend-transparent">
                     <div class="input-group-prepend">
-                        <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
+                        <span class="input-group-text text-muted h-100"><?php echo get_currency_code(); ?></span>
                     </div>
                     <input type="text" class="form-control js-product-price" name="price" value="<?php echo $productPrice; ?>">
                 </div>
@@ -31,12 +31,12 @@
             <?php
             if (is_module('shop/offers')):
             ?>
-                <module type="shop/offers/special_price_field" product_id="<?php echo $product['id'];?>" />
+                <module class="ps-md-0" type="shop/offers/special_price_field" product_id="<?php echo $product['id'];?>" />
             <?php endif; ?>
 
         </div>
 
-     <!--   <hr class="thin no-padding"/>
+     <!--
 
         <div class="row">
             <div class="col-md-12">

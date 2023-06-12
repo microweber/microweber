@@ -177,12 +177,35 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1024 1024"><path fill="currentColor" d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"/></svg>
                                         {{ _e("Untrash") }}
                                     </button>
-                                    <button class="mw-admin-action-links text-decoration-none btn btn-link" wire:click="delete('{{$comment->id}}')">
+
+                                    @php
+                                        $deleteModalData = [
+                                            'body' => 'Are you sure you want to delete this comment?',
+                                            'title' => 'Delete this comment',
+                                            'button_text'=> 'Delete forever',
+                                            'action' => 'executeCommentDelete',
+                                            'data'=> $comment->id
+                                        ];
+                                    @endphp
+                                    <button class="mw-admin-action-links text-decoration-none btn btn-link"
+                                            onclick="Livewire.emit('openModal', 'admin-confirm-modal', {{ json_encode($deleteModalData) }})">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z"/><path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z"/></svg>
                                         {{ _e("Delete forever") }}
                                     </button>
                                 @else
-                                    <button class="mw-admin-action-links text-decoration-none btn btn-link" wire:click="markAsTrash('{{$comment->id}}')">
+
+
+                                    @php
+                                        $trashModalData = [
+                                            'body' => 'Are you sure you want to trash this comment?',
+                                            'title' => 'Trash this comment',
+                                            'button_text'=> 'Move to trash',
+                                            'action' => 'executeCommentMarkAsTrash',
+                                            'data'=> $comment->id
+                                        ];
+                                    @endphp
+                                    <button class="mw-admin-action-links text-decoration-none btn btn-link"
+                                            onclick="Livewire.emit('openModal', 'admin-confirm-modal', {{ json_encode($trashModalData) }})">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z"/><path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z"/></svg>
                                         {{ _e("Trash") }}
                                     </button>
