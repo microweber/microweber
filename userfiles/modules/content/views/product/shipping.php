@@ -68,7 +68,7 @@
                         <small class="text-muted d-block mb-3"><?php _e("Used to set your shipping price at checkout and label prices during fulfillment."); ?></small>
                         <div class="input-group mb-3 prepend-transparent">
                             <div class="input-group-prepend">
-                                <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
+                                <span class="input-group-text text-muted h-100"><?php echo get_currency_code(); ?></span>
                             </div>
                             <input type="text" class="form-control" name="content_data[shipping_fixed_cost]" value="<?php echo $contentData['shipping_fixed_cost']; ?>">
                         </div>
@@ -84,7 +84,7 @@
                                 <input type="text" class="form-control" name="content_data[weight]" value="<?php echo $contentData['weight']; ?>">
                                 <div class="input-group-append">
                             <span style="width:70px;">
-                                <select class="form-select" name="content_data[weight_type]" data-width="100%">
+                                <select class="form-select h-100" name="content_data[weight_type]" data-width="100%">
                                     <option value="kg" <?php if ($contentData['weight_type']=='kg'):?>selected="selected"<?php endif; ?>><?php _e("kg"); ?></option>
                                     <option value="lb" <?php if ($contentData['weight_type']=='lb'):?>selected="selected"<?php endif; ?>><?php _e("lb"); ?></option>
                                     <option value="oz" <?php if ($contentData['weight_type']=='oz'):?>selected="selected"<?php endif; ?>><?php _e("oz"); ?></option>

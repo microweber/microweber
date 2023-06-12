@@ -254,7 +254,7 @@
                                        <input type="text" class="form-control" value="3.0">
                                        <div class="input-group-append">
                                         <span style="width:70px;">
-                                            <select class="form-select" data-width="100%">
+                                            <select class="form-select h-100" data-width="100%">
                                                 <option>kg</option>
                                                 <option>lb</option>
                                                 <option>oz</option>
