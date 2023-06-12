@@ -99,6 +99,19 @@ body.theme-dark {
             }
         }
     }
+
+    .card.modules-card {
+      svg {
+        filter: invert(1);
+          color: black;
+      }
+    }
+}
+
+.card.modules-card {
+    svg {
+        color: var(--tblr-body-color);
+    }
 }
 
 .mw-dialog-skin-default.active .mw-dialog-holder, .mw-dialog-skin-default.active .mw-dialog-header, .FIE_root.jUrMob {
@@ -1498,3 +1511,6 @@ svg.text-danger {
     }
 }
 
+.mw-select .mw-select-value:after {
+    content: '';
+}
