@@ -27,10 +27,31 @@
                 </p>
                 <div class="mt-3 mb-3">
 
-                    {!! $comment->comment_body !!}
 
-                    @if($comment->canIDeleteThisComment())
-                    <div class="d-flex justify-content-end align-items-center mt-4">
+                    @if($editForm)
+                        <div>
+                            <textarea wire:model="state.comment_body" class="form-control"></textarea>
+                        </div>
+                    @else
+                        {!! $comment->comment_body !!}
+                    @endif
+
+
+                    @canany(['update', 'delete'], $comment)
+                    <div class="d-flex justify-content-end align-items-center gap-3 mt-4">
+
+                        @can('update', $comment)
+                        <button wire:click="edit" class="btn btn-outline-primary btn-sm">
+                            <div wire:loading wire:target="edit">
+                                <i class="fa fa-spinner fa-spin"></i> {{_e('Edit comment...')}}
+                            </div>
+                            <div wire:loading.remove wire:target="edit">
+                                {{_e('Edit comment')}}
+                            </div>
+                        </button>
+                        @endcan
+
+                        @can('delete', $comment)
                         <button wire:click="delete" class="btn btn-danger btn-sm">
                             <div wire:loading wire:target="delete">
                                 <i class="fa fa-spinner fa-spin"></i> {{_e('Deleting comment...')}}
@@ -39,8 +60,10 @@
                                 {{_e('Delete comment')}}
                             </div>
                         </button>
+                        @endcan
+
                     </div>
-                    @endif
+                    @endcan
 
                 </div>
 
@@ -49,6 +72,9 @@
                     $level = $comment->getLevel();
                     $showRepliesAlpine = 'false';
                     if ($showReplies) {
+                        $showRepliesAlpine = 'true';
+                    }
+                    if ($level == 0) {
                         $showRepliesAlpine = 'true';
                     }
                 @endphp

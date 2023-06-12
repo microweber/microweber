@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Modules\Comments\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
 use MicroweberPackages\Modules\Comments\Http\Livewire\Admin\AdminCommentReplyComponent;
@@ -10,6 +11,8 @@ use MicroweberPackages\Modules\Comments\Http\Livewire\Admin\AdminSettingsModalCo
 use MicroweberPackages\Modules\Comments\Http\Livewire\UserCommentListComponent;
 use MicroweberPackages\Modules\Comments\Http\Livewire\UserCommentPreviewComponent;
 use MicroweberPackages\Modules\Comments\Http\Livewire\UserCommentReplyComponent;
+use MicroweberPackages\Modules\Comments\Models\Comment;
+use MicroweberPackages\Modules\Comments\Policies\CommentPolicy;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -24,6 +27,20 @@ class CommentsServiceProvider extends PackageServiceProvider
         $package->hasMigration('2023_00_00_000000_create_comments_table2');
         $package->hasMigration('2023_00_00_000001_add_deleted_at_to_comments_table');
         $package->runsMigrations(true);
+    }
+
+    public function packageBooted()
+    {
+        $this
+           // ->registerComponents()
+            ->registerPolicies();
+    }
+
+    public function registerPolicies(): self
+    {
+        Gate::policy(Comment::class, CommentPolicy::class);
+
+        return $this;
     }
 
     public function register(): void
