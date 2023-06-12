@@ -10,10 +10,10 @@ class UserCommentPreviewComponent extends Component {
 
     use AuthorizesRequests;
 
-    public $commentId;
-    public $state = [];
+    public $comment = [];
     public $showReplies = false;
     public $editForm = false;
+    public $editText = '';
 
     protected $listeners = [
         'commentAdded' => 'refreshIfReplyIsToMe',
@@ -21,22 +21,29 @@ class UserCommentPreviewComponent extends Component {
         'commentUpdated' => 'refreshIfReplyIsToMe',
     ];
 
-    public function mount($commentId = false)
-    {
-        $this->commentId = $commentId;
-    }
-
     public function edit()
     {
-        $getComment = Comment::where('id', $this->commentId)->first();
+        $this->authorize('update', $this->comment);
 
-        $this->authorize('update', $getComment);
-
+        $this->editText = $this->comment->comment_body;
         $this->editForm = true;
     }
 
+    public function save()
+    {
+        $this->authorize('update', $this->comment);
+
+        $this->validate(['editText' => 'required']);
+
+        $this->comment->update([
+            'comment_body' => $this->editText,
+        ]);
+
+        $this->editForm = false;
+    }
+
     public function refreshIfReplyIsToMe($id) {
-        if ($id == $this->commentId) {
+        if ($id == $this->comment->id) {
             $this->showReplies = true;
             $this->emit('$refresh');
         }
@@ -44,22 +51,14 @@ class UserCommentPreviewComponent extends Component {
 
     public function delete()
     {
-       $getComment = Comment::where('id', $this->commentId)->first();
+       $this->authorize('delete', $this->comment);
 
-       $this->authorize('delete', $getComment);
-
-       $this->emit('deleteComment', $this->commentId);
+       $this->emit('deleteComment', $this->comment->id);
     }
 
     public function render()
     {
-        $getComment = Comment::where('id', $this->commentId)->first();
-        $this->state = $getComment->toArray();
-
-        return view('comments::livewire.user-comment-preview-component', [
-            'comment' => $getComment,
-        ]);
-
+        return view('comments::livewire.user-comment-preview-component');
     }
 
 }

@@ -30,26 +30,38 @@
 
                     @if($editForm)
                         <div>
-                            <textarea wire:model="state.comment_body" class="form-control"></textarea>
+                            <textarea wire:model="editText" class="form-control"></textarea>
                         </div>
                     @else
                         {!! $comment->comment_body !!}
                     @endif
 
-
                     @canany(['update', 'delete'], $comment)
                     <div class="d-flex justify-content-end align-items-center gap-3 mt-4">
 
-                        @can('update', $comment)
-                        <button wire:click="edit" class="btn btn-outline-primary btn-sm">
-                            <div wire:loading wire:target="edit">
-                                <i class="fa fa-spinner fa-spin"></i> {{_e('Edit comment...')}}
-                            </div>
-                            <div wire:loading.remove wire:target="edit">
-                                {{_e('Edit comment')}}
-                            </div>
-                        </button>
-                        @endcan
+                        @if($editForm)
+                            <button wire:click="save" class="btn btn-outline-primary btn-sm">
+                                <div wire:loading wire:target="save">
+                                    <i class="fa fa-spinner fa-spin"></i> {{_e('Saving comment...')}}
+                                </div>
+                                <div wire:loading.remove wire:target="save">
+                                    {{_e('Save comment')}}
+                                </div>
+                            </button>
+                        @endif
+
+                        @if(!$editForm)
+                            @can('update', $comment)
+                            <button wire:click="edit" class="btn btn-outline-primary btn-sm">
+                                <div wire:loading wire:target="edit">
+                                    <i class="fa fa-spinner fa-spin"></i> {{_e('Edit comment...')}}
+                                </div>
+                                <div wire:loading.remove wire:target="edit">
+                                    {{_e('Edit comment')}}
+                                </div>
+                            </button>
+                            @endcan
+                        @endif
 
                         @can('delete', $comment)
                         <button wire:click="delete" class="btn btn-danger btn-sm">
@@ -95,7 +107,7 @@
                         <div x-show="showReplies">
                         @foreach($replies as $reply)
                             <div>
-                                <livewire:comments::user-comment-preview wire:key="user-comment-preview-reply-id-{{$reply->id}}" comment_id="{{$reply->id}}" />
+                                <livewire:comments::user-comment-preview wire:key="user-comment-preview-reply-id-{{$reply->id}}" :comment="$reply" />
                             </div>
                         @endforeach
                     </div>
@@ -109,9 +121,9 @@
                     </div>
 
                     <div x-show="showReplyForm" style="display:none; background:#fff;" class="mt-2 mb-4 p-4">
-                        <div class="mb-4">
-                            <b> <i class="fa fa-reply me-1"></i> {{_e('Reply to')}} {{$comment->comment_name}} </b>
-                        </div>
+{{--                        <div class="mb-4">--}}
+{{--                            <b> <i class="fa fa-reply me-1"></i> {{_e('Reply to')}} {{$comment->comment_name}} </b>--}}
+{{--                        </div>--}}
                         <div>
                             <livewire:comments::user-comment-reply wire:key="user-comment-reply-id-{{$comment->id}}" rel_id="{{$comment->rel_id}}" reply_to_comment_id="{{$comment->id}}" />
                         </div>
