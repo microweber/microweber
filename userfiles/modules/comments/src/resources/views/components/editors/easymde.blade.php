@@ -40,7 +40,7 @@
                                     "fullscreen",
                                     "guide",
                                 ],
-                                autoDownloadFontAwesome: @if(config('comments.ui.autoload_fontawesome', true)) true @else false @endif,
+                                autoDownloadFontAwesome:true,
                                 spellChecker: false,
                                 status: false,
                                 insertTexts: {

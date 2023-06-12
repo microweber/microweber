@@ -15,7 +15,7 @@
                  height="65" />
         @else
         <div class="shadow-1-strong me-3">
-            <i class="fa fa-user-circle-o" style="font-size:42px"></i>
+            <i class="fa fa-user-circle-o" style="font-size:65px"></i>
         </div>
         @endif
 
