@@ -31,7 +31,7 @@
             <?php
             if (is_module('shop/offers')):
             ?>
-                <module type="shop/offers/special_price_field" product_id="<?php echo $product['id'];?>" />
+                <module class="ps-md-0" type="shop/offers/special_price_field" product_id="<?php echo $product['id'];?>" />
             <?php endif; ?>
 
         </div>
