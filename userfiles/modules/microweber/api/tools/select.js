@@ -192,7 +192,7 @@ mw.Select = function(options) {
             return oh;
         },
         value: function() {
-            var tag = 'span', cls = 'mw-ui-btn';
+            var tag = 'span', cls = 'mw-ui-btn form-select';
             if(scope.settings.autocomplete){
                 tag = 'span';
                 cls = 'mw-ui-field';

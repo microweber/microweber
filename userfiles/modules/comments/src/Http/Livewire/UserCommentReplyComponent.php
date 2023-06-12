@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Comments\Http\Livewire;
 
 use Livewire\Component;
 use MicroweberPackages\Content\Models\Content;
+use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 use MicroweberPackages\Modules\Comments\Events\NewComment;
 use MicroweberPackages\Modules\Comments\Models\Comment;
 use MicroweberPackages\Modules\Comments\Notifications\NewCommentNotification;
@@ -11,6 +12,8 @@ use MicroweberPackages\User\Models\User;
 
 class UserCommentReplyComponent extends Component
 {
+    use AuthorizesRequests;
+
     public $view = 'comments::livewire.user-comment-reply-component';
     public $successMessage = false;
 

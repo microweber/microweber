@@ -82,7 +82,7 @@
                             </div>
                         </div>
 
-                        <hr class="thin no-padding"/>
+
 
                         <div class="row">
                             <div class="col-md-12">
@@ -147,7 +147,7 @@
                            </div>
                        </div>
 
-                       <hr class="thin no-padding"/>
+
 
                        <h6><strong>Quantity</strong></h6>
 
@@ -192,7 +192,7 @@
            <div class="card">
                <div class="card-body mb-3">
                    <div class="card-header no-border">
-                       <h6><strong>Shipping</strong></h6>
+                       <h2><strong>Shipping</strong></h2>
                    </div>
 
                    <div class=" ">
@@ -207,7 +207,7 @@
                            </div>
                        </div>
 
-                       <hr class="thin no-padding"/>
+
 
                        <div class="row">
                            <div class="col-md-6">
@@ -254,7 +254,7 @@
                                        <input type="text" class="form-control" value="3.0">
                                        <div class="input-group-append">
                                         <span style="width:70px;">
-                                            <select class="form-select" data-width="100%">
+                                            <select class="form-select h-100" data-width="100%">
                                                 <option>kg</option>
                                                 <option>lb</option>
                                                 <option>oz</option>
@@ -272,11 +272,11 @@
                        </div>
 
                        <div class="collapse" id="advandec-weight-settings">
-                           <hr class="thin no-padding"/>
+
 
                            <h6><strong>Advanced product shipping settings</strong></h6>
 
-                           <div class="row">
+                           <div class="row p-0">
                                <div class="col-lg-3 col-xl">
                                    <div class="form-group">
                                        <label>Weight</label>

@@ -72,12 +72,12 @@ if (!isset($contentData['sell_oos'])) {
 
 <div class="card-body mb-3">
     <div class="card-header no-border">
-        <h6><strong><?php _e("Inventory"); ?></strong></h6>
+        <label for="" class="form-label"> <?php _e("Inventory"); ?></label>
     </div>
 
     <div class=" ">
-        <div class="row">
-            <div class="col-md-6">
+        <div class="row py-0">
+            <div class="col-md-6 ps-md-0">
                 <div class="form-group mb-3">
                     <label><?php _e("SKU"); ?></label>
                     <small class="text-muted d-block mb-3"><?php _e("Stock Keeping Unit"); ?></small>
@@ -94,7 +94,7 @@ if (!isset($contentData['sell_oos'])) {
                 </div>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-12 ps-md-0">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" name="content_data[track_quantity]" class="form-check-input js-track-quantity-check" value="1" <?php if ($contentData['track_quantity']==1):?>checked="checked"<?php endif; ?> id="customCheck2">
@@ -169,12 +169,12 @@ if(isset($contentData['max_qty_per_order']) and $contentData['max_qty_per_order'
 
 
         <div class="js-track-quantity">
-            <hr class="thin no-padding"/>
-            <label class="form-label my-3"><?php _e("Quantity"); ?></label>
+
             <div class="row">
-                <div class="col-md-6 w-100">
+            <label class="form-label mb-2 ps-md-0"><?php _e("Quantity"); ?></label>
+                <div class="col-md-6 ps-md-0 w-100">
                     <div class="form-group">
-                        <label class="form-label"><?php _e("Available"); ?></label>
+                        <label class=""><?php _e("Available"); ?></label>
                         <small class="text-muted d-block mb-3"><?php _e("How many products you have available in stock"); ?></small>
 
                         <?php if(!$qty_selected_is_custom){ ?>
@@ -196,7 +196,7 @@ if(isset($contentData['max_qty_per_order']) and $contentData['max_qty_per_order'
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 ps-md-0">
                     <div class="form-group w-100">
                         <label class="form-label"><?php _e("Max quantity per order"); ?></label>
                         <small class="text-muted d-block mb-3"><?php _e("How many products can be ordered at once"); ?></small>

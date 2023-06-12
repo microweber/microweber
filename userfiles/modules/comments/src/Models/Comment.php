@@ -141,20 +141,6 @@ class Comment extends Model
         return $level;
     }
 
-    public function canIDeleteThisComment()
-    {
-        $user = user_id();
-
-        if ($user and $user == $this->created_by) {
-            return true;
-        }
-
-        if (is_admin() == true) {
-             return true;
-        }
-        return false;
-    }
-
     public function deleteWithReplies()
     {
         if(count($this->replies) > 0) {
