@@ -85,16 +85,6 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
         }
     }
 
-    public function delete($id)
-    {
-        $this->emit('openModal', 'admin-confirm-modal', [
-            'body' => 'Are you sure you want to delete this comment?',
-            'title' => 'Delete this comment',
-            'button_text'=> 'Delete forever',
-            'action' => 'executeCommentDelete',
-            'data'=> $id
-        ]);
-    }
     public function executeCommentDelete($id) {
 
         $comment = Comment::withTrashed()->where('id',$id)->first();
@@ -105,21 +95,12 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
         }
     }
 
-    public function markAsTrash($id)
-    {
-        $this->emit('openModal', 'admin-confirm-modal', [
-            'body' => 'Are you sure you want to trash this comment?',
-            'title' => 'Trash this comment',
-            'button_text'=> 'Move to trash',
-            'action' => 'executeCommentMarkAsTrash',
-            'data'=> $id
-        ]);
-    }
-
     public function executeCommentMarkAsTrash($id) {
         $comment = Comment::find($id);
-        if ($comment && $comment->canIDeleteThisComment()) {
-            $comment->delete();
+        if ($comment) {
+            if ($comment->canIDeleteThisComment()) {
+                $comment->delete();
+            }
         }
     }
 
