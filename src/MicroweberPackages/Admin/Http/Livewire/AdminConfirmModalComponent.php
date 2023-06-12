@@ -6,6 +6,7 @@ class AdminConfirmModalComponent extends AdminModalComponent
     public $action = '';
     public $title = '';
     public $body = '';
+    public $button_text = 'Confirm';
     public $data = [];
 
     public $listeners = [

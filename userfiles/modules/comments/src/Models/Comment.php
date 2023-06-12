@@ -141,7 +141,7 @@ class Comment extends Model
         return $level;
     }
 
-    public function canIDeleteThisComment()
+    public function canIDeleteThisComment(): bool
     {
         $user = user_id();
 

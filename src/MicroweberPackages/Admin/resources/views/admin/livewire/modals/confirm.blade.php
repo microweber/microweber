@@ -12,8 +12,9 @@
 
             <br />
             <br />
+            <br />
             <button type="button" wire:click="confirm" class="btn btn-outline-primary">
-                Confirm
+                {{$button_text}}
             </button>
 
         </div>
