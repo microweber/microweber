@@ -82,7 +82,7 @@
                             </div>
                         </div>
 
-                        <hr class="thin no-padding"/>
+
 
                         <div class="row">
                             <div class="col-md-12">
@@ -147,7 +147,7 @@
                            </div>
                        </div>
 
-                       <hr class="thin no-padding"/>
+
 
                        <h6><strong>Quantity</strong></h6>
 
@@ -207,7 +207,7 @@
                            </div>
                        </div>
 
-                       <hr class="thin no-padding"/>
+
 
                        <div class="row">
                            <div class="col-md-6">
@@ -272,7 +272,7 @@
                        </div>
 
                        <div class="collapse" id="advandec-weight-settings">
-                           <hr class="thin no-padding"/>
+
 
                            <h6><strong>Advanced product shipping settings</strong></h6>
 

@@ -60,8 +60,8 @@
 
 
         <div class="js-physical-product">
-            <hr class="thin no-padding"/>
-            <div class="row">
+
+            <div class="row py-0">
                 <div class="col-md-6 ps-md-0">
                     <div class="form-group">
                         <label class="form-label"><?php _e("Fixed Cost"); ?></label>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row py-0">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label d-block mb-3"><?php _e("Free Shipping"); ?></label>

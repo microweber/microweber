@@ -1,4 +1,4 @@
-<div class="card-body mb-3 js-product-pricing-card">
+<div class="card-body js-product-pricing-card">
     <div class="card-header no-border">
         <label for="" class="form-label"><?php _e("Pricing"); ?></label>
     </div>
@@ -36,7 +36,7 @@
 
         </div>
 
-     <!--   <hr class="thin no-padding"/>
+     <!--
 
         <div class="row">
             <div class="col-md-12">

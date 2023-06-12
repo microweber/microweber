@@ -176,7 +176,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
 
                 <p><?php _e('Use the advanced settings to customize your blog post') ?></p>
-                <hr class="thin no-padding"/>
+
                 <div class="row">
                     <div class="col-md-12">
                         <?php
@@ -245,7 +245,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                         </div>
                     <?php endif; ?>
                 </div>
-                <hr class="thin no-padding"/>
+
                 <!-- More Advanced Settings -->
                 <?php if (isset($data['id']) and $data['id'] > 0): ?>
 
