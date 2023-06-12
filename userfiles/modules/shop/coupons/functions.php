@@ -8,9 +8,7 @@
  * @author     Bozhidar Slaveykov <selfworksbg@gmail.com>
  * @copyright  2018 Microweber
  */
-include __DIR__ . DS . 'src/CouponClass.php';
 
-//autoload_add_namespace(__DIR__ . '/src/', 'MicroweberPackages\\Modules\\Shop\\Coupons\\');
 
 function coupon_apply($params = array())
 {
@@ -20,15 +18,16 @@ function coupon_apply($params = array())
 
     $coupon_code = $params['coupon_code'];
     $coupon_code = xss_clean($coupon_code);
-
-    if (get_option('enable_coupons', 'shop') == 0){
-        $json['error_message'] = _e('The coupon code usage is disabled.', true);
+    if (get_option('enable_coupons', 'shop') == 0) {
+        $json['error'] = true;
+        $json['message'] = _e('The coupon code usage is disabled.', true);
         return $json;
     }
 
     $coupon = coupon_get_by_code($coupon_code);
     if (empty($coupon)) {
-        $json['error_message'] = _e('The coupon code is not valid.', true);
+        $json['error'] = true;
+        $json['message'] = _e('The coupon code is not valid.', true);
         return $json;
     }
 
@@ -42,15 +41,21 @@ function coupon_apply($params = array())
 
     $getCart = false;
     $coupon['total_amount'] = floatval($coupon['total_amount']);
-    $cartTotal = floatval( \DB::table('cart')->where('session_id', app()->user_manager->session_id())->sum('price'));
-    $getCartItems =   \DB::table('cart')->where('session_id', app()->user_manager->session_id())->get();
+    $cartTotal = cart_sum(true);
+    //$cartTotal = floatval( \DB::table('cart')->where('session_id', app()->user_manager->session_id())->sum('price'));
+    $cartParams = [];
+    $cartParams['session_id'] = app()->user_manager->session_id();
+    $cartParams['order_completed'] = 0;
+    $cartParams['for_checkout'] = true;
+    $getCart = get_cart($cartParams);
+    //  $getCartItems =   \DB::table('cart')->where('session_id', app()->user_manager->session_id())->get();
 
-    if($getCartItems){
-        $getCart = $getCartItems->toArray();
-    }
+//    if($getCartItems){
+//        $getCart = $getCartItems->toArray();
+//    }
 
     // Check rules
-     if ($coupon and isset($coupon['uses_per_customer']) and $coupon['uses_per_customer'] > 0) {
+    if ($coupon and isset($coupon['uses_per_customer']) and $coupon['uses_per_customer'] > 0) {
         $getLog = coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip);
 
         if (is_array($getLog) and $getLog['uses_count'] !== false && $getLog['uses_count'] >= $coupon['uses_per_customer']) {
@@ -66,7 +71,7 @@ function coupon_apply($params = array())
         }
     }
 
-    if ($coupon and isset($coupon['total_amount']) and  $cartTotal < $coupon['total_amount']) {
+    if ($coupon and isset($coupon['total_amount']) and $cartTotal < $coupon['total_amount']) {
         $errorMessage .= _e('The coupon can\'t be applied because the minimum total amount is ', true) . currency_format($coupon['total_amount']) . "<br />";
     }
 
@@ -78,8 +83,8 @@ function coupon_apply($params = array())
         $ok = true;
     }
 
-    if(isset( $params['coupon_check_if_valid'])){
-       return $ok;
+    if (isset($params['coupon_check_if_valid'])) {
+        return $ok;
     }
 
 
@@ -92,13 +97,14 @@ function coupon_apply($params = array())
 
         mw()->user_manager->session_set('applied_coupon_data', $coupon);
 
-        $json['success_message'] = _e('Coupon code applied.', true);
-        $json['success_apply'] = true;
+        $json['message'] = _e('Coupon code applied.', true);
+        $json['success'] = true;
     } else {
 
         coupons_delete_session();
 
-        $json['error_message'] = $errorMessage;
+        $json['message'] = $errorMessage;
+        $json['error'] = true;
     }
 
     return $json;
@@ -106,6 +112,8 @@ function coupon_apply($params = array())
 
 function coupons_save_coupon($couponData = array())
 {
+
+
     $json = array();
     $ok = false;
     $errorMessage = '';
@@ -115,8 +123,10 @@ function coupons_save_coupon($couponData = array())
 
     if (isset($couponData['is_active']) && $couponData['is_active'] == 'on') {
         $couponData['is_active'] = 1;
-    } else {
+    } else if (isset($couponData['is_active']) && $couponData['is_active'] == 'off') {
         $couponData['is_active'] = 0;
+    } else if (isset($couponData['is_active'])) {
+        $couponData['is_active'] = intval($couponData['is_active']);
     }
 
     // check if coupon code exists
@@ -160,7 +170,8 @@ function coupons_save_coupon($couponData = array())
         $json['coupon_id'] = $couponId;
         $json['success_edit'] = true;
     } else {
-        $json['error_message'] = $errorMessage;
+        $json['message'] = $errorMessage;
+        $json['error'] = true;
     }
 
 
@@ -172,6 +183,18 @@ function coupons_save_coupon($couponData = array())
     }
 
     return $json;
+}
+
+
+function coupon_consume($coupon_code, $customer_email)
+{
+
+    $customer_ip = user_ip();
+
+    coupon_log_customer($coupon_code, $customer_email, $customer_ip);
+
+    coupons_delete_session();
+
 }
 
 
@@ -201,6 +224,7 @@ function coupon_log_customer($coupon_code, $customer_email, $customer_ip)
     $couponLogData['use_date'] = date("Y-m-d H:i:s");
 
     $couponLogId = db_save($table, $couponLogData);
+    return $couponLogId;
 }
 
 
@@ -312,7 +336,7 @@ function coupon_delete($data)
 
     $table = "cart_coupons";
 
-    $couponId = (int) $data['coupon_id'];
+    $couponId = (int)$data['coupon_id'];
     if ($couponId == 0) {
         return array(
             'status' => 'failed'
