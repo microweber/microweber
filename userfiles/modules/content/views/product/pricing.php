@@ -1,12 +1,12 @@
 <div class="card-body mb-3 js-product-pricing-card">
     <div class="card-header no-border">
-        <h6><strong><?php _e("Pricing"); ?></strong></h6>
+        <label for="" class="form-label"><?php _e("Pricing"); ?></label>
     </div>
 
     <div class=" ">
-        <div class="row">
+        <div class="row py-0">
 
-            <div class="col-md-12">
+            <div class="col-md-12 ps-md-0">
                 <label><?php _e("Price"); ?></label>
                 <div class="input-group mb-3 prepend-transparent">
                     <div class="input-group-prepend">

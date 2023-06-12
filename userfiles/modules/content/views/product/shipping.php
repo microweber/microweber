@@ -43,12 +43,12 @@
 
 <div class="card-body mb-3">
     <div class="card-header no-border">
-        <h3><strong><?php _e("Shipping"); ?></strong></h3>
+        <label class="form-label"><?php _e("Shipping"); ?></label>
     </div>
 
     <div class=" ">
-        <div class="row p-0 ">
-            <div class="col-md-12">
+        <div class="row py-0 ">
+            <div class="col-md-12 ps-md-0">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="form-check-input js-physical-product-check" id="customCheck4" name="content_data[physical_product]" value="1" <?php if ($contentData['physical_product']==1):?>checked="checked"<?php endif; ?>>
@@ -62,7 +62,7 @@
         <div class="js-physical-product">
             <hr class="thin no-padding"/>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 ps-md-0">
                     <div class="form-group">
                         <label class="form-label"><?php _e("Fixed Cost"); ?></label>
                         <small class="text-muted d-block mb-3"><?php _e("Used to set your shipping price at checkout and label prices during fulfillment."); ?></small>

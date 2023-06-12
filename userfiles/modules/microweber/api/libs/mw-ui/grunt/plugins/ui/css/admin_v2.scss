@@ -1487,3 +1487,14 @@ svg.text-danger {
 .flex-none {
     flex: none !important;
 }
+
+.input-group {
+
+    .input-group-prepend {
+
+        .input-group-text {
+            height: 100%;
+        }
+    }
+}
+
