@@ -3,8 +3,9 @@ mw.module_pictures = {
         $.post(mw.settings.api_url + 'save_media', data,
             function (resp) {
                 mw.reload_module_everywhere('pictures/admin_backend_sortable_pics_list')
-            });
-        },
+            }
+        );
+    },
     time:null,
     after_change: function (data) {
         var thumbs = mw.$('.admin-thumbs-holder .admin-thumb-item');

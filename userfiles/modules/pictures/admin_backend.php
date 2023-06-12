@@ -220,10 +220,7 @@ if (!isset($data["thumbnail"])) {
     window.imageOptions = {};
 </script>
 
-<div class="pull-right">
-    <module id="edit-post-gallery-main-source-selector-holder" type="pictures/admin_upload_pic_source_selector" />
-</div>
-
+ 
 
 
 <div class="left pt-3" style="clear:both" id="admin-thumbs-holder-sort-<?php print $rand; ?>">

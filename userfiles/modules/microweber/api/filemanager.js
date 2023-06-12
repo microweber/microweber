@@ -1074,7 +1074,7 @@
             this.multiSelectDownloadAll = function() {
                 const selected = scope.getSelected().filter(itm => itm.type === 'file');
                 selected.forEach(itm => {
-                    _downloadHandle(node)
+                    _downloadHandle(itm)
                 })
 
             }
