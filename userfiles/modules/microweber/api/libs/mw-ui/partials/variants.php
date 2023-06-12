@@ -16,7 +16,7 @@
         </div>
 
         <div class="js-product-variants">
-            <hr class="thin no-padding"/>
+
 
             <h6 class="text-uppercase mb-3"><strong>Create an option</strong></h6>
 
@@ -82,7 +82,7 @@
 
             <button type="button" class="btn btn-outline-primary  ">Add another option</button>
 
-            <hr class="thin no-padding"/>
+
 
             <h6 class="text-uppercase mb-3"><strong>Preview</strong></h6>
 

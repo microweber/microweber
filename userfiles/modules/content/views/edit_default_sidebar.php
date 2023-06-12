@@ -308,7 +308,7 @@
                 </div>
 
                 <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-                    <hr class="thin no-padding"/>
+
 
                     <div class="row pb-0 p-3">
                         <div class="col-12">

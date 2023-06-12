@@ -60,8 +60,8 @@
 
 
         <div class="js-physical-product">
-            <hr class="thin no-padding"/>
-            <div class="row">
+
+            <div class="row py-0">
                 <div class="col-md-6 ps-md-0">
                     <div class="form-group">
                         <label class="form-label"><?php _e("Fixed Cost"); ?></label>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row py-0">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label d-block mb-3"><?php _e("Free Shipping"); ?></label>
@@ -112,14 +112,13 @@
                     </div>
                 </div>
             </div>
-            <a href="javascript:;" class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#advanced-weight-settings"><?php _e("Show advanced weight settings"); ?></a>
+            <a href="javascript:;" class="btn btn-link ps-4" data-bs-toggle="collapse" data-bs-target="#advanced-weight-settings"><?php _e("Show advanced weight settings"); ?></a>
 
-            <div class="collapse" id="advanced-weight-settings">
-                <hr class="thin no-padding"/>
-                <label class="form-label"><?php _e("Advanced"); ?></label>
-                <small class="text-muted d-block mb-3"><?php _e("Advanced product shipping settings."); ?></small>
+            <div class="row collapse" id="advanced-weight-settings">
+                <label class="form-label ps-0"><?php _e("Advanced"); ?></label>
+                <small class="text-muted d-block mb-3 ps-0"><?php _e("Advanced product shipping settings."); ?></small>
 
-                <div class="row">
+                <div class="row p-0">
                     <div class="col-lg-3 col-xl">
                         <div class="form-group">
                             <label><?php _e("Weight"); ?></label>
@@ -146,7 +145,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row p-0">
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">

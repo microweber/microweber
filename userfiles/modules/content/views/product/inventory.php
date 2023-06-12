@@ -169,7 +169,7 @@ if(isset($contentData['max_qty_per_order']) and $contentData['max_qty_per_order'
 
 
         <div class="js-track-quantity">
-            <hr class="thin no-padding"/>
+
             <label class="form-label my-3"><?php _e("Quantity"); ?></label>
             <div class="row">
                 <div class="col-md-6 w-100">

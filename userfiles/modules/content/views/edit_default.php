@@ -355,7 +355,7 @@ if (isset($params['quick_edit'])) {
                     <div class="card-body">
 
                         <div x-show="showEditTab=='details'">
-                            <div class="content-title-field-row card-body mb-3 border-0" id="content-title-field-row">
+                            <div class="content-title-field-row card-body border-0" id="content-title-field-row">
 
                                 <div class="d-flex justify-content-between">
                                     <h1 class="main-pages-title"><strong x-text="title"><?php _e($action_text); ?></strong></h1>
