@@ -2,12 +2,14 @@
 namespace MicroweberPackages\Modules\Comments\Http\Livewire\Admin;
 
 use Livewire\WithPagination;
+use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 use MicroweberPackages\Modules\Comments\Models\Comment;
 use function Clue\StreamFilter\fun;
 
 class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire\AdminComponent
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected $paginationTheme = 'bootstrap';
 
@@ -49,6 +51,9 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     {
         $comment = Comment::find($id);
         if ($comment) {
+
+            $this->authorize('update', $comment);
+
             $comment->is_new = 0;
             $comment->is_moderated = 1;
             $comment->save();
@@ -59,6 +64,9 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     {
         $comment = Comment::find($id);
         if ($comment) {
+
+            $this->authorize('update', $comment);
+
             $comment->is_new = 1;
             $comment->is_moderated = 0;
             $comment->save();
@@ -69,6 +77,9 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     {
         $comment = Comment::find($id);
         if ($comment) {
+
+            $this->authorize('update', $comment);
+
             $comment->is_spam = 1;
             $comment->is_moderated = 0;
             $comment->save();
@@ -79,6 +90,9 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     {
         $comment = Comment::find($id);
         if ($comment) {
+
+            $this->authorize('update', $comment);
+
             $comment->is_spam = 0;
             $comment->is_moderated = 1;
             $comment->save();
@@ -89,18 +103,16 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
         $comment = Comment::withTrashed()->where('id',$id)->first();
         if ($comment) {
-            if ($comment->canIDeleteThisComment()) {
-                $comment->forceDelete();
-            }
+            $this->authorize('delete', $comment);
+            $comment->forceDelete();
         }
     }
 
     public function executeCommentMarkAsTrash($id) {
         $comment = Comment::find($id);
         if ($comment) {
-            if ($comment->canIDeleteThisComment()) {
-                $comment->delete();
-            }
+            $this->authorize('delete', $comment);
+            $comment->delete();
         }
     }
 
@@ -108,6 +120,9 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     {
         $comment = Comment::withTrashed()->find($id);
         if ($comment) {
+
+            $this->authorize('update', $comment);
+
             $comment->restore();
         }
     }
@@ -120,7 +135,6 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
         $countApproved = Comment::approved()->count();
         $countSpam = Comment::spam()->count();
         $countTrashed = Comment::onlyTrashed()->count();
-
 
         $getCommentsQuery = Comment::query();
 
