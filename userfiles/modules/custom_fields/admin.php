@@ -192,7 +192,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
 
-                                <div class="custom-fields-add-buttons">
+                                <div class="custom-fields-add-buttons d-flex flex-wrap align-items-center">
                                     <?php if (is_array($exiisting_fields)): ?>
 
                                     <script>
@@ -260,12 +260,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                                     <?php foreach ($fields as $field => $value): ?>
 
-                                        <button type="button" class="btn btn-link   px-1 js-add-custom-field-<?php print $field; ?>" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
-                                            <div>
+                                        <div class="col-xl-3 col-md-4 col-6">
+                                            <button type="button" class="btn btn-link   px-1 js-add-custom-field-<?php print $field; ?>" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
                                                 <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
                                                 <span class="mw-custom-field-title text-break-line-1 text-center small"><?php _e($value); ?></span>
-                                            </div>
-                                        </button>
+                                            </button>
+                                        </div>
                                     <?php endforeach; ?>
 
                                 </div>
