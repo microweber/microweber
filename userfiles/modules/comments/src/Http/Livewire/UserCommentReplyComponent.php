@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Modules\Comments\Http\Livewire;
 
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Component;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
@@ -72,16 +73,26 @@ class UserCommentReplyComponent extends Component
 
     public function save()
     {
-        $validate = [
-            'state.rel_id' => 'required|min:1',
-            'state.comment_body' => 'required|min:3',
-        ];
-        if (!user_id()) {
-            $validate['state.comment_name'] = 'required|min:3';
-            $validate['state.comment_email'] = 'required|email';
+        $hasRateLimiterId = $this->state['rel_id'] . $this->state['reply_to_comment_id'] . user_ip();
+
+        if (RateLimiter::tooManyAttempts('save-comment:'.$hasRateLimiterId, $perMinute = 1)) {
+            $this->addError('state.comment_body', 'Only one comment is allowed per minute. You may try again after 1 minute.');
+            return;
         }
 
-        $this->validate($validate);
+        $messages = array(
+            'required' => _e('The field is required.', true),
+        );
+        $validate = [
+            'state.rel_id' => 'required|min:1',
+            'state.comment_body' => 'required|min:3|max:1000',
+        ];
+        if (!user_id()) {
+            $validate['state.comment_name'] = 'required|min:3|max:300';
+            $validate['state.comment_email'] = 'required|email|min:3|max:300';
+        }
+
+        $this->validate($validate, $messages);
 
         $countContent = Content::where('id', $this->state['rel_id'])->active()->count();
         if ($countContent == 0) {
@@ -127,8 +138,9 @@ class UserCommentReplyComponent extends Component
         $comment->comment_body = $this->state['comment_body'];
         $comment->save();
 
-       // event(new NewComment($comment));
+        RateLimiter::hit('save-comment:'.$hasRateLimiterId);
 
+       // event(new NewComment($comment));
       //  Notification::send(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
 
         if ($needsApproval) {
@@ -137,9 +149,9 @@ class UserCommentReplyComponent extends Component
             $this->successMessage = _e('Your comment has been added', true);
         }
 
-        $this->state['comment_body'] = '';
-        $this->state['comment_name'] = '';
-        $this->state['comment_email'] = '';
+//        $this->state['comment_body'] = '';
+//        $this->state['comment_name'] = '';
+//        $this->state['comment_email'] = '';
 
         $this->emit('commentAdded', $comment->id);
 

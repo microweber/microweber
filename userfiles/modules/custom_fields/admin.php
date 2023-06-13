@@ -12,7 +12,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <?php endif; ?>
 
 <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
-    <div class="card-header">
+    <div class="px-0 card-header">
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
@@ -181,18 +181,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div>
                         <div class="card mb-3 mt-3 card-closed">
-                            <div class="card-header no-border bg-primary text-white py-1 pl-3 js-add-custom-field" style="cursor:pointer" onClick="javascript:mw_cf_toggle_edit_window()">
-                                <div class="d-flex align-items-center">
-                                    <i class="mdi mdi-plus mdi-20px mr-2"></i>
+                            <div class="card-header no-border js-add-custom-field py-1 px-0" style="cursor:pointer" onClick="javascript:mw_cf_toggle_edit_window()">
+                                <div class="d-flex align-items-center btn btn-outline-dark ">
+
+                                    <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
                                     <span><?php _e("Add new field"); ?></span>
                                 </div>
                             </div>
-                            <div class="card-body collapse" id="add-field-select">
-
-
-
-
-                                <div class="custom-fields-add-buttons">
+                            <div class="card-body collapse mt-3" id="add-field-select">
+                                <div class="custom-fields-add-buttons d-flex flex-wrap align-items-center">
                                     <?php if (is_array($exiisting_fields)): ?>
 
                                     <script>
@@ -207,30 +204,27 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         });
                                     </script>
 
-                                        <div class="mw-flex-row">
-                                            <div class="mw-flex-col-xs-10 mw-flex-col-sm-6 mw-flex-col-md-8 mw-flex-col-lg-10">
+                                        <div class="row p-0">
+                                            <div class="col-xl-8 col-md-6 col-12">
                                                 <label class="form-label"><?php _e("Existing fields"); ?></label>
                                                 <small class="d-block mb-2 text-muted"><?php _e("Choose from your existing fields bellow"); ?></small>
                                             </div>
-                                            <div class="mw-flex-col-xs-2 mw-flex-col-sm-6 mw-flex-col-md-4 mw-flex-col-lg-2">
+                                            <div class="col-xl-4 col-md-6 col-12">
                                                 <input type="text" class="form-control form-control-sm" aria-label="Search" id="cf-add-existing-search" placeholder="Search">
                                             </div>
                                         </div>
-
-
-
-
-
-
-                                    <div class="row">
+                                    <div class="row px-0 pb-3">
                                         <?php foreach ($exiisting_fields as $item): ?>
-                                            <button type="button" class="btn btn-link   px-1 mw-custom-field-existing-item-btn"
-                                                    onclick="javascript:addCustomFieldByExisting('<?php print $item['id']; ?>','<?php print $item['name']; ?>');">
+                                           <div class="col-xl-3 col-md-4 col-6">
+                                                <button type="button" class="btn btn-link text-decoration-none mw-custom-field-existing-item-btn"
+                                                        onclick="javascript:addCustomFieldByExisting('<?php print $item['id']; ?>','<?php print $item['name']; ?>');">
 
-                                                    <span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span>
-                                                    <span class="mw-custom-field-title  small" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
-                                                    <span class="d-none"><?php print $item['name_key']; ?></span>
-                                            </button>
+                                                        <span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span>
+                                                        <span class="mw-custom-field-title  small" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
+                                                        <span class="d-none"><?php print $item['name_key']; ?></span>
+                                                </button>
+                                           </div>
+
                                         <?php endforeach; ?>
                                     </div>
                                         <hr>
@@ -255,17 +249,19 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         <?php endforeach; ?>
                                     </select>
 
-                                    <label class="form-label"><?php _e(" Add new fields"); ?></label>
-                                    <small class="d-block mb-2 text-muted"><?php _e("Add new custom field from list bellow"); ?></small>
+                                    <div class="row px-0 pb-3">
+                                        <label class="form-label"><?php _e(" Add new fields"); ?></label>
+                                        <small class="d-block mb-2 text-muted"><?php _e("Add new custom field from list bellow"); ?></small>
+                                    </div>
 
                                     <?php foreach ($fields as $field => $value): ?>
 
-                                        <button type="button" class="btn btn-link   px-1 js-add-custom-field-<?php print $field; ?>" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
-                                            <div>
+                                        <div class="col-xl-3 col-md-4 col-6">
+                                            <button type="button" class="btn btn-link text-decoration-none js-add-custom-field-<?php print $field; ?>" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
                                                 <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
-                                                <span class="mw-custom-field-title text-break-line-1 text-center small"><?php _e($value); ?></span>
-                                            </div>
-                                        </button>
+                                                <span class="mw-custom-field-title text-break-line-1 text-center"><?php _e($value); ?></span>
+                                            </button>
+                                        </div>
                                     <?php endforeach; ?>
 
                                 </div>

@@ -84,8 +84,8 @@ if (isset($params['field-id'])) {
     }
     ?>
     <span class="custom-fields-values-holder">
-        <span class="d-inline-block px-3 py-1">
-            <small class="px-1 py-1" data-id="<?php print $field['id']; ?>"><?php print $vals; ?></small>
+        <span class="d-inline-block py-1">
+            <small class=" py-1" data-id="<?php print $field['id']; ?>"><?php print $vals; ?></small>
         </span>
     </span>
 <?php endif; ?>

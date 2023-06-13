@@ -2,19 +2,20 @@
 namespace MicroweberPackages\Modules\Comments\Http\Livewire\Admin;
 
 use Livewire\WithPagination;
+use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 use MicroweberPackages\Modules\Comments\Models\Comment;
 use function Clue\StreamFilter\fun;
 
 class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire\AdminComponent
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected $paginationTheme = 'bootstrap';
 
     public $listeners = [
         'commentAdded' => '$refresh',
-        'executeCommentDelete'=>'executeCommentDelete',
-        'executeCommentMarkAsTrash'=>'executeCommentMarkAsTrash',
+        'commentUpdated' => '$refresh',
     ];
 
     public $filter = [
@@ -40,78 +41,6 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
         $this->filter['content_id'] = $id;
     }
 
-    public function preview()
-    {
-
-    }
-
-    public function markAsModerated($id)
-    {
-        $comment = Comment::find($id);
-        if ($comment) {
-            $comment->is_new = 0;
-            $comment->is_moderated = 1;
-            $comment->save();
-        }
-    }
-
-    public function markAsUnmoderated($id)
-    {
-        $comment = Comment::find($id);
-        if ($comment) {
-            $comment->is_new = 1;
-            $comment->is_moderated = 0;
-            $comment->save();
-        }
-    }
-
-    public function markAsSpam($id)
-    {
-        $comment = Comment::find($id);
-        if ($comment) {
-            $comment->is_spam = 1;
-            $comment->is_moderated = 0;
-            $comment->save();
-        }
-    }
-
-    public function markAsNotSpam($id)
-    {
-        $comment = Comment::find($id);
-        if ($comment) {
-            $comment->is_spam = 0;
-            $comment->is_moderated = 1;
-            $comment->save();
-        }
-    }
-
-    public function executeCommentDelete($id) {
-
-        $comment = Comment::withTrashed()->where('id',$id)->first();
-        if ($comment) {
-            if ($comment->canIDeleteThisComment()) {
-                $comment->forceDelete();
-            }
-        }
-    }
-
-    public function executeCommentMarkAsTrash($id) {
-        $comment = Comment::find($id);
-        if ($comment) {
-            if ($comment->canIDeleteThisComment()) {
-                $comment->delete();
-            }
-        }
-    }
-
-    public function markAsNotTrash($id)
-    {
-        $comment = Comment::withTrashed()->find($id);
-        if ($comment) {
-            $comment->restore();
-        }
-    }
-
     public function render()
     {
 
@@ -120,7 +49,6 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
         $countApproved = Comment::approved()->count();
         $countSpam = Comment::spam()->count();
         $countTrashed = Comment::onlyTrashed()->count();
-
 
         $getCommentsQuery = Comment::query();
 

@@ -645,9 +645,9 @@ small.text-muted {
     width: 2.4rem;
 }
 
-.form-check.form-switch {
-    width: 50px;
-}
+//.form-check.form-switch {
+//    width: 50px;
+//}
 
 .admin-toolbar-buttons {
     transition: 0.25s ease;
@@ -1523,3 +1523,106 @@ svg.text-danger {
     align-items: center;
     justify-content: center;
 }
+
+
+// !!!!!!!!!!! CUSTOM FIELDS ICONS !!!!!!!!!!!!!
+
+
+.mw-custom-field-title {
+    color: var(--tblr-body-color);
+    font-size: 14px;
+}
+
+
+[class*='mw-custom-field-icon-'] {
+    display: block;
+    font: normal normal normal 24px/1 "Material Design Icons";
+    font-size: 24px;
+    text-rendering: auto;
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--tblr-body-color);
+    margin-right: 5px;
+}
+
+.mw-custom-field-icon-phone:before {
+    content: '\F011D';
+}
+
+.mw-custom-field-icon-breakline:before {
+    content: '\F0374';
+}
+
+.mw-custom-field-icon-hidden:before {
+    content: "\F0209";
+}
+
+.mw-custom-field-icon-text:before {
+    content: '\F0284';
+}
+
+.mw-custom-field-icon-address:before {
+    content: '\F02DC';
+}
+
+.mw-custom-field-icon-site:before {
+    content: '\F01E7';
+}
+
+.mw-custom-field-icon-date:before {
+    content: '\F00EF';
+}
+
+.mw-custom-field-icon-time:before {
+    content: '\F0150';
+}
+
+.mw-custom-field-icon-email:before {
+    content: '\F01EE';
+}
+
+.mw-custom-field-icon-upload:before {
+    content: '\F0B7E';
+}
+
+.mw-custom-field-icon-price:before {
+    content: '\F01C1';
+}
+
+.mw-custom-field-icon-number:before {
+    content: '\F03A0';
+}
+
+.mw-custom-field-icon-radio:before {
+    content: '\F043E';
+}
+
+.mw-custom-field-icon-checkbox:before {
+    content: '\F0132';
+}
+
+.mw-custom-field-icon-dropdown:before {
+    content: '\F09D7';
+}
+
+.mw-custom-field-icon-property:before {
+    content: "\F064E";
+}
+
+.mw-custom-field-icon-button:before {
+    content: "";
+}
+
+.mw-custom-field-icon-captcha:before {
+    content: "";
+}
+
+.mw-custom-field-icon-country:before {
+    content: '\F0826';
+}
+
+.mw-custom-field-icon-color:before {
+    content: '\F0765';
+}
+

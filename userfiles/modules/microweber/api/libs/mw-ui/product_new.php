@@ -75,7 +75,9 @@
                                         </div>
                                         <input type="text" class="form-control" value="0.00">
                                         <div class="input-group-append">
-                                            <span class="input-group-text" data-bs-toggle="tooltip" title="" data-original-title="To put a product on sale, make Compare at price the original price and enter the lower amount into Price."><i class="mdi mdi-help-circle"></i></span>
+                                            <span class="input-group-text h-100" data-bs-toggle="tooltip" title="" data-original-title="To put a product on sale, make Compare at price the original price and enter the lower amount into Price.">
+                                                <i class="mdi mdi-help-circle"></i>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

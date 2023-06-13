@@ -70,8 +70,8 @@ if (!isset($offer['price']['offer_price'])) {
                     <i class="mdi mdi-offer text-muted mdi-20px"></i></span>
             </div>
         <?php else: ?>
-            <div class="input-group-append" data-bs-toggle="tooltip" data-original-title="To put a product on sale, make Compare at price the original price and enter the lower amount into Price.">
-                <span class="input-group-text"><i class="mdi mdi-help-circle"></i></span>
+            <div class="input-group-append h-100" data-bs-toggle="tooltip" data-original-title="To put a product on sale, make Compare at price the original price and enter the lower amount into Price.">
+
             </div>
         <?php endif; ?>
 
