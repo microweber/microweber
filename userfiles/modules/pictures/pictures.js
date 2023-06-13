@@ -1,8 +1,11 @@
 mw.module_pictures = {
-    after_upload: function (data) {
+    after_upload: function (data, cb) {
         $.post(mw.settings.api_url + 'save_media', data,
             function (resp) {
-                mw.reload_module_everywhere('pictures/admin_backend_sortable_pics_list')
+                mw.reload_module_everywhere('pictures/admin_backend_sortable_pics_list');
+                if(cb) {
+                    cb.call()
+                }
             }
         );
     },
@@ -14,7 +17,7 @@ mw.module_pictures = {
         }
         clearTimeout(mw.module_pictures.time);
          mw.notification.success('Pictures settings are saved');
-        mw.module_pictures.time = setTimeout(function () {
+         mw.module_pictures.time = setTimeout(function () {
             var thumbs = mw.$('.admin-thumbs-holder .admin-thumb-item');
               if(!thumbs.length) {
 

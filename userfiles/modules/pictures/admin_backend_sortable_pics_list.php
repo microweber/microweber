@@ -65,13 +65,11 @@ $rand = 'pic-sorter-' . uniqid();
 </style>
 
 
-<div class="mw-drop-zone" id="admin-thumbs-drop-zone-<?php print $rand; ?>" style="display: none"><?php _e("Drop here"); ?></div>
-
+ 
 
 <script>
-    addEventListener('DOMContentLoaded', () => {
-        Array.from(document.querySelectorAll('#post-file-picker, #post-file-picker-small')).forEach(function(node){
-            node.addEventListener('click', () => {
+
+    var addImagesToPost = () => {
                 var dialog;
                 var picker = new mw.filePicker({
                     type: 'images',
@@ -81,26 +79,31 @@ $rand = 'pic-sorter-' . uniqid();
                     footer: true,
                     _frameMaxHeight: true,
                     disableFileAutoSelect: false,
-                    onResult: function (res) {
+                    onResult: async function (res) {
+                      
     
                         var url = res.src ? res.src : res;
                         if(!url) return;
-                        url = url.toString();
+
+                        
 
                         var urls;
                         if(!Array.isArray(url)) {
-                            urls = [url]
+                            urls = [url = url.toString()]
                         } else {
                             urls = url
                         }
 
-                        urls.forEach(function(itm){
-                            if (window.after_upld) {
-                                after_upld(itm, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-                                
-                            
-                            }
-                        });
+
+                         
+                        let i = 0; l = urls.length;
+                        console.log(urls)
+                        for ( ; i < l; i++) {
+                            console.log(urls[i])
+                           await after_upld(urls[i], 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>'); 
+                        }
+
+                         
                         after_upld(urls, 'done');
                         dialog.remove()
             
@@ -112,38 +115,19 @@ $rand = 'pic-sorter-' . uniqid();
                     footer: false,
                     width: 860
                 })
-            })
-        })
-    })
+            }
+ 
 </script>
 <script>
     $(document).ready(function () {
         mw.module_pictures.init('#admin-thumbs-holder-sort-<?php print $rand; ?>');
 
-        var uploadHolder = mw.$('#admin-thumb-item-uploader<?php print $rand; ?>');
-        
+ 
 
-        var dragTimer;
-        $(document).on('dragover', function (e) {
-            var dt = e.originalEvent.dataTransfer;
-            if (dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') !== -1 : dt.types.contains('Files'))) {
-                $("#admin-thumbs-drop-zone-<?php print $rand; ?>").show();
-                clearTimeout(dragTimer);
-            }
-        });
-        $(document).on('dragleave', function (e) {
-            dragTimer = setTimeout(function () {
-                $("#admin-thumbs-drop-zone-<?php print $rand; ?>").hide();
-            }, 25);
-        });
-
-        $("#admin-thumbs-drop-zone-<?php print $rand; ?>").on('drop', function () {
-            $("#admin-thumbs-drop-zone-<?php print $rand; ?>").hide();
-        });
-
+ 
         setInterval(function () {
             $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder, .mw-filepicker-desktop-type-small .mw-uploader-type-holder').each(function () {
-                $(this).height($(this).width())
+                $(this).height($(this).width())  
             })
         }, 78)
 
@@ -213,7 +197,7 @@ $rand = 'pic-sorter-' . uniqid();
             </div>
         <?php endforeach; ?>
         <div class="admin-thumb-item-uploader-holder">
-            <div class="dropzone mw-dropzone" id="post-file-picker-small">
+            <div class="dropzone mw-dropzone" id="post-file-picker-small" onclick="addImagesToPost()">
                 <div class="dz-message">
                     <h3 class="dropzone-msg-title"><?php _e("Add file"); ?></h3>
                     <span class="dropzone-msg-desc"><?php _e("or drop files to upload"); ?></span>
