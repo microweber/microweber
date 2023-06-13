@@ -67,7 +67,7 @@
                 @endif
 
                 <div @if($this->isEditing) @else style="display:none" @endif>
-                    <x-comments::editors.textarea model="comment.comment_body" />
+                    <x-comments::editors.easymde model="comment.comment_body" />
                     <button type="button" class="btn btn-primary mt-3" wire:click="save">
                         {{_e('Save')}}
                     </button>
@@ -76,7 +76,7 @@
                 <div @if($this->isEditing) style="display:none" @endif>
                     <div class="cursor-pointer" wire:click="preview">
                        <span class="mb-0 text-bold">
-                          {!! $comment->comment_body !!}
+                          {!! $comment->commentBodyDispaly() !!}
                         </span>
                     </div>
                 </div>

@@ -36,6 +36,18 @@ class Comment extends Model
         });
     }
 
+    public function commentBodyDispaly()
+    {
+        // Save markdown
+        $renderer = new CommonMarkConverter([
+            'html_input' => 'strip',
+            'allow_unsafe_links' => false,
+        ]);
+        $commentBody = $renderer->convert($this->comment_body);
+
+        return $commentBody;
+    }
+
     public function isPending() {
         if ($this->is_new == 1 && $this->is_moderated == 0) {
             return true;
