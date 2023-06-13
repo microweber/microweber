@@ -5,7 +5,7 @@
             <label>Comment:</label>
             <textarea class="form-control"
                       placeholder="@if($comment) {{_e('Reply to')}} {{$comment->comment_name}}@endif"
-                      wire:model.lazy="state.comment_body"></textarea>
+                      wire:model.lazy="state.comment_body_original"></textarea>
         </div>
 
         <div class="mt-2">

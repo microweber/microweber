@@ -13,6 +13,7 @@ class AdminCommentComponent extends UserCommentReplyComponent
     public $comment;
 
     public $isEditing = false;
+    public $editText = '';
 
     public $rules = [
         'comment.comment_body' => 'required',
@@ -28,33 +29,37 @@ class AdminCommentComponent extends UserCommentReplyComponent
 
     }
 
-    public function edit() {
-
-        $comment = Comment::find($this->comment->id);
-        if ($comment) {
-            $this->authorize('update', $comment);
-            if (empty(trim($comment->comment_body_original))) {
-                $comment->comment_body_original = $comment->comment_body;
-                $comment->save();
-                $this->comment = $comment;
-            }
-            $this->isEditing = true;
+    public function startEditing()
+    {
+        $this->isEditing = true;
+        if (!empty($this->comment->comment_body_original)) {
+            $this->editText = $this->comment->comment_body_original;
+        } else {
+            $this->editText = $this->comment->comment_body;
         }
+    }
+
+    public function stopEditing()
+    {
+        $this->isEditing = false;
     }
 
     public function save()
     {
-        $comment = Comment::find($this->comment->id);
-        if ($comment) {
-            $this->authorize('update', $comment);
-            $comment->comment_body = $this->commentBodyEdit;
-            $comment->save();
+        $this->authorize('update', $this->comment);
 
-            $this->comment = $comment;
-            $this->isEditing = false;
+        $this->validate(['editText' => 'required']);
 
-            $this->emit('commentUpdated');
-        }
+        $this->comment->update([
+            'comment_body_original' => $this->editText,
+        ]);
+
+        $this->isEditing = false;
+    }
+
+    public function cancel()
+    {
+        $this->isEditing = false;
     }
 
     public function markAsModerated()
