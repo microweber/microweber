@@ -1529,6 +1529,12 @@ svg.text-danger {
     font-size: 14px;
 }
 
+.custom-fields-add-buttons [class*='mw-custom-field-icon-'] {
+    font-size: 25px;
+    display: block;
+    margin-bottom: 10px;
+}
+
 [class*='mw-custom-field-icon-'] {
     display: inline-block;
     font: normal normal normal 24px/1 "Material Design Icons";
@@ -1613,6 +1619,20 @@ svg.text-danger {
     content: "";
 }
 
-.mw-custom-field-icon-captcha:before {
-    content: "";
+.mw-custom-field-icon-country:before {
+    content: '\F0826';
+}
+
+.mw-custom-field-icon-color:before {
+    content: '\F0765';
+}
+
+.text-break-line-1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    padding: 1px 0px;
+    text-align: left;
 }
