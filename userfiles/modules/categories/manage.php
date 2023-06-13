@@ -1,11 +1,6 @@
 <?php
 
-$iframeEditLinkSuffix = '';
-$isIframe = false;
-$requestData  = request()->all();
-if(isset($requestData['iframe'])){
-    $isIframe = true;
-}
+
 
 if (isset($params['is_shop']) && $params['is_shop'] == 1){
     $createRoute = route('admin.shop.category.create');
@@ -13,10 +8,7 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
     $createRoute = route('admin.category.create');
 }
 
-if($isIframe){
-    $iframeEditLinkSuffix = '?iframe=true';
-    $createRoute = $createRoute.'?iframe=true';
-}
+
 ?>
 
 
@@ -184,10 +176,10 @@ if($isIframe){
                             action: function (element, data, menuitem) {
                                 if (data.type === 'category') {
 
-                                    self.location.href = "<?php print admin_url() ?>category/" + data.id + "/edit<?php print $iframeEditLinkSuffix ?>";
+                                    self.location.href = "<?php print admin_url() ?>category/" + data.id + "/edit";
 
                                 } else if (data.type === 'page') {
-                                    self.location.href = "<?php print admin_url() ?>page/" + data.id + "/edit<?php print $iframeEditLinkSuffix ?>";
+                                    self.location.href = "<?php print admin_url() ?>page/" + data.id + "/edit";
                                 }
                             },
                             filter: function (obj, node) {

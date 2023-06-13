@@ -4,21 +4,12 @@
 
     <?php
 
-    $isIframe = false;
-    $requestData  = request()->all();
-    if(isset($requestData['iframe'])){
-        $isIframe = true;
-    }
-
     $createRouteBlog = route('admin.category.create')."?parent=blog";
     $createRouteShop = route('admin.category.create')."?parent=shop";
 
 
 
-    if($isIframe){
-        $createRouteBlog = $createRouteBlog.'&iframe=true';
-        $createRouteShop = $createRouteShop.'&iframe=true';
-    }
+
     ?>
 
 
@@ -53,7 +44,7 @@
             </div>
 
             <div class="col-md-4 pe-5 pb-3">
-                <a href="{{ $createRouteShop}}" class="card card-link card-link-pop">
+                <a href="{{ $createRouteShop }}" class="card card-link card-link-pop">
 
                     <div class="card-body" style="padding: 13px; height: calc(50vh - 80px);">
                         <div class="d-flex flex-column text-center justify-content-center align-items-center h-100">
