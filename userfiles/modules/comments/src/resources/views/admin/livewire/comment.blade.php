@@ -67,7 +67,7 @@
                 @endif
 
                 <div @if($this->isEditing) @else style="display:none" @endif>
-                    <x-comments::editors.easymde model="comment.comment_body" />
+                    <x-comments::editors.easymde model="commentBodyEdit" />
                     <button type="button" class="btn btn-primary mt-3" wire:click="save">
                         {{_e('Save')}}
                     </button>

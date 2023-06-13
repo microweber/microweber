@@ -13,6 +13,7 @@ class AdminCommentComponent extends UserCommentReplyComponent
     public $comment;
 
     public $isEditing = false;
+    public $commentBodyEdit = '';
 
     public $rules = [
         'comment.comment_body' => 'required',
@@ -33,6 +34,7 @@ class AdminCommentComponent extends UserCommentReplyComponent
         $comment = Comment::find($this->comment->id);
         if ($comment) {
             $this->authorize('update', $comment);
+            $this->commentBodyEdit = $comment->comment_body_original;
             $this->isEditing = true;
         }
     }
@@ -42,8 +44,10 @@ class AdminCommentComponent extends UserCommentReplyComponent
         $comment = Comment::find($this->comment->id);
         if ($comment) {
             $this->authorize('update', $comment);
-            $comment->comment_body = $this->comment->comment_body;
+            $comment->comment_body = $this->commentBodyEdit;
             $comment->save();
+
+            $this->comment = $comment;
             $this->isEditing = false;
 
             $this->emit('commentUpdated');
