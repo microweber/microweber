@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Modules\Comments\Http\Livewire;
 
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Component;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
@@ -73,7 +74,8 @@ class UserCommentReplyComponent extends Component
     public function save()
     {
         if (RateLimiter::tooManyAttempts('save-comment:'.$this->state['rel_id'], $perMinute = 1)) {
-            $this->addError('state.comment_body', 'Too many attempts!');
+            $seconds = RateLimiter::availableIn('send-message:'.$this->state['rel_id']);
+            $this->addError('state.comment_body', 'You may try again in '.$seconds.' seconds.');
             return;
         }
 
@@ -132,6 +134,8 @@ class UserCommentReplyComponent extends Component
         $comment->comment_body = $this->state['comment_body'];
         $comment->save();
 
+        RateLimiter::hit('save-comment:'.$this->state['rel_id']);
+
        // event(new NewComment($comment));
       //  Notification::send(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
 
@@ -141,9 +145,9 @@ class UserCommentReplyComponent extends Component
             $this->successMessage = _e('Your comment has been added', true);
         }
 
-        $this->state['comment_body'] = '';
-        $this->state['comment_name'] = '';
-        $this->state['comment_email'] = '';
+//        $this->state['comment_body'] = '';
+//        $this->state['comment_name'] = '';
+//        $this->state['comment_email'] = '';
 
         $this->emit('commentAdded', $comment->id);
 
