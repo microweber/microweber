@@ -43,6 +43,12 @@ class Admin
         event_trigger('mw_backend');
 
 
+        if ($this->requestIsInIframe($request)) {
+            view()->share('isIframe', true);
+        } else {
+            view()->share('isIframe', false);
+        }
+
         if ($this->inExceptArray($request) || (Auth::check() && intval(Auth::user()->is_admin) === 1)) {
              return $next($request);
         }
@@ -54,7 +60,14 @@ class Admin
 
         return redirect()->guest(route('admin.login'));
     }
+    private function requestIsInIframe($request)
+    {
+        $secFetchDest = $request->header('Sec-Fetch-Dest');
 
+        if ($secFetchDest == 'iframe') {
+            return true;
+        }
+    }
 
     /**
      * Determine if the request URI is in except array.
