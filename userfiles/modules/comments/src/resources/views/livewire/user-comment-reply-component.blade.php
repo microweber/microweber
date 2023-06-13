@@ -46,8 +46,24 @@
             </div>
 
             @if($enableCaptcha)
-               <module type="captcha" />
-            @endif
+
+                    <div>
+                        @error('captcha')
+                        <div class="px-lg-4 px-0">
+                            <span class="text-danger">{{ $message }}</span>
+                        </div>
+                        @enderror
+
+                        <module type="captcha" data-callback="captchaResponse" />
+
+                        <script>
+                            function captchaResponse(token) {
+                                window.Livewire.emit('setCaptchaToken', token);
+                            }
+                        </script>
+                    </div>
+
+                @endif
 
             <div class="mt-2">
                 <button wire:loading.attr="disabled" wire:click="save" type="button" class="btn btn-outline-primary">

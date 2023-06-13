@@ -25,6 +25,13 @@ class UserCommentReplyComponent extends Component
         'comment_body' => '',
     ];
 
+    public $captcha = '';
+
+    public function setCaptchaToken($token)
+    {
+        $this->captcha = $token;
+    }
+
     public function mount($relId = null, $replyToCommentId = null)
     {
         $this->state['rel_id'] = $relId;
@@ -84,10 +91,13 @@ class UserCommentReplyComponent extends Component
         $messages = array(
             'required' => _e('The field is required.', true),
         );
+
         $validate = [
             'state.rel_id' => 'required|min:1',
             'state.comment_body' => 'required|min:3|max:1000',
+            'captcha' => 'captcha',
         ];
+
         if (!user_id()) {
             $validate['state.comment_name'] = 'required|min:3|max:300';
             $validate['state.comment_email'] = 'required|email|min:3|max:300';
