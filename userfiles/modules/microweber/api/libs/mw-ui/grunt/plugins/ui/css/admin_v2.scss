@@ -1524,15 +1524,22 @@ svg.text-danger {
 // !!!!!!!!!!! CUSTOM FIELDS ICONS !!!!!!!!!!!!!
 
 
+.mw-custom-field-title {
+    color: var(--tblr-body-color);
+    font-size: 14px;
+}
+
+
 [class*='mw-custom-field-icon-'] {
-    display: inline-block;
+    display: block;
     font: normal normal normal 24px/1 "Material Design Icons";
-    font-size: inherit;
+    font-size: 24px;
     text-rendering: auto;
     line-height: inherit;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: var(--tblr-body-color);
+    margin-right: 5px;
 }
 
 .mw-custom-field-icon-phone:before {
@@ -1607,6 +1614,11 @@ svg.text-danger {
     content: "";
 }
 
-.mw-custom-field-icon-captcha:before {
-    content: "";
+.mw-custom-field-icon-country:before {
+    content: '\F0826';
 }
+
+.mw-custom-field-icon-color:before {
+    content: '\F0765';
+}
+
