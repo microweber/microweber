@@ -21,7 +21,7 @@ class UserCommentReplyComponent extends Component
     public $state = [
         'comment_name' => '',
         'comment_email' => '',
-        'comment_body_original' => '',
+        'comment_body' => '',
     ];
 
     public function mount($relId = null, $replyToCommentId = null)
@@ -76,7 +76,7 @@ class UserCommentReplyComponent extends Component
         $hasRateLimiterId = $this->state['rel_id'] . $this->state['reply_to_comment_id'] . user_ip();
 
         if (RateLimiter::tooManyAttempts('save-comment:'.$hasRateLimiterId, $perMinute = 1)) {
-            $this->addError('state.comment_body_original', 'Only one comment is allowed per minute. You may try again after 1 minute.');
+            $this->addError('state.comment_body', 'Only one comment is allowed per minute. You may try again after 1 minute.');
             return;
         }
 
@@ -85,7 +85,7 @@ class UserCommentReplyComponent extends Component
         );
         $validate = [
             'state.rel_id' => 'required|min:1',
-            'state.comment_body_original' => 'required|min:3|max:1000',
+            'state.comment_body' => 'required|min:3|max:1000',
         ];
         if (!user_id()) {
             $validate['state.comment_name'] = 'required|min:3|max:300';
@@ -135,7 +135,7 @@ class UserCommentReplyComponent extends Component
             $comment->is_moderated = 1;
         }
 
-        $comment->comment_body_original = $this->state['comment_body_original'];
+        $comment->comment_body = $this->state['comment_body'];
         $comment->save();
 
         RateLimiter::hit('save-comment:'.$hasRateLimiterId);

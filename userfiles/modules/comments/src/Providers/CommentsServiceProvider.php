@@ -28,7 +28,6 @@ class CommentsServiceProvider extends PackageServiceProvider
         $package->hasRoute('admin');
         $package->hasMigration('2023_00_00_000000_create_comments_table2');
         $package->hasMigration('2023_00_00_000001_add_deleted_at_to_comments_table');
-        $package->hasMigration('2023_00_00_000002_add_comment_body_original_to_comments_table');
         $package->runsMigrations(true);
     }
 
