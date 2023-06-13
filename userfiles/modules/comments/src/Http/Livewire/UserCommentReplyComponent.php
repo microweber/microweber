@@ -85,11 +85,11 @@ class UserCommentReplyComponent extends Component
         );
         $validate = [
             'state.rel_id' => 'required|min:1',
-            'state.comment_body' => 'required|min:3',
+            'state.comment_body' => 'required|min:3|max:1000',
         ];
         if (!user_id()) {
-            $validate['state.comment_name'] = 'required|min:3';
-            $validate['state.comment_email'] = 'required|email';
+            $validate['state.comment_name'] = 'required|min:3|max:300';
+            $validate['state.comment_email'] = 'required|email|min:3|max:300';
         }
 
         $this->validate($validate, $messages);
