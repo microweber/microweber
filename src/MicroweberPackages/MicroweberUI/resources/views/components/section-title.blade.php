@@ -4,10 +4,11 @@
             <h3 class="h5">
                 {{ $title }}
             </h3>
-
+            @if(isset($description))
             <p class="mt-1 text-muted">
                 {{ $description }}
             </p>
+            @endif
         </div>
 
         <div>

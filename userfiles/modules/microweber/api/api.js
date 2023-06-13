@@ -303,6 +303,19 @@ mw.getScripts = function (array, callback) {
   });
 };
 
+mw.requireAsync = (url, key) => {
+    return new Promise(resolve => {
+        if(mw.required.includes(url)) {
+            resolve();
+        } else {
+            mw.required.push(url);
+            mw.getScripts(url, () => {
+                resolve();
+            })
+        }
+    });
+}
+
   mw.moduleCSS = mw.module_css = function(url){
     if (!~mw.required.indexOf(url)) {
       mw.required.push(url);

@@ -106,6 +106,13 @@ body.theme-dark {
           color: black;
       }
     }
+
+    .admin-users-no-user-img-wrapper {
+        img  {
+            filter: invert(1);
+        }
+
+    }
 }
 
 .card.modules-card {
@@ -1518,6 +1525,10 @@ svg.text-danger {
 .mw-dropzone{
     text-align: center;
     cursor: pointer;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -1622,3 +1633,9 @@ svg.text-danger {
     content: '\F0765';
 }
 
+//END CUSTOM FIELDS ICONS
+
+#save-menu-wrapper {
+    background-color: var(--tblr-bg-surface) !important;
+    border-top: none !important;
+}

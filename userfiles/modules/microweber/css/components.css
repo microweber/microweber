@@ -192,21 +192,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 
-.mw-drop-zone{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(225, 241, 253, 0.91);
-    z-index: 12;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 19px;
-
-    border: 2px dashed #4592ff;
-}
+ 
 
 .dropable-zone.small-zone .holder{
     padding-inline-start: 0;
