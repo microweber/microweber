@@ -1529,14 +1529,9 @@ svg.text-danger {
     font-size: 14px;
 }
 
-.custom-fields-add-buttons [class*='mw-custom-field-icon-'] {
-    font-size: 25px;
-    display: block;
-    margin-bottom: 10px;
-}
 
 [class*='mw-custom-field-icon-'] {
-    display: inline-block;
+    display: block;
     font: normal normal normal 24px/1 "Material Design Icons";
     font-size: 24px;
     text-rendering: auto;
@@ -1627,12 +1622,3 @@ svg.text-danger {
     content: '\F0765';
 }
 
-.text-break-line-1 {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    padding: 1px 0px;
-    text-align: left;
-}
