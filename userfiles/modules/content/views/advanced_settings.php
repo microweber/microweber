@@ -125,30 +125,30 @@ if (isset($data['created_by']) and $data['created_by']) {
             $('.mw-admin-edit-post-display-updated-at-value').remove();
         }
 
-        $(document).ready(function (){
-            $(".collapse").each(function(){
-                var key = 'collapse' + this.id;
-                var isStored = mw.storage.get(key);
-
-                var el = $(this);
-
-                el.on('show.bs.collapse', function (){
-                    mw.storage.set(key, true);
-                    $('[data-bs-target="#'+this.id+'"] .collapse-action-label').html('<?php _ejs('Hide'); ?>');
-                })
-                el.on('hide.bs.collapse', function (){
-                    mw.storage.set(key, false);
-                    $('[data-bs-target="#'+this.id+'"] .collapse-action-label').html('<?php _ejs('Show'); ?>');
-                })
-
-                if( isStored ) {
-                    el.collapse( 'show' );
-                } else {
-                    el.collapse( 'hide' );
-                }
-
-            });
-        })
+        //$(document).ready(function (){
+        //    $(".collapse").each(function(){
+        //        var key = 'collapse' + this.id;
+        //        var isStored = mw.storage.get(key);
+        //
+        //        var el = $(this);
+        //
+        //        el.on('show.bs.collapse', function (){
+        //            mw.storage.set(key, true);
+        //            $('[data-bs-target="#'+this.id+'"] .collapse-action-label').html('<?php //_ejs('Hide'); ?>//');
+        //        })
+        //        el.on('hide.bs.collapse', function (){
+        //            mw.storage.set(key, false);
+        //            $('[data-bs-target="#'+this.id+'"] .collapse-action-label').html('<?php //_ejs('Show'); ?>//');
+        //        })
+        //
+        //        if( isStored ) {
+        //            el.collapse( 'show' );
+        //        } else {
+        //            el.collapse( 'hide' );
+        //        }
+        //
+        //    });
+        //})
     </script>
 
 <?php event_trigger('mw.admin.content.edit.advanced_settings', $data); ?>
