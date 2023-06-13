@@ -17,7 +17,7 @@ class Comment extends Model
         'rel_type',
         'reply_to_comment_id',
         'comment_name',
-        'comment_body_original',
+        'comment_body',
         'comment_email',
         'comment_website',
     ];
@@ -27,17 +27,11 @@ class Comment extends Model
         static::saving(function ($comment) {
             foreach ($comment->getAttributes() as $key => $value) {
                 if (is_string($value)) {
+                    if ($key == 'comment_body') {
+                        continue;
+                    }
                     $comment->{$key} = app()->format->clean_xss($value);
                 }
-            }
-            if (isset($comment->comment_body_original)) {
-                // Save markdown
-                $renderer = new CommonMarkConverter([
-                    'html_input' => 'strip',
-                    'allow_unsafe_links' => false,
-                ]);
-                $commentBody = $renderer->convert($comment->comment_body_original);
-                $comment->comment_body = $commentBody;
             }
         });
     }

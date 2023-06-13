@@ -13,7 +13,6 @@ class AdminCommentComponent extends UserCommentReplyComponent
     public $comment;
 
     public $isEditing = false;
-    public $editText = '';
 
     public $rules = [
         'comment.comment_body' => 'required',
@@ -32,11 +31,6 @@ class AdminCommentComponent extends UserCommentReplyComponent
     public function startEditing()
     {
         $this->isEditing = true;
-        if (!empty($this->comment->comment_body_original)) {
-            $this->editText = $this->comment->comment_body_original;
-        } else {
-            $this->editText = $this->comment->comment_body;
-        }
     }
 
     public function stopEditing()
@@ -48,10 +42,10 @@ class AdminCommentComponent extends UserCommentReplyComponent
     {
         $this->authorize('update', $this->comment);
 
-        $this->validate(['editText' => 'required']);
+        $this->validate(['comment.comment_body' => 'required']);
 
         $this->comment->update([
-            'comment_body_original' => $this->editText,
+            'comment_body' => $this->comment->comment_body,
         ]);
 
         $this->isEditing = false;

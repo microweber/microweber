@@ -67,7 +67,7 @@
                 @endif
 
                 <div @if($this->isEditing) @else style="display:none" @endif>
-                    <x-comments::editors.textarea model="editText" />
+                    <x-comments::editors.textarea model="comment.comment_body" />
                     <button type="button" class="btn btn-primary mt-3" wire:click="save">
                         {{_e('Save')}}
                     </button>
