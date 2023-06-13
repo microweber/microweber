@@ -1,60 +1,24 @@
 <?php
+
 namespace MicroweberPackages\Shop\tests;
 
-use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Checkout\CheckoutManager;
-use MicroweberPackages\Utils\Mail\MailSender;
+use MicroweberPackages\Core\tests\TestCase;
 
 /**
  * Run test
  * @author Bobi Microweber
  * @command php phpunit.phar --filter CheckoutTest
  */
-
 class CheckoutTest extends TestCase
 {
-    public static $content_id = 1;
-
-    private function _addProductToCart($title)
-    {
-        app()->database_manager->extended_save_set_permission(true);
-
-        $productPrice = rand(1, 4444);
-
-        $params = array(
-            'title' => $title,
-            'content_type' => 'product',
-            'subtype' => 'product',
-            'custom_fields_advanced' => array(
-                array('type' => 'dropdown', 'name' => 'Color', 'value' => array('Purple', 'Blue')),
-                array('type' => 'price', 'name' => 'Price', 'value' => $productPrice),
-
-            ),
-            'is_active' => 1,);
-
-
-        $saved_id = save_content($params);
-        $get = get_content_by_id($saved_id);
-
-        $this->assertEquals($saved_id, ($get['id']));
-        self::$content_id = $saved_id;
-
-        $add_to_cart = array(
-            'content_id' => self::$content_id,
-            'price' => $productPrice,
-        );
-        $cart_add = update_cart($add_to_cart);
-
-        $this->assertEquals(isset($cart_add['success']), true);
-        $this->assertEquals(isset($cart_add['product']), true);
-        $this->assertEquals($cart_add['product']['price'], $productPrice);
-    }
+    use ShopTestHelperTrait;
 
     public function testCheckout()
     {
         empty_cart();
 
-     \Config::set('mail.transport', 'array');
+        \Config::set('mail.transport', 'array');
 
         $this->_addProductToCart('Product 1');
         $this->_addProductToCart('Product 2');
@@ -211,12 +175,11 @@ class CheckoutTest extends TestCase
         $this->assertEquals(0, $content_data_after_order['qty']);
 
 
-
         // test the productOrders relationship
 
         $productQuery = \MicroweberPackages\Product\Models\Product::query();
 
-        $productQuery =$productQuery->whereHas('orders');
+        $productQuery = $productQuery->whereHas('orders');
         $products = $productQuery->get();
 
         $found = false;
@@ -229,7 +192,7 @@ class CheckoutTest extends TestCase
 
         $productQuery = \MicroweberPackages\Product\Models\Product::query();
 
-        $productQuery =$productQuery->whereDoesntHave('orders');
+        $productQuery = $productQuery->whereDoesntHave('orders');
         $products = $productQuery->get();
         $found = false;
         foreach ($products as $product) {
@@ -240,9 +203,6 @@ class CheckoutTest extends TestCase
         $this->assertFalse($found);
 
     }
-
-
-
 
 
     public function testCheckoutDeletedProduct()
@@ -298,8 +258,6 @@ class CheckoutTest extends TestCase
     }
 
 
-
-
     public function testCheckoutUnpublishedProduct()
     {
         mw()->database_manager->extended_save_set_permission(true);
@@ -341,7 +299,6 @@ class CheckoutTest extends TestCase
         $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
         $content_data_after_order = content_data($saved_id);
         $this->assertEquals(11, $content_data_after_order['qty']);
-
 
 
         $order = get_order_by_id($checkoutStatus);

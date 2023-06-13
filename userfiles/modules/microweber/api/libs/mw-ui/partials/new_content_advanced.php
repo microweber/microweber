@@ -8,7 +8,7 @@
         <div class="collapse" id="seo-settings">
             <p><?php _e("Add a title and description to see how this product might appear in a search engine listing"); ?></p>
 
-            <hr class="thin no-padding"/>
+
 
             <div class="row">
                 <div class="col-md-12">
@@ -63,7 +63,7 @@
         <div class="collapse" id="advenced-settings">
             <p><?php _e("Use the advanced settings to customize your blog post"); ?></p>
 
-            <hr class="thin no-padding"/>
+
 
             <div class="row">
                 <div class="col-md-12">

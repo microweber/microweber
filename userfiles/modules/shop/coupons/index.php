@@ -36,11 +36,11 @@ if (is_file($template_file) != false) {
                 dataType: 'json',
                 success: function (data) {
 
-                    if (typeof(data.error_message) !== "undefined") {
-                        $('.js-coupon-code-messages-<?php echo $params['id']; ?>').html('<div class="js-red-text-<?php echo $params['id']; ?>">' + data.error_message + '</div>');
+                    if (typeof(data.error) !== "undefined" && typeof(data.message) !== "undefined") {
+                        $('.js-coupon-code-messages-<?php echo $params['id']; ?>').html('<div class="js-red-text-<?php echo $params['id']; ?>">' + data.message + '</div>');
                     } else {
-                        if (typeof(data.success_apply) !== "undefined") {
-                            $('.js-coupon-code-messages-<?php echo $params['id']; ?>').html('<div class="js-green-text-<?php echo $params['id']; ?>">' + data.success_message + '</div>');
+                        if (typeof(data.success) !== "undefined" && typeof(data.message) !== "undefined") {
+                            $('.js-coupon-code-messages-<?php echo $params['id']; ?>').html('<div class="js-green-text-<?php echo $params['id']; ?>">' + data.message + '</div>');
                         }
                         mw.reload_module('shop/cart');
                         mw.reload_module('shop/payments');

@@ -15,7 +15,7 @@
                  height="65" />
         @else
         <div class="shadow-1-strong me-3">
-            <i class="fa fa-user-circle-o" style="font-size:42px"></i>
+            <i class="fa fa-user-circle-o" style="font-size:65px"></i>
         </div>
         @endif
 
@@ -27,10 +27,43 @@
                 </p>
                 <div class="mt-3 mb-3">
 
-                    {!! $comment->comment_body !!}
 
-                    @if($comment->canIDeleteThisComment())
-                    <div class="d-flex justify-content-end align-items-center mt-4">
+                    @if($editForm)
+                        <div>
+                            <textarea wire:model="editText" class="form-control"></textarea>
+                        </div>
+                    @else
+                        {!! $comment->comment_body !!}
+                    @endif
+
+                    @canany(['update', 'delete'], $comment)
+                    <div class="d-flex justify-content-end align-items-center gap-3 mt-4">
+
+                        @if($editForm)
+                            <button wire:click="save" class="btn btn-outline-primary btn-sm">
+                                <div wire:loading wire:target="save">
+                                    <i class="fa fa-spinner fa-spin"></i> {{_e('Saving comment...')}}
+                                </div>
+                                <div wire:loading.remove wire:target="save">
+                                    {{_e('Save comment')}}
+                                </div>
+                            </button>
+                        @endif
+
+                        @if(!$editForm)
+                            @can('update', $comment)
+                            <button wire:click="edit" class="btn btn-outline-primary btn-sm">
+                                <div wire:loading wire:target="edit">
+                                    <i class="fa fa-spinner fa-spin"></i> {{_e('Edit comment...')}}
+                                </div>
+                                <div wire:loading.remove wire:target="edit">
+                                    {{_e('Edit comment')}}
+                                </div>
+                            </button>
+                            @endcan
+                        @endif
+
+                        @can('delete', $comment)
                         <button wire:click="delete" class="btn btn-danger btn-sm">
                             <div wire:loading wire:target="delete">
                                 <i class="fa fa-spinner fa-spin"></i> {{_e('Deleting comment...')}}
@@ -39,8 +72,10 @@
                                 {{_e('Delete comment')}}
                             </div>
                         </button>
+                        @endcan
+
                     </div>
-                    @endif
+                    @endcan
 
                 </div>
 
@@ -49,6 +84,9 @@
                     $level = $comment->getLevel();
                     $showRepliesAlpine = 'false';
                     if ($showReplies) {
+                        $showRepliesAlpine = 'true';
+                    }
+                    if ($level == 0) {
                         $showRepliesAlpine = 'true';
                     }
                 @endphp
@@ -69,7 +107,7 @@
                         <div x-show="showReplies">
                         @foreach($replies as $reply)
                             <div>
-                                <livewire:comments::user-comment-preview wire:key="user-comment-preview-reply-id-{{$reply->id}}" comment_id="{{$reply->id}}" />
+                                <livewire:comments::user-comment-preview wire:key="user-comment-preview-reply-id-{{$reply->id}}" :comment="$reply" />
                             </div>
                         @endforeach
                     </div>
@@ -82,10 +120,10 @@
                         </span>
                     </div>
 
-                    <div x-show="showReplyForm" style="display:none; background:#fff;" class="mt-2 mb-4 p-4">
-                        <div class="mb-4">
-                            <b> <i class="fa fa-reply me-1"></i> {{_e('Reply to')}} {{$comment->comment_name}} </b>
-                        </div>
+                    <div x-show="showReplyForm" style="display:none; background:#fff;" class="mt-4 mb-4 p-4">
+{{--                        <div class="mb-4">--}}
+{{--                            <b> <i class="fa fa-reply me-1"></i> {{_e('Reply to')}} {{$comment->comment_name}} </b>--}}
+{{--                        </div>--}}
                         <div>
                             <livewire:comments::user-comment-reply wire:key="user-comment-reply-id-{{$comment->id}}" rel_id="{{$comment->rel_id}}" reply_to_comment_id="{{$comment->id}}" />
                         </div>

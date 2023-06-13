@@ -8,7 +8,7 @@
        <div class="card-header ps-0 pt-1 mb-0">
            <strong><?php _e("Add to Navigation"); ?></strong>
        </div>
-       <div class="row">
+       <div class="row pb-0 p-3">
 
 
            <div class="position-relative" id="menu-selector-item">

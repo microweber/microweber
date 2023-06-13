@@ -90,6 +90,37 @@ mw.notification = {
         return div;
     },
     append: function (type, text, timeout, name) {
+        var tpl = `
+        
+        <div class="position-fixed bottom-0 end-0 p-3 mw-tblr-notification" style="z-index: 21">
+            <div class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                <div class="toast-body">
+                    ${text}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        
+        `;
+        var last = $('.mw-tblr-notification').last();
+        if(last.length) {
+            var btm = parseFloat(last.css('bottom'));
+            console.log(btm, last.css('bottom'))
+            if(isNaN(btm)) {
+                btm = 0;
+            }
+            btm += last.outerHeight();
+        }
+
+        tpl = $(tpl).appendTo(document.body);
+        tpl.css('bottom', btm)
+        var toast = new bootstrap.Toast(tpl.children().get(0));
+        toast.show();
+        
+    },
+    append2: function (type, text, timeout, name) {
 
         if(typeof type === 'object') {
             text = type.text;

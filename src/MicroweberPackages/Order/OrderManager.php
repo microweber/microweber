@@ -187,9 +187,6 @@ class OrderManager
                 $this->app->cache_manager->delete('cart');
                 $this->app->cache_manager->delete('cart_orders');
 
-                if (!empty($place_order['promo_code']) and is_module('shop/coupons') ) {
-                	\CouponClass::log($place_order['promo_code'], $place_order['email']);
-                }
 
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
                   //  $this->app->shop_manager->update_quantities($ord);

@@ -9,6 +9,12 @@ $editorSpacing: 5px;
     }
 }
 
+.mw-editor-group-button-caret{
+    svg{
+        width: 15px;
+    }
+}
+
 .mw-small-editor{
     position: absolute;
     display: none;
@@ -224,11 +230,7 @@ $editorSpacing: 5px;
             text-overflow: ellipsis;
             line-height: normal;
         }
-        .mw-editor-group-button-caret{
-            svg{
-                width: 15px;
-            }
-        }
+        
     }
 }
 

@@ -3,6 +3,7 @@ namespace MicroweberPackages\Modules\Comments\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use League\CommonMark\CommonMarkConverter;
 use MicroweberPackages\Content\Models\Content;
 
 class Comment extends Model
@@ -20,6 +21,25 @@ class Comment extends Model
         'comment_email',
         'comment_website',
     ];
+
+    public static function booted()
+    {
+        static::saving(function ($comment) {
+            foreach ($comment->getAttributes() as $key => $value) {
+                if (is_string($value)) {
+                    $comment->{$key} = app()->format->clean_xss($value);
+                }
+            }
+            if (isset($comment->comment_body)) {
+                $renderer = new CommonMarkConverter([
+                    'html_input' => 'strip',
+                    'allow_unsafe_links' => false,
+                ]);
+                $commentBody = $renderer->convert($comment->comment_body);
+                $comment->comment_body = $commentBody;
+            }
+        });
+    }
 
     public function isPending() {
         if ($this->is_new == 1 && $this->is_moderated == 0) {
@@ -42,9 +62,23 @@ class Comment extends Model
         return $query->where('is_spam', 1);
     }
 
+    public function scopeForAdminPreview($query)
+    {
+        return $query
+            ->where(function ($subQuery) {
+                $subQuery->where('is_spam', 0);
+                $subQuery->orWhereNull('is_spam');
+            });
+    }
+
     public function scopePublished($query)
     {
-        return $query->where('is_spam', 0)->orWhereNull('is_spam');
+        return $query
+            ->where('is_moderated', 1)
+            ->where(function ($subQuery) {
+                $subQuery->where('is_spam', 0);
+                $subQuery->orWhereNull('is_spam');
+            });
     }
 
     public function content()
@@ -52,9 +86,17 @@ class Comment extends Model
         return $this->hasOne(Content::class,'id','rel_id');
     }
 
+    public function contentId()
+    {
+        $content = $this->content()->select('id')->first();
+        if ($content) {
+            return $content->id;
+        }
+    }
+
     public function contentTitle()
     {
-        $content = $this->content()->first();
+        $content = $this->content()->select('title')->first();
         if ($content) {
             return $content->title;
         } else {
@@ -94,6 +136,18 @@ class Comment extends Model
         return $this->hasMany(Comment::class, 'reply_to_comment_id');
     }
 
+    public function parentComment()
+    {
+        return $this->belongsTo(Comment::class, 'reply_to_comment_id');
+    }
+
+    public function parentCommentBody() {
+        $parentComment = $this->parentComment()->first();
+        if ($parentComment) {
+            return $parentComment->comment_body;
+        }
+    }
+
     public function getLevel()
     {
         $level = 0;
@@ -105,20 +159,6 @@ class Comment extends Model
             }
         }
         return $level;
-    }
-
-    public function canIDeleteThisComment()
-    {
-        $user = user_id();
-
-        if ($user and $user == $this->created_by) {
-            return true;
-        }
-
-        if (is_admin() == true) {
-             return true;
-        }
-        return false;
     }
 
     public function deleteWithReplies()

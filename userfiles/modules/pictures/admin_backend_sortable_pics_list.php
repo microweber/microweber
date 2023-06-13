@@ -69,95 +69,59 @@ $rand = 'pic-sorter-' . uniqid();
 
 
 <script>
+    addEventListener('DOMContentLoaded', () => {
+        Array.from(document.querySelectorAll('#post-file-picker, #post-file-picker-small')).forEach(function(node){
+            node.addEventListener('click', () => {
+                var dialog;
+                var picker = new mw.filePicker({
+                    type: 'images',
+                    label: false,
+                    autoSelect: false,
+                    multiple: true,
+                    footer: true,
+                    _frameMaxHeight: true,
+                    disableFileAutoSelect: false,
+                    onResult: function (res) {
+    
+                        var url = res.src ? res.src : res;
+                        if(!url) return;
+                        url = url.toString();
+
+                        var urls;
+                        if(!Array.isArray(url)) {
+                            urls = [url]
+                        } else {
+                            urls = url
+                        }
+
+                        urls.forEach(function(itm){
+                            if (window.after_upld) {
+                                after_upld(itm, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                                
+                            
+                            }
+                        });
+                        after_upld(urls, 'done');
+                        dialog.remove()
+            
+                    }
+                });
+                dialog = mw.top().dialog({
+                    content: picker.root,
+                    title: mw.lang('Select image'),
+                    footer: false,
+                    width: 860
+                })
+            })
+        })
+    })
+</script>
+<script>
     $(document).ready(function () {
         mw.module_pictures.init('#admin-thumbs-holder-sort-<?php print $rand; ?>');
 
         var uploadHolder = mw.$('#admin-thumb-item-uploader<?php print $rand; ?>');
-        mw.require('uploader.js');
-
-        mw._postsImageUploaderSmall = mw.upload({
-            element: uploadHolder,
-            accept: 'image/*',
-            multiple: true,
-            dropZone: '#admin-thumbs-drop-zone-<?php print $rand; ?>',
-            on: {
-                fileUploaded: function (xhr) {
-                    mw.module_pictures.after_change();
-                },
-                fileUploadError: function (xhr) {
-                    mw.$('.admin-thumb-item-loading:last').remove();
-                    mw.module_pictures.after_change();
-                }
-            }
-        });
-        mw._postsImageUploaderSmall.$holder = uploadHolder.parent();
-        $(mw._postsImageUploaderSmall).on('FileAdded', function (e, res) {
-            mw._postsImageUploader._thumbpreload()
-        })
-
-        $(mw._postsImageUploaderSmall).on('FileUploaded', function (e, res) {
-            var url = res.src ? res.src : res;
-            if (window.after_upld) {
-                after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-                after_upld(url, 'done');
-                mw._postsImageUploader.hide()
-            }
-        });
-
-        if (!mw.$('#admin-thumbs-holder-sort-<?php print $rand; ?> .admin-thumb-item').length) {
-            uploadHolder.hide();
-            if (mw._postsImageUploader) {
-                mw._postsImageUploader.show();
-            }
-
-        }
-
-        var dropdownData = [
-            {value: 'url', title: '<?php _e("Add image from URL"); ?>' },
-            {value: 'server', title: '<?php _e("Browse uploaded"); ?>' },
-            {value: 'library', title: '<?php _e("Choose from Unsplash"); ?>' },
-            {value: 'file', title: '<?php _e("Upload file"); ?>' },
-        ];
-
-        var dropdownConfig = {
-            placeholder: '<?php _e("Add media from"); ?>',
-            data: dropdownData,
-            element: '#mw-admin-post-media-type-select',
-            size: 'small',
-            color: 'default',
-            showSelected: false
-        }
-        var slct = mw.select(dropdownConfig)
-        slct.on('change', function (value){
-            var val = value[0].value;
-            if(val !== 'file') {
-                mw._postsImageUploader.displayControllerByType(val)
-            }
-            slct.displayValue('<?php _ejs("Add media from"); ?>')
-        });
-        slct.on('optionsReady', function (options) {
-            var file = options.find(function (itm){
-                return itm.$value.value === 'file';
-            });
-            if(file) {
-                var up = mw.upload({
-                    element: file,
-                    accept: 'image/*',
-                    multiple: true
-                });
-                $(up).on('FileAdded', function (e, res) {
-                    mw._postsImageUploader._thumbpreload()
-                })
-                $(up).on('FileUploaded', function (e, res) {
-                    var url = res.src ? res.src : res;
-                    if (window.after_upld) {
-                        after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-                        after_upld(url, 'done');
-                        mw._postsImageUploader.hide();
-                    }
-                });
-            }
-        });
+        
 
         var dragTimer;
         $(document).on('dragover', function (e) {
@@ -249,13 +213,11 @@ $rand = 'pic-sorter-' . uniqid();
             </div>
         <?php endforeach; ?>
         <div class="admin-thumb-item-uploader-holder">
-            <div class="dropable-zone small-zone square-zone">
-                <div class="holder">
-                    <button type="button" class="btn btn-link"><?php _e("Add file"); ?></button>
+            <div class="dropzone mw-dropzone" id="post-file-picker-small">
+                <div class="dz-message">
+                    <h3 class="dropzone-msg-title"><?php _e("Add file"); ?></h3>
+                    <span class="dropzone-msg-desc"><?php _e("or drop files to upload"); ?></span>
                 </div>
-            </div>
-            <div class="admin-thumb-item-uploader" id="admin-thumb-item-uploader<?php print $rand; ?>">
-
             </div>
         </div>
     <?php endif; ?>

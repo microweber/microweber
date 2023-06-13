@@ -141,7 +141,7 @@ $rand = uniqid();
                                         <label class="custom-control-label" for="mw-use-post-pics"><?php _e("Use pictures from post"); ?></label>
                                     </div>
                                 </td>
-                                <td width="50%" align="right">
+                                <td width="50%">
                                     <div class="pull-right">
                                         <module id="edit-post-gallery-main-source-selector-holder" type="pictures/admin_upload_pic_source_selector" />
                                     </div>

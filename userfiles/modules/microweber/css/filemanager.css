@@ -77,10 +77,10 @@
     z-index: 2;
 }
 
-.mw-file-manager-view-table tbody tr.selected,
-.mw-file-manager-view-table tbody tr.selected:hover,
-.mw-file-manager-view-table tbody tr.selected:hover td,
 .mw-file-manager-view-table tbody tr.selected td{
+    background-color: transparent;
+}
+.mw-file-manager-view-table tbody tr.selected {
     background-color: var(--tblr-active-bg);
 }
 .mw-file-manager-view-table tr > *{

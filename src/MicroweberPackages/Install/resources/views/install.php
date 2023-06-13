@@ -635,7 +635,7 @@
                                                 </div>
                                             </div>
 
-                                            <hr class="thin no-padding"/>
+
 
                                             <div>
                                                 <?php
@@ -734,7 +734,7 @@
                                             </div>
                                         </div>
 
-                                        <hr class="thin no-padding">
+
 
                                         <div id="admin-user" <?php if ($pre_configured == true): ?><?php endif; ?>>
                                             <div class="mw-ui-col-container">

@@ -67,7 +67,7 @@
 
         @foreach($comments as $comment)
 
-            <div class="card shadow-sm mb-4 bg-silver comments-card">
+            <div class="card shadow-sm mb-4 bg-silver comments-card" x-data="{showReplyForm: false}">
 
                 @if($comment->isPending())
                 <div class="card-status-start bg-primary"></div>
@@ -76,7 +76,7 @@
                 <div class="card-body">
                     <div class="gap-5">
 
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center gap-2">
 
                             <div>
                                 @if($comment->created_by > 0)
@@ -90,7 +90,7 @@
                                 @endif
                             </div>
 
-                            <div class="d-flex justify-content-between gap-5">
+                            <div class="d-flex justify-content-between gap-5" style="width: 100%;">
                                 <div class="">
                                     <p class="mb-0">
                                         {{$comment->comment_name}}
@@ -115,12 +115,25 @@
 
                         <div class="mt-3" style="padding-left:80px">
 
-                            <div>
+                            <div class="cursor-pointer" wire:click="filterByContentId('{{$comment->contentId()}}')">
                                 <p class="mb-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16 19H3v-2h13v2zm5-10H3v2h18V9zM3 5v2h11V5H3zm14 0v2h4V5h-4zm-6 8v2h10v-2H11zm-8 0v2h5v-2H3z"/></svg>
                                 {{$comment->contentTitle()}}
                                 </p>
                             </div>
+
+                            @if($comment->reply_to_comment_id > 0)
+                            <div class="mb-2">
+                                <div class="list-group list-group-flush">
+                                    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                                        {{_e('In reply to:')}}
+                                        <span class="text-muted">
+                                       {{str_limit($comment->parentCommentBody(), 80)}}
+                                      </span>
+                                    </a>
+                                </div>
+                            </div>
+                            @endif
 
                             <div class="cursor-pointer" wire:click="preview({{$comment->id}})">
                                <span class="mb-0 text-bold">
@@ -164,12 +177,35 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1024 1024"><path fill="currentColor" d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"/></svg>
                                         {{ _e("Untrash") }}
                                     </button>
-                                    <button class="mw-admin-action-links text-decoration-none btn btn-link" wire:click="delete('{{$comment->id}}')">
+
+                                    @php
+                                        $deleteModalData = [
+                                            'body' => 'Are you sure you want to delete this comment?',
+                                            'title' => 'Delete this comment',
+                                            'button_text'=> 'Delete forever',
+                                            'action' => 'executeCommentDelete',
+                                            'data'=> $comment->id
+                                        ];
+                                    @endphp
+                                    <button class="mw-admin-action-links text-decoration-none btn btn-link"
+                                            onclick="Livewire.emit('openModal', 'admin-confirm-modal', {{ json_encode($deleteModalData) }})">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z"/><path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z"/></svg>
                                         {{ _e("Delete forever") }}
                                     </button>
                                 @else
-                                    <button class="mw-admin-action-links text-decoration-none btn btn-link" wire:click="markAsTrash('{{$comment->id}}')">
+
+
+                                    @php
+                                        $trashModalData = [
+                                            'body' => 'Are you sure you want to trash this comment?',
+                                            'title' => 'Trash this comment',
+                                            'button_text'=> 'Move to trash',
+                                            'action' => 'executeCommentMarkAsTrash',
+                                            'data'=> $comment->id
+                                        ];
+                                    @endphp
+                                    <button class="mw-admin-action-links text-decoration-none btn btn-link"
+                                            onclick="Livewire.emit('openModal', 'admin-confirm-modal', {{ json_encode($trashModalData) }})">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z"/><path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z"/></svg>
                                         {{ _e("Trash") }}
                                     </button>
@@ -181,13 +217,25 @@
                                     &nbsp;{{ _e("Edit") }}
                                 </button>
 
-                                <button class="mw-admin-action-links text-decoration-none btn btn-link" wire:click="reply('{{$comment->id}}')">
+                                <button @click="showReplyForm = ! showReplyForm" style="cursor:pointer" class="mw-admin-action-links text-decoration-none btn btn-link">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16h7.2l-2.6 2.6L15 20l5-5l-5-5l-1.4 1.4l2.6 2.6H9c-2.2 0-4-1.8-4-4s1.8-4 4-4h2V4H9c-3.3 0-6 2.7-6 6s2.7 6 6 6z"/></svg>
                                     {{ _e("Reply") }}
                                 </button>
+
                                 @endif
 
                             </div>
+
+                            @if($comment->deleted_at == null)
+                                <div x-show="showReplyForm" style="display:none; background:#fff;" >
+                                    <div class="mt-2 mb-4">
+                                        <div>
+                                            <livewire:comments::admin-comment-reply wire:key="admin-comment-reply-id-{{$comment->id}}" rel_id="{{$comment->rel_id}}" reply_to_comment_id="{{$comment->id}}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
                         </div>
 
                     </div>

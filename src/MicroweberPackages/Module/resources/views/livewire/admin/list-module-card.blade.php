@@ -1,4 +1,4 @@
-<div class="col-md-3 p-3" wire:key="{{$module->id}}-{{md5($module->module)}}">
+<div class="col-lg-3 col-md-6 col-12 p-3" wire:key="{{$module->id}}-{{md5($module->module)}}">
     <div class="card modules-card" style="min-height:170px">
         <div class="card-body text-center d-flex align-items-center justify-content-center flex-column position-relative">
             <a href="{{module_admin_url($module->module)}}">

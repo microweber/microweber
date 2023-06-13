@@ -1,9 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Modules\Comments\Http\LiveWire;
+namespace MicroweberPackages\Modules\Comments\Http\Livewire;
 
 use Livewire\Component;
 use MicroweberPackages\Content\Models\Content;
+use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 use MicroweberPackages\Modules\Comments\Events\NewComment;
 use MicroweberPackages\Modules\Comments\Models\Comment;
 use MicroweberPackages\Modules\Comments\Notifications\NewCommentNotification;
@@ -11,6 +12,11 @@ use MicroweberPackages\User\Models\User;
 
 class UserCommentReplyComponent extends Component
 {
+    use AuthorizesRequests;
+
+    public $view = 'comments::livewire.user-comment-reply-component';
+    public $successMessage = false;
+
     public $state = [
         'comment_name' => '',
         'comment_email' => '',
@@ -23,7 +29,12 @@ class UserCommentReplyComponent extends Component
         $this->state['reply_to_comment_id'] = $replyToCommentId;
     }
 
-    public function render()
+    public function clearSuccessMessage()
+    {
+        $this->successMessage = false;
+    }
+
+    public function getViewData()
     {
         $enableCaptcha = true;
         $enableCaptchaOption = get_option('enable_captcha','comments');
@@ -42,11 +53,21 @@ class UserCommentReplyComponent extends Component
             $allowToComment = true;
         }
 
-        return view('comments::livewire.user-comment-reply-component',[
+        $comment = Comment::where('id', $this->state['reply_to_comment_id'])->first();
+
+        return [
             'enableCaptcha' => $enableCaptcha,
             'allowAnonymousComments' => $allowAnonymousComments,
             'allowToComment' => $allowToComment,
-        ]);
+            'comment' => $comment,
+        ];
+    }
+
+    public function render()
+    {
+        $data = $this->getViewData();
+
+        return view($this->view,$data);
     }
 
     public function save()
@@ -91,11 +112,34 @@ class UserCommentReplyComponent extends Component
             $comment->comment_email = $this->state['comment_email'];
         }
 
+        $needsApproval = true;
+        $requiresApproval = get_option('requires_approval','comments');
+        if ($requiresApproval == 'n') {
+            $needsApproval = false;
+        }
+        if (is_admin()) {
+            $needsApproval = false;
+        }
+
+        if ($needsApproval) {
+            $comment->is_new = 1;
+            $comment->is_moderated = 0;
+        } else {
+            $comment->is_new = 0;
+            $comment->is_moderated = 1;
+        }
+
         $comment->comment_body = $this->state['comment_body'];
         $comment->save();
 
        // event(new NewComment($comment));
       //  Notification::send(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
+
+        if ($needsApproval) {
+            $this->successMessage = _e('Your comment has been added, Waiting moderation.', true);
+        } else {
+            $this->successMessage = _e('Your comment has been added', true);
+        }
 
         $this->state['comment_body'] = '';
         $this->state['comment_name'] = '';

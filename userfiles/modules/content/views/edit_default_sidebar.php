@@ -140,13 +140,13 @@
 
 </script>
 
-<div class="col-md-3 mt-6 pt-4 manage-content-sidebar">
+<div class="col-md-4 mt-6 pt-4 pe-5 manage-content-sidebar">
     <div class="card shadow-none mb-5">
-        <div class="card-body mb-3">
+        <div class="card-body">
             <div class="card-header ps-0 pt-1 mb-0">
                 <strong><?php _e("Visibility"); ?></strong>
             </div>
-            <div class="row pb-0">
+            <div class="row pb-0 p-3">
                 <div class="col-12"><input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>"/>
                     <div class="form-group">
                         <div class="custom-control custom-radio mb-3">
@@ -166,9 +166,9 @@
 
     <module type="content/views/edit_default_sidebar_variants" content-id="<?php echo $data['id']; ?>" />
 
-    <div class="mb-3 categories js-sidebar-categories-card">
+    <div class="mb-5 categories js-sidebar-categories-card">
 
-               <div class="card shadow-none mb-5">
+               <div class="card shadow-none">
                    <div class="card-body">
 
 
@@ -181,7 +181,7 @@
                                      </strong>
                                  </div>
 
-                                  <div class="row">
+                                  <div class="row pb-0 p-3">
                                       <div class="quick-parent-selector mt-2">
                                           <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"/>
                                       </div>
@@ -217,7 +217,7 @@
                </div>
 
 
-                <div class="row mb-3">
+                <div class="row mb-3 py-0">
                     <div class="col-12">
                         <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                             <script>
@@ -308,14 +308,12 @@
                 </div>
 
                 <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-                    <hr class="thin no-padding"/>
 
-                    <div class="row">
+
+                    <div class="row pb-0 p-3">
                         <div class="col-12">
                             <div id="show-categories-tree-wrapper" >
-
-                                 <strong><?php _e('Select'); ?> <?php echo $data['content_type']; ?> <?php _e('categories'); ?></strong>
-
+                                <label for="" class="form-label font-weight-bold"><?php _e('Select'); ?> <?php echo $data['content_type']; ?> <?php _e('categories'); ?></label>
 
                                 <div id="show-categories-tree"  >
                                     <div class="mw-admin-edit-page-primary-settings content-category-selector">
@@ -348,7 +346,7 @@
         </div>
 
     <?php if ($data['content_type'] == 'page'): ?>
-        <div class="card-body mb-3 menus">
+        <div class="card-body mb-5 menus">
             <div class=" ">
                 <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
 
@@ -364,11 +362,11 @@
     <?php endif; ?>
 
     <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
-        <div class="card-body mb-3">
+        <div class="card-body">
             <div class=" ">
-                <div class="row mb-3">
+                <div class="row py-0">
                     <div class="col-12">
-                        <strong><?php _e("Tags"); ?></strong>
+                        <label for="" class="form-label font-weight-bold"><?php _e("Tags"); ?></label>
                         <small data-bs-toggle="tooltip" title="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>"></small>
                     </div>
                 </div>

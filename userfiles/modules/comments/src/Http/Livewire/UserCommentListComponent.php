@@ -1,13 +1,15 @@
 <?php
 
-namespace MicroweberPackages\Modules\Comments\Http\LiveWire;
+namespace MicroweberPackages\Modules\Comments\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 use MicroweberPackages\Modules\Comments\Models\Comment;
 
 class UserCommentListComponent extends Component {
 
+    use AuthorizesRequests;
     use WithPagination;
 
     public $relId;
@@ -34,11 +36,13 @@ class UserCommentListComponent extends Component {
     public function delete($commentId = false)
     {
         $getComment = Comment::where('id', $commentId)->first();
-        if ($getComment) {
-            $getComment->deleteWithReplies();
-            $this->emit('commentDeleted', $commentId);
-            $this->emit('$refresh');
-        }
+
+        $this->authorize('delete', $getComment);
+
+        $getComment->deleteWithReplies();
+
+        $this->emit('commentDeleted', $commentId);
+        $this->emit('$refresh');
     }
 
     public function render()
@@ -49,8 +53,10 @@ class UserCommentListComponent extends Component {
             })
             ->where('rel_id', $this->relId)
             ->where('rel_type', 'content')
+            ->published()
             ->orderBy('created_at', 'desc')
             ->paginate(3, ['*'], 'commentsPage');
+
 
         return view('comments::livewire.user-comment-list-component', [
             'comments' => $getComments,

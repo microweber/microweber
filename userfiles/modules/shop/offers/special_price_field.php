@@ -59,7 +59,7 @@ if (!isset($offer['price']['offer_price'])) {
 	<label><?php _e('Offer Price'); ?></label>
 	<div class="input-group mb-3 prepend-transparent append-transparent">
 		<div class="input-group-prepend">
-			<span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
+			<span class="input-group-text text-muted h-100"><?php echo get_currency_code(); ?></span>
 		</div>
 
 		<input autocomplete="off" type="text" class="form-control js-product-special-price" name="content_data[special_price]" value="<?php echo $offer['price']['offer_price'];?>">

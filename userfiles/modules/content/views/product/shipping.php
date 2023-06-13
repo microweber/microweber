@@ -43,12 +43,12 @@
 
 <div class="card-body mb-3">
     <div class="card-header no-border">
-        <h6><strong><?php _e("Shipping"); ?></strong></h6>
+        <label class="form-label"><?php _e("Shipping"); ?></label>
     </div>
 
     <div class=" ">
-        <div class="row">
-            <div class="col-md-12">
+        <div class="row py-0 ">
+            <div class="col-md-12 ps-md-0">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="form-check-input js-physical-product-check" id="customCheck4" name="content_data[physical_product]" value="1" <?php if ($contentData['physical_product']==1):?>checked="checked"<?php endif; ?>>
@@ -60,15 +60,15 @@
 
 
         <div class="js-physical-product">
-            <hr class="thin no-padding"/>
-            <div class="row">
-                <div class="col-md-6">
+
+            <div class="row py-0">
+                <div class="col-md-6 ps-md-0">
                     <div class="form-group">
                         <label class="form-label"><?php _e("Fixed Cost"); ?></label>
                         <small class="text-muted d-block mb-3"><?php _e("Used to set your shipping price at checkout and label prices during fulfillment."); ?></small>
                         <div class="input-group mb-3 prepend-transparent">
                             <div class="input-group-prepend">
-                                <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
+                                <span class="input-group-text text-muted h-100"><?php echo get_currency_code(); ?></span>
                             </div>
                             <input type="text" class="form-control" name="content_data[shipping_fixed_cost]" value="<?php echo $contentData['shipping_fixed_cost']; ?>">
                         </div>
@@ -84,7 +84,7 @@
                                 <input type="text" class="form-control" name="content_data[weight]" value="<?php echo $contentData['weight']; ?>">
                                 <div class="input-group-append">
                             <span style="width:70px;">
-                                <select class="form-select" name="content_data[weight_type]" data-width="100%">
+                                <select class="form-select h-100" name="content_data[weight_type]" data-width="100%">
                                     <option value="kg" <?php if ($contentData['weight_type']=='kg'):?>selected="selected"<?php endif; ?>><?php _e("kg"); ?></option>
                                     <option value="lb" <?php if ($contentData['weight_type']=='lb'):?>selected="selected"<?php endif; ?>><?php _e("lb"); ?></option>
                                     <option value="oz" <?php if ($contentData['weight_type']=='oz'):?>selected="selected"<?php endif; ?>><?php _e("oz"); ?></option>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row py-0">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="form-label d-block mb-3"><?php _e("Free Shipping"); ?></label>
@@ -112,14 +112,13 @@
                     </div>
                 </div>
             </div>
-            <a href="javascript:;" class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#advanced-weight-settings"><?php _e("Show advanced weight settings"); ?></a>
+            <a href="javascript:;" class="btn btn-link ps-4" data-bs-toggle="collapse" data-bs-target="#advanced-weight-settings"><?php _e("Show advanced weight settings"); ?></a>
 
-            <div class="collapse" id="advanced-weight-settings">
-                <hr class="thin no-padding"/>
-                <label class="form-label"><?php _e("Advanced"); ?></label>
-                <small class="text-muted d-block mb-3"><?php _e("Advanced product shipping settings."); ?></small>
+            <div class="row collapse" id="advanced-weight-settings">
+                <label class="form-label ps-0"><?php _e("Advanced"); ?></label>
+                <small class="text-muted d-block mb-3 ps-0"><?php _e("Advanced product shipping settings."); ?></small>
 
-                <div class="row">
+                <div class="row p-0">
                     <div class="col-lg-3 col-xl">
                         <div class="form-group">
                             <label><?php _e("Weight"); ?></label>
@@ -146,7 +145,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row p-0">
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">

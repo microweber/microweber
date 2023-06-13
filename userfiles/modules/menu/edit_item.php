@@ -235,7 +235,7 @@ if ($id == 0) {
                     </div>
                 </div>
 
-                <hr class="thin no-padding">
+
 
                 <div class="d-flex justify-content-between">
                     <button onclick="cancel_editing_menu(<?php print $data['id'] ?>);" class="btn btn-outline-primary btn-sm"><?php _e("Cancel"); ?></button>

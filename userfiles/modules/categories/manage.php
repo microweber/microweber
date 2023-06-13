@@ -7,7 +7,7 @@
             <div class="input-icon col-xl-5 col-sm-5 col-12  text-lg-center text-start my-sm-0 mt-5 mb-3">
                 <input type="text" value="" class="form-control" placeholder="Search" id="category-tree-search">
                 <span class="input-icon-addon">
-                  
+
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
                 </span>
             </div>
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class=" mb-5">
+        <div class=" mb-5" id="bulk-actions-block" style="display: none;" >
             <label for="" class="form-label">  <?php _e("Select action from the field") ?> </label>
             <div class="btn-group">
                 <button type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -43,77 +43,40 @@
                     <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
                     <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Move to trash</button></li>
                     <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">Delete Forever</button></li>
-
                     <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">Restore from trash</button></li>
-
                 </ul>
             </div>
         </div>
 
-        <div class=" ">
-
-            <?php if(!isset($params['show_add_post_to_category_button'])): ?>
-<!--                <div class="js-hide-when-no-items-selected mb-3" style="display:none;">-->
-<!--                    <button type="button" class="btn btn-outline-danger js-delete-selected-categories">-->
-<!--                      <i class="fa fa-trash"></i>-->
-<!--                        --><?php //_e('Delete '); ?><!--&nbsp;<span class="js-count-selected-categories"></span>-->
-<!--                    </button>-->
-<!--                  <button type="button" class="btn btn-outline-info">--><?php ///*_e('Publish'); */?><!--</button>-->
-<!--                    <button type="button" class="btn btn-outline-primary">--><?php ///*_e('Unpublish'); */?><!--</button>-->
-<!--                </div>-->
+        <div >
 
 
 
-            <?php endif; ?>
-<!--                <div class="col-md-10 mb-2">-->
-<!--                    You have selected all {{ count($checked) }} items.-->
-<!--                    <button type="button" class="btn btn-link" wire:click="deselectAll">{{ _e('Deselect All') }}</button>-->
-<!--                </div>-->
-<!---->
-<!--                <div>-->
-<!--                    You have selected {{ count($checked) }} items,-->
-<!--                    do you want to select all {{ count($contents->items()) }}?-->
-<!--                    <button type="button" class="btn btn-link" wire:click="selectAll">{{ _e('Select All') }}</button>-->
-<!--                </div>-->
-
-
-
-
-
-   <!--        <button type="button" class="btn btn-outline-primary js-show-checkboxes-on-tree">
-               Bulk Actions
-           </button>
--->
             <div id="mw-admin-categories-tree-manager"></div>
+            <div id="mw-admin-categories-tree-manager-no-results-message" style="display: none;">
+            <div class="empty">
+            <div class="empty-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <circle cx="12" cy="12" r="9" />
+                <line x1="9" y1="10" x2="9.01" y2="10" />
+                <line x1="15" y1="10" x2="15.01" y2="10" />
+                <path d="M9.5 15.25a3.5 3.5 0 0 1 5 0" />
+                </svg>
+            </div>
+            <p class="empty-title">No results found</p>
+            <p class="empty-subtitle text-muted">
+                Try adjusting your search or filter to find what you're looking for.
+            </p>
+ 
+            </div>
+
+        </div>
             <script>
 
                 selectedPages = [];
                 selectedCategories = [];
-               // bulkOptionsOpened = true;
 
-                // $(document).ready(function() {
-                //     $('.js-show-checkboxes-on-tree').click(function() {
-                //
-                //         if (!bulkOptionsOpened) {
-                //             bulkOptionsOpened = true;
-                //
-                //             $('#mw-admin-categories-tree-manager').empty();
-                //             treeDataOpts.selectable = true;
-                //             treeDataOpts.rowSelect = false;
-                //             renderCategoryTree();
-                //             $('.js-show-checkboxes-on-tree').attr('bulk-opened', '0');
-                //
-                //         } else {
-                //             bulkOptionsOpened = false;
-                //
-                //             $('#mw-admin-categories-tree-manager').empty();
-                //             treeDataOpts.selectable = false;
-                //             renderCategoryTree();
-                //             $('.js-show-checkboxes-on-tree').attr('bulk-opened', '1');
-                //         }
-                //
-                //     });
-                // });
 
                 $('.js-delete-selected-categories').click(function() {
 
@@ -168,7 +131,20 @@
                 treeDataOpts = {
                     cantSelectTypes: ['page'],
                     sortable: '>.type-category',
-                    sortableHandle: '.mw-tree-item-content',
+                    sortableHandle: '.mw-tree-item-sortable-handle',
+                    createSortableHandle: function (list){
+                        mw.$('.mw-tree-item-content', list).each(function (){
+                            $(this)
+                                .not('.mw-tree-item-sortable-handle-ready')
+                                .addClass('mw-tree-item-sortable-handle-ready')
+                                .prepend(`
+                                <span class="mw-tree-item-sortable-handle">
+                                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M360 896q-33 0-56.5-23.5T280 816q0-33 23.5-56.5T360 736q33 0 56.5 23.5T440 816q0 33-23.5 56.5T360 896Zm240 0q-33 0-56.5-23.5T520 816q0-33 23.5-56.5T600 736q33 0 56.5 23.5T680 816q0 33-23.5 56.5T600 896ZM360 656q-33 0-56.5-23.5T280 576q0-33 23.5-56.5T360 496q33 0 56.5 23.5T440 576q0 33-23.5 56.5T360 656Zm240 0q-33 0-56.5-23.5T520 576q0-33 23.5-56.5T600 496q33 0 56.5 23.5T680 576q0 33-23.5 56.5T600 656ZM360 416q-33 0-56.5-23.5T280 336q0-33 23.5-56.5T360 256q33 0 56.5 23.5T440 336q0 33-23.5 56.5T360 416Zm240 0q-33 0-56.5-23.5T520 336q0-33 23.5-56.5T600 256q33 0 56.5 23.5T680 336q0 33-23.5 56.5T600 416Z"></path></svg>
+                                </span>
+                            `)
+                        })
+                    },
+
                     selectable: true,
                     rowSelect : false,
                     singleSelect: false,
@@ -233,6 +209,14 @@
                     }, 'tree').then(function (res) {
                         res.tree.openAll();
 
+                        res.tree.on('searchNoResults', function(){
+                            document.getElementById('mw-admin-categories-tree-manager-no-results-message').style.display = '';
+                        });
+                        res.tree.on('searchResults', function(){
+                            document.getElementById('mw-admin-categories-tree-manager-no-results-message').style.display = 'none';
+                        });
+
+
                         $(res.tree).on('orderChange', function (e, obj) {
                             var items = res.tree.getSameLevelObjects(obj).filter(function (obj) {
                                 return obj.type === 'category';
@@ -246,7 +230,17 @@
                         });
                         $(res.tree).on("selectionChange", function () {
 
-                            res.tree.getSelected().length === 0 ? $('.js-hide-when-no-items-selected').hide() : $('.js-hide-when-no-items-selected').show();
+                            var bulk = document.getElementById('bulk-actions-block');
+
+                            if(res.tree.getSelected().length === 0) {
+                                $('.js-hide-when-no-items-selected').hide()
+                                $(bulk).hide()
+                            } else {
+                                $('.js-hide-when-no-items-selected').show();
+                                $(bulk).show();
+                            }
+
+
 
                             if (res.tree.getSelected().length == 1) {
                                 $('.js-count-selected-categories').html(res.tree.getSelected().length + ' <?php _ejs('category'); ?>');

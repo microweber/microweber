@@ -242,7 +242,7 @@
         </div>
 
         <div class="js-product-variants" <?php if(!$hasVariants): ?> style="display: none" <?php endif; ?>>
-            <hr class="thin no-padding"/>
+
 
             <h6 class="text-uppercase mb-3"><strong>Create an option</strong></h6>
 
@@ -251,7 +251,7 @@
             <hr class="thin" />
 
             <button type="button" class="btn btn-outline-primary   js-add-variant-option">Add another option</button>
-            <hr class="thin no-padding"/>
+
             <h6 class="text-uppercase mb-3"><strong>Preview</strong></h6>
 
             <div class="table-responsive">

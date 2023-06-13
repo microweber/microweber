@@ -71,7 +71,7 @@ $out_of_stock = false;
             <label class="mw-ui-check"><input type="radio" <?php if (isset($data_fields['is_free_shipping']) and $data_fields['is_free_shipping'] == "n"): ?>checked="checked"<?php endif; ?> name="data_is_free_shipping" value="n"><span></span><span><?php _e("No"); ?></span></label>
 
 				<div id="data_shipping_fields" >
-                     <div class="row">
+                     <div class="row px-0">
                          <div class="col-lg-3 col-xl">
                            <div class="mw-ui-col-container">
                                 <div class="form-group">

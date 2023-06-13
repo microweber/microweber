@@ -11,6 +11,12 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     protected $paginationTheme = 'bootstrap';
 
+    public $listeners = [
+        'commentAdded' => '$refresh',
+        'executeCommentDelete'=>'executeCommentDelete',
+        'executeCommentMarkAsTrash'=>'executeCommentMarkAsTrash',
+    ];
+
     public $filter = [
         "keyword" => "",
         "orderField" => "id",
@@ -29,17 +35,14 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     public $itemsPerPage = 10;
 
+    public function filterByContentId($id)
+    {
+        $this->filter['content_id'] = $id;
+    }
+
     public function preview()
     {
 
-    }
-
-    public function delete($id)
-    {
-        $comment = Comment::withTrashed()->where('id',$id)->first();
-        if ($comment) {
-            $comment->forceDelete();
-        }
     }
 
     public function markAsModerated($id)
@@ -82,11 +85,22 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
         }
     }
 
-    public function markAsTrash($id)
-    {
+    public function executeCommentDelete($id) {
+
+        $comment = Comment::withTrashed()->where('id',$id)->first();
+        if ($comment) {
+            if ($comment->canIDeleteThisComment()) {
+                $comment->forceDelete();
+            }
+        }
+    }
+
+    public function executeCommentMarkAsTrash($id) {
         $comment = Comment::find($id);
         if ($comment) {
-            $comment->delete();
+            if ($comment->canIDeleteThisComment()) {
+                $comment->delete();
+            }
         }
     }
 
@@ -101,7 +115,7 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     public function render()
     {
 
-        $countAll = Comment::published()->count();
+        $countAll = Comment::forAdminPreview()->count();
         $countPending = Comment::pending()->count();
         $countApproved = Comment::approved()->count();
         $countSpam = Comment::spam()->count();
@@ -131,7 +145,7 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
             }
             else {
                 $getCommentsQuery->where(function ($query) {
-                    $query->published();
+                    $query->forAdminPreview();
                 });
             }
         }

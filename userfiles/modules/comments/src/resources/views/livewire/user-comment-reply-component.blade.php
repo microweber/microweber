@@ -1,4 +1,12 @@
 <div>
+
+    <div class="alert alert-success" @if(!$successMessage) style="display:none" @endif>
+        {{$successMessage}}
+        <div class="btn btn-outline-primary" wire:click="clearSuccessMessage">
+            {{_e('Ok')}}
+        </div>
+    </div>
+
     <form>
 
         @if (!user_id())
@@ -25,7 +33,7 @@
 
             <div class="mt-2">
                 <label>Comment:</label>
-                <textarea class="form-control" wire:model.lazy="state.comment_body"></textarea>
+                <x-comments::editors.easymde model="state.comment_body" />
             </div>
 
             @if($enableCaptcha)
