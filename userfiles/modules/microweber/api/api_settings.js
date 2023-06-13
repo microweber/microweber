@@ -332,6 +332,12 @@
                 mw.require(mw.settings.libs_url + 'echarts' + '/theme/cool.js', true);
             }
         ],
+        easymde: [
+            function () {
+                mw.require(mw.settings.libs_url + 'easymde' + '/easymde.min.js', true);
+                mw.require(mw.settings.libs_url + 'easymde' + '/easymde.min.css', true);
+            }
+        ],
         anchorific: [
             function () {
                 mw.require(mw.settings.libs_url + 'anchorific' + '/anchorific.min.js', true);
