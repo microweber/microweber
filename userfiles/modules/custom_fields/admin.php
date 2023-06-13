@@ -181,11 +181,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div>
                         <div class="card mb-3 mt-3 card-closed">
-                            <div class="card-header no-border tblr-body-color py-1 js-add-custom-field" style="cursor:pointer" onClick="javascript:mw_cf_toggle_edit_window()">
-                                <div class="d-flex align-items-center btn btn-outline-dark">
+                            <div class="card-header no-border js-add-custom-field py-1 px-0" style="cursor:pointer" onClick="javascript:mw_cf_toggle_edit_window()">
+                                <div class="d-flex align-items-center btn btn-outline-dark ">
 
                                     <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
-                                    <Label class="form-label mb-0"><?php _e("Add new field"); ?></Label>
+                                    <span><?php _e("Add new field"); ?></span>
                                 </div>
                             </div>
                             <div class="card-body collapse mt-3" id="add-field-select">
@@ -213,7 +213,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                 <input type="text" class="form-control form-control-sm" aria-label="Search" id="cf-add-existing-search" placeholder="Search">
                                             </div>
                                         </div>
-                                    <div class="row px-0">
+                                    <div class="row px-0 pb-3">
                                         <?php foreach ($exiisting_fields as $item): ?>
                                            <div class="col-xl-3 col-md-4 col-6">
                                                 <button type="button" class="btn btn-link text-decoration-none mw-custom-field-existing-item-btn"
@@ -249,7 +249,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         <?php endforeach; ?>
                                     </select>
 
-                                    <div class="row p-0">
+                                    <div class="row px-0 pb-3">
                                         <label class="form-label"><?php _e(" Add new fields"); ?></label>
                                         <small class="d-block mb-2 text-muted"><?php _e("Add new custom field from list bellow"); ?></small>
                                     </div>
