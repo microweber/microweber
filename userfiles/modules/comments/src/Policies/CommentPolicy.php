@@ -19,6 +19,11 @@ class CommentPolicy
             return true;
         }
 
+        if ($comment->user_ip == user_ip()
+            && $comment->session_id == session_id()) {
+            return true;
+        }
+
         return false;
     }
 
