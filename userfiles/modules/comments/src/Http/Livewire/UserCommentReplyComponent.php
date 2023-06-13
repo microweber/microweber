@@ -51,6 +51,11 @@ class UserCommentReplyComponent extends Component
 
     public function save()
     {
+        if (RateLimiter::tooManyAttempts('save-comment:'.$this->state['rel_id'], $perMinute = 1)) {
+            $this->addError('state.comment_body', 'Too many attempts!');
+            return;
+        }
+
         $validate = [
             'state.rel_id' => 'required|min:1',
             'state.comment_body' => 'required|min:3',
@@ -90,7 +95,6 @@ class UserCommentReplyComponent extends Component
         $comment->save();
 
        // event(new NewComment($comment));
-
       //  Notification::send(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
 
         $this->state['comment_body'] = '';
