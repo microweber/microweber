@@ -199,9 +199,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <label><?php _e("Require login"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("If set to yes - this page will require login from a registered user in order to be opened"); ?></small>
                             <div class="form-check form-switch pl-0">
-                                <label class="d-inline-block mr-5" style="cursor:pointer" for="require_login"><?php _e("No"); ?></label>
                                 <input type="checkbox" class="form-check-input" style="cursor:pointer" id="require_login" name="require_login" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['require_login'])): ?>checked="1"<?php endif; ?>>
-                                <label class="custom-control-label" style="cursor:pointer" for="require_login"><?php _e("Yes"); ?></label>
                             </div>
                         </div>
                     </div>

@@ -137,7 +137,7 @@
 
                             <div class="cursor-pointer" wire:click="preview({{$comment->id}})">
                                <span class="mb-0 text-bold">
-                                  {{$comment->comment_body}}
+                                  {!! $comment->comment_body !!}
                                 </span>
                             </div>
                         </div>
