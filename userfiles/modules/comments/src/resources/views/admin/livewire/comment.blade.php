@@ -76,7 +76,7 @@
                 <div @if($this->isEditing) style="display:none" @endif>
                     <div class="cursor-pointer" wire:click="preview">
                        <span class="mb-0 text-bold">
-                          {!! $comment->commentBodyDispaly() !!}
+                          {!! $comment->commentBodyDisplay() !!}
                         </span>
                     </div>
                 </div>

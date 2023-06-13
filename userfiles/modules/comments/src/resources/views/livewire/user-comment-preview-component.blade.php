@@ -33,7 +33,7 @@
                             <textarea wire:model="editText" class="form-control"></textarea>
                         </div>
                     @else
-                        {!! $comment->comment_body !!}
+                        {!! $comment->commentBodyDisplay() !!}
                     @endif
 
                     @canany(['update', 'delete'], $comment)

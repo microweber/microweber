@@ -36,7 +36,7 @@ class Comment extends Model
         });
     }
 
-    public function commentBodyDispaly()
+    public function commentBodyDisplay()
     {
         // Save markdown
         $renderer = new CommonMarkConverter([
