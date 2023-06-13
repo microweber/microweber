@@ -73,7 +73,9 @@ class UserCommentReplyComponent extends Component
 
     public function save()
     {
-        if (RateLimiter::tooManyAttempts('save-comment:'.$this->state['rel_id'], $perMinute = 1)) {
+        $hasRateLimiterId = $this->state['rel_id'] . $this->state['reply_to_comment_id'] . user_ip();
+
+        if (RateLimiter::tooManyAttempts('save-comment:'.$hasRateLimiterId, $perMinute = 1)) {
             $this->addError('state.comment_body', 'Only one comment is allowed per minute. You may try again after 1 minute.');
             return;
         }
@@ -136,7 +138,7 @@ class UserCommentReplyComponent extends Component
         $comment->comment_body = $this->state['comment_body'];
         $comment->save();
 
-        RateLimiter::hit('save-comment:'.$this->state['rel_id']);
+        RateLimiter::hit('save-comment:'.$hasRateLimiterId);
 
        // event(new NewComment($comment));
       //  Notification::send(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
