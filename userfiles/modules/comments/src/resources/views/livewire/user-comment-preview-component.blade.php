@@ -30,7 +30,7 @@
 
                     @if($editForm)
                         <div>
-                            <textarea wire:model="editText" class="form-control"></textarea>
+                            <x-comments::editors.easymde model="editText" />
                         </div>
                     @else
                         {!! $comment->commentBodyDisplay() !!}

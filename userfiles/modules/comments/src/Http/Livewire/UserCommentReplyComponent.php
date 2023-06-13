@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Comments\Http\Livewire;
 
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
@@ -109,7 +110,7 @@ class UserCommentReplyComponent extends Component
         }
 
         $comment->user_ip = user_ip();
-        $comment->session_id = session_id();
+        $comment->session_id = Session::getId();
 
         if (user_id()) {
             $comment->created_by = user_id();
