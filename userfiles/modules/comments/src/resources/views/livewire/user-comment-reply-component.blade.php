@@ -16,10 +16,16 @@
                     <label>Name:</label>
                     <input type="text" wire:model.lazy="state.comment_name" class="form-control" />
                 </div>
+                @if($errors->has('state.comment_name'))
+                    <span>{{ $errors->first('state.comment_name') }}</span>
+                @endif
                 <div class="col">
                     <label>Email:</label>
                     <input type="email" wire:model.lazy="state.comment_email" class="form-control" />
                 </div>
+                @if($errors->has('state.comment_email'))
+                    <span>{{ $errors->first('state.comment_email') }}</span>
+                @endif
             </div>
             @else
                 <div class="alert alert-warning">
@@ -34,6 +40,9 @@
             <div class="mt-2">
                 <label>Comment:</label>
                 <x-comments::editors.easymde model="state.comment_body" />
+                @if($errors->has('state.comment_body'))
+                    <span>{{ $errors->first('state.comment_body') }}</span>
+                @endif
             </div>
 
             @if($enableCaptcha)

@@ -74,11 +74,13 @@ class UserCommentReplyComponent extends Component
     public function save()
     {
         if (RateLimiter::tooManyAttempts('save-comment:'.$this->state['rel_id'], $perMinute = 1)) {
-            $seconds = RateLimiter::availableIn('send-message:'.$this->state['rel_id']);
-            $this->addError('state.comment_body', 'You may try again in '.$seconds.' seconds.');
+            $this->addError('state.comment_body', 'Only one comment is allowed per minute. You may try again after 1 minute.');
             return;
         }
 
+        $messages = array(
+            'required' => _e('The field is required.', true),
+        );
         $validate = [
             'state.rel_id' => 'required|min:1',
             'state.comment_body' => 'required|min:3',
@@ -88,7 +90,7 @@ class UserCommentReplyComponent extends Component
             $validate['state.comment_email'] = 'required|email';
         }
 
-        $this->validate($validate);
+        $this->validate($validate, $messages);
 
         $countContent = Content::where('id', $this->state['rel_id'])->active()->count();
         if ($countContent == 0) {
