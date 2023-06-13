@@ -37,6 +37,7 @@ class Comment extends Model
                 ]);
                 $commentBody = $renderer->convert($comment->comment_body);
                 $comment->comment_body = $commentBody;
+                $comment->comment_body_original = $comment->comment_body;
             }
         });
     }
