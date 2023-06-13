@@ -103,7 +103,12 @@ if ($for_id != false) {
                 data.for_id = (id);
 
             }
-            mw.module_pictures.after_upload(data);
+            return new Promise(resolve => {
+                mw.module_pictures.after_upload(data, function(){
+                    resolve()
+                });
+            })
+            
         }
         if (e === 'done') {
             setTimeout(function () {
@@ -225,8 +230,7 @@ if (!isset($data["thumbnail"])) {
 
 <div class="left pt-3" style="clear:both" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 
-    <div class="relative post-thumb-uploader m-t-10" id="backend_image_uploader_<?php print $rand?>"></div>
-
+ 
 
 
     <div class="admin-thumbs-holder">

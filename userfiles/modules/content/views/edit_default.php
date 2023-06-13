@@ -597,7 +597,7 @@ if (isset($params['quick_edit'])) {
                                         <div class="mb-3 images">
                                             <div class="no-border" id="post-media-card-header">
                                                 <h6><strong><?php _e('Add media'); ?></strong></h6>
-                                                <div class="dropzone mw-dropzone" id="post-file-picker">
+                                                <div class="dropzone mw-dropzone" id="post-file-picker" onclick="addImagesToPost()">
                                                     <div class="dz-message">
                                                         <h3 class="dropzone-msg-title"><?php _e("Add file"); ?></h3>
                                                         <span class="dropzone-msg-desc"><?php _e("or drop files to upload"); ?></span>
