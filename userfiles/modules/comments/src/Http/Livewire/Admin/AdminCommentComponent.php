@@ -67,6 +67,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->is_moderated = 1;
             $comment->save();
 
+            $this->comment = $comment;
+
             $this->emit('commentUpdated');
         }
     }
@@ -81,6 +83,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->is_new = 1;
             $comment->is_moderated = 0;
             $comment->save();
+
+            $this->comment = $comment;
 
             $this->emit('commentUpdated');
         }
@@ -97,6 +101,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->is_moderated = 0;
             $comment->save();
 
+            $this->comment = $comment;
+
             $this->emit('commentUpdated');
         }
     }
@@ -111,6 +117,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->is_spam = 0;
             $comment->is_moderated = 1;
             $comment->save();
+
+            $this->comment = $comment;
 
             $this->emit('commentUpdated');
         }
@@ -131,8 +139,11 @@ class AdminCommentComponent extends UserCommentReplyComponent
 
         $comment = Comment::find($this->comment->id);
         if ($comment) {
+            
             $this->authorize('delete', $comment);
             $comment->delete();
+
+            $this->comment = $comment;
 
             $this->emit('commentUpdated');
         }
@@ -146,6 +157,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $this->authorize('update', $comment);
 
             $comment->restore();
+
+            $this->comment = $comment;
 
             $this->emit('commentUpdated');
         }
