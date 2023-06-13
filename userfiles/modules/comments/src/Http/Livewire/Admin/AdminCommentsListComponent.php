@@ -15,8 +15,7 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     public $listeners = [
         'commentAdded' => '$refresh',
-        'executeCommentDelete'=>'executeCommentDelete',
-        'executeCommentMarkAsTrash'=>'executeCommentMarkAsTrash',
+        'commentUpdated' => '$refresh',
     ];
 
     public $filter = [

@@ -18,6 +18,11 @@ class AdminCommentComponent extends UserCommentReplyComponent
         'comment.comment_body' => 'required',
     ];
 
+    public $listeners = [
+        'executeCommentDelete'=>'executeCommentDelete',
+        'executeCommentMarkAsTrash'=>'executeCommentMarkAsTrash',
+    ];
+
     public function preview()
     {
 
@@ -40,6 +45,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->comment_body = $this->comment->comment_body;
             $comment->save();
             $this->isEditing = false;
+
+            $this->emit('commentUpdated');
         }
     }
 
@@ -53,6 +60,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->is_new = 0;
             $comment->is_moderated = 1;
             $comment->save();
+
+            $this->emit('commentUpdated');
         }
     }
 
@@ -66,6 +75,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->is_new = 1;
             $comment->is_moderated = 0;
             $comment->save();
+
+            $this->emit('commentUpdated');
         }
     }
 
@@ -79,6 +90,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->is_spam = 1;
             $comment->is_moderated = 0;
             $comment->save();
+
+            $this->emit('commentUpdated');
         }
     }
 
@@ -92,6 +105,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->is_spam = 0;
             $comment->is_moderated = 1;
             $comment->save();
+
+            $this->emit('commentUpdated');
         }
     }
 
@@ -101,6 +116,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
         if ($comment) {
             $this->authorize('delete', $comment);
             $comment->forceDelete();
+
+            $this->emit('commentUpdated');
         }
     }
 
@@ -110,6 +127,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
         if ($comment) {
             $this->authorize('delete', $comment);
             $comment->delete();
+
+            $this->emit('commentUpdated');
         }
     }
 
@@ -121,6 +140,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $this->authorize('update', $comment);
 
             $comment->restore();
+
+            $this->emit('commentUpdated');
         }
     }
 
