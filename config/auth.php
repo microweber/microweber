@@ -36,9 +36,9 @@ return [
             'provider' => 'users',
         ],
         'api' => [
-           // 'driver' => 'passport',
+            // 'driver' => 'passport',
             'driver' => 'token',
-           // 'driver' => 'passport',
+            // 'driver' => 'passport',
             'provider' => 'users',
         ],
     ],
