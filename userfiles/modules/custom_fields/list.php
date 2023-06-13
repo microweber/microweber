@@ -212,7 +212,7 @@ if (isset($params['for_module_id'])): ?>
                            <td data-id="<?php print $field['id']; ?>">
                                <span class="mobile-th"><?php _e("Name"); ?>: </span>
                                <span class="mw-custom-fields-list-preview">
-                                    <span class="text-capitalize d-inline-block px-3 py-1" data-id="<?php print $field['id']; ?>"><small class="px-1 py-1"><?php print $field['name']; ?></small></span>
+                                    <span class="text-capitalize d-inline-block py-1" data-id="<?php print $field['id']; ?>"><small class="px-1 py-1"><?php print $field['name']; ?></small></span>
                                 </span>
                            </td>
 
