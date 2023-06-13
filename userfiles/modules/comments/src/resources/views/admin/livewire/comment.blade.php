@@ -46,28 +46,29 @@
 
             <div class="mt-3" style="padding-left:80px">
 
-                <div class="cursor-pointer" wire:click="filterByContentId('{{$comment->contentId()}}')">
+                <a href="{{content_link($comment->contentId())}}" target="_blank">
                     <p class="mb-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16 19H3v-2h13v2zm5-10H3v2h18V9zM3 5v2h11V5H3zm14 0v2h4V5h-4zm-6 8v2h10v-2H11zm-8 0v2h5v-2H3z"/></svg>
                         {{$comment->contentTitle()}}
                     </p>
-                </div>
+                </a>
 
                 @if($comment->reply_to_comment_id > 0)
                     <div class="mb-2">
                         <div class="list-group list-group-flush">
-                            <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                            <div class="list-group-item list-group-item-action active" aria-current="true">
                                 {{_e('In reply to:')}}
                                 <span class="text-muted">
                                    {{str_limit(strip_tags($comment->parentCommentBody()), 80)}}
                                 </span>
-                            </a>
+                            </div>
                         </div>
                     </div>
                 @endif
 
                 <div @if($this->isEditing) @else style="display:none" @endif>
-                    <x-comments::editors.easymde model="comment.comment_body" />
+                    <x-comments::editors.easymde model="comment.comment_body_original" />
+                    {{$comment->comment_body_original}}
                     <button type="button" class="btn btn-primary mt-3" wire:click="save">
                         {{_e('Save')}}
                     </button>

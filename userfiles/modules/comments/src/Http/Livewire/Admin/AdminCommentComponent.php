@@ -33,6 +33,11 @@ class AdminCommentComponent extends UserCommentReplyComponent
         $comment = Comment::find($this->comment->id);
         if ($comment) {
             $this->authorize('update', $comment);
+            if (empty(trim($comment->comment_body_original))) {
+                $comment->comment_body_original = $comment->comment_body;
+                $comment->save();
+                $this->comment = $comment;
+            }
             $this->isEditing = true;
         }
     }
@@ -42,8 +47,10 @@ class AdminCommentComponent extends UserCommentReplyComponent
         $comment = Comment::find($this->comment->id);
         if ($comment) {
             $this->authorize('update', $comment);
-            $comment->comment_body = $this->comment->comment_body;
+            $comment->comment_body = $this->commentBodyEdit;
             $comment->save();
+
+            $this->comment = $comment;
             $this->isEditing = false;
 
             $this->emit('commentUpdated');
