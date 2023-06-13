@@ -14,7 +14,9 @@ class AddCommentBodyOriginalToCommentsTable extends Migration
     public function up()
     {
         Schema::table('comments', function (Blueprint $table) {
-            $table->timestamp('comment_body_original')->nullable();
+            $table->longText('comment_body_original')
+                ->after('comment_body')
+                ->nullable();
         });
 
     }

@@ -62,6 +62,7 @@ class Admin
     }
     private function requestIsInIframe($request)
     {
+
         $secFetchDest = $request->header('Sec-Fetch-Dest');
 
         if ($secFetchDest == 'iframe') {
