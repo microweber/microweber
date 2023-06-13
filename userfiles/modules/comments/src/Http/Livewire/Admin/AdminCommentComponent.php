@@ -124,9 +124,9 @@ class AdminCommentComponent extends UserCommentReplyComponent
         }
     }
 
-    public function executeCommentDelete() {
+    public function executeCommentDelete($commentId) {
 
-        $comment = Comment::withTrashed()->where('id',$this->comment->id)->first();
+        $comment = Comment::withTrashed()->where('id',$commentId)->first();
         if ($comment) {
             $this->authorize('delete', $comment);
             $comment->forceDelete();
@@ -135,11 +135,12 @@ class AdminCommentComponent extends UserCommentReplyComponent
         }
     }
 
-    public function executeCommentMarkAsTrash() {
+    public function executeCommentMarkAsTrash($commentId) {
 
-        $comment = Comment::find($this->comment->id);
+        $comment = Comment::find($commentId);
+
         if ($comment) {
-            
+
             $this->authorize('delete', $comment);
             $comment->delete();
 
