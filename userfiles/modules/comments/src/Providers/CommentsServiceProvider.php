@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
+use MicroweberPackages\Modules\Comments\Http\Livewire\Admin\AdminCommentComponent;
 use MicroweberPackages\Modules\Comments\Http\Livewire\Admin\AdminCommentReplyComponent;
 use MicroweberPackages\Modules\Comments\Http\Livewire\Admin\AdminCommentsListComponent;
 use MicroweberPackages\Modules\Comments\Http\Livewire\Admin\AdminSettingsModalComponent;
@@ -50,6 +51,7 @@ class CommentsServiceProvider extends PackageServiceProvider
 
         View::addNamespace('comments', normalize_path(__DIR__) . '/../resources/views');
 
+        Livewire::component('comments::admin-comment', AdminCommentComponent::class);
         Livewire::component('comments::admin-comments', AdminCommentsListComponent::class);
         Livewire::component('comments::admin.settings-modal', AdminSettingsModalComponent::class);
         Livewire::component('comments::admin-comment-reply', AdminCommentReplyComponent::class);

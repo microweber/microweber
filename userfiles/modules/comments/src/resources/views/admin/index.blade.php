@@ -6,5 +6,4 @@
         @livewire('comments::admin-comments')
     </div>
 
-
 @endsection
