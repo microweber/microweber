@@ -54,6 +54,9 @@
                         {{_e('Post comment')}}
                     </div>
                 </button>
+
+                captcha code: {{$captcha}}
+
             </div>
         @endif
 

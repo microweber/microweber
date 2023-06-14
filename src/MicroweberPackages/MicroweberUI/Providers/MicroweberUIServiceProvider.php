@@ -24,7 +24,6 @@ class MicroweberUIServiceProvider extends PackageServiceProvider
 //        Blade::componentNamespace('MicroweberPackages\\View\\Views\\Components', 'mw-ui');
 //        Blade::component('tabs', Tabs::class);
 
-
         Livewire::component('captcha-confirm-modal', CaptchaConfirmModalComponent::class);
 
     }
