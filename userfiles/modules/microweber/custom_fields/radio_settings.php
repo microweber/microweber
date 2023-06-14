@@ -13,7 +13,7 @@
              <i class="mdi mdi-cursor-move custom-fields-handle-field align-self-center me-2"></i>
              <input type="text" class="form-control"  name="value[]"  value="<?php print $v; ?>" />
          </div>
-        <div class="col-4 text-end">
+        <div class="col-md-4 col-12 text-md-end ms-md-0 ms-3 mt-md-0 mt-2">
             <?php print $add_remove_controls; ?>
         </div>
       </div>
@@ -26,7 +26,7 @@
             <input type="text" name="value[]" class="form-select  mw-full-width"  value="" />
          </div>
 
-         <div class="col-4 text-end">
+         <div class="col-md-4 col-12 text-md-end ms-md-0 ms-3 mt-md-0 mt-2">
 
             <?php print $add_remove_controls; ?>
          </div>
