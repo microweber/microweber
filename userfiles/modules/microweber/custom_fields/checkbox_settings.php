@@ -4,7 +4,7 @@
    if(empty($data['values'])){
 	//$data['values'] = array(0);
    }
-   
+
   // d($data);
    // p ($data['values'])
 
@@ -14,7 +14,7 @@
   <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
     <?php if(is_array($data['values']) and !empty($data['values'])) : ?>
     <?php foreach($data['values'] as $v): ?>
-    <div class="mw-custom-field-form-controls d-flex">
+    <div class="mw-custom-field-form-controls d-flex flex-wrap">
         <i class="mdi mdi-cursor-move custom-fields-handle-field align-self-center mr-2"></i>
         <input type="text" class="form-control col-5"  name="value[]"  value="<?php print $v; ?>">
       <?php print $add_remove_controls; ?> </div>
