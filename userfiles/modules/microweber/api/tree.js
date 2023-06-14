@@ -93,7 +93,7 @@
         this.filterLocal = function(val, key){
             key = key || 'title';
             val = (val || '').toLowerCase().trim();
-            
+
 
             if(!val){
                 this.dispatch( 'searchResults')
@@ -491,7 +491,7 @@
             if(!li) return;
             li.classList.remove('mw-tree-item-hidden');
             mw.$(li).parents("li").each(function(){
-                 
+
                 scope.show(this);
                 scope.open(this);
             });
@@ -559,7 +559,7 @@
         this.button = function(){
             var btn = scope.document.createElement('mwbutton');
             btn.className = 'mw-tree-toggler';
-            btn.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' fill='currentColor' height='20' viewBox='0 96 960 960' width='20'><path d='m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z'/></svg>";
+
             btn.onclick = function(){
                 scope.toggle(mw.tools.firstParentWithTag(this, 'li'));
             };
