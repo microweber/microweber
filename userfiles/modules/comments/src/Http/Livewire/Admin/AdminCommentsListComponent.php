@@ -16,6 +16,8 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     public $listeners = [
         'commentAdded' => '$refresh',
         'commentUpdated' => '$refresh',
+        'executeCommentDelete'=>'executeCommentDelete',
+        'executeCommentMarkAsTrash'=>'executeCommentMarkAsTrash',
     ];
 
     public $filter = [
@@ -44,6 +46,28 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     public function filterByContentId($id)
     {
         $this->filter['content_id'] = $id;
+    }
+
+    public function executeCommentDelete($commentId) {
+
+        $comment = Comment::withTrashed()->where('id',$commentId)->first();
+        if ($comment) {
+            $this->authorize('delete', $comment);
+            $comment->forceDelete();
+
+            $this->emit('commentUpdated');
+        }
+    }
+
+    public function executeCommentMarkAsTrash($commentId) {
+
+        $comment = Comment::find($commentId);
+        if ($comment) {
+            $this->authorize('delete', $comment);
+            $comment->delete();
+
+            $this->emit('commentUpdated');
+        }
     }
 
     public function render()

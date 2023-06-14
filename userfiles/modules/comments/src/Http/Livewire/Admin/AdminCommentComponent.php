@@ -18,11 +18,6 @@ class AdminCommentComponent extends UserCommentReplyComponent
         'comment.comment_body' => 'required',
     ];
 
-    public $listeners = [
-        'executeCommentDelete'=>'executeCommentDelete',
-        'executeCommentMarkAsTrash'=>'executeCommentMarkAsTrash',
-    ];
-
     public function preview()
     {
 
@@ -117,32 +112,6 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->is_spam = 0;
             $comment->is_moderated = 1;
             $comment->save();
-
-            $this->comment = $comment;
-
-            $this->emit('commentUpdated');
-        }
-    }
-
-    public function executeCommentDelete($commentId) {
-
-        $comment = Comment::withTrashed()->where('id',$commentId)->first();
-        if ($comment) {
-            $this->authorize('delete', $comment);
-            $comment->forceDelete();
-
-            $this->emit('commentUpdated');
-        }
-    }
-
-    public function executeCommentMarkAsTrash($commentId) {
-
-        $comment = Comment::find($commentId);
-
-        if ($comment) {
-
-            $this->authorize('delete', $comment);
-            $comment->delete();
 
             $this->comment = $comment;
 
