@@ -38,7 +38,7 @@
         @if($allowToComment)
 
             <div class="mt-2">
-                <label>Comment:</label> 
+                <label>Comment:</label>
                 <x-comments::editors.textarea model="state.comment_body" />
                 @if($errors->has('state.comment_body'))
                     <span>{{ $errors->first('state.comment_body') }}</span>
