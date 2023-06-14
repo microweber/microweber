@@ -10,7 +10,6 @@ namespace MicroweberPackages\Database\Traits;
 
 use MicroweberPackages\Database\Eloquent\Builder\MultilanguageCachedBuilder;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use function Clue\StreamFilter\fun;
 use MicroweberPackages\Database\Eloquent\Builder\CachedBuilder;
 
 trait CacheableQueryBuilderTrait
