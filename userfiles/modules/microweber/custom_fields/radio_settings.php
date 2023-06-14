@@ -8,17 +8,29 @@
 
      <?php if(is_array($data['values']) and !empty($data['values'])) : ?>
      <?php foreach($data['values'] as $v): ?>
-      <div class="mw-custom-field-form-controls d-flex">
-          <i class="mdi mdi-cursor-move custom-fields-handle-field align-self-center mr-2"></i>
-          <input type="text" class="form-control col-6"  name="value[]"  value="<?php print $v; ?>" />
-        <?php print $add_remove_controls; ?>
+      <div class="mw-custom-field-form-controls d-flex align-items-center flex-wrap gap-1">
+         <div class="col-7 d-flex align-items-center">
+             <i class="mdi mdi-cursor-move custom-fields-handle-field align-self-center me-2"></i>
+             <input type="text" class="form-control"  name="value[]"  value="<?php print $v; ?>" />
+         </div>
+        <div class="col-4 text-end">
+            <?php print $add_remove_controls; ?>
+        </div>
       </div>
   <?php endforeach; ?>
 
   <?php else: ?>
-     <div class="mw-custom-field-form-controls d-flex">
-        <input type="text" name="value[]" class="form-select  mw-full-width"  value="" />
-        <?php print $add_remove_controls; ?>
+     <div class="mw-custom-field-form-controls d-flex align-items-center gap-1 flex-wrap">
+         <div class="col-7 d-flex align-items-center">
+
+            <input type="text" name="value[]" class="form-select  mw-full-width"  value="" />
+         </div>
+
+         <div class="col-4 text-end">
+
+            <?php print $add_remove_controls; ?>
+         </div>
+
     </div>
   <?php endif; ?>
 
