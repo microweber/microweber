@@ -1,1 +1,1 @@
-<textarea wire:model.lazy="{{ $model }}" @isset($autofocus) autofocus @endisset class="form-control"></textarea>
+<textarea wire:model.defer="{{ $model }}" @isset($autofocus) autofocus @endisset class="form-control"></textarea>
