@@ -559,7 +559,7 @@
         this.button = function(){
             var btn = scope.document.createElement('mwbutton');
             btn.className = 'mw-tree-toggler';
-            
+
             btn.onclick = function(){
                 scope.toggle(mw.tools.firstParentWithTag(this, 'li'));
             };

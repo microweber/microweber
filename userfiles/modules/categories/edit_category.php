@@ -38,36 +38,36 @@ if (isset($params['live_edit'])) {
 ?>
 <style>
 
-    .mw-dialog-container >  .mw-filepicker-component-section {
-        width: 100%;
-    }
+    /*.mw-dialog-container >  .mw-filepicker-component-section {*/
+    /*    width: 100%;*/
+    /*}*/
 
-    #post-media-card-header {
-        padding: 15px;
-        background-color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 0;
-        position: relative;
-        width: 100%;
-    }
+    /*#post-media-card-header {*/
+    /*    padding: 15px;*/
+    /*    background-color: #fff;*/
+    /*    display: flex;*/
+    /*    align-items: center;*/
+    /*    justify-content: space-between;*/
+    /*    border-bottom: 0;*/
+    /*    position: relative;*/
+    /*    width: 100%;*/
+    /*}*/
 
-    .select_actions_holder {
-        position: absolute;
-        top: -55px;
-        right: 0;
-    }
+    /*.select_actions_holder {*/
+    /*    position: absolute;*/
+    /*    top: -55px;*/
+    /*    right: 0;*/
+    /*}*/
 
-    .card-header.fixed{
-        position: fixed !important;
-        top: 69px;
-        z-index: 10;
-    }
-    #settings-container .card-header.fixed{
-        top: 0;
+    /*.card-header.fixed{*/
+    /*    position: fixed !important;*/
+    /*    top: 69px;*/
+    /*    z-index: 10;*/
+    /*}*/
+    /*#settings-container .card-header.fixed{*/
+    /*    top: 0;*/
 
-    }
+    /*}*/
 </style>
 <div class="card">
     <div class="card-body mb-3 <?php print $wrapper_class; ?>">
@@ -145,19 +145,19 @@ if (isset($params['live_edit'])) {
                 var header = document.querySelector('#mw-admin-container header');
                 var postHeader = mw.element(document.querySelector('.card-header'));
                 all.push(document)
-                all.on('scroll load resize', function () {
-                    var stop = $(this).scrollTop(),
-                        otop = $('.mw-iframe-editor').offset().top,
-                        tbheight = $('.admin-toolbar').outerHeight(),
-                        is = (stop + tbheight) >= otop;
-
-
-
-                    var isFixed = (stop > (postHeader.get(0).offsetHeight + (header ? header.offsetHeight : 0) + $(postHeader).offset().top));
-                    postHeader[ isFixed ? 'addClass' : 'removeClass' ]('fixed')
-                    postHeader.width( isFixed ? postHeader.parent().width() : 'auto' )
-
-                });
+                // all.on('scroll load resize', function () {
+                //     var stop = $(this).scrollTop(),
+                //         otop = $('.mw-iframe-editor').offset().top,
+                //         tbheight = $('.admin-toolbar').outerHeight(),
+                //         is = (stop + tbheight) >= otop;
+                //
+                //
+                //
+                //     var isFixed = (stop > (postHeader.get(0).offsetHeight + (header ? header.offsetHeight : 0) + $(postHeader).offset().top));
+                //     postHeader[ isFixed ? 'addClass' : 'removeClass' ]('fixed')
+                //     postHeader.width( isFixed ? postHeader.parent().width() : 'auto' )
+                //
+                // });
 
                 mw.category_is_saving = false;
                 <?php if(intval($data['id']) == 0): ?>
@@ -299,20 +299,10 @@ if (isset($params['live_edit'])) {
 
             ?>
 
-            <div class="card-header">
-                <h5><span class="mdi mdi-folder text-primary mr-3"></span><strong>
-
-
-                        <?php
-
-                        print  $headerText
-
-                        ?>
-
-
-                    </strong></h5>
+            <div class="card-header mb-3 d-flex justify-content-between align-items-center">
+                <label class="form-label"><?php print  $headerText ?></label>
                 <div>
-                    <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-success btn-sm btn-save" form="quickform-edit-content"><i class="mdi mdi-content-save me-1"></i> <?php _e('Save') ?></button>
+                    <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-dark" form="quickform-edit-content"><i class="mdi mdi-content-save me-1"></i> <?php _e('Save') ?></button>
                 </div>
             </div>
         <?php endif; ?>
