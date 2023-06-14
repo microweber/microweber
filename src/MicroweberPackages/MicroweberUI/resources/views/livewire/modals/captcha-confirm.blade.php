@@ -23,7 +23,7 @@
                     <div>
                         <module type="captcha" id="js-captcha-module-{{$randId}}" data-callback="captchaResponse{{$randId}}" />
                     </div>
-                    <input type="text" id="js-{{$randId}}" wire:model.defer="captcha" />
+                    <input type="hidden" id="js-{{$randId}}" wire:model.defer="captcha" />
                 </div>
             </div>
 
