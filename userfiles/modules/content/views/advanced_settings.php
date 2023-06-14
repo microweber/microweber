@@ -172,12 +172,10 @@ if (isset($data['created_by']) and $data['created_by']) {
     <!-- Advanced Settings -->
     <div id="advanced-settings">
 
-                <h6><strong><?php _e('Advanced settings') ?></strong></h6>
+        <label for="" class="form-label"><?php _e('Advanced settings') ?></label>
+                <small class="text-muted mb-2 d-block"><?php _e('Use the advanced settings to customize your blog post') ?></small>
 
-
-                <p><?php _e('Use the advanced settings to customize your blog post') ?></p>
-
-                <div class="row">
+                <div class="row p-0">
                     <div class="col-md-12">
                         <?php
                         $redirected = false;
@@ -275,7 +273,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                         })
                     }
                 </script>
-                <div class="row d-flex align-items-center">
+                <div class="row p-0 d-flex align-items-center">
                     <div class="col-md-8">
                         <label class="form-label"><?php _e('Related Content'); ?>:</label>
                         <small class="text-muted d-block mb-3"><?php _e('You can add related content to your post or product');?></small>
@@ -284,10 +282,9 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <div class="col-md-4 text-center text-md-right">
                     </div>
                 </div>
-                <div class="row d-flex align-items-center">
-                    <div class="col-md-12 text-center text-md-left">
+                <div class="row p-0 d-flex align-items-center">
+                    <div class="col-md-12 text-center text-md-start">
                         <label class="form-label mt-3"><?php _e('More options'); ?>:</label>
-                        <small class="text-muted d-block mb-3"><?php _e('Choose more options');?></small>
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
 
@@ -297,7 +294,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <?php endif; ?>
 
                 <?php if ($show_page_settings != false): ?>
-                    <div class="row mt-3">
+                    <div class="row  px-0 mt-3">
                         <div class="col-12">
                             <div class="form-group">
                                 <label><?php _e("Is Home"); ?></label>
@@ -311,7 +308,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row p-0 ">
                         <div class="col-12">
                             <div class="form-group">
                                 <label><?php _e("Is Shop"); ?></label>
@@ -337,31 +334,14 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <?php if (isset($data['id']) and $data['id'] != 0): ?>
 
 
-
-                    <?php if (isset($data['id'])): ?>
-                        <div class="row  mt-3">
-                        <div class="col-md-12">
-                            <div>
-                                <small>
-                                    <?php _e("Id"); ?>: <span class="mw-admin-edit-post-display-id-at-value"><?php print ($data['id']) ?></span>
-
-                                </small>
-                            </div>
-                        </div>
-
-
-                        </div>
-                    <?php endif; ?>
-
-
-                    <div class="row  ">
+                    <div class="row p-0 ">
 
                         <div class="col-12">
 
-                            <button type="button" class="btn btn-sm btn-link" data-bs-toggle="collapse" data-bs-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
+                            <button type="button" class="btn btn-sm btn-link my-2" data-bs-toggle="collapse" data-bs-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
 
                             <div  class="collapse"   id="set-a-specific-publish-date">
-                                <div class="row">
+                                <div class="row p-0">
                                     <script>mw.lib.require('bootstrap_datetimepicker');</script>
                                     <script>
                                         $(function () {
@@ -403,9 +383,9 @@ if (isset($data['created_by']) and $data['created_by']) {
 
 
                 <?php if (is_array($available_content_types) and !empty($available_content_types)): ?>
-                    <div class="row mb-3">
+                    <div class="row mb-3 p-0">
                         <div class="col-12">
-                            <div class="mw-ui-field-holder"><br/>
+                            <div class="mw-ui-field-holder ">
                                 <span class="font-weight-bold"><?php _e("Content type"); ?>: &nbsp;</span>
 
                                 <button class="btn btn-outline-warning btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#content-type-settings"><?php print($data['content_type']) ?></button>
@@ -443,8 +423,19 @@ if (isset($data['created_by']) and $data['created_by']) {
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
+
                         </div>
+                            <?php if (isset($data['id'])): ?>
+                                <div>
+                                    <small>
+                                        <?php _e("Id"); ?>: <span class="mw-admin-edit-post-display-id-at-value"><?php print ($data['id']) ?></span>
+
+                                    </small>
+                                </div>
+
+                            <?php endif; ?>
                     </div>
                 <?php endif; ?>
 
