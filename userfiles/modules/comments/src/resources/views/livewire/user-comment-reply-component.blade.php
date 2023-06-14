@@ -54,13 +54,8 @@
                         </div>
                         @enderror
 
-                        <module type="captcha" data-callback="captchaResponse" />
+                        <x-microweber-ui::captcha wire:model.defer="captcha" />
 
-                        <script>
-                            function captchaResponse(token) {
-                                window.Livewire.emit('setCaptchaToken', token);
-                            }
-                        </script>
                     </div>
 
                 @endif
