@@ -18,6 +18,7 @@
     .mw-dialog-container {
       overflow: hidden auto;
       max-height: 88vh;
+        padding-top: 0;
     }
   }
     &.mw-dialog-overflowMode-visible{
@@ -111,7 +112,7 @@
 
     min-height: 43px;
     background-color: #fff;
-    
+
 
     .mw-dialog-title {
       max-width: calc(100% - 55px);
@@ -120,7 +121,7 @@
       white-space: nowrap;
       font-size: 17px;
       font-weight: bold;
- 
+
         .mdi{
             margin-inline-end: 6px;
         }
@@ -199,7 +200,7 @@
     color: #fff;
     cursor: pointer;
     transition: background-color .3s;
- 
+
     border-radius: 0px;
     display: inline-flex;
     justify-content: center;
@@ -207,7 +208,7 @@
 
     &:hover {
       background-color: rgba(122, 122, 122, 0.1);
- 
+
     }
     &:after {
       border-radius: 4px;
