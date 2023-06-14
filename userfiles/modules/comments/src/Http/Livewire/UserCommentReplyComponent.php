@@ -16,6 +16,10 @@ class UserCommentReplyComponent extends Component
 {
     use AuthorizesRequests;
 
+    public $listeners = [
+        'setCaptcha'=>'setCaptcha',
+    ];
+
     public $view = 'comments::livewire.user-comment-reply-component';
     public $successMessage = false;
 
@@ -74,6 +78,12 @@ class UserCommentReplyComponent extends Component
         return view($this->view,$data);
     }
 
+    public function setCaptcha($value)
+    {
+        $this->captcha = $value;
+        $this->save();
+    }
+
     public function save()
     {
         $hasRateLimiterId = $this->state['rel_id'] . $this->state['reply_to_comment_id'] . user_ip();
@@ -85,7 +95,7 @@ class UserCommentReplyComponent extends Component
 
         if (empty($this->captcha)) {
             $this->emit('openModal', 'captcha-confirm-modal', [
-
+                'action'=>'setCaptcha'
             ]);
             return;
         }

@@ -9,7 +9,22 @@
         <div class="modal-body text-center">
 
             <div>
-                <module type="captcha" />
+                <div>
+                    @php
+                        $randId = time().rand(1000,9000);
+                    @endphp
+                    <script id="js-captcha-module-script-{{$randId}}">
+                        window.captchaResponse{{$randId}} = function(value) {
+                            let captchaDataElement = document.getElementById('js-{{$randId}}');
+                            captchaDataElement.value = value;
+                            captchaDataElement.dispatchEvent(new Event('input'));
+                        }
+                    </script>
+                    <div>
+                        <module type="captcha" id="js-captcha-module-{{$randId}}" data-callback="captchaResponse{{$randId}}" />
+                    </div>
+                    <input type="text" id="js-{{$randId}}" wire:model.defer="captcha" />
+                </div>
             </div>
 
             <div class="mt-4">

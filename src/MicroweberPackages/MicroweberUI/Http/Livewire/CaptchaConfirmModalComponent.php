@@ -6,6 +6,7 @@ use MicroweberPackages\MicroweberUI\Http\Livewire;
 
 class CaptchaConfirmModalComponent extends ModalComponent
 {
+    public $captcha = '';
     public $action = '';
     public $data = [];
 
@@ -22,7 +23,7 @@ class CaptchaConfirmModalComponent extends ModalComponent
     {
         $this->closeModal();
         if ($this->action) {
-            $this->emit($this->action, $this->data);
+            $this->emit($this->action, $this->captcha);
         }
     }
 }
