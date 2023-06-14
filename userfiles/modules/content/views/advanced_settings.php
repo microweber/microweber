@@ -172,7 +172,7 @@ if (isset($data['created_by']) and $data['created_by']) {
     <!-- Advanced Settings -->
     <div id="advanced-settings">
 
-        <label for="" class="form-label"><?php _e('Advanced settings') ?></label>
+       <h1 class="main-pages-title"><?php _e('Advanced settings') ?></h1>
                 <small class="text-muted mb-2 d-block"><?php _e('Use the advanced settings to customize your blog post') ?></small>
 
                 <div class="row p-0">
