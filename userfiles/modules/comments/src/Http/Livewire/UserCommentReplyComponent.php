@@ -91,11 +91,11 @@ class UserCommentReplyComponent extends Component
         $messages = array(
             'required' => _e('The field is required.', true),
         );
-
+        
         $validate = [
             'state.rel_id' => 'required|min:1',
             'state.comment_body' => 'required|min:3|max:1000',
-         //   'captcha' => 'captcha',
+            'captcha' => 'captcha',
         ];
 
         if (!user_id()) {
