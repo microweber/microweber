@@ -283,6 +283,10 @@ function user_email($user_id = false)
     return user_name($user_id, $mode = 'email');
 }
 
+function user_has_picture($user_id = false) {
+    return app()->user_manager->has_picture($user_id);
+}
+
 function user_picture($user_id = false, $width = false, $height = false)
 {
     $picture = app()->user_manager->picture($user_id);
