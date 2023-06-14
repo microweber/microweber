@@ -32,9 +32,9 @@
                 @endphp
 
                 @if($isShopAttribute == 1)
-                    <h3> Add category to Shop</h3>
+                    <h1 class="main-pages-title"> {{ 'Add category to Shop' }}</h1>
                 @else
-                   <h3> Add category to Website</h3>
+                   <h1 class="main-pages-title"> {{ 'Add category to Website' }}</h1>
                 @endif
 
                 <module type="categories/edit_category" is_shop="{{$isShopAttribute}}" id="admin-category-edit" data-category-id="{{$id}}"  />

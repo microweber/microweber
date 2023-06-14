@@ -93,7 +93,7 @@
 
                 <div x-data="{showReplies: {{$showRepliesAlpine}} }">
                         @if($replies->count() > 0)
-                            <div style="background:#e8e8e8;border-radius:2px;" class="mb-4 p-2">
+                            <div class="mb-4 p-2 text-right">
                                 <span @click="showReplies = ! showReplies" style="cursor:pointer" class="link-muted">
                                     <span x-show="showReplies">
                                         {{_e('Hide')}}  {{$replies->count()}} {{_e('replies')}}.
