@@ -308,8 +308,8 @@ if (isset($params['live_edit'])) {
         <?php endif; ?>
 
         <div class="<?php if (!isset($params['no-toolbar'])): ?> <?php endif; ?>">
-            <div class="text-right">
-                <div class="create-root mb-3">
+            <div class="card-body">
+                <div class="create-root mb-3 text-end mx-4">
                     <div id="content-title-field-buttons">
                         <?php if (intval($data['id']) != 0): ?>
                             <script>
@@ -338,7 +338,7 @@ if (isset($params['live_edit'])) {
 
                         <?php if (isset($params['parent-module']) and $params['parent-module']  == 'categories/admin_backend_modal' ): ?>
 
-                            <a href="#action=managecats:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Manage"); ?></a> &nbsp;
+                            <a href="#action=managecats:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Manage"); ?></a>
                         <?php endif; ?>
 
 
@@ -360,7 +360,7 @@ if (isset($params['live_edit'])) {
                             }
                             ?>
 
-                            <a href="<?php print category_link($data['id']) ?>" target="_blank" class="btn btn-link btn-sm  "><?php _e("View category"); ?></a>
+                            <a href="<?php print category_link($data['id']) ?>" target="_blank" class="btn btn-sm btn-outline-primary me-2  "><?php _e("View category"); ?></a>
 
 
                             <a href="<?php print $add_sub_cateory_link ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
@@ -387,80 +387,78 @@ if (isset($params['live_edit'])) {
                         <?php endif; ?>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <p><?php _e('Please fill the fields to create or edit a new category') ?></p>
 
-                    <form id="admin_edit_category_form" name="admin_edit_category_form" autocomplete="off" style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
+                <div class="row p-0">
+                    <div class="col-lg-12">
+                        <form id="admin_edit_category_form" name="admin_edit_category_form" autocomplete="off" style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
 
-                        <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id']) ?>"/>
-                        <input name="rel_type" type="hidden" value="<?php print ($data['rel_type']) ?>"/>
-                        <input name="rel_id" type="hidden" value="<?php print ($data['rel_id']) ?>" id="rel_id"/>
-                        <input name="data_type" type="hidden" value="<?php print ($data['data_type']) ?>"/>
-                        <input name="parent_id" type="hidden" value="<?php print ($data['parent_id']) ?>" id="parent_id"/>
+                            <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id']) ?>"/>
+                            <input name="rel_type" type="hidden" value="<?php print ($data['rel_type']) ?>"/>
+                            <input name="rel_id" type="hidden" value="<?php print ($data['rel_id']) ?>" id="rel_id"/>
+                            <input name="data_type" type="hidden" value="<?php print ($data['data_type']) ?>"/>
+                            <input name="parent_id" type="hidden" value="<?php print ($data['parent_id']) ?>" id="parent_id"/>
 
-                        <?php if ($data['id'] > 0): ?>
-                            <input name="_method" type="hidden" value="PATCH">
-                        <?php endif; ?>
+                            <?php if ($data['id'] > 0): ?>
+                                <input name="_method" type="hidden" value="PATCH">
+                            <?php endif; ?>
 
-                        <?php
-                        $categoryModel = \MicroweberPackages\Category\Models\Category::where('id', $data['id'])->first();
-                        $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
-                        ?>
+                            <?php
+                            $categoryModel = \MicroweberPackages\Category\Models\Category::where('id', $data['id'])->first();
+                            $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                            ?>
 
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group" id="content-title-field-row">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group" id="content-title-field-row">
 
-                                    <label class="form-label" for="content-title-field"><?php _e('Category name'); ?></label>
+                                        <label class="form-label" for="content-title-field"><?php _e('Category name'); ?></label>
 
-                                    <?php
-                                    $categoryNamePlaceholder = 'Category name';
-                                    $htmlCategoryTitlePrepend = '
+                                        <?php
+                                        $categoryNamePlaceholder = 'Category name';
+                                        $htmlCategoryTitlePrepend = '
                                               <div class="input-group-prepend">
                                              <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
                                              </div>';
 
-                                    if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0) {
-                                        $categoryNamePlaceholder = 'Subcategory Name';
-                                    } else {
-                                        if (isset($data['parent_id']) and $data['parent_id'] > 0) {
-                                            $htmlCategoryTitlePrepend = '
+                                        if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0) {
+                                            $categoryNamePlaceholder = 'Subcategory Name';
+                                        } else {
+                                            if (isset($data['parent_id']) and $data['parent_id'] > 0) {
+                                                $htmlCategoryTitlePrepend = '
                                             <div class="input-group-prepend">
                                                  <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
                                              </div>';
+                                            }
                                         }
-                                    }
 
-                                    $titleValue = '';
-                                    if ($data['id'] > 0) {
-                                        $titleValue = $data['title'];
-                                    }
+                                        $titleValue = '';
+                                        if ($data['id'] > 0) {
+                                            $titleValue = $data['title'];
+                                        }
 
-                                    echo $formBuilder->text('title')
-                                        ->setModel($categoryModel)
-                                        ->prepend($htmlCategoryTitlePrepend)
-                                        ->placeholder($categoryNamePlaceholder)
-                                        ->value($titleValue)
-                                        ->id('content-title-field')
-                                        ->autofocus(true);
-                                    ?>
+                                        echo $formBuilder->text('title')
+                                            ->setModel($categoryModel)
+                                            ->prepend($htmlCategoryTitlePrepend)
+                                            ->placeholder($categoryNamePlaceholder)
+                                            ->value($titleValue)
+                                            ->id('content-title-field')
+                                            ->autofocus(true);
+                                        ?>
 
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <div class="bootstrap-select form-control">
-                                        <label class="form-label"><?php _e('Choose a parent'); ?>:</label>
-                                        <small class="text-muted d-block mb-2"><?php _e('Choose a parent page or category') ?></small>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <div class="bootstrap-select form-control">
+                                            <label class="form-label"><?php _e('Choose a parent'); ?>:</label>
+                                            <small class="text-muted d-block mb-2"><?php _e('Choose a parent page or category') ?></small>
 
-                                        <span class="btn dropdown-toggle" onclick="$(this).next().stop().slideToggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
-                                        <?php $is_shop = ''; ?>
-                                        <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none" id="edit_category_set_par">
-                                            <?php /*
+                                            <span class="btn dropdown-toggle" onclick="$(this).next().stop().slideToggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
+                                            <?php $is_shop = ''; ?>
+                                            <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none" id="edit_category_set_par">
+                                                <?php /*
                                         <module type="categories/selector" include_inactive="true"
                                         categories_active_ids="<?php print (intval($data['parent_id'])) ?>"
                                         active_ids="<?php print ($data['rel_id']) ?>" <?php print $is_shop ?>
@@ -470,225 +468,225 @@ if (isset($params['live_edit'])) {
                                         show_edit_categories_admin_link="true"/>
                                         */ ?>
 
-                                            <div class="category-parent-selector"></div>
+                                                <div class="category-parent-selector"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="description"><?php _e("Description"); ?></label>
-                                    <small class="text-muted d-block mb-2"><?php _e("Type description of your category in the field"); ?></small>
-                                    <!--  <textarea class="form-control" id="description" name="description" rows="3" spellcheck="false"><?php /*echo $data['description']; */?></textarea>-->
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="description"><?php _e("Description"); ?></label>
+                                        <small class="text-muted d-block mb-2"><?php _e("Type description of your category in the field"); ?></small>
+                                        <!--  <textarea class="form-control" id="description" name="description" rows="3" spellcheck="false"><?php /*echo $data['description']; */?></textarea>-->
 
-                                    <?php
-                                    $descriptionValue = '';
-                                    if ($data['id'] > 0) {
-                                        $descriptionValue = $data['description'];
-                                    }
+                                        <?php
+                                        $descriptionValue = '';
+                                        if ($data['id'] > 0) {
+                                            $descriptionValue = $data['description'];
+                                        }
 
-                                    echo $formBuilder
-                                        ->textarea('description')
-                                        ->setModel($categoryModel)
-                                        ->value($descriptionValue)
-                                        ->rows(3)
-                                        ->id('description')
-                                        ->spellcheck(false);
+                                        echo $formBuilder
+                                            ->textarea('description')
+                                            ->setModel($categoryModel)
+                                            ->value($descriptionValue)
+                                            ->rows(3)
+                                            ->id('description')
+                                            ->spellcheck(false);
 
-                                    ?>
+                                        ?>
 
+                                    </div>
                                 </div>
-                            </div>
 
-                            <script>
-                                mw.require('tree.js')
-                                var parent_page = <?php print intval($data['rel_id']);  ?>;
-                                var parent_category = <?php print (intval($data['parent_id']));  ?>;
-                                var current_category = <?php print isset($data['id']) ? $data['id'] : 'false'; ?>;
-                                var skip = [];
-                                if (current_category) {
-                                    skip.push({
-                                        id: current_category,
-                                        type: 'category'
-                                    })
-                                }
-                                var selectedData = [];
-                                if (parent_page) {
-                                    selectedData.push({
-                                        id: parent_page,
-                                        type: 'page'
-                                    })
-                                }
-                                if (parent_category) {
-                                    selectedData.push({
-                                        id: parent_category,
-                                        type: 'category'
-                                    });
-
-                                }
-                                $(mwd).ready(function () {
-
-                                    mw.$('input,select,textarea').on('input', function () {
-                                        document.querySelector('.btn-save').disabled = false;
-                                        mw.askusertostay = true;
-                                    });
-                                    $.get("<?php
-
-                                        $apiJsTree = api_url('content/get_admin_js_tree_json');
-                                        if (isset($params['is_shop']) && $params['is_shop'] == 1) {
-                                            $apiJsTree .= '?is_shop=1';
-                                        } else {
-                                            $apiJsTree .= '?is_blog=1';
-                                        }
-                                        echo $apiJsTree;
-                                        ?>", function (data) {
-                                        var categoryParentSelector = new mw.tree({
-                                            id: 'category-parent-selector',
-                                            element: '.category-parent-selector',
-                                            selectable: true,
-                                            data: data,
-                                            singleSelect: true,
-                                            selectedData: selectedData,
-                                            skip: skip,
-                                            searchInput: true
+                                <script>
+                                    mw.require('tree.js')
+                                    var parent_page = <?php print intval($data['rel_id']);  ?>;
+                                    var parent_category = <?php print (intval($data['parent_id']));  ?>;
+                                    var current_category = <?php print isset($data['id']) ? $data['id'] : 'false'; ?>;
+                                    var skip = [];
+                                    if (current_category) {
+                                        skip.push({
+                                            id: current_category,
+                                            type: 'category'
+                                        })
+                                    }
+                                    var selectedData = [];
+                                    if (parent_page) {
+                                        selectedData.push({
+                                            id: parent_page,
+                                            type: 'page'
+                                        })
+                                    }
+                                    if (parent_category) {
+                                        selectedData.push({
+                                            id: parent_category,
+                                            type: 'category'
                                         });
-                                        if (selectedData.length) {
-                                            if(categoryParentSelector.selectedData && categoryParentSelector.selectedData[0]) {
-                                                mw.$('#category-dropdown-holder').html(categoryParentSelector.selectedData[0].title)
-                                            }
-                                        }
-                                        $(categoryParentSelector).on("selectionChange", function (e, selected) {
+
+                                    }
+                                    $(mwd).ready(function () {
+
+                                        mw.$('input,select,textarea').on('input', function () {
                                             document.querySelector('.btn-save').disabled = false;
                                             mw.askusertostay = true;
-                                            var parent = selected[0];
-                                            if (!parent) {
-                                                mw.$('#rel_id').val(0);
-                                                mw.$('#parent_id').val(0);
-                                                $("#category-dropdown-holder").html(' ');
+                                        });
+                                        $.get("<?php
+
+                                            $apiJsTree = api_url('content/get_admin_js_tree_json');
+                                            if (isset($params['is_shop']) && $params['is_shop'] == 1) {
+                                                $apiJsTree .= '?is_shop=1';
+                                            } else {
+                                                $apiJsTree .= '?is_blog=1';
                                             }
-                                            else {
-                                                $("#category-dropdown-holder").html(parent.title);
-                                                if (parent.type === 'category') {
+                                            echo $apiJsTree;
+                                            ?>", function (data) {
+                                            var categoryParentSelector = new mw.tree({
+                                                id: 'category-parent-selector',
+                                                element: '.category-parent-selector',
+                                                selectable: true,
+                                                data: data,
+                                                singleSelect: true,
+                                                selectedData: selectedData,
+                                                skip: skip,
+                                                searchInput: true
+                                            });
+                                            if (selectedData.length) {
+                                                if(categoryParentSelector.selectedData && categoryParentSelector.selectedData[0]) {
+                                                    mw.$('#category-dropdown-holder').html(categoryParentSelector.selectedData[0].title)
+                                                }
+                                            }
+                                            $(categoryParentSelector).on("selectionChange", function (e, selected) {
+                                                document.querySelector('.btn-save').disabled = false;
+                                                mw.askusertostay = true;
+                                                var parent = selected[0];
+                                                if (!parent) {
                                                     mw.$('#rel_id').val(0);
-                                                    mw.$('#parent_id').val(parent.id);
-                                                }
-                                                if (parent.type === 'page') {
-                                                    mw.$('#rel_id').val(parent.id);
                                                     mw.$('#parent_id').val(0);
+                                                    $("#category-dropdown-holder").html(' ');
                                                 }
-                                            }
-                                        })
-                                    });
-
-                                    var _parent = document.querySelector('#edit_category_set_par input:checked');
-
-                                    if (_parent !== null) {
-                                        $("#category-dropdown-holder").html($(_parent).parent().find('span:last').html())
-                                    }
-
-                                    $('#edit_category_set_par input').on('change', function () {
-                                        var html = $(this).parent().find('span:last').html();
-                                        $("#category-dropdown-holder").html(html)
-                                    });
-
-                                    var advancedBtn = $(".js-category-advanced-seetings-button")
-                                    advancedBtn.on('click', function () {
-                                        $("#category-edit-advanced").stop().slideDown(function () {
-                                            advancedBtn.remove()
-                                        })
-                                    })
-                                    setTimeout(function (){
-                                        mw.askusertostay = false;
-                                        //   document.querySelector('button[form="quickform-edit-content"]').disabled = true;
-                                    }, 999)
-                                });
-
-
-
-
-                                setTimeout(function (){
-                                    var dropdownUploader;
-                                    mw.$('#mw-admin-post-media-type')
-                                        .selectpicker({
-                                            container: mw.$('#mw-admin-post-media-type').parent()
-                                        })
-                                        .on('changed.bs.select', function () {
-                                            mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
-                                            setTimeout(function () {
-                                                mw.$('#mw-admin-post-media-type').val('0').selectpicker('refresh');
-                                            }, 10)
-
-                                        })
-                                        .on('show.bs.select', function () {
-                                            if (!!dropdownUploader) {
-                                                dropdownUploader.remove()
-                                            }
-                                            var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
-                                            dropdownUploader = mw.upload({
-                                                element: item,
-                                                accept: 'image/*',
-                                                multiple: true
-                                            });
-                                            $(dropdownUploader).on('FileAdded', function (e, res) {
-                                                mw._postsImageUploader._thumbpreload()
+                                                else {
+                                                    $("#category-dropdown-holder").html(parent.title);
+                                                    if (parent.type === 'category') {
+                                                        mw.$('#rel_id').val(0);
+                                                        mw.$('#parent_id').val(parent.id);
+                                                    }
+                                                    if (parent.type === 'page') {
+                                                        mw.$('#rel_id').val(parent.id);
+                                                        mw.$('#parent_id').val(0);
+                                                    }
+                                                }
                                             })
-                                            $(dropdownUploader).on('FileUploaded', function (e, res) {
-                                                var url = res.src ? res.src : res;
-                                                if (window.after_upld) {
+                                        });
 
-                                                    mw._postsImageUploader.hide()
-                                                }
-                                                mw.$('.admin-thumb-item-loading:last').remove();
-                                                mw.module_pictures.after_change();
-                                                after_upld(url, 'Result', 'categories', '<?php print $data['id'] ?>', '<?php print $params['id'] ?>');
+                                        var _parent = document.querySelector('#edit_category_set_par input:checked');
 
-                                            });
+                                        if (_parent !== null) {
+                                            $("#category-dropdown-holder").html($(_parent).parent().find('span:last').html())
+                                        }
+
+                                        $('#edit_category_set_par input').on('change', function () {
+                                            var html = $(this).parent().find('span:last').html();
+                                            $("#category-dropdown-holder").html(html)
+                                        });
+
+                                        var advancedBtn = $(".js-category-advanced-seetings-button")
+                                        advancedBtn.on('click', function () {
+                                            $("#category-edit-advanced").stop().slideDown(function () {
+                                                advancedBtn.remove()
+                                            })
                                         })
-                                }, 200)
+                                        setTimeout(function (){
+                                            mw.askusertostay = false;
+                                            //   document.querySelector('button[form="quickform-edit-content"]').disabled = true;
+                                        }, 999)
+                                    });
 
 
-                            </script>
-                            <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
 
-                            <div class="col-12">
-                                <module
-                                    type="pictures/admin"
-                                    title="<?php _e("Category images"); ?>"
-                                    for="categories" for-id="<?php print $data['id'] ?>"
-                                    hideHeader="true"
-                                    uploaderType="small"
-                                    id="mw-cat-pics-admin"/>
-                            </div>
 
-                            <?php if (isset($data['id'])): ?>
-                                <div class="col-md-12">
-                                    <module type="content/views/settings_from_template" content-type="category" content-id="<?php print $data['id'] ?>" category-id="<?php print $data['id'] ?>"/>
+                                    setTimeout(function (){
+                                        var dropdownUploader;
+                                        mw.$('#mw-admin-post-media-type')
+                                            .selectpicker({
+                                                container: mw.$('#mw-admin-post-media-type').parent()
+                                            })
+                                            .on('changed.bs.select', function () {
+                                                mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
+                                                setTimeout(function () {
+                                                    mw.$('#mw-admin-post-media-type').val('0').selectpicker('refresh');
+                                                }, 10)
+
+                                            })
+                                            .on('show.bs.select', function () {
+                                                if (!!dropdownUploader) {
+                                                    dropdownUploader.remove()
+                                                }
+                                                var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
+                                                dropdownUploader = mw.upload({
+                                                    element: item,
+                                                    accept: 'image/*',
+                                                    multiple: true
+                                                });
+                                                $(dropdownUploader).on('FileAdded', function (e, res) {
+                                                    mw._postsImageUploader._thumbpreload()
+                                                })
+                                                $(dropdownUploader).on('FileUploaded', function (e, res) {
+                                                    var url = res.src ? res.src : res;
+                                                    if (window.after_upld) {
+
+                                                        mw._postsImageUploader.hide()
+                                                    }
+                                                    mw.$('.admin-thumb-item-loading:last').remove();
+                                                    mw.module_pictures.after_change();
+                                                    after_upld(url, 'Result', 'categories', '<?php print $data['id'] ?>', '<?php print $params['id'] ?>');
+
+                                                });
+                                            })
+                                    }, 200)
+
+
+                                </script>
+                                <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
+
+                                <div class="col-12">
+                                    <module
+                                        type="pictures/admin"
+                                        title="<?php _e("Category images"); ?>"
+                                        for="categories" for-id="<?php print $data['id'] ?>"
+                                        hideHeader="true"
+                                        uploaderType="small"
+                                        id="mw-cat-pics-admin"/>
                                 </div>
-                            <?php endif; ?>
 
-                            <div class="col-12">
-                                <label class="form-label"><?php _e("Other settings"); ?></label>
-                                <small class="text-muted d-block mb-2"><?php _e("Discover more advanced options"); ?></small>
+                                <?php if (isset($data['id'])): ?>
+                                    <div class="col-md-12">
+                                        <module type="content/views/settings_from_template" content-type="category" content-id="<?php print $data['id'] ?>" category-id="<?php print $data['id'] ?>"/>
+                                    </div>
+                                <?php endif; ?>
 
-                                <button type="button" class="btn btn-link btn-sm js-edit-category-show-more" data-bs-toggle="collapse" data-bs-target="#show-more"><?php _e("Show more"); ?></button>
+                                <div class="col-12">
+                                    <label class="form-label"><?php _e("Other settings"); ?></label>
+                                    <small class="text-muted d-block mb-2"><?php _e("Discover more advanced options"); ?></small>
 
-                                <div class="collapse mt-3" id="show-more">
-                                    <div class="row">
-                                        <?php if (isset($data['id']) and $data['id'] != 0): ?>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label"><?php _e("Link"); ?></label>
-                                                    <div class="mb-3">
-                                                        <small><a href="<?php print category_link($data['id']); ?>" target="_blank"><?php print category_link($data['id']); ?></a></small>
+                                    <button type="button" class="btn btn-link btn-sm js-edit-category-show-more" data-bs-toggle="collapse" data-bs-target="#show-more"><?php _e("Show more"); ?></button>
+
+                                    <div class="collapse mt-3" id="show-more">
+                                        <div class="row">
+                                            <?php if (isset($data['id']) and $data['id'] != 0): ?>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label class="form-label"><?php _e("Link"); ?></label>
+                                                        <div class="mb-3">
+                                                            <small><a href="<?php print category_link($data['id']); ?>" target="_blank"><?php print category_link($data['id']); ?></a></small>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        <?php endif; ?>
+                                            <?php endif; ?>
 
 
 
-                                        <!--  <div class="col-12">
+                                            <!--  <div class="col-12">
                                         <div class="form-group">
                                             <label class="form-label"><?php /*_e("Slug"); */?></label>
                                             <div class="mb-3">
@@ -697,228 +695,229 @@ if (isset($params['live_edit'])) {
                                         </div>
                                     </div>-->
 
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label class="form-label"><?php _e("Category URL"); ?></label>
-                                                <div class="mb-3">
-                                                    <?php
-                                                    $url = '';
-                                                    if ($data['id'] > 0) {
-                                                        $url = $data['url'];
-                                                    }
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label"><?php _e("Category URL"); ?></label>
+                                                    <div class="mb-3">
+                                                        <?php
+                                                        $url = '';
+                                                        if ($data['id'] > 0) {
+                                                            $url = $data['url'];
+                                                        }
 
-                                                    echo $formBuilder
-                                                        ->text('url')
-                                                        ->setModel($categoryModel)
-                                                        ->prepend('<div class="input-group-prepend">
+                                                        echo $formBuilder
+                                                            ->text('url')
+                                                            ->setModel($categoryModel)
+                                                            ->prepend('<div class="input-group-prepend">
                                                      <span class="input-group-text"><i class="mdi mdi-link text-silver"></i></span>
                                                      </div>')
-                                                        ->value($url)
-                                                        ->id('url')
-                                                        ->spellcheck(false);
+                                                            ->value($url)
+                                                            ->id('url')
+                                                            ->spellcheck(false);
 
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <?php
+                                                    if (!isset($data['users_can_create_content'])) {
+                                                        $data['users_can_create_content'] = 0;
+                                                    }
+                                                    ?>
+                                                    <label class="form-label"><?php _e("Can users create content"); ?> <span class="help-tooltip" data-bs-toggle="tooltip" title="<?php _e("If you set this to YES the website users will be able to add content under this category"); ?>"></span></label>
+
+                                                    <div>
+                                                        <div class="custom-control custom-radio d-inline-block mr-3">
+                                                            <input type="radio" id="users_can_create_content_1" name="users_can_create_content" class="form-check-input" value="1" <?php if ('1' == trim($data['users_can_create_content'])): ?> checked<?php endif; ?>>
+                                                            <label class="custom-control-label" for="users_can_create_content_1"><?php _e("Yes"); ?></label>
+                                                        </div>
+                                                        <div class="custom-control custom-radio d-inline-block">
+                                                            <input type="radio" id="users_can_create_content_0" name="users_can_create_content" class="form-check-input" value="0" <?php if ('' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?> checked<?php endif; ?>>
+                                                            <label class="custom-control-label" for="users_can_create_content_0"><?php _e("No"); ?></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <?php if (isset($data['id'])): ?>
+                                                    <?php if (!isset($data['category_subtype'])) {
+                                                        $data['category_subtype'] = 'default';
+                                                    } ?>
+                                                    <input type="hidden" name="category_subtype" value="<?php print $data['category_subtype'] ?>"/>
+                                                    <script type="text/javascript">
+                                                        $(document).ready(function () {
+                                                            $('.edit-category-choose-subtype-dd').on('change', function () {
+                                                                var val = $(this).val();
+                                                                $('[name="category_subtype"]', '#admin_edit_category_form').val(val)
+                                                                $('#admin_edit_category_subtype_settings').attr('category_subtype', val);
+                                                                mw.reload_module('#admin_edit_category_subtype_settings');
+                                                            });
+                                                        });
+                                                    </script>
+
+                                                    <div class="form-group">
+                                                        <label class="form-label"><?php _e("Category subtype"); ?> <span class="help-tooltip" data-bs-toggle="tooltip" title="You can set the category behaviour by changing its subtype"></span></label>
+
+                                                        <div>
+                                                            <select class="form-select edit-category-choose-subtype-dd" data-width="100%">
+                                                                <option value="default" <?php if ($data['category_subtype'] === 'default') {
+                                                                    print 'selected';
+                                                                } ?>><?php _e("Default"); ?></option>
+                                                                <option value="content_filter" <?php if ($data['category_subtype'] === 'default') {
+                                                                    print 'selected';
+                                                                } ?>><?php _e("Content filter"); ?></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <module type="categories/edit_category_subtype_settings" category_subtype="<?php print $data['category_subtype'] ?>" category-id="<?php print $data['id'] ?>" id="admin_edit_category_subtype_settings"/>
+                                                <?php endif; ?>
+                                            </div>
+
+
+
+
+                                            <div class="col-md-12">
+                                                <div class="form-group ">
+                                                    <label class="form-label"><?php _e("Meta title"); ?></label>
+                                                    <small data-bs-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
+                                                    <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
+
+                                                    <?php
+                                                    echo $formBuilder->text('category_meta_title')
+                                                        ->setModel($categoryModel)
+                                                        ->value($data['category_meta_title'])
+
+                                                        ->value($data['category_meta_title']) ->autocomplete(false) ;
                                                     ?>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <?php
-                                                if (!isset($data['users_can_create_content'])) {
-                                                    $data['users_can_create_content'] = 0;
-                                                }
-                                                ?>
-                                                <label class="form-label"><?php _e("Can users create content"); ?> <span class="help-tooltip" data-bs-toggle="tooltip" title="<?php _e("If you set this to YES the website users will be able to add content under this category"); ?>"></span></label>
 
-                                                <div>
-                                                    <div class="custom-control custom-radio d-inline-block mr-3">
-                                                        <input type="radio" id="users_can_create_content_1" name="users_can_create_content" class="form-check-input" value="1" <?php if ('1' == trim($data['users_can_create_content'])): ?> checked<?php endif; ?>>
-                                                        <label class="custom-control-label" for="users_can_create_content_1"><?php _e("Yes"); ?></label>
-                                                    </div>
-                                                    <div class="custom-control custom-radio d-inline-block">
-                                                        <input type="radio" id="users_can_create_content_0" name="users_can_create_content" class="form-check-input" value="0" <?php if ('' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?> checked<?php endif; ?>>
-                                                        <label class="custom-control-label" for="users_can_create_content_0"><?php _e("No"); ?></label>
-                                                    </div>
+
+
+
+
+
+                                            <div class="col-md-12">
+                                                <div class="form-group ">
+                                                    <label class="form-label"><?php _e("Meta description"); ?></label>
+                                                    <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
+
+                                                    <?php
+                                                    echo $formBuilder->textArea('category_meta_description')
+                                                        ->setModel($categoryModel)
+                                                        ->value($data['category_meta_description'])
+                                                        ->autocomplete(false);
+                                                    ?>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-sm-6">
-                                            <?php if (isset($data['id'])): ?>
-                                                <?php if (!isset($data['category_subtype'])) {
-                                                    $data['category_subtype'] = 'default';
-                                                } ?>
-                                                <input type="hidden" name="category_subtype" value="<?php print $data['category_subtype'] ?>"/>
-                                                <script type="text/javascript">
-                                                    $(document).ready(function () {
-                                                        $('.edit-category-choose-subtype-dd').on('change', function () {
-                                                            var val = $(this).val();
-                                                            $('[name="category_subtype"]', '#admin_edit_category_form').val(val)
-                                                            $('#admin_edit_category_subtype_settings').attr('category_subtype', val);
-                                                            mw.reload_module('#admin_edit_category_subtype_settings');
-                                                        });
-                                                    });
-                                                </script>
 
+
+
+
+                                            <div class="col-md-12">
+                                                <div class="form-group ">
+                                                    <label class="form-label"><?php _e("Meta keywords"); ?></label>
+                                                    <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
+                                                    <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
+
+                                                    <?php
+                                                    echo $formBuilder->Text('category_meta_keywords')
+                                                        ->setModel($categoryModel)
+                                                        ->value($data['category_meta_keywords'])
+                                                        ->autocomplete(false);
+                                                    ?>
+                                                </div>
+
+                                                <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
+
+                                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            <div class="col-md-12 mt-3">
                                                 <div class="form-group">
-                                                    <label class="form-label"><?php _e("Category subtype"); ?> <span class="help-tooltip" data-bs-toggle="tooltip" title="You can set the category behaviour by changing its subtype"></span></label>
+                                                    <?php
+                                                    if (!isset($data['is_hidden'])) {
+                                                        $data['is_hidden'] = 0;
+                                                    }
+                                                    ?>
+                                                    <label class="form-label"><?php _e("Is category hidden?"); ?>
+
+                                                        <small class="text-muted d-block mb-2"><?php _e("If you set this to YES this category will be hidden from the website"); ?></small>
+                                                    </label>
 
                                                     <div>
-                                                        <select class="form-select edit-category-choose-subtype-dd" data-width="100%">
-                                                            <option value="default" <?php if ($data['category_subtype'] === 'default') {
-                                                                print 'selected';
-                                                            } ?>><?php _e("Default"); ?></option>
-                                                            <option value="content_filter" <?php if ($data['category_subtype'] === 'default') {
-                                                                print 'selected';
-                                                            } ?>><?php _e("Content filter"); ?></option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <module type="categories/edit_category_subtype_settings" category_subtype="<?php print $data['category_subtype'] ?>" category-id="<?php print $data['id'] ?>" id="admin_edit_category_subtype_settings"/>
-                                            <?php endif; ?>
-                                        </div>
-
-
-
-
-                                        <div class="col-md-12">
-                                            <div class="form-group ">
-                                                <label class="form-label"><?php _e("Meta title"); ?></label>
-                                                <small data-bs-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
-                                                <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
-
-                                                <?php
-                                                echo $formBuilder->text('category_meta_title')
-                                                    ->setModel($categoryModel)
-                                                    ->value($data['category_meta_title'])
-
-                                                    ->value($data['category_meta_title']) ->autocomplete(false) ;
-                                                ?>
-                                            </div>
-                                        </div>
-
-
-
-
-
-
-
-                                        <div class="col-md-12">
-                                            <div class="form-group ">
-                                                <label class="form-label"><?php _e("Meta description"); ?></label>
-                                                <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
-
-                                                <?php
-                                                echo $formBuilder->textArea('category_meta_description')
-                                                    ->setModel($categoryModel)
-                                                    ->value($data['category_meta_description'])
-                                                    ->autocomplete(false);
-                                                ?>
-                                            </div>
-                                        </div>
-
-
-
-
-
-                                        <div class="col-md-12">
-                                            <div class="form-group ">
-                                                <label class="form-label"><?php _e("Meta keywords"); ?></label>
-                                                <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
-                                                <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
-
-                                                <?php
-                                                echo $formBuilder->Text('category_meta_keywords')
-                                                    ->setModel($categoryModel)
-                                                    ->value($data['category_meta_keywords'])
-                                                    ->autocomplete(false);
-                                                ?>
-                                            </div>
-
-                                            <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
-
-                                        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-group">
-                                                <?php
-                                                if (!isset($data['is_hidden'])) {
-                                                    $data['is_hidden'] = 0;
-                                                }
-                                                ?>
-                                                <label class="form-label"><?php _e("Is category hidden?"); ?>
-
-                                                    <small class="text-muted d-block mb-2"><?php _e("If you set this to YES this category will be hidden from the website"); ?></small>
-                                                </label>
-
-                                                <div>
-                                                    <div class="custom-control custom-radio d-inline-block mr-3">
-                                                        <input type="radio" id="is_hidden_1" name="is_hidden" class="form-check-input" value="1" <?php if ('1' == trim($data['is_hidden'])): ?> checked<?php endif; ?>>
-                                                        <label class="custom-control-label" for="is_hidden_1"><?php _e("Yes"); ?></label>
-                                                    </div>
-                                                    <div class="custom-control custom-radio d-inline-block">
-                                                        <input type="radio" id="is_hidden_2" name="is_hidden" class="form-check-input" value="0" <?php if ('' == trim($data['is_hidden']) or '0' == trim($data['is_hidden'])): ?> checked<?php endif; ?>>
-                                                        <label class="custom-control-label" for="is_hidden_2"><?php _e("No"); ?></label>
+                                                        <div class="custom-control custom-radio d-inline-block mr-3">
+                                                            <input type="radio" id="is_hidden_1" name="is_hidden" class="form-check-input" value="1" <?php if ('1' == trim($data['is_hidden'])): ?> checked<?php endif; ?>>
+                                                            <label class="custom-control-label" for="is_hidden_1"><?php _e("Yes"); ?></label>
+                                                        </div>
+                                                        <div class="custom-control custom-radio d-inline-block">
+                                                            <input type="radio" id="is_hidden_2" name="is_hidden" class="form-check-input" value="0" <?php if ('' == trim($data['is_hidden']) or '0' == trim($data['is_hidden'])): ?> checked<?php endif; ?>>
+                                                            <label class="custom-control-label" for="is_hidden_2"><?php _e("No"); ?></label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+
+
                                         </div>
-
-
                                     </div>
+
+
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-12 mt-3">
+                                    <?php if (intval($data['id']) != 0): ?>
+
+
+
+
+                                        <?php
+
+                                        $delete_category_link = "javascript:mw.content.deleteCategory('".$data['id']."');";
+                                        if (isset($params['live_edit']) and $params['live_edit'] ) {
+                                            $delete_category_link = "javascript:mw.quick_cat_delete('".$data['id']."');";
+                                        }
+                                        ?>
+
+
+
+                                        <a href="<?php print $delete_category_link ?>" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin "></i>&nbsp; <?php _e('Delete') ?></a>
+
+
+                                    <?php endif; ?>
+
                                 </div>
 
-
-
                             </div>
-                        </div>
-
-
-
-                        <div class="row">
-                            <div class="col-md-12 mt-3">
-                                <?php if (intval($data['id']) != 0): ?>
-
-
-
-
-                                    <?php
-
-                                    $delete_category_link = "javascript:mw.content.deleteCategory('".$data['id']."');";
-                                    if (isset($params['live_edit']) and $params['live_edit'] ) {
-                                        $delete_category_link = "javascript:mw.quick_cat_delete('".$data['id']."');";
-                                    }
-                                    ?>
-
-
-
-                                    <a href="<?php print $delete_category_link ?>" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin "></i>&nbsp; <?php _e('Delete') ?></a>
-
-
-                                <?php endif; ?>
-
-                            </div>
-
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
-            </div>
 
+            </div>
 
         </div>
 
