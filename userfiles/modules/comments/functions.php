@@ -15,7 +15,7 @@ event_bind(
                 </div>
 
                 <div class="row">
-                    <p>'._e('Last comments', true).'</p>
+                    <p>'._e('Last comments22222', true).'</p>
 
                     <h5 class="dashboard-numbers">
                         '.$commentsCount.'
