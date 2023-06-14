@@ -214,9 +214,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         </div>
                                     </div>
 
-                                    <hr class="w-100 h-100 thin">
+                                    <hr class="w-100 h-100 thin my-2">
 
-                                    <div class="row px-0 pb-3">
+                                    <div class="row px-0 py-3">
                                         <?php foreach ($exiisting_fields as $item): ?>
                                            <div class="col-xl-2 col-md-4 col-6 hover-bg-light text-center py-4">
                                                 <button type="button" class="btn btn-link mx-auto text-decoration-none mw-custom-field-existing-item-btn"
@@ -230,7 +230,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                                         <?php endforeach; ?>
                                     </div>
-                                        <hr class="w-100 h-100 thin">
+                                        <hr class="w-100 h-100 thin my-2">
                                     <?php endif; ?>
 
 
@@ -252,9 +252,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         <?php endforeach; ?>
                                     </select>
 
-                                    <br>
 
-                                    <div class="row px-0 pb-3">
+                                    <div class="row px-0 py-3">
                                         <label class="form-label font-weight-bold"><?php _e(" Add new fields"); ?></label>
                                         <small class="d-block mb-2 text-muted"><?php _e("Add new custom field from list bellow"); ?></small>
                                     </div>
