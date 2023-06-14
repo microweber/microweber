@@ -299,7 +299,7 @@
             height: 100%;
             padding: 8px;
             &+.mw-select-display-value{
-                color: $textColor;
+                color: inherit;
             }
         }
         &:after{

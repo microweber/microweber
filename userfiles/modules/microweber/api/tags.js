@@ -146,19 +146,18 @@ mw.tags = mw.chips = function(options){
         var ic = this.dataIcon(config);
 
         if(!ic && config.type){
-            ic = mw.coreIcons[config.type];
-
+            ic = mw.iconResolver(config.type)
         }
         var icon;
         if(typeof ic === 'string' && ic.indexOf('<') === -1){
             icon = document.createElement('i');
-            icon.className = ic;
+            
         }
         else{
             icon = ic;
         }
         icon = mw.element(icon).get(0);
-     
+ 
 
         return icon;
      };

@@ -1,3 +1,16 @@
+
+<style>
+    #admin-thumb-item-dialog .mw-dialog-container{
+        padding-bottom:0;
+    }
+    #image-json-options-dialog-footer{
+        padding: 20px 0;
+        background: var(--tblr-bg-surface);
+        position: sticky;
+        bottom:0;
+    }
+</style>
+
 <script>
 
     var saveOptions = function (id, data) {
@@ -16,7 +29,7 @@
             content: el.html(),
             template: 'default',
             height: 'auto',
-
+            id: 'admin-thumb-item-dialog',
             title: '<?php _e('Image Settings'); ?>',
             onResult: function (id) {
                 var data = {};
@@ -28,6 +41,7 @@
                 this.remove()
             }
         })
+        
     }
 
 

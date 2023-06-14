@@ -42,7 +42,7 @@ if ($all_existing_tags == null) {
         var tags = new mw.tags({
             element: node,
             data: tagsData,
-            color: 'primary',
+            color: '',
             size:  'sm',
             inputField: false,
         })

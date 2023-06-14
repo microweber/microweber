@@ -16,6 +16,15 @@
         overflow: auto;
     }
 
+    .mw-tags--container:empty{
+        border-bottom-color:  rgba(146, 148, 166, 0)
+    }
+     .mw-tags--container{
+        padding-bottom: 22px;
+        margin-bottom: 22px;
+        border-bottom: 1px solid rgba(146, 148, 166, 0.38)
+    }
+
 </style>
 
 <script>
@@ -51,7 +60,7 @@
                     multiPageSelect: false,
                     tagsHolder: tags.get(0),
                     treeHolder: tree.get(0),
-                    color: 'primary',
+                    color: '',
                     size: 'sm',
                     outline: true,
                     saveState: false,
@@ -146,8 +155,8 @@
             <div class="card-header ps-0 pt-1 mb-0">
                 <strong><?php _e("Visibility"); ?></strong>
             </div>
-            <div class="row pb-0 p-3">
-                <div class="col-12"><input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>"/>
+            <div>
+                <div><input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>"/>
                     <div class="form-group">
                         <div class="custom-control custom-radio mb-3">
                             <input type="radio" id="is_active_1"  name="is_active" class="form-check-input mt-1" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
@@ -181,44 +190,36 @@
                                      </strong>
                                  </div>
 
-                                  <div class="row pb-0 p-3">
+                                  <div>
                                       <div class="quick-parent-selector mt-2">
                                           <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"/>
                                       </div>
                                   </div>
 
                            <?php else: ?>
-                               <div class="row">
+                               <div class="d-flex justify-content-between">
                                    <strong><?php _e('Categories'); ?></strong>
-
                                    <script>
                                        function manage_cats_for_add_post() {
-
                                            var manage_cats_for_add_post_opts = {};
-                                           // opts.width = '900';
-                                           // opts.height = '800';
-
-                                           //  opts.liveedit = true;
-                                           //  opts.mode = 'modal';
-
                                            var additional_params = {};
                                            additional_params.show_add_post_to_category_button = 'true';
-
-
-
                                            manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
                                        }
                                    </script>
-
-                                   <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>category" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage categories"); ?></a>
+                                   <a 
+                                    onclick="manage_cats_for_add_post();void(0);return false;" 
+                                    href="<?php  echo admin_url(); ?>category" 
+                                    > <?php _e("Manage categories"); ?></a>
                                </div>
+                               
                            <?php endif; ?>
-                       </div>
-               </div>
+                        
+  
 
 
-                <div class="row mb-3 py-0">
-                    <div class="col-12">
+                <div>
+                    <div>
                         <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                             <script>
                                 $(document).ready(function () {
@@ -260,15 +261,7 @@
                                                 manage_cats_for_add_post_dialog.remove()
                                             }
 
-
-
-                                            //
-                                            // if( mw.dialog.get(event.target)){
-                                            //     mw.dialog.get(event.target).remove()
-                                            // }
-
-
-
+ 
 
                                         }
 
@@ -306,11 +299,11 @@
                         <?php endif; ?>
                     </div>
                 </div>
-
+                
                 <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
 
 
-                    <div class="row pb-0 p-3">
+                    <div>
                         <div class="col-12">
                             <div id="show-categories-tree-wrapper" >
                                 <label for="" class="form-label font-weight-bold"><?php _e('Select'); ?> <?php echo $data['content_type']; ?> <?php _e('categories'); ?></label>
@@ -344,6 +337,8 @@
                 <?php endif; ?>
 
         </div>
+        </div>
+        </div>
 
     <?php if ($data['content_type'] == 'page'): ?>
         <div class="card-body mb-5 menus">
@@ -362,6 +357,7 @@
     <?php endif; ?>
 
     <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
+        <div class="card">
         <div class="card-body">
             <div class=" ">
                 <div class="row py-0">
@@ -377,6 +373,7 @@
                     <small class="text-muted"><?php _e('The tags are available only for saved content'); ?></small>
                 <?php endif; ?>
             </div>
+        </div>
         </div>
     <?php endif; ?>
 

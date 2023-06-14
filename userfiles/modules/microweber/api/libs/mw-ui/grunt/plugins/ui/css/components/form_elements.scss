@@ -26,6 +26,29 @@
   height: 36px;
 }
 
+ 
+
+
+.mw-ui-invisible-field::-webkit-input-placeholder {
+  color: #929dab;
+  opacity: 1
+}
+
+.mw-ui-invisible-field:-ms-input-placeholder {
+  color: #929dab;
+  opacity: 1
+}
+
+.mw-ui-invisible-field::-ms-input-placeholder {
+  color: #929dab;
+  opacity: 1
+}
+
+.mw-ui-invisible-field::placeholder {
+  color: #929dab;
+  opacity: 1
+}
+
 .mw-ui-invisible-field {
   background: transparent;
   border-color: transparent;
@@ -37,6 +60,8 @@
   padding: 8px 0;
   position: relative;
   outline: none;
+
+
 
 }
 

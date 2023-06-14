@@ -97,9 +97,9 @@ $rand = 'pic-sorter-' . uniqid();
 
                          
                         let i = 0; l = urls.length;
-                        console.log(urls)
+                        
                         for ( ; i < l; i++) {
-                            console.log(urls[i])
+                            
                            await after_upld(urls[i], 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>'); 
                         }
 
@@ -115,6 +115,12 @@ $rand = 'pic-sorter-' . uniqid();
                     footer: false,
                     width: 860
                 })
+                
+                picker.$cancel.on('click', function(){
+                    dialog.remove()
+                })
+
+
             }
  
 </script>
@@ -164,8 +170,7 @@ $rand = 'pic-sorter-' . uniqid();
                       onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></span>
 
                 <label class="mw-ui-check">
-                    <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>"
-                           value="<?php print $item['id'] ?>"><span></span>
+                    <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>" value="<?php print $item['id'] ?>"><span></span>
                 </label>
                 <div class="mw-post-media-img-edit">
 
@@ -186,9 +191,9 @@ $rand = 'pic-sorter-' . uniqid();
 
                                 <hr class="thin"/>
 
-                                <div class="d-flex justify-content-between">
-                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="mw.dialog.get(this).remove()"><?php _e("Cancel"); ?></button>
-                                <button type="button" class="btn btn-success btn-sm" onclick="mw.dialog.get(this).result(<?php print $item['id'] ?>)"><?php _e("Update"); ?></button>
+                                <div class="d-flex justify-content-between" id="image-json-options-dialog-footer">
+                                    <button type="button" class="btn btn-outline-secondary " onclick="mw.dialog.get(this).remove()"><?php _e("Cancel"); ?></button>
+                                    <button type="button" class="btn btn-success " onclick="mw.dialog.get(this).result(<?php print $item['id'] ?>)"><?php _e("Update"); ?></button>
                                 </div>
                             </div>
                         </div>

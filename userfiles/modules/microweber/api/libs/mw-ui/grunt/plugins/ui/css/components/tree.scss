@@ -20,8 +20,14 @@
     pointer-events: none;
     cursor: no-drop;
   }
+
   .opened > ul {
     display: block;
+  }
+  tree-label{
+    input{
+        pointer-events: none;
+    }
   }
 }
 
