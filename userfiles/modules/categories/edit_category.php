@@ -719,29 +719,29 @@ if (isset($params['live_edit'])) {
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <?php
-                                                    if (!isset($data['users_can_create_content'])) {
-                                                        $data['users_can_create_content'] = 0;
-                                                    }
-                                                    ?>
-                                                    <label class="form-label"><?php _e("Can users create content"); ?> <span class="help-tooltip" data-bs-toggle="tooltip" title="<?php _e("If you set this to YES the website users will be able to add content under this category"); ?>"></span></label>
+<!--                                            <div class="col-sm-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    --><?php
+//                                                    if (!isset($data['users_can_create_content'])) {
+//                                                        $data['users_can_create_content'] = 0;
+//                                                    }
+//                                                    ?>
+<!--                                                    <label class="form-label">--><?php //_e("Can users create content"); ?><!-- <span class="help-tooltip" data-bs-toggle="tooltip" title="--><?php //_e("If you set this to YES the website users will be able to add content under this category"); ?><!--"></span></label>-->
+<!---->
+<!--                                                    <div>-->
+<!--                                                        <div class="custom-control custom-radio d-inline-block mr-3">-->
+<!--                                                            <input type="radio" id="users_can_create_content_1" name="users_can_create_content" class="form-check-input" value="1" --><?php //if ('1' == trim($data['users_can_create_content'])): ?><!-- checked--><?php //endif; ?>
+<!--                                                            <label class="custom-control-label" for="users_can_create_content_1">--><?php //_e("Yes"); ?><!--</label>-->
+<!--                                                        </div>-->
+<!--                                                        <div class="custom-control custom-radio d-inline-block">-->
+<!--                                                            <input type="radio" id="users_can_create_content_0" name="users_can_create_content" class="form-check-input" value="0" --><?php //if ('' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?><!-- checked--><?php //endif; ?><!--
+<!--                                                            <label class="custom-control-label" for="users_can_create_content_0">--><?php //_e("No"); ?><!--</label>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
 
-                                                    <div>
-                                                        <div class="custom-control custom-radio d-inline-block mr-3">
-                                                            <input type="radio" id="users_can_create_content_1" name="users_can_create_content" class="form-check-input" value="1" <?php if ('1' == trim($data['users_can_create_content'])): ?> checked<?php endif; ?>>
-                                                            <label class="custom-control-label" for="users_can_create_content_1"><?php _e("Yes"); ?></label>
-                                                        </div>
-                                                        <div class="custom-control custom-radio d-inline-block">
-                                                            <input type="radio" id="users_can_create_content_0" name="users_can_create_content" class="form-check-input" value="0" <?php if ('' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?> checked<?php endif; ?>>
-                                                            <label class="custom-control-label" for="users_can_create_content_0"><?php _e("No"); ?></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-12">
                                                 <?php if (isset($data['id'])): ?>
                                                     <?php if (!isset($data['category_subtype'])) {
                                                         $data['category_subtype'] = 'default';
@@ -776,9 +776,6 @@ if (isset($params['live_edit'])) {
                                                 <?php endif; ?>
                                             </div>
 
-
-
-
                                             <div class="col-md-12">
                                                 <div class="form-group ">
                                                     <label class="form-label"><?php _e("Meta title"); ?></label>
@@ -795,12 +792,6 @@ if (isset($params['live_edit'])) {
                                                 </div>
                                             </div>
 
-
-
-
-
-
-
                                             <div class="col-md-12">
                                                 <div class="form-group ">
                                                     <label class="form-label"><?php _e("Meta description"); ?></label>
@@ -814,10 +805,6 @@ if (isset($params['live_edit'])) {
                                                     ?>
                                                 </div>
                                             </div>
-
-
-
-
 
                                             <div class="col-md-12">
                                                 <div class="form-group ">
@@ -834,22 +821,7 @@ if (isset($params['live_edit'])) {
                                                 </div>
 
                                                 <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
-
                                             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                                             <div class="col-md-12 mt-3">
                                                 <div class="form-group">
@@ -879,21 +851,12 @@ if (isset($params['live_edit'])) {
 
                                         </div>
                                     </div>
-
-
-
                                 </div>
                             </div>
 
-
-
-                            <div class="row">
-                                <div class="col-md-12 mt-3">
+                            <div class="row py-0">
+                                <div class="col-md-12 mt-3 text-end">
                                     <?php if (intval($data['id']) != 0): ?>
-
-
-
-
                                         <?php
 
                                         $delete_category_link = "javascript:mw.content.deleteCategory('".$data['id']."');";
@@ -902,15 +865,11 @@ if (isset($params['live_edit'])) {
                                         }
                                         ?>
 
-
-
-                                        <a href="<?php print $delete_category_link ?>" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin "></i>&nbsp; <?php _e('Delete') ?></a>
-
+                                        <a href="<?php print $delete_category_link ?>" class="btn btn-sm btn-outline-danger"> <?php _e('Delete') ?></a>
 
                                     <?php endif; ?>
 
                                 </div>
-
                             </div>
                         </form>
                     </div>
