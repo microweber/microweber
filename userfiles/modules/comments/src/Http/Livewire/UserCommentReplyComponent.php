@@ -101,6 +101,8 @@ class UserCommentReplyComponent extends Component
             return false;
         }
 
+        $this->emit('closeModal', 'captcha-confirm-modal');
+
         return true;
     }
 
@@ -187,9 +189,10 @@ class UserCommentReplyComponent extends Component
             $this->successMessage = _e('Your comment has been added', true);
         }
 
-//        $this->state['comment_body'] = '';
-//        $this->state['comment_name'] = '';
-//        $this->state['comment_email'] = '';
+        $this->state['comment_body'] = '';
+        $this->state['comment_name'] = '';
+        $this->state['comment_email'] = '';
+        $this->captcha = '';
 
         $this->emit('commentAdded', $comment->id);
 

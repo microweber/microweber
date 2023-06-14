@@ -21,7 +21,6 @@ class CaptchaConfirmModalComponent extends ModalComponent
 
     public function confirm()
     {
-        $this->closeModal();
         if ($this->action) {
             $this->emit($this->action, $this->captcha);
         }
