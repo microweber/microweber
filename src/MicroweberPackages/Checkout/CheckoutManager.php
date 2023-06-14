@@ -341,6 +341,10 @@ class CheckoutManager
 
             if (($this->app->user_manager->session_get('discount_value'))) {
                 $discount_value = $this->app->user_manager->session_get('discount_value');
+                if($discount_value) {
+                    $discount_value = floatval($discount_value);
+                 }
+
             }
             if (($this->app->user_manager->session_get('discount_type'))) {
                 $discount_type = $this->app->user_manager->session_get('discount_type');
@@ -444,13 +448,15 @@ class CheckoutManager
             }
 
 
-            if ($amount and is_numeric($amount) and is_float($amount) ) {
+            if ($amount  ) {
                 $amount = floatval($amount);
-                $amount = number_format($amount, 2, ".", "");;
+                $amount = number_format($amount, 2, ".", "");
+                $amount = floatval($amount);
             }
 
             $place_order['amount'] = $amount;
-            $place_order['allow_html'] = true;
+
+          //  $place_order['allow_html'] = true;
             $place_order['currency'] = $this->app->option_manager->get('currency', 'payments');
             if (!$place_order['currency']) {
                 $place_order['currency'] = 'USD';
