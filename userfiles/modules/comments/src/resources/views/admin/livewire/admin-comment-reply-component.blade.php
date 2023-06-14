@@ -3,7 +3,7 @@
     <form>
         <div class="mt-2">
             <label>Comment:</label>
-            <x-comments::editors.easymde model="comment.comment_body" />
+            <x-comments::editors.textarea model="comment.comment_body" />
         </div>
 
         <div class="mt-2">

@@ -95,7 +95,7 @@ class UserCommentReplyComponent extends Component
         $validate = [
             'state.rel_id' => 'required|min:1',
             'state.comment_body' => 'required|min:3|max:1000',
-            'captcha' => 'captcha',
+         //   'captcha' => 'captcha',
         ];
 
         if (!user_id()) {

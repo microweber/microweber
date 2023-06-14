@@ -39,7 +39,7 @@
 
             <div class="mt-2">
                 <label>Comment:</label>
-                <x-comments::editors.easymde model="state.comment_body" />
+                <x-comments::editors.textarea model="state.comment_body" />
                 @if($errors->has('state.comment_body'))
                     <span>{{ $errors->first('state.comment_body') }}</span>
                 @endif
