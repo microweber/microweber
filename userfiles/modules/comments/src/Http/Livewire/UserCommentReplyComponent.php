@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Comments\Http\Livewire;
 
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
@@ -16,10 +17,6 @@ class UserCommentReplyComponent extends Component
 {
     use AuthorizesRequests;
 
-    public $listeners = [
-        'setCaptcha'=>'setCaptcha',
-    ];
-
     public $view = 'comments::livewire.user-comment-reply-component';
     public $successMessage = false;
 
@@ -30,6 +27,13 @@ class UserCommentReplyComponent extends Component
     ];
 
     public $captcha = '';
+
+    public function getListeners()
+    {
+        return [
+            "setCaptcha".md5($this->id) => 'setCaptcha',
+        ];
+    }
 
     public function mount($relId = null, $replyToCommentId = null)
     {
@@ -83,6 +87,22 @@ class UserCommentReplyComponent extends Component
         $this->captcha = $value;
     }
 
+    public function validateCaptcha()
+    {
+        $validateCaptcha = Validator::make([ 'captcha'=>$this->captcha ],  [
+            'captcha' => 'required|captcha'
+        ]);
+
+        if ($validateCaptcha->fails()) {
+            $this->emit('openModal', 'captcha-confirm-modal', [
+                'action'=>'setCaptcha' . md5($this->id)
+            ]);
+            return false;
+        }
+
+        return true;
+    }
+
     public function save()
     {
         $hasRateLimiterId = $this->state['rel_id'] . $this->state['reply_to_comment_id'] . user_ip();
@@ -92,17 +112,14 @@ class UserCommentReplyComponent extends Component
             return;
         }
 
-        if (empty($this->captcha)) {
-            $this->emit('openModal', 'captcha-confirm-modal', [
-                'action'=>'setCaptcha'
-            ]);
+        $validate = $this->validateCaptcha();
+        if (!$validate) {
             return;
         }
 
         $validate = [
             'state.rel_id' => 'required|min:1',
             'state.comment_body' => 'required|min:3|max:1000',
-            'captcha' => 'required|captcha',
         ];
 
         if (!user_id()) {
