@@ -38,7 +38,7 @@ $defined_taxes = mw()->tax_manager->get();
            if (!empty($defined_taxes)):
            ?>
            <label class="form-check form-check-single form-switch ps-0 mb-4" style="width: unset;">
-               <input type="checkbox" name="enable_taxes" class="mw_option_field form-check-input" id="enable_taxes" data-option-group="shop" data-value-checked="y" data-value-unchecked="n" <?php if (get_option('enable_taxes', 'shop') == 'y'): ?>checked<?php endif; ?> />
+               <input type="checkbox" name="enable_taxes" class="mw_option_field form-check-input" id="enable_taxes" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_taxes', 'shop') == '1'): ?>checked<?php endif; ?> />
                &nbsp; <?php _e('Enable'); ?>
            </label>
            <?php

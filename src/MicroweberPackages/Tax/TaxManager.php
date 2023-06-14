@@ -12,7 +12,7 @@
 namespace MicroweberPackages\Tax;
 
 use Illuminate\Support\Facades\Validator;
-use MicroweberPackages\Helper\HTMLClean;
+use MicroweberPackages\Tax\Models\TaxType;
 
 class TaxManager
 {
@@ -50,9 +50,9 @@ class TaxManager
     public function save($params = array())
     {
         $countTaxTypes = TaxType::count();
-        if ($countTaxTypes == 0) {
-            save_option('enable_taxes', 'y', 'shop');
-        }
+//        if ($countTaxTypes == 0) {
+//            save_option('enable_taxes', '1', 'shop');
+//        }
 
         if (isset($params['rate'])) {
             $params['rate'] = floatval($params['rate']);
@@ -69,8 +69,10 @@ class TaxManager
             $errors = $validator->messages()->toArray();
             return ['valid'=>false,'errors'=>$errors];
         }
-
-        $taxType = TaxType::where('id', $params['id'])->first();
+        $taxType = false;
+        if(isset($params['id'])){
+            $taxType = TaxType::where('id', $params['id'])->first();
+        }
         if (!$taxType) {
             $taxType = new TaxType();
         }

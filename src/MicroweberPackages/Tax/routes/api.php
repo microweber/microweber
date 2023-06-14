@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\Route;
 
         Route::any('shop/save_tax_item', function () {
             $data = request()->all();
-            return mw()->tax_manager->save($data);
+            return app()->tax_manager->save($data);
         });
 
         Route::any('shop/delete_tax_item', function () {
             $data = request()->all();
-            return mw()->tax_manager->delete_by_id($data);
+            return app()->tax_manager->delete_by_id($data);
         });
 
     });
