@@ -89,7 +89,6 @@ The main focus of Microweber CMS is E-commerce. A rising number of people have g
   * `bcmath` PHP extension
   * `zip` PHP extension
   * `openssl` PHP extension
-  * `bcmath` PHP extension
   * `fileinfo` PHP extension
   * `pdo_sqlite` PHP extension
   * `pdo_mysql` PHP extension
