@@ -83,14 +83,17 @@ class UserCommentReplyComponent extends Component
             return;
         }
 
-        $messages = array(
-            'required' => _e('The field is required.', true),
-        );
+        if (empty($this->captcha)) {
+            $this->emit('openModal', 'captcha-confirm-modal', [
+
+            ]);
+            return;
+        }
 
         $validate = [
             'state.rel_id' => 'required|min:1',
             'state.comment_body' => 'required|min:3|max:1000',
-            'captcha' => 'captcha',
+            'captcha' => 'required|captcha',
         ];
 
         if (!user_id()) {
@@ -98,7 +101,9 @@ class UserCommentReplyComponent extends Component
             $validate['state.comment_email'] = 'required|email|min:3|max:300';
         }
 
-        $this->validate($validate, $messages);
+        $this->validate($validate, array(
+            'required' => _e('The field is required.', true),
+        ));
 
         $countContent = Content::where('id', $this->state['rel_id'])->active()->count();
         if ($countContent == 0) {
