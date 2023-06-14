@@ -38,6 +38,9 @@
         @if($allowToComment)
 
             <div class="mt-2">
+
+                captcha code: {{$captcha}}
+
                 <label>Comment:</label>
                 <x-comments::editors.textarea model="state.comment_body" />
                 @if($errors->has('state.comment_body'))
@@ -54,9 +57,6 @@
                         {{_e('Post comment')}}
                     </div>
                 </button>
-
-                captcha code: {{$captcha}} 
-
             </div>
         @endif
 
