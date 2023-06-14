@@ -8,16 +8,17 @@ if ($instanceField->hasShowLabelOptions):
 <div class="custom-field-settings-show-label">
    <div class="d-flex">
        <div class="mw-custom-field-form-controls p-0">
-            <label class="mw-ui-check">
-                   <input type="hidden" value="1" name="show_label">
-                   <input type="checkbox" class="form-check-input" name="show_label" id="custom_field_show_label<?php print $rand; ?>" value="0" <?php if ($settings['show_label'] == '0'): ?> checked="checked"  <?php endif; ?> >
-                   <span></span>
-                   <span></span>
-            </label>
-           <span class="align-self-center col-6 pl-0"><?php _e('Hide label'); ?></span>
+           <label class="form-label font-weight-bold"><?php _e('Display the name');?></label>
+
+           <label class="form-check">
+               <input type="hidden" value="1" name="show_label">
+
+               <input type="checkbox" class="form-check-input me-2" name="show_label" id="custom_field_show_label<?php print $rand; ?>" value="0" <?php if ($settings['show_label'] == '0'): ?> checked="checked"  <?php endif; ?> >
+
+               <span class="form-check-label"><?php _e("Hide label"); ?></span>
+           </label>
        </div>
    </div>
-    <small class="text-muted d-block mb-2"><?php _e('Display the name of title/field name');?></small>
 </div>
 <?php
 endif;
@@ -28,7 +29,7 @@ $fields = mw()->ui->custom_fields();
 ?>
 
 <div class="mw-custom-field-group">
-    <label class="form-label" for="custom_field_width_type<?php print $rand; ?>"><?php _e('Field type'); ?></label>
+    <label class="form-label font-weight-bold mt-3" for="custom_field_width_type<?php print $rand; ?>"><?php _e('Field type'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Choose type of the fields');?></small>
 
    <select class="form-select w-100" data-width="100%" data-size="5" name="type" onChange="$(this).addClass('mw-needs-reload');">
@@ -42,7 +43,7 @@ $fields = mw()->ui->custom_fields();
 <?php
 if ($instanceField->hasResponsiveOptions):
 ?>
-<label class="form-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Organize in columns on different resolutions'); ?></label>
+<label class="form-label font-weight-bold d-block mt-2" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Organize in columns on different resolutions'); ?></label>
 <small class="text-muted d-block mb-2"><?php _e('Used for templates based on bootstrap');?></small>
 
 <div class="d-flex">
@@ -82,15 +83,13 @@ endif;
 if ($instanceField->hasRequiredOptions):
 ?>
 <div class="mw-custom-field-group">
-    <label class="form-label mt-3" ><?php _e('Required'); ?></label>
-   <div class="d-flex">
-       <div class="mw-custom-field-form-controls p-0">
-           <label class="mw-ui-check">
-               <input type="checkbox" class="form-select  checkbox" name="required" onchange="valueChanged()" id="custom_field_required<?php print $rand; ?>" value="1" <?php if ($data['required']): ?> checked="checked"  <?php endif; ?> >
-               <span></span>
-           </label>
-       </div>
-       <span class="align-self-center col-6 pl-0"><?php _e('Is this field required?'); ?></span>
+    <label class="form-label font-weight-bold mt-3" ><?php _e('Required'); ?></label>
+   <div class="mw-custom-field-form-controls p-0">
+       <label class="form-check">
+           <input type="checkbox" class="form-check-input me-2" name="required" onchange="valueChanged()" id="custom_field_required<?php print $rand; ?>" value="1" <?php if ($data['required']): ?> checked="checked"  <?php endif; ?> >
+
+           <span class="form-check-label"><?php _e("Is this field required?"); ?></span>
+       </label>
    </div>
 </div>
 <?php
@@ -173,7 +172,7 @@ endif;
 </style>
 
 <div id="save-menu-container">
-    <div id="save-menu-wrapper">
+    <div class="px-0" id="save-menu-wrapper">
         <nav id="save-menu">
             <span class="btn btn-outline-secondary custom-fields-settings-cancel-btn"><?php _e('Cancel'); ?></span>
             <button class="btn btn-primary custom-fields-settings-save-btn"><?php _e('Save'); ?></button>
