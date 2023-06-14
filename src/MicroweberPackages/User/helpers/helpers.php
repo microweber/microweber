@@ -283,9 +283,13 @@ function user_email($user_id = false)
     return user_name($user_id, $mode = 'email');
 }
 
-function user_picture($user_id = false)
+function user_picture($user_id = false, $width = false, $height = false)
 {
-    return app()->user_manager->picture($user_id);
+    $picture = app()->user_manager->picture($user_id);
+    if ($width && $height) {
+        return thumbnail($picture, $width, $height, true);
+    }
+    return $picture;
 }
 
 /**
