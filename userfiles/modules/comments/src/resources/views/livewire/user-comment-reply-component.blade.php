@@ -45,21 +45,6 @@
                 @endif
             </div>
 
-            @if($enableCaptcha)
-
-                    <div>
-                        @error('captcha')
-                        <div class="px-lg-4 px-0">
-                            <span class="text-danger">{{ $message }}</span>
-                        </div>
-                        @enderror
-
-                        <x-microweber-ui::captcha wire:model.defer="captcha" />
-
-                    </div>
-
-                @endif
-
             <div class="mt-2">
                 <button wire:loading.attr="disabled" wire:click="save" type="button" class="btn btn-outline-primary">
                     <div wire:loading wire:target="save">
