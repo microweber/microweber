@@ -55,7 +55,7 @@
                     </div>
                 </button>
 
-                captcha code: {{$captcha}}
+                captcha code: {{$captcha}} 
 
             </div>
         @endif

@@ -85,6 +85,7 @@ class UserCommentReplyComponent extends Component
     public function setCaptcha($value)
     {
         $this->captcha = $value;
+        $this->save();
     }
 
     public function validateCaptcha()
