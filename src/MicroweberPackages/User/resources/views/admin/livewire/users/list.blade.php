@@ -111,7 +111,7 @@
                                             @else
                                             {{--   Ako ima--}}
                                             <span class="avatar me-2 shadow-none">
-                                                <img class="rounded-circle" src="{{$user->avatar}}" alt="">
+                                                <img class="rounded-circle" src="{{$user->avatarUrl()}}" alt="">
                                             </span>
                                             @endif
 

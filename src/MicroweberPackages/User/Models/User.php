@@ -222,7 +222,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function avatarUrl()
     {
-        return user_picture($this->id);
+        return user_picture($this->id, 165, 165);
     }
 
     public function getFullNameAttribute()

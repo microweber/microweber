@@ -53,7 +53,7 @@ class UpdateProfileInformationForm extends AdminComponent
         }
 
         if (!empty($this->state['thumbnail'])) {
-            $this->photoUrl = user_picture($this->state['id']);
+            $this->photoUrl = user_picture($this->state['id'], 165,165);
         }
     }
 

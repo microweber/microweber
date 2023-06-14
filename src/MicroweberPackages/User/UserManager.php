@@ -417,6 +417,20 @@ class UserManager
         return $get;
     }
 
+    public function has_picture($user_id = false) {
+
+        if (!$user_id) {
+            $user_id = $this->id();
+        }
+
+        $name = $this->get_by_id($user_id);
+        if (isset($name['thumbnail']) and $name['thumbnail'] != '') {
+            return true;
+        }
+
+        return false;
+    }
+
     public function picture($user_id = false)
     {
 
