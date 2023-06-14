@@ -1,3 +1,17 @@
+<?php
+
+
+
+if (isset($params['is_shop']) && $params['is_shop'] == 1){
+    $createRoute = route('admin.shop.category.create');
+} else {
+    $createRoute = route('admin.category.create');
+}
+
+
+?>
+
+
 <div class="col-xl-9 mx-auto mw-module-category-manager admin-side-content">
     <div class="card-body mb-3">
         <div class="card-header d-flex flex-wrap align-items-center justify-content-between mb-5">
@@ -16,12 +30,12 @@
                 <div class="d-flex align-items-center">
                     <?php if (user_can_access('module.categories.edit')): ?>
                         <?php if (isset($params['is_shop']) && $params['is_shop'] == 1): ?>
-                            <a href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-dark">
+                            <a href="<?php echo $createRoute; ?>" class="btn btn-dark">
                             <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
 
                                 <?php _e("Create New Category"); ?></a>
                         <?php else: ?>
-                            <a href="<?php echo route('admin.category.create'); ?>" class="btn btn-dark">
+                            <a href="<?php echo $createRoute; ?>" class="btn btn-dark">
                             <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
 
                                 <?php _e("Create New Category"); ?></a>
@@ -68,7 +82,7 @@
             <p class="empty-subtitle text-muted">
                 Try adjusting your search or filter to find what you're looking for.
             </p>
- 
+
             </div>
 
         </div>
@@ -138,9 +152,12 @@
                                 .not('.mw-tree-item-sortable-handle-ready')
                                 .addClass('mw-tree-item-sortable-handle-ready')
                                 .prepend(`
-                                <span class="mw-tree-item-sortable-handle">
-                                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M360 896q-33 0-56.5-23.5T280 816q0-33 23.5-56.5T360 736q33 0 56.5 23.5T440 816q0 33-23.5 56.5T360 896Zm240 0q-33 0-56.5-23.5T520 816q0-33 23.5-56.5T600 736q33 0 56.5 23.5T680 816q0 33-23.5 56.5T600 896ZM360 656q-33 0-56.5-23.5T280 576q0-33 23.5-56.5T360 496q33 0 56.5 23.5T440 576q0 33-23.5 56.5T360 656Zm240 0q-33 0-56.5-23.5T520 576q0-33 23.5-56.5T600 496q33 0 56.5 23.5T680 576q0 33-23.5 56.5T600 656ZM360 416q-33 0-56.5-23.5T280 336q0-33 23.5-56.5T360 256q33 0 56.5 23.5T440 336q0 33-23.5 56.5T360 416Zm240 0q-33 0-56.5-23.5T520 336q0-33 23.5-56.5T600 256q33 0 56.5 23.5T680 336q0 33-23.5 56.5T600 416Z"></path></svg>
-                                </span>
+
+                                <div class="cursor-move-holder me-2 mw-tree-item-sortable-handle" onmousedown="mw.manage_content_sort()" style="max-width: 80px;">
+                                      <span href="javascript:;" class="btn btn-link text-blue-lt">
+                                          <svg class="mdi-cursor-move" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M360 896q-33 0-56.5-23.5T280 816q0-33 23.5-56.5T360 736q33 0 56.5 23.5T440 816q0 33-23.5 56.5T360 896Zm240 0q-33 0-56.5-23.5T520 816q0-33 23.5-56.5T600 736q33 0 56.5 23.5T680 816q0 33-23.5 56.5T600 896ZM360 656q-33 0-56.5-23.5T280 576q0-33 23.5-56.5T360 496q33 0 56.5 23.5T440 576q0 33-23.5 56.5T360 656Zm240 0q-33 0-56.5-23.5T520 576q0-33 23.5-56.5T600 496q33 0 56.5 23.5T680 576q0 33-23.5 56.5T600 656ZM360 416q-33 0-56.5-23.5T280 336q0-33 23.5-56.5T360 256q33 0 56.5 23.5T440 336q0 33-23.5 56.5T360 416Zm240 0q-33 0-56.5-23.5T520 336q0-33 23.5-56.5T600 256q33 0 56.5 23.5T680 336q0 33-23.5 56.5T600 416Z"></path></svg>
+                                      </span>
+                                </div>
                             `)
                         })
                     },
@@ -161,7 +178,9 @@
                             icon: 'd-none',
                             action: function (element, data, menuitem) {
                                 if (data.type === 'category') {
+
                                     self.location.href = "<?php print admin_url() ?>category/" + data.id + "/edit";
+
                                 } else if (data.type === 'page') {
                                     self.location.href = "<?php print admin_url() ?>page/" + data.id + "/edit";
                                 }

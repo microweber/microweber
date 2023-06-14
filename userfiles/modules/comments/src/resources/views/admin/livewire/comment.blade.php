@@ -46,22 +46,22 @@
 
             <div class="mt-3" style="padding-left:80px">
 
-                <div class="cursor-pointer" wire:click="filterByContentId('{{$comment->contentId()}}')">
+                <a href="{{content_link($comment->contentId())}}" target="_blank">
                     <p class="mb-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16 19H3v-2h13v2zm5-10H3v2h18V9zM3 5v2h11V5H3zm14 0v2h4V5h-4zm-6 8v2h10v-2H11zm-8 0v2h5v-2H3z"/></svg>
                         {{$comment->contentTitle()}}
                     </p>
-                </div>
+                </a>
 
                 @if($comment->reply_to_comment_id > 0)
                     <div class="mb-2">
                         <div class="list-group list-group-flush">
-                            <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                            <div class="list-group-item list-group-item-action active" aria-current="true">
                                 {{_e('In reply to:')}}
                                 <span class="text-muted">
                                    {{str_limit(strip_tags($comment->parentCommentBody()), 80)}}
                                 </span>
-                            </a>
+                            </div>
                         </div>
                     </div>
                 @endif
@@ -76,7 +76,7 @@
                 <div @if($this->isEditing) style="display:none" @endif>
                     <div class="cursor-pointer" wire:click="preview">
                        <span class="mb-0 text-bold">
-                          {!! $comment->comment_body !!}
+                          {!! $comment->commentBodyDisplay() !!}
                         </span>
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                     @endif
 
                     @if($comment->deleted_at == null)
-                        <button class="mw-admin-action-links text-decoration-none btn btn-link" wire:click="edit">
+                        <button class="mw-admin-action-links text-decoration-none btn btn-link" wire:click="startEditing">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M224.49 76.2L179.8 31.51a12 12 0 0 0-17 0L39.52 154.83a11.9 11.9 0 0 0-3.52 8.48V208a12 12 0 0 0 12 12h44.69a12 12 0 0 0 8.48-3.51L224.48 93.17a12 12 0 0 0 0-17ZM45.66 160L136 69.65L158.34 92L68 182.34ZM44 208v-38.34l21.17 21.17L86.34 212H48a4 4 0 0 1-4-4Zm52 2.34L73.66 188L164 97.65L186.34 120ZM218.83 87.51L192 114.34L141.66 64l26.82-26.83a4 4 0 0 1 5.66 0l44.69 44.68a4 4 0 0 1 0 5.66Z"/></svg>
                             &nbsp;{{ _e("Edit") }}
                         </button>

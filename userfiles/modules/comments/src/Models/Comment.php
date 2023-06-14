@@ -27,18 +27,25 @@ class Comment extends Model
         static::saving(function ($comment) {
             foreach ($comment->getAttributes() as $key => $value) {
                 if (is_string($value)) {
+                    if ($key == 'comment_body') {
+                        continue;
+                    }
                     $comment->{$key} = app()->format->clean_xss($value);
                 }
             }
-            if (isset($comment->comment_body)) {
-                $renderer = new CommonMarkConverter([
-                    'html_input' => 'strip',
-                    'allow_unsafe_links' => false,
-                ]);
-                $commentBody = $renderer->convert($comment->comment_body);
-                $comment->comment_body = $commentBody;
-            }
         });
+    }
+
+    public function commentBodyDisplay()
+    {
+        // Save markdown
+        $renderer = new CommonMarkConverter([
+            'html_input' => 'strip',
+            'allow_unsafe_links' => false,
+        ]);
+        $commentBody = $renderer->convert($this->comment_body);
+
+        return $commentBody;
     }
 
     public function isPending() {

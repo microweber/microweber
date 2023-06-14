@@ -1,3 +1,25 @@
+<?php
+
+$callback = false;
+if (isset($params['data-callback'])) {
+    $callback = $params['data-callback'];
+}
+?>
+<?php if($callback): ?>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#captcha-<?php print $params['id'] ?>-input').on('input paste keyup blur', function () {
+                var val = $(this).val();
+                if (val.length > 0) {
+                    <?php print $callback; ?>(val);
+                }
+            })
+        });
+    </script>
+<?php endif; ?>
+
+
+
 <div class="form-group">
     <div class="row">
         <div class="col-auto">

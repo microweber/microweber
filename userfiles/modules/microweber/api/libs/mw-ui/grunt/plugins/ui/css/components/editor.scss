@@ -230,7 +230,7 @@ $editorSpacing: 5px;
             text-overflow: ellipsis;
             line-height: normal;
         }
-        
+
     }
 }
 
@@ -306,7 +306,8 @@ $editorSpacing: 5px;
         .mw-editor-iframe-area,
         .mw-editor-area{
             border-radius: 0 0 5px 5px;
-        
+            max-height: 500px;
+
         }
 
         .mw-editor-controller-component-select{
@@ -502,7 +503,7 @@ $editorSpacing: 5px;
         width: 2px;
         margin: 2px;
         background-color: var(--tblr-border-color);;
-         
+
         vertical-align: middle;
     }
 }
@@ -560,7 +561,7 @@ $editorSpacing: 5px;
         .mw-editor-group-button-icon{
             vertical-align: middle;
             font-size: 20px;
-        
+
             svg{
                 width: 20px;
             }
@@ -612,7 +613,7 @@ $editorSpacing: 5px;
         overflow: auto;
         max-height: calc(100vh - 200px);
         min-height: 100px;
- 
+
     }
     &.active{
         z-index: 10;

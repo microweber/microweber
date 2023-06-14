@@ -3,6 +3,8 @@
 namespace MicroweberPackages\Modules\Comments\Http\Livewire;
 
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
@@ -23,6 +25,15 @@ class UserCommentReplyComponent extends Component
         'comment_email' => '',
         'comment_body' => '',
     ];
+
+    public $captcha = '';
+
+    public function getListeners()
+    {
+        return [
+            "setCaptcha".md5($this->id) => 'setCaptcha',
+        ];
+    }
 
     public function mount($relId = null, $replyToCommentId = null)
     {
@@ -71,6 +82,30 @@ class UserCommentReplyComponent extends Component
         return view($this->view,$data);
     }
 
+    public function setCaptcha($value)
+    {
+        $this->captcha = $value;
+        $this->save();
+    }
+
+    public function validateCaptcha()
+    {
+        $validateCaptcha = Validator::make([ 'captcha'=>$this->captcha ],  [
+            'captcha' => 'required|captcha'
+        ]);
+
+        if ($validateCaptcha->fails()) {
+            $this->emit('openModal', 'captcha-confirm-modal', [
+                'action'=>'setCaptcha' . md5($this->id)
+            ]);
+            return false;
+        }
+
+        $this->emit('closeModal', 'captcha-confirm-modal');
+
+        return true;
+    }
+
     public function save()
     {
         $hasRateLimiterId = $this->state['rel_id'] . $this->state['reply_to_comment_id'] . user_ip();
@@ -80,19 +115,24 @@ class UserCommentReplyComponent extends Component
             return;
         }
 
-        $messages = array(
-            'required' => _e('The field is required.', true),
-        );
+        $validate = $this->validateCaptcha();
+        if (!$validate) {
+            return;
+        }
+
         $validate = [
             'state.rel_id' => 'required|min:1',
             'state.comment_body' => 'required|min:3|max:1000',
         ];
+
         if (!user_id()) {
             $validate['state.comment_name'] = 'required|min:3|max:300';
             $validate['state.comment_email'] = 'required|email|min:3|max:300';
         }
 
-        $this->validate($validate, $messages);
+        $this->validate($validate, array(
+            'required' => _e('The field is required.', true),
+        ));
 
         $countContent = Content::where('id', $this->state['rel_id'])->active()->count();
         if ($countContent == 0) {
@@ -109,7 +149,7 @@ class UserCommentReplyComponent extends Component
         }
 
         $comment->user_ip = user_ip();
-        $comment->session_id = session_id();
+        $comment->session_id = Session::getId();
 
         if (user_id()) {
             $comment->created_by = user_id();
@@ -149,9 +189,10 @@ class UserCommentReplyComponent extends Component
             $this->successMessage = _e('Your comment has been added', true);
         }
 
-//        $this->state['comment_body'] = '';
-//        $this->state['comment_name'] = '';
-//        $this->state['comment_email'] = '';
+        $this->state['comment_body'] = '';
+        $this->state['comment_name'] = '';
+        $this->state['comment_email'] = '';
+        $this->captcha = '';
 
         $this->emit('commentAdded', $comment->id);
 

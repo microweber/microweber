@@ -2,6 +2,20 @@
 
 @section('content')
 
+    <?php
+
+    $createRouteBlog = route('admin.category.create')."?parent=blog";
+    $createRouteShop = route('admin.category.create')."?parent=shop";
+
+
+
+
+    ?>
+
+
+
+
+
     @if($parent)
         @include('category::admin.category.edit', ['parent' => $parent])
     @else
@@ -12,7 +26,7 @@
         <div class="d-flex justify-content-center row-cards">
 
             <div class="col-md-4 pe-5 pb-3">
-                <a href="{{route('admin.category.create')}}?parent=blog" class="card card-link card-link-pop">
+                <a href="{{ $createRouteBlog }}" class="card card-link card-link-pop">
 
                     <div class="card-body" style="padding: 13px; height: calc(50vh - 80px);">
                         <div class="d-flex flex-column text-center justify-content-center align-items-center h-100">
@@ -30,7 +44,7 @@
             </div>
 
             <div class="col-md-4 pe-5 pb-3">
-                <a href="{{route('admin.category.create')}}?parent=shop" class="card card-link card-link-pop">
+                <a href="{{ $createRouteShop }}" class="card card-link card-link-pop">
 
                     <div class="card-body" style="padding: 13px; height: calc(50vh - 80px);">
                         <div class="d-flex flex-column text-center justify-content-center align-items-center h-100">

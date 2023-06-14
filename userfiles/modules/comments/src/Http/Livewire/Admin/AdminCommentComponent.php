@@ -18,36 +18,37 @@ class AdminCommentComponent extends UserCommentReplyComponent
         'comment.comment_body' => 'required',
     ];
 
-    public $listeners = [
-        'executeCommentDelete'=>'executeCommentDelete',
-        'executeCommentMarkAsTrash'=>'executeCommentMarkAsTrash',
-    ];
-
     public function preview()
     {
 
     }
 
-    public function edit() {
+    public function startEditing()
+    {
+        $this->isEditing = true;
+    }
 
-        $comment = Comment::find($this->comment->id);
-        if ($comment) {
-            $this->authorize('update', $comment);
-            $this->isEditing = true;
-        }
+    public function stopEditing()
+    {
+        $this->isEditing = false;
     }
 
     public function save()
     {
-        $comment = Comment::find($this->comment->id);
-        if ($comment) {
-            $this->authorize('update', $comment);
-            $comment->comment_body = $this->comment->comment_body;
-            $comment->save();
-            $this->isEditing = false;
+        $this->authorize('update', $this->comment);
 
-            $this->emit('commentUpdated');
-        }
+        $this->validate(['comment.comment_body' => 'required']);
+
+        $this->comment->update([
+            'comment_body' => $this->comment->comment_body,
+        ]);
+
+        $this->isEditing = false;
+    }
+
+    public function cancel()
+    {
+        $this->isEditing = false;
     }
 
     public function markAsModerated()
@@ -60,6 +61,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->is_new = 0;
             $comment->is_moderated = 1;
             $comment->save();
+
+            $this->comment = $comment;
 
             $this->emit('commentUpdated');
         }
@@ -76,6 +79,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->is_moderated = 0;
             $comment->save();
 
+            $this->comment = $comment;
+
             $this->emit('commentUpdated');
         }
     }
@@ -90,6 +95,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->is_spam = 1;
             $comment->is_moderated = 0;
             $comment->save();
+
+            $this->comment = $comment;
 
             $this->emit('commentUpdated');
         }
@@ -106,27 +113,7 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $comment->is_moderated = 1;
             $comment->save();
 
-            $this->emit('commentUpdated');
-        }
-    }
-
-    public function executeCommentDelete() {
-
-        $comment = Comment::withTrashed()->where('id',$this->comment->id)->first();
-        if ($comment) {
-            $this->authorize('delete', $comment);
-            $comment->forceDelete();
-
-            $this->emit('commentUpdated');
-        }
-    }
-
-    public function executeCommentMarkAsTrash() {
-
-        $comment = Comment::find($this->comment->id);
-        if ($comment) {
-            $this->authorize('delete', $comment);
-            $comment->delete();
+            $this->comment = $comment;
 
             $this->emit('commentUpdated');
         }
@@ -140,6 +127,8 @@ class AdminCommentComponent extends UserCommentReplyComponent
             $this->authorize('update', $comment);
 
             $comment->restore();
+
+            $this->comment = $comment;
 
             $this->emit('commentUpdated');
         }

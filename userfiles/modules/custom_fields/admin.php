@@ -188,8 +188,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     <span><?php _e("Add new field"); ?></span>
                                 </div>
                             </div>
-                            <div class="card-body collapse mt-3" id="add-field-select">
-                                <div class="custom-fields-add-buttons d-flex flex-wrap align-items-center">
+                            <div class="card-body px-0 collapse mt-3" id="add-field-select">
+                                <div class="custom-fields-add-buttons">
                                     <?php if (is_array($exiisting_fields)): ?>
 
                                     <script>
@@ -204,20 +204,23 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         });
                                     </script>
 
-                                        <div class="row p-0">
-                                            <div class="col-xl-8 col-md-6 col-12">
-                                                <label class="form-label"><?php _e("Existing fields"); ?></label>
-                                                <small class="d-block mb-2 text-muted"><?php _e("Choose from your existing fields bellow"); ?></small>
-                                            </div>
-                                            <div class="col-xl-4 col-md-6 col-12">
-                                                <input type="text" class="form-control form-control-sm" aria-label="Search" id="cf-add-existing-search" placeholder="Search">
-                                            </div>
+                                    <div class="row p-0">
+                                        <div class="col-xl-8 col-md-6 col-12">
+                                            <label class="form-label font-weight-bold"><?php _e("Existing fields"); ?></label>
+                                            <small class="d-block mb-2 text-muted"><?php _e("Choose from your existing fields bellow"); ?></small>
                                         </div>
-                                    <div class="row px-0 pb-3">
+                                        <div class="col-xl-4 col-md-6 col-12">
+                                            <input type="text" class="form-control form-control-sm" aria-label="Search" id="cf-add-existing-search" placeholder="Search">
+                                        </div>
+                                    </div>
+
+                                    <hr class="w-100 h-100 thin my-2">
+
+                                    <div class="row px-0 py-3">
                                         <?php foreach ($exiisting_fields as $item): ?>
-                                           <div class="col-xl-3 col-md-4 col-6">
-                                                <button type="button" class="btn btn-link text-decoration-none mw-custom-field-existing-item-btn"
-                                                        onclick="javascript:addCustomFieldByExisting('<?php print $item['id']; ?>','<?php print $item['name']; ?>');">
+                                           <div class="col-xl-2 col-md-4 col-6 hover-bg-light text-center py-4">
+                                                <button type="button" class="btn btn-link mx-auto text-decoration-none mw-custom-field-existing-item-btn"
+                                                        onclick="javascript:addCustomFieldByExisting('<?php print $item['id']; ?>','<?php print $item['name']; ?>');" style="display: block;">
 
                                                         <span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span>
                                                         <span class="mw-custom-field-title  small" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
@@ -227,7 +230,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                                         <?php endforeach; ?>
                                     </div>
-                                        <hr>
+                                        <hr class="w-100 h-100 thin my-2">
                                     <?php endif; ?>
 
 
@@ -249,20 +252,23 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         <?php endforeach; ?>
                                     </select>
 
-                                    <div class="row px-0 pb-3">
-                                        <label class="form-label"><?php _e(" Add new fields"); ?></label>
+
+                                    <div class="row px-0 py-3">
+                                        <label class="form-label font-weight-bold"><?php _e(" Add new fields"); ?></label>
                                         <small class="d-block mb-2 text-muted"><?php _e("Add new custom field from list bellow"); ?></small>
                                     </div>
 
-                                    <?php foreach ($fields as $field => $value): ?>
+                                   <div class="d-flex flex-wrap align-items-center">
+                                       <?php foreach ($fields as $field => $value): ?>
 
-                                        <div class="col-xl-3 col-md-4 col-6">
-                                            <button type="button" class="btn btn-link text-decoration-none js-add-custom-field-<?php print $field; ?>" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
-                                                <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
-                                                <span class="mw-custom-field-title text-break-line-1 text-center"><?php _e($value); ?></span>
-                                            </button>
-                                        </div>
-                                    <?php endforeach; ?>
+                                           <div class="col-xl-2 col-md-4 col-6 hover-bg-light text-center py-4">
+                                               <button type="button" class="btn btn-link mx-auto text-decoration-none js-add-custom-field-<?php print $field; ?>" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');" style="display: block;">
+                                                   <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
+                                                   <span class="mw-custom-field-title text-break-line-1 text-center"><?php _e($value); ?></span>
+                                               </button>
+                                           </div>
+                                       <?php endforeach; ?>
+                                   </div>
 
                                 </div>
                             </div>
@@ -272,8 +278,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <hr class="thin">
 
-                <label class="form-label"><?php _e("Your fields"); ?></label>
-                <small class="d-block mb-2 text-muted"><?php _e("List of your added custom fields"); ?></small>
+               <div class="row p-0">
+                   <label class="form-label font-weight-bold"><?php _e("Your fields"); ?></label>
+                   <small class="d-block mb-2 text-muted"><?php _e("List of your added custom fields"); ?></small>
+               </div>
 
                 <div id="custom-fields-box">
                     <?php if (isset($params['live_edit'])): ?>

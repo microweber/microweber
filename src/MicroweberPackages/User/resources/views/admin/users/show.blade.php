@@ -31,6 +31,7 @@
         @livewire('admin::edit-user.logout-other-browser-sessions-form')
         <x-microweber-ui::section-border/>
 
+
         @livewire('admin::edit-user.delete-user-form')
 
     </div>

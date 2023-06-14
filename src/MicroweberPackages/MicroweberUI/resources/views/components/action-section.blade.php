@@ -8,11 +8,13 @@
 
                     <x-microweber-ui::section-title>
                         <x-slot name="title"><h5 class="font-weight-bold settings-title-inside">{{ $title }}</h5></x-slot>
+                       @if(isset($description))
                         <x-slot name="description">
                             <small class="text-muted">
                                 {{ $description }}
                             </small>
                         </x-slot>
+                        @endif
                     </x-microweber-ui::section-title>
                 </div>
 

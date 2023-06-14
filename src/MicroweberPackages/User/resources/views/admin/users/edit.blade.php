@@ -20,8 +20,9 @@
 
         @livewire('admin::edit-user.update-status-and-role-form', ['userId' => $user->id])
         <x-microweber-ui::section-border/>
-
         @livewire('admin::edit-user.delete-user-form', ['userId' => $user->id])
+        <x-microweber-ui::section-border/>
+        @livewire('admin::edit-user.login-as-user-form', ['userId' => $user->id])
 
     </div>
 @endsection

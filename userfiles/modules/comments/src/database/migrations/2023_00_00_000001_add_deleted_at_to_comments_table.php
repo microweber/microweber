@@ -19,5 +19,4 @@ class AddDeletedAtToCommentsTable extends Migration
 
     }
 
-
 }

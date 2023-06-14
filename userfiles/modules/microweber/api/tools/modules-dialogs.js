@@ -147,6 +147,7 @@
         var params = {};
         params.id = module_id;
         params.live_edit = true;
+        params.iframe = true;
         params.module_settings = true;
         params.type = module_type;
         params.autosize = false;

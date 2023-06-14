@@ -31,7 +31,7 @@
                     <img src="{{$photoUrl}}?time={{time()}}" class="rounded-circle"  height="60px" width="60px">
                 </div>
                 @else
-                    <div class="mt-2 rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" style="width:60px;height:60px">
+                    <div class="mt-2 rounded-circle admin-users-no-user-img-wrapper bg-light d-flex align-items-center justify-content-center mx-auto" style="width:60px;height:60px">
                         <img src="{{modules_url()}}microweber/api/libs/mw-ui/assets/img/no-user.svg">
                     </div>
                 @endif

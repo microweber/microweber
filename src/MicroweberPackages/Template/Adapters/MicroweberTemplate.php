@@ -1168,19 +1168,20 @@ class MicroweberTemplate
         }
 
 
-        if (!$content and isset($ref_page) and $ref_page) {
+        if (!$content and isset($ref_page) and is_string($ref_page)) {
             if ($ref_page != '') {
                 $ref_page = strtok($ref_page, '?');
-
+                $ref_page_data = [];
                 if ($ref_page == site_url()) {
-                    $ref_page = app()->content_manager->homepage($ref_page);
+                    $ref_page_data = app()->content_manager->homepage();
                 } else {
-                    $ref_page = app()->content_manager->get_by_url($ref_page);
+                    $ref_page_data = app()->content_manager->get_by_url($ref_page);
                 }
-                if ($ref_page != false and !empty($ref_page)) {
-                    $content = $ref_page;
+
+                if ($ref_page_data != false and !empty($ref_page_data)) {
+                    $content = $ref_page_data;
                 }
-            }
+             }
         }
 
         $this->setVariablesFromContent($content);
@@ -1188,7 +1189,9 @@ class MicroweberTemplate
 
         // this gets categoryId from url
         if (!$this->categoryId and !defined('CATEGORY_ID')) {
+
             $cat_id = app()->category_manager->get_category_id_from_url();
+
             if ($cat_id != false) {
                 define('CATEGORY_ID', intval($cat_id));
                 $this->categoryId = intval($cat_id);
@@ -1197,7 +1200,10 @@ class MicroweberTemplate
         }
         // this gets pageId from url
         if (!$this->pageId and !defined('PAGE_ID')) {
+
+
             $getPageSlug = app()->permalink_manager->slug($ref_page, 'page');
+
             $pageFromSlug = app()->content_manager->get_by_url($getPageSlug);
             if ($pageFromSlug) {
                 $page = $pageFromSlug;

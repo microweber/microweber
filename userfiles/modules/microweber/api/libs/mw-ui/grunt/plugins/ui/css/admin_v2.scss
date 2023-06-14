@@ -106,6 +106,13 @@ body.theme-dark {
           color: black;
       }
     }
+
+    .admin-users-no-user-img-wrapper {
+        img  {
+            filter: invert(1);
+        }
+
+    }
 }
 
 .card.modules-card {
@@ -961,7 +968,7 @@ small.text-muted {
 }
 
 
-.shipping-module-draggable-item, .card-product-holder {
+.shipping-module-draggable-item, .card-product-holder, .mw-tree-item-content {
     .cursor-move-holder, .mdi-cursor-move {
         opacity: .5;
     }
@@ -1543,7 +1550,7 @@ svg.text-danger {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: var(--tblr-body-color);
-    margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 .mw-custom-field-icon-phone:before {

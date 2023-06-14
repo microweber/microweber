@@ -11,7 +11,7 @@
 
         @if($comment->created_by > 0)
             <img class="rounded-circle shadow-1-strong me-3"
-                 src="{{user_picture($comment->created_by)}}" alt="avatar" width="65"
+                 src="{{user_picture($comment->created_by, 165,165)}}" alt="avatar" width="65"
                  height="65" />
         @else
         <div class="shadow-1-strong me-3">
@@ -30,10 +30,10 @@
 
                     @if($editForm)
                         <div>
-                            <textarea wire:model="editText" class="form-control"></textarea>
+                            <x-comments::editors.textarea model="editText" />
                         </div>
                     @else
-                        {!! $comment->comment_body !!}
+                        {!! $comment->commentBodyDisplay() !!}
                     @endif
 
                     @canany(['update', 'delete'], $comment)
@@ -93,7 +93,7 @@
 
                 <div x-data="{showReplies: {{$showRepliesAlpine}} }">
                         @if($replies->count() > 0)
-                            <div style="background:#e8e8e8;border-radius:2px;" class="mb-4 p-2">
+                            <div class="mb-4 p-2 text-right">
                                 <span @click="showReplies = ! showReplies" style="cursor:pointer" class="link-muted">
                                     <span x-show="showReplies">
                                         {{_e('Hide')}}  {{$replies->count()}} {{_e('replies')}}.

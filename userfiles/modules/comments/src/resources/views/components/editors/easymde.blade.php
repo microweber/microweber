@@ -73,7 +73,7 @@
 
                         const loadScript = new Promise((resolve) => {
                             const script = document.createElement("script");
-                            script.src = "https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js";
+                            script.src = mw.settings.libs_url + 'easymde' + '/easymde.min.js';
                             script.addEventListener("load", resolve);
                             document.getElementsByTagName("head")[0].appendChild(script);
                         });
@@ -82,7 +82,7 @@
                             const link = document.createElement("link");
                             link.type = "text/css";
                             link.rel = "stylesheet";
-                            link.href = "https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css";
+                            link.href = mw.settings.libs_url + 'easymde' + '/easymde.min.css';
                             link.addEventListener("load", resolve);
                             document.getElementsByTagName("head")[0].appendChild(link);
                         });

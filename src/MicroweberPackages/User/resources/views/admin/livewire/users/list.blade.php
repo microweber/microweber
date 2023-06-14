@@ -105,18 +105,18 @@
 
                                             @if(empty($user->thumbnail))
                                             {{--   Ako nqma avatar --}}
-                                            <span class="avatar me-2 border-0 rounded-circle bg-light">
+                                            <span class="avatar admin-users-no-user-img-wrapper me-2 border-0 rounded-circle bg-light">
                                                 <img width="24px" height="24px" src="{{$user->avatar}}" alt="">
                                             </span>
                                             @else
                                             {{--   Ako ima--}}
                                             <span class="avatar me-2 shadow-none">
-                                                <img class="rounded-circle" src="{{$user->avatar}}" alt="">
+                                                <img class="rounded-circle" src="{{$user->avatarUrl()}}" alt="">
                                             </span>
                                             @endif
 
                                             <div class="flex-fill d-flex">
-                                                <div class="text-muted"><a href="{{route('admin.users.edit', $user->id)}}" class="text-reset">{{$user->email}}</a></div>
+                                                <div ><a class="tblr-body-color" href="{{route('admin.users.edit', $user->id)}}">{{$user->email}}</a></div>
                                                 <div class="font-weight-medium ms-2">{{$user->first_name}} {{$user->last_name}}
 
                                                     @if($user->id == user_id())

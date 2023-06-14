@@ -1,4 +1,4 @@
-<div id="mw-custom-fields-list-settings-<?php print $params['id']; ?>" class="mw-admin-custom-field-edit-item-wrapper"><?php /*settings are loaded here*/ ?></div>
+<div id="mw-custom-fields-list-settings-<?php print $params['id']; ?>" class="mw-admin-custom-field-edit-item-wrapper px-2"><?php /*settings are loaded here*/ ?></div>
 
 <script>
     mw.require('custom_fields.js');
