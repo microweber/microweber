@@ -64,14 +64,22 @@ class CartManager extends Crud
 
         $sum = $subtotal = $this->sum();
 
-        if ($discount_type == 'percentage' or $discount_type == 'percentage') {
+        if ($discount_type === 'percentage') {
             // Discount with percentage
             $discount_sum = ($sum * ($discount_value / 100));
+            $check_discount_sum = $sum - $discount_sum;
+            if($check_discount_sum < 0){
+                $discount_sum = $sum;
+            }
             $sum = $sum - $discount_sum;
-        } else if ($discount_type == 'fixed_amount') {
+        } else if ($discount_type === 'fixed_amount') {
             // Discount with amount
             $discount_sum = $discount_value;
-            $sum = $sum - $discount_value;
+            $check_discount_sum = $sum - $discount_sum;
+            if($check_discount_sum < 0){
+                $discount_sum = $sum;
+            }
+            $sum = $sum - $discount_sum;
         }
 
 
