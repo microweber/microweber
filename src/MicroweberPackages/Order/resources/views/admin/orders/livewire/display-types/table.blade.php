@@ -166,7 +166,7 @@
             @if($showColumns['actions'])
                 <td style="text-align: center">
                     <a href="{{route('admin.order.show', $order->id)}}" class="btn btn-outline-primary btn-sm">
-                        <i class="fa fa-eye"></i>    View
+                        <?php _e("View"); ?>
                     </a>
                 </td>
             @endif

@@ -33,7 +33,17 @@ $wrapper_class = 'mw-edit-category-item-admin';
 
 if (isset($params['live_edit'])) {
     $wrapper_class = 'module-live-edit-settings';
+}
 
+$creteCategoryIn = 'blog';
+if (route_is('admin.shop.category.create')) {
+    $creteCategoryIn = 'shop';
+}
+if ($creteCategoryIn == 'shop') {
+    $shop = get_content('one=1&subtype=dynamic&is_shop=1');
+    if ($shop) {
+        $data['rel_id'] = $shop['id'];
+    }
 }
 ?>
 <style>
@@ -363,24 +373,6 @@ if (isset($params['live_edit'])) {
                             <a href="<?php print $add_sub_cateory_link ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
 
 
-
-
-
-                            <?php
-                            /*    <?php
-
-                            $delete_category_link = "javascript:mw.content.deleteCategory('".$data['id']."');";
-                            if (isset($params['live_edit']) and $params['live_edit'] ) {
-                                $delete_category_link = "javascript:mw.quick_cat_delete('".$data['id']."');";
-                            }
-                            ?>
-
-
-
-                            <a href="<?php print $delete_category_link ?>" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin "></i>&nbsp; <?php _e('Delete') ?></a>
-    */
-                            ?>
-
                         <?php endif; ?>
                     </div>
                 </div>
@@ -520,7 +512,6 @@ if (isset($params['live_edit'])) {
                                             id: parent_category,
                                             type: 'category'
                                         });
-
                                     }
                                     $(mwd).ready(function () {
 
