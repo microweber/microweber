@@ -15,7 +15,10 @@
 }
 .mw-ui-form-controller-root.active{display: block}
 
+.mw-ui-form-controllers-footer .mw-ui-btn{
+color: black !important;
 
+}
 
 .mw-ui-form-controller-root .mw-autocomplete-list.mw-ui-navigation li a {
     border-bottom: none;
