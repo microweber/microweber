@@ -1,21 +1,27 @@
 <?php
 
-
-
 if (isset($params['is_shop']) && $params['is_shop'] == 1){
-    $createRoute = route('admin.shop.category.create');
+    $createRoute = route('admin.shop.category.create')."?parent=shop";
 } else {
-    $createRoute = route('admin.category.create');
+    $createRoute = route('admin.category.create')."?parent=blog";
 }
-
-
 ?>
 
 
 <div class="col-xl-9 mx-auto mw-module-category-manager admin-side-content">
     <div class="card-body mb-3">
         <div class="card-header d-flex flex-wrap align-items-center justify-content-between mb-5">
-            <h1 class="main-pages-title mb-0"><?php _e("Categories"); ?></h1>
+            <h1 class="main-pages-title mb-0">
+
+                <?php _e("Categories"); ?>
+
+                <?php if (isset($params['is_shop']) && $params['is_shop'] == 1): ?>
+                    <?php _e("in Shop"); ?>
+                <?php else : ?>
+                    <?php _e("in Website"); ?>
+                <?php endif; ?>
+
+            </h1>
 
 
             <div class="input-icon col-xl-5 col-sm-5 col-12  text-lg-center text-start my-sm-0 mt-5 mb-3">
