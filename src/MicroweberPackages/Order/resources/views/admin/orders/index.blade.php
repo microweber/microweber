@@ -19,7 +19,7 @@
 
         <div class="col d-flex justify-content-md-end justify-content-end  px-0">
 
-            <a href="{{route('admin.order.abandoned')}}" class="btn btn-link text-danger me-md-4 me-1">
+            <a href="{{route('admin.order.abandoned')}}" class="btn btn-outline-dark me-md-4 me-1">
                 {{_e('Abandoned Carts')}}
             </a>
 

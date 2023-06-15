@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row py-0">
     <div class="col-md-12">
         <div style="height: 60px;" class="bulk-actions-show-columns flex">
 
@@ -170,7 +170,7 @@
     </div>
     </div>
 
-    <div class="row mt-3">
+    <div class="row py-0">
         <div class="col-md-12">
             @if($displayType == 'card')
                 @include('order::admin.orders.livewire.display-types.card')
