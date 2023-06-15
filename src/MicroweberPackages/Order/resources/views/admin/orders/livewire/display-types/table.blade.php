@@ -84,15 +84,10 @@
 
               @if($showColumns['products'])
                   <td>
-                      @foreach ($carts as $cart)
-                          @php
-                              $cartProduct = $cart->products->first();
-                              if ($cartProduct == null) {
-                                  continue;
-                              }
-                          @endphp
-                          <a href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
-                      @endforeach
+                      <a href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+
+                      @include('order::admin.orders.livewire.display-types.show-more-products', ['carts'=>$carts])
+
                   </td>
               @endif
 
