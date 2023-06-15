@@ -19,8 +19,14 @@
 
         <div class="col d-flex justify-content-md-end justify-content-end  px-0">
 
-            <a href="{{route('admin.order.abandoned')}}" class="btn btn-outline-warning btn-sm ms-md-4 ms-1">{{_e('Abandoned Carts')}}</a>
-            <a href="javascript:mw_admin_add_order_popup()" class="btn btn-outline-success btn-sm ms-md-4 ms-1">{{_e('Add Order')}}</a>
+            <a href="{{route('admin.order.abandoned')}}" class="btn btn-link text-danger me-md-4 me-1">
+                {{_e('Abandoned Carts')}}
+            </a>
+
+            <a href="javascript:mw_admin_add_order_popup()" class="btn btn-dark">
+                <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
+                {{_e("Create New Order")}}
+            </a>
 
         </div>
     </div>
