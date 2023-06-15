@@ -1,9 +1,9 @@
 <?php
 
 if (isset($params['is_shop']) && $params['is_shop'] == 1){
-    $createRoute = route('admin.shop.category.create');
+    $createRoute = route('admin.shop.category.create')."?parent=shop";
 } else {
-    $createRoute = route('admin.category.create');
+    $createRoute = route('admin.category.create')."?parent=blog";
 }
 ?>
 
