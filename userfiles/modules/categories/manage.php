@@ -177,13 +177,14 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
 
                             icon: 'd-none',
                             action: function (element, data, menuitem) {
-                                if (data.type === 'category') {
-
-                                    self.location.href = "<?php print admin_url() ?>category/" + data.id + "/edit";
-
-                                } else if (data.type === 'page') {
-                                    self.location.href = "<?php print admin_url() ?>page/" + data.id + "/edit";
-                                }
+                                //if (data.type === 'category') {
+                                //
+                                //    self.location.href = "<?php //print admin_url() ?>//category/" + data.id + "/edit";
+                                //
+                                //} else if (data.type === 'page') {
+                                //    self.location.href = "<?php //print admin_url() ?>//page/" + data.id + "/edit";
+                                //}
+                                console.log(data);
                             },
                             filter: function (obj, node) {
                                 return obj.type === 'category';
