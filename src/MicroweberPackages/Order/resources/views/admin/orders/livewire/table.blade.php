@@ -10,7 +10,7 @@
 
     <div class="row py-0">
     <div class="col-md-12">
-        <div style="height: 60px;" class="bulk-actions-show-columns flex">
+        <div class="bulk-actions-show-columns flex">
 
 
             @if(count($checked) > 0)
@@ -31,16 +31,16 @@
                 @endif
 
                 <div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <?php _e("Bulk Actions") ?>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-order-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-truck"></i> <?php _e("Change Order Status") ?></button></li>
-                                <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-payment-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-money-bill"></i> <?php _e("Change Payment Status") ?></button></li>
-                                <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-delete", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-times"></i> <?php _e("Delete") ?></button></li>
-                            </ul>
-                        </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?php _e("Bulk Actions") ?>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-order-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-truck"></i> <?php _e("Change Order Status") ?></button></li>
+                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-payment-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-money-bill"></i> <?php _e("Change Payment Status") ?></button></li>
+                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-delete", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-times"></i> <?php _e("Delete") ?></button></li>
+                        </ul>
+                    </div>
                 </div>
 
                 </div>
@@ -53,28 +53,38 @@
 
                 <div class="col-md-7 col-12 d-flex justify-content-end align-items-center px-0 mw-filters-sorts-mobile">
 
-                    <div class="d-flex align-items-center mx-1">
-                        <label class="d-xl-block d-none mx-2"><?php _e("Sort") ?></label>
-                        <select class="form-control form-control-sm" wire:model.stop="filters.orderBy" >
-                            <option value=""><?php _e("Any") ?></option>
-                            <option value="id,desc"><?php _e("Id Desc") ?></option>
-                            <option value="id,asc"><?php _e("Id Asc") ?></option>
+                    <div class="ms-2" x-data="{ openSortDropdown: false }">
+                            <span @click="openSortDropdown =! openSortDropdown">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M479.788-192Q450-192 429-213.212q-21-21.213-21-51Q408-294 429.212-315q21.213-21 51-21Q510-336 531-314.788q21 21.213 21 51Q552-234 530.788-213q-21.213 21-51 21Zm0-216Q450-408 429-429.212q-21-21.213-21-51Q408-510 429.212-531q21.213-21 51-21Q510-552 531-530.788q21 21.213 21 51Q552-450 530.788-429q-21.213 21-51 21Zm0-216Q450-624 429-645.212q-21-21.213-21-51Q408-726 429.212-747q21.213-21 51-21Q510-768 531-746.788q21 21.213 21 51Q552-666 530.788-645q-21.213 21-51 21Z"/></svg>
+                            </span>
 
-                            <option value="created_at,desc"><?php _e("Date Desc") ?></option>
-                            <option value="created_at,asc"><?php _e("Date Asc") ?></option>
-                        </select>
+                        <span class="table-blade-sortable-elements bg-light shadow-sm align-items-center justify-content-center p-3" style=" display: none;" x-show="openSortDropdown">
+
+                          <div class="d-flex align-items-center mx-1">
+                            <label class="d-xl-block d-none mx-2"><?php _e("Sort") ?></label>
+                            <select class="form-select form-select-sm" wire:model.stop="filters.orderBy" >
+                                <option value=""><?php _e("Any") ?></option>
+                                <option value="id,desc"><?php _e("Id Desc") ?></option>
+                                <option value="id,asc"><?php _e("Id Asc") ?></option>
+
+                                <option value="created_at,desc"><?php _e("Date Desc") ?></option>
+                                <option value="created_at,asc"><?php _e("Date Asc") ?></option>
+                            </select>
+                          </div>
+
+                            <div class="d-flex align-items-center mx-1">
+                                <label class="d-xl-block d-none mx-2"><?php _e("Limit") ?></label>
+                                <select class="form-select form-select-sm" wire:model="paginationLimit">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="500">500</option>
+                                </select>
+                            </div>
+                        </span>
                     </div>
 
-                    <div class="d-flex align-items-center mx-1">
-                        <label class="d-xl-block d-none mx-2"><?php _e("Limit") ?></label>
-                        <select class="form-control form-control-sm" wire:model="paginationLimit">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            <option value="500">500</option>
-                        </select>
-                    </div>
 
                     @if($displayType=='table')
 
