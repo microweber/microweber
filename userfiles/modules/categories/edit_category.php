@@ -197,7 +197,7 @@ if (isset($params['live_edit'])) {
 
                         if (this.data) {
                             savedcatid = this.data.id;
-                            admin_edit_url = this.data.url;
+                            admin_edit_url = this.data.admin_edit_url;
                         }
 
                         //todo: move method to separate service
