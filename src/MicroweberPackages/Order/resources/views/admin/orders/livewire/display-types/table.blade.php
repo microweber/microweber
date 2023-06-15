@@ -127,7 +127,7 @@
                       @if($order->order_status == 'pending')
                           <span class="badge badge-warning text-white">{{ _e('Pending') }}</span>
                       @elseif($order->order_status == 'new')
-                          <span class="badge badge-primary">{{ _e('New') }}</span>
+                          <span class="badge badge-primary">{{ _e('New order') }}</span>
                       @elseif($order->order_status == 'completed')
                           <span class="badge badge-success">{{ _e('Completed') }}</span>
                       @else
