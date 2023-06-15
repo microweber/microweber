@@ -31,16 +31,16 @@
                 @endif
 
                 <div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <?php _e("Bulk Actions") ?>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-order-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-truck"></i> <?php _e("Change Order Status") ?></button></li>
-                                <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-payment-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-money-bill"></i> <?php _e("Change Payment Status") ?></button></li>
-                                <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-delete", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-times"></i> <?php _e("Delete") ?></button></li>
-                            </ul>
-                        </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?php _e("Bulk Actions") ?>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-order-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-truck"></i> <?php _e("Change Order Status") ?></button></li>
+                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-payment-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-money-bill"></i> <?php _e("Change Payment Status") ?></button></li>
+                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-delete", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-times"></i> <?php _e("Delete") ?></button></li>
+                        </ul>
+                    </div>
                 </div>
 
                 </div>
@@ -60,29 +60,29 @@
 
                         <span class="table-blade-sortable-elements bg-light shadow-sm align-items-center justify-content-center p-3" style=" display: none;" x-show="openSortDropdown">
 
-                              <div class="d-flex align-items-center mx-1">
-                        <label class="d-xl-block d-none mx-2"><?php _e("Sort") ?></label>
-                        <select class="form-control form-control-sm" wire:model.stop="filters.orderBy" >
-                            <option value=""><?php _e("Any") ?></option>
-                            <option value="id,desc"><?php _e("Id Desc") ?></option>
-                            <option value="id,asc"><?php _e("Id Asc") ?></option>
+                          <div class="d-flex align-items-center mx-1">
+                            <label class="d-xl-block d-none mx-2"><?php _e("Sort") ?></label>
+                            <select class="form-select form-select-sm" wire:model.stop="filters.orderBy" >
+                                <option value=""><?php _e("Any") ?></option>
+                                <option value="id,desc"><?php _e("Id Desc") ?></option>
+                                <option value="id,asc"><?php _e("Id Asc") ?></option>
 
-                            <option value="created_at,desc"><?php _e("Date Desc") ?></option>
-                            <option value="created_at,asc"><?php _e("Date Asc") ?></option>
-                        </select>
-                    </div>
+                                <option value="created_at,desc"><?php _e("Date Desc") ?></option>
+                                <option value="created_at,asc"><?php _e("Date Asc") ?></option>
+                            </select>
+                          </div>
 
-                    <div class="d-flex align-items-center mx-1">
-                        <label class="d-xl-block d-none mx-2"><?php _e("Limit") ?></label>
-                        <select class="form-control form-control-sm" wire:model="paginationLimit">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            <option value="500">500</option>
-                        </select>
-                    </div>
-                            </span>
+                            <div class="d-flex align-items-center mx-1">
+                                <label class="d-xl-block d-none mx-2"><?php _e("Limit") ?></label>
+                                <select class="form-select form-select-sm" wire:model="paginationLimit">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="500">500</option>
+                                </select>
+                            </div>
+                        </span>
                     </div>
 
 
