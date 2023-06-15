@@ -62,7 +62,6 @@ class CategoryApiController extends AdminDefaultController
             $result = $this->category->create($data);
         }
 
-
         return (new JsonResource($result))->response();
 
     }

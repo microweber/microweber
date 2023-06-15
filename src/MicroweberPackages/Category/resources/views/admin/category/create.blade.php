@@ -2,19 +2,10 @@
 
 @section('content')
 
-    <?php
-
+    @php
     $createRouteBlog = route('admin.category.create')."?parent=blog";
     $createRouteShop = route('admin.category.create')."?parent=shop";
-
-
-
-
-    ?>
-
-
-
-
+    @endphp
 
     @if($parent)
         @include('category::admin.category.edit', ['parent' => $parent])
