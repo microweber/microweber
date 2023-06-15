@@ -443,6 +443,7 @@ if (isset($params['quick_edit'])) {
 
 
                             <?php
+
                             if (\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):
                                 ?>
                                 <div class="form-group">
@@ -454,7 +455,7 @@ if (isset($params['quick_edit'])) {
                                         ->prepend('<div class="input-group-prepend">
                                              <span class="input-group-text"><i class="mdi mdi-link text-silver"></i></span>
                                              </div>')
-                                        ->value($data['url'])
+                                        ->value($data['slug'])
                                         ->id('content-slug-field')
                                         ->oninput('slugFromUrlField(this);')
                                         ->autocomplete(false);
