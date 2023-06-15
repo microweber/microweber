@@ -243,6 +243,10 @@ class AdminJsCategoryTree
         $appendCategory['position'] = $category['position'];
         $appendCategory['url'] = $category['url'];
 
+        if (is_admin()) {
+            $appendCategory['admin_edit_url'] = get_category_edit_link($category['id']);
+        }
+
         $appendCategory['is_active'] = 1;
 
 
