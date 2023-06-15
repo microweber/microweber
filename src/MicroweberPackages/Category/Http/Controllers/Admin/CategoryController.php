@@ -24,7 +24,7 @@ class CategoryController extends AdminController
     }
 
     public function index(Request $request) {
-        return view('category::admin.category.index'); 
+        return view('category::admin.category.index');
     }
 
     public function create() {
