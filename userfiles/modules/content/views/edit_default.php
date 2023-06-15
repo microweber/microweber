@@ -20,7 +20,31 @@ if (isset($params['quick_edit']) and $params['quick_edit']) {
 }
 
 ?>
+<?php
+//dump($data);
+if (isset($data['content_type']) and ($data['content_type'] == 'page') and $data['id'] == 0) {
+    if (isset($_GET['layout'])) {
+        $data['layout_file'] = (string) $_GET['layout'];
+        $data['preview_layout_file'] = (string) $_GET['layout'];
 
+
+        $layout_details_for_new_page = app()->layouts_manager->get_layout_details([
+            'layout_file' => $data['layout_file'],
+            'active_site_template' => $data['active_site_template']
+
+        ]);
+        if($layout_details_for_new_page){
+
+            if(isset($layout_details_for_new_page['content_type']) and $layout_details_for_new_page['content_type'] == 'dynamic'){
+                $data['subtype'] = $layout_details_for_new_page['content_type'];
+            }
+            if(isset($layout_details_for_new_page['is_shop']) and ($layout_details_for_new_page['is_shop'] == 'y' or $layout_details_for_new_page['is_shop'] == '1')){
+                $data['is_shop'] = 1;
+            }
+        }
+    }
+}
+?>
 <?php if (isset($edit_page_info['title'])): ?>
     <?php $title_for_input = str_replace('"', '&quot;', $edit_page_info['title']); ?>
 <?php endif; ?>
@@ -115,12 +139,12 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 
     var contentChanged = function (state) {
      //   document.querySelector('.btn-save').disabled = !state;
-     //    mw.askusertostay = state;
+       mw.askusertostay = state;
 
         //    !!!!!!!!!! Must revert !!!!!!!!!!!!
 
 
-        mw.askusertostay = false;
+      //  mw.askusertostay = false;
         // document.querySelector('#content-title-field-row .card-header').classList[state ? 'add' : 'remove']('post-header-content-changed')
     }
 
@@ -249,6 +273,10 @@ if (isset($params['quick_edit'])) {
         <input type="hidden" name="parent" id="mw-parent-page-value-<?php print $rand; ?>" value="<?php print $data['parent']; ?>" class=""/>
         <input type="hidden" name="layout_file" id="mw-layout-file-value-<?php print $rand; ?>" value="<?php print $data['layout_file']; ?>"/>
         <input type="hidden" name="active_site_template" id="mw-active-template-value-<?php print $rand; ?>" value="<?php print $data['active_site_template']; ?>"/>
+
+
+
+
 
         <script type="text/javascript">
         $(document).ready(function () {
@@ -461,7 +489,7 @@ if (isset($params['quick_edit'])) {
                                         if (\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):
                                             ?>
                                             <div class="form-group">
-                                                <label class="form-label"><?php _e($type) ?> <?php _e("Url"); ?></label>
+                                                <label class="form-label"><?php _e($type) ?> <?php _e("Slug"); ?></label>
 
                                                 <?php
                                                 echo $formBuilder->text('url')
@@ -469,7 +497,7 @@ if (isset($params['quick_edit'])) {
                                                     ->prepend('<div class="input-group-prepend">
                                              <span class="input-group-text"><i class="mdi mdi-link text-silver"></i></span>
                                              </div>')
-                                                    ->value($data['url'])
+                                                    ->value($data['slug'])
                                                     ->id('content-slug-field')
                                                     ->oninput('slugFromUrlField(this);')
                                                     ->autocomplete(false);
@@ -655,18 +683,7 @@ if (isset($params['quick_edit'])) {
                 </div>
 
 
-                <?php
-                if (isset($data['content_type']) and ($data['content_type'] == 'page')) {
-                    if (isset($_GET['layout'])) {
-                        $selectedLayout = (string) $_GET['layout'];
 
-                        ?>
-                        <input type="hidden" name="layout_file" value="<?php echo $selectedLayout; ?>" />
-                        <input type="hidden" name="preview_layout_file" value="<?php echo $selectedLayout; ?>" />
-                        <?php
-                    }
-                }
-                ?>
 
                 <?php if (isset($data['subtype']) and $data['subtype'] == 'dynamic' and (isset($data['content_type']) and $data['content_type'] == 'page')): ?>
                     <script>
