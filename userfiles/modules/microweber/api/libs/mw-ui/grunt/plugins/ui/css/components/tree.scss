@@ -227,7 +227,30 @@
     & > li > .mw-tree-item-content-root {
         .mw-tree-toggler{
             margin-inline: -25px -23px;
+            display: flex;
 
+            width: 25px;
+            height: 25px;
+            color: #bcbfc2;
+
+            border: none;
+            cursor: pointer;
+            outline: none;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            padding: 0 !important;
+            font-size: 19px;
+            font-family: "Material Design Icons";
+            position: absolute;
+            left: 0;
+            top: 0;
+      
+            transition: .3s;
+            &:before{
+                content: "\F0142";
+                color: var(--tblr-body-color);
+            }
 
         }
     }
@@ -248,7 +271,7 @@
     transform: rotate(0deg);
   }
 
-    .opened > .mw-tree-item-content-root .mw-tree-toggler svg {
+    .opened > .mw-tree-item-content-root .mw-tree-toggler   {
       transform: rotate(90deg);
   }
     .mw-tree-context-menu-content{
