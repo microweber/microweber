@@ -16,9 +16,9 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                 <?php _e("Categories"); ?>
 
                 <?php if (isset($params['is_shop']) && $params['is_shop'] == 1): ?>
-                    <?php _e("in Shop"); ?>
+                    / <?php _e("Shop"); ?>
                 <?php else : ?>
-                    <?php _e("in Website"); ?>
+                    / <?php _e("Website"); ?>
                 <?php endif; ?>
 
             </h1>
@@ -39,12 +39,12 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                             <a href="<?php echo $createRoute; ?>" class="btn btn-dark">
                             <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
 
-                                <?php _e("Create New Category"); ?></a>
+                                <?php _e("New Category"); ?></a>
                         <?php else: ?>
                             <a href="<?php echo $createRoute; ?>" class="btn btn-dark">
                             <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
 
-                                <?php _e("Create New Category"); ?></a>
+                                <?php _e("New Category"); ?></a>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
