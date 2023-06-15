@@ -62,7 +62,14 @@ class CategoryApiController extends AdminDefaultController
             $result = $this->category->create($data);
         }
 
-        $get = get_page_for_category($result->id);
+        $result->admin_edit_url = route('admin.category.edit', $result->id);
+
+        $checkPage = get_page_for_category($result->id);
+        if (!empty($checkPage)) {
+            if ($checkPage['is_shop'] == 1) {
+                $result->admin_edit_url = route('admin.shop.category.edit', $result->id);
+            }
+        }
 
         return (new JsonResource($result))->response();
 
