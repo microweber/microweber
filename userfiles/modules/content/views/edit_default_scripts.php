@@ -29,6 +29,39 @@
 
     };
 
+    mw.edit_content.load_change_design_selector = function (selector) {
+       // var element_id = element_id || 'mw-admin-content-iframe-editor';
+        var parent_page = mw.$('#mw-parent-page-value-<?php print $rand; ?>', '#<?php print $params['id'] ?>').val();
+        var content_id = mw.$('#mw-content-id-value', '#<?php print $params['id'] ?>').val();
+        var content_type = mw.$('#mw-content-type-value-<?php print $rand; ?>', '#<?php print $params['id'] ?>').val()
+        var subtype = mw.$('#mw-content-subtype', '#<?php print $params['id'] ?>').val();
+        var subtype_value = mw.$('#mw-content-subtype-value-<?php print $rand; ?>', '#<?php print $params['id'] ?>').val();
+        var active_site_template = $('#mw-active-template-value-<?php print $rand; ?>', '#<?php print $params['id'] ?>').val();
+        var active_site_layout = $('#mw-layout-file-value-<?php print $rand; ?>').val();
+        // var name = 'content/views/edit_default_inner';
+        var name = 'content/views/layout_selector';
+        if(!selector){
+            var selector = '#mw-admin-edit-content-main-area';
+        }
+
+
+        var callback = false;
+        var attributes = {}
+ //       attributes.parent_page = parent_page;
+        attributes.content_id = content_id;
+        // attributes.content_id = content_id;
+        // attributes.content_type = content_type;
+        // attributes.subtype = subtype;
+        // attributes.subtype_value = subtype_value;
+        // attributes.active_site_template = active_site_template;
+        // attributes.active_site_layout = active_site_layout;
+        attributes['template-selector-position'] = 'top';
+        attributes['live-edit-overlay'] = true;
+        attributes['content_id'] = content_id;
+        mw.load_module(name, selector, callback, attributes);
+    }
+
+
     mw.edit_content.load_page_preview = function (element_id) {
         var element_id = element_id || 'mw-admin-content-iframe-editor';
         var parent_page = mw.$('#mw-parent-page-value-<?php print $rand; ?>', '#<?php print $params['id'] ?>').val();
