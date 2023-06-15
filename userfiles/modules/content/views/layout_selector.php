@@ -22,6 +22,8 @@ if ((!isset($params["layout_file"]) or trim($params["layout_file"]) == '') and i
     $data = get_content_by_id($params["show-page-id-layout"]);
 } elseif (isset($params["content-id"])) {
     $data = get_content_by_id($params["content-id"]);
+} elseif (isset($params["content_id"])) {
+    $data = get_content_by_id($params["content_id"]);
 }
 
 if (!isset($params["layout_file"]) and isset($params["layout-file"])) {
