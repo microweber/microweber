@@ -26,7 +26,7 @@
                         @endif
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-sm col-12">
                         <span class="text-primary text-break-line-2">
 
                            @foreach ($carts as $cart)
@@ -37,7 +37,7 @@
                                     }
                                 @endphp
                                 <a class="form-label font-weight-bold" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a>
-                                <small class="text-muted" style="font-size: 14px !important;">
+                                <small class="text-muted" style="font-size: 12px !important;">
                                     {{$order->created_at}}
                                 </small>
 
@@ -45,15 +45,15 @@
                         </span>
                     </div>
 
-                    <div class="col">
+                    <div class="col-auto px-2">
                         <span>  {{$order->customerName()}}</span>
                     </div>
 
-                    <div class="col">
-                        <span>  {{$order->amount}}</span>
+                    <div class="col-auto px-2">
+                        <span>  {{$order->payment_amount}} {{$order->payment_currency}} </span>
                     </div>
 
-                    <div class="col">
+                    <div class="col-auto px-2">
                         @if($order->is_paid == 1)--}}
                             <span class="text-muted">{{ _e('Paid') }}</span>
                         @else
@@ -61,7 +61,7 @@
                         @endif
                     </div>
 
-                    <div class="col text-end">
+                    <div class="col-1 text-end">
 
                         <div class="dropdown content-card-blade-dots-menu-wrapper">
                             <a href="#" class=" dropdown-toggle content-card-blade-dots-menu" data-bs-toggle="dropdown"></a>
