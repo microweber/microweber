@@ -3,8 +3,8 @@
 @section('content')
 
     @php
-    $createRouteBlog = route('admin.category.create')."?parent=blog";
-    $createRouteShop = route('admin.category.create')."?parent=shop";
+    $createRouteBlog = route('admin.category.create');
+    $createRouteShop = route('admin.shop.category.create');
     @endphp
 
     @if($parent)
