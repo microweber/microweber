@@ -12,7 +12,7 @@
                 <div>
                     @if($comment->created_by > 0)
                         <img class="rounded-circle shadow-1-strong me-3"
-                             src="{{user_picture($comment->created_by)}}" alt="avatar" width="65"
+                             src="{{user_picture($comment->created_by, 165, 165)}}" alt="avatar" width="65"
                              height="65" />
                     @else
                         <div class="shadow-1-strong me-3">
