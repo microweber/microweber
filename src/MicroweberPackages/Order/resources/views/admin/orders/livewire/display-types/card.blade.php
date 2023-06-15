@@ -27,21 +27,9 @@
                     </div>
 
                     <div class="col-sm col-12">
-                        <span class="text-primary text-break-line-2">
-
-                           @foreach ($carts as $cart)
-                                @php
-                                    $cartProduct = $cart->products->first();
-                                    if ($cartProduct == null) {
-                                        continue;
-                                    }
-                                @endphp
-                                <a class="form-label font-weight-bold" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a>
-                                <small class="text-muted" style="font-size: 12px !important;">
-                                    {{$order->created_at}}
-                                </small>
-
-                            @endforeach
+                        <span class="form-label font-weight-bold ">
+                            <a class="tblr-body-color" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> 
+                            @include('order::admin.orders.livewire.display-types.show-more-products', ['carts'=>$carts])
                         </span>
                     </div>
 
