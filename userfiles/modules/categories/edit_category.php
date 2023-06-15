@@ -193,9 +193,11 @@ if (isset($params['live_edit'])) {
                     mw.form.post(mw.$('#admin_edit_category_form'), catSaveUrl, function (val) {
                         var showmsg = '';
                         var savedcatid = 0;
+                        var admin_edit_url = '';
 
-                        if(this.data){
+                        if (this.data) {
                             savedcatid = this.data.id;
+                            admin_edit_url = this.data.admin_edit_url;
                         }
 
                         //todo: move method to separate service
@@ -230,8 +232,6 @@ if (isset($params['live_edit'])) {
                             pagesTreeRefresh()
                         }
 
-
-                        // document.querySelector('.btn-save').disabled = true;
                         mw.askusertostay = false;
 
                         <?php if(intval($data['id']) == 0): ?>
@@ -249,13 +249,10 @@ if (isset($params['live_edit'])) {
                         if(self !== top && mw.top().settings.liveEdit){
                             mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
                         } else {
-                            if(mw.category_is_new){
-
-                                window.location = "<?php print admin_url() ?>category/"+savedcatid+"/edit";
+                            if(mw.category_is_new && admin_edit_url){
+                                window.location = admin_edit_url;
                             }
                         }
-
-                        //
 
                     });
 
@@ -528,7 +525,6 @@ if (isset($params['live_edit'])) {
                                     $(mwd).ready(function () {
 
                                         mw.$('input,select,textarea').on('input', function () {
-                                            document.querySelector('.btn-save').disabled = false;
                                             mw.askusertostay = true;
                                         });
                                         $.get("<?php
@@ -557,7 +553,7 @@ if (isset($params['live_edit'])) {
                                                 }
                                             }
                                             $(categoryParentSelector).on("selectionChange", function (e, selected) {
-                                                document.querySelector('.btn-save').disabled = false;
+
                                                 mw.askusertostay = true;
                                                 var parent = selected[0];
                                                 if (!parent) {
@@ -684,16 +680,6 @@ if (isset($params['live_edit'])) {
                                             <?php endif; ?>
 
 
-
-                                            <!--  <div class="col-12">
-                                        <div class="form-group">
-                                            <label class="form-label"><?php /*_e("Slug"); */?></label>
-                                            <div class="mb-3">
-                                                <input type="text" class="form-control" name="url" value="<?php /*(isset($data['url'])) ? print ($data['url']) : '' */?>"/>
-                                            </div>
-                                        </div>
-                                    </div>-->
-
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label class="form-label"><?php _e("Category URL"); ?></label>
@@ -718,28 +704,6 @@ if (isset($params['live_edit'])) {
                                                     </div>
                                                 </div>
                                             </div>
-
-<!--                                            <div class="col-sm-6">-->
-<!--                                                <div class="form-group">-->
-<!--                                                    --><?php
-//                                                    if (!isset($data['users_can_create_content'])) {
-//                                                        $data['users_can_create_content'] = 0;
-//                                                    }
-//                                                    ?>
-<!--                                                    <label class="form-label">--><?php //_e("Can users create content"); ?><!-- <span class="help-tooltip" data-bs-toggle="tooltip" title="--><?php //_e("If you set this to YES the website users will be able to add content under this category"); ?><!--"></span></label>-->
-<!---->
-<!--                                                    <div>-->
-<!--                                                        <div class="custom-control custom-radio d-inline-block mr-3">-->
-<!--                                                            <input type="radio" id="users_can_create_content_1" name="users_can_create_content" class="form-check-input" value="1" --><?php //if ('1' == trim($data['users_can_create_content'])): ?><!-- checked--><?php //endif; ?>
-<!--                                                            <label class="custom-control-label" for="users_can_create_content_1">--><?php //_e("Yes"); ?><!--</label>-->
-<!--                                                        </div>-->
-<!--                                                        <div class="custom-control custom-radio d-inline-block">-->
-<!--                                                            <input type="radio" id="users_can_create_content_0" name="users_can_create_content" class="form-check-input" value="0" --><?php //if ('' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?><!-- checked--><?php //endif; ?><!--
-<!--                                                            <label class="custom-control-label" for="users_can_create_content_0">--><?php //_e("No"); ?><!--</label>-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
 
                                             <div class="col-sm-12">
                                                 <?php if (isset($data['id'])): ?>

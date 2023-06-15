@@ -46,7 +46,7 @@
                 </div>
             @endif
 
-            <div class="row mt-3">
+            <div class="row p-0">
                 <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1">
 
                 @include('content::admin.content.livewire.components.display-as')

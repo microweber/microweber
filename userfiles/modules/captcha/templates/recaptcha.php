@@ -38,7 +38,7 @@ if ($captcha_provider == 'google_recaptcha_v2'):
     ?>
     <script type="text/javascript">
         if (typeof (grecaptcha) === 'undefined') {
-            mw.require('https://www.google.com/recaptcha/api.js', true, 'recaptcha');
+            mw.require('https://www.google.com/recaptcha/api.js?hl=<?php print app()->getLocale() ?>', true, 'recaptcha');
         }
     </script>
 
@@ -148,7 +148,7 @@ if ($captcha_provider == 'google_recaptcha_v2'):
 
         if (typeof (window.grecaptcha) === 'undefined') {
 
-            $.getScript( "//www.google.com/recaptcha/api.js?render=<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>", function( data, textStatus, jqxhr ) {
+            $.getScript( "//www.google.com/recaptcha/api.js?render=<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>&hl=<?php print app()->getLocale() ?>", function( data, textStatus, jqxhr ) {
                 window.runRecaptchaV3Attach<?php print $js_function_hash ?>();
                 window.runRecaptchaV3<?php print $js_function_hash ?>();
             });

@@ -85,7 +85,7 @@ class MediaManager
         if (is_array($q) and isset($q[0])) {
             $content = $q[0];
 
-            if (isset($content['image_options'])) {
+            if (isset($content['image_options']) and $content['image_options'] and is_string($content['image_options'])) {
                 $content['image_options'] = @json_decode($content['image_options'], true);
             }
 
