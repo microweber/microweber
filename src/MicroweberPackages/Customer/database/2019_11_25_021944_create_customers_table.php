@@ -20,12 +20,12 @@ class CreateCustomersTable extends Migration
 
             $table->integer('currency_id')->unsigned()->nullable();
 
-            $table->string('name');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('email');
-            $table->string('phone');
-            $table->integer('active');
+            $table->string('name')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->integer('active')->nullable();
             $table->timestamps();
         });
     }

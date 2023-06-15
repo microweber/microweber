@@ -52,7 +52,7 @@ if (isset($_COOKIE['admin_theme_dark'])) {
     <a href="{{admin_url('user/profile')}}" class="nav-link fs-3">
 
         @if(user_has_picture(user_id()))
-        <img src="{{user_picture(user_id())}}" alt="" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; object-position: center; margin-right: 10px;">
+        <img src="{{user_picture(user_id(),165,165)}}" alt="" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; object-position: center; margin-right: 10px;">
         @else
         <div class="mw-admin-sidebar-profile">
             <span class="mb-0 text-uppercase" style="font-size: 14px;"><?php print get_username_short() ?></span>

@@ -4,7 +4,7 @@
 
     @php
     $createRouteBlog = route('admin.category.create')."?parent=blog";
-    $createRouteShop = route('admin.category.create')."?parent=shop";
+    $createRouteShop = route('admin.shop.category.create')."?parent=shop";
     @endphp
 
     @if($parent)

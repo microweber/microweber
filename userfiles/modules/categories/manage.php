@@ -1,21 +1,29 @@
 <?php
 
-
-
 if (isset($params['is_shop']) && $params['is_shop'] == 1){
-    $createRoute = route('admin.shop.category.create');
+    $createRoute = route('admin.shop.category.create')."?parent=shop";
 } else {
-    $createRoute = route('admin.category.create');
+    $createRoute = route('admin.category.create')."?parent=blog";
 }
-
-
 ?>
 
 
 <div class="col-xl-9 mx-auto mw-module-category-manager admin-side-content">
     <div class="card-body mb-3">
         <div class="card-header d-flex flex-wrap align-items-center justify-content-between mb-5">
-            <h1 class="main-pages-title mb-0"><?php _e("Categories"); ?></h1>
+            <div class="d-flex align-items-center">
+                <h1 class="main-pages-title mb-0">
+                    <?php _e("Categories"); ?>
+                </h1>
+
+                <h3 class="ms-1 mb-0">
+                    <?php if (isset($params['is_shop']) && $params['is_shop'] == 1): ?>
+                        \<?php _e("Shop"); ?>
+                    <?php else : ?>
+                        \<?php _e("Website"); ?>
+                    <?php endif; ?>
+                </h3>
+            </div>
 
 
             <div class="input-icon col-xl-5 col-sm-5 col-12  text-lg-center text-start my-sm-0 mt-5 mb-3">
@@ -31,14 +39,14 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                     <?php if (user_can_access('module.categories.edit')): ?>
                         <?php if (isset($params['is_shop']) && $params['is_shop'] == 1): ?>
                             <a href="<?php echo $createRoute; ?>" class="btn btn-dark">
-                            <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
+                            <svg fill="currentColor" class="me-1" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
 
-                                <?php _e("Create New Category"); ?></a>
+                                <?php _e("New Category"); ?></a>
                         <?php else: ?>
                             <a href="<?php echo $createRoute; ?>" class="btn btn-dark">
-                            <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
+                            <svg fill="currentColor" class="me-1" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
 
-                                <?php _e("Create New Category"); ?></a>
+                                <?php _e("New Category"); ?></a>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
@@ -78,9 +86,9 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                 <path d="M9.5 15.25a3.5 3.5 0 0 1 5 0" />
                 </svg>
             </div>
-            <p class="empty-title">No results found</p>
+            <p class="empty-title"> <?php _e("No results found"); ?></a></p>
             <p class="empty-subtitle text-muted">
-                Try adjusting your search or filter to find what you're looking for.
+                 <?php _e("Try adjusting your search or filter to find what you're looking for"); ?></a>.
             </p>
 
             </div>
@@ -180,13 +188,7 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
 
                             icon: 'd-none',
                             action: function (element, data, menuitem) {
-                                if (data.type === 'category') {
-
-                                    self.location.href = "<?php print admin_url() ?>category/" + data.id + "/edit";
-
-                                } else if (data.type === 'page') {
-                                    self.location.href = "<?php print admin_url() ?>page/" + data.id + "/edit";
-                                }
+                                self.location.href = data.admin_edit_url;
                             },
                             filter: function (obj, node) {
                                 return obj.type === 'category';
@@ -225,6 +227,8 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                             no_limit: true,
                             <?php if(isset($params['is_shop']) && $params['is_shop'] == 1): ?>
                             is_shop: 1,
+                            <?php else: ?>
+                            is_blog: 1,
                             <?php endif; ?>
                         }
 

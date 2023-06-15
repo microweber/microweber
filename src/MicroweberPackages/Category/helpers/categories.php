@@ -179,3 +179,17 @@ function get_category_items_count($category_id)
 {
     return app()->category_repository->getItemsCount($category_id);
 }
+
+function get_category_edit_link($category_id)
+{
+    $admin_edit_url = route('admin.category.edit', $category_id);
+
+    $checkPage = get_page_for_category($category_id);
+    if (!empty($checkPage)) {
+        if ($checkPage['is_shop'] == 1) {
+            $admin_edit_url = route('admin.shop.category.edit', $category_id);
+        }
+    }
+
+    return $admin_edit_url;
+}

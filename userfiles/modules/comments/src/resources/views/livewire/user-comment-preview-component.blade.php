@@ -64,14 +64,16 @@
                         @endif
 
                         @can('delete', $comment)
-                        <button wire:click="delete" class="btn btn-danger btn-sm">
-                            <div wire:loading wire:target="delete">
-                                <i class="fa fa-spinner fa-spin"></i> {{_e('Deleting comment...')}}
-                            </div>
-                            <div wire:loading.remove wire:target="delete">
-                                {{_e('Delete comment')}}
-                            </div>
-                        </button>
+                        <x-microweber-ui::are-you-sure wire:then="delete">
+                            <button class="btn btn-danger btn-sm">
+                                <div wire:loading wire:target="delete">
+                                    <i class="fa fa-spinner fa-spin"></i> {{_e('Deleting comment...')}}
+                                </div>
+                                <div wire:loading.remove wire:target="delete">
+                                    {{_e('Delete comment')}}
+                                </div>
+                            </button>
+                        </x-microweber-ui::are-you-sure>
                         @endcan
 
                     </div>

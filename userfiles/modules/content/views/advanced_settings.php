@@ -95,7 +95,7 @@ if (isset($data['created_by']) and $data['created_by']) {
         mw.adm_cont_type_change_holder_event = function (el) {
             mw.tools.confirm("<?php _ejs("Are you sure you want to change the content type"); ?>? <?php _e("Please consider the documentation for more info"); ?>", function () {
                 var root = document.querySelector('#<?php print $params['id']; ?>');
-                var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
+                var form = document.querySelector('.mw_admin_edit_content_form');;
                 var ctype = $(el).val()
                 if (form != undefined && form.querySelector('input[name="content_type"]') != null) {
                     form.querySelector('input[name="content_type"]').value = ctype;
@@ -108,7 +108,7 @@ if (isset($data['created_by']) and $data['created_by']) {
         mw.adm_cont_subtype_change_holder_event = function (el) {
             mw.tools.confirm("<?php _ejs("Are you sure you want to change the content subtype"); ?>? <?php _e("Please consider the documentation for more info"); ?>", function () {
                 var root = document.querySelector('#<?php print $params['id']; ?>');
-                var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
+                var form = document.querySelector('.mw_admin_edit_content_form');;
                 var ctype = $(el).val();
                 if (form != undefined && form.querySelector('input[name="subtype"]') != null) {
                     form.querySelector('input[name="subtype"]').value = ctype
@@ -246,21 +246,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <?php if (isset($data['id']) and $data['id'] > 0): ?>
 
                 <script>
-                    // open_edit_related_content_modal = function($content_id) {
-                    //     open_edit_related_content_modal__modal_opened = mw.dialog({
-                    //      //   height:'600px',
-                    //        //   autoHeight : true,
-                    //
-                    //         content: '<div id="open_edit_related_content_modal__opened__module" style="min-height: 500px"></div>',
-                    //         title: 'Edit related content',
-                    //         id: 'open_edit_related_content_modal__modal'
-                    //     });
-                    //
-                    //     var params = {}
-                    //     params.content_id = $content_id;
-                    //   //  params.id = 'mw-admin-select-related-content-list';
-                    //     mw.load_module('content/views/related_content_list', '#open_edit_related_content_modal__opened__module', null, params);
-                    // }
+
                     open_edit_related_content_modal = function($content_id) {
                         var modal_id = 'open_edit_related_content_modal__modal';
                         var dialog = mw.top().dialogIframe({
@@ -273,7 +259,35 @@ if (isset($data['created_by']) and $data['created_by']) {
                         })
                     }
                 </script>
-                <div class="row p-0 d-flex align-items-center">
+                 <script>
+
+                     toggle_change_template_box = function() {
+
+                         $('#js-change-template-layout-selector-holder').toggle();
+                        mw.edit_content.load_change_design_selector('#js-change-template-layout-selector-holder');
+                    }
+                </script>
+
+
+                    <div class="row p-0 d-flex align-items-center mt-3">
+                        <div class="col-md-8">
+                            <label class="form-label"><?php _e('Change template'); ?>:</label>
+                            <small class="text-muted d-block mb-3"><?php _e('You can change the template for content');?></small>
+                            <a class="btn btn btn-outline-primary btn-sm" href="javascript:toggle_change_template_box()"><?php _e("Change template"); ?></a>
+                        </div>
+                        <div class="col-md-4 text-center text-md-right">
+                        </div>
+
+
+                        <div id="js-change-template-layout-selector-holder" style="display: none">
+
+
+
+                        </div>
+                    </div>
+
+
+                <div class="row p-0 d-flex align-items-center mt-3">
                     <div class="col-md-8">
                         <label class="form-label"><?php _e('Related Content'); ?>:</label>
                         <small class="text-muted d-block mb-3"><?php _e('You can add related content to your post or product');?></small>
