@@ -254,8 +254,6 @@ if (isset($params['live_edit'])) {
                             }
                         }
 
-                        //
-
                     });
 
                     return false;
