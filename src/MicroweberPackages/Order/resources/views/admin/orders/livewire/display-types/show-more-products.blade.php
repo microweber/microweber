@@ -1,6 +1,6 @@
 @if(($carts->count()-1) > 0)
     <div x-data="{ open: false }">
-        <button x-on:click="open = ! open">Show {{($carts->count()-1)}} products</button>
+        <button class="btn btn-link" x-on:click="open = ! open">Show {{($carts->count()-1)}} products</button>
         <div x-show="open">
             @foreach ($carts as $cart)
                 @php
@@ -12,7 +12,7 @@
                           continue;
                       }
                 @endphp
-                <a href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                <a class="tblr-body-color" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
             @endforeach
         </div>
     </div>

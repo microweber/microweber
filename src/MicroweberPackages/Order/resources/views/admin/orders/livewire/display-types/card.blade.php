@@ -27,8 +27,8 @@
                     </div>
 
                     <div class="col-sm col-12">
-                        <span class="text-primary text-break-line-2">
-                            <a href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                        <span class="form-label font-weight-bold ">
+                            <a class="tblr-body-color" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> 
                             @include('order::admin.orders.livewire.display-types.show-more-products', ['carts'=>$carts])
                         </span>
                     </div>
