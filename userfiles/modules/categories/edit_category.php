@@ -198,6 +198,9 @@ if (isset($params['live_edit'])) {
                             savedcatid = this.data.id;
                         }
 
+                        console.log(this.data);
+                        return;
+
                         //todo: move method to separate service
                         var dialog = mw.dialog.get(mw.$('#admin_edit_category_form'));
                         if(dialog) {
@@ -250,7 +253,6 @@ if (isset($params['live_edit'])) {
                             mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
                         } else {
                             if(mw.category_is_new){
-
                                 window.location = "<?php print admin_url() ?>category/"+savedcatid+"/edit";
                             }
                         }
