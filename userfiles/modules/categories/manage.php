@@ -216,6 +216,8 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                             no_limit: true,
                             <?php if(isset($params['is_shop']) && $params['is_shop'] == 1): ?>
                             is_shop: 1,
+                            <?php else: ?>
+                            is_blog: 1,
                             <?php endif; ?>
                         }
 
