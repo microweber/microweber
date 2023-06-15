@@ -29,6 +29,7 @@ class CreateCustomerFromOrderListener
             if (!$findCustomer) {
                 $createNewCustomer = Customer::create([
                     'user_id' => $order->created_by,
+                    'active' => 1,
                     'name' => $order->first_name,
                     'first_name' => $order->first_name,
                     'last_name' => $order->last_name,
