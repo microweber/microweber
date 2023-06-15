@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="card-body col-xl-10 mx-auto mb-3">
+<div class="card-body col-xl-12 mx-auto mb-3">
     <div class="card-header d-flex col-12 align-items-center justify-content-between px-md-4">
 
         <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
