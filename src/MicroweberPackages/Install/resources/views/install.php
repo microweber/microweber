@@ -23,8 +23,8 @@
 
     <?php
     $rand = uniqid();
-    $ua = $_SERVER['HTTP_USER_AGENT'];
-    $defhost = strpos($_SERVER['HTTP_USER_AGENT'], 'Linux') ? 'localhost' : '127.0.0.1';
+    $ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+    $defhost = strpos($ua, 'Linux') ? 'localhost' : '127.0.0.1';
 
     if (!isset($pre_configured)) {
         $pre_configured = false;

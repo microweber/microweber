@@ -217,7 +217,9 @@ class FormsManager
                 }
             }
         }
-
+        if (isset($params['g-recaptcha-response'])) {
+            $params['captcha']  = $params['g-recaptcha-response'];
+        }
 
         if (isset($params['captcha'])) {
             $dis_cap = false;

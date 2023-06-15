@@ -88,7 +88,7 @@ use MergesConfig;
             return view('fortify::two-factor-challenge');
         });
 
-        Fortify::resetPasswordView(function ($request) {
+        Fortify::resetPasswordView(function (Request $request) {
             return view('user::auth.reset-password', [
                 'email' => $request->email,
                 'token' => $request->token,

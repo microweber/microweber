@@ -2,10 +2,19 @@
 
 namespace MicroweberPackages\Utils\Captcha\Adapters;
 
+use Illuminate\Support\Facades\Request;
+
 class GoogleRecaptchaV3
 {
     public function validate($key, $captcha_id = null, $unset_if_found = true)
     {
+        if (empty($key) && !empty(Request::post('g-recaptcha-response'))) {
+            $key = Request::post('g-recaptcha-response');
+        }
+        if (empty($key) && !empty(Request::post('captcha'))) {
+            $key = Request::post('captcha');
+        }
+
         $default_score = 0.5;
 
         $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
@@ -21,12 +30,14 @@ class GoogleRecaptchaV3
             $default_score = 1;
         }
 
-        $response = mw()->http->url($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response)->get();
-        $recaptcha = @json_decode($response);
+        $response = mw()->http->url($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response.'&score='.$default_score.'&remoteip='.user_ip())->get();
+        $recaptcha = @json_decode($response,true);
 
-        if ($recaptcha and isset($recaptcha->score) and $recaptcha->score >= $default_score) {
+        if ($recaptcha and isset($recaptcha["success"]) and $recaptcha["success"]) {
             return true;
         }
+
+ 
 
         return false;
     }
