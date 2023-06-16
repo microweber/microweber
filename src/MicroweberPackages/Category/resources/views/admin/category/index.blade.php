@@ -9,7 +9,9 @@
                  $isShopAttribute = 1;
             }
         @endphp
-        <module type="categories/manage" id="category-manage" is_shop="{{$isShopAttribute}}" />
+
+        <livewire:admin-category-manage is_shop="{{$isShopAttribute}}" />
+
     </div>
 
 @endsection
