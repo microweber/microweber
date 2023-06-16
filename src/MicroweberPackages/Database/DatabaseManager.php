@@ -981,8 +981,8 @@ class DatabaseManager extends DbUtils
             $this->use_model_cache[$table]= true;
 
             if ($table == 'content') {
-                 $model = new Content($params);
-              //   $model = app()->make(Content::class);
+              //   $model = new Content($params);
+               $model = app()->make(Content::class);
 
                 //    $model::boot();
             } else if ($table == 'categories') {
