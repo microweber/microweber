@@ -6,15 +6,15 @@ use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
 class CategoryManageComponent extends AdminComponent
 {
-    public $selectedIds = [];
-    public $listeners = [
-        'setSelectedIds' => 'setSelectedIds'
-    ];
-
-    public function setSelectedIds($ids)
-    {
-        $this->selectedIds = $ids;
-    }
+//    public $selectedIds = [];
+//    public $listeners = [
+//        'setSelectedIds' => 'setSelectedIds'
+//    ];
+//
+//    public function setSelectedIds($ids)
+//    {
+//        $this->selectedIds = $ids;
+//    }
 
     public function render()
     {

@@ -62,7 +62,7 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                         <?php _e('Bulk Actions') ?>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><button class="dropdown-item" wire:click="moveToCategory" type="button">Move To Category</button></li>
+                        <li><button class="dropdown-item js-multiple-move-to-category" type="button">Move To Category</button></li>
                         <li><button class="dropdown-item js-multiple-hidden" type="button">Make Hidden</button></li>
                         <li><button class="dropdown-item js-multiple-visible" type="button">Make Visible</button></li>
                         <li><button class="dropdown-item js-multiple-delete" type="button">Delete</button></li>
@@ -97,6 +97,10 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
 
                     selectedPages = [];
                     selectedCategories = [];
+
+                    $('.js-multiple-move-to-category').click(function() {
+                        window.livewire.emit('openModal', 'admin-category-bulk-move-modal', {ids: selectedCategories});
+                    });
 
                     $('.js-multiple-visible').click(function() {
                         mw.tools.confirm('<?php echo _ejs('Are you sure you want to make visible the selected categories?'); ?>', function() {
@@ -310,7 +314,7 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                                     }
                                 });
 
-                                window.livewire.emit('setSelectedIds',selectedCategories);
+                              //  window.livewire.emit('setSelectedIds',selectedCategories);
 
                             });
                         });

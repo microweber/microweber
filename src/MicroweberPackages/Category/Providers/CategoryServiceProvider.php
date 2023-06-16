@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Category\CategoryManager;
-use MicroweberPackages\Category\Http\Livewire\Admin\CategoryBulkMoveComponent;
+use MicroweberPackages\Category\Http\Livewire\Admin\CategoryBulkMoveModalComponent;
 use MicroweberPackages\Category\Http\Livewire\Admin\CategoryManageComponent;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
@@ -68,7 +68,7 @@ class CategoryServiceProvider extends ServiceProvider implements DeferrableProvi
 
         View::addNamespace('category', dirname(__DIR__) . '/resources/views');
 
-        Livewire::component('admin-category-bulk-move', CategoryBulkMoveComponent::class);
+        Livewire::component('admin-category-bulk-move-modal', CategoryBulkMoveModalComponent::class);
         Livewire::component('admin-category-manage', CategoryManageComponent::class);
 
     }
