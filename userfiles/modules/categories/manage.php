@@ -54,26 +54,21 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
         </div>
 
         <div class=" mb-5" id="bulk-actions-block" style="display: none;" >
-            <label for="" class="form-label">  <?php _e("Select action from the field") ?> </label>
+            <label for="" class="form-label"><?php _e("Select action from the field") ?></label>
             <div class="btn-group">
                 <button type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <?php _e('Bulk Actions') ?>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">Move To Category</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multiplePublish">Publish</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Move to trash</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">Delete Forever</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">Restore from trash</button></li>
+                    <li><button class="dropdown-item js-multiple-move-to-category" type="button">Move To Category</button></li>
+                    <li><button class="dropdown-item js-multiple-make-hidden" type="button">Make Hidden</button></li>
+                    <li><button class="dropdown-item js-multiple-make-visible" type="button">Make Visible</button></li>
+                    <li><button class="dropdown-item js-multiple-delete-forever" type="button">Delete</button></li>
                 </ul>
             </div>
         </div>
 
-        <div >
-
-
-
+        <div>
             <div id="mw-admin-categories-tree-manager"></div>
             <div id="mw-admin-categories-tree-manager-no-results-message" style="display: none;">
             <div class="empty">
@@ -99,9 +94,42 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                 selectedPages = [];
                 selectedCategories = [];
 
+                $('.js-multiple-move-to-category').click(function() {
+                    let modalData = {};
+                    Livewire.emit('openModal', 'admin-categories-multiple-modal', modalData);
+                });
 
-                $('.js-delete-selected-categories').click(function() {
+                $('.js-multiple-make-visible').click(function() {
+                    if (confirm('<?php echo _ejs('Are you sure you want to make visible the selected categories?'); ?>')) {
+                        $.ajax({
+                            url: route('api.category.visible-bulk'),
+                            type: 'DELETE',
+                            data: {ids: selectedCategories},
+                            success: function (data) {
+                                mw.reload_module('categories/manage');
+                                mw.notification.success('<?php _ejs("Categories are visible."); ?>.');
+                                mw.parent().trigger('pagesTreeRefresh');
+                            }
+                        });
+                    }
+                });
 
+                $('.js-multiple-make-hidden').click(function() {
+                    if (confirm('<?php echo _ejs('Are you sure you want to make hidden the selected categories?'); ?>')) {
+                        $.ajax({
+                            url: route('api.category.hiddem-bulk'),
+                            type: 'DELETE',
+                            data: {ids: selectedCategories},
+                            success: function (data) {
+                                mw.reload_module('categories/manage');
+                                mw.notification.success('<?php _ejs("Categories are hidden."); ?>.');
+                                mw.parent().trigger('pagesTreeRefresh');
+                            }
+                        });
+                    }
+                });
+
+                $('.js-multiple-delete-forever').click(function() {
                     if (confirm('<?php echo _ejs('Are you sure you want to delete the selected categories?'); ?>')) {
                         $.ajax({
                             url: route('api.category.delete-bulk'),
@@ -114,7 +142,6 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                             }
                         });
                     }
-
                 });
 
                 <?php if(isset($params['show_add_post_to_category_button'])): ?>
