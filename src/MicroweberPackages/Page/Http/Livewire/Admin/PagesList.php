@@ -19,7 +19,7 @@ class PagesList extends ContentList
     public function getDropdownFiltersTaxonomies()
     {
         $dropdownFilters = [];
-        
+
         return $dropdownFilters;
     }
 

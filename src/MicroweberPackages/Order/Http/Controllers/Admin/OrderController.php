@@ -16,6 +16,7 @@ class OrderController extends AdminController
     public function index(Request $request) {
 
         $getOrder = Order::first();
+        $getOrder = false;
 
         return view('order::admin.orders.index', compact('getOrder'));
     }
