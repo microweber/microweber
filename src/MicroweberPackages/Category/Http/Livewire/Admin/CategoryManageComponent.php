@@ -16,11 +16,6 @@ class CategoryManageComponent extends AdminComponent
         $this->selectedIds = $ids;
     }
 
-    public function makeHidden()
-    {
-        dump($this->selectedIds);
-    }
-
     public function render()
     {
         return view('category::admin.category.livewire.manage');

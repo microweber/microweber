@@ -82,38 +82,4 @@
 
     </div>
 
-    @if($multipleMoveToCategoryShowModal)
-
-
-
-    @endif
-
-
-    @if($multipleVisibleShowModal)
-        <script>
-            mw.tools.confirm("Are you sure you want to make visible the selected data?", function () {
-                window.livewire.emit('multipleVisibleExecute');
-            });
-        </script>
-    @endif
-
-
-    @if($multipleHiddenShowModal)
-        <script>
-            mw.tools.confirm("Are you sure you want to hidden the selected data?", function () {
-                window.livewire.emit('multipleHiddenExecute');
-            });
-        </script>
-    @endif
-
-    @if($multipleDeleteShowModal)
-        <script>
-            mw.tools.confirm("Are you sure you want to delete the selected data?", function () {
-                window.livewire.emit('multipleDeleteExecute');
-            });
-        </script>
-    @endif
-
-
-
 </div>

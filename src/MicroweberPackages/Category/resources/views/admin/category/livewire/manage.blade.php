@@ -54,8 +54,6 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
             </div>
         </div>
 
-        <livewire:admin-category-bulk-options />
-
         <div wire:ignore>
             <div class=" mb-5" id="bulk-actions-block" style="display: none;" >
                 <label for="" class="form-label"><?php _e("Select action from the field") ?></label>
@@ -65,9 +63,9 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                     </button>
                     <ul class="dropdown-menu">
                         <li><button class="dropdown-item" wire:click="moveToCategory" type="button">Move To Category</button></li>
-                        <li><button class="dropdown-item" wire:click="makeHidden" type="button">Make Hidden</button></li>
-                        <li><button class="dropdown-item" wire:click="makeVisible" type="button">Make Visible</button></li>
-                        <li><button class="dropdown-item" wire:click="delete" type="button">Delete</button></li>
+                        <li><button class="dropdown-item js-multiple-hidden" type="button">Make Hidden</button></li>
+                        <li><button class="dropdown-item js-multiple-visible" type="button">Make Visible</button></li>
+                        <li><button class="dropdown-item js-multiple-delete" type="button">Delete</button></li>
                     </ul>
                 </div>
             </div>
@@ -100,57 +98,51 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                     selectedPages = [];
                     selectedCategories = [];
 
-                    {{--$('.js-multiple-move-to-category').click(function() {--}}
+                    $('.js-multiple-visible').click(function() {
+                        mw.tools.confirm('<?php echo _ejs('Are you sure you want to make visible the selected categories?'); ?>', function() {
+                            $.ajax({
+                                url: route('api.category.visible-bulk'),
+                                type: 'POST',
+                                data: {ids: selectedCategories},
+                                success: function (data) {
+                                    mw.reload_module('categories/manage');
+                                    mw.notification.success('<?php _ejs("Categories are visible."); ?>.');
+                                    mw.parent().trigger('pagesTreeRefresh');
+                                }
+                            });
+                        });
+                    });
 
+                    $('.js-multiple-hidden').click(function() {
+                        mw.tools.confirm('<?php echo _ejs('Are you sure you want to make hidden the selected categories?'); ?>', function() {
+                            $.ajax({
+                                url: route('api.category.hidden-bulk'),
+                                type: 'POST',
+                                data: {ids: selectedCategories},
+                                success: function (data) {
+                                    mw.reload_module('categories/manage');
+                                    mw.notification.success('<?php _ejs("Categories are hidden."); ?>.');
+                                    mw.parent().trigger('pagesTreeRefresh');
+                                }
+                            });
+                        });
 
+                    });
 
-                    {{--});--}}
-
-                    {{--$('.js-multiple-make-visible').click(function() {--}}
-                    {{--    mw.tools.confirm('<?php echo _ejs('Are you sure you want to make visible the selected categories?'); ?>', function() {--}}
-                    {{--        $.ajax({--}}
-                    {{--            url: route('api.category.visible-bulk'),--}}
-                    {{--            type: 'POST',--}}
-                    {{--            data: {ids: selectedCategories},--}}
-                    {{--            success: function (data) {--}}
-                    {{--                mw.reload_module('categories/manage');--}}
-                    {{--                mw.notification.success('<?php _ejs("Categories are visible."); ?>.');--}}
-                    {{--                mw.parent().trigger('pagesTreeRefresh');--}}
-                    {{--            }--}}
-                    {{--        });--}}
-                    {{--    });--}}
-                    {{--});--}}
-
-                    {{--$('.js-multiple-make-hidden').click(function() {--}}
-                    {{--    mw.tools.confirm('<?php echo _ejs('Are you sure you want to make hidden the selected categories?'); ?>', function() {--}}
-                    {{--        $.ajax({--}}
-                    {{--            url: route('api.category.hidden-bulk'),--}}
-                    {{--            type: 'POST',--}}
-                    {{--            data: {ids: selectedCategories},--}}
-                    {{--            success: function (data) {--}}
-                    {{--                mw.reload_module('categories/manage');--}}
-                    {{--                mw.notification.success('<?php _ejs("Categories are hidden."); ?>.');--}}
-                    {{--                mw.parent().trigger('pagesTreeRefresh');--}}
-                    {{--            }--}}
-                    {{--        });--}}
-                    {{--    });--}}
-
-                    {{--});--}}
-
-                    {{--$('.js-multiple-delete-forever').click(function() {--}}
-                    {{--    mw.tools.confirm('<?php echo _ejs('Are you sure you want to delete the selected categories?'); ?>', function() {--}}
-                    {{--        $.ajax({--}}
-                    {{--            url: route('api.category.delete-bulk'),--}}
-                    {{--            type: 'DELETE',--}}
-                    {{--            data: {ids: selectedCategories},--}}
-                    {{--            success: function (data) {--}}
-                    {{--                mw.reload_module('categories/manage');--}}
-                    {{--                mw.notification.success('<?php _ejs("Categories are deleted."); ?>.');--}}
-                    {{--                mw.parent().trigger('pagesTreeRefresh');--}}
-                    {{--            }--}}
-                    {{--        });--}}
-                    {{--    });--}}
-                    {{--});--}}
+                    $('.js-multiple-delete').click(function() {
+                        mw.tools.confirm('<?php echo _ejs('Are you sure you want to delete the selected categories?'); ?>', function() {
+                            $.ajax({
+                                url: route('api.category.delete-bulk'),
+                                type: 'DELETE',
+                                data: {ids: selectedCategories},
+                                success: function (data) {
+                                    mw.reload_module('categories/manage');
+                                    mw.notification.success('<?php _ejs("Categories are deleted."); ?>.');
+                                    mw.parent().trigger('pagesTreeRefresh');
+                                }
+                            });
+                        });
+                    });
 
                     <?php if(isset($params['show_add_post_to_category_button'])): ?>
                     // this is for the post manage categories
