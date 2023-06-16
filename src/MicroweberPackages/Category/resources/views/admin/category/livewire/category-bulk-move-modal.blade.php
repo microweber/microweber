@@ -8,7 +8,6 @@
                     var tree = mw.tree.get('#pick-categories');
                     var selected = tree.getSelected();
                     var data = {
-                        content_ids: selectedIds,
                         categories: []
                     };
                     selected.forEach(function (item) {
@@ -18,8 +17,10 @@
                             data.parent_id = item.id;
                         }
                     });
-
-                    alert('dd');
+                    if (data.categories.length === 0) {
+                        mw.notification.warning('Please select a category');
+                        return;
+                    }
                     dialog.remove();
                 });
             }
@@ -38,7 +39,7 @@
                         autoHeight: true,
                         id: 'pick-categories',
                         footer: btn,
-                        title: mw.lang('Select categories')
+                        title: mw.lang('Move to selected category')
                     });
                     var tree = new mw.tree({
                         data: data,
