@@ -40,15 +40,7 @@
         transform: translateX(0)
     }
 
-    .mw-admin-toggle-tree-navigation{
-        position:absolute;
-        left: 100%;
-        margin-left: 45px;
-        top:0;
-        
-        transition: margin-left .4s;
-        background-color: var(--tblr-btn-active-bg);
-    }
+ 
 
     #pages-tree-wrapper.active .mw-admin-toggle-tree-navigation {
         margin-left:0;
@@ -70,10 +62,8 @@
 
 <div class="card m-3 p-3" id="pages-tree-container" >
 
-    <button type="button" class="btn mw-admin-toggle-tree-navigation  border-0">
-        <svg   fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
-            <path d="M600 936V816H440V416h-80v120H80V216h280v120h240V216h280v320H600V416h-80v320h80V616h280v320H600ZM160 296v160-160Zm520 400v160-160Zm0-400v160-160Zm0 160h120V296H680v160Zm0 400h120V696H680v160ZM160 456h120V296H160v160Z"/>
-        </svg>
+    <button type="button" class="mw-admin-toggle-tree-navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
     </button>
 
         <div class="js-page-tree-skeleton">
