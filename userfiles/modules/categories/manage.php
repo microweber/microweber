@@ -117,7 +117,7 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                 $('.js-multiple-make-hidden').click(function() {
                     if (confirm('<?php echo _ejs('Are you sure you want to make hidden the selected categories?'); ?>')) {
                         $.ajax({
-                            url: route('api.category.hiddem-bulk'),
+                            url: route('api.category.hidden-bulk'),
                             type: 'DELETE',
                             data: {ids: selectedCategories},
                             success: function (data) {
