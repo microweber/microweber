@@ -68,7 +68,6 @@ class CategoryServiceProvider extends ServiceProvider implements DeferrableProvi
 
         View::addNamespace('category', dirname(__DIR__) . '/resources/views');
 
-        Livewire::component('admin-category-bulk-move-modal', CategoryBulkMoveModalComponent::class);
         Livewire::component('admin-category-manage', CategoryManageComponent::class);
 
     }

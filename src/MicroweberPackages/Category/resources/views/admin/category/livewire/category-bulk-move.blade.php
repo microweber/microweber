@@ -21,7 +21,8 @@
                         mw.notification.warning('Please select a category');
                         return;
                     }
-                    
+
+
                     console.log(data);
                     dialog.remove();
                 });

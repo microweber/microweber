@@ -92,15 +92,12 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
 
                 </div>
 
+                @include('categories::admin.category.livewire.category-bulk-move')
 
                 <script>
 
                     selectedPages = [];
                     selectedCategories = [];
-
-                    $('.js-multiple-move-to-category').click(function() {
-                        window.livewire.emit('openModal', 'admin-category-bulk-move-modal', {ids: selectedCategories});
-                    });
 
                     $('.js-multiple-visible').click(function() {
                         mw.tools.confirm('<?php echo _ejs('Are you sure you want to make visible the selected categories?'); ?>', function() {
