@@ -6,6 +6,21 @@ use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
 class CategoryManageComponent extends AdminComponent
 {
+    public $selectedIds = [];
+    public $listeners = [
+        'setSelectedIds' => 'setSelectedIds'
+    ];
+
+    public function setSelectedIds($ids)
+    {
+        $this->selectedIds = $ids;
+    }
+
+    public function makeHidden()
+    {
+        dump($this->selectedIds);
+    }
+
     public function render()
     {
         return view('category::admin.category.livewire.manage');
