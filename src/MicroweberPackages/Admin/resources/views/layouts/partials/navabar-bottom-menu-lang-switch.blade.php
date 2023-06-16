@@ -57,14 +57,29 @@ if ($supportedLanguages) {
                 <?php foreach ($supportedLanguages as $language): ?>
 
                 <?php
-                $languageLocale = $language['locale'];
-                $languageId = explode("_", $languageLocale);
-                $languageId = $languageId[1] or $languageId[0];
-                $languageId = strtolower($languageId);
-
                 if (!isset($language['language'])) {
                     continue;
                 }
+                if(!isset($language['locale'])){
+                    continue;
+                }
+                if(trim($language['locale']) == ''){
+                    continue;
+                }
+                $languageLocale = $language['locale'];
+                $languageId = explode("_", $languageLocale);
+                if(isset($languageId[1])){
+                    $languageId = $languageId[1]  ;
+                    $languageId = strtolower($languageId);
+                } else if(isset($languageId[0])){
+                $languageId = $languageId[0]  ;
+                $languageId = strtolower($languageId);
+                }   else {
+                    $languageId = 'us';
+                }
+
+
+
 
                 $languageDisplayName = $language['language'];
                 ?>

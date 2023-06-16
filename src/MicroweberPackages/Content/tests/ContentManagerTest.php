@@ -100,8 +100,16 @@ class ContentManagerTest extends TestCase
             "limit" => 1
 
         );
+        $getAll = get_content([
+            'content_type' => 'page',
+
+        ]);
 
         $get = get_content($params);
+
+        $this->assertEquals('page', $get[0]['content_type']);
+        $this->assertEquals('static', $get[0]['subtype']);
+
         $this->assertEquals($sub_page, $get[0]['id']);
 
         $params = array(
