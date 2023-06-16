@@ -13,7 +13,10 @@ namespace MicroweberPackages\Category\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use MicroweberPackages\Category\CategoryManager;
+use MicroweberPackages\Category\Http\Livewire\Admin\CategoryBulkOptionsComponent;
+use MicroweberPackages\Category\Http\Livewire\Admin\CategoryManageComponent;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
@@ -63,8 +66,10 @@ class CategoryServiceProvider extends ServiceProvider implements DeferrableProvi
         Category::observe(BaseModelObserver::class);
         CategoryItem::observe(BaseModelObserver::class);
 
-        View::addNamespace('category', __DIR__ . '/../resources/views');
+        View::addNamespace('category', dirname(__DIR__) . '/resources/views');
 
+        Livewire::component('admin-category-manage', CategoryManageComponent::class);
+        Livewire::component('admin-category-bulk-options', CategoryBulkOptionsComponent::class);
 
     }
 
