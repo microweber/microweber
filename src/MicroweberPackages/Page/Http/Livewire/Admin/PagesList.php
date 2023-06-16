@@ -16,4 +16,11 @@ class PagesList extends ContentList
         'author' => true
     ];
 
+    public function getDropdownFiltersTaxonomies()
+    {
+        $dropdownFilters = [];
+        
+        return $dropdownFilters;
+    }
+
 }
