@@ -42,6 +42,7 @@ if (isset($data['content_type']) and ($data['content_type'] == 'page') and $data
                 $data['is_shop'] = 1;
             }
         }
+       
     }
 }
 ?>
