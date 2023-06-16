@@ -1,7 +1,8 @@
 <?php
+
 must_have_access();
-$data = false;
-if (isset($params['content-id'])) {
+
+if (isset($params['content-id']) and $params['content-id'] != 0) {
     $data = get_content_by_id($params["content-id"]);
 }
 
@@ -307,16 +308,16 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                 <?php endif; ?>
 
-                <?php if ($show_page_settings != false): ?>
+
+
+                <?php if ($data['content_type'] == 'page'): ?>
                     <div class="row  px-0 mt-3">
                         <div class="col-12">
                             <div class="form-group">
                                 <label><?php _e("Is Home"); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e("If yes this page will be your Home"); ?></small>
                                 <div class="form-check form-switch pl-0">
-                                    <label class="d-inline-block mr-5" for="is_home"><?php _e("No"); ?></label>
                                     <input type="checkbox" name="is_home" class="form-check-input" id="is_home" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_home']): ?>checked="1"<?php endif; ?> />
-                                    <label class="custom-control-label" for="is_home"><?php _e("Yes"); ?></label>
                                 </div>
                             </div>
                         </div>
@@ -328,9 +329,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 <label><?php _e("Is Shop"); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e("If yes this page will accept products to be added to it"); ?></small>
                                 <div class="form-check form-switch pl-0">
-                                    <label class="d-inline-block mr-5" for="is_shop"><?php _e("No"); ?></label>
                                     <input type="checkbox" name="is_shop" class="form-check-input" id="is_shop" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_shop']): ?>checked="1"<?php endif; ?> />
-                                    <label class="custom-control-label" for="is_shop"><?php _e("Yes"); ?></label>
                                 </div>
                             </div>
                         </div>
