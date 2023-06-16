@@ -1,6 +1,6 @@
 <?php
 
-if (isset($params['is_shop']) && $params['is_shop'] == 1){
+if ($isShop){
     $createRoute = route('admin.shop.category.create')."?parent=shop";
 } else {
     $createRoute = route('admin.category.create')."?parent=blog";
@@ -18,7 +18,7 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                 </h1>
 
                 <h3 class="ms-1 mb-0">
-                    <?php if (isset($params['is_shop']) && $params['is_shop'] == 1): ?>
+                    <?php if ($isShop): ?>
                     \<?php _e("Shop"); ?>
                     <?php else : ?>
                     \<?php _e("Website"); ?>
@@ -38,7 +38,7 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
             <div class="js-hide-when-no-items">
                 <div class="d-flex align-items-center">
                     <?php if (user_can_access('module.categories.edit')): ?>
-                    <?php if (isset($params['is_shop']) && $params['is_shop'] == 1): ?>
+                    <?php if ($isShop): ?>
                     <a href="<?php echo $createRoute; ?>" class="btn btn-dark">
                         <svg fill="currentColor" class="me-1" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
 
@@ -92,12 +92,16 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
 
                 </div>
 
-                @include('categories::admin.category.livewire.category-bulk-move')
+                @include('category::admin.category.livewire.category-bulk-move')
 
                 <script>
 
                     selectedPages = [];
                     selectedCategories = [];
+
+                    $('.js-multiple-move-to-category').click(function() {
+                        categoryBulkMoveModal(selectedCategories);
+                    });
 
                     $('.js-multiple-visible').click(function() {
                         mw.tools.confirm('<?php echo _ejs('Are you sure you want to make visible the selected categories?'); ?>', function() {
@@ -251,9 +255,8 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                         categoryTree = mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
                             options: treeDataOpts,
                             params: {
-                                only_categories: 1,
                                 no_limit: true,
-                                <?php if(isset($params['is_shop']) && $params['is_shop'] == 1): ?>
+                                <?php if($isShop): ?>
                                 is_shop: 1,
                                 <?php else: ?>
                                 is_blog: 1,

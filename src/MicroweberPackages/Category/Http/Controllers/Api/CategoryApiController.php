@@ -130,4 +130,14 @@ class CategoryApiController extends AdminDefaultController
         return $this->category->visibleBulk($ids);
     }
 
+    public function moveBulk(CategoryRequest $request)
+    {
+        $ids = $request->get('ids', []);
+        $moveToRelId = $request->get('moveToRelId', false);
+        $moveToParentIds = $request->get('moveToParentIds', []);
+
+
+        return $this->category->moveBulk($ids, $moveToParentIds, $moveToRelId);
+    }
+
 }

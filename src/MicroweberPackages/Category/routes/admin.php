@@ -35,6 +35,7 @@ Route::name('api.')
         Route::delete('category/delete-bulk', 'CategoryApiController@destroy')->name('category.delete-bulk');
         Route::post('category/hidden-bulk', 'CategoryApiController@hiddenBulk')->name('category.hidden-bulk');
         Route::post('category/visible-bulk', 'CategoryApiController@visibleBulk')->name('category.visible-bulk');
+        Route::post('category/move-bulk', 'CategoryApiController@moveBulk')->name('category.move-bulk');
 
         Route::apiResource('category', 'CategoryApiController');
         Route::post('category/{category}', 'CategoryApiController@update');

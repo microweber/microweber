@@ -6,6 +6,8 @@ use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
 class CategoryManageComponent extends AdminComponent
 {
+    public $isShop = false;
+
 //    public $selectedIds = [];
 //    public $listeners = [
 //        'setSelectedIds' => 'setSelectedIds'
