@@ -168,13 +168,15 @@
     });
     </script>
 
-
 <?php
+$isShop = 0;
+if (isset($_GET['is_shop']) && $_GET['is_shop'] == 1) {
+    $isShop = 1;
+}
+?>
 
-if(isset($params['show_add_post_to_category_button'])){ ?>
-<module type="categories/manage" id="mw-cats-manage-admin" show_add_post_to_category_button="true" />
+<?php if(isset($params['show_add_post_to_category_button'])){ ?>
+<module type="categories/manage" id="mw-cats-manage-admin" is_shop="<?php echo $isShop; ?>" show_add_post_to_category_button="true" />
 <?php } else {  ?>
-    <module type="categories/manage" id="mw-cats-manage-admin" />
-
-
+<module type="categories/manage" id="mw-cats-manage-admin" is_shop="<?php echo $isShop; ?>" />
 <?php } ?>
