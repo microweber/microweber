@@ -54,26 +54,21 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
         </div>
 
         <div class=" mb-5" id="bulk-actions-block" style="display: none;" >
-            <label for="" class="form-label">  <?php _e("Select action from the field") ?> </label>
+            <label for="" class="form-label"><?php _e("Select action from the field") ?></label>
             <div class="btn-group">
                 <button type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <?php _e('Bulk Actions') ?>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">Move To Category</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multiplePublish">Publish</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Move to trash</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">Delete Forever</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">Restore from trash</button></li>
+                    <li><button class="dropdown-item js-multiple-move-to-category" type="button">Move To Category</button></li>
+                    <li><button class="dropdown-item js-multiple-make-hidden" type="button">Make Hidden</button></li>
+                    <li><button class="dropdown-item js-multiple-make-visible" type="button">Make Visible</button></li>
+                    <li><button class="dropdown-item js-multiple-delete-forever" type="button">Delete</button></li>
                 </ul>
             </div>
         </div>
 
-        <div >
-
-
-
+        <div>
             <div id="mw-admin-categories-tree-manager"></div>
             <div id="mw-admin-categories-tree-manager-no-results-message" style="display: none;">
             <div class="empty">
@@ -99,10 +94,44 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                 selectedPages = [];
                 selectedCategories = [];
 
+                $('.js-multiple-move-to-category').click(function() {
+                    let modalData = {};
+                    Livewire.emit('openModal', 'admin-categories-multiple-modal', modalData);
+                });
 
-                $('.js-delete-selected-categories').click(function() {
+                $('.js-multiple-make-visible').click(function() {
+                    mw.tools.confirm('<?php echo _ejs('Are you sure you want to make visible the selected categories?'); ?>', function() {
+                        $.ajax({
+                            url: route('api.category.visible-bulk'),
+                            type: 'POST',
+                            data: {ids: selectedCategories},
+                            success: function (data) {
+                                mw.reload_module('categories/manage');
+                                mw.notification.success('<?php _ejs("Categories are visible."); ?>.');
+                                mw.parent().trigger('pagesTreeRefresh');
+                            }
+                        });
+                    });
+                });
 
-                    if (confirm('<?php echo _ejs('Are you sure you want to delete the selected categories?'); ?>')) {
+                $('.js-multiple-make-hidden').click(function() {
+                    mw.tools.confirm('<?php echo _ejs('Are you sure you want to make hidden the selected categories?'); ?>', function() {
+                        $.ajax({
+                            url: route('api.category.hidden-bulk'),
+                            type: 'POST',
+                            data: {ids: selectedCategories},
+                            success: function (data) {
+                                mw.reload_module('categories/manage');
+                                mw.notification.success('<?php _ejs("Categories are hidden."); ?>.');
+                                mw.parent().trigger('pagesTreeRefresh');
+                            }
+                        });
+                    });
+
+                });
+
+                $('.js-multiple-delete-forever').click(function() {
+                    mw.tools.confirm('<?php echo _ejs('Are you sure you want to delete the selected categories?'); ?>', function() {
                         $.ajax({
                             url: route('api.category.delete-bulk'),
                             type: 'DELETE',
@@ -113,8 +142,7 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                                 mw.parent().trigger('pagesTreeRefresh');
                             }
                         });
-                    }
-
+                    });
                 });
 
                 <?php if(isset($params['show_add_post_to_category_button'])): ?>
@@ -155,19 +183,22 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                     sortable: '>.type-category',
                     sortableHandle: '.mw-tree-item-sortable-handle',
                     createSortableHandle: function (list){
-                        mw.$('.mw-tree-item-content', list).each(function (){
+                        setTimeout(() => {
+                            mw.$('.mw-tree-item-content', list).each(function (){
                             $(this)
-                                .not('.mw-tree-item-sortable-handle-ready')
-                                .addClass('mw-tree-item-sortable-handle-ready')
-                                .prepend(`
+                                    .not('.mw-tree-item-sortable-handle-ready')
+                                    .addClass('mw-tree-item-sortable-handle-ready')
+                                    .prepend(`
 
-                                <div class="cursor-move-holder me-2 mw-tree-item-sortable-handle" onmousedown="mw.manage_content_sort()" style="max-width: 80px;">
-                                      <span href="javascript:;" class="btn btn-link text-blue-lt">
-                                          <svg class="mdi-cursor-move" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M360 896q-33 0-56.5-23.5T280 816q0-33 23.5-56.5T360 736q33 0 56.5 23.5T440 816q0 33-23.5 56.5T360 896Zm240 0q-33 0-56.5-23.5T520 816q0-33 23.5-56.5T600 736q33 0 56.5 23.5T680 816q0 33-23.5 56.5T600 896ZM360 656q-33 0-56.5-23.5T280 576q0-33 23.5-56.5T360 496q33 0 56.5 23.5T440 576q0 33-23.5 56.5T360 656Zm240 0q-33 0-56.5-23.5T520 576q0-33 23.5-56.5T600 496q33 0 56.5 23.5T680 576q0 33-23.5 56.5T600 656ZM360 416q-33 0-56.5-23.5T280 336q0-33 23.5-56.5T360 256q33 0 56.5 23.5T440 336q0 33-23.5 56.5T360 416Zm240 0q-33 0-56.5-23.5T520 336q0-33 23.5-56.5T600 256q33 0 56.5 23.5T680 336q0 33-23.5 56.5T600 416Z"></path></svg>
-                                      </span>
-                                </div>
-                            `)
-                        })
+                                    <div class="cursor-move-holder me-2 mw-tree-item-sortable-handle" onmousedown="mw.manage_content_sort()" style="max-width: 80px;">
+                                        <span href="javascript:;" class="btn btn-link text-blue-lt">
+                                            <svg class="mdi-cursor-move" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M360 896q-33 0-56.5-23.5T280 816q0-33 23.5-56.5T360 736q33 0 56.5 23.5T440 816q0 33-23.5 56.5T360 896Zm240 0q-33 0-56.5-23.5T520 816q0-33 23.5-56.5T600 736q33 0 56.5 23.5T680 816q0 33-23.5 56.5T600 896ZM360 656q-33 0-56.5-23.5T280 576q0-33 23.5-56.5T360 496q33 0 56.5 23.5T440 576q0 33-23.5 56.5T360 656Zm240 0q-33 0-56.5-23.5T520 576q0-33 23.5-56.5T600 496q33 0 56.5 23.5T680 576q0 33-23.5 56.5T600 656ZM360 416q-33 0-56.5-23.5T280 336q0-33 23.5-56.5T360 256q33 0 56.5 23.5T440 336q0 33-23.5 56.5T360 416Zm240 0q-33 0-56.5-23.5T520 336q0-33 23.5-56.5T600 256q33 0 56.5 23.5T680 336q0 33-23.5 56.5T600 416Z"></path></svg>
+                                        </span>
+                                    </div>
+                                `)
+                            })
+                        });
+
                     },
 
                     selectable: true,

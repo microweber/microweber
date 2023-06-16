@@ -57,8 +57,8 @@ export default {
                     <span></span>
                     <span></span>
                 </span>
-                <div id="user-menu" class="navbar mw-le-nav-box">
-                    <div class="mw-le-nav-box-content" id="user-menu-header">
+                <div id="user-menu" class="card mw-le-nav-box">
+                    <div class="card-body" id="user-menu-header">
                         <small>Project</small>
                         <h3>Boris Website</h3>
                         <span class=" btn  btn-sm ">

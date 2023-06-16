@@ -253,7 +253,7 @@ html[dir="rtl"] #user-menu {
     align-items: center;
     justify-content: center;
     vertical-align: middle;
-    color: white;
+    color: inherit;
 }
 
 
@@ -315,9 +315,7 @@ html[dir="rtl"] #user-menu {
     border: none;
 }
 
-.mw-editor-le2 .mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-icon {
-    color: white;
-}
+ 
 
 .mw-editor-le2 .mw-editor-dropdown-option {
     padding: 10px 10px;

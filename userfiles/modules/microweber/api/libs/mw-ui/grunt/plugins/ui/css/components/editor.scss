@@ -564,6 +564,7 @@ $editorSpacing: 5px;
 
             svg{
                 width: 20px;
+         
             }
         }
         .mw-editor-group-button-caret{
@@ -580,7 +581,14 @@ $editorSpacing: 5px;
     }
 }
 
+.mw-editor-group-button-icon{
+ 
 
+    svg{
+     
+        fill: currentColor;
+    }
+}
 
 .mw-editor-controller-component-select {
 

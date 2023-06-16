@@ -132,7 +132,7 @@ export default {
             mw.app.editor.on('editNodeRequest', async (element) => {
                 if(element.nodeName === 'IMG') {
                   var src = await editImageDialog(element.src);
-                  console.log(src)
+                   
                   if(src) {
                     element.src = src
                   }
@@ -153,7 +153,8 @@ export default {
                               
                 } else {
                     element.contentEditable = true;
-                    mw.app.richTextEditor.smallEditorInteract(element)
+                    mw.app.richTextEditor.smallEditorInteract(element);
+                    element.focus()
                 }
                 
                  
