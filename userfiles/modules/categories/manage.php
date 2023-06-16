@@ -100,10 +100,10 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                 });
 
                 $('.js-multiple-make-visible').click(function() {
-                    if (confirm('<?php echo _ejs('Are you sure you want to make visible the selected categories?'); ?>')) {
+                    mw.tools.confirm('<?php echo _ejs('Are you sure you want to make visible the selected categories?'); ?>', function() {
                         $.ajax({
                             url: route('api.category.visible-bulk'),
-                            type: 'DELETE',
+                            type: 'POST',
                             data: {ids: selectedCategories},
                             success: function (data) {
                                 mw.reload_module('categories/manage');
@@ -111,14 +111,14 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                                 mw.parent().trigger('pagesTreeRefresh');
                             }
                         });
-                    }
+                    });
                 });
 
                 $('.js-multiple-make-hidden').click(function() {
-                    if (confirm('<?php echo _ejs('Are you sure you want to make hidden the selected categories?'); ?>')) {
+                    mw.tools.confirm('<?php echo _ejs('Are you sure you want to make hidden the selected categories?'); ?>', function() {
                         $.ajax({
                             url: route('api.category.hidden-bulk'),
-                            type: 'DELETE',
+                            type: 'POST',
                             data: {ids: selectedCategories},
                             success: function (data) {
                                 mw.reload_module('categories/manage');
@@ -126,11 +126,12 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                                 mw.parent().trigger('pagesTreeRefresh');
                             }
                         });
-                    }
+                    });
+
                 });
 
                 $('.js-multiple-delete-forever').click(function() {
-                    if (confirm('<?php echo _ejs('Are you sure you want to delete the selected categories?'); ?>')) {
+                    mw.tools.confirm('<?php echo _ejs('Are you sure you want to delete the selected categories?'); ?>', function() {
                         $.ajax({
                             url: route('api.category.delete-bulk'),
                             type: 'DELETE',
@@ -141,7 +142,7 @@ if (isset($params['is_shop']) && $params['is_shop'] == 1){
                                 mw.parent().trigger('pagesTreeRefresh');
                             }
                         });
-                    }
+                    });
                 });
 
                 <?php if(isset($params['show_add_post_to_category_button'])): ?>

@@ -57,9 +57,19 @@ class CategoryRepositoryApi extends BaseRepository
 
     public function destroy($ids)
     {
-
         event(new CategoryWasDestroyed($ids));
 
         return $this->model->destroy($ids);
     }
+
+    public function hiddenBulk($ids)
+    {
+        return $this->model->whereIn('id', $ids)->update(['is_hidden' => 1]);
+    }
+
+    public function visibleBulk($ids)
+    {
+        return $this->model->whereIn('id', $ids)->update(['is_hidden' => 0]);
+    }
+
 }

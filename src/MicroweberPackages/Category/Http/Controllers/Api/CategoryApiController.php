@@ -115,4 +115,19 @@ class CategoryApiController extends AdminDefaultController
         return $this->category->destroy($ids);
     }
 
+
+    public function hiddenBulk(CategoryRequest $request)
+    {
+        $ids = $request->get('ids', []);
+
+        return $this->category->hiddenBulk($ids);
+    }
+
+    public function visibleBulk(CategoryRequest $request)
+    {
+        $ids = $request->get('ids', []);
+
+        return $this->category->visibleBulk($ids);
+    }
+
 }
