@@ -213,7 +213,7 @@ class DbTest extends TestCase
         foreach ($content as $item) {
             $this->assertTrue(count($item) == 2);
             $this->assertTrue(isset($item['id']));
-            $this->assertFalse(isset($item['position']));
+            $this->assertTrue(isset($item['position']));
         }
     }
 }

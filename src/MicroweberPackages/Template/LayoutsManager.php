@@ -61,7 +61,36 @@ class LayoutsManager
 
         return $res;
     }
+    public function get_layout_details($params)
+    {
+        $layout_options = array();
 
+
+        $layout_options['site_template'] = $params['active_site_template'];
+      //  $layout_options['layout_file'] = $params['layout_file'];
+        $layout_options['no_cache'] = true;
+        $layout_options['no_folder_sort'] = true;
+
+        $layouts = $this->get_all($layout_options);
+
+        if (isset($params["layout_file"]) and trim($params["layout_file"]) != '') {
+            $params['layout_file'] = sanitize_path($params['layout_file']);
+            $params['layout_file'] = str_replace('____', DS, $params['layout_file']);
+            $params['layout_file'] = str_replace('__', DS, $params['layout_file']);
+            $params['layout_file'] = normalize_path($params['layout_file'], false);
+        }
+
+
+
+        if($layouts){
+            foreach ($layouts as $layout) {
+                if (isset($layout['layout_file']) and $layout['layout_file'] == $params['layout_file']) {
+                    return $layout;
+                }
+            }
+        }
+
+    }
     public function get_elements_from_current_site_template()
     {
         if (!defined('ACTIVE_TEMPLATE_DIR')) {

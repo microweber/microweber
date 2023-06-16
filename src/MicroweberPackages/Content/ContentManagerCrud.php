@@ -533,6 +533,9 @@ class ContentManagerCrud extends Crud
                     $data['subtype'] = 'post';
                     $data['content_type'] = 'post';
                 }
+                if(isset($data['content_type']) and $data['content_type'] == 'page' and !isset($data['subtype'])){
+                    $data['subtype'] = 'static';
+                }
                 if (!isset($data['subtype'])) {
                     $data['subtype'] = 'post';
                 }

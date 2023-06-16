@@ -63,11 +63,11 @@ class ContentManagerTest extends TestCase
         $sub_page_parents = content_parents($get_sub_page['id']);
 
 
-
+        // testing page count param
         $params = array(
             "content_type" => "page",
             "paging_param" => "pg",
-            "orderby" => "position desc",
+            "orderby" => "position asc",
             "no_cache" => 1,
             "limit" => 3,
             "page_count" => true
@@ -79,7 +79,7 @@ class ContentManagerTest extends TestCase
         $params = array(
             "content_type" => "page",
 
-            "orderby" => "position desc",
+            "orderby" => "position asc",
             "no_cache" => 1,
             "limit" => 1,
             "page_count" => true
@@ -95,19 +95,27 @@ class ContentManagerTest extends TestCase
         $params = array(
             "content_type" => "page",
             "page" => 2, // old parameter for current_page
-            "orderby" => "position desc",
+            "orderby" => "position asc",
             "no_cache" => 1,
             "limit" => 1
 
         );
+        $getAll = get_content([
+            'content_type' => 'page',
+
+        ]);
 
         $get = get_content($params);
+
+        $this->assertEquals('page', $get[0]['content_type']);
+        $this->assertEquals('static', $get[0]['subtype']);
+
         $this->assertEquals($sub_page, $get[0]['id']);
 
         $params = array(
             "content_type" => "page",
             "current_page" => 2,
-            "orderby" => "position desc",
+            "orderby" => "position asc",
             "no_cache" => 1,
             "limit" => 1
         );
@@ -119,7 +127,7 @@ class ContentManagerTest extends TestCase
             "content_type" => "page",
             "paging_param" => "mypagingparam",
             "mypagingparam" => 2,
-            "orderby" => "position desc",
+            "orderby" => "position asc",
             "no_cache" => 1,
             "limit" => 1
         );

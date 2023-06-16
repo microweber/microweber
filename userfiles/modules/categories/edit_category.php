@@ -673,7 +673,7 @@ if ($creteCategoryIn == 'shop') {
 
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label"><?php _e("Category URL"); ?></label>
+                                                    <label class="form-label"><?php _e("Category Slug"); ?></label>
                                                     <div class="mb-3">
                                                         <?php
                                                         $url = '';
