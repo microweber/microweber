@@ -45,19 +45,19 @@
                         @if($this->contentType == 'page')
                         <a href="{{route('admin.page.create')}}" class="btn btn-dark">
                             <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
-                            {{_e("Create New Page")}}
+                            {{_e("New Page")}}
                         </a>
                         @endif
                         @if($this->contentType == 'post')
                             <a href="{{route('admin.post.create')}}" class="btn btn-dark">
                                 <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
-                                {{_e("Create New Post")}}
+                                {{_e("New Post")}}
                             </a>
                         @endif
                         @if($this->contentType == 'product')
                             <a href="{{route('admin.product.create')}}" class="btn btn-dark">
                                <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
-                                {{_e("Create New Product")}}
+                                {{_e("New Product")}}
                             </a>
                         @endif
                     </div>
