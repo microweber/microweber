@@ -42,7 +42,7 @@ if (isset($data['content_type']) and ($data['content_type'] == 'page') and $data
                 $data['is_shop'] = 1;
             }
         }
-       
+
     }
 }
 ?>
@@ -333,15 +333,19 @@ if (isset($params['quick_edit'])) {
                 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
                     <div class="d-flex space-x-4">
                         <a href="#" x-on:click="showEditTab = 'details'" :class="{ 'active': showEditTab == 'details' }" class="btn btn-link text-decoration-none mw-admin-action-links">
-                             <?php echo $type; ?> <?php echo _e('Details'); ?>
+                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M140.001-159.309v-465.844q-13.615-1.231-26.807-18.462-13.193-17.23-13.193-38.23v-100.46q0-23 17.082-40.346 17.082-17.346 40.611-17.346h644.612q23 0 40.346 17.346 17.347 17.346 17.347 40.346v100.46q0 21-13.193 38.23-13.192 17.231-26.807 18.462v465.844q0 23-17.347 41.154-17.346 18.154-40.346 18.154H197.694q-23.529 0-40.611-18.154-17.082-18.154-17.082-41.154Zm45.384-464.844v466.459q0 5.385 3.462 8.847 3.462 3.462 8.847 3.462h564.612q5.385 0 8.847-3.462 3.462-3.462 3.462-8.847v-466.459h-589.23Zm616.921-45.384q5.385 0 8.847-3.462 3.462-3.461 3.462-8.846v-100.46q0-5.385-3.462-8.847-3.462-3.462-8.847-3.462H157.694q-5.385 0-8.847 3.462-3.462 3.462-3.462 8.847v100.46q0 5.385 3.462 8.846 3.462 3.462 8.847 3.462h644.612ZM367.693-429.154h224.614v-45.384H367.693v45.384ZM185.385-145.385V-624.153v478.768Z"></path></svg>
+                            <?php echo $type; ?> <?php echo _e('Details'); ?>
                         </a>
                         <a href="#" x-on:click="showEditTab = 'customFields'" :class="{ 'active': showEditTab == 'customFields' }"  class="btn btn-link text-decoration-none mw-admin-action-links">
+                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="20px" viewBox="0 0 24 24" width="20px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>
                             <?php echo _e('Custom Fields'); ?>
                         </a>
                         <a href="#" x-on:click="showEditTab = 'seo'" :class="{ 'active': showEditTab == 'seo' }"  class="btn btn-link text-decoration-none mw-admin-action-links">
-                           <?php echo _e('SEO'); ?>
+                           <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="20px" viewBox="0 0 24 24" width="20px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>
+                            <?php echo _e('SEO'); ?>
                         </a>
                         <a href="#" x-on:click="showEditTab = 'advanced'" :class="{ 'active': showEditTab == 'advanced' }" class="btn btn-link text-decoration-none link mw-admin-action-links">
+                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="20px" viewBox="0 0 24 24" width="20px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>
                             <?php echo _e('Advanced'); ?>
                         </a>
                     </div>

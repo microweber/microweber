@@ -53,7 +53,7 @@
                     tdata = [];
                 }
 
-                var selectedPages = [ <?php print $data['parent']; ?>];
+                window.selectedPages = [ <?php print $data['parent']; ?>];
                 var selectedCategories = [ <?php print $categories_active_ids; ?>];
 
 
@@ -83,9 +83,18 @@
 
                             var selected = categorySelector.tree.getSelected();
                             if(selected.length){
+
                                 var hasPage = selected.find(function (item){
                                     return item.type === 'page';
                                 });
+
+                                for(var i = 0; i < selected.length; i++){
+                                    if(selected[i].type === 'page') {
+                                        window.selectedPages = [selected[i].id];
+                                    }
+                                }
+
+                                // console.log(window.selectedPages);
 
                                 if(typeof hasPage === 'undefined'){
                                     var category = selected[0];
@@ -104,7 +113,7 @@
                         })
                     } else {
 
-                        $.each(selectedPages, function () {
+                        $.each(window.selectedPages, function () {
                             categorySelector.tree.select(this, 'page', false);
 
                         });
@@ -192,8 +201,6 @@
                <div class="card shadow-none">
                    <div class="card-body">
 
-
-
                            <?php if ($data['content_type'] == 'page') : ?>
 
                                  <div class="card-header ps-0 pt-1 mb-0">
@@ -206,8 +213,8 @@
                                       <div class="quick-parent-selector mt-2">
                                           <module
 
-
                                                 type="content/views/selector"
+                                                  hide-categories="true"
                                                   no-parent-title="<?php _e('No parent page'); ?>"
                                                   field-name="parent_id_selector"
                                                   change-field="parent"
@@ -237,7 +244,9 @@
                                            additional_params.is_blog = 1;
                                            <?php endif; ?>
 
-                                           additional_params.parent = <?php print $data['parent']; ?>;
+                                           if (window.selectedPages && window.selectedPages.length > 0) {
+                                               additional_params.parent = window.selectedPages[0];
+                                           }
 
                                            manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/edit_category', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
                                        }

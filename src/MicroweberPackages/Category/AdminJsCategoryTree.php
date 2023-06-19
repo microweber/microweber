@@ -48,8 +48,20 @@ class AdminJsCategoryTree
 
     public function get()
     {
+
+        $filterSkipCategories = false;
+        if (!empty($this->filters)) {
+            if (isset($this->filters['skip_categories'])) {
+                $filterSkipCategories = (int)$this->filters['skip_categories'];
+            }
+        }
+
         $this->getPagesDatabase();
-        $this->getCategoriesDatabase();
+
+        if (!$filterSkipCategories) {
+            $this->getCategoriesDatabase();
+        }
+
         $this->buildPages();
 
         return $this->output;
@@ -129,7 +141,7 @@ class AdminJsCategoryTree
                 // Add only main pages
                 if ($filterOnlyCategories) {
                     $foundedCategories = $this->getCategoryByRelId($page['id']);
-                    if ($filterOnlyCategories && empty($foundedCategories)) {
+                    if (empty($foundedCategories)) {
                         continue;
                     }
                     $this->appendPage($page);
@@ -144,6 +156,10 @@ class AdminJsCategoryTree
 
     public function getCategoryByRelId($parentId)
     {
+        if (empty($this->categories)) {
+            return [];
+        }
+
         $foundedCategories = [];
         foreach ($this->categories as $category) {
             if ($category['rel_type'] == 'content' && $category['rel_id'] == $parentId) {
