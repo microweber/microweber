@@ -88,9 +88,13 @@
                                     return item.type === 'page';
                                 });
 
-                                if (selected && selected[0].type == 'page') {
-                                    window.selectedPages = [selected[0].id];
+                                for(var i = 0; i < selected.length; i++){
+                                    if(selected[i].type === 'page') {
+                                        window.selectedPages = [selected[0].id];
+                                    }
                                 }
+
+                                console.log(window.selectedPages);
 
                                 if(typeof hasPage === 'undefined'){
                                     var category = selected[0];
