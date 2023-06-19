@@ -6,6 +6,7 @@ use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
 class ModuleSettingsComponent extends AdminComponent
 {
+    public string $view = 'microweber-live-edit::module-settings';
     public string $moduleId = '';
     public string $moduleType = '';
     public array $settings = [
@@ -33,8 +34,9 @@ class ModuleSettingsComponent extends AdminComponent
         $this->emit('settingsChanged', ['moduleId' => $this->moduleId, 'settings' => $this->settings]);
 
     }
+
     public function render()
     {
-return view('microweber-live-edit::module-settings');
+        return view($this->view);
     }
 }
