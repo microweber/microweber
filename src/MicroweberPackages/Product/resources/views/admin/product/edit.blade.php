@@ -26,7 +26,7 @@
                @endif
            </h3>
 
-           <a href="{{route('admin.product.create')}}" class="btn btn-outline-dark btn-sm tblr-body-color text-decoration-none ms-3">
+           <a href="{{route('admin.product.create')}}" class="btn btn-link font-weight-bold tblr-body-color text-decoration-none ms-3">
                <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"></path></svg>
                {{ "New Product" }}
            </a>
