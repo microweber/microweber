@@ -21,6 +21,16 @@
 
 @endsection
 
+@section('topbar2-links-right')
+
+    <li>
+        <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-dark" form="quickform-edit-content">
+            <i class="mdi mdi-content-save me-1"></i> <?php _e('Save') ?>
+        </button>
+    </li>
+
+@endsection
+
 
 @section('content')
 
