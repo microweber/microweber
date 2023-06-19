@@ -12,7 +12,7 @@
                 </a>
             </div>
 
-            <div style="margin-right: 22px">
+            <div>
                 <h2>Edit Product
                     @if($content_id > 0)
                     / {{ content_title($content_id) }}
