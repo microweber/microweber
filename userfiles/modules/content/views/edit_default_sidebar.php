@@ -90,11 +90,11 @@
 
                                 for(var i = 0; i < selected.length; i++){
                                     if(selected[i].type === 'page') {
-                                        window.selectedPages = [selected[0].id];
+                                        window.selectedPages = [selected[i].id];
                                     }
                                 }
 
-                                console.log(window.selectedPages);
+                                // console.log(window.selectedPages);
 
                                 if(typeof hasPage === 'undefined'){
                                     var category = selected[0];
