@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MicroweberPackages\Modules\GoogleMaps;
+namespace MicroweberPackages\Modules\GoogleMaps\Providers;
 
 
 use Livewire\Livewire;
@@ -22,7 +22,7 @@ class GoogleMapsServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        Livewire::component('microweber-module-google-maps::live-edit', GoogleMapsSettingsComponent::class);
+        Livewire::component('microweber-module-google-maps::settings', GoogleMapsSettingsComponent::class);
 
     }
 

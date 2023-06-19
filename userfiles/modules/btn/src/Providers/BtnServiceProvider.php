@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MicroweberPackages\Modules\Btn;
+namespace MicroweberPackages\Modules\Btn\Providers;
 
 
 use Livewire\Livewire;
@@ -24,7 +24,7 @@ class BtnServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-        Livewire::component('microweber-module-btn::live-edit', ButtonSettingsComponent::class);
+        Livewire::component('microweber-module-btn::settings', ButtonSettingsComponent::class);
         Livewire::component('microweber-module-btn::template-settings-bootstrap', ButtonSettingsBootstrapTemplateComponent::class);
         Livewire::component('microweber-module-btn::template-settings-default', ButtonSettingsDefaultTemplateComponent::class);
 
