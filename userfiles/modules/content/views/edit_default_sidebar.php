@@ -29,9 +29,21 @@
 
 <script>
 
+    <?php
+        $categoryTreeEndPoint = api_url('content/get_admin_js_tree_json');
+        if (isset($data['content_type'])) {
+            if ($data['content_type'] == 'product') {
+                $categoryTreeEndPoint .= '?is_shop=1';
+            }
+            if ($data['content_type'] == 'post') {
+                $categoryTreeEndPoint .= '?is_blog=1';
+            }
+        }
+    ?>
+
     var loadCategoriesTree = function () {
         var request = new XMLHttpRequest();
-        request.open('GET', '<?php print api_url('content/get_admin_js_tree_json'); ?>', true);
+        request.open('GET', '<?php print $categoryTreeEndPoint; ?>', true);
         request.send();
         request.onload = function() {
             if (request.status >= 200 && request.status < 400) {
@@ -204,18 +216,28 @@
                                            var manage_cats_for_add_post_opts = {};
                                            var additional_params = {};
                                            additional_params.show_add_post_to_category_button = 'true';
+
+                                           <?php if (isset($data['content_type']) && $data['content_type'] == 'product'): ?>
+                                           additional_params.is_shop = 1;
+                                           <?php endif; ?>
+
+                                           <?php if (isset($data['content_type']) && $data['content_type'] == 'post'): ?>
+                                           additional_params.is_blog = 1;
+                                           <?php endif; ?>
+
                                            manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
                                        }
                                    </script>
-                                   <a 
-                                    onclick="manage_cats_for_add_post();void(0);return false;" 
-                                    href="<?php  echo admin_url(); ?>category" 
+
+                                   <a
+                                    onclick="manage_cats_for_add_post();void(0);return false;"
+                                    href="<?php  echo admin_url(); ?>category"
                                     > <?php _e("Manage categories"); ?></a>
                                </div>
-                               
+
                            <?php endif; ?>
-                        
-  
+
+
 
 
                 <div>
@@ -261,7 +283,7 @@
                                                 manage_cats_for_add_post_dialog.remove()
                                             }
 
- 
+
 
                                         }
 
@@ -299,7 +321,7 @@
                         <?php endif; ?>
                     </div>
                 </div>
-                
+
                 <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
 
 

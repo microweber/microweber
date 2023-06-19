@@ -72,4 +72,15 @@ class CategoryRepositoryApi extends BaseRepository
         return $this->model->whereIn('id', $ids)->update(['is_hidden' => 0]);
     }
 
+      public function moveBulk($ids, $moveToParentIds, $moveToRelId)
+    {
+
+        if (!empty($ids) && !empty($moveToRelId)) {
+            $this->model->whereIn('id', $ids)->update(['rel_id' => $moveToRelId]);
+        }
+
+
+    }
+
+
 }

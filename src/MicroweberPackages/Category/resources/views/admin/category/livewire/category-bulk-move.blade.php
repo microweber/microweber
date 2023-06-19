@@ -2,7 +2,7 @@
 
     <div wire:ignore>
         <script>
-            function assign_selected_categories_to_category_exec() {
+            function categoryBulkMoveExec(selectedIds) {
                 mw.tools.confirm("Are you sure you want to move the selected data?", function () {
                     var dialog = mw.dialog.get('#pick-categories');
                     var tree = mw.tree.get('#pick-categories');
@@ -14,28 +14,47 @@
                         if (item.type === 'category') {
                             data.categories.push(item.id);
                         } else if (item.type === 'page') {
-                            data.parent_id = item.id;
+                            data.rel_id = item.id;
                         }
                     });
-                    if (data.categories.length === 0) {
-                        mw.notification.warning('Please select a category');
-                        return;
-                    }
 
+                    $.ajax({
+                        url: route('api.category.move-bulk'),
+                        type: 'POST',
+                        data: {
+                            ids: selectedIds,
+                            moveToParentIds: data.categories,
+                            moveToRelId: data.rel_id
+                        },
+                        success: function (data) {
+                            mw.reload_module('categories/manage');
+                            mw.notification.success('<?php _ejs("Categories are moved."); ?>.');
+                            mw.parent().trigger('pagesTreeRefresh');
+                            dialog.remove();
+                        }
+                    });
 
-                    console.log(data);
-                    dialog.remove();
                 });
             }
 
-            $(document).ready(function() {
-                $.get("<?php print  api_url('content/get_admin_js_tree_json'); ?>?is_blog=1", function (data) {
+            function categoryBulkMoveModal(selectedIds) {
+
+                @php
+                  $jsTreeEndPoint = api_url('content/get_admin_js_tree_json');
+                    if ($isShop) {
+                        $jsTreeEndPoint .= '?is_shop=1';
+                    } else {
+                        $jsTreeEndPoint .= '?is_blog=1';
+                    }
+                @endphp
+
+                $.get("{{$jsTreeEndPoint}}", function (data) {
                     var btn = document.createElement('button');
                     btn.disabled = true;
                     btn.className = 'mw-ui-btn';
                     btn.innerHTML = mw.lang('Move categories');
                     btn.onclick = function (ev) {
-                        assign_selected_categories_to_category_exec();
+                        categoryBulkMoveExec(selectedIds);
                     };
                     var dialog = mw.dialog({
                         height: 'auto',
@@ -50,7 +69,6 @@
                         sortable: false,
                         selectable:true,
                         singleSelect:true,
-
                     });
                     $(tree).on("selectionChange", function () {
                         btn.disabled = tree.getSelected().length === 0;
@@ -72,7 +90,7 @@
                         dialog.center();
                     })
                 });
-            });
+            }
 
         </script>
 

@@ -1654,3 +1654,41 @@ svg.text-danger {
 
 
 }
+
+
+.mw-admin-toggle-tree-navigation{
+    position:absolute;
+    left: 100%;
+    margin-left: 9px;
+    top:50%;
+    transform: translateY(-50%);
+    
+    transition: margin-left .4s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 30px;
+    padding-inline: 3px;
+    font-size: 0;
+    cursor: pointer;
+    background-color: #d6d6d645;
+ 
+    border: none;
+    outline: none;
+    svg{
+        width: 16px;
+        transition:  .4s;
+    }
+ 
+ }
+
+ #pages-tree-wrapper.active{
+    .mw-admin-toggle-tree-navigation{
+        svg{
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+
+        }
+    }
+ }

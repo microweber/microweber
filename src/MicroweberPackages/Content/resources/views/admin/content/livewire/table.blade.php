@@ -125,23 +125,26 @@
                     </div>
 
                     <div class="col-md-7 col-12 d-flex justify-content-end align-items-center mw-filters-sorts-mobile">
-                        <div class="">
-                            <button type="button" class="btn btn-outline-dark btn-sm dropdown-toggle ms-2" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ _e('Columns') }}
-                            </button>
-                            <div class="dropdown-menu p-3">
-                                @foreach($showColumns as $column=>$columnShow)
-                                    <div class="dropdown-item">
-                                        <label wire:key="show-column-{{ $loop->index }}"  class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" wire:model="showColumns.{{$column}}">
-                                            <span class="form-check-label">
-                                                {{ _e(ucfirst($column)) }}
-                                            </span>
-                                        </label>
-                                    </div>
-                                @endforeach
+
+                        @if($displayType=='table')
+                            <div>
+                                <button type="button" class="btn btn-outline-dark btn-sm dropdown-toggle ms-2" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ _e('Columns') }}
+                                </button>
+                                <div class="dropdown-menu p-3">
+                                    @foreach($showColumns as $column=>$columnShow)
+                                        <div class="dropdown-item">
+                                            <label wire:key="show-column-{{ $loop->index }}"  class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" wire:model="showColumns.{{$column}}">
+                                                <span class="form-check-label">
+                                                    {{ _e(ucfirst($column)) }}
+                                                </span>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
+                        @endif
 
                         <div class="ms-2" x-data="{ openSortDropdown: false }">
                             <span @click="openSortDropdown =! openSortDropdown">
