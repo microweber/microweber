@@ -1662,7 +1662,7 @@ svg.text-danger {
     margin-left: 9px;
     top:50%;
     transform: translateY(-50%);
-    
+
     transition: margin-left .4s;
     display: flex;
     align-items: center;
@@ -1673,14 +1673,14 @@ svg.text-danger {
     font-size: 0;
     cursor: pointer;
     background-color: #d6d6d645;
- 
+
     border: none;
     outline: none;
     svg{
         width: 16px;
         transition:  .4s;
     }
- 
+
  }
 
  #pages-tree-wrapper.active{
@@ -1691,4 +1691,8 @@ svg.text-danger {
 
         }
     }
+ }
+
+ .card {
+     min-height: 110px;
  }
