@@ -159,7 +159,7 @@ class AdminJsCategoryTree
         if (empty($this->categories)) {
             return [];
         }
-        
+
         $foundedCategories = [];
         foreach ($this->categories as $category) {
             if ($category['rel_type'] == 'content' && $category['rel_id'] == $parentId) {

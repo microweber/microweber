@@ -83,9 +83,14 @@
 
                             var selected = categorySelector.tree.getSelected();
                             if(selected.length){
+
                                 var hasPage = selected.find(function (item){
                                     return item.type === 'page';
                                 });
+
+                                if (selected && selected[0].type == 'page') {
+                                    window.selectedPages = [selected[0].id];
+                                }
 
                                 if(typeof hasPage === 'undefined'){
                                     var category = selected[0];
