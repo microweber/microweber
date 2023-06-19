@@ -7,7 +7,7 @@
        'is_shop'=>1,
    ])
 
-    <div class="module-content w-75 pe-3 mx-auto">
+    <div class="module-content col-lg-11 col-12 mx-auto">
 
         <livewire:admin-products-list />
         <livewire:admin-content-bulk-options />
