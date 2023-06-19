@@ -245,7 +245,7 @@
             position: absolute;
             left: 0;
             top: 0;
-      
+
             transition: .3s;
             &:before{
                 content: "\F0142";
@@ -523,6 +523,8 @@ html[dir="rtl"]{
             .mw-ui-check{
                 margin-inline: -55px 25px;
             }
+
+            cursor: auto;
 
             svg {
                 margin-right: 10px;
