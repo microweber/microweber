@@ -10,7 +10,7 @@
 
             <div class="row mt-lg-7">
                 <div class="col-12 d-flex flex-wrap justify-content-center align-items-center text-center">
-                    <div class="col-lg-6 col-12 mt-lg-0 mt-4 order-lg-1 order-2">
+                    <div class="col-lg-6 col-12 mt-xxl-0 mt-4 order-lg-1 order-2">
                         @if (isset($inPage) and $inPage)
                             @if($contentType == 'content')
                                 <h2 class="mb-2"><?php _e('You don’t have any content in this page'); ?></h2>
