@@ -226,6 +226,8 @@
                                            additional_params.is_blog = 1;
                                            <?php endif; ?>
 
+                                           additional_params.parent = <?php print $data['parent']; ?>;
+
                                            manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/edit_category', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
                                        }
                                    </script>

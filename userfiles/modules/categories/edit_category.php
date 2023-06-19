@@ -48,6 +48,9 @@ if ($creteCategoryIn == 'shop') {
         $data['rel_id'] = $shop['id'];
     }
 }
+if (isset($_GET['parent'])) {
+    $data['rel_id'] = $_GET['parent'];
+}
 ?>
 <style>
 
