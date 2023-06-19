@@ -9,15 +9,21 @@
 
         <?php
 
-
-
-        $moduleTypeForComponent = str_replace('/', '-', $moduleType);
+        $moduleTypeForComponent = str_replace('/admin', '', $moduleType);
+        $moduleTypeForComponent = str_replace('/', '-', $moduleTypeForComponent);
         $moduleTypeForLegacyModule = module_name_decode($moduleType);
        // $moduleTypeForLegacyModule = $moduleTypeForLegacyModule.'/admin';
 
         $moduleTypeForComponent = str_replace('_', '-', $moduleTypeForComponent);
         $hasError = false;
         $output = false;
+
+        $livewireComponentName = 'microweber-module-'.$moduleTypeForComponent.'::settings';
+
+
+
+
+
 
 //        try {
 //            $output = \Livewire\Livewire::mount('microweber-live-edit::' . $moduleTypeForComponent, [
@@ -45,11 +51,10 @@
 //            print $output;
 //        }
 
-
         ?>
 
-        @if(livewire_component_exists('microweber-module-'.$moduleTypeForComponent.'::live-edit'))
-                @livewire('microweber-module-'.$moduleTypeForComponent.'::live-edit', [
+        @if(livewire_component_exists('microweber-module-'.$moduleTypeForComponent.'::settings'))
+                @livewire('microweber-module-'.$moduleTypeForComponent.'::settings', [
                     'moduleId' => $moduleId,
                     'moduleType' => $moduleType,
                 ])
@@ -59,31 +64,31 @@
             @if(is_module($moduleTypeForLegacyModule))
 
 
-<script>
-    // saving module settings for legacy modules
-    var settingsAction = function () {
-        var settings_container_mod_el = $('#settings-container');
-        mw.options.form(settings_container_mod_el, function () {
-            if (mw.notification) {
-                mw.notification.success('<?php _ejs('Settings are saved') ?>');
-            }
-             <?php if (isset($params['id'])) : ?>
+            <script>
+                // saving module settings for legacy modules
+                var settingsAction = function () {
+                    var settings_container_mod_el = $('#settings-container');
+                    mw.options.form(settings_container_mod_el, function () {
+                        if (mw.notification) {
+                            mw.notification.success('<?php _ejs('Settings are saved') ?>');
+                        }
+                         <?php if (isset($params['id'])) : ?>
 
-                if (typeof mw !== 'undefined' && mw.top().app && mw.top().app.editor) {
-                    mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '<?php print $params['id']  ?>'} || {}))
-                }
+                            if (typeof mw !== 'undefined' && mw.top().app && mw.top().app.editor) {
+                                mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '<?php print $params['id']  ?>'} || {}))
+                            }
 
-            <?php endif; ?>
+                        <?php endif; ?>
 
-        });
+                    });
 
-        createAutoHeight()
-    };
-    $(document).ready(function () {
-        settingsAction();
-    });
+                    createAutoHeight()
+                };
+                $(document).ready(function () {
+                    settingsAction();
+                });
 
-</script>
+            </script>
 
 
             <div>

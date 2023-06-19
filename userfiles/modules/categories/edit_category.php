@@ -39,6 +39,9 @@ $creteCategoryIn = 'blog';
 if (route_is('admin.shop.category.create')) {
     $creteCategoryIn = 'shop';
 }
+if (isset($_GET['is_shop']) && $_GET['is_shop'] == '1') {
+    $creteCategoryIn = 'shop';
+}
 if ($creteCategoryIn == 'shop') {
     $shop = get_content('one=1&subtype=dynamic&is_shop=1');
     if ($shop) {
@@ -356,7 +359,7 @@ if ($creteCategoryIn == 'shop') {
 
                             <?php
 
-                            if (isset($params['is_shop'])) {
+                            if ($creteCategoryIn == 'shop') {
                                 $add_sub_cateory_link = route('admin.shop.category.create') . '?addsubcategory=' . $data['id'];
                             } else {
                                 $add_sub_cateory_link = route('admin.category.create') . '?addsubcategory=' . $data['id'];
@@ -521,7 +524,7 @@ if ($creteCategoryIn == 'shop') {
                                         $.get("<?php
 
                                             $apiJsTree = api_url('content/get_admin_js_tree_json');
-                                            if (isset($params['is_shop']) && $params['is_shop'] == 1) {
+                                            if ($creteCategoryIn == 'shop') {
                                                 $apiJsTree .= '?is_shop=1';
                                             } else {
                                                 $apiJsTree .= '?is_blog=1';

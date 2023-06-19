@@ -213,6 +213,7 @@
                                    <strong><?php _e('Categories'); ?></strong>
                                    <script>
                                        function manage_cats_for_add_post() {
+
                                            var manage_cats_for_add_post_opts = {};
                                            var additional_params = {};
                                            additional_params.show_add_post_to_category_button = 'true';
@@ -225,14 +226,14 @@
                                            additional_params.is_blog = 1;
                                            <?php endif; ?>
 
-                                           manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
+                                           manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/edit_category', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
                                        }
                                    </script>
 
                                    <a
                                     onclick="manage_cats_for_add_post();void(0);return false;"
                                     href="<?php  echo admin_url(); ?>category"
-                                    > <?php _e("Manage categories"); ?></a>
+                                    > <?php _e("Add category"); ?></a>
                                </div>
 
                            <?php endif; ?>

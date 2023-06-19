@@ -8,7 +8,7 @@ $config['ui'] = true;
 $config['ui_admin'] = false;
 $config['is_system'] = true;
 $config['position'] = 7;
-$config['version'] = "1.0";
+$config['version'] = "1.1";
 $config['categories'] = "essentials";
 $config['settings'] = [];
 $config['settings']['translatable_options'] = [
@@ -29,7 +29,7 @@ $config['settings']['autoload_namespace'] = [
 ];
 
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Modules\Btn\BtnServiceProvider::class
+    \MicroweberPackages\Modules\Btn\Providers\BtnServiceProvider::class
 ];
 
 
