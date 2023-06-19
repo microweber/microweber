@@ -33,7 +33,7 @@
     <div class="module-content col-xxl-10 col-lg-11 col-12 mx-auto">
         <div class="row">
             <div class="col-md-12">
-                <div class="d-flex justify-content-between aling-items-center">
+                <div class="d-flex justify-content-between align-items-center mb-3">
                     @php
                         $isShopAttribute = 0;
                         if (isset($isShop)) {
@@ -51,15 +51,17 @@
                     <div>
                         @if($isShopAttribute == 1)
                         <a href="<?php echo route('admin.shop.category.create')."?parent=shop"; ?>"
-                           class="btn btn-outline-primary"
+                           class="btn btn-dark"
                         >
-                            Create new category
+                            <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"></path></svg>
+                            {{"New category"}}
                         </a>
                         @else
                         <a href="<?php echo route('admin.category.create')."?parent=blog"; ?>"
-                           class="btn btn-outline-primary"
+                           class="btn btn-dark"
                         >
-                            Create new category
+                            <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"></path></svg>
+                            {{"New category"}}
                         </a>
                         @endif
                     </div>
