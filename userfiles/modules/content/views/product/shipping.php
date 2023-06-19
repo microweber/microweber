@@ -1,66 +1,23 @@
-<style>
-    .js-physical-product {
-        display: none;
-    }
-</style>
-
-<script>
-    $(document).ready(function () {
-
-        $('.js-physical-product-check').click(function () {
-            mw.toggle_physical_product_fields();
-        });
-
-        <?php if ($contentData['physical_product']!=0):?>
-        mw.toggle_physical_product_fields();
-        enablePhysicalProductFields();
-        <?php else: ?>
-        disablePhysicalProductFields();
-        <?php endif; ?>
-
-    });
-
-    mw.toggle_physical_product_fields = function () {
-        $('.js-physical-product').toggle();
-
-        if ($('.js-physical-product-check').prop('checked')) {
-            enablePhysicalProductFields();
-        } else {
-            disablePhysicalProductFields();
-        }
-    }
-
-    function disablePhysicalProductFields() {
-        $("input,select",'.js-physical-product').prop("disabled", true);
-        $("input,select",'.js-physical-product').attr("readonly", 'readonly');
-    }
-
-    function enablePhysicalProductFields() {
-        $("input,select",'.js-physical-product').prop("disabled", false);
-        $("input,select",'.js-physical-product').removeAttr("readonly");
-    }
-</script>
-
-<div class="card-body mb-3">
+<div class="card-body mb-3" x-data="{ physicalProduct: <?php if ($contentData['physical_product'] == 1):?> true <?php else: ?> false <?php endif;?>  }">
     <div class="card-header no-border">
         <label class="form-label"><?php _e("Shipping"); ?></label>
     </div>
 
-    <div class=" ">
+    <div>
+
         <div class="row py-0 ">
             <div class="col-md-12 ps-md-0">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="form-check-input js-physical-product-check" id="customCheck4" name="content_data[physical_product]" value="1" <?php if ($contentData['physical_product']==1):?>checked="checked"<?php endif; ?>>
+                        <input x-model="physicalProduct" type="checkbox" class="form-check-input" id="customCheck4"
+                               name="content_data[physical_product]" value="1">
                         <label class="custom-control-label" for="customCheck4"><?php _e("This is a physical product"); ?></label>
                     </div>
                 </div>
             </div>
         </div>
 
-
-        <div class="js-physical-product">
-
+        <div x-show="physicalProduct">
             <div class="row py-0">
                 <div class="col-md-6 ps-md-0">
                     <div class="form-group">
@@ -155,10 +112,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!--   <span class="help-box">
-                       Customers won’t enter their shipping address or choose a shipping method when buying this product.
-                   </span>-->
 
             </div>
         </div>

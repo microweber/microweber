@@ -323,7 +323,15 @@ if (isset($params['quick_edit'])) {
         }
         ?>
 
-
+        <script>
+            addEventListener('load', function () {
+                $('.js-collapse-inner-page-menu').collapseNav({
+                    responsive: 1,
+                    more_text: 'More Button',
+                    mobile_break: 800,
+                });
+            })
+        </script>
 
         <div class="row" x-data="{showEditTab: 'details'}">
             <div class="col-md-8 manage-content-body px-5">
@@ -333,35 +341,31 @@ if (isset($params['quick_edit'])) {
                 <?php endif; ?>
 
                 <div class="d-flex js-collapse-inner-page-menu justify-content-between align-items-center mb-4">
-                    <ul class="d-flex space-x-4">
-                        <li>
-                            <a href="#" x-on:click="showEditTab = 'details'" :class="{ 'active': showEditTab == 'details' }" class="btn btn-link text-decoration-none mw-admin-action-links">
-                                <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M144-168v-412q-23-7-35.5-26T96-648v-144q0-29.7 21.15-50.85Q138.3-864 168-864h624q29.7 0 50.85 21.15Q864-821.7 864-792v144q0 23-12.5 42T816-580v411.926Q816-138 794.85-117 773.7-96 744-96H216q-29.7 0-50.85-21.15Q144-138.3 144-168Zm72-408v408h528v-408H216Zm576-72v-144H168v144h624ZM384-408h192v-72H384v72ZM216-168v-408 408Z"/></svg>
-                                <?php echo $type; ?> <?php echo _e('Details'); ?>
-                            </a>
-                        </li>
-                       <li>
-                           <a href="#" x-on:click="showEditTab = 'customFields'" :class="{ 'active': showEditTab == 'customFields' }"  class="btn btn-link text-decoration-none mw-admin-action-links">
-                               <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M432-432h264v-264H432v264ZM216-144q-29.7 0-50.85-21.15Q144-186.3 144-216v-528q0-29.7 21.15-50.85Q186.3-816 216-816h528q29.7 0 50.85 21.15Q816-773.7 816-744v528q0 29.7-21.15 50.85Q773.7-144 744-144H216Zm0-72h528v-528H216v528Zm0-528v528-528Z"/></svg>
-                               <?php echo _e('Custom Fields'); ?>
-                           </a>
-                       </li>
-                        <li>
-                            <a href="#" x-on:click="showEditTab = 'seo'" :class="{ 'active': showEditTab == 'seo' }"  class="btn btn-link text-decoration-none mw-admin-action-links">
-                                <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m107-246-59-42 192-312 120 144 168-264 120 168q-21 0-40.5 3T569-539l-38-52-163 257-119-143-142 231ZM861-48 738-171q-20 13-42.5 20t-47.5 7q-70 0-119-49t-49-119q0-70 49-119t119-49q70 0 119 49t49 119q0 25-7 47.5T789-222L912-99l-51 51ZM648-216q40 0 68-28t28-68q0-40-28-68t-68-28q-40 0-68 28t-28 68q0 40 28 68t68 28Zm78-323q-18-7-38-10t-40-3l205-312 59 42-186 283Z"/></svg>
-                                <?php echo _e('SEO'); ?>
+                    <div class="d-flex space-x-4">
+                        <a href="#" x-on:click="showEditTab = 'details'" :class="{ 'active': showEditTab == 'details' }" class="btn btn-link text-decoration-none mw-admin-action-links">
+                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M144-168v-412q-23-7-35.5-26T96-648v-144q0-29.7 21.15-50.85Q138.3-864 168-864h624q29.7 0 50.85 21.15Q864-821.7 864-792v144q0 23-12.5 42T816-580v411.926Q816-138 794.85-117 773.7-96 744-96H216q-29.7 0-50.85-21.15Q144-138.3 144-168Zm72-408v408h528v-408H216Zm576-72v-144H168v144h624ZM384-408h192v-72H384v72ZM216-168v-408 408Z"/></svg>
+                            <?php echo $type; ?> <?php echo _e('Details'); ?>
+                        </a>
 
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" x-on:click="showEditTab = 'advanced'" :class="{ 'active': showEditTab == 'advanced' }" class="btn btn-link text-decoration-none link mw-admin-action-links">
-                                <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m737-594-44.943-98.057L594-737l98.057-44.943L737-880l44.943 98.057L880-737l-98.057 44.943L737-594Zm80 284-33.28-70.72L713-414l70.72-33.28L817-518l33.28 70.72L921-414l-70.72 33.28L817-310ZM302-80l-12-95q-6-3-13.125-7T265-190l-88 38L73-330l76-57v-28l-76-57 104-178 88 38q5-5 12-9t13-6l12.226-95H506l12 95q6.957 2.308 13.478 6.154Q538-617 543-612l88-38 104 178-76 57v28l76 57-104 178-88-38q-5 4.333-12.5 8.667Q523-177 518-175l-12.226 95H302Zm102.118-199Q455-279 490.5-314.618q35.5-35.617 35.5-86.5Q526-452 490.382-487.5q-35.617-35.5-86.5-35.5Q353-523 317.5-487.382q-35.5 35.617-35.5 86.5Q282-350 317.618-314.5q35.617 35.5 86.5 35.5Zm-.013-84Q388-363 377-373.895q-11-10.894-11-27Q366-417 376.895-428q10.894-11 27-11Q420-439 431-428.105q11 10.894 11 27Q442-385 431.105-374q-10.894 11-27 11ZM374-164h60l9-71q28-7 48.164-19.5T531-288l65 29 27-48-57-44q8-22 8-49.5t-8-49.5l57-44-27-48-65 28q-20-20-39.914-32.5Q471.171-559 443-567l-9-71h-60l-9 71q-28.171 8-48.086 20.5Q297-534 277-514l-65-28-27 48 57 44q-8 22-8 49.5t8 49.5l-57 44 27 48 65.233-29Q297-267 317-254.5q20 12.5 48 19.5l9 71Zm30-237Z"/></svg>
-                                <?php echo _e('Advanced'); ?>
-                            </a>
-                        </li>
-                    </ul>
+                       <a href="#" x-on:click="showEditTab = 'customFields'" :class="{ 'active': showEditTab == 'customFields' }"  class="btn btn-link text-decoration-none mw-admin-action-links">
+                           <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M432-432h264v-264H432v264ZM216-144q-29.7 0-50.85-21.15Q144-186.3 144-216v-528q0-29.7 21.15-50.85Q186.3-816 216-816h528q29.7 0 50.85 21.15Q816-773.7 816-744v528q0 29.7-21.15 50.85Q773.7-144 744-144H216Zm0-72h528v-528H216v528Zm0-528v528-528Z"/></svg>
+                           <?php echo _e('Custom Fields'); ?>
+                       </a>
 
-                    <div id="content-title-field-buttons" class="mw-page-component-disabled">
+                        <a href="#" x-on:click="showEditTab = 'seo'" :class="{ 'active': showEditTab == 'seo' }"  class="btn btn-link text-decoration-none mw-admin-action-links">
+                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m107-246-59-42 192-312 120 144 168-264 120 168q-21 0-40.5 3T569-539l-38-52-163 257-119-143-142 231ZM861-48 738-171q-20 13-42.5 20t-47.5 7q-70 0-119-49t-49-119q0-70 49-119t119-49q70 0 119 49t49 119q0 25-7 47.5T789-222L912-99l-51 51ZM648-216q40 0 68-28t28-68q0-40-28-68t-68-28q-40 0-68 28t-28 68q0 40 28 68t68 28Zm78-323q-18-7-38-10t-40-3l205-312 59 42-186 283Z"/></svg>
+                            <?php echo _e('SEO'); ?>
+
+                        </a>
+
+                        <a href="#" x-on:click="showEditTab = 'advanced'" :class="{ 'active': showEditTab == 'advanced' }" class="btn btn-link text-decoration-none link mw-admin-action-links">
+                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m367-80-15-126q-10-6-22-13t-22-13l-117 49L78-378l100-76v-52L78-582l113-195 117 49q10-6 22-13t22-13l15-126h226l15 126q10 6 22 13t22 13l117-49 113 195-99 76v52l99 76-113 195-117-49q-10 6-22 13t-22 13L593-80H367Zm113-257q59 0 101-42t42-101q0-59-42-101t-101-42q-59 0-101 42t-42 101q0 59 42 101t101 42Zm0-84q-24 0-41.5-17.5T421-480q0-24 17.5-41.5T480-539q24 0 41.5 17.5T539-480q0 24-17.5 41.5T480-421Zm1-59Zm-41 316h80l12-104q29-8 56-24t49-38l97 41 40-66-85-65q5-14 7-29t2-31q0-14-2-28.5t-6-30.5l85-66-40-66-97 42q-23-23-49.5-38.5T533-691l-13-105h-80l-13 105q-29 8-55.5 23.5T323-630l-97-41-40 66 84 65q-4 16-6 31t-2 29q0 14 2 28.5t6 30.5l-84 66 40 66 97-41q22 22 48.5 37.5T427-269l13 105Z"/></svg>
+                            <?php echo _e('Advanced'); ?>
+                        </a>
+
+                    </div>
+
+<!--                    <div id="content-title-field-buttons" class="mw-page-component-disabled">
                         <button id="js-admin-save-content-main-btn" type="submit" class="btn btn-outline-dark mw-admin-bold-outline-dark btn-save js-bottom-save ms-atuo" form="quickform-edit-content"><span>
                                 <svg fill="currentColor" class="mw-admin-save-btn-svg me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M840-683v503q0 24-18 42t-42 18H180q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h503l157 157Zm-60 27L656-780H180v600h600v-476ZM479.765-245Q523-245 553.5-275.265q30.5-30.264 30.5-73.5Q584-392 553.735-422.5q-30.264-30.5-73.5-30.5Q437-453 406.5-422.735q-30.5 30.264-30.5 73.5Q376-306 406.265-275.5q30.264 30.5 73.5 30.5ZM233-584h358v-143H233v143Zm-53-72v476-600 124Z"/></svg>
 
@@ -369,7 +373,13 @@ if (isset($params['quick_edit'])) {
 
                                 <?php _e('Save'); ?></span>
                         </button>
-                    </div>
+                    </div>-->
+
+                    <a href="<?php echo route('admin.product.create') ?>" class="btn btn-link font-weight-bold tblr-body-color mw-admin-action-links text-decoration-none ms-3">
+                        <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"></path></svg>
+                       <?php _e("New Product") ?>
+                    </a>
+
                 </div>
 
                 <?php
