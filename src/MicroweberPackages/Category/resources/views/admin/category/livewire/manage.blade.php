@@ -9,7 +9,7 @@ if ($isShop){
 
 <div>
 
-<div class="col-lg-11 col-12 mx-auto mw-module-category-manager admin-side-content">
+<div class="col-xxl-10 col-lg-11 col-12 mx-auto mw-module-category-manager admin-side-content">
     <div class="card-body mb-3">
         <div class="card-header d-flex flex-wrap align-items-center justify-content-between mb-5">
             <div class="d-flex align-items-center">

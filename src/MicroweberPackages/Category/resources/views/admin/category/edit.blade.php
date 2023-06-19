@@ -29,7 +29,7 @@
         mw.require('content.js', true);
     </script>
 
-    <div class="module-content col-lg-11 col-12 mx-auto">
+    <div class="module-content col-xxl-10 col-lg-11 col-12 mx-auto">
         <div class="row">
             <div class="col-md-12">
                 @php
