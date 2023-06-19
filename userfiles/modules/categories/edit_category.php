@@ -314,14 +314,7 @@ if (isset($_GET['parent'])) {
 
             <div class="card-header mb-3 d-flex justify-content-between align-items-center">
                 <label class="form-label"><?php print  $headerText ?></label>
-                <div>
-                    <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-dark" form="quickform-edit-content"><i class="mdi mdi-content-save me-1"></i> <?php _e('Save') ?></button>
-                </div>
-            </div>
-        <?php endif; ?>
 
-        <div class="<?php if (!isset($params['no-toolbar'])): ?> <?php endif; ?>">
-            <div class="card-body">
                 <div class="create-root mb-3 text-end mx-4">
                     <div id="content-title-field-buttons">
                         <?php if (intval($data['id']) != 0): ?>
@@ -373,16 +366,23 @@ if (isset($_GET['parent'])) {
                             }
                             ?>
 
-                            <a href="<?php print category_link($data['id']) ?>" target="_blank" class="btn btn-sm btn-outline-primary me-2  "><?php _e("View category"); ?></a>
+                            <a href="<?php print category_link($data['id']) ?>" target="_blank" class="btn btn-sm btn-outline-dark me-2  "><?php _e("View category"); ?></a>
 
 
-                            <a href="<?php print $add_sub_cateory_link ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
+                            <a href="<?php print $add_sub_cateory_link ?>" class="btn btn-sm btn-outline-dark"><?php _e("Add subcategory"); ?></a> &nbsp;
 
 
                         <?php endif; ?>
                     </div>
                 </div>
+                <div>
+                    <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-dark" form="quickform-edit-content"><i class="mdi mdi-content-save me-1"></i> <?php _e('Save') ?></button>
+                </div>
+            </div>
+        <?php endif; ?>
 
+        <div class="<?php if (!isset($params['no-toolbar'])): ?> <?php endif; ?>">
+            <div class="card-body">
 
                 <div class="row p-0">
                     <div class="col-lg-12">
