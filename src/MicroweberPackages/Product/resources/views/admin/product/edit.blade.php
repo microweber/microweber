@@ -4,7 +4,7 @@
 @section('topbar2-links-left')
 
     <div class="mw-toolbar-back-button-wrapper">
-        <div class="main-toolbar mw-modules-toolbar-back-button-holder mb-3 d-flex" id="mw-modules-toolbar" style="">
+        <div class="main-toolbar mw-modules-toolbar-back-button-holder mb-3 d-flex align-items-center" id="mw-modules-toolbar" style="">
 
             <div>
                 <a href="{{route('admin.product.index')}}">
@@ -13,7 +13,11 @@
             </div>
 
             <div style="margin-right: 22px">
-                <h1>Edit Product / {{ content_title($content_id) }}</h1>
+                <h2>Edit Product
+                    @if($content_id > 0)
+                    / {{ content_title($content_id) }}
+                    @endif
+                </h2>
             </div>
 
             <div>
