@@ -5,7 +5,7 @@ namespace MicroweberPackages\LiveEdit\Http\Livewire;
 class ModuleSettingsFormComponent extends ModuleSettingsComponent
 {
     public string $view = 'microweber-live-edit::module-settings-form';
-
+    public $moduleTitle = 'Module Settings';
     public array $settingsForm = [
 //        'data-address' => [
 //            'type' => 'text',
