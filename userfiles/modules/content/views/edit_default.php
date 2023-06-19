@@ -323,15 +323,7 @@ if (isset($params['quick_edit'])) {
         }
         ?>
 
-        <script>
-            addEventListener('load', function () {
-                $('.js-collapse-inner-page-menu').collapseNav({
-                    responsive: 1,
-                    more_text: 'More Button',
-                    mobile_break: 800,
-                });
-            })
-        </script>
+
 
         <div class="row" x-data="{showEditTab: 'details'}">
             <div class="col-md-8 manage-content-body px-5">
