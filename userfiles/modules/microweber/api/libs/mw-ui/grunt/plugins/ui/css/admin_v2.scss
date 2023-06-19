@@ -441,6 +441,7 @@ p {
 .card {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border: none;
+    min-height: 110px;
 }
 .form-label, .dropdown-item-indicator {
     color: var(--tblr-body-color);
@@ -1693,6 +1694,9 @@ svg.text-danger {
     }
  }
 
- .card {
-     min-height: 110px;
+ .manage-post-item-col-2 {
+     svg {
+         display: flex;
+         margin: 0 auto;
+     }
  }
