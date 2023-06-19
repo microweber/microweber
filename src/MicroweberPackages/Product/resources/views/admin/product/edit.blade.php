@@ -4,10 +4,23 @@
 @section('topbar2-links-left')
 
     <div class="mw-toolbar-back-button-wrapper">
-        <div class="main-toolbar mw-modules-toolbar-back-button-holder mb-3 " id="mw-modules-toolbar" style="">
-            <a href="{{route('admin.product.index')}}">
-                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="28" viewBox="0 96 960 960" width="28"><path d="M480 896 160 576l320-320 47 46.666-240.001 240.001H800v66.666H286.999L527 849.334 480 896Z"></path></svg>
-            </a>
+        <div class="main-toolbar mw-modules-toolbar-back-button-holder mb-3 d-flex" id="mw-modules-toolbar" style="">
+
+            <div>
+                <a href="{{route('admin.product.index')}}">
+                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="28" viewBox="0 96 960 960" width="28"><path d="M480 896 160 576l320-320 47 46.666-240.001 240.001H800v66.666H286.999L527 849.334 480 896Z"></path></svg>
+                </a>
+            </div>
+
+            <div style="margin-right: 22px">
+                <h1>Edit Product / {{ content_title($content_id) }}</h1>
+            </div>
+
+            <div>
+                <a href="{{route('admin.product.create')}}" class="btn btn-light w-full">
+                    Add new Product
+                </a>
+            </div>
         </div>
     </div>
 
