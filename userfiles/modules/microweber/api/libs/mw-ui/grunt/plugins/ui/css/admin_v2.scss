@@ -441,6 +441,7 @@ p {
 .card {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border: none;
+    min-height: 110px;
 }
 .form-label, .dropdown-item-indicator {
     color: var(--tblr-body-color);
@@ -971,6 +972,7 @@ small.text-muted {
 .shipping-module-draggable-item, .card-product-holder, .mw-tree-item-content {
     .cursor-move-holder, .mdi-cursor-move {
         opacity: .5;
+        cursor: grab;
     }
 
     &:hover {
@@ -1662,7 +1664,7 @@ svg.text-danger {
     margin-left: 9px;
     top:50%;
     transform: translateY(-50%);
-    
+
     transition: margin-left .4s;
     display: flex;
     align-items: center;
@@ -1673,14 +1675,14 @@ svg.text-danger {
     font-size: 0;
     cursor: pointer;
     background-color: #d6d6d645;
- 
+
     border: none;
     outline: none;
     svg{
         width: 16px;
         transition:  .4s;
     }
- 
+
  }
 
  #pages-tree-wrapper.active{
@@ -1691,4 +1693,11 @@ svg.text-danger {
 
         }
     }
+ }
+
+ .manage-post-item-col-2 {
+     svg {
+         display: flex;
+         margin: 0 auto;
+     }
  }
