@@ -42,7 +42,7 @@ if (isset($data['content_type']) and ($data['content_type'] == 'page') and $data
                 $data['is_shop'] = 1;
             }
         }
-       
+
     }
 }
 ?>
@@ -333,15 +333,19 @@ if (isset($params['quick_edit'])) {
                 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
                     <div class="d-flex space-x-4">
                         <a href="#" x-on:click="showEditTab = 'details'" :class="{ 'active': showEditTab == 'details' }" class="btn btn-link text-decoration-none mw-admin-action-links">
-                             <?php echo $type; ?> <?php echo _e('Details'); ?>
+                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="18px" viewBox="0 0 24 24" width="18px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>
+                            <?php echo $type; ?> <?php echo _e('Details'); ?>
                         </a>
                         <a href="#" x-on:click="showEditTab = 'customFields'" :class="{ 'active': showEditTab == 'customFields' }"  class="btn btn-link text-decoration-none mw-admin-action-links">
+                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="18px" viewBox="0 0 24 24" width="18px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>
                             <?php echo _e('Custom Fields'); ?>
                         </a>
                         <a href="#" x-on:click="showEditTab = 'seo'" :class="{ 'active': showEditTab == 'seo' }"  class="btn btn-link text-decoration-none mw-admin-action-links">
-                           <?php echo _e('SEO'); ?>
+                           <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="18px" viewBox="0 0 24 24" width="18px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>
+                            <?php echo _e('SEO'); ?>
                         </a>
                         <a href="#" x-on:click="showEditTab = 'advanced'" :class="{ 'active': showEditTab == 'advanced' }" class="btn btn-link text-decoration-none link mw-admin-action-links">
+                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="18px" viewBox="0 0 24 24" width="18px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>
                             <?php echo _e('Advanced'); ?>
                         </a>
                     </div>
