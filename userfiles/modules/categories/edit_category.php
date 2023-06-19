@@ -312,8 +312,8 @@ if (isset($_GET['parent'])) {
 
             ?>
 
-            <div class="card-header my-3 d-flex justify-content-between align-items-center">
-                <label class="form-label"><?php print  $headerText ?></label>
+            <div class="card-header d-flex justify-content-between align-items-center">
+<!--                <label class="form-label">--><?php //print  $headerText ?><!--</label>-->
 
                 <div class="create-root text-end">
                     <div id="content-title-field-buttons">
@@ -358,7 +358,7 @@ if (isset($_GET['parent'])) {
         <?php endif; ?>
 
         <div class="<?php if (!isset($params['no-toolbar'])): ?> <?php endif; ?>">
-            <div class="card-body">
+            <div class="card-body py-0">
 
                 <div class="row p-0">
                     <div class="col-lg-12">
@@ -379,7 +379,7 @@ if (isset($_GET['parent'])) {
                             $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
                             ?>
 
-                            <div class="row">
+                            <div class="row p-0">
                                 <div class="col-12">
                                     <div class="form-group" id="content-title-field-row">
 

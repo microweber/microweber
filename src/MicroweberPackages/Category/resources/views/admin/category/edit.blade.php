@@ -66,27 +66,26 @@
                             }
                         @endphp
 
-                        <div>
-                            <a class="tblr-body-color" href="<?php print category_link($id) ?>" target="_blank"  data-bs-toggle="tooltip" aria-label="View Category" data-bs-original-title="View Category">
-                                <svg class="me-2 " fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M480.078 729.333q72.255 0 122.755-50.578 50.5-50.579 50.5-122.833 0-72.255-50.578-122.755-50.579-50.5-122.833-50.5-72.255 0-122.755 50.578-50.5 50.579-50.5 122.833 0 72.255 50.578 122.755 50.579 50.5 122.833 50.5Zm-.235-62.666q-46.176 0-78.343-32.324-32.167-32.323-32.167-78.5 0-46.176 32.324-78.343 32.323-32.167 78.5-32.167 46.176 0 78.343 32.324 32.167 32.323 32.167 78.5 0 46.176-32.324 78.343-32.323 32.167-78.5 32.167ZM480 856q-146 0-264.667-82.5Q96.667 691 40 556q56.667-135 175.333-217.5Q334 256 480 256q146 0 264.667 82.5Q863.333 421 920 556q-56.667 135-175.333 217.5Q626 856 480 856Zm0-300Zm-.112 233.334q118.445 0 217.612-63.5Q796.667 662.333 848.667 556q-52-106.333-151.054-169.834-99.055-63.5-217.501-63.5-118.445 0-217.612 63.5Q163.333 449.667 110.666 556q52.667 106.333 151.721 169.834 99.055 63.5 217.501 63.5Z"/></svg>
-                            </a>
-                            <a href="<?php print $addSubCateoryLink ?>" class="btn btn-sm btn-outline-dark"><?php _e("Add subcategory"); ?></a> &nbsp;
-                        </div>
                     @endif
 
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <a class="tblr-body-color text-decoration-none" href="<?php print category_link($id) ?>" target="_blank"  data-bs-toggle="tooltip" aria-label="View Category" data-bs-original-title="View Category">
+                                <svg class="me-2 " fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M480.078 729.333q72.255 0 122.755-50.578 50.5-50.579 50.5-122.833 0-72.255-50.578-122.755-50.579-50.5-122.833-50.5-72.255 0-122.755 50.578-50.5 50.579-50.5 122.833 0 72.255 50.578 122.755 50.579 50.5 122.833 50.5Zm-.235-62.666q-46.176 0-78.343-32.324-32.167-32.323-32.167-78.5 0-46.176 32.324-78.343 32.323-32.167 78.5-32.167 46.176 0 78.343 32.324 32.167 32.323 32.167 78.5 0 46.176-32.324 78.343-32.323 32.167-78.5 32.167ZM480 856q-146 0-264.667-82.5Q96.667 691 40 556q56.667-135 175.333-217.5Q334 256 480 256q146 0 264.667 82.5Q863.333 421 920 556q-56.667 135-175.333 217.5Q626 856 480 856Zm0-300Zm-.112 233.334q118.445 0 217.612-63.5Q796.667 662.333 848.667 556q-52-106.333-151.054-169.834-99.055-63.5-217.501-63.5-118.445 0-217.612 63.5Q163.333 449.667 110.666 556q52.667 106.333 151.721 169.834 99.055 63.5 217.501 63.5Z"/></svg>
+                            </a>
+                            <a href="<?php print $addSubCateoryLink ?>" class="btn btn-outline-dark"><?php _e("Add subcategory"); ?></a> &nbsp;
+                        </div>
 
-
-                    <div>
                         @if($isShopAttribute == 1)
                         <a href="<?php echo route('admin.shop.category.create')."?parent=shop"; ?>"
-                           class="btn btn-dark"
+                           class="btn btn-outline-dark"
                         >
                             <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"></path></svg>
                             {{"New category"}}
                         </a>
                         @else
                         <a href="<?php echo route('admin.category.create')."?parent=blog"; ?>"
-                           class="btn btn-dark"
+                           class="btn btn-outline-dark"
                         >
                             <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"></path></svg>
                             {{"New category"}}
