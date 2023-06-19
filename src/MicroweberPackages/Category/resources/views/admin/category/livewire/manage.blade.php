@@ -12,20 +12,17 @@ if ($isShop){
 <div class="col-xxl-10 col-lg-11 col-12 mx-auto mw-module-category-manager admin-side-content">
     <div class="card-body mb-3">
         <div class="card-header d-flex flex-wrap align-items-center justify-content-between mb-5">
-            <div class="d-flex align-items-center">
-                <h1 class="main-pages-title mb-0">
-                    <?php _e("Categories"); ?>
-                </h1>
 
-                <h3 class="ms-1 mb-0">
-                    <?php if ($isShop): ?>
-                    \<?php _e("Shop"); ?>
-                    <?php else : ?>
-                    \<?php _e("Website"); ?>
-                    <?php endif; ?>
-                </h3>
-            </div>
-
+               <h1 class="main-pages-title mb-0">
+                   <?php _e("Categories"); ?>
+                   <label class="form-label">
+                       <?php if ($isShop): ?>
+                           <?php _e("Shop"); ?>
+                       <?php else : ?>
+                           <?php _e("Website"); ?>
+                       <?php endif; ?>
+                   </label>
+               </h1>
 
             <div class="input-icon col-xl-5 col-sm-5 col-12  text-lg-center text-start my-sm-0 mt-5 mb-3">
                 <input type="text" value="" class="form-control" placeholder="Search" id="category-tree-search">
