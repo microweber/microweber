@@ -43,6 +43,7 @@ if (isset($params['recommended-id']) and $params['recommended-id'] != false) {
                     disableSelectTypes: ['category']
                 },
                 params: {
+                    skip_categories: 1,
                     content_type: 'page',
                     <?php if (isset($params['remove_id'])): ?>
                     skip: [
@@ -56,6 +57,15 @@ if (isset($params['recommended-id']) and $params['recommended-id'] != false) {
             }).then(function (res){
                 res.tree.select(<?php print $selected; ?>, 'page');
                 res.tree.on('selectionChange', function (res){
+
+                    for (var i = 0; i < res.length; i++) {
+                        if (res[i].type === 'page') {
+                            window.selectedPages = [res[i].id];
+                        }
+                    }
+
+                    // console.log(window.selectedPages);
+
                     <?php if (isset($params['change-field'])): ?>
                     var val = res[0] ? res[0].id : '0';
                     mw.$('#<?php print $params['change-field'] ?>').val(val).trigger("change");
