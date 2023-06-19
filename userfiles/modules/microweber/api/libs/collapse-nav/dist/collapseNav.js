@@ -159,7 +159,7 @@ function collapseNav(selector, config) {
 
         number_of_buttons = number_of_buttons - 1;
         $(navigation).children("li:gt(" + number_of_buttons + ")").remove();
-        $(navigation).append('<li class="' + li_class + '"><a href="javascript:;" class="' + li_a_class + '" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' + more_text + caret + '</a>' + ul + '</li>')
+        $(navigation).append('<li class="' + li_class + '"><a href="javascript:;" class="' + li_a_class + '" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' + more_text + caret + '</a>' + ul + '</li>')
     }
 
     $(window).on('load', function () {

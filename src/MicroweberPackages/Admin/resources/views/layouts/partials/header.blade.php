@@ -38,6 +38,7 @@
         mw.require("tree.js");
         mw.lib.require("bootstrap_select");
         mw.lib.require("bootstrap_tags");
+        mw.lib.require("collapse_nav");
 
         mw.require('icon_selector.js');
         mw.iconLoader()
