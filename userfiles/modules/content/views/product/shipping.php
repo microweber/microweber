@@ -3,10 +3,6 @@
         <label class="form-label"><?php _e("Shipping"); ?></label>
     </div>
 
-    <?php
-    dump($contentData['physical_product']);
-    ?>
-
     <div>
 
         <div class="row py-0 ">
