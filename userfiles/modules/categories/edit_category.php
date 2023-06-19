@@ -373,10 +373,10 @@ if (isset($_GET['parent'])) {
                             }
                             ?>
 
-                            <a href="<?php print category_link($data['id']) ?>" target="_blank" class="btn btn-sm btn-outline-primary me-2  "><?php _e("View category"); ?></a>
+                            <a href="<?php print category_link($data['id']) ?>" target="_blank" class="btn btn-sm btn-outline-dark me-2  "><?php _e("View category"); ?></a>
 
 
-                            <a href="<?php print $add_sub_cateory_link ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
+                            <a href="<?php print $add_sub_cateory_link ?>" class="btn btn-sm btn-outline-dark"><?php _e("Add subcategory"); ?></a> &nbsp;
 
 
                         <?php endif; ?>
