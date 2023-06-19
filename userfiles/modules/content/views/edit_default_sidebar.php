@@ -204,7 +204,18 @@
 
                                   <div>
                                       <div class="quick-parent-selector mt-2">
-                                          <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"/>
+                                          <module
+
+
+                                                type="content/views/selector"
+                                                  no-parent-title="<?php _e('No parent page'); ?>"
+                                                  field-name="parent_id_selector"
+                                                  change-field="parent"
+                                                  selected-id="<?php print $data['parent']; ?>"
+                                                  remove_id="<?php print $data['id']; ?>"
+                                                  recommended-id="<?php print $recommended_parent; ?>"
+
+                                          />
                                       </div>
                                   </div>
 

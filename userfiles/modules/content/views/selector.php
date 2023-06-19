@@ -36,6 +36,7 @@ if (isset($params['recommended-id']) and $params['recommended-id'] != false) {
 
     ;(function (){
         function tree() {
+
             var selected = [];
             mw.admin.tree('#<?php print $treeId; ?>', {
                 options: {
@@ -43,7 +44,14 @@ if (isset($params['recommended-id']) and $params['recommended-id'] != false) {
                 },
                 params: {
                     content_type: 'page',
-                    exclude_ids: '<?php print $params['remove_ids'] ?>'
+                    <?php if (isset($params['remove_id'])): ?>
+                    skip: [
+                        {
+                            'id':<?php print $params['remove_id'] ?>,
+                            'type':'page'
+                        }
+                    ],
+                    <?php endif; ?>
                 }
             }).then(function (res){
                 res.tree.select(<?php print $selected; ?>, 'page');
