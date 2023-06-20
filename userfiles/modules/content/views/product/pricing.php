@@ -1,13 +1,12 @@
 <div class="card-body px-0 js-product-pricing-card">
     <div class="card-header no-border">
-        <label for="" class="form-label"><?php _e("Pricing"); ?></label>
+        <label for="" class="form-label font-weight-bold"><?php _e("Product price"); ?></label>
     </div>
 
     <div class=" ">
         <div class="row py-0">
 
             <div class="col-md-12 ps-md-0">
-                <label><?php _e("Price"); ?></label>
                 <div class="input-group mb-3 prepend-transparent">
                     <div class="input-group-prepend">
                         <span class="input-group-text text-muted h-100"><?php echo get_currency_code(); ?></span>
