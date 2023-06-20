@@ -30,7 +30,7 @@ foreach($item->getChildren() as $subItem) {
         <div class="dropdown-menu-columns">
             <div class="dropdown-menu-column">
                 @foreach($item->getChildren() as $subItem)
-
+                    <div class="dropdown-menu-column-item">
                     @php
                     $subItemIsActive = false;
                     if ($subItem->getAttribute('route') == Route::currentRouteName()) {
@@ -51,6 +51,19 @@ foreach($item->getChildren() as $subItem) {
                          <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 656q-33 0-56.5-23.5T160 576q0-33 23.5-56.5T240 496q33 0 56.5 23.5T320 576q0 33-23.5 56.5T240 656Zm240 0q-33 0-56.5-23.5T400 576q0-33 23.5-56.5T480 496q33 0 56.5 23.5T560 576q0 33-23.5 56.5T480 656Zm240 0q-33 0-56.5-23.5T640 576q0-33 23.5-56.5T720 496q33 0 56.5 23.5T800 576q0 33-23.5 56.5T720 656Z"/></svg>
                         </span>
                     </a>
+                    <div class="mw-admin-sidebar-navigation-menu">
+                        <div class="card card-sm">
+                            <div class="card-body">
+                                <nav class="nav flex-column">
+                                    <a class="  mw-admin-action-links btn btn-link text-decoration-none active" aria-current="page" href="#">Active Active Active</a>
+                                    <a class=" mw-admin-action-links btn btn-link text-decoration-none " href="#">Link Link</a>
+                                    <a class=" mw-admin-action-links btn btn-link text-decoration-none " href="#">Link</a>
+                                    <a class="  mw-admin-action-links btn btn-link text-decoration-none disabled">Disabled Disabled</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 @endforeach
             </div>
         </div>
