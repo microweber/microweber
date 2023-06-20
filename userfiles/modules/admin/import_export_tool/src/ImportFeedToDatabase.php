@@ -246,19 +246,22 @@ class ImportFeedToDatabase
 
                     if (isset($item['categories'])) {
                         foreach ($item['categories'] as $category) {
-                            $findCategory = Category::where('name', $category['name'])->first();
+                            $findCategory = Category::where('title', $category['name'])->first();
                             if (!$findCategory) {
                                 $newCategory = new Category();
-                                $newCategory->name = $category['name'];
-                                $newCategory->rel_type = $item['rel_type'];
-                                $newCategory->rel_id = $item['rel_id'];
+                                $newCategory->title = $category['name'];
+                                $newCategory->rel_type = 'content';
+                                $newCategory->rel_id = $this->importFeed->parent_page;
                                 $newCategory->save();
                                 if (isset($category['childs'])) {
                                     foreach ($category['childs'] as $categoryChild) {
-                                        $newCategory = new Category();
-                                        $newCategory->parent_id = $newCategory->id;
-                                        $newCategory->name = $category['name'];
-                                        $newCategory->save();
+                                        $findCategoryChild = Category::where('title', $categoryChild['name'])->first();
+                                        if (!$findCategoryChild) {
+                                            $newCategoryChild = new Category();
+                                            $newCategoryChild->parent_id = $newCategory->id;
+                                            $newCategoryChild->title = $category['name'];
+                                            $newCategoryChild->save();
+                                        }
                                     }
                                 }
                             }
