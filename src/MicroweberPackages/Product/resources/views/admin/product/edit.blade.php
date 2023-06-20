@@ -35,17 +35,12 @@
    <div class="d-flex align-items-center">
        <div class="mw-toolbar-back-button-wrapper">
            <div class="main-toolbar mw-modules-toolbar-back-button-holder mb-3 d-flex align-items-center" id="mw-modules-toolbar" style="">
-
                <div>
                    <a href="{{route('admin.product.index')}}">
                        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="28" viewBox="0 96 960 960" width="28"><path d="M480 896 160 576l320-320 47 46.666-240.001 240.001H800v66.666H286.999L527 849.334 480 896Z"></path></svg>
                    </a>
                </div>
-
-
            </div>
-
-
        </div>
 
        <div class="ms-3 mb-3 d-flex align-items-center">
