@@ -1,6 +1,6 @@
 @extends('import_export_tool::admin.import-wizard.layout')
 
-@section('content')
+@section('import-wizard-layout-content')
 
     <div>
         @if($tab == 'type')

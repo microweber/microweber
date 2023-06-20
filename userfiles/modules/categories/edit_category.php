@@ -39,7 +39,13 @@ $creteCategoryIn = 'blog';
 if (route_is('admin.shop.category.create')) {
     $creteCategoryIn = 'shop';
 }
+if (route_is('admin.shop.category.edit')) {
+    $creteCategoryIn = 'shop';
+}
 if (isset($_GET['is_shop']) && $_GET['is_shop'] == '1') {
+    $creteCategoryIn = 'shop';
+}
+if (isset($params['is_shop']) && $params['is_shop'] == '1') {
     $creteCategoryIn = 'shop';
 }
 if ($creteCategoryIn == 'shop') {
