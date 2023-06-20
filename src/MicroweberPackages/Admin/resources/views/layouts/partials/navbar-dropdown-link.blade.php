@@ -64,7 +64,7 @@ foreach($item->getChildren() as $subItem) {
                         </div>
                     </div>
                     </div>
-                @endforeach 
+                @endforeach
             </div>
         </div>
     </div>

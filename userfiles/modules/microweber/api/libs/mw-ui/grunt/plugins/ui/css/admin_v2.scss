@@ -900,7 +900,7 @@ small.text-muted {
     z-index: 2;
     position: absolute;
     top: 100%;
-    right: 0;
+     right: -13px;
     visibility: hidden;
     opacity: 0;
     transition: .2s;
@@ -928,7 +928,7 @@ small.text-muted {
     margin-top: 60px;
 }
 
-.module-standalo ne-icons-check {
+.module-standalone-icons-check {
     .text-success {
         svg {
             fill: var(--tblr-success);
