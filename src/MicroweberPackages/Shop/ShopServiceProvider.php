@@ -77,13 +77,13 @@ class ShopServiceProvider extends ServiceProvider
 
                 AdminManager::getMenuInstance('left_menu_top')
                     ->getChild('Shop')->getChild('Orders')
-                    ->addChild('Add Order', [
+                    ->addChild('Add', [
                         'attributes' => ['route' => 'admin.order.create']
                     ]);
 
                 AdminManager::getMenuInstance('left_menu_top')
                     ->getChild('Shop')->getChild('Orders')
-                    ->addChild('List Orders', [
+                    ->addChild('List', [
                         'attributes' => ['route' => 'admin.order.index']
                     ]);
             }
@@ -108,13 +108,13 @@ class ShopServiceProvider extends ServiceProvider
 
                 AdminManager::getMenuInstance('left_menu_top')
                     ->getChild('Shop')->getChild('Categories')
-                    ->addChild('Add Category', [
+                    ->addChild('Add', [
                         'attributes' => ['route' => 'admin.shop.category.create']
                     ]);
 
                 AdminManager::getMenuInstance('left_menu_top')
                     ->getChild('Shop')->getChild('Categories')
-                    ->addChild('List Categories', [
+                    ->addChild('List', [
                         'attributes' => ['route' => 'admin.shop.category.index']
                     ]);
             }
