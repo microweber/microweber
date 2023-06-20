@@ -1,6 +1,3 @@
-@extends('import_export_tool::admin.import-wizard.layout')
-
-@section('import-wizard-layout-content')
 <div>
     <div class="d-flex justify-content-center">
 
@@ -34,4 +31,3 @@
 
 </div>
 </div>
-@endsection
