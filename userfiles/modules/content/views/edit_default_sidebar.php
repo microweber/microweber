@@ -171,7 +171,7 @@
 </script>
 
 <div class="col-md-4 mt-6 pt-4 pe-5 manage-content-sidebar">
-    <div class="card shadow-none mb-5">
+    <div class="card mb-5">
         <div class="card-body">
             <div class="card-header ps-0 pt-1 mb-0">
                 <strong><?php _e("Visibility"); ?></strong>
@@ -198,7 +198,7 @@
 
     <div class="mb-5 categories js-sidebar-categories-card">
 
-               <div class="card shadow-none">
+               <div class="card">
                    <div class="card-body">
 
                            <?php if ($data['content_type'] == 'page') : ?>
