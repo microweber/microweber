@@ -181,9 +181,9 @@ trait HasMultilanguageTrait
             foreach ($this->_addMultilanguage as $fieldName => $field) {
                 foreach ($field as $fieldLocale => $fieldValue) {
 
-//                    if ($fieldLocale == $defaultLocale) {
-//                        continue;
-//                    }
+                    if ($fieldLocale == $defaultLocale) {
+                        continue;
+                    }
 
                     $findTranslate = MultilanguageTranslations::where('field_name', $fieldName)
                         ->where('rel_type', $model->getTable())
