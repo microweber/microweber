@@ -256,6 +256,9 @@ class ImportFeedToDatabase
                             }
                             if (isset($category['childs'])) {
                                 foreach ($category['childs'] as $categoryChild) {
+                                    if (strpos($categoryChild['name'], '|') !== false) {
+                                        dd($item);
+                                    }
                                     $findCategoryChild = Category::where('title', $categoryChild['name'])->first();
                                     if (!$findCategoryChild) {
                                         $newCategoryChild = new Category();

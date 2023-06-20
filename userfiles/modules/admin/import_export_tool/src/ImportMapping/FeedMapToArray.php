@@ -68,6 +68,15 @@ class FeedMapToArray
                             if (is_array($saveItem)) {
                                 $categoriesPrepare = [];
                                 foreach ($saveItem as $saveItemOne) {
+                                    if (strpos($saveItemOne, $categorySeparator) !== false) {
+                                        $saveItemOneExp = explode($categorySeparator, $saveItemOne);
+                                        if (isset($saveItemOneExp[1])) {
+                                            $categoriesPrepare[] = [
+                                                'name' => $saveItemOneExp[1],
+                                            ];
+                                        }
+                                        continue;
+                                    }
                                     $categoriesPrepare[] = [
                                         'name' => $saveItemOne,
                                     ];
