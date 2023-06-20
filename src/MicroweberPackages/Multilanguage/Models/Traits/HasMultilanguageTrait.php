@@ -197,7 +197,9 @@ trait HasMultilanguageTrait
                         continue;
                     }
 
-
+                    if($fieldValue == null){
+                        continue;
+                    }
                     if ($findTranslate == null) {
                         $findTranslate = new MultilanguageTranslations();
                         $findTranslate->field_name = $fieldName;
