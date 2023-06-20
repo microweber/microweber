@@ -59,6 +59,18 @@ class ShopServiceProvider extends ServiceProvider
                     'admin.product.show',
                 ]);
 
+            AdminManager::getMenuInstance('left_menu_top')
+                ->getChild('Shop')->getChild('Products')
+                ->addChild('Add Product', [
+                    'attributes' => ['route' => 'admin.product.create']
+                ]);
+
+            AdminManager::getMenuInstance('left_menu_top')
+                ->getChild('Shop')->getChild('Products')
+                ->addChild('List Products', [
+                    'attributes' => ['route' => 'admin.product.index']
+                ]);
+
             if (user_can_view_module(['module' => 'order.index'])) {
                 AdminManager::getMenuInstance('left_menu_top')->getChild('Shop')
                     ->addChild('Orders', [
@@ -73,6 +85,18 @@ class ShopServiceProvider extends ServiceProvider
                         'admin.order.create',
                         'admin.order.edit',
                         'admin.order.show',
+                    ]);
+
+                AdminManager::getMenuInstance('left_menu_top')
+                    ->getChild('Shop')->getChild('Orders')
+                    ->addChild('Add Order', [
+                        'attributes' => ['route' => 'admin.order.create']
+                    ]);
+
+                AdminManager::getMenuInstance('left_menu_top')
+                    ->getChild('Shop')->getChild('Orders')
+                    ->addChild('List Orders', [
+                        'attributes' => ['route' => 'admin.order.index']
                     ]);
             }
             if (user_can_view_module(['module' => 'shop.category'])) {
@@ -92,6 +116,7 @@ class ShopServiceProvider extends ServiceProvider
                         'admin.shop.category.edit',
                         'admin.shop.category.show',
                     ]);
+
 
                 AdminManager::getMenuInstance('left_menu_top')
                     ->getChild('Shop')->getChild('Categories')
@@ -119,6 +144,18 @@ class ShopServiceProvider extends ServiceProvider
                         'admin.customers.create',
                         'admin.customers.edit',
                         'admin.customers.show',
+                    ]);
+
+                AdminManager::getMenuInstance('left_menu_top')
+                    ->getChild('Shop')->getChild('Customers')
+                    ->addChild('Add Customer', [
+                        'attributes' => ['route' => 'admin.customers.create']
+                    ]);
+
+                AdminManager::getMenuInstance('left_menu_top')
+                    ->getChild('Shop')->getChild('Customers')
+                    ->addChild('List Customers', [
+                        'attributes' => ['route' => 'admin.customers.index']
                     ]);
             }
         }

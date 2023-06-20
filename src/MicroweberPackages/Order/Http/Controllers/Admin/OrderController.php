@@ -21,6 +21,10 @@ class OrderController extends AdminController
         return view('order::admin.orders.index', compact('getOrder'));
     }
 
+    public function create(Request $request) {
+        return view('order::admin.orders.create');
+    }
+
     public function show($id)
     {
         $order = Order::where('id',$id)->first();
