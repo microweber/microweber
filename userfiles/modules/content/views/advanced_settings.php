@@ -171,296 +171,304 @@ if (isset($data['created_by']) and $data['created_by']) {
     <?php if ($showAdvancedSettings): ?>
 
     <!-- Advanced Settings -->
-    <div id="advanced-settings">
+  <div class="card">
+      <div class="card-body">
+          <div class="row">
+              <div id="advanced-settings">
 
-       <h1 class="main-pages-title"><?php _e('Advanced settings') ?></h1>
-                <small class="text-muted mb-2 d-block"><?php _e('Use the advanced settings to customize your blog post') ?></small>
+                  <h1 class="main-pages-title"><?php _e('Advanced settings') ?></h1>
+                  <small class="text-muted mb-2 d-block"><?php _e('Use the advanced settings to customize your blog post') ?></small>
 
-                <div class="row p-0">
-                    <div class="col-md-12">
-                        <?php
-                        $redirected = false;
-                        if (isset($data['original_link']) and $data['original_link'] != '') {
-                            $redirected = true;
-                        } else {
-                            $data['original_link'] = '';
-                        }
-                        ?>
+                  <div class="row p-0">
+                      <div class="col-md-12">
+                          <?php
+                          $redirected = false;
+                          if (isset($data['original_link']) and $data['original_link'] != '') {
+                              $redirected = true;
+                          } else {
+                              $data['original_link'] = '';
+                          }
+                          ?>
 
-                        <div class="form-group">
-                            <label><?php _e("Redirect to URL"); ?></label>
-                            <small class="text-muted d-block mb-2"><?php _e("If set this, the user will be redirected to the new URL when visits the page"); ?></small>
-                            <input type="text" name="original_link" class="form-control" placeholder="<?php _e('http://yoursite.com'); ?>" value="<?php print $data['original_link'] ?>"/>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label><?php _e("Require login"); ?></label>
-                            <small class="text-muted d-block mb-2"><?php _e("If set to yes - this page will require login from a registered user in order to be opened"); ?></small>
-                            <div class="form-check form-switch pl-0">
-                                <input type="checkbox" class="form-check-input" style="cursor:pointer" id="require_login" name="require_login" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['require_login'])): ?>checked="1"<?php endif; ?>>
-                            </div>
-                        </div>
-                    </div>
-                    <?php if ($all_users) : ?>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label><?php _e("Author"); ?></label>
+                          <div class="form-group">
+                              <label><?php _e("Redirect to URL"); ?></label>
+                              <small class="text-muted d-block mb-2"><?php _e("If set this, the user will be redirected to the new URL when visits the page"); ?></small>
+                              <input type="text" name="original_link" class="form-control" placeholder="<?php _e('http://yoursite.com'); ?>" value="<?php print $data['original_link'] ?>"/>
+                          </div>
+                      </div>
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label><?php _e("Require login"); ?></label>
+                              <small class="text-muted d-block mb-2"><?php _e("If set to yes - this page will require login from a registered user in order to be opened"); ?></small>
+                              <div class="form-check form-switch pl-0">
+                                  <input type="checkbox" class="form-check-input" style="cursor:pointer" id="require_login" name="require_login" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['require_login'])): ?>checked="1"<?php endif; ?>>
+                              </div>
+                          </div>
+                      </div>
+                      <?php if ($all_users) : ?>
+                          <div class="col-md-12">
+                              <div class="form-group">
+                                  <label><?php _e("Author"); ?></label>
 
-                                <div id="select-post-author"></div>
+                                  <div id="select-post-author"></div>
 
-                                <script>mw.require('autocomplete.js')</script>
-                                <?php $user = get_user($post_author_id); ?>
-                                <script>
-                                    $(document).ready(function () {
-                                        var created_by_field = new mw.autoComplete({
-                                            element: "#select-post-author",
-                                            ajaxConfig: {
-                                                method: 'get',
-                                                url: mw.settings.api_url + 'users/search_authors?kw=${val}',
-                                                cache: true
-                                            },
-                                            map: {
-                                                value: 'id',
-                                                title: 'display_name',
-                                                image: 'picture'
-                                            },
-                                            selected: [
-                                                {
-                                                    id: <?php print $post_author_id ?>,
-                                                    display_name: '<?php print e(user_name($post_author_id)) ?>'
-                                                }
-                                            ]
-                                        });
-                                        $(created_by_field).on("change", function (e, val) {
-                                            $("#created_by").val(val[0].id).trigger('change')
-                                        })
-                                    });
-                                </script>
-                                <input type="hidden" name="created_by" id="created_by" value="<?php print $post_author_id ?>">
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                </div>
+                                  <script>mw.require('autocomplete.js')</script>
+                                  <?php $user = get_user($post_author_id); ?>
+                                  <script>
+                                      $(document).ready(function () {
+                                          var created_by_field = new mw.autoComplete({
+                                              element: "#select-post-author",
+                                              ajaxConfig: {
+                                                  method: 'get',
+                                                  url: mw.settings.api_url + 'users/search_authors?kw=${val}',
+                                                  cache: true
+                                              },
+                                              map: {
+                                                  value: 'id',
+                                                  title: 'display_name',
+                                                  image: 'picture'
+                                              },
+                                              selected: [
+                                                  {
+                                                      id: <?php print $post_author_id ?>,
+                                                      display_name: '<?php print e(user_name($post_author_id)) ?>'
+                                                  }
+                                              ]
+                                          });
+                                          $(created_by_field).on("change", function (e, val) {
+                                              $("#created_by").val(val[0].id).trigger('change')
+                                          })
+                                      });
+                                  </script>
+                                  <input type="hidden" name="created_by" id="created_by" value="<?php print $post_author_id ?>">
+                              </div>
+                          </div>
+                      <?php endif; ?>
+                  </div>
 
-                <!-- More Advanced Settings -->
-                <?php if (isset($data['id']) and $data['id'] > 0): ?>
+                  <!-- More Advanced Settings -->
+                  <?php if (isset($data['id']) and $data['id'] > 0): ?>
 
-                <script>
+                      <script>
 
-                    open_edit_related_content_modal = function($content_id) {
-                        var modal_id = 'open_edit_related_content_modal__modal';
-                        var dialog = mw.top().dialogIframe({
-                            url: '<?php print site_url() ?>module/?type=content/views/related_content_list&live_edit=true&id=open_edit_related_content_modal__opened__module&content_id='+$content_id+'&from_url=<?php print site_url() ?>',
-                            title: 'Edit related content',
-                            id: modal_id,
+                          open_edit_related_content_modal = function($content_id) {
+                              var modal_id = 'open_edit_related_content_modal__modal';
+                              var dialog = mw.top().dialogIframe({
+                                  url: '<?php print site_url() ?>module/?type=content/views/related_content_list&live_edit=true&id=open_edit_related_content_modal__opened__module&content_id='+$content_id+'&from_url=<?php print site_url() ?>',
+                                  title: 'Edit related content',
+                                  id: modal_id,
 
-                            height: 'auto',
-                            autoHeight: true
-                        })
-                    }
-                </script>
-                 <script>
+                                  height: 'auto',
+                                  autoHeight: true
+                              })
+                          }
+                      </script>
+                      <script>
 
-                     toggle_change_template_box = function() {
+                          toggle_change_template_box = function() {
 
-                         $('#js-change-template-layout-selector-holder').toggle();
-                        mw.edit_content.load_change_design_selector('#js-change-template-layout-selector-holder');
-                    }
-                </script>
-
-
-                    <div class="row p-0 d-flex align-items-center mt-3">
-                        <div class="col-md-8">
-                            <label class="form-label"><?php _e('Change template'); ?>:</label>
-                            <small class="text-muted d-block mb-3"><?php _e('You can change the template for content');?></small>
-                            <a class="btn btn btn-outline-primary btn-sm" href="javascript:toggle_change_template_box()"><?php _e("Change template"); ?></a>
-                        </div>
-                        <div class="col-md-4 text-center text-md-right">
-                        </div>
+                              $('#js-change-template-layout-selector-holder').toggle();
+                              mw.edit_content.load_change_design_selector('#js-change-template-layout-selector-holder');
+                          }
+                      </script>
 
 
-                        <div id="js-change-template-layout-selector-holder" style="display: none">
+                      <div class="row p-0 d-flex align-items-center mt-3">
+                          <div class="col-md-8">
+                              <label class="form-label"><?php _e('Change template'); ?>:</label>
+                              <small class="text-muted d-block mb-3"><?php _e('You can change the template for content');?></small>
+                              <a class="btn btn btn-outline-primary btn-sm" href="javascript:toggle_change_template_box()"><?php _e("Change template"); ?></a>
+                          </div>
+                          <div class="col-md-4 text-center text-md-right">
+                          </div>
 
 
-
-                        </div>
-                    </div>
-
-
-                <div class="row p-0 d-flex align-items-center mt-3">
-                    <div class="col-md-8">
-                        <label class="form-label"><?php _e('Related Content'); ?>:</label>
-                        <small class="text-muted d-block mb-3"><?php _e('You can add related content to your post or product');?></small>
-                        <a class="btn btn btn-outline-primary btn-sm" href="javascript:open_edit_related_content_modal('<?php print $data['id'] ?>');"><?php _e("Edit related"); ?></a>
-                    </div>
-                        <div class="col-md-4 text-center text-md-right">
-                    </div>
-                </div>
-                <div class="row p-0 d-flex align-items-center">
-                    <div class="col-md-12 text-center text-md-start">
-                        <label class="form-label mt-3"><?php _e('More options'); ?>:</label>
-                        <a class="btn btn-outline-primary btn-sm" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
-                        <a class="btn btn-outline-primary btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
-
-                    </div>
-                </div>
-
-                <?php endif; ?>
+                          <div id="js-change-template-layout-selector-holder" style="display: none">
 
 
 
-                <?php if ($data['content_type'] == 'page'): ?>
-                    <div class="row  px-0 mt-3">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label><?php _e("Is Home"); ?></label>
-                                <small class="text-muted d-block mb-2"><?php _e("If yes this page will be your Home"); ?></small>
-                                <div class="form-check form-switch pl-0">
-                                    <input type="checkbox" name="is_home" class="form-check-input" id="is_home" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_home']): ?>checked="1"<?php endif; ?> />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row p-0 ">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label><?php _e("Is Shop"); ?></label>
-                                <small class="text-muted d-block mb-2"><?php _e("If yes this page will accept products to be added to it"); ?></small>
-                                <div class="form-check form-switch pl-0">
-                                    <input type="checkbox" name="is_shop" class="form-check-input" id="is_shop" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_shop']): ?>checked="1"<?php endif; ?> />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (isset($data['position'])): ?>
-                    <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
-                <?php endif; ?>
-
-                <?php /* PAGES ONLY  */ ?>
-                <?php event_trigger('mw_admin_edit_page_advanced_settings', $data); ?>
+                          </div>
+                      </div>
 
 
-                <?php if (isset($data['id']) and $data['id'] != 0): ?>
+                      <div class="row p-0 d-flex align-items-center mt-3">
+                          <div class="col-md-8">
+                              <label class="form-label"><?php _e('Related Content'); ?>:</label>
+                              <small class="text-muted d-block mb-3"><?php _e('You can add related content to your post or product');?></small>
+                              <a class="btn btn btn-outline-primary btn-sm" href="javascript:open_edit_related_content_modal('<?php print $data['id'] ?>');"><?php _e("Edit related"); ?></a>
+                          </div>
+                          <div class="col-md-4 text-center text-md-right">
+                          </div>
+                      </div>
+                      <div class="row p-0 d-flex align-items-center">
+                          <div class="col-md-12 text-center text-md-start">
+                              <label class="form-label mt-3"><?php _e('More options'); ?>:</label>
+                              <a class="btn btn-outline-primary btn-sm" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
+                              <a class="btn btn-outline-primary btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
 
+                          </div>
+                      </div>
 
-                    <div class="row p-0 ">
-
-                        <div class="col-12">
-
-                            <button type="button" class="btn btn-sm btn-link my-2" data-bs-toggle="collapse" data-bs-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
-
-                            <div  class="collapse"   id="set-a-specific-publish-date">
-                                <div class="row p-0">
-                                    <script>mw.lib.require('bootstrap_datetimepicker');</script>
-                                    <script>
-                                        $(function () {
-                                            $('.mw-admin-edit-post-change-created-at-value').datetimepicker();
-                                            $('.mw-admin-edit-post-change-updated-at-value').datetimepicker();
-                                        });
-                                    </script>
-
-
-                                    <?php if (isset($data['created_at'])): ?>
-                                        <div class="col-md-12">
-                                            <div class="mw-admin-edit-post-created-at" onclick="mw.adm_cont_enable_edit_of_created_at()">
-                                                <small>
-                                                    <?php _e("Created on"); ?>: <span class="mw-admin-edit-post-display-created-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?></span>
-                                                    <input class="form-control form-control-sm mw-admin-edit-post-change-created-at-value" style="display:none" type="text" name="created_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?>"  >
-                                                </small>
-                                            </div>
-                                        </div>
-                                    <?php endif; ?>
-
-                                    <?php if (isset($data['updated_at'])): ?>
-                                        <div class="col-md-12">
-                                            <div class="mw-admin-edit-post-updated-at" onclick="mw.adm_cont_enable_edit_of_updated_at()">
-                                                <small>
-                                                    <?php _e("Updated on"); ?>: <span class="mw-admin-edit-post-display-updated-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?></span>
-                                                    <input class="form-control form-control-sm mw-admin-edit-post-change-updated-at-value" style="display:none" type="text" name="updated_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?>" >
-                                                </small>
-                                            </div>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
+                  <?php endif; ?>
 
 
 
+                  <?php if ($data['content_type'] == 'page'): ?>
+                      <div class="row  px-0 mt-3">
+                          <div class="col-12">
+                              <div class="form-group">
+                                  <label><?php _e("Is Home"); ?></label>
+                                  <small class="text-muted d-block mb-2"><?php _e("If yes this page will be your Home"); ?></small>
+                                  <div class="form-check form-switch pl-0">
+                                      <input type="checkbox" name="is_home" class="form-check-input" id="is_home" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_home']): ?>checked="1"<?php endif; ?> />
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="row p-0 ">
+                          <div class="col-12">
+                              <div class="form-group">
+                                  <label><?php _e("Is Shop"); ?></label>
+                                  <small class="text-muted d-block mb-2"><?php _e("If yes this page will accept products to be added to it"); ?></small>
+                                  <div class="form-check form-switch pl-0">
+                                      <input type="checkbox" name="is_shop" class="form-check-input" id="is_shop" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_shop']): ?>checked="1"<?php endif; ?> />
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  <?php endif; ?>
+
+                  <?php if (isset($data['position'])): ?>
+                      <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
+                  <?php endif; ?>
+
+                  <?php /* PAGES ONLY  */ ?>
+                  <?php event_trigger('mw_admin_edit_page_advanced_settings', $data); ?>
 
 
-                <?php if (is_array($available_content_types) and !empty($available_content_types)): ?>
-                    <div class="row mb-3 p-0">
-                        <div class="col-12">
-                            <div class="mw-ui-field-holder ">
-                                <span class="font-weight-bold"><?php _e("Content type"); ?>: &nbsp;</span>
-
-                                <button class="btn btn-outline-warning btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#content-type-settings"><?php print($data['content_type']) ?></button>
-
-                                <div class="collapse" id="content-type-settings">
-                                    <div class="alert alert-dismissible alert-warning mt-3">
-                                        <h4 class="alert-heading"><?php _e("Warning!"); ?></h4>
-                                        <p class="mb-0"><?php _e("Do not change these settings unless you know what you are doing."); ?></p>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>
-                                                <?php _e("Change content type"); ?>
-                                                <small data-bs-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['content_type'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
-                                            </label>
-
-                                            <select class="form-select dropup" data-dropup-auto="false" data-width="100%" name="change_content_type" onchange="mw.adm_cont_type_change_holder_event(this)">
-                                                <?php foreach ($available_content_types as $item): ?>
-                                                    <option value="<?php print $item['content_type']; ?>" <?php if ($item['content_type'] == trim($data['content_type'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['content_type']; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label>
-                                                <?php _e("Change content sub type"); ?>
-                                                <small data-bs-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['subtype'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
-                                            </label>
-
-                                            <select class="form-select dropup" data-dropup-auto="false" data-width="100%" name="change_contentsub_type" onchange="mw.adm_cont_subtype_change_holder_event(this)">
-                                                <?php foreach ($available_content_subtypes as $item): ?>
-                                                    <option value="<?php print $item['subtype']; ?>" <?php if ($item['subtype'] == trim($data['subtype'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['subtype']; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                            <?php if (isset($data['id'])): ?>
-                                <div>
-                                    <small>
-                                        <?php _e("Id"); ?>: <span class="mw-admin-edit-post-display-id-at-value"><?php print ($data['id']) ?></span>
-
-                                    </small>
-                                </div>
-
-                            <?php endif; ?>
-                    </div>
-                <?php endif; ?>
+                  <?php if (isset($data['id']) and $data['id'] != 0): ?>
 
 
-            </div>
+                      <div class="row p-0 ">
+
+                          <div class="col-12">
+
+                              <button type="button" class="btn btn-sm btn-link my-2" data-bs-toggle="collapse" data-bs-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
+
+                              <div  class="collapse"   id="set-a-specific-publish-date">
+                                  <div class="row p-0">
+                                      <script>mw.lib.require('bootstrap_datetimepicker');</script>
+                                      <script>
+                                          $(function () {
+                                              $('.mw-admin-edit-post-change-created-at-value').datetimepicker();
+                                              $('.mw-admin-edit-post-change-updated-at-value').datetimepicker();
+                                          });
+                                      </script>
+
+
+                                      <?php if (isset($data['created_at'])): ?>
+                                          <div class="col-md-12">
+                                              <div class="mw-admin-edit-post-created-at" onclick="mw.adm_cont_enable_edit_of_created_at()">
+                                                  <small>
+                                                      <?php _e("Created on"); ?>: <span class="mw-admin-edit-post-display-created-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?></span>
+                                                      <input class="form-control form-control-sm mw-admin-edit-post-change-created-at-value" style="display:none" type="text" name="created_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?>"  >
+                                                  </small>
+                                              </div>
+                                          </div>
+                                      <?php endif; ?>
+
+                                      <?php if (isset($data['updated_at'])): ?>
+                                          <div class="col-md-12">
+                                              <div class="mw-admin-edit-post-updated-at" onclick="mw.adm_cont_enable_edit_of_updated_at()">
+                                                  <small>
+                                                      <?php _e("Updated on"); ?>: <span class="mw-admin-edit-post-display-updated-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?></span>
+                                                      <input class="form-control form-control-sm mw-admin-edit-post-change-updated-at-value" style="display:none" type="text" name="updated_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?>" >
+                                                  </small>
+                                              </div>
+                                          </div>
+                                      <?php endif; ?>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  <?php endif; ?>
+
+
+
+
+
+                  <?php if (is_array($available_content_types) and !empty($available_content_types)): ?>
+                      <div class="row mb-3 p-0">
+                          <div class="col-12">
+                              <div class="mw-ui-field-holder ">
+                                  <span class="font-weight-bold"><?php _e("Content type"); ?>: &nbsp;</span>
+
+                                  <button class="btn btn-outline-warning btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#content-type-settings"><?php print($data['content_type']) ?></button>
+
+                                  <div class="collapse" id="content-type-settings">
+                                      <div class="alert alert-dismissible alert-warning mt-3">
+                                          <h4 class="alert-heading"><?php _e("Warning!"); ?></h4>
+                                          <p class="mb-0"><?php _e("Do not change these settings unless you know what you are doing."); ?></p>
+                                      </div>
+
+                                      <div class="row">
+                                          <div class="col-md-6">
+                                              <label>
+                                                  <?php _e("Change content type"); ?>
+                                                  <small data-bs-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['content_type'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
+                                              </label>
+
+                                              <select class="form-select dropup" data-dropup-auto="false" data-width="100%" name="change_content_type" onchange="mw.adm_cont_type_change_holder_event(this)">
+                                                  <?php foreach ($available_content_types as $item): ?>
+                                                      <option value="<?php print $item['content_type']; ?>" <?php if ($item['content_type'] == trim($data['content_type'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['content_type']; ?></option>
+                                                  <?php endforeach; ?>
+                                              </select>
+                                          </div>
+                                          <div class="col-md-6">
+                                              <label>
+                                                  <?php _e("Change content sub type"); ?>
+                                                  <small data-bs-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['subtype'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
+                                              </label>
+
+                                              <select class="form-select dropup" data-dropup-auto="false" data-width="100%" name="change_contentsub_type" onchange="mw.adm_cont_subtype_change_holder_event(this)">
+                                                  <?php foreach ($available_content_subtypes as $item): ?>
+                                                      <option value="<?php print $item['subtype']; ?>" <?php if ($item['subtype'] == trim($data['subtype'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['subtype']; ?></option>
+                                                  <?php endforeach; ?>
+                                              </select>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                              </div>
+
+                          </div>
+                          <?php if (isset($data['id'])): ?>
+                              <div>
+                                  <small>
+                                      <?php _e("Id"); ?>: <span class="mw-admin-edit-post-display-id-at-value"><?php print ($data['id']) ?></span>
+
+                                  </small>
+                              </div>
+
+                          <?php endif; ?>
+                      </div>
+                  <?php endif; ?>
+
+
+              </div>
+
+              <?php include (__DIR__.'/content_delete_btns.php')?>
+              
+          </div>
+      </div>
+  </div>
 
     <?php endif; ?>
 
 
 
 
-<?php include (__DIR__.'/content_delete_btns.php')?>
 
 
 <?php $custom = mw()->module_manager->ui('mw.admin.content.edit.advanced_settings.end'); ?>
