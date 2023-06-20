@@ -69,6 +69,7 @@
                         sortable: false,
                         selectable:true,
                         singleSelect:true,
+                        searchInput: true
                     });
                     $(tree).on("selectionChange", function () {
                         btn.disabled = tree.getSelected().length === 0;
