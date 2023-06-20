@@ -248,20 +248,20 @@ class ImportFeedToDatabase
                         foreach ($item['categories'] as $category) {
                             $findCategory = Category::where('title', $category['name'])->first();
                             if (!$findCategory) {
-                                $newCategory = new Category();
-                                $newCategory->title = $category['name'];
-                                $newCategory->rel_type = 'content';
-                                $newCategory->rel_id = $this->importFeed->parent_page;
-                                $newCategory->save();
-                                if (isset($category['childs'])) {
-                                    foreach ($category['childs'] as $categoryChild) {
-                                        $findCategoryChild = Category::where('title', $categoryChild['name'])->first();
-                                        if (!$findCategoryChild) {
-                                            $newCategoryChild = new Category();
-                                            $newCategoryChild->parent_id = $newCategory->id;
-                                            $newCategoryChild->title = $categoryChild['name'];
-                                            $newCategoryChild->save();
-                                        }
+                                $findCategory = new Category();
+                                $findCategory->title = $category['name'];
+                                $findCategory->rel_type = 'content';
+                                $findCategory->rel_id = $this->importFeed->parent_page;
+                                $findCategory->save();
+                            }
+                            if (isset($category['childs'])) {
+                                foreach ($category['childs'] as $categoryChild) {
+                                    $findCategoryChild = Category::where('title', $categoryChild['name'])->first();
+                                    if (!$findCategoryChild) {
+                                        $newCategoryChild = new Category();
+                                        $newCategoryChild->parent_id = $findCategory->id;
+                                        $newCategoryChild->title = $categoryChild['name'];
+                                        $newCategoryChild->save();
                                     }
                                 }
                             }
