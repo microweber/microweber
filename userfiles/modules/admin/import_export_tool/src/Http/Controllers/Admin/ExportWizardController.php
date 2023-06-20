@@ -19,7 +19,7 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
 {
     public function index(Request $request)
     {
-       ///return view('import_export_tool::admin.export-wizard.index');
+       return view('import_export_tool::admin.export-wizard-index');
     }
 
     public function deleteFile($id)
