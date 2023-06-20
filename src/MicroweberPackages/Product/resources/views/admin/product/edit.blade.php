@@ -45,7 +45,7 @@
 
        <div class="ms-3 mb-3 d-flex align-items-center">
            <a class="tblr-body-color form-label mb-0 text-decoration-none font-weight-bold" href="{{route('admin.product.index')}}" class="mb-0">
-               
+
                @if($content_id > 0)
                    {{ "Edit Product" }}
                @else
