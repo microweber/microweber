@@ -3,7 +3,7 @@
 <script>
     function mw_change_template() {
 
-        var selectedTemplate = $('.mw-site-theme-selector').find("[name='current_template']").first().val();
+        var selectedTemplate = $('.js-template-selector').find("[name='active_site_template']").first().val();
         var importType = $('input[name="import_type"]:checked').val();
 
         $('.js-button-change-template').attr('disabled','disabled');
