@@ -191,14 +191,14 @@ if (isset($data['created_by']) and $data['created_by']) {
                           ?>
 
                           <div class="form-group">
-                              <label><?php _e("Redirect to URL"); ?></label>
+                              <label class="form-label font-weight-bold my-2"><?php _e("Redirect to URL"); ?></label>
                               <small class="text-muted d-block mb-2"><?php _e("If set this, the user will be redirected to the new URL when visits the page"); ?></small>
                               <input type="text" name="original_link" class="form-control" placeholder="<?php _e('http://yoursite.com'); ?>" value="<?php print $data['original_link'] ?>"/>
                           </div>
                       </div>
                       <div class="col-md-12">
                           <div class="form-group">
-                              <label><?php _e("Require login"); ?></label>
+                              <label class="form-label font-weight-bold my-2"><?php _e("Require login"); ?></label>
                               <small class="text-muted d-block mb-2"><?php _e("If set to yes - this page will require login from a registered user in order to be opened"); ?></small>
                               <div class="form-check form-switch pl-0">
                                   <input type="checkbox" class="form-check-input" style="cursor:pointer" id="require_login" name="require_login" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['require_login'])): ?>checked="1"<?php endif; ?>>
@@ -208,7 +208,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                       <?php if ($all_users) : ?>
                           <div class="col-md-12">
                               <div class="form-group">
-                                  <label><?php _e("Author"); ?></label>
+                                  <label class="form-label font-weight-bold my-2"><?php _e("Author"); ?></label>
 
                                   <div id="select-post-author"></div>
 
@@ -275,7 +275,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                       <div class="row p-0 d-flex align-items-center mt-3">
                           <div class="col-md-8">
-                              <label class="form-label"><?php _e('Change template'); ?>:</label>
+                              <label class="form-label font-weight-bold my-2"><?php _e('Change template'); ?>:</label>
                               <small class="text-muted d-block mb-3"><?php _e('You can change the template for content');?></small>
                               <a class="btn btn btn-outline-primary btn-sm" href="javascript:toggle_change_template_box()"><?php _e("Change template"); ?></a>
                           </div>
@@ -293,7 +293,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                       <div class="row p-0 d-flex align-items-center mt-3">
                           <div class="col-md-8">
-                              <label class="form-label"><?php _e('Related Content'); ?>:</label>
+                              <label class="form-label font-weight-bold my-2"><?php _e('Related Content'); ?>:</label>
                               <small class="text-muted d-block mb-3"><?php _e('You can add related content to your post or product');?></small>
                               <a class="btn btn btn-outline-primary btn-sm" href="javascript:open_edit_related_content_modal('<?php print $data['id'] ?>');"><?php _e("Edit related"); ?></a>
                           </div>
@@ -302,7 +302,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                       </div>
                       <div class="row p-0 d-flex align-items-center">
                           <div class="col-md-12 text-center text-md-start">
-                              <label class="form-label mt-3"><?php _e('More options'); ?>:</label>
+                              <label class="form-label font-weight-bold my-2 mt-3"><?php _e('More options'); ?>:</label>
                               <a class="btn btn-outline-primary btn-sm" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
                               <a class="btn btn-outline-primary btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
 
@@ -317,7 +317,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                       <div class="row  px-0 mt-3">
                           <div class="col-12">
                               <div class="form-group">
-                                  <label><?php _e("Is Home"); ?></label>
+                                  <label class="form-label font-weight-bold my-2"><?php _e("Is Home"); ?></label>
                                   <small class="text-muted d-block mb-2"><?php _e("If yes this page will be your Home"); ?></small>
                                   <div class="form-check form-switch pl-0">
                                       <input type="checkbox" name="is_home" class="form-check-input" id="is_home" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_home']): ?>checked="1"<?php endif; ?> />
@@ -329,7 +329,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                       <div class="row p-0 ">
                           <div class="col-12">
                               <div class="form-group">
-                                  <label><?php _e("Is Shop"); ?></label>
+                                  <label class="form-label font-weight-bold my-2"><?php _e("Is Shop"); ?></label>
                                   <small class="text-muted d-block mb-2"><?php _e("If yes this page will accept products to be added to it"); ?></small>
                                   <div class="form-check form-switch pl-0">
                                       <input type="checkbox" name="is_shop" class="form-check-input" id="is_shop" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_shop']): ?>checked="1"<?php endif; ?> />
@@ -414,7 +414,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                                       <div class="row">
                                           <div class="col-md-6">
-                                              <label>
+                                              <label class="form-label font-weight-bold my-2">
                                                   <?php _e("Change content type"); ?>
                                                   <small data-bs-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['content_type'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
                                               </label>
@@ -426,7 +426,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                               </select>
                                           </div>
                                           <div class="col-md-6">
-                                              <label>
+                                              <label class="form-label font-weight-bold my-2">
                                                   <?php _e("Change content sub type"); ?>
                                                   <small data-bs-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['subtype'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
                                               </label>
