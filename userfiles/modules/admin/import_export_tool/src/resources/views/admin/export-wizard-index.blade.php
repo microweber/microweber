@@ -3,7 +3,7 @@
 @section('module-content')
 
  <div>
-     <livewire:import_export_tool::export_wizard />
+     <livewire:import_export_tool::export_wizard /> 
  </div>
 
 @endsection
