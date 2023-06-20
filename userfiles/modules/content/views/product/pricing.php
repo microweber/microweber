@@ -1,4 +1,4 @@
-<div class="card-body js-product-pricing-card">
+<div class="card-body px-0 js-product-pricing-card">
     <div class="card-header no-border">
         <label for="" class="form-label"><?php _e("Pricing"); ?></label>
     </div>

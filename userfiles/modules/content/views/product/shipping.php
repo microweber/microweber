@@ -1,4 +1,4 @@
-<div class="card-body mb-3" x-data="{ physicalProduct: <?php if ($contentData['physical_product'] == 1):?> true <?php else: ?> false <?php endif;?>  }">
+<div class="card-body px-0 mb-3" x-data="{ physicalProduct: <?php if ($contentData['physical_product'] == 1):?> true <?php else: ?> false <?php endif;?>  }">
     <div class="card-header no-border">
         <label class="form-label"><?php _e("Shipping"); ?></label>
     </div>

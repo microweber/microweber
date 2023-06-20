@@ -70,7 +70,7 @@ if (!isset($contentData['sell_oos'])) {
     }
 </script>
 
-<div class="card-body mb-3">
+<div class="card-body mb-3 px-0">
     <div class="card-header no-border">
         <label for="" class="form-label"> <?php _e("Inventory"); ?></label>
     </div>
