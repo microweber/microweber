@@ -194,6 +194,13 @@ if (!isset($contentData['sell_oos'])) {
                 </div>
             </div>
 
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" data-value-checked="1" data-value-unchecked="0" class="form-check-input js-invertory-sell-oos" id="customCheck3" name="content_data[sell_oos]" value="1" <?php if ($contentData['sell_oos']==1):?>checked="checked"<?php endif; ?>>
+                    <label class="custom-control-label" for="customCheck3"><?php _e("Continue selling when out of stock"); ?></label>
+                </div>
+            </div>
+
             <div class="col-md-6 ps-md-0">
                 <div class="form-group w-100">
                     <label class="form-label"><?php _e("Max quantity per order"); ?></label>
@@ -209,12 +216,7 @@ if (!isset($contentData['sell_oos'])) {
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" data-value-checked="1" data-value-unchecked="0" class="form-check-input js-invertory-sell-oos" id="customCheck3" name="content_data[sell_oos]" value="1" <?php if ($contentData['sell_oos']==1):?>checked="checked"<?php endif; ?>>
-                    <label class="custom-control-label" for="customCheck3"><?php _e("Continue selling when out of stock"); ?></label>
-                </div>
-            </div>
+
         </div>
     </div>
 </div>
