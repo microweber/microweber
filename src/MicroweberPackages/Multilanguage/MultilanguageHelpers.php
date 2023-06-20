@@ -29,5 +29,10 @@ class MultilanguageHelpers
     {
         return self::$isEnabled = $enabled;
     }
+    public static function getSupportedLanguages($onlyActive=true)
+    {
+
+        return get_supported_languages($onlyActive);
+    }
 
 }

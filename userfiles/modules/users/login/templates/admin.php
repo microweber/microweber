@@ -114,9 +114,20 @@ $microweber_login = get_option('enable_user_microweber_registration', 'users') =
 
                        <?php
                        $supportedLanguages = TranslationPackageInstallHelper::getAvailableTranslations('json');
+                       if (\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()) {
+                            $supportedLanguagesMultilang = \MicroweberPackages\Multilanguage\MultilanguageHelpers::getSupportedLanguages();
+                            if($supportedLanguagesMultilang){
+                                $supportedLanguages = [];
+                                foreach ($supportedLanguagesMultilang as $langItem){
+                                    if(isset($langItem['locale']) and isset($langItem['language'])){
+                                    $supportedLanguages[$langItem['locale']] = $langItem['language'];
+                                    }
+                                }
+                            }
 
+                        }
 
-                       if ($supportedLanguages !== null) {
+                       if (!empty($supportedLanguages)) {
                            ?>
                            <div class="form-group">
                                <label class="text-muted"><?php _e("Language"); ?>:</label>
