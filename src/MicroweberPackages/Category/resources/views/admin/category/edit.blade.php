@@ -59,7 +59,7 @@
                         @endif
                     @endif
 
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center ms-auto">
 
                         @if($id > 0)
                             @php
