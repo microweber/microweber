@@ -71,8 +71,8 @@ if (!isset($contentData['sell_oos'])) {
 </script>
 
 <div class="card mb-5">
-    <div class="card-body mb-3 px-0">
-        <div class="card-header">
+    <div class="card-body mb-3">
+        <div class="card-header mt-3">
             <label for="" class="form-label font-weight-bold"> <?php _e("Inventory"); ?></label>
         </div>
 
@@ -167,54 +167,56 @@ if (!isset($contentData['sell_oos'])) {
 <div class="js-track-quantity">
     <div class="card mb-5">
         <div class="card-body">
-           <div class="card-header px-0">
-               <label class="form-label font-weight-bold ps-0"><?php _e("Quantity"); ?></label>
+           <div class="row">
+               <div class="card-header px-0">
+                   <label class="form-label font-weight-bold ps-0"><?php _e("Quantity"); ?></label>
+               </div>
+               <div class="col-md-6 ps-md-0 w-100">
+                   <div class="form-group px-0">
+                       <label class=""><?php _e("Available"); ?></label>
+                       <small class="text-muted d-block mb-3"><?php _e("How many products you have available in stock"); ?></small>
+
+                       <?php if(!$qty_selected_is_custom){ ?>
+                           <select name="content_data[qty]" class="js-track-quantity-select-qty  form-select" data-size="7" onchange="set_custom_qty_number(this)">
+                               <option selected="selected" value="nolimit" <?php if($qty_selected =='nolimit' ) : ?> selected <?php endif;  ?>>∞ <?php _e("No Limit"); ?></option>
+                               <option value="0" <?php if($qty_selected ===0 ) : ?> selected <?php endif;  ?> title="This item is out of stock and cannot be ordered."><?php _e("Out of stock"); ?></option>
+                               <?php for ($i = 1; $i <= $dropdown_qty_max; $i++){  ?>
+                                   <option value="<?php print $i ?>" <?php if($qty_selected ==$i ) : ?> selected <?php endif;  ?>><?php print $i ?></option>
+                               <?php }   ?>
+                               <option  value="other"><?php _e("Other"); ?></option>
+                           </select>
+
+                           <input type="number"  min="0" class="form-control d-none js-track-quantity-select-qty-other-value" placeholder="<?php _e("No Limit"); ?>"  value="<?php print $qty_selected ?>">
+                       <?php } else { ?>
+                           <input type="number"  name="content_data[qty]" placeholder="<?php _e("No Limit"); ?>"  min="0" class="form-control" value="<?php print $qty_selected ?>">
+                       <?php }?>
+
+
+                   </div>
+               </div>
+
+               <div class="form-group px-0">
+                   <div class="custom-control custom-checkbox">
+                       <input type="checkbox" data-value-checked="1" data-value-unchecked="0" class="form-check-input js-invertory-sell-oos" id="customCheck3" name="content_data[sell_oos]" value="1" <?php if ($contentData['sell_oos']==1):?>checked="checked"<?php endif; ?>>
+                       <label class="custom-control-label" for="customCheck3"><?php _e("Continue selling when out of stock"); ?></label>
+                   </div>
+               </div>
+
+               <div class="col-md-6 ps-md-0">
+                   <div class="form-group w-100">
+                       <label class="form-label"><?php _e("Max quantity per order"); ?></label>
+                       <small class="text-muted d-block mb-3"><?php _e("How many products can be ordered at once"); ?></small>
+                       <select name="content_data[max_qty_per_order]" class="form-select js-invertory-max-quantity-per-order" data-size="7">
+                           <option selected="selected" value="nolimit" <?php if($max_qty_per_order_selected =='nolimit' ) : ?> selected <?php endif;  ?>>∞ <?php _e("No Limit"); ?></option>
+
+                           <?php for ($i = 1; $i <= $dropdown_qty_max_per_order; $i++){  ?>
+                               <option value="<?php print $i ?>" <?php if($max_qty_per_order_selected ==$i ) : ?> selected <?php endif;  ?>><?php print $i ?></option>
+                           <?php }   ?>
+
+                       </select>
+                   </div>
+               </div>
            </div>
-            <div class="col-md-6 ps-md-0 w-100">
-                <div class="form-group">
-                    <label class=""><?php _e("Available"); ?></label>
-                    <small class="text-muted d-block mb-3"><?php _e("How many products you have available in stock"); ?></small>
-
-                    <?php if(!$qty_selected_is_custom){ ?>
-                        <select name="content_data[qty]" class="js-track-quantity-select-qty  form-select" data-size="7" onchange="set_custom_qty_number(this)">
-                            <option selected="selected" value="nolimit" <?php if($qty_selected =='nolimit' ) : ?> selected <?php endif;  ?>>∞ <?php _e("No Limit"); ?></option>
-                            <option value="0" <?php if($qty_selected ===0 ) : ?> selected <?php endif;  ?> title="This item is out of stock and cannot be ordered."><?php _e("Out of stock"); ?></option>
-                            <?php for ($i = 1; $i <= $dropdown_qty_max; $i++){  ?>
-                                <option value="<?php print $i ?>" <?php if($qty_selected ==$i ) : ?> selected <?php endif;  ?>><?php print $i ?></option>
-                            <?php }   ?>
-                            <option  value="other"><?php _e("Other"); ?></option>
-                        </select>
-
-                        <input type="number"  min="0" class="form-control d-none js-track-quantity-select-qty-other-value" placeholder="<?php _e("No Limit"); ?>"  value="<?php print $qty_selected ?>">
-                    <?php } else { ?>
-                        <input type="number"  name="content_data[qty]" placeholder="<?php _e("No Limit"); ?>"  min="0" class="form-control" value="<?php print $qty_selected ?>">
-                    <?php }?>
-
-
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" data-value-checked="1" data-value-unchecked="0" class="form-check-input js-invertory-sell-oos" id="customCheck3" name="content_data[sell_oos]" value="1" <?php if ($contentData['sell_oos']==1):?>checked="checked"<?php endif; ?>>
-                    <label class="custom-control-label" for="customCheck3"><?php _e("Continue selling when out of stock"); ?></label>
-                </div>
-            </div>
-
-            <div class="col-md-6 ps-md-0">
-                <div class="form-group w-100">
-                    <label class="form-label"><?php _e("Max quantity per order"); ?></label>
-                    <small class="text-muted d-block mb-3"><?php _e("How many products can be ordered at once"); ?></small>
-                    <select name="content_data[max_qty_per_order]" class="form-select js-invertory-max-quantity-per-order" data-size="7">
-                        <option selected="selected" value="nolimit" <?php if($max_qty_per_order_selected =='nolimit' ) : ?> selected <?php endif;  ?>>∞ <?php _e("No Limit"); ?></option>
-
-                        <?php for ($i = 1; $i <= $dropdown_qty_max_per_order; $i++){  ?>
-                            <option value="<?php print $i ?>" <?php if($max_qty_per_order_selected ==$i ) : ?> selected <?php endif;  ?>><?php print $i ?></option>
-                        <?php }   ?>
-
-                    </select>
-                </div>
-            </div>
 
 
         </div>

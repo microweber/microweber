@@ -188,7 +188,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     <span><?php _e("Add new field"); ?></span>
                                 </div>
                             </div>
-                            <div class="card-body px-0 collapse mt-3" id="add-field-select">
+                            <div class="card-body collapse mt-3" id="add-field-select">
                                 <div class="custom-fields-add-buttons">
                                     <?php if (is_array($exiisting_fields)): ?>
 

@@ -24,7 +24,7 @@ use MicroweberPackages\View\View;
             </li>
         </ul>
 
-        <div class="card-body px-0 mt-4">
+        <div class="card-body mt-4">
             <div class="tab-content">
                 <div class="tab-pane show active" id="list" role="tabpanel">
                     <script type="text/javascript">

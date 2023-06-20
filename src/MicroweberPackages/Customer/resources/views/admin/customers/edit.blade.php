@@ -27,301 +27,303 @@
             @method('PUT')
         @endif
         @csrf
-        <div class="p-5">
-            <div class="row row-mx-30">
-                <div class="col-md-6 col-px-30">
-                    <h6 class="small font-weight-bold mb-3"><?php _e("Client card"); ?></h6>
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            @if($customer AND isset($customer->first_name))
-                                <span><i class="mdi mdi-account text-muted mdi-30px"></i></span>
-                                <div>
-                                    <label class="form-label"><?php _e("Full Name"); ?>:</label>
-                                    <span class="ml-2 mb-1">{{$customer->first_name}} {{$customer->last_name}}</span>
-                                </div>
+        <div class=" col-xxl-10 col-md-11 col-12 px-md-0 px-2 mx-auto">
+           <div class="card mb-5">
+               <div class="card-body">
+                   <div class="row">
+                       <div class="col-md-6 px-2">
+                           <h3 class="main-pages-title"><?php _e("Client card"); ?></h3>
 
-                                <div>
-                                    <label class="form-label"><?php _e("Email"); ?>:</label>
-                                    <span class="ml-2 mb-1">{{$customer->email}}</span>
-                                </div>
+                           @if($customer AND isset($customer->first_name))
+                               <span><i class="mdi mdi-account text-muted mdi-30px"></i></span>
+                               <div>
+                                   <label class="form-label"><?php _e("Full Name"); ?>:</label>
+                                   <span class="ml-2 mb-1">{{$customer->first_name}} {{$customer->last_name}}</span>
+                               </div>
 
-                                <div>
-                                    <label class="form-label"><?php _e("Phone"); ?>:</label>
-                                    <span class="ml-2 mb-1">{{$customer->phone}}</span>
-                                </div>
-                            @else
-                                <div class="text-center">
-                                    <span class="d-block"><i class="mdi mdi-account text-muted" style="opacity: 0.5; font-size: 50px;"></i></span>
-                                    <span class="d-block mb-1"><?php _e("No information"); ?></span>
-                                </div>
-                            @endif
+                               <div>
+                                   <label class="form-label"><?php _e("Email"); ?>:</label>
+                                   <span class="ml-2 mb-1">{{$customer->email}}</span>
+                               </div>
+
+                               <div>
+                                   <label class="form-label"><?php _e("Phone"); ?>:</label>
+                                   <span class="ml-2 mb-1">{{$customer->phone}}</span>
+                               </div>
+                           @else
+                               <div class="text-center">
+                                   <span class="d-block"><i class="mdi mdi-account text-muted" style="opacity: 0.5; font-size: 50px;"></i></span>
+                                   <span class="d-block mb-1"><?php _e("No information"); ?></span>
+                               </div>
+                           @endif
+
+                       </div>
+
+
+                       <div class="col-md-6 px-2">
+                           <label class="form-label font-weight-bold mb-3"><?php _e("Client information"); ?></label>
+
+                           {{--<div class="form-group">--}}
+                           {{--<label class="form-label"><?php _e("Display Name"); ?>:</label>--}}
+                           {{--<input type="text" class="form-control" value="@if($customer){{$customer->name}}@endif" required="required" name="name"/>--}}
+                           {{--</div>--}}
+
+                           <div class="form-group">
+                               <label class="form-label"><?php _e("First Name"); ?>:</label>
+                               <input type="text" class="form-control" value="@if($customer){{$customer->first_name}}@endif" required="required" name="first_name"/>
+                           </div>
+
+                           <div class="form-group">
+                               <label class="form-label"><?php _e("Last Name"); ?>:</label>
+                               <input type="text" class="form-control" value="@if($customer){{$customer->last_name}}@endif" required="required" name="last_name"/>
+                           </div>
+
+                           <div class="form-group">
+                               <label class="form-label"><?php _e("Email"); ?>:</label>
+                               <input type="email" class="form-control" value="@if($customer){{$customer->email}}@endif" required="required" name="email"/>
+                           </div>
+
+                           <div class="form-group">
+                               <label class="form-label"><?php _e("Phone"); ?>:</label>
+                               <input type="text" class="form-control" value="@if($customer){{$customer->phone}}@endif" required="required" name="phone"/>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+
+            <div class="card mb-5">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 px-2">
+                            <h3 class="main-pages-title"><?php _e("Shipping card"); ?></h3>
+
+                                @if(isset($customer->addresses[0]) AND isset($customer->addresses[0]->name))
+                                    <span class="d-block"><i class="mdi mdi-truck text-muted mdi-30px"></i></span>
+                                    <div>
+                                        <label class="form-label"><?php _e("Address"); ?>:</label>
+                                        <span class="mb-1">{{$customer->addresses[0]->address_street_1}}</span>
+                                    </div>
+                                    {{--                                <span class="d-block mb-1 font-weight-bold">{{$customer->addresses[0]->name}}</span>--}}
+                                    <div>
+                                        <label class="form-label"><?php _e("City"); ?>:</label>
+                                        <span class="mb-1">{{$customer->addresses[0]->city}}</span>
+                                    </div>
+
+                                    <div>
+                                        <label class="form-label"><?php _e("ZIP Code"); ?>:</label>
+                                        <span class="mb-1">{{$customer->addresses[0]->zip}}</span>
+                                    </div>
+
+                                    <div>
+                                        <label class="form-label"><?php _e("State"); ?>:</label>
+                                        <span class="mb-1">  {{$customer->addresses[0]->state}}</span>
+                                    </div>
+
+                                    <div>
+                                        <label class="form-label"><?php _e("Country"); ?>:</label>
+                                        @if(isset($customer->addresses[0]) AND isset($customer->addresses[0]->country )  AND isset($customer->addresses[0]->country->name ))
+                                            <span class="mb-1">{{$customer->addresses[0]->country->name}}</span>
+                                        @endif                                </div>
+
+                                    {{--<span class="d-block mb-1">{{$customer->addresses[0]->address_street_1}}</span>--}}
+
+                                @else
+                                    <div class="text-center">
+                                        <span class="d-block"><i class="mdi mdi-truck text-muted" style="opacity: 0.5; font-size: 50px;"></i></span>
+                                        <span class="d-block mb-1"><?php _e("No information"); ?></span>
+                                    </div>
+                                @endif
                         </div>
-                    </div>
-                </div>
 
-                <div class="col-md-6 col-px-30">
-                    <h5 class="mb-3 font-weight-bold"><?php _e("Client information"); ?></h5>
+                        <div class="col-md-6 px-2">
+                            <label class="form-label mb-3 font-weight-bold"><?php _e("Shipping Address"); ?></label>
 
-                    {{--<div class="form-group">--}}
-                    {{--<label class="form-label"><?php _e("Display Name"); ?>:</label>--}}
-                    {{--<input type="text" class="form-control" value="@if($customer){{$customer->name}}@endif" required="required" name="name"/>--}}
-                    {{--</div>--}}
+                            <div class="form-group d-none">
+                                <label class="form-label"><?php _e("Address Name"); ?>:</label>
+                                <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->name}}@endif" name="addresses[0][name]"/>
+                            </div>
 
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("First Name"); ?>:</label>
-                        <input type="text" class="form-control" value="@if($customer){{$customer->first_name}}@endif" required="required" name="first_name"/>
-                    </div>
+                            <div class="form-group">
+                                <label class="form-label"><?php _e("Address"); ?>:</label>
+                                <textarea class="form-control" placeholder="Street 1" name="addresses[0][address_street_1]">@if(isset($customer->addresses[0])){{$customer->addresses[0]->address_street_1}}@endif</textarea>
+                            </div>
 
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("Last Name"); ?>:</label>
-                        <input type="text" class="form-control" value="@if($customer){{$customer->last_name}}@endif" required="required" name="last_name"/>
-                    </div>
+                            <div class="form-group">
+                                <label class="form-label"><?php _e("City"); ?>:</label>
+                                <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->city}}@endif" name="addresses[0][city]"/>
+                            </div>
 
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("Email"); ?>:</label>
-                        <input type="email" class="form-control" value="@if($customer){{$customer->email}}@endif" required="required" name="email"/>
-                    </div>
+                            <div class="form-group">
+                                <label class="form-label"><?php _e("ZIP Code"); ?>:</label>
+                                <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->zip}}@endif" name="addresses[0][zip]"/>
+                            </div>
 
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("Phone"); ?>:</label>
-                        <input type="text" class="form-control" value="@if($customer){{$customer->phone}}@endif" required="required" name="phone"/>
+                            <div class="form-group">
+                                <label class="form-label"><?php _e("State"); ?>:</label>
+                                <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->state}}@endif" name="addresses[0][state]"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label d-block"><?php _e("Country"); ?>:</label>
+                                <select class="form-select" data-live-search="true" data-width="100%" data-size="5" name="addresses[0][country_id]">
+                                    @foreach($countries as $country)
+                                        <option @if(isset($customer->addresses[0]) && $customer->addresses[0]->country_id == $country->id)selected="selected" @endif value="{{ $country->id }}">{{ $country->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <input type="hidden" class="form-control" value="shipping" name="addresses[0][type]"/>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <hr class="thin my-5"/>
+           <div class="card mb-5">
+               <div class="card-body">
+                   <div class="row">
+                       <div class="col-md-6 px-2">
+                           <h3 class="main-pages-title"><?php _e("Company card"); ?></h3>
+                               @if(isset($customer->addresses[1]) AND isset($customer->addresses[1]->company_name))
+                                   <span class="d-block"><i class="mdi mdi-office-building text-muted mdi-30px"></i></span>
 
-            <div class="row row-mx-30">
-                <div class="col-md-6 col-px-30">
-                    <h6 class="small font-weight-bold mb-3"><?php _e("Shipping card"); ?></h6>
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            @if(isset($customer->addresses[0]) AND isset($customer->addresses[0]->name))
-                                <span class="d-block"><i class="mdi mdi-truck text-muted mdi-30px"></i></span>
-                                <div>
-                                    <label class="form-label"><?php _e("Address"); ?>:</label>
-                                    <span class="mb-1">{{$customer->addresses[0]->address_street_1}}</span>
-                                </div>
-                                {{--                                <span class="d-block mb-1 font-weight-bold">{{$customer->addresses[0]->name}}</span>--}}
-                                <div>
-                                    <label class="form-label"><?php _e("City"); ?>:</label>
-                                    <span class="mb-1">{{$customer->addresses[0]->city}}</span>
-                                </div>
+                                   <div>
+                                       <label class="form-label"><?php _e("Company Name"); ?>:</label>
+                                       <span class="mb-1">{{$customer->addresses[1]->company_name}}</span>
+                                   </div>
 
-                                <div>
-                                    <label class="form-label"><?php _e("ZIP Code"); ?>:</label>
-                                    <span class="mb-1">{{$customer->addresses[0]->zip}}</span>
-                                </div>
+                                   <div>
+                                       <label class="form-label"><?php _e("Company ID"); ?>:</label>
+                                       <span class="mb-1">{{$customer->addresses[1]->company_id}}</span>
+                                   </div>
 
-                                <div>
-                                    <label class="form-label"><?php _e("State"); ?>:</label>
-                                    <span class="mb-1">  {{$customer->addresses[0]->state}}</span>
-                                </div>
+                                   <div>
+                                       <label class="form-label"><?php _e("VAT Number"); ?>:</label>
+                                       <span class="mb-1">{{$customer->addresses[1]->company_vat}}</span>
+                                   </div>
 
-                                <div>
-                                    <label class="form-label"><?php _e("Country"); ?>:</label>
-                                    @if(isset($customer->addresses[0]) AND isset($customer->addresses[0]->country )  AND isset($customer->addresses[0]->country->name ))
-                                        <span class="mb-1">{{$customer->addresses[0]->country->name}}</span>
-                                    @endif                                </div>
+                                   <div class="">
+                                       <label class="form-label"><?php _e("VAT Registered"); ?>:</label>
+                                       <span class="ml-2 mb-1">
+                                    @if ( $customer->addresses[1]->company_vat_registered  == "1")
+                                                   <?= _e("Yes"); ?>
+                                           @else
+                                                   <?= _e("No"); ?>
+                                           @endif
+                                </span>
+                                   </div>
 
-                                {{--<span class="d-block mb-1">{{$customer->addresses[0]->address_street_1}}</span>--}}
+                                   <div>
+                                       <label class="form-label"><?php _e("Address"); ?>:</label>
+                                       <span class="mb-1">{{$customer->addresses[1]->address_street_1}}</span>
+                                   </div>
 
-                            @else
-                                <div class="text-center">
-                                    <span class="d-block"><i class="mdi mdi-truck text-muted" style="opacity: 0.5; font-size: 50px;"></i></span>
-                                    <span class="d-block mb-1"><?php _e("No information"); ?></span>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
+                                   <div>
+                                       <label class="form-label"><?php _e("City"); ?>:</label>
+                                       <span class="mb-1">{{$customer->addresses[1]->city}}</span>
+                                   </div>
 
-                <div class="col-md-6 col-px-30">
-                    <h5 class="mb-3 font-weight-bold"><?php _e("Shipping Address"); ?></h5>
+                                   <div>
+                                       <label class="form-label"><?php _e("ZIP Code"); ?>:</label>
+                                       <span class="mb-1">{{$customer->addresses[1]->zip}}</span>
+                                   </div>
 
-                    <div class="form-group d-none">
-                        <label class="form-label"><?php _e("Address Name"); ?>:</label>
-                        <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->name}}@endif" name="addresses[0][name]"/>
-                    </div>
+                                   <div>
+                                       <label class="form-label"><?php _e("State"); ?>:</label>
+                                       <span class="mb-1">{{$customer->addresses[0]->state}}</span>
+                                   </div>
 
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("Address"); ?>:</label>
-                        <textarea class="form-control" placeholder="Street 1" name="addresses[0][address_street_1]">@if(isset($customer->addresses[0])){{$customer->addresses[0]->address_street_1}}@endif</textarea>
-                    </div>
+                                   <div>
+                                       <label class="form-label"><?php _e("Country"); ?>:</label>
+                                       <span class="mb-1">{{$customer->addresses[1]->country->name}}</span>
+                                   </div>
 
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("City"); ?>:</label>
-                        <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->city}}@endif" name="addresses[0][city]"/>
-                    </div>
+                               @else
+                                   <div class="text-center">
+                                       <span class="d-block"><i class="mdi mdi-office-building text-muted" style="opacity: 0.5; font-size: 50px;"></i></span>
+                                       <span class="d-block mb-1"><?php _e("No information"); ?></span>
+                                   </div>
+                               @endif
 
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("ZIP Code"); ?>:</label>
-                        <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->zip}}@endif" name="addresses[0][zip]"/>
-                    </div>
+                       </div>
 
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("State"); ?>:</label>
-                        <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->state}}@endif" name="addresses[0][state]"/>
-                    </div>
+                       <div class="col-md-6 px-2">
+                           <label class="form-label mb-3 font-weight-bold"><?php _e("Billing Address"); ?></label>
 
-                    <div class="form-group">
-                        <label class="form-label d-block"><?php _e("Country"); ?>:</label>
-                        <select class="form-select" data-live-search="true" data-width="100%" data-size="5" name="addresses[0][country_id]">
-                            @foreach($countries as $country)
-                                <option @if(isset($customer->addresses[0]) && $customer->addresses[0]->country_id == $country->id)selected="selected" @endif value="{{ $country->id }}">{{ $country->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                           <div class="form-group d-none">
+                               <label class="form-label"><?php _e("Address Name"); ?>:</label>
+                               <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->name}}@endif" name="addresses[1][name]"/>
+                           </div>
 
-                    <input type="hidden" class="form-control" value="shipping" name="addresses[0][type]"/>
-                </div>
-            </div>
+                           <div class="form-group">
+                               <label class="form-label"><?php _e("Company Name"); ?>:</label>
+                               <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->company_name}}@endif" name="addresses[1][company_name]"/>
+                           </div>
 
-            <hr class="thin my-5"/>
+                           <div class="form-group">
+                               <label class="form-label"><?php _e("Company ID"); ?>:</label>
+                               <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->company_id}}@endif" name="addresses[1][company_id]"/>
+                           </div>
 
-            <div class="row row-mx-30">
-                <div class="col-md-6 col-px-30">
-                    <h6 class="small font-weight-bold mb-3"><?php _e("Company card"); ?></h6>
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            @if(isset($customer->addresses[1]) AND isset($customer->addresses[1]->company_name))
-                                <span class="d-block"><i class="mdi mdi-office-building text-muted mdi-30px"></i></span>
+                           <div class="form-group">
+                               <label class="form-label"><?php _e("VAT number"); ?>:</label>
+                               <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->company_vat}}@endif" name="addresses[1][company_vat]"/>
+                           </div>
 
-                                <div>
-                                    <label class="form-label"><?php _e("Company Name"); ?>:</label>
-                                    <span class="mb-1">{{$customer->addresses[1]->company_name}}</span>
-                                </div>
+                           <div class="form-group">
+                               <div class="custom-control custom-switch">
+                                   <input type="checkbox"
+                                          class="form-check-input"
+                                          id="company_vat_registered"
+                                          value="1"
+                                          @if(isset($customer->addresses[1]) && $customer->addresses[1]->company_vat_registered == '1') checked="checked" @endif
+                                          name="addresses[1][company_vat_registered]">
+                                   <label class="custom-control-label" for="company_vat_registered"><?php _e("VAT Registered"); ?></label>
+                               </div>
+                           </div>
 
-                                <div>
-                                    <label class="form-label"><?php _e("Company ID"); ?>:</label>
-                                    <span class="mb-1">{{$customer->addresses[1]->company_id}}</span>
-                                </div>
+                           <div class="form-group">
+                               <label class="form-label"><?php _e("Address"); ?>:</label>
+                               <textarea class="form-control" placeholder="Street 1" name="addresses[1][address_street_1]">@if(isset($customer->addresses[1])){{$customer->addresses[1]->address_street_1}}@endif</textarea>
+                           </div>
 
-                                <div>
-                                    <label class="form-label"><?php _e("VAT Number"); ?>:</label>
-                                    <span class="mb-1">{{$customer->addresses[1]->company_vat}}</span>
-                                </div>
+                           <div class="form-group">
+                               <label class="form-label"><?php _e("City"); ?>:</label>
+                               <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->city}}@endif" name="addresses[1][city]"/>
+                           </div>
 
-                                <div class="">
-                                    <label class="form-label"><?php _e("VAT Registered"); ?>:</label>
-                                    <span class="ml-2 mb-1">
-                                        @if ( $customer->addresses[1]->company_vat_registered  == "1")
-                                            <?= _e("Yes"); ?>
-                                        @else
-                                            <?= _e("No"); ?>
-                                        @endif
-                                    </span>
-                                </div>
+                           <div class="form-group">
+                               <label class="form-label"><?php _e("ZIP Code"); ?>:</label>
+                               <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->zip}}@endif" name="addresses[1][zip]"/>
+                           </div>
 
-                                <div>
-                                    <label class="form-label"><?php _e("Address"); ?>:</label>
-                                    <span class="mb-1">{{$customer->addresses[1]->address_street_1}}</span>
-                                </div>
+                           <div class="form-group">
+                               <label class="form-label"><?php _e("State"); ?>:</label>
+                               <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->state}}@endif" name="addresses[1][state]"/>
+                           </div>
 
-                                <div>
-                                    <label class="form-label"><?php _e("City"); ?>:</label>
-                                    <span class="mb-1">{{$customer->addresses[1]->city}}</span>
-                                </div>
+                           <div class="form-group">
+                               <label class="form-label d-block"><?php _e("Country"); ?>:</label>
+                               <select class="form-select" data-live-search="true" data-width="100%" data-size="5" name="addresses[1][country_id]">
+                                   @foreach($countries as $country)
+                                       <option @if(isset($customer->addresses[1]) && $customer->addresses[1]->country_id == $country->id)selected="selected" @endif value="{{ $country->id }}">{{ $country->name }}</option>
+                                   @endforeach
+                               </select>
+                           </div>
 
-                                <div>
-                                    <label class="form-label"><?php _e("ZIP Code"); ?>:</label>
-                                    <span class="mb-1">{{$customer->addresses[1]->zip}}</span>
-                                </div>
+                           <input type="hidden" class="form-control" value="company" name="addresses[1][type]"/>
+                       </div>
+                   </div>
+               </div>
+           </div>
 
-                                <div>
-                                    <label class="form-label"><?php _e("State"); ?>:</label>
-                                    <span class="mb-1">{{$customer->addresses[0]->state}}</span>
-                                </div>
 
-                                <div>
-                                    <label class="form-label"><?php _e("Country"); ?>:</label>
-                                    <span class="mb-1">{{$customer->addresses[1]->country->name}}</span>
-                                </div>
-
-                            @else
-                                <div class="text-center">
-                                    <span class="d-block"><i class="mdi mdi-office-building text-muted" style="opacity: 0.5; font-size: 50px;"></i></span>
-                                    <span class="d-block mb-1"><?php _e("No information"); ?></span>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-px-30">
-                    <h5 class="mb-3 font-weight-bold"><?php _e("Billing Address"); ?></h5>
-
-                    <div class="form-group d-none">
-                        <label class="form-label"><?php _e("Address Name"); ?>:</label>
-                        <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->name}}@endif" name="addresses[1][name]"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("Company Name"); ?>:</label>
-                        <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->company_name}}@endif" name="addresses[1][company_name]"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("Company ID"); ?>:</label>
-                        <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->company_id}}@endif" name="addresses[1][company_id]"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("VAT number"); ?>:</label>
-                        <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->company_vat}}@endif" name="addresses[1][company_vat]"/>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox"
-                                   class="form-check-input"
-                                   id="company_vat_registered"
-                                   value="1"
-                                   @if(isset($customer->addresses[1]) && $customer->addresses[1]->company_vat_registered == '1') checked="checked" @endif
-                                   name="addresses[1][company_vat_registered]">
-                            <label class="custom-control-label" for="company_vat_registered"><?php _e("VAT Registered"); ?></label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("Address"); ?>:</label>
-                        <textarea class="form-control" placeholder="Street 1" name="addresses[1][address_street_1]">@if(isset($customer->addresses[1])){{$customer->addresses[1]->address_street_1}}@endif</textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("City"); ?>:</label>
-                        <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->city}}@endif" name="addresses[1][city]"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("ZIP Code"); ?>:</label>
-                        <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->zip}}@endif" name="addresses[1][zip]"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("State"); ?>:</label>
-                        <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->state}}@endif" name="addresses[1][state]"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label d-block"><?php _e("Country"); ?>:</label>
-                        <select class="form-select" data-live-search="true" data-width="100%" data-size="5" name="addresses[1][country_id]">
-                            @foreach($countries as $country)
-                                <option @if(isset($customer->addresses[1]) && $customer->addresses[1]->country_id == $country->id)selected="selected" @endif value="{{ $country->id }}">{{ $country->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <input type="hidden" class="form-control" value="company" name="addresses[1][type]"/>
-                </div>
-            </div>
-            <hr class="thin"/>
             <div class="row d-flex justify-content-between">
                 <div class="col">
-                    <a href="#" class="btn btn-outline-danger btn-sm"><?php _e("Delete"); ?></a>
+                    <a href="#" class="btn btn-outline-danger"><?php _e("Delete"); ?></a>
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-success btn-sm"><?php _e("Save"); ?></button>
+                    <button type="submit" class="btn btn-dark"><?php _e("Save"); ?></button>
                 </div>
             </div>
         </div>
