@@ -897,13 +897,16 @@ small.text-muted {
     position: relative;
 }
  .mw-admin-sidebar-navigation-menu{
+    z-index: 2;
     position: absolute;
     top: 100%;
-    right: 0;
+    right: 15px;
     visibility: hidden;
     opacity: 0;
     transition: .2s;
     min-width: 200px;
+    display: flex;
+    justify-content: end;
 
  }
 
