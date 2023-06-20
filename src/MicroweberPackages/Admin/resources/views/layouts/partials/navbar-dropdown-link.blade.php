@@ -60,7 +60,7 @@ foreach($item->getChildren() as $subItem) {
                                 <div class="card-body">
                                     <nav class="nav flex-column">
                                         @foreach($subItem->getChildren() as $subItemChildren)
-                                            <a class="mw-admin-action-links btn btn-link text-decoration-none" aria-current="page"
+                                            <a class="mw-admin-action-links btn btn-link text-decoration-none fs-5" aria-current="page"
                                                href="@if (!empty($subItemChildren->getAttribute('route'))) {{route($subItemChildren->getAttribute('route'))}} @else {{ $subItemChildren->getUri() }} @endif">
                                                 {{_e($subItemChildren->getName())}}
                                             </a>
