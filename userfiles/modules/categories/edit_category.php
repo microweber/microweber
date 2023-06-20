@@ -312,10 +312,10 @@ if (isset($_GET['parent'])) {
 
             ?>
 
-            <div class="card-header mb-3 d-flex justify-content-between align-items-center">
-                <label class="form-label"><?php print  $headerText ?></label>
+            <div class="card-header d-flex justify-content-between align-items-center">
+<!--                <label class="form-label">--><?php //print  $headerText ?><!--</label>-->
 
-                <div class="create-root mb-3 text-end mx-4">
+                <div class="create-root text-end">
                     <div id="content-title-field-buttons">
                         <?php if (intval($data['id']) != 0): ?>
                             <script>
@@ -347,42 +347,18 @@ if (isset($_GET['parent'])) {
                             <a href="#action=managecats:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Manage"); ?></a>
                         <?php endif; ?>
 
-
                         <?php endif; ?>
 
-
-                        <?php if (intval($data['id']) != 0): ?>
-
-                            <?php
-
-                            if ($creteCategoryIn == 'shop') {
-                                $add_sub_cateory_link = route('admin.shop.category.create') . '?addsubcategory=' . $data['id'];
-                            } else {
-                                $add_sub_cateory_link = route('admin.category.create') . '?addsubcategory=' . $data['id'];
-                            }
-
-                            if (isset($params['live_edit']) and $params['live_edit'] ) {
-                                $add_sub_cateory_link = '#action=addsubcategory:'.$data['id'];
-                            }
-                            ?>
-
-                            <a href="<?php print category_link($data['id']) ?>" target="_blank" class="btn btn-sm btn-outline-dark me-2  "><?php _e("View category"); ?></a>
-
-
-                            <a href="<?php print $add_sub_cateory_link ?>" class="btn btn-sm btn-outline-dark"><?php _e("Add subcategory"); ?></a> &nbsp;
-
-
-                        <?php endif; ?>
                     </div>
                 </div>
-                <div>
+<!--                <div>
                     <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-dark" form="quickform-edit-content"><i class="mdi mdi-content-save me-1"></i> <?php _e('Save') ?></button>
-                </div>
+                </div>-->
             </div>
         <?php endif; ?>
 
         <div class="<?php if (!isset($params['no-toolbar'])): ?> <?php endif; ?>">
-            <div class="card-body">
+            <div class="card-body py-0">
 
                 <div class="row p-0">
                     <div class="col-lg-12">
@@ -403,7 +379,7 @@ if (isset($_GET['parent'])) {
                             $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
                             ?>
 
-                            <div class="row">
+                            <div class="row p-0">
                                 <div class="col-12">
                                     <div class="form-group" id="content-title-field-row">
 
