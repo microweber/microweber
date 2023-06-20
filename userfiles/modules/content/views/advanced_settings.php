@@ -459,7 +459,7 @@ if (isset($data['created_by']) and $data['created_by']) {
               </div>
 
               <?php include (__DIR__.'/content_delete_btns.php')?>
-              
+
           </div>
       </div>
   </div>
