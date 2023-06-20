@@ -53,7 +53,7 @@ foreach($item->getChildren() as $subItem) {
                     </a>
                     <div class="mw-admin-sidebar-navigation-menu">
                         <div class="card card-sm">
-                            <div class="card-body">
+                            <div class="card-body"> 
                                 <nav class="nav flex-column">
                                     <a class="nav-link active" aria-current="page" href="#">Active</a>
                                     <a class="nav-link" href="#">Link</a>
