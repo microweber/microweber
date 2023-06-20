@@ -53,18 +53,18 @@ foreach($item->getChildren() as $subItem) {
                     </a>
                     <div class="mw-admin-sidebar-navigation-menu">
                         <div class="card card-sm">
-                            <div class="card-body"> 
+                            <div class="card-body">
                                 <nav class="nav flex-column">
-                                    <a class="nav-link active" aria-current="page" href="#">Active</a>
-                                    <a class="nav-link" href="#">Link</a>
-                                    <a class="nav-link" href="#">Link</a>
-                                    <a class="nav-link disabled">Disabled</a>
+                                    <a class="  mw-admin-action-links btn btn-link text-decoration-none active" aria-current="page" href="#">Active Active Active</a>
+                                    <a class=" mw-admin-action-links btn btn-link text-decoration-none " href="#">Link Link</a>
+                                    <a class=" mw-admin-action-links btn btn-link text-decoration-none " href="#">Link</a>
+                                    <a class="  mw-admin-action-links btn btn-link text-decoration-none disabled">Disabled Disabled</a>
                                 </nav>
                             </div>
                         </div>
                     </div>
                     </div>
-                @endforeach
+                @endforeach 
             </div>
         </div>
     </div>

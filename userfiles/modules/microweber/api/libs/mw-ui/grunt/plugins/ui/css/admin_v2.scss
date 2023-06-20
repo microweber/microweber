@@ -900,13 +900,13 @@ small.text-muted {
     z-index: 2;
     position: absolute;
     top: 100%;
-    right: 15px;
+    right: 0;
     visibility: hidden;
     opacity: 0;
     transition: .2s;
     min-width: 200px;
     display: flex;
-    justify-content: end;
+    justify-content: center;
 
  }
 
