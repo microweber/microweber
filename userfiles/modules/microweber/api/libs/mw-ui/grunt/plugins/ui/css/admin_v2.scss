@@ -1,9 +1,5 @@
-
-
 @import url("../css/../../tabler-ui/dist/css/tabler.min.css");
-@import url("../css/../../tabler-ui/dist/css/tabler.rtl.min.css");
 @import "_mw_tabler";
-
 
 
 
@@ -901,13 +897,11 @@ small.text-muted {
     z-index: 2;
     position: absolute;
     top: 100%;
-     right: -8px;
+    right: 0;
     visibility: hidden;
     opacity: 0;
     transition: .2s;
     min-width: 200px;
-    display: flex;
-    justify-content: center;
 
  }
 
