@@ -1,6 +1,6 @@
 <div class="card mb-5">
-    <div class="card-body px-0 js-product-pricing-card">
-        <div class="card-header no-border">
+    <div class="card-body js-product-pricing-card">
+        <div class="card-header no-border mt-3">
             <label for="" class="form-label font-weight-bold"><?php _e("Product price"); ?></label>
         </div>
 

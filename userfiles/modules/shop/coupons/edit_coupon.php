@@ -119,13 +119,13 @@ if ($params['coupon_id'] !== 'false') {
         <label class="form-label"><?php _e("Discount"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Enter the value of your discount."); ?></small>
         <div class="row mb-2">
-            <div class="col-lg-6 col-8">
+            <div class="col-lg-5 col-8">
                 <div class="input-group">
                     <span class="input-group-text js-discount-value-label">%</span>
                     <input type="text" name="discount_value" class="form-control js-validation js-validation-float-number" value="<?php print $data['discount_value'] ?>" />
                 </div>
             </div>
-            <div class="col-lg-6 col-4 d-flex align-items-center justify-content-end px-0">
+            <div class="col-lg-7 col-4 d-flex align-items-center justify-content-end px-0">
                 <div class="form-selectgroup px-0">
                     <label class="form-selectgroup-item mx-0 pe-2">
                         <input type="radio" name="discount_type" value="percentage" class="form-selectgroup-input js-discount-type" <?php if ($data['discount_type'] == 'percentage'): ?>checked=""<?php endif; ?>>
