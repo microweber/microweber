@@ -259,7 +259,7 @@ class ImportFeedToDatabase
                                         if (!$findCategoryChild) {
                                             $newCategoryChild = new Category();
                                             $newCategoryChild->parent_id = $newCategory->id;
-                                            $newCategoryChild->title = $category['name'];
+                                            $newCategoryChild->title = $categoryChild['name'];
                                             $newCategoryChild->save();
                                         }
                                     }
