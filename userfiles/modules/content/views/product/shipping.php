@@ -1,12 +1,12 @@
 <div class="card">
-    <div class="card-body px-0 mb-3" x-data="{ physicalProduct: <?php if ($contentData['physical_product'] == 1):?> true <?php else: ?> false <?php endif;?>  }">
-        <div class="card-header no-border">
+    <div class="card-body mb-3" x-data="{ physicalProduct: <?php if ($contentData['physical_product'] == 1):?> true <?php else: ?> false <?php endif;?>  }">
+        <div class="card-header no-border mt-3">
             <label class="form-label font-weight-bold"><?php _e("Shipping"); ?></label>
         </div>
 
         <div>
 
-            <div class="row py-0 ">
+            <div class="row py-0">
                 <div class="col-md-12 ps-md-0">
                     <div class="form-group">
                         <div class="custom-control custom-checkbox">

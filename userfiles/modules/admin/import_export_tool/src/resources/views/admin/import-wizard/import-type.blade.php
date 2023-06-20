@@ -1,4 +1,5 @@
-<div class="d-flex justify-content-center">
+<div>
+    <div class="d-flex justify-content-center">
 
     <button type="button" wire:click="selectImportTo('pages')" class="import-wizard-select-type">
         <x-import_export_tool::icon name="pages" />
@@ -28,4 +29,5 @@
         </div>
     </button>
 
+</div>
 </div>

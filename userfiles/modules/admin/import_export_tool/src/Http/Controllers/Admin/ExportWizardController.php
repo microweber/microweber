@@ -19,9 +19,7 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
 {
     public function index(Request $request)
     {
-        return view('import_export_tool::admin.render-livewire', [
-            'component'=>'import_export_tool::export_wizard'
-        ]);
+       return view('import_export_tool::admin.export-wizard-index');
     }
 
     public function deleteFile($id)
