@@ -67,7 +67,7 @@ if (!isset($offer['price']['offer_price'])) {
 		<input autocomplete="off" type="text" class="form-control js-product-special-price" name="content_data[special_price]" value="<?php echo $offer['price']['offer_price'];?>">
 
         <?php if (isset($offer['price']['offer_id'])): ?>
-            <div class="btn btn-outline-dark btn-sm ms-3" onclick="openOfferEdit('<?php echo $offer['price']['offer_id']; ?>');" data-bs-toggle="tooltip" title="Offer">
+            <div class="btn btn-outline-dark btn-sm ms-3" onclick="openOfferEdit('<?php echo $offer['price']['offer_id']; ?>');">
 
                     <i class="mdi mdi-label-percent-outline fs-1"></i>
 
