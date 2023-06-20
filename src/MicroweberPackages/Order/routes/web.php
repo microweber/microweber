@@ -12,5 +12,5 @@ Route::name('admin.')
     ->namespace('\MicroweberPackages\Order\Http\Controllers\Admin')
     ->group(function () {
         Route::get('order/abandoned', 'AbandonedOrderController@abandoned')->name('order.abandoned');
-        Route::resource('order', 'OrderController',['only'=>['index','show']]);
+        Route::resource('order', 'OrderController',['only'=>['index','show','create']]);
     });
