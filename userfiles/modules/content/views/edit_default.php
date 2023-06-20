@@ -662,6 +662,15 @@ if (isset($params['quick_edit'])) {
                                </div>
                            </div>
 
+
+                            <div class="card mb-5 ">
+                                <div class="card-body">
+
+                                    iframe here
+
+                                </div>
+                            </div>
+
                             <?php
                             include_once 'tabs.php';
                             ?>
