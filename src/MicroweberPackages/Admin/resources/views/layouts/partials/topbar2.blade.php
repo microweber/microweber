@@ -10,7 +10,7 @@
             <?php
             event_trigger('mw.admin.header.toolbar'); ?>
 
-            <ul class="nav">
+            <ul class="nav d-flex gap-2">
                 @yield('topbar2-links-right', \View::make('admin::layouts.partials.topbar2-links-right-default'))
                 <?php event_trigger('mw.admin.header.toolbar.ul'); ?>
             </ul>
