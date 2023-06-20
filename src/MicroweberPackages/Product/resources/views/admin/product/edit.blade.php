@@ -44,7 +44,14 @@
        </div>
 
        <div class="ms-3 mb-3 d-flex align-items-center">
-           <a class="tblr-body-color form-label mb-0 text-decoration-none font-weight-bold" href="{{route('admin.product.index')}}" class="mb-0">{{ "Edit Product" }} </a>
+           <a class="tblr-body-color form-label mb-0 text-decoration-none font-weight-bold" href="{{route('admin.product.index')}}" class="mb-0">
+               
+               @if($content_id > 0)
+                   {{ "Edit Product" }}
+               @else
+                   {{ "Add Product" }}
+               @endif
+           </a>
               <span class="tblr-body-color form-label mb-0 font-weight-bold ms-1">
                    @if($content_id > 0)
                       / {{ content_title($content_id) }}
