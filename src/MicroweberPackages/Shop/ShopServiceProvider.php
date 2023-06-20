@@ -74,6 +74,18 @@ class ShopServiceProvider extends ServiceProvider
                         'admin.order.edit',
                         'admin.order.show',
                     ]);
+
+                AdminManager::getMenuInstance('left_menu_top')
+                    ->getChild('Shop')->getChild('Orders')
+                    ->addChild('Add Order', [
+                        'attributes' => ['route' => 'admin.order.create']
+                    ]);
+
+                AdminManager::getMenuInstance('left_menu_top')
+                    ->getChild('Shop')->getChild('Orders')
+                    ->addChild('List Orders', [
+                        'attributes' => ['route' => 'admin.order.index']
+                    ]);
             }
             if (user_can_view_module(['module' => 'shop.category'])) {
 
@@ -92,6 +104,7 @@ class ShopServiceProvider extends ServiceProvider
                         'admin.shop.category.edit',
                         'admin.shop.category.show',
                     ]);
+
 
                 AdminManager::getMenuInstance('left_menu_top')
                     ->getChild('Shop')->getChild('Categories')
