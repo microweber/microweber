@@ -76,6 +76,8 @@ class ShopServiceProvider extends ServiceProvider
                     ]);
             }
             if (user_can_view_module(['module' => 'shop.category'])) {
+
+
                 AdminManager::getMenuInstance('left_menu_top')->getChild('Shop')
                     ->addChild('Categories', [
                         'attributes' => ['route' => 'admin.shop.category.index']
@@ -89,6 +91,12 @@ class ShopServiceProvider extends ServiceProvider
                         'admin.shop.category.create',
                         'admin.shop.category.edit',
                         'admin.shop.category.show',
+                    ]);
+
+                AdminManager::getMenuInstance('left_menu_top')
+                    ->getChild('Shop')->getChild('Categories')
+                    ->addChild('Add Category', [
+                        'attributes' => ['route' => 'admin.shop.category.create']
                     ]);
             }
             if (user_can_view_module(['module' => 'shop.customers'])) {
