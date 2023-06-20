@@ -56,7 +56,9 @@ if (!isset($offer['price']['offer_price'])) {
 
 
 <div class="form-group js-offer-price-form-group" style="display: none">
-	<label><?php _e('Offer Price'); ?></label>
+	<div class="card-header px-0">
+        <label class="form-label font-weight-bold"><?php _e('Offer Price'); ?></label>
+    </div>
 	<div class="input-group mb-3 prepend-transparent append-transparent">
 		<div class="input-group-prepend">
 			<span class="input-group-text text-muted h-100"><?php echo get_currency_code(); ?></span>
