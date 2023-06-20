@@ -79,6 +79,11 @@ class CategoryRepositoryApi extends BaseRepository
             $this->model->whereIn('id', $ids)->update(['rel_id' => $moveToRelId]);
         }
 
+        if (!empty($ids) && !empty($moveToParentIds)) {
+            foreach($moveToParentIds as $moveToParentId) {
+                $this->model->whereIn('id', $ids)->update(['parent_id' => $moveToParentId]);
+            }
+        }
 
     }
 
