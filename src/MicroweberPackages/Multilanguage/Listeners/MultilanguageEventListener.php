@@ -43,7 +43,7 @@ class MultilanguageEventListener
             });
         }
 
-        clearcache();
+
     }
 
     protected function getDefaultLocale()

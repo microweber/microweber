@@ -181,15 +181,22 @@ trait HasMultilanguageTrait
             foreach ($this->_addMultilanguage as $fieldName => $field) {
                 foreach ($field as $fieldLocale => $fieldValue) {
 
-                    if ($fieldLocale == $defaultLocale) {
-                        continue;
-                    }
+//                    if ($fieldLocale == $defaultLocale) {
+//                        continue;
+//                    }
 
                     $findTranslate = MultilanguageTranslations::where('field_name', $fieldName)
                         ->where('rel_type', $model->getTable())
                         ->where('rel_id', $model->id)
                         ->where('locale', $fieldLocale)
                         ->first();
+
+                    if($fieldValue == null and $findTranslate != null){
+                        $findTranslate->delete();
+                        $model->refresh();
+                        continue;
+                    }
+
 
                     if ($findTranslate == null) {
                         $findTranslate = new MultilanguageTranslations();
@@ -198,6 +205,7 @@ trait HasMultilanguageTrait
                         $findTranslate->rel_id = $model->id;
                         $findTranslate->locale = $fieldLocale;
                     }
+
                     $findTranslate->field_value = $fieldValue;
                     $findTranslate->save();
                     $model->refresh();
