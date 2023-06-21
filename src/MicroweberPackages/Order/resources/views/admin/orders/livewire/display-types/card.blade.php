@@ -27,10 +27,14 @@
                     </div>
 
                     <div class="col-sm col-12">
-                        <span class="form-label font-weight-bold ">
-                            <a class="tblr-body-color" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> 
-                            @include('order::admin.orders.livewire.display-types.show-more-products', ['carts'=>$carts])
-                        </span>
+                        <a class=" form-label font-weight-bold tblr-body-color" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a>
+
+                        <small class="text-muted" style="font-size: 12px !important;">
+                            {{ _e("Updated") }}: {{$order->updated_at->format('M d, Y, h:i A')}}
+                        </small>
+                        
+                        @include('order::admin.orders.livewire.display-types.show-more-products', ['carts'=>$carts])
+
                     </div>
 
                     <div class="col-auto px-2">
@@ -42,7 +46,7 @@
                     </div>
 
                     <div class="col-auto px-2">
-                        @if($order->is_paid == 1)--}}
+                        @if($order->is_paid == 1)
                             <span class="text-muted">{{ _e('Paid') }}</span>
                         @else
                             <span class="text-danger">{{ _e('Unpaid') }}</span>
@@ -72,47 +76,6 @@
                 </div>
             </div>
         </div>
-
-
-        {{--                <div>--}}
-        {{--                    <small class="text-muted">{{ _e('E-mail') }}:</small>--}}
-        {{--                    <p> {{$order->email}}</p>--}}
-        {{--                </div>--}}
-
-        {{--                <div>--}}
-        {{--                    <small class="text-muted">{{ _e('Phone') }}:</small>--}}
-        {{--                    <p>{{$order->phone}}</p>--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-
-        {{--            <div class="col-sm-6 col-md-4">--}}
-        {{--                <h6><strong>{{ _e('Payment Information') }}</strong></h6>--}}
-
-        {{--                <div>--}}
-        {{--                    <small class="text-muted">{{ _e('Amount') }}:</small>--}}
-        {{--                    <p>{{$order->payment_amount}} {{$order->payment_currency}}</p>--}}
-        {{--                </div>--}}
-
-        {{--                <div>--}}
-        {{--                    <small class="text-muted">{{ _e('Payment method') }}:</small>--}}
-        {{--                    <p>{{$order->paymentMethodName()}}</p>--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-
-        {{--            <div class="col-sm-6 col-md-4">--}}
-        {{--                <h6><strong>{{ _e('Shipping Information') }}</strong></h6>--}}
-
-        {{--                <div>--}}
-        {{--                    <small class="text-muted">{{ _e('Shipping method') }}:</small>--}}
-        {{--                    <p>{{$order->shippingMethodName()}}</p>--}}
-        {{--                </div>--}}
-
-        {{--                <div>--}}
-        {{--                    <small class="text-muted">{{ _e('Address') }}:</small>--}}
-        {{--                    <p>{{$order->addressText()}}</p>--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-        {{--        </div>--}}
 
     @endforeach
 @endif
