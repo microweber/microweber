@@ -351,7 +351,7 @@
                     <div>
                         <div class="col-12">
                             <div id="show-categories-tree-wrapper" >
-                                <label for="" class="form-label font-weight-bold"><?php _e('Select'); ?> <?php echo $data['content_type']; ?> <?php _e('categories'); ?></label>
+                                <label  class="form-label font-weight-bold"><?php _e('Select'); ?> <?php echo $data['content_type']; ?> <?php _e('categories'); ?></label>
 
                                 <div id="show-categories-tree"  >
                                     <div class="mw-admin-edit-page-primary-settings content-category-selector">
@@ -407,7 +407,7 @@
             <div class=" ">
                 <div class="row py-0">
                     <div class="col-12">
-                        <label for="" class="form-label font-weight-bold"><?php _e("Tags"); ?></label>
+                        <label  class="form-label font-weight-bold"><?php _e("Tags"); ?></label>
                         <small data-bs-toggle="tooltip" title="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>"></small>
                     </div>
                 </div>

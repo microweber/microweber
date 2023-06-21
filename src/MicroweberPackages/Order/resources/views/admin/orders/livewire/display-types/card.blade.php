@@ -32,7 +32,7 @@
                         <small class="text-muted" style="font-size: 12px !important;">
                             {{ _e("Updated") }}: {{$order->updated_at->format('M d, Y, h:i A')}}
                         </small>
-                        
+
                         @include('order::admin.orders.livewire.display-types.show-more-products', ['carts'=>$carts])
 
                     </div>

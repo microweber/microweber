@@ -53,7 +53,7 @@ if ($isShop){
 
         <div wire:ignore>
             <div class=" mb-5" id="bulk-actions-block" style="display: none;" >
-                <label for="" class="form-label"><?php _e("Select action from the field") ?></label>
+                <label  class="form-label"><?php _e("Select action from the field") ?></label>
                 <div class="btn-group">
                     <button type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <?php _e('Bulk Actions') ?>

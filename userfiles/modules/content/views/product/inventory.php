@@ -73,7 +73,7 @@ if (!isset($contentData['sell_oos'])) {
 <div class="card mb-5">
     <div class="card-body mb-3">
         <div class="card-header mt-3">
-            <label for="" class="form-label font-weight-bold"> <?php _e("Inventory"); ?></label>
+            <label  class="form-label font-weight-bold"> <?php _e("Inventory"); ?></label>
         </div>
 
 

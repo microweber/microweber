@@ -115,7 +115,7 @@ if (!$data) {
                 <a href="<?php print $view['url']; ?>" target="_blank" rel="noreferrer noopener">
                     <div class="page-visited">
                         <div class="d-flex justify-content-between align-items-center">
-                            <label for="" class="form-label"><?php print $view['title']; ?></label>
+                            <label  class="form-label"><?php print $view['title']; ?></label>
                             <label class="form-label"><?php print mw()->format->ago($view['updated_at']); ?></label>
                         </div>
                         <div class="page-url"><?php print $view['url']; ?></div>

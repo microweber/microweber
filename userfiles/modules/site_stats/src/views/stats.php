@@ -37,7 +37,7 @@
 
             <div class="card dashboard-statistics-card-wrappers " id="demotabsnav">
                 <div class="card-header pb-0">
-                    <label for="" class="form-label mt-3 mb-0">
+                    <label  class="form-label mt-3 mb-0">
                         <?php _e("Referrers"); ?>
                     </label>
                 </div>
@@ -59,7 +59,7 @@
         <div class="col-lg-6 col-12 mb-3">
             <div class="card dashboard-statistics-card-wrappers">
                 <div class="card-header pb-0">
-                    <label for="" class="form-label mt-3 mb-0">
+                    <label  class="form-label mt-3 mb-0">
                         <?php _e('Content'); ?>
                     </label>
                 </div>
@@ -72,7 +72,7 @@
         <div class="col-lg-6 col-12 mb-3">
             <div class="card dashboard-statistics-card-wrappers">
                 <div class="card-header pb-0">
-                    <label for="" class="form-label mt-3 mb-0">
+                    <label  class="form-label mt-3 mb-0">
                         <?php _e('Visitors'); ?>
                     </label>
 
@@ -86,7 +86,7 @@
 <!--        <div class="col-12 mb-3">-->
 <!--            <div class="card dashboard-statistics-card-wrappers">-->
 <!--                <div class="card-header pb-0">-->
-<!--                    <label for="" class="form-label mt-3 mb-0">-->
+<!--                    <label  class="form-label mt-3 mb-0">-->
 <!--                        --><?php //_e('Locations'); ?>
 <!--                    </label>-->
 <!--                </div>-->
@@ -99,7 +99,7 @@
         <div class="col-lg-6 col-12 mb-3">
             <div class="card dashboard-statistics-card-wrappers">
                 <div class="card-header pb-0">
-                    <label for="" class="form-label mt-3 mb-0">
+                    <label  class="form-label mt-3 mb-0">
                         <?php _e('Browser language'); ?>
                     </label>
 
