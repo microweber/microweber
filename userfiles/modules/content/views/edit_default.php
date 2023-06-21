@@ -240,6 +240,8 @@ if (isset($params['quick_edit'])) {
     <script>
         slugFromUrlField = function (field) {
             var val = $(field).val();
+
+
             var slug = mw.slug.create(val);
 
             if(val != slug){
@@ -249,12 +251,23 @@ if (isset($params['quick_edit'])) {
         }
 
         slugEdited = !(mw.url.windowHashParam('action') || '').includes('new:');
-        slugFromTitle = function () {
+        slugFromTitle = function (el) {
+
+            var val = $('#content-title-field').val();
+
+
             if (slugEdited === false) {
-                var slug = mw.slug.create($('#content-title-field').val());
+                var slug = mw.slug.create(val);
                 $('.js-slug-base-url-changed').val(slug);
                 $('.js-slug-base-url').text(slug);
             }
+        }
+        titlePreviewChange = function (el) {
+            if( typeof el === 'undefined'){
+                return
+            }
+            var val = $(el).val();
+            $('#js-edit-content-dynamic-title-display').text(val);
         }
 
     </script>
@@ -393,7 +406,7 @@ if (isset($params['quick_edit'])) {
 
                                   <div class="row">
                                       <div class="d-flex justify-content-between">
-                                          <h1 class="main-pages-title"><strong x-text="title"><?php _e($action_text); ?></strong></h1>
+                                          <h1 class="main-pages-title"><strong id="js-edit-content-dynamic-title-display" x-text="title"><?php _e($action_text); ?></strong></h1>
                                       </div>
 
 
@@ -412,10 +425,10 @@ if (isset($params['quick_edit'])) {
                                                   <?php
                                                   echo $formBuilder->text('title')
                                                       ->setModel($contentModel)
-                                                      ->xModel('title')
+                                                    //  ->xModel('title')
                                                       ->value($title_for_input)
                                                       ->id('content-title-field')
-                                                      ->onkeyup('slugFromTitle();')
+                                                      ->onkeyup('slugFromTitle(this);titlePreviewChange(this);')
                                                       ->autocomplete(false);
                                                   ?>
 

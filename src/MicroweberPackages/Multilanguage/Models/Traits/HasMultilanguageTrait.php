@@ -182,6 +182,7 @@ trait HasMultilanguageTrait
                 foreach ($field as $fieldLocale => $fieldValue) {
 
                     if ($fieldLocale == $defaultLocale) {
+                        // skip saving default locale , its saved in the model
                         continue;
                     }
 

@@ -88,6 +88,7 @@ class MwEditor extends \MicroweberPackages\Form\Elements\Text
                 $('#$this->randId').mlTextArea({
                     name: '$fieldName',
                     currentLocale: '$this->currentLanguage',
+                    defaultLocale: '$this->defaultLanguage',
                     direction: '$textDir',
                     locales: $localesJson,
                     translations: $translationsJson,
