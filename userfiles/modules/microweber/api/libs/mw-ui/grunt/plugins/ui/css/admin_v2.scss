@@ -1704,3 +1704,18 @@ svg.text-danger {
  .mdi-truck-check-outline {
      display: none;
  }
+
+
+.mw-order-custom-fields {
+    ul {
+        li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0 !important;
+            margin-left: 3px;
+
+        }
+        padding-left: 0;
+    }
+
+}
