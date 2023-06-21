@@ -191,7 +191,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
     </div>
 
     <div class="row px-0">
-        <div class="info-table col-md-8 col-lg-6 col-xl-5 ml-auto">
+        <div class="info-table col-md-8 col-lg-6 col-xl-5 ms-auto">
             <div class="row d-none">
                 <div class="col-6"></div>
                 <div class="col-6"></div>
