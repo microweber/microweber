@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Validator;
         })->name('coupon_apply');
 
         Route::post('coupons_delete_session', function () {
-            $data = request()->all();
-            return coupons_delete_session($data);
+            return coupons_delete_session();
         })->name('coupons_delete_session');
 
     });

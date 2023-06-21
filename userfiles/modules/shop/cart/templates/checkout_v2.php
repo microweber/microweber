@@ -88,7 +88,7 @@ $total = cart_total();
                    $discountData = app()->cart_manager->totals('discount');
                    ?>
                    <module type="shop/coupons" id="<?php echo $params['id']; ?>-coupons" template="modal" />
-               <?php endif; ?> 
+               <?php endif; ?>
            </div>
            <div class="col-sm-6 checkout-modal-total-holder ">
                <div class="d-flex justify-content-md-end align-items-center">

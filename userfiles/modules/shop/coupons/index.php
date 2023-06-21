@@ -24,6 +24,22 @@ if (is_file($template_file) != false) {
 
 <script type="text/javascript">
     $(document).ready(function () {
+
+        $(".js-change-coupon-code-<?php echo $params['id']; ?>").click(function () {
+            $.ajax({
+                url: '<?php print api_url('coupons_delete_session');?>',
+                data: '',
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    mw.reload_module('shop/coupon');
+                    mw.reload_module('shop/cart');
+                    mw.reload_module('shop/payments');
+                    mw.reload_module('shop/checkout');
+                }
+            });
+        });
+
         $(".js-apply-coupon-code-<?php echo $params['id']; ?>").click(function () {
             $('.js-coupon-code-messages-<?php echo $params['id']; ?>').html('');
             $('.js-apply-coupon-code-<?php echo $params['id']; ?>').attr('disabled', 'disabled');
