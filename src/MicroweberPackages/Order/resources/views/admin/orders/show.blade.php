@@ -153,10 +153,14 @@
         </div>
 
 
-        <div class="card bg-azure-lt ">
+        <div class="card mb-5 ">
+
+            <div class="card-header mt-4 pb-0">
+                <h3 class="main-pages-title"><?php _e('Shipping details'); ?></h3>
+            </div>
             <div class="card-body">
-                <h5 class="mb-4 font-weight-bold"><?php _e('Shipping details'); ?></h5>
-                <div class="row d-flex align-items-center">
+
+                <div class="row py-0 d-flex align-items-center">
 
 
                     <?php
