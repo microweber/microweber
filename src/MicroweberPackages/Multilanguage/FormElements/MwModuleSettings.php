@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Multilanguage\FormElements;
 
-class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSettings
+class MwModuleSettings extends \MicroweberPackages\FormBuilder\Elements\MwModuleSettings
 {
     public $randId;
     public $currentLanguage;

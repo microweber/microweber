@@ -243,6 +243,32 @@ class ImportFeedToDatabase
 
                 if ($updateProductId > 0) {
 
+                    if (isset($item['categories'])) {
+                        foreach ($item['categories'] as $category) {
+                            $findCategory = Category::where('title', $category['name'])->first();
+                            if (!$findCategory) {
+                                $findCategory = new Category();
+                                $findCategory->title = $category['name'];
+                                $findCategory->rel_type = 'content';
+                                $findCategory->rel_id = $this->importFeed->parent_page;
+                                $findCategory->save();
+                            }
+                            $item['category_ids'][] = $findCategory->id;
+                            if (isset($category['childs'])) {
+                                foreach ($category['childs'] as $categoryChild) {
+                                    $findCategoryChild = Category::where('title', $categoryChild['name'])->first();
+                                    if (!$findCategoryChild) {
+                                        $findCategoryChild = new Category();
+                                        $findCategoryChild->parent_id = $findCategory->id;
+                                        $findCategoryChild->title = $categoryChild['name'];
+                                        $findCategoryChild->save();
+                                    }
+                                    $item['category_ids'][] = $findCategoryChild->id;
+                                }
+                            }
+                        }
+                    }
+
                     try {
                         $findProductById = Product::where('id', $updateProductId)->first();
                         $findProductById->fill($item);

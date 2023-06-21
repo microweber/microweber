@@ -123,8 +123,8 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
             <thead class="text-primary">
             <tr>
                 <th><?php _e(""); ?></th>
-                <th><?php _e("Parameters"); ?></th>
                 <th><?php _e("Product"); ?></th>
+                <th><?php _e("Parameters"); ?></th>
                 <th><?php _e("SKU"); ?></th>
                 <th><?php _e("Price"); ?></th>
                 <th class="text-center"><?php _e("Qty"); ?></th>
@@ -159,15 +159,17 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                             <?php endif; ?>
                         <?php endif; ?>
                     </td>
+                    <td class="mw-order-item-name">
+                        <a href="<?php print content_link($item['rel_id']) ?>"
+                           target="_blank"><span><?php print $item['title'] ?></span></a>
+                    </td>
+
                     <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
                         <td class="mw-order-custom-fields"><small><?php print $item['custom_fields'] ?></small></td>
                          <?php else :?>
                         <td class="mw-order-custom-fields"><?php _e("N/A"); ?></td>
                     <?php endif ?>
-                    <td class="mw-order-item-name">
-                        <a href="<?php print content_link($item['rel_id']) ?>"
-                           target="_blank"><span><?php print $item['title'] ?></span></a>
-                    </td>
+
                     <td class="mw-order-item-sku">
                         <?php if ($item['rel_type'] == 'content'): ?>
                             <?php $data_fields = app()->content_manager->data($item['rel_id']); ?>
@@ -190,39 +192,39 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
         </table>
     </div>
 
-    <div class="row">
-        <div class="info-table col-md-8 col-lg-6 col-xl-5 ml-auto">
+    <div class="row px-0">
+        <div class="info-table col-md-8 col-lg-6 col-xl-5 ms-auto">
             <div class="row d-none">
                 <div class="col-6"></div>
                 <div class="col-6"></div>
             </div>
 
-            <div class="row border-0">
+            <div class="row p-0 border-0">
                 <div class="col-6">
-                    <strong><?php _e('Total Amount'); ?></strong>
+                    <label class="form-label font-weight-bold"><?php _e('Total Amount'); ?></label>
                 </div>
                 <div class="col-6"></div>
             </div>
 
-            <div class="row">
+            <div class="row p-1">
                 <div class="col-6"><?php _e('Subtotal'); ?></div>
                 <div class="col-6"><?php print  currency_format($subtotal, $ord['currency']); ?></div>
             </div>
 
-            <div class="row">
+            <div class="row p-1">
                 <div class="col-6"><?php _e('Shipping price'); ?></div>
                 <div class="col-6"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></div>
             </div>
 
             <?php if (isset($ord['taxes_amount']) and $ord['taxes_amount'] != false): ?>
-                <div class="row">
+                <div class="row p-1">
                     <div class="col-6"><?php _e("Tax"); ?></div>
                     <div class="col-6"><?php print  currency_format($ord['taxes_amount'], $ord['currency']); ?></div>
                 </div>
             <?php endif ?>
 
             <?php if (isset($ord['discount_value']) and $ord['discount_value'] > 0): ?>
-                <div class="row">
+                <div class="row p-1">
                     <div class="col-6"><?php _e("Discount"); ?></div>
                     <div class="col-6">
                         -
@@ -233,11 +235,13 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                             print $ord['discount_value'] . "%";
                         }
                         ?>
+
+                        ( <?php _e("Coupon code") ?> )
                     </div>
                 </div>
             <?php endif ?>
 
-            <div class="row">
+            <div class="row p-1">
                 <div class="col-6"><strong><?php _e('Total'); ?></strong></div>
                 <div class="col-6"><strong><?php print  currency_format($ord['amount'], $ord['currency']); ?></strong>
                 </div>
@@ -248,26 +252,26 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
     <?php
     $subtotal = 0;
     ?>
-    <div class="row">
+    <div class="row px-0">
         <div class="info-table col-md-8 col-lg-6 col-xl-5 ml-auto">
-            <div class="row d-none">
+            <div class="row  p-0 d-none">
                 <div class="col-6"></div>
                 <div class="col-6"></div>
             </div>
 
-            <div class="row border-0">
+            <div class="row  p-0border-0">
                 <div class="col-6">
                     <strong><?php _e('Total Amount'); ?></strong>
                 </div>
                 <div class="col-6"></div>
             </div>
 
-            <div class="row">
+            <div class="row p-0">
                 <div class="col-6"><?php _e('Subtotal'); ?></div>
                 <div class="col-6"><?php print  currency_format($subtotal, $ord['currency']); ?></div>
             </div>
 
-            <div class="row">
+            <div class="row p-0">
                 <div class="col-6"><?php _e('Shipping price'); ?></div>
                 <div class="col-6"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></div>
             </div>
@@ -311,7 +315,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
     </div>
 <?php endif; ?>
 
-<div class="mt-4 d-flex justify-content-between">
+<div class="mt-4 d-flex justify-content-end ms-auto">
     <button type="button" onclick="del_this_order_and_return('<?php print $show_ord_id ?>')"
             class="btn btn-outline-danger btn-sm"><?php _e('Delete'); ?></button>
     <!-- <button type="button" onclick="export_this_order_and_return('<?php /*print $show_ord_id */ ?>')" class="btn btn-outline-primary btn-sm"><?php /*_e('Export Excel'); */ ?></button>-->

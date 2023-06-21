@@ -211,7 +211,7 @@ if (!empty($template_config)) {
             <div class="row">
                 <?php
 
-                $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
                 foreach($edit_fields_from_template_conf_ready as $field) {
 
                     $relType = 'content';

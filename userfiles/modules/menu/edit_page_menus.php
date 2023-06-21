@@ -3,7 +3,7 @@
 
 
 
-<div class="card shadow-none">
+<div class="card">
    <div class="card-body">
        <div class="card-header ps-0 pt-1 mb-0">
            <strong><?php _e("Add to Navigation"); ?></strong>

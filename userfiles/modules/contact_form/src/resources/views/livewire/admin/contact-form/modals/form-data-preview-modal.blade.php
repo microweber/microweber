@@ -1,5 +1,7 @@
 <div>
-
+    @if(!$formData)
+       <h1>No form data found</h1>
+    @else
     <div class="modal-header">
         <h5 class="modal-title">
             {{$formData->getSubject()}}
@@ -32,5 +34,6 @@
             <button class="btn btn-outline-dark mt-3" wire:click="$emit('closeModal')"> {{_e('Close')}}</button>
         </div>
     </div>
+    @endif
 
 </div>

@@ -53,7 +53,7 @@
                     tdata = [];
                 }
 
-                var selectedPages = [ <?php print $data['parent']; ?>];
+                window.selectedPages = [ <?php print $data['parent']; ?>];
                 var selectedCategories = [ <?php print $categories_active_ids; ?>];
 
 
@@ -83,9 +83,18 @@
 
                             var selected = categorySelector.tree.getSelected();
                             if(selected.length){
+
                                 var hasPage = selected.find(function (item){
                                     return item.type === 'page';
                                 });
+
+                                for(var i = 0; i < selected.length; i++){
+                                    if(selected[i].type === 'page') {
+                                        window.selectedPages = [selected[i].id];
+                                    }
+                                }
+
+                                // console.log(window.selectedPages);
 
                                 if(typeof hasPage === 'undefined'){
                                     var category = selected[0];
@@ -104,7 +113,7 @@
                         })
                     } else {
 
-                        $.each(selectedPages, function () {
+                        $.each(window.selectedPages, function () {
                             categorySelector.tree.select(this, 'page', false);
                             categorySelector.tree.open(this, 'page', false);
 
@@ -164,7 +173,7 @@
 </script>
 
 <div class="col-md-4 mt-6 pt-4 pe-5 manage-content-sidebar">
-    <div class="card shadow-none mb-5">
+    <div class="card mb-5">
         <div class="card-body">
             <div class="card-header ps-0 pt-1 mb-0">
                 <strong><?php _e("Visibility"); ?></strong>
@@ -191,10 +200,8 @@
 
     <div class="mb-5 categories js-sidebar-categories-card">
 
-               <div class="card shadow-none">
+               <div class="card">
                    <div class="card-body">
-
-
 
                            <?php if ($data['content_type'] == 'page') : ?>
 
@@ -208,8 +215,8 @@
                                       <div class="quick-parent-selector mt-2">
                                           <module
 
-
                                                 type="content/views/selector"
+                                                  hide-categories="true"
                                                   no-parent-title="<?php _e('No parent page'); ?>"
                                                   field-name="parent_id_selector"
                                                   change-field="parent"
@@ -239,7 +246,9 @@
                                            additional_params.is_blog = 1;
                                            <?php endif; ?>
 
-                                           additional_params.parent = <?php print $data['parent']; ?>;
+                                           if (window.selectedPages && window.selectedPages.length > 0) {
+                                               additional_params.parent = window.selectedPages[0];
+                                           }
 
                                            manage_cats_for_add_post_dialog = mw.top().tools.open_global_module_settings_modal('categories/edit_category', 'categories-admin',manage_cats_for_add_post_opts,additional_params)
                                        }
@@ -344,7 +353,7 @@
                     <div>
                         <div class="col-12">
                             <div id="show-categories-tree-wrapper" >
-                                <label for="" class="form-label font-weight-bold"><?php _e('Select'); ?> <?php echo $data['content_type']; ?> <?php _e('categories'); ?></label>
+                                <label  class="form-label font-weight-bold"><?php _e('Select'); ?> <?php echo $data['content_type']; ?> <?php _e('categories'); ?></label>
 
                                 <div id="show-categories-tree"  >
                                     <div class="mw-admin-edit-page-primary-settings content-category-selector">
@@ -400,7 +409,7 @@
             <div class=" ">
                 <div class="row py-0">
                     <div class="col-12">
-                        <label for="" class="form-label font-weight-bold"><?php _e("Tags"); ?></label>
+                        <label  class="form-label font-weight-bold"><?php _e("Tags"); ?></label>
                         <small data-bs-toggle="tooltip" title="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>"></small>
                     </div>
                 </div>

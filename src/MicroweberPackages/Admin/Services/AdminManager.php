@@ -68,6 +68,20 @@ class AdminManager
                'admin.page.show',
            ]);
 
+        $this->menus['left_menu_top']
+            ->getChild('Website')
+            ->getChild('Pages')
+            ->addChild('Add Page', [
+                'attributes' => ['route' => 'admin.page.create']
+            ]);
+
+        $this->menus['left_menu_top']
+            ->getChild('Website')
+            ->getChild('Pages')
+            ->addChild('List Pages', [
+                'attributes' => ['route' => 'admin.page.index']
+            ]);
+
         $this->menus['left_menu_top']->getChild('Website')
             ->addChild('Categories', [
                 'attributes' => ['route'=>'admin.category.index'],
@@ -81,6 +95,20 @@ class AdminManager
                 'admin.category.show',
             ]);
 
+        $this->menus['left_menu_top']
+            ->getChild('Website')
+            ->getChild('Categories')
+            ->addChild('Add Category', [
+                'attributes' => ['route' => 'admin.category.create']
+            ]);
+
+        $this->menus['left_menu_top']
+            ->getChild('Website')
+            ->getChild('Categories')
+            ->addChild('List Categories', [
+                'attributes' => ['route' => 'admin.category.index']
+            ]);
+
         $this->menus['left_menu_top']->getChild('Website')
             ->addChild('Posts', [
                 'attributes' => ['route'=>'admin.post.index'],
@@ -92,6 +120,20 @@ class AdminManager
                 'admin.post.create',
                 'admin.post.edit',
                 'admin.post.show',
+            ]);
+
+        $this->menus['left_menu_top']
+            ->getChild('Website')
+            ->getChild('Posts')
+            ->addChild('Add Post', [
+                'attributes' => ['route' => 'admin.post.create']
+            ]);
+
+        $this->menus['left_menu_top']
+            ->getChild('Website')
+            ->getChild('Posts')
+            ->addChild('List Posts', [
+                'attributes' => ['route' => 'admin.post.index']
             ]);
 
         $this->menus['left_menu_bottom']->addChild('Get Help', [

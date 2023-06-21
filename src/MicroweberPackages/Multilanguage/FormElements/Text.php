@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Multilanguage\FormElements;
 
-class Text extends \MicroweberPackages\Form\Elements\Text
+class Text extends \MicroweberPackages\FormBuilder\Elements\Text
 {
     public $randId;
     public $defaultLanguage;
@@ -67,6 +67,7 @@ class Text extends \MicroweberPackages\Form\Elements\Text
                 $('#$this->randId').mlInput({
                     name: '$fieldName',
                     currentLocale: '$this->currentLanguage',
+                    defaultLocale: '$this->defaultLanguage',
                     locales: $localesJson,
                     attributes: $attributes,
                     translations: $translationsJson,

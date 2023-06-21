@@ -284,7 +284,7 @@
                 </div>
 
                 <div class="mt-3">
-                    <module type="shop/cart" class="no-settings" template="checkout_v2_sidebar" data-checkout-link-enabled="n"/>
+                    <module type="shop/cart" id="shop-cart-checkout-mobile" class="no-settings" template="checkout_v2_sidebar" data-checkout-link-enabled="n"/>
                 </div>
             </div>
         </div>

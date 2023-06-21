@@ -53,8 +53,8 @@
 
         ?>
 
-        @if(livewire_component_exists('microweber-module-'.$moduleTypeForComponent.'::settings'))
-                @livewire('microweber-module-'.$moduleTypeForComponent.'::settings', [
+        @if(livewire_component_exists($livewireComponentName))
+                @livewire($livewireComponentName, [
                     'moduleId' => $moduleId,
                     'moduleType' => $moduleType,
                 ])

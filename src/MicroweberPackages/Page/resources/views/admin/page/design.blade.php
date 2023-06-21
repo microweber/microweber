@@ -80,7 +80,7 @@
                        <div class="row p-0">
                            <div class="card-header d-flex flex-wrap align-items-center justify-content-between px-0">
                               <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                                  <label for="" class="form-label">{{ 'Website pages' }}</label>
+                                  <label  class="form-label">{{ 'Website pages' }}</label>
                                   <select class="js-select-layout form-select">
                                       @foreach($allLayouts as $layout)
                                           @if(isset($layout['pages']) && count($layout['pages']) > 1)

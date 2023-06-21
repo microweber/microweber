@@ -16,7 +16,7 @@ if (count($shipping_options) == 0) {
         <?php _e("There no shipping methods available."); ?>
         <?php
         if (is_admin()) {
-          echo '<br /><a href="'.admin_url('view:shop/action:options?group=shop/shipping/admin').'" target="_blank">' . _e("Setup shipping methods", true). '</a>';
+          echo '<br /><a href="'.admin_url('settings?group=shop/shipping/admin').'" target="_blank">' . _e("Setup shipping methods", true). '</a>';
         }
         ?>
     </div>

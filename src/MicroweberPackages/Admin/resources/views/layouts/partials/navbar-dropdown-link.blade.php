@@ -30,7 +30,7 @@ foreach($item->getChildren() as $subItem) {
         <div class="dropdown-menu-columns">
             <div class="dropdown-menu-column">
                 @foreach($item->getChildren() as $subItem)
-
+                    <div class="dropdown-menu-column-item">
                     @php
                     $subItemIsActive = false;
                     if ($subItem->getAttribute('route') == Route::currentRouteName()) {
@@ -47,10 +47,31 @@ foreach($item->getChildren() as $subItem) {
                        <span>
                             {{_e($subItem->getName())}}
                        </span>
-                        <span data-href="" class="add-new" data-bs-toggle="tooltip" title="">
-                         <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 656q-33 0-56.5-23.5T160 576q0-33 23.5-56.5T240 496q33 0 56.5 23.5T320 576q0 33-23.5 56.5T240 656Zm240 0q-33 0-56.5-23.5T400 576q0-33 23.5-56.5T480 496q33 0 56.5 23.5T560 576q0 33-23.5 56.5T480 656Zm240 0q-33 0-56.5-23.5T640 576q0-33 23.5-56.5T720 496q33 0 56.5 23.5T800 576q0 33-23.5 56.5T720 656Z"/></svg>
-                        </span>
+                        @if($subItem->hasChildren())
+                            <span data-href="" class="add-new" data-bs-toggle="tooltip" title="">
+                             <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 656q-33 0-56.5-23.5T160 576q0-33 23.5-56.5T240 496q33 0 56.5 23.5T320 576q0 33-23.5 56.5T240 656Zm240 0q-33 0-56.5-23.5T400 576q0-33 23.5-56.5T480 496q33 0 56.5 23.5T560 576q0 33-23.5 56.5T480 656Zm240 0q-33 0-56.5-23.5T640 576q0-33 23.5-56.5T720 496q33 0 56.5 23.5T800 576q0 33-23.5 56.5T720 656Z"/></svg>
+                            </span>
+                        @endif
                     </a>
+
+                    @if($subItem->hasChildren())
+                        <div class="mw-admin-sidebar-navigation-menu">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <nav class="nav flex-column">
+                                        @foreach($subItem->getChildren() as $subItemChildren)
+                                            <a class="mw-admin-action-links btn btn-link text-decoration-none fs-5" aria-current="page"
+                                               href="@if (!empty($subItemChildren->getAttribute('route'))) {{route($subItemChildren->getAttribute('route'))}} @else {{ $subItemChildren->getUri() }} @endif">
+                                                {{_e($subItemChildren->getName())}}
+                                            </a>
+                                        @endforeach
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    </div>
                 @endforeach
             </div>
         </div>

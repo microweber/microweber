@@ -39,7 +39,13 @@ $creteCategoryIn = 'blog';
 if (route_is('admin.shop.category.create')) {
     $creteCategoryIn = 'shop';
 }
+if (route_is('admin.shop.category.edit')) {
+    $creteCategoryIn = 'shop';
+}
 if (isset($_GET['is_shop']) && $_GET['is_shop'] == '1') {
+    $creteCategoryIn = 'shop';
+}
+if (isset($params['is_shop']) && $params['is_shop'] == '1') {
     $creteCategoryIn = 'shop';
 }
 if ($creteCategoryIn == 'shop') {
@@ -48,8 +54,8 @@ if ($creteCategoryIn == 'shop') {
         $data['rel_id'] = $shop['id'];
     }
 }
-if (isset($_GET['parent'])) {
-    $data['rel_id'] = $_GET['parent'];
+if (isset($_GET['rel_id'])) {
+    $data['rel_id'] = $_GET['rel_id'];
 }
 ?>
 <style>
@@ -266,7 +272,11 @@ if (isset($_GET['parent'])) {
                             mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
                         } else {
                             if(mw.category_is_new && admin_edit_url){
+                               <?php if (isset($_GET['iframe'])): ?>
+                                window.location = admin_edit_url + '?iframe=1';
+                                <?php else: ?>
                                 window.location = admin_edit_url;
+                                <?php endif; ?>
                             }
                         }
 
@@ -312,17 +322,10 @@ if (isset($_GET['parent'])) {
 
             ?>
 
-            <div class="card-header mb-3 d-flex justify-content-between align-items-center">
-                <label class="form-label"><?php print  $headerText ?></label>
-                <div>
-                    <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-dark" form="quickform-edit-content"><i class="mdi mdi-content-save me-1"></i> <?php _e('Save') ?></button>
-                </div>
-            </div>
-        <?php endif; ?>
+            <div class="card-header d-flex justify-content-between align-items-center">
+<!--                <label class="form-label">--><?php //print  $headerText ?><!--</label>-->
 
-        <div class="<?php if (!isset($params['no-toolbar'])): ?> <?php endif; ?>">
-            <div class="card-body">
-                <div class="create-root mb-3 text-end mx-4">
+                <div class="create-root text-end">
                     <div id="content-title-field-buttons">
                         <?php if (intval($data['id']) != 0): ?>
                             <script>
@@ -354,35 +357,31 @@ if (isset($_GET['parent'])) {
                             <a href="#action=managecats:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Manage"); ?></a>
                         <?php endif; ?>
 
-
                         <?php endif; ?>
 
-
-                        <?php if (intval($data['id']) != 0): ?>
-
-                            <?php
-
-                            if ($creteCategoryIn == 'shop') {
-                                $add_sub_cateory_link = route('admin.shop.category.create') . '?addsubcategory=' . $data['id'];
-                            } else {
-                                $add_sub_cateory_link = route('admin.category.create') . '?addsubcategory=' . $data['id'];
-                            }
-
-                            if (isset($params['live_edit']) and $params['live_edit'] ) {
-                                $add_sub_cateory_link = '#action=addsubcategory:'.$data['id'];
-                            }
-                            ?>
-
-                            <a href="<?php print category_link($data['id']) ?>" target="_blank" class="btn btn-sm btn-outline-primary me-2  "><?php _e("View category"); ?></a>
-
-
-                            <a href="<?php print $add_sub_cateory_link ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
-
-
-                        <?php endif; ?>
                     </div>
                 </div>
 
+                <?php  if (isset($_GET['iframe'])) : ?>
+                <div>
+                    <h2>
+                    <?php  if ($data['id'] > 0) : ?>
+                    <?php _e('Edit category'); ?>
+                    <?php else: ?>
+                    <?php _e('Add category'); ?>
+                    <?php endif; ?>
+                    </h2>
+                </div>
+                <div>
+                    <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-dark" form="quickform-edit-content"><i class="mdi mdi-content-save me-1"></i> <?php _e('Save') ?></button>
+                </div>
+                <?php endif; ?>
+
+            </div>
+        <?php endif; ?>
+
+        <div class="<?php if (!isset($params['no-toolbar'])): ?> <?php endif; ?>">
+            <div class="card-body py-0">
 
                 <div class="row p-0">
                     <div class="col-lg-12">
@@ -400,10 +399,10 @@ if (isset($_GET['parent'])) {
 
                             <?php
                             $categoryModel = \MicroweberPackages\Category\Models\Category::where('id', $data['id'])->first();
-                            $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                            $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
                             ?>
 
-                            <div class="row">
+                            <div class="row p-0">
                                 <div class="col-12">
                                     <div class="form-group" id="content-title-field-row">
 
@@ -640,6 +639,7 @@ if (isset($_GET['parent'])) {
 
 
                                 </script>
+
                                 <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
 
                                 <div class="col-12">

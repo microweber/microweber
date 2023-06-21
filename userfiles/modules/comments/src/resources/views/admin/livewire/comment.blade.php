@@ -1,3 +1,9 @@
+<?php
+
+if(!isset($comment) or !$comment) {
+    return;
+}
+?>
 <div class="card shadow-sm mb-4 bg-silver comments-card" x-data="{showReplyForm: false}">
 
     @if($comment->isPending())

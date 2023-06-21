@@ -147,6 +147,8 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 
       //  mw.askusertostay = false;
         // document.querySelector('#content-title-field-row .card-header').classList[state ? 'add' : 'remove']('post-header-content-changed')
+
+       $('#js-admin-save-content-main-btn').addClass('btn-ghost-success active').removeClass('btn-dark')
     }
 
     $(document).ready(function () {
@@ -240,6 +242,8 @@ if (isset($params['quick_edit'])) {
     <script>
         slugFromUrlField = function (field) {
             var val = $(field).val();
+
+
             var slug = mw.slug.create(val);
 
             if(val != slug){
@@ -249,12 +253,23 @@ if (isset($params['quick_edit'])) {
         }
 
         slugEdited = !(mw.url.windowHashParam('action') || '').includes('new:');
-        slugFromTitle = function () {
+        slugFromTitle = function (el) {
+
+            var val = $('#content-title-field').val();
+
+
             if (slugEdited === false) {
-                var slug = mw.slug.create($('#content-title-field').val());
+                var slug = mw.slug.create(val);
                 $('.js-slug-base-url-changed').val(slug);
                 $('.js-slug-base-url').text(slug);
             }
+        }
+        titlePreviewChange = function (el) {
+            if( typeof el === 'undefined'){
+                return
+            }
+            var val = $(el).val();
+            $('#js-edit-content-dynamic-title-display').text(val);
         }
 
     </script>
@@ -323,6 +338,16 @@ if (isset($params['quick_edit'])) {
         }
         ?>
 
+        <script>
+            addEventListener('load', function () {
+                $('.js-collapse-inner-page-menu').collapseNav({
+                    responsive: 1,
+                    more_text: 'More Button',
+                    mobile_break: 800,
+                });
+            })
+        </script>
+
         <div class="row" x-data="{showEditTab: 'details'}">
             <div class="col-md-8 manage-content-body px-5">
 
@@ -330,46 +355,32 @@ if (isset($params['quick_edit'])) {
                     <?php include (__DIR__.'/content_delete_btns.php')?>
                 <?php endif; ?>
 
-                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                <div class="d-flex js-collapse-inner-page-menu justify-content-between align-items-center mb-4">
                     <div class="d-flex space-x-4">
                         <a href="#" x-on:click="showEditTab = 'details'" :class="{ 'active': showEditTab == 'details' }" class="btn btn-link text-decoration-none mw-admin-action-links">
-                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="18px" viewBox="0 0 24 24" width="18px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>
+                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M144-168v-412q-23-7-35.5-26T96-648v-144q0-29.7 21.15-50.85Q138.3-864 168-864h624q29.7 0 50.85 21.15Q864-821.7 864-792v144q0 23-12.5 42T816-580v411.926Q816-138 794.85-117 773.7-96 744-96H216q-29.7 0-50.85-21.15Q144-138.3 144-168Zm72-408v408h528v-408H216Zm576-72v-144H168v144h624ZM384-408h192v-72H384v72ZM216-168v-408 408Z"/></svg>
                             <?php echo $type; ?> <?php echo _e('Details'); ?>
                         </a>
-                        <a href="#" x-on:click="showEditTab = 'customFields'" :class="{ 'active': showEditTab == 'customFields' }"  class="btn btn-link text-decoration-none mw-admin-action-links">
-                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="18px" viewBox="0 0 24 24" width="18px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>
-                            <?php echo _e('Custom Fields'); ?>
-                        </a>
+
+                       <a href="#" x-on:click="showEditTab = 'customFields'" :class="{ 'active': showEditTab == 'customFields' }"  class="btn btn-link text-decoration-none mw-admin-action-links">
+                           <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M432-432h264v-264H432v264ZM216-144q-29.7 0-50.85-21.15Q144-186.3 144-216v-528q0-29.7 21.15-50.85Q186.3-816 216-816h528q29.7 0 50.85 21.15Q816-773.7 816-744v528q0 29.7-21.15 50.85Q773.7-144 744-144H216Zm0-72h528v-528H216v528Zm0-528v528-528Z"/></svg>
+                           <?php echo _e('Custom Fields'); ?>
+                       </a>
+
                         <a href="#" x-on:click="showEditTab = 'seo'" :class="{ 'active': showEditTab == 'seo' }"  class="btn btn-link text-decoration-none mw-admin-action-links">
-                           <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="18px" viewBox="0 0 24 24" width="18px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>
+                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m107-246-59-42 192-312 120 144 168-264 120 168q-21 0-40.5 3T569-539l-38-52-163 257-119-143-142 231ZM861-48 738-171q-20 13-42.5 20t-47.5 7q-70 0-119-49t-49-119q0-70 49-119t119-49q70 0 119 49t49 119q0 25-7 47.5T789-222L912-99l-51 51ZM648-216q40 0 68-28t28-68q0-40-28-68t-68-28q-40 0-68 28t-28 68q0 40 28 68t68 28Zm78-323q-18-7-38-10t-40-3l205-312 59 42-186 283Z"/></svg>
                             <?php echo _e('SEO'); ?>
+
                         </a>
+
                         <a href="#" x-on:click="showEditTab = 'advanced'" :class="{ 'active': showEditTab == 'advanced' }" class="btn btn-link text-decoration-none link mw-admin-action-links">
-                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="18px" viewBox="0 0 24 24" width="18px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>
+                            <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m367-80-15-126q-10-6-22-13t-22-13l-117 49L78-378l100-76v-52L78-582l113-195 117 49q10-6 22-13t22-13l15-126h226l15 126q10 6 22 13t22 13l117-49 113 195-99 76v52l99 76-113 195-117-49q-10 6-22 13t-22 13L593-80H367Zm113-257q59 0 101-42t42-101q0-59-42-101t-101-42q-59 0-101 42t-42 101q0 59 42 101t101 42Zm0-84q-24 0-41.5-17.5T421-480q0-24 17.5-41.5T480-539q24 0 41.5 17.5T539-480q0 24-17.5 41.5T480-421Zm1-59Zm-41 316h80l12-104q29-8 56-24t49-38l97 41 40-66-85-65q5-14 7-29t2-31q0-14-2-28.5t-6-30.5l85-66-40-66-97 42q-23-23-49.5-38.5T533-691l-13-105h-80l-13 105q-29 8-55.5 23.5T323-630l-97-41-40 66 84 65q-4 16-6 31t-2 29q0 14 2 28.5t6 30.5l-84 66 40 66 97-41q22 22 48.5 37.5T427-269l13 105Z"/></svg>
                             <?php echo _e('Advanced'); ?>
                         </a>
+
                     </div>
 
-                    <div id="content-title-field-buttons" class="mw-page-component-disabled">
-                        <?php
-                        if($wrapper_class=='in-popup'){ ?>
-                            <?php if (isset($data['url']) and $data['id'] > 0) { ?>
-                                <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn btn-outline-dark mw-admin-bold-outline-dark mw-admin-go-live-now-btn mx-1">
-                                <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M480.078 729.333q72.255 0 122.755-50.578 50.5-50.579 50.5-122.833 0-72.255-50.578-122.755-50.579-50.5-122.833-50.5-72.255 0-122.755 50.578-50.5 50.579-50.5 122.833 0 72.255 50.578 122.755 50.579 50.5 122.833 50.5Zm-.235-62.666q-46.176 0-78.343-32.324-32.167-32.323-32.167-78.5 0-46.176 32.324-78.343 32.323-32.167 78.5-32.167 46.176 0 78.343 32.324 32.167 32.323 32.167 78.5 0 46.176-32.324 78.343-32.323 32.167-78.5 32.167ZM480 856q-146 0-264.667-82.5Q96.667 691 40 556q56.667-135 175.333-217.5Q334 256 480 256q146 0 264.667 82.5Q863.333 421 920 556q-56.667 135-175.333 217.5Q626 856 480 856Zm0-300Zm-.112 233.334q118.445 0 217.612-63.5Q796.667 662.333 848.667 556q-52-106.333-151.054-169.834-99.055-63.5-217.501-63.5-118.445 0-217.612 63.5Q163.333 449.667 110.666 556q52.667 106.333 151.721 169.834 99.055 63.5 217.501 63.5Z"/></svg>
-                                    <span ><?php _e("Live Edit"); ?></span>
-                                </a>
-                            <?php } ?>
-                        <?php } else { ?>
-
-                            <?php if (isset($data['url']) and $data['id'] > 0) { ?>
-                                <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn btn-outline-dark mw-admin-bold-outline-dark mw-admin-go-live-now-btn mx-1">
-                                <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M480.078 729.333q72.255 0 122.755-50.578 50.5-50.579 50.5-122.833 0-72.255-50.578-122.755-50.579-50.5-122.833-50.5-72.255 0-122.755 50.578-50.5 50.579-50.5 122.833 0 72.255 50.578 122.755 50.579 50.5 122.833 50.5Zm-.235-62.666q-46.176 0-78.343-32.324-32.167-32.323-32.167-78.5 0-46.176 32.324-78.343 32.323-32.167 78.5-32.167 46.176 0 78.343 32.324 32.167 32.323 32.167 78.5 0 46.176-32.324 78.343-32.323 32.167-78.5 32.167ZM480 856q-146 0-264.667-82.5Q96.667 691 40 556q56.667-135 175.333-217.5Q334 256 480 256q146 0 264.667 82.5Q863.333 421 920 556q-56.667 135-175.333 217.5Q626 856 480 856Zm0-300Zm-.112 233.334q118.445 0 217.612-63.5Q796.667 662.333 848.667 556q-52-106.333-151.054-169.834-99.055-63.5-217.501-63.5-118.445 0-217.612 63.5Q163.333 449.667 110.666 556q52.667 106.333 151.721 169.834 99.055 63.5 217.501 63.5Z"/></svg>
-                                    <span><?php _e("Live Edit"); ?></span>
-                                </a>
-                            <?php } ?>
-
-                        <?php } ?>
-
+<!--                    <div id="content-title-field-buttons" class="mw-page-component-disabled">
                         <button id="js-admin-save-content-main-btn" type="submit" class="btn btn-outline-dark mw-admin-bold-outline-dark btn-save js-bottom-save ms-atuo" form="quickform-edit-content"><span>
                                 <svg fill="currentColor" class="mw-admin-save-btn-svg me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M840-683v503q0 24-18 42t-42 18H180q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h503l157 157Zm-60 27L656-780H180v600h600v-476ZM479.765-245Q523-245 553.5-275.265q30.5-30.264 30.5-73.5Q584-392 553.735-422.5q-30.264-30.5-73.5-30.5Q437-453 406.5-422.735q-30.5 30.264-30.5 73.5Q376-306 406.265-275.5q30.264 30.5 73.5 30.5ZM233-584h358v-143H233v143Zm-53-72v476-600 124Z"/></svg>
 
@@ -377,52 +388,58 @@ if (isset($params['quick_edit'])) {
 
                                 <?php _e('Save'); ?></span>
                         </button>
-                    </div>
+                    </div>-->
+
+<!--                    <a href="--><?php //echo route('admin.product.create') ?><!--" class="btn btn-link font-weight-bold tblr-body-color mw-admin-action-links text-decoration-none ms-3">-->
+<!--                        <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"></path></svg>-->
+<!--                       --><?php //_e("New Product") ?>
+<!--                    </a>-->
+
                 </div>
 
                 <?php
                 $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
-                $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
                 ?>
-                <div class="card shadow-none"  x-data="{ title: '<?php echo $title_for_input ?>' }">
-                    <div class="card-body">
-
+                <div x-data="{ title: '<?php echo $title_for_input ?>' }">
                         <div x-show="showEditTab=='details'">
-                            <div class="content-title-field-row card-body border-0" id="content-title-field-row">
+                           <div class="card mb-5 ">
+                               <div class="card-body" id="content-title-field-row">
 
-                                <div class="d-flex justify-content-between">
-                                    <h1 class="main-pages-title"><strong x-text="title"><?php _e($action_text); ?></strong></h1>
-                                </div>
+                                  <div class="row">
+                                      <div class="d-flex justify-content-between">
+                                          <h1 class="main-pages-title"><strong id="js-edit-content-dynamic-title-display" x-text="title"><?php _e($action_text); ?></strong></h1>
+                                      </div>
 
 
-                                <?php if (isset($edit_page_info['title'])): ?>
+                                      <?php if (isset($edit_page_info['title'])): ?>
 
-                                    <div class=" ">
-                                        <div class="form-group" id="slug-field-holder">
-                                            <label class="form-label"><?php _e($type) ?> <?php _e("title"); ?></label>
+                                          <div class=" ">
+                                              <div class="form-group" id="slug-field-holder">
+                                                  <label class="form-label"><?php _e($type) ?> <?php _e("title"); ?></label>
 
-                                            <?php
-                                            $contentModel = \MicroweberPackages\Content\Content::where('id', $data['id'])->first();
-                                            $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                                                  <?php
+                                                  $contentModel = \MicroweberPackages\Content\Content::where('id', $data['id'])->first();
+                                                  $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
 
-                                            ?>
+                                                  ?>
 
-                                            <?php
-                                            echo $formBuilder->text('title')
-                                                ->setModel($contentModel)
-                                                ->xModel('title')
-                                                ->value($title_for_input)
-                                                ->id('content-title-field')
-                                                ->onkeyup('slugFromTitle();')
-                                                ->autocomplete(false);
-                                            ?>
+                                                  <?php
+                                                  echo $formBuilder->text('title')
+                                                      ->setModel($contentModel)
+                                                    //  ->xModel('title')
+                                                      ->value($title_for_input)
+                                                      ->id('content-title-field')
+                                                      ->onkeyup('slugFromTitle(this);titlePreviewChange(this);')
+                                                      ->autocomplete(false);
+                                                  ?>
 
-                                            <?php
-                                            if (!\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):
-                                                ?>
-                                                <div class="mw-admin-post-slug">
-                                                    <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left" title="Copy link"  onclick="copy_url_of_page();" style="cursor: copy"></i>
-                                                    <span class="mw-admin-post-slug-text">
+                                                  <?php
+                                                  if (!\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):
+                                                      ?>
+                                                      <div class="mw-admin-post-slug">
+                                                          <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left" title="Copy link"  onclick="copy_url_of_page();" style="cursor: copy"></i>
+                                                          <span class="mw-admin-post-slug-text">
                                             <?php
                                             if (isset($data['slug_prefix_url'])) {
                                                 $site_prefix_url = $data['slug_prefix_url'];
@@ -434,228 +451,239 @@ if (isset($params['quick_edit'])) {
                                         <span class="text-silver" id="slug-base-url" ><?php print $site_prefix_url; ?></span>
                                         <span class="contenteditable js-slug-base-url" data-bs-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true"><?php print $data['url']; ?></span>
                                     </span>
-                                                </div>
+                                                      </div>
 
-                                                <div class="d-none">
-                                                    <input autocomplete="off" name="url" id="edit-content-url" class="js-slug-base-url-changed edit-post-slug" type="text" value="<?php print $data['url']; ?>"/>
+                                                      <div class="d-none">
+                                                          <input autocomplete="off" name="url" id="edit-content-url" class="js-slug-base-url-changed edit-post-slug" type="text" value="<?php print $data['url']; ?>"/>
 
-                                                    <script>
-
-
-                                                        $('.js-slug-base-url').on('paste', function (e) {
-                                                            e.preventDefault();
-                                                            var text = (e.originalEvent || e).clipboardData.getData('text/plain');
-                                                            document.execCommand("insertHTML", false, text);
-                                                            if(this.innerHTML.length > mw.slug.max) {
-                                                                this.innerHTML = this.innerHTML.substring(0, mw.slug.max)
-                                                            }
-                                                            contentChanged(true)
-                                                            slugEdited = true;
-                                                        })
-                                                            .on('keydown', function (e) {
-                                                                var sel = getSelection();
-                                                                var fn = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
-                                                                var collapsedIn = fn === this && sel.isCollapsed;
-                                                                slugEdited = true;
-                                                                contentChanged(true)
-                                                                if (mw.event.is.enter(e)  ) {
-                                                                    e.preventDefault();
-                                                                }
-                                                                if (!mw.event.is.delete(e) && !mw.event.is.backSpace(e) && !e.ctrlKey) {
-                                                                    if ($('.js-slug-base-url').html().length >= mw.slug.max && collapsedIn) {
-                                                                        e.preventDefault();
-                                                                    }
-                                                                }
-                                                            })
-                                                        $('body').on('blur', '.js-slug-base-url', function () {
-                                                            var slug = mw.slug.create($(this).text());
-                                                            $('.js-slug-base-url-changed').val(slug);
-                                                            $('.js-slug-base-url').text(slug);
-                                                        });
+                                                          <script>
 
 
-                                                        copy_url_of_page =function(){
-                                                            var site_url =  $('#slug-base-url').html();
-                                                            var slug_base_url =  $('.js-slug-base-url').html();
-                                                            var url = site_url + slug_base_url ;
-                                                            mw.tools.copy(url);
-                                                        }
+                                                              $('.js-slug-base-url').on('paste', function (e) {
+                                                                  e.preventDefault();
+                                                                  var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+                                                                  document.execCommand("insertHTML", false, text);
+                                                                  if(this.innerHTML.length > mw.slug.max) {
+                                                                      this.innerHTML = this.innerHTML.substring(0, mw.slug.max)
+                                                                  }
+                                                                  contentChanged(true)
+                                                                  slugEdited = true;
+                                                              })
+                                                                  .on('keydown', function (e) {
+                                                                      var sel = getSelection();
+                                                                      var fn = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
+                                                                      var collapsedIn = fn === this && sel.isCollapsed;
+                                                                      slugEdited = true;
+                                                                      contentChanged(true)
+                                                                      if (mw.event.is.enter(e)  ) {
+                                                                          e.preventDefault();
+                                                                      }
+                                                                      if (!mw.event.is.delete(e) && !mw.event.is.backSpace(e) && !e.ctrlKey) {
+                                                                          if ($('.js-slug-base-url').html().length >= mw.slug.max && collapsedIn) {
+                                                                              e.preventDefault();
+                                                                          }
+                                                                      }
+                                                                  })
+                                                              $('body').on('blur', '.js-slug-base-url', function () {
+                                                                  var slug = mw.slug.create($(this).text());
+                                                                  $('.js-slug-base-url-changed').val(slug);
+                                                                  $('.js-slug-base-url').text(slug);
+                                                              });
 
-                                                    </script>
-                                                </div>
 
-                                            <?php
-                                            endif;
-                                            ?>
-                                        </div>
+                                                              copy_url_of_page =function(){
+                                                                  var site_url =  $('#slug-base-url').html();
+                                                                  var slug_base_url =  $('.js-slug-base-url').html();
+                                                                  var url = site_url + slug_base_url ;
+                                                                  mw.tools.copy(url);
+                                                              }
+
+                                                          </script>
+                                                      </div>
+
+                                                  <?php
+                                                  endif;
+                                                  ?>
+                                              </div>
 
 
-                                        <?php
-                                        if (\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):
-                                            ?>
-                                            <div class="form-group">
-                                                <label class="form-label"><?php _e($type) ?> <?php _e("Slug"); ?></label>
+                                              <?php
+                                              if (\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):
+                                                  ?>
+                                                  <div class="form-group">
+                                                      <label class="form-label"><?php _e($type) ?> <?php _e("Slug"); ?></label>
 
-                                                <?php
-                                                echo $formBuilder->text('url')
-                                                    ->setModel($contentModel)
-                                                    ->prepend('<div class="input-group-prepend">
+                                                      <?php
+                                                      echo $formBuilder->text('url')
+                                                          ->setModel($contentModel)
+                                                          ->prepend('<div class="input-group-prepend">
                                              <span class="input-group-text"><i class="mdi mdi-link text-silver"></i></span>
                                              </div>')
-                                                    ->value($data['slug'])
-                                                    ->id('content-slug-field')
-                                                    ->oninput('slugFromUrlField(this);')
-                                                    ->autocomplete(false);
-                                                ?>
-                                            </div>
-                                        <?php
-                                        endif;
-                                        ?>
+                                                          ->value($data['slug'])
+                                                          ->id('content-slug-field')
+                                                          ->oninput('slugFromUrlField(this);')
+                                                          ->autocomplete(false);
+                                                      ?>
+                                                  </div>
+                                              <?php
+                                              endif;
+                                              ?>
 
 
 
-                                        <?php $content_edit_modules = mw('ui')->module('admin.content.edit.text'); ?>
-                                        <?php $modules = array(); ?>
-                                        <?php
-                                        if (!empty($content_edit_modules) and !empty($data)) {
-                                            foreach ($content_edit_modules as $k1 => $content_edit_module) {
-                                                foreach ($data as $k => $v) {
-                                                    if (isset($content_edit_module[$k])) {
-                                                        $v1 = $content_edit_module[$k];
-                                                        $v2 = $v;
-                                                        if (trim($v1) == trim($v2)) {
-                                                            $modules[] = $content_edit_module['module'];
-                                                        }
-                                                    }
+                                              <?php $content_edit_modules = mw('ui')->module('admin.content.edit.text'); ?>
+                                              <?php $modules = array(); ?>
+                                              <?php
+                                              if (!empty($content_edit_modules) and !empty($data)) {
+                                                  foreach ($content_edit_modules as $k1 => $content_edit_module) {
+                                                      foreach ($data as $k => $v) {
+                                                          if (isset($content_edit_module[$k])) {
+                                                              $v1 = $content_edit_module[$k];
+                                                              $v2 = $v;
+                                                              if (trim($v1) == trim($v2)) {
+                                                                  $modules[] = $content_edit_module['module'];
+                                                              }
+                                                          }
 
-                                                }
-                                            }
-                                            $modules = array_unique($modules);
-                                        }
-                                        ?>
+                                                      }
+                                                  }
+                                                  $modules = array_unique($modules);
+                                              }
+                                              ?>
 
-                                        <div id="mw-edit-page-editor-holder">
-                                            <?php event_trigger('content.edit.richtext', $data); ?>
-                                            <?php $content_edit_modules = mw()->ui->module('content.edit.richtext'); ?>
-                                            <?php $modules = array(); ?>
-                                            <?php
+                                              <div id="mw-edit-page-editor-holder">
+                                                  <?php event_trigger('content.edit.richtext', $data); ?>
+                                                  <?php $content_edit_modules = mw()->ui->module('content.edit.richtext'); ?>
+                                                  <?php $modules = array(); ?>
+                                                  <?php
 
-                                            if (!empty($content_edit_modules) and !empty($data)) {
-                                                foreach ($content_edit_modules as $k1 => $content_edit_module) {
-                                                    if (isset($content_edit_module['module'])) {
-                                                        $modules[] = $content_edit_module['module'];
-                                                    }
-                                                }
-                                                $modules = array_unique($modules);
-                                            }
-                                            ?>
-                                            <?php if (!empty($modules)): ?>
-                                                <?php foreach ($modules as $module) : ?>
-                                                    <?php print load_module($module, $data); ?>
-                                                <?php endforeach; ?>
-                                            <?php else: ?>
-                                                <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
-                                                    <div class="form-group">
-                                                        <?php if (isset($data['content_type']) and ($data['content_type'] == 'product')): ?>
+                                                  if (!empty($content_edit_modules) and !empty($data)) {
+                                                      foreach ($content_edit_modules as $k1 => $content_edit_module) {
+                                                          if (isset($content_edit_module['module'])) {
+                                                              $modules[] = $content_edit_module['module'];
+                                                          }
+                                                      }
+                                                      $modules = array_unique($modules);
+                                                  }
+                                                  ?>
+                                                  <?php if (!empty($modules)): ?>
+                                                      <?php foreach ($modules as $module) : ?>
+                                                          <?php print load_module($module, $data); ?>
+                                                      <?php endforeach; ?>
+                                                  <?php else: ?>
+                                                      <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
+                                                          <div class="form-group">
+                                                              <?php if (isset($data['content_type']) and ($data['content_type'] == 'product')): ?>
 
-                                                            <label class="form-label" title="Content Body"><?php  _e("Description"); ?></label>
-                                                            <?php
-                                                            echo $formBuilder->mwEditor('content_body')
-                                                                ->setModel($contentModel)
-                                                                ->value($data['content_body'])
-                                                                ->onSaveCallback('mw.edit_content.handle_form_submit();')
-                                                                ->autocomplete(false);
-                                                            ?>
-                                                        <?php else: ?>
+                                                                  <label class="form-label" title="Content Body"><?php  _e("Description"); ?></label>
+                                                                  <?php
+                                                                  echo $formBuilder->mwEditor('content_body')
+                                                                      ->setModel($contentModel)
+                                                                      ->value($data['content_body'])
+                                                                      ->onSaveCallback('mw.edit_content.handle_form_submit();')
+                                                                      ->autocomplete(false);
+                                                                  ?>
+                                                              <?php else: ?>
 
-                                                            <label class="form-label"><?php  _e("Content"); ?></label>
-                                                            <?php
-                                                            echo $formBuilder->mwEditor('content')
-                                                                ->setModel($contentModel)
-                                                                ->value($data['content'])
-                                                                ->onSaveCallback('mw.edit_content.handle_form_submit();')
-                                                                ->autocomplete(false);
-                                                            ?>
+                                                                  <label class="form-label"><?php  _e("Content"); ?></label>
+                                                                  <?php
+                                                                  echo $formBuilder->mwEditor('content')
+                                                                      ->setModel($contentModel)
+                                                                      ->value($data['content'])
+                                                                      ->onSaveCallback('mw.edit_content.handle_form_submit();')
+                                                                      ->autocomplete(false);
+                                                                  ?>
 
-                                                        <?php endif; ?>
-                                                    </div>
-                                                <?php endif; ?>
-                                            <?php endif; ?>
-
-
-                                        </div>
-
-                                        <div>
-                                            <script>
-                                                $(document).ready(function () {
-                                                    setTimeout(function () {
-                                                        if (typeof(mw.adminPagesTree) != 'undefined') {
-                                                            mw.adminPagesTree.select({
-                                                                id:<?php print $edit_page_info['id']  ?>,
-                                                                type: 'page'
-                                                            })
-                                                        }
-                                                        contentChanged(false)
-                                                    }, 100);
-                                                });
-                                            </script>
-
-                                            <?php event_trigger('content.edit.title.after'); ?>
-                                            <?php $custom_title_ui = mw()->module_manager->ui('content.edit.title.after'); ?>
-
-                                            <?php if (!empty($custom_title_ui)): ?>
-                                                <?php foreach ($custom_title_ui as $item): ?>
-                                                    <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
-                                                    <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
-                                                    <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-                                                    <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
-                                                    <div class="mw-ui-col <?php print $class; ?>"<?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?> title="<?php print $title; ?>"><?php print $html; ?></div>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-
-                                            <?php $custom_title_ui = mw()->module_manager->ui('content.edit.title.end'); ?>
-                                            <?php if (!empty($custom_title_ui)): ?>
-                                                <?php foreach ($custom_title_ui as $item): ?>
-                                                    <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
-                                                    <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
-                                                    <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-                                                    <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
-                                                    <div class="mw-ui-col <?php print $class; ?>"<?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?> title="<?php print $title; ?>"><?php print $html; ?></div>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                        </div>
+                                                              <?php endif; ?>
+                                                          </div>
+                                                      <?php endif; ?>
+                                                  <?php endif; ?>
 
 
+                                              </div>
 
-                                        <div class="mb-3 images position-relative">
-                                            <div class="no-border" id="post-media-card-header">
-                                                <label for="" class="form-label">
-                                                    <?php _e('Add media'); ?>
-                                                </label>
-                                                <div class="dropzone mw-dropzone" id="post-file-picker" onclick="addImagesToPost()">
-                                                    <div class="dz-message">
-                                                        <h3 class="dropzone-msg-title"><?php _e("Add file"); ?></h3>
-                                                        <span class="dropzone-msg-desc"><?php _e("or drop files to upload"); ?></span>
-                                                    </div>
-                                                </div>
+                                              <div>
+                                                  <script>
+                                                      $(document).ready(function () {
+                                                          setTimeout(function () {
+                                                              if (typeof(mw.adminPagesTree) != 'undefined') {
+                                                                  mw.adminPagesTree.select({
+                                                                      id:<?php print $edit_page_info['id']  ?>,
+                                                                      type: 'page'
+                                                                  })
+                                                              }
+                                                              contentChanged(false)
+                                                          }, 100);
+                                                      });
+                                                  </script>
 
-                                            </div>
-                                            <div>
-                                                <module
-                                                    id="edit-post-gallery-main"
-                                                    type="pictures/admin"
-                                                    class="pictures-admin-content-type-<?php print trim($data['content_type']) ?>"
-                                                    for="content"
-                                                    content_type="<?php print trim($data['content_type']) ?>"
-                                                    for-id="<?php print $data['id']; ?>"/>
-                                            </div>
-                                        </div>
+                                                  <?php event_trigger('content.edit.title.after'); ?>
+                                                  <?php $custom_title_ui = mw()->module_manager->ui('content.edit.title.after'); ?>
+
+                                                  <?php if (!empty($custom_title_ui)): ?>
+                                                      <?php foreach ($custom_title_ui as $item): ?>
+                                                          <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                                                          <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                                                          <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                                                          <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
+                                                          <div class="mw-ui-col <?php print $class; ?>"<?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?> title="<?php print $title; ?>"><?php print $html; ?></div>
+                                                      <?php endforeach; ?>
+                                                  <?php endif; ?>
+
+                                                  <?php $custom_title_ui = mw()->module_manager->ui('content.edit.title.end'); ?>
+                                                  <?php if (!empty($custom_title_ui)): ?>
+                                                      <?php foreach ($custom_title_ui as $item): ?>
+                                                          <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                                                          <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                                                          <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                                                          <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
+                                                          <div class="mw-ui-col <?php print $class; ?>"<?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?> title="<?php print $title; ?>"><?php print $html; ?></div>
+                                                      <?php endforeach; ?>
+                                                  <?php endif; ?>
+                                              </div>
 
 
 
+                                              <div class="mb-3 images position-relative">
+                                                  <div class="no-border" id="post-media-card-header">
+                                                      <label  class="form-label">
+                                                          <?php _e('Add media'); ?>
+                                                      </label>
+                                                      <div class="dropzone mw-dropzone" id="post-file-picker" onclick="addImagesToPost()">
+                                                          <div class="dz-message">
+                                                              <h3 class="dropzone-msg-title"><?php _e("Add file"); ?></h3>
+                                                              <span class="dropzone-msg-desc"><?php _e("or drop files to upload"); ?></span>
+                                                          </div>
+                                                      </div>
 
-                                    </div>
-                                <?php endif; ?>
+                                                  </div>
+                                                  <div>
+                                                      <module
+                                                          id="edit-post-gallery-main"
+                                                          type="pictures/admin"
+                                                          class="pictures-admin-content-type-<?php print trim($data['content_type']) ?>"
+                                                          for="content"
+                                                          content_type="<?php print trim($data['content_type']) ?>"
+                                                          for-id="<?php print $data['id']; ?>"/>
+                                                  </div>
+                                              </div>
+
+
+
+
+                                          </div>
+                                      <?php endif; ?>
+                                  </div>
+                               </div>
+                           </div>
+
+
+                            <div class="card mb-5 ">
+                                <div class="card-body">
+
+                                    iframe here
+
+                                </div>
                             </div>
 
                             <?php
@@ -683,8 +711,6 @@ if (isset($params['quick_edit'])) {
                             include_once 'advanced_settings.php';
                             ?>
                         </div>
-
-                    </div>
                 </div>
 
 
@@ -720,3 +746,4 @@ if (isset($params['quick_edit'])) {
         });
     });
 </script>
+

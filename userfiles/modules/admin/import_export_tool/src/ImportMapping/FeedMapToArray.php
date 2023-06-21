@@ -65,6 +65,25 @@ class FeedMapToArray
                         if (isset($this->importFeed->category_separators[$tagKey])) {
                             $mappedData[$itemI][$internalKey] = [];
                             $categorySeparator = $this->importFeed->category_separators[$tagKey];
+                            if (is_array($saveItem)) {
+                                $categoriesPrepare = [];
+                                foreach ($saveItem as $saveItemOne) {
+                                    if (strpos($saveItemOne, $categorySeparator) !== false) {
+                                        $saveItemOneExp = explode($categorySeparator, $saveItemOne);
+                                        if (isset($saveItemOneExp[1])) {
+                                            $categoriesPrepare[] = [
+                                                'name' => $saveItemOneExp[1],
+                                            ];
+                                        }
+                                        continue;
+                                    }
+                                    $categoriesPrepare[] = [
+                                        'name' => $saveItemOne,
+                                    ];
+                                }
+                                $mappedData[$itemI][$internalKey] = $this->buildCategoryTreeFromFirstLevel($categoriesPrepare);
+                                continue;
+                            }
                             $categories = explode($categorySeparator, $saveItem);
                             if (!empty($categories)) {
 

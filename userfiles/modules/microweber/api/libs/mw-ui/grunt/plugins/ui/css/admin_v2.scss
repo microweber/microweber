@@ -1,8 +1,5 @@
-
-
 @import url("../css/../../tabler-ui/dist/css/tabler.min.css");
 @import "_mw_tabler";
-
 
 
 
@@ -695,14 +692,20 @@ small.text-muted {
     }
 }
 
+.font-weight-light {
+    font-weight: 300;
+}
+
+.font-weight-normal {
+    font-weight: 400;
+}
+
 .font-weight-bold {
     font-weight: 500;
-
 }
 
 .font-weight-bolder {
     font-weight: 600;
-
 }
 
 .modal-add-new-buttons-p {
@@ -897,13 +900,14 @@ small.text-muted {
     position: relative;
 }
  .mw-admin-sidebar-navigation-menu{
+    z-index: 2;
     position: absolute;
     top: 100%;
-    right: 0;
+    right: 9px;
     visibility: hidden;
     opacity: 0;
     transition: .2s;
-    min-width: 200px;
+    min-width: 150px;
 
  }
 
@@ -925,7 +929,7 @@ small.text-muted {
     margin-top: 60px;
 }
 
-.module-standalo ne-icons-check {
+.module-standalone-icons-check {
     .text-success {
         svg {
             fill: var(--tblr-success);
@@ -1456,7 +1460,7 @@ svg.text-danger {
 
 .mw-admin-bold-outline-dark {
     font-weight: bold;
-    border: 2px solid;
+    border: 2px solid black;
 }
 
 .mw-admin-edit-post-publish {
@@ -1732,3 +1736,26 @@ svg.text-danger {
          margin: 0 auto;
      }
  }
+
+
+ .mdi-truck-check-outline {
+     display: none;
+ }
+
+
+.mw-order-custom-fields {
+    ul {
+        li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0 !important;
+            margin-left: 3px;
+
+            span {
+                margin-left: 3px;
+
+            }
+        }
+        padding-left: 0;
+    }
+}

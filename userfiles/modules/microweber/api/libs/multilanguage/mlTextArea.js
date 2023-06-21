@@ -6,6 +6,7 @@
             name: false,
             locales: [],
             currentLocale: false,
+            defaultLocale: false,
             translations: [],
             attributes: [],
             mwEditor: false,
@@ -14,6 +15,7 @@
         this.each(function (index, obj) {
             var name = settings.name;
             var currentLocale = settings.currentLocale;
+            var defaultLocale = settings.defaultLocale;
             var locales = settings.locales;
             var translations = settings.translations;
             var attributes = settings.attributes;
@@ -100,11 +102,14 @@
                     outputHtml += '</div>';
 
                     // If ml textarea is changed change and the value
-                    $('body').on('keyup','#' + mwTabPaneLocaleId+' textarea', function () {
-                        if (currentLocale == $(this).attr('lang')) {
+                    $('body').on('keyup change','#' + mwTabPaneLocaleId+' textarea', function () {
+                         //if (currentLocale == $(this).attr('lang')) {
+                        if (defaultLocale == $(this).attr('lang')) {
                             // Change original field to this current lang value
                             $(obj).html($(this).val());
+ 
                         }
+
                         $(this).html($(this).val());
                     });
                 }

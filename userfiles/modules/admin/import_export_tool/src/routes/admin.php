@@ -4,6 +4,7 @@ use MicroweberPackages\Import\Formats\CsvReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportFeedToDatabase;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 
+
 Route::name('admin.import-export-tool.')
     ->prefix(mw_admin_prefix_url() . '/import-export-tool')
     ->middleware(['admin', \MicroweberPackages\Modules\Admin\ImportExportTool\Http\Middleware\InstallationMiddleware::class])
@@ -13,8 +14,8 @@ Route::name('admin.import-export-tool.')
         Route::post('/upload-feed', 'UploadFeedController@upload')->name('upload-feed');
 
         Route::get('/import-wizard', 'ImportWizardController@index')->name('import-wizard');
-
         Route::get('/export-wizard', 'ExportWizardController@index')->name('export-wizard');
+
         Route::get('/export-wizard/file/{id}', 'ExportWizardController@file')->name('export-wizard-file');
         Route::get('/delete-wizard/file/{id}', 'ExportWizardController@deleteFile')->name('delete-wizard-file');
 

@@ -1,6 +1,4 @@
-@extends('import_export_tool::admin.module-layout')
-
-@section('module-content')
+<div>
 
 <style>
 .import-wizard {
@@ -195,7 +193,7 @@ a.import-wizard-select-type:hover {
         </li>
     </ul>
     <div class="mb-5">
-        @yield('content')
+        @yield('export-wizard-layout-content')
     </div>
 </div>
-@endsection
+</div>

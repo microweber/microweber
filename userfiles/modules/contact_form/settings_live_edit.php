@@ -113,7 +113,7 @@ if (isset($params['for_module_id'])) {
         </script>
 
         <?php
-        $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+        $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
         ?>
 
         <div class="js-auto-respond-fields" <?php if (!$emailAutorespondEnable): ?> style="display:none"<?php endif; ?>>

@@ -37,7 +37,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="" class="form-label"><?php _e("Order ID"); ?></label>
+                <label  class="form-label"><?php _e("Order ID"); ?></label>
                 <div class="input-group mb-0 d-flex">
                     <input type="text" class="form-control" value="{{$id}}" name="id" placeholder="<?php _e("Order ID");?>">
                 </div>
@@ -46,7 +46,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="" class="form-label"><?php _e("Order Status"); ?></label>
+                <label  class="form-label"><?php _e("Order Status"); ?></label>
                 <div class="input-group mb-0 d-flex">
                     <select name="orderStatus" class="form-select" data-width="100%">
 
@@ -74,7 +74,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="" class="form-label"><?php _e("Date from"); ?></label>
+                    <label  class="form-label"><?php _e("Date from"); ?></label>
                     <div class="input-group mb-0 d-flex">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="mdi mdi-calendar"></i> </span>
@@ -86,7 +86,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="" class="form-label"><?php _e("Date to"); ?></label>
+                    <label  class="form-label"><?php _e("Date to"); ?></label>
                     <div class="input-group mb-0 d-flex">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="mdi mdi-calendar"></i> </span>
@@ -99,7 +99,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="" class="form-label"><?php _e("Order amount from"); ?></label>
+                    <label  class="form-label"><?php _e("Order amount from"); ?></label>
                     <div class="input-group mb-0 d-flex">
                         <div class="input-group-prepend">
                             <span class="input-group-text">{{get_currency_symbol()}}</span>
@@ -111,7 +111,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="" class="form-label"><?php _e("Order amount to"); ?></label>
+                    <label  class="form-label"><?php _e("Order amount to"); ?></label>
                     <div class="input-group mb-0 d-flex">
                         <div class="input-group-prepend">
                             <span class="input-group-text">{{get_currency_symbol()}} </span>
@@ -179,7 +179,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="" class="form-label"><?php _e("Search by products"); ?></label>
+                    <label  class="form-label"><?php _e("Search by products"); ?></label>
                     <div class="input-group">
                         <input type="hidden" class="js-orders-search-product-keyword" name="productKeyword" value="{{$productKeyword}}" />
                         <input type="hidden" class="js-orders-search-product" name="productId" value="{{$productId}}" />
@@ -190,7 +190,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="" class="form-label"><?php _e("Payment Status"); ?></label>
+                    <label  class="form-label"><?php _e("Payment Status"); ?></label>
                     <div class="input-group mb-0 d-flex">
 
                         <select name="isPaid" class="form-select" data-width="100%">
@@ -215,7 +215,7 @@
 
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="" class="form-label"><?php _e("Search"); ?></label>
+                    <label  class="form-label"><?php _e("Search"); ?></label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>

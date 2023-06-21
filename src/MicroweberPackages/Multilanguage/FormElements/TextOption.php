@@ -3,7 +3,7 @@ namespace MicroweberPackages\Multilanguage\FormElements;
 
 use MicroweberPackages\Multilanguage\FormElements\Traits\JavascriptOptionChangerTrait;
 
-class TextOption extends \MicroweberPackages\Form\Elements\TextOption
+class TextOption extends \MicroweberPackages\FormBuilder\Elements\TextOption
 {
     protected $attributes = [
         'type' => 'text',

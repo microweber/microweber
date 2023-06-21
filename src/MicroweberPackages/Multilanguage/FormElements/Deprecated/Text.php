@@ -1,9 +1,7 @@
 <?php
 namespace MicroweberPackages\Multilanguage\FormElements\Deprecated;
 
-use MicroweberPackages\Multilanguage\FormElements\Traits\JavascriptOptionChangerTrait;
-
-class Text extends \MicroweberPackages\Form\Elements\Text
+class Text extends \MicroweberPackages\FormBuilder\Elements\Text
 {
     public $randId;
     public $defaultLanguage;

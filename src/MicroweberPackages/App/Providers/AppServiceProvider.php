@@ -46,6 +46,7 @@ use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\Filament\Providers\FilamentServiceProvider;
 use MicroweberPackages\FileManager\FileManagerServiceProvider;
 use MicroweberPackages\Form\Providers\FormServiceProvider;
+use MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider;
 use MicroweberPackages\Fortify\FortifyServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HelpersServiceProvider;
@@ -306,6 +307,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(OfferServiceProvider::class);
         $this->app->register(FileManagerServiceProvider::class);
         $this->app->register(FormServiceProvider::class);
+        $this->app->register(FormBuilderServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
         $this->app->register(CartEventServiceProvider::class);
 

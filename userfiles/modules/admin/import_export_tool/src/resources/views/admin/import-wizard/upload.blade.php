@@ -1,7 +1,4 @@
-@extends('import_export_tool::admin.import-wizard.layout')
-
-@section('content')
-
+<div>
     <script wire:ignore type="text/javascript">
 
         mw.require("files.js");
@@ -173,5 +170,4 @@
         </div>
         </div>
     </div>
-
-@endsection
+</div>

@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Multilanguage\FormElements;
 
-class TextAreaOption extends \MicroweberPackages\Form\Elements\TextAreaOption
+class TextAreaOption extends \MicroweberPackages\FormBuilder\Elements\TextAreaOption
 {
     public $randId;
 

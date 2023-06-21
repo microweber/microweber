@@ -56,7 +56,9 @@ if (!isset($offer['price']['offer_price'])) {
 
 
 <div class="form-group js-offer-price-form-group" style="display: none">
-	<label><?php _e('Offer Price'); ?></label>
+	<div class="card-header px-0">
+        <label class="form-label font-weight-bold"><?php _e('Offer Price'); ?></label>
+    </div>
 	<div class="input-group mb-3 prepend-transparent append-transparent">
 		<div class="input-group-prepend">
 			<span class="input-group-text text-muted h-100"><?php echo get_currency_code(); ?></span>
@@ -65,9 +67,13 @@ if (!isset($offer['price']['offer_price'])) {
 		<input autocomplete="off" type="text" class="form-control js-product-special-price" name="content_data[special_price]" value="<?php echo $offer['price']['offer_price'];?>">
 
         <?php if (isset($offer['price']['offer_id'])): ?>
-            <div class="input-group-append">
-                <span class="input-group-text cursor-pointer" onclick="openOfferEdit('<?php echo $offer['price']['offer_id']; ?>');" data-bs-toggle="tooltip" title="Settings">
-                    <i class="mdi mdi-offer text-muted mdi-20px"></i></span>
+            <div class="btn btn-outline-dark btn-sm ms-3" onclick="openOfferEdit('<?php echo $offer['price']['offer_id']; ?>');">
+
+                    <i class="mdi mdi-label-percent-outline fs-1"></i>
+
+                    <span class="ms-2">
+                        <?php _e("Offer") ?>
+                    </span>
             </div>
         <?php else: ?>
             <div class="input-group-append h-100" data-bs-toggle="tooltip" data-original-title="To put a product on sale, make Compare at price the original price and enter the lower amount into Price.">

@@ -7,7 +7,6 @@ description: Default coupon template
 ?>
 
 
-
 <?php
 
 //d($applied_coupon_data);
@@ -25,7 +24,9 @@ $applied_code = '';
 
                 <p><?php _e("You are using coupon code"); ?> <i title="<?php print $applied_coupon_data['coupon_code']  ?>">
                         <?php print $applied_coupon_data['coupon_name']  ?></i>
-                    <a href="javascript:$('.coupon_code_apply_wrapper-<?php echo $params['id']; ?>').toggle(); void(0);">(change)</a>
+                    <a href="#" class="js-change-coupon-code-<?php echo $params['id']; ?>">
+                        <?php _e("Change"); ?>
+                    </a>
                 </p>
                 </div>
                <?php endif; ?>
