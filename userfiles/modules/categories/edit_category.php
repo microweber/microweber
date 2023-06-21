@@ -364,6 +364,13 @@ if (isset($_GET['rel_id'])) {
 
                 <?php  if (isset($_GET['iframe'])) : ?>
                 <div>
+                    <?php  if ($data['id'] > 0) : ?>
+                    <?php _e('Edit category'); ?>
+                    <?php else: ?>
+                    <?php _e('Add category'); ?>
+                    <?php endif; ?>
+                </div>
+                <div>
                     <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-dark" form="quickform-edit-content"><i class="mdi mdi-content-save me-1"></i> <?php _e('Save') ?></button>
                 </div>
                 <?php endif; ?>
