@@ -229,7 +229,7 @@
                                 <?php if (isset($order['other_info']) and $order['other_info'] != ''): ?>
                             <small class="text-muted"><?php print $order['other_info'] ?></small>
                             <?php else: ?>
-                            <small class="text-muted"><?php _e('No additional information regarding delivery specification of this order.'); ?></small>
+                            <small class="text-muted"><?php _e('N/A'); ?></small>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -279,8 +279,8 @@
                                 <small class="d-block bg-warning text-white py-1 mx-auto"><?php _e("Pending"); ?></small>
                             </div>
 
-                            <div class="  p-3 mt-1 mb-2 text-center btn btn-outline-success btn-block rounded-0 <?php if ($order['order_status'] != 'completed'): ?>semi_hidden<?php endif; ?>">
-                                <small class="d-block bg-success text-white px-3 py-1 mx-auto"><?php _e("Successfully Completed"); ?></small>
+                            <div class="  mt-2 mb-3 text-center <?php if ($order['order_status'] != 'completed'): ?>semi_hidden<?php endif; ?>">
+                                <small class="d-block bg-success text-white py-1 mx-auto"><?php _e("Successfully Completed"); ?></small>
                             </div>
                         </div>
 
