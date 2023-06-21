@@ -272,7 +272,11 @@ if (isset($_GET['rel_id'])) {
                             mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
                         } else {
                             if(mw.category_is_new && admin_edit_url){
+                               <?php if (isset($_GET['iframe'])): ?>
+                                window.location = admin_edit_url + '?iframe=1';
+                                <?php else: ?>
                                 window.location = admin_edit_url;
+                                <?php endif; ?>
                             }
                         }
 
@@ -626,6 +630,7 @@ if (isset($_GET['rel_id'])) {
 
 
                                 </script>
+
                                 <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
 
                                 <div class="col-12">
