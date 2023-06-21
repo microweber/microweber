@@ -1713,6 +1713,11 @@ svg.text-danger {
             align-items: center;
             margin-bottom: 0 !important;
             margin-left: 3px;
+
+            span {
+                margin-left: 3px;
+
+            }
         }
         padding-left: 0;
     }

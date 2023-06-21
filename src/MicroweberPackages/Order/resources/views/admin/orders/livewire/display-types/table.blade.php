@@ -84,7 +84,9 @@
 
               @if($showColumns['products'])
                   <td>
-                      <a class="tblr-body-color form-label font-weight-bold" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                      @if(isset($cartProduct->title))
+                        <a class="tblr-body-color form-label font-weight-bold" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                      @endif
 
                       @include('order::admin.orders.livewire.display-types.show-more-products', ['carts'=>$carts])
 

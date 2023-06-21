@@ -27,7 +27,10 @@
                     </div>
 
                     <div class="col-sm col-12">
-                        <a class=" form-label font-weight-bold tblr-body-color" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a>
+
+                        @if(isset($cartProduct->title))
+                            <a class=" form-label font-weight-bold tblr-body-color" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a>
+                        @endif
 
                         <small class="text-muted" style="font-size: 12px !important;">
                             {{ _e("Updated") }}: {{$order->updated_at->format('M d, Y, h:i A')}}
