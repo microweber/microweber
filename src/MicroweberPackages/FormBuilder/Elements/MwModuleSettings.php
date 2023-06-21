@@ -3,7 +3,7 @@
 namespace MicroweberPackages\FormBuilder\Elements;
 
 use function _e;
-use function MicroweberPackages\Form\Elements\str_random;
+use function MicroweberPackages\FormBuilder\Elements\str_random;
 
 class MwModuleSettings extends TextArea
 {

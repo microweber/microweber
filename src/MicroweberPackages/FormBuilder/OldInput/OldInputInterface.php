@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Form\OldInput;
+namespace MicroweberPackages\FormBuilder\OldInput;
 
 interface OldInputInterface
 {

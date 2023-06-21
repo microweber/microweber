@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Form\OldInput;
+namespace MicroweberPackages\FormBuilder\OldInput;
 
 use Illuminate\Session\Store as Session;
 

@@ -2,9 +2,8 @@
 
 namespace MicroweberPackages\FormBuilder;
 
-use MicroweberPackages\Form\Elements\Button;
-use MicroweberPackages\Form\Elements\Hidden;
-use MicroweberPackages\Form\OldInput\OldInputInterface;
+use MicroweberPackages\FormBuilder\Elements\Button;
+use MicroweberPackages\FormBuilder\Elements\Hidden;
 use MicroweberPackages\FormBuilder\Binding\BoundData;
 use MicroweberPackages\FormBuilder\Elements\Checkbox;
 use MicroweberPackages\FormBuilder\Elements\Date;
@@ -20,6 +19,7 @@ use MicroweberPackages\FormBuilder\Elements\Text;
 use MicroweberPackages\FormBuilder\Elements\TextArea;
 use MicroweberPackages\FormBuilder\Elements\TextAreaOption;
 use MicroweberPackages\FormBuilder\Elements\TextOption;
+use MicroweberPackages\FormBuilder\OldInput\OldInputInterface;
 
 class FormElementBuilder
 {
