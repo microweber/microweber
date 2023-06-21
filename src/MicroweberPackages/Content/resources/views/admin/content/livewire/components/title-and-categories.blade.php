@@ -5,15 +5,19 @@
     </a>
 
     @php
-        $getParentsAsLinks = app()->content_manager->get_parents_as_links($content->id, [
-            'class'=>'my-1 d-block text-muted mw-products-breadcrumb',
-            'implode_symbol'=>' / ',
-        ])
+    $parentPages = app()->content_manager->get_parents($content->id);
     @endphp
 
-    @if ($getParentsAsLinks)
+    @if(!empty($parentPages))
         <div class="text-muted">
-            {!! $getParentsAsLinks !!}
+        @foreach ($parentPages as $parentPageId)
+            <a onclick="livewire.emit('selectPageFromTableList', {{$parentPageId}});return false;" href="#" class="my-1 d-block text-muted mw-products-breadcrumb">
+                {{content_title($parentPageId)}}
+            </a>
+            @if(!$loop->last)
+                <span class="mx-1">/</span>
+            @endif
+        @endforeach
         </div>
     @endif
 

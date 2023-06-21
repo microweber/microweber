@@ -23,7 +23,7 @@
     }
     #pages-tree-wrapper.active{
         max-width: 600px;
-       
+
     }
     #pages-tree-container .ui-resizable{
         max-width: 100%
@@ -36,11 +36,11 @@
 
     }
     #pages-tree-wrapper.active #pages-tree-container{
-        
+
         transform: translateX(0)
     }
 
- 
+
 
     #pages-tree-wrapper.active .mw-admin-toggle-tree-navigation {
         margin-left:0;
@@ -49,8 +49,8 @@
     }
     #pages-tree-wrapper:not(.active) .mw-admin-toggle-tree-navigation ~ *{
         visibility: hidden;
-    } 
- 
+    }
+
 
 </style>
 
@@ -387,5 +387,11 @@
             pagesTree.show(id, 'category');
             pagesTree.select(id, 'category', true);
             //    pagesTree.get(id, 'category').scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
-        })
+        });
+        Livewire.on('selectPageFromTableList', function (id) {
+            pagesTree.unselectAll(false);
+            pagesTree.show(id, 'page');
+            pagesTree.select(id, 'page', true);
+            //    pagesTree.get(id, 'category').scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+        });
     </script>
