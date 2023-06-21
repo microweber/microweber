@@ -692,14 +692,20 @@ small.text-muted {
     }
 }
 
+.font-weight-light {
+    font-weight: 300;
+}
+
+.font-weight-normal {
+    font-weight: 400;
+}
+
 .font-weight-bold {
     font-weight: 500;
-
 }
 
 .font-weight-bolder {
     font-weight: 600;
-
 }
 
 .modal-add-new-buttons-p {
@@ -1704,3 +1710,21 @@ svg.text-danger {
  .mdi-truck-check-outline {
      display: none;
  }
+
+
+.mw-order-custom-fields {
+    ul {
+        li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0 !important;
+            margin-left: 3px;
+
+            span {
+                margin-left: 3px;
+
+            }
+        }
+        padding-left: 0;
+    }
+}

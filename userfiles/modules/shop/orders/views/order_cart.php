@@ -123,8 +123,8 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
             <thead class="text-primary">
             <tr>
                 <th><?php _e(""); ?></th>
-                <th><?php _e("Parameters"); ?></th>
                 <th><?php _e("Product"); ?></th>
+                <th><?php _e("Parameters"); ?></th>
                 <th><?php _e("SKU"); ?></th>
                 <th><?php _e("Price"); ?></th>
                 <th class="text-center"><?php _e("Qty"); ?></th>
@@ -159,15 +159,17 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                             <?php endif; ?>
                         <?php endif; ?>
                     </td>
+                    <td class="mw-order-item-name">
+                        <a href="<?php print content_link($item['rel_id']) ?>"
+                           target="_blank"><span><?php print $item['title'] ?></span></a>
+                    </td>
+
                     <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
                         <td class="mw-order-custom-fields"><small><?php print $item['custom_fields'] ?></small></td>
                          <?php else :?>
                         <td class="mw-order-custom-fields"><?php _e("N/A"); ?></td>
                     <?php endif ?>
-                    <td class="mw-order-item-name">
-                        <a href="<?php print content_link($item['rel_id']) ?>"
-                           target="_blank"><span><?php print $item['title'] ?></span></a>
-                    </td>
+
                     <td class="mw-order-item-sku">
                         <?php if ($item['rel_type'] == 'content'): ?>
                             <?php $data_fields = app()->content_manager->data($item['rel_id']); ?>
@@ -233,6 +235,8 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                             print $ord['discount_value'] . "%";
                         }
                         ?>
+
+                        ( <?php _e("Coupon code") ?> )
                     </div>
                 </div>
             <?php endif ?>
