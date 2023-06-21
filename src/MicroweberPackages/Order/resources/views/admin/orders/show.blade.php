@@ -135,7 +135,7 @@
                         <?php endif; ?>
                     </div>
 
-               <div class="mt-4 d-flex justify-content-between">
+               <div class="mt-4 d-flex justify-content-end ms-auto">
                    <?php
                    if (isset($order['customer_id']) && $order['customer_id'] > 0):
                        ?><small>
@@ -154,24 +154,24 @@
         <div class="card mb-5 ">
             <div class="card-body">
                 <div class="row py-0">
-                    <?php
-                    $shippingGatewayModuleInfo = module_info($order['shipping_service']);
-                    $icon = (isset($shippingGatewayModuleInfo['settings']['icon_class']) ? $shippingGatewayModuleInfo['settings']['icon_class'] : false);
-                    if (isset($shippingGatewayModuleInfo['name'])):
-                        ?>
-                    <div class="col-md-12">
-                        <div class="mb-4">
-                            <strong><?php _e("Shipping type"); ?>:</strong>
-                            <i class="<?php echo $icon; ?>" style="font-size:23px"></i>  <?php echo $shippingGatewayModuleInfo['name'];?>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-
 
                     <?php
                     if ($order['shipping_service'] == 'shop/shipping/gateways/country'):
                         ?>
                     <div class="col-md-6">
+
+                            <?php
+                            $shippingGatewayModuleInfo = module_info($order['shipping_service']);
+                            $icon = (isset($shippingGatewayModuleInfo['settings']['icon_class']) ? $shippingGatewayModuleInfo['settings']['icon_class'] : false);
+                        if (isset($shippingGatewayModuleInfo['name'])):
+                            ?>
+
+                        <div class="mb-4">
+                            <strong><?php _e("Shipping type"); ?>:</strong>
+                            <i class="<?php echo $icon; ?>" style="font-size:23px"></i>  <?php echo $shippingGatewayModuleInfo['name'];?>
+                        </div>
+
+                        <?php endif; ?>
 
                             <?php
                             $map_click_str = false;
