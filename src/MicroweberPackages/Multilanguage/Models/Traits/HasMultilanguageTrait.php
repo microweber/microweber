@@ -183,6 +183,12 @@ trait HasMultilanguageTrait
 
                     if ($fieldLocale == $defaultLocale) {
                         // skip saving default locale , its saved in the model
+                        $findTranslate = MultilanguageTranslations::where('field_name', $fieldName)
+                            ->where('rel_type', $model->getTable())
+                            ->where('rel_id', $model->id)
+                            ->where('locale', $fieldLocale)
+                            ->delete();
+                        $model->refresh();
                         continue;
                     }
 
