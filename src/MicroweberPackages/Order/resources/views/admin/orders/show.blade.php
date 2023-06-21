@@ -263,12 +263,11 @@
             </div>
         </div>
 
-        <div class="card bg-azure-lt ">
+        <div class="card mb-5">
             <div class="card-body">
-
-                <div class="row d-flex">
+                <div class="row py-0">
                     <div class="col-md-6">
-                        <h5 class="mb-3 font-weight-bold"><?php _e('Order Status'); ?></h5>
+                        <label class="form-label font-weight-bold my-3"><?php _e('Order Status'); ?></label>
 
                         <div class="mb-2">
                             <?php _e("What is the status of this order?"); ?>
@@ -285,8 +284,8 @@
                         </div>
 
                         <div id="mw_order_status" style="overflow: hidden;">
-                            <div class="  p-3 mt-1 mb-2 text-center btn btn-outline-warning btn-block rounded-0 <?php if ($order['order_status'] == 'completed'): ?>semi_hidden<?php endif; ?>">
-                                <small class="d-block bg-warning text-white px-3 py-1 mx-auto"><?php _e("Pending"); ?></small>
+                            <div class="mt-2 mb-3 text-center <?php if ($order['order_status'] == 'completed'): ?>semi_hidden<?php endif; ?>">
+                                <small class="d-block bg-warning text-white py-1 mx-auto"><?php _e("Pending"); ?></small>
                             </div>
 
                             <div class="  p-3 mt-1 mb-2 text-center btn btn-outline-success btn-block rounded-0 <?php if ($order['order_status'] != 'completed'): ?>semi_hidden<?php endif; ?>">
@@ -328,8 +327,21 @@
                     </div>
 
                     <div class="col-md-6 border-left">
-                        <h5 class="mb-3 font-weight-bold"><?php _e("Payment Information"); ?></h5>
+                        <label class="form-label font-weight-bold my-3"><?php _e("Payment Information"); ?></label>
 
+                        <div class="mb-3">
+                            <?php _e("Is paid"); ?>:
+                            <div class="d-inline">
+                                <select name="is_paid" class="mw-order-is-paid-change  form-select" data-style="btn-sm" data-width="100px">
+                                    <option value="1" <?php if (isset($order['is_paid']) and intval($order['is_paid']) == 1): ?> selected="selected" <?php endif; ?>>
+                                        <?php _e("Yes"); ?>
+                                    </option>
+                                    <option value="0" <?php if (!isset($order['is_paid']) or (isset($order['is_paid']) and intval($order['is_paid']) == 0)): ?> selected="selected" <?php endif; ?>>
+                                        <?php _e("No"); ?>
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <?php _e("Payment Method"); ?>:
                             <?php
@@ -356,20 +368,6 @@
 
 
 
-                        </div>
-
-                        <div class="mb-3">
-                            <?php _e("Is paid"); ?>:
-                            <div class="d-inline">
-                                <select name="is_paid" class="mw-order-is-paid-change  form-select" data-style="btn-sm" data-width="100px">
-                                    <option value="1" <?php if (isset($order['is_paid']) and intval($order['is_paid']) == 1): ?> selected="selected" <?php endif; ?>>
-                                        <?php _e("Yes"); ?>
-                                    </option>
-                                    <option value="0" <?php if (!isset($order['is_paid']) or (isset($order['is_paid']) and intval($order['is_paid']) == 0)): ?> selected="selected" <?php endif; ?>>
-                                        <?php _e("No"); ?>
-                                    </option>
-                                </select>
-                            </div>
                         </div>
 
                         <?php if (isset($order['transaction_id']) and $order['transaction_id'] != ''): ?>
