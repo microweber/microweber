@@ -160,7 +160,7 @@
             </div>
             <div class="card-body">
 
-                <div class="row py-0 d-flex align-items-center">
+                <div class="row py-0">
 
 
                     <?php
