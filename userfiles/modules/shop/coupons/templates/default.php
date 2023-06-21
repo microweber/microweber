@@ -7,7 +7,6 @@ description: Default coupon template
 ?>
 
 
-
 <?php
 
 //d($applied_coupon_data);
