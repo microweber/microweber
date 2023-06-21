@@ -63,25 +63,28 @@
                         footer: btn,
                         title: mw.lang('Move to selected category')
                     });
-                    var tree = new mw.tree({
+                    var treeSettings = {
                         data: data,
                         element: dialog.dialogContainer,
                         sortable: false,
-                        selectable:true,
-                        singleSelect:true,
-                    });
+                        selectable: true,
+                        singleSelect: true,
+      
+                    }
+                    var tree = new mw.tree(treeSettings);
                     $(tree).on("selectionChange", function () {
+                         
                         btn.disabled = tree.getSelected().length === 0;
 
                         var selected = tree.getSelected();
-                        if(selected.length){
+                        if(tree.options.singleSelect === false && treeSettings.selected.length){
                             var hasPage = selected.find(function (item){
                                 return item.type === 'page';
                             });
 
                             if(typeof hasPage === 'undefined'){
                                 var category = selected[0];
-                                tree.select(category.parent_id, 'page', true);
+                                 tree.select(category.parent_id, 'page', true);
                             }
                         }
                     });

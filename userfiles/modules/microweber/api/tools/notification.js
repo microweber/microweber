@@ -90,9 +90,17 @@ mw.notification = {
         return div;
     },
     append: function (type, text, timeout, name) {
+
+        if(typeof type === 'object') {
+            text = type.text;
+            timeout = type.timeout;
+            name = type.name;
+            type = type.type;
+        }
+
         var tpl = `
         
-        <div class="position-fixed bottom-0 end-0 p-3 mw-tblr-notification" style="z-index: 21">
+        <div class="position-fixed bottom-0 end-0 p-3 mw-tblr-notification">
             <div class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
                 <div class="toast-body">
@@ -116,7 +124,9 @@ mw.notification = {
 
         tpl = $(tpl).appendTo(document.body);
         tpl.css('bottom', btm)
-        var toast = new bootstrap.Toast(tpl.children().get(0));
+        var toast = new bootstrap.Toast(tpl.children().get(0), {
+            delay: timeout
+        });
         toast.show();
         
     },

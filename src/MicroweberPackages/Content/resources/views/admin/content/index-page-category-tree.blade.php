@@ -13,32 +13,12 @@
     .main .tree {
         display: block;
     }
-    #pages-tree-wrapper{
-        max-width: 0;
-        transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);
-        position: sticky;
-        top: 0;
-        max-height: calc(100vh - 100px);
-        z-index: 1;
-    }
-    #pages-tree-wrapper.active{
-        max-width: 600px;
-       
-    }
+ 
     #pages-tree-container .ui-resizable{
         max-width: 100%
     }
-    #pages-tree-container{
-        max-width: 600px;
-        border-top-right-radius:0px;
-        transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);;
-        transform: translateX(calc(-100% - 25px));
+    
 
-    }
-    #pages-tree-wrapper.active #pages-tree-container{
-        
-        transform: translateX(0)
-    }
 
  
 
@@ -59,12 +39,12 @@
 
 
 <div id="pages-tree-wrapper"  >
-
-<div class="card m-3 p-3" id="pages-tree-container" >
-
-    <button type="button" class="mw-admin-toggle-tree-navigation">
+<button type="button" class="mw-admin-toggle-tree-navigation">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
     </button>
+<div class="card m-3 p-3" id="pages-tree-container" >
+
+
 
         <div class="js-page-tree-skeleton">
             <div class="d-flex">
@@ -322,6 +302,7 @@
                 resizableOn: 'treeParent',
                 append: treeTail,
                 id: 'admin-main-tree',
+                contextMenuMode: 'dropdown'
             };
 
             var params = {};

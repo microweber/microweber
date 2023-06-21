@@ -40,10 +40,7 @@ if (isset($params['recommended-id']) and $params['recommended-id'] != false) {
             var selected = [];
             mw.admin.tree('#<?php print $treeId; ?>', {
                 options: {
-                    disableSelectTypes: ['category']
-                },
-                params: {
-                    content_type: 'page',
+                    disableSelectTypes: ['category'],
                     <?php if (isset($params['remove_id'])): ?>
                     skip: [
                         {
@@ -52,6 +49,10 @@ if (isset($params['recommended-id']) and $params['recommended-id'] != false) {
                         }
                     ],
                     <?php endif; ?>
+                },
+                params: {
+                    content_type: 'page',
+                    
                 }
             }).then(function (res){
                 res.tree.select(<?php print $selected; ?>, 'page');
