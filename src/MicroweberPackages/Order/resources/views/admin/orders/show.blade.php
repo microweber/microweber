@@ -63,7 +63,7 @@
 
     <div class="col-xxl-10 col-lg-11 col-12 mx-auto">
 
-        <label class="form-label font-weight-bold"><?php _e('Order Information'); ?></h3>
+        <label class="form-label font-weight-bold mb-3"><?php _e('Order Information'); ?></label>
         <div class="card mb-5">
             <div class="card-body">
                 <div class="row py-0">
@@ -80,7 +80,7 @@
         </div>
 
 
-        <label class="form-label font-weight-bold"><?php _e("Client Information"); ?></h3>
+        <label class="form-label font-weight-bold mb-3"><?php _e("Client Information"); ?></label>
         <div class="card mb-5 ">
             <div class="card-body">
                 <div class="row py-0">
@@ -150,7 +150,7 @@
         </div>
 
 
-        <label class="form-label font-weight-bold"><?php _e('Shipping details'); ?></h3>
+        <label class="form-label font-weight-bold mb-3"><?php _e('Shipping details'); ?></label>
         <div class="card mb-5 ">
             <div class="card-body">
                 <div class="row py-0">
