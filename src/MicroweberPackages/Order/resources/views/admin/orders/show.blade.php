@@ -263,6 +263,10 @@
                         </div>
                         <?php endif; ?>
                     </div>
+
+                    <div class="col-12 d-flex justify-content-end">
+                        <a href="" class="btn btn-outline-primary btn-sm "> <?php _e("Edit") ?></a>
+                    </div>
                     <?php endif; ?>
                 </div>
             </div>
