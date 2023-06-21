@@ -43,7 +43,7 @@
                                 <div class="col-12">
 
                                     <?php
-                                    $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                                    $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
                                     ?>
 
                                     <div class="form-group mb-4">

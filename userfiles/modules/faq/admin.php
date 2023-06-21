@@ -44,7 +44,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         ->where('option_group',$params['id'])
                         ->first();
 
-                    $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                    $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
 
                     echo $formBuilder->mwModuleSettings('settings')
                         ->setModel($moduleOption)

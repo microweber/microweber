@@ -386,7 +386,7 @@ if (isset($_GET['rel_id'])) {
 
                             <?php
                             $categoryModel = \MicroweberPackages\Category\Models\Category::where('id', $data['id'])->first();
-                            $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                            $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
                             ?>
 
                             <div class="row p-0">

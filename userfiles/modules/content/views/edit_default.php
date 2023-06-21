@@ -397,7 +397,7 @@ if (isset($params['quick_edit'])) {
 
                 <?php
                 $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
-                $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
                 ?>
                 <div x-data="{ title: '<?php echo $title_for_input ?>' }">
                         <div x-show="showEditTab=='details'">
@@ -418,7 +418,7 @@ if (isset($params['quick_edit'])) {
 
                                                   <?php
                                                   $contentModel = \MicroweberPackages\Content\Content::where('id', $data['id'])->first();
-                                                  $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                                                  $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
 
                                                   ?>
 
