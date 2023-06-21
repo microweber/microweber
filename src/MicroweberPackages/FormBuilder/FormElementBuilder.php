@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\FormBuilder;
 
+use Illuminate\Support\Manager;
 use MicroweberPackages\FormBuilder\Elements\Button;
 use MicroweberPackages\FormBuilder\Elements\Hidden;
 use MicroweberPackages\FormBuilder\Binding\BoundData;
@@ -21,10 +22,13 @@ use MicroweberPackages\FormBuilder\Elements\TextAreaOption;
 use MicroweberPackages\FormBuilder\Elements\TextOption;
 use MicroweberPackages\FormBuilder\OldInput\OldInputInterface;
 
-class FormElementBuilder
+class FormElementBuilder extends Manager
 {
     protected $oldInput;
     protected $boundData;
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     protected $formElementsClasses = [
         'Text'=>Text::class,
         'MwEditor'=>MwEditor::class,
@@ -34,11 +38,38 @@ class FormElementBuilder
         'TextAreaOption'=>TextAreaOption::class,
     ];
 
+    protected $drivers = [
+        'text'=>Text::class,
+        'textarea'=>TextArea::class,
+        'richtext'=>MwEditor::class,
+    ];
+
+    public function make($type, $name)
+    {
+        $driver = $this->driver($type);
+
+        $text = new $driver($name);
+
+        if (!is_null($value = $this->getValueFor($name))) {
+            $text->value($value);
+        }
+
+        return $text;
+
+    }
+
+    public function getDefaultDriver()
+    {
+        return 'text';
+    }
+
     public function setOldInputProvider(OldInputInterface $oldInputProvider)
     {
         $this->oldInput = $oldInputProvider;
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function mwEditor($name)
     {
         $text = new $this->formElementsClasses['MwEditor']($name);
@@ -50,7 +81,9 @@ class FormElementBuilder
         return $text;
     }
 
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function mwModuleSettings($name)
     {
         $text = new $this->formElementsClasses['MwModuleSettings']($name);
@@ -61,7 +94,9 @@ class FormElementBuilder
 
         return $text;
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function text($name)
     {
         $text = new $this->formElementsClasses['Text']($name);
@@ -72,14 +107,18 @@ class FormElementBuilder
 
         return $text;
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function textOption($optionKey, $optionGroup)
     {
         $textOption = new $this->formElementsClasses['TextOption']($optionKey, $optionGroup);
 
         return $textOption;
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function textarea($name)
     {
         $textarea = new $this->formElementsClasses['TextArea']($name);
@@ -90,14 +129,18 @@ class FormElementBuilder
 
         return $textarea;
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function textareaOption($optionKey, $optionGroup)
     {
         $textOption = new $this->formElementsClasses['TextAreaOption']($optionKey, $optionGroup);
 
         return $textOption;
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function date($name)
     {
         $date = new Date($name);
@@ -108,7 +151,9 @@ class FormElementBuilder
 
         return $date;
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function dateTimeLocal($name)
     {
         $date = new DateTimeLocal($name);
@@ -119,7 +164,9 @@ class FormElementBuilder
 
         return $date;
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function email($name)
     {
         $email = new Email($name);
@@ -130,7 +177,9 @@ class FormElementBuilder
 
         return $email;
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function checkbox($name, $value = 1)
     {
         $checkbox = new Checkbox($name, $value);
@@ -140,7 +189,9 @@ class FormElementBuilder
 
         return $checkbox;
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function radio($name, $value = null)
     {
         $radio = new RadioButton($name, $value);
@@ -150,7 +201,9 @@ class FormElementBuilder
 
         return $radio;
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function select($name, $options = [])
     {
         $select = new Select($name, $options);
@@ -160,12 +213,16 @@ class FormElementBuilder
 
         return $select;
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function label($label)
     {
         return new Label($label);
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function file($name)
     {
         return new File($name);
@@ -217,7 +274,9 @@ class FormElementBuilder
     {
         $this->boundData = null;
     }
-
+    /**
+     * @deprecated This property is deprecated and should not be used anymore.
+     */
     public function selectMonth($name)
     {
         $options = [
