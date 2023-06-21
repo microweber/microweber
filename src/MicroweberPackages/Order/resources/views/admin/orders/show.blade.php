@@ -77,8 +77,14 @@
 
 
                         <div>
-                            <label class="font-weight-bold mb-0"><?php _e('Customer name'); ?></label>:
-                            <?php print $order['first_name'] . ' ' . $order['last_name']; ?>
+                            <div>
+                                <?php print $order['first_name'] . ' ' . $order['last_name']; ?>
+                            </div>
+                            <div>
+                                <?php print $order['phone']; ?>
+                            </div>
+
+
                         </div>
                     </div>
                     <module type="shop/orders/views/order_cart" order-id="{{ $order['id'] }}" />
