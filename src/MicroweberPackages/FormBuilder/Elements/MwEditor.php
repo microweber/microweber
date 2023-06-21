@@ -1,6 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Form\Elements;
+namespace MicroweberPackages\FormBuilder\Elements;
+
+use function current_lang;
 
 class MwEditor extends TextArea
 {

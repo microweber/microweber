@@ -4,7 +4,7 @@ namespace MicroweberPackages\Multilanguage\FormElements;
 
 use MicroweberPackages\Translation\LanguageHelper;
 
-class TextArea extends \MicroweberPackages\Form\Elements\Text
+class TextArea extends \MicroweberPackages\FormBuilder\Elements\Text
 {
     public $randId;
     public $defaultLanguage;

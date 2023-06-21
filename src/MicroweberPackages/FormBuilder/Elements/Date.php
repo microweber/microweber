@@ -1,17 +1,17 @@
 <?php
 
-namespace MicroweberPackages\Form\Elements;
+namespace MicroweberPackages\FormBuilder\Elements;
 
-class DateTimeLocal extends Text
+class Date extends Text
 {
     protected $attributes = [
-        'type' => 'datetime-local',
+        'type' => 'date',
     ];
 
     public function value($value)
     {
         if ($value instanceof \DateTime) {
-            $value = $value->format('Y-m-d\TH:i');
+            $value = $value->format('Y-m-d');
         }
 
         return parent::value($value);
@@ -21,7 +21,7 @@ class DateTimeLocal extends Text
     {
         if (! $this->hasValue()) {
             if ($value instanceof \DateTime) {
-                $value = $value->format('Y-m-d\TH:i');
+                $value = $value->format('Y-m-d');
             }
             $this->setValue($value);
         }

@@ -2,24 +2,24 @@
 
 namespace MicroweberPackages\FormBuilder;
 
-use MicroweberPackages\Form\Binding\BoundData;
 use MicroweberPackages\Form\Elements\Button;
-use MicroweberPackages\Form\Elements\Checkbox;
-use MicroweberPackages\Form\Elements\Date;
-use MicroweberPackages\Form\Elements\DateTimeLocal;
-use MicroweberPackages\Form\Elements\Email;
-use MicroweberPackages\Form\Elements\File;
 use MicroweberPackages\Form\Elements\Hidden;
-use MicroweberPackages\Form\Elements\Label;
-use MicroweberPackages\Form\Elements\MwEditor;
-use MicroweberPackages\Form\Elements\MwModuleSettings;
-use MicroweberPackages\Form\Elements\RadioButton;
-use MicroweberPackages\Form\Elements\Select;
-use MicroweberPackages\Form\Elements\Text;
-use MicroweberPackages\Form\Elements\TextArea;
-use MicroweberPackages\Form\Elements\TextAreaOption;
-use MicroweberPackages\Form\Elements\TextOption;
 use MicroweberPackages\Form\OldInput\OldInputInterface;
+use MicroweberPackages\FormBuilder\Binding\BoundData;
+use MicroweberPackages\FormBuilder\Elements\Checkbox;
+use MicroweberPackages\FormBuilder\Elements\Date;
+use MicroweberPackages\FormBuilder\Elements\DateTimeLocal;
+use MicroweberPackages\FormBuilder\Elements\Email;
+use MicroweberPackages\FormBuilder\Elements\File;
+use MicroweberPackages\FormBuilder\Elements\Label;
+use MicroweberPackages\FormBuilder\Elements\MwEditor;
+use MicroweberPackages\FormBuilder\Elements\MwModuleSettings;
+use MicroweberPackages\FormBuilder\Elements\RadioButton;
+use MicroweberPackages\FormBuilder\Elements\Select;
+use MicroweberPackages\FormBuilder\Elements\Text;
+use MicroweberPackages\FormBuilder\Elements\TextArea;
+use MicroweberPackages\FormBuilder\Elements\TextAreaOption;
+use MicroweberPackages\FormBuilder\Elements\TextOption;
 
 class FormElementBuilder
 {

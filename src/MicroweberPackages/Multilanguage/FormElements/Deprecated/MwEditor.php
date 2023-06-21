@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Multilanguage\FormElements\Deprecated;
 
-class MwEditor extends \MicroweberPackages\Form\Elements\TextArea
+class MwEditor extends \MicroweberPackages\FormBuilder\Elements\TextArea
 {
     public $randId;
 

@@ -1,17 +1,16 @@
 <?php
 
-namespace MicroweberPackages\Form\Elements;
+namespace MicroweberPackages\FormBuilder\Elements;
 
-class TextOption extends Text
+class TextAreaOption extends TextArea
 {
-    protected $attributes = [
-        'type' => 'text',
-        'class'=>'form-control mw_option_field'
-    ];
-
     protected $model;
     protected $optionKey;
     protected $optionGroup;
+
+    public $attributes = [
+        'class'=>'form-control mw_option_field',
+    ];
 
     public function __construct($optionKey, $optionGroup) {
 
@@ -23,7 +22,9 @@ class TextOption extends Text
 
         $this->model = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', $this->optionKey)->where('option_group', $this->optionGroup)->first();
         if ($this->model) {
-            $this->value($this->model->option_value);
+            if(isset($this->model->option_value)) {
+                $this->value($this->model->option_value);
+            }
         }
     }
 }

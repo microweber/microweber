@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Form\Binding;
+namespace MicroweberPackages\FormBuilder\Binding;
 
 class BoundData
 {

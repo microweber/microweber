@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Form\Elements;
+namespace MicroweberPackages\FormBuilder\Elements;
 
 class Checkbox extends Input
 {
