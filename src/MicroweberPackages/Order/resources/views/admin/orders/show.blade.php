@@ -67,11 +67,19 @@
         <div class="card mb-5">
             <div class="card-body">
                 <div class="row py-0">
-                    <div class="mb-3">
-                        <label class="form-label font-weight-bold mb-0"><?php _e("Order"); ?> #<?php print $order['id'] ?></label>
-                        <small class="text-muted" style="font-size: 12px !important;"  data-bs-toggle="tooltip" title="<?php print mw()->format->ago($order['created_at']); ?>">
-                            <?php print date('M d, Y', strtotime($order['created_at'])); ?>
-                        </small>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <label class="form-label font-weight-bold mb-0"><?php _e("Order"); ?> #<?php print $order['id'] ?></label>
+                            <small class="text-muted" style="font-size: 12px !important;"  data-bs-toggle="tooltip" title="<?php print mw()->format->ago($order['created_at']); ?>">
+                                <?php print date('M d, Y', strtotime($order['created_at'])); ?>
+                            </small>
+                        </div>
+
+
+                        <div>
+                            <label class="font-weight-bold mb-0"><?php _e('Customer name'); ?></label>:
+                            <?php print $order['first_name'] . ' ' . $order['last_name']; ?>
+                        </div>
                     </div>
                     <module type="shop/orders/views/order_cart" order-id="{{ $order['id'] }}" />
                 </div>
@@ -286,7 +294,7 @@
                         </div>
 
                         <?php if (isset($order['created_at']) and $order['created_at'] != ''): ?>
-                        <div class="mb-3">
+                        <div class="mb-1">
                             <label class="font-weight-bold"><?php _e("Created at"); ?>: <?php print date('M d, Y H:i', strtotime($order['created_at'])); ?></label>
                             <small class="text-muted  "><?php print mw()->format->ago($order['created_at']); ?>  </small>
 
@@ -294,7 +302,7 @@
                         <?php endif; ?>
 
                         <?php if (isset($order['updated_at']) and $order['updated_at'] != ''): ?>
-                        <div class="mb-3">
+                        <div class="mb-1">
                             <label class="font-weight-bold"><?php _e("Updated at"); ?>: <?php print date('M d, Y H:i', strtotime($order['updated_at'])); ?></label>
                             <small class="text-muted  "><?php print mw()->format->ago($order['updated_at']); ?>  </small>
 
@@ -302,7 +310,7 @@
                         <?php endif; ?>
 
                         <?php if (isset($order['created_by']) and $order['created_by'] != ''): ?>
-                        <div class="mb-3">
+                        <div class="mb-1">
                             <label class="font-weight-bold"><?php _e("Created by"); ?>: <?php print user_name($order['created_by']); ?> (ID: <?php print ($order['created_by']); ?> )</label>
                         </div>
                         <?php endif; ?>
