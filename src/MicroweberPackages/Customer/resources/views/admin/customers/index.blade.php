@@ -97,7 +97,7 @@
             <div class="row py-0">
                 <form method="get">
                     <input type="hidden" value="true" name="filter">
-                    <div class="card-header px-0">
+                    <div class="card-header p-0">
                         <div class="col-md-6 col-12 ">
                             <label class="form-label font-weight-bold">
                                 <?php _e('Clients list'); ?>
