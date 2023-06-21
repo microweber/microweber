@@ -62,10 +62,9 @@
 </div>
 
     <div class="col-xxl-10 col-lg-11 col-12 mx-auto">
+
+        <label class="form-label font-weight-bold"><?php _e('Order Information'); ?></h3>
         <div class="card mb-5">
-            <div class="card-header mt-4 pb-0">
-                <h3 class="main-pages-title mb-0"><?php _e('Order Information'); ?></h3>
-            </div>
             <div class="card-body">
                 <div class="row py-0">
                     <div class="mb-3">
@@ -80,11 +79,9 @@
             </div>
         </div>
 
-        <div class="card mb-5 ">
 
-            <div class="card-header mt-4 pb-0">
-                <h3 class="main-pages-title"><?php _e("Client Information"); ?></h3>
-            </div>
+        <label class="form-label font-weight-bold"><?php _e("Client Information"); ?></h3>
+        <div class="card mb-5 ">
             <div class="card-body">
                 <div class="row py-0">
                     <div class="info-table">
@@ -153,16 +150,10 @@
         </div>
 
 
+        <label class="form-label font-weight-bold"><?php _e('Shipping details'); ?></h3>
         <div class="card mb-5 ">
-
-            <div class="card-header mt-4 pb-0">
-                <h3 class="main-pages-title"><?php _e('Shipping details'); ?></h3>
-            </div>
             <div class="card-body">
-
                 <div class="row py-0">
-
-
                     <?php
                     $shippingGatewayModuleInfo = module_info($order['shipping_service']);
                     $icon = (isset($shippingGatewayModuleInfo['settings']['icon_class']) ? $shippingGatewayModuleInfo['settings']['icon_class'] : false);
