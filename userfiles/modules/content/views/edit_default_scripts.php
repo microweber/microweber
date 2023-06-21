@@ -126,6 +126,8 @@
     mw.edit_content.after_save = function (saved_id) {
         var saved_id = typeof saved_id === "number" ? saved_id : saved_id.id;
 
+        $('#js-admin-save-content-main-btn').addClass('btn-dark').removeClass('btn-ghost-success active')
+
         mw.askusertostay = false;
         mw.$('.post-header-content-changed').removeClass('post-header-content-changed')
         var content_id = mw.$('#mw-content-id-value').val();

@@ -29,10 +29,17 @@ if (isset($params['quick_edit'])) {
     $quick_edit = $params['quick_edit'];
 }
 
+$padding_class = '';
+
 $wrapper_class = 'mw-edit-category-item-admin';
 
 if (isset($params['live_edit'])) {
     $wrapper_class = 'module-live-edit-settings';
+}
+
+if (isset($_GET['iframe'])) {
+    $padding_class = 'px-1';
+
 }
 
 $creteCategoryIn = 'blog';
@@ -92,7 +99,7 @@ if (isset($_GET['rel_id'])) {
     /*}*/
 </style>
 <div class="card">
-    <div class="card-body mb-3 <?php print $wrapper_class; ?>">
+    <div class="card-body mb-3  <?php print $wrapper_class; ?> <?php print $padding_class; ?>">
         <script type="text/javascript">
             mw.require('forms.js');
 
@@ -322,10 +329,11 @@ if (isset($_GET['rel_id'])) {
 
             ?>
 
-            <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-header d-flex justify-content-between align-items-center <?php print $padding_class; ?>">
 <!--                <label class="form-label">--><?php //print  $headerText ?><!--</label>-->
 
-                <div class="create-root text-end">
+                <?php  if (!isset($_GET['iframe'])) : ?>
+                    <div class="create-root">
                     <div id="content-title-field-buttons">
                         <?php if (intval($data['id']) != 0): ?>
                             <script>
@@ -361,6 +369,8 @@ if (isset($_GET['rel_id'])) {
 
                     </div>
                 </div>
+                <?php endif; ?>
+
 
                 <?php  if (isset($_GET['iframe'])) : ?>
                 <div>
@@ -381,7 +391,7 @@ if (isset($_GET['rel_id'])) {
         <?php endif; ?>
 
         <div class="<?php if (!isset($params['no-toolbar'])): ?> <?php endif; ?>">
-            <div class="card-body py-0">
+            <div class="card-body py-0 <?php print $padding_class; ?>">
 
                 <div class="row p-0">
                     <div class="col-lg-12">
