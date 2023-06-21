@@ -819,6 +819,7 @@
                     }
                    }
                 });
+                
                 menuContent.className = 'mw-tree-context-menu-content mw-tree-context-menu-content-' + this.options.skin + ' mw-tree-context-menu-content-mode-' + this.options.contextMenuMode;
                 menu.appendChild(menuButton);
                 menuButton.$$menuContent = menuContent;
