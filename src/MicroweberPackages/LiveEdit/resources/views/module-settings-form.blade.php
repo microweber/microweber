@@ -7,11 +7,8 @@
 
 
     @php
-    /*
-     * @var $formBuilder \MicroweberPackages\Form\FormElementBuilder
-     *
-     * */
-      $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+
+      $formBuilder = new \MicroweberPackages\Form\FormElementBuilder();
 
     @endphp
 
@@ -34,17 +31,19 @@
                     $required = $formItem['required'] ?? false;
                     $settingsKey = 'settings.' . $formItemKey;
 
-//                    echo $formBuilder->text($settingsKey)
-//                        ->label($formItem['label'])
-//                        ->class('form-control')
-//                        ->setAttribute('wire:model.debounce.100ms', $settingsKey)
-//                        ->autocomplete(false);
+                    echo $formBuilder->text($settingsKey)
+                        ->label($formItem['label'])
+                        ->class('form-control')
+                        ->setAttribute('wire:model.debounce.100ms', $settingsKey)
+                        ->autocomplete(false);
 
 
                     ?>
 
 
+{{--
                 <input type="text" placeholder="{{$placeholder}}" class="form-control" wire:model.debounce.100ms="{{$settingsKey}}"/>
+--}}
                     @if(isset($formItem['help']) and $formItem['help'])
                     <small class="form-hint">{{ $formItem['help'] }}</small>
                     @endif
