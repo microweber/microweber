@@ -692,14 +692,20 @@ small.text-muted {
     }
 }
 
+.font-weight-light {
+    font-weight: 300;
+}
+
+.font-weight-normal {
+    font-weight: 400;
+}
+
 .font-weight-bold {
     font-weight: 500;
-
 }
 
 .font-weight-bolder {
     font-weight: 600;
-
 }
 
 .modal-add-new-buttons-p {

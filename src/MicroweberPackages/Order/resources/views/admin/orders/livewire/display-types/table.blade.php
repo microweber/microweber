@@ -105,14 +105,14 @@
                   </td>
               @endif
               @if($showColumns['payment_method'])
-                  <td style="text-align: center">
+                  <td>
                      <div class="mb-1">
                          {{$order->paymentMethodName()}}
                      </div>
                       @if($order->is_paid == 1)
-                          <span class="badge badge-success">{{ _e('Paid') }}</span>
+                          <span class="badge font-weight-normal bg-success">{{ _e('Paid') }}</span>
                       @else
-                          <span class="badge badge-danger">{{ _e('Unpaid') }}</span>
+                          <span class="badge font-weight-normal bg-danger">{{ _e('Unpaid') }}</span>
                       @endif
                   </td>
               @endif
@@ -122,13 +122,13 @@
                       <div class="mb-1">{{currency_format($order->payment_amount, $order->payment_currency)}}</div>
 
                       @if($order->order_status == 'pending')
-                          <span class="badge badge-warning text-white">{{ _e('Pending') }}</span>
+                          <span class="badge font-weight-normal bg-warning text-white">{{ _e('Pending') }}</span>
                       @elseif($order->order_status == 'new')
-                          <span class="badge badge-primary">{{ _e('New order') }}</span>
+                          <span class="badge font-weight-normal bg-primary">{{ _e('New order') }}</span>
                       @elseif($order->order_status == 'completed')
-                          <span class="badge badge-success">{{ _e('Completed') }}</span>
+                          <span class="badge font-weight-normal bg-success">{{ _e('Completed') }}</span>
                       @else
-                          <span class="badge badge-primary">{{$order->order_status}}</span>
+                          <span class="badge font-weight-normal bg-primary">{{$order->order_status}}</span>
                       @endif
                   </td>
               @endif
