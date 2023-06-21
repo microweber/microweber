@@ -57,7 +57,7 @@
 
 <div class="card col-xxl-10 col-md-11 col-12 px-md-0 px-2 mx-auto mb-5">
     <div class="card-body">
-        <div class="row">
+        <div class="row py-0">
             <form method="get">
                 <input type="hidden" value="true" name="filter">
 
@@ -108,7 +108,7 @@
                     </form>
                 </div>
 
-                <table class="table table-responsive mt-3 small vertical-align-middle">
+                <table class="table table-responsive mt-3 small vertical-align-middle fs-4">
                     <thead>
                     <tr>
                         <th class="border-0">
@@ -164,7 +164,7 @@
                                 <form action="{{ route('admin.customers.destroy', $customer->id)}}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <a href="{{ route('admin.customers.edit', $customer->id) }}" class="tblr-body-color me-1 text-decoration-none" data-bs-toggle="tooltip" aria-label="Edit client" data-bs-original-title="Edit client">
+                                    <a href="{{ route('admin.customers.edit', $customer->id) }}" class="tblr-body-color me-2 text-decoration-none" data-bs-toggle="tooltip" aria-label="Edit client" data-bs-original-title="Edit client">
                                         <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"></path></svg>
                                     </a>
                                     <button type="submit" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" class="text-danger border-0" style="background: none;" data-bs-toggle="tooltip" aria-label="Delete client" data-bs-original-title="Delete client">
