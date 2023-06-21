@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Form;
+namespace MicroweberPackages\FormBuilder;
 
 use MicroweberPackages\Form\Binding\BoundData;
 use MicroweberPackages\Form\Elements\Button;

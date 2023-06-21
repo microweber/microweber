@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Multilanguage;
 
-use MicroweberPackages\Form\FormElementBuilder;
+use MicroweberPackages\FormBuilder\FormElementBuilder;
 use MicroweberPackages\Multilanguage\FormElements\MwEditor;
 use MicroweberPackages\Multilanguage\FormElements\MwModuleSettings;
 use MicroweberPackages\Multilanguage\FormElements\Text;

@@ -46,8 +46,6 @@ class FormServiceProvider extends ServiceProvider implements DeferrableProvider
         $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
         $this->loadRoutesFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'routes/api_public.php');
 
-        View::addNamespace('form', dirname(__DIR__) . '/resources/views');
-
     }
 
     /**

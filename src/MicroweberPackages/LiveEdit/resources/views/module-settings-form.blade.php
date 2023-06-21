@@ -8,7 +8,7 @@
 
     @php
 
-      $formBuilder = new \MicroweberPackages\Form\FormElementBuilder();
+      $formBuilder = new \MicroweberPackages\FormBuilder\FormElementBuilder();
 
     @endphp
 

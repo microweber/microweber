@@ -14,16 +14,12 @@ namespace MicroweberPackages\Multilanguage;
 use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Events\LocaleUpdated;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Application;
-use MicroweberPackages\Form\FormElementBuilder;
-use MicroweberPackages\Module\Module;
+use MicroweberPackages\FormBuilder\FormElementBuilder;
 use MicroweberPackages\Multilanguage\Listeners\LocaleUpdatedListener;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
-use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 
 class MultilanguageServiceProvider extends ServiceProvider
