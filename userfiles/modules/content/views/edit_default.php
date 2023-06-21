@@ -147,6 +147,8 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 
       //  mw.askusertostay = false;
         // document.querySelector('#content-title-field-row .card-header').classList[state ? 'add' : 'remove']('post-header-content-changed')
+
+       $('#js-admin-save-content-main-btn').addClass('btn-ghost-success active').removeClass('btn-dark')
     }
 
     $(document).ready(function () {
