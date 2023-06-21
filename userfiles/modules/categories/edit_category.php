@@ -272,7 +272,11 @@ if (isset($_GET['rel_id'])) {
                             mw.url.windowHashParam('action', 'editcategory:' + savedcatid)
                         } else {
                             if(mw.category_is_new && admin_edit_url){
+                               <?php if (isset($_GET['iframe'])): ?>
+                                window.location = admin_edit_url + '?iframe=1';
+                                <?php else: ?>
                                 window.location = admin_edit_url;
+                                <?php endif; ?>
                             }
                         }
 
@@ -359,6 +363,15 @@ if (isset($_GET['rel_id'])) {
                 </div>
 
                 <?php  if (isset($_GET['iframe'])) : ?>
+                <div>
+                    <h2>
+                    <?php  if ($data['id'] > 0) : ?>
+                    <?php _e('Edit category'); ?>
+                    <?php else: ?>
+                    <?php _e('Add category'); ?>
+                    <?php endif; ?>
+                    </h2>
+                </div>
                 <div>
                     <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-dark" form="quickform-edit-content"><i class="mdi mdi-content-save me-1"></i> <?php _e('Save') ?></button>
                 </div>
@@ -626,6 +639,7 @@ if (isset($_GET['rel_id'])) {
 
 
                                 </script>
+
                                 <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
 
                                 <div class="col-12">
