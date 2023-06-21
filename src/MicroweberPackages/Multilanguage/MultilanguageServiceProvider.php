@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Multilanguage;
 
 use Doctrine\DBAL\Driver\PDOException;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Events\LocaleUpdated;
 use Illuminate\Support\Facades\View;
@@ -30,7 +31,6 @@ class MultilanguageServiceProvider extends ServiceProvider
      * @var  Application
      */
     protected $app;
-
 
 
     /**
@@ -77,7 +77,7 @@ class MultilanguageServiceProvider extends ServiceProvider
             return new MultilanguageRepository();
         });
 
-       $getSupportedLocales = $this->app->multilanguage_repository->getSupportedLocales(true);
+        $getSupportedLocales = $this->app->multilanguage_repository->getSupportedLocales(true);
 
         if (empty($getSupportedLocales)) {
             $isMultilanguageActive = false;
@@ -97,7 +97,8 @@ class MultilanguageServiceProvider extends ServiceProvider
 
             // $this->app->register(MultilanguageEventServiceProvider::class);
             $this->app->bind(FormElementBuilder::class, function ($app) {
-                return new MultilanguageFormElementBuilder();
+                $container = $app->make(Container::class);
+                return new MultilanguageFormElementBuilder($container);
             });
 
             $this->bootTranslateManager();
