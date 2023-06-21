@@ -363,6 +363,8 @@ function coupons_delete_session()
     mw()->user_manager->session_del('discount_value');
     mw()->user_manager->session_del('discount_type');
     mw()->user_manager->session_del('applied_coupon_data');
+
+    return ['success'=>true];
 }
 
 

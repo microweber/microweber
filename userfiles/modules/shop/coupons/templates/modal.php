@@ -25,7 +25,10 @@ $applied_code = '';
                         <h5 class="mb-2"><?php _e("You are using coupon code"); ?></h5>
                         <div class="form-group d-flex">
                                     <input class="form-control" id="disabledInput" type="text" placeholder="<?php print $applied_coupon_data['coupon_name']  ?>" disabled="" style="max-width: 50%;">
-                                    <a class="align-self-center mx-4" href="javascript:$('.coupon_code_apply_wrapper-<?php echo $params['id']; ?>').toggle(); void(0);"><?php _e("Change"); ?></a>
+
+
+                            <a href="#" class="align-self-center mx-4 js-change-coupon-code-<?php echo $params['id']; ?>"><?php _e("Change"); ?></a>
+
                         </div>
                     </div>
                 <?php endif; ?>
