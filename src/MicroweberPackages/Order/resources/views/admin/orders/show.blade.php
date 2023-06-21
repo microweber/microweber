@@ -87,7 +87,7 @@
                     <div class="info-table">
                         <div class="row p-1">
                             <div class="col-6">
-                                <label><?php _e('Customer name'); ?></label>
+                                <label class="font-weight-bold"><?php _e('Customer name'); ?></label>
                             </div>
                             <div class="col-6">
                                 <?php print $order['first_name'] . ' ' . $order['last_name']; ?>
@@ -95,7 +95,7 @@
                         </div>
                         <div class="row p-1">
                             <div class="col-6">
-                                <label><?php _e("Email"); ?></label>
+                                <label class="font-weight-bold"><?php _e("Email"); ?></label>
                             </div>
                             <div class="col-6">
                                 <a href="mailto:<?php print $order['email'] ?>"><?php print $order['email'] ?></a>
@@ -103,7 +103,7 @@
                         </div>
                         <div class="row p-1">
                             <div class="col-6">
-                                <label><?php _e('Phone number'); ?></label>
+                                <label class="font-weight-bold"><?php _e('Phone number'); ?></label>
                             </div>
                             <div class="col-6">
                                 <?php print $order['phone']; ?>
@@ -111,7 +111,7 @@
                         </div>
                         <div class="row p-1">
                             <div class="col-6">
-                                <label><?php _e('User IP'); ?></label>
+                                <label class="font-weight-bold"><?php _e('User IP'); ?></label>
                             </div>
                             <div class="col-6">
                                 <?php if ($order['user_ip'] == '::1'): ?>
@@ -254,10 +254,11 @@
             </div>
         </div>
 
-        <div class="card mb-5">
-            <div class="card-body">
-                <div class="row py-0">
-                    <div class="col-md-6">
+        <div class="row p-0 align-items-center">
+            <div class="col-md-6 h-100 pe-md-3 pe-0">
+                <div class="card ">
+                <div class="card-body">
+                    <div class="row py-0">
                         <label class="form-label font-weight-bold my-3"><?php _e('Order Status'); ?></label>
 
                         <div class="mb-2">
@@ -284,14 +285,9 @@
                             </div>
                         </div>
 
-                        <div class="mb-2">
-                            <small class="text-muted"><?php _e('Set additional information to your order, helps you to track the order status more effective'); ?></small>
-                        </div>
-
-
                         <?php if (isset($order['created_at']) and $order['created_at'] != ''): ?>
                         <div class="mb-3">
-                                <?php _e("Created at"); ?>: <?php print date('M d, Y H:i', strtotime($order['created_at'])); ?>
+                            <label class="font-weight-bold"><?php _e("Created at"); ?>: <?php print date('M d, Y H:i', strtotime($order['created_at'])); ?></label>
                             <small class="text-muted  "><?php print mw()->format->ago($order['created_at']); ?>  </small>
 
                         </div>
@@ -299,7 +295,7 @@
 
                         <?php if (isset($order['updated_at']) and $order['updated_at'] != ''): ?>
                         <div class="mb-3">
-                                <?php _e("Updated at"); ?>: <?php print date('M d, Y H:i', strtotime($order['updated_at'])); ?>
+                            <label class="font-weight-bold"><?php _e("Updated at"); ?>: <?php print date('M d, Y H:i', strtotime($order['updated_at'])); ?></label>
                             <small class="text-muted  "><?php print mw()->format->ago($order['updated_at']); ?>  </small>
 
                         </div>
@@ -307,97 +303,94 @@
 
                         <?php if (isset($order['created_by']) and $order['created_by'] != ''): ?>
                         <div class="mb-3">
-                                <?php _e("Created by"); ?>: <?php print user_name($order['created_by']); ?> (ID: <?php print ($order['created_by']); ?> )
+                            <label class="font-weight-bold"><?php _e("Created by"); ?>: <?php print user_name($order['created_by']); ?> (ID: <?php print ($order['created_by']); ?> )</label>
                         </div>
                         <?php endif; ?>
-
-
-
-
-
-                    </div>
-
-                    <div class="col-md-6 border-left">
-                        <label class="form-label font-weight-bold my-3"><?php _e("Payment Information"); ?></label>
-
-                        <div class="mb-3">
-                            <?php _e("Is paid"); ?>:
-                            <div class="d-inline">
-                                <select name="is_paid" class="mw-order-is-paid-change  form-select" data-style="btn-sm" data-width="100px">
-                                    <option value="1" <?php if (isset($order['is_paid']) and intval($order['is_paid']) == 1): ?> selected="selected" <?php endif; ?>>
-                                        <?php _e("Yes"); ?>
-                                    </option>
-                                    <option value="0" <?php if (!isset($order['is_paid']) or (isset($order['is_paid']) and intval($order['is_paid']) == 0)): ?> selected="selected" <?php endif; ?>>
-                                        <?php _e("No"); ?>
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <?php _e("Payment Method"); ?>:
-                            <?php
-                            $paymentGatewayModuleInfo = module_info($order['payment_gw']);
-                            if($paymentGatewayModuleInfo){
-
-
-                            if (isset($paymentGatewayModuleInfo['settings']['icon_class'])):
-                                ?>
-                            <i class="<?php echo $paymentGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:23px"></i>
-                            <?php else: ?>
-                                <?php if (isset($paymentGatewayModuleInfo['icon'])): ?>
-
-                            <img src="<?php echo $paymentGatewayModuleInfo['icon'];?>" style="width:23px" />
-
-                            <?php endif; ?>
-
-
-                            <?php endif; ?>
-
-                                <?php echo $paymentGatewayModuleInfo['name'];?>
-
-                            <?php } ?>
-
-
-
-                        </div>
-
-                        <?php if (isset($order['transaction_id']) and $order['transaction_id'] != ''): ?>
-                        <div class="mb-3">
-                                <?php _e("Transaction ID"); ?>: <?php print $order['transaction_id']; ?>
-                        </div>
-                        <?php endif; ?>
-
-                        <?php if (isset($order['payment_amount']) and $order['payment_amount'] != ''): ?>
-                        <div class="mb-3">
-                                <?php _e("Payment amount"); ?>: <?php print $order['payment_amount']; ?>
-                            <i class="mdi mdi-help-circle" data-bs-toggle="tooltip" data-title="<?php _e("Amount paid by the user"); ?>"></i>
-                        </div>
-                        <?php endif; ?>
-                        <?php if (isset($order['payment_currency']) and $order['payment_currency'] != ''): ?>
-                        <div class="mb-3">
-                                <?php _e("Payment currency"); ?>: <?php print $order['payment_currency']; ?>
-                        </div>
-                        <?php endif; ?>
-                        <?php if (isset($order['payer_id']) and $order['payer_id'] != ''): ?>
-                        <div class="mb-3">
-                                <?php _e("Payer ID"); ?>: <?php print $order['payer_id']; ?>
-                        </div>
-                        <?php endif; ?>
-                        <?php if (isset($order['payment_status']) and $order['payment_status'] != ''): ?>
-                        <div class="mb-3">
-                                <?php _e("Payment status"); ?>: <?php print $order['payment_status']; ?>
-                        </div>
-                        <?php endif; ?>
-
-
-
-
-
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
 
+            <div class="col-md-6 h-100">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row py-0">
+                            <label class="form-label font-weight-bold my-3"><?php _e("Payment Information"); ?></label>
+
+                            <div class="mb-3">
+                                <?php _e("Is paid"); ?>:
+                                <div class="d-inline">
+                                    <select name="is_paid" class="mw-order-is-paid-change  form-select" data-style="btn-sm" data-width="100px">
+                                        <option value="1" <?php if (isset($order['is_paid']) and intval($order['is_paid']) == 1): ?> selected="selected" <?php endif; ?>>
+                                            <?php _e("Yes"); ?>
+                                        </option>
+                                        <option value="0" <?php if (!isset($order['is_paid']) or (isset($order['is_paid']) and intval($order['is_paid']) == 0)): ?> selected="selected" <?php endif; ?>>
+                                            <?php _e("No"); ?>
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <?php _e("Payment Method"); ?>:
+                                <?php
+                                $paymentGatewayModuleInfo = module_info($order['payment_gw']);
+                                if($paymentGatewayModuleInfo){
+
+
+                                if (isset($paymentGatewayModuleInfo['settings']['icon_class'])):
+                                    ?>
+                                <i class="<?php echo $paymentGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:23px"></i>
+                                <?php else: ?>
+                                    <?php if (isset($paymentGatewayModuleInfo['icon'])): ?>
+
+                                <img src="<?php echo $paymentGatewayModuleInfo['icon'];?>" style="width:23px" />
+
+                                <?php endif; ?>
+
+
+                                <?php endif; ?>
+
+                                    <?php echo $paymentGatewayModuleInfo['name'];?>
+
+                                <?php } ?>
+
+
+
+                            </div>
+
+                            <?php if (isset($order['transaction_id']) and $order['transaction_id'] != ''): ?>
+                            <div class="mb-3">
+                                    <?php _e("Transaction ID"); ?>: <?php print $order['transaction_id']; ?>
+                            </div>
+                            <?php endif; ?>
+
+                            <?php if (isset($order['payment_amount']) and $order['payment_amount'] != ''): ?>
+                            <div class="mb-3">
+                                    <?php _e("Payment amount"); ?>: <?php print $order['payment_amount']; ?>
+                                <i class="mdi mdi-help-circle" data-bs-toggle="tooltip" data-title="<?php _e("Amount paid by the user"); ?>"></i>
+                            </div>
+                            <?php endif; ?>
+                            <?php if (isset($order['payment_currency']) and $order['payment_currency'] != ''): ?>
+                            <div class="mb-3">
+                                    <?php _e("Payment currency"); ?>: <?php print $order['payment_currency']; ?>
+                            </div>
+                            <?php endif; ?>
+                            <?php if (isset($order['payer_id']) and $order['payer_id'] != ''): ?>
+                            <div class="mb-3">
+                                    <?php _e("Payer ID"); ?>: <?php print $order['payer_id']; ?>
+                            </div>
+                            <?php endif; ?>
+                            <?php if (isset($order['payment_status']) and $order['payment_status'] != ''): ?>
+                            <div class="mb-3">
+                                    <?php _e("Payment status"); ?>: <?php print $order['payment_status']; ?>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 <div>
