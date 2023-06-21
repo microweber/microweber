@@ -115,10 +115,12 @@
 
                         $.each(window.selectedPages, function () {
                             categorySelector.tree.select(this, 'page', false);
+                            categorySelector.tree.open(this, 'page', false);
 
                         });
                         $.each(selectedCategories, function () {
                             categorySelector.tree.select(this, 'category', false);
+                            categorySelector.tree.open(this, 'category', false);
                         });
 
                     }

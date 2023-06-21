@@ -18,6 +18,7 @@
     mw.lib.require('nestedSortable');
 
 
+ 
 
     var mwtree = function(config){
 
@@ -66,7 +67,8 @@
                 _tempRender: true,
                 filterRemoteURL: null,
                 filterRemoteKey: 'keyword',
-                toggleSelect: true
+                toggleSelect: true,
+                contextMenuMode: 'inline', // 'inline' | 'dropdown'
             };
 
 
@@ -186,12 +188,19 @@
         };
 
         this.skip = function(itemData){
-            if(this.options.skip && this.options.skip.length>0){
-                for( var n=0; n<scope.options.skip.length; n++ ){
+            if(this.options.skip && this.options.skip.length > 0){
+                for( var n = 0; n < scope.options.skip.length; n++ ){
                     var item = scope.options.skip[n];
+                    
                     var case1 = (item.id == itemData.id && item.type == itemData.type);
                     var case2 = (itemData.parent_id == item.id && item.type == itemData.type);
-                    if(case1 ||case2){
+
+                    if(itemData.id == 2) {
+                        console.log(case1)
+                        console.log(item)
+                        console.log(itemData)
+                    }
+                    if(case1 || case2){
                         return true;
                     }
                 }
@@ -641,6 +650,8 @@
             var _selectable = this.options.selectable && this.options.disableSelectTypes.indexOf(element._data.type) === -1;
             if(_selectable){
                 mw.$(element.querySelector('.mw-tree-item-content')).prepend(this.checkBox(element))
+            } else {
+                mw.$(element.querySelector('.mw-tree-item-content')).css('pointerEvents', 'none')
             }
             var cont = element.querySelector('.mw-tree-item-content');
             cont.classList.add('item-selectable-' + _selectable);
@@ -789,18 +800,50 @@
                        }
                    });
                    element.classList.toggle('context-menu-active');
+                   if(scope.options.contextMenuMode === 'dropdown'){
+
+                    scope.document.querySelectorAll('.mw-tree-context-menu-content-active').forEach(function(node){
+                        node.classList.remove('mw-tree-context-menu-content-active');
+                    })
+                   
+                    if(element.classList.contains('context-menu-active')){
+                        var off = mw.element(menuButton).offset();
+                        menuButton.$$menuContent.style.top = off.offsetTop + 'px';
+                        menuButton.$$menuContent.style.left = off.offsetLeft + 'px';
+                        menuButton.$$menuContent.style.display =  'block';
+                        menuButton.$$menuContent.classList.add('mw-tree-context-menu-content-active');
+
+                    } else {
+                        menuButton.$$menuContent.style.display =  'none';
+                        menuButton.$$menuContent.classList.remove('mw-tree-context-menu-content-active');
+                    }
+                   }
                 });
-                menuContent.className = 'mw-tree-context-menu-content';
+                
+                menuContent.className = 'mw-tree-context-menu-content mw-tree-context-menu-content-' + this.options.skin + ' mw-tree-context-menu-content-mode-' + this.options.contextMenuMode;
                 menu.appendChild(menuButton);
-                menu.appendChild(menuContent);
+                menuButton.$$menuContent = menuContent;
+                menuContent.$$menuButton = menuButton;
+                if(this.options.contextMenuMode === 'inline') {
+                    menu.appendChild(menuContent);
+                } else if(this.options.contextMenuMode === 'dropdown') {
+                    scope.document.body.appendChild(menuContent);
+                }
+                
                     $.each(this.options.contextMenu, function(){
                     if(!this.filter || this.filter(element._data, element)){
                         var menuitem = scope.document.createElement('span');
                         var icon = scope.document.createElement('span');
                         menuitem.title = this.title;
                         menuitem.innerHTML = iconResolver(this) +  this.title;
-                        menuitem.className = ((this.className || '') + ' mw-tree-context-menu-item').trim();
-                        icon.className = this.icon;
+                        menuitem.className = ((this.className || '') + ' mw-tree-context-menu-item ').trim();
+                        if(this.icon.indexOf('<') === -1) {
+                            icon.className = 'mw-tree-context-menu-icon ' + this.icon;
+                        } else {
+                            icon.className = 'mw-tree-context-menu-icon';
+                            icon.innerHTML = this.icon;
+                        }
+                        
                         menuitem.prepend(icon);
                         menuContent.appendChild(menuitem);
                         (function(menuitem, element, obj){
@@ -816,19 +859,26 @@
                 });
                 if(!_contextMenuOnce) {
                     _contextMenuOnce = true;
+                    scope.document.defaultView.addEventListener('scroll', function (e){
+                        Array.from(scope.document.querySelectorAll('.mw-tree-context-menu-content-active')).forEach(function(node){
+                            var off = mw.element(node.$$menuButton).offset();
+                            node.style.top = off.offsetTop + 'px';
+                            node.style.left = off.offsetLeft + 'px';
+                        });
+                    })
                     scope.document.body.addEventListener('click', function (e){
-                        var active =  Array.from(scope.document.querySelectorAll('.context-menu-active'));
+                        var active =  Array.from(scope.document.querySelectorAll('.context-menu-active,.mw-tree-context-menu-content-active'));
                         if(active.length) {
                             if(!scope.list.contains(e.target)) {
                                 active.forEach(function (node){
-                                    node.classList.remove('context-menu-active');
+                                    node.classList.remove('context-menu-active', 'mw-tree-context-menu-content-active');
                                 });
                             } else {
                                 var li = mw.tools.firstParentOrCurrentWithTag(e.target, 'li');
                                 if(li) {
                                     active.forEach(function (node){
                                         if(!li.contains(node)) {
-                                            node.classList.remove('context-menu-active');
+                                            node.classList.remove('context-menu-active', 'mw-tree-context-menu-content-active');
                                         }
 
                                     });
@@ -893,8 +943,15 @@
             li.appendChild(container);
             $(container).wrap('<span class="mw-tree-item-content-root"></span>')
             if(!skip){
-                container.onclick = function(){
-                    if(scope.options.selectable || scope.options.selectableNodes) {
+                container.onclick = function(event){
+                    var target = event.target;
+                    var canSelect = true;
+                    if(scope.options.rowSelect === false) {
+                        if(target.nodeName !== 'TREE-LABEL') {
+                            canSelect = false;
+                        }
+                    }
+                    if(canSelect && (scope.options.selectable || scope.options.selectableNodes)) {
                         if(scope.options.selectableNodes === 'singleSelect' || scope.options.selectableNodes ===  'singleSelectToggle') {
 
                             scope.unselect(scope.selectedData.filter(function (obj){

@@ -47,42 +47,10 @@
     z-index: 9999;
 }
 
-#mw-notifications-holder .mw-notification:first-child {
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-}
+ 
 
-#mw-notifications-holder .mw-notification {
-    left: 50%;
-    margin-inline-start: -175px;
-    position: fixed;
-    top: 0;
-    transition: opacity 2s;
-    -moz-transition: opacity 2s;
-    -webkit-transition: opacity 2s;
-    -o-transition: opacity 2s;
+/* Tabler */
+.mw-tblr-notification{
+    z-index: 1201;
 }
-
-#mw-notifications-holder .mw-notification + .mw-notification {
-    top: 40px;
-}
-
-#mw-notifications-holder .mw-notification + .mw-notification + .mw-notification {
-    top: 80px;
-}
-
-#mw-notifications-holder .mw-notification + .mw-notification + .mw-notification + .mw-notification {
-    top: 120px;
-}
-
-#mw-notifications-holder .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification {
-    top: 160px;
-}
-
-#mw-notifications-holder .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification {
-    top: 200px;
-}
-
-#mw-notifications-holder .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification {
-    top: 240px;
-}
+/* /Tabler */

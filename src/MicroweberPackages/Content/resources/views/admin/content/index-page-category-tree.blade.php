@@ -23,7 +23,7 @@
     }
     #pages-tree-wrapper.active{
         max-width: 600px;
-
+       
     }
     #pages-tree-container .ui-resizable{
         max-width: 100%
@@ -36,7 +36,7 @@
 
     }
     #pages-tree-wrapper.active #pages-tree-container{
-
+        
         transform: translateX(0)
     }
 
@@ -59,12 +59,12 @@
 
 
 <div id="pages-tree-wrapper"  >
-
-<div class="card m-3 p-3" id="pages-tree-container" >
-
-    <button type="button" class="mw-admin-toggle-tree-navigation">
+<button type="button" class="mw-admin-toggle-tree-navigation">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
     </button>
+<div class="card m-3 p-3" id="pages-tree-container" >
+
+
 
         <div class="js-page-tree-skeleton">
             <div class="d-flex">
@@ -322,6 +322,7 @@
                 resizableOn: 'treeParent',
                 append: treeTail,
                 id: 'admin-main-tree',
+                contextMenuMode: 'dropdown'
             };
 
             var params = {};
