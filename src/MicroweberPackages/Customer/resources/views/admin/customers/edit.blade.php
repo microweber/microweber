@@ -28,9 +28,9 @@
         @endif
         @csrf
         <div class=" col-xxl-10 col-md-11 col-12 px-md-0 px-2 mx-auto">
-           <div class="d-flex align-items-center gap-4">
+           <div class="row align-items-center flex-wrap">
 
-               <div class="col-md-6">
+               <div class="col-md-6 col-12">
                    <div class="card mb-5 ">
                        <div class="card-body">
                            <div class="row">
@@ -67,7 +67,7 @@
 
                </div>
 
-               <div class="col-md-6">
+               <div class="col-md-6 col-12">
                     <div class="card mb-5 ">
                    <div class="card-body">
                        <div class="row">
@@ -105,9 +105,9 @@
                 </div>
            </div>
 
-          <div class="d-flex align-items-center gap-4">
+          <div class="row align-items-center flex-wrap">
 
-              <div class="col-md-6">
+              <div class="col-md-6 col-12">
 
                 <div class="card mb-5">
                   <div class="card-body">
@@ -156,7 +156,7 @@
               </div>
               </div>
 
-              <div class="col-md-6">
+              <div class="col-md-6 col-12">
 
                 <div class="card mb-5">
                   <div class="card-body">
@@ -206,8 +206,8 @@
               </div>
           </div>
 
-          <div class="d-flex align-items-center gap-4">
-              <div class="col-md-6">
+          <div class="row align-items-center flex-wrap">
+              <div class="col-md-6 col-12">
                 <div class="card mb-5">
                   <div class="card-body">
                       <div class="row">
@@ -281,7 +281,7 @@
               </div>
 
 
-              <div class="col-md-6">
+              <div class="col-md-6 col-12">
                 <div class="card mb-5">
                   <div class="card-body">
                       <div class="row">
