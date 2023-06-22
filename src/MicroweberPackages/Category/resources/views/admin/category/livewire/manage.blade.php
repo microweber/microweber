@@ -202,7 +202,7 @@ if ($isShop){
 
                         },
 
-                        selectable: true,
+                        selectable: false,
                         rowSelect : false,
                         singleSelect: false,
                         multiPageSelect: false,
