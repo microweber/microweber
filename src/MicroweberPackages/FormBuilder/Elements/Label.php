@@ -14,7 +14,10 @@ class Label extends Element
     {
         $this->label = $label;
     }
-
+    public function getType()
+    {
+        return 'label';
+    }
     public function render()
     {
         $tags = [sprintf('<label%s>', $this->renderAttributes())];

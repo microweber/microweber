@@ -7,4 +7,9 @@ class File extends Input
     protected $attributes = [
         'type' => 'file',
     ];
+
+    public function getType()
+    {
+        return 'file';
+    }
 }

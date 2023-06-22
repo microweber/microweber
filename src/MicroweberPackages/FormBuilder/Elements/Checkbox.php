@@ -19,6 +19,10 @@ class Checkbox extends Input
         $this->setValue($value);
     }
 
+    public function getType()
+    {
+        return 'checkbox';
+    }
     public function setOldValue($oldValue)
     {
         $this->oldValue = $oldValue;

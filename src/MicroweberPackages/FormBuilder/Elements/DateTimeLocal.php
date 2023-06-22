@@ -7,6 +7,10 @@ class DateTimeLocal extends Text
     protected $attributes = [
         'type' => 'datetime-local',
     ];
+    public function getType()
+    {
+        return 'datetime-local';
+    }
 
     public function value($value)
     {

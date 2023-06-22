@@ -7,6 +7,10 @@ abstract class Input extends FormControl
     protected $prepend = false;
     protected $append = false;
 
+    public function getType()
+    {
+        return 'input';
+    }
     public function render()
     {
         $html = '';
