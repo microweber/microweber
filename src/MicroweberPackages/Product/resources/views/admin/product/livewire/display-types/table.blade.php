@@ -1,6 +1,6 @@
-<div>
+<div class="table-responsive">
 
-    <table class="table table-responsive" id="content-results-table">
+    <table class="table table-vcenter card-table" id="content-results-table">
         <thead>
         <tr>
             <th scope="col">
