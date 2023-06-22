@@ -12,26 +12,29 @@
                 @include('product::admin.product.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
             @endif
             @if($showColumns['image'])
-                <th style="width: 130px" scope="col">Image</th>
+                <th style="width: 130px" scope="col">{{'Image'}}</th>
             @endif
             @if($showColumns['title'])
-                <th scope="col">Title</th>
+                <th scope="col">{{'Title'}}</th>
             @endif
             @if($showColumns['price'])
                 @include('product::admin.product.livewire.table-includes.table-th',['name'=>'Price', 'key'=>'price', 'filters'=>$filters])
             @endif
             @if($showColumns['stock'])
-                <th scope="col">Stock</th>
+                <th scope="col">{{'Stock'}}</th>
             @endif
             @if($showColumns['orders'])
                 @include('product::admin.product.livewire.table-includes.table-th',['name'=>'Orders', 'key'=>'orders', 'filters'=>$filters])
             @endif
             @if($showColumns['quantity'])
-                <th scope="col">Quantity</th>
+                <th scope="col">{{'Quantity'}}</th>
             @endif
             @if($showColumns['author'])
-                <th scope="col">Author</th>
+                <th scope="col">{{'Author'}}</th>
             @endif
+
+            <th scope="col">{{'Actions'}}</th>
+
         </tr>
         </thead>
         <tbody>
@@ -67,7 +70,6 @@
                 @if($showColumns['title'])
                     <td>
                         @include('content::admin.content.livewire.components.title-and-categories', ['content'=>$content])
-                        @include('content::admin.content.livewire.components.manage-links', ['content'=>$content])
                     </td>
                 @endif
                 @if($showColumns['price'])
@@ -130,6 +132,11 @@
                         {{$content->authorName()}}
                     </td>
                 @endif
+
+                <td style="text-align: center">
+                    @include('content::admin.content.livewire.components.manage-links', ['content'=>$content])
+
+                </td>
 
             </tr>
         @endforeach
