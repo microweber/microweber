@@ -30,12 +30,13 @@
                     <?php
                     $type = $formItem['type'] ?? 'text';
                     $placeholder = $formItem['placeholder'] ?? '';
+                    $label = $formItem['label'] ?? false;
                     $help = $formItem['help'] ?? '';
                     $required = $formItem['required'] ?? false;
                     $settingsKey = 'settings.' . $formItemKey;
 
                     echo $formBuilder->text($settingsKey)
-                        ->label($formItem['label'])
+                        ->label($label)
                         ->class('form-control')
                         ->setAttribute('wire:model.debounce.100ms', $settingsKey)
                         ->autocomplete(false);

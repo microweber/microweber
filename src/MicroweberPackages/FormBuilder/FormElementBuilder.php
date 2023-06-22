@@ -44,17 +44,26 @@ class FormElementBuilder extends Manager
         'richtext'=>MwEditor::class,
     ];
 
+    /**
+     * Create a form element of the specified type and name.
+     *
+     * @param string $type The type of the form element.
+     * @param string $name The name of the form element.
+     * @return \MicroweberPackages\FormBuilder\Elements\Element The created form element.
+     */
     public function make($type, $name)
     {
         $driver = $this->driver($type);
-
-        $text = new $driver($name);
+        /**
+         * @var \MicroweberPackages\FormBuilder\Elements\Element $element
+         */
+        $element = new $driver($name);
 
         if (!is_null($value = $this->getValueFor($name))) {
-            $text->value($value);
+            $element->value($value);
         }
 
-        return $text;
+        return $element;
 
     }
 

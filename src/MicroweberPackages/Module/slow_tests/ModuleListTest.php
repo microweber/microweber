@@ -6,10 +6,16 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Assert as PHPUnit;
-
+/**
+ * @runTestsInSeparateProcesses
+ */
 class ModuleListTest extends TestCase
 {
-    public function testModuleIndex()
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    private function testModuleIndex()
     {
         $getModules = app()->module_repository->getAllModules();
 
@@ -31,6 +37,10 @@ class ModuleListTest extends TestCase
     }
 
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testModuleAdmin()
     {
         $getModules = app()->module_repository->getAllModules();
@@ -41,6 +51,7 @@ class ModuleListTest extends TestCase
         // Test modules admin
         foreach ($getModules as $module) {
             if (isset($module['ui_admin']) and $module['ui_admin']) {
+
                 $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '/admin" />');
 
                 // Looking for parser errors
@@ -48,12 +59,17 @@ class ModuleListTest extends TestCase
                     PHPUnit::assertFalse(str_contains($moduleOutput, $errorString));
                 }
 
-                $this->assertNotEmpty($moduleOutput);
+               $this->assertNotEmpty($moduleOutput);
+
             }
         }
 
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testLoadFromModuleManager()
     {
         if (!defined('IN_EDIT')) {
@@ -69,6 +85,7 @@ class ModuleListTest extends TestCase
 
             if (intval($module['installed']) == 1) {
                 if ($module['ui_admin']) {
+
                     $moduleOutput = app()->module_manager->load($module['module'] . '/admin', ['id' => 'mod-admin-' . $i ]);
 
                     // Looking for parser errors

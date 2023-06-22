@@ -16,9 +16,27 @@ use MicroweberPackages\Page\Models\Page;
 
 class ImportExportFeedXlsxTest extends TestCase
 {
+
     public function testInstall()
     {
-        Livewire::test(Install::class)->call('startInstalling');
+        //delete the old migrations and drop the tables
+        $migrations = [
+            '2022_00_00_000001_create_import_feeds_table',
+            '2022_00_00_000003_create_export_feeds_table',
+        ];
+        $drop = [
+            'import_feeds',
+            'export_feeds',
+        ];
+        $delete = \DB::table('migrations')->whereIn('migration', $migrations)->delete();
+
+        foreach ($drop as $table) {
+            if (\Schema::hasTable($table)) {
+                \Schema::drop($table);
+            }
+        }
+
+       Livewire::test(Install::class)->call('startInstalling');
     }
 
     public function testImportExportWizard()

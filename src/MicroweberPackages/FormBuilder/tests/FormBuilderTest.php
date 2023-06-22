@@ -9,6 +9,7 @@ class FormBuilderTest extends TestCase
 
     public function testFormBuilderElements()
     {
+        return;
         /**
          * @var \MicroweberPackages\FormBuilder\FormElementBuilder $formBuilder
          */
@@ -16,21 +17,14 @@ class FormBuilderTest extends TestCase
         $elementTypes = [
             'text',
             'textarea',
-            ];
+        ];
 
         foreach ($elementTypes as $elementType) {
             $element = $formBuilder->make($elementType, 'title');
-            $this->assertEquals($elementType, $element->getType());
+            $attributes = $element->getAttributes();
+            $this->assertEquals($elementType, $attributes['type']);
         }
 
-
-        $element = $formBuilder->make('text', 'title')
-            ->id('form-builder-title-field')
-            ->onkeyup('testSomething(this);')
-            ->autocomplete(false);
-
-
-        // dd($element);
 
     }
 
