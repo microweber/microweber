@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\tests;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Livewire;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Import\Formats\XlsxReader;
@@ -13,6 +14,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\StartI
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\User\Models\User;
 
 class ImportExportFeedXlsxTest extends TestCase
 {
@@ -36,11 +38,19 @@ class ImportExportFeedXlsxTest extends TestCase
             }
         }
 
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
        Livewire::test(Install::class)->call('startInstalling');
     }
 
     public function testImportExportWizard()
     {
+
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/simple-data.zip');
         $content = $zip->getFromName('mw-export-format-products.xlsx');
