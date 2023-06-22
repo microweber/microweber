@@ -20,14 +20,14 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Type</th>
-                <th scope="col">Items Count</th>
-                <th scope="col">Process time</th>
-                <th scope="col">Filesize</th>
-                <th scope="col">Created at</th>
-                <th scope="col">Updated at</th>
-                <th scope="col">Action</th>
+                <th scope="col">{{'Name'}}</th>
+                <th scope="col">{{'Type'}}</th>
+                <th scope="col">{{'Items Count'}}</th>
+                <th scope="col">{{'Process time'}}</th>
+                <th scope="col">{{'Filesize'}}</th>
+                <th scope="col">{{'Created at'}}</th>
+                <th scope="col">{{'Updated at'}}</th>
+                <th scope="col">{{'Action'}}</th>
             </tr>
             </thead>
             <tbody>
@@ -44,17 +44,17 @@
                             $importStart = Carbon::createFromDate($feed->last_import_start);
                             $importEnd = Carbon::createFromDate($feed->last_import_end);
                             echo $importStart->diffInMinutes($importEnd);
-                        @endphp min
+                        @endphp {{'min'}}
                     </td>
                     <td>{{mw()->format->human_filesize($feed->source_file_size)}}</td>
                     <td>{{$feed->created_at}}</td>
                     <td>{{$feed->updated_at}}</td>
                     <td>
-                        <a class="btn btn-outline-primary btn-sm" href="{{route('admin.import-export-tool.import-wizard')}}?importFeedId={{$feed->id}}">View</a>
+                        <a class="btn btn-outline-primary btn-sm" href="{{route('admin.import-export-tool.import-wizard')}}?importFeedId={{$feed->id}}">{{'View'}}</a>
 
 
                         <a href="{{route('admin.import-export-tool.import-delete', $feed->id)}}" class="btn btn-outline-danger btn-sm">
-                            <i class="fa fa-times"></i> Delete
+                            <i class="fa fa-times"></i> {{'Delete'}}
                         </a>
 
                     </td>
