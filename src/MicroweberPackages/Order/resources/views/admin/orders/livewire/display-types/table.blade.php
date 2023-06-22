@@ -50,16 +50,9 @@
       @foreach ($orders as $order)
 
           @php
-              $carts = [];
-              if (!empty($order->cart)) {
-                 $carts = $order->cart;
-              }
-              $cart = $order->cart->first();
-
-              $cartProduct = [];
-              if (isset($cart->products)) {
-                  $cartProduct = $cart->products->first();
-              }
+              $cartProducts = $order->cartProducts();
+              $cartProduct = $cartProducts['firstProduct'];
+              $carts = $cartProducts['products'];
           @endphp
 
           <tr class="manage-post-item">
@@ -78,6 +71,8 @@
                           <a href="{{route('admin.order.show', $order->id)}}">
                                   <img src="{{$cartProduct->thumbnail()}}" />
                           </a>
+                      @else
+                          <img src="{{thumbnail(120,120)}}" />
                       @endif
                   </td>
               @endif
@@ -85,7 +80,11 @@
               @if($showColumns['products'])
                   <td>
                       @if(isset($cartProduct->title))
-                        <a class="tblr-body-color form-label font-weight-bold" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                        <a class="tblr-body-color form-label font-weight-bold" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cartProduct->qty}}</span> <br />
+                      @else
+                          <span class="form-label text-muted font-weight-bold tblr-body-color">
+                                {{ _e('Product is no longer available') }}
+                            </span>
                       @endif
 
                       @include('order::admin.orders.livewire.display-types.show-more-products', ['carts'=>$carts])
