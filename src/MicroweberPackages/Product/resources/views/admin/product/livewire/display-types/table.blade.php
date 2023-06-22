@@ -90,9 +90,9 @@
                     <td>
                         @php
                             if ($content->InStock) {
-                              $stock = '<span class="badge badge-success badge-sm">In stock</span>';
+                              $stock = '<span class="badge bg-success badge-sm">In stock</span>';
                           } else {
-                              $stock = '<span class="badge badge-danger badge-sm">Out Of Stock</span>';
+                              $stock = '<span class="badge bg-danger badge-sm">Out Of Stock</span>';
                           }
                         @endphp
                         {!! $stock !!}
