@@ -45,12 +45,6 @@ class DropdownMapping extends AdminComponent
                             foreach (ItemMapReader::$categorySeparators as $separator) {
                                 if (strpos($this->value, $separator) !== false) {
                                     $this->categorySeparator = $separator;
-                                    if ($separator == '|' || $separator == '>') {
-                                        $this->categoryAddType = 'tree';
-                                    }
-                                    if ($separator == ';' || $separator == ',') {
-                                        $this->categoryAddType = 'seperated';
-                                    }
                                     break;
                                 }
                             }
