@@ -7,6 +7,10 @@ abstract class Input extends FormControl
     protected $prepend = false;
     protected $append = false;
 
+    public function getType()
+    {
+        return 'input';
+    }
     public function render()
     {
         $html = '';
@@ -44,5 +48,26 @@ abstract class Input extends FormControl
         $this->setAttribute('value', $value);
 
         return $this;
+    }
+
+    public function placeholder($placeholder)
+    {
+        $this->setAttribute('placeholder', $placeholder);
+
+        return $this;
+    }
+
+    public function defaultValue($value)
+    {
+        if (! $this->hasValue()) {
+            $this->setValue($value);
+        }
+
+        return $this;
+    }
+
+    protected function hasValue()
+    {
+        return isset($this->attributes['value']);
     }
 }

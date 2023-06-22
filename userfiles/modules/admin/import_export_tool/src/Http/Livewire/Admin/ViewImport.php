@@ -85,7 +85,7 @@ class ViewImport extends AdminComponent
             'uploadFile' => 'required|mimes:xlsx,xls,csv',
         ]);
 
-        $uploadFilePath = $this->uploadFile->store('import-export-tool');
+        $uploadFilePath = $this->uploadFile->store('import_export_tool');
         $fullFilePath = storage_path() . '/app/' . $uploadFilePath;
         $feed = ImportFeed::where('id', $this->import_feed_id)->first();
 

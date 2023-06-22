@@ -10,6 +10,8 @@
             translations: [],
         }, options);
 
+
+
         this.each(function (index, obj) {
             var name = settings.name;
             var currentLocale = settings.currentLocale;
@@ -27,7 +29,8 @@
                 return;
             }
 
-            $(obj).css('opacity', 0.2).css('display','none');
+           // $(obj).css('opacity', 0.2).css('display','none');
+            $(obj).css('display','none');
             $(obj).attr('value', translations[currentLocale]);
 
             var plainName = name;
@@ -64,7 +67,7 @@
                     }
 
                     var input  = $('<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="'+mlInputName+'" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'"  />');
-
+                     
                     $.each(attributes, function(name, value) {
                         if (name !== 'value') {
                             if (!$(input).attr(name)) {

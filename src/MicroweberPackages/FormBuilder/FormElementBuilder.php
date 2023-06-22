@@ -3,8 +3,7 @@
 namespace MicroweberPackages\FormBuilder;
 
 use Illuminate\Support\Manager;
-use MicroweberPackages\FormBuilder\Elements\Button;
-use MicroweberPackages\FormBuilder\Elements\Hidden;
+
 use MicroweberPackages\FormBuilder\Binding\BoundData;
 use MicroweberPackages\FormBuilder\Elements\Checkbox;
 use MicroweberPackages\FormBuilder\Elements\Date;
@@ -15,6 +14,7 @@ use MicroweberPackages\FormBuilder\Elements\Label;
 use MicroweberPackages\FormBuilder\Elements\MwEditor;
 use MicroweberPackages\FormBuilder\Elements\MwModuleSettings;
 use MicroweberPackages\FormBuilder\Elements\RadioButton;
+use MicroweberPackages\FormBuilder\Elements\Range;
 use MicroweberPackages\FormBuilder\Elements\Select;
 use MicroweberPackages\FormBuilder\Elements\Text;
 use MicroweberPackages\FormBuilder\Elements\TextArea;
@@ -37,24 +37,44 @@ class FormElementBuilder extends Manager
         'TextArea'=>TextArea::class,
         'TextAreaOption'=>TextAreaOption::class,
     ];
-
     protected $drivers = [
         'text'=>Text::class,
         'textarea'=>TextArea::class,
-        'richtext'=>MwEditor::class,
+        'label'=>Label::class,
+        'select'=>Select::class,
+        'radio'=>RadioButton::class,
+        'range'=>Range::class,
+        'checkbox'=>Checkbox::class,
+        'date'=>Date::class,
+        'email'=>Email::class,
+        'file'=>File::class,
+        'mw-editor'=>MwEditor::class,
+        'mw-module-settings'=>MwModuleSettings::class,
+        'textarea-option'=>TextAreaOption::class,
+        'text-option'=>TextOption::class,
     ];
 
+
+    /**
+     * Create a form element of the specified type and name.
+     *
+     * @param string $type The type of the form element.
+     * @param string $name The name of the form element.
+     * @return \MicroweberPackages\FormBuilder\Elements\Element The created form element.
+     */
     public function make($type, $name)
     {
         $driver = $this->driver($type);
-
-        $text = new $driver($name);
+        /**
+         * @var \MicroweberPackages\FormBuilder\Elements\Element $element
+         */
+        $element = new $driver($name);
 
         if (!is_null($value = $this->getValueFor($name))) {
-            $text->value($value);
+            $element->value($value);
         }
 
-        return $text;
+        return $element;
 
     }
 
@@ -62,6 +82,8 @@ class FormElementBuilder extends Manager
     {
         return 'text';
     }
+
+
 
     public function setOldInputProvider(OldInputInterface $oldInputProvider)
     {

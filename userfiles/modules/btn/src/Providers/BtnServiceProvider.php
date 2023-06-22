@@ -8,6 +8,7 @@ use Livewire\Livewire;
 use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsBootstrapTemplateComponent;
 use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsComponent;
 use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsDefaultTemplateComponent;
+use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsFormComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -25,6 +26,7 @@ class BtnServiceProvider extends PackageServiceProvider
         parent::register();
 
         Livewire::component('microweber-module-btn::settings', ButtonSettingsComponent::class);
+        Livewire::component('microweber-module-btn::settings-form', ButtonSettingsFormComponent::class);
         Livewire::component('microweber-module-btn::template-settings-bootstrap', ButtonSettingsBootstrapTemplateComponent::class);
         Livewire::component('microweber-module-btn::template-settings-default', ButtonSettingsDefaultTemplateComponent::class);
 

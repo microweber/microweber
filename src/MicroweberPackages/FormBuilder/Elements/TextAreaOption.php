@@ -27,4 +27,9 @@ class TextAreaOption extends TextArea
             }
         }
     }
+
+    public function getType()
+    {
+        return 'textarea-option';
+    }
 }

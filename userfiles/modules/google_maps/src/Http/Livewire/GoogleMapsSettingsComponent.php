@@ -34,18 +34,21 @@ class GoogleMapsSettingsComponent extends ModuleSettingsFormComponent
             'placeholder' => '10001',
         ],
         'data-zoom' => [
-            'type' => 'slider',
+            'type' => 'range',
             'label' => 'Zoom',
             'help' => 'Enter zoom level (1-10)',
-            'min' => '1',
-            'max' => '10',
+            'attributes' => [
+                'min' => 1,
+                'max' => 10,
+                'step' => 1,
+            ],
             'placeholder' => 'Enter zoom',
         ],
         'data-map-type' => [
-            'type' => 'dropdown',
+            'type' => 'select',
             'label' => 'Map type',
             'help' => 'Enter enter map type',
-            'values' => [
+            'options' => [
                 'roadmap' => 'Roadmap',
                 'satellite' => 'Satellite',
                 'hybrid' => 'Hybrid',
@@ -53,60 +56,6 @@ class GoogleMapsSettingsComponent extends ModuleSettingsFormComponent
             ],
         ],
 
-        'tabs-1' => [
-            'type' => 'tabs',
-            'tabs' => [
-                'tab-1' => [
-                    'title' => 'Map photo',
-                    'content' => [
-                        'data-map-photo' => [
-                            'type' => 'dropdown',
-                            'translatable' => true,
-                            'label' => 'Map type',
-                            'help' => 'Enter enter map type',
-                            'values' => [
-                                'roadmap' => 'Roadmap',
-                                'satellite' => 'Satellite',
-                                'hybrid' => 'Hybrid',
-                                'terrain' => 'Terrain',
-                            ],
-                            'data-map-photo2' => [
-                                'type' => 'dropdown',
-                                'label' => 'Map type',
-                                'help' => 'Enter enter map type',
-                                'values' => [
-                                    'roadmap' => 'Roadmap',
-                                    'satellite' => 'Satellite',
-                                    'hybrid' => 'Hybrid',
-                                    'terrain' => 'Terrain',
-                                ],
-                            ]
-                        ],
-                    ]
-
-                ],
-
-                'tab-2' => [
-                    'title' => 'Map photo 2',
-                    'content' => [
-                        'data-map-photo2' => [
-                            'type' => 'dropdown',
-                            'label' => 'Map type',
-                            'help' => 'Enter enter map type',
-                            'values' => [
-                                'roadmap' => 'Roadmap',
-                                'satellite' => 'Satellite',
-                                'hybrid' => 'Hybrid',
-                                'terrain' => 'Terrain',
-                            ],
-                        ],
-                    ]
-
-                ]
-
-
-            ]
-        ]
     ];
 
 

@@ -2,15 +2,17 @@
 
 namespace MicroweberPackages\FormBuilder\Elements;
 
-class Text extends Input
+class Range extends Input
 {
     public function getType()
     {
-        return 'text';
+        return 'range';
     }
+
     protected $attributes = [
-        'type' => 'text',
-        'class'=>'form-control'
+        'type' => 'range',
+        'class' => 'form-control'
     ];
+
 
 }

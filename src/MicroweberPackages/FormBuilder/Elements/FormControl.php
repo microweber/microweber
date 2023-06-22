@@ -11,6 +11,10 @@ abstract class FormControl extends Element
     {
         $this->setName($name);
     }
+    public function getType()
+    {
+        return 'form-control';
+    }
 
     public function setModel($model)
     {

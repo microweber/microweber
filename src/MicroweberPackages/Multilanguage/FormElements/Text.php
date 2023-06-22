@@ -63,15 +63,31 @@ class Text extends \MicroweberPackages\FormBuilder\Elements\Text
 
         return "<script>
             mw.lib.require('multilanguage');
-            $(document).ready(function () {
+            window.initMlInput$this->randId = function() {
+
+                if( window.initMlInputInit$this->randId ){
+                    return;
+                }
+                 window.initMlInputInit$this->randId = true;
+
                 $('#$this->randId').mlInput({
-                    name: '$fieldName',
-                    currentLocale: '$this->currentLanguage',
-                    defaultLocale: '$this->defaultLanguage',
-                    locales: $localesJson,
-                    attributes: $attributes,
-                    translations: $translationsJson,
-                });
+                        name: '$fieldName',
+                        currentLocale: '$this->currentLanguage',
+                        defaultLocale: '$this->defaultLanguage',
+                        locales: $localesJson,
+                        attributes: $attributes,
+                        translations: $translationsJson,
+                    });
+            }
+            window.addEventListener('load',
+                  function() {
+                    window.initMlInput$this->randId();
+
+                  }, false);
+
+
+            $(document).ready(function () {
+                window.initMlInput$this->randId();
             });
         </script>
 

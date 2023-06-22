@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\tests;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Livewire;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Import\Formats\XlsxReader;
@@ -13,16 +14,43 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\StartI
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\User\Models\User;
 
 class ImportExportFeedXlsxTest extends TestCase
 {
+
     public function testInstall()
     {
-        Livewire::test(Install::class)->call('startInstalling');
+        //delete the old migrations and drop the tables
+        $migrations = [
+            '2022_00_00_000001_create_import_feeds_table',
+            '2022_00_00_000003_create_export_feeds_table',
+        ];
+        $drop = [
+            'import_feeds',
+            'export_feeds',
+        ];
+        $delete = \DB::table('migrations')->whereIn('migration', $migrations)->delete();
+
+        foreach ($drop as $table) {
+            if (\Schema::hasTable($table)) {
+                \Schema::drop($table);
+            }
+        }
+
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+       Livewire::test(Install::class)->call('startInstalling');
     }
 
     public function testImportExportWizard()
     {
+
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/simple-data.zip');
         $content = $zip->getFromName('mw-export-format-products.xlsx');

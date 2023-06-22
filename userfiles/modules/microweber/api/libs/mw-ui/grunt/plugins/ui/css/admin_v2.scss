@@ -1665,7 +1665,7 @@ svg.text-danger {
 .mw-admin-toggle-tree-navigation{
     position:absolute;
     left: 230px;
- 
+
     top:50%;
     transform: translateY(-50%);
 
@@ -1716,7 +1716,7 @@ svg.text-danger {
 
 }
 #pages-tree-wrapper.active #pages-tree-container{
-    
+
     transform: translateX(0)
 }
 
@@ -1758,4 +1758,21 @@ svg.text-danger {
         }
         padding-left: 0;
     }
+}
+
+#content-results-table {
+    td {
+        vertical-align: middle;
+        height: 100px;
+    }
+}
+
+.picture-blade-bg-img {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
 }

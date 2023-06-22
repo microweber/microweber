@@ -28,6 +28,7 @@ class Install extends AdminComponent
 
     public function startInstalling()
     {
+
         // set logger
         $this->logger = new ImportExportToolInstallLogger();
 

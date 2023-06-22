@@ -6,6 +6,10 @@ use function current_lang;
 
 class MwEditor extends TextArea
 {
+    public function getType()
+    {
+        return 'mw-editor';
+    }
     public function render()
     {
         $mwEditorId = rand(1111,9999) . time();
