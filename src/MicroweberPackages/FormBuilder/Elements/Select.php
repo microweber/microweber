@@ -8,6 +8,12 @@ class Select extends FormControl
 
     protected $selected;
 
+
+    protected $attributes = [
+        'type' => 'select',
+        'class' => 'form-control form-select'
+    ];
+
     public function __construct($name, $options = [])
     {
         $this->setName($name);

@@ -3,7 +3,7 @@ if($params['type'] != 'google_maps'){
     return;
 }
 
-$address = false;
+$address = '';
 if (isset($params['data-address'])) {
     $address = $params['data-address'];
 } else {
@@ -16,6 +16,34 @@ if($address == false or $address == ''){
         $address =  get_option('data-address',$address);
     }
 }
+
+// new fields
+$map_type =  get_option('data-map-type', $params['id']);
+$country =  get_option('data-country', $params['id']);
+$city =  get_option('data-city', $params['id']);
+$street =  get_option('data-street', $params['id']);
+$zip =  get_option('data-zip', $params['id']);
+$zoom =  get_option('data-zoom', $params['id']);
+
+$address_parts = [];
+if($country){
+    $address_parts[] = $country;
+}
+if ($city) {
+    $address_parts[] = $city;
+}
+if ($street){
+    $address_parts[] = $street;
+}
+if ($zip){
+    $address_parts[] = $zip;
+}
+
+if(!empty($address_parts)){
+    $address = implode(',', $address_parts);
+}
+
+
 
 $map_style = false;
 
