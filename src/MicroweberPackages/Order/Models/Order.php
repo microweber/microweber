@@ -112,11 +112,32 @@ class Order extends Model
         if ($this->customer_id > 0) {
             $customer = Customer::where('id', $this->customer_id)->first();
             if ($customer) {
-                return $customer->first_name . ' ' . $customer->last_name;
+                if (!empty($customer->first_name) and !empty($customer->last_name)) {
+                    return $customer->first_name . ' ' . $customer->last_name;
+                }
             }
         }
 
         return 'Anonymous';
+    }
+
+    public function cartProducts()
+    {
+        $carts = [];
+        if (!empty($this->cart)) {
+            $carts = $this->cart;
+        }
+        $cart = $this->cart->first();
+
+        $cartProduct = [];
+        if (isset($cart->products)) {
+            $cartProduct = $cart->products->first();
+        }
+
+        return [
+            'firstProduct'=>$cartProduct,
+            'products'=>$carts
+        ];
     }
 
     public function user()
