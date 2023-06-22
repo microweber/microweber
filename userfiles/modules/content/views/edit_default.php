@@ -398,6 +398,10 @@ if (isset($params['quick_edit'])) {
                 </div>
 
                 <?php
+                /**
+                 * @var \MicroweberPackages\FormBuilder\FormElementBuilder $formBuilder
+                 */
+
                 $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
                 $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
                 ?>
@@ -418,13 +422,14 @@ if (isset($params['quick_edit'])) {
                                               <div class="form-group" id="slug-field-holder">
                                                   <label class="form-label"><?php _e($type) ?> <?php _e("title"); ?></label>
 
-                                                  <?php
-                                                  $contentModel = \MicroweberPackages\Content\Content::where('id', $data['id'])->first();
-                                                  $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
 
-                                                  ?>
 
                                                   <?php
+                                                  /**
+                                                   * @var \MicroweberPackages\FormBuilder\FormElementBuilder $formBuilder
+                                                   */
+
+
                                                   echo $formBuilder->text('title')
                                                       ->setModel($contentModel)
                                                     //  ->xModel('title')
