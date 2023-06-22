@@ -277,6 +277,7 @@ class DropdownMappingPreview extends AdminComponent
 
                     $mapKeyCleaned = str_replace($this->import_feed['content_tag'] . '.', '', $mapKey);
                     $mapKeyCleaned = str_replace('.','_', $mapKeyCleaned);
+                    $mapKeyCleaned = mb_strtolower($mapKeyCleaned);
 
                     if (!empty($mapKeyCleaned)) {
                         if ($mapKeyCleaned == $itemMapKey) {
