@@ -48,6 +48,12 @@ class DropdownMapping extends AdminComponent
                                     break;
                                 }
                             }
+                            if ($this->categorySeparator == '|' || $this->categorySeparator == '>') {
+                                $this->categoryAddType = 'tree';
+                            }
+                            if ($this->categorySeparator == ',' || $this->categorySeparator == ';') {
+                                $this->categoryAddType = 'seperated';
+                            }
                         }
 
                         if ($groupItem['value'] == 'tags') {
@@ -69,6 +75,20 @@ class DropdownMapping extends AdminComponent
                         }
                     }
                 }
+            }
+        }
+
+        $findFeed = ImportFeed::select([
+            'id',
+            'category_separators',
+            'category_ids_separators',
+            'category_add_types',
+            'tags_separators',
+            'media_url_separators',
+        ])->where('id', $this->importFeedId)->first();
+        if ($findFeed) {
+            if (empty($findFeed->category_separators)) {
+                $this->updateFeedMapKeys();
             }
         }
     }
