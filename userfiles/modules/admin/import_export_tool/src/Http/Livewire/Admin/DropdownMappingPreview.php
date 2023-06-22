@@ -241,7 +241,14 @@ class DropdownMappingPreview extends AdminComponent
         return $html;
     }
 
+    public $automaticSelectedSeperatorOptions = [];
+    public function getAutomaticSelectedSeperatorOptions()
+    {
+        return $this->automaticSelectedSeperatorOptions;
+    }
+
     public $automaticSelectedOptions = [];
+
     public function getAutomaticSelectedOptions() {
         return $this->automaticSelectedOptions;
     }
