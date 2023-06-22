@@ -13,7 +13,10 @@ class Select extends FormControl
         $this->setName($name);
         $this->setOptions($options);
     }
-
+    public function getType()
+    {
+        return 'select';
+    }
     public function select($option)
     {
         $this->selected = $option;

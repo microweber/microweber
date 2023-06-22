@@ -6,6 +6,10 @@ abstract class Element
 {
     protected $attributes = [];
 
+    public function getType()
+    {
+        return 'element';
+    }
     public function setAttribute($attribute, $value = null)
     {
         if (is_null($value)) {

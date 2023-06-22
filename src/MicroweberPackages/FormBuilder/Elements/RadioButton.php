@@ -7,7 +7,10 @@ class RadioButton extends Checkbox
     protected $attributes = [
         'type' => 'radio',
     ];
-
+    public function getType()
+    {
+        return 'radio';
+    }
     public function __construct($name, $value = null)
     {
         parent::__construct($name);

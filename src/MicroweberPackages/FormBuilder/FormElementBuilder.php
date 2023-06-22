@@ -3,8 +3,7 @@
 namespace MicroweberPackages\FormBuilder;
 
 use Illuminate\Support\Manager;
-use MicroweberPackages\FormBuilder\Elements\Button;
-use MicroweberPackages\FormBuilder\Elements\Hidden;
+
 use MicroweberPackages\FormBuilder\Binding\BoundData;
 use MicroweberPackages\FormBuilder\Elements\Checkbox;
 use MicroweberPackages\FormBuilder\Elements\Date;
@@ -37,12 +36,20 @@ class FormElementBuilder extends Manager
         'TextArea'=>TextArea::class,
         'TextAreaOption'=>TextAreaOption::class,
     ];
-
     protected $drivers = [
         'text'=>Text::class,
         'textarea'=>TextArea::class,
-        'richtext'=>MwEditor::class,
+        'label'=>Label::class,
+        'select'=>Select::class,
+        'radio'=>RadioButton::class,
+        'checkbox'=>Checkbox::class,
+        'date'=>Date::class,
+        'email'=>Email::class,
+        'file'=>File::class,
+        'mw-editor'=>MwEditor::class,
+        'mw-module-settings'=>MwModuleSettings::class,
     ];
+
 
     /**
      * Create a form element of the specified type and name.
@@ -71,6 +78,8 @@ class FormElementBuilder extends Manager
     {
         return 'text';
     }
+
+
 
     public function setOldInputProvider(OldInputInterface $oldInputProvider)
     {
