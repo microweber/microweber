@@ -13,6 +13,12 @@ class TextArea extends FormControl
 
     protected $value;
 
+
+    public function getType()
+    {
+        return 'textarea';
+    }
+
     public function render()
     {
         return implode([

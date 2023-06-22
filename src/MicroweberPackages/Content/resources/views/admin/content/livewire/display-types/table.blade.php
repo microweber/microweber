@@ -1,5 +1,5 @@
-<div>
-    <table class="table table-responsive" id="content-results-table">
+<div class="table-responsive">
+    <table class="table table table-vcenter card-table" id="content-results-table">
         <thead>
         <tr>
             <th style="width:10px" scope="col">

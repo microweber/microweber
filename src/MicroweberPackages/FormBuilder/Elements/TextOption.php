@@ -26,4 +26,10 @@ class TextOption extends Text
             $this->value($this->model->option_value);
         }
     }
+
+
+    public function getType()
+    {
+        return 'text-option';
+    }
 }

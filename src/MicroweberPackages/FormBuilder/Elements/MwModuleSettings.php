@@ -7,6 +7,10 @@ use function MicroweberPackages\FormBuilder\Elements\str_random;
 
 class MwModuleSettings extends TextArea
 {
+    public function getType()
+    {
+        return 'mw-module-settings';
+    }
     public function render()
     {
         $mwModuleSettingsId = str_random(9);

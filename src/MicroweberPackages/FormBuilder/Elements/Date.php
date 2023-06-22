@@ -7,7 +7,10 @@ class Date extends Text
     protected $attributes = [
         'type' => 'date',
     ];
-
+    public function getType()
+    {
+        return 'date';
+    }
     public function value($value)
     {
         if ($value instanceof \DateTime) {
