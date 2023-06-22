@@ -106,34 +106,17 @@ class Order extends Model
 
     public function customerName()
     {
-        $orderUser = $this->user()->first();
-        if ($orderUser != null) {
-            if ($this->customer_id > 0) {
-                $orderUser = \MicroweberPackages\Customer\Models\Customer::where('id', $this->customer_id)->first();
-            }
-            if ($orderUser->first_name) {
-                $fullName = $orderUser->first_name;
-                if ($orderUser->last_name) {
-                    $fullName .= ' ' . $orderUser->last_name;
-                }
-                return $fullName;
-            } else if ($orderUser) {
-                return $orderUser->username;
+        if (!empty($this->first_name) or !empty($this->last_name)) {
+            return $this->first_name . ' ' . $this->last_name;
+        }
+        if ($this->customer_id > 0) {
+            $customer = Customer::where('id', $this->customer_id)->first();
+            if ($customer) {
+                return $customer->first_name . ' ' . $customer->last_name;
             }
         }
 
-        if (!empty($this->first_name) || !empty($this->last_name)) {
-            $name = '';
-            if (!empty($this->first_name)) {
-                $name = $this->first_name;
-            }
-            if (!empty($this->last_name)) {
-                $name .= ' ' . $this->last_name;
-            }
-            return $name;
-        }
-
-        return "";
+        return 'Anonymous';
     }
 
     public function user()
