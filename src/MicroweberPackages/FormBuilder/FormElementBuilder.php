@@ -14,6 +14,7 @@ use MicroweberPackages\FormBuilder\Elements\Label;
 use MicroweberPackages\FormBuilder\Elements\MwEditor;
 use MicroweberPackages\FormBuilder\Elements\MwModuleSettings;
 use MicroweberPackages\FormBuilder\Elements\RadioButton;
+use MicroweberPackages\FormBuilder\Elements\Range;
 use MicroweberPackages\FormBuilder\Elements\Select;
 use MicroweberPackages\FormBuilder\Elements\Text;
 use MicroweberPackages\FormBuilder\Elements\TextArea;
@@ -42,6 +43,7 @@ class FormElementBuilder extends Manager
         'label'=>Label::class,
         'select'=>Select::class,
         'radio'=>RadioButton::class,
+        'range'=>Range::class,
         'checkbox'=>Checkbox::class,
         'date'=>Date::class,
         'email'=>Email::class,
