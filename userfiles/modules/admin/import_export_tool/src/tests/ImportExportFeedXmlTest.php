@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\tests;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Livewire;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Import\Formats\XlsxReader;
@@ -11,19 +12,27 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\Import
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\Install;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\StartExportingModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\StartImportingModal;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\User\Models\User;
 
 class ImportExportFeedXmlTest extends TestCase
 {
     public function testInstall()
     {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
         Livewire::test(Install::class)->call('startInstalling');
     }
 
     public function testImportExportWizard()
     {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/simple-data.zip');
         $content = $zip->getFromName('mw-export-format-products.xml');
@@ -65,7 +74,7 @@ class ImportExportFeedXmlTest extends TestCase
             ->call('saveMapping')
             ->set('import_feed.primary_key', 'id')
             ->set('import_feed.parent_page', $shopProductId);
-
+        
         // Let's import with modal
         $importModal = Livewire::test(StartImportingModal::class, [$instance->importFeedId]);
 
