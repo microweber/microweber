@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\FormBuilder\Elements;
 
-abstract class Element
+abstract class Element implements ElementInterface
 {
     protected $attributes = [];
 

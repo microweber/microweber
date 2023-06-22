@@ -13,11 +13,19 @@ use MicroweberPackages\Multilanguage\FormElements\TextOption;
 class MultilanguageFormElementBuilder extends FormElementBuilder
 {
     protected $formElementsClasses = [
-        'Text'=>Text::class,
-        'MwEditor'=>MwEditor::class,
-        'MwModuleSettings'=>MwModuleSettings::class,
-        'TextOption'=>TextOption::class,
-        'TextArea'=>TextArea::class,
-        'TextAreaOption'=>TextAreaOption::class,
+        'Text' => Text::class,
+        'MwEditor' => MwEditor::class,
+        'MwModuleSettings' => MwModuleSettings::class,
+        'TextOption' => TextOption::class,
+        'TextArea' => TextArea::class,
+        'TextAreaOption' => TextAreaOption::class,
+    ];
+    protected $drivers = [
+        'text' => Text::class,
+        'textarea' => TextArea::class,
+        'mw-editor' => MwEditor::class,
+        'mw-module-settings' => MwModuleSettings::class,
+        'textarea-option' => TextAreaOption::class,
+        'text-option' => TextOption::class,
     ];
 }

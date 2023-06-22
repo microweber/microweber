@@ -37,6 +37,7 @@ class ModuleSettingsComponent extends AdminComponent
 
     public function render()
     {
+
         return view($this->view);
     }
 }

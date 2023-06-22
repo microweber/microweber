@@ -50,6 +50,8 @@ class FormElementBuilder extends Manager
         'file'=>File::class,
         'mw-editor'=>MwEditor::class,
         'mw-module-settings'=>MwModuleSettings::class,
+        'textarea-option'=>TextAreaOption::class,
+        'text-option'=>TextOption::class,
     ];
 
 

@@ -13,10 +13,13 @@
         <div class="tab-pane fade show active" wire:ignore.self id="text">
 
 
-            <x-microweber-module-btn::btn-text :settings="$settings"/>
+{{--            <x-microweber-module-btn::btn-text :settings="$settings"/>--}}
 
-            <x-microweber-module-btn::btn-url-picker :url="$url" :settings="$settings"/>
+{{--            <x-microweber-module-btn::btn-url-picker :url="$url" :settings="$settings"/>--}}
 
+
+
+            <livewire:microweber-module-btn::settings-form :moduleId="$moduleId" :moduleType="$moduleType" />
 
         </div>
 
