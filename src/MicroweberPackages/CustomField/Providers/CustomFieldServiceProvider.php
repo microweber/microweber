@@ -13,6 +13,8 @@ class CustomFieldServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->loadMigrationsFrom(__DIR__. '/../database/migrations/');
+
         /**
          * @property CustomFieldRepository $custom_field_repository
          */
