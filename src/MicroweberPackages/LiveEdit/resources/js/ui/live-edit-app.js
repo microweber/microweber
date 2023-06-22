@@ -17,11 +17,15 @@ mw.app.canvas.on('liveEditBeforeLoaded', function () {
     mw.app.dispatch('init');
 });
 
-mw.app.canvas.on('liveEditCanvasLoaded', () => {
-    // new EditorComponent();
-    // liveEditComponent();
+mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
+
+    window.top.history.pushState(null, null, `?url=${encodeURIComponent(data.frameWindow.location.href)}`);
     mw.app.dispatch('ready');
 });
+
+window.top.addEventListener('popstate', function(){    
+    mw.app.canvas.getFrame().src = decodeURIComponent(new URLSearchParams(window.top.location.search).get('url')  || '/');
+})
 
 
 

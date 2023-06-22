@@ -651,7 +651,10 @@
             if(_selectable){
                 mw.$(element.querySelector('.mw-tree-item-content')).prepend(this.checkBox(element))
             } else {
-                mw.$(element.querySelector('.mw-tree-item-content')).css('pointerEvents', 'none')
+                if(!this.options.selectableNodes) {
+                    mw.$(element.querySelector('.mw-tree-item-content')).css('pointerEvents', 'none')
+                }
+                
             }
             var cont = element.querySelector('.mw-tree-item-content');
             cont.classList.add('item-selectable-' + _selectable);
@@ -682,7 +685,6 @@
                     });
 
                     if(resEl[0].id && scope.stateStorage.get('size-' + resEl[0].id)) {
-
                         resEl[0].style.width = scope.stateStorage.get('size-' + resEl[0].id) ;
                     }
                 }, 300);
