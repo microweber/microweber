@@ -1,7 +1,7 @@
 @extends('import_export_tool::admin.module-layout')
 
 @section('module-content')
-<div class="col-xxl-10 col-lg-11 col-12 mx-auto">
+<div class="mt-4 px-0">
 
     <a href="{{route('admin.import-export-tool.import-wizard')}}" class="btn btn-outline-dark">
         {{'New import'}}
@@ -11,7 +11,7 @@
         <livewire:import_export_tool::no_feeds />
     @else
     <div class="mb-3 mt-3">
-        <label for="" class="form-label">
+        <label class="form-label">
             {{'All imports'}}
         </label>
     </div>
@@ -54,7 +54,7 @@
 
 
                         <a href="{{route('admin.import-export-tool.import-delete', $feed->id)}}" class="btn btn-outline-danger btn-sm">
-                            <i class="fa fa-times"></i> {{'Delete'}}
+                            {{'Delete'}}
                         </a>
 
                     </td>

@@ -1,16 +1,17 @@
 @extends('admin::layouts.app')
 
 @section('content')
-<div class="card">
-        <div class="card-header">
-            <?php $module_info = module_info('admin/import_export_tool'); ?>
-            <h3 class="main-pages-title">
-                <strong><?php _e($module_info['name']); ?></strong>
-            </h3>
-        </div>
 
-        <div class=" ">
+<?php $module_info = module_info('admin/import_export_tool'); ?>
 
+<div class="col-xxl-10 col-lg-11 col-12 mx-auto">
+
+    <h3 class="main-pages-title">
+        <strong><?php _e($module_info['name']); ?></strong>
+    </h3>
+
+    <div class="card ">
+        <div class=" card-body ">
             <div class="row">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
@@ -28,10 +29,11 @@
                     </li>
                 </ul>
 
-                <div>
-                    @yield('module-content')
-                </div>
+                @yield('module-content')
+
             </div>
         </div>
+    </div>
+
 </div>
 @endsection
