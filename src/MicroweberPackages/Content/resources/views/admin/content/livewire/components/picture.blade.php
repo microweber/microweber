@@ -3,7 +3,7 @@
       {{--  <span style="font-size:6px;color:#ffffff;text-transform: uppercase;padding:2px;margin-top: 2px;position: absolute;background: rgba(0,0,0,0.32);">
             {{$content->content_type}}
         </span>--}}
-        <img style="max-height: 80px;" src="{{$content->thumbnail(640,480, true)}}" class="rounded-full">
+        <img style="max-height: 80px;" src="{{$content->thumbnail(640,480, true)}}" class="rounded-full w-100">
     </div>
 @else
     @include('content::admin.content.livewire.components.icon', ['content'=>$content])
