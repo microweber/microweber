@@ -172,7 +172,7 @@
 
 </script>
 
-<div class="col-md-4 mt-6 pt-4 pe-5 manage-content-sidebar">
+<div class="col-md-4 mt-6 pt-4 px-5 manage-content-sidebar">
     <div class="card mb-5">
         <div class="card-body">
             <div class="card-header ps-0 pt-1 mb-0">

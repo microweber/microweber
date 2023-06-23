@@ -118,9 +118,9 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
     </style>
 
     <div class="table-responsive">
-        <table class="table vertical-align-middle table-header-no-border table-primary-hover"
+        <table class="table card-table table-vcenter"
                id="order-information-table">
-            <thead class="text-primary">
+            <thead>
             <tr>
                 <th><?php _e(""); ?></th>
                 <th><?php _e("Product"); ?></th>
