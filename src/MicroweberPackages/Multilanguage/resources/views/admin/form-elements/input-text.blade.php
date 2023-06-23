@@ -1,12 +1,21 @@
 <div x-data="{
+defaultLanguageInputField: '{{$fieldValue}}',
 currentLanguageData: @js($currentLanguageData)
 }">
+
+    <input type="hidden" x-model="defaultLanguageInputField" name="{{$fieldName}}" />
+
     <div class="input-group">
 
         @foreach($supportedLanguages as $language)
             <input name="multilanguage[{{$fieldName}}][{{$language['locale']}}]"
                    value="{{$translations[$language['locale']]}}"
                    x-show="currentLanguageData.locale == '{{$language['locale']}}'"
+
+                   @if($language['locale'] == $defaultLanguage)
+                   x-model="defaultLanguageInputField"
+                   @endif
+
                    type="text" class="form-control">
         @endforeach
 

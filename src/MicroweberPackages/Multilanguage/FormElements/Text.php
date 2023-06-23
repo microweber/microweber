@@ -71,6 +71,8 @@ class Text extends \MicroweberPackages\FormBuilder\Elements\Text
         return view('multilanguage::admin.form-elements.input-text', [
             'randId' => $this->randId,
             'fieldName' => $fieldName,
+            'fieldValue' => $fieldValue,
+            'defaultLanguage' => $this->defaultLanguage,
             'supportedLanguages' => $supportedLanguages,
             'currentLanguageData' => $currentLanguageData,
             'translations' => $translations,
