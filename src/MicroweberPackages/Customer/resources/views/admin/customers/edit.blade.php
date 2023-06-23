@@ -392,8 +392,8 @@
                         <div class="card-body py-0">
                             <div class="collapse" id="order-item-{{ $order->id }}">
                                 <div class="table-responsive">
-                                    <table class="table vertical-align-middle table-header-no-border table-primary-hover" id="order-information-table">
-                                        <thead class="text-primary">
+                                    <table class="table card-table table-vcenter" id="order-information-table">
+                                        <thead>
                                         <tr>
                                             <th><?php _e("Image"); ?></th>
                                             <th><?php _e("Product"); ?></th>

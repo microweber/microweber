@@ -3,7 +3,7 @@
     <div class="card-body col-xl-12 mx-auto mb-3">
         <div class="card-header d-flex col-12 align-items-center justify-content-between">
             <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
-                <h1 class="main-pages-title">{{_e('Orders')}}</h1>
+                <h1 class="main-pages-title mb-0">{{_e('Orders')}}</h1>
             </div>
             @include('order::admin.orders.livewire.components.keyword')
             &nbsp;&nbsp;
@@ -15,8 +15,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_orders.svg'); ">
-                    <h4>You don’t have any orders yet</h4>
-                    <p>Here you can track your orders</p>
+                    <h4>{{_e('You don’t have any orders yet')}}</h4>
+                    <p>{{_e('Here you can track your orders')}}</p>
                     <br/>
                     <a href="javascript:mw_admin_add_order_popup()" class="btn btn-primary btn-rounded">{{_e('Add Order')}}</a>
                 </div>

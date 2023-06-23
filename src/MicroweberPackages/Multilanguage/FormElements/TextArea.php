@@ -69,21 +69,39 @@ class TextArea extends \MicroweberPackages\FormBuilder\Elements\Text
         if(LanguageHelper::isRTL($this->currentLanguage)){
             $textDir = 'rtl';
         }
-        return "<script>
-            mw.lib.require('multilanguage');
-            $(document).ready(function () {
-                $('#$this->randId').mlTextArea({
-                    name: '$fieldName',
-                    currentLocale: '$this->currentLanguage',
-                    defaultLocale: '$this->defaultLanguage',
-                    direction: '$textDir',
-                    locales: $localesJson,
-                    attributes: $attributes,
-                    translations: $translationsJson,
-                });
-            });
-        </script>
-        <textarea name=\"$fieldName\" class=\"form-control\" id=\"$this->randId\">$fieldValue</textarea>";
+
+        $currentLanguageData = [];
+        foreach ($supportedLanguages as $language) {
+            if ($language['locale'] == $this->currentLanguage) {
+                $currentLanguageData = $language;
+            }
+        }
+
+        return view('multilanguage::admin.form-elements.input-textarea', [
+            'randId' => $this->randId,
+            'fieldName' => $fieldName,
+            'fieldValue' => $fieldValue,
+            'defaultLanguage' => $this->defaultLanguage,
+            'supportedLanguages' => $supportedLanguages,
+            'currentLanguageData' => $currentLanguageData,
+            'translations' => $translations,
+        ]);
+
+//        return "<script>
+//            mw.lib.require('multilanguage');
+//            $(document).ready(function () {
+//                $('#$this->randId').mlTextArea({
+//                    name: '$fieldName',
+//                    currentLocale: '$this->currentLanguage',
+//                    defaultLocale: '$this->defaultLanguage',
+//                    direction: '$textDir',
+//                    locales: $localesJson,
+//                    attributes: $attributes,
+//                    translations: $translationsJson,
+//                });
+//            });
+//        </script>
+//        <textarea name=\"$fieldName\" class=\"form-control\" id=\"$this->randId\">$fieldValue</textarea>";
 
     }
 }
