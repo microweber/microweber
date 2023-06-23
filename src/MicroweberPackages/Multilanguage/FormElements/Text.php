@@ -77,8 +77,7 @@ class Text extends \MicroweberPackages\FormBuilder\Elements\Text
             'currentLanguageData' => $currentLanguageData,
             'translations' => $translations,
         ]);
-
-//
+        
 //        return "<script>
 //            mw.lib.require('multilanguage');
 //            window.initMlInput$this->randId = function() {
