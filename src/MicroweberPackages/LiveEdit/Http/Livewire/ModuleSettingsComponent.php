@@ -12,6 +12,12 @@ class ModuleSettingsComponent extends AdminComponent
     public array $settings = [
 
     ];
+    public array $state = [
+
+    ];
+    public array $multilanguage = [
+
+    ];
 
     public function mount()
     {
@@ -19,20 +25,32 @@ class ModuleSettingsComponent extends AdminComponent
             foreach ($this->settings as $key => $setting) {
                 $val = get_module_option($key, $this->moduleId);
                 $this->settings[$key] = $val;
+                $this->state['settings'][$key] = $val;
             }
         }
     }
 
     public function updatedSettings($settings)
     {
-
         if ($this->settings) {
             foreach ($this->settings as $key => $setting) {
-                save_option($key, $setting, $this->moduleId);
-            }
+                $this->saveModuleOption($key, $setting, $this->moduleId);
+             }
         }
         $this->emit('settingsChanged', ['moduleId' => $this->moduleId, 'settings' => $this->settings]);
 
+    }
+
+
+    public function saveModuleOption($key, $value, $moduleId = false,$lang = false){
+        $option = array();
+        $option['option_value'] = $value;
+        $option['option_key'] = $key;
+        $option['option_group'] = $moduleId;
+        if($lang){
+            $option['lang'] = $lang;
+        }
+        return app()->option_manager->save($option);
     }
 
     public function render()

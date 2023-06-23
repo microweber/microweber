@@ -38,6 +38,8 @@
                     plainName = key+ '-'+Object.keys(values)[0];
                 });
                 plainName = plainName.replace('_','-');
+            } else {
+                plainName = plainName.replace('.','-');
             }
 
             var outputHtml = '<div class="bs-component">';
@@ -76,7 +78,7 @@
                 for (var i = 0; i < locales.length; i++) {
                     var mwTabPaneLocaleId = 'ml-tab-content-'+plainName+'-'+i;
 
-                    var mlInputName = 'multilanguage['+plainName+']['+locales[i]+']';
+                    var mlInputName = 'multilanguage['+name+']['+locales[i]+']';
 
                     // for multidimensional names
                     if (name.match(/\[[^\]]*]/g)) {
@@ -107,7 +109,7 @@
                         if (defaultLocale == $(this).attr('lang')) {
                             // Change original field to this current lang value
                             $(obj).html($(this).val());
- 
+
                         }
 
                         $(this).html($(this).val());

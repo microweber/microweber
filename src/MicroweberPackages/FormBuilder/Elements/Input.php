@@ -66,7 +66,7 @@ abstract class Input extends FormControl
         return $this;
     }
 
-    protected function hasValue()
+    public function hasValue()
     {
         return isset($this->attributes['value']);
     }

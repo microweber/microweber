@@ -21,7 +21,7 @@
         </div>
 
         <div class="ms-3 mb-3 d-flex align-items-center">
-            <a class="tblr-body-color form-label mb-0 text-decoration-none font-weight-bold" href="{{route('admin.page.index')}}" class="mb-0">
+            <a class="tblr-body-color form-label mb-0 text-decoration-none font-weight-bold d-md-block d-none" href="{{route('admin.page.index')}}" class="mb-0">
 
 
                 @if($id == 0)
@@ -39,7 +39,7 @@
                 @endif
 
             </a>
-            <span class="tblr-body-color form-label mb-0 font-weight-bold ms-1">
+            <span class="tblr-body-color form-label mb-0 font-weight-bold ms-1 d-md-block d-none">
                    @if($id > 0)
                     / {{ category_title($id) }}
                 @endif

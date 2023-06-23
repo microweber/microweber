@@ -18,6 +18,16 @@ class Checkbox extends Input
 
         $this->setValue($value);
     }
+    public function setAttribute($attribute, $value = null)
+    {
+        if (is_null($value)) {
+            return $this;
+        }
+
+        $this->attributes[$attribute] = $value;
+
+        return $this;
+    }
 
     public function getType()
     {

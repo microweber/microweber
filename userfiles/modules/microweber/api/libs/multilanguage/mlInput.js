@@ -41,6 +41,8 @@
                     plainName = key+ '-'+Object.keys(values)[0];
                 });
                 plainName = plainName.replace('_','-');
+            } else {
+                plainName = plainName.replace('.','-');
             }
 
             var outputHtml = '<div class="input-group js-input-group-'+plainName+'">';
@@ -48,7 +50,7 @@
                 var mlInputLocaleIds = [];
                 for (var i = 0; i < locales.length; i++) {
 
-                    var mlInputLocaleId = 'ml-input-'+name+'-'+i;
+                    var mlInputLocaleId = 'ml-input-'+plainName+'-'+i;
                     var mlInputName = 'multilanguage['+name+']['+locales[i]+']';
 
                     // for multidimensional names
@@ -67,7 +69,7 @@
                     }
 
                     var input  = $('<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="'+mlInputName+'" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'"  />');
-                     
+
                     $.each(attributes, function(name, value) {
                         if (name !== 'value') {
                             if (!$(input).attr(name)) {
@@ -120,6 +122,7 @@
             function switchInputFieldsToLanguage(language) {
 
                 $('#' + mlInputLocaleChangeId).selectpicker("val", language);
+
                 for (var i = 0; i < mlInputLocaleIds.length; i++) {
                     // If ml locale is changed hide all fields except current lang
                     if ($('#' + mlInputLocaleIds[i]).attr('lang') !== language) {

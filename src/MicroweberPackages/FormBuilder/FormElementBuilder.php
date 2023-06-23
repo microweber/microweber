@@ -6,6 +6,7 @@ use Illuminate\Support\Manager;
 
 use MicroweberPackages\FormBuilder\Binding\BoundData;
 use MicroweberPackages\FormBuilder\Elements\Checkbox;
+use MicroweberPackages\FormBuilder\Elements\Color;
 use MicroweberPackages\FormBuilder\Elements\Date;
 use MicroweberPackages\FormBuilder\Elements\DateTimeLocal;
 use MicroweberPackages\FormBuilder\Elements\Email;
@@ -13,6 +14,7 @@ use MicroweberPackages\FormBuilder\Elements\File;
 use MicroweberPackages\FormBuilder\Elements\Label;
 use MicroweberPackages\FormBuilder\Elements\MwEditor;
 use MicroweberPackages\FormBuilder\Elements\MwModuleSettings;
+use MicroweberPackages\FormBuilder\Elements\Number;
 use MicroweberPackages\FormBuilder\Elements\RadioButton;
 use MicroweberPackages\FormBuilder\Elements\Range;
 use MicroweberPackages\FormBuilder\Elements\Select;
@@ -39,12 +41,14 @@ class FormElementBuilder extends Manager
     ];
     protected $drivers = [
         'text'=>Text::class,
+        'number'=>Number::class,
         'textarea'=>TextArea::class,
         'label'=>Label::class,
         'select'=>Select::class,
         'radio'=>RadioButton::class,
         'range'=>Range::class,
         'checkbox'=>Checkbox::class,
+        'color'=>Color::class,
         'date'=>Date::class,
         'email'=>Email::class,
         'file'=>File::class,
@@ -59,18 +63,18 @@ class FormElementBuilder extends Manager
      * Create a form element of the specified type and name.
      *
      * @param string $type The type of the form element.
-     * @param string $name The name of the form element.
-     * @return \MicroweberPackages\FormBuilder\Elements\Element The created form element.
+     * @param string $key The name of the form element.
+     * @return \MicroweberPackages\FormBuilder\Elements\ElementInterface The created form element.
      */
-    public function make($type, $name)
+    public function make($type, $key)
     {
         $driver = $this->driver($type);
         /**
-         * @var \MicroweberPackages\FormBuilder\Elements\Element $element
+         * @var \MicroweberPackages\FormBuilder\Elements\ElementInterface $element
          */
-        $element = new $driver($name);
+        $element = new $driver($key);
 
-        if (!is_null($value = $this->getValueFor($name))) {
+        if (!is_null($value = $this->getValueFor($key))) {
             $element->value($value);
         }
 

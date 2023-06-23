@@ -77,6 +77,14 @@ class MultilanguageRepository extends AbstractRepository
                         return (array)$item;
                     })->toArray();
                 }
+
+                if (!empty($languages)) {
+                    $languages = array_filter($languages, function ($language) {
+                        return isset($language['locale']) and isset($language['language']) and $language['locale'] != '' and $language['language'] != '';
+                    });
+                }
+
+
                 return $languages;
             });
 
