@@ -8,9 +8,7 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
 });
 }"
 >
-    <textarea x-model="defaultLanguageInputField" name="{{$fieldName}}">
-
-    </textarea>
+    <textarea style="display:none" x-model="defaultLanguageInputField" name="{{$fieldName}}">{{$fieldValue}}</textarea>
 
     <div class="btn-group w-100" role="group">
         @foreach($supportedLanguages as $language)
