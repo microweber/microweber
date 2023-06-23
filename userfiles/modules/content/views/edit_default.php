@@ -356,7 +356,7 @@ if (isset($params['quick_edit'])) {
                 <?php endif; ?>
 
                 <div class="d-flex js-collapse-inner-page-menu justify-content-between align-items-center mb-4">
-                    <div class="d-flex space-x-4">
+                    <div class="d-flex flex-wrap gap-md-4 gap-3">
                         <a href="#" x-on:click="showEditTab = 'details'" :class="{ 'active': showEditTab == 'details' }" class="btn btn-link text-decoration-none mw-admin-action-links">
                             <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M144-168v-412q-23-7-35.5-26T96-648v-144q0-29.7 21.15-50.85Q138.3-864 168-864h624q29.7 0 50.85 21.15Q864-821.7 864-792v144q0 23-12.5 42T816-580v411.926Q816-138 794.85-117 773.7-96 744-96H216q-29.7 0-50.85-21.15Q144-138.3 144-168Zm72-408v408h528v-408H216Zm576-72v-144H168v144h624ZM384-408h192v-72H384v72ZM216-168v-408 408Z"/></svg>
                             <?php echo $type; ?> <?php echo _e('Details'); ?>
