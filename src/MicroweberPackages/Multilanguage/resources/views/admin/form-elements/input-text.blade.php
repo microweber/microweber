@@ -1,10 +1,16 @@
 <div x-data="{
 defaultLanguageInputField: '{{$fieldValue}}',
 currentLanguageData: @js($currentLanguageData)
-}">
+}"
+x-init="function() {
+mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
+    currentLanguageData = mlCurrentLanguage;
+});
+}"
+>
 
     <input type="hidden" x-model="defaultLanguageInputField" name="{{$fieldName}}" />
-    
+
     <div class="input-group">
 
         @foreach($supportedLanguages as $language)
@@ -29,7 +35,10 @@ currentLanguageData: @js($currentLanguageData)
 
         <div class="dropdown-menu dropdown-menu-end">
             @foreach($supportedLanguages as $language)
-            <a class="dropdown-item" href="#" x-on:click="currentLanguageData = @js($language)">
+            <a class="dropdown-item" href="#" x-on:click="function() {
+        currentLanguageData = @js($language);
+        mw.trigger('mlChangedLanguage', currentLanguageData);
+}">
                 <i class="flag-icon flag-icon-{{$language['icon']}} mr-4"></i>
                 <span> {{strtoupper($language['locale'])}}</span>
             </a>
