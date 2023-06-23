@@ -6,6 +6,7 @@ use Illuminate\Support\Manager;
 
 use MicroweberPackages\FormBuilder\Binding\BoundData;
 use MicroweberPackages\FormBuilder\Elements\Checkbox;
+use MicroweberPackages\FormBuilder\Elements\Color;
 use MicroweberPackages\FormBuilder\Elements\Date;
 use MicroweberPackages\FormBuilder\Elements\DateTimeLocal;
 use MicroweberPackages\FormBuilder\Elements\Email;
@@ -13,6 +14,7 @@ use MicroweberPackages\FormBuilder\Elements\File;
 use MicroweberPackages\FormBuilder\Elements\Label;
 use MicroweberPackages\FormBuilder\Elements\MwEditor;
 use MicroweberPackages\FormBuilder\Elements\MwModuleSettings;
+use MicroweberPackages\FormBuilder\Elements\Number;
 use MicroweberPackages\FormBuilder\Elements\RadioButton;
 use MicroweberPackages\FormBuilder\Elements\Range;
 use MicroweberPackages\FormBuilder\Elements\Select;
@@ -39,12 +41,14 @@ class FormElementBuilder extends Manager
     ];
     protected $drivers = [
         'text'=>Text::class,
+        'number'=>Number::class,
         'textarea'=>TextArea::class,
         'label'=>Label::class,
         'select'=>Select::class,
         'radio'=>RadioButton::class,
         'range'=>Range::class,
         'checkbox'=>Checkbox::class,
+        'color'=>Color::class,
         'date'=>Date::class,
         'email'=>Email::class,
         'file'=>File::class,

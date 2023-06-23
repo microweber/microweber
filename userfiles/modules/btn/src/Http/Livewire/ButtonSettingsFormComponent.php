@@ -52,32 +52,7 @@ class ButtonSettingsFormComponent extends ModuleSettingsFormComponent
     ];
 
 
-    public array $setti22222222ngs = [
-        'button_style' => '',
-        'button_size' => '',
-        'button_action' => '',
-        'align' => '',
-        'url' => '',
-        'url_to_content_id' => '',
-        'url_to_category_id' => '',
-        'popupcontent' => '',
-        'text' => 'Button',
-        'url_blank' => '',
-        'icon' => '',
-        'backgroundColor' => '',
-        'color' => '',
-        'borderColor' => '',
-        'borderWidth' => '',
-        'borderRadius' => '',
-        'padding' => '',
-        'margin' => '',
-        'fontSize' => '',
-        'shadow' => '',
-        'customSize' => '',
-        'hoverbackgroundColor' => '',
-        'hovercolor' => '',
-        'hoverborderColor' => '',
-    ];
+
 
 
 }
