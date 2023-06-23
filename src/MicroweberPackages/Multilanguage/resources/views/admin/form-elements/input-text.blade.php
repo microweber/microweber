@@ -21,7 +21,7 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
                 name="multilanguage[{{$fieldName}}][{{$language['locale']}}]"
                 value="{{$translations[$language['locale']]}}"
                 wire:model="state.multilanguage.{{$fieldName}}.{{$language['locale']}}"
-                style="display:none" 
+                style="display:none"
                 @endif
 
                x-show="currentLanguageData.locale == '{{$language['locale']}}'"
