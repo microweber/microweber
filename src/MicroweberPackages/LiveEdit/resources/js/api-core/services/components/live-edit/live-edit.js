@@ -44,6 +44,12 @@ export const liveEditComponent = () => {
     mw.app.register('moduleSettings', ModuleSettings);
 
     mw.app.register('templateSettings', TemplateSettings);// don't remove this
+    mw.app.registerChange = function(element){
+        var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
+        if(edit) {
+            edit.classList.add('changed')
+        }
+    };
 
 
 

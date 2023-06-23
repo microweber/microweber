@@ -1478,7 +1478,7 @@ svg.text-danger {
 
 .quick-parent-selector {
     .mw--global-admin-tree {
-        max-height: 400px;
+        max-height: calc(100vh - 100px);
         overflow-y: auto;
     }
 }

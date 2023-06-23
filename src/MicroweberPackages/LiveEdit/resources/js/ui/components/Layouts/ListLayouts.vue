@@ -213,6 +213,8 @@ export default {
             });
             mw.app.editor.on('insertLayoutRequest',function(element){
                 instance.showModal = true;
+ 
+                mw.app.registerChange(element)
             });
         });
 

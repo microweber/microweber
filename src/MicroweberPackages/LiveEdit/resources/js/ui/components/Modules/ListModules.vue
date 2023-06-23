@@ -93,8 +93,8 @@ export default {
             });
 
             mw.app.editor.on('insertModuleRequest', function (el) {
-                console.log(el);
                 instance.showModal = true;
+                mw.app.registerChange(el)
             });
 
         });

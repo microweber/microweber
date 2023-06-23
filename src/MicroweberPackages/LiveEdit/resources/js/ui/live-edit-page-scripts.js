@@ -197,7 +197,7 @@ mw.liveEditSaveService = {
 
     saveDisabled: false,
     draftDisabled: false,
-    save: function(data, success, fail) {
+    save: async function(data, success, fail) {
         mw.trigger('beforeSaveStart', data);
         // todo: 
         if (mw.liveedit && mw.liveedit.cssEditor) {
@@ -219,19 +219,28 @@ mw.liveEditSaveService = {
             key: 'animations-global',
             value: JSON.stringify(animations)
         };
-        mw.options.saveOption(options, function(){
 
-        });
+        await new Promise(resolve =>  {
+            mw.options.saveOption(options, function(){
+                resolve()
+            });
+        })
+        
 
 
-        if (mw.tools.isEmptyObject(data)) return false;
+        if (mw.tools.isEmptyObject(data)) {
+            if(success){
+                success.call({})
+            }
+            return false
+        };
 
         mw._liveeditData = data;
 
         mw.trigger('saveStart', mw._liveeditData);
 
         var xhr = mw.liveEditSaveService.coreSave(mw._liveeditData);
-        xhr.error(function(){
+        xhr.error(function(sdata){
 
             if(xhr.status == 403){
                 var modal = mw.dialog({
@@ -267,6 +276,9 @@ mw.liveEditSaveService = {
 
                 });
             }
+            if(fail){
+                fail.call(sdata)
+            }
         });
         xhr.success(function(sdata) {
             mw.$('.edit.changed').removeClass('changed');
@@ -295,15 +307,13 @@ mw.liveEditSaveService = {
 
 addEventListener('load', () => {
     const save = async () => {
-        console.log(mw.liveEditSaveService)
-        return new Promise((resolve, reject) => {
-            console.log(mw.liveEditSaveService)
-            mw.liveEditSaveService.save(undefined, () => resolve(), () => reject());
+        return new Promise((resolve) => {
+            mw.liveEditSaveService.save(undefined, () => resolve(true), () => resolve(false));
         })
     };
 
     mw.top().app.save = async () => {
-        console.log(mw.liveEditSaveService)
+         
         return await save()
     };
 })
