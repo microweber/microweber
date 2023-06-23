@@ -17,11 +17,21 @@ class ButtonSettingsFormComponent extends ModuleSettingsFormComponent
         ],
         'url' => [
             'type' => 'text',
-
             'label' => 'Url link',
             'help' => 'Url link for the button',
             'placeholder' => 'https://google.com'
         ],
+        'url_blank' => [
+          //  'type' => 'checkbox',
+            'type' => 'text',
+            'label' => 'Open in new tab',
+        ],
+
+//        'align_settings' => [
+//            'type' => 'component',
+//            'label' => 'Alignment',
+//            'component' => 'microweber-module-btn::btn-align',
+//        ],
 //        'message' => [
 //            'type' => 'textarea',
 //            'label' => 'textarea link',
@@ -50,9 +60,6 @@ class ButtonSettingsFormComponent extends ModuleSettingsFormComponent
 //            ]
 //        ]
     ];
-
-
-
 
 
 }
