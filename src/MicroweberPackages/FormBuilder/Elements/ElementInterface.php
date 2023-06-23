@@ -6,7 +6,7 @@ interface  ElementInterface
 {
     public function getType();
     public function render();
-    public function value();
+    public function value($value);
     public function __toString();
     public function __call($method, $params);
 
