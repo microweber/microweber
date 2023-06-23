@@ -17,8 +17,11 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
                 currentLanguageData = @js($language);
                 mw.trigger('mlChangedLanguage', currentLanguageData);
         }"
+            @if($language['locale'] == $defaultLanguage)
+            checked="checked"
+            @endif
 
-            type="radio" class="btn-check" name="btn-radio-toolbar" id="btn-radio-toolbar-{{$randId}}-{{$language['locale']}}" autocomplete="off" checked>
+            type="radio" class="btn-check" name="btn-radio-toolbar" id="btn-radio-toolbar-{{$randId}}-{{$language['locale']}}" autocomplete="off">
         <label for="btn-radio-toolbar-{{$randId}}-{{$language['locale']}}" class="btn btn-icon">
             <i class="flag-icon flag-icon-{{$language['icon']}} mr-4"></i>
             <span> {{strtoupper($language['locale'])}}</span>
@@ -26,10 +29,11 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
         @endforeach
     </div>
 
-    <div>
+    <div class="mt-2">
         @foreach($supportedLanguages as $language)
             <textarea
                 name="multilanguage[{{$fieldName}}][{{$language['locale']}}]"
+                wire:model.lazy="multilanguage[{{$fieldName}}][{{$language['locale']}}]"
 
                    x-show="currentLanguageData.locale == '{{$language['locale']}}'"
 

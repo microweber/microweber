@@ -9,12 +9,19 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
 }"
 >
 
-    <input type="hidden" x-model="defaultLanguageInputField" name="{{$fieldName}}" />
+    <input type="hidden" 
+           x-model="defaultLanguageInputField"
+           name="{{$fieldName}}"
+           wire:model="{{$fieldName}}"
+    />
 
     <div class="input-group">
 
         @foreach($supportedLanguages as $language)
-            <input name="multilanguage[{{$fieldName}}][{{$language['locale']}}]"
+            <input
+                name="multilanguage[{{$fieldName}}][{{$language['locale']}}]"
+                wire:model="multilanguage.{{$fieldName}}.{{$language['locale']}}"
+
                    value="{{$translations[$language['locale']]}}"
                    x-show="currentLanguageData.locale == '{{$language['locale']}}'"
 
