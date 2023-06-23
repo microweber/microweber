@@ -59,18 +59,18 @@ class FormElementBuilder extends Manager
      * Create a form element of the specified type and name.
      *
      * @param string $type The type of the form element.
-     * @param string $name The name of the form element.
-     * @return \MicroweberPackages\FormBuilder\Elements\Element The created form element.
+     * @param string $key The name of the form element.
+     * @return \MicroweberPackages\FormBuilder\Elements\ElementInterface The created form element.
      */
-    public function make($type, $name)
+    public function make($type, $key)
     {
         $driver = $this->driver($type);
         /**
-         * @var \MicroweberPackages\FormBuilder\Elements\Element $element
+         * @var \MicroweberPackages\FormBuilder\Elements\ElementInterface $element
          */
-        $element = new $driver($name);
+        $element = new $driver($key);
 
-        if (!is_null($value = $this->getValueFor($name))) {
+        if (!is_null($value = $this->getValueFor($key))) {
             $element->value($value);
         }
 
