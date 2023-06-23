@@ -26,7 +26,7 @@ class FormBuilderServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::addNamespace('form', dirname(__DIR__) . '/resources/views');
+        View::addNamespace('microweber-form-builder', dirname(__DIR__) . '/resources/views');
 //
 //        $this->app->bind(FormElementBuilder::class, function ($app) {
 //            $container = $app->make(Container::class);

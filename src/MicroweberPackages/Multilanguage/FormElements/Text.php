@@ -61,37 +61,44 @@ class Text extends \MicroweberPackages\FormBuilder\Elements\Text
         $translationsJson = json_encode($translations);
         $attributes = json_encode($this->getAttributes());
 
-        return "<script>
-            mw.lib.require('multilanguage');
-            window.initMlInput$this->randId = function() {
+        return view('multilanguage::admin.form-elements.input-text', [
+            'randId' => $this->randId,
+            'supportedLanguages' => $supportedLanguages,
+            'currentLanguage' => $this->currentLanguage,
+        ]);
 
-                if( window.initMlInputInit$this->randId ){
-                    return;
-                }
-                 window.initMlInputInit$this->randId = true;
-
-                $('#$this->randId').mlInput({
-                        name: '$fieldName',
-                        currentLocale: '$this->currentLanguage',
-                        defaultLocale: '$this->defaultLanguage',
-                        locales: $localesJson,
-                        attributes: $attributes,
-                        translations: $translationsJson,
-                    });
-            }
-            window.addEventListener('load',
-                  function() {
-                    window.initMlInput$this->randId();
-
-                  }, false);
-
-
-            $(document).ready(function () {
-                window.initMlInput$this->randId();
-            });
-        </script>
-
-        <input type=\"text\" name=\"$fieldName\" value=\"$fieldValue\" class=\"form-control\" id=\"$this->randId\" "." />";
+//
+//        return "<script>
+//            mw.lib.require('multilanguage');
+//            window.initMlInput$this->randId = function() {
+//
+//                if( window.initMlInputInit$this->randId ){
+//                    return;
+//                }
+//                 window.initMlInputInit$this->randId = true;
+//
+//                $('#$this->randId').mlInput({
+//                        name: '$fieldName',
+//                        currentLocale: '$this->currentLanguage',
+//                        defaultLocale: '$this->defaultLanguage',
+//                        locales: $localesJson,
+//                        attributes: $attributes,
+//                        translations: $translationsJson,
+//                    });
+//            }
+//            window.addEventListener('load',
+//                  function() {
+//                    window.initMlInput$this->randId();
+//
+//                  }, false);
+//
+//
+//            $(document).ready(function () {
+//                window.initMlInput$this->randId();
+//            });
+//        </script>
+//
+//        <input type=\"text\" name=\"$fieldName\" value=\"$fieldValue\" class=\"form-control\" id=\"$this->randId\" "." />";
 
     }
 }
