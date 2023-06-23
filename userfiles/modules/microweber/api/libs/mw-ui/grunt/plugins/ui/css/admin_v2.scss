@@ -1776,3 +1776,11 @@ svg.text-danger {
     position: relative;
     overflow: hidden;
 }
+
+.keyword-blade-filters-menu {
+    .dropdown-item {
+        input {
+            margin-right: 5px;
+        }
+    }
+}

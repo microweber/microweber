@@ -1,4 +1,4 @@
-<div class="col-xxl-10 col-lg-11 col-12 mx-auto px-lg-0 px-5">
+<div class="col-xxl-10 col-lg-11 col-12 mx-auto">
 
     <div class="card-body col-xl-12 mx-auto mb-3">
         <div class="card-header d-flex flex-wrap col-12 align-items-center justify-content-between">
@@ -6,10 +6,9 @@
                 <h1 class="main-pages-title mb-0">{{_e('Orders')}}</h1>
             </div>
 
-            <div class="my-md-0 my-3">
+            <div class="my-lg-0 my-3 me-md-3">
                 @include('order::admin.orders.livewire.components.keyword')
             </div>
-            &nbsp;&nbsp;
 
            @include('order::admin.orders.action-links-top')
         </div>
