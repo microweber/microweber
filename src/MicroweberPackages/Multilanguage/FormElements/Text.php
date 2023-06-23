@@ -61,10 +61,19 @@ class Text extends \MicroweberPackages\FormBuilder\Elements\Text
         $translationsJson = json_encode($translations);
         $attributes = json_encode($this->getAttributes());
 
+        $currentLanguageData = [];
+        foreach ($supportedLanguages as $language) {
+            if ($language['locale'] == $this->currentLanguage) {
+                $currentLanguageData = $language;
+            }
+        }
+
         return view('multilanguage::admin.form-elements.input-text', [
             'randId' => $this->randId,
+            'fieldName' => $fieldName,
             'supportedLanguages' => $supportedLanguages,
-            'currentLanguage' => $this->currentLanguage,
+            'currentLanguageData' => $currentLanguageData,
+            'translations' => $translations,
         ]);
 
 //
