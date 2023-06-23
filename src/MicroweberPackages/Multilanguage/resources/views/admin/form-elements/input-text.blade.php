@@ -4,7 +4,7 @@ currentLanguageData: @js($currentLanguageData)
 }">
 
     <input type="hidden" x-model="defaultLanguageInputField" name="{{$fieldName}}" />
-
+    
     <div class="input-group">
 
         @foreach($supportedLanguages as $language)
@@ -14,6 +14,8 @@ currentLanguageData: @js($currentLanguageData)
 
                    @if($language['locale'] == $defaultLanguage)
                    x-model="defaultLanguageInputField"
+                   @else
+                       style="display:none"
                    @endif
 
                    type="text" class="form-control">
