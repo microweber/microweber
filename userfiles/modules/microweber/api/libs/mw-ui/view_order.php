@@ -15,7 +15,7 @@
             <div class="card-body">
                 <h5 class="font-weight-bold settings-title-inside">Order Information</h5>
                 <div class="table-responsive">
-                    <table class="table vertical-align-middle table-header-no-border table-primary-hover">
+                    <table class="table table-vcenter card-table">
                         <thead class="text-primary">
                         <tr>
                             <th scope="col" class="font-weight-normal">Image</th>
