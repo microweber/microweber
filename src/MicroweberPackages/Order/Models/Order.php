@@ -106,34 +106,38 @@ class Order extends Model
 
     public function customerName()
     {
-        $orderUser = $this->user()->first();
-        if ($orderUser != null) {
-            if ($this->customer_id > 0) {
-                $orderUser = \MicroweberPackages\Customer\Models\Customer::where('id', $this->customer_id)->first();
-            }
-            if ($orderUser->first_name) {
-                $fullName = $orderUser->first_name;
-                if ($orderUser->last_name) {
-                    $fullName .= ' ' . $orderUser->last_name;
+        if (!empty($this->first_name) or !empty($this->last_name)) {
+            return $this->first_name . ' ' . $this->last_name;
+        }
+        if ($this->customer_id > 0) {
+            $customer = Customer::where('id', $this->customer_id)->first();
+            if ($customer) {
+                if (!empty($customer->first_name) and !empty($customer->last_name)) {
+                    return $customer->first_name . ' ' . $customer->last_name;
                 }
-                return $fullName;
-            } else if ($orderUser) {
-                return $orderUser->username;
             }
         }
 
-        if (!empty($this->first_name) || !empty($this->last_name)) {
-            $name = '';
-            if (!empty($this->first_name)) {
-                $name = $this->first_name;
-            }
-            if (!empty($this->last_name)) {
-                $name .= ' ' . $this->last_name;
-            }
-            return $name;
+        return 'Anonymous';
+    }
+
+    public function cartProducts()
+    {
+        $carts = [];
+        if (!empty($this->cart)) {
+            $carts = $this->cart;
+        }
+        $cart = $this->cart->first();
+
+        $cartProduct = [];
+        if (isset($cart->products)) {
+            $cartProduct = $cart->products->first();
         }
 
-        return "";
+        return [
+            'firstProduct'=>$cartProduct,
+            'products'=>$carts
+        ];
     }
 
     public function user()

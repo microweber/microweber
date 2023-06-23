@@ -192,7 +192,7 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mt-4">
 
         <div style="width: 100%">
             <span class="text-muted">{{ $orders->total() }} <?php _e("results found") ?></span>

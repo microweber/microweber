@@ -3,33 +3,32 @@
     @foreach ($orders as $order)
 
         @php
-            $carts = [];
-            if (!empty($order->cart)) {
-               $carts = $order->cart;
-            }
-            $cart = $order->cart->first();
-
-            $cartProduct = [];
-            if (isset($cart->products)) {
-                $cartProduct = $cart->products->first();
-            }
+            $cartProducts = $order->cartProducts();
+            $cartProduct = $cartProducts['firstProduct'];
+            $carts = $cartProducts['products'];
         @endphp
         <div class="card my-4">
             <div class="card-body">
 
                 <div class="d-flex flex-wrap align-items-center">
-                    <div class="col-auto me-lg-3">
+                    <div class="col-auto me-md-3 mb-md-0 mb-2">
                         @if (isset($cartProduct) && $cartProduct != null)
                             <a href="{{route('admin.order.show', $order->id)}}">
                                 <img src="{{$cartProduct->thumbnail()}}" />
                             </a>
+                        @else
+                            <img src="{{thumbnail(120,120)}}" />
                         @endif
                     </div>
 
                     <div class="col-sm col-12">
 
                         @if(isset($cartProduct->title))
-                            <a class=" form-label font-weight-bold tblr-body-color" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a>
+                            <a class="form-label font-weight-bold tblr-body-color" href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a>
+                        @else
+                            <span class="form-label text-muted font-weight-bold tblr-body-color">
+                                {{ _e('Product is no longer available') }}
+                            </span>
                         @endif
 
                         <small class="text-muted" style="font-size: 12px !important;">

@@ -13,21 +13,7 @@
     .main .tree {
         display: block;
     }
-    #pages-tree-wrapper{
-        max-width: 0;
-        transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);
-        position: sticky;
-        top: 0;
-        max-height: calc(100vh - 100px);
-        z-index: 1;
-    }
-    #pages-tree-wrapper.active{
-        max-width: 600px;
-       
-    }
-    #pages-tree-container .ui-resizable{
-        max-width: 100%
-    }
+ 
     #pages-tree-container{
         max-width: 600px;
         border-top-right-radius:0px;
@@ -318,7 +304,7 @@
                 searchInput: true,
                 contextMenu: contextMenu,
                 searchInputPlaceholder: '<?php _e('Search categories'); ?>',
-                resizable: true,
+                resizable: false,
                 resizableOn: 'treeParent',
                 append: treeTail,
                 id: 'admin-main-tree',

@@ -10,6 +10,8 @@
             translations: [],
         }, options);
 
+
+
         this.each(function (index, obj) {
             var name = settings.name;
             var currentLocale = settings.currentLocale;
@@ -27,7 +29,8 @@
                 return;
             }
 
-            $(obj).css('opacity', 0.2).css('display','none');
+           // $(obj).css('opacity', 0.2).css('display','none');
+            $(obj).css('display','none');
             $(obj).attr('value', translations[currentLocale]);
 
             var plainName = name;
@@ -38,6 +41,8 @@
                     plainName = key+ '-'+Object.keys(values)[0];
                 });
                 plainName = plainName.replace('_','-');
+            } else {
+                plainName = plainName.replace('.','-');
             }
 
             var outputHtml = '<div class="input-group js-input-group-'+plainName+'">';
@@ -45,7 +50,7 @@
                 var mlInputLocaleIds = [];
                 for (var i = 0; i < locales.length; i++) {
 
-                    var mlInputLocaleId = 'ml-input-'+name+'-'+i;
+                    var mlInputLocaleId = 'ml-input-'+plainName+'-'+i;
                     var mlInputName = 'multilanguage['+name+']['+locales[i]+']';
 
                     // for multidimensional names
@@ -117,6 +122,7 @@
             function switchInputFieldsToLanguage(language) {
 
                 $('#' + mlInputLocaleChangeId).selectpicker("val", language);
+
                 for (var i = 0; i < mlInputLocaleIds.length; i++) {
                     // If ml locale is changed hide all fields except current lang
                     if ($('#' + mlInputLocaleIds[i]).attr('lang') !== language) {

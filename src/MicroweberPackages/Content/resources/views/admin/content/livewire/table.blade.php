@@ -16,27 +16,25 @@
                         <div class="input-group input-group-flat ">
                             <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
                             <span class="input-group-text">
-                        @include('content::admin.content.livewire.components.button-filter')
-                        <div class="dropdown-menu p-2">
-                            @if(!empty($dropdownFilters))
-                                @foreach($dropdownFilters as $dropdownFilterGroup)
-                                    <div class="">
-                                         <h6 class="dropdown-header">{{ $dropdownFilterGroup['groupName']  }}</h6>
-                                        @foreach($dropdownFilterGroup['filters'] as $dropdownFilter)
-                                            <div class="dropdown-item">
-                                                 <label class=" form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}" checked="">
-                                                     <span class="form-check-label">{{ $dropdownFilter['name'] }}</span>
-                                                </label>
-                                            </div>
+                                @include('content::admin.content.livewire.components.button-filter')
+                                <div class="dropdown-menu p-2">
+                                    @if(!empty($dropdownFilters))
+                                        @foreach($dropdownFilters as $dropdownFilterGroup)
+                                            <div class="">
+                                                 <h6 class="dropdown-header">{{ $dropdownFilterGroup['groupName']  }}</h6>
+                                                @foreach($dropdownFilterGroup['filters'] as $dropdownFilter)
+                                                    <div class="dropdown-item">
+                                                         <label class=" form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}" checked="">
+                                                             <span class="form-check-label">{{ $dropdownFilter['name'] }}</span>
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                             </div>
                                         @endforeach
-                                     </div>
-                                @endforeach
-                            @endif
-                        </div>
-
-
-                   </span>
+                                    @endif
+                                </div>
+                            </span>
                         </div>
                     </div>
 

@@ -33,6 +33,7 @@ class ModuleSettingsFormComponent extends ModuleSettingsComponent
 
     public function mount()
     {
+
         $form = $this->getSettingsForm();
         if ($form) {
             foreach ($form as $key => $item) {

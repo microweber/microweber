@@ -69,6 +69,24 @@ class TextArea extends \MicroweberPackages\FormBuilder\Elements\Text
         if(LanguageHelper::isRTL($this->currentLanguage)){
             $textDir = 'rtl';
         }
+
+        $currentLanguageData = [];
+        foreach ($supportedLanguages as $language) {
+            if ($language['locale'] == $this->currentLanguage) {
+                $currentLanguageData = $language;
+            }
+        }
+
+//        return view('multilanguage::admin.form-elements.input-textarea', [
+//            'randId' => $this->randId,
+//            'fieldName' => $fieldName,
+//            'fieldValue' => $fieldValue,
+//            'defaultLanguage' => $this->defaultLanguage,
+//            'supportedLanguages' => $supportedLanguages,
+//            'currentLanguageData' => $currentLanguageData,
+//            'translations' => $translations,
+//        ]);
+
         return "<script>
             mw.lib.require('multilanguage');
             $(document).ready(function () {

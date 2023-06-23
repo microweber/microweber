@@ -11,14 +11,13 @@
 
 namespace MicroweberPackages\FormBuilder\Providers;
 
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Container\Container;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\CustomField\FieldsManager;
-use MicroweberPackages\Form\FormsManager;
 use Illuminate\Contracts\Support\DeferrableProvider;
+use MicroweberPackages\FormBuilder\FormElementBuilder;
 
-class FormBuilderServiceProvider extends ServiceProvider implements DeferrableProvider
+class FormBuilderServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -27,8 +26,12 @@ class FormBuilderServiceProvider extends ServiceProvider implements DeferrablePr
      */
     public function boot()
     {
-        View::addNamespace('form', dirname(__DIR__) . '/resources/views');
-
+        View::addNamespace('microweber-form-builder', dirname(__DIR__) . '/resources/views');
+//
+//        $this->app->bind(FormElementBuilder::class, function ($app) {
+//            $container = $app->make(Container::class);
+//            return new FormElementBuilder($container);
+//        });
     }
 
 }

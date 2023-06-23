@@ -1,7 +1,7 @@
 # Microweber Forms Builder
 
  
-To add new element, you need to create a new class that extends `MicroweberPackages\FormBuilder\Elements\Element` and implement the `getType` method.
+To add new element, you need to create a new class that implements `MicroweberPackages\FormBuilder\Elements\ElementInterface` and implement the `render()` method.
 
 ```php
 // In YourServiceProvider.php in register method add this
