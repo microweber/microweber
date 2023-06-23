@@ -24,6 +24,11 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
                        style="display:none"
                    @endif
 
+                   :dir="function() {
+                        return mw.admin.rtlDetect.getLangDir('{{$language['locale']}}')
+                    }"
+                   lang="{{$language['locale']}}"
+
                    type="text" class="form-control">
         @endforeach
 
