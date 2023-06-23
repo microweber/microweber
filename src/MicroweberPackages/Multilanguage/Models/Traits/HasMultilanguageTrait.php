@@ -10,7 +10,7 @@ use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 trait HasMultilanguageTrait
 {
     public $_enableMultilanguageRetrieving = true;
-    public $isMultiLanguage  = true;
+    public $isMultiLanguage = true;
     private array $_addMultilanguage = [];
 
     public function withoutMultilanguageRetrieving()
@@ -59,15 +59,15 @@ trait HasMultilanguageTrait
     public static function bootHasMultilanguageTrait()
     {
 
-        static::saving(function ($model)  {
+        static::saving(function ($model) {
             if (!MultilanguageHelpers::multilanguageIsEnabled()) {
-                if(isset($model->attributes['lang'])){
-                unset($model->attributes['lang']);
+                if (isset($model->attributes['lang'])) {
+                    unset($model->attributes['lang']);
                 }
-                if(isset($model->attributes['multilanguage'])){
-                unset($model->attributes['multilanguage']);
+                if (isset($model->attributes['multilanguage'])) {
+                    unset($model->attributes['multilanguage']);
                 }
-             }
+            }
             if (MultilanguageHelpers::multilanguageIsEnabled()) {
 
                 // When receive a save_option
@@ -102,7 +102,7 @@ trait HasMultilanguageTrait
                         if ($orig) {
                             $model->$translatableField = $orig;
                         }
-                     }
+                    }
                     // Append to model if we want to save changes for original model
                     if (!empty($model->_addMultilanguage)) {
                         $defaultLocale = mw()->lang_helper->default_lang();
@@ -176,6 +176,16 @@ trait HasMultilanguageTrait
 
         $model = $this;
         $defaultLocale = $this->__getDefaultLocale();
+        $localeFieldNames = array_keys($this->_addMultilanguage);
+
+        if (!empty($localeFieldNames)) {
+            // clean up saved values for default locale, as they are retreived from the model
+            MultilanguageTranslations::whereIn('field_name', $localeFieldNames)
+                ->where('rel_type', $model->getTable())
+                ->where('rel_id', $model->id)
+                ->where('locale', $defaultLocale)
+                ->delete();
+        }
 
         DB::transaction(function () use ($model, $defaultLocale) {
             foreach ($this->_addMultilanguage as $fieldName => $field) {
@@ -183,12 +193,6 @@ trait HasMultilanguageTrait
 
                     if ($fieldLocale == $defaultLocale) {
                         // skip saving default locale , its saved in the model
-                        $findTranslate = MultilanguageTranslations::where('field_name', $fieldName)
-                            ->where('rel_type', $model->getTable())
-                            ->where('rel_id', $model->id)
-                            ->where('locale', $fieldLocale)
-                            ->delete();
-                        $model->refresh();
                         continue;
                     }
 
@@ -198,13 +202,13 @@ trait HasMultilanguageTrait
                         ->where('locale', $fieldLocale)
                         ->first();
 
-                    if($fieldValue == null and $findTranslate != null){
+                    if ($fieldValue == null and $findTranslate != null) {
                         $findTranslate->delete();
                         $model->refresh();
                         continue;
                     }
 
-                    if($fieldValue == null){
+                    if ($fieldValue == null) {
                         continue;
                     }
                     if ($findTranslate == null) {
