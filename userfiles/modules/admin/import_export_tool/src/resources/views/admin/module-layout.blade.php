@@ -4,7 +4,7 @@
 
 <?php $module_info = module_info('admin/import_export_tool'); ?>
 
-<div class="col-xxl-10 col-lg-11 col-12 mx-auto">
+<div class="col-xxl-10 col-lg-11 col-12 mx-auto px-lg-0 px-5">
 
     <h3 class="main-pages-title">
         <strong><?php _e($module_info['name']); ?></strong>

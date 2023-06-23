@@ -61,7 +61,7 @@
     <a href="{{route('admin.order.index')}}" class="btn btn-link text-silver px-0" data-bs-toggle="tooltip" data-title="Back to list"><i class="mdi mdi-chevron-left"></i> <?php _e('Back to orders'); ?></a>
 </div>
 
-    <div class="col-xxl-10 col-lg-11 col-12 mx-auto">
+    <div class="col-xxl-10 col-lg-11 col-12 mx-auto px-lg-0 px-5">
 
         <label class="form-label font-weight-bold mb-3"><?php _e('Order Information'); ?></label>
         <div class="card mb-5">
