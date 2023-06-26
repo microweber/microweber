@@ -40,6 +40,13 @@
                     </div>
 
                     <div class="col">
+                        <span class="text-muted">
+                            City/Country: <br />
+                        {{ $content->cityAndCountry() }}
+                        </span>
+                    </div>
+
+                    <div class="col">
                         <form action="{{ route('admin.customers.destroy', $content->id)}}" method="post">
                             @csrf
                             @method('DELETE')
