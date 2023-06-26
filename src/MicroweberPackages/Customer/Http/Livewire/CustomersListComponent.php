@@ -18,4 +18,18 @@ class CustomersListComponent extends ContentList
     {
         return 'Customer';
     }
+
+    public function getDropdownFiltersProperty()
+    {
+        $dropdownFilters = [];
+//        $dropdownFilters[] = [
+//            'groupName' => 'Customer',
+//            'class'=> 'col-md-6',
+//            'filters'=> [
+//
+//            ]
+//        ];
+
+        return $dropdownFilters;
+    }
 }
