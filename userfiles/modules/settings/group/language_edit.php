@@ -112,7 +112,7 @@ $lang = mw()->lang_helper->current_lang();
 
 
 <div class="card mb-7">
-    <div class="card-body">
+    <div class="card-body px-md-3 px-0">
         <div class="row">
             <div class="col-xl-3 mb-xl-0 mb-3">
                 <h5 class="font-weight-bold settings-title-inside"><?php _e("Translation"); ?></h5>
@@ -121,8 +121,10 @@ $lang = mw()->lang_helper->current_lang();
                 <br/>
                 <?php if (mw()->ui->enable_service_links and mw()->ui->disable_powered_by_link == false): ?>
 
-                <small class="text-muted"><?php _e('Help us improve'); ?></small>
-                <a href="https://microweber.org/go/translation_help"  target="_blank" class="btn btn-outline-primary btn-sm  mt-xxl-0 mt-2"><?php _e('Help with translation'); ?></a>
+                <div class="mb-3">
+                    <small class="text-muted "><?php _e('Help us improve'); ?></small>
+                    <a href="https://microweber.org/go/translation_help"  target="_blank" class="btn btn-outline-primary btn-sm  mt-md-2 mt-0"><?php _e('Help with translation'); ?></a>
+                </div>
                 <?php endif; ?>
 
 
@@ -174,7 +176,7 @@ $lang = mw()->lang_helper->current_lang();
                                 </li>
                             </ul>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body px-md-3 px-0">
                             <div class="tab-content mt-3">
                                 <div class="tab-pane active show" id="tabs-home-11" role="tabpanel">
 
