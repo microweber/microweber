@@ -202,8 +202,8 @@
 
                             </div>
 
-                            <div class="px-3">
-                                <div class="card mx-3 row js-email-transport-select-user-pass">
+                            <div class="px-md-3">
+                                <div class="card mx-md-3 row js-email-transport-select-user-pass">
 
                                     <div class="card-body">
                                         <?php if ($email_transport == 'php'): ?>
@@ -278,7 +278,7 @@
                                             </div>
                                         <?php endif; ?>
 
-                                        <div class="col-12 d-flex align-items-center justify-content-between mt-4">
+                                        <div class="col-12 d-flex flex-wrap align-items-center gap-2 justify-content-between mt-4">
                                             <a class="btn btn-primary"  href="javascript:;" onclick="$('.js-test-email').mwDialog();"><?php _e("Test mail sending method"); ?></a>
 
                                             <button onClick="saveEmailOptions(1)" class="btn btn-success"><?php _e("Save email settings"); ?></button>
