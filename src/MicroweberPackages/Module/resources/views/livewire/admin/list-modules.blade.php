@@ -21,11 +21,11 @@
                <div>
 
                    <button x-on:click="showFilters = ! showFilters" type="button" class="btn btn-outline-default">
-                       <span x-show="!showFilters">Show filters</span>
-                       <span x-show="showFilters">Hide filters</span>
+                       <span x-show="!showFilters">{{  _e("Show filters")}} </span>
+                       <span x-show="showFilters">{{  _e("Hide filters")}} </span>
                    </button>
 
-                   <button type="button" class="btn btn-outline-primary" wire:click="reloadModules">
+                   <button type="button" class="btn btn-outline-primary mt-md-0 mt-3" wire:click="reloadModules">
                        <div wire:loading wire:target="reloadModules" class="spinner-border spinner-border-sm" role="status">
                            <span class="visually-hidden">{{  _e("Loading")}}...</span>
                        </div>
@@ -65,9 +65,9 @@
                <div>
                    <button type="button"  class="btn btn-outline-primary" wire:click="toggleGroupByCategories()">
                        @if($groupByCategories)
-                           Ungroup
+                           {{  _e("Ungroup")}}
                        @else
-                           Group
+                           {{  _e("Group")}}
                        @endif
                    </button>
                </div>
