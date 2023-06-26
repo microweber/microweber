@@ -55,7 +55,7 @@
                     {{ "Add Post" }}
                 @endif
             </a>
-            <span class="tblr-body-color form-label mb-0 font-weight-bold ms-1 d-md-block d-none">
+            <span class="tblr-body-color form-label mb-0 font-weight-bold ms-1 d-lg-block d-none">
                    @if($content_id > 0)
                     / {{ content_title($content_id) }}
                 @endif
