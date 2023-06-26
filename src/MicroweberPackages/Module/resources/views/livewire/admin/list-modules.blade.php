@@ -25,7 +25,7 @@
                        <span x-show="showFilters">{{  _e("Hide filters")}} </span>
                    </button>
 
-                   <button type="button" class="btn btn-outline-primary mt-md-0 mt-3" wire:click="reloadModules">
+                   <button type="button" class="btn btn-outline-primary mt-md-0 mt-2" wire:click="reloadModules">
                        <div wire:loading wire:target="reloadModules" class="spinner-border spinner-border-sm" role="status">
                            <span class="visually-hidden">{{  _e("Loading")}}...</span>
                        </div>
