@@ -11,7 +11,7 @@
         <button type="button" class="btn-close" wire:click="$emit('closeModal')" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-        <div class="row row-cols-2">
+        <div class="row">
 
             <div class="marketplace-template-img-wrapper col-xl-7 me-3 px-0" style="max-height:400px;overflow:hidden">
                 <div class="marketplace-template-img-wrapper-overlay">
@@ -32,7 +32,7 @@
                 @endif
             </div>
             <div class="col-xl-4">
-                <h1>{{$package['description']}}</h1>
+                <h3 class="main-pages-title mt-3">{{$package['description']}}</h3>
                 <div class="tblr-body-color">
                     {{'Latest Version'}}: {{$package['version']}}
                 </div>
