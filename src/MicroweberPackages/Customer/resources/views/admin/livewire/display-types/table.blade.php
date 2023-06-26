@@ -30,24 +30,7 @@
                     <td>{{ $customer->email }}</td>
                     <td>{{ $customer->phone }}</td>
                     <td>
-                        <?php
-                        $city = false;
-                        $country = false;
-                        if (isset($customer->addresses[0]->city)) {
-                            $city = $customer->addresses[0]->city;
-                        }
-                        if (isset($customer->addresses[0]->country_id)) {
-                            $findCountry = \MicroweberPackages\Country\Models\Country::where('id', $customer->addresses[0]->country_id)->first();
-                            if ($findCountry) {
-                                $country = $findCountry->name;
-                            }
-                        }
-
-                        echo $city;
-                        if ($country) {
-                            echo ' / ' . $country;
-                        }
-                        ?>
+                        {{ $customer->cityAndCountry() }}
                     </td>
                     <td class="text-center">
                         <form action="{{ route('admin.customers.destroy', $customer->id)}}" method="post">

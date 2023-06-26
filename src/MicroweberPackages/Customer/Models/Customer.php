@@ -165,4 +165,30 @@ class Customer extends Model
 
          return true;
      }*/
+
+    public function cityAndCountry()
+    {
+        $city = false;
+        $country = false;
+        if (isset($this->addresses[0]->city)) {
+            $city = $this->addresses[0]->city;
+        }
+        if (isset($this->addresses[0]->country_id)) {
+            $findCountry = \MicroweberPackages\Country\Models\Country::where('id', $this->addresses[0]->country_id)->first();
+            if ($findCountry) {
+                $country = $findCountry->name;
+            }
+        }
+
+        $cityCountryText = $city;
+        if ($country) {
+            $cityCountryText .= ' / ' . $country;
+        }
+
+        if (empty($cityCountryText)) {
+            $cityCountryText = 'Anonymous';
+        }
+
+        return $cityCountryText;
+    }
 }
