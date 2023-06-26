@@ -2,8 +2,10 @@
 
 namespace MicroweberPackages\Customer\Models;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Currency\Currency;
+use MicroweberPackages\Customer\Models\ModelFilters\CustomerFilter;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Order\Models\Order;
 
@@ -11,7 +13,9 @@ class Customer extends Model
 {
     protected $table = 'customers';
 
+    use Filterable;
     use CacheableQueryBuilderTrait;
+
     public $cacheTagsToClear = ['countries', 'addresses', 'customers', 'users'];
 
 
@@ -28,6 +32,12 @@ class Customer extends Model
     ];
 
     public $translatable = ['first_name', 'last_name'];
+
+
+    public function modelFilter()
+    {
+        return $this->provideFilter(CustomerFilter::class);
+    }
 
    /* public function getActiveAttribute($attribute)
     {

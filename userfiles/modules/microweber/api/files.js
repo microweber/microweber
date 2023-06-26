@@ -5,7 +5,7 @@ mw.require('uploader.js');
 
 mw.files = {
     settings: {
-            filetypes:"png,gif,jpg,jpeg,tiff,bmp,svg,webp",
+            filetypes:"png,gif,jpg,jpeg,bmp,svg,webp",
             url: mw.settings.upload_url,
             type: 'explorer',
             multiple: true

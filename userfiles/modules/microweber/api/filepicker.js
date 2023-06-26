@@ -163,6 +163,7 @@ mw.filePicker = function (options) {
                          multiselect: scope.settings.multiple,
                          stickyHeader: true,
                          selectableRow: true,
+                         accept: this.settings.accept
                      });
                      fm.on('selectionChanged', function (val){
 
@@ -171,39 +172,6 @@ mw.filePicker = function (options) {
                              scope.result();
                          }
                      });
-                }
-            });
-
-            return $wrap[0];
-        },
-        server2: function () {
-            var $wrap = this._$inputWrapper(scope._getComponentObject('server').label);
-            /*mw.load_module('files/admin', $wrap, function () {
-
-            }, {'filetype':'images'});*/
-
-            $(scope).on('$firstOpen', function (e, el, type) {
-                 if (type === 'server') {
-                    mw.tools.loading(el, true);
-                    var fr = mw.tools.moduleFrame('files/admin', {'filetype':'images'});
-                    if(scope.settings._frameMaxHeight) {
-                        fr.style.maxHeight = '60vh';
-                        fr.scrolling = 'yes';
-                    }
-                    fr.scrolling = 'auto';
-
-                    $wrap.append(fr);
-                    fr.onload = function () {
-                        mw.tools.loading(el, false);
-                        mw.tools.iframeAutoHeight(fr)
-                        this.contentWindow.$(this.contentWindow.document.body).on('click', '.mw-browser-list-file', function () {
-                            var url = this.href;
-                            scope.setSectionValue(url);
-                            if (scope.settings.autoSelect) {
-                                scope.result();
-                            }
-                        });
-                    };
                 }
             });
 
