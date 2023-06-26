@@ -55,7 +55,7 @@
                     <label class="form-label font-weight-bold"><?php _e("Meta keywords"); ?></label>
                     <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
                     <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
-                    <small class="text-muted mb-2"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for sale"); ?></small>
+                    <small class="text-muted mb-3 d-block"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for sale"); ?></small>
 
                     <?php
                     $keywords = '';
