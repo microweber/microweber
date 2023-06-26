@@ -21,7 +21,7 @@ only_admin_access();
 
 
 <div class="table-responsive">
-    <table class="table">
+    <table class="table card-table table-vcenter">
         <thead>
             <tr>
 <!--                <th style="min-width: 25px;"></th>-->

@@ -89,7 +89,7 @@ endif;
 ?>
 
 <div id="language-edit-<?php echo $namespaceMd5;?>">
-    <div class="card-body">
+    <div class="card-body px-md-3 px-1">
 
         <div class="col-xxl-8 col-xl-10 col-12 px-md-3 mx-auto">
             <div class="js-lang-edit-form-messages"></div>
