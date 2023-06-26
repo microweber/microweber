@@ -169,6 +169,9 @@
         this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
         this.settings = mw.object.extend({}, defaults, options);
+        if(this.settings.accept) {
+            this.settings.accept = normalizeAccept(this.settings.accept);
+        }
 
         var table, tableHeader, tableBody;
 
@@ -689,8 +692,34 @@
             return true;
         };
 
+
+        var normalizeAccept = function (type) {
+           
+            type = (type || '').trim().toLowerCase();
+            if(!type) return '*';
+            if (type === 'image' || type === 'images') return '.png,.gif,.jpg,.jpeg,.bmp,.svg,.ico';
+            if (type === 'video' || type === 'videos') return '.mp4,.webm,.ogg,.wma,.mov,.wmv';
+            if (type === 'document' || type === 'documents') return '.doc,.docx,.log,.pdf,.msg,.odt,.pages,' +
+                '.rtf,.tex,.txt,.wpd,.wps,.pps,.ppt,.pptx,.xml,.htm,.html,.xlr,.xls,.xlsx';
+
+            return '*';
+        };
+
+        this.acceptMatches = function(item) {
+            if(item.type === 'folder' || !this.settings.accept) {
+                return true;
+            }
+            
+            const accept = this.settings.accept.split(',');
+            const extension = item.name.split('.').pop();
+            return accept.indexOf(extension) !== -1 || accept.indexOf(item.mimeType) !== -1
+
+            return true;
+        }
+
         this.singleListView = function (item) {
-            var row = mw.element({ tag: 'tr', props: {className: 'mw-file-manager-list-item-type--' + item.type} });
+ 
+            var row = mw.element({ tag: 'tr', props: {className: `mw-file-manager-list-item-type--${item.type} mw-file-manager-list-item-matches--${this.acceptMatches(item)}` } });
             var cellImage = mw.element({ tag: 'td', content: _image(item), props: {className: 'mw-file-manager-list-item-thumb-image-cell'}  });
             var cellName = mw.element({ tag: 'td', content: item.name , props: {className: 'mw-file-manager-list-item-name-cell'} });
             var cellSize = mw.element({ tag: 'td', content: _size(item), props: {className: 'mw-file-manager-list-item-size-cell'} });

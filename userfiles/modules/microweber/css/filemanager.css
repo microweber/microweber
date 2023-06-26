@@ -285,8 +285,8 @@
 .mw-file-manager-root[data-view="grid"] tbody tr .mw-file-manager-list-item-check-cell{
     padding: 0;
     position: absolute;
-    bottom: 5px;
-    left: 20px;
+    bottom: 0;
+    left: 0;
 }
 .mw-file-manager-root[data-view="grid"] tbody tr  > td{
     padding: 20px;

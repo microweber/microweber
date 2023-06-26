@@ -346,7 +346,7 @@ MWEditor.controllers = {
                 var dialog;
 
                 var picker = new mw.filePicker({
-                    type: 'images',
+                    accept: 'images',
                     label: false,
                     autoSelect: false,
                     multiple: true,
