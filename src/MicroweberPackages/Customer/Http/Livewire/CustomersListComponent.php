@@ -9,6 +9,8 @@ class CustomersListComponent extends ContentList
 {
     public $model = Customer::class;
 
+    public $noActiveContentView = 'customer::admin.livewire.display-types.no-active-content';
+
     public $displayTypesViews = [
         'card'=>'customer::admin.livewire.display-types.card',
         'table'=>'customer::admin.livewire.display-types.table',

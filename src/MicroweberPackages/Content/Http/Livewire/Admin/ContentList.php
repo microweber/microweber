@@ -11,6 +11,7 @@ class ContentList extends AdminComponent
     use WithPagination;
 
     public $displayTypesViews = [];
+    public $noActiveContentView = 'content::admin.content.livewire.no-active-content';
     public $whitelistedEmptyKeys = [];
     public $paginate = 10;
     protected $paginationTheme = 'bootstrap';
@@ -353,7 +354,7 @@ class ContentList extends AdminComponent
         }
 
         if ($showNoActiveContentsScreen) {
-            return view('content::admin.content.livewire.no-active-content', [
+            return view($this->noActiveContentView, [
                 'contentType'=>$contentTypeForAddButton,
                 'isInTrashed' => $isInTrashed,
                 'currentCategoryId'=>$currentCategoryId,
@@ -364,7 +365,7 @@ class ContentList extends AdminComponent
 
 
         if ($currentCategory && (count($this->filters)==1) && $this->contents->count() == 0) {
-            return view('content::admin.content.livewire.no-active-content', [
+            return view($this->noActiveContentView, [
                 'contentType'=>$contentTypeForAddButton,
                 'currentCategoryId'=>$currentCategoryId,
                 'currentCategory' => $currentCategory,
@@ -382,7 +383,7 @@ class ContentList extends AdminComponent
         }
 
         if ($currentPageData && (count($this->filters)==1) && $this->contents->count() == 0) {
-            return view('content::admin.content.livewire.no-active-content', [
+            return view($this->noActiveContentView, [
                 'contentType'=>$contentTypeForAddButton,
                 'currentCategoryId'=>$currentCategoryId,
                 'currentCategory' => $currentCategory,
