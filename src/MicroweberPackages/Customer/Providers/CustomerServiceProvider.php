@@ -13,6 +13,9 @@ namespace MicroweberPackages\Customer\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
+use MicroweberPackages\Content\Http\Livewire\Admin\ContentList;
+use MicroweberPackages\Customer\Http\Livewire\CustomersListComponent;
 
 class CustomerServiceProvider extends ServiceProvider
 {
@@ -27,5 +30,10 @@ class CustomerServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom(dirname(__DIR__) . '/routes/admin.php');
         $this->loadMigrationsFrom(dirname(__DIR__) . '/database/');
+    }
+
+    public function register()
+    {
+        Livewire::component('admin-customers-list', CustomersListComponent::class);
     }
 }
