@@ -13,4 +13,9 @@ class CustomersListComponent extends ContentList
         'card'=>'customer::admin.livewire.display-types.card',
         'table'=>'customer::admin.livewire.display-types.table',
     ];
+
+    public function getContentTypeProperty()
+    {
+        return 'Customer';
+    }
 }

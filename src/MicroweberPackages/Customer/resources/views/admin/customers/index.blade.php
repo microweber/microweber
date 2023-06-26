@@ -4,7 +4,7 @@
 <i class="mdi mdi-account-search module-icon-svg-fill"></i>
 @endsection
 
-@section('title', _e('Clients', true))
+@section('title', _e('Customers', true))
 
 @section('content')
 
