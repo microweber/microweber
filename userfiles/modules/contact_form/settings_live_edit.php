@@ -16,12 +16,28 @@ if (isset($params['for_module_id'])) {
 <div id="form_email_options">
     <div class="row d-flex align-items-center">
         <div class="col">
-            <h5 class="font-weight-bold settings-title-inside"><?php _e("Current contact form settings") ?></h5>
+            <h5 class="font-weight-bold settings-title-inside"><?php _e("Contact form settings") ?></h5>
         </div>
         <div class="col text-right">
             <a class="btn-link" href="<?php print admin_url('settings?group=email') ?>" target="_blank"> <?php _e("Sending options"); ?></a>
         </div>
     </div>
+
+    <div class="accordion my-2" id="contact-form-custom-fields-accordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-1">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#contact-form-custom-fields-accordion-1" aria-expanded="true">
+                    <?php _e("Form fields"); ?>
+                </button>
+            </h2>
+            <div id="contact-form-custom-fields-accordion-1" class="accordion-collapse collapse" data-bs-parent="#contact-form-custom-fields-accordion" style="">
+                <div class="accordion-body pt-0">
+                    <module type="custom_fields" view="admin" data-for="module" for-id="<?php print $params['id'] ?>"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="accordion my-2" id="contact-form-settings-accordion">
         <div class="accordion-item">
@@ -30,7 +46,7 @@ if (isset($params['for_module_id'])) {
                     <?php _e("Contact settings"); ?>
                 </button>
             </h2>
-            <div id="contact-form-settings-accordion-1" class="accordion-collapse collapse show" data-bs-parent="#contact-form-settings-accordion" style="">
+            <div id="contact-form-settings-accordion-1" class="accordion-collapse collapse" data-bs-parent="#contact-form-settings-accordion" style="">
                 <div class="accordion-body pt-0">
                     <div class="form-group">
                         <label class="form-label font-weight-bold"><?php _e("Contact form name"); ?></label>
@@ -46,15 +62,13 @@ if (isset($params['for_module_id'])) {
         <div class="accordion-item">
             <h2 class="accordion-header" id="heading-1">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#submit-form-settings-accordion-1" aria-expanded="true">
-                    <?php _e("Submit settings"); ?>
+                    <?php _e("Auto respond settings"); ?>
                 </button>
             </h2>
-            <div id="submit-form-settings-accordion-1" class="accordion-collapse collapse  show" data-bs-parent="#submit-form-settings-accordion" style="">
+            <div id="submit-form-settings-accordion-1" class="accordion-collapse collapse " data-bs-parent="#submit-form-settings-accordion" style="">
                 <div class="accordion-body pt-0">
 
-
                     <h5 class="form-label font-weight-bold mb-3"><?php _e("Auto respond message to user"); ?></h5>
-
                     <div class="">
 
                         <div class="form-group mb-3">
@@ -170,9 +184,20 @@ if (isset($params['for_module_id'])) {
                         </div>
 
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <hr class="thin"/>
-
+    <div class="accordion my-2" id="auto-respond-settings-accordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-1">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#auto-respond-settings-accordion-1" aria-expanded="true">
+                    <?php _e("Receivers"); ?>
+                </button>
+            </h2>
+            <div id="auto-respond-settings-accordion-1" class="accordion-collapse collapse " data-bs-parent="#auto-respond-settings-accordion" style="">
+                <div class="accordion-body pt-0">
                     <h5 class="font-weight-bold settings-title-inside"><?php _e("Receivers") ?></h5>
 
                     <div class="form-group mb-3">
@@ -216,4 +241,5 @@ if (isset($params['for_module_id'])) {
             </div>
         </div>
     </div>
+
 </div>
