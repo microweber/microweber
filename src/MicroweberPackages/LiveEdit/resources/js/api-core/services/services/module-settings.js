@@ -24,6 +24,13 @@ export class ModuleSettings extends MicroweberBaseClass {
              if(!moduleType){
                  moduleType = module.getAttribute('type');
              }
+
+             var modalTitle = 'Module settings';
+             var modalTitleFromAttr = module.getAttribute('data-mw-title');
+             if(modalTitleFromAttr){
+                    modalTitle = modalTitleFromAttr;
+             }
+
             moduleType = moduleType+'/admin';
             mw.dialogIframe({
                 url: route('live_edit.module_settings') + '?id=' + moduleId+ '&type=' + moduleType+ '&live_edit=true',
@@ -31,7 +38,7 @@ export class ModuleSettings extends MicroweberBaseClass {
                 height: 'auto',
                 draggable: true,
                 template: 'mw_modal_simple',
-                title: 'Module settings',
+                title: modalTitle,
                 id: 'btn-quick-setting-dialog-' + moduleId
             });
 
