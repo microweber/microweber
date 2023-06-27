@@ -63,8 +63,8 @@ $coupon_get_count = coupon_get_count();
 ?>
 
 <div class="card">
-    <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
-        <div class="row">
+    <div class="card-body px-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+        <div class="row px-0">
 
             <div class="card-header d-flex align-items-center justify-content-between px-0">
 

@@ -8,7 +8,7 @@
         <!-- Settings Content -->
         <div class="module-live-edit-settings module-coupons-settings">
             <div class="add-new-button text-end mb-3">
-                <a class="btn btn-link js-add-new-coupon" href="#"> &nbsp;<?php _e('Add new'); ?></a>
+                <a class="btn btn-link js-add-new-coupon me-2 mw-admin-action-links text-decoration-none tblr-body-color" href="#"><?php _e('Add new'); ?></a>
             </div>
 
             <module type="shop/coupons/edit_coupons"/>
