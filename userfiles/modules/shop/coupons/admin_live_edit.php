@@ -7,8 +7,8 @@
     <div class="tab-pane fade show active" id="settings">
         <!-- Settings Content -->
         <div class="module-live-edit-settings module-coupons-settings">
-            <div class="mw-ui-field-holder add-new-button text-end text-right m-b-10">
-                <a class="btn btn-primary mw-ui-btn-outline mw-ui-btn-rounded js-add-new-coupon" href="#"><i class="fa fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
+            <div class="add-new-button text-end mb-3">
+                <a class="btn btn-link js-add-new-coupon" href="#"> &nbsp;<?php _e('Add new'); ?></a>
             </div>
 
             <module type="shop/coupons/edit_coupons"/>

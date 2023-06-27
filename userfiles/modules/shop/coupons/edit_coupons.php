@@ -1,6 +1,6 @@
 <?php $allCoupons = coupon_get_all(); ?>
 <div class="table-responsive">
-    <table class="table table-striped">
+    <table class="table card-table table-vcenter">
         <thead>
         <tr>
             <th><?php _e('Coupon'); ?></th>
