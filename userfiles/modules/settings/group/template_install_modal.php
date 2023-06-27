@@ -3,12 +3,12 @@
 <script>
     function mw_change_template() {
 
-        var selectedTemplate = $('.js-template-selector').find("[name='active_site_template']").first().val();
+        var selectedTemplate = $('.js-template-selector').find("[name='active_site_template']").val();
         var importType = $('input[name="import_type"]:checked').val();
 
         $('.js-button-change-template').attr('disabled','disabled');
         $('.js-button-change-template').html('Loading..');
-
+ 
         setTimeout(function () {
             $('.js-button-change-template').html('This can take some time..');
         }, 5000);
