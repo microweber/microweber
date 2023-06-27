@@ -86,7 +86,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <small class="text-muted d-block mb-2"><?php _e("Select the social networks you want to see on your site, blog and store"); ?></small>
                 </div>
 
-                <div class="form-check my-4">
+                <div class="form-check my-3">
                     <div class="d-flex flex-wrap align-items-center">
                         <div class="col-xl-3 col-md-6 col-12 pb-2">
                             <input type="checkbox" class="mw_option_field form-check-input me-2 mt-1" id="facebook_enabled" option-group="<?php print $option_group; ?>" name="facebook_enabled" id="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>>
@@ -99,7 +99,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
                 </div>
 
-                <div class="form-check my-4">
+                <div class="form-check my-3">
                     <div class="d-flex flex-wrap align-items-center">
                         <div class="col-xl-3 col-md-6 col-12 pb-2">
                             <input type="checkbox" class="mw_option_field form-check-input me-2 mt-1" name="twitter_enabled" id="twitter_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>>
@@ -113,7 +113,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
                 </div>
 
-                <div class="form-check my-4">
+                <div class="form-check my-3">
                     <div class="d-flex flex-wrap align-items-center">
                         <div class="col-xl-3 col-md-6 col-12 pb-2">
 
@@ -127,7 +127,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
                 </div>
 
-                <div class="form-check my-4">
+                <div class="form-check my-3">
                     <div class="d-flex flex-wrap align-items-center">
                         <div class="col-xl-3 col-md-6 col-12 pb-2">
 
@@ -147,7 +147,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <div class="collapse" id="more-socials-settings">
 
-                    <div class="form-check my-4">
+                    <div class="form-check my-3">
                         <div class="d-flex flex-wrap align-items-center">
                             <div class="col-xl-3 col-md-6 col-12 pb-2">
 
@@ -161,7 +161,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     </div>
 
-                    <div class="form-check my-4">
+                    <div class="form-check my-3">
                         <div class="d-flex flex-wrap align-items-center">
                             <div class="col-xl-3 col-md-6 col-12 pb-2">
 
@@ -175,7 +175,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     </div>
 
-                    <div class="form-check my-4">
+                    <div class="form-check my-3">
                         <div class="d-flex flex-wrap align-items-center">
                             <div class="col-xl-3 col-md-6 col-12 pb-2">
 
@@ -190,7 +190,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
 
-                    <div class="form-check my-4">
+                    <div class="form-check my-3">
                         <div class="d-flex flex-wrap align-items-center">
                             <div class="col-xl-3 col-md-6 col-12 pb-2">
 
@@ -204,7 +204,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     </div>
 
-                    <div class="form-check my-4">
+                    <div class="form-check my-3">
                         <div class="d-flex flex-wrap align-items-center">
                             <div class="col-xl-3 col-md-6 col-12 pb-2">
 
@@ -218,7 +218,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     </div>
 
-                    <div class="form-check my-4">
+                    <div class="form-check my-3">
                         <div class="d-flex flex-wrap align-items-center">
                             <div class="col-xl-3 col-md-6 col-12 pb-2">
 
@@ -232,7 +232,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     </div>
 
-                    <div class="form-check my-4">
+                    <div class="form-check my-3">
                         <div class="d-flex flex-wrap align-items-center">
                             <div class="col-xl-3 col-md-6 col-12 pb-2">
 
@@ -245,7 +245,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     </div>
 
-                    <div class="form-check my-4">
+                    <div class="form-check my-3">
                         <div class="d-flex flex-wrap align-items-center">
                             <div class="col-xl-3 col-md-6 col-12 pb-2">
 
