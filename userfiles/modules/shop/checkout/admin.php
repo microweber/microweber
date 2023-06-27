@@ -18,8 +18,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
     <div class=" ">
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
-            <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
+            <a class="btn btn-outline-dark justify-content-center  active" data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
+            <a class="btn btn-outline-dark justify-content-center " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
         </nav>
 
         <div class="tab-content py-3">

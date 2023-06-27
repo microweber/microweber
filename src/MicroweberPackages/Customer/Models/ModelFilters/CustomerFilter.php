@@ -9,23 +9,31 @@
 namespace MicroweberPackages\Customer\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByAuthor;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByCategory;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentData;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentFields;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByPage;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTagsTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTrashedTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByVisibleTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
+use MicroweberPackages\Helper\XSSClean;
+use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class CustomerFilter extends ModelFilter
 {
-    use FilterByKeywordTrait;
+
+
+    public function keyword($keyword)
+    {
+        $model = $this->getModel();
+        $table = $model->getTable();
+
+        if (is_numeric($keyword)) {
+            $this->query->where('id', intval($keyword));
+            $this->query->orWhere('phone', intval($keyword));
+        } else {
+            $this->query->where($table.'.first_name', 'LIKE', '%' . $keyword . '%');
+            $this->query->orWhere($table.'.last_name', 'LIKE', '%' . $keyword . '%');
+            $this->query->orWhere($table.'.email', 'LIKE', '%' . $keyword . '%');
+            $this->query->orWhere($table.'.phone', 'LIKE', '%' . $keyword . '%');
+        }
+
+        return $this->query;
+    }
 
 
 }
