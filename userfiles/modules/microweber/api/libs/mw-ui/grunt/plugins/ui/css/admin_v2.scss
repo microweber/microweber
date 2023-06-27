@@ -1792,3 +1792,26 @@ svg.text-danger {
         }
     }
 }
+
+
+
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+#bubble-nav {
+
+    span {
+        &:hover {
+            svg {
+                fill: var(--tblr-bg-surface);
+            }
+
+        }
+        svg {
+            fill: var(--tblr-body-color);
+        }
+    }
+
+}
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
