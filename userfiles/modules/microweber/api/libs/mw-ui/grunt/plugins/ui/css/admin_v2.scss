@@ -71,6 +71,7 @@ body.theme-dark {
         }
     }
 
+
     .admin-dashboard-left-nav {
         .dropdown-toggle {
             &:after {
@@ -109,6 +110,12 @@ body.theme-dark {
             filter: invert(1);
         }
 
+    }
+}
+
+.btn-outline-dark {
+    &:hover, &:active, &.active, &:focus {
+        border-color: var(--tblr-body-color) !important;
     }
 }
 
