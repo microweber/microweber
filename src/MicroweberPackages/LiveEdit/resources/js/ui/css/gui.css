@@ -68,14 +68,14 @@
 }
 
 .mw-le-nav-box nav a:hover {
-    background-color: #eee;
+    background-color: #00000030;
 }
 
 .mw-le-nav-box nav a {
     display: block;
     font-size: 14px;
     text-decoration: none;
-    color: #2b2b2b;
+    color: inherit;
     padding: 15px 0 15px 65px;
     position: relative;
     transition: background-color .2s;

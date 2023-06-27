@@ -77,7 +77,7 @@ export const ModeAuto = (scope) => {
         var curr = bgHolders[i];
         if( scope.elementAnalyzer.isInEdit(curr) ){
             if(!mw.tools.hasClass(curr, moduleClass)) {
-                mw.tools.addClass(curr, editClass);
+                // mw.tools.addClass(curr, editClass);
             }
             if(!curr.style.backgroundImage) {
                 curr.style.backgroundImage = 'none';

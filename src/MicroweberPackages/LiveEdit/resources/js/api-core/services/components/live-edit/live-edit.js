@@ -47,7 +47,11 @@ export const liveEditComponent = () => {
     mw.app.registerChange = function(element){
         var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
         if(edit) {
-            edit.classList.add('changed')
+            if(edit.getAttribute('rel') && edit.getAttribute('field')) {
+                edit.classList.add('changed');
+            } else {
+                return mw.app.registerChange(edit.parentElement);
+            }
         }
     };
 

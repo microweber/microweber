@@ -12,6 +12,15 @@ mw.app.register('canvas', canvas);
 
 canvas.mount(canvasHolder);
 
+mw.app.canvas.on('iframeKeyDown', function (data) {
+    const event = data.event;
+    if (event.key == "Escape") {
+        const dialog = mw.dialog.get();
+        if(dialog) {
+            dialog.remove()
+        }
+    }
+})
 mw.app.canvas.on('liveEditBeforeLoaded', function () {
 
     mw.app.dispatch('init');
