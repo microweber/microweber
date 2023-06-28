@@ -214,7 +214,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label" style="padding-top: 10px;"><span><?php _lang('Image size', "modules/image_rollover"); ?></span> - <b id="imagesizeval"></b></label>
                         <div id="sizeslider" class="mw-slider"></div>
