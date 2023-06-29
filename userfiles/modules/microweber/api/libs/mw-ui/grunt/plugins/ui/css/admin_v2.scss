@@ -1371,9 +1371,18 @@ svg.text-danger {
 
 .mw-admin-action-links {
     position: relative;
-    text-decoration: none;
+    text-decoration: none !important;
     color: var(--tblr-body-color);
     font-weight: 500;
+
+    &.mw-adm-liveedit-tabs {
+        font-weight: 600;
+
+        &:active, &:focus, &.active {
+            font-weight: 700;
+
+        }
+    }
 
     &:after {
         position: absolute;
