@@ -13,18 +13,17 @@
 
 if (array_key_exists('types', $_GET)) {
     $types = explode(',', $_GET['types']);
-
+    $types = xss_clean($types);
 } else {
     $types = array('files', 'images', 'videos');
 }
 
 if (array_key_exists('title', $_GET)) {
     $title = $_GET['title'];
-
+    $title = xss_clean($title);
 } else {
     $title = __('Media');
 }
-
 
 ?>
 
@@ -40,13 +39,12 @@ if (array_key_exists('title', $_GET)) {
             if (mw.parent().image.currentResizing[0].nodeName === 'IMG') {
                 mw.parent().image.currentResizing.attr("src", url);
                 mw.parent().image.currentResizing.css('height', 'auto');
-            }
-            else {
+            } else {
                 mw.parent().image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(url) + ')');
                 mw.top().wysiwyg.bgQuotesFix(mw.parent().image.currentResizing[0])
             }
         }
-        if(window.thismodal) {
+        if (window.thismodal) {
             thismodal.result(url);
         }
     };
@@ -72,7 +70,7 @@ if (array_key_exists('title', $_GET)) {
             if (hash !== '') {
                 if (hash === 'editimage') {
                     UpdateImage(url);
-                    if(mw.parent().image.currentResizing){
+                    if (mw.parent().image.currentResizing) {
                         mw.parent().wysiwyg.change(mw.parent().image.currentResizing[0])
                         mw.parent().image.resize.resizerSet(mw.parent().image.currentResizing[0]);
                         mw.parent().trigger('imageSrcChanged', [mw.parent().image.currentResizing[0], url])
@@ -85,7 +83,7 @@ if (array_key_exists('title', $_GET)) {
                     if (typeof parent[hash] === 'function') {
                         parent[hash](url, eventType);
                     } else {
-                        if(mw.parent().iframecallbacks['insert_image']) {
+                        if (mw.parent().iframecallbacks['insert_image']) {
                             mw.parent().iframecallbacks['insert_image'](url, eventType);
                         }
 
@@ -121,7 +119,7 @@ if (array_key_exists('title', $_GET)) {
 
 
                     mw.parent().iframecallbacks[hash](pval);
-                    if(mw.parent().image.currentResizing && mw.parent().image.currentResizing){
+                    if (mw.parent().image.currentResizing && mw.parent().image.currentResizing) {
                         mw.parent().image.resize.resizerSet(mw.parent().image.currentResizing[0]);
 
                     }
@@ -135,11 +133,11 @@ if (array_key_exists('title', $_GET)) {
 
                 parent[hash](GlobalEmbed)
             }
-            if(mw.parent().image.currentResizing && mw.parent().image.currentResizing[0]) {
+            if (mw.parent().image.currentResizing && mw.parent().image.currentResizing[0]) {
                 mw.parent().trigger('imageSrcChanged', [mw.parent().image.currentResizing[0], this]);
             }
 
-            if(window.thismodal) {
+            if (window.thismodal) {
                 thismodal.result(pval)
             }
 
@@ -163,7 +161,7 @@ if (array_key_exists('title', $_GET)) {
         mw.require('filepicker.js');
 
         var picker = new mw.filePicker({
-            element:'#filepick',
+            element: '#filepick',
             nav: 'tabs',
             footer: true,
             boxed: false,
@@ -172,17 +170,14 @@ if (array_key_exists('title', $_GET)) {
         });
 
 
-
         $(picker).on('Result', function (e, res) {
             var filetypes = '<?php print join(",", $types);; ?>';
             var url = res.src ? res.src : res;
             if (filetypes.indexOf('images') !== -1) {
                 afterMediaIsInserted(url, '', "FileUploaded");
-            }
-            else if (filetypes === 'videos' || filetypes === 'media') {
+            } else if (filetypes === 'videos' || filetypes === 'media') {
                 afterMediaIsInserted(url, 'video', "FileUploaded");
-            }
-            else if (filetypes === 'files') {
+            } else if (filetypes === 'files') {
                 if (item.src.contains("base64")) {
                     afterMediaIsInserted(url, '', "FileUploaded");
                 } else {
@@ -190,7 +185,7 @@ if (array_key_exists('title', $_GET)) {
                 }
 
             }
-            if(window.thismodal) {
+            if (window.thismodal) {
                 thismodal.result(url);
                 thismodal.remove()
             }
@@ -219,17 +214,13 @@ if (array_key_exists('title', $_GET)) {
                 ProgressInfo.html(file.name);
 
 
-
-
             });
             $(frame).on("FileUploaded", function (frame, item) {
                 if (filetypes.indexOf('images') !== -1) {
                     afterMediaIsInserted(item.src, '', "FileUploaded");
-                }
-                else if (filetypes === 'videos' || filetypes === 'media') {
+                } else if (filetypes === 'videos' || filetypes === 'media') {
                     afterMediaIsInserted(item.src, 'video', "FileUploaded");
-                }
-                else if (filetypes === 'files') {
+                } else if (filetypes === 'files') {
                     if (item.src.contains("base64")) {
                         afterMediaIsInserted(item.src, '', "FileUploaded");
                     } else {
@@ -237,7 +228,7 @@ if (array_key_exists('title', $_GET)) {
                     }
 
                 }
-                if(window.thismodal) {
+                if (window.thismodal) {
                     thismodal.result(item.src)
                 }
 
@@ -257,7 +248,6 @@ if (array_key_exists('title', $_GET)) {
                 ProgressPercent.html('');
                 ProgressInfo.html(ProgressErrorHTML(file.name));
             });
-
 
 
         });
@@ -290,7 +280,7 @@ if (array_key_exists('title', $_GET)) {
                     var val = urlSearcher.val();
                     if (hash === 'fileWindow') {
 
-                        if(window.thismodal) {
+                        if (window.thismodal) {
                             thismodal.result(val)
                         }
                         $('body').trigger('change', [val]);
@@ -309,7 +299,7 @@ if (array_key_exists('title', $_GET)) {
                             parent[hash](GlobalEmbed);
 
                         }
-                        if(window.thismodal) {
+                        if (window.thismodal) {
                             thismodal.result(GlobalEmbed)
                         }
                         mw.parent().dialog.remove('mw_rte_image');
@@ -344,10 +334,10 @@ if (array_key_exists('title', $_GET)) {
                 }
 
             }
-            if(window.thismodal) {
+            if (window.thismodal) {
                 thismodal.result(val)
             }
-            if(mw.parent().image.currentResizing) {
+            if (mw.parent().image.currentResizing) {
                 mw.parent().trigger('imageSrcChanged', [mw.parent().image.currentResizing[0], val]);
 
             }
@@ -370,7 +360,7 @@ if (array_key_exists('title', $_GET)) {
                 }
             })
 
-            if(mode === 'dialog' && index > 0) {
+            if (mode === 'dialog' && index > 0) {
 
             } else {
                 $('.tab').hide()//.eq(index).show()
@@ -387,15 +377,15 @@ if (array_key_exists('title', $_GET)) {
                     window.fileBrowserLoaded = true;
                     mw.top().load_module('files/admin', '#file_module_live_edit_adm', function () {
 
-                    }, {'filetype':'images'});
+                    }, {'filetype': 'images'});
                 }
 
             } else {
-             }
-            if(window.thismodal){
-                if(this.selectedIndex === ($(selector).length - 1)){
+            }
+            if (window.thismodal) {
+                if (this.selectedIndex === ($(selector).length - 1)) {
                     thismodal.resize(800)
-                } else if(this.selectedIndex === 2){
+                } else if (this.selectedIndex === 2) {
                     thismodal.resize(600)
                 } else {
                     thismodal.resize(460)
@@ -466,11 +456,11 @@ if (array_key_exists('title', $_GET)) {
 </script>
 
 
-<style >
+<style>
 
-/*    body, html {
-        overflow: hidden;
-    }*/
+    /*    body, html {
+            overflow: hidden;
+        }*/
 
     .mw-upload-filetypes {
         list-style: none;
@@ -539,10 +529,12 @@ if (array_key_exists('title', $_GET)) {
         width: 275px;
         margin-inline-end: 15px;
     }
-    .image-tabs-header > div h6{
+
+    .image-tabs-header > div h6 {
         margin-bottom: 0;
     }
-    .image-tabs-header{
+
+    .image-tabs-header {
         display: flex;
         justify-content: space-between;
         align-content: center;
