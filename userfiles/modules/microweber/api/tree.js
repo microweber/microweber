@@ -652,7 +652,7 @@
                 mw.$(element.querySelector('.mw-tree-item-content')).prepend(this.checkBox(element))
             } else {
                 if(!this.options.selectableNodes) {
-                    mw.$(element.querySelector('.mw-tree-item-content')).css('pointerEvents', 'none')
+                    mw.$(element.querySelector('.mw-tree-item-content')).css('pointerEvents', 'none').find('.mw-tree-context-menu').css('pointerEvents', 'all')
                 }
                 
             }

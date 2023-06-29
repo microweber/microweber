@@ -41,9 +41,8 @@ mw.app.editor.insertModule('layouts',
     }
 );
 
-mw.app.editor.on('editNodeRequest',function(element){
-
-        });
+mw.app.editor.on('elementSettingsRequest',function(element){});
+mw.app.editor.on('editNodeRequest',function(element){ });
   
 ```
 
