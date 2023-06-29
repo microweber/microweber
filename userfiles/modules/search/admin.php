@@ -20,8 +20,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <?php $posts_parent_page = get_option('data-content-id', $params['id']); ?>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-dark justify-content-center  active" data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
-            <a class="btn btn-outline-dark justify-content-center " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
         </nav>
 
         <div class="tab-content py-3">
