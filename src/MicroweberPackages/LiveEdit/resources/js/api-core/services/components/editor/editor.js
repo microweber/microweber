@@ -102,10 +102,10 @@ export const EditorComponent = function () {
         skin: 'le2',
         editMode: 'liveedit',
 
-        controls: editorControls,
+        controls: null,
         smallEditor: editorControls,
 
-        smallEditorPositionX: 'center',
+        smallEditorPositionX: 'left',
         smallEditorSkin: 'lite',
 
         interactionControls: [],

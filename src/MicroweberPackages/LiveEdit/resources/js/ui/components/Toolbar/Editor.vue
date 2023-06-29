@@ -191,8 +191,13 @@ export default {
                               
                 } else {
                     element.contentEditable = true;
-                    mw.app.richTextEditor.smallEditorInteract(element);
-                    element.focus()
+                    element.focus();
+                    setTimeout(() => {
+                      mw.app.richTextEditor.smallEditorInteract(element);
+                    }, 78);
+                    
+                    
+
                 }
                 
                  

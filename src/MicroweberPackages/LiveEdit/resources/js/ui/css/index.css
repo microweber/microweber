@@ -98,6 +98,9 @@ html.preview #toolbar {
     gap: 5px;
     vertical-align: top;
 }
+.toolbar-nav.mw-editor-area-wrapper-empty{
+    display: none;
+}
 
 .toolbar-nav:empty {
     display: none;
