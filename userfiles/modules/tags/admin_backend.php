@@ -116,8 +116,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <?php sync_tags(); ?>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-dark justify-content-center  active" data-bs-toggle="tab" href="#list">  <?php _e("Tagged content"); ?></a>
-            <a class="btn btn-outline-dark justify-content-center " data-bs-toggle="tab" href="#global-tags"> <?php _e('Global Tags'); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#list">  <?php _e("Tagged content"); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#global-tags"> <?php _e('Global Tags'); ?></a>
         </nav>
 
         <div class="tab-content py-3">

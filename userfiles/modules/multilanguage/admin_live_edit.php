@@ -33,9 +33,9 @@ only_admin_access();
 <div id="mw-language-settings">
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs m-1 w-100">
         <nav id="nav-language-settings" class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-dark justify-content-center   active " data-bs-toggle="tab" href="#mw-lang-settings">  <?php print _e('Languages'); ?></a>
-            <a class="btn btn-outline-dark justify-content-center " data-bs-toggle="tab" href="#mw-multilang-settings">  <?php print _e('Settings'); ?></a>
-            <a class="btn btn-outline-dark justify-content-center " data-bs-toggle="tab" href="#mw-multilang-templates">  <?php print _e('Templates'); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs   active " data-bs-toggle="tab" href="#mw-lang-settings">  <?php print _e('Languages'); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#mw-multilang-settings">  <?php print _e('Settings'); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#mw-multilang-templates">  <?php print _e('Templates'); ?></a>
         </nav>
 
         <div id="mw-lang-settings" class="mw-accordion-content mw-ui-box-content">

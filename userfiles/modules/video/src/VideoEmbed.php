@@ -480,10 +480,12 @@ class VideoEmbed
         if ($this->isThumbnail() && $this->isLazyLoad()) {
            // $styles[] = 'height:' . $this->getHeight() .'!important';
             $styles[] = 'background:#000';
-            $styles[] = 'background-image:url(' . $this->getThumbnail() . ')';
+//            $styles[] = 'background-image:url(' . $this->getThumbnail() . ')';
+
+            $styles[] = 'background: url(' . modules_url() . 'video/video.svg' . ') center center, url(' . $this->getThumbnail() . ') center center';
             $styles[] = 'background-repeat:no-repeat';
-            $styles[] = 'background-size: contain';
-            $styles[] = 'background-position: top';
+            $styles[] = 'background-size: 300px 100px, contain';
+            $styles[] = 'background-position: center center';
         }
 
         if (!$this->isThumbnail() && $this->isLazyLoad()) {

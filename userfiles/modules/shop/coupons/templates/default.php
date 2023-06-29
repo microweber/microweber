@@ -33,20 +33,22 @@ $applied_code = '';
 
                 <div class="coupon_code_apply_wrapper-<?php echo $params['id']; ?>" <?php if(isset($applied_coupon_data['coupon_code'])): ?>  style="display: none"    <?php endif; ?>  >
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-xs-12 mb-3">
                             <h4 class="mb-2"><?php _e("Enter coupon code"); ?></h4>
-                            <hr />
-                            <div class="js-coupon-code-messages-<?php echo $params['id']; ?>"></div>
+
+
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-6">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="col-xs-6 me-2">
                             <input type="text" name="coupon_code" class="form-control js-coupon-code-<?php echo $params['id']; ?>" placeholder="<?php _e("Enter coupon code"); ?>"/>
                         </div>
                         <div class="col-xs-6">
-                            <button type="button" class="btn btn-default checkout-v2-coupon-code-button js-apply-coupon-code-<?php echo $params['id']; ?>"><?php _e("Apply code"); ?></button>
+                            <button type="button" class="btn btn-primary checkout-v2-coupon-code-button js-apply-coupon-code-<?php echo $params['id']; ?>"><?php _e("Apply code"); ?></button>
                         </div>
                     </div>
+
+                    <div class="mt-4 js-coupon-code-messages-<?php echo $params['id']; ?>"></div>
                 </div>
             </div>
         </div>

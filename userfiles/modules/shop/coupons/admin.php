@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     function editCoupon(coupon_id = false) {
         var data = {};
         data.coupon_id = coupon_id;
-        editModal = mw.tools.open_module_modal('shop/coupons/edit_coupon', data, {overlay: true, skin: 'simple', title: '<?php _ejs("Coupon Code"); ?>'})
+        editModal = mw.top().tools.open_module_modal('shop/coupons/edit_coupon', data, {overlay: true, skin: 'simple', title: '<?php _ejs("Coupon Code"); ?>'})
     }
 
     function deleteCoupon(coupon_id) {
@@ -62,13 +62,20 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 $coupon_get_count = coupon_get_count();
 ?>
 
-<div class="card">
+<div class="card shadow-none">
     <div class="card-body px-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
         <div class="row">
 
             <div class="card-header d-flex align-items-center justify-content-between px-0">
 
-                <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
+              <div>
+                <span>
+                <?php if (!isset($params['live_edit'])): ?>
+                      <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
+                <?php endif; ?>
+
+                </span>
+              </div>
 
                 <?php
                 if ($coupon_get_count > 0) {
@@ -83,9 +90,13 @@ $coupon_get_count = coupon_get_count();
             <?php
             if ($coupon_get_count > 0) {
                 ?>
-                <label class="form-check form-check-single form-switch ps-0 mb-4" style="width: unset;">
-                    <input type="checkbox" name="enable_coupons" class="mw_option_field form-check-input" id="enable_coupons" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_coupons', 'shop') == 1): ?>checked<?php endif; ?> />
-                </label>
+                <div class="d-flex align-items-center mb-4">
+                    <label class="form-check form-check-single form-switch ps-0" style="width: unset;">
+                        <input type="checkbox" name="enable_coupons" class="mw_option_field form-check-input" id="enable_coupons" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_coupons', 'shop') == 1): ?>checked<?php endif; ?> />
+
+                    </label>
+                    <label class="ps-2"><?php _e("Enable") ?></label>
+                </div>
             <?php
             }
             ?>

@@ -1,99 +1,9 @@
 {
-  "_bootstrap-0ce7d0ce.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-0ce7d0ce.js"
-  },
-  "_bootstrap-2dd4e55d.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-2dd4e55d.js"
-  },
-  "_bootstrap-3f2273e7.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-3f2273e7.js"
-  },
-  "_bootstrap-4de81599.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-4de81599.js"
-  },
-  "_bootstrap-594f2524.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-594f2524.js"
-  },
-  "_bootstrap-6669d89c.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-6669d89c.js"
-  },
   "_bootstrap-71fabdf8.js": {
     "css": [
       "assets/bootstrap-0d4d1cba.css"
     ],
     "file": "assets/bootstrap-71fabdf8.js"
-  },
-  "_bootstrap-74dce70f.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-74dce70f.js"
-  },
-  "_bootstrap-80b79c8e.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-80b79c8e.js"
-  },
-  "_bootstrap-89f661ec.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-89f661ec.js"
-  },
-  "_bootstrap-939c0f7b.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-939c0f7b.js"
-  },
-  "_bootstrap-94458d4f.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-94458d4f.js"
-  },
-  "_bootstrap-ac71a34c.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-ac71a34c.js"
-  },
-  "_bootstrap-cbdc11a8.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-cbdc11a8.js"
-  },
-  "_bootstrap-d65579b6.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-d65579b6.js"
-  },
-  "_bootstrap-f65ca43b.js": {
-    "css": [
-      "assets/bootstrap-0d4d1cba.css"
-    ],
-    "file": "assets/bootstrap-f65ca43b.js"
   },
   "bootstrap.css": {
     "file": "assets/bootstrap-0d4d1cba.css",

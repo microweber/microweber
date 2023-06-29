@@ -179,8 +179,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <?php if (!isset($params['menu_rollover'])) { ?>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-dark justify-content-center  active" data-bs-toggle="tab" href="#settings">  <?php _lang('Settings', "modules/image_rollover"); ?></a>
-            <a class="btn btn-outline-dark justify-content-center " data-bs-toggle="tab" href="#templates">   <?php _lang('Templates', "modules/image_rollover"); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#settings">  <?php _lang('Settings', "modules/image_rollover"); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#templates">   <?php _lang('Templates', "modules/image_rollover"); ?></a>
         </nav>
         <?php } ?>
         <div class="tab-content py-3">
