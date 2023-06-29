@@ -13,7 +13,7 @@ $config = array();
 $config['name'] ="Coupons";
 $config['author'] = "Bozhidar Slaveykov";
 
-$config['ui'] = true;
+$config['ui'] = false;
 $config['ui_admin'] = true;
 
 $config['categories'] = "online shop";
