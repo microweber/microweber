@@ -53,10 +53,10 @@ if (is_file($template_file) != false) {
                 success: function (data) {
 
                     if (typeof(data.error) !== "undefined" && typeof(data.message) !== "undefined") {
-                        $('.js-coupon-code-messages-<?php echo $params['id']; ?>').html('<div class="js-red-text-<?php echo $params['id']; ?>">' + data.message + '</div>');
+                        $('.js-coupon-code-messages-<?php echo $params['id']; ?>').html('<div class="text-danger js-red-text-<?php echo $params['id']; ?>">' + data.message + '</div>');
                     } else {
                         if (typeof(data.success) !== "undefined" && typeof(data.message) !== "undefined") {
-                            $('.js-coupon-code-messages-<?php echo $params['id']; ?>').html('<div class="js-green-text-<?php echo $params['id']; ?>">' + data.message + '</div>');
+                            $('.js-coupon-code-messages-<?php echo $params['id']; ?>').html('<div class="text-success js-green-text-<?php echo $params['id']; ?>">' + data.message + '</div>');
                         }
                         mw.reload_module('shop/cart');
                         mw.reload_module('shop/payments');
