@@ -9,7 +9,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body px-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <?php if (!isset($params['live_edit'])): ?>
 
         <div class="card-header">
@@ -227,8 +227,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <div class="dropable-zone small-zone square-zone  " id="upload_thumb_btn">
                                     <div class="holder">
                                         <div class="dropable-zone-img img-media mb-2"></div>
-                                        <button type="button" class="btn btn-link py-1"><?php _e('Add media'); ?></button>
-                                        <p><?php _e('or drop'); ?></p>
+                                        <button type="button" class="btn btn-dark"><?php _e('Add media'); ?></button>
+                                        <p class="mt-2"><?php _e('or drop'); ?></p>
                                     </div>
                                 </div>
                             </div>
