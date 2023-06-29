@@ -132,7 +132,7 @@ if ($screenshots) {
 
 
         <label class="form-group d-block">
-            <label class="form-label"><?php _e("Current Skin / Template"); ?></label>
+            <label class="form-label font-weight-bold"><?php _e("Current Skin / Template"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e('Select different design'); ?></small>
             <select data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw_option_field form-select" data-width="100%" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>" data-size="5">
                 <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>
