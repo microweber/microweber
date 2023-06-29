@@ -62,13 +62,20 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 $coupon_get_count = coupon_get_count();
 ?>
 
-<div class="card">
+<div class="card shadow-none">
     <div class="card-body px-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
         <div class="row">
 
             <div class="card-header d-flex align-items-center justify-content-between px-0">
 
-                <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
+              <div>
+                <span>
+                <?php if (!isset($params['live_edit'])): ?>
+                      <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
+                <?php endif; ?>
+
+                </span>
+              </div>
 
                 <?php
                 if ($coupon_get_count > 0) {
