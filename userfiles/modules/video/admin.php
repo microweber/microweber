@@ -217,18 +217,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label font-weight-bold"><?php _e("Upload Video Thumbnail from your computer"); ?></label>
+                        <label class="form-label mb-0 font-weight-bold"><?php _e("Upload Video Thumbnail from your computer"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Optional thumbnail image for use with uploaded or embedded videos. Required if Lazy Loading selected"); ?></small>
                     </div>
 
                     <div class="row d-flex px-0">
                         <div class="col-auto">
-                            <div style="width: 120px;" class="mb-2">
+                            <div class="mb-2">
                                 <div class="dropable-zone small-zone square-zone  " id="upload_thumb_btn">
                                     <div class="holder">
                                         <div class="dropable-zone-img img-media mb-2"></div>
-                                        <button type="button" class="btn btn-dark"><?php _e('Add media'); ?></button>
-                                        <p class="mt-2"><?php _e('or drop'); ?></p>
+                                        <button type="button" class="btn btn-dark"><?php _e('Upload image thumbnail'); ?></button>
                                     </div>
                                 </div>
                             </div>
