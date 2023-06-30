@@ -132,10 +132,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="<?php if ($from_live_edit): ?><?php else: ?><?php endif; ?>">
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                <a class="btn btn-outline-primary justify-content-center  active js-list-testimonials" data-bs-toggle="tab" href="#list">  <?php _e("List of Testimonials") ?></a>
-                <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
-                <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
-                <a class="btn btn-outline-primary justify-content-center  js-add-new-testimonials" data-bs-toggle="tab" href="#new" style="display: none;"><i class="mdi mdi-card-plus mr-1"></i><?php _e("Add New / Edit") ?></a>
+                <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active js-list-testimonials" data-bs-toggle="tab" href="#list">  <?php _e("List of Testimonials") ?></a>
+                <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
+                <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
+                <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  js-add-new-testimonials" data-bs-toggle="tab" href="#new" style="display: none;"><i class="mdi mdi-card-plus mr-1"></i><?php _e("Add New / Edit") ?></a>
             </nav>
 
             <div id="mw-modules-tabs" class="tab-content py-3">

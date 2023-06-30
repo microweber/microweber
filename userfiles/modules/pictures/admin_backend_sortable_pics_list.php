@@ -65,7 +65,7 @@ $rand = 'pic-sorter-' . uniqid();
 </style>
 
 
- 
+
 
 <script>
 
@@ -80,12 +80,12 @@ $rand = 'pic-sorter-' . uniqid();
                     _frameMaxHeight: true,
                     disableFileAutoSelect: false,
                     onResult: async function (res) {
-                      
-    
+
+
                         var url = res.src ? res.src : res;
                         if(!url) return;
 
-                        
+
 
                         var urls;
                         if(!Array.isArray(url)) {
@@ -95,18 +95,18 @@ $rand = 'pic-sorter-' . uniqid();
                         }
 
 
-                         
+
                         let i = 0; l = urls.length;
-                        
+
                         for ( ; i < l; i++) {
-                            
-                           await after_upld(urls[i], 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>'); 
+
+                           await after_upld(urls[i], 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                         }
 
-                         
+
                         after_upld(urls, 'done');
                         dialog.remove()
-            
+
                     }
                 });
                 dialog = mw.top().dialog({
@@ -115,25 +115,25 @@ $rand = 'pic-sorter-' . uniqid();
                     footer: false,
                     width: 860
                 })
-                
+
                 picker.$cancel.on('click', function(){
                     dialog.remove()
                 })
 
 
             }
- 
+
 </script>
 <script>
     $(document).ready(function () {
         mw.module_pictures.init('#admin-thumbs-holder-sort-<?php print $rand; ?>');
 
- 
 
- 
+
+
         setInterval(function () {
             $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder, .mw-filepicker-desktop-type-small .mw-uploader-type-holder').each(function () {
-                $(this).height($(this).width())  
+                $(this).height($(this).width())
             })
         }, 78)
 
@@ -209,6 +209,8 @@ $rand = 'pic-sorter-' . uniqid();
                 </div>
             </div>
         </div>
+    <?php else: ?>
+       <a href="javascript:addImagesToPost()"><?php _e("Add file"); ?></a>
     <?php endif; ?>
 
 

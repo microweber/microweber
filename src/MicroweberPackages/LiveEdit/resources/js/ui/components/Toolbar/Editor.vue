@@ -99,6 +99,7 @@ export default {
                 return new Promise(resolve => {
                   var editor = document.createElement('div');
                     editor.style.height = 'calc(100vh - 300px)';
+                    editor.style.minHeight = '410px';
                     const footer = mw.element(`
                         <div class="d-flex justify-content-between w-100">
                             <button class="btn" data-action="cancel">Cancel</button>
@@ -109,7 +110,13 @@ export default {
   
                     let imageEditor;
 
-                    const dlg = mw.dialog({width: 1000 , title:  mw.lang("Edit image"), content: editor, footer: footer.get(0) });
+                    const dlg = mw.dialog({
+                      width: 1000 , 
+                      title:  mw.lang("Edit image"), 
+                      content: editor, 
+                      footer: footer.get(0), 
+                      id: 'mw-edit-image--dialog', 
+                    });
 
                     footer.find('[data-action="cancel"]').on('click', function(){
                         dlg.remove();
@@ -129,13 +136,44 @@ export default {
                 });
             }
 
-            mw.app.editor.on('editNodeRequest', async (element) => {
-                if(element.nodeName === 'IMG') {
+            mw.app.editor.on('elementSettingsRequest', async (element) => {
+              if(element.nodeName === 'IMG') {
                   var src = await editImageDialog(element.src);
                    
                   if(src) {
                     element.src = src
                   }
+                  
+              } else {
+                //todo: css editor
+              }
+            })
+            mw.app.editor.on('editNodeRequest', async (element) => {
+                if(element.nodeName === 'IMG') {
+                  var dialog;
+                  var picker = new mw.filePicker({
+                      type: 'images',
+                      label: false,
+                      autoSelect: false,
+                      footer: true,
+                      _frameMaxHeight: true,
+                      onResult: function (res) {
+                          var url = res.src ? res.src : res;
+                          if(!url) return;
+                          url = url.toString();
+                          element.src = url;
+                          dialog.remove();
+                      }
+                  });
+                  dialog = mw.top().dialog({
+                      content: picker.root,
+                      title: mw.lang('Select image'),
+                      footer: false,
+                      width: 860,
+                      
+                      
+                  })
+                   
                   
                 } else if(element.style.backgroundImage) {
                   var bg =  element.style.backgroundImage.trim().split('url(')[1];
@@ -153,8 +191,13 @@ export default {
                               
                 } else {
                     element.contentEditable = true;
-                    mw.app.richTextEditor.smallEditorInteract(element);
-                    element.focus()
+                    element.focus();
+                    setTimeout(() => {
+                      mw.app.richTextEditor.smallEditorInteract(element);
+                    }, 78);
+                    
+                    
+
                 }
                 
                  

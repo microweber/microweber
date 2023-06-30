@@ -91,6 +91,10 @@ var MWEditor = function (options) {
         this.settings.controls = EditorPredefinedControls[this.settings.controls] || EditorPredefinedControls.default;
     }
 
+    if(!this.settings.controls){
+        this.settings.controls = []
+    }
+
     if(!!this.settings.smallEditor) {
         if(this.settings.smallEditor === true) {
             this.settings.smallEditor = EditorPredefinedControls.smallEditorDefault;
@@ -797,47 +801,70 @@ var MWEditor = function (options) {
         'a-color-picker',
     ];
 
+    this._smallEditorInteract = false;
+
+    this.positionSmallEditor = function(target){
+        var off = mw.element(target).offset();
+               
+        var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
+        // var cleft =  scope.interactionData.pageX;
+        var cleft =  off.left;
+        scope.smallEditor.css({
+            display: 'block'
+        });
+        if(scope.settings.smallEditorPositionX === 'left') {
+            cleft =  off.left;
+        } else if(scope.settings.smallEditorPositionX === 'center') {
+            cleft = (off.left + (off.width/2))  - (scope.smallEditor.width()/2);
+        }  else if(scope.settings.smallEditorPositionX === 'right') {
+            cleft = ((off.left + off.width))  - (scope.smallEditor.width());
+        }
+        if(cleft < 0) {
+            cleft = 0;
+        }
+        var max = (cleft + scope.smallEditor.width());
+        if( max > scope.actionWindow.innerWidth) {
+            cleft = max - scope.actionWindow.innerWidth;
+           
+        }
+
+        var safeTop = ctop
+         
+        ctop = Math.max(ctop, scope.settings.document.defaultView.scrollY + 25 );
+
+        if(ctop > off.offsetTop + target.offsetHeight) {
+            ctop = safeTop
+        }
+   
+        scope.smallEditor.css({
+            top: ctop,
+            left: cleft,
+           
+        });
+    }
+
     this.smallEditorInteract = function (target) {
       
 
-
+        this._smallEditorInteract = false;
 
        if(target && !target.isContentEditable && scope.lastRange && scope.lastRange.collapsed === false) {
            target = scope.getActualTarget(scope.lastRange.commonAncestorContainer);
        }
         if(target && mw.tools.hasAnyOfClassesOnNodeOrParent(target, _smallEditorExceptionClasses)){
+             
             return
         }
 
         if (scope.selection && (target && target.isContentEditable || mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['mw-small-editor', 'mw-editor', 'mw-tooltip'])) && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
 
             if(!mw.tools.hasParentsWithClass(target, 'mw-bar')){
-                var off = mw.element(target).offset();
-               
-                var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
-                // var cleft =  scope.interactionData.pageX;
-                var cleft =  off.left;
-                scope.smallEditor.css({
-                    display: 'block'
-                });
-                if(scope.settings.smallEditorPositionX === 'left') {
-                    cleft =  off.left;
-                } else if(scope.settings.smallEditorPositionX === 'center') {
-                    cleft = (off.left + (off.width/2))  - (scope.smallEditor.width()/2);
-                }  else if(scope.settings.smallEditorPositionX === 'right') {
-                    cleft = ((off.left + off.width))  - (scope.smallEditor.width());
-                }
-                if(cleft < 0) {
-                    cleft = 0;
-                }
-                var max = (cleft + scope.smallEditor.width());
-                if( max > scope.actionWindow.innerWidth) {
-                    cleft = max - scope.actionWindow.innerWidth;
-                }
+                this._smallEditorInteract = target;
+
+                scope.positionSmallEditor(target)
 
                 scope.smallEditor.css({
-                    top: ctop,
-                    left: cleft,
+ 
                     display: 'block'
                 });
             }
@@ -850,6 +877,14 @@ var MWEditor = function (options) {
     }
     this.createBar = function () {
         this.bar = mw.settings.bar || mw.bar();
+         
+        if(this.settings.controls.length === 0) {
+            this.bar.element.addClass('mw-bar-empty');
+            this.wrapper.classList.add('mw-editor-wrapper-empty');
+            setTimeout(() => this.wrapper.parentNode.classList.add('mw-editor-area-wrapper-empty'), 100)
+             
+            
+        }
         for (var i1 = 0; i1 < this.settings.controls.length; i1++) {
             var item = this.settings.controls[i1];
             this.bar.createRow();
@@ -1020,6 +1055,14 @@ var MWEditor = function (options) {
             this.__insertEditor();
         }
         this.controlGroupManager();
+
+        this.settings.document.defaultView.addEventListener('scroll', function(){
+            if(scope._smallEditorInteract) {
+                scope.positionSmallEditor(scope._smallEditorInteract)
+            }
+        })
+
+        
 
     };
     this.init();

@@ -368,7 +368,7 @@ export class LiveEdit {
 
                 
 
-                if(layout) {
+                if(layout && !target) {
                  
                     const elementTarget = this.handles.get('element').getTarget();
                     const moduleTarget = this.handles.get('module').getTarget();

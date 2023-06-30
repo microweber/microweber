@@ -128,7 +128,7 @@
 
                     ]
                 ],
-                smallEditorPositionX: 'center',
+                smallEditorPositionX: 'left',
                 smallEditorSkin: 'lite',
 
                 interactionControls: [

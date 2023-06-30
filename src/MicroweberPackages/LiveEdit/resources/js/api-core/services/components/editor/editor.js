@@ -37,6 +37,8 @@ export const EditorComponent = function () {
     const editorControls = [
         [
 
+            'undoRedo',
+
             {
                 group: {
                     icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5,4V7H10.5V19H13.5V7H19V4H5Z" /></svg>',
@@ -100,10 +102,10 @@ export const EditorComponent = function () {
         skin: 'le2',
         editMode: 'liveedit',
 
-        controls: editorControls,
+        controls: null,
         smallEditor: editorControls,
 
-        smallEditorPositionX: 'center',
+        smallEditorPositionX: 'left',
         smallEditorSkin: 'lite',
 
         interactionControls: [],
@@ -117,48 +119,7 @@ export const EditorComponent = function () {
         fontFamilyProvider: fontFamilyProvider
     });
 
-
-
-    var btnUndo = document.getElementById('vue-toolbar-undo')
-    var btnRedo = document.getElementById('vue-toolbar-redo')
-
-    liveEditor.state.on('record', function () {
-
-        btnRedo.disabled = !liveEditor.state.hasPrev;
-        btnUndo.disabled = !liveEditor.state.hasNext;
-    })
-    liveEditor.state.on('change', function () {
-
-        btnRedo.disabled = !liveEditor.state.hasPrev;
-        btnUndo.disabled = !liveEditor.state.hasNext;
-    })
-
-    if (btnUndo) {
-        btnUndo.addEventListener('click', function () {
-            liveEditor.state.undo()
-        });
-    }
-    if (btnRedo) {
-        btnRedo.addEventListener('click', function () {
-            liveEditor.state.redo()
-        });
-    }
-
-    /*                liveEditor.on('action', function (){
-                        mw.wysiwyg.change(liveEditor.api.elementNode(liveEditor.api.getSelection().focusNode))
-                    })
-                    liveEditor.on('smallEditorReady', function (){
-                        fontFamilyProvider.provide(mw.top().wysiwyg.fontFamiliesExtended);
-                    })
-                    $(liveEditor).on('selectionchange', function (){
-                        var sel = liveEditor.getSelection();
-                        if(sel.rangeCount) {
-                            liveEditor.lastRange =  sel.getRangeAt(0) ;
-                        } else {
-                            liveEditor.lastRange = undefined;
-                        }
-
-                    })*/
+ 
 
     holder.innerHTML = '';
     holder.appendChild(liveEditor.wrapper);

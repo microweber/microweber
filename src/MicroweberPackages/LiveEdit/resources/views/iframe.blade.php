@@ -29,7 +29,7 @@
 
     @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js')
 </head>
-<body class="{{ $bodyDarkClass }}">
+<body class="{{ $bodyDarkClass }} mw-admin-live-edit-page">
 
 <script>
     mw.quickSettings = {}

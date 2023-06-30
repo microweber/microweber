@@ -62,10 +62,10 @@ if ($menu_name == false and isset($params['menu_name'])) {
     <!--    <a href="javascript:mw.add_new_page_to_menu();" class="btn btn-link pull-right">--><?php //_e("Create new page"); ?><!--</a>-->
 
     <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-        <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#list">  <?php _e('Menus'); ?></a>
-        <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
-        <a class="btn btn-outline-primary justify-content-center  d-none" data-bs-toggle="tab" href="#add_new_menu" id="add_new_menu_tab">   1</a>
-        <a class="btn btn-outline-primary justify-content-center  d-none" data-bs-toggle="tab" href="#add_new_page" id="add_new_content_tab">   2</a>
+        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#list">  <?php _e('Menus'); ?></a>
+        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
+        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  d-none" data-bs-toggle="tab" href="#add_new_menu" id="add_new_menu_tab">   1</a>
+        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  d-none" data-bs-toggle="tab" href="#add_new_page" id="add_new_content_tab">   2</a>
     </nav>
 
     <div class="tab-content py-3">

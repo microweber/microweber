@@ -11,10 +11,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
-    <div class="card-header">
-        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
-    </div>
+<div class="card-body px-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+    <?php if (!isset($params['live_edit'])): ?>
+        <div class="card-header">
+            <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
+        </div>
+    <?php endif; ?>
 
     <div class=" ">
         <?php $layout = get_option('layout', $params['id']); ?>
@@ -25,11 +27,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
         <div class="module-live-edit-settings module-facebook-like-settings">
-            <div class="form-group">
-                <label class="form-label"><?php _e("URL to like"); ?></label>
-                <input name="url" class="mw_option_field form-control" type="text" placeholder="<?php _e("Current URL or type your own"); ?>" value="<?php print $url_to_like; ?>"/>
-            </div>
-
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -61,6 +58,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <option value="n" <?php if ($show_faces == 'n'): ?> selected="selected" <?php endif ?>><?php _e("No"); ?></option>
                         </select>
                     </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="form-label"><?php _e("Custom URL"); ?></label>
+                    <input name="url" class="mw_option_field form-control" type="text" placeholder="<?php _e("If you fill this field the current link will be liked"); ?>" value="<?php print $url_to_like; ?>"/>
                 </div>
             </div>
         </div>

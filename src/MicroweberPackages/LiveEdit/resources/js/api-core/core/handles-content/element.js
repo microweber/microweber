@@ -104,10 +104,8 @@ export const ElementHandleContent = function (proto) {
                     // console.log(target)
                 },
                 action: function (el) {
-
-                    proto.dialog({
-
-                    })
+                    mw.app.editor.dispatch('elementSettingsRequest', el);
+                     
                 }
             },
             ...cloneAbleMenu,

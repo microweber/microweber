@@ -98,6 +98,9 @@ html.preview #toolbar {
     gap: 5px;
     vertical-align: top;
 }
+.toolbar-nav.mw-editor-area-wrapper-empty{
+    display: none;
+}
 
 .toolbar-nav:empty {
     display: none;
@@ -236,7 +239,7 @@ html[dir="rtl"] #user-menu {
 
 .mw-editor-le2 .mw-bar-control-item-group:hover,
 .mw-editor-le2 mw-editor-button:hover {
-    background-color: rgba(0, 0, 0, 0.29);
+    background-color: rgba(0, 0, 0, 0.19);
 }
 
 .mw-editor-le2 .mw-editor-group-button mw-editor-button.mw-editor-controller-component {
@@ -282,7 +285,7 @@ html[dir="rtl"] #user-menu {
 }
 
 .mw-editor-le2 .mw-editor-controller-component-select .mw-editor-controller-component-select-values-holder {
-    background-color: #2b2b2b;
+    background-color: var(--tblr-bg-surface);
     border-radius: 0 0 10px 10px;
     border-color: rgba(255, 255, 255, 0.12);
 }
@@ -294,7 +297,8 @@ html[dir="rtl"] #user-menu {
     left: -4px;
     padding: 5px;
     white-space: nowrap;
-    background-color: #2b2b2b;
+ 
+    background-color: var(--tblr-bg-surface);
     border-radius: 0 0 10px 10px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
@@ -766,7 +770,7 @@ body.loaded #bubble-nav span {
     height: calc(100vh - 60px);
     left: -440px;
     width: 430px;
-    background-color: #2b2b2b;
+    background-color: var(--tblr-bg-surface);
     z-index: 5;
 
 }

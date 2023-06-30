@@ -3,12 +3,12 @@
 <script>
     function mw_change_template() {
 
-        var selectedTemplate = $('.js-template-selector').find("[name='active_site_template']").first().val();
+        var selectedTemplate = $('.js-template-selector').find("[name='active_site_template']").val();
         var importType = $('input[name="import_type"]:checked').val();
 
         $('.js-button-change-template').attr('disabled','disabled');
         $('.js-button-change-template').html('Loading..');
-
+ 
         setTimeout(function () {
             $('.js-button-change-template').html('This can take some time..');
         }, 5000);
@@ -38,52 +38,52 @@
 
 <div class="mw-backup-restore px-md-3 px-0">
 
-    <div class="mw-backup-restore-options mt-4">
+    <div class="mw-backup-restore-options col-lg-11 col-12 mt-4">
 
         <h2 style="font-weight: bold"><?php _e("How to apply this template?") ?></h2>
         <br/>
 
-        <div class="card bg-light mb-4">
+        <div class="card bg-light mb-4 text-start">
             <div class="card-body">
                 <label class="form-check py-2" id="js-template-import-type-default">
-                    <input class="form-check-input mt-3" type="radio" name="import_type" value="default" checked="checked" />
+                    <input class="form-check-input mt-3 me-3" type="radio" name="import_type" value="default" checked="checked" />
 
-                    <span class="form-label"><?php _e("Use template with current content") ?></span>
-                    <span class="fs-5"><?php _e("Change only website template without any content changes") ?></span>
+                    <span class="form-label font-weight-bold"><?php _e("Use template with current content") ?></span>
+                    <small class="text-muted"><?php _e("Change only website template without any content changes") ?></small>
                 </label>
             </div>
         </div>
 
-        <div class="card bg-light mb-4">
+        <div class="card bg-light mb-4 text-start">
            <div class="card-body">
                <label class="form-check py-2 active" id="js-template-import-type-full">
-                   <input class="form-check-input mt-3" type="radio" name="import_type" value="full" />
+                   <input class="form-check-input mt-3 me-3" type="radio" name="import_type" value="full" />
 
-                   <span class="form-label"><?php _e("Import default content, media and css files") ?></span>
-                   <span class="fs-5"><?php _e("Import the default content, media and css files from template") ?></span>
+                   <span class="form-label font-weight-bold"><?php _e("Import default content, media and css files") ?></span>
+                   <small class="text-muted"><?php _e("Import the default content, media and css files from template") ?></small>
                </label>
            </div>
         </div>
 
 
-        <div class="card bg-light mb-4">
+        <div class="card bg-light mb-4 text-start">
             <div class="card-body">
                 <label class="form-check py-2" id="js-template-import-type-only-media">
-                    <input class="form-check-input mt-3" type="radio" name="import_type" value="only_media" />
+                    <input class="form-check-input mt-3 me-3" type="radio" name="import_type" value="only_media" />
 
-                    <span class="form-label"><?php _e("Import only media and css") ?></span>
-                    <span class="fs-5"><?php _e("This option will import only the media and css files") ?></span>
+                    <span class="form-label font-weight-bold"><?php _e("Import only media and css") ?></span>
+                    <small class="text-muted"><?php _e("This option will import only the media and css files") ?></small>
                 </label>
             </div>
         </div>
 
-        <div class="card bg-light mb-4">
+        <div class="card bg-light mb-4 text-start">
             <div class="card-body">
                 <label class="form-check py-2" id="js-template-import-type-delete">
-                    <input class="form-check-input mt-3" type="radio" name="import_type" value="delete" />
+                    <input class="form-check-input mt-3 me-3" type="radio" name="import_type" value="delete" />
 
-                    <span class="form-label"><?php _e("Delete all website data") ?></span>
-                    <span class="fs-5"><?php _e("This option will delete all website data and will import fresh content") ?>.</span>
+                    <span class="form-label font-weight-bold"><?php _e("Delete all website data") ?></span>
+                    <small class="text-muted"><?php _e("This option will delete all website data and will import fresh content") ?>.</small>
                 </label>
             </div>
         </div>

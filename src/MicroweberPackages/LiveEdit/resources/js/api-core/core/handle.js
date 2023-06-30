@@ -109,7 +109,7 @@ export const Handle = function (options) {
             }
         }
         menu.style.transition = `none`;
-        menu.style.transform = transform ? `translateY(${transform}px)` : '';
+        menu.style.transform = transform ? `translateX(${transform}px)` : '';
 
         setTimeout(() => menu.style.transition = ``, 10)
 

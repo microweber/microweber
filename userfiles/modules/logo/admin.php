@@ -20,8 +20,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
-            <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -285,37 +285,29 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="logo-module-types">
                         <div class="form-group">
-                            <label class="form-label my-3"><?php _e("Choose Logo type"); ?></label>
+                            <label class="form-label my-3 font-weight-bold"><?php _e("Choose Logo type"); ?></label>
 
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="logotype1" option-group="<?php print $logo_name ?>" class="mw_option_field form-check-input" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
-                                <label class="custom-control-label" for="logotype1"><?php _e('Image Logo'); ?><br/>
-                                    <small class="text-muted"><?php _e("Upload your logo image in .JPG or .PNG format"); ?></small>
-                                </label>
-                            </div>
+                            <label class="form-check">
+                                <input type="radio" id="logotype1" option-group="<?php print $logo_name ?>" class="form-check-input me-2" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
+                                <span class="form-check-label"><?php _e("Upload your logo image in .JPG or .PNG format"); ?></span>
+                            </label>
 
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="logotype2" option-group="<?php print $logo_name ?>"  class="mw_option_field form-check-input" <?php if ($logotype == 'text'){ ?>checked<?php } ?> name="logotype" value="text">
-                                <label class="custom-control-label" for="logotype2"><?php _e('Text Logo'); ?><br/>
-                                    <small class="text-muted"><?php _e("Type your brand and choose font size and style"); ?></small>
-                                </label>
-                            </div>
+                            <label class="form-check">
+                                <input type="radio" id="logotype2" option-group="<?php print $logo_name ?>"  class="form-check-input me-2" <?php if ($logotype == 'text'){ ?>checked<?php } ?> name="logotype" value="text">
+                                <span class="form-check-label"><?php _e("Type your brand and choose font size and style"); ?></span>
+                            </label>
 
-                            <div class="custom-control custom-radio d-none">
-                                <input type="radio" id="logotype3" option-group="<?php print $logo_name ?>"  class="mw_option_field form-check-input" <?php if ($logotype == 'both' or $logotype == false){ ?>checked<?php } ?> name="logotype" value="both">
-                                <label class="custom-control-label" for="logotype3"><?php _e('Both'); ?><br/>
-                                    <small class="text-muted"><?php _e("Type your brand and choose font size") ;?></small>
-                                </label>
-                            </div>
+                            <label class="form-check">
+                                <input type="radio" id="logotype3" option-group="<?php print $logo_name ?>"  class="form-check-input me-2" <?php if ($logotype == 'both' or $logotype == false){ ?>checked<?php } ?> name="logotype" value="both">
+                                <span class="form-check-label"><?php _e("Type your brand and choose font size") ;?></span>
+                            </label>
+
                         </div>
                     </div>
 
-
-                    <hr class="thin my-4"/>
-
                     <div class="js-logo-image-holder">
                         <div class="form-group">
-                            <label class="form-label"><?php _e("Main Logo"); ?></label>
+                            <label class="form-label font-weight-bold"><?php _e("Main Logo"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("This logo image will appear every time"); ?></small>
                         </div>
 
@@ -326,14 +318,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             </div>
 
-                            <div>
-                                <span class="btn btn-primary btn-rounded btn-sm" id="upload-image"><?php _e("Upload Image"); ?></span>
-                                <a href="javascript:mw_admin_logo_upload_browse_existing()" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse Uploaded'); ?></a>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="btn btn-primary btn-rounded btn-sm" id="upload-image"><?php _e("Upload"); ?></span>
+                                <a href="javascript:mw_admin_logo_upload_browse_existing()" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse'); ?></a>
                                 <?php if ($logotype == 'both' or $logotype == 'image' or $logotype == false): ?>
-                                    <a class="btn btn-outline-primary btn-rounded btn-sm" onclick="mw.edit_logo_image_crop()" href="javascript:void(0);"><?php _e("Edit image"); ?></a>
+                                    <a class="btn btn-outline-primary btn-rounded btn-sm" onclick="mw.edit_logo_image_crop()" href="javascript:void(0);"><?php _e("Edit"); ?></a>
                                 <?php endif; ?>
 
-                                <button type="button" class="btn btn-danger btn-rounded btn-sm js-remove-logoimage"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove the logo"); ?></button>
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm js-remove-logoimage"> <?php _e("Remove"); ?></button>
 
                                 <script>
                                     $('.js-remove-logoimage').on('click', function () {
@@ -378,8 +370,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
                         <?php endif; ?>
 
-                        <hr class="thin"/>
-
 
                         <div class="form-group">
                             <label class="form-label"><?php _e("Scale the logo image"); ?></label>
@@ -393,12 +383,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="form-check-input" checked="" id="auto_scale_logo" value="pending">
-                                <label class="custom-control-label" for="auto_scale_logo"><?php _e('Set auto logo size'); ?></label>
-                            </div>
-                        </div>
+                        <label class="form-check ms-1">
+                            <input type="checkbox" class="form-check-input me-2" checked="" id="auto_scale_logo" value="pending">
+                            <span class="form-check-label"><?php _e('Set auto logo size'); ?></span>
+                        </label>
+
                     </div>
 
                     <div class="js-logo-text-holder">

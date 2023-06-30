@@ -186,7 +186,7 @@ if ($params['coupon_id'] !== 'false') {
         <?php } ?>
 
         <div class="d-flex justify-content-between">
-            <button type="button" class="btn btn-outline-secondary" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
+            <button type="button" class="btn btn-outline-secondary" onclick="mw.dialog.get(this).remove()"><?php _e("Cancel"); ?></button>
             <button type="button" class="btn btn-success js-save-coupon"><?php _e("Save"); ?></button>
         </div>
     </div>

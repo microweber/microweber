@@ -119,6 +119,14 @@
 }
 
 
+.mw-file-manager-list-item-matches--false .form-check{
+    display: none !important;
+}
+.mw-file-manager-list-item-matches--false{
+    pointer-events: none;
+    opacity: .5;
+}
+
  
  
 

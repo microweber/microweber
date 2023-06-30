@@ -223,10 +223,10 @@ if ($menu_data) {
 <?php if (is_array($menus) == true): ?>
     <?php if (is_array($menus)): ?>
 
-        <div class="form-group">
-            <label class="form-label d-flex justify-content-between">
+        <div class="form-group mb-3">
+            <label class="form-label font-weight-bold mb-2 d-flex align-items-center justify-content-between">
                 <?php _e("Select the Menu you want to edit"); ?>
-                <button   onclick="add_new_menu();"  class="btn btn-link " id="create-menu-btn"><?php _e("Create new menu"); ?></button>
+                <button onclick="add_new_menu();" class="btn btn-link mw-admin-action-links text-decoration-none" id="create-menu-btn"><?php _e("Create new menu"); ?></button>
             </label>
 
             <select id="menu_selector_<?php print $params['id'] ?>" name="menu_name" class="mw_option_field form-select" data-width="100%" data-size="5" onchange="mw.menu_edit_items(this.value, '#items_list_<?php print $rand ?>');" onblur="mw.menu_edit_items(this.value, '#items_list_<?php print $rand ?>');">
@@ -255,7 +255,7 @@ if (isset($menu_data) and is_array($menu_data) and isset($menu_data['id'])) {
 ?>
 
 <div class="d-block">
-    <button type="button" class="btn btn-primary mt-2" onclick="addMenuItem()"> <?php _e("Add menu item"); ?></button>
+    <button type="button" class="btn btn-dark mt-2" onclick="addMenuItem()"> <?php _e("Add menu item"); ?></button>
 </div>
 
 <div class="<?php print $config['module_class']; ?> menu_items order-has-link">

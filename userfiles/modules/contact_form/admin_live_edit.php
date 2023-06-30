@@ -5,10 +5,9 @@ if (!user_can_access('module.contact_form.index')) {
 ?>
 
 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-    <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#settings" id="form_options"><i class="mdi mdi-email-outline mr-1"></i> <?php _e('Settings'); ?></a>
-    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#settings-advanced">  <?php _e('Advanced Settings'); ?></a>
-    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#custom-fields"><i class="mdi mdi-pencil-box-outline mr-1"></i> <?php _e('Custom Fields'); ?></a>
-    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
+    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#settings" id="form_options"><?php _e('Settings'); ?></a>
+    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#settings-advanced">  <?php _e('Advanced Settings'); ?></a>
+    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
 </nav>
 
 <div class="tab-content py-3">
@@ -93,16 +92,6 @@ if (!user_can_access('module.contact_form.index')) {
                     <input name="email_redirect_after_submit" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_redirect_after_submit', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
                 </div>
             <?php endif; ?>
-        </div>
-        <!-- Settings Content - End -->
-    </div>
-
-    <div class="tab-pane fade" id="custom-fields">
-        <!-- Settings Content -->
-        <div class="module-live-edit-settings module-contact-form-settings">
-            <h5 class="font-weight-bold settings-title-inside"><?php _e("Contact Form Fields"); ?></h5>
-            <small class="text-muted d-block"><?php _e("Add / Edit fields of the form using the custom fields") ?></small>
-            <module type="custom_fields" view="admin" data-for="module" for-id="<?php print $params['id'] ?>"/>
         </div>
         <!-- Settings Content - End -->
     </div>

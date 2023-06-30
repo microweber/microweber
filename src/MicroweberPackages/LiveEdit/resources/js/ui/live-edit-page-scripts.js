@@ -316,4 +316,8 @@ addEventListener('load', () => {
          
         return await save()
     };
+
+    window.addEventListener('keydown', function(event){
+        mw.top().app.canvas.dispatch('iframeKeyDown', {event})
+    })
 })

@@ -179,8 +179,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <?php if (!isset($params['menu_rollover'])) { ?>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#settings">  <?php _lang('Settings', "modules/image_rollover"); ?></a>
-            <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#templates">   <?php _lang('Templates', "modules/image_rollover"); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#settings">  <?php _lang('Settings', "modules/image_rollover"); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#templates">   <?php _lang('Templates', "modules/image_rollover"); ?></a>
         </nav>
         <?php } ?>
         <div class="tab-content py-3">
@@ -189,29 +189,31 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="module-live-edit-settings  module-image-rollover-settings" id="module-image-rollover-settings">
                     <div class="row image-row">
                         <div class="col ">
-                        <div class="mw-ui-box mw-ui-box-content ">
-                            <h6 class="font-weight-bold"><?php _lang("Default image") ?></h6>
-                            <img src="<?php print $default_image; ?>" class="the-image d-block" alt="" <?php if ($default_image != '' and $default_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
-                            <br>
-                            <div class="d-block d-md-flex justify-content-between align-items-center p-1">
-                                <span class="  btn btn-primary" onclick="chooseImage()">Choose image</span>
-                            </div>
+                        <div class="card ">
+                           <div class="card-body text-center">
+                               <label class="font-weight-bold text-center mb-3"><?php _lang("Default image") ?></label>
+                               <img src="<?php print $default_image; ?>" class="the-image d-block mx-auto" alt="" <?php if ($default_image != '' and $default_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
+                               <br>
+                               <div class="d-block d-md-flex justify-content-between align-items-center">
+                                   <span class="btn-link fs-5" onclick="chooseImage()"><?php _e("Choose image") ?></span>
+                               </div>
+                           </div>
                         </div>
                         </div>
 
                         <div class="col ">
-                            <div class="mw-ui-box mw-ui-box-content ">
-                            <h6 class="font-weight-bold"><?php _lang("Rollover image") ?></h6>
-                            <img src="<?php print $rollover_image; ?>" class="the-image-rollover d-block" alt="" <?php if ($rollover_image != '' and $rollover_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
-                            <br>
-                            <div class="d-block d-md-flex justify-content-between align-items-center p-1">
-                                <span class="  btn btn-primary" onclick="chooseImage(true)">Choose image</span>
+                            <div class="card ">
+                                <div class="card-body text-center">
+                                    <label class="font-weight-bold text-center mb-3"><?php _lang("Rollover image") ?></label>
+                                    <img src="<?php print $rollover_image; ?>" class="the-image-rollover mx-auto d-block" alt="" <?php if ($rollover_image != '' and $rollover_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
+                                    <br>
+                                    <div class="d-block d-md-flex justify-content-between align-items-center">
+                                        <span class="btn-link fs-5" onclick="chooseImage(true)"><?php _e("Choose image") ?></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        </div>
                     </div>
-
-                    <hr class="thin"/>
 
                     <div class="form-group">
                         <label class="form-label" style="padding-top: 10px;"><span><?php _lang('Image size', "modules/image_rollover"); ?></span> - <b id="imagesizeval"></b></label>

@@ -1,5 +1,6 @@
 @import url("../css/../../tabler-ui/dist/css/tabler.min.css");
 @import "_mw_tabler";
+@import "file-robot-image-editor";
 
 
 
@@ -71,6 +72,7 @@ body.theme-dark {
         }
     }
 
+
     .admin-dashboard-left-nav {
         .dropdown-toggle {
             &:after {
@@ -109,6 +111,12 @@ body.theme-dark {
             filter: invert(1);
         }
 
+    }
+}
+
+.btn-outline-dark {
+    &:hover, &:active, &.active, &:focus {
+        border-color: var(--tblr-body-color) !important;
     }
 }
 
@@ -1363,9 +1371,18 @@ svg.text-danger {
 
 .mw-admin-action-links {
     position: relative;
-    text-decoration: none;
+    text-decoration: none !important;
     color: var(--tblr-body-color);
     font-weight: 500;
+
+    &.mw-adm-liveedit-tabs {
+        font-weight: 600;
+
+        &:active, &:focus, &.active {
+            font-weight: 700;
+
+        }
+    }
 
     &:after {
         position: absolute;
@@ -1785,3 +1802,26 @@ svg.text-danger {
         }
     }
 }
+
+
+
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+#bubble-nav {
+
+    span {
+        &:hover {
+            svg {
+                fill: var(--tblr-bg-surface);
+            }
+
+        }
+        svg {
+            fill: var(--tblr-body-color);
+        }
+    }
+
+}
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!

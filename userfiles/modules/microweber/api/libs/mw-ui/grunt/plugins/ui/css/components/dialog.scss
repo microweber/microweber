@@ -95,6 +95,19 @@
 
 
 }
+
+body.mw-admin-live-edit-page{
+  .mw-dialog-skin-default{
+    .mw-dialog-overlay {
+
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+  
+    }
+  }
+
+}
+ 
 .mw-dialog-skin-default {
   visibility: hidden;
   opacity: 0;
@@ -172,6 +185,7 @@
     backdrop-filter: blur(4px);
     background-color: rgba(29,39,59,.24);
   }
+
   &.active {
     visibility: visible;
     opacity: 1;

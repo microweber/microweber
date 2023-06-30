@@ -652,7 +652,13 @@
                 mw.$(element.querySelector('.mw-tree-item-content')).prepend(this.checkBox(element))
             } else {
                 if(!this.options.selectableNodes) {
-                    mw.$(element.querySelector('.mw-tree-item-content')).css('pointerEvents', 'none')
+                    var content = mw.$(element.querySelector('.mw-tree-item-content'))
+                    content.css('pointerEvents', 'none')
+
+                    setTimeout((content)=>{
+                        content.children().css('pointerEvents', 'all')
+                    }, 10, content)
+                    
                 }
                 
             }

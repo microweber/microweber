@@ -2,13 +2,13 @@
 
 
     <div id="bubble-nav" class="active">
-        <span v-on:click="show('template-settings')">
+        <span data-bs-toggle="tooltip" aria-label="Template settings" data-bs-original-title="Template settings" v-on:click="show('template-settings')">
             <DesignSettingsIcon />
         </span>
-        <span v-on:click="show('show-modules')">
+        <span data-bs-toggle="tooltip" aria-label="Show modules" data-bs-original-title="Show modules" v-on:click="show('show-modules')">
             <ModulesIcon />
         </span>
-        <span v-on:click="show('show-layouts')">
+        <span data-bs-toggle="tooltip" aria-label="Show layouts" data-bs-original-title="Show layouts" v-on:click="show('show-layouts')">
             <LayoutsIcon />
         </span>
     </div>

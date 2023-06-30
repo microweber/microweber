@@ -1815,38 +1815,38 @@
                                 <br/>
                                 <br/>
                                 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">
-                                    <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#home">White</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#profile">Yellow</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#other">Red</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#other">Blue</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#other">Black</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#home">White</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#profile">Yellow</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#other">Red</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#other">Blue</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#other">Black</a>
                                 </nav>
                                 <br/>
                                 <br/>
                                 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-2">
-                                    <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#home">White</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#profile">Yellow</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#other">Red</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#other">Blue</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#other">Black</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#home">White</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#profile">Yellow</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#other">Red</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#other">Blue</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#other">Black</a>
                                 </nav>
                                 <br/>
                                 <br/>
                                 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle">
-                                    <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#home">White</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#profile">Yellow</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#other">Red</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#other">Blue</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#other">Black</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#home">White</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#profile">Yellow</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#other">Red</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#other">Blue</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#other">Black</a>
                                 </nav>
                                 <br/>
                                 <br/>
                                 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                                    <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#home"><i class="mdi mdi-card-plus mr-1"></i> White</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#profile"><i class="mdi mdi-card-plus mr-1"></i> Yellow</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#other"><i class="mdi mdi-card-plus mr-1"></i> Red</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#other"><i class="mdi mdi-card-plus mr-1"></i> Blue</a>
-                                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#other"><i class="mdi mdi-card-plus mr-1"></i> Black</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#home"><i class="mdi mdi-card-plus mr-1"></i> White</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#profile"><i class="mdi mdi-card-plus mr-1"></i> Yellow</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#other"><i class="mdi mdi-card-plus mr-1"></i> Red</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#other"><i class="mdi mdi-card-plus mr-1"></i> Blue</a>
+                                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#other"><i class="mdi mdi-card-plus mr-1"></i> Black</a>
                                 </nav>
                                 <br/>
                                 <br/>

@@ -107,9 +107,9 @@ $data = $products;
             <div class="row">
                 <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs m-1 w-100">
                     <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                        <a class="btn btn-outline-primary justify-content-center  active show" data-bs-toggle="tab" href="javascript:;"><i class="mdi mdi-cart-outline px-2 mdi-20px"></i><?php _e("Add to cart"); ?></a>
-                        <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="javascript:;">   <?php _e("My cart's content"); ?></a>
-                        <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="javascript:;"><i class="mdi mdi-arrow-right"></i> <?php _e("Checkout"); ?></a>
+                        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active show" data-bs-toggle="tab" href="javascript:;"><i class="mdi mdi-cart-outline px-2 mdi-20px"></i><?php _e("Add to cart"); ?></a>
+                        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="javascript:;">   <?php _e("My cart's content"); ?></a>
+                        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="javascript:;"><i class="mdi mdi-arrow-right"></i> <?php _e("Checkout"); ?></a>
                     </nav>
                 </div>
                 <div class="mw-ui-box-content m-1 border-0 w-100">

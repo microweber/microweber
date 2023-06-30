@@ -1,44 +1,44 @@
 {
-  "_bootstrap-381ba1cf.js": {
+  "_bootstrap-71fabdf8.js": {
     "css": [
-      "assets/bootstrap-e5b61fba.css"
+      "assets/bootstrap-0d4d1cba.css"
     ],
-    "file": "assets/bootstrap-381ba1cf.js"
+    "file": "assets/bootstrap-71fabdf8.js"
   },
   "bootstrap.css": {
-    "file": "assets/bootstrap-e5b61fba.css",
+    "file": "assets/bootstrap-0d4d1cba.css",
     "src": "bootstrap.css"
   },
   "resources/css/microweber-admin-filament.css": {
-    "file": "assets/microweber-admin-filament-70f890bc.css",
+    "file": "assets/microweber-admin-filament-3b6df8a7.css",
     "isEntry": true,
     "src": "resources/css/microweber-admin-filament.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js": {
-    "file": "assets/admin-app-cfa4b155.js",
+    "file": "assets/admin-app-44689a1b.js",
     "imports": [
-      "_bootstrap-381ba1cf.js"
+      "_bootstrap-71fabdf8.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css": {
-    "file": "assets/live-edit-app-a21a9b22.css",
+    "file": "assets/live-edit-app-830068ce.css",
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js": {
     "css": [
-      "assets/live-edit-app-a21a9b22.css"
+      "assets/live-edit-app-830068ce.css"
     ],
-    "file": "assets/live-edit-app-0c063ae2.js",
+    "file": "assets/live-edit-app-5c409ecd.js",
     "imports": [
-      "_bootstrap-381ba1cf.js"
+      "_bootstrap-71fabdf8.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js": {
-    "file": "assets/live-edit-page-scripts-108ed4c8.js",
+    "file": "assets/live-edit-page-scripts-587474d0.js",
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js"
   }

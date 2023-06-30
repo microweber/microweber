@@ -374,7 +374,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                 $pkkeys = url_title($pkkeys);
 
                                 ?>
-                                <a class="btn btn-outline-primary justify-content-center  <?php if ($count == 1): ?>active<?php endif; ?>" data-bs-toggle="tab" id="js-packages-tab-<?php echo $pkkeys; ?>" href="#<?php echo $pkkeys; ?>"><i class="mdi mr-1 <?php if ($pkkeys == 'template'): ?>mdi-pencil-ruler<?php elseif ($pkkeys == 'module'): ?>mdi-view-grid-plus<?php elseif ($pkkeys == 'update'): ?>mdi-flash-outline<?php endif; ?>"></i> <?php print titlelize($pkkeys) ?></a>
+                                <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  <?php if ($count == 1): ?>active<?php endif; ?>" data-bs-toggle="tab" id="js-packages-tab-<?php echo $pkkeys; ?>" href="#<?php echo $pkkeys; ?>"><i class="mdi mr-1 <?php if ($pkkeys == 'template'): ?>mdi-pencil-ruler<?php elseif ($pkkeys == 'module'): ?>mdi-view-grid-plus<?php elseif ($pkkeys == 'update'): ?>mdi-flash-outline<?php endif; ?>"></i> <?php print titlelize($pkkeys) ?></a>
                             <?php endforeach; ?>
                         <?php endif; ?>
 
@@ -397,7 +397,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
                                 $count = count($pkitems);
                                 $total += $count;
-                                $items .= '<a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#' . $pkkeys . '">' . titlelize($pkkeys) . '&nbsp; <sup class="badge badge-success badge-sm badge-pill">' . $count . '</sup></a>';
+                                $items .= '<a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#' . $pkkeys . '">' . titlelize($pkkeys) . '&nbsp; <sup class="badge badge-success badge-sm badge-pill">' . $count . '</sup></a>';
                             endforeach;
                             ?>
                             <?php print $items; ?>

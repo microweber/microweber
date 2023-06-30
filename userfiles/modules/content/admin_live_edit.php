@@ -226,11 +226,11 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 <div class="post-settings-holder">
     <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
 
-        <a class="btn btn-outline-primary justify-content-center  active" onclick="mw.manage_live_edit_content('<?php print $params['id'] ?>');" data-bs-toggle="tab" href="#list">  <?php _e("Manage"); ?></a>
-        <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
-         <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
-        <a class="btn btn-outline-primary justify-content-center " style="display: none;" data-bs-toggle="tab" href="#last-1"></a>
-        <a class="btn btn-outline-primary justify-content-center " style="display: none;" data-bs-toggle="tab" href="#last-2"></a>
+        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" onclick="mw.manage_live_edit_content('<?php print $params['id'] ?>');" data-bs-toggle="tab" href="#list">  <?php _e("Manage"); ?></a>
+        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
+         <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
+        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " style="display: none;" data-bs-toggle="tab" href="#last-1"></a>
+        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " style="display: none;" data-bs-toggle="tab" href="#last-2"></a>
     </nav>
 
     <div class="tab-content py-3">

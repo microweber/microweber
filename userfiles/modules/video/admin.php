@@ -9,10 +9,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
-    <div class="card-header">
-        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
-    </div>
+<div class="card-body px-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+    <?php if (!isset($params['live_edit'])): ?>
+
+        <div class="card-header">
+            <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
+        </div>
+    <?php endif; ?>
 
     <div class=" ">
         <?php
@@ -136,9 +139,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </script>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#list"><i class="mdi mdi-play-box mr-1"></i> <?php _e('Video'); ?></a>
-            <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
-            <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#list"> <?php _e('Video'); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -149,15 +152,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-video-settings">
                     <div class="form-group">
-                        <label class="form-label"><?php _e("Embed Video"); ?></label>
+                        <label class="form-label font-weight-bold"><?php _e("Embed Video"); ?></label>
                         <small class="text-muted mb-2 d-block"><?php _e("Paste video URL or Embed Code"); ?></small>
                         <textarea name="embed_url" rows="5" id="emebed_video_field" class="form-control mw_option_field" data-mod-name="<?php print $params['data-type'] ?>"><?php print (get_option('embed_url', $params['id'])) ?></textarea>
                     </div>
 
-                    <hr class="thin"/>
-
                     <div class="form-group">
-                        <label class="form-label"><?php _e("Upload Video"); ?></label>
+                        <label class="form-label font-weight-bold"><?php _e("Upload Video"); ?></label>
                         <small class="text-muted mb-2 d-block"><?php _e("Upload Video from your computer. Allowed file format are .MP4 .WEBM"); ?></small>
                     </div>
 
@@ -165,12 +166,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <?php $uploadedVideo = get_option('upload', $params['id']); ?>
 
                     <div class="d-flex align-items-center justify-content-between">
-                        <button type="button" class="btn btn-primary btn-rounded" id="upload_btn"><i class="mdi mdi-upload"></i> &nbsp;<?php _e("Choose video file"); ?></button>
-                        <button type="button" class="btn btn-link text-danger px-0" id="remove-video-button" style="<?php print !!$uploadedVideo ? '' : 'display:none;' ?>;" onclick="$('#video-preview').hide(); $(this).hide(); $('.js-video-preview-label').hide(); $('#upload_field').val('').trigger('change')"><?php _e("Remove Video"); ?></button>
+                        <button type="button" class="btn btn-dark" id="upload_btn"> &nbsp;<?php _e("Choose video file"); ?></button>
+                        <button type="button" class="btn btn-link text-danger px-0" id="remove-video-button" style="<?php print !!$uploadedVideo ? '' : 'display:none;' ?>;" onclick="$('#video-preview').hide(); $(this).hide(); $('.js-video-preview-label').hide(); $('#upload_field').val('').trigger('change')" data-bs-toggle="tooltip" aria-label="Delete" data-bs-original-title="Delete"> <svg class="text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"></path></svg></button>
                     </div>
 
                     <div class="form-group mt-3 mb-2 js-video-preview-label" style="display: <?php print !!$uploadedVideo ? 'block' : 'none' ?>;">
-                        <label class="form-label"><?php _e("Preview"); ?></label>
+                        <label class="form-label font-weight-bold"><?php _e("Preview"); ?></label>
                     </div>
 
                     <video style="display: <?php print !!$uploadedVideo ? 'block' : 'none' ?>;"<?php print 'src="' . $uploadedVideo . '"'; ?> width="100%" height="200px" id="video-preview" controls></video>
@@ -186,21 +187,21 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-video-settings">
                     <div class="form-group">
-                        <label class="form-label"><?php _e('Video settings'); ?></label>
+                        <label class="form-label font-weight-bold"><?php _e('Video settings'); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e('Set a width height in pixels'); ?></small>
                     </div>
 
-                    <div class="row">
+                    <div class="row px-0">
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="form-label"><?php _e("Width"); ?></label>
+                                <label class="form-label font-weight-bold"><?php _e("Width"); ?></label>
                                 <input name="width" placeholder="Ex. 450" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('width', $params['id']) ?>"/>
                             </div>
                         </div>
 
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="form-label"><?php _e("Height"); ?></label>
+                                <label class="form-label font-weight-bold"><?php _e("Height"); ?></label>
                                 <input name="height" placeholder="Ex. 350" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('height', $params['id']) ?>"/>
                             </div>
                         </div>
@@ -215,21 +216,18 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     </div>
 
-                    <hr class="thin"/>
-
                     <div class="form-group">
-                        <label class="form-label"><?php _e("Upload Video Thumbnail from your computer"); ?></label>
+                        <label class="form-label mb-0 font-weight-bold"><?php _e("Upload Video Thumbnail from your computer"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Optional thumbnail image for use with uploaded or embedded videos. Required if Lazy Loading selected"); ?></small>
                     </div>
 
-                    <div class="row d-flex">
+                    <div class="row d-flex px-0">
                         <div class="col-auto">
-                            <div style="width: 120px;" class="mb-2">
+                            <div class="mb-2">
                                 <div class="dropable-zone small-zone square-zone  " id="upload_thumb_btn">
                                     <div class="holder">
                                         <div class="dropable-zone-img img-media mb-2"></div>
-                                        <button type="button" class="btn btn-link py-1"><?php _e('Add media'); ?></button>
-                                        <p><?php _e('or drop'); ?></p>
+                                        <button type="button" class="btn btn-dark"><?php _e('Upload image thumbnail'); ?></button>
                                     </div>
                                 </div>
                             </div>
@@ -249,10 +247,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                     </div>
 
-                    <hr class="thin"/>
-
                     <div class="form-group">
-                        <label class="form-label"><?php _e("Video Lazy Loading for SEO"); ?></label>
+                        <label class="form-label font-weight-bold"><?php _e("Video Lazy Loading for SEO"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Optional setting for use with embedded YouTube videos to defer the downloading of video scripts. Thumbnail image required, see Thumbnail Upload section"); ?></small>
 
                         <div class="custom-control custom-checkbox">
