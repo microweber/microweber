@@ -47,6 +47,7 @@ export const ModuleHandleContent = function (rootScope) {
                     
                     var type = target.dataset.type || target.getAttribute('type');
                     type = type.trim();
+                    mw.app.registerChange(target)
                     target.remove()
                     mw.app.editor.dispatch('moduleRemoved', target);
                     mw.app.editor.dispatch('modulet@'+type+'Removed', target);

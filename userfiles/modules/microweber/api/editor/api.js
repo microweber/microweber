@@ -440,15 +440,18 @@ mw.lib.require('rangy');
                 }
                 rangy.init();
                 var clstemp = 'mw-font-size-' + mw.random();
-                var classApplier = rangy.createCssClassApplier("mw-richtext-cssApplier " + clstemp, true);
-                classApplier.applyToSelection();
+                var classApplier = rangy.createClassApplier(clstemp, true);
+                classApplier.applyToSelection(scope.actionWindow);
 
-                var all = document.querySelectorAll('.' + clstemp),
+                var all = scope.actionWindow.document.querySelectorAll('.' + clstemp),
                     l = all.length,
                     i = 0;
+                    console.log(all)
+                    console.log(classApplier)
+                    console.log(styles)
                 for ( ; i < l; i++ ) {
                     all[i].setAttribute('style', styles);
-                    mw.tools.removeClass(all[i], clstemp);
+                     mw.tools.removeClass(all[i], clstemp);
                 }
             },
             cssApplier2: function (css) {
@@ -508,6 +511,7 @@ mw.lib.require('rangy');
 
                         if (sel.rangeCount > 0) {
                             var node = scope.api.elementNode(sel.focusNode);
+                           
                             scope.api.action(mw.tools.firstBlockLevel(node), function () {
                                 scope.api[method].call(scope.api, options);
                                 mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
@@ -607,6 +611,7 @@ mw.lib.require('rangy');
 
             },
             fontSize: function (size) {
+                 
                 var unit = 'px';
                 if(typeof size === 'string') {
                     var units =  ['px', '%', 'in', 'cm', 'mm', 'rem', 'em', 'ex', 'pt', 'pc','ex','ch','rem','lh','rlh','vw','vh','vmin','vmax','vb','vi','svw', 'svh','lvw', 'lvh','dvw', 'dvh']
@@ -618,21 +623,17 @@ mw.lib.require('rangy');
                 }
                 var sel = scope.getSelection();
                 if (sel.isCollapsed) {
-                   /* scope.api.selectAll(scope.api.elementNode(sel.focusNode));
-                    sel = scope.getSelection();*/
-
                     var node = scope.api.elementNode(sel.focusNode);
                     scope.api.action(node.parentNode, function () {
                         node.style.fontSize = size + unit;
                     });
-
-
                     return;
                 }
                 var range = sel.getRangeAt(0),
                     common = scope.api.elementNode(range.commonAncestorContainer);
                 var nodrop_state = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(common, ['allow-drop', 'nodrop']);
-                if (scope.api.isSelectionEditable() && nodrop_state) {
+  
+                if (scope.api.isSelectionEditable()/* && nodrop_state */) {
                     scope.api._fontSize(size, unit);
                 }
             },
