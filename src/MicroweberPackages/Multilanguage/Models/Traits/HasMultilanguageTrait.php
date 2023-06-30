@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
+use MicroweberPackages\Option\Models\ModuleOption;
 
 trait HasMultilanguageTrait
 {
@@ -69,28 +70,53 @@ trait HasMultilanguageTrait
                 }
             }
             if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                $defaultLocale = mw()->lang_helper->default_lang();
+                $modelClass = get_class($model);
+                $skipModelClasses = [
+                    ModuleOption::class,
+                ];
+                $isModuleOptions = false;
+                if (in_array($modelClass, $skipModelClasses)) {
+                    $isModuleOptions = true;
 
-                // When receive a save_option
-                if (isset($model->attributes['lang']) && isset($model->attributes['module'])) {
-                    $translatableModuleOptions = self::getTranslatableModuleOptions();
-                    if (isset($translatableModuleOptions[$model->attributes['module']])) {
-                        $translatableModuleOptionKeys = $translatableModuleOptions[$model->attributes['module']];
-                        if (in_array($model->attributes['option_key'], $translatableModuleOptionKeys)) {
-                            $model->_addMultilanguage['option_value'][$model->attributes['lang']] = $model->attributes['option_value'];
-                        }
-                    }
-                    unset($model->attributes['lang']);
-                    unset($model->attributes['multilanguage']);
                 }
+                if ($isModuleOptions and !isset($model->attributes['multilanguage']) and isset($model->attributes['lang'])) {
+                // When receive a save_option
+                    // legacy save_option will not have multilanguage attribute, it will have lang attribute instead
+                    if (isset($model->attributes['lang']) && isset($model->attributes['module']) and $model->attributes['lang'] != $defaultLocale) {
+                        $translatableModuleOptions = self::getTranslatableModuleOptions();
+                        if (isset($translatableModuleOptions[$model->attributes['module']])) {
+                            $translatableModuleOptionKeys = $translatableModuleOptions[$model->attributes['module']];
+                            if (in_array($model->attributes['option_key'], $translatableModuleOptionKeys)) {
+                                $model->_addMultilanguage['option_value'][$model->attributes['lang']] = $model->attributes['option_value'];
+                                unset($model->attributes['option_value']);
+                            }
+                        }
+                        unset($model->attributes['lang']);
+                        unset($model->attributes['multilanguage']);
+                    }
 
-                /**
+
+                    if (isset($model->attributes['lang'])) {
+                        unset($model->attributes['lang']);
+                    }
+                    if (isset($model->attributes['multilanguage'])) {
+                        unset($model->attributes['multilanguage']);
+                    }
+
+                }
+                 /**
                  * When you add multilanguage fields
                  *
                  * EXAMPLE:
                  * multilanguage[title][en_US]    "Apple+iTunes+KSA+SAR+50"
                  * multilanguage[title][ar]    "Apple Ar"
                  */
-                if (isset($model->attributes['multilanguage'])) {
+                if (isset($model->attributes['multilanguage']) and empty($model->attributes['multilanguage'])) {
+                    unset($model->attributes['multilanguage']);
+                }
+                if (isset($model->attributes['multilanguage']) and !empty($model->attributes['multilanguage'])) {
+
                     $model->_addMultilanguage = $model->attributes['multilanguage'];
                     unset($model->attributes['multilanguage']);
                 }
@@ -98,14 +124,15 @@ trait HasMultilanguageTrait
                 // Backup the original model fields
                 if (isset($model->translatable)) {
                     foreach ($model->translatable as $translatableField) {
-                        $orig = $model->getOriginal($translatableField);
-                        if ($orig) {
-                            $model->$translatableField = $orig;
+                        if (!isset($model->attributes[$translatableField])) {
+                            $orig = $model->getOriginal($translatableField);
+                            if ($orig) {
+                                $model->$translatableField = $orig;
+                            }
                         }
                     }
                     // Append to model if we want to save changes for original model
                     if (!empty($model->_addMultilanguage)) {
-                        $defaultLocale = mw()->lang_helper->default_lang();
 
                         foreach ($model->_addMultilanguage as $field => $multilanguage) {
                             if (isset($multilanguage[$defaultLocale])) {
@@ -229,16 +256,8 @@ trait HasMultilanguageTrait
 
     public static function getTranslatableModuleOptions()
     {
-        $translatableModuleOptions = [];
-        $modules = mw()->module_manager->get_modules('ui=any&installed=1');
-        if ($modules) {
-            foreach ($modules as $module) {
-                if (isset($module['settings']['translatable_options'])) {
-                    $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
-                }
-            }
-        }
-        return $translatableModuleOptions;
+
+        return MultilanguageHelpers::getTranslatableModuleOptions();
     }
 
 }

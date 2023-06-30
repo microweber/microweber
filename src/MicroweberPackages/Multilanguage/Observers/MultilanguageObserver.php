@@ -11,6 +11,7 @@ namespace MicroweberPackages\Multilanguage\Observers;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 
 class MultilanguageObserver
@@ -167,13 +168,8 @@ class MultilanguageObserver
 
     }
     private function getTranslatableModuleOptions() {
-        $translatableModuleOptions = [];
-        foreach (get_modules_from_db() as $module) {
-            if (isset($module['settings']['translatable_options'])) {
-                $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
-            }
-        }
-        return $translatableModuleOptions;
+
+        return MultilanguageHelpers::getTranslatableModuleOptions();
     }
 
 

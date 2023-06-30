@@ -19,6 +19,43 @@
                 </x-microweber-ui::tab-item>
             </x-microweber-ui::tabs>
 
+
+
+
+
+
+            <x-microweber-ui::label  content="pick url" />
+
+            <livewire:microweber-module-option::text optionName="button_text"  :moduleId="$moduleId" :moduleType="$moduleType" />
+            <x-microweber-ui::row>
+                <x-microweber-ui::col>
+
+
+
+
+                    <x-microweber-ui::form-help  content="pick url for button" />
+
+
+                    <livewire:microweber-module-option::url-picker optionName="button_url"  :moduleId="$moduleId" :moduleType="$moduleType" />
+                    <livewire:microweber-module-option::text optionName="button_text"  :moduleId="$moduleId" :moduleType="$moduleType" />
+
+
+                    <livewire:microweber-module-option::icon-picker optionName="button_url"  :moduleId="$moduleId" :moduleType="$moduleType" />
+
+
+
+
+                </x-microweber-ui::col>
+            </x-microweber-ui::row>
+
+
+
+
+
+
+
+
+
             <x-microweber-ui::icon-picker wire:model="settings.icon" :value="$settings['icon']"/>
             <x-microweber-ui::text-option wire:model="settings.title" :value="$settings['title']"/>
             <x-microweber-ui::url-picker wire:model="settings.url" :value="$settings['url']"/>

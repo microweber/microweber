@@ -1,4 +1,4 @@
-<div>
+<div id="mw-options-save-<?php print md5($this->moduleId) ?>">
 
     @if(isset($this->moduleTitle) and $this->moduleTitle)
         <h1 class="font-weight-bold mb-4"><?php print $this->moduleTitle; ?></h1>
@@ -38,9 +38,12 @@
                     $select = $formItem['select'] ?? false;
                     $settingsKey = 'settings.' . $formItemKey;
 
+                    $fieldType = $type;
 
-                    $element = $formBuilder->make($type, $settingsKey);
-                    $element->setAttribute('wire:model.debounce.100ms', $settingsKey);
+
+                    $element = $formBuilder->make($fieldType, $settingsKey,$this->moduleId);
+                     $element->setAttribute('wire:model.debounce.100ms', $settingsKey);
+                    $element->setAttribute('module', $this->moduleType);
 
                     if ($label and method_exists($element, 'label')) {
                         $element->label($label);
@@ -76,5 +79,23 @@
         @endforeach
 
     @endif
+
+
+    <?php
+    /*      <script>
+              mw.require('options.js')
+          </script>
+
+          <script>
+              document.addEventListener('livewire:load', function () {
+                  mw.options.form('#mw-options-save-<?php print md5($this->moduleId) ?>', function () {
+                      if (mw.notification) {
+                          mw.notification.success('<?php _ejs('Settings are saved') ?>');
+                      }
+                  });
+              });
+          </script>*/
+    ?>
+
 
 </div>

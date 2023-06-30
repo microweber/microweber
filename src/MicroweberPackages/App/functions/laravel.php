@@ -1674,7 +1674,23 @@ if (!function_exists('dd')) {
     }
 
 }
+if (!function_exists('array_undot_str')) {
+    /**
+     * Transforms a dot-notated string into an array.
+     *
+     * @param string $string The dot-notated string to transform.
+     * @return array The resulting array.
+     * @see https://stackoverflow.com/a/51590961/731166
+     */
+    function array_undot_str($string) : array
+    {
+        $pieces = explode('.', $string);
+        $value = array_pop($pieces);
+        array_set($array, implode('.', $pieces), $value);
+        return $array;
+    }
 
+}
 if (!function_exists('data_fill')) {
     /**
      * Fill in data where it's missing.

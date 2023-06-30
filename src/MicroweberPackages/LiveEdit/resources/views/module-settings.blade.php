@@ -56,7 +56,7 @@
         @if(livewire_component_exists($livewireComponentName))
                 @livewire($livewireComponentName, [
                     'moduleId' => $moduleId,
-                    'moduleType' => $moduleType,
+                    'moduleType' => $moduleTypeForComponent,
                 ])
         @else
 
