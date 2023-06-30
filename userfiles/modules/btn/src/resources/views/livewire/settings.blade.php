@@ -12,9 +12,37 @@
     <div class="tab-content">
         <div class="tab-pane fade show active" wire:ignore.self id="text">
 
+            <livewire:microweber-module-option::text optionName="text"  :moduleId="$moduleId" :moduleType="$moduleType" wire:key="btntextOption" />
+            <livewire:microweber-module-option::text optionName="url"  :moduleId="$moduleId" :moduleType="$moduleType"  wire:key="btnurlOption" />
 
 
-            <livewire:microweber-module-btn::settings-form :moduleId="$moduleId" :moduleType="$moduleType" />
+            <?php
+            /*
+             *    <livewire:microweber-module-option::text optionName="url"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
+            <livewire:microweber-module-option::text optionName="button_action"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
+            <livewire:microweber-module-option::text optionName="button_onclick"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
+            <livewire:microweber-module-option::text optionName="popupcontent"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
+            <livewire:microweber-module-option::text optionName="url_blank"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
+            <livewire:microweber-module-option::text optionName="icon"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
+
+             * */
+            ?>
+
+
+
+
+
+  <?php
+
+  /*
+
+
+
+            <livewire:microweber-module-option::text optionName="url"  moduleId="{{$moduleId}}" moduleType="{{$moduleType}}" translatable="true"  />
+            <livewire:microweber-module-option::text optionName="button_text"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
+
+   <livewire:microweber-module-btn::settings-form :moduleId="$moduleId" :moduleType="$moduleType" /> */
+  ?>
 
         </div>
 

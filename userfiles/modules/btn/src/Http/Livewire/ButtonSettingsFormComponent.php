@@ -10,12 +10,12 @@ class ButtonSettingsFormComponent extends ModuleSettingsFormComponent
     public $moduleTitle = 'Button settings';
     public array $settingsForm = [
         'text' => [
-            'type' => 'text-option',
+            'type' => 'text',
             'label' => 'Button text',
             'help' => 'Text for the button',
             'placeholder' => 'Click me',
             'option_key'=> 'dadada',
-            'option_group'=> 'dadaad', 
+            'option_group'=> 'dadaad',
         ],
         'url' => [
             'type' => 'text',

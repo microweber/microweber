@@ -16,6 +16,6 @@ class MultilanguageTranslations extends Model
         'locale'
     ];
 
-    public $timestamps = false;
+    public $timestamps = true;
 
 }

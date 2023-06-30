@@ -35,4 +35,18 @@ class MultilanguageHelpers
         return get_supported_languages($onlyActive);
     }
 
+    public static function getTranslatableModuleOptions()
+    {
+        $translatableModuleOptions = [];
+        $modules = mw()->module_manager->get_modules('ui=any&installed=1');
+        if ($modules) {
+            foreach ($modules as $module) {
+                if (isset($module['settings']['translatable_options'])) {
+                    $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
+                }
+            }
+        }
+        return $translatableModuleOptions;
+    }
+
 }

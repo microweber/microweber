@@ -3,7 +3,6 @@
 namespace MicroweberPackages\FormBuilder;
 
 use Illuminate\Support\Manager;
-
 use MicroweberPackages\FormBuilder\Binding\BoundData;
 use MicroweberPackages\FormBuilder\Elements\Checkbox;
 use MicroweberPackages\FormBuilder\Elements\Color;
@@ -32,30 +31,30 @@ class FormElementBuilder extends Manager
      * @deprecated This property is deprecated and should not be used anymore.
      */
     protected $formElementsClasses = [
-        'Text'=>Text::class,
-        'MwEditor'=>MwEditor::class,
-        'MwModuleSettings'=>MwModuleSettings::class,
-        'TextOption'=>TextOption::class,
-        'TextArea'=>TextArea::class,
-        'TextAreaOption'=>TextAreaOption::class,
+        'Text' => Text::class,
+        'MwEditor' => MwEditor::class,
+        'MwModuleSettings' => MwModuleSettings::class,
+        'TextOption' => TextOption::class,
+        'TextArea' => TextArea::class,
+        'TextAreaOption' => TextAreaOption::class,
     ];
     protected $drivers = [
-        'text'=>Text::class,
-        'number'=>Number::class,
-        'textarea'=>TextArea::class,
-        'label'=>Label::class,
-        'select'=>Select::class,
-        'radio'=>RadioButton::class,
-        'range'=>Range::class,
-        'checkbox'=>Checkbox::class,
-        'color'=>Color::class,
-        'date'=>Date::class,
-        'email'=>Email::class,
-        'file'=>File::class,
-        'mw-editor'=>MwEditor::class,
-        'mw-module-settings'=>MwModuleSettings::class,
-        'textarea-option'=>TextAreaOption::class,
-        'text-option'=>TextOption::class,
+        'text' => Text::class,
+        'number' => Number::class,
+        'textarea' => TextArea::class,
+        'label' => Label::class,
+        'select' => Select::class,
+        'radio' => RadioButton::class,
+        'range' => Range::class,
+        'checkbox' => Checkbox::class,
+        'color' => Color::class,
+        'date' => Date::class,
+        'email' => Email::class,
+        'file' => File::class,
+        'mw-editor' => MwEditor::class,
+        'mw-module-settings' => MwModuleSettings::class,
+        'textarea-option' => TextAreaOption::class,
+        'text-option' => TextOption::class,
     ];
 
 
@@ -66,13 +65,13 @@ class FormElementBuilder extends Manager
      * @param string $key The name of the form element.
      * @return \MicroweberPackages\FormBuilder\Elements\ElementInterface The created form element.
      */
-    public function make($type, $key)
+    public function make($type, $key, ...$params )
     {
         $driver = $this->driver($type);
         /**
          * @var \MicroweberPackages\FormBuilder\Elements\ElementInterface $element
          */
-        $element = new $driver($key);
+        $element = new $driver($key, ...$params);
 
         if (!is_null($value = $this->getValueFor($key))) {
             $element->value($value);
@@ -88,11 +87,11 @@ class FormElementBuilder extends Manager
     }
 
 
-
     public function setOldInputProvider(OldInputInterface $oldInputProvider)
     {
         $this->oldInput = $oldInputProvider;
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */
@@ -120,6 +119,7 @@ class FormElementBuilder extends Manager
 
         return $text;
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */
@@ -133,6 +133,7 @@ class FormElementBuilder extends Manager
 
         return $text;
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */
@@ -142,6 +143,7 @@ class FormElementBuilder extends Manager
 
         return $textOption;
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */
@@ -155,6 +157,7 @@ class FormElementBuilder extends Manager
 
         return $textarea;
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */
@@ -164,6 +167,7 @@ class FormElementBuilder extends Manager
 
         return $textOption;
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */
@@ -177,6 +181,7 @@ class FormElementBuilder extends Manager
 
         return $date;
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */
@@ -190,6 +195,7 @@ class FormElementBuilder extends Manager
 
         return $date;
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */
@@ -203,6 +209,7 @@ class FormElementBuilder extends Manager
 
         return $email;
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */
@@ -215,6 +222,7 @@ class FormElementBuilder extends Manager
 
         return $checkbox;
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */
@@ -227,6 +235,7 @@ class FormElementBuilder extends Manager
 
         return $radio;
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */
@@ -239,6 +248,7 @@ class FormElementBuilder extends Manager
 
         return $select;
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */
@@ -246,6 +256,7 @@ class FormElementBuilder extends Manager
     {
         return new Label($label);
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */
@@ -274,7 +285,7 @@ class FormElementBuilder extends Manager
 
     protected function hasOldInput()
     {
-        if (! isset($this->oldInput)) {
+        if (!isset($this->oldInput)) {
             return false;
         }
 
@@ -300,6 +311,7 @@ class FormElementBuilder extends Manager
     {
         $this->boundData = null;
     }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */

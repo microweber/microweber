@@ -422,13 +422,27 @@ class OptionManager
                     }
 
                     if (isset($data['lang'])) {
-                        $findModuleOption->lang = $data['lang'];
+
+                        if($data['lang'] != app()->lang_helper->default_lang()){
+                            // legacy save attribute
+                            $findModuleOption->lang = $data['lang'];
+
+                        }
                     } else {
-                        $findModuleOption->lang = app()->getLocale();
+
+                        if(isset($data['multilanguage'])){
+                            $findModuleOption->multilanguage = $data['multilanguage'];
+                        }
+
+                      //  $findModuleOption->lang = app()->getLocale();
+                     //   $findModuleOption->lang = app()->lang_helper->default_lang();
                     }
 
                     $findModuleOption->module = $data['module'];
                     $findModuleOption->option_value = $data['option_value'];
+
+
+
                     $save = $findModuleOption->save();
 
                     // Remove dublicates

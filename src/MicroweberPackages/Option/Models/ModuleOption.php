@@ -9,7 +9,7 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 class ModuleOption extends Model
 {
 
-    protected $fillable=['option_group','option_value'];
+    protected $fillable=['option_group','option_value','option_key','module'];
 
     public $cacheTagsToClear = ['global','content','frontend'];
 
