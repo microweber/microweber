@@ -114,7 +114,7 @@ export default {
 
             mw.app.editor.on('insertModuleRequest', function (el) {
                 instance.showModal = true;
-                mw.app.registerChange(el)
+                mw.app.registerChangedState(el)
             });
 
         });

@@ -117,7 +117,7 @@ export const ElementHandleContent = function (proto) {
                 action: function (el) {
 
                     Confirm(ElementManager('<span>Are you sure you want to delete this element?</span>'), () => {
-                        mw.app.registerChange(el)
+                        mw.app.registerChangedState(el)
                         el.remove()
                         proto.elementHandle.hide()
                     })

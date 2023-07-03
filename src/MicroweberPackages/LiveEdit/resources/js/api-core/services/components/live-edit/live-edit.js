@@ -44,23 +44,32 @@ export const liveEditComponent = () => {
     mw.app.register('moduleSettings', ModuleSettings);
 
     mw.app.register('templateSettings', TemplateSettings);// don't remove this
-    mw.app.registerChange = function(element){
-
-
-
+    mw.app.registerUndoState = function(element){
         var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
         if(edit) {
-
             if(edit.getAttribute('rel') && edit.getAttribute('field')) {
                 mw.app.state.record({
                     target: edit,
                     value: edit.innerHTML
                 });
+            }
+        }
+    };
+    mw.app.registerChange = function(element){
+       // mw.app.state.state()[0].target
+        var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
+        if(edit) {
+            if(edit.getAttribute('rel') && edit.getAttribute('field')) {
                 edit.classList.add('changed');
             } else {
                 return mw.app.registerChange(edit.parentElement);
             }
         }
+    };
+
+    mw.app.registerChangedState = function(element){
+        mw.app.registerChange(element);
+        mw.app.registerUndoState(element);
     };
 
 
