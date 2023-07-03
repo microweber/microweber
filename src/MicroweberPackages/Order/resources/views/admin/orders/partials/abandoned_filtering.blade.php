@@ -24,12 +24,12 @@
     <input type="hidden" name="orderDirection" value="<?php echo $orderDirection; ?>" class="js-form-order-filtering-direction" />
     <div class="manage-toobar d-flex justify-content-between align-items-center">
 
-        <div id="cartsnav">
+        <div id="cartsnav" class="px-5 pt-5">
 
-            <a href="{{route('admin.order.index')}}" class="btn btn-link btn-sm px-0 <?php if (!isset($abandoned)): ?>font-weight-bold   active<?php else: ?>text-muted<?php endif; ?>">
+            <a href="{{route('admin.order.index')}}" class="btn btn-link  mw-admin-action-links me-2">
                 <?php _e("Completed orders"); ?> (<?php echo $orders_count; ?>)
             </a>
-            <a href="{{route('admin.order.abandoned')}}" class="btn btn-link btn-sm <?php if (isset($abandoned)): ?>font-weight-bold   active<?php else: ?>text-muted<?php endif; ?>">
+            <a href="{{route('admin.order.abandoned')}}" class="btn btn-link mw-admin-action-links">
                 <?php _e("Abandoned carts"); ?> (<?php echo $abandoned_count; ?>)
             </a>
         </div>
