@@ -36,7 +36,7 @@
 
                     <div v-if="modulesCategoriesList.length > 0" v-for="category in modulesCategoriesList" class="modules-list-block-category-section">
                         <div class="modules-list-block-category-section-title">
-                            <h5>{{category.toUpperCase()}}</h5>
+                            <h5>{{category}}</h5> 
                         </div>
                         <div v-for="item in modulesListFiltered[category]"
                              class="modules-list-block-item modules-list-block-item-is-locked-false"
