@@ -41,6 +41,29 @@
                     if($layout['layout_file'] == 'clean.php') {
                         continue;
                     }
+
+
+                  $layout_details_for_new_page = app()->layouts_manager->get_layout_details([
+                        'layout_file' => $layout['layout_file'],
+                        'active_site_template' => ACTIVE_SITE_TEMPLATE
+                    ]);
+
+                    $isDynamic = false;
+                    $isShop = false;
+
+                    if(isset($layout_details_for_new_page['content_type']) and $layout_details_for_new_page['content_type'] == 'dynamic'){
+                        $isDynamic = true;
+                         $isShop = false;
+                    }
+                    if(isset($layout_details_for_new_page['is_shop']) and $layout_details_for_new_page['is_shop'] != 0){
+                        $isDynamic = false;
+                        $isShop = true;
+                    }
+
+
+
+
+
                 @endphp
 
                 <div class="col-xxl-4 col-lg-6 col-12 pe-lg-6 ps-lg-0 pt-3 mb-4 ">
@@ -55,12 +78,21 @@
                         <div class="p-2 text-center mw-create-page-admin-create-btn">
                             <a href="{{route('admin.page.create')}}?layout={{$layout['layout_file_preview']}}" class="btn btn-primary">
                                 {{ _e("Create") }}
+
                             </a>
                         </div>
                     </div>
 
-                    <h2 class="mt-3 mb-2 font-weight-bold">{{$layout['name']}} </h2>
-                    <p>{{ _e("Start clean with a blank page and create a page layout of your own design.") }}</p>
+                    <h2 class="mt-3 mb-2 font-weight-bold">{{$layout['name']}}
+                        @if($isDynamic)
+                            <span class="badge badge-outline text-blue"><?php _e('Dynamic page') ?></span>
+                        @endif
+                        @if($isShop)
+                            <span class="badge badge-outline text-cyan"><?php _e('Shop page') ?></span>
+                        @endif
+
+                    </h2>
+                    <p>  {{ _e("Start clean with a blank page and create a page layout of your own design.") }}</p>
 
 
                 </div>

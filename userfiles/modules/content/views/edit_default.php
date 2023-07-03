@@ -34,7 +34,6 @@ if (isset($data['content_type']) and ($data['content_type'] == 'page') and $data
 
         ]);
         if($layout_details_for_new_page){
-
             if(isset($layout_details_for_new_page['content_type']) and $layout_details_for_new_page['content_type'] == 'dynamic'){
                 $data['subtype'] = $layout_details_for_new_page['content_type'];
             }
@@ -42,7 +41,6 @@ if (isset($data['content_type']) and ($data['content_type'] == 'page') and $data
                 $data['is_shop'] = 1;
             }
         }
-
     }
 }
 ?>

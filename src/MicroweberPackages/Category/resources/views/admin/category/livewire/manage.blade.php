@@ -1,13 +1,34 @@
 <?php
+$hasPages = false;
 
 if ($isShop){
     $createRoute = route('admin.shop.category.create')."?parent=shop";
+    $hasPages = get_pages('content_type=page&subtype=dynamic&is_shop=1&count=1');
 } else {
     $createRoute = route('admin.category.create')."?parent=blog";
+    $hasPages = get_pages('content_type=page&subtype=dynamic&is_shop=0&count=1');
+
 }
+
+
+
+
+
 ?>
 
 <div>
+
+
+    <?php
+
+    if(!$hasPages){
+        print  view('category::admin.category.no-pages', [
+            'isShop'=>$isShop
+        ]);
+        return;
+    }
+
+    ?>
 
 <div class="col-xxl-10 col-lg-11 col-12 mx-auto mw-module-category-manager admin-side-content">
     <div class="card-body mb-3">
@@ -320,6 +341,15 @@ if ($isShop){
                     renderCategoryTree();
 
                 </script>
+
+
+
+
+
+
+
+
+
             </div>
         </div>
 

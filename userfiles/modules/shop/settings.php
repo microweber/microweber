@@ -60,10 +60,10 @@ if (isset($_GET['group']) and $_GET['group']) {
                 <div class="icon-holder"><i class="mdi mdi-cart-outline fs-1"></i></div>
                 <div class="card-title info-holder">
                     <div class="settings-info-holder-title"><?php _e("General"); ?></div>
-                    <small class="text-muted"><?php _e("Basic store settings"); ?></small>
+                    <small class="text-muted"><?php _e("Basic store settings."); ?><?php _e("Setup currency and more."); ?></small>
                 </div>
             </a>
-        </div>
+        </div>`
 
         <?php event_trigger('mw.admin.shop.settings.menu', $params); ?>
 
