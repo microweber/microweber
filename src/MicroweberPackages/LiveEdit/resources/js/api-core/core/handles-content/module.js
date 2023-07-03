@@ -51,7 +51,7 @@ export const ModuleHandleContent = function (rootScope) {
                         const target = mw.app.get('liveEdit').handles.get('module').getTarget();
                         var type = target.dataset.type || target.getAttribute('type');
                         type = type.trim();
-                        mw.app.registerChange(target)
+                        mw.app.registerChangedState(target)
                         target.remove()
                         mw.app.editor.dispatch('moduleRemoved', target);
                         mw.app.editor.dispatch('modulet@'+type+'Removed', target);
