@@ -109,7 +109,7 @@ export default {
 
             this.getModulesList().then(function (data) {
                 instance.modulesList = data.modules;
-                this.filterModules();
+                instance.filterModules();
             });
 
             mw.app.editor.on('insertModuleRequest', function (el) {
