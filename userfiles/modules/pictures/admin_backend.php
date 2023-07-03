@@ -108,7 +108,7 @@ if ($for_id != false) {
                     resolve()
                 });
             })
-            
+
         }
         if (e === 'done') {
             setTimeout(function () {
@@ -116,10 +116,11 @@ if ($for_id != false) {
                     load_iframe_editor();
                 }
                 mw.reload_module_everywhere('pictures/admin_backend_sortable_pics_list');
+                mw.reload_module_everywhere('pictures');
 
-                mw.reload_module_parent('pictures');
+
                 if (self !== top && typeof parent.mw === 'object') {
-                    mw.parent().reload_module('pictures');
+
                     mw.reload_module_parent("pictures/admin");
                     if (self !== top && typeof parent.mw === 'object') {
                         mw.parent().reload_module_everywhere('posts');
@@ -225,12 +226,12 @@ if (!isset($data["thumbnail"])) {
     window.imageOptions = {};
 </script>
 
- 
+
 
 
 <div class="left pt-3" style="clear:both" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 
- 
+
 
 
     <div class="admin-thumbs-holder">
