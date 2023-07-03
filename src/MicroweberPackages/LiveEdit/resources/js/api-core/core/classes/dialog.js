@@ -1,22 +1,27 @@
 import {ElementManager} from "../classes/element.js";
 
 const dialogFooter = (okLabel, cancelLabel) => {
+
+
+ 
+
     const footer = ElementManager({
         props: {
-            className: 'le-dialog-footer'
+            className: 'modal-footer'
         }
     });
 
     const ok = ElementManager({
         props: {
-            className: 'le-btn le-btn-primary le-dialog-footer-ok',
+            className: 'btn btn-primary',
             innerHTML: okLabel || 'OK'
         }
     });
 
     const cancel = ElementManager({
         props: {
-            className: 'le-btn le-dialog-footer-cancel'
+            className: 'btn',
+            innerHTML: cancelLabel || 'Cancel'
         }
     });
 
@@ -41,6 +46,10 @@ export class Dialog {
         };
         this.settings = Object.assign({}, defaults, options);
 
+        if(!this.settings.id) {
+            this.settings.id = 'mw-le-dialog-' + Date.now()
+        }
+
         this.build();
         setTimeout(_ => this.open())
     }
@@ -58,78 +67,69 @@ export class Dialog {
 
 
     build() {
+        const html = `
+
+            
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            ${this.settings.title ? `<h5 class="modal-title">${this.settings.title}</h5>` : ''}
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            
+                        </div>
+                    </div>
+                </div>
+             
+        
+        `;
+ 
         this.root = ElementManager({
             props: {
-                className: `le-dialog ${typeof this.settings.position === 'string' ? this.settings.position : ''}`,
+                className: `modal`,
+                tabIndex: -1,
             }
         });
-        var closeBtn = ElementManager({
-            props: {
-                className: 'le-dialog-close',
-            }
-        });
-        closeBtn.on('click', () => {
-            this.remove();
-        });
-        this.container = ElementManager({
-            props: {
-                className: 'le-dialog-container'
-            },
-            content: this.settings.content
-        });
-        this.root.append(closeBtn);
-        this.root.append(this.container);
+        this.root.html(html);
+    
+        var body = this.root.find('.modal-body')
+        var content = this.root.find('.modal-content');
+        this.container = body;
+  
+        body.append(this.settings.content);
         if(this.settings.footer) {
-            this.root.append(this.settings.footer.root || this.settings.footer);
+            content.append(this.settings.footer);
         }
-        this.settings.document.body.appendChild(this.root.get(0))
-        if (this.settings.closeOnEscape) {
-            this.settings.document.addEventListener('keydown',  this.#removeListener) ;
-        }
-        if (this.settings.overlay) {
-            this.overlay();
-        }
-
-
+        this.settings.document.body.appendChild(this.root.get(0));
+        this._modal = new bootstrap.Modal(this.root.get(0), {});
+        this.open();
     }
+ 
     open() {
-        if(this.settings.position && this.settings.position.nodeName && this.settings.position.ownerDocument === this.settings.document) {
-            var el = this.settings.position;
-            var doc = el.ownerDocument;
-            var win = el.ownerDocument.defaultView;
-            var off = el.getBoundingClientRect();
+        this._modal.show()
+    }
 
-            var otop = off.top + win.scrollY;
-            var oleft = off.left + el.offsetWidth + win.scrollX;
-            var root = this.root.get(0);
-            if(otop + root.offsetHeight > win.innerHeight + win.scrollY) {
-                otop -= ((otop + root.offsetHeight) - ( win.innerHeight + win.scrollY ) );
-            }
-            if(oleft + root.offsetWidth  > win.innerWidth) {
-                oleft -= ((oleft + root.offsetWidth) - ( win.innerWidth  ));
-            }
-            this.root.css({
-                top: otop,
-                left: oleft,
-                position: this.settings.mode
-            });
-        }
-        this.root.addClass('le-dialog-opened');
+    show() {
+        this._modal.show()
+    }
+
+    hide() {
+        this._modal.hide()
+    }
+
+    close() {
+        this._modal.hide()
+    }
+
+    toggle() {
+        this._modal.toggle()
     }
 
     remove() {
 
-        this.root.on('transitionend', () => {
-            this.root.remove();
-            if(this.overlay){
-                this.overlay.remove();
-            }
-        });
-        this.root.removeClass('le-dialog-opened');
-        if (this.settings.closeOnEscape) {
-            this.settings.document.removeEventListener('keydown',  this.#removeListener) ;
-        }
-        this.dispatch('close');
+        this._modal.hide()
+        this._modal.dispose()
 
     }
     overlay() {
@@ -148,7 +148,7 @@ export const Confirm = function (content, c) {
     const footer = dialogFooter();
   
     const dialog = new Dialog({
-        content, footer: footer.footer.get(0), position: 'centered'
+        content, footer: footer.footer.get(0), title: mw.lang('Confirm')
     });
     footer.cancel.on('click', function (){
         dialog.remove();

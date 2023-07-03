@@ -274,6 +274,7 @@ export class LiveEdit {
         const _eventsHandle = (e) => {
              
             if(this.handles.targetIsOrInsideHandle(e)) {
+                this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
                 return
             }
              // const elements = this.observe.fromEvent(e);
