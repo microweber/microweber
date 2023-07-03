@@ -210,7 +210,8 @@ $rand = 'pic-sorter-' . uniqid();
             </div>
         </div>
     <?php else: ?>
-       <a href="javascript:addImagesToPost()"><?php _e("Add file"); ?></a>
+
+       <a href="javascript:addImagesToPost()" class="btn btn-outline"><?php _e("Add file"); ?></a>
     <?php endif; ?>
 
 
