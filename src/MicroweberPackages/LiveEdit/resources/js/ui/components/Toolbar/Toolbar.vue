@@ -31,23 +31,11 @@
                     <span></span>
                 </span>
                 <div id="user-menu" class="card mw-le-nav-box">
-                    <div class="card-body" id="user-menu-header">
-                        <small>Project</small>
-                        <h3>Boris Website</h3>
-                        <span class=" btn  btn-sm ">
-                            In Test Period
-                        </span>
-                        <span class="btn btn-sm btn-primary">
-                            Upgrade
-                        </span>
-                    </div>
                     <nav>
-
                         <a v-for="menuItem in menu" :href="menuItem.href">
                             <span v-html="menuItem.icon_html"></span>
                             {{ menuItem.title }}
                         </a>
-
                     </nav>
                 </div>
             </div>
