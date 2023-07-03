@@ -65,9 +65,7 @@ class LayoutsManager
     {
         $layout_options = array();
 
-
         $layout_options['site_template'] = $params['active_site_template'];
-      //  $layout_options['layout_file'] = $params['layout_file'];
         $layout_options['no_cache'] = true;
         $layout_options['no_folder_sort'] = true;
 
@@ -75,17 +73,23 @@ class LayoutsManager
 
         if (isset($params["layout_file"]) and trim($params["layout_file"]) != '') {
             $params['layout_file'] = sanitize_path($params['layout_file']);
-            $params['layout_file'] = str_replace('____', DS, $params['layout_file']);
-            $params['layout_file'] = str_replace('__', DS, $params['layout_file']);
+            $params['layout_file'] = str_replace('____', '/', $params['layout_file']);
+            $params['layout_file'] = str_replace('__', '/', $params['layout_file']);
             $params['layout_file'] = normalize_path($params['layout_file'], false);
-        }
+            $params['layout_file'] = str_replace('\\', '/', $params['layout_file']);
 
+        }
 
 
         if($layouts){
             foreach ($layouts as $layout) {
-                if (isset($layout['layout_file']) and $layout['layout_file'] == $params['layout_file']) {
-                    return $layout;
+                if (isset($layout['layout_file']) and $layout['layout_file']) {
+                    $layout['layout_file'] = str_replace('____', '/', $layout['layout_file']);
+                    $layout['layout_file'] = str_replace('\\', '/', $layout['layout_file']);
+
+                    if ($layout['layout_file'] == $params['layout_file']) {
+                        return $layout;
+                    }
                 }
             }
         }
