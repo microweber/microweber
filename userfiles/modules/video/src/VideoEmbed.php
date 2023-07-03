@@ -280,7 +280,7 @@ class VideoEmbed
             if (!$html) {
                 $html = 'Can\'t read video from this source url.';
                 if (in_live_edit()) {
-                    $html = "<div class='video-module-default-view mw-open-module-settings'><img src='" . modules_url() . "video/video.svg' style='width: 65px; height: 65px;'/></div>";
+                    $html = "<div class='video-module-default-view mw-open-module-settings h-100 d-flex align-items-center justify-content-center'><img src='" . modules_url() . "video/video.svg' style='width: 40px; height: 40px;'/></div>";
                 }
             }
 

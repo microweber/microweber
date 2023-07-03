@@ -16,6 +16,8 @@
                 <div class="modules-list-search-block">
 
                     <input type="text"
+                           v-model="filterKeyword"
+                           v-on:keydown="filterModules()"
                            placeholder="Type to Search..."
                            class="modules-list-search-field">
 
@@ -28,22 +30,15 @@
                 </div>
                 <div class="modules-list-block">
 
-
-                    <div class="modules-list-block-category-section">
-                        <div class="modules-list-block-category-section-title"><h5>TODO Fix categories</h5></div>
-                        <div class="modules-list-block-item modules-list-block-item-is-locked-false">
-                            <div class="modules-list-block-item-picture"
-                                 style="background-image: url(http://127.0.0.1:8000/userfiles/modules/highlight_code/highlight_code.svg)"></div>
-                            <div class="modules-list-block-item-title">highlight_code</div>
-                            <div class="modules-list-block-item-description">highlight_code</div>
-
-                        </div>
+                    <div v-if="filterKeyword" class="pl-4 mb-3 mt-3">
+                        Looking for {{filterKeyword}}
                     </div>
 
-
-                    <div class="modules-list-block-category-section">
-                        <div class="modules-list-block-category-section-title"><h5>other</h5></div>
-                        <div v-for="item in modulesList"
+                    <div v-for="category in modulesCategoriesList" class="modules-list-block-category-section">
+                        <div class="modules-list-block-category-section-title">
+                            <h5>{{category.toUpperCase()}}</h5>
+                        </div>
+                        <div v-for="item in modulesListFiltered[category]"
                              class="modules-list-block-item modules-list-block-item-is-locked-false"
                              v-on:click="insertModule(item)">
                             <div class="modules-list-block-item-picture"
@@ -52,7 +47,6 @@
                             <div class="modules-list-block-item-description">{{ item.description }}</div>
                         </div>
                     </div>
-
 
                     <div class="modules-list-block-no-results" style="display: none;">Nothing found...</div>
 
@@ -75,12 +69,36 @@ export default {
         insertModule(moduleItem) {
             var module = moduleItem.module;
             var options = {};
-            if(moduleItem.as_element){
+
+            if (moduleItem.as_element) {
                 options.as_element = true;
             }
 
             mw.app.editor.insertModule(module,options);
             this.showModal = false;
+        },
+        filterModules() {
+            let modulesFiltered = this.modulesList;
+            if (this.filterKeyword != '' && this.filterKeyword) {
+                modulesFiltered = modulesFiltered.filter((item) => {
+                    return item.name.toUpperCase().includes(this.filterKeyword.toUpperCase())
+                });
+            }
+
+            let instance = this;
+            instance.modulesListFiltered = [];
+            instance.modulesCategoriesList = [];
+            modulesFiltered.forEach(function(moduleElement) {
+
+                if (!instance.modulesCategoriesList.includes(moduleElement.categories)) {
+                    instance.modulesCategoriesList.push(moduleElement.categories);
+                }
+
+                if (!instance.modulesListFiltered[moduleElement.categories]) {
+                    instance.modulesListFiltered[moduleElement.categories] = [];
+                }
+                instance.modulesListFiltered[moduleElement.categories].push(moduleElement);
+            });
         }
     },
     components: {},
@@ -88,6 +106,7 @@ export default {
         const instance = this;
 
         mw.app.on('ready', () => {
+
             this.getModulesList().then(function (data) {
                 instance.modulesList = data.modules;
             });
@@ -119,9 +138,11 @@ export default {
     },
     data() {
         return {
-            keyword: '',
+            filterKeyword: '',
             category: '',
-            modulesList: null,
+            modulesList: [],
+            modulesListFiltered: [],
+            modulesCategoriesList: [],
             showModal: false
         }
     }

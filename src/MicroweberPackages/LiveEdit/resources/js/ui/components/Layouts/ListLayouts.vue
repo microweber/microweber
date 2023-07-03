@@ -111,7 +111,7 @@
                                   :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
 
                                 <div class="modules-list-block-item-picture"
-                                     :style="'background-image: url('+item.screenshot+')'">
+                                     :style="'background-image: url('+item.screenshot+');background-size: contain;'">
 
                                 </div>
 
@@ -213,7 +213,7 @@ export default {
             });
             mw.app.editor.on('insertLayoutRequest',function(element){
                 instance.showModal = true;
- 
+
                 mw.app.registerChange(element)
             });
         });

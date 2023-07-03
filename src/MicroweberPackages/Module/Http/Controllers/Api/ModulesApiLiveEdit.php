@@ -428,6 +428,10 @@ class ModulesApiLiveEdit extends Controller
                             $module_item['categories'] = implode(',', $module_item['categories']);
                         }
 
+                        if (isset($module_item['categories']) && !empty($module_item['categories'])) {
+                            $moduleListJson['categories'][$module_item['categories']] = true;
+                        }
+
                         if (!isset($module_item['description'])) {
                             $module_item['description'] = $module_item['name'];
                         }
