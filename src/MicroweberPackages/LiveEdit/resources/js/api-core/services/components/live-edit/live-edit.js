@@ -45,9 +45,17 @@ export const liveEditComponent = () => {
 
     mw.app.register('templateSettings', TemplateSettings);// don't remove this
     mw.app.registerChange = function(element){
+
+
+
         var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
         if(edit) {
+
             if(edit.getAttribute('rel') && edit.getAttribute('field')) {
+                mw.app.state.record({
+                    target: edit,
+                    value: edit.innerHTML
+                });
                 edit.classList.add('changed');
             } else {
                 return mw.app.registerChange(edit.parentElement);
@@ -68,7 +76,7 @@ export const liveEditComponent = () => {
 
                 return;
             }
-            
+
             if(data.active.action) {
                 data.active.action();
             } else if(doc.body.contains(target)) {
@@ -86,18 +94,18 @@ export const liveEditComponent = () => {
 
 
     mw.app.state.on('change',  (data) => {
-    
+
         handleUndoRedo(data)
     });
 
- 
+
 
 
 
     let _inputTimeout = null;
     const initialState = new Map();
     const _inputUnavailable = ['INPUT', 'SELECT', 'TEXTAREA'];
-    let _edit = null; 
+    let _edit = null;
 
     const body = mw.app.canvas.getDocument().body;
 
@@ -109,7 +117,7 @@ export const liveEditComponent = () => {
             _edit = DomService.firstParentOrCurrentWithClass(e.target, 'edit');
             if(initial/* && !initialState.get(_edit)*/) {
                 initialState.set(_edit, true);
-                mw.app.state.record({ 
+                mw.app.state.record({
                     target: _edit,
                     value: _edit.innerHTML
                 })
@@ -118,12 +126,12 @@ export const liveEditComponent = () => {
             _inputTimeout = setTimeout(() => {
                 if(_edit) {
                     _edit.classList.add('changed');
-                    mw.app.state.record({ 
+                    mw.app.state.record({
                         target: _edit,
                         value: _edit.innerHTML
                     })
                 }
-                
+
             }, 200)
         }
     }
