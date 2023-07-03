@@ -4,6 +4,17 @@
 
 
 
+//!!!!!!!!!!!!!!!!! RTL STYLE !!!!!!!!!!!!!!!!!!!!
+
+:dir(rtl) {
+    .table-blade-sortable-elements {
+        left: 0 !important;
+    }
+}
+
+//END RTL STYLE
+
+
 :root {
 
     //--tblr-body-bg: white;
@@ -1216,6 +1227,8 @@ input[type=number] {
     display: flex;
 
 }
+
+
 
 .create-page-clean {
     background: var(--tblr-body-bg);

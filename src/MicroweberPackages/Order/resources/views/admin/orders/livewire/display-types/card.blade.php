@@ -11,7 +11,7 @@
             <div class="card-body">
 
                 <div class="d-flex flex-wrap align-items-center">
-                    <div class="col-auto me-md-3 mb-md-0 mb-2">
+                    <div class="col-auto me-md-3 mb-md-0 mb-2 ms-2">
                         @if (isset($cartProduct) && $cartProduct != null)
                             <a href="{{route('admin.order.show', $order->id)}}">
                                 <img src="{{$cartProduct->thumbnail()}}" />
