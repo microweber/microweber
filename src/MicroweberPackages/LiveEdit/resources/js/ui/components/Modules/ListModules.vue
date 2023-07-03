@@ -34,7 +34,7 @@
                         Looking for {{filterKeyword}}
                     </div>
 
-                    <div v-for="category in modulesCategoriesList" class="modules-list-block-category-section">
+                    <div v-if="modulesCategoriesList.length > 0" v-for="category in modulesCategoriesList" class="modules-list-block-category-section">
                         <div class="modules-list-block-category-section-title">
                             <h5>{{category.toUpperCase()}}</h5>
                         </div>
