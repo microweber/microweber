@@ -13,7 +13,7 @@
              style="inset:20px;transform:none;"
         >
             <div class="modules-list modules-list-defaultModules">
-                <div class="modules-list-search-block">
+                <div class="modules-list-search-block d-flex align-items-center justify-content-between">
 
                     <input type="text"
                            v-model="filterKeyword"
@@ -22,9 +22,9 @@
                            class="modules-list-search-field">
 
                     <div v-if="showModal">
-                        <button v-on:click="showModal = false" type="button" class="btn btn-danger">
-                            Close Modal
-                        </button>
+                        <span v-on:click="showModal = false" style="cursor:pointer;margin-right: 10px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                        </span>
                     </div>
 
                 </div>
@@ -36,7 +36,7 @@
 
                     <div v-if="modulesCategoriesList.length > 0" v-for="category in modulesCategoriesList" class="modules-list-block-category-section">
                         <div class="modules-list-block-category-section-title">
-                            <h5>{{category}}</h5> 
+                            <h5>{{category}}</h5>
                         </div>
                         <div v-for="item in modulesListFiltered[category]"
                              class="modules-list-block-item modules-list-block-item-is-locked-false"
