@@ -153,8 +153,10 @@ class OptionElement extends AdminComponent
             if (!empty($modelTranslations)) {
                 foreach ($modelTranslations as $locale => $val) {
                     if ($locale != $this->defaultLanguage) {
-                        $this->translations[$locale][$this->optionName] = $val['option_value'];
-                        $this->state['translations'][$locale][$this->optionName] = $val['option_value'];
+                        if(isset($val['option_value'])) {
+                            $this->translations[$locale][$this->optionName] = $val['option_value'];
+                            $this->state['translations'][$locale][$this->optionName] = $val['option_value'];
+                        }
                     }
                 }
 
