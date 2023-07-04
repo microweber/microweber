@@ -30,6 +30,16 @@ trait LiveEditTrait
         return $html;
     }
 
+    public function liveEditToolbarIframeData($html,$page)
+    {
+        $contentDetailsScript = "
+\n<script type='application/x-javascript' id='mw-iframe-page-data-script'>
+        mw.liveEditIframeData = {};
+        mw.liveEditIframeData.content_id = '{$page['id']}';
+</script>\n";
+        $html = str_ireplace('</head>', $contentDetailsScript . '</head>', $html, $c);
+        return $html;
+    }
     public function liveEditToolbarIframe($html)
     {
         $viteScript = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js');

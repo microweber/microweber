@@ -19,7 +19,6 @@
     </button>
 </template>
 
-
 <script>
 export default {
     methods: {

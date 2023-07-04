@@ -372,6 +372,11 @@ class AdminTemplateStyle
 
 
         $url = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/ui/css/admin_v2.css';
+
+        if(_lang_is_rtl()){
+            $url = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/ui/css/admin_v2.rtl.css';
+        }
+
         //$url = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/tabler-ui/dist/css/tabler.css';
 
         return $url;
