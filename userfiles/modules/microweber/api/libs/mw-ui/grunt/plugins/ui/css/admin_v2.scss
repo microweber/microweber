@@ -473,7 +473,7 @@ p {
     color: var(--tblr-body-color);
 }
 
-.form-group { 
+.form-group {
     .form-label {
         margin: 5px 0;
     }
@@ -1843,6 +1843,16 @@ svg.text-danger {
         }
     }
 
+}
+
+
+#user-menu {
+    width: 220px !important;
+
+}
+
+.mw-le-nav-box nav a:hover {
+    background-color: var(--tblr-body-bg) !important;
 }
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
