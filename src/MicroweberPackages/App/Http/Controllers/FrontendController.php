@@ -1253,7 +1253,8 @@ class FrontendController extends Controller
                         $l = $this->liveEditToolbarIframeData($l,$page);
                         $l = $this->liveEditToolbarIframe($l);
                     } else {
-                        $l = $this->liveEditToolbar($l);
+                        // old live edit is disabled
+                       // $l = $this->liveEditToolbar($l);
                     }
                 }
             } elseif ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
