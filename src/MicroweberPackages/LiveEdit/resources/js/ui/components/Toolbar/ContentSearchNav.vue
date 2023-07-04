@@ -2,10 +2,14 @@
 export default {
 
     data() {
-
+        return {
+            selectedContentId: 0,
+            selectedContentTitle: '',
+            liveEditSearchContentField: null,
+        }
     },
     mounted() {
-        var liveEditSearchContentField = new mw.autoComplete({
+        this.liveEditSearchContentField = new mw.autoComplete({
             element: "#mw-live-edit-search-content",
             placeholder: "Search content",
             ajaxConfig: {
@@ -26,13 +30,35 @@ export default {
             ]
         });
 
-        $(liveEditSearchContentField).on("change", function (e, val) {
+        $(this.liveEditSearchContentField).on("change", function (e, val) {
             var urlTogo = false;
             if (typeof (val[0]) !== 'undefined') {
                 urlTogo = val[0].url;
                 mw.app.canvas.getFrame().src = urlTogo  ;
             }
         })
+
+        mw.app.canvas.on('liveEditCanvasLoaded', () => {
+            var liveEditIframe = (mw.app.canvas.getWindow());
+            if (liveEditIframe
+                && liveEditIframe.mw.liveEditIframeData
+                && liveEditIframe.mw.liveEditIframeData.content
+                && liveEditIframe.mw.liveEditIframeData.content.id) {
+                this.selectedContentId = liveEditIframe.mw.liveEditIframeData.content.id;
+                this.selectedContentTitle = liveEditIframe.mw.liveEditIframeData.content.title;
+                this.liveEditSearchContentField.select(
+                    {
+                        id: this.selectedContentId,
+                        title: this.selectedContentTitle,
+                    }
+                ,false);
+            }
+        })
+
+
+
+
+
 
     },
     methods: {
