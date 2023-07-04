@@ -40,9 +40,6 @@ trait LiveEditTrait
         mw.liveEditIframeData = {};
         mw.liveEditIframeData.content = {};
         mw.liveEditIframeData.content.id = '{$page['id']}';
-        mw.liveEditIframeData.content.is_active = '{$page['is_active']}';
-        mw.liveEditIframeData.content.is_deleted = '{$page['is_deleted']}';
-        mw.liveEditIframeData.content.is_deleted = '{$page['is_deleted']}';
         mw.liveEditIframeData.content.title = '{$pageTitle}';
 </script>\n";
         $html = str_ireplace('</head>', $contentDetailsScript . '</head>', $html, $c);
