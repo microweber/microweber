@@ -11,8 +11,10 @@
 
 namespace MicroweberPackages\LiveEdit\Providers;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
+use MicroweberPackages\LiveEdit\Events\ServingLiveEdit;
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleTemplateSelectComponent;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingLiveEdit;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingModuleSettings;
@@ -27,11 +29,21 @@ class LiveEditServiceProvider extends PackageServiceProvider
         $package->hasViews('microweber-live-edit');
     }
 
+    public function registerMenu()
+    {
+       \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
+           ->addChild('Products', [
+            'attributes' => [
+                'route' => 'admin.product.index',
+                'icon' => 'products'
+            ]
+        ]);
+    }
+
     public function register()
     {
         parent::register();
         View::addNamespace('microweber-live-edit', __DIR__ . '/resources/views');
-
 
         \App::singleton('LiveEditManager', function () {
             return new LiveEditManager();
@@ -39,7 +51,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
 
         Livewire::component('microweber-live-edit::module-select-template', ModuleTemplateSelectComponent::class);
 
-
+        Event::listen(ServingLiveEdit::class, [$this, 'registerMenu']);
     }
 
     /**
