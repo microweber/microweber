@@ -12,6 +12,11 @@
                 </svg>
                 Admin
             </a>
+
+            <div class="btn-group">
+
+                <UndoRedo></UndoRedo>
+            </div>
         </div>
 
         <ResolutionSwitch></ResolutionSwitch>
@@ -20,7 +25,6 @@
         <div class="toolbar-col">
             <div class="toolbar-col-container">
                 <div class="btn-group">
-                    <UndoRedo></UndoRedo>
                     <SaveButton></SaveButton>
                     <button class="btn btn-icon" @click="pagePreviewToggle()">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20"><path
