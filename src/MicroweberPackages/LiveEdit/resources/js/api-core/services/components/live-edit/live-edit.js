@@ -27,15 +27,17 @@ export const liveEditComponent = () => {
         document: doc
     });
 
-
-
     liveEdit.on('insertLayoutRequest', function(){
-        mw.app.editor.dispatch('insertLayoutRequest', {
-            target: mw.app.get('liveEdit').handles.get('layout').getTarget(),
-            handle: mw.app.get('liveEdit').handles.get('layout')
-        });
+        mw.app.editor.dispatch('insertLayoutRequest', mw.app.get('liveEdit').handles.get('layout').getTarget());
     });
 
+    liveEdit.on('insertLayoutRequestOnTop', function(){
+        mw.app.editor.dispatch('insertLayoutRequestOnTop', mw.app.get('liveEdit').handles.get('layout').getTarget());
+    });
+
+    liveEdit.on('insertLayoutRequestOnBottom', function(){
+        mw.app.editor.dispatch('insertLayoutRequestOnBottom', mw.app.get('liveEdit').handles.get('layout').getTarget());
+    });
 
     mw.app.call('onLiveEditReady');
 

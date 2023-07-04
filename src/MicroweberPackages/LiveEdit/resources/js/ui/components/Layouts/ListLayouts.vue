@@ -165,8 +165,8 @@ export default {
     },
     methods: {
         insertLayout(template) {
-            mw.app.editor.insertLayout({'template':template});
-            this.showModal = false;
+            mw.app.editor.insertLayout({'template':template}, 'bottom');
+            this.showModal = false; 
         },
         getLayoutsListFromService() {
             return mw.app.layouts.list();
@@ -211,11 +211,12 @@ export default {
                 instance.layoutsListFiltered = data.layouts;
                 instance.layoutsListLoaded = true;
             });
-            mw.app.editor.on('insertLayoutRequest',function(element){
+            mw.app.editor.on('insertLayoutRequestOnTop',function(element){
                 instance.showModal = true;
-
-                console.log(element);
-                alert(666); 
+                mw.app.registerChangedState(element)
+            });
+            mw.app.editor.on('insertLayoutRequestOnBottom',function(element){
+                instance.showModal = true;
                 mw.app.registerChangedState(element)
             });
         });
