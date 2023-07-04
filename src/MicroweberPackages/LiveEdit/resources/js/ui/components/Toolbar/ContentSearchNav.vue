@@ -14,7 +14,7 @@ export default {
             placeholder: "Search content",
             ajaxConfig: {
                 method: 'get',
-                url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&keyword=${val}'
+                url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&is_active=1&is_deleted=0&keyword=${val}'
             },
             map: {
                 value: 'id',
@@ -41,6 +41,8 @@ export default {
         mw.app.canvas.on('liveEditCanvasLoaded', () => {
             var liveEditIframe = (mw.app.canvas.getWindow());
             if (liveEditIframe
+                && typeof liveEditIframe.mw !== 'undefined'
+                && typeof liveEditIframe.mw.liveEditIframeData !== 'undefined'
                 && liveEditIframe.mw.liveEditIframeData
                 && liveEditIframe.mw.liveEditIframeData.content
                 && liveEditIframe.mw.liveEditIframeData.content.id) {
