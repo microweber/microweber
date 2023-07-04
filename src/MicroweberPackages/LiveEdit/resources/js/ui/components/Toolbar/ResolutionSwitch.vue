@@ -51,7 +51,7 @@ export default {
 
             <span class="btn btn-icon live-edit-toolbar-buttons" v-on:click="setPreviewMode('phone')" data-preview="phone"
                   :class="[previewMode=='phone' ? 'live-edit-resolution-active': '']">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"><g fill="currentColor"><path d="M6 5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5zm10 0H8v14h8V5z"/><path d="M13 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0z"/></g></svg>
+                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"><g fill="currentColor"><path d="M6 5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5zm10 0H8v14h8V5z"/><path d="M13 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0z"/></g></svg>
             </span>
         </div>
     </nav>
