@@ -17,7 +17,7 @@ import {HandleMenu} from "./handle-menu.js";
 import {Tooltip} from "./tooltip.js";
 import { InteractionHandleContent } from "./handles-content/interaction.js";
 import { DomService } from "./classes/dom.js";
-
+import  "./core/@core.js";
 
 export class LiveEdit {
 
@@ -307,7 +307,6 @@ export class LiveEdit {
 
             this.handles.get('element').set(null)
             this.handles.hide();
-
 
 
 

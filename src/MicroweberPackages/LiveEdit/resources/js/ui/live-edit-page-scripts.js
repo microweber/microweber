@@ -111,8 +111,8 @@ mw.liveEditSaveService = {
         return final;
     },
     cleanUnwantedTags: function (body) {
-    
- 
+
+
         mw.$('.mw-skip-and-remove,script', body).remove();
         return body;
     },
@@ -199,7 +199,7 @@ mw.liveEditSaveService = {
     draftDisabled: false,
     save: async function(data, success, fail) {
         mw.trigger('beforeSaveStart', data);
-        // todo: 
+        // todo:
         if (mw.liveedit && mw.liveedit.cssEditor) {
             mw.liveedit.cssEditor.publishIfChanged();
         }
@@ -225,7 +225,7 @@ mw.liveEditSaveService = {
                 resolve()
             });
         })
-        
+
 
 
         if (mw.tools.isEmptyObject(data)) {
@@ -302,7 +302,7 @@ mw.liveEditSaveService = {
         });
         return xhr;
     },
- 
+
 }
 
 addEventListener('load', () => {
@@ -313,11 +313,23 @@ addEventListener('load', () => {
     };
 
     mw.top().app.save = async () => {
-         
+
         return await save()
     };
 
     window.addEventListener('keydown', function(event){
         mw.top().app.canvas.dispatch('iframeKeyDown', {event})
     })
+
 })
+
+self.onbeforeunload = function(event) {
+    // prevent user from leaving if there are unsaved changes
+    var liveEditIframe = (mw.top().app.canvas.getWindow());
+    if (liveEditIframe
+        && liveEditIframe.mw && liveEditIframe.mw.askusertostay) {
+        return true;
+    } else {
+        mw.top().spinner({element: mw.top().app.canvas.getFrame().parentElement, decorate: true, size: 52}).show()
+    }
+};

@@ -61,7 +61,6 @@ export const liveEditComponent = () => {
         }
     };
     mw.app.registerChange = function(element){
-       // mw.app.state.state()[0].target
         var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
         if(edit) {
             if(edit.getAttribute('rel') && edit.getAttribute('field')) {
@@ -71,15 +70,25 @@ export const liveEditComponent = () => {
             }
         }
     };
-
+    mw.app.registerAskUserToStay = function (toStay = true) {
+        var liveEditIframe = (mw.app.canvas.getWindow());
+        if (liveEditIframe
+            && liveEditIframe.mw) {
+            liveEditIframe.mw.askusertostay = toStay;
+        }
+    };
     mw.app.registerChangedState = function(element){
         mw.app.registerChange(element);
         mw.app.registerUndoState(element);
+        mw.app.registerAskUserToStay(true);
     };
 
 
 
-    const handleUndoRedo = ( data) => {
+
+
+
+        const handleUndoRedo = ( data) => {
         if(data.active) {
             var target = data.active.target;
             if(typeof target === 'string'){
@@ -135,6 +144,7 @@ export const liveEditComponent = () => {
                     target: _edit,
                     value: _edit.innerHTML
                 })
+                mw.app.registerAskUserToStay(e.target);
             }
             clearTimeout(_inputTimeout);
             _inputTimeout = setTimeout(() => {
@@ -144,6 +154,7 @@ export const liveEditComponent = () => {
                         target: _edit,
                         value: _edit.innerHTML
                     })
+                    mw.app.registerAskUserToStay(e.target);
                 }
 
             }, 200)
