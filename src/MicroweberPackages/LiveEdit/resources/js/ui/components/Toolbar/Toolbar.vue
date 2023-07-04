@@ -1,7 +1,6 @@
 
 <template>
     <div id="toolbar" class="shadow-sm">
-
         <div class="toolbar-nav toolbar-nav-hover">
             <a class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" href="./">
                 <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
@@ -13,8 +12,7 @@
                 Admin
             </a>
 
-            <div class="btn-group">
-
+            <div class="ms-3">
                 <UndoRedo></UndoRedo>
             </div>
         </div>
