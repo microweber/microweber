@@ -942,12 +942,7 @@ function selectNode(node) {
 
         populateSpecials(css);
 
-
-
-
-
-
-
+ 
         var clsdata = [];
         $.each(nodes[0].className.split(' '), function(){
             var cls = this.trim();
@@ -977,12 +972,7 @@ function selectNode(node) {
 
     $(document).ready(function(){
         mw.$('.mw-field input').attr('autocomplete', 'off')
-        targetMw.$(top.document.body).on('mousedown touchstart', function(e){
-            var node = mw.tools.firstMatchesOnNodeOrParent(e.target, ['.element', '.module']);
-            if( !node && !mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['mw-control-box', 'mw-defaults']) ){
-                ActiveNode = null;
-            }
-        });
+ 
 
         $(".mw-element-spacing-editor input")
             .on('focus', function(){
@@ -1000,6 +990,7 @@ function selectNode(node) {
             var editorRoot = document.getElementById('css-editor-root');
 
             setInterval(function(){
+                console.log(ActiveNode)
                 editorRoot.classList[ActiveNode ? 'remove' : 'add']('disabled');
             }, 700)
             mw.components._init();
@@ -1008,30 +999,8 @@ function selectNode(node) {
     });
 
     $(window).on('load', function () {
-        if(typeof(targetMw.liveEditSelector) === 'undefined' ){
-            mw.log('Live edit selector is not defined');
-            return;
-        }
-        if(targetMw.liveEditSelector && targetMw.liveEditSelector.selected[0]){
-            ActiveNode = targetMw.liveEditSelector.selected[0];
-
-             if(ActiveNode){
-                var css = mw.CSSParser(ActiveNode);
-                populate(css);
-
-                var can = ActiveNode.innerText === ActiveNode.innerHTML;
-                mw.$('#text-mask')[can ? 'show' : 'hide']();
-
-                mw.$('#text-mask-field')[0].checked = mw.tools.hasClass(ActiveNode, 'mw-bg-mask');
-                 animationGUI.set()
-            }
-            populateSpecials(css);
-        }
-        targetMw.liveEditSelector.positionSelected();
-        setTimeout(function(){
-            $(document.body).trigger('click')
-        }, 400)
-        targetMw.win.document.body.addEventListener('click', function (){
+ 
+         document.body.addEventListener('click', function (){
             colorPickers.forEach(function (cp) {
                  if(cp.hide) {
                     cp.hide()

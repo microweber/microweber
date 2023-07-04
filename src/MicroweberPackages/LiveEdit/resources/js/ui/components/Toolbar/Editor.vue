@@ -149,7 +149,7 @@ export default {
                       url: mw.external_tool('rte_css_editor2'),
                       title: mw.lang('Edit styles'),
                       footer: false,
-                      width: 860,
+                      width: 400,
                       height: 'auto',
                       autoHeight: true
                   });
