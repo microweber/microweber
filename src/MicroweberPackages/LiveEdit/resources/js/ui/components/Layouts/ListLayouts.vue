@@ -214,6 +214,8 @@ export default {
             mw.app.editor.on('insertLayoutRequest',function(element){
                 instance.showModal = true;
 
+                console.log(element);
+                alert(666); 
                 mw.app.registerChangedState(element)
             });
         });
