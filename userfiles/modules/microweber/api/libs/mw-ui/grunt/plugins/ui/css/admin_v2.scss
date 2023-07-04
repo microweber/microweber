@@ -1910,7 +1910,7 @@ svg.text-danger {
 .mw-live-edit-resolutions-wrapper {
     background-color: #f0f0f0 !important;
     border-radius: 5px !important;
-    padding: 3px !important;
+    padding: 5px !important;
 
     .live-edit-toolbar-buttons {
         border-radius: 5px !important;
@@ -1935,6 +1935,7 @@ svg.text-danger {
     max-height: 45px;
     display: flex;
     align-items: center;
+    min-width: 235px;
 }
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
