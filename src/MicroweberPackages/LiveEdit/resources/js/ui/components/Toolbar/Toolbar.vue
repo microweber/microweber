@@ -14,6 +14,7 @@
 
             <div class="ms-3">
                 <UndoRedo></UndoRedo>
+                <ContentSearchNav></ContentSearchNav>
             </div>
         </div>
 
@@ -68,6 +69,8 @@ import ResolutionSwitch from "./ResolutionSwitch.vue";
 import Editor from "./Editor.vue";
 import UndoRedo from "./UndoRedo.vue";
 import SaveButton from "./SaveButton.vue";
+import ContentSearchNav from "./ContentSearchNav.vue";
+
 import * as api from "../../../api-core/services/services/preview.service.js";
 import axios from 'axios';
 
