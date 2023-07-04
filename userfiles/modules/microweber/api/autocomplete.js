@@ -40,7 +40,7 @@ mw.autoComplete = function(options){
     this.createWrapper = function(){
         this.wrapper = document.createElement('div');
         // this.wrapper.className = 'mw-ui-field w100 mw-autocomplete mw-autocomplete-multiple-' + this.options.multiple;
-        this.wrapper.className = 'form-control w100 mw-autocomplete mw-autocomplete-multiple-' + this.options.multiple;
+        this.wrapper.className = 'form-select ps-4 mw-live-edit-search-dropdown mw-autocomplete mw-autocomplete-multiple-' + this.options.multiple;
         return this.wrapper;
     };
 
