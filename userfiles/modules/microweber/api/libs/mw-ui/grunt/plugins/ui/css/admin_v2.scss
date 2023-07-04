@@ -1927,8 +1927,14 @@ svg.text-danger {
             fill: var(--tblr-body-color) !important;
         }
     }
+}
 
-
+.mw-live-edit-search-dropdown {
+    background-color: #f0f0f0;
+    border-color: #f0f0f0;
+    max-height: 45px;
+    display: flex;
+    align-items: center;
 }
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
