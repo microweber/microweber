@@ -4,11 +4,14 @@
 namespace MicroweberPackages\LiveEdit\Providers;
 
 
+use MicroweberPackages\Admin\MenuBuilder\Menu;
+use MicroweberPackages\Template\Traits\HasMenus;
 use MicroweberPackages\Template\Traits\HasScriptsAndStylesTrait;
 
 
 class LiveEditManager
 {
+    use HasMenus;
     use HasScriptsAndStylesTrait;
 
     public function __construct()
@@ -24,15 +27,22 @@ class LiveEditManager
                 }
             }
         }
+
+        $this->initMenus();
+    }
+
+    public function initMenus()
+    {
+        $this->menus['top_right_menu'] = new Menu();
     }
 
     public function headTags()
     {
-
         $tags = [];
         $tags[] = $this->styles();
         $tags[] = $this->scripts();
         $tags[] = $this->customHeadTags();
+
         return implode("\r\n", $tags);
     }
 }
