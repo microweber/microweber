@@ -340,6 +340,7 @@ export class LiveEdit {
                     this.interactionHandle.hide();
                     return
                 }
+                 
                 if(this.handles.targetIsOrInsideHandle(e)) {
                     this.interactionHandle.hide();
                     return
@@ -350,7 +351,7 @@ export class LiveEdit {
                 const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
                 let layoutHasSelectedTarget = false;
 
-              
+               
                 
                 if(target && _hovered.indexOf(target) === -1) {
                     _hovered.forEach(node =>  delete node.dataset.mwLiveEdithover);
@@ -391,7 +392,7 @@ export class LiveEdit {
                 }
 
                 
-                if(target && !this.handles.targetIsSelected(target, this.interactionHandle) && !target.classList.contains('module-layouts')) {
+                if(target && !this.handles.targetIsSelectedAndHandleIsNotHidden(target, this.interactionHandle) && !target.classList.contains('module-layouts')) {
                     var title = '';
                     if(target.dataset.mwTitle) {
                         title = target.dataset.mwTitle;

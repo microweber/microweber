@@ -34,6 +34,8 @@ export const Handle = function (options) {
     };
     this.hide = function () {
         _visible = false;
+       
+   
         this.wrapper.addClass('mw-handle-item-hidden');
         this.wrapper.removeClass('mw-handle-active');
     };
@@ -295,6 +297,8 @@ export const Handle = function (options) {
         });
 
         this.settings.document.body.appendChild(this.wrapper.get(0));
+
+ 
     };
 
     this.createWrapper();

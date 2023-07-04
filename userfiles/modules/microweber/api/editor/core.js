@@ -133,6 +133,10 @@
                 }
             });
 
+            mw.app.canvas.on('canvasDocumentClick',function(app){
+                tip.hide()
+            });
+
             el.on('click', function (e){
                 var off = el.offset();
                 tip.css({
@@ -396,6 +400,12 @@
                     });
 
                 }
+
+                lscope.select.get(0).ownerDocument.querySelectorAll('.mw-bar-control-item.active, .mw-editor-controller-component.active').forEach(node => {
+                    if(node !== _this) {
+                        node.classList.remove('active')
+                    }
+                })
 
                 mw.element('.mw-editor-controller-component-select').each(function (){
                     if (this !== curr ) {

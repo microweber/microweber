@@ -49,6 +49,7 @@ export const Handles = function (handles) {
         }
     };
     this.targetIsSelected = function(target, except) {
+        
         if(!target) {
             return;
         }
@@ -59,8 +60,29 @@ export const Handles = function (handles) {
                 continue;
             }
             const tg = this.handles[i].getTarget();
+         
              if( tg && tg === target) {
                 return true
+             }
+        }
+        return false;
+    }
+
+    this.targetIsSelectedAndHandleIsNotHidden = function(target, except) {
+        
+        if(!target) {
+            return;
+        }
+        target = target.target || target;
+        var i;
+        for (i in this.handles) {
+            if(except && except === this.handles[i]) {
+                continue;
+            }
+            const tg = this.handles[i].getTarget();
+         
+             if( tg && tg === target) {
+                return this.handles[i].isVisible();
              }
         }
         return false;
