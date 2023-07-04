@@ -129,10 +129,8 @@ function admin_url($add_string = false)
         $url = site_url('admin');
 
     }
-    if($add_string){
-        $url = $url . '/' . $add_string;
-    }
 
+    $url = $url . '/' . $add_string;
     return $url;
 }
 

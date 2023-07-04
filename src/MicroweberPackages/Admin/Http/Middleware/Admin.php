@@ -62,7 +62,8 @@ class Admin
         $urlToCompare = site_url('admin');
 
         if($adminUrl == $urlToCompare){
-            return redirect()->guest(route('admin.login'));
+           // return redirect()->guest(route('admin.login'));
+            return redirect(site_url());
         }
         // must not redirect to admin because it will reveal the admin url if its custom
          return redirect(site_url());
