@@ -145,7 +145,17 @@ export default {
                   }
                   
               } else {
-                //todo: css editor
+                  const dlg = mw.top().dialogIframe({
+                      url: mw.external_tool('rte_css_editor2'),
+                      title: mw.lang('Edit styles'),
+                      footer: false,
+                      width: 860,
+                      height: 'auto',
+                      autoHeight: true
+                  });
+                  dlg.iframe.addEventListener('load', () => {
+                    dlg.iframe.contentWindow.selectNode(element)
+                  })
               }
             })
             mw.app.editor.on('editNodeRequest', async (element) => {

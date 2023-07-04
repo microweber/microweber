@@ -256,6 +256,7 @@ export const LayoutHandleContent = function (rootScope) {
                 className: 'mw-handle-insert-button',
                 action: function (target, selfNode, rootScope) {
                     Confirm('Are you sure', function (){
+                        mw.app.registerChange(target)
                         target.remove()
                     })
                 }

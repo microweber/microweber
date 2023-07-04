@@ -37,7 +37,7 @@ export const EditorComponent = function () {
     const editorControls = [
         [
 
-            'undoRedo',
+ 
 
             {
                 group: {

@@ -652,11 +652,15 @@ small.text-muted {
 
 }
 
-.btn:not(.btn-sm) {
+.btn:not(.btn-sm, .live-edit-toolbar-buttons) {
     padding: 0.65rem 1.25rem;
     min-height: 45px;
 }
 
+.live-edit-toolbar-buttons-undo-redo, .live-edit-toolbar-buttons-view {
+    background-color: #f0f0f0 !important;
+    border-color: #f0f0f0 !important;
+}
 
 .btn.btn-link {
     padding: 0;

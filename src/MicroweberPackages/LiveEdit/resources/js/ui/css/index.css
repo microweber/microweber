@@ -1,8 +1,8 @@
 
 html {
 
-    --toolbar-static-height: 90px;
-    --toolbar-height: 90px;
+    --toolbar-static-height: 70px;
+    --toolbar-height: 70px;
     --toolbar-height-animation-speed: .4s;
 }
 
@@ -51,7 +51,7 @@ a {
     align-items: center;
     justify-content: space-between;
     flex-wrap: nowrap;
-    background: var(--tblr-navbar-bg);
+    background: var(--tblr-bg-surface);
     display: flex;
     padding: 0 30px;
     position: relative;
@@ -71,18 +71,10 @@ html.preview #toolbar {
     }
 }
 
-#preview-nav .btn {
-
-    width: 45px;
-    height: 45px;
-    padding: 0;
-    border-radius: 55px;
-
-}
 
 #preview-nav .btn.active,
 .toolbar-nav .btn.active {
-    background-color: #0078ff;
+    background-color: var(--tblr-bg-surface);
     transition: .3s;
 }
 

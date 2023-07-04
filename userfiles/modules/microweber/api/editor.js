@@ -561,14 +561,16 @@ var MWEditor = function (options) {
             if(doc && !doc.body.__mwEditorGroupDownRegister) {
                 doc.body.__mwEditorGroupDownRegister = true;
                 doc.body.addEventListener('click', function (e){
-                    if (e.target !== doc.body && !mw.tools.hasParentsWithClass(e.target, 'mw-bar-control-item-group')) {
-                        mw.element('.mw-bar-control-item-group.active').each(function (){
-
-                                this.classList.remove('active');
-
+                    
+                    const parentTarget =  mw.tools.firstParentOrCurrentWithClass(e.target, 'mw-bar-control-item-group');
+                  
+                    if (e.target !== doc.body && (!parentTarget)) {
+                        mw.element('.mw-bar-control-item-group.active', doc.body).each(function (){
+                            this.classList.remove('active');
                         });
                     }
                 });
+ 
             }
         }, 500);
 
@@ -604,9 +606,16 @@ var MWEditor = function (options) {
                 scope.controls.push(ctrl);
                 icon.prepend(ctrl.element);
                 mw.element(icon.get(0).querySelector('.mw-editor-group-button-caret')).on('mousedown touchstart', function (e) {
+                    
+                    const parent = this.parentNode.parentNode;
+                    scope.document.querySelectorAll('.mw-bar-control-item.active, .mw-editor-controller-component.active').forEach(node => {
+                        if(node !== parent) {
+                            node.classList.remove('active')
+                        }
+                    })
                     e.preventDefault();
-                    MWEditor.core._preSelect(this.parentNode.parentNode);
-                    this.parentNode.parentNode.classList.toggle('active');
+                    MWEditor.core._preSelect(parent);
+                    parent.classList.toggle('active');
                 });
             } else if(scope.controllersHelpers[group.controller]){
                 groupel.append(this.controllersHelpers[group.controller]());
