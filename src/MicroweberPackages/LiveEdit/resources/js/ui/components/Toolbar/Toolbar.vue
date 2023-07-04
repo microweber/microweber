@@ -14,9 +14,11 @@
 
             <div class="ms-3">
                 <UndoRedo></UndoRedo>
-                <ContentSearchNav></ContentSearchNav>
             </div>
         </div>
+
+
+        <ContentSearchNav></ContentSearchNav>
 
 
         <Editor></Editor>
@@ -75,7 +77,7 @@ import * as api from "../../../api-core/services/services/preview.service.js";
 import axios from 'axios';
 
 export default {
-    components: {SaveButton, UndoRedo, Editor, ResolutionSwitch},
+    components: {SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav},
     methods: {
         pagePreviewToggle: () => {
            api.pagePreviewToggle()
