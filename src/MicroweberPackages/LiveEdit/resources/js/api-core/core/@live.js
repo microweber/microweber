@@ -18,6 +18,9 @@ import {Tooltip} from "./tooltip.js";
 import { InteractionHandleContent } from "./handles-content/interaction.js";
 import { DomService } from "./classes/dom.js";
 import  "./core/@core.js";
+ 
+
+mw.require('stylesheet.editor.js');
 
 export class LiveEdit {
 
@@ -306,6 +309,7 @@ export class LiveEdit {
             this.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);
 
             this.handles.get('element').set(null)
+            this.handles.get('module').set(null)
             this.handles.hide();
 
 

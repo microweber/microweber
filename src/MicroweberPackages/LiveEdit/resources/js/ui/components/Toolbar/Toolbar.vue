@@ -9,7 +9,7 @@
                         <path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path>
                     </g>
                 </svg>
-                Admin
+                 <span class="ms-1 font-weight-bold">ADMIN</span>
             </a>
 
             <div class="ms-3">
