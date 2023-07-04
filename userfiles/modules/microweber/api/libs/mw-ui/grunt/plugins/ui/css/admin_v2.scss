@@ -1907,14 +1907,14 @@ svg.text-danger {
     border-color: #f0f0f0 !important;
 }
 
-.mw-live-edit-resoliutions-wrapper {
+.mw-live-edit-resolutions-wrapper {
     background-color: #f0f0f0 !important;
     border-radius: 5px !important;
     padding: 3px !important;
-    margin: 0 10px !important;
 
     .live-edit-toolbar-buttons {
-        border-radius: 5px;
+        border-radius: 5px !important;
+        padding: 5px 10px;
         border-color: #f0f0f0 !important;
         background-color: #f0f0f0 !important;
 
