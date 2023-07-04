@@ -18,7 +18,7 @@ export default {
 }
 </script>
 <template>
-    <button class="btn btn-primary" id="save-button" @click="save()">
-            Save
+    <button class="btn btn-dark live-edit-toolbar-buttons" id="save-button" @click="save()">
+            <span class="font-weight-bold">Save</span>
      </button>
 </template>

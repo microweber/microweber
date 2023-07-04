@@ -71,18 +71,10 @@ html.preview #toolbar {
     }
 }
 
-#preview-nav .btn {
-
-    width: 45px;
-    height: 45px;
-    padding: 0;
-    border-radius: 55px;
-
-}
 
 #preview-nav .btn.active,
 .toolbar-nav .btn.active {
-    background-color: #0078ff;
+    background-color: var(--tblr-bg-surface);
     transition: .3s;
 }
 
