@@ -31,11 +31,15 @@ mw.module_pictures = {
                     mw._postsImageUploaderSmall.$holder.show();
                 }
             }
-            mw.reload_module_everywhere('pictures', function (){
-                if(this.mw.module_pictures) {
-                 //   this.mw.module_pictures.after_change();
-                }
-            });
+
+
+
+            // mw.reload_module_everywhere('pictures', function (){
+            //     if(this.mw.module_pictures) {
+            //      //   this.mw.module_pictures.after_change();
+            //     }
+            // });
+             mw.reload_module_everywhere('pictures');
              mw.reload_module_everywhere('posts');
             mw.reload_module_everywhere('shop/products');
             mw.reload_module_everywhere("pictures/admin");

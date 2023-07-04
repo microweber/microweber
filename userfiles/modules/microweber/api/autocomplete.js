@@ -40,7 +40,7 @@ mw.autoComplete = function(options){
     this.createWrapper = function(){
         this.wrapper = document.createElement('div');
         // this.wrapper.className = 'mw-ui-field w100 mw-autocomplete mw-autocomplete-multiple-' + this.options.multiple;
-        this.wrapper.className = 'form-control w100 mw-autocomplete mw-autocomplete-multiple-' + this.options.multiple;
+        this.wrapper.className = 'form-select ps-4 mw-live-edit-search-dropdown mw-autocomplete mw-autocomplete-multiple-' + this.options.multiple;
         return this.wrapper;
     };
 
@@ -93,7 +93,7 @@ mw.autoComplete = function(options){
         this.selected = final;
     };
 
-    this.select = function(item){
+    this.select = function(item, triggerChange = true){
         if(this.options.multiple){
             this.selected.push(item);
         }
@@ -104,7 +104,10 @@ mw.autoComplete = function(options){
         if(!this.options.multiple){
             this.listHolder.style.display = 'none';
         }
-        mw.$(this).trigger('change', [this.selected]);
+        if(triggerChange){
+            mw.$(this).trigger('change', [this.selected]);
+        }
+      //  mw.$(this).trigger('change', [this.selected]);
     };
 
     this.rendSingle = function(){

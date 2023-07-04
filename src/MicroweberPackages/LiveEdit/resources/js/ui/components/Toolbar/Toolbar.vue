@@ -9,7 +9,7 @@
                         <path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path>
                     </g>
                 </svg>
-                Admin
+                 <span class="ms-1 font-weight-bold">ADMIN</span>
             </a>
 
             <div class="ms-3">
@@ -27,6 +27,7 @@
             <div class="toolbar-col-container">
                 <div class="d-flex align-items-center">
                     <ResolutionSwitch></ResolutionSwitch>
+                    <SettingsCustomize></SettingsCustomize>
                     <SaveButton></SaveButton>
                     <button class="btn live-edit-toolbar-buttons live-edit-toolbar-buttons-view ms-2" @click="pagePreviewToggle()">
                         VIEW
@@ -72,12 +73,13 @@ import Editor from "./Editor.vue";
 import UndoRedo from "./UndoRedo.vue";
 import SaveButton from "./SaveButton.vue";
 import ContentSearchNav from "./ContentSearchNav.vue";
+import SettingsCustomize from "./SettingsCustomize.vue";
 
 import * as api from "../../../api-core/services/services/preview.service.js";
 import axios from 'axios';
 
 export default {
-    components: {SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav},
+    components: {SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav, SettingsCustomize},
     methods: {
         pagePreviewToggle: () => {
            api.pagePreviewToggle()

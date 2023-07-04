@@ -32,10 +32,15 @@ trait LiveEditTrait
 
     public function liveEditToolbarIframeData($html,$page)
     {
+
+        $pageTitle = e($page['title']);
+
         $contentDetailsScript = "
 \n<script type='application/x-javascript' id='mw-iframe-page-data-script'>
         mw.liveEditIframeData = {};
-        mw.liveEditIframeData.content_id = '{$page['id']}';
+        mw.liveEditIframeData.content = {};
+        mw.liveEditIframeData.content.id = '{$page['id']}';
+        mw.liveEditIframeData.content.title = '{$pageTitle}';
 </script>\n";
         $html = str_ireplace('</head>', $contentDetailsScript . '</head>', $html, $c);
         return $html;
