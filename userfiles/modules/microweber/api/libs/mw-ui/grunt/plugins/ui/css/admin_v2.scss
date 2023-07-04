@@ -1847,6 +1847,11 @@ svg.text-danger {
             transition: transform 0.3s ease;
             transition: transform 0.3s ease, -webkit-transform 0.3s ease;
             vertical-align: middle;
+            transform:rotate(180deg);
+        }
+
+        g {
+            stroke: var(--tblr-body-color);
         }
 
         .arrow-icon--circle {
