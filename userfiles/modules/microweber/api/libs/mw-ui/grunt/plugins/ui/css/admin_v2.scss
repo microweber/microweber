@@ -1825,6 +1825,52 @@ svg.text-danger {
 }
 
 
+#toolbar {
+
+    .mw-live-edit-toolbar-link {
+        color: var(--tblr-body-color);
+        cursor: pointer;
+        font-weight: 400;
+        text-decoration: none;
+    }
+
+    .mw-live-edit-toolbar-link--arrowed {
+        display: inline-block;
+        height: 2rem;
+        line-height: 2rem;
+
+        .mw-live-edit-toolbar-arrow-icon {
+            position: relative;
+            top: -1px;
+            -webkit-transition: -webkit-transform 0.3s ease;
+            transition: -webkit-transform 0.3s ease;
+            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+            vertical-align: middle;
+            transform:rotate(180deg);
+        }
+
+        g {
+            stroke: var(--tblr-body-color);
+        }
+
+        .arrow-icon--circle {
+            transition: stroke-dashoffset .3s ease;
+            stroke-dasharray: 95;
+            stroke-dashoffset: 95;
+        }
+
+        &:hover {
+            .arrow-icon {
+                transform: translate3d(5px, 0, 0);
+            }
+
+            .arrow-icon--circle {
+                stroke-dashoffset: 0;
+            }
+        }
+    }
+}
 
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
