@@ -27,6 +27,7 @@ mw.tools.alert = function (text) {
 
 mw.tools.prompt = function (q, callback, currentVal) {
     if(!q) return ;
+
      var input = document.createElement('input');
     input.className = 'mw-ui-field w100';
 
@@ -38,7 +39,8 @@ mw.tools.prompt = function (q, callback, currentVal) {
     var cancel = mw.$('<span class="mw-ui-btn">'+mw.lang('Cancel')+'</span>');
     footer.append(cancel);
     footer.append(ok);
-    var dialog = mw.dialog({
+    console.log(mw.top())
+    var dialog = mw.top().dialog({
         content: question,
         title: q,
         footer: footer

@@ -18,6 +18,9 @@ import {Tooltip} from "./tooltip.js";
 import { InteractionHandleContent } from "./handles-content/interaction.js";
 import { DomService } from "./classes/dom.js";
 import  "./core/@core.js";
+ 
+
+mw.require('stylesheet.editor.js');
 
 export class LiveEdit {
 

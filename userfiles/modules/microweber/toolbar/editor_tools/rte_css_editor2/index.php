@@ -723,7 +723,7 @@ var output = function(property, value){
 
 
 
-            mwTarget.liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value)
+            mw.top().app.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value)
 
             ActiveNode.setAttribute('staticdesign', true);
         }
@@ -990,7 +990,7 @@ function selectNode(node) {
             var editorRoot = document.getElementById('css-editor-root');
 
             setInterval(function(){
-                console.log(ActiveNode)
+                 
                 editorRoot.classList[ActiveNode ? 'remove' : 'add']('disabled');
             }, 700)
             mw.components._init();
