@@ -129,7 +129,9 @@ function admin_url($add_string = false)
         $url = site_url('admin');
 
     }
-    return $url . '/' . $add_string;
+
+    $url = $url . '/' . $add_string;
+    return $url;
 }
 
 //Microweber system

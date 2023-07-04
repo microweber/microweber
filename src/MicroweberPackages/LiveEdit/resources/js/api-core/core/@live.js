@@ -58,7 +58,7 @@ export class LiveEdit {
             strict: true, // element and modules should be dropped only in layouts
             strictLayouts: false, // layouts can only exist as edit-field children
             viewWindow: window,
-  
+
         };
 
         this.settings = ObjectService.extend({}, defaults, options);
@@ -75,7 +75,7 @@ export class LiveEdit {
         }
 
         this.root = this.settings.root;
-    
+
 
         this.elementAnalyzer = new DroppableElementAnalyzerService(this.settings);
 
@@ -91,7 +91,13 @@ export class LiveEdit {
 
         this.layoutHandleContent.on('insertLayoutRequest', () => {
             this.dispatch('insertLayoutRequest')
-        })
+        });
+        this.layoutHandleContent.on('insertLayoutRequestOnTop', () => {
+            this.dispatch('insertLayoutRequestOnTop')
+        });
+        this.layoutHandleContent.on('insertLayoutRequestOnBottom', () => {
+            this.dispatch('insertLayoutRequestOnBottom')
+        });
 
         this.dialog = function (options) {
             if(!options){
@@ -127,7 +133,7 @@ export class LiveEdit {
             document: this.settings.document,
             stateManager: this.settings.stateManager,
             resizable: true,
-            
+
         });
         this.isResizing = false;
 
@@ -167,15 +173,15 @@ export class LiveEdit {
 
         moduleHandle.on('targetChange', function (node){
 
-   
+
 
             scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
 
-                
-          
+
+
 
                 moduleHandleContent.menu.root.remove();
-                
+
 
                 moduleHandleContent.menu = new HandleMenu({
                     id: 'mw-handle-item-element-menu',
@@ -191,7 +197,7 @@ export class LiveEdit {
                 moduleHandleContent.menu.show();
 
                 moduleHandleContent.root.append(moduleHandleContent.menu.root);
-                 
+
 
 
             });
@@ -213,7 +219,7 @@ export class LiveEdit {
         var title = scope.lang('Layout');
         layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target){
-            
+
             layoutHandleContent.menu.setTarget(target);
             layoutHandleContent.menu.setTitle(title);
             if( scope.elementAnalyzer.isEditOrInEdit(target)) {
@@ -231,20 +237,20 @@ export class LiveEdit {
 
         const interactionHandleContent = new InteractionHandleContent(this);
 
- 
+
 
         this.interactionHandle = new Handle({
             ...this.settings,
-   
+
             content: interactionHandleContent.root,
-         
+
             document: this.settings.document,
-            
+
             resizable: false,
             className: 'mw-handle-item-interaction-handle'
         });
         this.interactionHandle.menu = interactionHandleContent.menu;
-         
+
 
         this.handles = new Handles({
             element: elementHandle,
@@ -268,11 +274,11 @@ export class LiveEdit {
     init() {
         if(this.settings.mode === 'auto') {
             setInterval(() =>  ModeAuto(this), 1000)
-            
+
         }
 
         const _eventsHandle = (e) => {
-             
+
             if(this.handles.targetIsOrInsideHandle(e)) {
                 this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
                 return
@@ -285,29 +291,29 @@ export class LiveEdit {
              } else {
                 elements.push(DomService.firstBlockLevel(e.target));
              }
-             
+
             let first = elements[0];
             const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout']);
-           
+
             if(first.nodeName !== 'IMG') {
                 first = DomService.firstBlockLevel(elements[0]);
             }
 
             first = target;
- 
+
 
             this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
             this.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);
-              
+
             this.handles.get('element').set(null)
             this.handles.hide();
 
- 
-         
-           
+
+
+
             if(first) {
                const type = this.elementAnalyzer.getType(first);
- 
+
                if(type && type !== 'edit') {
                    this.handles.set(type, first)
                    if(type === 'element') {
@@ -320,20 +326,20 @@ export class LiveEdit {
                         this.handles.hide();
                    }
                }
- 
+
             } else {
                 const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
                 if(layout) {
                     this.handles.set('layout', layout)
-                } 
+                }
             }
- 
+
         }
 
- 
+
 
             let events, _hovered = [];
-  
+
             events = 'mousedown touchstart';
             ElementManager(this.root).on('mousemove', (e) => {
                 if(this.paused ||  this.isResizing) {
@@ -346,35 +352,35 @@ export class LiveEdit {
                     return
                 }
                 const elements = this.observe.fromEvent(e);
-                
+
                 const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable']);
                 const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
                 let layoutHasSelectedTarget = false;
 
-               
+              
                 
                 if(target && _hovered.indexOf(target) === -1) {
                     _hovered.forEach(node =>  delete node.dataset.mwLiveEdithover);
                     _hovered = [];
 
- 
+
 
                     if(!this.handles.targetIsSelected(target, this.interactionHandle)) {
                         target.dataset.mwLiveEdithover = true;
                         _hovered.push(target)
                     }
 
-                     
-                    
+
+
                 }
 
-                
+
 
                 if(layout && !target) {
-                 
+
                     const elementTarget = this.handles.get('element').getTarget();
                     const moduleTarget = this.handles.get('module').getTarget();
-                     
+
                     if(layout.contains(elementTarget)) {
                         layoutHasSelectedTarget = true;
                     }
@@ -382,13 +388,13 @@ export class LiveEdit {
                     if(layout.contains(moduleTarget)) {
                         layoutHasSelectedTarget = true;
                     }
-                  
+
                     if(!layoutHasSelectedTarget) {
                         this.handles.set('layout', layout);
                     } else {
                         this.handles.hide('layout');
                     }
-                    
+
                 }
 
                 
@@ -411,21 +417,21 @@ export class LiveEdit {
                     }   else {
                         title = this.lang('Text');
                     }
-            
+
                     this.interactionHandle.menu.setTitle(title);
                     this.interactionHandle.show();
                     this.interactionHandle.set(target);
                 } else {
                     this.interactionHandle.hide();
                 }
-                 
+
             })
             let _dblclicktarget
- 
+
             ElementManager(this.root).on('dblclick', (e) => {
-                 
+
                 const selected = mw.app.liveEdit.elementHandle.getTarget();
-                 
+
                 if(selected && selected.contains(_dblclicktarget)) {
                     mw.app.editor.dispatch('editNodeRequest', selected);
                 }
@@ -436,7 +442,7 @@ export class LiveEdit {
                     mw.app.editor.dispatch('editNodeRequest',  e.target);
                 }
 
-                
+
             })
             ElementManager(this.root).on(events, (e) => {
                 _dblclicktarget = e.target;
@@ -449,9 +455,9 @@ export class LiveEdit {
                     }
                 }
             });
-         
- 
-         
+
+
+
     };
 }
 

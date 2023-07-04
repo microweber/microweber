@@ -200,7 +200,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                           <div class="form-group">
                               <label class="form-label font-weight-bold my-2"><?php _e("Require login"); ?></label>
                               <small class="text-muted d-block mb-2"><?php _e("If set to yes - this page will require login from a registered user in order to be opened"); ?></small>
-                              <div class="form-check form-switch pl-0">
+                              <div class="form-check form-switch pl-0 d-flex">
                                   <input type="checkbox" class="form-check-input" style="cursor:pointer" id="require_login" name="require_login" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['require_login'])): ?>checked="1"<?php endif; ?>>
                               </div>
                           </div>
@@ -319,7 +319,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                               <div class="form-group">
                                   <label class="form-label font-weight-bold my-2"><?php _e("Is Home"); ?></label>
                                   <small class="text-muted d-block mb-2"><?php _e("If yes this page will be your Home"); ?></small>
-                                  <div class="form-check form-switch pl-0">
+                                  <div class="form-check form-switch pl-0 d-flex">
                                       <input type="checkbox" name="is_home" class="form-check-input" id="is_home" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_home']): ?>checked="1"<?php endif; ?> />
                                   </div>
                               </div>
@@ -331,7 +331,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                               <div class="form-group">
                                   <label class="form-label font-weight-bold my-2"><?php _e("Is Shop"); ?></label>
                                   <small class="text-muted d-block mb-2"><?php _e("If yes this page will accept products to be added to it"); ?></small>
-                                  <div class="form-check form-switch pl-0">
+                                  <div class="form-check form-switch pl-0 d-flex">
                                       <input type="checkbox" name="is_shop" class="form-check-input" id="is_shop" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_shop']): ?>checked="1"<?php endif; ?> />
                                   </div>
                               </div>

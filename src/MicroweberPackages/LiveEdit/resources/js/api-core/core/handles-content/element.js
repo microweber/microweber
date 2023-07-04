@@ -53,16 +53,16 @@ export const ElementHandleContent = function (proto) {
             },
             action: function (el) {
                 const next = el.nextElementSibling;
- 
+
                 if(next) {
                     next.after(el);
                     proto.elementHandle.set(el)
                 }
-                
+
             }
         },
     ];
-    
+
     this.menu = new HandleMenu({
         id: 'mw-handle-item-element-menu',
         title: 'Element',
@@ -76,12 +76,12 @@ export const ElementHandleContent = function (proto) {
                     // console.log(target)
                 },
                 action: function (el) {
-                   
+
                     mw.app.editor.dispatch('editNodeRequest', el);
-                     
+
                 }
             },
- 
+
             {
                 title: 'Insert module' ,
                 text: '',
@@ -92,7 +92,7 @@ export const ElementHandleContent = function (proto) {
                 },
                 action: function (el) {
                     mw.app.editor.dispatch('insertModuleRequest', el);
-                     
+
                 }
             },
             {
@@ -105,7 +105,7 @@ export const ElementHandleContent = function (proto) {
                 },
                 action: function (el) {
                     mw.app.editor.dispatch('elementSettingsRequest', el);
-                     
+
                 }
             },
             ...cloneAbleMenu,
@@ -115,9 +115,9 @@ export const ElementHandleContent = function (proto) {
                 icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>',
                 className: 'mw-handle-insert-button',
                 action: function (el) {
-                    
-                    Confirm(ElementManager('<span>Are you sure</span>'), () => {
-                        mw.app.registerChange(el)
+
+                    Confirm(ElementManager('<span>Are you sure you want to delete this element?</span>'), () => {
+                        mw.app.registerChangedState(el)
                         el.remove()
                         proto.elementHandle.hide()
                     })

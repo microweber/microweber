@@ -2,7 +2,7 @@
 
 export default {
     methods: {
-        
+
         save: async () => {
             const btn = document.getElementById('save-button');
             btn.classList.add('btn-loading');
@@ -19,6 +19,6 @@ export default {
 </script>
 <template>
     <button class="btn btn-primary" id="save-button" @click="save()">
-                    Save
+            Save
      </button>
 </template>

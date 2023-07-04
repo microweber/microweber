@@ -72,12 +72,12 @@ html.preview #toolbar {
 }
 
 #preview-nav .btn {
- 
+
     width: 45px;
     height: 45px;
     padding: 0;
     border-radius: 55px;
-     
+
 }
 
 #preview-nav .btn.active,
@@ -110,7 +110,7 @@ html.preview #toolbar {
     background-color: transparent;
 }
 
- 
+
 #preview-nav svg {
     width: 25px;
     fill: transparent;
@@ -148,7 +148,7 @@ html.preview #toolbar {
     transform: scale(.8) translateY(-20px);
     pointer-events: none;
     transition: .4s;
-    width: 300px;
+    width: 220px;
     transform-origin: right top;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -297,7 +297,7 @@ html[dir="rtl"] #user-menu {
     left: -4px;
     padding: 5px;
     white-space: nowrap;
- 
+
     background-color: var(--tblr-bg-surface);
     border-radius: 0 0 10px 10px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
@@ -319,7 +319,7 @@ html[dir="rtl"] #user-menu {
     border: none;
 }
 
- 
+
 
 .mw-editor-le2 .mw-editor-dropdown-option {
     padding: 10px 10px;

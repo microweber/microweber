@@ -27,12 +27,17 @@ export const liveEditComponent = () => {
         document: doc
     });
 
-
-
     liveEdit.on('insertLayoutRequest', function(){
         mw.app.editor.dispatch('insertLayoutRequest', mw.app.get('liveEdit').handles.get('layout').getTarget());
     });
 
+    liveEdit.on('insertLayoutRequestOnTop', function(){
+        mw.app.editor.dispatch('insertLayoutRequestOnTop', mw.app.get('liveEdit').handles.get('layout').getTarget());
+    });
+
+    liveEdit.on('insertLayoutRequestOnBottom', function(){
+        mw.app.editor.dispatch('insertLayoutRequestOnBottom', mw.app.get('liveEdit').handles.get('layout').getTarget());
+    });
 
     mw.app.call('onLiveEditReady');
 
@@ -44,7 +49,19 @@ export const liveEditComponent = () => {
     mw.app.register('moduleSettings', ModuleSettings);
 
     mw.app.register('templateSettings', TemplateSettings);// don't remove this
+    mw.app.registerUndoState = function(element){
+        var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
+        if(edit) {
+            if(edit.getAttribute('rel') && edit.getAttribute('field')) {
+                mw.app.state.record({
+                    target: edit,
+                    value: edit.innerHTML
+                });
+            }
+        }
+    };
     mw.app.registerChange = function(element){
+       // mw.app.state.state()[0].target
         var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
         if(edit) {
             if(edit.getAttribute('rel') && edit.getAttribute('field')) {
@@ -53,6 +70,11 @@ export const liveEditComponent = () => {
                 return mw.app.registerChange(edit.parentElement);
             }
         }
+    };
+
+    mw.app.registerChangedState = function(element){
+        mw.app.registerChange(element);
+        mw.app.registerUndoState(element);
     };
 
 
@@ -68,7 +90,7 @@ export const liveEditComponent = () => {
 
                 return;
             }
-            
+
             if(data.active.action) {
                 data.active.action();
             } else if(doc.body.contains(target)) {
@@ -86,18 +108,18 @@ export const liveEditComponent = () => {
 
 
     mw.app.state.on('change',  (data) => {
-    
+
         handleUndoRedo(data)
     });
 
- 
+
 
 
 
     let _inputTimeout = null;
     const initialState = new Map();
     const _inputUnavailable = ['INPUT', 'SELECT', 'TEXTAREA'];
-    let _edit = null; 
+    let _edit = null;
 
     const body = mw.app.canvas.getDocument().body;
 
@@ -109,7 +131,7 @@ export const liveEditComponent = () => {
             _edit = DomService.firstParentOrCurrentWithClass(e.target, 'edit');
             if(initial/* && !initialState.get(_edit)*/) {
                 initialState.set(_edit, true);
-                mw.app.state.record({ 
+                mw.app.state.record({
                     target: _edit,
                     value: _edit.innerHTML
                 })
@@ -118,12 +140,12 @@ export const liveEditComponent = () => {
             _inputTimeout = setTimeout(() => {
                 if(_edit) {
                     _edit.classList.add('changed');
-                    mw.app.state.record({ 
+                    mw.app.state.record({
                         target: _edit,
                         value: _edit.innerHTML
                     })
                 }
-                
+
             }, 200)
         }
     }

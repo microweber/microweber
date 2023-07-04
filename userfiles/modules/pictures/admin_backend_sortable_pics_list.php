@@ -210,8 +210,14 @@ $rand = 'pic-sorter-' . uniqid();
             </div>
         </div>
     <?php else: ?>
-
-       <a href="javascript:addImagesToPost()" class="btn btn-outline"><?php _e("Add file"); ?></a>
+        <div class="admin-thumb-item-uploader-holder">
+            <div class="dropzone mw-dropzone" id="post-file-picker-no-image-yet" onclick="addImagesToPost()">
+                <div class="dz-message">
+                    <h3 class="dropzone-msg-title"><?php _e("Add file"); ?></h3>
+                    <span class="dropzone-msg-desc"><?php _e("or drop files to upload"); ?></span>
+                </div>
+            </div>
+        </div>
     <?php endif; ?>
 
 

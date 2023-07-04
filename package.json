@@ -3,7 +3,7 @@
     "scripts": {
         "vitedev": "vite build --watch --sourcemap inline --mode development",
         "dev": "concurrently \"npm run vitedev\" \"npm run admincssdev\"",
-        "build": "vite build",
+        "build": "concurrently \"vite build\" \"gulp admin-css\" \"gulp admin-css-rtl\"",
         "admincss": "gulp admin-css",
         "admincssdev": "gulp admin-css-dev"
     },

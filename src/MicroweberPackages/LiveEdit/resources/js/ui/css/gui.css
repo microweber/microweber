@@ -81,8 +81,8 @@
     transition: background-color .2s;
 }
 
-.mw-le-nav-box nav a > svg:first-child,
-.mw-le-nav-box nav a > img:first-child {
+.mw-le-nav-box nav a > span > svg:first-child,
+.mw-le-nav-box nav a > span > img:first-child {
     position: absolute;
     left: 25px;
     top: 50%;

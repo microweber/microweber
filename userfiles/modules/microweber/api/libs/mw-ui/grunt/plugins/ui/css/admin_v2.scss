@@ -4,6 +4,27 @@
 
 
 
+//!!!!!!!!!!!!!!!!! RTL STYLE !!!!!!!!!!!!!!!!!!!!
+
+html[dir="rtl"] {
+
+    .table-blade-sortable-elements {
+        left: 0;
+        right: unset;
+    }
+
+    .input-group-text {
+        border-top-left-radius: 5px !important;
+        border-bottom-left-radius: 5px !important;
+
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}
+
+//END RTL STYLE
+
+
 :root {
 
     //--tblr-body-bg: white;
@@ -287,7 +308,7 @@ body, .is_admin {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 0;
+            margin-inline-end: 0;
             border-radius: 50%;
 
         }
@@ -330,9 +351,9 @@ body, .is_admin {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 20px;
+            margin-inline-end: 20px;
             border-radius: 50%;
-            margin-left: auto;
+            margin-inline-start: auto;
 
             width: 30px;
             height: 30px;
@@ -413,7 +434,7 @@ p {
     align-items: start;
     align-self: center;
     display: flex;
-    margin-right: 20px;
+    margin-inline-end: 20px;
     position: relative;
 
 
@@ -463,7 +484,7 @@ p {
 }
 
 .mw-dialog-close {
-    margin-left: auto;
+    margin-inline-start: auto;
 
 }
 
@@ -649,18 +670,16 @@ small.text-muted {
 }
 
 .tab-content {
-    padding-right: 0;
+    padding-inline-end: 0;
+    padding-inline-start: 0;
     padding-left: 0;
+    padding-right: 0;
 }
 
 .form-switch .form-check-input {
     height: 1.25rem;
     width: 2.4rem;
 }
-
-//.form-check.form-switch {
-//    width: 50px;
-//}
 
 .admin-toolbar-buttons {
     transition: 0.25s ease;
@@ -723,7 +742,7 @@ small.text-muted {
 
 .mw-admin-sidebar-profile {
     background: var(--tblr-body-bg);
-    margin-right: 10px;
+    margin-inline-end: 10px;
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -764,7 +783,7 @@ small.text-muted {
         align-items: center;
         justify-content: center;
         transition: 0.25s ease;
-        margin-left: -10px;
+        margin-inline-start: -10px;
         color: var(--tblr-body-color);
 
         &:hover {
@@ -1170,7 +1189,7 @@ input[type=number] {
     float: right;
     width: 16px;
     padding-top: 0px;
-    margin-left: 5px;
+    margin-inline-start: 5px;
     font-size:12px;
 }
 .btn-secondary .action-dropdown-icon {
@@ -1186,7 +1205,7 @@ input[type=number] {
     float:right;
     width:24px;
     height:15px;
-    padding-left:8px;
+    padding-inline-start:8px;
 }
 
 .action-dropdown-delete {
@@ -1216,6 +1235,8 @@ input[type=number] {
     display: flex;
 
 }
+
+
 
 .create-page-clean {
     background: var(--tblr-body-bg);
@@ -1422,7 +1443,7 @@ svg.text-danger {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-right: 3px;
+        margin-inline-end: 3px;
 
         .js-previous-layout {
             color: var(--tblr-body-color);
@@ -1529,7 +1550,7 @@ svg.text-danger {
         background: var(--tblr-bg-surface);
 
         .dropdown-item {
-            padding-left: 20px;
+            padding-inline-start: 20px;
         }
     }
 }
@@ -1766,14 +1787,14 @@ svg.text-danger {
             display: flex;
             align-items: center;
             margin-bottom: 0 !important;
-            margin-left: 3px;
+            margin-inline-start: 3px;
 
             span {
-                margin-left: 3px;
+                margin-inline-start: 3px;
 
             }
         }
-        padding-left: 0;
+        padding-inline-start: 0;
     }
 }
 
@@ -1798,12 +1819,58 @@ svg.text-danger {
 .keyword-blade-filters-menu {
     .dropdown-item {
         input {
-            margin-right: 5px;
+            margin-inline-end: 5px;
         }
     }
 }
 
 
+#toolbar {
+
+    .mw-live-edit-toolbar-link {
+        color: var(--tblr-body-color);
+        cursor: pointer;
+        font-weight: 400;
+        text-decoration: none;
+    }
+
+    .mw-live-edit-toolbar-link--arrowed {
+        display: inline-block;
+        height: 2rem;
+        line-height: 2rem;
+
+        .mw-live-edit-toolbar-arrow-icon {
+            position: relative;
+            top: -1px;
+            -webkit-transition: -webkit-transform 0.3s ease;
+            transition: -webkit-transform 0.3s ease;
+            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+            vertical-align: middle;
+            transform:rotate(180deg);
+        }
+
+        g {
+            stroke: var(--tblr-body-color);
+        }
+
+        .arrow-icon--circle {
+            transition: stroke-dashoffset .3s ease;
+            stroke-dasharray: 95;
+            stroke-dashoffset: 95;
+        }
+
+        &:hover {
+            .arrow-icon {
+                transform: translate3d(5px, 0, 0);
+            }
+
+            .arrow-icon--circle {
+                stroke-dashoffset: 0;
+            }
+        }
+    }
+}
 
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1822,6 +1889,16 @@ svg.text-danger {
         }
     }
 
+}
+
+
+#user-menu {
+    width: 220px !important;
+
+}
+
+.mw-le-nav-box nav a:hover {
+    background-color: var(--tblr-body-bg) !important;
 }
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
