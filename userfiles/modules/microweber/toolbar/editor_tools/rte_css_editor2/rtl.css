@@ -1,0 +1,10 @@
+.mw-field.unit [type='text'] {
+
+    margin-inline-start: 0;
+    margin-inline-end: 10px;
+}
+
+.rouded-corners{
+    direction: ltr;
+    float: right;
+}

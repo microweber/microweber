@@ -146,7 +146,7 @@ export default {
                   
               } else {
                   const dlg = mw.top().dialogIframe({
-                      url: mw.external_tool('rte_css_editor'),
+                      url: mw.external_tool('rte_css_editor2'),
                       title: mw.lang('Edit styles'),
                       footer: false,
                       width: 860,
@@ -154,7 +154,7 @@ export default {
                       autoHeight: true
                   });
                   dlg.iframe.addEventListener('load', () => {
-                    
+                    dlg.iframe.contentWindow.selectNode(element)
                   })
               }
             })
