@@ -23,14 +23,14 @@
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css": {
-    "file": "assets/live-edit-app-d20a740b.css",
+    "file": "assets/live-edit-app-dbae3149.css",
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js": {
     "css": [
-      "assets/live-edit-app-d20a740b.css"
+      "assets/live-edit-app-dbae3149.css"
     ],
-    "file": "assets/live-edit-app-7e0d6ce1.js",
+    "file": "assets/live-edit-app-a90753c1.js",
     "imports": [
       "_bootstrap-54df3f49.js"
     ],

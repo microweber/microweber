@@ -102,14 +102,6 @@ html.preview #toolbar {
     background-color: transparent;
 }
 
-
-#preview-nav svg {
-    width: 25px;
-    fill: transparent;
-    stroke: currentColor;
-    stroke-width: 2px;
-}
-
 #live-edit-frame-holder.has-mw-spinner:after {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
