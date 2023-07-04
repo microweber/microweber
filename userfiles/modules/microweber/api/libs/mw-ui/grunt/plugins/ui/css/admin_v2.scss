@@ -657,10 +657,6 @@ small.text-muted {
     min-height: 45px;
 }
 
-.live-edit-toolbar-buttons-undo-redo, .live-edit-toolbar-buttons-view {
-    background-color: #f0f0f0 !important;
-    border-color: #f0f0f0 !important;
-}
 
 .btn.btn-link {
     padding: 0;
@@ -1903,6 +1899,36 @@ svg.text-danger {
 
 .mw-le-nav-box nav a:hover {
     background-color: var(--tblr-body-bg) !important;
+}
+
+
+.live-edit-toolbar-buttons-undo-redo, .live-edit-toolbar-buttons-view {
+    background-color: #f0f0f0 !important;
+    border-color: #f0f0f0 !important;
+}
+
+.mw-live-edit-resoliutions-wrapper {
+    background-color: #f0f0f0 !important;
+    border-radius: 5px !important;
+    padding: 3px !important;
+    margin: 0 10px !important;
+
+    .live-edit-toolbar-buttons {
+        border-radius: 5px;
+        border-color: #f0f0f0 !important;
+        background-color: #f0f0f0 !important;
+
+        &:hover, &.live-edit-resolution-active, &:focus, &:active {
+            background-color: var(--tblr-bg-surface) !important;
+            border-color: var(--tblr-bg-surface) !important;
+        }
+
+        svg {
+            fill: var(--tblr-body-color) !important;
+        }
+    }
+
+
 }
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
