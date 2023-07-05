@@ -108,7 +108,7 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
 
             foreach($categoryDataMultilanguage as $locale=>$fields) {
                 foreach($fields as $fieldKey=>$fieldValue) {
-                    $this->assertEquals($fieldValue, $findCategory->multilanguage[$locale][$fieldKey]);
+                    $this->assertEquals($fieldValue, $findCategory->multilanguage_translatons[$locale][$fieldKey]);
                 }
             }
 

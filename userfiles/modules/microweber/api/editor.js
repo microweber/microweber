@@ -561,16 +561,16 @@ var MWEditor = function (options) {
             if(doc && !doc.body.__mwEditorGroupDownRegister) {
                 doc.body.__mwEditorGroupDownRegister = true;
                 doc.body.addEventListener('click', function (e){
-                    
+
                     const parentTarget =  mw.tools.firstParentOrCurrentWithClass(e.target, 'mw-bar-control-item-group');
-                  
+
                     if (e.target !== doc.body && (!parentTarget)) {
                         mw.element('.mw-bar-control-item-group.active', doc.body).each(function (){
                             this.classList.remove('active');
                         });
                     }
                 });
- 
+
             }
         }, 500);
 
@@ -606,7 +606,7 @@ var MWEditor = function (options) {
                 scope.controls.push(ctrl);
                 icon.prepend(ctrl.element);
                 mw.element(icon.get(0).querySelector('.mw-editor-group-button-caret')).on('mousedown touchstart', function (e) {
-                    
+
                     const parent = this.parentNode.parentNode;
                     scope.document.querySelectorAll('.mw-bar-control-item.active, .mw-editor-controller-component.active').forEach(node => {
                         if(node !== parent) {
@@ -669,7 +669,7 @@ var MWEditor = function (options) {
             for ( ; i< l ; i++) {
                 var item = scope._addControllerGroups[i];
                 var media = item.media;
-                if(media) {
+                if(media && scope && scope.document && scope.document.defaultView) {
                     var match = scope.document.defaultView.matchMedia(media);
                     item.el.$node[match.matches ? 'addClass' : 'removeClass']('mw-editor-control-group-media-matches');
                 }
@@ -814,7 +814,7 @@ var MWEditor = function (options) {
 
     this.positionSmallEditor = function(target){
         var off = mw.element(target).offset();
-               
+
         var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
         // var cleft =  scope.interactionData.pageX;
         var cleft =  off.left;
@@ -834,26 +834,26 @@ var MWEditor = function (options) {
         var max = (cleft + scope.smallEditor.width());
         if( max > scope.actionWindow.innerWidth) {
             cleft = max - scope.actionWindow.innerWidth;
-           
+
         }
 
         var safeTop = ctop
-         
+
         ctop = Math.max(ctop, scope.settings.document.defaultView.scrollY + 25 );
 
         if(ctop > off.offsetTop + target.offsetHeight) {
             ctop = safeTop
         }
-   
+
         scope.smallEditor.css({
             top: ctop,
             left: cleft,
-           
+
         });
     }
 
     this.smallEditorInteract = function (target) {
-      
+
 
         this._smallEditorInteract = false;
 
@@ -861,7 +861,7 @@ var MWEditor = function (options) {
            target = scope.getActualTarget(scope.lastRange.commonAncestorContainer);
        }
         if(target && mw.tools.hasAnyOfClassesOnNodeOrParent(target, _smallEditorExceptionClasses)){
-             
+
             return
         }
 
@@ -873,7 +873,7 @@ var MWEditor = function (options) {
                 scope.positionSmallEditor(target)
 
                 scope.smallEditor.css({
- 
+
                     display: 'block'
                 });
             }
@@ -886,13 +886,13 @@ var MWEditor = function (options) {
     }
     this.createBar = function () {
         this.bar = mw.settings.bar || mw.bar();
-         
+
         if(this.settings.controls.length === 0) {
             this.bar.element.addClass('mw-bar-empty');
             this.wrapper.classList.add('mw-editor-wrapper-empty');
             setTimeout(() => this.wrapper.parentNode.classList.add('mw-editor-area-wrapper-empty'), 100)
-             
-            
+
+
         }
         for (var i1 = 0; i1 < this.settings.controls.length; i1++) {
             var item = this.settings.controls[i1];
@@ -923,18 +923,18 @@ var MWEditor = function (options) {
                 });
             }
             scope.settings.regions = scope.settings.regions || scope.$editArea;
- 
-            
+
+
             if (scope.settings.editMode === 'liveedit') {
                 scope.liveEditMode();
                 const set = function(e) {
 
                     var edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit');
-                  
+
                     Array.from(scope.settings.document.querySelectorAll('[contenteditable="true"]')).forEach(node => {
                         if(node !== edit) {
                             // node.contentEditable = false;
-                        }  
+                        }
                     })
                     if(edit) {
                         const hasSafe = mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['safe-mode']);
@@ -944,13 +944,13 @@ var MWEditor = function (options) {
                             edit.contentEditable = true;
                         } else {
                             edit.contentEditable = true;
-                        }                        
+                        }
                     }
                     console.log(e.type, e.target)
                 }
                 //  scope.settings.document.addEventListener('mousedown', set)
                 // scope.settings.document.addEventListener('dblclick', set)
-               
+
 
             } else {
                 $(scope.settings.regions, scope.actionWindow.document).attr('contenteditable', true);
@@ -1071,7 +1071,7 @@ var MWEditor = function (options) {
             }
         })
 
-        
+
 
     };
     this.init();

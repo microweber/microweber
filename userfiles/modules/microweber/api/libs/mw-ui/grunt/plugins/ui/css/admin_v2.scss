@@ -29,6 +29,7 @@ html[dir="rtl"] {
 
     //--tblr-body-bg: white;
         --tblr-body-font-family: 'Inter';
+        --tblr-body-bg2: #f0f0f0;
 
 
     body:not(.theme-dark) {
@@ -50,6 +51,29 @@ body:not(.theme-dark, .is_admin) {
 }
 
 body.theme-dark {
+    --tblr-body-bg2: #0b0b0c;
+
+    .form-check-input:not(:checked), .form-control, .form-file-text, .form-select, .form-selectgroup-check {
+        background-color: var(--tblr-body-bg);
+        border-color: var(--tblr-body-bg);
+    }
+
+    .mw-ui-box.mw-ui-navigation {
+        background-color: var(--tblr-bg-surface);
+
+        li {
+            &:hover {
+                background-color: var(--tblr-bg-surface);
+            }
+            a {
+                color: var(--tblr-body-color);
+                &:hover {
+                    background-color: var(--tblr-body-surface);
+
+                }
+            }
+        }
+    }
 
     .mw-dialog-skin-default .mw-dialog-close {
 
@@ -133,6 +157,55 @@ body.theme-dark {
         }
 
     }
+
+
+    //LIVE EDIT FOR DARK THEME
+
+    .mw-live-edit-resolutions-wrapper {
+        background-color: var(--tblr-body-bg) !important;
+    }
+
+
+    .live-edit-toolbar-buttons {
+        &:hover, &.live-edit-resolution-active, &:focus, &:active {
+            background-color: var(--tblr-bg-surface) !important;
+            border-color: var(--tblr-bg-surface) !important;
+
+            svg {
+                fill: var(--tblr-body-color) !important;
+                color: var(--tblr-body-color) !important;
+            }
+        }
+        svg {
+            fill: var(--tblr-bg-surface) !important;
+            color: var(--tblr-bg-surface) !important;
+        }
+    }
+
+    .btn.live-edit-toolbar-buttons {
+        &:hover {
+            border-color: var(--tblr-body-color) !important;
+            color: var(--tblr-body-color) !important;
+        }
+    }
+
+    .live-edit-toolbar-buttons-undo-redo, .live-edit-toolbar-buttons {
+        svg {
+            fill: var(--tblr-body-color) !important;
+            color: var(--tblr-body-color) !important;
+        }
+    }
+
+    #bubble-nav span {
+        background-color: var(--tblr-bg-surface) !important;
+        color: var(--tblr-body-color) !important;
+
+        svg {
+            fill: var(--tblr-body-color) !important;
+        }
+    }
+
+    //END LIVE EDIT FOR DARK THEME
 }
 
 .btn-outline-dark {
@@ -1910,20 +1983,20 @@ svg.text-danger {
 
 
 .live-edit-toolbar-buttons-undo-redo, .live-edit-toolbar-buttons-view {
-    background-color: #f0f0f0 !important;
-    border-color: #f0f0f0 !important;
+    background-color: var(--tblr-body-bg2) !important;
+    border-color: var(--tblr-body-bg2) !important;
 }
 
 .mw-live-edit-resolutions-wrapper {
-    background-color: #f0f0f0 !important;
+    background-color: var(--tblr-body-bg2) !important;
     border-radius: 5px !important;
     padding: 5px !important;
 
     .live-edit-toolbar-buttons {
         border-radius: 5px !important;
         padding: 5px 10px;
-        border-color: #f0f0f0 !important;
-        background-color: #f0f0f0 !important;
+        border-color: var(--tblr-body-bg2) !important;
+        background-color: var(--tblr-body-bg2) !important;
 
         &:hover, &.live-edit-resolution-active, &:focus, &:active {
             background-color: var(--tblr-bg-surface) !important;
@@ -1937,8 +2010,8 @@ svg.text-danger {
 }
 
 .mw-live-edit-search-dropdown {
-    background-color: #f0f0f0;
-    border-color: #f0f0f0;
+    background-color: var(--tblr-body-bg2);
+    border-color: var(--tblr-body-bg2);
     max-height: 45px;
     display: flex;
     align-items: center;
@@ -1946,3 +2019,8 @@ svg.text-danger {
 }
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+.mw-autocomplete .mw-autocomplete-list {
+    padding: 20px;
+}

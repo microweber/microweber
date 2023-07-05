@@ -43,26 +43,7 @@ $rand = 'pic-sorter-' . uniqid();
 
 <?php include (__DIR__.'/admin_backend_scripts.php')?>
 
-<style>
-    .admin-thumb-item-uploader-holder {
-        display: block;
-        position: relative;
-        float: left;
-        width: 18%;
-        height: 110px;
-        margin: 0 1% 1%;
-        overflow: hidden;
-    }
 
-    .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone button {
-        text-decoration: underline;
-    }
-
-    .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone {
-        border-color: #4592ff;
-        background-color: rgba(69, 146, 255, 0.1);
-    }
-</style>
 
 
 
@@ -128,14 +109,16 @@ $rand = 'pic-sorter-' . uniqid();
     $(document).ready(function () {
         mw.module_pictures.init('#admin-thumbs-holder-sort-<?php print $rand; ?>');
 
+            // $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder, .mw-filepicker-desktop-type-small .mw-uploader-type-holder').each(function () {
+            //     $(this).height($(this).width())
+            // })
 
 
-
-        setInterval(function () {
-            $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder, .mw-filepicker-desktop-type-small .mw-uploader-type-holder').each(function () {
-                $(this).height($(this).width())
-            })
-        }, 78)
+        // setInterval(function () {
+        //     $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder, .mw-filepicker-desktop-type-small .mw-uploader-type-holder').each(function () {
+        //         $(this).height($(this).width())
+        //     })
+        // }, 78)
 
 
     });
@@ -210,6 +193,7 @@ $rand = 'pic-sorter-' . uniqid();
             </div>
         </div>
     <?php else: ?>
+    <div>
         <div class="admin-thumb-item-uploader-holder">
             <div class="dropzone mw-dropzone" id="post-file-picker-no-image-yet" onclick="addImagesToPost()">
                 <div class="dz-message">
@@ -218,6 +202,7 @@ $rand = 'pic-sorter-' . uniqid();
                 </div>
             </div>
         </div>
+    </div>
     <?php endif; ?>
 
 

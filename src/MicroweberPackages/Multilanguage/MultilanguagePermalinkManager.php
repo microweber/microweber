@@ -160,8 +160,8 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
 
             $originalSlug = $content->getOriginal('url');
             if ($this->language) {
-                if (isset($content->multilanguage[$this->language]['url'])) {
-                    $originalSlug = $content->multilanguage[$this->language]['url'];
+                if (isset($content->multilanguage_translatons[$this->language]['url'])) {
+                    $originalSlug = $content->multilanguage_translatons[$this->language]['url'];
                 }
             }
 
@@ -226,8 +226,8 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                         $pageId = $pageCategory['id'];
                         $pageCategory = app()->content_repository->findById($pageId);
                         if ($pageCategory != null) {
-                            if (isset($pageCategory->multilanguage[$this->language]['url'])) {
-                                $link[] = $pageCategory->multilanguage[$this->language]['url'];
+                            if (isset($pageCategory->multilanguage_translatons[$this->language]['url'])) {
+                                $link[] = $pageCategory->multilanguage_translatons[$this->language]['url'];
                             } else {
                                 $link[] = $pageCategory->getOriginal('url');
                             }
@@ -235,8 +235,8 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
                     }
                     break;
             }
-            if (isset($category->multilanguage[$this->language]['url'])) {
-                $link['original_slug'] = $category->multilanguage[$this->language]['url'];
+            if (isset($category->multilanguage_translatons[$this->language]['url'])) {
+                $link['original_slug'] = $category->multilanguage_translatons[$this->language]['url'];
             } else {
                 $link['original_slug'] = $category->getOriginal('url');
             }

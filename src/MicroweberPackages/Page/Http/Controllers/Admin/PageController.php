@@ -60,13 +60,18 @@ class PageController extends AdminController
 
         $data['allLayouts'] = $layouts;
 
+        $data['content_type'] = 'page';
+
         return view('page::admin.page.create', $data);
     }
 
     public function edit(Request $request, $id) {
-        return view('page::admin.page.edit', [
-            'content_id'=>intval($id)
-        ]);
+
+        $data = [];
+        $data['content_type'] = 'page';
+        $data['content_id'] = intval($id);
+
+        return view('page::admin.page.edit', $data);
     }
 
     public function design() {

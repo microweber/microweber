@@ -73,14 +73,14 @@ class MultilanguageProductTest extends MultilanguageTestBase
 
         $getProduct = Product::where('id', $ProductSaved->id)->first();
 
-        $this->assertEquals($getProduct->multilanguage['bg_BG']['title'], $apiProductStore['multilanguage']['title']['bg_BG']);
-        $this->assertEquals($getProduct->multilanguage['bg_BG']['content'], $apiProductStore['multilanguage']['content']['bg_BG']);
+        $this->assertEquals($getProduct->multilanguage_translatons['bg_BG']['title'], $apiProductStore['multilanguage']['title']['bg_BG']);
+        $this->assertEquals($getProduct->multilanguage_translatons['bg_BG']['content'], $apiProductStore['multilanguage']['content']['bg_BG']);
 
-        $this->assertEquals($getProduct->multilanguage['ar_SA']['title'], $apiProductStore['multilanguage']['title']['ar_SA']);
-        $this->assertEquals($getProduct->multilanguage['ar_SA']['content'], $apiProductStore['multilanguage']['content']['ar_SA']);
+        $this->assertEquals($getProduct->multilanguage_translatons['ar_SA']['title'], $apiProductStore['multilanguage']['title']['ar_SA']);
+        $this->assertEquals($getProduct->multilanguage_translatons['ar_SA']['content'], $apiProductStore['multilanguage']['content']['ar_SA']);
 
-        $this->assertEquals($getProduct->multilanguage['ru_RU']['title'], $apiProductStore['multilanguage']['title']['ru_RU']);
-        $this->assertEquals($getProduct->multilanguage['ru_RU']['content'], $apiProductStore['multilanguage']['content']['ru_RU']);
+        $this->assertEquals($getProduct->multilanguage_translatons['ru_RU']['title'], $apiProductStore['multilanguage']['title']['ru_RU']);
+        $this->assertEquals($getProduct->multilanguage_translatons['ru_RU']['content'], $apiProductStore['multilanguage']['content']['ru_RU']);
 
         // TEST BULGARIAN
 

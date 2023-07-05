@@ -66,11 +66,11 @@
 
             <script>
                 // saving module settings for legacy modules
-                var settingsAction = function () {
+                var settingsBindOptionsFields = function () {
                     var settings_container_mod_el = $('#settings-container');
                     mw.options.form(settings_container_mod_el, function () {
-                        if (mw.notification) {
-                            mw.notification.success('<?php _ejs('Settings are saved') ?>');
+                        if (mw.top().notification) {
+                            mw.top().notification.success('<?php _ejs('Settings are saved') ?>');
                         }
                          <?php if (isset($params['id'])) : ?>
 
@@ -85,7 +85,10 @@
                     createAutoHeight()
                 };
                 $(document).ready(function () {
-                    settingsAction();
+                    setTimeout(function () {
+                        settingsBindOptionsFields();
+                    }, 777)
+
                 });
 
             </script>
@@ -145,14 +148,40 @@
         if (self !== top) {
             $(window).on('load', function () {
 
-                mw.interval('_settingsAutoHeight', function () {
-                    if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
-                        createAutoHeight();
-                    }
-                });
+                var moduleContainerElement = document.getElementById("settings-container")
+                var docEl = document.documentElement;
+
+                if (docEl && docEl.addEventListener) {
+                    docEl.addEventListener("DOMSubtreeModified", function(evt) {
+                        var t = evt.target;
+
+                        domModifiedForAutoHeight();
+
+                    }, false);
+                } else {
+                    document.onpropertychange = function() {
+
+                        domModifiedForAutoHeight();
+
+                    };
+                }
+
+               //mw.interval('_settingsAutoHeight', function () {
+                //     if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
+                //         createAutoHeight();
+                //     }
+               // });
 
             });
-
+            var domModifiedForAutoHeightIntervalId;
+            function domModifiedForAutoHeight() {
+                clearTimeout(domModifiedForAutoHeightIntervalId)
+                 domModifiedForAutoHeightIntervalId = setTimeout(() => {
+                     if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
+                         createAutoHeight();
+                     }
+                }, 300);
+            }
 
 
         }

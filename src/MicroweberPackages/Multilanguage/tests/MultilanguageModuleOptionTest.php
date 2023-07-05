@@ -40,7 +40,7 @@ class MultilanguageOptionTest extends MultilanguageTestBase
         $data['lang'] = 'bg_BG';
         $data['option_key'] = $optionKey;;
         $data['module'] = $module;
-        $data['option_value'] = 'ti si manqk';
+        $data['option_value'] = 'ti si manqk na BG';
         $data['option_group'] = $optionGroup;
         mw()->option_manager->save($data);
 
@@ -53,6 +53,7 @@ class MultilanguageOptionTest extends MultilanguageTestBase
         $findTranslation = MultilanguageTranslations::where('locale', $data['lang'])
             ->where('rel_type','options')
             ->where('field_name', 'option_value')->first();
+
 
         $this->assertEquals($findTranslation->rel_id, $findModuleOption->id);
         $this->assertEquals($findTranslation->field_value, $data['option_value']);

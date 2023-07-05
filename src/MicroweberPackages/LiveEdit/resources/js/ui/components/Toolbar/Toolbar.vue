@@ -1,7 +1,7 @@
 
 <template>
     <div id="toolbar" class="shadow-sm">
-        <div class="toolbar-nav toolbar-nav-hover">
+        <div class="toolbar-nav toolbar-nav-hover col-md-2 col-auto d-flex justify-content-lg-start">
             <a class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" href="./">
                 <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                     <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
@@ -18,12 +18,12 @@
         </div>
 
 
-        <ContentSearchNav></ContentSearchNav>
+        <div class="col-md-3 col-auto">
+           <ContentSearchNav></ContentSearchNav>
+        </div>
 
 
-        <Editor></Editor>
-
-        <div class="toolbar-col">
+        <div class="toolbar-col col-auto">
             <div class="toolbar-col-container">
                 <div class="d-flex align-items-center">
                     <ResolutionSwitch></ResolutionSwitch>
@@ -47,7 +47,7 @@
                             <span v-html="menuItem.icon_html"></span>
                             {{ menuItem.title }}
                         </a>
-                        <a onclick="document.body.classList.toggle('theme-dark')">
+                        <a v-on:click="this.toggleDarkMode()">
                             <span>
                             <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 96 960 960" width="36">
                                 <path
@@ -60,9 +60,9 @@
                 </div>
             </div>
         </div>
-
-
     </div>
+
+    <Editor></Editor>
 
 
 </template>
@@ -92,6 +92,25 @@ export default {
             await axios.get(route('api.live-edit.get-top-right-menu')).then(function (response) {
                 instance.menu = response.data;
             });
+        },
+        toggleDarkMode: () => {
+
+            var is_dark = $("body").hasClass('theme-dark');
+
+            if (!is_dark) {
+                $("body").addClass('theme-dark')
+                $("#navbar-change-theme-icon-dark").show()
+                $("#navbar-change-theme-icon-light").hide()
+
+                mw.cookie.set('admin_theme_dark', 'true');
+
+            } else {
+                $("body").removeClass('theme-dark')
+                $("#navbar-change-theme-icon-light").show()
+                $("#navbar-change-theme-icon-dark").hide()
+
+                mw.cookie.delete('admin_theme_dark');
+            }
         }
     },
     data() {

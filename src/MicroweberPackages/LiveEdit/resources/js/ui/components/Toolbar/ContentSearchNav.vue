@@ -45,7 +45,9 @@ export default {
                 && typeof liveEditIframe.mw.liveEditIframeData !== 'undefined'
                 && liveEditIframe.mw.liveEditIframeData
                 && liveEditIframe.mw.liveEditIframeData.content
-                && liveEditIframe.mw.liveEditIframeData.content.id) {
+                && liveEditIframe.mw.liveEditIframeData.content.id
+                && liveEditIframe.mw.liveEditIframeData.content.title
+            ) {
                 this.selectedContentId = liveEditIframe.mw.liveEditIframeData.content.id;
                 this.selectedContentTitle = liveEditIframe.mw.liveEditIframeData.content.title;
                 this.liveEditSearchContentField.select(

@@ -83,8 +83,9 @@ class MultilanguageObserver
                 $model->multilanguage_translations_count = count($findTranslations);
             }*/
 
-        $model->multilanguage = $multilanguage;
-        $model->makeHidden(['multilanguage', 'translatable']);
+       // $model->multilanguage = $multilanguage;
+        $model->multilanguage_translatons = $multilanguage;
+        $model->makeHidden(['multilanguage', 'translatable','multilanguage_translatons']);
     }
 
     /**

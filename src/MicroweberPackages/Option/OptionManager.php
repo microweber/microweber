@@ -414,7 +414,10 @@ class OptionManager
                 // $this->app->event_manager->trigger('option.before.save', $data);
 
                 if (!empty($data['module'])) {
-                    $findModuleOption = ModuleOption::where('option_key', $data['option_key'])->where('option_group', $data['option_group'])->first();
+                    $findModuleOption = ModuleOption::where('option_key', $data['option_key'])
+                        ->where('option_group', $data['option_group'])
+
+                        ->first();
                     if ($findModuleOption == null) {
                         $findModuleOption = new ModuleOption();
                         $findModuleOption->option_key = $data['option_key'];
@@ -425,13 +428,15 @@ class OptionManager
 
                         if($data['lang'] != app()->lang_helper->default_lang()){
                             // legacy save attribute
-                            $findModuleOption->lang = $data['lang'];
+                         $findModuleOption->lang = $data['lang'];
+
+                          //  $findModuleOption->multilanguage = [$data['lang']['option_value'][$data['option_value']];
 
                         }
                     } else {
 
                         if(isset($data['multilanguage'])){
-                            $findModuleOption->multilanguage = $data['multilanguage'];
+                             $findModuleOption->multilanguage = $data['multilanguage'];
                         }
 
                       //  $findModuleOption->lang = app()->getLocale();
@@ -440,7 +445,6 @@ class OptionManager
 
                     $findModuleOption->module = $data['module'];
                     $findModuleOption->option_value = $data['option_value'];
-
 
 
                     $save = $findModuleOption->save();

@@ -72,14 +72,14 @@ class MultilanguagePostTest extends MultilanguageTestBase
 
         $getPost = Post::where('id', $PostSaved->id)->first();
 
-        $this->assertEquals($getPost->multilanguage['bg_BG']['title'], $apiPostStore['multilanguage']['title']['bg_BG']);
-        $this->assertEquals($getPost->multilanguage['bg_BG']['content'], $apiPostStore['multilanguage']['content']['bg_BG']);
+        $this->assertEquals($getPost->multilanguage_translatons['bg_BG']['title'], $apiPostStore['multilanguage']['title']['bg_BG']);
+        $this->assertEquals($getPost->multilanguage_translatons['bg_BG']['content'], $apiPostStore['multilanguage']['content']['bg_BG']);
 
-        $this->assertEquals($getPost->multilanguage['ar_SA']['title'], $apiPostStore['multilanguage']['title']['ar_SA']);
-        $this->assertEquals($getPost->multilanguage['ar_SA']['content'], $apiPostStore['multilanguage']['content']['ar_SA']);
+        $this->assertEquals($getPost->multilanguage_translatons['ar_SA']['title'], $apiPostStore['multilanguage']['title']['ar_SA']);
+        $this->assertEquals($getPost->multilanguage_translatons['ar_SA']['content'], $apiPostStore['multilanguage']['content']['ar_SA']);
 
-        $this->assertEquals($getPost->multilanguage['ru_RU']['title'], $apiPostStore['multilanguage']['title']['ru_RU']);
-        $this->assertEquals($getPost->multilanguage['ru_RU']['content'], $apiPostStore['multilanguage']['content']['ru_RU']);
+        $this->assertEquals($getPost->multilanguage_translatons['ru_RU']['title'], $apiPostStore['multilanguage']['title']['ru_RU']);
+        $this->assertEquals($getPost->multilanguage_translatons['ru_RU']['content'], $apiPostStore['multilanguage']['content']['ru_RU']);
 
         // TEST BULGARIAN
 
