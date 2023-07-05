@@ -38,7 +38,6 @@ class PageController extends AdminController
         }
 
         $data['content_id'] = 0;
-        $data['content_type'] = 'page';
         $data['recommended_category_id'] = 0;
         $data['recommended_content_id'] = 0;
         if (isset($request_data['recommended_category_id'])) {
@@ -60,6 +59,8 @@ class PageController extends AdminController
         $layouts = mw()->layouts_manager->get_all($layout_options);
 
         $data['allLayouts'] = $layouts;
+
+        $data['content_type'] = 'page';
 
         return view('page::admin.page.create', $data);
     }
