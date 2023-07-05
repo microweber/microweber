@@ -47,7 +47,7 @@
                             <span v-html="menuItem.icon_html"></span>
                             {{ menuItem.title }}
                         </a>
-                        <a onclick="document.body.classList.toggle('theme-dark')">
+                        <a v-on:click="this.toggleDarkMode()">
                             <span>
                             <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 96 960 960" width="36">
                                 <path
@@ -92,6 +92,25 @@ export default {
             await axios.get(route('api.live-edit.get-top-right-menu')).then(function (response) {
                 instance.menu = response.data;
             });
+        },
+        toggleDarkMode: () => {
+
+            var is_dark = $("body").hasClass('theme-dark');
+
+            if (!is_dark) {
+                $("body").addClass('theme-dark')
+                $("#navbar-change-theme-icon-dark").show()
+                $("#navbar-change-theme-icon-light").hide()
+
+                mw.cookie.set('admin_theme_dark', 'true');
+
+            } else {
+                $("body").removeClass('theme-dark')
+                $("#navbar-change-theme-icon-light").show()
+                $("#navbar-change-theme-icon-dark").hide()
+
+                mw.cookie.delete('admin_theme_dark');
+            }
         }
     },
     data() {
