@@ -39,11 +39,6 @@
 
 @endsection
 
-@section('topbar2-links-left_____')
-
-
-
-@endsection
 
 @section('content')
 
