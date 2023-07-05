@@ -51,8 +51,29 @@ body:not(.theme-dark, .is_admin) {
 }
 
 body.theme-dark {
-
     --tblr-body-bg2: #0b0b0c;
+
+    .form-check-input:not(:checked), .form-control, .form-file-text, .form-select, .form-selectgroup-check {
+        background-color: var(--tblr-body-bg);
+        border-color: var(--tblr-body-bg);
+    }
+
+    .mw-ui-box.mw-ui-navigation {
+        background-color: var(--tblr-bg-surface);
+
+        li {
+            &:hover {
+                background-color: var(--tblr-bg-surface);
+            }
+            a {
+                color: var(--tblr-body-color);
+                &:hover {
+                    background-color: var(--tblr-body-surface);
+
+                }
+            }
+        }
+    }
 
     .mw-dialog-skin-default .mw-dialog-close {
 

@@ -145,14 +145,40 @@
         if (self !== top) {
             $(window).on('load', function () {
 
-                mw.interval('_settingsAutoHeight', function () {
-                    if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
-                        createAutoHeight();
-                    }
-                });
+                var moduleContainerElement = document.getElementById("settings-container")
+                var docEl = document.documentElement;
+
+                if (docEl && docEl.addEventListener) {
+                    docEl.addEventListener("DOMSubtreeModified", function(evt) {
+                        var t = evt.target;
+
+                        domModifiedForAutoHeight();
+
+                    }, false);
+                } else {
+                    document.onpropertychange = function() {
+
+                        domModifiedForAutoHeight();
+
+                    };
+                }
+
+               //mw.interval('_settingsAutoHeight', function () {
+                //     if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
+                //         createAutoHeight();
+                //     }
+               // });
 
             });
-
+            var domModifiedForAutoHeightIntervalId;
+            function domModifiedForAutoHeight() {
+                clearTimeout(domModifiedForAutoHeightIntervalId)
+                 domModifiedForAutoHeightIntervalId = setTimeout(() => {
+                     if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
+                         createAutoHeight();
+                     }
+                }, 300);
+            }
 
 
         }
