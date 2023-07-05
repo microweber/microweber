@@ -117,18 +117,22 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     function setNewImage(s) {
                         mw.$("#logoimage").val(s);
-                        mw.$(".the-image").show().attr('src', s);
-                        setTimeout(function () {
-                            mw.$("#logoimage").trigger('change');
-                        }, 78)
+                        document.getElementById('logoimage').dispatchEvent(new Event('input'));
                     }
 
                     function setNewImageInv(s) {
                         mw.$("#logoimage_inverse").val(s);
-                        mw.$(".the-image-inverse").show().attr('src', s);
-                        setTimeout(function () {
-                            mw.$("#logoimage_inverse").trigger('change');
-                        }, 78)
+                        document.getElementById('logoimage_inverse').dispatchEvent(new Event('input'));
+                    }
+
+                    function removeLogo() {
+                        mw.$("#logoimage").val('');
+                        document.getElementById('logoimage').dispatchEvent(new Event('input'));
+                    }
+
+                    function removeLogoInverse() {
+                        mw.$("#logoimage_inverse").val('');
+                        document.getElementById('logoimage_inverse').dispatchEvent(new Event('input'));
                     }
 
                     var mw_admin_logo_upload_browse_existing = function (inverse = false) {
@@ -146,7 +150,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 url = url.toString();
 
                                 mw.notification.success('<?php _ejs('Logo image selected') ?>');
-                                
+
                                if (inverse) {
                                    setNewImageInv(url);
                                } else {
@@ -243,8 +247,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     }
                 </script>
 
-                <div class="module-live-edit-settings module-logo-settings" id="module-logo-settings">
-                    <input type="hidden" class="mw_option_field" name="logoimage" id="logoimage" option-group="<?php print $logo_name ?>"  />
+                <div x-data="{'logoImageUrl': '<?php echo $logoimage;?>'}" class="module-live-edit-settings module-logo-settings" id="module-logo-settings">
+
+                    <input type="text" x-model="logoImageUrl"  class="mw_option_field" name="logoimage" id="logoimage" option-group="<?php print $logo_name ?>"  />
                     <input type="hidden" class="mw_option_field" name="font_size" option-group="<?php print $logo_name ?>" value="<?php print $font_size; ?>"  />
                     <input type="hidden" class="mw_option_field" name="logoimage_inverse" id="logoimage_inverse" option-group="<?php print $logo_name ?>" />
 
@@ -277,27 +282,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
 
                         <div class="image-row">
-                            <div class="the-image-holder">
-                                <img style="display: none;" src="<?php print $logoimage ?>" id="logo-image-edit">
-                                <img src="<?php if ($logoimage): ?><?php echo thumbnail($logoimage, 200); ?><?php endif; ?>" class="the-image" alt="" <?php if ($logoimage != '' and $logoimage != false): ?><?php else: ?>style="display:block;"<?php endif; ?> />
 
+                            <div class="the-image-holder" x-if="logoImageUrl">
+                                <img style="display:none" :src="logoImageUrl" id="logo-image-edit">
+                                <img :src="logoImageUrl" class="the-image" alt="" />
                             </div>
 
                             <div class="d-flex flex-wrap gap-2 mb-3">
                                 <a href="javascript:mw_admin_logo_upload_browse_existing()" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse media'); ?></a>
-                                <?php if ($logotype == 'both' or $logotype == 'image' or $logotype == false): ?>
-                                    <a class="btn btn-outline-primary btn-rounded btn-sm" onclick="mw.edit_logo_image_crop()" href="javascript:void(0);"><?php _e("Edit"); ?></a>
-                                <?php endif; ?>
-
-                                <button type="button" class="btn btn-danger btn-rounded btn-sm js-remove-logoimage"> <?php _e("Remove"); ?></button>
-
-                                <script>
-                                    $('.js-remove-logoimage').on('click', function () {
-                                        $('#logoimage').val('');
-                                        $("#logoimage").trigger('change');
-                                        $('img.the-image').attr('src', '');
-                                    });
-                                </script>
+                                <a class="btn btn-outline-primary btn-rounded btn-sm" onclick="mw.edit_logo_image_crop()" href="javascript:void(0);"><?php _e("Edit"); ?></a>
+                                <button type="button" onclick="removeLogo()" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove"); ?></button>
 
                             </div>
                         </div>
@@ -306,28 +300,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <br/>
 
                             <div class="form-group">
-                                <label class="form-label"><?php _e("Alternative Logo"); ?></label>
+                                <label class="form-label font-weight-bold"><?php _e("Alternative Logo"); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e("For example we are using the alternative logo when we have a sticky navigation"); ?></small>
                             </div>
 
                             <div class="image-row">
                                 <div class="the-image-holder">
-                                    <img src="<?php if ($logoimage_inverse): ?><?php echo thumbnail($logoimage_inverse, 200); ?><?php endif; ?>" class="the-image-inverse" alt="" <?php if ($logoimage_inverse != '' and $logoimage_inverse != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
-                                    <div class="js-remove-logo-alt-btn <?php if ($logoimage_inverse == ''): ?>d-none<?php endif; ?>">
-                                        <button type="button" class="btn btn-link px-0 mb-3 text-danger js-remove-alt-logoimage"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove the logo"); ?></button>
-
-                                        <script>
-                                            $('.js-remove-alt-logoimage').on('click', function () {
-                                                $('#logoimage_inverse').val('');
-                                                $("#logoimage_inverse").trigger('change');
-                                                $('img.the-image-inverse').attr('src', '');
-                                                $(this).parent().addClass('d-none');
-                                            });
-                                        </script>
-                                    </div>
+                                    <img class="the-image-inverse" alt="" />
                                 </div>
                                 <div>
                                     <a href="javascript:mw_admin_logo_upload_browse_existing('true')" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse Media'); ?></a>
+                                    <button type="button" onclick="removeLogoInverse()" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove"); ?></button>
                                 </div>
                             </div>
                         <?php endif; ?>
