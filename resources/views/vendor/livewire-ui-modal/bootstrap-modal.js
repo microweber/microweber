@@ -1,6 +1,7 @@
 window.LivewireUIBootstrapModal = () => {
     return {
         show: false,
+        focus: false,
         showActiveComponent: true,
         activeComponent: false,
         componentHistory: [],
@@ -94,7 +95,8 @@ window.LivewireUIBootstrapModal = () => {
                 let focusable = this.$refs[id]?.querySelector('[autofocus]');
                 if (focusable) {
                     setTimeout(() => {
-                        focusable.focus();
+                     //
+                        //   focusable.focus();
                     }, focusableTimeout);
                 }
             });
@@ -127,12 +129,21 @@ window.LivewireUIBootstrapModal = () => {
             this.show = show;
 
             if (show) {
-                $(document.body).find('#livewire-ui-modal').modal('show', {
+
+                var livewireUIModal = new bootstrap.Modal(document.getElementById('livewire-ui-modal'), {
                     keyboard:false,
                     focus:false
                 });
+                livewireUIModal.show()
+
             } else {
-                $(document.body).find('#livewire-ui-modal').modal('hide');
+              //  $(document.body).find('#livewire-ui-modal').modal('hide');
+                var livewireUIModal = bootstrap.Modal.getInstance(document.getElementById('livewire-ui-modal')) // Returns a Bootstrap modal instance
+
+                if(typeof livewireUIModal !== 'undefined') {
+                    livewireUIModal.dispose();
+                    $('.modal-backdrop').remove();
+                }
 
                 setTimeout(() => {
                     this.activeComponent = false;
@@ -145,7 +156,7 @@ window.LivewireUIBootstrapModal = () => {
 
             Livewire.on('closeModal', (force = false, skipPreviousModals = 0, destroySkipped = false) => {
               //  this.closeModal(force, skipPreviousModals, destroySkipped);
-                this.closeModal(true); 
+                this.closeModal(true);
             });
 
             Livewire.on('activeModalComponentChanged', (id) => {
