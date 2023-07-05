@@ -1,7 +1,7 @@
 
 <template>
     <div id="toolbar" class="shadow-sm">
-        <div class="toolbar-nav toolbar-nav-hover">
+        <div class="toolbar-nav toolbar-nav-hover col-md-3 col-auto d-flex justify-content-lg-start">
             <a class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" href="./">
                 <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                     <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
@@ -18,12 +18,12 @@
         </div>
 
 
-        <ContentSearchNav></ContentSearchNav>
+        <div class="col-md-3 col-auto">
+           <ContentSearchNav></ContentSearchNav>
+        </div>
 
 
-        <Editor></Editor>
-
-        <div class="toolbar-col">
+        <div class="toolbar-col col-auto">
             <div class="toolbar-col-container">
                 <div class="d-flex align-items-center">
                     <ResolutionSwitch></ResolutionSwitch>
@@ -60,9 +60,9 @@
                 </div>
             </div>
         </div>
-
-
     </div>
+
+    <Editor></Editor>
 
 
 </template>
