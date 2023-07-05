@@ -12,9 +12,9 @@
     <div class="ms-3 mb-3 d-flex align-items-center">
         <a class="tblr-body-color form-label mb-0 text-decoration-none font-weight-bold d-md-block d-none" href="{{route('admin.'.$content_type.'.index')}}" class="mb-0">
             @if($content_id > 0)
-                {{ "Edit " . ucfirst($content_type) }}
+                {{ _e("Edit " . ucfirst($content_type)) }}
             @else
-                {{ "Add " . ucfirst($content_type) }}
+                {{ _e("Add " . ucfirst($content_type)) }}
             @endif
         </a>
         <span class="tblr-body-color form-label mb-0 font-weight-bold ms-1 d-lg-block d-none">
