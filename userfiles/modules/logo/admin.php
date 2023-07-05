@@ -59,11 +59,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     .the-image,
                     .the-image-inverse {
-                        display: block;
-                    }
-
-                    .the-image,
-                    .the-image-inverse {
                         max-width: 300px;
                         background-color: #e1e2e4;
                         padding: 15px;
@@ -85,34 +80,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <script>mw.require('tools/images.js');</script>
                 <script>
                     $(document).ready(function () {
-
-                        // mw.$("[name=font_family] option").each(function () {
-                        //     var val = $(this).attr('value');
-                        //     if (val != '') {
-                        //         mw.require('//fonts.googleapis.com/css?family=' + val + '&filetype=.css', true);
-                        //         $(this).css('fontFamily', $(this).text());
-                        //     }
-                        // });
-
-                        // mw.$("[name=font_family]").on("change", function () {
-                        //
-                        //     mw.$("#text").css('fontFamily', $(this.options[this.selectedIndex]).text())
-                        // });
-
-
                         $(document).on('change', '[name=font_family]', function() {
-
                             var v =  $('[name=font_family] option:selected').first().val();
-
                             mw.$("#text").css('fontFamily',v)
-
                             setTimeout(function () {
                                 mw.$("#text").trigger('change');
                             }, 78)
-
                         });
-
-
                     });
 
                     function setNewImage(s) {
@@ -247,11 +221,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     }
                 </script>
 
-                <div x-data="{'logoImageUrl': '<?php echo $logoimage;?>'}" class="module-live-edit-settings module-logo-settings" id="module-logo-settings">
+                <div x-data="{'logoImageUrl': '<?php echo $logoimage;?>', 'logoInverseImageUrl': '<?php echo $logoimage_inverse;?>' }" class="module-live-edit-settings module-logo-settings" id="module-logo-settings">
 
                     <input type="text" x-model="logoImageUrl"  class="mw_option_field" name="logoimage" id="logoimage" option-group="<?php print $logo_name ?>"  />
                     <input type="hidden" class="mw_option_field" name="font_size" option-group="<?php print $logo_name ?>" value="<?php print $font_size; ?>"  />
-                    <input type="hidden" class="mw_option_field" name="logoimage_inverse" id="logoimage_inverse" option-group="<?php print $logo_name ?>" />
+                    <input type="text" x-model="logoInverseImageUrl" class="mw_option_field" name="logoimage_inverse" id="logoimage_inverse" option-group="<?php print $logo_name ?>" />
 
                     <div class="logo-module-types">
                         <div class="form-group">
@@ -283,7 +257,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         <div class="image-row">
 
-                            <div class="the-image-holder" x-if="logoImageUrl">
+                            <div class="the-image-holder" x-show="logoImageUrl">
                                 <img style="display:none" :src="logoImageUrl" id="logo-image-edit">
                                 <img :src="logoImageUrl" class="the-image" alt="" />
                             </div>
@@ -305,8 +279,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
 
                             <div class="image-row">
-                                <div class="the-image-holder">
-                                    <img class="the-image-inverse" alt="" />
+                                <div class="the-image-holder" x-show="logoInverseImageUrl">
+                                    <img :src="logoInverseImageUrl" class="the-image-inverse" alt="" />
                                 </div>
                                 <div>
                                     <a href="javascript:mw_admin_logo_upload_browse_existing('true')" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse Media'); ?></a>
