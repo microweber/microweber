@@ -38,6 +38,7 @@ class PageController extends AdminController
         }
 
         $data['content_id'] = 0;
+        $data['content_type'] = 'page';
         $data['recommended_category_id'] = 0;
         $data['recommended_content_id'] = 0;
         if (isset($request_data['recommended_category_id'])) {
@@ -64,9 +65,12 @@ class PageController extends AdminController
     }
 
     public function edit(Request $request, $id) {
-        return view('page::admin.page.edit', [
-            'content_id'=>intval($id)
-        ]);
+
+        $data = [];
+        $data['content_type'] = 'page';
+        $data['content_id'] = intval($id);
+
+        return view('page::admin.page.edit', $data);
     }
 
     public function design() {

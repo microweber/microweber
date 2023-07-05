@@ -38,6 +38,7 @@ class ProductController extends AdminController
 
         $data = [];
         $data['content_id'] = 0;
+        $data['content_type'] = 'product';
         $data['recommended_category_id'] = 0;
         $data['recommended_content_id'] = 0;
         if (isset($request_data['recommended_category_id'])) {
@@ -52,8 +53,10 @@ class ProductController extends AdminController
     public function edit(Request $request, $id) {
 
 
-        return view('product::admin.product.edit', [
-            'content_id'=>intval($id)
-        ]);
+        $data = [];
+        $data['content_type'] = 'product';
+        $data['content_id'] = intval($id);
+
+        return view('product::admin.product.edit', $data);
     }
 }

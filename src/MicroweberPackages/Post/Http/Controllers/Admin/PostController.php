@@ -40,6 +40,7 @@ class PostController extends AdminController
             $data['post_design'] = $request_data['layout'];
         }
 
+        $data['content_type'] = 'post';
         $data['content_id'] = 0;
         $data['recommended_category_id'] = 0;
         $data['recommended_content_id'] = 0;
@@ -73,8 +74,10 @@ class PostController extends AdminController
 
     public function edit(Request $request, $id) {
 
-        return view('post::admin.posts.edit', [
-            'content_id'=>intval($id)
-        ]);
+        $data = [];
+        $data['content_type'] = 'post';
+        $data['content_id'] = intval($id);
+
+        return view('post::admin.posts.edit', $data);
     }
 }

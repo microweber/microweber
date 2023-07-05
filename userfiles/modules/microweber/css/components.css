@@ -166,7 +166,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     display: block;
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: contain;
+    background-size: cover;
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
@@ -192,7 +192,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 
- 
+
 
 .dropable-zone.small-zone .holder{
     padding-inline-start: 0;
@@ -324,9 +324,10 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     display: block;
     position: relative;
     float: left;
-    width: 18%;
-    height: 110px;
-    margin: 0 1% 2%;
+
+    min-height: 110px;
+    width: 110px;
+     margin: 0 1% 2%;
     border: 1px solid #cfcfcf;
     cursor: grab;
 }
@@ -335,7 +336,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     display: block;
     float: left;
     position: relative;
-    width: 18%;
+    width: 110px;
     height: 110px;
     margin: 0 1% 2%;
     background-repeat: no-repeat;
@@ -345,12 +346,14 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     visibility: visible !important;
 }
 .admin-thumbs-holder .admin-thumb-item-placeholder.admin-thumb-item-placeholder-first{
-    width: 38%;
+    width: 165px;
+    height: 165px;
     margin-bottom: 0;
 }
 
 .admin-thumbs-holder .admin-thumb-item:first-child{
-    width: 38%;
+    width: 165px;
+    height: 165px;
     margin-top: 0;
     margin-bottom: 0;
 
@@ -371,6 +374,27 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     background: -webkit-linear-gradient(top,  rgba(106,174,219,0.6) 0%,rgba(229,229,229,0) 100%);
     background: linear-gradient(to bottom,  rgba(106,174,219,0.6) 0%,rgba(229,229,229,0) 100%);
 }
+
+
+.admin-thumb-item-uploader-holder {
+    display: block;
+    position: relative;
+    float: left;
+    width: 110px;
+    height: 110px;
+    margin: 0 1% 2%;
+    overflow: hidden;
+}
+
+.admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone button {
+    text-decoration: underline;
+}
+
+.admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone {
+    border-color: #4592ff;
+    background-color: rgba(69, 146, 255, 0.1);
+}
+
 
 .uimprogress {
     position: absolute;
