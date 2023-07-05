@@ -83,14 +83,14 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
         $this->assertEquals($getCategory->title, $apiCategoryStore['title']);
         $this->assertEquals($getCategory->description, $apiCategoryStore['description']);
 
-        $this->assertEquals($getCategory->multilanguage['bg_BG']['title'], $apiCategoryStore['multilanguage']['title']['bg_BG']);
-        $this->assertEquals($getCategory->multilanguage['bg_BG']['description'], $apiCategoryStore['multilanguage']['description']['bg_BG']);
+        $this->assertEquals($getCategory->multilanguage_translatons['bg_BG']['title'], $apiCategoryStore['multilanguage']['title']['bg_BG']);
+        $this->assertEquals($getCategory->multilanguage_translatons['bg_BG']['description'], $apiCategoryStore['multilanguage']['description']['bg_BG']);
 
-        $this->assertEquals($getCategory->multilanguage['ar_SA']['title'], $apiCategoryStore['multilanguage']['title']['ar_SA']);
-        $this->assertEquals($getCategory->multilanguage['ar_SA']['description'], $apiCategoryStore['multilanguage']['description']['ar_SA']);
+        $this->assertEquals($getCategory->multilanguage_translatons['ar_SA']['title'], $apiCategoryStore['multilanguage']['title']['ar_SA']);
+        $this->assertEquals($getCategory->multilanguage_translatons['ar_SA']['description'], $apiCategoryStore['multilanguage']['description']['ar_SA']);
 
-        $this->assertEquals($getCategory->multilanguage['ru_RU']['title'], $apiCategoryStore['multilanguage']['title']['ru_RU']);
-        $this->assertEquals($getCategory->multilanguage['ru_RU']['description'], $apiCategoryStore['multilanguage']['description']['ru_RU']);
+        $this->assertEquals($getCategory->multilanguage_translatons['ru_RU']['title'], $apiCategoryStore['multilanguage']['title']['ru_RU']);
+        $this->assertEquals($getCategory->multilanguage_translatons['ru_RU']['description'], $apiCategoryStore['multilanguage']['description']['ru_RU']);
 
         // TEST BULGARIAN
         $api = new MultilanguageApi();

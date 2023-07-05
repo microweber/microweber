@@ -80,6 +80,10 @@ trait HasMultilanguageTrait
                     $isModuleOptions = true;
 
                 }
+
+
+
+
                 if ($isModuleOptions and !isset($model->attributes['multilanguage']) and isset($model->attributes['lang'])) {
                 // When receive a save_option
                     // legacy save_option will not have multilanguage attribute, it will have lang attribute instead
@@ -92,8 +96,7 @@ trait HasMultilanguageTrait
                                 unset($model->attributes['option_value']);
                             }
                         }
-                        unset($model->attributes['lang']);
-                        unset($model->attributes['multilanguage']);
+
                     }
 
 
@@ -105,6 +108,15 @@ trait HasMultilanguageTrait
                     }
 
                 }
+
+                if (isset($model->attributes['lang'])) {
+                    unset($model->attributes['lang']);
+                }
+                if (isset($model->attributes['multilanguage_translatons'])) {
+                    unset($model->attributes['multilanguage_translatons']);
+                }
+
+
                  /**
                  * When you add multilanguage fields
                  *
@@ -119,6 +131,7 @@ trait HasMultilanguageTrait
 
                     $model->_addMultilanguage = $model->attributes['multilanguage'];
                     unset($model->attributes['multilanguage']);
+
                 }
 
                 // Backup the original model fields

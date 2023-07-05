@@ -72,18 +72,18 @@ class MultilanguageContentTest extends MultilanguageTestBase
 
         foreach ($translatables as $translatable){
 
-            $this->assertEquals($getContent->multilanguage['bg_BG'][$translatable], $apiContentStore['multilanguage'][$translatable]['bg_BG']);
-            $this->assertEquals($getContent->multilanguage['ru_RU'][$translatable], $apiContentStore['multilanguage'][$translatable]['ru_RU']);
-            $this->assertEquals($getContent->multilanguage['ar_SA'][$translatable], $apiContentStore['multilanguage'][$translatable]['ar_SA']);
+            $this->assertEquals($getContent->multilanguage_translatons['bg_BG'][$translatable], $apiContentStore['multilanguage'][$translatable]['bg_BG']);
+            $this->assertEquals($getContent->multilanguage_translatons['ru_RU'][$translatable], $apiContentStore['multilanguage'][$translatable]['ru_RU']);
+            $this->assertEquals($getContent->multilanguage_translatons['ar_SA'][$translatable], $apiContentStore['multilanguage'][$translatable]['ar_SA']);
 
         }
-        $this->assertEquals($getContent->multilanguage['bg_BG']['description'], $apiContentStore['multilanguage']['description']['bg_BG']);
+        $this->assertEquals($getContent->multilanguage_translatons['bg_BG']['description'], $apiContentStore['multilanguage']['description']['bg_BG']);
 
-        $this->assertEquals($getContent->multilanguage['ar_SA']['title'], $apiContentStore['multilanguage']['title']['ar_SA']);
-        $this->assertEquals($getContent->multilanguage['ar_SA']['description'], $apiContentStore['multilanguage']['description']['ar_SA']);
+        $this->assertEquals($getContent->multilanguage_translatons['ar_SA']['title'], $apiContentStore['multilanguage']['title']['ar_SA']);
+        $this->assertEquals($getContent->multilanguage_translatons['ar_SA']['description'], $apiContentStore['multilanguage']['description']['ar_SA']);
 
-        $this->assertEquals($getContent->multilanguage['ru_RU']['title'], $apiContentStore['multilanguage']['title']['ru_RU']);
-        $this->assertEquals($getContent->multilanguage['ru_RU']['description'], $apiContentStore['multilanguage']['description']['ru_RU']);
+        $this->assertEquals($getContent->multilanguage_translatons['ru_RU']['title'], $apiContentStore['multilanguage']['title']['ru_RU']);
+        $this->assertEquals($getContent->multilanguage_translatons['ru_RU']['description'], $apiContentStore['multilanguage']['description']['ru_RU']);
 
         // TEST BULGARIAN
 
