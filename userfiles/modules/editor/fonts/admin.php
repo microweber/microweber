@@ -11,6 +11,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         mw.options.form('#enabled_custom_fonts_settings_holder', function () {
+
             mw.clear_cache();
             if (typeof(window.mw.parent().wysiwyg) != 'undefined') {
                 var selected = [];
@@ -29,29 +30,29 @@
                     window.mw.parent().wysiwyg.initFontSelectorBox();
                 }, 100)
             }
-            if (mw.notification !== undefined) {
-                var el = mw.top().$('#mw-custom-user-css')[0];
-                if(el){
-                    var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
-                    el.href = custom_fonts_stylesheet_restyled;
-                    el.crossorigin = "anonymous";
-                    el.referrerpolicy = "no-referrer";
 
-
-                }
-                mw.reload_module_everywhere('editor/fonts/select_option');
-                mw.reload_module_everywhere('settings/template');
-
-                var iframe_sidebar_style_editor = mw.top().$('#mw-css-editor-sidebar-iframe');
-                if(iframe_sidebar_style_editor.length){
-                    iframe_sidebar_style_editor.remove();
-                    if(mw.top().liveEditWidgets){
-                        mw.top().liveEditWidgets._cssEditorInSidebarAccordion = null
-                    }
-                }
-
-                mw.notification.success('<?php _ejs('Fonts updated'); ?>');
+            // reload
+            var el = mw.top().$('#mw-custom-user-css')[0];
+            if(el){
+                var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
+                el.href = custom_fonts_stylesheet_restyled;
+                el.crossorigin = "anonymous";
+                el.referrerpolicy = "no-referrer";
             }
+
+            mw.reload_module_everywhere('editor/fonts/select_option');
+            mw.reload_module_everywhere('settings/template');
+
+            var iframe_sidebar_style_editor = mw.top().$('#mw-css-editor-sidebar-iframe');
+            if(iframe_sidebar_style_editor.length){
+                iframe_sidebar_style_editor.remove();
+                if(mw.top().liveEditWidgets){
+                    mw.top().liveEditWidgets._cssEditorInSidebarAccordion = null
+                }
+            }
+
+            mw.notification.success('<?php _ejs('Fonts updated'); ?>');
+
         });
         $('#<?php print $params['id'] ?> .enabled_custom_fonts_table input:checked').each(function () {
             mw_fonts_preview_load_stylesheet($(this).val());
@@ -192,8 +193,7 @@ if ($is_load_more) {
                     s = '';
                 }
                 $('#enabled_custom_fonts_arr_impode').val(s).trigger('change');
-                mw.reload_module_everywhere("settings/template")
-                mw.reload_module_everywhere("editor/fonts/select_option" )
+
                 if(mw.top().win.fontFamilyProvider) {
                     setTimeout(function(){
                         mw.top().win.fontFamilyProvider.provide( checked_fonts_arr)
@@ -215,10 +215,9 @@ if ($is_load_more) {
         }
 
     </style>
-    <div id="enabled_custom_fonts_settings_holder">
-        <input autocomplete="off" type="hidden" name="enabled_custom_fonts" class="mw_option_field"
-               option-group="template" id="enabled_custom_fonts_arr_impode"
-               value="<?php print $enabled_custom_fonts ?>"/>
+    <div id="enabled_custom_fonts_settings_holder" class="mw-options-form-force-rebind">
+        <textarea autocomplete="off" type="text" name="enabled_custom_fonts" class="mw_option_field"
+                  option-group="template" id="enabled_custom_fonts_arr_impode"><?php print $enabled_custom_fonts ?></textarea>
     </div>
     <div class="module-live-edit-settings enabled_custom_fonts_table">
         <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table">
@@ -250,9 +249,9 @@ if ($is_load_more) {
                             </label>
                         </td>
                         <td onmouseenter="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"
-                            onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"><label
-                                    for="custom-font-select-<?php print $i; ?>"
-                                    style="font-size:14px;  font-family:'<?php print $font['family']; ?>',sans-serif;"><?php print $font['family']; ?></label>
+                            onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')">
+
+                            <label for="custom-font-select-<?php print $i; ?>"  style="font-size:14px;  font-family:'<?php print $font['family']; ?>',sans-serif;"><?php print $font['family']; ?></label>
                         </td>
                     </tr>
                     <?php $i++; ?>

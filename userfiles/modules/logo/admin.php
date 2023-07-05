@@ -51,6 +51,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 if (isset($params['data-alt-logo'])) {
                     $alt_logo = $params['data-alt-logo'];
                 }
+                $alt_logo = true;
                 ?>
 
                 <script>mw.require('tools/images.js');</script>
@@ -121,27 +122,27 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 </script>
                 <script>
-                    function showLogoType() {
-                        if ($('input[name="logotype"]:checked').val() == 'image') {
-                            $('.js-logo-image-holder').show();
-                            $('.js-logo-text-holder').hide();
-                        } else if ($('input[name="logotype"]:checked').val() == 'text') {
-                            $('.js-logo-image-holder').hide();
-                            $('.js-logo-text-holder').show();
-                        }
-                    }
+                    // function showLogoType() {
+                    //     if ($('input[name="logotype"]:checked').val() == 'image') {
+                    //         $('.js-logo-image-holder').show();
+                    //         $('.js-logo-text-holder').hide();
+                    //     } else if ($('input[name="logotype"]:checked').val() == 'text') {
+                    //         $('.js-logo-image-holder').hide();
+                    //         $('.js-logo-text-holder').show();
+                    //     }
+                    // }
 
                     $(document).ready(function () {
                         $('[name=font_family] option[value="<?php print $font_family; ?>"]').prop('selected', true);
 
-                        showLogoType();
-                        $('input[name="logotype"]').each(function () {
-                            $(this).parent().parent().on("click", function () {
-                                setTimeout(function () {
-                                    showLogoType();
-                                }, 78)
-                            });
-                        });
+                        // showLogoType();
+                        // $('input[name="logotype"]').each(function () {
+                        //     $(this).parent().parent().on("click", function () {
+                        //         setTimeout(function () {
+                        //             showLogoType();
+                        //         }, 78)
+                        //     });
+                        // });
                     });
                 </script>
                 <script>
@@ -203,27 +204,22 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <input type="hidden" class="mw_option_field" name="font_size" option-group="<?php print $logo_name ?>" value="<?php print $font_size; ?>"  />
                     <input type="hidden" x-model="logoInverseImageUrl" class="mw_option_field" name="logoimage_inverse" id="logoimage_inverse" option-group="<?php print $logo_name ?>" />
 
-                    <div class="logo-module-types">
-                        <div class="form-group">
-                            <label class="form-label my-3 font-weight-bold"><?php _e("Choose Logo type"); ?></label>
-
-                            <label class="form-check">
-                                <input type="radio" id="logotype1" option-group="<?php print $logo_name ?>" class="mw_option_field form-check-input me-2" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
-                                <span class="form-check-label"><?php _e("Upload your logo image in .JPG or .PNG format"); ?></span>
-                            </label>
-
-                            <label class="form-check">
-                                <input type="radio" id="logotype2" option-group="<?php print $logo_name ?>"  class="mw_option_field form-check-input me-2" <?php if ($logotype == 'text'){ ?>checked<?php } ?> name="logotype" value="text">
-                                <span class="form-check-label"><?php _e("Type your brand and choose font size and style"); ?></span>
-                            </label>
-
-                            <label class="form-check">
-                                <input type="radio" id="logotype3" option-group="<?php print $logo_name ?>"  class="mw_option_field form-check-input me-2" <?php if ($logotype == 'both' or $logotype == false){ ?>checked<?php } ?> name="logotype" value="both">
-                                <span class="form-check-label"><?php _e("Type your brand and choose font size") ;?></span>
-                            </label>
-
-                        </div>
-                    </div>
+<!--                    <div class="logo-module-types">-->
+<!--                        <div class="form-group">-->
+<!--                            <label class="form-label my-3 font-weight-bold">--><?php //_e("Choose Logo type"); ?><!--</label>-->
+<!---->
+<!--                            <label class="form-check">-->
+<!--                                <input type="radio" id="logotype1" option-group="--><?php //print $logo_name ?><!--" class="mw_option_field form-check-input me-2" --><?php //if ($logotype == 'image'){ ?><!--checked--><?php //} ?><!-- name="logotype" value="image">-->
+<!--                                <span class="form-check-label">--><?php //_e("Upload logo"); ?><!--</span>-->
+<!--                            </label>-->
+<!---->
+<!--                            <label class="form-check">-->
+<!--                                <input type="radio" id="logotype2" option-group="--><?php //print $logo_name ?><!--"  class="mw_option_field form-check-input me-2" --><?php //if ($logotype == 'text'){ ?><!--checked--><?php //} ?><!-- name="logotype" value="text">-->
+<!--                                <span class="form-check-label">--><?php //_e("Text logo"); ?><!--</span>-->
+<!--                            </label>-->
+<!---->
+<!--                        </div>-->
+<!--                    </div>-->
 
                     <div class="js-logo-image-holder">
                         <div class="form-group">
@@ -291,7 +287,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <small class="text-muted d-block mb-2"><?php _e("Choose font size for your logo"); ?></small>
 
 
-                            <module  id="google-fonts" type="editor/fonts/select_option" group="<?php print $logo_name ?>"  name="font_family"  show_more_link="true" />
+                            <module  id="google-fonts" type="editor/fonts/select_option"
+                                     group="<?php print $logo_name ?>"  name="font_family"  show_more_link="true" />
 
 
 
