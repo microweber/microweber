@@ -9,7 +9,7 @@
                         <path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path>
                     </g>
                 </svg>
-                Admin
+                 <span class="ms-1 font-weight-bold">ADMIN</span>
             </a>
 
             <div class="ms-3">
@@ -27,6 +27,7 @@
             <div class="toolbar-col-container">
                 <div class="d-flex align-items-center">
                     <ResolutionSwitch></ResolutionSwitch>
+                    <SettingsCustomize></SettingsCustomize>
                     <SaveButton></SaveButton>
                     <button class="btn live-edit-toolbar-buttons live-edit-toolbar-buttons-view ms-2" @click="pagePreviewToggle()">
                         VIEW
@@ -46,7 +47,7 @@
                             <span v-html="menuItem.icon_html"></span>
                             {{ menuItem.title }}
                         </a>
-                        <a onclick="document.body.classList.toggle('theme-dark')">
+                        <a v-on:click="this.toggleDarkMode()">
                             <span>
                             <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 96 960 960" width="36">
                                 <path
@@ -72,12 +73,13 @@ import Editor from "./Editor.vue";
 import UndoRedo from "./UndoRedo.vue";
 import SaveButton from "./SaveButton.vue";
 import ContentSearchNav from "./ContentSearchNav.vue";
+import SettingsCustomize from "./SettingsCustomize.vue";
 
 import * as api from "../../../api-core/services/services/preview.service.js";
 import axios from 'axios';
 
 export default {
-    components: {SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav},
+    components: {SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav, SettingsCustomize},
     methods: {
         pagePreviewToggle: () => {
            api.pagePreviewToggle()
@@ -90,6 +92,25 @@ export default {
             await axios.get(route('api.live-edit.get-top-right-menu')).then(function (response) {
                 instance.menu = response.data;
             });
+        },
+        toggleDarkMode: () => {
+
+            var is_dark = $("body").hasClass('theme-dark');
+
+            if (!is_dark) {
+                $("body").addClass('theme-dark')
+                $("#navbar-change-theme-icon-dark").show()
+                $("#navbar-change-theme-icon-light").hide()
+
+                mw.cookie.set('admin_theme_dark', 'true');
+
+            } else {
+                $("body").removeClass('theme-dark')
+                $("#navbar-change-theme-icon-light").show()
+                $("#navbar-change-theme-icon-dark").hide()
+
+                mw.cookie.delete('admin_theme_dark');
+            }
         }
     },
     data() {

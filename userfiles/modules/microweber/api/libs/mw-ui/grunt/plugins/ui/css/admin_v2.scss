@@ -133,6 +133,13 @@ body.theme-dark {
         }
 
     }
+
+
+    //Liveedit CSS
+
+    .mw-live-edit-resolutions-wrapper {
+        background-color: var(--tblr-body-bg);
+    }
 }
 
 .btn-outline-dark {
@@ -1858,6 +1865,13 @@ svg.text-danger {
             transition: stroke-dashoffset .3s ease;
             stroke-dasharray: 95;
             stroke-dashoffset: 95;
+            stroke: currentColor;
+            stroke-width: 2.2px;
+        }
+
+        .arrow-icon--arrow {
+            stroke: currentColor;
+            stroke-width: 2.2px;
         }
 
         &:hover {
@@ -1907,14 +1921,14 @@ svg.text-danger {
     border-color: #f0f0f0 !important;
 }
 
-.mw-live-edit-resoliutions-wrapper {
+.mw-live-edit-resolutions-wrapper {
     background-color: #f0f0f0 !important;
     border-radius: 5px !important;
-    padding: 3px !important;
-    margin: 0 10px !important;
+    padding: 5px !important;
 
     .live-edit-toolbar-buttons {
-        border-radius: 5px;
+        border-radius: 5px !important;
+        padding: 5px 10px;
         border-color: #f0f0f0 !important;
         background-color: #f0f0f0 !important;
 
@@ -1927,8 +1941,15 @@ svg.text-danger {
             fill: var(--tblr-body-color) !important;
         }
     }
+}
 
-
+.mw-live-edit-search-dropdown {
+    background-color: #f0f0f0;
+    border-color: #f0f0f0;
+    max-height: 45px;
+    display: flex;
+    align-items: center;
+    min-width: 235px;
 }
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
