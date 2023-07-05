@@ -1,6 +1,15 @@
 @extends('admin::layouts.app')
 
+
 @section('topbar2-links-right')
+    @include('content::admin.content.topbar-parts.links-right')
+@endsection
+
+@section('topbar2-links-left')
+    @include('content::admin.content.topbar-parts.links-left')
+@endsection
+
+@section('topbar2-links-right___')
 
     <a href="<?php echo route('admin.post.create'); ?>"
        class="btn btn-outline-dark mw-admin-bold-outline-dark"
@@ -34,7 +43,7 @@
 
 @endsection
 
-@section('topbar2-links-left')
+@section('topbar2-links-left__')
 
     <div class="d-flex align-items-center">
         <div class="mw-toolbar-back-button-wrapper">
