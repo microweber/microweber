@@ -7,17 +7,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 }
 ?>
 
-<?php if (isset($params['backend'])): ?>
-    <module type="admin/modules/info"/>
-<?php endif; ?>
-
 <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
-    <div class="card-header">
-        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
-    </div>
 
-    <div class=" ">
-
+    <div class="">
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
             <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
@@ -59,20 +51,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 if (isset($params['data-alt-logo'])) {
                     $alt_logo = $params['data-alt-logo'];
                 }
+
+                $alt_logo = true;
                 ?>
 
                 <style>
-                    .the-image-holder .upload-image {
-                        width: 33px;
-                        height: 33px;
-                        -webkit-border-radius: 100%;
-                        -moz-border-radius: 100%;
-                        border-radius: 100%;
-                        padding: 0;
-                        margin-top: -65px;
-                        margin-left: 5px;
-                        text-align: center;
-                    }
 
                     .the-image,
                     .the-image-inverse {
@@ -102,27 +85,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <script>mw.require('tools/images.js');</script>
                 <script>
                     $(document).ready(function () {
-                        UP = mw.uploader({
-                            element: document.getElementById('upload-image'),
-                            filetypes: 'images',
-                            multiple: false
-                        });
-
-                        $(UP).on('FileUploaded', function (a, b) {
-                            setNewImage(b.src);
-                            setAuto();
-                        });
-
-                        UPInverse = mw.uploader({
-                            element: document.getElementById('upload-image-inverse'),
-                            filetypes: 'images',
-                            multiple: false
-                        });
-
-                        $(UPInverse).on('FileUploaded', function (a, b) {
-                            setNewImageInv(b.src);
-                            setAuto();
-                        });
 
                         // mw.$("[name=font_family] option").each(function () {
                         //     var val = $(this).attr('value');
@@ -140,22 +102,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         $(document).on('change', '[name=font_family]', function() {
 
-
                             var v =  $('[name=font_family] option:selected').first().val();
 
                             mw.$("#text").css('fontFamily',v)
 
-
-
                             setTimeout(function () {
                                 mw.$("#text").trigger('change');
-
                             }, 78)
 
-
-
                         });
-
 
 
                     });
@@ -177,25 +132,37 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     }
 
                     var mw_admin_logo_upload_browse_existing = function (inverse = false) {
-                        var modal_id = 'mw_admin_logo_upload_browse_existing_modal<?php print $logo_name ?>' + (inverse ? '_inverse' : '');
-                        var dialog = mw.top().dialogIframe({
-                            url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_logo_upload_browse_existing_modal<?php print $logo_name ?>&from_url=<?php print site_url() ?>',
-                            title: "Browse pictures",
-                            id: modal_id,
-                            onload: function () {
-                                this.iframe.contentWindow.mw.on.hashParam('select-file', function (pval) {
-                                    mw.notification.success('<?php _ejs('Logo image selected') ?>');
-                                    if (inverse) {
-                                        setNewImageInv(pval);
-                                    } else {
-                                        setNewImage(pval);
-                                    }
-                                    dialog.remove();
-                                });
-                            },
-                            height: 'auto',
-                            autoHeight: true
-                        })
+
+                        var dialog;
+                        var picker = new mw.filePicker({
+                            type: 'images',
+                            label: false,
+                            autoSelect: false,
+                            footer: true,
+                            _frameMaxHeight: true,
+                            onResult: function (res) {
+                                var url = res.src ? res.src : res;
+                                if(!url) return;
+                                url = url.toString();
+
+                                mw.notification.success('<?php _ejs('Logo image selected') ?>');
+                                
+                               if (inverse) {
+                                   setNewImageInv(url);
+                               } else {
+                                   setNewImage(url);
+                               }
+
+                                dialog.remove();
+                            }
+                        });
+                        dialog = mw.top().dialog({
+                            content: picker.root,
+                            title: mw.lang('Select image'),
+                            footer: false,
+                            width: 860
+                        });
+
                     }
 
                 </script>
@@ -229,7 +196,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             $size_slider = $("#size-slider"),
                             $imagesizeval = $("#imagesizeval");
 
-
                         if ("<?php print $size; ?>" == 'auto') {
                             $imagesizeval.html('auto');
                             $("#auto_scale_logo").attr("checked", true);
@@ -237,7 +203,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             $imagesizeval.html($size_slider.val());
                             $("#auto_scale_logo").attr("checked", false);
                         }
-
 
                         $size_slider.on('input change', function () {
                             $size.val(this.value)
@@ -288,17 +253,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <label class="form-label my-3 font-weight-bold"><?php _e("Choose Logo type"); ?></label>
 
                             <label class="form-check">
-                                <input type="radio" id="logotype1" option-group="<?php print $logo_name ?>" class="form-check-input me-2" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
+                                <input type="radio" id="logotype1" option-group="<?php print $logo_name ?>" class="mw_option_field form-check-input me-2" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
                                 <span class="form-check-label"><?php _e("Upload your logo image in .JPG or .PNG format"); ?></span>
                             </label>
 
                             <label class="form-check">
-                                <input type="radio" id="logotype2" option-group="<?php print $logo_name ?>"  class="form-check-input me-2" <?php if ($logotype == 'text'){ ?>checked<?php } ?> name="logotype" value="text">
+                                <input type="radio" id="logotype2" option-group="<?php print $logo_name ?>"  class="mw_option_field form-check-input me-2" <?php if ($logotype == 'text'){ ?>checked<?php } ?> name="logotype" value="text">
                                 <span class="form-check-label"><?php _e("Type your brand and choose font size and style"); ?></span>
                             </label>
 
                             <label class="form-check">
-                                <input type="radio" id="logotype3" option-group="<?php print $logo_name ?>"  class="form-check-input me-2" <?php if ($logotype == 'both' or $logotype == false){ ?>checked<?php } ?> name="logotype" value="both">
+                                <input type="radio" id="logotype3" option-group="<?php print $logo_name ?>"  class="mw_option_field form-check-input me-2" <?php if ($logotype == 'both' or $logotype == false){ ?>checked<?php } ?> name="logotype" value="both">
                                 <span class="form-check-label"><?php _e("Type your brand and choose font size") ;?></span>
                             </label>
 
@@ -319,8 +284,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
 
                             <div class="d-flex flex-wrap gap-2 mb-3">
-                                <span class="btn btn-primary btn-rounded btn-sm" id="upload-image"><?php _e("Upload"); ?></span>
-                                <a href="javascript:mw_admin_logo_upload_browse_existing()" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse'); ?></a>
+                                <a href="javascript:mw_admin_logo_upload_browse_existing()" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse media'); ?></a>
                                 <?php if ($logotype == 'both' or $logotype == 'image' or $logotype == false): ?>
                                     <a class="btn btn-outline-primary btn-rounded btn-sm" onclick="mw.edit_logo_image_crop()" href="javascript:void(0);"><?php _e("Edit"); ?></a>
                                 <?php endif; ?>
@@ -362,10 +326,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         </script>
                                     </div>
                                 </div>
-
                                 <div>
-                                    <span class="btn btn-primary btn-rounded btn-sm" id="upload-image-inverse"><?php _e("Upload Image"); ?></span>
-                                    <a href="javascript:mw_admin_logo_upload_browse_existing('true')" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse Uploaded'); ?></a>
+                                    <a href="javascript:mw_admin_logo_upload_browse_existing('true')" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse Media'); ?></a>
                                 </div>
                             </div>
                         <?php endif; ?>
