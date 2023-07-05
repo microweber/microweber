@@ -7,17 +7,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 }
 ?>
 
-<?php if (isset($params['backend'])): ?>
-    <module type="admin/modules/info"/>
-<?php endif; ?>
-
 <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
-    <div class="card-header">
-        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
-    </div>
 
-    <div class=" ">
-
+    <div class="">
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
             <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
@@ -61,141 +53,70 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 }
                 ?>
 
-                <style>
-                    .the-image-holder .upload-image {
-                        width: 33px;
-                        height: 33px;
-                        -webkit-border-radius: 100%;
-                        -moz-border-radius: 100%;
-                        border-radius: 100%;
-                        padding: 0;
-                        margin-top: -65px;
-                        margin-left: 5px;
-                        text-align: center;
-                    }
-
-                    .the-image,
-                    .the-image-inverse {
-                        display: block;
-                    }
-
-                    .the-image,
-                    .the-image-inverse {
-                        max-width: 300px;
-                        background-color: #e1e2e4;
-                        padding: 15px;
-                        min-height: 50px;
-                        margin-bottom: 20px;
-                    }
-
-                    .the-image[src=''],
-                    .the-image-inverse[src=''] {
-                        width: 100%;
-                        background-color: #e1e2e4;
-                    }
-
-                    #sizeslider {
-                        width: 135px;
-                    }
-                </style>
-
                 <script>mw.require('tools/images.js');</script>
                 <script>
                     $(document).ready(function () {
-                        UP = mw.uploader({
-                            element: document.getElementById('upload-image'),
-                            filetypes: 'images',
-                            multiple: false
-                        });
-
-                        $(UP).on('FileUploaded', function (a, b) {
-                            setNewImage(b.src);
-                            setAuto();
-                        });
-
-                        UPInverse = mw.uploader({
-                            element: document.getElementById('upload-image-inverse'),
-                            filetypes: 'images',
-                            multiple: false
-                        });
-
-                        $(UPInverse).on('FileUploaded', function (a, b) {
-                            setNewImageInv(b.src);
-                            setAuto();
-                        });
-
-                        // mw.$("[name=font_family] option").each(function () {
-                        //     var val = $(this).attr('value');
-                        //     if (val != '') {
-                        //         mw.require('//fonts.googleapis.com/css?family=' + val + '&filetype=.css', true);
-                        //         $(this).css('fontFamily', $(this).text());
-                        //     }
-                        // });
-
-                        // mw.$("[name=font_family]").on("change", function () {
-                        //
-                        //     mw.$("#text").css('fontFamily', $(this.options[this.selectedIndex]).text())
-                        // });
-
-
                         $(document).on('change', '[name=font_family]', function() {
-
-
                             var v =  $('[name=font_family] option:selected').first().val();
-
                             mw.$("#text").css('fontFamily',v)
-
-
-
                             setTimeout(function () {
                                 mw.$("#text").trigger('change');
-
                             }, 78)
-
-
-
                         });
-
-
-
                     });
 
                     function setNewImage(s) {
                         mw.$("#logoimage").val(s);
-                        mw.$(".the-image").show().attr('src', s);
-                        setTimeout(function () {
-                            mw.$("#logoimage").trigger('change');
-                        }, 78)
+                        document.getElementById('logoimage').dispatchEvent(new Event('input'));
                     }
 
                     function setNewImageInv(s) {
                         mw.$("#logoimage_inverse").val(s);
-                        mw.$(".the-image-inverse").show().attr('src', s);
-                        setTimeout(function () {
-                            mw.$("#logoimage_inverse").trigger('change');
-                        }, 78)
+                        document.getElementById('logoimage_inverse').dispatchEvent(new Event('input'));
+                    }
+
+                    function removeLogo() {
+                        mw.$("#logoimage").val('');
+                        document.getElementById('logoimage').dispatchEvent(new Event('input'));
+                    }
+
+                    function removeLogoInverse() {
+                        mw.$("#logoimage_inverse").val('');
+                        document.getElementById('logoimage_inverse').dispatchEvent(new Event('input'));
                     }
 
                     var mw_admin_logo_upload_browse_existing = function (inverse = false) {
-                        var modal_id = 'mw_admin_logo_upload_browse_existing_modal<?php print $logo_name ?>' + (inverse ? '_inverse' : '');
-                        var dialog = mw.top().dialogIframe({
-                            url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_logo_upload_browse_existing_modal<?php print $logo_name ?>&from_url=<?php print site_url() ?>',
-                            title: "Browse pictures",
-                            id: modal_id,
-                            onload: function () {
-                                this.iframe.contentWindow.mw.on.hashParam('select-file', function (pval) {
-                                    mw.notification.success('<?php _ejs('Logo image selected') ?>');
-                                    if (inverse) {
-                                        setNewImageInv(pval);
-                                    } else {
-                                        setNewImage(pval);
-                                    }
-                                    dialog.remove();
-                                });
-                            },
-                            height: 'auto',
-                            autoHeight: true
-                        })
+
+                        var dialog;
+                        var picker = new mw.filePicker({
+                            type: 'images',
+                            label: false,
+                            autoSelect: false,
+                            footer: true,
+                            _frameMaxHeight: true,
+                            onResult: function (res) {
+                                var url = res.src ? res.src : res;
+                                if(!url) return;
+                                url = url.toString();
+
+                                mw.notification.success('<?php _ejs('Logo image selected') ?>');
+
+                               if (inverse) {
+                                   setNewImageInv(url);
+                               } else {
+                                   setNewImage(url);
+                               }
+
+                                dialog.remove();
+                            }
+                        });
+                        dialog = mw.top().dialog({
+                            content: picker.root,
+                            title: mw.lang('Select image'),
+                            footer: false,
+                            width: 860
+                        });
+
                     }
 
                 </script>
@@ -229,7 +150,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             $size_slider = $("#size-slider"),
                             $imagesizeval = $("#imagesizeval");
 
-
                         if ("<?php print $size; ?>" == 'auto') {
                             $imagesizeval.html('auto');
                             $("#auto_scale_logo").attr("checked", true);
@@ -237,7 +157,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             $imagesizeval.html($size_slider.val());
                             $("#auto_scale_logo").attr("checked", false);
                         }
-
 
                         $size_slider.on('input change', function () {
                             $size.val(this.value)
@@ -278,27 +197,28 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     }
                 </script>
 
-                <div class="module-live-edit-settings module-logo-settings" id="module-logo-settings">
-                    <input type="hidden" class="mw_option_field" name="logoimage" id="logoimage" option-group="<?php print $logo_name ?>"  />
+                <div x-data="{'logoImageUrl': '<?php echo $logoimage;?>', 'logoInverseImageUrl': '<?php echo $logoimage_inverse;?>' }" class="module-live-edit-settings module-logo-settings" id="module-logo-settings">
+
+                    <input type="hidden" x-model="logoImageUrl"  class="mw_option_field" name="logoimage" id="logoimage" option-group="<?php print $logo_name ?>"  />
                     <input type="hidden" class="mw_option_field" name="font_size" option-group="<?php print $logo_name ?>" value="<?php print $font_size; ?>"  />
-                    <input type="hidden" class="mw_option_field" name="logoimage_inverse" id="logoimage_inverse" option-group="<?php print $logo_name ?>" />
+                    <input type="hidden" x-model="logoInverseImageUrl" class="mw_option_field" name="logoimage_inverse" id="logoimage_inverse" option-group="<?php print $logo_name ?>" />
 
                     <div class="logo-module-types">
                         <div class="form-group">
                             <label class="form-label my-3 font-weight-bold"><?php _e("Choose Logo type"); ?></label>
 
                             <label class="form-check">
-                                <input type="radio" id="logotype1" option-group="<?php print $logo_name ?>" class="form-check-input me-2" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
+                                <input type="radio" id="logotype1" option-group="<?php print $logo_name ?>" class="mw_option_field form-check-input me-2" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
                                 <span class="form-check-label"><?php _e("Upload your logo image in .JPG or .PNG format"); ?></span>
                             </label>
 
                             <label class="form-check">
-                                <input type="radio" id="logotype2" option-group="<?php print $logo_name ?>"  class="form-check-input me-2" <?php if ($logotype == 'text'){ ?>checked<?php } ?> name="logotype" value="text">
+                                <input type="radio" id="logotype2" option-group="<?php print $logo_name ?>"  class="mw_option_field form-check-input me-2" <?php if ($logotype == 'text'){ ?>checked<?php } ?> name="logotype" value="text">
                                 <span class="form-check-label"><?php _e("Type your brand and choose font size and style"); ?></span>
                             </label>
 
                             <label class="form-check">
-                                <input type="radio" id="logotype3" option-group="<?php print $logo_name ?>"  class="form-check-input me-2" <?php if ($logotype == 'both' or $logotype == false){ ?>checked<?php } ?> name="logotype" value="both">
+                                <input type="radio" id="logotype3" option-group="<?php print $logo_name ?>"  class="mw_option_field form-check-input me-2" <?php if ($logotype == 'both' or $logotype == false){ ?>checked<?php } ?> name="logotype" value="both">
                                 <span class="form-check-label"><?php _e("Type your brand and choose font size") ;?></span>
                             </label>
 
@@ -312,28 +232,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
 
                         <div class="image-row">
-                            <div class="the-image-holder">
-                                <img style="display: none;" src="<?php print $logoimage ?>" id="logo-image-edit">
-                                <img src="<?php if ($logoimage): ?><?php echo thumbnail($logoimage, 200); ?><?php endif; ?>" class="the-image" alt="" <?php if ($logoimage != '' and $logoimage != false): ?><?php else: ?>style="display:block;"<?php endif; ?> />
 
+                            <div class="the-image-holder" x-show="logoImageUrl">
+                                <img style="display:none" :src="logoImageUrl" id="logo-image-edit">
+                                <img :src="logoImageUrl" class="the-image" alt="" />
                             </div>
 
-                            <div class="d-flex flex-wrap gap-2 mb-3">
-                                <span class="btn btn-primary btn-rounded btn-sm" id="upload-image"><?php _e("Upload"); ?></span>
-                                <a href="javascript:mw_admin_logo_upload_browse_existing()" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse'); ?></a>
-                                <?php if ($logotype == 'both' or $logotype == 'image' or $logotype == false): ?>
-                                    <a class="btn btn-outline-primary btn-rounded btn-sm" onclick="mw.edit_logo_image_crop()" href="javascript:void(0);"><?php _e("Edit"); ?></a>
-                                <?php endif; ?>
-
-                                <button type="button" class="btn btn-danger btn-rounded btn-sm js-remove-logoimage"> <?php _e("Remove"); ?></button>
-
-                                <script>
-                                    $('.js-remove-logoimage').on('click', function () {
-                                        $('#logoimage').val('');
-                                        $("#logoimage").trigger('change');
-                                        $('img.the-image').attr('src', '');
-                                    });
-                                </script>
+                            <div class="d-flex flex-wrap gap-2 mb-3 mt-3">
+                                <a href="javascript:mw_admin_logo_upload_browse_existing()" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse media'); ?></a>
+                                <button  x-show="logoImageUrl" type="button" onclick="mw.edit_logo_image_crop()" class="btn btn-outline-primary btn-rounded btn-sm" ><?php _e("Edit"); ?></button>
+                                <button  x-show="logoImageUrl" type="button" onclick="removeLogo()" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove"); ?></button>
 
                             </div>
                         </div>
@@ -342,37 +250,24 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <br/>
 
                             <div class="form-group">
-                                <label class="form-label"><?php _e("Alternative Logo"); ?></label>
+                                <label class="form-label font-weight-bold"><?php _e("Alternative Logo"); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e("For example we are using the alternative logo when we have a sticky navigation"); ?></small>
                             </div>
 
                             <div class="image-row">
-                                <div class="the-image-holder">
-                                    <img src="<?php if ($logoimage_inverse): ?><?php echo thumbnail($logoimage_inverse, 200); ?><?php endif; ?>" class="the-image-inverse" alt="" <?php if ($logoimage_inverse != '' and $logoimage_inverse != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
-                                    <div class="js-remove-logo-alt-btn <?php if ($logoimage_inverse == ''): ?>d-none<?php endif; ?>">
-                                        <button type="button" class="btn btn-link px-0 mb-3 text-danger js-remove-alt-logoimage"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove the logo"); ?></button>
-
-                                        <script>
-                                            $('.js-remove-alt-logoimage').on('click', function () {
-                                                $('#logoimage_inverse').val('');
-                                                $("#logoimage_inverse").trigger('change');
-                                                $('img.the-image-inverse').attr('src', '');
-                                                $(this).parent().addClass('d-none');
-                                            });
-                                        </script>
-                                    </div>
+                                <div class="the-image-holder" x-show="logoInverseImageUrl">
+                                    <img :src="logoInverseImageUrl" class="the-image-inverse" alt="" />
                                 </div>
-
-                                <div>
-                                    <span class="btn btn-primary btn-rounded btn-sm" id="upload-image-inverse"><?php _e("Upload Image"); ?></span>
-                                    <a href="javascript:mw_admin_logo_upload_browse_existing('true')" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse Uploaded'); ?></a>
+                                <div class="mt-3">
+                                    <a href="javascript:mw_admin_logo_upload_browse_existing('true')" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse Media'); ?></a>
+                                    <button x-show="logoInverseImageUrl" type="button" onclick="removeLogoInverse()" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove"); ?></button>
                                 </div>
                             </div>
                         <?php endif; ?>
 
 
-                        <div class="form-group">
-                            <label class="form-label"><?php _e("Scale the logo image"); ?></label>
+                        <div class="form-group mt-3" x-show="logoImageUrl || logoInverseImageUrl">
+                            <label class="form-label font-weight-bold"><?php _e("Scale the logo image"); ?></label>
 
                             <div>
                                 <p class="mb-1"><?php _e('Image size'); ?> - <span id="imagesizeval"></span></p>
@@ -383,16 +278,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
                         </div>
 
-                        <label class="form-check ms-1">
+                        <label class="form-check ms-1 mt-3 mb-2" x-show="logoImageUrl || logoInverseImageUrl">
                             <input type="checkbox" class="form-check-input me-2" checked="" id="auto_scale_logo" value="pending">
-                            <span class="form-check-label"><?php _e('Set auto logo size'); ?></span>
+                            <span class="form-check-label font-weight-bold"><?php _e('Set auto logo size'); ?></span>
                         </label>
 
                     </div>
 
                     <div class="js-logo-text-holder">
                         <div class="form-group">
-                            <label class="form-label"><?php _e("Design your logo"); ?></label>
+                            <label class="form-label font-weight-bold"><?php _e("Design your logo"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("Choose font size for your logo"); ?></small>
 
 
