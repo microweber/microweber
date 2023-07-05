@@ -66,7 +66,7 @@
 
             <script>
                 // saving module settings for legacy modules
-                var settingsAction = function () {
+                var settingsBindOptionsFields = function () {
                     var settings_container_mod_el = $('#settings-container');
                     mw.options.form(settings_container_mod_el, function () {
                         if (mw.top().notification) {
@@ -85,7 +85,10 @@
                     createAutoHeight()
                 };
                 $(document).ready(function () {
-                    settingsAction();
+                    setTimeout(function () {
+                        settingsBindOptionsFields();
+                    }, 777)
+
                 });
 
             </script>
