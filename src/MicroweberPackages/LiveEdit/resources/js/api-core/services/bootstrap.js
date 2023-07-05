@@ -31,7 +31,7 @@ mw.app = new MWUniversalContainer();
     mw.app.register('keyboard', KeyboardEvents);
     mw.app.register('iconPicker', IconPicker);
     mw.app.register('linkPicker', LinkPicker);
-    mw.app.register('cssEditor', new mw.liveeditCSSEditor());
+    
 
    
 

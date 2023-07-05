@@ -52,6 +52,11 @@
     }
 
 </style>
+<script>
+    mw.app = mw.top().app;
+    const targetWindow = mw.app.canvas.getWindow();
+    const targetmw = targetWindow.mw;
+</script>
 <script>mw.require('prop_editor.js')</script>
 <script>mw.require('module_settings.js')</script>
 <script>mw.lib.require('colorpicker')</script>
@@ -220,7 +225,7 @@ var reset = function(){
     }).fail(function(){
 
     });
-    targetMw.wysiwyg.change(ActiveNode)
+    mw.app.registerChange(ActiveNode)
 };
 
 
@@ -584,7 +589,7 @@ var sccontainertype = function (value){
         cnt.classList.remove('container');
         cnt.classList.remove('container-fluid');
         cnt.classList.add(value);
-        targetMw.wysiwyg.change(cnt);
+        mw.app.registerChange(cnt);
     }
 }
 var scColumns = function (property, value){
@@ -627,11 +632,11 @@ var specialCases = function (property, value){
         return true;
     } else if(OverlayNode && property === 'overlay-color') {
         OverlayNode.style.backgroundColor = value;
-        targetMw.wysiwyg.change(OverlayNode);
+        mw.app.registerChange(OverlayNode);
         return true;
     }  else if(OverlayNode && property === 'overlay-blend-mode') {
         OverlayNode.style.mixBlendMode = value;
-        targetMw.wysiwyg.change(OverlayNode);
+        mw.app.registerChange(OverlayNode);
         return true;
     }
 
@@ -727,8 +732,8 @@ var output = function(property, value){
 
             ActiveNode.setAttribute('staticdesign', true);
         }
-        mwTarget.wysiwyg.change(ActiveNode);
-        mwTarget.liveEditSelector.positionSelected();
+        mw.app.registerChange(ActiveNode);
+        
     }
 
 };
@@ -1062,7 +1067,7 @@ function selectNode(node) {
                         cls.push(this.title);
                     });
                     ActiveNode.setAttribute('class', cls.join(' '))
-                    targetMw.wysiwyg.change(ActiveNode);
+                    mw.app.registerChange(ActiveNode);
                 });
             }
             return window.classes;
@@ -1151,7 +1156,7 @@ function selectNode(node) {
                     } else {
                         output('color', '')
                     }
-                    targetMw.wysiwyg.change($node[0]);
+                    mw.app.registerChange($node[0]);
                 }
             </script>
             <div class="s-field-content">
@@ -1902,7 +1907,7 @@ function selectNode(node) {
                                 if(curr) {
                                     curr.when = this.value;
                                 }
-                                targetMw.wysiwyg.change(ActiveNode)
+                                mw.app.registerChange(ActiveNode)
                             });
 
                             $('.mw-range', speed.get(0)).slider('value', parseFloat(anim.speed))
@@ -1922,7 +1927,7 @@ function selectNode(node) {
                                 if(curr) {
                                     curr.animation = this.value;
                                 }
-                                targetMw.wysiwyg.change(ActiveNode)
+                                mw.app.registerChange(ActiveNode)
 
                             });
 
@@ -1937,7 +1942,7 @@ function selectNode(node) {
                                 if (curr) {
                                     curr.speed = val;
                                 }
-                                targetMw.wysiwyg.change(ActiveNode)
+                                mw.app.registerChange(ActiveNode)
                             });
 
                             mw.element('select', when).get(0).disabled = anim.animation === 'none';
