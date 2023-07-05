@@ -240,7 +240,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             <div class="d-flex flex-wrap gap-2 mb-3 mt-3">
                                 <a href="javascript:mw_admin_logo_upload_browse_existing()" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse media'); ?></a>
-                                <button  x-show="logoImageUrl" type="button" onclick="mw.edit_logo_image_crop()" class="btn btn-outline-primary btn-rounded btn-sm" ><?php _e("Edit"); ?></button>
+<!--                                <button  x-show="logoImageUrl" type="button" onclick="mw.edit_logo_image_crop()" class="btn btn-outline-primary btn-rounded btn-sm" ><?php _e("Edit"); ?></button>-->
                                 <button  x-show="logoImageUrl" type="button" onclick="removeLogo()" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove"); ?></button>
 
                             </div>
