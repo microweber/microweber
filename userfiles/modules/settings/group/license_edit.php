@@ -126,7 +126,7 @@ if(isset($params['require_name'])) {
 
                     <div class="d-flex align-items-center ">
 
-                            <input type="text" autofocus name="local_key" class="form-control my-3" value="<?php print $local_key; ?>" placeholder="<?php _e('License key'); ?>">
+                            <input type="text" autocomplete="on" autofocus="true" name="local_key" class="form-control my-3" value="<?php print $local_key; ?>" placeholder="<?php _e('License key'); ?>">
 
 
                        <div class="ms-md-3">

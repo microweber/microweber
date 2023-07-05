@@ -31,6 +31,20 @@ export class ModuleSettings extends MicroweberBaseClass {
                     modalTitle = modalTitleFromAttr;
              }
 
+            var el = module;
+
+            var nodes=[], values=[];
+            for (var att, i = 0, atts = el.attributes, n = atts.length; i < n; i++){
+                att = atts[i];
+                nodes.push(att.nodeName);
+                values.push(att.nodeValue);
+                console.log(att.nodeName + " - " + att.nodeValue);
+            };
+
+
+
+
+
             moduleType = moduleType+'/admin';
             mw.dialogIframe({
                 url: route('live_edit.module_settings') + '?id=' + moduleId+ '&type=' + moduleType+ '&live_edit=true',
