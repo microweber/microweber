@@ -51,31 +51,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 if (isset($params['data-alt-logo'])) {
                     $alt_logo = $params['data-alt-logo'];
                 }
-
-                $alt_logo = true;
                 ?>
-
-                <style>
-
-                    .the-image,
-                    .the-image-inverse {
-                        max-width: 300px;
-                        background-color: #e1e2e4;
-                        padding: 15px;
-                        min-height: 50px;
-                        margin-bottom: 20px;
-                    }
-
-                    .the-image[src=''],
-                    .the-image-inverse[src=''] {
-                        width: 100%;
-                        background-color: #e1e2e4;
-                    }
-
-                    #sizeslider {
-                        width: 135px;
-                    }
-                </style>
 
                 <script>mw.require('tools/images.js');</script>
                 <script>
@@ -223,9 +199,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <div x-data="{'logoImageUrl': '<?php echo $logoimage;?>', 'logoInverseImageUrl': '<?php echo $logoimage_inverse;?>' }" class="module-live-edit-settings module-logo-settings" id="module-logo-settings">
 
-                    <input type="text" x-model="logoImageUrl"  class="mw_option_field" name="logoimage" id="logoimage" option-group="<?php print $logo_name ?>"  />
+                    <input type="hidden" x-model="logoImageUrl"  class="mw_option_field" name="logoimage" id="logoimage" option-group="<?php print $logo_name ?>"  />
                     <input type="hidden" class="mw_option_field" name="font_size" option-group="<?php print $logo_name ?>" value="<?php print $font_size; ?>"  />
-                    <input type="text" x-model="logoInverseImageUrl" class="mw_option_field" name="logoimage_inverse" id="logoimage_inverse" option-group="<?php print $logo_name ?>" />
+                    <input type="hidden" x-model="logoInverseImageUrl" class="mw_option_field" name="logoimage_inverse" id="logoimage_inverse" option-group="<?php print $logo_name ?>" />
 
                     <div class="logo-module-types">
                         <div class="form-group">
@@ -262,10 +238,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <img :src="logoImageUrl" class="the-image" alt="" />
                             </div>
 
-                            <div class="d-flex flex-wrap gap-2 mb-3">
+                            <div class="d-flex flex-wrap gap-2 mb-3 mt-3">
                                 <a href="javascript:mw_admin_logo_upload_browse_existing()" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse media'); ?></a>
-                                <a class="btn btn-outline-primary btn-rounded btn-sm" onclick="mw.edit_logo_image_crop()" href="javascript:void(0);"><?php _e("Edit"); ?></a>
-                                <button type="button" onclick="removeLogo()" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove"); ?></button>
+                                <button  x-show="logoImageUrl" type="button" onclick="mw.edit_logo_image_crop()" class="btn btn-outline-primary btn-rounded btn-sm" ><?php _e("Edit"); ?></button>
+                                <button  x-show="logoImageUrl" type="button" onclick="removeLogo()" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove"); ?></button>
 
                             </div>
                         </div>
@@ -282,16 +258,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <div class="the-image-holder" x-show="logoInverseImageUrl">
                                     <img :src="logoInverseImageUrl" class="the-image-inverse" alt="" />
                                 </div>
-                                <div>
+                                <div class="mt-3">
                                     <a href="javascript:mw_admin_logo_upload_browse_existing('true')" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse Media'); ?></a>
-                                    <button type="button" onclick="removeLogoInverse()" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove"); ?></button>
+                                    <button x-show="logoInverseImageUrl" type="button" onclick="removeLogoInverse()" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove"); ?></button>
                                 </div>
                             </div>
                         <?php endif; ?>
 
 
-                        <div class="form-group">
-                            <label class="form-label"><?php _e("Scale the logo image"); ?></label>
+                        <div class="form-group mt-3" x-show="logoImageUrl || logoInverseImageUrl">
+                            <label class="form-label font-weight-bold"><?php _e("Scale the logo image"); ?></label>
 
                             <div>
                                 <p class="mb-1"><?php _e('Image size'); ?> - <span id="imagesizeval"></span></p>
@@ -302,16 +278,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
                         </div>
 
-                        <label class="form-check ms-1">
+                        <label class="form-check ms-1 mt-3 mb-2" x-show="logoImageUrl || logoInverseImageUrl">
                             <input type="checkbox" class="form-check-input me-2" checked="" id="auto_scale_logo" value="pending">
-                            <span class="form-check-label"><?php _e('Set auto logo size'); ?></span>
+                            <span class="form-check-label font-weight-bold"><?php _e('Set auto logo size'); ?></span>
                         </label>
 
                     </div>
 
                     <div class="js-logo-text-holder">
                         <div class="form-group">
-                            <label class="form-label"><?php _e("Design your logo"); ?></label>
+                            <label class="form-label font-weight-bold"><?php _e("Design your logo"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("Choose font size for your logo"); ?></small>
 
 
