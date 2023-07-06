@@ -280,6 +280,16 @@ export class LiveEdit {
 
         }
 
+        const _hoverAndSelectExceptions = (first) => {
+            if(first.classList.contains('module-custom-fields')) {
+                var form = DomService.firstParentOrCurrentWithClass(first, 'module-contact-form');
+                if(form) {
+                    first = form;
+                }
+            }
+            return first
+        }
+
         const _eventsHandle = (e) => {
 
             if(this.handles.targetIsOrInsideHandle(e)) {
@@ -313,8 +323,10 @@ export class LiveEdit {
             this.handles.hide();
 
 
+            
 
             if(first) {
+               first = _hoverAndSelectExceptions(first) 
                const type = this.elementAnalyzer.getType(first);
 
                if(type && type !== 'edit') {
@@ -356,9 +368,11 @@ export class LiveEdit {
                 }
                 const elements = this.observe.fromEvent(e);
 
-                const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable']);
+                let target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable']);
                 const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
                 let layoutHasSelectedTarget = false;
+
+                target = _hoverAndSelectExceptions(target)
 
               
                 

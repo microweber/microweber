@@ -146,7 +146,7 @@
             options: false,
             element: null,
             query: {
-                order: 'asc',
+                order: 'desc',
                 orderBy: 'filemtime',
                 path: '/'
             },
@@ -170,7 +170,7 @@
 
 
         var normalizeAccept = function (type) {
-           
+
             type = (type || '').trim().toLowerCase();
             if(!type) return '*';
             if (type === 'image' || type === 'images') return '.png,.gif,.jpg,.jpeg,.bmp,.svg,.ico';
@@ -233,7 +233,7 @@
                 label = i;
             }
             var lnk = mw.element('<li class="page-item"><a class="page-link">' + label + '</a></li>');
-         
+
             lnk.find('a').on('click', function () {
                 scope.setPage(i);
             });
@@ -243,7 +243,7 @@
             return lnk;
         };
 
- 
+
 
         var _createPaginationNav = function (array, curr, totalPages) {
             var wrapper = mw.element('<div class="pagination" />');
@@ -279,8 +279,8 @@
             } else {
                 array = [curr-2,curr-1,curr,curr+1,curr+2];
             }
-             
- 
+
+
 
             // scope.pagingNavigations.top.empty().append(_createPaginationNav(array, curr, pg.totalPages));
             scope.pagingNavigations.bottom.empty().append(_createPaginationNav(array, curr, pg.totalPages));
@@ -339,7 +339,7 @@
         var _deleteHandle = function (items) {
             if(items && !items.length){
                 items = [items];
-            } 
+            }
             items = items.map(itm => {
                 return itm.path ? itm.path : itm;
             })
@@ -713,7 +713,7 @@
             if(item.type === 'folder' || !this.settings.accept  || this.settings.accept === '*') {
                 return true;
             }
-            
+
             const accept = this.settings.accept.split(',');
             const extension = `.${item.name.split('.').pop()}`;
             return accept.indexOf(extension) !== -1 || accept.indexOf(item.mimeType) !== -1
@@ -722,7 +722,7 @@
         }
 
         this.singleListView = function (item) {
- 
+
             var row = mw.element({ tag: 'tr', props: {className: `mw-file-manager-list-item-type--${item.type} mw-file-manager-list-item-matches--${this.acceptMatches(item)}` } });
             var cellImage = mw.element({ tag: 'td', content: _image(item), props: {className: 'mw-file-manager-list-item-thumb-image-cell'}  });
             var cellName = mw.element({ tag: 'td', content: item.name , props: {className: 'mw-file-manager-list-item-name-cell'} });
@@ -791,7 +791,7 @@
             let isLastFolder = false;
             scope.getItems().forEach(function (item) {
                 var row = scope.singleListView(item);
-                
+
                 rows.push({data: item, row: row});
                 tableBody.append(row);
                 if(!isLastFolder && item.type === 'file') {
@@ -900,9 +900,9 @@
         this.creteSearchNode = function (target) {
 
 
-            
 
- 
+
+
 
 
 
@@ -912,7 +912,7 @@
               </div>
               <div class="col-auto">
                 <button class="btn btn-icon mw-file-manager-search-button" aria-label="Button">
-              
+
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
                 </button>
               </div>
@@ -1026,11 +1026,11 @@
                 </span>
             </div>`);
 
-         
+
 
           viewTypeSelectorRoot.append(viewTypeSelector);
 
- 
+
             viewTypeSelector.find('.btn').on('click', function (val){
                 scope.viewType( this.dataset.viewType );
             });
@@ -1042,8 +1042,8 @@
         };
 
         var createMainBar = function (){
-            
- 
+
+
             _backNode = mw.element({
                 tag: 'button',
 
@@ -1087,17 +1087,17 @@
             var multiSelectMenuTemplate = mw.element(`
                 <div class="mw-file-manager--multiselect--context-actions">
                     <button type="button" class="btn btn-icon" data-action="multiSelectDownloadAll" data-bs-toggle="tooltip" data-bs-placement="top" title="Download">
-                        
+
 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M240 896q-33 0-56.5-23.5T160 816V696h80v120h480V696h80v120q0 33-23.5 56.5T720 896H240Zm240-160L280 536l56-58 104 104V256h80v326l104-104 56 58-200 200Z"/></svg>
-                        
+
                     </button>
                     <button type="button" class="btn btn-icon btn-danger" data-action="multiSelectDeleteAll"  data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-                        
+
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z"/></svg>
-                
+
                     </button>
                 </div>
-            `); 
+            `);
 
 
             this.multiSelectDeleteAll = function() {
@@ -1122,8 +1122,8 @@
                         this[node.dataset.action]();
                     });
                 });
-                
-                
+
+
             return bar;
         };
 
@@ -1214,14 +1214,14 @@
             if(viewType !== this.settings.viewType || _forced) {
                 this.settings.viewType = viewType;
                 this.root.dataset('view', this.settings.viewType);
-              
+
                 Array.from(this.root.get(0).querySelectorAll('[data-view-type]')).forEach(function(node){
                     node.classList[node.dataset.viewType === viewType ? 'add' : 'remove']('active');
                 });
                 this.dispatch('viewTypeChange', this.settings.viewType);
 
             }
-        }; 
+        };
 
         var pathItem = function (path, html){
             var node = document.createElement('li');
@@ -1299,7 +1299,7 @@
                 mw.element(this.settings.element).empty().append(this.root);
             }
 
-            
+
 
         };
         this.init();

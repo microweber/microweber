@@ -44,17 +44,17 @@ mw.liveeditCSSEditor = function (config) {
     this._cssTemp = function (json) {
 
         var css = CSSJSON.toCSS(json);
-        if(!mw.liveedit._cssTemp) {
-            mw.liveedit._cssTemp = mw.tools.createStyle('#mw-liveedit-dynamic-temp-style', css, document.body);
-            mw.liveedit._cssTemp.id = 'mw-liveedit-dynamic-temp-style';
+        if(!mw.app._cssTemp) {
+            mw.app._cssTemp = mw.tools.createStyle('#mw-liveedit-dynamic-temp-style', css, config.document.body);
+            mw.app._cssTemp.id = 'mw-liveedit-dynamic-temp-style';
         } else {
-            mw.liveedit._cssTemp.innerHTML = css;
+            mw.app._cssTemp.innerHTML = css;
         }
     };
 
     var removeSheetRuleProperty = function (selector, property) {
-        var css = document.querySelector('link#mw-template-settings');
-        var css2 = document.querySelector('#mw-liveedit-dynamic-temp-style');
+        var css =  config.document.querySelector('link#mw-template-settings');
+        var css2 =  config.document.querySelector('#mw-liveedit-dynamic-temp-style');
         var sheet1, sheet2;
         if(css) {
             sheet1= css.sheet;
@@ -146,21 +146,31 @@ mw.liveeditCSSEditor = function (config) {
     }
 
     this.publish = function (callback) {
-        var css = {
-            css_file_content: this.getValue()
-        };
-        $.post(this.settings.saveUrl, css, function (res) {
-            scope.changed = false;
-            if(callback) {
-                callback.call(this, res);
-            }
-        });
+        return new Promise(resolve => {
+            var css = {
+                css_file_content: this.getValue()
+            };
+            $.post(this.settings.saveUrl, css, function (res) {
+                scope.changed = false;
+                resolve(res);
+                if (callback) {
+                    callback.call(this, res);
+                }
+            }).fail(function(res){
+                resolve(false);
+            });
+        })
+
     };
 
     this.publishIfChanged = function (callback) {
-        if(this.changed) {
-            this.publish(callback);
-        }
+        return new Promise(async resolve => {
+            if(this.changed) {
+                await this.publish(callback);
+            }
+            resolve()
+        });
+        
     };
 
     this.getValue = function () {

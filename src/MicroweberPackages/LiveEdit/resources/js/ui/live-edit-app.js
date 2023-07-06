@@ -29,6 +29,12 @@ mw.app.canvas.on('liveEditBeforeLoaded', function () {
 mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
 
     window.top.history.pushState(null, null, `?url=${encodeURIComponent(data.frameWindow.location.href)}`);
+
+    const cssGUIEditor = new mw.liveeditCSSEditor({
+        document: data.frameDocument
+    });
+
+    mw.app.register('cssEditor', cssGUIEditor);
     mw.app.dispatch('ready');
 });
 
