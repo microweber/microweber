@@ -26,7 +26,18 @@
     </div>
 
     <div x-show="showEditTab=='design'">
-        
+
+        <div>
+            <livewire:microweber-module-btn::template-settings-bootstrap :settings="$settings" />
+        </div>
+
+        <div class="mt-3">
+          <x-microweber-ui::icon-picker wire:model="settings.icon" :value="$settings['icon']"/>
+      </div>
+
+       <div class="mt-3">
+           <x-microweber-module-btn::btn-align :settings="$settings"/>
+       </div>
     </div>
 
 </div>
