@@ -64,7 +64,6 @@ class OptionElement extends AdminComponent
         }
         if (in_array($this->optionName, $this->translatableOptions)) {
             $this->translatable = true;
-
         }
 
         if ($this->translatable and MultilanguageHelpers::multilanguageIsEnabled()) {
