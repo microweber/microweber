@@ -25,16 +25,18 @@ if (isset($params['for_module_id'])) {
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header sticky-top px-0 pb-2">
-                     <a href="" class="mw-admin-action-links mw-adm-liveedit-tabs fs-3 d-flex align-items-center tblr-body-color col-auto">
-                         <svg fill="currentColor" width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M480-160 160-480l320-320 42 42-248 248h526v60H274l248 248-42 42Z"/></svg>
-                         <span class="ms-1">
-                             <?php _e('Back'); ?>
-                         </span>
-                     </a>
+                    <a class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-decoration-none" data-bs-dismiss="modal" aria-label="Close">
+                        <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                            <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
+                                <circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle>
+                                <path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path>
+                            </g>
+                        </svg>
+                        <span class="ms-1 font-weight-bold"><?php _e('Back'); ?></span>
+                    </a>
 
-                    <h5 class="modal-title modal-title col text-center" style="padding-bottom: 12px;" id="exampleModalLabel"><?php _e('Modal Title'); ?></h5>
-
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="padding-bottom: 12px; top: -15px;"></button>
+                    <h5 class="modal-title modal-title col text-center" id="exampleModalLabel"><?php _e('Modal Title'); ?></h5>
+                    
                 </div>
                 <div class="modal-body">
                     <p>Modal content goes here...</p>
