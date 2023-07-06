@@ -22,7 +22,7 @@
                 Url:
                 <livewire:microweber-module-option::text optionName="url"  :moduleId="$moduleId" :moduleType="$moduleType"    />
             </div>
-            
+
             <div>
                 Popup content:
                 <livewire:microweber-module-option::text optionName="popupcontent"  :moduleId="$moduleId" :moduleType="$moduleType"    />
