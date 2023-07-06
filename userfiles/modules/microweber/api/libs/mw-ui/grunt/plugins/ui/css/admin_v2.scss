@@ -2032,3 +2032,14 @@ svg.text-danger {
 .modal-footer {
     background-color: var(--tblr-bg-surface);
 }
+
+
+.input-group-top-bottom-left-radius {
+
+    .form-control {
+        border-top-left-radius: var(--tblr-border-radius) !important;
+        border-bottom-left-radius: var(--tblr-border-radius) !important;
+    }
+
+
+}
