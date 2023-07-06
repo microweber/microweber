@@ -4,7 +4,6 @@ showEditTab: 'content',
 showSettingsModal: 'none'
 }">
 
-
     <div x-show="showSettingsModal == 'advanced_settings'"
 
     >
@@ -45,7 +44,7 @@ showSettingsModal: 'none'
     </div>
 
     <div x-show="showSettingsModal == 'giga_advanced_settings'"
-         
+
     >
 
         <div>
