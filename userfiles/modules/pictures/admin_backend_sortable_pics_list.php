@@ -20,6 +20,7 @@ $media = false;
 
 if ($for_id != false) {
     $media = get_pictures("rel_id={$for_id}&rel_type={$for}");
+
 } else {
     $sid = mw()->user_manager->session_id();
     $media = get_pictures("rel_id=0&rel_type={$for}&session_id={$sid}");

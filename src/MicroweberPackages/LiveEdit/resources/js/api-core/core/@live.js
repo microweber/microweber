@@ -18,7 +18,7 @@ import {Tooltip} from "./tooltip.js";
 import { InteractionHandleContent } from "./handles-content/interaction.js";
 import { DomService } from "./classes/dom.js";
 import  "./core/@core.js";
- 
+
 
 mw.require('stylesheet.editor.js');
 
@@ -280,6 +280,19 @@ export class LiveEdit {
 
         }
 
+
+
+        const _hoverAndSelectExceptions = (first) => {
+            if(first && first.classList && first.classList.contains('module-custom-fields')) {
+                var form = DomService.firstParentOrCurrentWithClass(first, 'module-contact-form');
+                if(form) {
+                    first = form;
+                }
+            }
+            return first
+        }
+
+
         const _eventsHandle = (e) => {
 
             if(this.handles.targetIsOrInsideHandle(e)) {
@@ -314,7 +327,9 @@ export class LiveEdit {
 
 
 
+
             if(first) {
+               first = _hoverAndSelectExceptions(first)
                const type = this.elementAnalyzer.getType(first);
 
                if(type && type !== 'edit') {
@@ -349,19 +364,21 @@ export class LiveEdit {
                     this.interactionHandle.hide();
                     return
                 }
-                 
+
                 if(this.handles.targetIsOrInsideHandle(e)) {
                     this.interactionHandle.hide();
                     return
                 }
                 const elements = this.observe.fromEvent(e);
 
-                const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable']);
+                let target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable']);
                 const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
                 let layoutHasSelectedTarget = false;
 
-              
-                
+                target = _hoverAndSelectExceptions(target)
+
+
+
                 if(target && _hovered.indexOf(target) === -1) {
                     _hovered.forEach(node =>  delete node.dataset.mwLiveEdithover);
                     _hovered = [];
@@ -400,7 +417,7 @@ export class LiveEdit {
 
                 }
 
-                
+
                 if(target && !this.handles.targetIsSelectedAndHandleIsNotHidden(target, this.interactionHandle) && !target.classList.contains('module-layouts')) {
                     var title = '';
                     if(target.dataset.mwTitle) {

@@ -17,6 +17,14 @@ class ModuleSettingsController
         $id = $params['id'];
         $hasError = false;
 
+        if(isset($params['from_url'])) {
+            // define constants
+            if (!defined('PAGE_ID')) {
+                 app()->content_manager->define_constants();
+            }
+            unset($params['from_url']);
+        }
+
 
         return view('microweber-live-edit::module-settings', ['moduleId' => $id, 'moduleType' => $type, 'params'=>$params]);
     }
