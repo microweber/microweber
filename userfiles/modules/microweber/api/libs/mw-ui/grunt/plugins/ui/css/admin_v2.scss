@@ -1901,60 +1901,57 @@ svg.text-danger {
     }
 }
 
+.mw-live-edit-toolbar-link {
+    color: var(--tblr-body-color);
+    cursor: pointer;
+    font-weight: 400;
+    text-decoration: none;
+}
 
-#toolbar {
+.mw-live-edit-toolbar-link--arrowed {
+    display: inline-block;
+    height: 2rem;
+    line-height: 2rem;
 
-    .mw-live-edit-toolbar-link {
-        color: var(--tblr-body-color);
-        cursor: pointer;
-        font-weight: 400;
-        text-decoration: none;
+    .mw-live-edit-toolbar-arrow-icon {
+        position: relative;
+        top: -1px;
+        -webkit-transition: -webkit-transform 0.3s ease;
+        transition: -webkit-transform 0.3s ease;
+        transition: transform 0.3s ease;
+        transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+        vertical-align: middle;
+        transform:rotate(180deg);
     }
 
-    .mw-live-edit-toolbar-link--arrowed {
-        display: inline-block;
-        height: 2rem;
-        line-height: 2rem;
+    g {
+        stroke: var(--tblr-body-color);
+    }
 
-        .mw-live-edit-toolbar-arrow-icon {
-            position: relative;
-            top: -1px;
-            -webkit-transition: -webkit-transform 0.3s ease;
-            transition: -webkit-transform 0.3s ease;
-            transition: transform 0.3s ease;
-            transition: transform 0.3s ease, -webkit-transform 0.3s ease;
-            vertical-align: middle;
-            transform:rotate(180deg);
-        }
+    .arrow-icon--circle {
+        transition: stroke-dashoffset .3s ease;
+        stroke-dasharray: 95;
+        stroke-dashoffset: 95;
+        stroke: currentColor;
+        stroke-width: 2.2px;
+    }
 
-        g {
-            stroke: var(--tblr-body-color);
+    .arrow-icon--arrow {
+        stroke: currentColor;
+        stroke-width: 2.2px;
+    }
+
+    &:hover {
+        .arrow-icon {
+            transform: translate3d(5px, 0, 0);
         }
 
         .arrow-icon--circle {
-            transition: stroke-dashoffset .3s ease;
-            stroke-dasharray: 95;
-            stroke-dashoffset: 95;
-            stroke: currentColor;
-            stroke-width: 2.2px;
-        }
-
-        .arrow-icon--arrow {
-            stroke: currentColor;
-            stroke-width: 2.2px;
-        }
-
-        &:hover {
-            .arrow-icon {
-                transform: translate3d(5px, 0, 0);
-            }
-
-            .arrow-icon--circle {
-                stroke-dashoffset: 0;
-            }
+            stroke-dashoffset: 0;
         }
     }
 }
+
 
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2022,6 +2019,54 @@ svg.text-danger {
     min-width: 235px;
 }
 
+
+
+/*// Right modal classes*/
+
+
+.modal-right-pane {
+    transform: translateX(100%);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.modal.fade.modal-right-pane.show {
+    transform: translateX(0);
+
+}
+
+#settings-container .modal.modal-right-pane{
+    --tblr-modal-padding: 0;
+    --tblr-modal-margin: 0;
+    --tblr-modal-border-radius: 0;
+    --tblr-modal-border-width: 0;
+}
+
+
+.modal-right-pane::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.modal-right-pane::-webkit-scrollbar-thumb {
+    background: rgb(90, 90, 90);
+}
+
+.modal-right-pane::-webkit-scrollbar-track {
+    background: rgb(0, 0, 0);
+}
+
+
+
+.modal .modal-header.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+
+/*// end Right modal classes*/
+
+
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
@@ -2031,4 +2076,15 @@ svg.text-danger {
 
 .modal-footer {
     background-color: var(--tblr-bg-surface);
+}
+
+
+.input-group-top-bottom-left-radius {
+
+    .form-control {
+        border-top-left-radius: var(--tblr-border-radius) !important;
+        border-bottom-left-radius: var(--tblr-border-radius) !important;
+    }
+
+
 }

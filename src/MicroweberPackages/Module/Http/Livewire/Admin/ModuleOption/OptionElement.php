@@ -33,6 +33,8 @@ class OptionElement extends AdminComponent
     public string $defaultLanguage = '';
     public string $currentLanguage = '';
     public array $supportedLanguages = [];
+    public array $currentLanguageData = [];
+    public string $fieldName = '';
 
     public function boot()
     {
@@ -64,7 +66,6 @@ class OptionElement extends AdminComponent
         }
         if (in_array($this->optionName, $this->translatableOptions)) {
             $this->translatable = true;
-
         }
 
         if ($this->translatable and MultilanguageHelpers::multilanguageIsEnabled()) {
@@ -164,8 +165,15 @@ class OptionElement extends AdminComponent
         }
 
         $supportedLanguages = get_supported_languages(true);
-
         $this->supportedLanguages = $supportedLanguages;
+
+        $this->fieldName = $this->optionName;
+        $currentLanguageData = [];
+        foreach($supportedLanguages as $language) {
+            if ($language['locale'] == $this->defaultLanguage) {
+                $this->currentLanguageData = $language;
+            }
+        }
 
     }
 

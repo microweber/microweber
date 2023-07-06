@@ -14,6 +14,51 @@ if (isset($params['for_module_id'])) {
 </script>
 
 <div id="form_email_options">
+
+
+
+    <!-- Button to trigger the modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Open Modal</button>
+
+    <!-- Modal -->
+    <div class="modal fade modal-right-pane" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header sticky-top px-0 pb-2">
+                    <a class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-decoration-none" data-bs-dismiss="modal" aria-label="Close">
+                        <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                            <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
+                                <circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle>
+                                <path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path>
+                            </g>
+                        </svg>
+                        <span class="ms-1 font-weight-bold"><?php _e('Back'); ?></span>
+                    </a>
+
+                    <h5 class="modal-title modal-title col text-center" id="exampleModalLabel"><?php _e('Modal Title'); ?></h5>
+                    
+                </div>
+                <div class="modal-body">
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs fs-3 me-2" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs fs-3 ms-2">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="row d-flex align-items-center w-100">
         <div class="col">
             <h5 class="font-weight-bold settings-title-inside"><?php _e("Contact form settings") ?></h5>

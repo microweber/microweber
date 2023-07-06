@@ -208,6 +208,7 @@ if ($menu_data) {
 </script>
 <div id="quick_new_menu_holder">
     <div id="create-menu-holder" style="display: none;">
+        <div class="alert alert-success" >
         <div class="form-inline">
             <div class="form-group  mb-3">
                 <label class="form-label d-block w-100 mb-1"><?php _e('Create new menu'); ?></label>
@@ -216,6 +217,7 @@ if ($menu_data) {
                    <button type="button" class="btn btn-success" onclick="mw.menu_add_new()"><?php _e("Save"); ?></button>
                </div>
             </div>
+        </div>
         </div>
     </div>
 </div>
