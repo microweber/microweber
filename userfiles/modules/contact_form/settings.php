@@ -10,7 +10,7 @@ if (isset($params['for_module_id'])) {
 ?>
 
 <div id="form_email_options">
-    <div class="row px-0 d-flex align-items-center">
+    <div class="row px-0 d-flex align-items-center w-100">
 
         <?php  if ($mod_id == 'contact_form_default'): ?>
             <div class="col">

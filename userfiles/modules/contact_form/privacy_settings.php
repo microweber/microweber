@@ -39,7 +39,7 @@ if (isset($params['simple']) AND $params['simple'] == 'true') {
 
         <?php endif; ?>
 
-        <div class="row">
+        <div class="row w-100">
             <div class="col-xl-3 mb-xl-0 mb-3">
                 <h5 class="font-weight-bold settings-title-inside"><?php _e("Contact form settings") ?></h5>
                 <small class="text-muted"><?php _e("Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.") ?></small>

@@ -14,7 +14,7 @@ if (isset($params['for_module_id'])) {
 </script>
 
 <div id="form_email_options">
-    <div class="row d-flex align-items-center">
+    <div class="row d-flex align-items-center w-100">
         <div class="col">
             <h5 class="font-weight-bold settings-title-inside"><?php _e("Contact form settings") ?></h5>
         </div>
