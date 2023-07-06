@@ -6,7 +6,7 @@ showSettingsModal: 'none'
 
 
     <div x-show="showSettingsModal == 'advanced_settings'"
-         x-transition:enter="animate__fadeInRight"
+
     >
         <div>
             <span x-on:click="showSettingsModal = 'none'"  class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed">
@@ -26,7 +26,6 @@ showSettingsModal: 'none'
 
     <div x-show="showSettingsModal == 'mega_advanced_settings'"
 
-         x-transition:enter="animate__fadeInRight"
     >
 
         <div>
@@ -46,8 +45,7 @@ showSettingsModal: 'none'
     </div>
 
     <div x-show="showSettingsModal == 'giga_advanced_settings'"
-
-         x-transition:enter="animate__fadeInRight" 
+         
     >
 
         <div>
