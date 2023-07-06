@@ -14,6 +14,60 @@ if (isset($params['for_module_id'])) {
 </script>
 
 <div id="form_email_options">
+
+
+
+    <!-- Button to trigger the modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Open Modal</button>
+
+    <!-- Modal -->
+    <div class="modal fade modal-right-pane" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header sticky-top">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                    <p>Modal content goes here...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="row d-flex align-items-center w-100">
         <div class="col">
             <h5 class="font-weight-bold settings-title-inside"><?php _e("Contact form settings") ?></h5>
