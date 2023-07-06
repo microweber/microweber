@@ -2085,6 +2085,15 @@ svg.text-danger {
         border-top-left-radius: var(--tblr-border-radius) !important;
         border-bottom-left-radius: var(--tblr-border-radius) !important;
     }
+}
 
 
+.modal-backdrop {
+    background: #fff;
+    opacity: .8;
+}
+
+.background-color-white {
+    background-color: #fff;
+    animation: fadeIn .5s;
 }

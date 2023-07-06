@@ -13,12 +13,23 @@ if (isset($params['for_module_id'])) {
     mw.lib.require('flag_icons');
 </script>
 
+
+<script>
+
+  function changeBackground() {
+    var modal = document.getElementById("myModal");
+    modal.classList.add("background-color-white");
+
+
+  }
+</script>
+
 <div id="form_email_options">
 
 
 
     <!-- Button to trigger the modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Open Modal</button>
+    <button type="button" onclick="changeBackground();" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Open Modal</button>
 
     <!-- Modal -->
     <div class="modal fade modal-right-pane" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -36,7 +47,7 @@ if (isset($params['for_module_id'])) {
                     </a>
 
                     <h5 class="modal-title modal-title col text-center" id="exampleModalLabel"><?php _e('Modal Title'); ?></h5>
-                    
+
                 </div>
                 <div class="modal-body">
                     <p>Modal content goes here...</p>
