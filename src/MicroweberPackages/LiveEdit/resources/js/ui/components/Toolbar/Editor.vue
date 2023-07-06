@@ -13,9 +13,9 @@ const { TABS, TOOLS } = FilerobotImageEditor;
 const editImage = (url, target, dialog) => {
     const config = {
   source: url,
- 
+
   showCanvasOnly: false,
-   
+
   annotationsCommon: {
     fill: '#ff0000',
   },
@@ -72,7 +72,7 @@ const editImage = (url, target, dialog) => {
   defaultToolId: TOOLS.TEXT, // or 'Text'
 };
 
-   
+
 
     // Assuming we have a div with id="editor_container"
     const filerobotImageEditor = new FilerobotImageEditor(
@@ -81,7 +81,7 @@ const editImage = (url, target, dialog) => {
     );
 
     filerobotImageEditor.render({
-         
+
     });
     return filerobotImageEditor;
 }
@@ -92,8 +92,19 @@ export default {
 
     },
     mounted() {
-        mw.app.on('ready', () => {
+
+        mw.app.canvas.on('liveEditCanvasLoaded', () => {
+
             new EditorComponent();
+
+
+      //     mw.log(mw.app.richTextEditor.scope)
+
+        });
+
+
+
+        mw.app.on('ready', () => {
             liveEditComponent();
             const editImageDialog = async (url) => {
                 return new Promise(resolve => {
@@ -107,15 +118,15 @@ export default {
                         </div>
                     `);
 
-  
+
                     let imageEditor;
 
                     const dlg = mw.dialog({
-                      width: 1000 , 
-                      title:  mw.lang("Edit image"), 
-                      content: editor, 
-                      footer: footer.get(0), 
-                      id: 'mw-edit-image--dialog', 
+                      width: 1000 ,
+                      title:  mw.lang("Edit image"),
+                      content: editor,
+                      footer: footer.get(0),
+                      id: 'mw-edit-image--dialog',
                     });
 
                     footer.find('[data-action="cancel"]').on('click', function(){
@@ -127,7 +138,7 @@ export default {
                         resolve(imageEditor.getCurrentImgData().imageData.imageBase64);
                         dlg.remove();
 
-                    }) 
+                    })
                     $(dlg).on('Remove', () => {
                       resolve()
                     })
@@ -139,11 +150,11 @@ export default {
             mw.app.editor.on('elementSettingsRequest', async (element) => {
               if(element.nodeName === 'IMG') {
                   var src = await editImageDialog(element.src);
-                   
+
                   if(src) {
                     element.src = src
                   }
-                  
+
               } else {
                   const dlg = mw.top().dialogIframe({
                       url: mw.external_tool('rte_css_editor2'),
@@ -180,14 +191,14 @@ export default {
                       title: mw.lang('Select image'),
                       footer: false,
                       width: 860,
-                      
-                      
+
+
                   })
-                   
-                  
+
+
                 } else if(element.style.backgroundImage) {
                   var bg =  element.style.backgroundImage.trim().split('url(')[1];
-                   
+
                   if(bg) {
                     bg = bg.split(')')[0]
                               .trim()
@@ -196,30 +207,35 @@ export default {
                               var src = await editImageDialog(bg);
                     if(src) {
                       element.style.backgroundImage = `url(${src})`
-                    }     
+                    }
                   }
-                              
+
                 } else {
+
+
+
                     element.contentEditable = true;
                     element.focus();
                     setTimeout(() => {
+
+
                       mw.app.richTextEditor.smallEditorInteract(element);
                     }, 78);
-                    
-                    
+
+
 
                 }
-                
-                 
-                
- 
-                 
-            
+
+
+
+
+
+
                 mw.app.get('liveEdit').handles.hide();
                 mw.app.get('liveEdit').pause();
             });
         });
-        
+
     }
 }
 </script>
@@ -233,6 +249,6 @@ export default {
 
 <style scoped>
 
- 
+
 
 </style>
