@@ -3,24 +3,24 @@ import {ElementManager} from "../classes/element.js";
 const dialogFooter = (okLabel, cancelLabel) => {
 
 
- 
+
 
     const footer = ElementManager({
         props: {
-            className: 'modal-footer'
+            className: 'modal-footer d-flex justify-content-between'
         }
     });
 
     const ok = ElementManager({
         props: {
-            className: 'btn btn-primary',
+            className: 'mw-admin-action-links',
             innerHTML: okLabel || 'OK'
         }
     });
 
     const cancel = ElementManager({
         props: {
-            className: 'btn',
+            className: 'mw-admin-action-links',
             innerHTML: cancelLabel || 'Cancel'
         }
     });
@@ -69,7 +69,7 @@ export class Dialog {
     build() {
         const html = `
 
-            
+
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -77,14 +77,14 @@ export class Dialog {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            
+
                         </div>
                     </div>
                 </div>
-             
-        
+
+
         `;
- 
+
         this.root = ElementManager({
             props: {
                 className: `modal`,
@@ -92,11 +92,11 @@ export class Dialog {
             }
         });
         this.root.html(html);
-    
+
         var body = this.root.find('.modal-body')
         var content = this.root.find('.modal-content');
         this.container = body;
-  
+
         body.append(this.settings.content);
         if(this.settings.footer) {
             content.append(this.settings.footer);
@@ -105,7 +105,7 @@ export class Dialog {
         this._modal = new bootstrap.Modal(this.root.get(0), {});
         this.open();
     }
- 
+
     open() {
         this._modal.show()
     }
@@ -146,7 +146,7 @@ export class Dialog {
 
 export const Confirm = function (content, c) {
     const footer = dialogFooter();
-  
+
     const dialog = new Dialog({
         content, footer: footer.footer.get(0), title: mw.lang('Confirm')
     });

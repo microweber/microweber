@@ -1498,6 +1498,10 @@ svg.text-danger {
         color: var(--tblr-body-color) !important;
         font-weight: 600;
     }
+
+    &:not(&.btn) {
+        padding-bottom: 12px !important;
+    }
 }
 
 .active>.page-link, .page-link.active {
@@ -2023,4 +2027,8 @@ svg.text-danger {
 
 .mw-autocomplete .mw-autocomplete-list {
     padding: 20px;
+}
+
+.modal-footer {
+    background-color: var(--tblr-bg-surface);
 }
