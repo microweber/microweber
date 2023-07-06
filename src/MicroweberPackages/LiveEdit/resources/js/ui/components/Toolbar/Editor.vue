@@ -96,9 +96,7 @@ export default {
         mw.app.canvas.on('liveEditCanvasLoaded', () => {
 
             new EditorComponent();
-
-
-      //     mw.log(mw.app.richTextEditor.scope)
+         
 
         });
 

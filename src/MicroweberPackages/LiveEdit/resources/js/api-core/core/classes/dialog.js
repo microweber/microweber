@@ -7,21 +7,21 @@ const dialogFooter = (okLabel, cancelLabel) => {
 
     const footer = ElementManager({
         props: {
-            className: 'modal-footer d-flex justify-content-between'
+            className: 'modal-footer'
         }
     });
 
     const ok = ElementManager({
         props: {
-            className: 'mw-admin-action-links',
-            innerHTML: okLabel || 'OK'
+            className: 'mw-admin-action-links mw-adm-liveedit-tabs ms-2',
+            innerHTML: okLabel || 'REMOVE'
         }
     });
 
     const cancel = ElementManager({
         props: {
-            className: 'mw-admin-action-links',
-            innerHTML: cancelLabel || 'Cancel'
+            className: 'mw-admin-action-links mw-adm-liveedit-tabs me-2',
+            innerHTML: cancelLabel || 'CANCEL'
         }
     });
 
@@ -70,13 +70,13 @@ export class Dialog {
         const html = `
 
 
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             ${this.settings.title ? `<h5 class="modal-title">${this.settings.title}</h5>` : ''}
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body py-2 mb-2">
 
                         </div>
                     </div>
@@ -148,7 +148,7 @@ export const Confirm = function (content, c) {
     const footer = dialogFooter();
 
     const dialog = new Dialog({
-        content, footer: footer.footer.get(0), title: mw.lang('Are you sure?')
+        content, footer: footer.footer.get(0), title: mw.lang('Remove section')
     });
     footer.cancel.on('click', function (){
         dialog.remove();
