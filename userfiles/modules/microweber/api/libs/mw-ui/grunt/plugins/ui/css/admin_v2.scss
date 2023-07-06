@@ -1905,7 +1905,7 @@ svg.text-danger {
     color: var(--tblr-body-color);
     cursor: pointer;
     font-weight: 400;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .mw-live-edit-toolbar-link--arrowed {
@@ -2080,20 +2080,9 @@ svg.text-danger {
 
 
 .input-group-top-bottom-left-radius {
-
     .form-control {
         border-top-left-radius: var(--tblr-border-radius) !important;
         border-bottom-left-radius: var(--tblr-border-radius) !important;
     }
 }
 
-
-.modal-backdrop {
-    background: #fff;
-    opacity: .8;
-}
-
-.background-color-white {
-    background-color: #fff;
-    animation: fadeIn .5s;
-}
