@@ -119,6 +119,8 @@ export const EditorComponent = function () {
         fontFamilyProvider: fontFamilyProvider
     });
 
+    
+
  
 
     holder.innerHTML = '';

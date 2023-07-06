@@ -68,12 +68,27 @@ var MWEditor = function (options) {
     };
 
 
+ 
 
-    options = options || {};
+    var scope = this;
 
-    this.settings = mw.object.extend({}, defaults, options);
+    function _afterSettings() {
+        scope.actionWindow = scope.settings.actionWindow;
+        scope.document = scope.settings.document;
+        scope.storage = scope.settings.storage;
+        console.log( scope.storage)
+    }
 
-    this.actionWindow = this.settings.actionWindow;
+    this.settingsExtend = function(options = {}, trigger = true) {
+        this.settings = mw.object.extend({}, this.settings || defaults, options);
+        _afterSettings();
+        if(trigger) {
+            this.dispatch('settingsChanged', this.settings);
+        }
+    }
+
+    this.settingsExtend(options, false);
+
 
     if(!this.settings.direction) {
         if(this.settings.inputLanguage) {
@@ -83,7 +98,7 @@ var MWEditor = function (options) {
         }
 
     }
-    this.storage = this.settings.storage;
+
 
 
 
@@ -103,9 +118,7 @@ var MWEditor = function (options) {
         }
     }
 
-    this.document = this.settings.document;
-
-    var scope = this;
+    
 
     if(!this.settings.selector && this.settings.element){
         //this.settings.selector = this.settings.element;
@@ -702,9 +715,12 @@ var MWEditor = function (options) {
     var pinned;
     function smallEditorPinned (state){
         if(typeof state === 'undefined'){
-            var pinned;
+            var pinned = false;
             if(scope.settings.id) {
-                pinned = scope.storage.get(scope.settings.id + '-small-editor-pinned');
+                if(scope.storage) {
+                    pinned = scope.storage.get(scope.settings.id + '-small-editor-pinned');
+                }
+                
                 if(typeof pinned === 'boolean'){
                     return pinned;
                 } else {
@@ -715,7 +731,7 @@ var MWEditor = function (options) {
             }
         } else {
             if(smallEditorPinned() !== state) {
-                if(scope.settings.id) {
+                if(scope.storage && scope.settings.id) {
                     scope.storage.set(scope.settings.id + '-small-editor-pinned', state);
                 } else {
                     pinned = state;

@@ -214,11 +214,7 @@ export default {
 
                     element.contentEditable = true;
                     element.focus();
-                    setTimeout(() => {
-
-
-                      mw.app.richTextEditor.smallEditorInteract(element);
-                    }, 78);
+ 
 
 
 
