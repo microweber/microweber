@@ -64,12 +64,21 @@ class OptionElement extends AdminComponent
                 $this->translatableOptions = $translatableModuleOptions[$this->moduleType];
             }
         }
-        if (in_array($this->optionName, $this->translatableOptions)) {
-            $this->translatable = true;
+
+        $multilanguageIsEnabled = MultilanguageHelpers::multilanguageIsEnabled();
+        if ($multilanguageIsEnabled) {
+            if (in_array($this->optionName, $this->translatableOptions)) {
+                $this->translatable = true;
+            }
         }
 
-        if ($this->translatable and MultilanguageHelpers::multilanguageIsEnabled()) {
-            $this->populateTranslations();
+        if ($this->translatable && $multilanguageIsEnabled) {
+            $this->supportedLanguages = get_supported_languages(true);
+            if (!empty($this->supportedLanguages)) {
+                $this->populateTranslations();
+            } else {
+                $this->translatable = false;
+            }
         }
 
     }
@@ -147,10 +156,8 @@ class OptionElement extends AdminComponent
         $this->currentLanguage = mw()->lang_helper->current_lang();
 
 
-        $modelTranslations = [];
         if ($this->model && method_exists($this->model, 'getTranslationsFormated')) {
             $modelTranslations = $this->model->getTranslationsFormated();
-
             if (!empty($modelTranslations)) {
                 foreach ($modelTranslations as $locale => $val) {
                     if ($locale != $this->defaultLanguage) {
@@ -164,12 +171,8 @@ class OptionElement extends AdminComponent
             }
         }
 
-        $supportedLanguages = get_supported_languages(true);
-        $this->supportedLanguages = $supportedLanguages;
-
         $this->fieldName = $this->optionName;
-        $currentLanguageData = [];
-        foreach($supportedLanguages as $language) {
+        foreach($this->supportedLanguages as $language) {
             if ($language['locale'] == $this->defaultLanguage) {
                 $this->currentLanguageData = $language;
             }
