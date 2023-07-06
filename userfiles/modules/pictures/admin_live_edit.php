@@ -8,9 +8,11 @@ $is_post = false;
 $the_content_id = false;
 if (defined('POST_ID') and POST_ID != false) {
     $is_post = true;
-    $the_content_id = POST_ID;
+    $the_content_id = post_id();
+} else if (defined('CONTENT_ID') and CONTENT_ID != false) {
+    $the_content_id = content_id();
 } else if (defined('PAGE_ID') and PAGE_ID != false) {
-    $the_content_id = PAGE_ID;
+    $the_content_id = page_id();
 }
 
 $for = $mod_name = $config['module'];
@@ -18,16 +20,34 @@ $for_module_id = $mod_id = $params['id'];
 
 
 if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'post' and defined('POST_ID')) {
-    $params['rel_id'] = POST_ID;
+    $params['rel_id'] = post_id();
     $params['for'] = 'content';
+}
+if (isset($params['rel']) and trim(strtolower(($params['rel']))) == 'content' and defined('CONTENT_ID')) {
+    $params['rel_id'] = content_id();
+    $params['for'] = 'content';
+    $params['rel_type'] = 'content';
+    $for = 'content';
+    $for_id =  content_id();
+}
+if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'module') {
+    $params['rel_id'] = $for_module_id;
+    $params['for'] =$for;
+    $params['rel_type'] = 'module';
+    $for = 'module';
+    $for_id = $for_module_id;
 }
 if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'page' and defined('PAGE_ID')) {
-    $params['rel_id'] = PAGE_ID;
+    $params['rel_id'] = page_id();
     $params['for'] = 'content';
+    $for = 'content';
+    $for_id =  page_id();
 }
 if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'content' and defined('CONTENT_ID')) {
-    $params['rel_id'] = CONTENT_ID;
+    $params['rel_id'] =  content_id();
     $params['for'] = 'content';
+    $for = 'content';
+    $for_id =  content_id();
 }
 
 
@@ -46,10 +66,10 @@ if (isset($params['content-id']) and $params['content-id'] != 0) {
     $use_from_post_forced = 1;
 
 } else if ($use_from_post == true) {
-    if (POST_ID != false) {
-        $params['content-id'] = POST_ID;
+    if (content_id() != false) {
+        $params['content-id'] = content_id();
     } else {
-        $params['content-id'] = intval(PAGE_ID);
+        $params['content-id'] = intval(page_id());
     }
 }
 

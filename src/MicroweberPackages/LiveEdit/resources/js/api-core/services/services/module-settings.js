@@ -33,27 +33,62 @@ export class ModuleSettings extends MicroweberBaseClass {
 
             var el = module;
 
-            var nodes=[], values=[];
-            for (var att, i = 0, atts = el.attributes, n = atts.length; i < n; i++){
-                att = atts[i];
-                nodes.push(att.nodeName);
-                values.push(att.nodeValue);
-                console.log(att.nodeName + " - " + att.nodeValue);
-            };
 
 
+            var attributes = {};
 
+            if (el && el.attributes) {
+                $.each(el.attributes, function (index, attr) {
+                    attributes[attr.name] = attr.value;
+                });
+            }
+
+
+            var attrsForSettings = attributes;
+
+            if (attrsForSettings['data-module-name'] !== undefined) {
+                delete(attrsForSettings['data-module-name']);
+            }
+            if (typeof attrsForSettings['class'] !== 'undefined') {
+                delete(attrsForSettings['class']);
+            }
+
+            if (typeof attrsForSettings['data-type'] !== 'undefined') {
+                delete(attrsForSettings['data-type']);
+            }
+            if (typeof attrsForSettings['style'] !== 'undefined') {
+                delete(attrsForSettings['style']);
+            }
+            if (typeof attrsForSettings.contenteditable !== 'undefined') {
+                delete(attrsForSettings.contenteditable);
+            }
 
 
             moduleType = moduleType+'/admin';
+
+
+            attrsForSettings.live_edit = true;
+            attrsForSettings.module_settings = true;
+            attrsForSettings.id = moduleId;
+            attrsForSettings.type = moduleType;
+            attrsForSettings.iframe = true;
+            attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
+
+
+
+            var src = route('live_edit.module_settings')+ "?" + json2url(attrsForSettings);
+
+
+
             mw.dialogIframe({
-                url: route('live_edit.module_settings') + '?id=' + moduleId+ '&type=' + moduleType+ '&live_edit=true',
+               // url: route('live_edit.module_settings') + '?id=' + moduleId+ '&type=' + moduleType+ '&live_edit=true',
+                url:src,
                 width: 500,
                 height: 'auto',
                 draggable: true,
                 template: 'mw_modal_simple',
                 title: modalTitle,
-                id: 'btn-quick-setting-dialog-' + moduleId
+                id: 'module-quick-setting-dialog-' + moduleId
             });
 
 

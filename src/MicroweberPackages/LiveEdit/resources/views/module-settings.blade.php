@@ -94,13 +94,40 @@
             </script>
 
 
-            <div>
-                @if(isset($params['live_edit']))
-                <module type="{{ $moduleTypeForLegacyModule}}" id="{{ $moduleId }}" live_edit="true"/>
-                @else
-                <module type="{{ $moduleTypeForLegacyModule}}" id="{{ $moduleId }}"/>
-                @endif
-            </div>
+                    <?php
+                    $skipKeys = [
+                        'id',
+                        'module',
+                        'type',
+                    ];
+
+                    $additionalParamsString = '';
+                    if (isset($params['id'])) {
+
+                        $params = xss_clean($params);
+                        foreach ($params as $key => $value) {
+
+                            if (in_array($key, $skipKeys)) {
+                                continue;
+                            }
+                            $additionalParamsString .= '' . $key . '="' . $value . '" ';
+
+                        }
+                    }
+
+
+                    $moduleTag = "<module type='{$moduleTypeForLegacyModule}' id='{$moduleId}' {$additionalParamsString} />";
+
+                    $moduleTagRender = app()->parser->process($moduleTag, $options = false);
+
+                    ?>
+
+
+
+
+
+                {!! $moduleTagRender !!}
+
             @endif
 
 
