@@ -148,7 +148,7 @@ export const Confirm = function (content, c) {
     const footer = dialogFooter();
 
     const dialog = new Dialog({
-        content, footer: footer.footer.get(0), title: mw.lang('Confirm')
+        content, footer: footer.footer.get(0), title: mw.lang('Are you sure?')
     });
     footer.cancel.on('click', function (){
         dialog.remove();
