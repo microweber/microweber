@@ -332,7 +332,7 @@ export class LiveEdit {
                first = _hoverAndSelectExceptions(first)
                const type = this.elementAnalyzer.getType(first);
 
-               if(type && type !== 'edit') {
+               if(type/* && type !== 'edit'*/) {
                    this.handles.set(type, first)
                    if(type === 'element') {
                        this.handles.hide('module');
