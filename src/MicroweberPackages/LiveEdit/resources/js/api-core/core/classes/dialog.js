@@ -13,14 +13,14 @@ const dialogFooter = (okLabel, cancelLabel) => {
 
     const ok = ElementManager({
         props: {
-            className: 'mw-admin-action-links mw-adm-liveedit-tabs me-2',
-            innerHTML: okLabel || 'OK'
+            className: 'mw-admin-action-links mw-adm-liveedit-tabs ms-2',
+            innerHTML: okLabel || 'REMOVE'
         }
     });
 
     const cancel = ElementManager({
         props: {
-            className: 'mw-admin-action-links mw-adm-liveedit-tabs ms-2',
+            className: 'mw-admin-action-links mw-adm-liveedit-tabs me-2',
             innerHTML: cancelLabel || 'CANCEL'
         }
     });
