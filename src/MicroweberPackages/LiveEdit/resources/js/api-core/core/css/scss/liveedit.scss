@@ -18,14 +18,14 @@ mw-le-element{
 mw-le-element, mw-le-element * ,mw-le-element *:before, mw-le-element *:after{
     margin: 0;
     padding: 0;
-    font-family: Verdana, sans-serif;
+    //font-family: Verdana, sans-serif;
     box-sizing: border-box;
 }
 
 .edit,
 .element,
 .module {
- 
+
     &.mw-le-target-to-animate{
         transition: transform .3s !important;
     }
