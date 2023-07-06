@@ -19,7 +19,7 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
 });
 }">
 
-        <div class="input-group">
+        <div class="input-group input-group-top-bottom-left-radius">
 
             @foreach($supportedLanguages as $language)
 
