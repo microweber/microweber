@@ -94,13 +94,40 @@
             </script>
 
 
-            <div>
-                @if(isset($params['live_edit']))
-                <module type="{{ $moduleTypeForLegacyModule}}" id="{{ $moduleId }}" live_edit="true"/>
-                @else
-                <module type="{{ $moduleTypeForLegacyModule}}" id="{{ $moduleId }}"/>
-                @endif
-            </div>
+                    <?php
+                    $skipKeys = [
+                        'id',
+                        'module',
+                        'type',
+                    ];
+
+                    $additionalParamsString = '';
+                    if (isset($params['id'])) {
+
+                        $params = xss_clean($params);
+                        foreach ($params as $key => $value) {
+
+                            if (in_array($key, $skipKeys)) {
+                                continue;
+                            }
+                            $additionalParamsString .= '' . $key . '="' . $value . '" ';
+
+                        }
+                    }
+
+
+                    $moduleTag = "<module type='{$moduleTypeForLegacyModule}' id='{$moduleId}' {$additionalParamsString} />";
+
+                    $moduleTagRender = app()->parser->process($moduleTag, $options = false);
+
+                    ?>
+
+
+
+
+
+                {!! $moduleTagRender !!}
+
             @endif
 
 
@@ -147,36 +174,41 @@
 
         if (self !== top) {
             $(window).on('load', function () {
+                //
+                // var moduleContainerElement = document.getElementById("settings-container")
+                // var docEl = document.documentElement;
+                //
+                // if (docEl && docEl.addEventListener) {
+                //     docEl.addEventListener("DOMSubtreeModified", function(evt) {
+                //         var t = evt.target;
+                //
+                //         domModifiedForAutoHeight();
+                //
+                //     }, false);
+                // } else {
+                //     document.onpropertychange = function() {
+                //
+                //         domModifiedForAutoHeight();
+                //
+                //     };
+                // }
 
-                var moduleContainerElement = document.getElementById("settings-container")
-                var docEl = document.documentElement;
+               mw.interval('_settingsAutoHeight', function () {
+                    if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
+                      createAutoHeight();
 
-                if (docEl && docEl.addEventListener) {
-                    docEl.addEventListener("DOMSubtreeModified", function(evt) {
-                        var t = evt.target;
-
-                        domModifiedForAutoHeight();
-
-                    }, false);
-                } else {
-                    document.onpropertychange = function() {
-
-                        domModifiedForAutoHeight();
-
-                    };
-                }
-
-               //mw.interval('_settingsAutoHeight', function () {
-                //     if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
-                //         createAutoHeight();
-                //     }
-               // });
+                    }
+               });
 
             });
             var domModifiedForAutoHeightIntervalId;
             function domModifiedForAutoHeight() {
                 clearTimeout(domModifiedForAutoHeightIntervalId)
                  domModifiedForAutoHeightIntervalId = setTimeout(() => {
+
+
+
+
                      if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
                          createAutoHeight();
                      }
@@ -186,5 +218,16 @@
 
         }
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('body').on('click', function(e) {
+                domModifiedForAutoHeight();
+            });
+
+        });
+    </script>
+
+
 
 @endsection

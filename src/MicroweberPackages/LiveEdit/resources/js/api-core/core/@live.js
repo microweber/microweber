@@ -18,7 +18,7 @@ import {Tooltip} from "./tooltip.js";
 import { InteractionHandleContent } from "./handles-content/interaction.js";
 import { DomService } from "./classes/dom.js";
 import  "./core/@core.js";
- 
+
 
 mw.require('stylesheet.editor.js');
 
@@ -326,10 +326,10 @@ export class LiveEdit {
             this.handles.hide();
 
 
-            
+
 
             if(first) {
-               first = _hoverAndSelectExceptions(first) 
+               first = _hoverAndSelectExceptions(first)
                const type = this.elementAnalyzer.getType(first);
 
                if(type && type !== 'edit') {
@@ -364,7 +364,7 @@ export class LiveEdit {
                     this.interactionHandle.hide();
                     return
                 }
-                 
+
                 if(this.handles.targetIsOrInsideHandle(e)) {
                     this.interactionHandle.hide();
                     return
@@ -377,8 +377,8 @@ export class LiveEdit {
 
                 target = _hoverAndSelectExceptions(target)
 
-              
-                
+
+
                 if(target && _hovered.indexOf(target) === -1) {
                     _hovered.forEach(node =>  delete node.dataset.mwLiveEdithover);
                     _hovered = [];
@@ -417,7 +417,7 @@ export class LiveEdit {
 
                 }
 
-                
+
                 if(target && !this.handles.targetIsSelectedAndHandleIsNotHidden(target, this.interactionHandle) && !target.classList.contains('module-layouts')) {
                     var title = '';
                     if(target.dataset.mwTitle) {
