@@ -153,7 +153,7 @@
 
     <script>
 
-        var createAutoHeight = function () {
+        window.createAutoHeight = function () {
             if (window.thismodal && thismodal.iframe) {
                 mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
             }
@@ -195,14 +195,14 @@
 
                mw.interval('_settingsAutoHeight', function () {
                     if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
-                      createAutoHeight();
+                      window.createAutoHeight();
 
                     }
                });
 
             });
             var domModifiedForAutoHeightIntervalId;
-            function domModifiedForAutoHeight() {
+            window.domModifiedForAutoHeight = function () {
                 clearTimeout(domModifiedForAutoHeightIntervalId)
                  domModifiedForAutoHeightIntervalId = setTimeout(() => {
 
@@ -210,7 +210,7 @@
 
 
                      if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
-                         createAutoHeight();
+                         window.createAutoHeight();
                      }
                 }, 300);
             }
