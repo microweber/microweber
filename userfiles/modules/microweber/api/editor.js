@@ -570,7 +570,6 @@ var MWEditor = function (options) {
                         });
                     }
                 });
-
             }
         }, 500);
 
@@ -606,7 +605,6 @@ var MWEditor = function (options) {
                 scope.controls.push(ctrl);
                 icon.prepend(ctrl.element);
                 mw.element(icon.get(0).querySelector('.mw-editor-group-button-caret')).on('mousedown touchstart', function (e) {
-
                     const parent = this.parentNode.parentNode;
                     scope.document.querySelectorAll('.mw-bar-control-item.active, .mw-editor-controller-component.active').forEach(node => {
                         if(node !== parent) {
@@ -814,7 +812,6 @@ var MWEditor = function (options) {
 
     this.positionSmallEditor = function(target){
         var off = mw.element(target).offset();
-
         var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
         // var cleft =  scope.interactionData.pageX;
         var cleft =  off.left;
@@ -854,14 +851,12 @@ var MWEditor = function (options) {
 
     this.smallEditorInteract = function (target) {
 
-
         this._smallEditorInteract = false;
 
        if(target && !target.isContentEditable && scope.lastRange && scope.lastRange.collapsed === false) {
            target = scope.getActualTarget(scope.lastRange.commonAncestorContainer);
        }
         if(target && mw.tools.hasAnyOfClassesOnNodeOrParent(target, _smallEditorExceptionClasses)){
-
             return
         }
 
@@ -873,7 +868,6 @@ var MWEditor = function (options) {
                 scope.positionSmallEditor(target)
 
                 scope.smallEditor.css({
-
                     display: 'block'
                 });
             }
@@ -886,7 +880,6 @@ var MWEditor = function (options) {
     }
     this.createBar = function () {
         this.bar = mw.settings.bar || mw.bar();
-
         if(this.settings.controls.length === 0) {
             this.bar.element.addClass('mw-bar-empty');
             this.wrapper.classList.add('mw-editor-wrapper-empty');
@@ -950,7 +943,6 @@ var MWEditor = function (options) {
                 }
                 //  scope.settings.document.addEventListener('mousedown', set)
                 // scope.settings.document.addEventListener('dblclick', set)
-
 
             } else {
                 $(scope.settings.regions, scope.actionWindow.document).attr('contenteditable', true);
@@ -1070,7 +1062,6 @@ var MWEditor = function (options) {
                 scope.positionSmallEditor(scope._smallEditorInteract)
             }
         })
-
 
 
     };

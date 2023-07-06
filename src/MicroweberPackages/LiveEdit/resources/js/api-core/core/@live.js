@@ -280,8 +280,10 @@ export class LiveEdit {
 
         }
 
+
+
         const _hoverAndSelectExceptions = (first) => {
-            if(first.classList.contains('module-custom-fields')) {
+            if(first && first.classList && first.classList.contains('module-custom-fields')) {
                 var form = DomService.firstParentOrCurrentWithClass(first, 'module-contact-form');
                 if(form) {
                     first = form;
@@ -289,6 +291,7 @@ export class LiveEdit {
             }
             return first
         }
+
 
         const _eventsHandle = (e) => {
 
