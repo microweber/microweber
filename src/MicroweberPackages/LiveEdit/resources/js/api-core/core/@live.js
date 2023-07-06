@@ -328,10 +328,19 @@ export class LiveEdit {
 
 
 
+            console.log(elements)
+
 
             if(first) {
                 first = _hoverAndSelectExceptions(first)
                 const type = this.elementAnalyzer.getType(first);
+                if(type !== 'layout') {
+                    var parentLayout = DomService.firstParentOrCurrentWithClass(first, 'module-layouts');
+                    if(parentLayout) {
+                        this.handles.set('layout', parentLayout);
+                    }
+                    
+                }
 
                 console.log(type)
 
