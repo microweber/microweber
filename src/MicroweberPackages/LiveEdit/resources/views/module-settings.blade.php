@@ -219,7 +219,14 @@
         }
     </script>
 
- 
+    <script>
+        $(document).ready(function() {
+            $('body').on('click', function(e) {
+                window.domModifiedForAutoHeight();
+            });
+
+        });
+    </script>
 
 
 
