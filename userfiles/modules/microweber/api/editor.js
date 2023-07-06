@@ -834,7 +834,7 @@ var MWEditor = function (options) {
 
         }
 
-        var safeTop = ctop
+        var safeTop = ctop;
 
         ctop = Math.max(ctop, scope.settings.document.defaultView.scrollY + 25 );
 

@@ -309,7 +309,8 @@ export class LiveEdit {
              }
 
             let first = elements[0];
-            const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout']);
+            const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit']);
+            console.log(target)
 
             if(first.nodeName !== 'IMG') {
                 first = DomService.firstBlockLevel(elements[0]);
@@ -329,21 +330,27 @@ export class LiveEdit {
 
 
             if(first) {
-               first = _hoverAndSelectExceptions(first)
-               const type = this.elementAnalyzer.getType(first);
+                first = _hoverAndSelectExceptions(first)
+                const type = this.elementAnalyzer.getType(first);
 
-               if(type && type !== 'edit') {
-                   this.handles.set(type, first)
-                   if(type === 'element') {
-                       this.handles.hide('module');
-                   } else if(type === 'module') {
-                    this.handles.hide('element');
+                console.log(type)
+
+                if(type/* && type !== 'edit'*/) {
+                    
+                    if(type === 'element') {
+                        this.handles.hide('module');
+                        this.handles.set(type, first)
+                    } else if(type === 'module') {
+                        this.handles.hide('element');
+                        this.handles.set(type, first)
                     }  else if(type === 'layout') {
                         this.handles.set('layout', first);
+                    }  else if(type === 'edit') {
+                        this.handles.set('element', first);
                     } else {
                         this.handles.hide();
-                   }
-               }
+                    }
+                }
 
             } else {
                 const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
@@ -371,7 +378,7 @@ export class LiveEdit {
                 }
                 const elements = this.observe.fromEvent(e);
 
-                let target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable']);
+                let target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'edit']);
                 const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
                 let layoutHasSelectedTarget = false;
 
