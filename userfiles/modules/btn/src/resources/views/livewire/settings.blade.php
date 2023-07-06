@@ -13,9 +13,20 @@
         <div class="tab-pane fade show active" wire:ignore.self id="text">
 
 
-            <livewire:microweber-module-option::text optionName="text"  :moduleId="$moduleId" :moduleType="$moduleType"  />
-            <livewire:microweber-module-option::text optionName="url"  :moduleId="$moduleId" :moduleType="$moduleType"    />
-            <livewire:microweber-module-option::text optionName="popupcontent"  :moduleId="$moduleId" :moduleType="$moduleType"    />
+            <div>
+                Text:
+                <livewire:microweber-module-option::text optionName="text"  :moduleId="$moduleId" :moduleType="$moduleType"  />
+            </div>
+
+            <div>
+                Url:
+                <livewire:microweber-module-option::text optionName="url"  :moduleId="$moduleId" :moduleType="$moduleType"    />
+            </div>
+
+            <div>
+                Popup content:
+                <livewire:microweber-module-option::text optionName="popupcontent"  :moduleId="$moduleId" :moduleType="$moduleType"    />
+            </div>
 
 
             <?php

@@ -24,9 +24,17 @@ if (isset($params['for_module_id'])) {
     <div class="modal fade modal-right-pane" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header sticky-top">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header sticky-top px-0 pb-2">
+                     <a href="" class="mw-admin-action-links mw-adm-liveedit-tabs fs-3 d-flex align-items-center tblr-body-color col-auto">
+                         <svg fill="currentColor" width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M480-160 160-480l320-320 42 42-248 248h526v60H274l248 248-42 42Z"/></svg>
+                         <span class="ms-1">
+                             <?php _e('Back'); ?>
+                         </span>
+                     </a>
+
+                    <h5 class="modal-title modal-title col text-center" style="padding-bottom: 12px;" id="exampleModalLabel"><?php _e('Modal Title'); ?></h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="padding-bottom: 12px; top: -15px;"></button>
                 </div>
                 <div class="modal-body">
                     <p>Modal content goes here...</p>
@@ -38,30 +46,11 @@ if (isset($params['for_module_id'])) {
                     <p>Modal content goes here...</p>
                     <p>Modal content goes here...</p>
                     <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
-                    <p>Modal content goes here...</p>
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs fs-3 me-2" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs fs-3 ms-2">Save</button>
                 </div>
             </div>
         </div>
