@@ -4,10 +4,9 @@ showEditTab: 'content',
 showSettingsModal: 'none'
 }">
 
+
     <div x-show="showSettingsModal == 'advanced_settings'"
-
-         x-transition
-
+         x-transition:enter="animate__fadeInRight"
     >
         <div>
             <span x-on:click="showSettingsModal = 'none'"  class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed">
@@ -25,7 +24,10 @@ showSettingsModal: 'none'
         </div>
     </div>
 
-    <div x-show="showSettingsModal == 'mega_advanced_settings'" x-transition>
+    <div x-show="showSettingsModal == 'mega_advanced_settings'"
+
+         x-transition:enter="animate__fadeInRight"
+    >
 
         <div>
             <span x-on:click="showSettingsModal = 'advanced_settings'"  class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed">
@@ -43,7 +45,10 @@ showSettingsModal: 'none'
         </div>
     </div>
 
-    <div x-show="showSettingsModal == 'giga_advanced_settings'" x-transition>
+    <div x-show="showSettingsModal == 'giga_advanced_settings'"
+
+         x-transition:enter="animate__fadeInRight" 
+    >
 
         <div>
             <span x-on:click="showSettingsModal = 'mega_advanced_settings'"  class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed">
