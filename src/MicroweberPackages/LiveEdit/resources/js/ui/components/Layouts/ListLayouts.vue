@@ -112,11 +112,10 @@
                             v-slot="{item}">
                             <div
                                   v-on:click="insertLayout(item.template)"
-                                  :style="[layoutsListTypePreview == 'full' ? 'width:100%;height:300px': 'width:300px;height:160px']"
-                                  :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
+                                  :class="['modules-list-block-style-' + layoutsListTypePreview, 'modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
 
                                 <div class="modules-list-block-item-picture"
-                                     :style="'background-image: url('+item.screenshot+');background-size: contain;'">
+                                     :style="'background-image: url('+item.screenshot+');background-size: cover;'">
 
                                 </div>
 

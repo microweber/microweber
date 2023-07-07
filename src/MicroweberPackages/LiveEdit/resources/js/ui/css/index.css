@@ -636,6 +636,7 @@ body.loaded #bubble-nav span {
 
 .mw-le-layouts-dialog .modules-list-categories li:hover {
     color: #000000;
+    background-color: var(--tblr-body-bg);
 }
 
 .mw-le-layouts-dialog .modules-list-categories li.active {
@@ -876,18 +877,20 @@ body.loaded #bubble-nav span {
     transform: scale(0);
     transition: .2s;
     position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 40px;
-    height: 40px;
+    top: 27px;
+    right: 50px;
+    width: 25px;
+    height: 25px;
     cursor: pointer;
-    background-color: rgba(255, 255, 255, 1);
+    background-color: transparent;
     background-repeat: no-repeat;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctitle%3Eclose%3C/title%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' /%3E%3C/svg%3E");
     background-size: contain;
     border-radius: 40px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    /*box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;*/
 }
+
+
 
 .mw-le-modules-dialog .modules-list-block-item-is-locked-true:before {
     display: none;
