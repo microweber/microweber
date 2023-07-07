@@ -222,7 +222,9 @@
     <script>
         $(document).ready(function() {
             $('body').on('click', function(e) {
-                window.domModifiedForAutoHeight();
+                if(typeof window.domModifiedForAutoHeight === 'function') {
+                    window.domModifiedForAutoHeight();
+                }
             });
 
         });
