@@ -13,10 +13,9 @@ if (isset($params['for_module_id'])) {
     mw.lib.require('flag_icons');
 </script>
 
+
+
 <div id="form_email_options">
-
-
-
     <!-- Button to trigger the modal -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Open Modal</button>
 
@@ -36,7 +35,7 @@ if (isset($params['for_module_id'])) {
                     </a>
 
                     <h5 class="modal-title modal-title col text-center" id="exampleModalLabel"><?php _e('Modal Title'); ?></h5>
-                    
+
                 </div>
                 <div class="modal-body">
                     <p>Modal content goes here...</p>

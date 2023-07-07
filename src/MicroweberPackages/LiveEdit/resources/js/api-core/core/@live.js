@@ -294,8 +294,12 @@ export class LiveEdit {
 
 
         const _eventsHandle = (e) => {
+            
 
             if(this.handles.targetIsOrInsideHandle(e)) {
+                // this.handles.get('element').set(null)
+                // this.handles.get('module').set(null)
+                this.handles.hide();
                 this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
                 return
             }
@@ -388,7 +392,6 @@ export class LiveEdit {
                 target = _hoverAndSelectExceptions(target)
 
 
-
                 if(target && _hovered.indexOf(target) === -1) {
                     _hovered.forEach(node =>  delete node.dataset.mwLiveEdithover);
                     _hovered = [];
@@ -399,11 +402,7 @@ export class LiveEdit {
                         target.dataset.mwLiveEdithover = true;
                         _hovered.push(target)
                     }
-
-
-
                 }
-
 
 
                 if(layout && !target) {
@@ -453,6 +452,8 @@ export class LiveEdit {
                     this.interactionHandle.set(target);
                 } else {
                     this.interactionHandle.hide();
+                    // mw.app.get('liveEdit').play();
+
                 }
 
             })
@@ -476,13 +477,16 @@ export class LiveEdit {
             })
             ElementManager(this.root).on(events, (e) => {
                 _dblclicktarget = e.target;
+                 
                 if ( !this.paused  ) {
                     _eventsHandle(e)
                 } else {
                     var elementTarget = this.elementHandle.getTarget();
                     if(elementTarget && !elementTarget.contains(e.target)) {
-                        this.play()
+                        this.play();
+                       
                     }
+                    // mw.app.get('liveEdit').play();
                 }
             });
 

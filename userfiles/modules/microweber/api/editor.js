@@ -76,7 +76,7 @@ var MWEditor = function (options) {
         scope.actionWindow = scope.settings.actionWindow;
         scope.document = scope.settings.document;
         scope.storage = scope.settings.storage;
-        console.log( scope.storage)
+        
     }
 
     this.settingsExtend = function(options = {}, trigger = true) {

@@ -137,8 +137,9 @@ export default {
                         dlg.remove();
 
                     })
-                    $(dlg).on('Remove', () => {
+                    $(dlg).on('remove', () => {
                       resolve()
+                      mw.app.get('liveEdit').play();
                     })
 
                     imageEditor = editImage(url, editor, dlg)
@@ -152,8 +153,27 @@ export default {
                   if(src) {
                     element.src = src
                   }
+                  mw.app.get('liveEdit').play();
 
-              } else {
+              } else if(element.style.backgroundImage) {
+                  var bg =  element.style.backgroundImage.trim().split('url(')[1];
+
+                  if(bg) {
+                    bg = bg.split(')')[0]
+                              .trim()
+                              .split('"')
+                              .join('');
+                              var src = await editImageDialog(bg);
+
+                    if(src) {
+                       
+                      element.style.backgroundImage = `url(${src})`
+                    }
+                    mw.app.get('liveEdit').play();
+                   
+                  }
+
+                } else {
                   const dlg = mw.top().dialogIframe({
                       url: mw.external_tool('rte_css_editor2'),
                       title: mw.lang('Edit styles'),
@@ -168,7 +188,8 @@ export default {
               }
             })
             mw.app.editor.on('editNodeRequest', async (element) => {
-                if(element.nodeName === 'IMG') {
+
+                function imagePicker(onResult) {
                   var dialog;
                   var picker = new mw.filePicker({
                       type: 'images',
@@ -176,13 +197,7 @@ export default {
                       autoSelect: false,
                       footer: true,
                       _frameMaxHeight: true,
-                      onResult: function (res) {
-                          var url = res.src ? res.src : res;
-                          if(!url) return;
-                          url = url.toString();
-                          element.src = url;
-                          dialog.remove();
-                      }
+                      onResult: onResult
                   });
                   dialog = mw.top().dialog({
                       content: picker.root,
@@ -191,7 +206,25 @@ export default {
                       width: 860,
 
 
+                  });
+                
+        
+                  $(dialog).on('remove', () => {
+                   
+                    mw.app.get('liveEdit').play();
                   })
+                  return dialog;
+                }
+                if(element.nodeName === 'IMG') {
+                  var dialog = imagePicker(function (res) {
+                          var url = res.src ? res.src : res;
+                          if(!url) return;
+                          url = url.toString();
+                          element.src = url;
+                          mw.app.get('liveEdit').play();
+                          dialog.remove();
+                      })
+ 
 
 
                 } else if(element.style.backgroundImage) {
@@ -202,28 +235,27 @@ export default {
                               .trim()
                               .split('"')
                               .join('');
-                              var src = await editImageDialog(bg);
-                    if(src) {
-                      element.style.backgroundImage = `url(${src})`
-                    }
+                        var dialog = imagePicker(function (res) {
+                          var url = res.src ? res.src : res;
+                          if(!url) return;
+                          url = url.toString();
+                          element.style.backgroundImage = `url(${url})`
+                          mw.app.get('liveEdit').play();
+                          dialog.remove();
+                      })
+                   
                   }
 
                 } else {
-
-
-
                     element.contentEditable = true;
                     element.focus();
- 
 
-
+                    setTimeout(() => {
+                      mw.app.richTextEditor.smallEditorInteract(element);
+                      mw.app.richTextEditor.positionSmallEditor(element)
+                    });
 
                 }
-
-
-
-
-
 
                 mw.app.get('liveEdit').handles.hide();
                 mw.app.get('liveEdit').pause();
