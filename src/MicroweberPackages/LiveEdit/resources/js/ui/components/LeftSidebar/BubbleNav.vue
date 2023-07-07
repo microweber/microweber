@@ -2,11 +2,11 @@
 
 
     <div id="bubble-nav" class="active">
-         <span data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Show layouts" data-bs-original-title="Show layouts" v-on:click="show('show-layouts')">
+         <span data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Layouts" data-bs-original-title="Layouts" v-on:click="show('show-layouts')">
             <LayoutsIcon />
         </span>
 
-        <span data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Show modules" data-bs-original-title="Show modules" v-on:click="show('show-modules')">
+        <span data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Modules" data-bs-original-title="Modules" v-on:click="show('show-modules')">
             <ModulesIcon />
         </span>
     </div>
@@ -39,12 +39,6 @@ export default {
         return {
 
         }
-    },
-    mounted() {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
     }
 }
 </script>

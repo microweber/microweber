@@ -11,12 +11,19 @@
                 @if(isset($currentCategory) and $currentCategory)
                     <span class="form-label text-muted">&nbsp; \ &nbsp;
                     {{$currentCategory['title']}}
-                        </span>
+                    </span>
+                @endif
+
+                @if(isset($currentPage) and $currentPage)
+                    <span class="form-label text-muted">&nbsp; \ &nbsp;
+                    {{$currentPage['title']}}
+                    </span>
                 @endif
 
                 @if($isInTrashed)
-                    <span class="text-muted">&nbsp; \ &nbsp;</span>
-                    <i class="mdi mdi-trash-can"></i> {{ _e('Trash') }}
+                    <span class="form-label text-muted">&nbsp; \ &nbsp;
+                  {{ _e('Trash') }}
+                    </span>
                 @endif
 
 {{--                @if(isset($currentCategory) and $currentCategory)--}}
@@ -43,8 +50,6 @@
             @endif*/
 
             ?>
-
-
 
         </div>
     </div>

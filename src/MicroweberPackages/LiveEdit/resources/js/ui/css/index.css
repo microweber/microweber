@@ -753,7 +753,7 @@ body.loaded #bubble-nav span {
     max-width: calc(100vw - 60px);
     height: calc(100vh - 60px);
     left: -440px;
-    width: 430px;
+    width: 400px;
     background-color: var(--tblr-bg-surface);
     z-index: 5;
 
@@ -834,26 +834,25 @@ body.loaded #bubble-nav span {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 10px;
+    /*gap: 10px;*/
 
 }
 
 .mw-le-modules-dialog .modules-list-block-item-picture {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     background-color: transparent;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-
+    margin-inline-end: 10px;
 
 }
 
 .mw-le-modules-dialog .modules-list-search-block .modules-list-search-field {
     height: var(--layouts-dialog-toolbar-height);
-    background-color: transparent;
-    border: none;
-    outline: none;
+    background-color:  var(--tblr-body-bg2);
+    border-color:  var(--tblr-body-bg2);
     padding: 0 20px 0 55px;
     font-size: 14px;
     color: white;
@@ -861,6 +860,18 @@ body.loaded #bubble-nav span {
     background-repeat: no-repeat;
     background-position: 25px center;
     background-size: 19px auto;
+}
+
+.mw-modules-list-search-block {
+    height: var(--layouts-dialog-toolbar-height);
+    background-color:  var(--tblr-body-bg2);
+    border-color:  var(--tblr-body-bg2);
+
+}
+
+.modules-list-search-block svg.icon {
+    stroke-width: 3px;
+    stroke: var(--tblr-body-color);
 }
 
 .mw-le-dialog-close.active {
@@ -945,3 +956,7 @@ body.loaded #bubble-nav span {
 
 /* /gui editor */
 
+.mw-modules-list-block-item:hover {
+    background-color: var(--tblr-body-bg);
+
+}
