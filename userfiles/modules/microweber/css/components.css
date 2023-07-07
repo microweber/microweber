@@ -851,3 +851,11 @@ body.mw-external-loading:after {
     position: relative;
 }
 
+.tab-pane.tab-pane-slide-right.active {
+    animation: tab-pane-slide-right 0.3s ease-out;
+}
+
+@keyframes tab-pane-slide-right {
+    0% { opacity: 0; transform: translateX(100%); }
+    100% { opacity: 1; transform: translateX(0); }
+}
