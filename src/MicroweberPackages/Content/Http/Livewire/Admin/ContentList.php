@@ -369,26 +369,24 @@ class ContentList extends AdminComponent
                 'contentType'=>$contentTypeForAddButton,
                 'currentCategoryId'=>$currentCategoryId,
                 'currentCategory' => $currentCategory,
-                'contentType' => $contentTypeForAddButton,
-
+                'currentPage' => $currentPageData,
                 'currentPageId' => $currentPageId,
                 'inCategory'=>true,
                 'isInTrashed' => $isInTrashed,
             ]);
         }
 
-        $currentPageData = false;
+        $currentPageDataId = false;
         if (isset($this->filters['page'])) {
-            $currentPageData = $this->filters['page'];
+            $currentPageDataId = $this->filters['page'];
         }
 
-        if ($currentPageData && (count($this->filters)==1) && $this->contents->count() == 0) {
+        if ($currentPageDataId && (count($this->filters)==1) && $this->contents->count() == 0) {
             return view($this->noActiveContentView, [
                 'contentType'=>$contentTypeForAddButton,
                 'currentCategoryId'=>$currentCategoryId,
                 'currentCategory' => $currentCategory,
-                'contentType' => $contentTypeForAddButton,
-
+                'currentPage' => $currentPageData,
                 'currentPageId' => $currentPageId,
                 'inPage'=>true,
                 'isInTrashed' => $isInTrashed,
@@ -403,6 +401,7 @@ class ContentList extends AdminComponent
             'displayFilters' => $displayFilters,
             'currentCategoryId' => $currentCategoryId,
             'currentCategory' => $currentCategory,
+            'currentPage' => $currentPageData,
             'currentPageId' => $currentPageId,
             'isInTrashed' => $isInTrashed,
             'contents' => $this->contents,

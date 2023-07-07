@@ -97,10 +97,7 @@ export default {
 
             new EditorComponent();
          
-
         });
-
-
 
         mw.app.on('ready', () => {
             liveEditComponent();

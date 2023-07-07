@@ -467,8 +467,6 @@ export class LiveEdit {
                     mw.app.editor.dispatch('editNodeRequest', selected);
                 }
 
-
-
                 if(!selected && e.target.classList.contains('edit') && e.target.style.backgroundImage) {
                     mw.app.editor.dispatch('editNodeRequest',  e.target);
                 }

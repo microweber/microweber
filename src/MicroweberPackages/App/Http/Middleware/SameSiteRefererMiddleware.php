@@ -30,13 +30,17 @@ class SameSiteRefererMiddleware
                 return abort(403, $error);
             }
         }
+
+
         return $next($request);
 
     }
 
     public function isSameSite($url)
     {
-        return Str::startsWith($url, site_url());
+        $url = rtrim($url, '/');
+        $url2 = rtrim(site_url(), '/');
+        return Str::startsWith($url, $url2);
     }
 
 

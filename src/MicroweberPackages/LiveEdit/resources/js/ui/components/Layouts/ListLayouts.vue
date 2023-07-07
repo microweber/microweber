@@ -15,14 +15,19 @@
         <div class="modules-list modules-list-defaultModules">
             <div class="mw-le-layouts-dialog-row">
                 <div class="mw-le-layouts-dialog-col">
-                    <div class="modules-list-search-block">
+                    <div class="modules-list-search-block input-icon">
+                          <span class="input-icon-addon ms-3">
+
+                                <svg fill="none" xmlns="http://www.w3.org/2000/svg" class="icon" width="32" height="32" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                            </span>
+
                         <input
                             v-model="filterKeyword"
                             v-on:keydown="filterLayouts()"
-                            type="text" placeholder="Type to Search..." class="modules-list-search-field">
+                            type="text" placeholder="Type to Search..." class="modules-list-search-field form-control rounded-0">
                     </div>
-                    <div class="mw-le-layouts-dialog-categories-title">Categories</div>
-                    <ul class="modules-list-categories pb-5">
+
+                    <ul class="modules-list-categories py-5">
                         <li
                             v-on:click="filterCategorySubmit('')"
                             :class="['' == filterCategory ? 'active animate__animated animate__pulse': '']"
@@ -49,26 +54,26 @@
                         </span>
                     </div>
 
-                    <div class="pr-4 mt-3">
-                        <div class="d-flex justify-content-end pr-4 layout-list-buttons">
+                    <div class="me-6 pe-2 mt-4 col-md-3 ms-auto text-end justify-content-end">
+                        <div class="btn-group d-flex justify-content-end pr-4 layout-list-buttons">
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'list'"
-                                :class="['btn btn-sm btn-rounded mr-1', layoutsListTypePreview == 'list'? 'btn-primary': 'btn-dark']"
+                                :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'list'? 'btn-dark': 'btn-outline-dark']"
                             >
                                 <GridIcon style="max-width:23px;max-height:23px;" />
                             </button>
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'full'"
-                                :class="['btn btn-sm btn-rounded', layoutsListTypePreview == 'full'? 'btn-primary': 'btn-dark']"
+                                :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'full'? 'btn-dark': 'btn-outline-dark']"
                             >
                                 <ListIcon style="max-width:23px;max-height:23px;" />
                             </button>
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'masonry'"
-                                :class="['btn btn-sm btn-rounded mr-1', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-dark']"
+                                :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'masonry'? 'btn-dark': 'btn-outline-dark']"
                             >
                                 <MasonryIcon style="max-width:23px;max-height:23px;" />
                             </button>
@@ -107,11 +112,10 @@
                             v-slot="{item}">
                             <div
                                   v-on:click="insertLayout(item.template)"
-                                  :style="[layoutsListTypePreview == 'full' ? 'width:100%;height:300px': 'width:300px;height:160px']"
-                                  :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
+                                  :class="['modules-list-block-style-' + layoutsListTypePreview, 'modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
 
                                 <div class="modules-list-block-item-picture"
-                                     :style="'background-image: url('+item.screenshot+');background-size: contain;'">
+                                     :style="'background-image: url('+item.screenshot+');background-size: cover;'">
 
                                 </div>
 
@@ -141,11 +145,6 @@
 
 </template>
 
-<style>
-.layout-list-buttons svg {
-    fill:#FFFFFF;
-}
-</style>
 
 <script>
 import GridIcon from "../Icons/GridIcon.vue";
