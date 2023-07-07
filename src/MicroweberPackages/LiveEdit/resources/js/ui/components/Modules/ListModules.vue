@@ -12,6 +12,7 @@
              class="mw-le-dialog-block mw-le-modules-dialog active"
              style="inset:20px;transform:none;"
         >
+
             <div class="modules-list modules-list-defaultModules py-3">
 
                 <div class="modules-list-search-block input-icon px-3 mx-md-3">
@@ -39,7 +40,8 @@
                         </div>
                         <div v-for="item in modulesListFiltered[category]"
                              class="col-md-6 px-3 mb-1 mw-modules-list-block-item d-flex align-items-center p-2 modules-list-block-item-is-locked-false cursor-pointer"
-                             v-on:click="insertModule(item)" data-bs-toggle="tooltip" :aria-label="item.name" :data-bs-original-title="item.name">
+                             v-on:click="insertModule(item)"
+                             v-tooltip data-bs-toggle="tooltip" :aria-label="item.description" data-bs-placement="top" :data-bs-original-title="item.description">
                             <div class="modules-list-block-item-picture"
                                  :style="{ backgroundImage: `url(${item.icon})` }"></div>
                             <div class="modules-list-block-item-title">{{ item.name }}</div>
@@ -135,15 +137,6 @@ export default {
                 instance.showModal = false;
             }
         });
-
-
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
-
-        console.log('ddddddd:');
-        console.log(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 
     },
     data() {

@@ -585,16 +585,11 @@ body.loaded #bubble-nav span {
 
 .mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field {
     height: var(--layouts-dialog-toolbar-height);
-    background-color: transparent;
-    border: none;
-    outline: none;
+    background-color:  var(--tblr-body-bg2);
+    border-color:  var(--tblr-body-bg2);
     padding: 0 20px 0 55px;
     font-size: 14px;
     color: #737373;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%239c9c9c' viewBox='0 0 24 24'%3E%3Ctitle%3Emagnify%3C/title%3E%3Cpath d='M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z' /%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: 25px center;
-    background-size: 19px auto;
 }
 
 .mw-le-layouts-dialog .modules-list-block-item {
@@ -641,6 +636,7 @@ body.loaded #bubble-nav span {
 
 .mw-le-layouts-dialog .modules-list-categories li:hover {
     color: #000000;
+    background-color: var(--tblr-body-bg);
 }
 
 .mw-le-layouts-dialog .modules-list-categories li.active {
@@ -856,10 +852,6 @@ body.loaded #bubble-nav span {
     padding: 0 20px 0 55px;
     font-size: 14px;
     color: white;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff60' viewBox='0 0 24 24'%3E%3Ctitle%3Emagnify%3C/title%3E%3Cpath d='M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z' /%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: 25px center;
-    background-size: 19px auto;
 }
 
 .mw-modules-list-search-block {
@@ -885,18 +877,20 @@ body.loaded #bubble-nav span {
     transform: scale(0);
     transition: .2s;
     position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 40px;
-    height: 40px;
+    top: 27px;
+    right: 50px;
+    width: 25px;
+    height: 25px;
     cursor: pointer;
-    background-color: rgba(255, 255, 255, 1);
+    background-color: transparent;
     background-repeat: no-repeat;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctitle%3Eclose%3C/title%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' /%3E%3C/svg%3E");
     background-size: contain;
     border-radius: 40px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    /*box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;*/
 }
+
+
 
 .mw-le-modules-dialog .modules-list-block-item-is-locked-true:before {
     display: none;

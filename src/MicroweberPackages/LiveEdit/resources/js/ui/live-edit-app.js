@@ -38,7 +38,7 @@ mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
     mw.app.dispatch('ready');
 });
 
-window.top.addEventListener('popstate', function(){    
+window.top.addEventListener('popstate', function(){
     mw.app.canvas.getFrame().src = decodeURIComponent(new URLSearchParams(window.top.location.search).get('url')  || '/');
 })
 
@@ -62,6 +62,10 @@ import  './css/index.css';
 import {LiveEditCanvas} from "../api-core/services/components/live-edit-canvas/live-edit-canvas";
 
 const app = createApp(App);
+
+app.directive('tooltip', (el, binding) => {
+    return new bootstrap.Tooltip(el);
+});
 app.config.globalProperties.emitter = emitter;
 app.use(VueClickAway);
 app.mount('#live-edit-app');

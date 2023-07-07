@@ -2019,52 +2019,28 @@ svg.text-danger {
     min-width: 235px;
 }
 
+.modules-list-block-style-list {
+    @media screen and (min-width: 890px) {
+        height: 240px !important;
 
+    }
 
-/*// Right modal classes*/
+    @media screen and (min-width: 768px) {
+        width: 45%;
+    }
 
+    @media screen and (min-width: 1366px) {
+        width: 30%;
+    }
 
-.modal-right-pane {
-    transform: translateX(100%);
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    height: 160px;
+    width: 100%;
 }
 
-.modal.fade.modal-right-pane.show {
-    transform: translateX(0);
-
+.modules-list-block-style-full {
+    height: 500px;
+    width: 100%;
 }
-
-#settings-container .modal.modal-right-pane{
-    --tblr-modal-padding: 0;
-    --tblr-modal-margin: 0;
-    --tblr-modal-border-radius: 0;
-    --tblr-modal-border-width: 0;
-}
-
-
-.modal-right-pane::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-
-.modal-right-pane::-webkit-scrollbar-thumb {
-    background: rgb(90, 90, 90);
-}
-
-.modal-right-pane::-webkit-scrollbar-track {
-    background: rgb(0, 0, 0);
-}
-
-
-
-.modal .modal-header.sticky-top {
-    position: sticky;
-    top: 0;
-    z-index: 1020;
-}
-
-
-/*// end Right modal classes*/
 
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
