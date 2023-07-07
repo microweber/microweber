@@ -39,7 +39,7 @@
                         </div>
                         <div v-for="item in modulesListFiltered[category]"
                              class="col-md-6 px-3 mb-1 mw-modules-list-block-item d-flex align-items-center p-2 modules-list-block-item-is-locked-false cursor-pointer"
-                             v-on:click="insertModule(item)">
+                             v-on:click="insertModule(item)" data-bs-toggle="tooltip" :aria-label="item.name" :data-bs-original-title="item.name">
                             <div class="modules-list-block-item-picture"
                                  :style="{ backgroundImage: `url(${item.icon})` }"></div>
                             <div class="modules-list-block-item-title">{{ item.name }}</div>
@@ -116,6 +116,11 @@ export default {
                 mw.app.registerChangedState(el)
             });
 
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+
         });
 
 
@@ -135,6 +140,7 @@ export default {
                 instance.showModal = false;
             }
         });
+
     },
     data() {
         return {

@@ -1,10 +1,4 @@
 {
-  "_bootstrap-2840d661.js": {
-    "css": [
-      "assets/bootstrap-6dfb77e5.css"
-    ],
-    "file": "assets/bootstrap-2840d661.js"
-  },
   "_bootstrap-b2572fe4.js": {
     "css": [
       "assets/bootstrap-6dfb77e5.css"
@@ -36,7 +30,7 @@
     "css": [
       "assets/live-edit-app-9ae4d074.css"
     ],
-    "file": "assets/live-edit-app-0547cad0.js",
+    "file": "assets/live-edit-app-4a0f8b59.js",
     "imports": [
       "_bootstrap-b2572fe4.js"
     ],
