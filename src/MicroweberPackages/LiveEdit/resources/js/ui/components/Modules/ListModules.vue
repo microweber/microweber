@@ -116,11 +116,6 @@ export default {
                 mw.app.registerChangedState(el)
             });
 
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            });
-
         });
 
 
@@ -140,6 +135,15 @@ export default {
                 instance.showModal = false;
             }
         });
+
+
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+
+        console.log('ddddddd:');
+        console.log(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 
     },
     data() {
