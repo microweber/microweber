@@ -1,4 +1,12 @@
 <?php
+if (!user_can_access('module.contact_form.index')) {
+    return;
+}
+?>
+
+<?php
+
+
 include(__DIR__ . '/settings_javascript.php');
 ?>
 
@@ -7,11 +15,13 @@ $mod_id = $params['id'];
 if (isset($params['for_module_id'])) {
     $mod_id = $params['for_module_id'];
 }
+
+$for_module = $config['module'];
+if (isset($params['for_module'])) {
+    $for_module = $params['for_module'];
+}
 ?>
 
-<script>
-    mw.lib.require('flag_icons');
-</script>
 
 
 <div id="form_email_options">
@@ -21,24 +31,23 @@ if (isset($params['for_module_id'])) {
 
         <div class="nav nav-tabs" id="nav-tab" role="tablist" style="display:none">
             <button class="nav-link active" id="nav-tab-main" data-bs-toggle="tab" data-bs-target="#tabs-nav-tab-main"
-                    type="button" role="tab" aria-selected="true">Main
+                    type="button" role="tab">Main
             </button>
             <button class="nav-link" id="nav-tab-manage-fields" data-bs-toggle="tab"
-                    data-bs-target="#tabs-nav-tab-manage-fields" type="button" role="tab"
-                    aria-selected="false"> <?php _e("Form fields"); ?> </button>
+                    data-bs-target="#tabs-nav-tab-manage-fields" type="button"
+                    role="tab"> <?php _e("Form fields"); ?> </button>
             <button class="nav-link" id="nav-tab-manage-contact-settings" data-bs-toggle="tab"
-                    data-bs-target="#tabs-nav-tab-manage-contact-settings" type="button" role="tab"
-                    aria-selected="false"><?php _e("Contact settings"); ?> </button>
+                    data-bs-target="#tabs-nav-tab-manage-contact-settings" type="button"
+                    role="tab"><?php _e("Contact settings"); ?> </button>
             <button class="nav-link" id="nav-tab-manage-contact-auto-respond" data-bs-toggle="tab"
-                    data-bs-target="#tabs-nav-tab-manage-contact-auto-respond" type="button" role="tab"
-                    aria-selected="false"><?php _e("Auto respond settings"); ?> </button>
+                    data-bs-target="#tabs-nav-tab-manage-contact-auto-respond" type="button"
+                    role="tab"><?php _e("Auto respond settings"); ?> </button>
             <button class="nav-link" id="nav-tab-manage-contact-receivers" data-bs-toggle="tab"
-                    data-bs-target="#tabs-nav-tab-manage-contact-receivers" type="button" role="tab"
-                    aria-selected="false"><?php _e("Receivers"); ?></button>
+                    data-bs-target="#tabs-nav-tab-manage-contact-receivers" type="button"
+                    role="tab"><?php _e("Receivers"); ?></button>
         </div>
-        <div class="tab-content" id="myTabContent" style="overflow: hidden">
-            <div class="tab-pane fade show active tab-pane-slide-right" id="tabs-nav-tab-main" role="tabpanel"
-            >
+        <div class="tab-content" style="overflow: hidden">
+            <div class="tab-pane fade show active tab-pane-slide-right" id="tabs-nav-tab-main" role="tabpanel">
 
 
                 <div class="row d-flex align-items-center w-100">
@@ -54,7 +63,7 @@ if (isset($params['for_module_id'])) {
 
                 <div class="list-group">
                     <button onclick="$('#nav-tab-manage-fields').click()" type="button"
-                            class="list-group-item list-group-item-action" aria-current="true">
+                            class="list-group-item list-group-item-action">
                         <?php _e("Form fields"); ?>
                     </button>
                     <button onclick="$('#nav-tab-manage-contact-auto-respond').click()" type="button"
@@ -67,8 +76,7 @@ if (isset($params['for_module_id'])) {
 
 
             </div>
-            <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-fields" role="tabpanel"
-                 aria-labelledby="tabs-2">
+            <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-fields" role="tabpanel">
 
 
                 <button onclick="$('#nav-tab-main').click()" type="button"
