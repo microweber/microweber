@@ -34,7 +34,7 @@ if (!user_can_access('module.contact_form.index')) {
         <!-- Settings Content -->
         <div class="module-live-edit-settings module-contact-form-settings">
             <module type="settings/list" for_module="<?php print($config['module']) ?>" for_module_id="<?php print $params['id'] ?>"/>
-            <module type="contact_form/settings_live_edit" for_module_id="<?php print $params['id'] ?>"/>
+            <module type="contact_form/settings_live_edit" for_module_id="<?php print $params['id'] ?>"  for_module="<?php print($config['module']) ?>"/>
         </div>
         <!-- Settings Content - End -->
     </div>
@@ -97,6 +97,6 @@ if (!user_can_access('module.contact_form.index')) {
     </div>
 
     <div class="tab-pane fade" id="templates">
-        <module type="admin/modules/templates"/>
+        <module type="admin/modules/templates"  />
     </div>
 </div>
