@@ -1,4 +1,10 @@
 <?php
+if (!user_can_access('module.contact_form.index')) {
+    return;
+}
+?>
+
+<?php
 include(__DIR__ . '/settings_javascript.php');
 ?>
 
