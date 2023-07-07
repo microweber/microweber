@@ -310,7 +310,7 @@ export class LiveEdit {
 
             let first = elements[0];
             const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit']);
-            console.log(target)
+         
 
             if(first.nodeName !== 'IMG') {
                 first = DomService.firstBlockLevel(elements[0]);
@@ -327,10 +327,6 @@ export class LiveEdit {
             this.handles.hide();
 
 
-
-            console.log(elements)
-
-
             if(first) {
                 first = _hoverAndSelectExceptions(first)
                 const type = this.elementAnalyzer.getType(first);
@@ -341,8 +337,6 @@ export class LiveEdit {
                     }
                     
                 }
-
-                console.log(type)
 
                 if(type/* && type !== 'edit'*/) {
                     

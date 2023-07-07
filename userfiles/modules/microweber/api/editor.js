@@ -1094,7 +1094,7 @@ if (window.mw) {
            if (typeof options.selector === 'string') {
                options.selector = (options.document || document).querySelector(options.selector);
            }
-           if (options.selector && options.selector.__MWEditor) {
+           if (options.selector && options.selector.__MWEditor && !options.forced) {
                return options.selector.__MWEditor;
            }
        }
