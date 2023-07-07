@@ -753,7 +753,7 @@ body.loaded #bubble-nav span {
     max-width: calc(100vw - 60px);
     height: calc(100vh - 60px);
     left: -440px;
-    width: 430px;
+    width: 400px;
     background-color: var(--tblr-bg-surface);
     z-index: 5;
 
@@ -956,3 +956,7 @@ body.loaded #bubble-nav span {
 
 /* /gui editor */
 
+.mw-modules-list-block-item:hover {
+    background-color: var(--tblr-body-bg);
+
+}
