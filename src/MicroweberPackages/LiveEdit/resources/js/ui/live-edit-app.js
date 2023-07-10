@@ -63,8 +63,10 @@ import {LiveEditCanvas} from "../api-core/services/components/live-edit-canvas/l
 
 const app = createApp(App);
 
-app.directive('tooltip', (el, binding) => {
-    return new bootstrap.Tooltip(el);
+app.directive("tooltip", {
+    mounted: (el, binding) => {
+        return new bootstrap.Tooltip(el);
+    }
 });
 app.config.globalProperties.emitter = emitter;
 app.use(VueClickAway);
