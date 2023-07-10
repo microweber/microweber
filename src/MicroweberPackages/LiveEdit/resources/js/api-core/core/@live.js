@@ -313,7 +313,11 @@ export class LiveEdit {
              }
 
             let first = elements[0];
-            const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit']);
+            const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'xlayout', 'edit']);
+
+
+
+            console.log(target, first)
          
 
             if(first.nodeName !== 'IMG') {
@@ -418,11 +422,7 @@ export class LiveEdit {
                         layoutHasSelectedTarget = true;
                     }
 
-                    if(!layoutHasSelectedTarget) {
-                        this.handles.set('layout', layout);
-                    } else {
-                        this.handles.hide('layout');
-                    }
+                    this.handles.set('layout', layout);
 
                 }
 

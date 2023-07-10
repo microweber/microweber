@@ -1,5 +1,8 @@
 
 
+var targetWindow = window.top;
+var targetDocument = window.top.document;
+
 var errorsHandlePrev = [];
 mw.errorsHandle = function (obj) {
     while (errorsHandlePrev.length) {
@@ -17,8 +20,8 @@ mw.errorsHandle = function (obj) {
     }
     obj.errors = obj.errors || obj.form_errors;
     if(!obj.errors) {
-        $('.invalid-feedback').hide();
-        $('.valid-feedback').hide();
+        $('.invalid-feedback', targetDocument).hide();
+        $('.valid-feedback', targetDocument).hide();
     }
     if(obj.errors) {
         var html = [];
@@ -30,14 +33,14 @@ mw.errorsHandle = function (obj) {
             } else if ( bsel ) {
                 var next = bsel.nextElementSibling;
                 if (!next || !next.classList.contains('invalid-feedback')) {
-                    next = document.createElement('div');
+                    next = targetDocument.createElement('div');
                     next.classList.add('invalid-feedback');
                     bsel.parentNode.insertBefore(next, bsel.nextSibling);
                     errorsHandlePrev.push(next);
                 }
                 next.style.display = 'block';
 
-                $(next).css('display','block');
+                $(next, targetDocument).css('display','block');
                 next.innerHTML = obj.errors[key];
             }
         }
@@ -83,7 +86,7 @@ mw.notification = {
         }
     },
     build: function (type, text, name) {
-        var div = document.createElement('div');
+        var div = targetDocument.createElement('div');
         div.id = name;
         div.className = 'mw-notification mw-' + type;
         div.innerHTML = '<div>' + text + '</div>';
@@ -112,53 +115,24 @@ mw.notification = {
         </div>
         
         `;
-        var last = $('.mw-tblr-notification').last();
+        var last = $('.mw-tblr-notification', targetDocument).last();
         if(last.length) {
             var btm = parseFloat(last.css('bottom'));
-            console.log(btm, last.css('bottom'))
+             
             if(isNaN(btm)) {
                 btm = 0;
             }
             btm += last.outerHeight();
         }
 
-        tpl = $(tpl).appendTo(document.body);
-        tpl.css('bottom', btm)
-        var toast = new bootstrap.Toast(tpl.children().get(0), {
+        tpl = $(tpl, targetDocument).appendTo(targetDocument.body);
+        tpl.css('bottom', btm);
+        
+        var toast = new window.top.bootstrap.Toast(tpl.children().get(0), {
             delay: timeout
         });
         toast.show();
         
-    },
-    append2: function (type, text, timeout, name) {
-
-        if(typeof type === 'object') {
-            text = type.text;
-            timeout = type.timeout;
-            name = type.name;
-            type = type.type;
-        }
-        name = name || 'default';
-        name = 'mw-notification-id-' + name;
-        if(document.getElementById(name)) {
-            document.getElementById(name).remove();
-        }
-        timeout = timeout || 1000;
-        var div = mw.notification.build(type, text, name);
-        if (typeof mw.notification._holder === 'undefined') {
-            mw.notification._holder = document.createElement('div');
-            mw.notification._holder.id = 'mw-notifications-holder';
-            document.body.appendChild(mw.notification._holder);
-        }
-        mw.notification._holder.appendChild(div);
-        var w = mw.$(div).outerWidth();
-        mw.$(div).css("marginLeft", -(w / 2));
-        setTimeout(function () {
-            div.style.opacity = 0;
-            setTimeout(function () {
-                mw.$(div).remove();
-            }, 1000);
-        }, timeout);
     },
     success: function (text, timeout, name) {
         if ( typeof text === 'object' ) {
