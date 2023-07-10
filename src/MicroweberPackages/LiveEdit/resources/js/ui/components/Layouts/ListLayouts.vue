@@ -1,4 +1,5 @@
 <template>
+    
 
     <div v-if="showModal" style="visibility: hidden; position: absolute; width: 1px; height: 1px;"></div>
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-overlay active"></div>
@@ -7,6 +8,7 @@
         enter-active-class="animate__animated animate__zoomIn"
         leave-active-class="animate__animated animate__zoomOut"
     >
+
     <div v-if="showModal"
          class="mw-le-dialog-block mw-le-layouts-dialog active"
          style="inset:20px; transform:none; animation-duration: .3s;"
@@ -220,14 +222,18 @@ export default {
             mw.app.editor.on('insertLayoutRequestOnTop',function(element){
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'top';
+                setTimeout(function() {
+                    instance.filterLayouts();
+                }, 100);
                 mw.app.registerChangedState(element);
-                alert(22);
             });
             mw.app.editor.on('insertLayoutRequestOnBottom',function(element){
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'bottom';
+                setTimeout(function() {
+                    instance.filterLayouts();
+                }, 100);
                 mw.app.registerChangedState(element);
-                alert(33);
             });
         });
 
