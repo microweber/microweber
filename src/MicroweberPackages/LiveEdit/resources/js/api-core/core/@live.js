@@ -162,7 +162,8 @@ export class LiveEdit {
             handle: moduleHandleContent.menu.title,
             document: this.settings.document,
             stateManager: this.settings.stateManager,
-            resizable: false
+            resizable: false,
+            id: 'mw-handle-item-module-menu'
         });
         var moduleHandle = this.moduleHandle;
 
@@ -217,7 +218,13 @@ export class LiveEdit {
             type: 'layout'
         });
 
+ 
+
         var layoutHandle = this.layoutHandle;
+
+        layoutHandle.wrapper.css({
+            zIndex: 1000
+        })
 
         var title = scope.lang('Layout');
         layoutHandleContent.menu.setTitle(title)
@@ -294,9 +301,15 @@ export class LiveEdit {
 
 
         const _eventsHandle = (e) => {
+
+             
+
+            if(e.target && e.target.className && typeof e.target.className === 'string' && e.target.className.indexOf('layout-plus') !== -1) {
+                return;
+            }
             
 
-            if(this.handles.targetIsOrInsideHandle(e)) {
+            if(this.handles.targetIsOrInsideHandle(e, this.handles.get('layout'))) {
                 // this.handles.get('element').set(null)
                 // this.handles.get('module').set(null)
                 this.handles.hide();
@@ -313,11 +326,11 @@ export class LiveEdit {
              }
 
             let first = elements[0];
-            const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'xlayout', 'edit']);
+            const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit']);
 
 
 
-            console.log(target, first)
+          
          
 
             if(first.nodeName !== 'IMG') {

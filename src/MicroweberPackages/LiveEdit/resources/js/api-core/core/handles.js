@@ -87,16 +87,19 @@ export const Handles = function (handles) {
         }
         return false;
     }
-    this.targetIsOrInsideHandle = function(target) {
-        if(!target) {
+    this.targetIsOrInsideHandle = function(target, except) {
+        if (!target) {
             return;
         }
         target = target.target || target;
         var i;
         for (i in this.handles) {
-             if(this.handles[i].wrapper.get(0) === target || this.handles[i].wrapper.get(0).contains(target)) {
-                return true
-             }
+            if(except && except === this.handles[i]){
+                continue;
+            }
+            if(this.handles[i].wrapper.get(0) === target || this.handles[i].wrapper.get(0).contains(target)) {
+                return true;
+            }
         }
         return false;
     }

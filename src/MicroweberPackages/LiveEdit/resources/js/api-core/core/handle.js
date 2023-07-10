@@ -111,7 +111,13 @@ export const Handle = function (options) {
             }
         }
         menu.style.transition = `none`;
-        menu.style.transform = transform ? `translateX(${transform}px)` : '';
+        //menu.style.transform = transform ? `translateX(${transform}px)` : '';
+
+        if(off.top < 50 ) {
+            menu.style.top = `calc(100% + 60px)`;
+        } else {
+            menu.style.top = ``;
+        }
 
         setTimeout(() => menu.style.transition = ``, 10)
 
