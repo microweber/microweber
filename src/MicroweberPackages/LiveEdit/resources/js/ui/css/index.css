@@ -680,9 +680,6 @@ body.loaded #bubble-nav span {
 
 }
 
-
- 
-
 .modules-list-categories {
     list-style: none;
     overflow: auto;
@@ -730,6 +727,7 @@ body.loaded #bubble-nav span {
     height: calc(100vh - 60px);
     left: -440px;
     width: 400px;
+    max-height: 400px;
     background-color: var(--tblr-bg-surface);
     z-index: 5;
 

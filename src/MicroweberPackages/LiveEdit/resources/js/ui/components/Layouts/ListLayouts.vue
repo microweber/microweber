@@ -58,21 +58,21 @@
                         <div class="btn-group d-flex justify-content-end pr-4 layout-list-buttons">
                             <button
                                 type="button"
-                                v-on:click="layoutsListTypePreview = 'list'"
+                                v-on:click="switchLayoutsListTypePreview('list')"
                                 :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'list'? 'btn-dark': 'btn-outline-dark']"
                             >
                                 <GridIcon style="max-width:23px;max-height:23px;" />
                             </button>
                             <button
                                 type="button"
-                                v-on:click="layoutsListTypePreview = 'full'"
+                                v-on:click="switchLayoutsListTypePreview('full')"
                                 :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'full'? 'btn-dark': 'btn-outline-dark']"
                             >
                                 <ListIcon style="max-width:23px;max-height:23px;" />
                             </button>
                             <button
                                 type="button"
-                                v-on:click="layoutsListTypePreview = 'masonry'"
+                                v-on:click="switchLayoutsListTypePreview('masonry')"
                                 :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'masonry'? 'btn-dark': 'btn-outline-dark']"
                             >
                                 <MasonryIcon style="max-width:23px;max-height:23px;" />
@@ -80,8 +80,8 @@
                         </div>
                     </div>
 
-
-                    <div v-if="layoutsListLoaded && layoutsListTypePreview == 'masonry'" class="modules-list-block">
+                    <!--
+                    <div v-show="layoutsListLoaded && layoutsListTypePreview == 'masonry'" class="modules-list-block">
                         <MasonryWall :items="layoutsListFiltered"
                                      :ssr-columns="1"
                                      :column-width="400"
@@ -99,13 +99,13 @@
                                 </div>
                             </template>
                         </MasonryWall>
-                    </div>
+                    </div>-->
 
                     <LazyList
-                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'list' || layoutsListTypePreview == 'full') && layoutsListFiltered.length > 0"
+                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'masonry' || layoutsListTypePreview == 'list' || layoutsListTypePreview == 'full') && layoutsListFiltered.length > 0"
                         :data="layoutsListFiltered"
                         :itemsPerRender="18"
-                        containerClasses="modules-list-block"
+                        :containerClasses="'modules-list-block modules-list-block-' + layoutsListTypePreview"
                         defaultLoadingColor="#222"
                     >
                         <template
@@ -145,6 +145,24 @@
 
 </template>
 
+<style>
+.modules-list-block-masonry {
+    column-count: 4 !important;
+    column-gap: 10px !important;
+}
+.modules-list-block-style-masonry {
+    margin: 0 !important;
+    display: grid !important;
+    grid-template-rows: 1fr auto !important;
+    margin-bottom: 10px !important;
+    break-inside: avoid !important;
+}
+.modules-list-block-item-picture {
+    grid-row: 1 / -1 !important;
+    grid-column: 1 !important;
+}
+</style>
+
 
 <script>
 import GridIcon from "../Icons/GridIcon.vue";
@@ -163,6 +181,9 @@ export default {
         ListIcon
     },
     methods: {
+        switchLayoutsListTypePreview(type) {
+            this.layoutsListTypePreview = type;
+        },
         insertLayout(template) {
             mw.app.editor.insertLayout({'template':template}, this.layoutInsertLocation);
             this.showModal = false;
