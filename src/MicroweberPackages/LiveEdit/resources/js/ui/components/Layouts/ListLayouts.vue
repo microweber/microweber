@@ -35,13 +35,16 @@
                             All categories
                         </li>-->
 
-                        <li></li>
                         <li
                             v-if="layoutsList.categories"
-                            :class="[categoryName == filterCategory ? 'active animate__animated animate__pulse': '']"
                             v-for="categoryName in layoutsList.categories"
                             v-on:click="filterCategorySubmit(categoryName)">
-                            {{categoryName}}
+
+                            <a class="mw-admin-action-links" :class="[categoryName == filterCategory ? 'active animate__animated animate__pulse': '']">
+                                {{categoryName}}
+
+                            </a>
+
                         </li>
                     </ul>
                 </div>
@@ -54,8 +57,8 @@
                         </span>
                     </div>-->
 
-                    <div class="me-6 pe-2 mt-4 col-md-3 ms-auto text-end justify-content-end">
-                        <div class="btn-group d-flex justify-content-end pr-4 layout-list-buttons">
+                    <div class="me-5 pe-3 my-3 py-0 col-xl-2 col-md-3 col-12 ms-auto text-end justify-content-end">
+                        <div class="btn-group d-flex justify-content-end pe-4 layout-list-buttons">
                             <button
                                 type="button"
                                 v-on:click="switchLayoutsListTypePreview('list')"
@@ -114,7 +117,7 @@
                                   :class="['modules-list-block-style-' + layoutsListTypePreview, 'modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
 
                                 <div class="modules-list-block-item-picture"
-                                     :style="'background-image: url('+item.screenshot+');background-size: cover;'">
+                                     :style="'background-image: url('+item.screenshot+');background-size: contain;'">
 
                                 </div>
 
