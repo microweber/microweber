@@ -1,5 +1,6 @@
 <template>
-    
+
+    <link v-for='layoutItem in layoutsList.layouts' rel="preload" as="image" :href="layoutItem.screenshot"> 
 
     <div v-if="showModal" style="visibility: hidden; position: absolute; width: 1px; height: 1px;"></div>
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-overlay active"></div>
@@ -224,7 +225,7 @@ export default {
                 instance.layoutInsertLocation = 'top';
                 setTimeout(function() {
                     instance.filterLayouts();
-                }, 100);
+                }, 300);
                 mw.app.registerChangedState(element);
             });
             mw.app.editor.on('insertLayoutRequestOnBottom',function(element){
@@ -232,7 +233,7 @@ export default {
                 instance.layoutInsertLocation = 'bottom';
                 setTimeout(function() {
                     instance.filterLayouts();
-                }, 100);
+                }, 300);
                 mw.app.registerChangedState(element);
             });
         });
