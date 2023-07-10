@@ -20,6 +20,8 @@ $for_module = $config['module'];
 if (isset($params['for_module'])) {
     $for_module = $params['for_module'];
 }
+
+$for_module_id = $mod_id;
 ?>
 
 
@@ -45,6 +47,16 @@ if (isset($params['for_module'])) {
             <button class="nav-link" id="nav-tab-manage-contact-receivers" data-bs-toggle="tab"
                     data-bs-target="#tabs-nav-tab-manage-contact-receivers" type="button"
                     role="tab"><?php _e("Receivers"); ?></button>
+
+
+            <button class="nav-link" id="nav-tab-manage-contact-advanced" data-bs-toggle="tab"
+                    data-bs-target="#tabs-nav-tab-manage-contact-advanced" type="button"
+                    role="tab"><?php _e("Advanced"); ?></button>
+
+
+            <button class="nav-link" id="nav-tab-manage-contact-templates" data-bs-toggle="tab"
+                    data-bs-target="#tabs-nav-tab-manage-contact-templates" type="button"
+                    role="tab"><?php _e("Templates"); ?></button>
         </div>
         <div class="tab-content" style="overflow: hidden">
             <div class="tab-pane fade show active tab-pane-slide-right" id="tabs-nav-tab-main" role="tabpanel">
@@ -72,29 +84,52 @@ if (isset($params['for_module'])) {
                             class="list-group-item list-group-item-action"><?php _e("Contact settings"); ?></button>
                     <button onclick="$('#nav-tab-manage-contact-receivers').click()" type="button"
                             class="list-group-item list-group-item-action"><?php _e("Receivers"); ?></button>
+
+
+                    <button onclick="$('#nav-tab-manage-contact-advanced').click()" type="button"
+                            class="list-group-item list-group-item-action"><?php _e("Advanced"); ?></button>
+
+
+                    <button onclick="$('#nav-tab-manage-contact-templates').click()" type="button"
+                            class="list-group-item list-group-item-action"><?php _e("Templates"); ?></button>
                 </div>
 
 
             </div>
             <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-fields" role="tabpanel">
 
+               <div class="d-flex align-items-center">
+                   <button class="col col btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start text-start" onclick="$('#nav-tab-main').click()">
+                       <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
+                       <span class="ms-1 font-weight-bold"><?php _e("Back"); ?></span>
+                   </button>
 
-                <button onclick="$('#nav-tab-main').click()" type="button"
-                        class="list-group-item list-group-item-action">Back
-                </button>
+                   <label class="col-5 form-label text-center font-weight-bold mb-0">
+                       <?php _e("Form fields"); ?>
+                   </label>
 
-                <h3><?php _e("Form fields"); ?></h3>
+                   <div class="col">
+
+                   </div>
+               </div>
 
 
-                <module type="custom_fields" view="admin" data-for="module" for-id="<?php print $params['id'] ?>"/>
+                <module type="custom_fields" view="admin" data-for="module" for-id="<?php print $for_module_id ?>"/>
 
             </div>
 
             <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-contact-settings" role="tabpanel">
-                <button onclick="$('#nav-tab-main').click()" type="button"
-                        class="list-group-item list-group-item-action">Back
-                </button>
-                <h3><?php _e("Contact settings"); ?></h3>
+                <div class="d-flex align-items-center">
+                    <button class="col btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start" onclick="$('#nav-tab-main').click()">
+                        <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
+                        <span class="ms-1 font-weight-bold"><?php _e("Back"); ?></span>
+                    </button>
+                    <label class="col-5 form-label text-center font-weight-bold mb-0"><?php _e("Contact settings"); ?></label>
+
+                    <div class="col">
+
+                    </div>
+                </div>
 
 
                 <div class="form-group">
@@ -106,15 +141,25 @@ if (isset($params['for_module'])) {
                            class="mw_option_field form-control col-6" type="text"/>
                 </div>
 
+                <module type="settings/list" for_module="<?php print($for_module) ?>" for_module_id="<?php print $for_module_id ?>"/>
+
+
             </div>
 
 
             <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-contact-auto-respond"
                  role="tabpanel">
-                <button onclick="$('#nav-tab-main').click()" type="button"
-                        class="list-group-item list-group-item-action">Back
-                </button>
-                <h3><?php _e("Auto respond settings"); ?></h3>
+                <div class="d-flex align-items-center">
+                    <button class="col btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start" onclick="$('#nav-tab-main').click()">
+                        <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
+                        <span class="ms-1 font-weight-bold"><?php _e("Back"); ?></span>
+                    </button>
+                    <label class="col-5 form-label text-center font-weight-bold mb-0"><?php _e("Auto respond settings"); ?></label>
+
+                    <div class="col">
+
+                    </div>
+                </div>
 
                 <div class=" pt-0">
 
@@ -268,11 +313,17 @@ if (isset($params['for_module'])) {
 
             </div>
             <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-contact-receivers" role="tabpanel">
-                <button onclick="$('#nav-tab-main').click()" type="button"
-                        class="list-group-item list-group-item-action">Back
-                </button>
-                <h3><?php _e("Receivers"); ?></h3>
+               <div class="d-flex align-items-center">
+                   <button class="col btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start" onclick="$('#nav-tab-main').click()">
+                       <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
+                       <span class="ms-1 font-weight-bold"><?php _e("Back"); ?></span>
+                   </button>
+                   <label class="col-5 form-label text-center font-weight-bold mb-0"><?php _e("Receivers"); ?></label>
 
+                   <div class="col">
+
+                   </div>
+               </div>
 
                 <div class="pt-0">
                     <h5 class="font-weight-bold settings-title-inside"><?php _e("Receivers") ?></h5>
@@ -324,6 +375,92 @@ if (isset($params['for_module'])) {
                         </div>
 
                     </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-contact-advanced" role="tabpanel">
+               <div class="d-flex align-items-center">
+                   <button class="col btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start" onclick="$('#nav-tab-main').click()">
+                       <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
+                       <span class="ms-1 font-weight-bold"><?php _e("Back"); ?></span>
+                   </button>
+
+                   <label class="col-5 form-label text-center font-weight-bold mb-0"><?php _e("Advanced"); ?></label>
+
+                   <div class="col">
+
+                   </div>
+               </div>
+
+
+                <div class="pt-0">
+                    <module type="contact_form/manager/assign_list_to_module" data-for-module="<?php print($for_module) ?>" data-for-module-id="<?php print $for_module_id ?>"/>
+                    <hr class="thin"/>
+
+                    <h5 class="font-weight-bold mb-3"><?php _e("Contact form advanced settings") ?></h5>
+
+                    <module type="admin/mail_providers/integration_select" option_group="contact_form"/>
+
+                    <hr class="thin"/>
+
+                    <div class="form-group">
+                        <label class="form-label"><?php _e("Newsletter") ?></label>
+                        <small class="text-muted d-block mb-2"><?php _e("Show the newsletter subscription checkbox?") ?></small>
+
+                        <div class="custom-control custom-checkbox mb-4">
+                            <input type="checkbox" parent-reload="true" name="newsletter_subscription" id="newsletter_subscription" value="y" data-value-unchecked="n" data-value-checked="y" class="mw_option_field form-check-input" option-group="<?php print $for_module_id ?>" <?php if (get_option('newsletter_subscription', $for_module_id) == 'y'): ?>checked<?php endif; ?> />
+                            <label class="custom-control-label" for="newsletter_subscription"><?php _e("Enable newsletter checkbox"); ?></label>
+                        </div>
+                    </div>
+
+                    <hr class="thin"/>
+
+                    <module type="contact_form/privacy_settings" simple="true"/>
+
+                    <?php if ($for_module_id != 'contact_form_default') : ?>
+                        <br/>
+                        <div class="form-group">
+                            <label class="control-label"><?php _e("Captcha settings") ?></label>
+                            <small class="text-muted d-block mb-2"><?php _e("Setup your captcha preferences from ") ?><a href="<?php print admin_url('module/view?type=captcha'); ?>" target="_blank"><?php _e("Captcha module") ?></a></small>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="disable_captcha" id="disable_captcha" value="y" option-group="<?php print $for_module_id ?>" class="mw_option_field form-check-input" <?php if (get_option('disable_captcha', $for_module_id) == 'y'): ?>checked <?php endif; ?>/>
+                                <label class="custom-control-label" for="disable_captcha"><?php _e("Disable Code Verification ex"); ?>.: <img src="<?php print mw_includes_url(); ?>img/code_verification_example.jpg" alt="" style="margin-top: -8px;"/></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><?php _e("Redirect URL"); ?></label>
+                            <small class="text-muted d-block mb-2"><?php _e("Redirect to URL after submit for example for “Thank you” page") ?></small>
+                            <input name="email_redirect_after_submit" option-group="<?php print $for_module_id ?>" value="<?php print get_option('email_redirect_after_submit', $for_module_id); ?>" class="mw_option_field form-control" type="text"/>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+            </div>
+            <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-contact-templates" role="tabpanel">
+                <div class="d-flex align-items-center">
+                    <button class="col btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start" onclick="$('#nav-tab-main').click()">
+                        <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
+                        <span class="ms-1 font-weight-bold"><?php _e("Back"); ?></span>
+                    </button>
+
+                    <label class="col-5 form-label text-center font-weight-bold mb-0"><?php _e("Templates"); ?></label>
+
+                    <div class="col">
+
+                    </div>
+                </div>
+
+
+                <div class="pt-0">
+                    <module type="admin/modules/templates" for-module="<?php print $for_module ?>" for-module-id="<?php print $for_module_id ?>"/>
+
                 </div>
 
             </div>

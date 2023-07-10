@@ -4,12 +4,12 @@
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-overlay active"></div>
 
     <Transition
-        enter-active-class="animate__animated animate__backInLeft"
-        leave-active-class="animate__animated animate__backOutLeft"
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
     >
     <div v-if="showModal"
          class="mw-le-dialog-block mw-le-layouts-dialog active"
-         style="inset:20px;transform:none;"
+         style="inset:20px; transform:none; animation-duration: .3s;"
     >
 
         <div class="modules-list modules-list-defaultModules">
@@ -28,12 +28,12 @@
                     </div>
 
                     <ul class="modules-list-categories py-5">
-                        <li
+<!--                        <li
                             v-on:click="filterCategorySubmit('')"
                             :class="['' == filterCategory ? 'active animate__animated animate__pulse': '']"
                         >
                             All categories
-                        </li>
+                        </li>-->
 
                         <li></li>
                         <li
@@ -47,12 +47,12 @@
                 </div>
                 <div class="mw-le-layouts-dialog-col">
 
-                    <div v-if="filterKeyword" class="pl-4 mb-3 mt-3">
+<!--                    <div v-if="filterKeyword" class="pl-4 mb-3 mt-3">
                         Looking for {{filterKeyword}}
                         <span v-if="filterCategory">
                             in {{filterCategory}}
                         </span>
-                    </div>
+                    </div>-->
 
                     <div class="me-6 pe-2 mt-4 col-md-3 ms-auto text-end justify-content-end">
                         <div class="btn-group d-flex justify-content-end pr-4 layout-list-buttons">
@@ -80,7 +80,6 @@
                         </div>
                     </div>
 
-                    <!--
                     <div v-show="layoutsListLoaded && layoutsListTypePreview == 'masonry'" class="modules-list-block">
                         <MasonryWall :items="layoutsListFiltered"
                                      :ssr-columns="1"
@@ -99,10 +98,10 @@
                                 </div>
                             </template>
                         </MasonryWall>
-                    </div>-->
+                    </div>
 
                     <LazyList
-                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'masonry' || layoutsListTypePreview == 'list' || layoutsListTypePreview == 'full') && layoutsListFiltered.length > 0"
+                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'masonry____' || layoutsListTypePreview == 'list' || layoutsListTypePreview == 'full') && layoutsListFiltered.length > 0"
                         :data="layoutsListFiltered"
                         :itemsPerRender="18"
                         :containerClasses="'modules-list-block modules-list-block-' + layoutsListTypePreview"
@@ -144,25 +143,6 @@
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-dialog-close active"></div>
 
 </template>
-
-<style>
-.modules-list-block-masonry {
-    column-count: 4 !important;
-    column-gap: 10px !important;
-}
-.modules-list-block-style-masonry {
-    margin: 0 !important;
-    display: grid !important;
-    grid-template-rows: 1fr auto !important;
-    margin-bottom: 10px !important;
-    break-inside: avoid !important;
-}
-.modules-list-block-item-picture {
-    grid-row: 1 / -1 !important;
-    grid-column: 1 !important;
-}
-</style>
-
 
 <script>
 import GridIcon from "../Icons/GridIcon.vue";
@@ -228,8 +208,11 @@ export default {
         mw.app.on('ready', () => {
             this.getLayoutsListFromService().then(function (data) {
                 instance.layoutsList = data;
-                instance.layoutsListFiltered = data.layouts;
                 instance.layoutsListLoaded = true;
+
+                if (!instance.filterCategory) {
+                    instance.filterCategorySubmit(data.categories[0]);
+                }
             });
             mw.app.editor.on('insertLayoutRequestOnTop',function(element){
                 instance.showModal = true;

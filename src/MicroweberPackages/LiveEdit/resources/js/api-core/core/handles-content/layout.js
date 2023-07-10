@@ -175,7 +175,7 @@ export const LayoutHandleContent = function (rootScope) {
                     }
                 },
                 action: function (target, selfNode) {
-                     
+
                     var prev = target.nextElementSibling;
                     if(!prev) return;
                     var offTarget = target.getBoundingClientRect();
@@ -217,8 +217,8 @@ export const LayoutHandleContent = function (rootScope) {
                     }
                 },
                 action: function (target, selfNode) {
-                     
-                     
+
+
                     var prev = target.previousElementSibling;
                     if(!prev) return;
                     var offTarget = target.getBoundingClientRect();
@@ -241,7 +241,7 @@ export const LayoutHandleContent = function (rootScope) {
                         prev.classList.remove("mw-le-target-to-animate")
                         target.style.transform = '';
                         prev.style.transform = '';
-                      
+
                         rootScope.layoutHandle.set(target, true);
                         target.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
                     }, 300)
@@ -255,7 +255,7 @@ export const LayoutHandleContent = function (rootScope) {
                 icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path  d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>',
                 className: 'mw-handle-insert-button',
                 action: function (target, selfNode, rootScope) {
-                    Confirm('Are you sure', function (){
+                    Confirm('Are you sure you want to delete this layout?', function (){
                         mw.app.registerChange(target)
                         target.remove()
                     })
@@ -267,7 +267,7 @@ export const LayoutHandleContent = function (rootScope) {
     });
 
     this.addButtons = function (){
- 
+
         var plusLabel = 'Add Layout';
 
         var handlePlus = which => {
