@@ -83,28 +83,30 @@
                         </div>
                     </div>
 
-                    <div v-show="layoutsListLoaded && layoutsListTypePreview == 'masonry'" class="modules-list-block">
-                        <MasonryWall :items="layoutsListFiltered"
-                                     :ssr-columns="1"
-                                     :column-width="400"
-                                     :padding="12"
-                                     :gap="12">
+                    <div v-if="layoutsListLoaded && layoutsListTypePreview == 'masonry'" class="modules-list-block-masonry">
+                        <MasonryWall
+                            :items="layoutsListFiltered"
+                            :ssr-columns="1"
+                            :column-width="400"
+                            :padding="12"
+                            :gap="12"> 
                             <template #default="{ item, index }">
                                 <div
                                     v-on:click="insertLayout(item.template)"
-                                    :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
+                                    :class="['modules-list-block-item-masonry', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
 
                                     <img :src="item.screenshot" :alt="item.title" />
 
-                                    <div class="modules-list-block-item-title">{{item.title}}</div>
+                                    <div class="modules-list-block-item-masonry-title">{{item.title}}</div>
 
                                 </div>
                             </template>
                         </MasonryWall>
                     </div>
 
+
                     <LazyList
-                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'masonry____' || layoutsListTypePreview == 'list' || layoutsListTypePreview == 'full') && layoutsListFiltered.length > 0"
+                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'list' || layoutsListTypePreview == 'full') && layoutsListFiltered.length > 0"
                         :data="layoutsListFiltered"
                         :itemsPerRender="18"
                         :containerClasses="'modules-list-block modules-list-block-' + layoutsListTypePreview"
