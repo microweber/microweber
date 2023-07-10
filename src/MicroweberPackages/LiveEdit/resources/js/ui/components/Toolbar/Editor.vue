@@ -204,15 +204,19 @@ export default {
 
 
                   });
+                  picker.$cancel.on('click', function(){
+                    dialog.remove()
+                  })
                 
         
-                  $(dialog).on('remove', () => {
+                  $(dialog).on('Remove', () => {
                    
                     mw.app.get('liveEdit').play();
                   })
                   return dialog;
                 }
                 if(element.nodeName === 'IMG') {
+                   
                   var dialog = imagePicker(function (res) {
                           var url = res.src ? res.src : res;
                           if(!url) return;
