@@ -1476,6 +1476,18 @@ svg.text-danger {
             font-weight: 700;
 
         }
+
+        &.text-danger {
+            color: var(--tblr-danger) !important;
+
+            &:after {
+                background-color: var(--tblr-danger);
+            }
+
+            &:hover {
+                color: var(--tblr-danger) !important;
+            }
+        }
     }
 
     &:after {
