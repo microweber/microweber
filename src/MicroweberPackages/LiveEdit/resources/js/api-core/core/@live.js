@@ -294,8 +294,12 @@ export class LiveEdit {
 
 
         const _eventsHandle = (e) => {
+            
 
             if(this.handles.targetIsOrInsideHandle(e)) {
+                // this.handles.get('element').set(null)
+                // this.handles.get('module').set(null)
+                this.handles.hide();
                 this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
                 return
             }
@@ -310,7 +314,7 @@ export class LiveEdit {
 
             let first = elements[0];
             const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit']);
-            console.log(target)
+         
 
             if(first.nodeName !== 'IMG') {
                 first = DomService.firstBlockLevel(elements[0]);
@@ -327,10 +331,6 @@ export class LiveEdit {
             this.handles.hide();
 
 
-
-            console.log(elements)
-
-
             if(first) {
                 first = _hoverAndSelectExceptions(first)
                 const type = this.elementAnalyzer.getType(first);
@@ -341,8 +341,6 @@ export class LiveEdit {
                     }
                     
                 }
-
-                console.log(type)
 
                 if(type/* && type !== 'edit'*/) {
                     
@@ -394,7 +392,6 @@ export class LiveEdit {
                 target = _hoverAndSelectExceptions(target)
 
 
-
                 if(target && _hovered.indexOf(target) === -1) {
                     _hovered.forEach(node =>  delete node.dataset.mwLiveEdithover);
                     _hovered = [];
@@ -405,11 +402,7 @@ export class LiveEdit {
                         target.dataset.mwLiveEdithover = true;
                         _hovered.push(target)
                     }
-
-
-
                 }
-
 
 
                 if(layout && !target) {
@@ -459,6 +452,8 @@ export class LiveEdit {
                     this.interactionHandle.set(target);
                 } else {
                     this.interactionHandle.hide();
+                    // mw.app.get('liveEdit').play();
+
                 }
 
             })
@@ -472,8 +467,6 @@ export class LiveEdit {
                     mw.app.editor.dispatch('editNodeRequest', selected);
                 }
 
-
-
                 if(!selected && e.target.classList.contains('edit') && e.target.style.backgroundImage) {
                     mw.app.editor.dispatch('editNodeRequest',  e.target);
                 }
@@ -482,13 +475,16 @@ export class LiveEdit {
             })
             ElementManager(this.root).on(events, (e) => {
                 _dblclicktarget = e.target;
+                 
                 if ( !this.paused  ) {
                     _eventsHandle(e)
                 } else {
                     var elementTarget = this.elementHandle.getTarget();
                     if(elementTarget && !elementTarget.contains(e.target)) {
-                        this.play()
+                        this.play();
+                       
                     }
+                    // mw.app.get('liveEdit').play();
                 }
             });
 

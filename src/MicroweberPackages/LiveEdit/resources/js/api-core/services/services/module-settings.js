@@ -17,6 +17,8 @@ export class ModuleSettings extends MicroweberBaseClass {
         });
         mw.app.editor.on('onModuleSettingsRequest', (module) => {
 
+            console.log(module)
+
 
 
              var moduleId = module.id;

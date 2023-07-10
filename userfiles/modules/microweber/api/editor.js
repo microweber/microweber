@@ -76,7 +76,7 @@ var MWEditor = function (options) {
         scope.actionWindow = scope.settings.actionWindow;
         scope.document = scope.settings.document;
         scope.storage = scope.settings.storage;
-        console.log( scope.storage)
+        
     }
 
     this.settingsExtend = function(options = {}, trigger = true) {
@@ -1094,7 +1094,7 @@ if (window.mw) {
            if (typeof options.selector === 'string') {
                options.selector = (options.document || document).querySelector(options.selector);
            }
-           if (options.selector && options.selector.__MWEditor) {
+           if (options.selector && options.selector.__MWEditor && !options.forced) {
                return options.selector.__MWEditor;
            }
        }

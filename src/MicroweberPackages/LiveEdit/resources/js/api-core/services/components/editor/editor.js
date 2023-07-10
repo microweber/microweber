@@ -32,6 +32,7 @@ export const EditorComponent = function () {
     window.fontFamilyProvider = fontFamilyProvider;
     const frame = mw.app.get('canvas').getFrame();
     frame.contentWindow.fontFamilyProvider = fontFamilyProvider;
+ 
 
 
     const editorControls = [
@@ -116,10 +117,9 @@ export const EditorComponent = function () {
         maxHeight: '70vh',
         state: mw.liveEditState,
 
-        fontFamilyProvider: fontFamilyProvider
+        fontFamilyProvider: fontFamilyProvider,
+        forced: true
     });
-
-    
 
  
 
