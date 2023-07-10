@@ -89,7 +89,7 @@
                             :ssr-columns="1"
                             :column-width="400"
                             :padding="12"
-                            :gap="12"> 
+                            :gap="12">
                             <template #default="{ item, index }">
                                 <div
                                     v-on:click="insertLayout(item.template)"
@@ -119,7 +119,7 @@
                                   :class="['modules-list-block-style-' + layoutsListTypePreview, 'modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
 
                                 <div class="modules-list-block-item-picture"
-                                     :style="'background-image: url('+item.screenshot+');background-size: contain;'">
+                                     :style="'background-image: url('+item.screenshot+');background-size: cover;background-position: center center;'">
 
                                 </div>
 
