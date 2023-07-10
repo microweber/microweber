@@ -4,13 +4,13 @@
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-overlay active"></div>
 
     <Transition
-        enter-active-class="animate__animated animate__backInLeft"
-        leave-active-class="animate__animated animate__backOutLeft"
+        enter-active-class="animate__animated animate__zoomIn"
+        leave-active-class="animate__animated animate__zoomOut"
     >
         <div v-if="showModal"
 
              class="mw-le-dialog-block mw-le-modules-dialog active"
-             style="inset:20px;transform:none;"
+             style="inset:35%; top:20%; transform:none; animation-duration: .3s;"
         >
 
             <div class="modules-list modules-list-defaultModules py-3">
