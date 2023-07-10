@@ -681,27 +681,7 @@ body.loaded #bubble-nav span {
 }
 
 
-#css-editor-template::-webkit-scrollbar,
-.modules-list-block::-webkit-scrollbar,
-.modules-list-categories::-webkit-scrollbar {
-    width: 9px;
-}
-
-#css-editor-template::-webkit-scrollbar-thumb,
-.modules-list-block::-webkit-scrollbar-thumb,
-.modules-list-categories::-webkit-scrollbar-thumb {
-    background-color: transparent;
-    outline: none;
-}
-
-
-#css-editor-template::-webkit-scrollbar-thumb,
-.modules-list-block::-webkit-scrollbar-thumb,
-.modules-list-categories::-webkit-scrollbar-thumb {
-    background-image: linear-gradient(180deg, #8a8a8a 0%, #9f9f9f 99%);
-    border-radius: 100px;
-    width: 9px;
-}
+ 
 
 .modules-list-categories {
     list-style: none;
