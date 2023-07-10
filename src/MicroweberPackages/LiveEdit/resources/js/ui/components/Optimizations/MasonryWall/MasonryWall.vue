@@ -71,10 +71,13 @@ async function fillColumns(itemIndex: number) {
 }
 
 async function redraw(force = false) {
-    if (columns.value.length === columnCount() && !force) {
-        emit('redrawSkip')
-        return
-    }
+
+    console.log('redraw-' + force);
+
+    // if (columns.value.length === columnCount() && !force) {
+    //     emit('redrawSkip')
+    //     return;
+    // }
 
     columns.value = createColumns(columnCount())
     const scrollTarget = scrollContainer?.value
