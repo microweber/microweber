@@ -84,9 +84,9 @@
                     <div v-if="layoutsListLoaded && layoutsListTypePreview == 'masonry'" class="modules-list-block">
                         <MasonryWall :items="layoutsListFiltered"
                                      :ssr-columns="1"
-                                     :column-width="200"
-                                     :padding="22"
-                                     :gap="22">
+                                     :column-width="400"
+                                     :padding="12"
+                                     :gap="12">
                             <template #default="{ item, index }">
                                 <div
                                     v-on:click="insertLayout(item.template)"
