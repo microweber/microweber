@@ -1906,6 +1906,10 @@ svg.text-danger {
     cursor: pointer;
     font-weight: 400;
     text-decoration: none !important;
+
+    &:hover {
+        color: var(--tblr-body-color);
+    }
 }
 
 .mw-live-edit-toolbar-link--arrowed {
