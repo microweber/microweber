@@ -636,12 +636,10 @@ body.loaded #bubble-nav span {
 
 .mw-le-layouts-dialog .modules-list-categories li:hover {
     color: #000000;
-    background-color: var(--tblr-body-bg);
 }
 
 .mw-le-layouts-dialog .modules-list-categories li.active {
     color: #000000;
-    background:#f2f2f2;
 }
 
 .mw-le-layouts-dialog .modules-list-categories li {
