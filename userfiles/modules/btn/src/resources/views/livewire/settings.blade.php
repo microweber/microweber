@@ -1,66 +1,6 @@
 <div class="px-2 py-2" x-data="{
-
 showEditTab: 'content',
-showSettingsModal: 'none'
 }">
-
-    <div x-show="showSettingsModal == 'advanced_settings'"
-
-    >
-        <div>
-            <span x-on:click="showSettingsModal = 'none'"  class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed">
-                <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
-                <span class="ms-1 font-weight-bold">Back</span>
-            </span>
-        </div>
-        <br />
-        Advanced settings - First level<br />
-        This is Advanced settings for the module<br />
-        <div class="mt-2">
-            <button x-on:click="showSettingsModal = 'mega_advanced_settings'"  type="button" class="btn btn-dark btn-sm">
-                Mega Advance settings
-            </button>
-        </div>
-    </div>
-
-    <div x-show="showSettingsModal == 'mega_advanced_settings'"
-
-    >
-
-        <div>
-            <span x-on:click="showSettingsModal = 'advanced_settings'"  class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed">
-                <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
-                <span class="ms-1 font-weight-bold">Back</span>
-            </span>
-        </div>
-
-         <br />
-        Mega Advanced settings - Second level<br />
-        This is Mega Advanced settings for the module
-        <br />
-        <div>
-            <button  x-on:click="showSettingsModal = 'giga_advanced_settings'"  type="button" class="btn btn-dark btn-sm">Giga Advance settings</button>
-        </div>
-    </div>
-
-    <div x-show="showSettingsModal == 'giga_advanced_settings'"
-
-    >
-
-        <div>
-            <span x-on:click="showSettingsModal = 'mega_advanced_settings'"  class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed">
-                <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
-                <span class="ms-1 font-weight-bold">Back</span>
-            </span>
-        </div>
-
-        <br />
-        Giga Advanced settings - Third level<br />
-        This is Giga Advanced settings for the module
-    </div>
-
-
-    <div x-show="showSettingsModal == 'none'">
 
     <div class="d-flex justify-content-between align-items-center mb-4 collapseNav-initialized">
         <div class="d-flex flex-wrap gap-md-4 gap-3">
@@ -82,21 +22,30 @@ showSettingsModal: 'none'
             Text
             <livewire:microweber-module-option::text optionName="text" :moduleId="$moduleId" :moduleType="$moduleType"  />
         </div>
-        <div class="mt-4">
-            Link
-            <livewire:microweber-module-option::text optionName="url" :moduleId="$moduleId" :moduleType="$moduleType"    />
+        <div class="mt-4 mb-3">
+            <label class="form-label">Link</label>
+            <div class="input-group mb-2">
+                <input type="text" class="form-control mw_option_field" option_group="{{$moduleId}}" placeholder="https://example.com">
+                <button class="btn js-open-link-editor" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="currentColor" d="M1.911 7.383a8.491 8.491 0 0 1 1.78-3.08a.5.5 0 0 1 .54-.135l1.918.686a1 1 0 0 0 1.32-.762l.366-2.006a.5.5 0 0 1 .388-.4a8.532 8.532 0 0 1 3.554 0a.5.5 0 0 1 .388.4l.366 2.006a1 1 0 0 0 1.32.762l1.919-.686a.5.5 0 0 1 .54.136a8.491 8.491 0 0 1 1.78 3.079a.5.5 0 0 1-.153.535l-1.555 1.32a1 1 0 0 0 0 1.524l1.555 1.32a.5.5 0 0 1 .152.535a8.491 8.491 0 0 1-1.78 3.08a.5.5 0 0 1-.54.135l-1.918-.686a1 1 0 0 0-1.32.762l-.366 2.007a.5.5 0 0 1-.388.399a8.528 8.528 0 0 1-3.554 0a.5.5 0 0 1-.388-.4l-.366-2.006a1 1 0 0 0-1.32-.762l-1.918.686a.5.5 0 0 1-.54-.136a8.49 8.49 0 0 1-1.78-3.079a.5.5 0 0 1 .152-.535l1.555-1.32a1 1 0 0 0 0-1.524l-1.555-1.32a.5.5 0 0 1-.152-.535Zm1.06-.006l1.294 1.098a2 2 0 0 1 0 3.05l-1.293 1.098c.292.782.713 1.51 1.244 2.152l1.596-.57a2 2 0 0 1 2.64 1.525l.305 1.668a7.556 7.556 0 0 0 2.486 0l.304-1.67a1.998 1.998 0 0 1 2.641-1.524l1.596.571a7.492 7.492 0 0 0 1.245-2.152l-1.294-1.098a1.998 1.998 0 0 1 0-3.05l1.294-1.098a7.491 7.491 0 0 0-1.245-2.152l-1.596.57a2 2 0 0 1-2.64-1.524l-.305-1.669a7.555 7.555 0 0 0-2.486 0l-.304 1.669a2 2 0 0 1-2.64 1.525l-1.597-.571a7.491 7.491 0 0 0-1.244 2.152ZM7.502 10a2.5 2.5 0 1 1 5 0a2.5 2.5 0 0 1-5 0Zm1 0a1.5 1.5 0 1 0 3 0a1.5 1.5 0 0 0-3 0Z"/></svg>
+                </button>
+            </div>
         </div>
 
-
-        <div class="mt-4">
-            <button x-on:click="showSettingsModal = 'advanced_settings'" type="button" class="btn btn-dark btn-sm">
-                Advance settings
-            </button>
-        </div>
+        <script>
+            $(document).ready(function() {
+               $('.js-open-link-editor').click(function () {
+                   new mw.LinkEditor({
+                       mode: 'dialog'
+                   }).promise()
+                       .then(function (result){
+                           console.log(result);
+                       });
+               });
+            });
+        </script>
 
     </div>
-
-
     <div x-show="showEditTab=='design'">
 
         <div>
@@ -110,7 +59,6 @@ showSettingsModal: 'none'
        <div class="mt-3">
            <x-microweber-module-btn::btn-align :settings="$settings"/>
        </div>
-    </div>
     </div>
 
 </div>
