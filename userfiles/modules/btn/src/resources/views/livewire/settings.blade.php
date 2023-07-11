@@ -49,9 +49,8 @@ showEditTab: 'content',
     </div>
     <div x-show="showEditTab=='design'">
 
-        <div>
-            <livewire:microweber-module-btn::template-settings-bootstrap :moduleId="$moduleId" :moduleType="$moduleType" />
-        </div>
+        <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
+        <livewire:microweber-module-btn::settings-form-design :moduleId="$moduleId" :moduleType="$moduleType" />
 
         <div class="mt-3">
           <x-microweber-ui::icon-picker wire:model="settings.icon" :value="$settings['icon']"/>
