@@ -182,13 +182,13 @@
                     docEl.addEventListener("DOMSubtreeModified", function(evt) {
                         var t = evt.target;
 
-                        domModifiedForAutoHeight();
+                        window.domModifiedForAutoHeight();
 
                     }, false);
                 } else {
                     document.onpropertychange = function() {
 
-                        domModifiedForAutoHeight();
+                        window.domModifiedForAutoHeight();
 
                     };
                 }
