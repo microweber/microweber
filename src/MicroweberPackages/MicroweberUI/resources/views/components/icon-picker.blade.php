@@ -1,6 +1,6 @@
 @props(['value' => false])
 
-<div class="microweber-ui-icon-picker d-flex">
+<div class="microweber-ui-icon-picker">
     <div class="btn-group d-flex">
         <button class="btn btn-white">
             {!! $value !!}

@@ -49,7 +49,7 @@ showEditTab: 'content',
     <div x-show="showEditTab=='design'">
 
         <div>
-            <livewire:microweber-module-btn::template-settings-bootstrap :settings="$settings" />
+            <livewire:microweber-module-btn::template-settings-bootstrap :moduleId="$moduleId" :moduleType="$moduleType" />
         </div>
 
         <div class="mt-3">
