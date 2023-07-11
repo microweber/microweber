@@ -13,7 +13,7 @@ export default {
     },
     mounted() {
         var instance = this;
-        mw.app.canvas.on('canvasDocumentClick',function(app){
+        mw.app.canvas.on('canvasDocumentClick',function(){
             if(instance.cssEditorIframe) {
                 var selected = mw.app.liveEdit.elementHandle.getTarget();
                 if (selected) {
@@ -22,9 +22,11 @@ export default {
             }
         });
         mw.app.canvas.on('liveEditCanvasLoaded', function () {
-            instance.cssEditorIframe = mw.liveEditWidgets.cssEditorInSidebarAccordion();
-            instance.cssEditorIframe.onload = function () {
-            };
+            if(instance) {
+                instance.cssEditorIframe = mw.liveEditWidgets.cssEditorInSidebarAccordion();
+                instance.cssEditorIframe.onload = function () {
+                };
+            }
         });
     }
 
