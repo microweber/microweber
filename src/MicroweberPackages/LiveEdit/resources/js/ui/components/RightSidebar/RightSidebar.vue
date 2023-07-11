@@ -9,7 +9,33 @@
                 </button>
             </div>
 
-            <TemplateSettings></TemplateSettings>
+
+
+
+           <div>
+               <ul class="nav nav-pills nav-justified" id="rightSidebarTabStyleEditorNav" role="tablist">
+                   <li class="nav-item" role="presentation">
+                       <button class="nav-link active"  data-bs-toggle="tab" data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab" >Global Styles</button>
+                   </li>
+                   <li class="nav-item" role="presentation">
+                       <button class="nav-link"   data-bs-toggle="tab" data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab" >Custom Styles</button>
+                   </li>
+               </ul>
+
+               <div class="tab-content">
+                   <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder" role="tabpanel">
+
+                       <TemplateSettings></TemplateSettings>
+
+                   </div>
+                   <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder" role="tabpanel">
+                       <StyleEditor></StyleEditor>
+                   </div>
+
+               </div>
+           </div>
+
+
 
         </div>
 
@@ -24,10 +50,12 @@
 
 <script>
 import TemplateSettings from "./TemplateSettings/TemplateSettings.vue";
+import StyleEditor from "./StyleEditor/StyleEditor.vue";
 
 export default {
     components: {
-        TemplateSettings
+        TemplateSettings,
+        StyleEditor
     },
     methods: {
         closeSidebar() {
@@ -53,7 +81,10 @@ export default {
                 }
             }
         });
+        var firstTabEl = document.querySelector('#rightSidebarTabStyleEditorNav li:first-child button')
+        var firstTab = new bootstrap.Tab(firstTabEl)
 
+        firstTab.show()
         // Close on Escape
         document.addEventListener('keyup', function (evt) {
             if (evt.keyCode === 27) {

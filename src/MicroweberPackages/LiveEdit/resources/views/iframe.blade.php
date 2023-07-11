@@ -16,6 +16,7 @@
 
         mw.lib.require('jqueryui');
         mw.require('components.css')
+        mw.require('liveedit_widgets.js')
 
 
 

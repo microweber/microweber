@@ -7,7 +7,7 @@
 @php
     $liveEditUrl = site_url() . 'admin/live-edit';
     if ($content_id > 0) {
-        $liveEditUrl = $liveEditUrl .= '?page=' . content_link($content_id);
+        $liveEditUrl = $liveEditUrl .= '?url=' . content_link($content_id);
     }
 @endphp
 
