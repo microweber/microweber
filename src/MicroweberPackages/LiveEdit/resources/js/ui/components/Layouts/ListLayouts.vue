@@ -11,7 +11,7 @@
     >
 
     <div v-if="showModal"
-         class="mw-le-dialog-block mw-le-layouts-dialog active"
+         class="mw-le-dialog-block mw-le-layouts-dialog w-100 active"
          style="inset:20px; transform:none; animation-duration: .3s;"
     >
 
