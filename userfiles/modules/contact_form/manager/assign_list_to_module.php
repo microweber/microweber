@@ -32,7 +32,7 @@ $selected_list = get_option('list_id', $params['for-module-id']);
 $data = get_form_lists('order_by=created_at desc&module_name=' . $params['for-module']);
 ?>
 
-    <h5 class="font-weight-bold mb-3"><?php _e("Contact form lists"); ?></h5>
+    <h5 class="form-label font-weight-bold mb-3"><?php _e("Contact form lists"); ?></h5>
 <?php if (is_array($data)): ?>
     <div id="form_dropdown_lists">
         <script>

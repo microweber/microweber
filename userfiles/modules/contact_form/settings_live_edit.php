@@ -62,12 +62,12 @@ $for_module_id = $mod_id;
             <div class="tab-pane fade show active tab-pane-slide-right" id="tabs-nav-tab-main" role="tabpanel">
 
 
-                <div class="row d-flex align-items-center w-100">
+                <div class="row d-flex align-items-center w-100 mb-3">
                     <div class="col">
-                        <h5 class="font-weight-bold settings-title-inside"><?php _e("Contact form settings") ?></h5>
+                        <h5 class="font-weight-bold settings-title-inside mb-1"><?php _e("Contact form settings") ?></h5>
                     </div>
                     <div class="col text-right">
-                        <a class="btn-link" href="<?php print admin_url('settings?group=email') ?>"
+                        <a class="mw-admin-action-links mw-adm-liveedit-tabs font-weight-bold" href="<?php print admin_url('settings?group=email') ?>"
                            target="_blank"> <?php _e("Sending options"); ?></a>
                     </div>
                 </div>
@@ -75,36 +75,36 @@ $for_module_id = $mod_id;
 
                 <div class="list-group">
                     <button onclick="$('#nav-tab-manage-fields').click()" type="button"
-                            class="list-group-item list-group-item-action">
+                            class="list-group-item list-group-item-action mw-list-group-accordion-buttons">
                         <?php _e("Form fields"); ?>
                     </button>
                     <button onclick="$('#nav-tab-manage-contact-auto-respond').click()" type="button"
-                            class="list-group-item list-group-item-action"><?php _e("Auto respond settings"); ?></button>
+                            class="list-group-item list-group-item-action mw-list-group-accordion-buttons"><?php _e("Auto respond settings"); ?></button>
                     <button onclick="$('#nav-tab-manage-contact-settings').click()" type="button"
-                            class="list-group-item list-group-item-action"><?php _e("Contact settings"); ?></button>
+                            class="list-group-item list-group-item-action mw-list-group-accordion-buttons"><?php _e("Contact settings"); ?></button>
                     <button onclick="$('#nav-tab-manage-contact-receivers').click()" type="button"
-                            class="list-group-item list-group-item-action"><?php _e("Receivers"); ?></button>
+                            class="list-group-item list-group-item-action mw-list-group-accordion-buttons"><?php _e("Receivers"); ?></button>
 
 
                     <button onclick="$('#nav-tab-manage-contact-advanced').click()" type="button"
-                            class="list-group-item list-group-item-action"><?php _e("Advanced"); ?></button>
+                            class="list-group-item list-group-item-action mw-list-group-accordion-buttons"><?php _e("Advanced"); ?></button>
 
 
                     <button onclick="$('#nav-tab-manage-contact-templates').click()" type="button"
-                            class="list-group-item list-group-item-action"><?php _e("Templates"); ?></button>
+                            class="list-group-item list-group-item-action mw-list-group-accordion-buttons"><?php _e("Templates"); ?></button>
                 </div>
 
 
             </div>
             <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-fields" role="tabpanel">
 
-               <div class="d-flex align-items-center">
+               <div class="d-flex align-items-center mb-3">
                    <button class="col col btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start text-start" onclick="$('#nav-tab-main').click()">
                        <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
                        <span class="ms-1 font-weight-bold"><?php _e("Back"); ?></span>
                    </button>
 
-                   <label class="col-5 form-label text-center font-weight-bold mb-0">
+                   <label class="col-5 form-label text-center font-weight-bold mb-0 fs-3">
                        <?php _e("Form fields"); ?>
                    </label>
 
@@ -119,12 +119,12 @@ $for_module_id = $mod_id;
             </div>
 
             <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-contact-settings" role="tabpanel">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center mb-3">
                     <button class="col btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start" onclick="$('#nav-tab-main').click()">
                         <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
                         <span class="ms-1 font-weight-bold"><?php _e("Back"); ?></span>
                     </button>
-                    <label class="col-5 form-label text-center font-weight-bold mb-0"><?php _e("Contact settings"); ?></label>
+                    <label class="col-5 form-label text-center font-weight-bold mb-0 fs-3"><?php _e("Contact settings"); ?></label>
 
                     <div class="col">
 
@@ -149,12 +149,12 @@ $for_module_id = $mod_id;
 
             <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-contact-auto-respond"
                  role="tabpanel">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center mb-3">
                     <button class="col btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start" onclick="$('#nav-tab-main').click()">
                         <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
                         <span class="ms-1 font-weight-bold"><?php _e("Back"); ?></span>
                     </button>
-                    <label class="col-5 form-label text-center font-weight-bold mb-0"><?php _e("Auto respond settings"); ?></label>
+                    <label class="col-5 form-label text-center font-weight-bold mb-0 fs-3"><?php _e("Auto respond settings"); ?></label>
 
                     <div class="col">
 
@@ -313,12 +313,12 @@ $for_module_id = $mod_id;
 
             </div>
             <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-contact-receivers" role="tabpanel">
-               <div class="d-flex align-items-center">
+               <div class="d-flex align-items-center mb-3">
                    <button class="col btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start" onclick="$('#nav-tab-main').click()">
                        <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
                        <span class="ms-1 font-weight-bold"><?php _e("Back"); ?></span>
                    </button>
-                   <label class="col-5 form-label text-center font-weight-bold mb-0"><?php _e("Receivers"); ?></label>
+                   <label class="col-5 form-label text-center font-weight-bold mb-0 fs-3"><?php _e("Receivers"); ?></label>
 
                    <div class="col">
 
@@ -382,13 +382,13 @@ $for_module_id = $mod_id;
 
 
             <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-contact-advanced" role="tabpanel">
-               <div class="d-flex align-items-center">
+               <div class="d-flex align-items-center mb-3">
                    <button class="col btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start" onclick="$('#nav-tab-main').click()">
                        <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
                        <span class="ms-1 font-weight-bold"><?php _e("Back"); ?></span>
                    </button>
 
-                   <label class="col-5 form-label text-center font-weight-bold mb-0"><?php _e("Advanced"); ?></label>
+                   <label class="col-5 form-label text-center font-weight-bold mb-0 fs-3"><?php _e("Advanced"); ?></label>
 
                    <div class="col">
 
@@ -444,13 +444,13 @@ $for_module_id = $mod_id;
 
             </div>
             <div class="tab-pane fade tab-pane-slide-right" id="tabs-nav-tab-manage-contact-templates" role="tabpanel">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center mb-3">
                     <button class="col btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start" onclick="$('#nav-tab-main').click()">
                         <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
                         <span class="ms-1 font-weight-bold"><?php _e("Back"); ?></span>
                     </button>
 
-                    <label class="col-5 form-label text-center font-weight-bold mb-0"><?php _e("Templates"); ?></label>
+                    <label class="col-5 form-label text-center font-weight-bold mb-0 fs-3"><?php _e("Templates"); ?></label>
 
                     <div class="col">
 
