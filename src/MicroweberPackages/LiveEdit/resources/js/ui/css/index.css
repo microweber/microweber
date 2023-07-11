@@ -551,7 +551,7 @@ body.loaded #bubble-nav span {
 
 }
 
-.mw-le-layouts-dialog .modules-list-block-item:hover {
+.mw-le-layouts-dialog .modules-list-block-item:hover, .modules-list-block-item-masonry:hover {
     transform: scale(1.02);
 
     box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
@@ -568,11 +568,11 @@ body.loaded #bubble-nav span {
 
 }
 
-.mw-le-layouts-dialog .modules-list-block-item:hover .modules-list-block-item-title {
+.mw-le-layouts-dialog .modules-list-block-item:hover .modules-list-block-item-title, .modules-list-block-item-masonry-title {
     transform: scale(1.4);
 }
 
-.mw-le-layouts-dialog .modules-list-block-item-title {
+.mw-le-layouts-dialog .modules-list-block-item-title, .modules-list-block-item-masonry-title {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -581,6 +581,10 @@ body.loaded #bubble-nav span {
     font-size: 10px;
     transition: .3s;
     transform-origin: right bottom;
+}
+
+.modules-list-block-masonry {
+    overflow-y: scroll;
 }
 
 .mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field {
@@ -592,7 +596,7 @@ body.loaded #bubble-nav span {
     color: #737373;
 }
 
-.mw-le-layouts-dialog .modules-list-block-item {
+.mw-le-layouts-dialog .modules-list-block-item, .modules-list-block-item-masonry {
     transition: .22s;
     display: block;
     position: relative;
@@ -763,7 +767,7 @@ body.loaded #bubble-nav span {
     transform: scale(1.05);
 }
 
-.mw-le-modules-dialog .modules-list-block-item-title {
+.mw-le-modules-dialog .modules-list-block-item-title, .modules-list-block-item-masonry-title {
     white-space: nowrap;
     display: block;
     overflow: hidden;
