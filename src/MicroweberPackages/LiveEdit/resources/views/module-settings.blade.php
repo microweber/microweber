@@ -207,12 +207,10 @@
                  domModifiedForAutoHeightIntervalId = setTimeout(() => {
 
 
-
-
                      if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
                          window.createAutoHeight();
                      }
-                }, 300);
+                }, 100);
             }
 
 
