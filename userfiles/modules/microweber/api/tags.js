@@ -1,4 +1,4 @@
-
+mw.require('tree-icons.js');
 
 mw.coreIcons = {
     category:'mw-icon-category',
@@ -50,7 +50,7 @@ mw.tags = mw.chips = function(options){
     };
     this.rend = function(){
         scope.options.element.classList.add('mw-tags--container', 'd-flex', 'flex-wrap', 'gap-3')
- 
+
          $.each(this.options.data, function(i){
             var data = $.extend({index:i}, this);
             scope.options.element.appendChild(scope.tag(data));
@@ -151,13 +151,13 @@ mw.tags = mw.chips = function(options){
         var icon;
         if(typeof ic === 'string' && ic.indexOf('<') === -1){
             icon = document.createElement('i');
-            
+
         }
         else{
             icon = ic;
         }
         icon = mw.element(icon).get(0);
- 
+
 
         return icon;
      };

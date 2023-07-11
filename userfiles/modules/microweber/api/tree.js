@@ -17,8 +17,8 @@
 
     mw.lib.require('nestedSortable');
 
+    mw.require('tree-icons.js');
 
- 
 
     var mwtree = function(config){
 
@@ -191,7 +191,7 @@
             if(this.options.skip && this.options.skip.length > 0){
                 for( var n = 0; n < scope.options.skip.length; n++ ){
                     var item = scope.options.skip[n];
-                    
+
                     var case1 = (item.id == itemData.id && item.type == itemData.type);
                     var case2 = (itemData.parent_id == item.id && item.type == itemData.type);
 
@@ -658,9 +658,9 @@
                     setTimeout((content)=>{
                         content.children().css('pointerEvents', 'all')
                     }, 10, content)
-                    
+
                 }
-                
+
             }
             var cont = element.querySelector('.mw-tree-item-content');
             cont.classList.add('item-selectable-' + _selectable);
@@ -813,7 +813,7 @@
                     scope.document.querySelectorAll('.mw-tree-context-menu-content-active').forEach(function(node){
                         node.classList.remove('mw-tree-context-menu-content-active');
                     })
-                   
+
                     if(element.classList.contains('context-menu-active')){
                         var off = mw.element(menuButton).offset();
                         menuButton.$$menuContent.style.top = off.offsetTop + 'px';
@@ -827,7 +827,7 @@
                     }
                    }
                 });
-                
+
                 menuContent.className = 'mw-tree-context-menu-content mw-tree-context-menu-content-' + this.options.skin + ' mw-tree-context-menu-content-mode-' + this.options.contextMenuMode;
                 menu.appendChild(menuButton);
                 menuButton.$$menuContent = menuContent;
@@ -837,7 +837,7 @@
                 } else if(this.options.contextMenuMode === 'dropdown') {
                     scope.document.body.appendChild(menuContent);
                 }
-                
+
                     $.each(this.options.contextMenu, function(){
                     if(!this.filter || this.filter(element._data, element)){
                         var menuitem = scope.document.createElement('span');
@@ -851,7 +851,7 @@
                             icon.className = 'mw-tree-context-menu-icon';
                             icon.innerHTML = this.icon;
                         }
-                        
+
                         menuitem.prepend(icon);
                         menuContent.appendChild(menuitem);
                         (function(menuitem, element, obj){
