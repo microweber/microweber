@@ -1,5 +1,6 @@
 <div class="px-2 py-2" x-data="{
 showEditTab: 'content',
+showAdvancedDesign: false
 }">
 
     <div class="d-flex justify-content-between align-items-center mb-4 collapseNav-initialized">
@@ -50,7 +51,6 @@ showEditTab: 'content',
     <div x-show="showEditTab=='design'">
 
         <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
-        <livewire:microweber-module-btn::settings-form-design :moduleId="$moduleId" :moduleType="$moduleType" />
 
         <div class="mt-3">
           <x-microweber-ui::icon-picker wire:model="settings.icon" :value="$settings['icon']"/>
@@ -59,6 +59,16 @@ showEditTab: 'content',
        <div class="mt-3">
            <x-microweber-module-btn::btn-align :settings="$settings"/>
        </div>
+
+        <div class="mt-3">
+           <button x-on:click="showAdvancedDesign =! showAdvancedDesign" type="button" class="btn btn-link btn-sm">
+               {{__('Advanced design')}}
+           </button>
+        </div>
+
+        <div x-show="showAdvancedDesign" x-transition>
+            <livewire:microweber-module-btn::settings-form-design :moduleId="$moduleId" :moduleType="$moduleType" />
+        </div>
     </div>
 
 </div>

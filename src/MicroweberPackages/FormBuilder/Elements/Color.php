@@ -13,4 +13,8 @@ class Color extends Input
         'class'=>'form-control'
     ];
 
+
+    public function render() {
+        return 'qkooo';
+    }
 }

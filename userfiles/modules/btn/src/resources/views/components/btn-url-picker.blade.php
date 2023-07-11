@@ -25,12 +25,11 @@
     })
 </script>
 
-
-
-
 <div class="mb-3">
     <label class="form-label"><?php _e("Edit url"); ?></label>
     <small class="text-muted d-block mb-3"><?php _e('Link settings for your url.');?></small>
+
+
     <button class="btn btn-secondary btn-sm btn-rounded" onclick="mw.app.linkPicker.selectLink('#display-url')"><i class="mdi mdi-link"></i> <?php _e("Edit link"); ?></button>
 
     <input id="display-url" onclick="mw.app.linkPicker.selectLink('#display-url')" class="form-control-plaintext" type="text" placeholder="Url ..." value="{{ $url }}">
@@ -38,5 +37,4 @@
     <input type="hidden" wire:model="settings.url">
     <input type="hidden" wire:model="settings.url_to_content_id">
     <input type="hidden" wire:model="settings.url_to_category_id">
-
 </div>

@@ -1,4 +1,4 @@
-<div class="mw-module-select-template">
+<div class="mw-module-select-template" @if(count($moduleTemplates) == 1) style="display:none" @endif >
 
     @php
         $currentSkin = $settings['template'];
@@ -10,11 +10,11 @@
          $moduleTypeForComponent = str_replace('/', '.', $moduleType);
          $moduleTypeForComponent = str_replace('_', '-', $moduleType);
     @endphp
+
    <div class="mb-3">
-
-
-       <div class="form-floating">
-           <select wire:model="settings.template" class="form-select" id="floatingSelectTemplate" aria-label="<?php _ejs("Select Template"); ?>">
+       <label><?php _ejs("Skin"); ?></label>
+       <div>
+           <select wire:model="settings.template" class="form-select">
                <option value="default">
                    <?php _e("Default"); ?>
                </option>
@@ -26,9 +26,7 @@
                <?php endif; ?>
                <?php endforeach; ?>
            </select>
-           <label for="floatingSelectTemplate"><?php _e("Select Template"); ?></label>
        </div>
-
    </div>
 
     <div class="mw-module-skin-setting-holder">
@@ -39,35 +37,35 @@
                 <div>
                     <div>
 
-                            <?php
-                            $moduleTypeForComponent = str_replace('/', '-', $moduleType);
-                            $hasError = false;
-                            $output = false;
+                        <?php
+                        $moduleTypeForComponent = str_replace('/', '-', $moduleType);
+                        $hasError = false;
+                        $output = false;
 
-                            try {
-                                $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
-                                    'moduleId' => $moduleId,
-                                    'moduleType' => $moduleType,
-                                ])->html();
+                        try {
+                            $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
+                                'moduleId' => $moduleId,
+                                'moduleType' => $moduleType,
+                            ])->html();
 
-                            } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
-                                $hasError = true;
-                                $output = $e->getMessage(). ' ' . $e->getFile() . ' ' . $e->getLine();
-                            } catch (\Exception $e) {
-                                $hasError = true;
-                                $output = $e->getMessage(). ' ' . $e->getFile() . ' ' . $e->getLine();
-                            }
+                        } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
+                            $hasError = true;
+                            $output = $e->getMessage(). ' ' . $e->getFile() . ' ' . $e->getLine();
+                        } catch (\Exception $e) {
+                            $hasError = true;
+                            $output = $e->getMessage(). ' ' . $e->getFile() . ' ' . $e->getLine();
+                        }
 
-                            if ($hasError) {
-                                print '<div class="alert alert-danger" role="alert">';
-                                print $output;
-                                print '</div>';
-                            } else {
-                                print $output;
-                            }
+                        if ($hasError) {
+                            print '<div class="alert alert-danger" role="alert">';
+                            print $output;
+                            print '</div>';
+                        } else {
+                            print $output;
+                        }
 
 
-                            ?>
+                        ?>
 
 
                      </div>
