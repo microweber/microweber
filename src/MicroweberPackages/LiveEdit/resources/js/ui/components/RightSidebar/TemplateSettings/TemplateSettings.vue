@@ -11,10 +11,10 @@
                 {{ settingGroupKey }}
             </a>
 
-            <div class="mb-2" style="display:none" :id="'settings-group-' + stringToId(settingGroupKey)">
+            <div class="mt-3" style="display:none" :id="'settings-group-' + stringToId(settingGroupKey)">
                 <div class="" :id="'accordionFlush' + stringToId(settingGroupKey)">
 
-                    <div v-for="(settingGroupInside,settingGroupInsideName) in settings.values" class="accordion-item">
+                    <div v-for="(settingGroupInside,settingGroupInsideName) in settings.values" class="mb-2">
 
                         <label
                             :id="'flush-heading-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)">
@@ -132,14 +132,14 @@
                 <div class="mt-2 mr-2" v-if="settings.type == 'stylesheet'">
                     <button v-on:click="resetStylesheetSettings"
                             style="border-radius: 20px"
-                            class="btn btn-primary btn-sm btn-block">Reset Stylesheet Settings
+                            class="btn btn-dark btn-sm btn-block">Reset Stylesheet Settings
                     </button>
                 </div>
 
                 <div class="mt-2 mr-2" v-if="settings.type == 'template'">
                     <button v-on:click="resetTemplateSettings"
                             style="border-radius: 20px"
-                            class="btn btn-primary btn-sm btn-block">Reset Template Settings
+                            class="btn btn-dark btn-sm btn-block">Reset Template Settings
                     </button>
                 </div>
 
