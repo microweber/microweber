@@ -7,7 +7,12 @@ import {Resizable} from "./classes/resizable.js";
 
 export const Handle = function (options) {
 
-    var defaults = {};
+    var defaults = {
+        automaticMaxWidth: true,
+        setDraggableTarget: function(target) {
+            return true;
+        }
+    };
 
     var scope = this;
 
@@ -66,18 +71,13 @@ export const Handle = function (options) {
 
       
         this.draggable.on('dragStart', function () {
-           
+          
             scope.wrapper.addClass('mw-handle-item-dragging');
         })
         this.draggable.on('dragEnd', function () {
              
             scope.wrapper.removeClass('mw-handle-item-dragging');
         });
-
-
- 
-
-
 
     };
 
@@ -131,14 +131,34 @@ export const Handle = function (options) {
         
     }
 
+
+    var _draggable;
+
+    this.setDraggable = function(valueOrTarget) {
+        if(typeof value === 'boolean') {
+            _draggable = value;
+            return this;
+        }
+        if(typeof this.settings.setDraggableTarget === 'function') {
+            _draggable = this.settings.setDraggableTarget(valueOrTarget);
+        }
+        this.wrapper.get(0).dataset.draggable = _draggable;
+    }
+
+    this.getDraggable = function() {
+        return _draggable;
+    }
+
     this.set = function (target, forced) {
         
         if (!target) {
             _currentTarget = null;
+            this.setDraggable(false)
             return;
         }
 
         this.position(target);
+        this.setDraggable(target)
         this.show();
 
         this.draggable.setElement(target);
@@ -146,7 +166,8 @@ export const Handle = function (options) {
             _currentTarget = target;
             this.dispatch('targetChange', target);
         }
-        setTimeout(() => this.wrapper.addClass('mw-handle-active'), 1)
+        setTimeout(() => this.wrapper.addClass('mw-handle-active'), 1);
+        return this;
     };
 
     this.createHandle = function () {
@@ -270,6 +291,9 @@ export const Handle = function (options) {
         this.resizer.mount();
         this.resizer.on('resize',  data => {
             const target = this.getTarget();
+            if(this.settings.automaticMaxWidth) {
+                target.style.maxWidth = '100%';
+            }
             if(target.nodeName === 'IMG') {
                 data = calculateAspectRatioFit(target.offsetWidth, target.offsetHeight, data.width, data.height)
                 target.style.height = data.height + 'px';

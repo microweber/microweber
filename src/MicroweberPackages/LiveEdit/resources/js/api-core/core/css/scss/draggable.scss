@@ -15,9 +15,20 @@ html.le-dragging{
     inset: 0;
     z-index: 10;
     display: none;
+    cursor: default;
     &.active{
         display: block;
     }
+}
+
+.mw-handle-item[data-draggable="false"] {
+    .mw-handle-item-draggable-self{
+        display: none;
+        &.active{
+            display: none;
+        }
+    }
+    
 }
 
 .mw-handle-item.mw-le-resizable {

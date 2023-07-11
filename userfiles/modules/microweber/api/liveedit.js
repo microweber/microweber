@@ -113,7 +113,6 @@ $(window).on("load", function() {
     mw.liveedit.initLoad();
     setTimeout(function (){
         mw.wysiwyg.init_editables();
-
     }, 500)
 
 });

@@ -138,14 +138,18 @@ export class LiveEdit {
             resizable: true,
 
         });
+
         this.isResizing = false;
 
-        elementHandle.resizer.on('resizeStart', e => this.isResizing = true)
+        elementHandle.resizer.on('resizeStart', e => {
+            this.isResizing = true;
+            mw.app.registerChange(elementHandle.getTarget());
+        });
+
         elementHandle.resizer.on('resizeStop', e => this.isResizing = false)
 
         elementHandle.on('targetChange', function (target){
             elementHandleContent.menu.setTarget(target);
-
 
             if(target.className.includes('col-')) {
                 elementHandle.resizer.disable()
@@ -163,7 +167,15 @@ export class LiveEdit {
             document: this.settings.document,
             stateManager: this.settings.stateManager,
             resizable: false,
-            id: 'mw-handle-item-module-menu'
+            id: 'mw-handle-item-module-menu',
+            handle: 'self',
+            setDraggableTarget: function(target) {
+                if (target.nodeType === 1) {
+ 
+                    return DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentElement, ['edit', 'module'])
+                }
+                return false;
+            }
         });
         var moduleHandle = this.moduleHandle;
 

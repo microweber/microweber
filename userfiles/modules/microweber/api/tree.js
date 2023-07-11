@@ -915,6 +915,9 @@
 
 
         var iconResolver = function(item) {
+            if(!mw.iconResolver) {
+                return ''
+            }
 
             return mw.iconResolver(item.icon) || mw.iconResolver(item.subtype) || mw.iconResolver(item.type)
         }
