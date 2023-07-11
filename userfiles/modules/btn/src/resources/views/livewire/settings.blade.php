@@ -50,7 +50,7 @@ showEditTab: 'content',
 
         <div>
             <livewire:microweber-module-btn::template-settings-bootstrap :moduleId="$moduleId" :moduleType="$moduleType" />
-        </div>
+        </div> 
 
         <div class="mt-3">
           <x-microweber-ui::icon-picker wire:model="settings.icon" :value="$settings['icon']"/>
