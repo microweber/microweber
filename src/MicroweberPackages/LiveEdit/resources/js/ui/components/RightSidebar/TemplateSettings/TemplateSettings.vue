@@ -6,28 +6,25 @@
         </div>
 
         <div v-else v-for="(settings,settingGroupKey) in settingsGroups" class="mb-3">
+            <a v-on:click="showSettingsGroup(settingGroupKey)"
+                  class="fs-2 mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
+                {{ settingGroupKey }}
+            </a>
 
-            <div>
-                <span v-on:click="showSettingsGroup(settingGroupKey)"
-                      class="border-bottom pt-1 pb-1 settings-main-group">
-                    {{ settingGroupKey }}
-                </span>
-            </div>
+            <div class="mt-3" style="display:none" :id="'settings-group-' + stringToId(settingGroupKey)">
+                <div class="" :id="'accordionFlush' + stringToId(settingGroupKey)">
 
-            <div style="display:none" :id="'settings-group-' + stringToId(settingGroupKey)">
-                <div class="accordion accordion-flush" :id="'accordionFlush' + stringToId(settingGroupKey)">
+                    <div v-for="(settingGroupInside,settingGroupInsideName) in settings.values" class="mb-2">
 
-                    <div v-for="(settingGroupInside,settingGroupInsideName) in settings.values" class="accordion-item">
-
-                        <h2 class="accordion-header"
+                        <label
                             :id="'flush-heading-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            <a class="mw-admin-action-links mw-adm-liveedit-tabs collapsed" type="button" data-bs-toggle="collapse"
                                     :data-bs-target="'#flush-collapse-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)"
                                     aria-expanded="false"
                                     :aria-controls="'flush-collapse-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)">
                                 {{ settingGroupInsideName }}
-                            </button>
-                        </h2>
+                            </a>
+                        </label>
 
                         <div
                             :id="'flush-collapse-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)"
@@ -135,14 +132,14 @@
                 <div class="mt-2 mr-2" v-if="settings.type == 'stylesheet'">
                     <button v-on:click="resetStylesheetSettings"
                             style="border-radius: 20px"
-                            class="btn btn-primary btn-sm btn-block">Reset Stylesheet Settings
+                            class="btn btn-dark btn-sm btn-block">Reset Stylesheet Settings
                     </button>
                 </div>
 
                 <div class="mt-2 mr-2" v-if="settings.type == 'template'">
                     <button v-on:click="resetTemplateSettings"
                             style="border-radius: 20px"
-                            class="btn btn-primary btn-sm btn-block">Reset Template Settings
+                            class="btn btn-dark btn-sm btn-block">Reset Template Settings
                     </button>
                 </div>
 
