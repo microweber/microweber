@@ -1,6 +1,6 @@
 <template>
 
-    <link v-for='layoutItem in layoutsList.layouts' rel="preload" as="image" :href="layoutItem.screenshot"> 
+    <link v-for='layoutItem in layoutsList.layouts' rel="preload" as="image" :href="layoutItem.screenshot">
 
     <div v-if="showModal" style="visibility: hidden; position: absolute; width: 1px; height: 1px;"></div>
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-overlay active"></div>
