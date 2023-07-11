@@ -1,11 +1,8 @@
 (function (mw) {
 
-
-
     mw.dialog = function (options) {
         return new mw.Dialog(options);
     };
-
 
     mw.dialogIframe = function (options, cres) {
         options.pauseInit = true;
@@ -332,7 +329,7 @@
                 this.dialogHolder.appendChild(this.closeButton);
 
             }
-            this.dialogOverlay();
+           // this.dialogOverlay();
             return this;
         };
 
