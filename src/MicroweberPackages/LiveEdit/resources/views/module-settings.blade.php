@@ -226,7 +226,7 @@
                     window.domModifiedForAutoHeight();
                 }
             });
-
+            window.createAutoHeight();
         });
     </script>
 
