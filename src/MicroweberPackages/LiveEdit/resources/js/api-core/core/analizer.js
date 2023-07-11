@@ -68,9 +68,13 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
 
         const target = this.getIteractionTarget(node);
 
-        console.log('X', target)
+        /*console.log('X', target)
         
-        console.log(!target , !this.isEditOrInEdit(node) , !this.allowDrop(node))
+        console.log(!target, this.isEditOrInEdit(node) )
+        console.log( this.isEdit(node) )
+        console.log( this.isInEdit(node) )*/
+
+        return null;
         if(!target || !this.isEditOrInEdit(node) || !this.allowDrop(node)) {
             return null;
         }

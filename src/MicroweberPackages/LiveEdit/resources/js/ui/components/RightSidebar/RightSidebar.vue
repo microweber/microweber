@@ -15,10 +15,10 @@
            <div>
                <ul class="nav nav-pills nav-justified" id="rightSidebarTabStyleEditorNav" role="tablist">
                    <li class="nav-item" role="presentation">
-                       <button class="nav-link active"  data-bs-toggle="tab" data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab" >Global Styles</button>
+                       <button class="nav-link active"  data-bs-toggle="tab" data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab" >Template Styles</button>
                    </li>
                    <li class="nav-item" role="presentation">
-                       <button class="nav-link"   data-bs-toggle="tab" data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab" >Custom Styles</button>
+                       <button class="nav-link"   data-bs-toggle="tab" data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab" >Tools</button>
                    </li>
                </ul>
 
@@ -29,7 +29,14 @@
 
                    </div>
                    <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder" role="tabpanel">
-                       <StyleEditor></StyleEditor>
+
+                      Other settings<br>
+
+                       Open CSS editor<br>
+                       Open html editor<br>
+                       clear cache<br>
+                       content revisions<br>
+
                    </div>
 
                </div>
@@ -50,13 +57,13 @@
 
 <script>
 import TemplateSettings from "./TemplateSettings/TemplateSettings.vue";
-import StyleEditor from "./StyleEditor/StyleEditor.vue";
+import Editor from "../Toolbar/Editor.vue";
 
 export default {
     components: {
+        Editor,
         TemplateSettings,
-        StyleEditor
-    },
+     },
     methods: {
         closeSidebar() {
             this.showSidebar = false;
