@@ -1,5 +1,7 @@
 
 mw.require('options.js')
+mw.require('liveedit.css')
+
 
 mw.liveEditSaveService = {
      grammarlyFix:function(data){

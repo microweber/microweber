@@ -1,5 +1,7 @@
 <template>
 
+    <link v-for='layoutItem in layoutsList.layouts' rel="preload" as="image" :href="layoutItem.screenshot">
+
     <div v-if="showModal" style="visibility: hidden; position: absolute; width: 1px; height: 1px;"></div>
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-overlay active"></div>
 
@@ -7,8 +9,9 @@
         enter-active-class="animate__animated animate__zoomIn"
         leave-active-class="animate__animated animate__zoomOut"
     >
+
     <div v-if="showModal"
-         class="mw-le-dialog-block mw-le-layouts-dialog active"
+         class="mw-le-dialog-block mw-le-layouts-dialog w-100 active"
          style="inset:20px; transform:none; animation-duration: .3s;"
     >
 
@@ -28,21 +31,18 @@
                     </div>
 
                     <ul class="modules-list-categories py-5">
-<!--                        <li
-                            v-on:click="filterCategorySubmit('')"
-                            :class="['' == filterCategory ? 'active animate__animated animate__pulse': '']"
-                        >
-                            All categories
-                        </li>-->
 
-                        <li
-                            v-if="layoutsList.categories"
+<!--                        <li v-on:click="filterCategorySubmit('')"-->
+<!--                            :class="['' == filterCategory ? 'active animate__animated animate__pulse': '']">-->
+<!--                            All categories-->
+<!--                        </li>-->
+
+                        <li v-if="layoutsList.categories"
                             v-for="categoryName in layoutsList.categories"
                             v-on:click="filterCategorySubmit(categoryName)">
 
                             <a class="mw-admin-action-links" :class="[categoryName == filterCategory ? 'active animate__animated animate__pulse': '']">
                                 {{categoryName}}
-
                             </a>
 
                         </li>
@@ -89,7 +89,7 @@
                             :ssr-columns="1"
                             :column-width="400"
                             :padding="12"
-                            :gap="12"> 
+                            :gap="12">
                             <template #default="{ item, index }">
                                 <div
                                     v-on:click="insertLayout(item.template)"
@@ -119,7 +119,7 @@
                                   :class="['modules-list-block-style-' + layoutsListTypePreview, 'modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
 
                                 <div class="modules-list-block-item-picture"
-                                     :style="'background-image: url('+item.screenshot+');background-size: contain;'">
+                                     :style="'background-image: url('+item.screenshot+');background-size: cover;background-position: center center;'">
 
                                 </div>
 
@@ -154,7 +154,7 @@ import GridIcon from "../Icons/GridIcon.vue";
 import ListIcon from '../Icons/ListIcon.vue';
 import MasonryIcon from "../Icons/MasonryIcon.vue";
 import LazyList from '../Optimizations/LazyLoadList/LazyList.vue';
-import MasonryWall from '@yeger/vue-masonry-wall'
+import MasonryWall from '../Optimizations/MasonryWall/MasonryWall.vue';
 import { HomeIcon } from '@heroicons/vue/outline'
 
 export default {
@@ -186,6 +186,7 @@ export default {
             let layoutsFiltered = this.layoutsList.layouts;
 
             if (this.filterKeyword != '' && this.filterKeyword) {
+                this.filterCategory = '';
                 layoutsFiltered = layoutsFiltered.filter((item) => {
                     return item.title
                         .toUpperCase()
@@ -222,12 +223,18 @@ export default {
             mw.app.editor.on('insertLayoutRequestOnTop',function(element){
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'top';
-                mw.app.registerChangedState(element)
+                setTimeout(function() {
+                    instance.filterLayouts();
+                }, 300);
+                mw.app.registerChangedState(element);
             });
             mw.app.editor.on('insertLayoutRequestOnBottom',function(element){
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'bottom';
-                mw.app.registerChangedState(element)
+                setTimeout(function() {
+                    instance.filterLayouts();
+                }, 300);
+                mw.app.registerChangedState(element);
             });
         });
 

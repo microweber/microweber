@@ -28,10 +28,10 @@
                 <div class="d-flex align-items-center">
                     <ResolutionSwitch></ResolutionSwitch>
                     <SettingsCustomize></SettingsCustomize>
-                    <SaveButton></SaveButton>
-                    <button class="btn live-edit-toolbar-buttons live-edit-toolbar-buttons-view ms-2" @click="pagePreviewToggle()">
+                    <button class="btn live-edit-toolbar-buttons live-edit-toolbar-buttons-view me-2" @click="pagePreviewToggle()">
                         VIEW
                     </button>
+                    <SaveButton></SaveButton>
                 </div>
             </div>
 

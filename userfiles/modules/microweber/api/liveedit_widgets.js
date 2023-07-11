@@ -4,24 +4,24 @@ mw.liveEditWidgets = {
         if(!this._cssEditorInSidebarAccordion){
             this._cssEditorInSidebarAccordion = document.createElement('iframe') ;
             this._cssEditorInSidebarAccordion.id = 'mw-css-editor-sidebar-iframe' ;
-            this._cssEditorInSidebarAccordion.src = mw.external_tool('rte_css_editor');
-            this._cssEditorInSidebarAccordion.style.opacity = 0;
+            this._cssEditorInSidebarAccordion.src = mw.external_tool('rte_css_editor2');
+           // this._cssEditorInSidebarAccordion.style.opacity = 0;
             this._cssEditorInSidebarAccordion.scrolling = 'no';
             this._cssEditorInSidebarAccordion.frameBorder = 0;
             var holder = document.querySelector('#mw-css-editor-sidebar-iframe-holder');
             holder.appendChild(this._cssEditorInSidebarAccordion);
-            mw.tools.loading(holder, 90);
+           // mw.tools.loading(holder, 90);
             mw.tools.iframeAutoHeight(this._cssEditorInSidebarAccordion);
-            this._cssEditorInSidebarAccordion.onload = function () {
-                this.contentWindow.document.body.style.padding = 0;
-                this.contentWindow.document.body.style.backgroundColor = 'transparent';
-                mw.tools.loading(holder, false);
-                this.style.opacity = 1;
-            };
-            mw.$(this._cssEditorInSidebarAccordion)
-                .height($(this._cssEditorInSidebarAccordion)
-                    .parents('.mw-ui-box').outerHeight() -
-                    mw.$(this._cssEditorInSidebarAccordion).parents('.tabitem').outerHeight());
+            // this._cssEditorInSidebarAccordion.onload = function () {
+            //     this.contentWindow.document.body.style.padding = 0;
+            //     this.contentWindow.document.body.style.backgroundColor = 'transparent';
+            //     mw.tools.loading(holder, false);
+            //     this.style.opacity = 1;
+            // };
+            // mw.$(this._cssEditorInSidebarAccordion)
+            //     .height($(this._cssEditorInSidebarAccordion)
+            //         .parents('.mw-ui-box').outerHeight() -
+            //         mw.$(this._cssEditorInSidebarAccordion).parents('.tabitem').outerHeight());
         }
         return this._cssEditorInSidebarAccordion;
     },

@@ -1,6 +1,6 @@
 
 <div id="domtree"></div>
- 
+
 <style>
 
     #css-editor-root .mw-accordion-title svg{
@@ -54,16 +54,23 @@
 </style>
 <script>
     mw.app = mw.top().app;
-    const targetWindow = mw.app.canvas.getWindow();
-    const targetmw = targetWindow.mw;
+    var targetWindow = mw.app.canvas.getWindow();
+    if(targetWindow) {
+        var targetMw = targetWindow.mw;
+
+    }
+
+
+    //var targetmw = targetWindow.mw;
 </script>
 <script>mw.require('prop_editor.js')</script>
 <script>mw.require('module_settings.js')</script>
 <script>mw.lib.require('colorpicker')</script>
 <script>
 
-
-    var targetMw = mw.parent();
+    if(typeof targetMw === 'undefined') {
+        var targetMw = mw.parent();
+    }
     addEventListener('load', function (){
         if( window.frame && window.frame.contentWindow.mw) {
             targetMw = window.frame.contentWindow.mw;
@@ -72,7 +79,7 @@
     })
 
 
- 
+
     mw.require("jquery-ui.js");
     mw.require("events.js");
     mw.require("forms.js");
@@ -733,7 +740,7 @@ var output = function(property, value){
             ActiveNode.setAttribute('staticdesign', true);
         }
         mw.app.registerChange(ActiveNode);
-        
+
     }
 
 };
@@ -947,7 +954,7 @@ function selectNode(node) {
 
         populateSpecials(css);
 
- 
+
         var clsdata = [];
         $.each(nodes[0].className.split(' '), function(){
             var cls = this.trim();
@@ -973,11 +980,11 @@ function selectNode(node) {
 }
 
 
- 
+
 
     $(document).ready(function(){
         mw.$('.mw-field input').attr('autocomplete', 'off')
- 
+
 
         $(".mw-element-spacing-editor input")
             .on('focus', function(){
@@ -995,7 +1002,7 @@ function selectNode(node) {
             var editorRoot = document.getElementById('css-editor-root');
 
             setInterval(function(){
-                 
+
                 editorRoot.classList[ActiveNode ? 'remove' : 'add']('disabled');
             }, 700)
             mw.components._init();
@@ -1004,7 +1011,7 @@ function selectNode(node) {
     });
 
     $(window).on('load', function () {
- 
+
          document.body.addEventListener('click', function (){
             colorPickers.forEach(function (cp) {
                  if(cp.hide) {
