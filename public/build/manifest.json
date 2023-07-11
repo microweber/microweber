@@ -17,17 +17,47 @@
     ],
     "file": "assets/bootstrap-27ffd216.js"
   },
+  "_bootstrap-2d4cd686.js": {
+    "css": [
+      "assets/bootstrap-9bd34148.css"
+    ],
+    "file": "assets/bootstrap-2d4cd686.js"
+  },
+  "_bootstrap-381a8672.js": {
+    "css": [
+      "assets/bootstrap-9bd34148.css"
+    ],
+    "file": "assets/bootstrap-381a8672.js"
+  },
+  "_bootstrap-389bcf59.js": {
+    "css": [
+      "assets/bootstrap-9bd34148.css"
+    ],
+    "file": "assets/bootstrap-389bcf59.js"
+  },
   "_bootstrap-3f9d4558.js": {
     "css": [
       "assets/bootstrap-ec6de95d.css"
     ],
     "file": "assets/bootstrap-3f9d4558.js"
   },
+  "_bootstrap-5b0b329b.js": {
+    "css": [
+      "assets/bootstrap-87323316.css"
+    ],
+    "file": "assets/bootstrap-5b0b329b.js"
+  },
   "_bootstrap-6b39b023.js": {
     "css": [
       "assets/bootstrap-ec6de95d.css"
     ],
     "file": "assets/bootstrap-6b39b023.js"
+  },
+  "_bootstrap-6b7622cd.js": {
+    "css": [
+      "assets/bootstrap-9bd34148.css"
+    ],
+    "file": "assets/bootstrap-6b7622cd.js"
   },
   "_bootstrap-836a2e00.js": {
     "css": [
@@ -40,6 +70,12 @@
       "assets/bootstrap-2b96367b.css"
     ],
     "file": "assets/bootstrap-9edd57ce.js"
+  },
+  "_bootstrap-a8134ffb.js": {
+    "css": [
+      "assets/bootstrap-9bd34148.css"
+    ],
+    "file": "assets/bootstrap-a8134ffb.js"
   },
   "_bootstrap-ab433696.js": {
     "css": [
@@ -59,6 +95,12 @@
     ],
     "file": "assets/bootstrap-b930595b.js"
   },
+  "_bootstrap-bb3640d7.js": {
+    "css": [
+      "assets/bootstrap-9bd34148.css"
+    ],
+    "file": "assets/bootstrap-bb3640d7.js"
+  },
   "_bootstrap-c3f4467b.js": {
     "css": [
       "assets/bootstrap-ec6de95d.css"
@@ -70,6 +112,12 @@
       "assets/bootstrap-87323316.css"
     ],
     "file": "assets/bootstrap-c5038dba.js"
+  },
+  "_bootstrap-ca42733d.js": {
+    "css": [
+      "assets/bootstrap-9bd34148.css"
+    ],
+    "file": "assets/bootstrap-ca42733d.js"
   },
   "_bootstrap-d1855d42.js": {
     "css": [
@@ -108,7 +156,7 @@
     "file": "assets/bootstrap-f0dcfe87.js"
   },
   "bootstrap.css": {
-    "file": "assets/bootstrap-87323316.css",
+    "file": "assets/bootstrap-9bd34148.css",
     "src": "bootstrap.css"
   },
   "resources/css/microweber-admin-filament.css": {
@@ -117,30 +165,30 @@
     "src": "resources/css/microweber-admin-filament.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js": {
-    "file": "assets/admin-app-5e3280e9.js",
+    "file": "assets/admin-app-3f8adddd.js",
     "imports": [
-      "_bootstrap-c5038dba.js"
+      "_bootstrap-381a8672.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css": {
-    "file": "assets/live-edit-app-9ae89a36.css",
+    "file": "assets/live-edit-app-195f40a2.css",
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js": {
     "css": [
-      "assets/live-edit-app-9ae89a36.css"
+      "assets/live-edit-app-195f40a2.css"
     ],
-    "file": "assets/live-edit-app-fb1d73ee.js",
+    "file": "assets/live-edit-app-d8d81006.js",
     "imports": [
-      "_bootstrap-c5038dba.js"
+      "_bootstrap-381a8672.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js": {
-    "file": "assets/live-edit-page-scripts-1c8c044a.js",
+    "file": "assets/live-edit-page-scripts-599d3ed9.js",
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js"
   }

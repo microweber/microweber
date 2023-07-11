@@ -95,6 +95,12 @@
 
 
 }
+.mw-dialog-skin-default{
+  pointer-events: none;
+  & > * {
+    pointer-events: all;
+  }
+}
 
 body.mw-admin-live-edit-page{
   .mw-dialog-skin-default{

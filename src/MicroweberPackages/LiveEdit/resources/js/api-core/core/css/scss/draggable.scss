@@ -7,6 +7,9 @@ html.le-dragging{
     .mw-handle-item{
         opacity:0 !important;
     }
+    iframe{
+        pointer-events: none !important;
+    }
 }
 
 .mw-handle-item-draggable-self{

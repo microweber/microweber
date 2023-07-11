@@ -7,6 +7,7 @@ import { func } from "prop-types";
 import {EditorComponent} from "../../../api-core/services/components/editor/editor";
 import {liveEditComponent} from "../../../api-core/services/components/live-edit/live-edit";
 import FilerobotImageEditor from 'filerobot-image-editor';
+import { DomService } from "../../../api-core/core/classes/dom";
 
 const { TABS, TOOLS } = FilerobotImageEditor;
 
@@ -177,7 +178,8 @@ export default {
                       footer: false,
                       width: 400,
                       height: 'auto',
-                      autoHeight: true
+                      autoHeight: true,
+                      overlay: false
                   });
                   dlg.iframe.addEventListener('load', () => {
                     dlg.iframe.contentWindow.selectNode(element)
@@ -248,8 +250,13 @@ export default {
                   }
 
                 } else {
-                    element.contentEditable = true;
-                    element.focus();
+                  var target = DomService.firstParentOrCurrentWithClass(element, 'edit');
+                  if(!target.classList.contains('safe-mode')){
+                    element = target;
+                    mw.app.get('liveEdit').handles.get('element').set(element);
+                  }
+                  element.contentEditable = true;
+                  element.focus();
 
                     setTimeout(() => {
                       mw.app.richTextEditor.smallEditorInteract(element);

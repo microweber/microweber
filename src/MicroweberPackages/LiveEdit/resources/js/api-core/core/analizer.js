@@ -67,6 +67,10 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
     getTarget (node, draggedElement) {
 
         const target = this.getIteractionTarget(node);
+
+        console.log('X', target)
+        
+        console.log(!target , !this.isEditOrInEdit(node) , !this.allowDrop(node))
         if(!target || !this.isEditOrInEdit(node) || !this.allowDrop(node)) {
             return null;
         }
@@ -79,6 +83,8 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
         var draggedElementIsLayoutRestricted = this.settings.strictLayouts && this.isLayout(draggedElement);
         var isStrictCase = this.settings.strict && !this.isLayout(draggedElement) && !this.isInLayout(target);
 
+ 
+
         if(isStrictCase) {
             return null;
         }
@@ -90,7 +96,8 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
                 res.canInsert = !draggedElementIsLayoutRestricted;
             }
             res.beforeAfter = true;
-        } else if(this.isModule(target) && !draggedElementIsLayoutRestricted) {
+        } else if(  this.isModule(target) && !draggedElementIsLayoutRestricted) {
+            console.log(target, this.canInsertBeforeOrAfter(target))
             if(this.canInsertBeforeOrAfter(target)) {
                 res.beforeAfter = true;
             } else {
@@ -103,6 +110,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
                 return null;
             }
         }
+        console.log(res)
         return res;
     }
 
