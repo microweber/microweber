@@ -4,6 +4,8 @@
 
 <input style="display:none;" {!! $renderAttributes !!} id="{{$md5name}}" />
 
+<input data-mwcomponent="color-picker" />
+
 <input type="button" style="
   width: 30px;
   height: 30px;
@@ -11,9 +13,11 @@
   background:#ffffff;
   font-size:0px;
   cursor: pointer;
-  border: 1px solid #cacaca;" />
+  border: 1px solid #cacaca;"
 
-onclick="mw.app.colorPicker.selectColor('#{{$md5name}}')" />
+onclick="mw.app.colorPicker.selectColor('#{{$md5name}}', function(color) {
+       this.style.background = color;
+    })" />
 
 <!--
 

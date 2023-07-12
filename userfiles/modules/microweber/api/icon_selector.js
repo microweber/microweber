@@ -726,6 +726,10 @@
             }
             if(!this._dialog) {
                 this._dialog = mw.top().dialog({content: this.get(), title: 'Select icon', closeButtonAction: 'hide', width: 450,overlayClose: true});
+
+                this._dialog.dialogContainer.style.padding = '0px';
+                this._dialog.overlay.style.backgroundColor = 'transparent';
+
                 mw.components._init();
             }
             this._dialog.show();

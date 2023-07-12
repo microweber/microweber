@@ -13,11 +13,12 @@ import {KeyboardEvents} from  "./services/keyboard-events.js";
 import {ModuleSettings} from "./services/module-settings";
 import {IconPicker} from "./services/icon-picker";
 import {LinkPicker} from "./services/link-picker";
+import {ColorPicker} from "./services/color-picker";
 import '@nextapps-be/livewire-sortablejs';
 
 // other libs
 import Alpine from 'alpinejs';
-import focus from '@alpinejs/focus'
+import focus from '@alpinejs/focus';
 
 mw.app = new MWUniversalContainer();
 
