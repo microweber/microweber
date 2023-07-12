@@ -17,6 +17,16 @@ export default {
             })
             this.cssEditorDialog = dlg;
             this.cssEditorIframe = dlg.iframe;
+
+            $(dialog).on('Remove', function () {
+                this.removeStyleEditor();
+            })
+            $(dialog).on('Hide', function () {
+                this.removeStyleEditor();
+            })
+
+
+
         },
         removeStyleEditor: function () {
             if (this.cssEditorDialog) {
@@ -39,8 +49,10 @@ export default {
 
         this.emitter.on("live-edit-ui-show", show => {
             if (show == 'style-editor') {
-                this.showStyleEditor();
-                this.isOpened = true;
+                if(!this.isOpened) {
+                    this.showStyleEditor();
+                    this.isOpened = true;
+                }
             } else {
                 this.removeStyleEditor();
                 this.isOpened = false;
