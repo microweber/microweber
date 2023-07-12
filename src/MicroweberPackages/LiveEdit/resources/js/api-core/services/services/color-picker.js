@@ -26,7 +26,7 @@ export class ColorPicker extends MicroweberBaseClass {
                 target.dispatchEvent(new Event('input'));
 
                 if (callback) {
-                    callback(color); 
+                    callback(color);
                 }
             }
         });
