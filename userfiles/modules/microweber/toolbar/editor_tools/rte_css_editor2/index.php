@@ -69,7 +69,7 @@
 <script>
 
     if(typeof targetMw === 'undefined') {
-        var targetMw = mw.parent();
+        targetMw = mw.parent();
     }
     addEventListener('load', function (){
         if( window.frame && window.frame.contentWindow.mw) {
@@ -136,14 +136,18 @@
                     // return mw.tools.isEditable(node) || node.classList.contains('edit');
                 },
                 onHover: function (e, target, node, element) {
-                    targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
+                    if(typeof targetMw !== 'undefined') {
+                    //    targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
+                    }
                 },
                 onSelect: function (e, target, node, element) {
                      setTimeout(function () {
-                        targetMw.liveEditSelector.select(node);
+                         if(typeof targetMw !== 'undefined') {
+                         //    targetMw.liveEditSelector.select(node);
 
 
-                        targetMw.tools.scrollTo(node, undefined, (targetMw.$('#live_edit_toolbar').height() + 10))
+                         //    targetMw.tools.scrollTo(node, undefined, (targetMw.$('#live_edit_toolbar').height() + 10))
+                         }
                     })
                 }
             });
@@ -943,7 +947,11 @@ var init = function(){
 
 
 };
+function setTargetMw(mw) {
+    targetMw = mw;
 
+
+}
 
 function selectNode(node) {
     var nodes = [node]

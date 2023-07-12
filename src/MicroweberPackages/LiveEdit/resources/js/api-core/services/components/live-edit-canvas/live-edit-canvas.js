@@ -78,12 +78,16 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
 
         window.onbeforeunload = function () {
-           if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw
+            if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw
            && liveEditIframe.contentWindow.mw.askusertostay){
                // prevent user from leaving the page
                return true;
            }
          };
+
+
+
+
 
         liveEditIframe.addEventListener('load', e => {
 
