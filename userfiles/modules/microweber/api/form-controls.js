@@ -176,10 +176,10 @@ mw.emitter = {
         },
         footer: function () {
             var data = {};
-            data.ok =  mw.controlFields._button({content: mw.lang('OK'), color: 'primary'});
-            data.cancel =  mw.controlFields._button({content: mw.lang('Cancel')});
+            data.ok =  mw.controlFields._button({content: mw.lang('OK'), color: 'dark'});
+            data.cancel =  mw.controlFields._button({content: mw.lang('Cancel'), color: 'outline-dark'});
             data.root = mw.controlFields._wrap(data.cancel, data.ok);
-            data.root.className = 'modal-footer mw-ui-form-controllers-footer';
+            data.root.className = 'modal-footer mw-ui-form-controllers-footer border-0';
             return data;
         },
         title: function (options) {

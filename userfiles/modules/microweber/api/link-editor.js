@@ -95,10 +95,10 @@ mw.lib.require('xss');
                 };
 
                 var createA = function (ctrl, index) {
-                    var li =  document.createElement('li'); 
-                    li.className = 'nav-item'
-                    var a =  document.createElement('a'); 
-                    a.className = 'nav-link' + (index === 0 ? ' active' : '');
+                    var li =  document.createElement('li');
+                    li.className = 'p-2'
+                    var a =  document.createElement('a');
+                    a.className = 'mw-admin-action-links' + (index === 0 ? ' active' : '');
                     a.innerHTML = ('<i class="'+ctrl.controller.settings.icon+'"></i> '+ctrl.controller.settings.title);
                     a.__for = ctrl;
                     a.onclick = function (){
@@ -118,19 +118,19 @@ mw.lib.require('xss');
 
                 if(dropdown.length) {
                     const dropdownEl = mw.element(`
-                        <li class="nav-item dropdown">
-                             
-                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">${mw.lang('More')}</a>
-                                <div class="dropdown-menu">
-                        
-                                </div>
-                            
-                        </li>
-                    
-                    `);
-                    
+                        <li class="p-2 dropdown">
 
-                     
+                                <a class="mw-admin-action-links admin-action-links-dropdown" data-bs-toggle="dropdown">${mw.lang('More')}</a>
+                                <div class="dropdown-menu">
+
+                                </div>
+
+                        </li>
+
+                    `);
+
+
+
                     dropdown.forEach(function (ctrl, index){
 
                         mw.element('.dropdown-menu', dropdownEl)
@@ -148,11 +148,11 @@ mw.lib.require('xss');
                             }));
                     });
                     this.nav.append(dropdownEl.get(0));
-                     
-                    
 
-                     
-                    
+
+
+
+
                 }
             }
 
