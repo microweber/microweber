@@ -1462,6 +1462,16 @@ svg.text-danger {
     }
 }
 
+.admin-action-links-dropdown {
+    position: relative;
+
+    &:after {
+        content: url("data:image/svg+xml; utf8,<svg fill='currentColor' xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 96 960 960' width='20'><path d='m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z'/></svg>");
+        position: absolute;
+        right: -8px;
+        top: 0;
+    }
+}
 
 .mw-admin-action-links {
     position: relative;

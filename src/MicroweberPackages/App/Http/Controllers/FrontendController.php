@@ -5,6 +5,7 @@ namespace MicroweberPackages\App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use MicroweberPackages\App\Traits\LiveEditTrait;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -1089,7 +1090,12 @@ class FrontendController extends Controller
                     }
                 }
                 if ($template_headers_append != false and $template_headers_append != '') {
-                    $l = str_ireplace('</head>', $template_headers_append . '</head>', $l, $one);
+                  //  $l = str_ireplace('</head>', $template_headers_append . '</head>', $l, $one);
+
+                    $l = Str::replaceFirst('</head>', $template_headers_append . '</head>', $l);
+
+
+
                 }
             }
 
@@ -1114,7 +1120,8 @@ class FrontendController extends Controller
             }
 
             if ($template_headers_src != false and is_string($template_headers_src)) {
-                $l = str_ireplace('</head>', $template_headers_src . '</head>', $l, $one);
+                //$l = str_ireplace('</head>', $template_headers_src . '</head>', $l, $one);
+                $l = Str::replaceFirst('</head>', $template_headers_src . '</head>', $l);
             }
 
             $template_footer_src = $this->app->template->foot(true);
@@ -1135,7 +1142,7 @@ class FrontendController extends Controller
             }
 
             if ($template_footer_src != false and is_string($template_footer_src)) {
-                $l = str_ireplace('</body>', $template_footer_src . '</body>', $l, $one);
+                $l = Str::replaceFirst('</body>', $template_footer_src . '</body>', $l);
             }
 
 
@@ -1143,13 +1150,6 @@ class FrontendController extends Controller
             $l = $this->app->template->append_api_js_to_layout($l);
 
 
-            //   if (!stristr($l, $apijs_loaded)) {
-            //$apijs_settings_loaded = $this->app->template->get_apijs_settings_url() . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;
-//            $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
-//            $apijs_settings_script = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
-//            $apijs_settings_script .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-//            $l = str_ireplace('<head>', '<head>' . $apijs_settings_script, $l);
-            //  }
 
             if (isset($content['active_site_template']) and $content['active_site_template'] == 'default' and $the_active_site_template != 'default' and $the_active_site_template != 'mw_default') {
                 $content['active_site_template'] = $the_active_site_template;

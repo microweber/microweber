@@ -910,12 +910,12 @@ body.loaded #bubble-nav span {
     bottom: 0;
     right: -300px;
     width: 300px;
-    z-index: 6;
     transition: var(--toolbar-height-animation-speed);
     overflow: auto;
-    background-color: rgba(252, 252, 252, 0.87);
-    border-left: 3px solid rgba(201, 201, 201, 0.08);
+    background-color: var(--tblr-body-bg);
+    border-left: var(--tblr-body-color);
     padding: 11px;
+    z-index: 1;
 }
 
 
