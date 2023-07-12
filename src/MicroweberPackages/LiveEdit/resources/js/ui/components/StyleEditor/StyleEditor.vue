@@ -17,12 +17,15 @@ export default {
             })
             this.cssEditorDialog = dlg;
             this.cssEditorIframe = dlg.iframe;
+            var  styleEditorDialoginstance = this;
 
-            $(dialog).on('Remove', function () {
-                this.removeStyleEditor();
+            $(this.cssEditorDialog).on('Remove', function () {
+                styleEditorDialoginstance.removeStyleEditor();
             })
-            $(dialog).on('Hide', function () {
-                this.removeStyleEditor();
+
+
+            $(this.cssEditorDialog).on('Hide', function () {
+                styleEditorDialoginstance.removeStyleEditor();
             })
 
 
@@ -30,9 +33,10 @@ export default {
         },
         removeStyleEditor: function () {
             if (this.cssEditorDialog) {
-                this.cssEditorDialog.remove();
+               // this.cssEditorDialog.remove();
                 this.cssEditorDialog = null;
                 this.cssEditorIframe = null;
+                this.isOpened = false;
             }
         }
 

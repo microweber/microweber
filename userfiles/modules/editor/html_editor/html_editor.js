@@ -1,4 +1,11 @@
 var wroot = window.opener || mw.top().win;
+if(mw.top().app.canvas){
+    wroot = mw.top().app.canvas.getWindow();
+}
+
+
+
+
 
 (function (){
     if(mw.html_editor) {

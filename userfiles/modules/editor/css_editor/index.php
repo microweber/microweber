@@ -153,7 +153,8 @@
                     value: cssval
                 },
             function(){
-                var el = (window.opener || top).$('#mw-custom-user-css')[0];
+                //var el = (window.opener || top).$('#mw-custom-user-css')[0];
+                el = mw.top().app.canvas.getWindow().$('#mw-custom-user-css')[0];
 
                 if(el){
 
