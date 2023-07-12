@@ -10,38 +10,43 @@
             </div>
 
 
+            <div>
+                <ul class="nav nav-pills nav-justified" id="rightSidebarTabStyleEditorNav" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" data-bs-toggle="tab"
+                                data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab">
+                            Template Styles
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="tab"
+                                data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab">
+                            Tools
+                        </button>
+                    </li>
+                </ul>
 
+                <div class="tab-content">
+                    <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
+                         role="tabpanel">
 
-           <div>
-               <ul class="nav nav-pills nav-justified" id="rightSidebarTabStyleEditorNav" role="tablist">
-                   <li class="nav-item" role="presentation">
-                       <button class="nav-link active"  data-bs-toggle="tab" data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab" >Template Styles</button>
-                   </li>
-                   <li class="nav-item" role="presentation">
-                       <button class="nav-link"   data-bs-toggle="tab" data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab" >Tools</button>
-                   </li>
-               </ul>
+                        <TemplateSettings></TemplateSettings>
 
-               <div class="tab-content">
-                   <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder" role="tabpanel">
+                    </div>
+                    <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"
+                         role="tabpanel">
 
-                       <TemplateSettings></TemplateSettings>
+                        <h4>Tools</h4>
 
-                   </div>
-                   <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder" role="tabpanel">
+                        <button v-on:click="show('style-editor')">Open CSS Editor</button>
+                        Open html editor<br>
+                        clear cache<br>
+                        content revisions<br>
 
-                      Other settings<br>
+                    </div>
 
-                       Open CSS editor<br>
-                       Open html editor<br>
-                       clear cache<br>
-                       content revisions<br>
-
-                   </div>
-
-               </div>
-           </div>
-
+                </div>
+            </div>
 
 
         </div>
@@ -51,7 +56,7 @@
 
 <style>
 .general-theme-settings {
-    background:#000;
+    background: #000;
 }
 </style>
 
@@ -63,8 +68,13 @@ export default {
     components: {
         Editor,
         TemplateSettings,
-     },
+    },
     methods: {
+
+        show: function (name) {
+            this.emitter.emit('live-edit-ui-show', name);
+        },
+
         closeSidebar() {
             this.showSidebar = false;
             document.getElementById('live-edit-frame-holder')
@@ -82,9 +92,9 @@ export default {
         this.emitter.on("live-edit-ui-show", show => {
             if (show == 'template-settings') {
                 if (instance.showSidebar == false) {
-                   instance.openSidebar();
+                    instance.openSidebar();
                 } else {
-                   instance.closeSidebar();
+                    instance.closeSidebar();
                 }
             }
         });
