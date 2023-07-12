@@ -19,12 +19,7 @@
 
         @foreach($this->settingsForm as $formItemKey => $formItem)
 
-            <div class="form-group">
-
-                @if(isset($formItem['label']) and $formItem['label'])
-                    <label class="form-label"><?php print $formItem['label']; ?></label>
-                @endif
-
+            <div wire:ignore>
 
                 @php
 
@@ -65,14 +60,7 @@
                     }
 
                     print $element->render();
-
                 @endphp
-
-
-
-                @if(isset($formItem['help']) and $formItem['help'])
-                    <small class="form-hint">{{ $formItem['help'] }}</small>
-                @endif
 
             </div>
 
