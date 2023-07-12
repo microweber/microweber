@@ -26,12 +26,16 @@
         }, 300);
 
         element.addEventListener('click', function () {
-            mw.top().dialog({
+            let colorPickerDialog = mw.top().dialog({
                 content: '<div id="color-picker-{{$md5name}}"></div>',
-                title: mw.lang('Select color'),
                 footer: false,
-                width: 400,
+                width: 300,
+                overlayClose: true
             });
+            console.log(colorPickerDialog);
+            colorPickerDialog.dialogContainer.style.padding = '0px';
+            colorPickerDialog.overlay.style.backgroundColor = 'transparent';
+
             mw.top().colorPicker({
                 element: '#color-picker-{{$md5name}}',
                 onchange: function (color) {
