@@ -77,7 +77,7 @@ mw.lib.require('xss');
         this.buildNavigation = function (){
             if(this.settings.nav === 'tabs') {
                 this.nav = document.createElement('ul');
-                 this.nav.className = 'nav nav-tabs mw-ac-editor-nav';
+                 this.nav.className = 'nav nav-tabs mw-ac-editor-nav border-0';
 
                 var nav = scope.controllers.slice(0, 4);
                 var dropdown = scope.controllers.slice(4);
@@ -96,9 +96,9 @@ mw.lib.require('xss');
 
                 var createA = function (ctrl, index) {
                     var li =  document.createElement('li');
-                    li.className = 'p-2'
+                    li.className = 'pe-3'
                     var a =  document.createElement('a');
-                    a.className = 'mw-admin-action-links' + (index === 0 ? ' active' : '');
+                    a.className = 'mw-admin-action-links mw-adm-liveedit-tabs' + (index === 0 ? ' active' : '');
                     a.innerHTML = ('<i class="'+ctrl.controller.settings.icon+'"></i> '+ctrl.controller.settings.title);
                     a.__for = ctrl;
                     a.onclick = function (){
@@ -118,9 +118,9 @@ mw.lib.require('xss');
 
                 if(dropdown.length) {
                     const dropdownEl = mw.element(`
-                        <li class="p-2 dropdown">
+                        <li class="pe-3 dropdown admin-action-links-dropdown">
 
-                                <a class="mw-admin-action-links admin-action-links-dropdown" data-bs-toggle="dropdown">${mw.lang('More')}</a>
+                                <a class="mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="dropdown">${mw.lang('More')}</a>
                                 <div class="dropdown-menu">
 
                                 </div>

@@ -166,10 +166,10 @@ mw.emitter = {
     var UIFormControllers = {
         _title: function (conf, root) {
             var title = mw.element({
-                tag: 'h5',
+                tag: 'label',
                 props: {
-                    className: 'mw-ui-form-controller-title',
-                    innerHTML: '<strong>' + conf.title + '</strong>'
+                    className: 'form-label font-weight-bold mt-2',
+                    innerHTML: conf.title
                 }
             });
             mw.element(root).append(title);
