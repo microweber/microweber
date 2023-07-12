@@ -4,6 +4,7 @@
 
 <input style="display:none;" {!! $renderAttributes !!} id="{{$md5name}}" />
 
+
 <input type="button" style="
   width: 30px;
   height: 30px;
@@ -12,6 +13,7 @@
   font-size:0px;
   cursor: pointer;
   border: 1px solid #cacaca;" id="open-color-picker-{{$md5name}}" />
+
 
 <script>
     $(document).ready(function () {
@@ -23,16 +25,24 @@
             element.style.background = hiddenElement.value;
         }, 300);
 
-        mw.colorPicker({
-            element: '#open-color-picker-{{$md5name}}',
-            position: 'bottom-left',
-            onchange: function (color) {
+        element.addEventListener('click', function () {
+            mw.top().dialog({
+                content: '<div id="color-picker-{{$md5name}}"></div>',
+                title: mw.lang('Select color'),
+                footer: false,
+                width: 400,
+            });
+            mw.top().colorPicker({
+                element: '#color-picker-{{$md5name}}',
+                onchange: function (color) {
 
-                element.style.background = color;
+                    element.style.background = color;
 
-                hiddenElement.value = color;
-                hiddenElement.dispatchEvent(new Event('input'));
-            }
+                    hiddenElement.value = color;
+                    hiddenElement.dispatchEvent(new Event('input'));
+                }
+            });
         });
+
     });
 </script>

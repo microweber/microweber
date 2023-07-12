@@ -329,7 +329,8 @@
                 this.dialogHolder.appendChild(this.closeButton);
 
             }
-           // this.dialogOverlay();
+
+            this.dialogOverlay();
             return this;
         };
 
