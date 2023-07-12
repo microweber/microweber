@@ -3,6 +3,7 @@
 
 namespace MicroweberPackages\Template;
 
+use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
 use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
@@ -120,10 +121,13 @@ class Template
         $styles = \Livewire\Livewire::styles();
         $modal = \Livewire\Livewire::mount('livewire-ui-modal')->html();
 
-        $layout = str_ireplace('<head>', '<head>' . $alpineScript, $layout, $rep);
-        $layout = str_ireplace('</head>', $styles . '</head>', $layout, $rep);
-        $layout = str_ireplace('</head>', $scripts . '</head>', $layout, $rep);
-        $layout = str_ireplace('</head>', $modal . '</head>', $layout, $rep);
+
+        $layout = Str::replaceFirst( '<head>', '<head>' . $alpineScript, $layout);
+        $layout = Str::replaceFirst( '</head>', $styles . '</head>', $layout);
+        $layout = Str::replaceFirst( '</head>', $scripts . '</head>', $layout);
+        $layout = Str::replaceFirst( '</head>', $modal . '</head>', $layout);
+
+
         return $layout;
     }
 
@@ -138,7 +142,7 @@ class Template
 
         if ($append_html) {
             $rep = 0;
-            $layout = str_ireplace('<head>', '<head>' . $append_html, $layout, $rep);
+            $layout = Str::replaceFirst('<head>', '<head>' . $append_html, $layout);
         }
 
         return $layout;
