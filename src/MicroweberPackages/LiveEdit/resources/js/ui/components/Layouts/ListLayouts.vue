@@ -14,7 +14,6 @@
          style="inset:20px; transform:none; animation-duration: .3s;"
     >
 
-        <link v-for='layoutItem in layoutsList.layouts' rel="preload" as="image" :href="layoutItem.screenshot">
 
 
 
