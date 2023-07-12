@@ -189,8 +189,9 @@ mw.emitter = {
                     label: mw.lang('Link text'),
                     description: mw.lang('Selected text for the link.'),
                 },
-                icon: 'mdi mdi-view-compact-outline',
-                // icon: 'mdi mdi-format-page-break',
+                icon: 'd-none',
+                //
+                icon: 'd-none',
                 title: 'Page title'
             };
             options =  mw.object.extend(true, {}, defaults, (options || {}));
@@ -331,8 +332,9 @@ mw.emitter = {
                     label: mw.lang('Link text'),
                     description: mw.lang('Selected text for the link.'),
                 },
-                icon: 'mdi mdi-view-compact-outline',
-                // icon: 'mdi mdi-format-page-break',
+                icon: 'd-none',
+                //
+                icon: 'd-none',
                 title: 'Page block'
             };
             options =  mw.object.extend(true, {}, defaults, (options || {}));
@@ -484,7 +486,7 @@ mw.emitter = {
                 target: {
                     label: mw.lang('Open the link in a new window')
                 },
-                icon: 'mdi mdi-email-outline',
+                icon: 'd-none',
                 title: 'Email'
             };
             options =  mw.object.extend(true, {}, defaults, (options || {}));
@@ -623,7 +625,7 @@ mw.emitter = {
                 url: {
                     label: mw.lang('Search for content')
                 },
-                icon: 'mdi mdi-format-list-bulleted-square',
+                icon: 'd-none',
                 title: 'Post/category',
                 dataUrl: function () {
                     try {
@@ -676,12 +678,12 @@ mw.emitter = {
                                 keyword: treeEl.value,
                                 order_by: 'updated_at desc',
                                 search_in_fields: 'title',
-                            })                   
+                            })
                         }
-    
-    
-            
-                        
+
+
+
+
                         fetch(url, conf)
                             .then(response => response.json())
                             .then(json => {
@@ -689,17 +691,17 @@ mw.emitter = {
                             }).catch(()=>{
                                 callback();
                             });
-            
+
                     },
                     // custom rendering functions for options and items
                     render: {
                         option: function(item, escape) {
-                             
+
                             return `<div class="py-2 d-flex">
                             ${item.image ? (`<div class="icon me-3">
                             <img class="img-fluid" src="${item.image}" />
                         </div>`) : ''}
-                                        
+
                                         <div>
                                             <div class="mb-1">
                                                 <span class="h4">
@@ -712,7 +714,7 @@ mw.emitter = {
                                     </div>`;
                         },
                         item: function(item, escape) {
-                             
+
                             return `<div class="d-flex">
                             ${item.image ? (`<div class="icon me-3">
                             <img class="img-fluid" src="${item.image}" />
@@ -730,9 +732,9 @@ mw.emitter = {
                         }
                     },
                 });
-    
-                 
- 
+
+
+
             }
 
 
@@ -782,14 +784,14 @@ mw.emitter = {
             this.getValue = function () {
                 var val = {};
                 if(textField) val.text = textField.value;
-      
-                 
+
+
                 var getSelected, autoCompleteVal = this.autoComplete.getValue();
                 for (let i in this.autoComplete.options) {
                     if(autoCompleteVal == this.autoComplete.options[i].id) {
                         getSelected = this.autoComplete.options[i];
                         break;
-                    } 
+                    }
                 }
                 val.url = getSelected ? getSelected.url : '';
                 val.data = getSelected;
@@ -864,7 +866,7 @@ mw.emitter = {
                 target: {
                     label: mw.lang('Open the link in a new window')
                 },
-                icon: 'mdi mdi-file-link-outline',
+                 icon: 'd-none',
                 title: 'My website',
                 dataUrl: function () {
                     try {
@@ -1046,7 +1048,7 @@ mw.emitter = {
                 target: {
                     label: mw.lang('Open the link in a new window')
                 },
-                icon: 'mdi mdi-paperclip',
+                icon: 'd-none',
                 title: 'File',
                 dataUrl: function () {
                     try {
@@ -1083,7 +1085,7 @@ mw.emitter = {
                 nav: 'tabs',
                 label: false
             });
-            
+
             if (options.target) {
                 _target = mw.controlFields.checkbox({
                     label: options.target.label,
@@ -1219,7 +1221,7 @@ mw.emitter = {
                 target: {
                     label: mw.lang('Open the link in a new window')
                 },
-                icon: 'mdi mdi-web',
+                icon: 'd-none',
                 title: 'URL'
             };
             options =  mw.object.extend(true, {}, defaults, (options || {}));
