@@ -15,6 +15,8 @@ class Color extends Input
 
 
     public function render() {
-        return 'qkooo';
+        return view('microweber-form-builder::form-inputs.color',[
+            'input' => $this
+        ]);
     }
 }
