@@ -5,7 +5,6 @@ export class ColorPicker extends MicroweberBaseClass {
     selectColor(targetElementSelector, callback = false) {
 
         var target = $(targetElementSelector)[0];
-
         let randId = this.generateRandId(10);
 
         let colorPickerDialog = mw.top().dialog({
