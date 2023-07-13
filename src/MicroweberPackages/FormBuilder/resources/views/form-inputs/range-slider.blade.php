@@ -2,8 +2,8 @@
 $rand = md5(time().rand(111,999));
 ?>
 <div x-data="{customRange: false}">
-    <div class="d-flex justify-content-between" >
-        <div>
+    <div class="d-flex justify-content-between items-center">
+        <div style="width: 90%;">
             <div class="form-range mb-2 text-green" id="range-slider-{{$rand}}}"></div>
         </div>
         <div>
