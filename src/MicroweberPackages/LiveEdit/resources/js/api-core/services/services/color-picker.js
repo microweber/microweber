@@ -28,7 +28,7 @@ export class ColorPicker extends MicroweberBaseClass {
         if (colorPickerDialog.dialogContainer) {
             colorPickerDialog.dialogContainer.style.padding = '0px';
         }
-        if (colorPickerDialog.overlay) { 
+        if (colorPickerDialog.overlay) {
             colorPickerDialog.overlay.style.backgroundColor = 'transparent';
         }
 
