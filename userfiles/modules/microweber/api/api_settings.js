@@ -352,7 +352,7 @@
 
         nouislider: [
             function () {
-                mw.require(mw.settings.libs_url + 'nouislider' + '/nouislider.css');
+              //  mw.require(mw.settings.libs_url + 'nouislider' + '/nouislider.css');
                 mw.require(mw.settings.libs_url + 'nouislider' + '/nouislider.js');
             }
         ],
