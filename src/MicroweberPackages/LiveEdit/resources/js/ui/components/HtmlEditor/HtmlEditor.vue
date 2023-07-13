@@ -24,8 +24,8 @@ export default {
                 title: mw.lang('Edit Code'),
                 footer: false,
                 width: 400,
-                height: 600,
-               // height: 'auto',
+              //  height: 600,
+                height: 'auto',
                 autoHeight: true,
                 overlay: false
             });

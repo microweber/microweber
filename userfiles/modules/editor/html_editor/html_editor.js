@@ -1,14 +1,11 @@
 var wroot = window.opener || mw.top().win;
-if(mw.top().app.canvas){
+if (mw.top().app.canvas) {
     wroot = mw.top().app.canvas.getWindow();
 }
 
 
-
-
-
-(function (){
-    if(mw.html_editor) {
+(function () {
+    if (mw.html_editor) {
         return;
     }
     var htmlEditor = {};
@@ -37,7 +34,7 @@ if(mw.top().app.canvas){
 
         var get_edit_fields = wroot.$('.edit');
 
-        if (typeof(root_element_selector) != 'undefined') {
+        if (typeof (root_element_selector) != 'undefined') {
             get_edit_fields = wroot.$('.edit', root_element_selector);
         }
 
@@ -57,14 +54,13 @@ if(mw.top().app.canvas){
         var method = 'frame';
         var text = option.el.textContent.trim();
 
-        if(option.method){
+        if (option.method) {
             method = option.method;
         }
 
         if (method === 'text') {
             return text.substring(0, 45) + '...';
-        }
-        else {
+        } else {
             var framehold = document.createElement('div');
             framehold.className = 'htmleditliframe'
             var frame = document.createElement('iframe');
@@ -90,7 +86,7 @@ if(mw.top().app.canvas){
             var dd_field = $(this).attr('field');
 
             if (dd_grp) {
-                if (typeof(html_dd[dd_grp]) == 'undefined') {
+                if (typeof (html_dd[dd_grp]) == 'undefined') {
                     html_dd[dd_grp] = [];
                 }
                 var temp = {};
@@ -118,7 +114,7 @@ if(mw.top().app.canvas){
             $optgroup.appendTo($select);
             $optgroup.html(groupName);
             var $optgroupul = $("<ul>", {label: groupName, rel: groupName});
-            $optgroupul.addClass('dropdown-menu');
+            //  $optgroupul.addClass('dropdown-menu');
             $optgroupul.appendTo($optgroup);
             $.each(options, function (j, option) {
 
@@ -136,13 +132,12 @@ if(mw.top().app.canvas){
                         field: option.field
                     }).append(screenShot ? htmlEditor.createItemContent(option) : option.field);
 
-                    $option.addClass('dropdown-item');
+                    //  $option.addClass('dropdown-item');
 
                     if (!has_selected && option.rel == 'content') {
                         has_selected = true;
                         $($option).attr('selected', 'selected');
                     }
-
 
 
                     $option.appendTo($optgroupul);
@@ -156,7 +151,12 @@ if(mw.top().app.canvas){
             e.stopPropagation()
             $('li', $select).removeClass('selected');
             $(this).addClass('selected');
-            htmlEditor.populate_editor()
+            htmlEditor.populate_editor();
+
+            if (mw.tools.hasParentsWithClass(this, 'dropdown')) {
+                $(mw.tools.firstParentWithClass(this, 'dropdown')).dropdown("toggle");
+            }
+
         });
 
     };
@@ -178,13 +178,14 @@ if(mw.top().app.canvas){
         var dd_field = value.attr('field');
 
 
-        if (typeof(htmlEditor.map[dd_grp + '/' + dd_field]) != 'undefined') {
+        if (typeof (htmlEditor.map[dd_grp + '/' + dd_field]) != 'undefined') {
 
 
             ed_val = $(htmlEditor.map[dd_grp + '/' + dd_field].el).html();
 
-            if(wroot.mw === mw.top()) {
+            if (typeof(mw.top().app) !== 'undefined' && typeof mw.top().app.canvas === 'object') {
                 wroot.mw.tools.scrollTo('[field="' + dd_field + '"][rel="' + dd_grp + '"]')
+
             }
 
             wroot.$('.html-editor-selcted').removeClass('html-editor-selcted');
@@ -258,7 +259,7 @@ if(mw.top().app.canvas){
 
 
         htmlEditor.apply();
-        if(wroot.mw.drag.save) {
+        if (wroot.mw.drag.save) {
             mw.tools.loading('#module-id-mw_global_html_editor', true);
             wroot.mw.drag.save(undefined, function () {
                 mw.tools.loading('#module-id-mw_global_html_editor', false);
@@ -266,7 +267,7 @@ if(mw.top().app.canvas){
             })
         }
         var form = wroot.mw.top().$('#quickform-edit-content');
-        if(form.length) {
+        if (form.length) {
             form.submit()
         }
 
@@ -274,7 +275,7 @@ if(mw.top().app.canvas){
     htmlEditor.apply = function () {
         var cur = $('#custom_html_code_mirror').attr('current');
         var html = $('#custom_html_code_mirror').val();
-        if (typeof(htmlEditor.map[cur]) != 'undefined') {
+        if (typeof (htmlEditor.map[cur]) != 'undefined') {
 
 
             var el = htmlEditor.map[cur].el;
@@ -288,7 +289,7 @@ if(mw.top().app.canvas){
 
             }
 
-            var selected_el =  $(el);
+            var selected_el = $(el);
             var modules_ids = {};
             var modules_list = $('.module', selected_el);
 
@@ -346,14 +347,14 @@ if(mw.top().app.canvas){
         var html = '';
 
 
-        if (typeof(htmlEditor.map[cur]) != 'undefined') {
+        if (typeof (htmlEditor.map[cur]) != 'undefined') {
 
 
             var el = htmlEditor.map[cur].el;
             var mod_ids = [];
 
             var mod_ids_inside_el = htmlEditor.find_all_module_ids_in_element(el);
-            if(mod_ids_inside_el){
+            if (mod_ids_inside_el) {
                 mod_ids = mod_ids.concat(mod_ids_inside_el);
             }
 
@@ -366,7 +367,7 @@ if(mw.top().app.canvas){
                 }
                 if (typeof is_inside_layout_attr !== 'undefined' && is_inside_layout_attr === 'layouts') {
                     var is_inside_layout_attr_id = $(is_inside_layout).attr('id');
-                    if(is_inside_layout_attr_id){
+                    if (is_inside_layout_attr_id) {
                         mod_ids = mod_ids.concat([is_inside_layout_attr_id]);
                     }
                 }
@@ -406,13 +407,13 @@ if(mw.top().app.canvas){
                 var some_child = {};
                 some_child.rel = $(this).attr('rel');
                 some_child.field = $(this).attr('field');
-                if(some_child.rel && some_child.field){
+                if (some_child.rel && some_child.field) {
                     childs_arr[i] = some_child;
                 }
             });
 
 
-            var childs_arr_data = {'reset':childs_arr};
+            var childs_arr_data = {'reset': childs_arr};
 
 
             //if (childs_arr.length) {
@@ -433,7 +434,7 @@ if(mw.top().app.canvas){
 
 
             mw.tools.addClass(el, 'changed is-reset')
-           // mw.tools.removeClass(el, 'changed')
+            // mw.tools.removeClass(el, 'changed')
             mw.tools.foreachParents(el, function () {
                 if (mw.tools.hasClass(this, 'edit')) {
                     mw.tools.addClass(this, 'changed')
