@@ -69,9 +69,10 @@
             mw.$(el).addClass('mw-ui-field').after(nav);
             nav.appendChild(el);
             mw.$('.mw-ui-btn-img', view).css("background-color", el.value);
+            inputEl._time = null;
         }
 
-        inputEl._time = null;
+        
         var picker = mw.colorPicker({
             element:inputEl,
             position:settings.position,

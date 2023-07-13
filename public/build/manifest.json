@@ -1,171 +1,51 @@
 {
-  "_bootstrap-1de10187.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-1de10187.js"
-  },
-  "_bootstrap-22e9f970.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-22e9f970.js"
-  },
-  "_bootstrap-27ffd216.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-27ffd216.js"
-  },
-  "_bootstrap-2d4cd686.js": {
+  "_bootstrap-33bb47b5.js": {
     "css": [
       "assets/bootstrap-9bd34148.css"
     ],
-    "file": "assets/bootstrap-2d4cd686.js"
+    "file": "assets/bootstrap-33bb47b5.js"
   },
-  "_bootstrap-381a8672.js": {
+  "_bootstrap-48916c1f.js": {
     "css": [
       "assets/bootstrap-9bd34148.css"
     ],
-    "file": "assets/bootstrap-381a8672.js"
+    "file": "assets/bootstrap-48916c1f.js"
   },
-  "_bootstrap-389bcf59.js": {
+  "_bootstrap-4d476171.js": {
     "css": [
       "assets/bootstrap-9bd34148.css"
     ],
-    "file": "assets/bootstrap-389bcf59.js"
+    "file": "assets/bootstrap-4d476171.js"
   },
-  "_bootstrap-3f9d4558.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-3f9d4558.js"
-  },
-  "_bootstrap-5366be9f.js": {
+  "_bootstrap-648b60e7.js": {
     "css": [
       "assets/bootstrap-9bd34148.css"
     ],
-    "file": "assets/bootstrap-5366be9f.js"
+    "file": "assets/bootstrap-648b60e7.js"
   },
-  "_bootstrap-5b0b329b.js": {
-    "css": [
-      "assets/bootstrap-87323316.css"
-    ],
-    "file": "assets/bootstrap-5b0b329b.js"
-  },
-  "_bootstrap-66e5ab1e.js": {
+  "_bootstrap-7c64f1ac.js": {
     "css": [
       "assets/bootstrap-9bd34148.css"
     ],
-    "file": "assets/bootstrap-66e5ab1e.js"
+    "file": "assets/bootstrap-7c64f1ac.js"
   },
-  "_bootstrap-6b39b023.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-6b39b023.js"
-  },
-  "_bootstrap-6b7622cd.js": {
+  "_bootstrap-8587d948.js": {
     "css": [
       "assets/bootstrap-9bd34148.css"
     ],
-    "file": "assets/bootstrap-6b7622cd.js"
+    "file": "assets/bootstrap-8587d948.js"
   },
-  "_bootstrap-836a2e00.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-836a2e00.js"
-  },
-  "_bootstrap-9edd57ce.js": {
-    "css": [
-      "assets/bootstrap-2b96367b.css"
-    ],
-    "file": "assets/bootstrap-9edd57ce.js"
-  },
-  "_bootstrap-a8134ffb.js": {
+  "_bootstrap-9f183799.js": {
     "css": [
       "assets/bootstrap-9bd34148.css"
     ],
-    "file": "assets/bootstrap-a8134ffb.js"
+    "file": "assets/bootstrap-9f183799.js"
   },
-  "_bootstrap-ab433696.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-ab433696.js"
-  },
-  "_bootstrap-b89741f2.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-b89741f2.js"
-  },
-  "_bootstrap-b930595b.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-b930595b.js"
-  },
-  "_bootstrap-bb3640d7.js": {
+  "_bootstrap-e871a6ae.js": {
     "css": [
       "assets/bootstrap-9bd34148.css"
     ],
-    "file": "assets/bootstrap-bb3640d7.js"
-  },
-  "_bootstrap-c3f4467b.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-c3f4467b.js"
-  },
-  "_bootstrap-c5038dba.js": {
-    "css": [
-      "assets/bootstrap-87323316.css"
-    ],
-    "file": "assets/bootstrap-c5038dba.js"
-  },
-  "_bootstrap-ca42733d.js": {
-    "css": [
-      "assets/bootstrap-9bd34148.css"
-    ],
-    "file": "assets/bootstrap-ca42733d.js"
-  },
-  "_bootstrap-d1855d42.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-d1855d42.js"
-  },
-  "_bootstrap-db9b57ea.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-db9b57ea.js"
-  },
-  "_bootstrap-dc3b665b.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-dc3b665b.js"
-  },
-  "_bootstrap-ef29f37b.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-ef29f37b.js"
-  },
-  "_bootstrap-f0dc6e63.js": {
-    "css": [
-      "assets/bootstrap-ec6de95d.css"
-    ],
-    "file": "assets/bootstrap-f0dc6e63.js"
-  },
-  "_bootstrap-f0dcfe87.js": {
-    "css": [
-      "assets/bootstrap-d4e75442.css"
-    ],
-    "file": "assets/bootstrap-f0dcfe87.js"
+    "file": "assets/bootstrap-e871a6ae.js"
   },
   "bootstrap.css": {
     "file": "assets/bootstrap-9bd34148.css",
@@ -177,30 +57,30 @@
     "src": "resources/css/microweber-admin-filament.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js": {
-    "file": "assets/admin-app-0ec872b7.js",
+    "file": "assets/admin-app-f444011e.js",
     "imports": [
-      "_bootstrap-66e5ab1e.js"
+      "_bootstrap-33bb47b5.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css": {
-    "file": "assets/live-edit-app-195f40a2.css",
+    "file": "assets/live-edit-app-c29e8dd3.css",
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js": {
     "css": [
-      "assets/live-edit-app-195f40a2.css"
+      "assets/live-edit-app-c29e8dd3.css"
     ],
-    "file": "assets/live-edit-app-2b6c7281.js",
+    "file": "assets/live-edit-app-d006406b.js",
     "imports": [
-      "_bootstrap-66e5ab1e.js"
+      "_bootstrap-33bb47b5.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js": {
-    "file": "assets/live-edit-page-scripts-599d3ed9.js",
+    "file": "assets/live-edit-page-scripts-62f44976.js",
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js"
   }

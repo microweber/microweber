@@ -68,16 +68,18 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
 
         const target = this.getIteractionTarget(node);
 
-        /*console.log('X', target)
-        
-        console.log(!target, this.isEditOrInEdit(node) )
-        console.log( this.isEdit(node) )
-        console.log( this.isInEdit(node) )*/
 
-        return null;
+ 
+ 
         if(!target || !this.isEditOrInEdit(node) || !this.allowDrop(node)) {
             return null;
         }
+
+        
+
+        
+ 
+
         const res = {
             target,
             canInsert: false,
@@ -101,7 +103,6 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
             }
             res.beforeAfter = true;
         } else if(  this.isModule(target) && !draggedElementIsLayoutRestricted) {
-            console.log(target, this.canInsertBeforeOrAfter(target))
             if(this.canInsertBeforeOrAfter(target)) {
                 res.beforeAfter = true;
             } else {
@@ -114,7 +115,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
                 return null;
             }
         }
-        console.log(res)
+ 
         return res;
     }
 
