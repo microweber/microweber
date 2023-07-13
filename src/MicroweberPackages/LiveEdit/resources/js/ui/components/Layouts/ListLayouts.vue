@@ -47,7 +47,7 @@
 
                         </li>
                     </ul>
-                </div> 
+                </div>  
 
                 <div :class="[layoutsList.categories.length > 0 ? 'mw-le-layouts-dialog-col' : 'mw-le-layouts-dialog-col-full']">
 
