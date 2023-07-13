@@ -4,12 +4,12 @@ $rand = md5(time().rand(111,999));
 <div x-data="{customRange: false}">
     <div class="d-flex justify-content-between items-center">
         <div style="width: 90%;">
-            <div class="form-range mb-2 text-green" id="range-slider-{{$rand}}}"></div>
+            <div class="form-range mt-1" id="range-slider-{{$rand}}}"></div>
         </div>
         <div>
-           <span stype="cursor:pointer;" x-on:click="customRange =! customRange">
+           <button type="button" class="btn btn-white btn-sm" x-on:click="customRange =! customRange">
             {{__('Use custom range')}}
-        </span>
+        </button>
         </div>
     </div>
     <div x-show="customRange">
@@ -23,7 +23,7 @@ $rand = md5(time().rand(111,999));
         $(document).ready(function() {
             var slider = document.getElementById('range-slider-{{$rand}}}');
             noUiSlider.create(slider, {
-                start: [20, 80],
+                start: [0],
                 connect: true,
                 range: {
                     'min': 0,
