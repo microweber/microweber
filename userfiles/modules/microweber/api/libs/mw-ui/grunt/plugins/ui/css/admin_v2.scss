@@ -1,7 +1,7 @@
 @import url("../css/../../tabler-ui/dist/css/tabler.min.css");
+@import url("../css/../../tabler-ui/dist/css/tabler-vendors.css");
 @import "_mw_tabler";
 @import "file-robot-image-editor";
-
 
 
 //!!!!!!!!!!!!!!!!! RTL STYLE !!!!!!!!!!!!!!!!!!!!
@@ -2098,3 +2098,6 @@ svg.text-danger {
     }
 }
 
+.mw-le-layouts-dialog-col-full {
+    overflow-y: scroll;
+}
