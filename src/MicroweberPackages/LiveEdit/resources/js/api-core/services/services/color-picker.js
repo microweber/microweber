@@ -2,7 +2,18 @@ import MicroweberBaseClass from "../containers/base-class.js";
 
 export class ColorPicker extends MicroweberBaseClass {
 
+    constructor() {
+        super();
+        this.colorPickerInstances = [];
+    }
+
     selectColor(targetElementSelector, callback = false) {
+
+        if (this.colorPickerInstances.length > 0) {
+            for (let i = 0; i < this.colorPickerInstances.length; i++) {
+                this.colorPickerInstances[i].remove();
+            }
+        }
 
         var target = $(targetElementSelector)[0];
         let randId = this.generateRandId(10);
@@ -21,6 +32,8 @@ export class ColorPicker extends MicroweberBaseClass {
             colorPickerDialog.overlay.style.backgroundColor = 'transparent';
         }
 
+        this.colorPickerInstances.push(colorPickerDialog);
+
         mw.top().colorPicker({
             element: '#color-picker-' + randId,
             onchange: function (color) {
@@ -34,7 +47,18 @@ export class ColorPicker extends MicroweberBaseClass {
             }
         });
 
+    }
 
+    generateRandId(length) {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < length) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+        return result;
     }
 
 }
