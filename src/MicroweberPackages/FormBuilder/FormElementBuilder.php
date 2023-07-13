@@ -16,6 +16,7 @@ use MicroweberPackages\FormBuilder\Elements\MwModuleSettings;
 use MicroweberPackages\FormBuilder\Elements\Number;
 use MicroweberPackages\FormBuilder\Elements\RadioButton;
 use MicroweberPackages\FormBuilder\Elements\Range;
+use MicroweberPackages\FormBuilder\Elements\RangeSlider;
 use MicroweberPackages\FormBuilder\Elements\Select;
 use MicroweberPackages\FormBuilder\Elements\Text;
 use MicroweberPackages\FormBuilder\Elements\TextArea;
@@ -46,6 +47,7 @@ class FormElementBuilder extends Manager
         'select' => Select::class,
         'radio' => RadioButton::class,
         'range' => Range::class,
+        'range-slider' => RangeSlider::class,
         'checkbox' => Checkbox::class,
         'color' => Color::class,
         'date' => Date::class,
