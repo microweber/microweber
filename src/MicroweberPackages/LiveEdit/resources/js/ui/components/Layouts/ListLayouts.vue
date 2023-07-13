@@ -226,7 +226,7 @@ export default {
                 instance.layoutInsertLocation = 'top';
                 setTimeout(function() {
              instance.filterLayouts();
-                }, 300);
+                }, 500);
                 mw.app.registerChangedState(element);
             });
             mw.app.editor.on('insertLayoutRequestOnBottom',function(element){
