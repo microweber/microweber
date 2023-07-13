@@ -16,6 +16,10 @@
         <?php if(isset($params['root_element_id']) and $params['root_element_id']){ ?>
             fields = mw.html_editor.get_edit_fields(true, '#<?php print $params['root_element_id'] ?>');
         <?php } ?>
+
+
+
+
         mw.html_editor.build_dropdown(fields, false);
         mw.html_editor.populate_editor();
     })
@@ -45,9 +49,16 @@
         </label>
         <span></span>
     </div>
-    <div class="mw-ui-box-content" id="select_edit_field_container">
+
+
+
+    <div id="select_edit_field_container">
         <div id="select_edit_field_wrap"></div>
     </div>
+
+
+
+
 </div>
 <div id="save-toolbar" class="text-center">
     <button onclick="reset();" class="  btn btn-primary"><?php _e('Reset content'); ?></button>

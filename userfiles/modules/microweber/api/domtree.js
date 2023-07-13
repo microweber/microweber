@@ -6,7 +6,10 @@ mw.DomTree = function (options) {
         if (mw.tools.hasClass(node, 'row')) {
             title = "Row";
             icon = '<span class="mdi mdi-table-row mdi-18px"></span>';
-        }  else if (node.ownerDocument.defaultView.mw.drag && mw.tools.hasAnyOfClasses(node, node.ownerDocument.defaultView.mw.drag.external_grids_col_classes)) {
+        } else if (
+            (mw.top().mw.app.templateSettings && mw.tools.hasAnyOfClasses(node, mw.top().mw.app.templateSettings.helperClasses.external_grids_col_classes)
+                ||
+                (node.ownerDocument.defaultView.mw.drag && mw.tools.hasAnyOfClasses(node, node.ownerDocument.defaultView.mw.drag.external_grids_col_classes)) {
             title = "Column";
             icon = '<span class="mdi mdi-table-column mdi-18px"></span>';
         } else if (node.nodeName === 'H1') {
@@ -33,7 +36,7 @@ mw.DomTree = function (options) {
         } else if (node.nodeName === 'SECTION') {
             title = "Section";
             icon = '<span class="mdi mdi-format-section mdi-18px"></span>';
-        }else if (node.nodeName === 'IMG') {
+        } else if (node.nodeName === 'IMG') {
             title = "Image";
             icon = '<span class="mdi mdi-file-image-outline mdi-18px"></span>';
         }
@@ -42,81 +45,83 @@ mw.DomTree = function (options) {
         data.title = title;
         return data;
     },
-    this.prepare = function () {
-        var defaults = {
-            selector: '.edit',
-            document: document,
-            targetDocument: document,
-            componentMatch: [
-                {
-                    label:  function (node) {
-                        return 'Edit';
+        this.prepare = function () {
+            var defaults = {
+                selector: '.edit',
+                document: document,
+                targetDocument: document,
+                componentMatch: [
+                    {
+                        label: function (node) {
+                            return 'Edit';
+                        },
+                        test: function (node) {
+                            return mw.tools.hasClass(node, 'edit');
+                        }
                     },
-                    test: function (node) {
-                        return mw.tools.hasClass(node, 'edit');
-                    }
-                },
-                {
-                    label: function (node) {
-                        if(!node.ownerDocument.defaultView.mw.live_edit) {
-                            return ''
+                    {
+                        label: function (node) {
+                            if (!node.ownerDocument.defaultView.mw.live_edit) {
+                                return ''
+                            }
+                            var icon = node.ownerDocument.defaultView.mw.live_edit.getModuleIcon(node.getAttribute('data-type'));
+                            return icon + ' ' + node.getAttribute('data-mw-title') || node.getAttribute('data-type');
+                        },
+                        test: function (node) {
+                            return mw.tools.hasClass(node, 'module');
                         }
-                        var icon = node.ownerDocument.defaultView.mw.live_edit.getModuleIcon(node.getAttribute('data-type'));
-                        return icon + ' ' + node.getAttribute('data-mw-title') || node.getAttribute('data-type');
                     },
-                    test: function (node) {
-                        return mw.tools.hasClass(node, 'module');
-                    }
-                },
-                // {
-                //     label: 'Image',
-                //     test: function (node) {
-                //         return node.nodeName === 'IMG';
-                //     }
-                // },
-                {
-                    label:  function (node) {
-                        var id = node.id ? '#' + node.id : '';
-                        var iconAndTitle = this.getNodeIconAndTitle(node);
-                        var icon = '';
-                        var title =  node.nodeName.toLowerCase();
-                        if (iconAndTitle.icon) {
-                            icon = iconAndTitle.icon;
-                        }
-                        if (iconAndTitle.title) {
-                            title = iconAndTitle.title;
-                        }
+                    // {
+                    //     label: 'Image',
+                    //     test: function (node) {
+                    //         return node.nodeName === 'IMG';
+                    //     }
+                    // },
+                    {
+                        label: function (node) {
+                            var id = node.id ? '#' + node.id : '';
+                            var iconAndTitle = this.getNodeIconAndTitle(node);
+                            var icon = '';
+                            var title = node.nodeName.toLowerCase();
+                            if (iconAndTitle.icon) {
+                                icon = iconAndTitle.icon;
+                            }
+                            if (iconAndTitle.title) {
+                                title = iconAndTitle.title;
+                            }
 
-                        var display = title;
-                        if(icon){
-                            display = icon + ' ' + title;
-                        }
+                            var display = title;
+                            if (icon) {
+                                display = icon + ' ' + title;
+                            }
 
-                        return display ;
-                    },
-                    test: function (node) { return true; }
-                }
-            ],
-            componentTypes: [
-                {
-                    label: 'SafeMode',
-                    test: function (node) {
-                        return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [ 'safe-mode', 'regular-mode' ]);
+                            return display;
+                        },
+                        test: function (node) {
+                            return true;
+                        }
                     }
-                }
-            ]
+                ],
+                componentTypes: [
+                    {
+                        label: 'SafeMode',
+                        test: function (node) {
+                            return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, ['safe-mode', 'regular-mode']);
+                        }
+                    }
+                ]
+            };
+            options = options || {};
+
+            this.settings = $.extend({}, defaults, options);
+
+            this.$holder = $(this.settings.element);
+
+            this.document = this.settings.document;
+            this.targetDocument = this.settings.targetDocument;
+
+            this._selectedDomNode = null;
         };
-        options = options || {};
-
-        this.settings = $.extend({}, defaults, options);
-
-        this.$holder = $(this.settings.element);
-
-        this.document = this.settings.document;
-        this.targetDocument = this.settings.targetDocument;
-
-        this._selectedDomNode = null;
-    };
     this.prepare();
 
     this.createList = function () {
@@ -144,7 +149,7 @@ mw.DomTree = function (options) {
 
     this.toggle = function (nodeOrTreeNode) {
         var li = this._get(nodeOrTreeNode);
-        this[ li._opened ? 'close' : 'open'](li);
+        this[li._opened ? 'close' : 'open'](li);
     };
 
     this._opened = [];
@@ -153,7 +158,7 @@ mw.DomTree = function (options) {
         var li = this._get(nodeOrTreeNode);
         li._opened = true;
         li.classList.add('expand');
-        if(this._opened.indexOf(li._value) === -1) {
+        if (this._opened.indexOf(li._value) === -1) {
             this._opened.push(li._value);
         }
     };
@@ -162,7 +167,7 @@ mw.DomTree = function (options) {
         li._opened = false;
         li.classList.remove('expand');
         var ind = this._opened.indexOf(li._value);
-        if( ind !== -1 ) {
+        if (ind !== -1) {
             this._opened.splice(ind, ind)
         }
     };
@@ -170,15 +175,15 @@ mw.DomTree = function (options) {
     this._scrollTo = function (el) {
         setTimeout(function () {
             scope.$holder.stop().animate({
-                scrollTop: (scope.$holder.scrollTop() + ($(el).offset().top - scope.$holder.offset().top)) - (scope.$holder.height()/2 - 10)
+                scrollTop: (scope.$holder.scrollTop() + ($(el).offset().top - scope.$holder.offset().top)) - (scope.$holder.height() / 2 - 10)
             });
         }, 55);
     };
 
     this.openParents = function (node) {
         node = this._get(node);
-        while(node && node !== this.root) {
-            if(node.nodeName === 'LI'){
+        while (node && node !== this.root) {
+            if (node.nodeName === 'LI') {
                 this.open(node);
             }
             node = node.parentNode;
@@ -196,7 +201,7 @@ mw.DomTree = function (options) {
     this.getByNode = function (el) {
         var all = this.root.querySelectorAll('li');
         var l = all.length, i = 0;
-        for ( ; i < l; i++) {
+        for (; i < l; i++) {
             if (all[i]._value === el) {
                 return all[i];
             }
@@ -231,14 +236,14 @@ mw.DomTree = function (options) {
         $(this.root)
             .on('mousemove', function (e) {
                 var target = e.target;
-                if(target.nodeName !== 'LI') {
+                if (target.nodeName !== 'LI') {
                     target = target.parentNode;
                 }
-                if(scope._currentTarget !== target) {
+                if (scope._currentTarget !== target) {
                     scope._currentTarget = target;
                     mw.$('li.hover', scope.root).removeClass('hover');
                     target.classList.add('hover');
-                    if(scope.settings.onHover) {
+                    if (scope.settings.onHover) {
                         scope.settings.onHover.call(scope, e, target, target._value);
                     }
                 }
@@ -249,13 +254,13 @@ mw.DomTree = function (options) {
             .on('click', function (e) {
                 var target = e.target;
 
-                if(target.nodeName !== 'LI') {
+                if (target.nodeName !== 'LI') {
                     target = mw.tools.firstParentWithTag(target, 'li');
                     scope.toggle(target);
                 }
-                if(target._selectable) {
+                if (target._selectable) {
                     scope.selected(target);
-                    if(target.nodeName === 'LI' && scope.settings.onSelect) {
+                    if (target.nodeName === 'LI' && scope.settings.onSelect) {
                         scope.settings.onSelect.call(scope, e, target, target._value);
                     }
                 }
@@ -267,7 +272,7 @@ mw.DomTree = function (options) {
         if (!this._map) {
             this._map = new Map();
         }
-        if(!node) {
+        if (!node) {
             return this._map;
         }
         if (!treeNode) {
@@ -279,7 +284,7 @@ mw.DomTree = function (options) {
     };
 
     this.createItem = function (item) {
-        if(!this.validateNode(item)) {
+        if (!this.validateNode(item)) {
             return;
         }
         var li = this.document.createElement('li');
@@ -291,11 +296,11 @@ mw.DomTree = function (options) {
         dtLabel.innerHTML = this.getComponentLabel(item)
         li.innerHTML = dio;
         li.appendChild(dtLabel)
-        if ( typeof scope.settings.canSelect === 'function' ) {
+        if (typeof scope.settings.canSelect === 'function') {
             var can = scope.settings.canSelect(item, li);
             li.classList.add('selectable-' + can);
             li._selectable = can;
-            if(!can) {
+            if (!can) {
                 dtLabel.title = mw.lang('Item can not be selected')
             }
         }
@@ -304,16 +309,16 @@ mw.DomTree = function (options) {
 
     this.getComponentLabel = function (node) {
         var all = this.settings.componentMatch, i = 0;
-        for (  ; i < all.length; i++ ) {
-            if( all[i].test(node)) {
+        for (; i < all.length; i++) {
+            if (all[i].test(node)) {
                 return typeof all[i].label === 'string' ? all[i].label : all[i].label.call(this, node);
             }
         }
     };
     this.isComponent = function (node) {
         var all = this.settings.componentMatch, i = 0;
-        for (  ; i < all.length; i++ ) {
-            if( all[i].test(node)) {
+        for (; i < all.length; i++) {
+            if (all[i].test(node)) {
                 return true;
             }
         }
@@ -321,11 +326,11 @@ mw.DomTree = function (options) {
     };
 
     this.validateNode = function (node) {
-        if(node.nodeType !== 1){
+        if (node.nodeType !== 1) {
             return false;
         }
         var tag = node.nodeName;
-        if(tag === 'SCRIPT' || tag === 'STYLE' || tag === 'LINK' || tag === 'BR') {
+        if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'LINK' || tag === 'BR') {
             return false;
         }
         return this.isComponent(node);
@@ -334,9 +339,9 @@ mw.DomTree = function (options) {
     this.create = function () {
         var all = this.targetDocument.querySelectorAll(this.settings.selector);
         var i = 0;
-        for (  ; i < all.length; i++ ) {
+        for (; i < all.length; i++) {
             var item = this.createItem(all[i]);
-            if(item) {
+            if (item) {
                 this.root.appendChild(item);
                 this.createChildren(all[i], item);
             }
@@ -344,14 +349,14 @@ mw.DomTree = function (options) {
         this.createItemEvents();
         $(this.settings.element).empty().append(this.root).resizable({
             handles: "s",
-            start: function( event, ui ) {
+            start: function (event, ui) {
                 ui.element.css('maxHeight', 'none');
             }
         });
     };
 
     this.createChildren = function (node, parent) {
-        if(!parent) return;
+        if (!parent) return;
         var list = this.createList();
         var curr = node.children[0];
         while (curr) {
