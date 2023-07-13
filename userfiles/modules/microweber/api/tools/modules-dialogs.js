@@ -120,7 +120,24 @@
     },
     open_reset_content_editor: function (root_element_id) {
 
-        var src = mw.settings.site_url + 'api/module?id=mw_global_reset_content_editor&live_edit=true&module_settings=true&type=editor/reset_content&autosize=true';
+
+
+        var moduleType = 'editor/reset_content';
+        var attrsForSettings = {};
+
+        attrsForSettings.live_edit = true;
+        attrsForSettings.module_settings = true;
+        attrsForSettings.id = 'mw_global_reset_content_editor';
+        attrsForSettings.type = moduleType;
+        attrsForSettings.iframe = true;
+        attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
+
+
+        var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+
+
+
+       // var src = mw.settings.site_url + 'api/module?id=mw_global_reset_content_editor&live_edit=true&module_settings=true&type=editor/reset_content&autosize=true';
 
         if(typeof(root_element_id) != 'undefined') {
             var src = src + '&root_element_id='+root_element_id;

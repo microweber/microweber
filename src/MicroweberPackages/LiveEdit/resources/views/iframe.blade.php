@@ -42,7 +42,18 @@
 <body class="{{ $bodyDarkClass }} mw-admin-live-edit-page">
 
 <script>
-    mw.quickSettings = {}
+    mw.quickSettings = {};
+
+    @php
+        $templateColors = get_template_colors_settings();
+    @endphp
+    @if(!empty($templateColors))
+    mw.tools.colorPickerColors = [
+        @foreach($templateColors as $color)
+        '{{ $color['value'] }}',
+        @endforeach
+    ];
+    @endif
 </script>
 
 <div id="live-edit-app">

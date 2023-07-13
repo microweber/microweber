@@ -21,16 +21,27 @@
 
             <div wire:ignore>
 
-                <div class="d-flex justify-content-between">
-                  <div>
-                      <div><b>{{$formItem['label']}}</b></div>
-                      <span class="text-muted">{{$formItem['help']}}</span>
-                  </div>
-                    <div>
-                        @include('microweber-live-edit::render-input-form-element')
+                @if($formItem['type'] == 'color')
+                    <div class="d-flex justify-content-between mt-4">
+                        <div>
+                            <div><b>{{$formItem['label']}}</b></div>
+                            <span class="text-muted">{{$formItem['help']}}</span>
+                        </div>
+                        <div>
+                            @include('microweber-live-edit::render-input-form-element')
+                        </div>
                     </div>
-                </div>
-
+                @else
+                    <div class="mt-4">
+                        <div>
+                            <div><b>{{$formItem['label']}}</b></div>
+                            <span class="text-muted">{{$formItem['help']}}</span>
+                        </div>
+                        <div>
+                            @include('microweber-live-edit::render-input-form-element')
+                        </div>
+                    </div>
+                @endif
 
             </div>
 

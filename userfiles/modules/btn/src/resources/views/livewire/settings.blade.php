@@ -1,6 +1,6 @@
 <div class="px-2 py-2" x-data="{
-showEditTab: 'design',
-showAdvancedDesign: true
+showEditTab: 'content',
+showAdvancedDesign: false
 }">
 
     <div class="d-flex justify-content-between align-items-center mb-4 collapseNav-initialized">
