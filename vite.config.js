@@ -24,7 +24,7 @@ export default defineConfig({
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js',
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js',
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js',
-                'resources/css/microweber-admin-filament.css',
+               /// 'resources/css/microweber-admin-filament.css',
             ],
             publicDirectory: "public",
             refresh: true,
