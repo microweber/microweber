@@ -34,7 +34,10 @@ export default {
             var urlTogo = false;
             if (typeof (val[0]) !== 'undefined') {
                 urlTogo = val[0].url;
-                mw.app.canvas.getFrame().src = urlTogo  ;
+              //  mw.app.canvas.getFrame().src = urlTogo  ;
+                mw.app.canvas.dispatch('liveEditCanvasBeforeUnload');
+                mw.app.canvas.getWindow().location.assign(urlTogo)
+
             }
         })
 

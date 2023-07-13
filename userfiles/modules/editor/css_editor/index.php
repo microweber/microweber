@@ -33,13 +33,10 @@
 
 
     #custom_html_code_mirror_container{
-        max-height: calc(100vh - 240px);
-        overflow: auto;
+       min-heignt:600px;
     }
     #select_edit_field_container{
-        max-height: calc(100vh - 220px);
-        overflow: auto;
-        padding: 0;
+
     }
 
 </style>
@@ -153,7 +150,8 @@
                     value: cssval
                 },
             function(){
-                var el = (window.opener || top).$('#mw-custom-user-css')[0];
+                //var el = (window.opener || top).$('#mw-custom-user-css')[0];
+                el = mw.top().app.canvas.getWindow().$('#mw-custom-user-css')[0];
 
                 if(el){
 

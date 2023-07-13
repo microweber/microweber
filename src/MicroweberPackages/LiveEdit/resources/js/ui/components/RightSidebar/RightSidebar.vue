@@ -3,11 +3,10 @@
 
         <div id="general-theme-settings" :class="[showSidebar == true ? 'active' : '']">
 
-            <div v-if="showSidebar" class="text-end my-3 me-1">
-                <span v-on:click="closeSidebar" class="cursor-pointer">
-                   <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg>
-
-                </span>
+            <div v-if="showSidebar">
+                <button v-on:click="closeSidebar" type="button" class="btn btn-danger">
+                    Close Sidebar
+                </button>
             </div>
 
 
@@ -40,6 +39,7 @@
                         <h4>Tools</h4>
 
                         <button v-on:click="show('style-editor')">Open CSS Editor</button>
+                        <button v-on:click="show('html-editor')">Open html Editor</button>
                         Open html editor<br>
                         clear cache<br>
                         content revisions<br>
