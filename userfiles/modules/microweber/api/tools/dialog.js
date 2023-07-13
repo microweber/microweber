@@ -356,8 +356,12 @@
             this.overlay = this.options.root.createElement('div');
             this.overlay.className = 'mw-dialog-overlay';
             this.overlay.$scope = this;
-            if (this.options.overlay === true) {
+            if (this.options.overlay === true || typeof this.options.overlay === 'string') {
                 this.dialogMain.appendChild(this.overlay);
+                if( typeof this.options.overlay === 'string' ) {
+                    this.overlay.style.backgroundColor = this.options.overlay;
+                }
+                
             }
             mw.$(this.overlay).on('click', function () {
                 if (this.$scope.options.overlayClose === true) {
@@ -592,10 +596,42 @@
             }
         };
 
+        this.position = function (x, y) {
+            if(!x) {
+                return;
+            }
+            scope._dragged = true;
+            if(typeof x === 'object') {
+                y = x.y;
+                x = x.x;
+            }
+
+            if(typeof y === 'undefined') {
+                y = x
+            }
+
+            if(typeof x === 'number') {
+                x += 'px';
+                
+            }
+
+            if(typeof y === 'number') {
+                y += 'px';
+            }
+
+            this.dialogHolder.style.left = x;
+            this.dialogHolder.style.top = y;
+
+            return this;
+        }
         this.init = function () {
             this.build();
             this.contentMaxHeight();
-            this.center();
+            if(!this.options.position) { 
+                  
+                this.center();
+            }
+            
             this.show();
             if (this.options.autoCenter) {
                 (function (scope) {
@@ -611,6 +647,9 @@
             this.observeDimensions(function (){
                 scope.center();
             });
+            if(this.options.position) { 
+                this.position(this.options.position)
+            }
             return this;
         };
         this.init();
