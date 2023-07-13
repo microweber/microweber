@@ -35,13 +35,8 @@
                     <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"
                          role="tabpanel">
 
-                        <h4>Tools</h4>
+                        <ToolsButtons></ToolsButtons>
 
-                        <button v-on:click="show('style-editor')">Open CSS Editor</button>
-                        <button v-on:click="show('html-editor')">Open html Editor</button>
-                        Open html editor<br>
-                        clear cache<br>
-                        content revisions<br>
 
                     </div>
 
@@ -63,10 +58,12 @@
 <script>
 import TemplateSettings from "./TemplateSettings/TemplateSettings.vue";
 import Editor from "../Toolbar/Editor.vue";
+import ToolsButtons from  "./ToolsButtons.vue";
 
 export default {
     components: {
         Editor,
+        ToolsButtons,
         TemplateSettings,
     },
     methods: {
