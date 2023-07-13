@@ -28,8 +28,9 @@ var layout_selector_custom_css_clear_custom_style = function($template){
             if(mw.templatePreview){
                 mw.templatePreview.generate();
             }
+            spinner.remove()
             mw.reload_modules(['#<?php print $params['id'];?>', 'settings/template'], function (){
-                spinner.remove()
+            //    spinner.remove()
             });
             /*mw.reload_module('#<?php print $params['id'];?>');
             mw.reload_module('settings/template');*/
