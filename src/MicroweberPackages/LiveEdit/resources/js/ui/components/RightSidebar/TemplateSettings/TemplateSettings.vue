@@ -13,7 +13,7 @@
 
 
 
-            <div class="mt-3" style="display:none" :id="'settings-group-' + stringToId(settingGroupKey)">
+            <div class="mt-3" style="display:block" :id="'settings-group-' + stringToId(settingGroupKey)">
                 <div class="" :id="'accordionFlush' + stringToId(settingGroupKey)">
 
                     <div v-for="(settingGroupInside,settingGroupInsideName) in settings.values" class="mb-2">
