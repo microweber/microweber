@@ -56,6 +56,11 @@ if(mw.top().app.canvas){
     htmlEditor.createItemContent = function (option) {
         var method = 'frame';
         var text = option.el.textContent.trim();
+
+        if(option.method){
+            method = option.method;
+        }
+
         if (method === 'text') {
             return text.substring(0, 45) + '...';
         }
@@ -101,6 +106,7 @@ if(mw.top().app.canvas){
 
 
         var $select = $("<ul>");
+        $select.addClass('dropdown-menu');
         $select.attr('id', 'select_edit_field');
         //$select.attr('class', 'mw-ui-field');
 
@@ -112,6 +118,7 @@ if(mw.top().app.canvas){
             $optgroup.appendTo($select);
             $optgroup.html(groupName);
             var $optgroupul = $("<ul>", {label: groupName, rel: groupName});
+            $optgroupul.addClass('dropdown-menu');
             $optgroupul.appendTo($optgroup);
             $.each(options, function (j, option) {
 
@@ -120,7 +127,7 @@ if(mw.top().app.canvas){
                     mw.log(option);
 
                 } else {
-
+                    option.method = 'text';
 
                     var $option = $("<li>", {
 
@@ -128,10 +135,16 @@ if(mw.top().app.canvas){
                         rel: option.rel,
                         field: option.field
                     }).append(screenShot ? htmlEditor.createItemContent(option) : option.field);
+
+                    $option.addClass('dropdown-item');
+
                     if (!has_selected && option.rel == 'content') {
                         has_selected = true;
                         $($option).attr('selected', 'selected');
                     }
+
+
+
                     $option.appendTo($optgroupul);
                 }
 

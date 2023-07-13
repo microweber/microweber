@@ -326,7 +326,7 @@ addEventListener('load', () => {
 })
 
 self.onbeforeunload = function(event) {
-    mw.top().app.canvas.dispatch('liveEditCanvasBeforeUnload', event);
+    mw.top().app.canvas.dispatch('liveEditCanvasBeforeUnload');
 
     // prevent user from leaving if there are unsaved changes
     var liveEditIframe = (mw.top().app.canvas.getWindow());

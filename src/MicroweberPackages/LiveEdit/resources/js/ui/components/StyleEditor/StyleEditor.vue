@@ -6,7 +6,7 @@ export default {
                 url: mw.external_tool('rte_css_editor2'),
                 title: mw.lang('Edit styles'),
                 footer: false,
-                width: 400,
+                width: 600,
                 height: 'auto',
                 autoHeight: true,
                 overlay: false
@@ -17,27 +17,29 @@ export default {
             })
             this.cssEditorDialog = dlg;
             this.cssEditorIframe = dlg.iframe;
-            var  styleEditorDialoginstance = this;
+            var styleEditorDialoginstance = this;
 
             $(this.cssEditorDialog).on('Remove', function () {
-                styleEditorDialoginstance.removeStyleEditor();
+                styleEditorDialoginstance.markAsRemoved();
             })
 
 
             $(this.cssEditorDialog).on('Hide', function () {
-                styleEditorDialoginstance.removeStyleEditor();
+                styleEditorDialoginstance.markAsRemoved();
             })
-
 
 
         },
         removeStyleEditor: function () {
             if (this.cssEditorDialog) {
-               // this.cssEditorDialog.remove();
-                this.cssEditorDialog = null;
-                this.cssEditorIframe = null;
-                this.isOpened = false;
+                this.cssEditorDialog.remove();
+                this.markAsRemoved();
             }
+        },
+        markAsRemoved: function () {
+            this.cssEditorDialog = null;
+            this.cssEditorIframe = null;
+            this.isOpened = false;
         }
 
     },
@@ -53,7 +55,7 @@ export default {
 
         this.emitter.on("live-edit-ui-show", show => {
             if (show == 'style-editor') {
-                if(!this.isOpened) {
+                if (!this.isOpened) {
                     this.showStyleEditor();
                     this.isOpened = true;
                 }

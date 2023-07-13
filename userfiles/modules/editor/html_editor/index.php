@@ -122,35 +122,19 @@
 
 
 </script>
+<div class="mw-ui-box-content selector-box" id="select_edit_field_container"><div id="select_edit_field_wrap"></div></div>
+<div class="mw-ui-btn-nav" id="custom_html_code_mirror_save">
 
-<div class="mw-ui-row">
-  <div class="mw-ui-col" style="width: 400px;">
-    <div class="mw-ui-col-container">
-      <div class="mw-ui-box">
-        <div class="mw-ui-box-header">
-          <span class="mw-icon-gear"></span><span><?php _e('Sections'); ?></span>
-        </div>
-        <div class="mw-ui-box-content selector-box" id="select_edit_field_container"><div id="select_edit_field_wrap"></div></div>
-      </div>
-    </div>
-  </div>
-    <div class="mw-ui-col">
-      <div class="mw-ui-col-container">
-          <div class="mw-ui-btn-nav" id="custom_html_code_mirror_save">
-
-              <span onclick="format_code();" class="  btn btn-primary" ><?php _e('Format code'); ?></span>
-              <span onclick="mw.html_editor.apply();" class="  btn btn-primary" ><?php _e('Update'); ?></span>
-              <span onclick="mw.html_editor.apply_and_save();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Update'); ?> <?php _e('and'); ?> <?php _e('save'); ?></span>
-          </div>
-          <div id="custom_html_code_mirror_container">
-                <textarea class="form-select  w100" name="custom_html" id="custom_html_code_mirror"
-                  option-group="template" placeholder="<?php _e('Type your HTML code here'); ?>"></textarea>
-          </div>
-
-      </div>
-  </div>
+    <span onclick="format_code();" class="  btn btn-primary" ><?php _e('Format code'); ?></span>
+    <span onclick="mw.html_editor.apply();" class="  btn btn-primary" ><?php _e('Update'); ?></span>
+    <span onclick="mw.html_editor.apply_and_save();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Update'); ?> <?php _e('and'); ?> <?php _e('save'); ?></span>
 </div>
 
+
+<div id="custom_html_code_mirror_container" style="height: 600px">
+                <textarea class="form-select  w100" name="custom_html" id="custom_html_code_mirror"
+                          option-group="template" placeholder="<?php _e('Type your HTML code here'); ?>"></textarea>
+</div>
 
 
 
