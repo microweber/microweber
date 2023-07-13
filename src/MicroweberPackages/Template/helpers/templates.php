@@ -240,3 +240,34 @@ function get_template_option_group()
 {
     return template_option_group();
 }
+
+function get_template_colors_settings()
+{
+    $getTemplateConfig = mw()->template->get_config();
+
+    $optionGroupLess = 'mw-template-' . $getTemplateConfig['dir_name'];
+
+    $colors = [];
+    if (isset($getTemplateConfig['stylesheet_compiler']['settings'])) {
+        foreach ($getTemplateConfig['stylesheet_compiler']['settings'] as $key => $value) {
+
+            if (isset($value['type'])) {
+                if ($value['type'] !== 'color') {
+                    continue;
+                }
+            }
+
+            $value['value'] = get_option($key, $optionGroupLess);
+            if (empty($value['value']) && isset($value['default'])) {
+                $value['value'] = $value['default'];
+            }
+
+            $colors[] = [
+                'key' => $key,
+                'value' => $value['value'],
+            ];
+        }
+    }
+    return $colors;
+
+}
