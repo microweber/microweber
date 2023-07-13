@@ -8,19 +8,20 @@ class ButtonSettingsDesignFormComponent extends ModuleSettingsFormComponent
 {
 
     public $moduleTitle = 'Button design';
+
     public array $settingsForm = [
         'fontSize' => [
-            'type' => 'number',
+            'type' => 'range-slider',
             'label' => 'Font size',
             'help' => 'Font size for the button',
         ],
         'padding' => [
-            'type' => 'number',
+            'type' => 'range-slider',
             'label' => 'Padding',
             'help' => 'Padding for the button',
         ],
         'margin' => [
-            'type' => 'number',
+            'type' => 'range-slider',
             'label' => 'Margin',
             'help' => 'Margin for the button',
         ],
@@ -56,63 +57,18 @@ class ButtonSettingsDesignFormComponent extends ModuleSettingsFormComponent
 
 
         'borderWidth' => [
-            'type' => 'number',
+            'type' => 'range-slider',
             'label' => 'Border width',
             'help' => 'Border width for the button',
         ],
 
         'borderRadius' => [
-            'type' => 'number',
+            'type' => 'range-slider',
             'label' => 'Border radius',
             'help' => 'Border radius for the button',
         ],
 
-//
-// 'backgroundColor' => '',
-//        'color' => '',
-//        'borderColor' => '',
-//        'borderWidth' => '',
-//        'borderRadius' => '',
-//        'padding' => '',
-//        'margin' => '',
-//        'fontSize' => '',
-//        'shadow' => '',
-//        'customSize' => '',
-//        'hoverbackgroundColor' => '',
-//        'hovercolor' => '',
-//        'hoverborderColor' => '',
-//
-//        'message' => [
-//            'type' => 'textarea',
-//            'label' => 'textarea link',
-//            'help' => 'textarea link for the button',
-//            'placeholder' => 'textarea',
-//            'content' => [
-//                'type' => 'card',
-//                'class' => 'alert alert-info',
-//                'content' => [
-//                    [
-//                        'type' => 'card-header',
-//                        'content' => 'This is a header'
-//
-//                    ],
-//                    [
-//                        'type' => 'card-body',
-//                        'content' => 'This is a body'
-//
-//                    ],
-//                    [
-//                        'type' => 'card-footer',
-//                        'content' => 'This is a footer'
-//
-//                    ]
-//                ]
-//            ]
-//        ]
     ];
-
-
-
 
 
 }
