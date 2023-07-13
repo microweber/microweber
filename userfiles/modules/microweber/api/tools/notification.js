@@ -1,5 +1,9 @@
 
 
+;(function(){
+
+var defaultTimeout = 2000;
+
 var targetWindow = window.top;
 var targetDocument = window.top.document;
 
@@ -55,7 +59,7 @@ mw.errorsHandle = function (obj) {
 };
 mw.notification = {
     msg: function (data, timeout, alert) {
-        timeout = timeout || 1000;
+        timeout = timeout || defaultTimeout;
         alert = alert || false;
         if (data) {
 
@@ -140,7 +144,7 @@ mw.notification = {
             name = text.name;
             text = text.text;
         }
-        timeout = timeout || 1000;
+        timeout = timeout || defaultTimeout;
         mw.notification.append('success', text, timeout, name);
     },
     error: function (text, timeout, name) {
@@ -149,7 +153,7 @@ mw.notification = {
             name = text.name;
             text = text.text;
         }
-        timeout = timeout || 1000;
+        timeout = timeout || defaultTimeout;
         mw.notification.append('error', text, timeout, name);
     },
     warning: function (text, timeout, name) {
@@ -158,7 +162,12 @@ mw.notification = {
             name = text.name;
             text = text.text;
         }
-        timeout = timeout || 1000;
+        timeout = timeout || defaultTimeout;
         mw.notification.append('warning', text, timeout, name);
     }
 };
+
+
+})();
+
+

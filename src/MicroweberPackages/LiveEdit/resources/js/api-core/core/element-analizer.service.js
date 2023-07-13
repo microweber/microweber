@@ -50,6 +50,7 @@ export class ElementAnalyzerServiceBase {
             this.settings.editClass,
             this.settings.moduleClass,
         ];
+       
         return this.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node.parentNode, order);
     }
 

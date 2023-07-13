@@ -301,14 +301,25 @@ export class LiveEdit {
 
 
 
-        const _hoverAndSelectExceptions = (first) => {
-            if(first && first.classList && first.classList.contains('module-custom-fields')) {
-                var form = DomService.firstParentOrCurrentWithClass(first, 'module-contact-form');
+        const _hoverAndSelectExceptions = (target) => {
+            if(target && target.classList && target.classList.contains('module-custom-fields')) {
+                var form = DomService.firstParentOrCurrentWithClass(target, 'module-contact-form');
                 if(form) {
-                    first = form;
+                    target = form;
                 }
             }
-            return first
+
+
+            if(target && target.parentNode.getAttribute('rel') === 'module') {
+                target = this.getIteractionTarget(target.parentNode)
+            }
+    
+    
+            if(target.parentNode.classList.contains('module-layouts')) {
+                target = target.parentNode
+            }
+
+            return target
         }
 
 
