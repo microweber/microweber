@@ -347,7 +347,7 @@ mw.drag.fix_placeholders = function(isHard, selector) {
     selector = selector || '.edit .row';
 
     var more_selectors2 = 'div.col-md';
-    var a = mw.drag.external_grids_col_classes;
+    var a = mw.top().app.templateSettings.helperClasses.external_grids_col_classes;
     var index;
     for (index = a.length - 1; index >= 0; --index) {
         more_selectors2 += ',div.' + a[index];
