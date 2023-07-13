@@ -132,7 +132,7 @@
 
         <div id="select_edit_field_container">
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2"
+                <button class="btn btn-secondary dropdown-toggle" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                     <?php _e('Select field to edit'); ?>
                 </button>
@@ -141,10 +141,16 @@
         </div>
 
 
-        <div class="mw-ui-btn-nav" id="custom_html_code_mirror_save">
 
-            <span onclick="format_code();" class="  btn btn-primary"><?php _e('Format code'); ?></span>
-            <span onclick="mw.html_editor.apply();" class="  btn btn-primary"><?php _e('Update'); ?></span>
+
+
+
+        <div   id="custom_html_code_mirror_save">
+            <div class="btn-group btn-block" role="group">
+                <button onclick="format_code();"  class="btn btn-outline-primary" type="submit"><?php _e('Format code'); ?></button>
+                <button onclick="mw.html_editor.apply();" class="btn btn-primary" type="submit"><?php _e('Update'); ?></button>
+            </div>
+
           <?php
 
           /*  <span onclick="mw.html_editor.apply_and_save();"

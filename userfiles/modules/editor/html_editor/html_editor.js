@@ -183,7 +183,7 @@ if (mw.top().app.canvas) {
 
             ed_val = $(htmlEditor.map[dd_grp + '/' + dd_field].el).html();
 
-            if (typeof(mw.top().app) !== 'undefined' && typeof mw.top().app.canvas === 'object') {
+            if (typeof (mw.top().app) !== 'undefined' && typeof mw.top().app.canvas === 'object') {
                 wroot.mw.tools.scrollTo('[field="' + dd_field + '"][rel="' + dd_grp + '"]')
 
             }
@@ -316,9 +316,12 @@ if (mw.top().app.canvas) {
             if (master_edit_field_holder) {
                 $(master_edit_field_holder).addClass("changed");
                 setTimeout(function () {
-                    wroot.mw.drag.fix_placeholders(true);
-                    wroot.mw.on.DOMChangePause = false;
+                    if(typeof wroot.mw.drag !== 'undefined'){
+                        wroot.mw.drag.fix_placeholders(true);
+                        wroot.mw.on.DOMChangePause = false;
+                    }
 
+                    mw.notification.success('HTML is updated', 7000,'mw-global-html-editor');
 
                 }, 200);
             }
