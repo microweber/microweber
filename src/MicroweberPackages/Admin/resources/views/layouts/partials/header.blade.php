@@ -39,6 +39,7 @@
         mw.lib.require("bootstrap_select");
         mw.lib.require("bootstrap_tags");
         mw.lib.require("collapse_nav");
+        mw.lib.require('nouislider');
 
         mw.require('icon_selector.js');
         mw.iconLoader()
