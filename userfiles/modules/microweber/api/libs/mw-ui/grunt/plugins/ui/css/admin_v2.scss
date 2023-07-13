@@ -706,7 +706,7 @@ small.text-muted {
 }
 
 
-.form-select, .dropdown-toggle {
+.form-select, .dropdown-toggle:not(.btn) {
 /*    padding: 0.65rem 2.25rem 0.65rem 0.75rem;
     min-height: 45px;
     */
