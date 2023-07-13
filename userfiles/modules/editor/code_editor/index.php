@@ -3,23 +3,25 @@
 <div class="module-live-edit-settings" id="code-editor-settings">
     <script>
         $(document).ready(function () {
-            mw.tabs({
-                nav: "#code_editor_main_tabnav a",
-                tabs: ".code_editor_main_tab",
-                onclick: function () {
+
+            const tabEl = document.querySelector('#codeEditorTabStyleEditorCssEditorNav');
+            tabEl.addEventListener('shown.bs.tab', event => {
+                setTimeout(function() {
                     if (typeof (css_code_area_editor) != 'undefined') {
                         css_code_area_editor.refresh()
                     }
                     if (typeof (html_code_area_editor) != 'undefined') {
                         html_code_area_editor.refresh()
                     }
-                }
-            });
+                }, 300);
+            })
+
+
         })
     </script>
 
 
-    <div>
+    <div s >
         <ul class="nav nav-pills nav-justified" id="codeEditorTabStyleEditorNav" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" data-bs-toggle="tab"
@@ -47,7 +49,6 @@
             </div>
         </div>
     </div>
-
 
 </div>
 
