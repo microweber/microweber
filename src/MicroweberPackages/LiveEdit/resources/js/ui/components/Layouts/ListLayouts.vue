@@ -234,7 +234,7 @@ export default {
                 instance.layoutInsertLocation = 'bottom';
                 setTimeout(function() {
                     instance.filterLayouts();
-                }, 300);
+                }, 500);
                 mw.app.registerChangedState(element);
             });
         });
@@ -245,7 +245,7 @@ export default {
                     instance.showModal = true;
                     setTimeout(function() {
                         instance.filterLayouts();
-                    }, 300);
+                    }, 500);
                 } else {
                     instance.showModal = false;
                 }
@@ -267,7 +267,7 @@ export default {
             ],
             filterKeyword: '',
             filterCategory: '',
-            layoutsListTypePreview: 'list',
+            layoutsListTypePreview: 'masonry',
             layoutsList: [],
             layoutsListFiltered: [],
             layoutsListLoaded: false,
