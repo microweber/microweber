@@ -337,3 +337,30 @@ self.onbeforeunload = function(event) {
         mw.top().spinner({element: mw.top().app.canvas.getFrame().parentElement, decorate: true, size: 52}).show()
     }
 };
+
+
+mw.drag = mw.drag || {};
+mw.drag.save = function() {
+   return mw.liveEditSaveService.save();
+};
+mw.drag.fix_placeholders = function(isHard, selector) {
+    selector = selector || '.edit .row';
+
+    var more_selectors2 = 'div.col-md';
+    var a = mw.drag.external_grids_col_classes;
+    var index;
+    for (index = a.length - 1; index >= 0; --index) {
+        more_selectors2 += ',div.' + a[index];
+    }
+    mw.$(selector).each(function() {
+        var el = mw.$(this);
+        el.children(more_selectors2).each(function() {
+            var empty_child = mw.$(this).children('*');
+            if (empty_child.size() == 0) {
+                mw.$(this).append('<div class="element" id="mw-element-' + mw.random() + '">' + '</div>');
+                var empty_child = mw.$(this).children("div.element");
+            }
+        });
+    });
+
+}

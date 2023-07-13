@@ -4,6 +4,7 @@ if (mw.top().app.canvas) {
 }
 
 
+
 (function () {
     if (mw.html_editor) {
         return;
@@ -13,6 +14,9 @@ if (mw.top().app.canvas) {
     htmlEditor.init = function () {
 
         var fields = htmlEditor.get_edit_fields(true);
+
+
+
         htmlEditor.build_dropdown(fields);
 
         htmlEditor.populate_editor();
@@ -102,13 +106,27 @@ if (mw.top().app.canvas) {
 
 
         var $select = $("<ul>");
-        $select.addClass('dropdown-menu');
+       // $select.addClass('dropdown-menu');
         $select.attr('id', 'select_edit_field');
         //$select.attr('class', 'mw-ui-field');
+
+        if (mw.tools.hasParentsWithClass($("#select_edit_field_wrap")[0], 'dropdown')) {
+            $select.addClass('dropdown-menu');
+        }
+
+
+
+
 
         var has_selected = false;
 
         $select.appendTo("#select_edit_field_wrap");
+
+
+
+
+
+
         $.each(html_dd, function (groupName, options) {
             var $optgroup = $("<li>", {label: groupName, rel: groupName});
             $optgroup.appendTo($select);
