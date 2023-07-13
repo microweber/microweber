@@ -15,11 +15,10 @@
     >
 
 
-
-
         <div class="modules-list modules-list-defaultModules">
             <div class="mw-le-layouts-dialog-row">
-                <div class="mw-le-layouts-dialog-col">
+
+                <div v-if="layoutsList.categories.length > 0" class="mw-le-layouts-dialog-col">
                     <div class="modules-list-search-block input-icon">
                           <span class="input-icon-addon ms-3">
 
@@ -39,8 +38,7 @@
 <!--                            All categories-->
 <!--                        </li>-->
 
-                        <li v-if="layoutsList.categories"
-                            v-for="categoryName in layoutsList.categories"
+                        <li v-for="categoryName in layoutsList.categories"
                             v-on:click="filterCategorySubmit(categoryName)">
 
                             <a class="mw-admin-action-links" :class="[categoryName == filterCategory ? 'active animate__animated animate__pulse': '']">
@@ -49,8 +47,9 @@
 
                         </li>
                     </ul>
-                </div>
-                <div class="mw-le-layouts-dialog-col">
+                </div> 
+
+                <div :class="[layoutsList.categories.length > 0 ? 'mw-le-layouts-dialog-col' : 'mw-le-layouts-dialog-col-full']">
 
 <!--                    <div v-if="filterKeyword" class="pl-4 mb-3 mt-3">
                         Looking for {{filterKeyword}}
