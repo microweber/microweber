@@ -6,21 +6,25 @@ export class ColorPicker extends MicroweberBaseClass {
 
         var target = $(targetElementSelector)[0];
 
+        let randId = this.generateRandId(10);
+
         let colorPickerDialog = mw.top().dialog({
-            content: '<div id="color-picker-{{$md5name}}"></div>',
+            content: '<div id="color-picker-'+randId+'"></div>',
             title: 'Color Picker',
             footer: false,
             width: 230,
             overlayClose: true
         });
-        colorPickerDialog.dialogContainer.style.padding = '0px';
-        colorPickerDialog.overlay.style.backgroundColor = 'transparent';
+        if (colorPickerDialog.dialogContainer) {
+            colorPickerDialog.dialogContainer.style.padding = '0px';
+        }
+        if (colorPickerDialog.overlay) {
+            colorPickerDialog.overlay.style.backgroundColor = 'transparent';
+        }
 
         mw.top().colorPicker({
-            element: '#color-picker-{{$md5name}}',
+            element: '#color-picker-' + randId,
             onchange: function (color) {
-
-                // element.style.background = color;
 
                 target.value = color;
                 target.dispatchEvent(new Event('input'));
