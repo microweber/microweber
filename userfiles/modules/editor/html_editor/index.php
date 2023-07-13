@@ -145,18 +145,7 @@
 
 
 
-        <div   id="custom_html_code_mirror_save">
-            <div class="btn-group btn-block" role="group">
-                <button onclick="format_code();"  class="btn btn-outline-primary" type="submit"><?php _e('Format code'); ?></button>
-                <button onclick="mw.html_editor.apply();" class="btn btn-primary" type="submit"><?php _e('Update'); ?></button>
-            </div>
 
-          <?php
-
-          /*  <span onclick="mw.html_editor.apply_and_save();"
-                  class="mw-ui-btn mw-ui-btn-invert"><?php _e('Update'); ?><?php _e('and'); ?><?php _e('save'); ?></span>*/
-          ?>
-        </div>
     </div>
 </nav>
 
@@ -177,3 +166,15 @@
 
 
 
+<div   class="mw-css-editor-c2a-nav">
+    <div class="btn-group btn-block" role="group">
+        <button onclick="format_code();"  class="btn btn-outline-primary" type="button"><?php _e('Format code'); ?></button>
+        <button onclick="mw.html_editor.apply();" class="btn btn-primary" type="button"><?php _e('Update'); ?></button>
+    </div>
+
+    <?php
+
+    /*  <span onclick="mw.html_editor.apply_and_save();"
+            class="mw-ui-btn mw-ui-btn-invert"><?php _e('Update'); ?><?php _e('and'); ?><?php _e('save'); ?></span>*/
+    ?>
+</div>
