@@ -97,7 +97,7 @@ export default {
         mw.app.canvas.on('liveEditCanvasLoaded', () => {
 
             new EditorComponent();
-         
+
         });
 
         mw.app.on('ready', () => {
@@ -164,26 +164,29 @@ export default {
                               var src = await editImageDialog(bg);
 
                     if(src) {
-                       
+
                       element.style.backgroundImage = `url(${src})`
                     }
                     mw.app.get('liveEdit').play();
-                   
+
                   }
 
                 } else {
-                  const dlg = mw.top().dialogIframe({
-                      url: mw.external_tool('rte_css_editor2'),
-                      title: mw.lang('Edit styles'),
-                      footer: false,
-                      width: 400,
-                      height: 'auto',
-                      autoHeight: true,
-                      overlay: false
-                  });
-                  dlg.iframe.addEventListener('load', () => {
-                    dlg.iframe.contentWindow.selectNode(element)
-                  })
+
+                  this.emitter.emit('live-edit-ui-show', 'style-editor');
+                 // mw.app.editor.dispatch('elementSettingsRequest', el);
+                  // const dlg = mw.top().dialogIframe({
+                  //     url: mw.external_tool('rte_css_editor2'),
+                  //     title: mw.lang('Edit styles'),
+                  //     footer: false,
+                  //     width: 400,
+                  //     height: 'auto',
+                  //     autoHeight: true,
+                  //     overlay: false
+                  // });
+                  // dlg.iframe.addEventListener('load', () => {
+                  //   dlg.iframe.contentWindow.selectNode(element)
+                  // })
               }
             })
             mw.app.editor.on('editNodeRequest', async (element) => {
@@ -209,16 +212,16 @@ export default {
                   picker.$cancel.on('click', function(){
                     dialog.remove()
                   })
-                
-        
+
+
                   $(dialog).on('Remove', () => {
-                   
+
                     mw.app.get('liveEdit').play();
                   })
                   return dialog;
                 }
                 if(element.nodeName === 'IMG') {
-                   
+
                   var dialog = imagePicker(function (res) {
                           var url = res.src ? res.src : res;
                           if(!url) return;
@@ -227,7 +230,7 @@ export default {
                           mw.app.get('liveEdit').play();
                           dialog.remove();
                       })
- 
+
 
 
                 } else if(element.style.backgroundImage) {
@@ -246,7 +249,7 @@ export default {
                           mw.app.get('liveEdit').play();
                           dialog.remove();
                       })
-                   
+
                   }
 
                 } else {

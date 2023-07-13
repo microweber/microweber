@@ -1,7 +1,11 @@
 var wroot = window.opener || mw.top().win;
+if (mw.top().app.canvas) {
+    wroot = mw.top().app.canvas.getWindow();
+}
 
-(function (){
-    if(mw.html_editor) {
+
+(function () {
+    if (mw.html_editor) {
         return;
     }
     var htmlEditor = {};
@@ -30,7 +34,7 @@ var wroot = window.opener || mw.top().win;
 
         var get_edit_fields = wroot.$('.edit');
 
-        if (typeof(root_element_selector) != 'undefined') {
+        if (typeof (root_element_selector) != 'undefined') {
             get_edit_fields = wroot.$('.edit', root_element_selector);
         }
 
@@ -49,10 +53,14 @@ var wroot = window.opener || mw.top().win;
     htmlEditor.createItemContent = function (option) {
         var method = 'frame';
         var text = option.el.textContent.trim();
+
+        if (option.method) {
+            method = option.method;
+        }
+
         if (method === 'text') {
             return text.substring(0, 45) + '...';
-        }
-        else {
+        } else {
             var framehold = document.createElement('div');
             framehold.className = 'htmleditliframe'
             var frame = document.createElement('iframe');
@@ -78,7 +86,7 @@ var wroot = window.opener || mw.top().win;
             var dd_field = $(this).attr('field');
 
             if (dd_grp) {
-                if (typeof(html_dd[dd_grp]) == 'undefined') {
+                if (typeof (html_dd[dd_grp]) == 'undefined') {
                     html_dd[dd_grp] = [];
                 }
                 var temp = {};
@@ -94,6 +102,7 @@ var wroot = window.opener || mw.top().win;
 
 
         var $select = $("<ul>");
+        $select.addClass('dropdown-menu');
         $select.attr('id', 'select_edit_field');
         //$select.attr('class', 'mw-ui-field');
 
@@ -105,6 +114,7 @@ var wroot = window.opener || mw.top().win;
             $optgroup.appendTo($select);
             $optgroup.html(groupName);
             var $optgroupul = $("<ul>", {label: groupName, rel: groupName});
+            //  $optgroupul.addClass('dropdown-menu');
             $optgroupul.appendTo($optgroup);
             $.each(options, function (j, option) {
 
@@ -113,7 +123,7 @@ var wroot = window.opener || mw.top().win;
                     mw.log(option);
 
                 } else {
-
+                    option.method = 'text';
 
                     var $option = $("<li>", {
 
@@ -121,10 +131,15 @@ var wroot = window.opener || mw.top().win;
                         rel: option.rel,
                         field: option.field
                     }).append(screenShot ? htmlEditor.createItemContent(option) : option.field);
+
+                    //  $option.addClass('dropdown-item');
+
                     if (!has_selected && option.rel == 'content') {
                         has_selected = true;
                         $($option).attr('selected', 'selected');
                     }
+
+
                     $option.appendTo($optgroupul);
                 }
 
@@ -136,7 +151,12 @@ var wroot = window.opener || mw.top().win;
             e.stopPropagation()
             $('li', $select).removeClass('selected');
             $(this).addClass('selected');
-            htmlEditor.populate_editor()
+            htmlEditor.populate_editor();
+
+            if (mw.tools.hasParentsWithClass(this, 'dropdown')) {
+                $(mw.tools.firstParentWithClass(this, 'dropdown')).dropdown("toggle");
+            }
+
         });
 
     };
@@ -158,13 +178,14 @@ var wroot = window.opener || mw.top().win;
         var dd_field = value.attr('field');
 
 
-        if (typeof(htmlEditor.map[dd_grp + '/' + dd_field]) != 'undefined') {
+        if (typeof (htmlEditor.map[dd_grp + '/' + dd_field]) != 'undefined') {
 
 
             ed_val = $(htmlEditor.map[dd_grp + '/' + dd_field].el).html();
 
-            if(wroot.mw === mw.top()) {
+            if (typeof (mw.top().app) !== 'undefined' && typeof mw.top().app.canvas === 'object') {
                 wroot.mw.tools.scrollTo('[field="' + dd_field + '"][rel="' + dd_grp + '"]')
+
             }
 
             wroot.$('.html-editor-selcted').removeClass('html-editor-selcted');
@@ -238,7 +259,7 @@ var wroot = window.opener || mw.top().win;
 
 
         htmlEditor.apply();
-        if(wroot.mw.drag.save) {
+        if (wroot.mw.drag.save) {
             mw.tools.loading('#module-id-mw_global_html_editor', true);
             wroot.mw.drag.save(undefined, function () {
                 mw.tools.loading('#module-id-mw_global_html_editor', false);
@@ -246,7 +267,7 @@ var wroot = window.opener || mw.top().win;
             })
         }
         var form = wroot.mw.top().$('#quickform-edit-content');
-        if(form.length) {
+        if (form.length) {
             form.submit()
         }
 
@@ -254,7 +275,7 @@ var wroot = window.opener || mw.top().win;
     htmlEditor.apply = function () {
         var cur = $('#custom_html_code_mirror').attr('current');
         var html = $('#custom_html_code_mirror').val();
-        if (typeof(htmlEditor.map[cur]) != 'undefined') {
+        if (typeof (htmlEditor.map[cur]) != 'undefined') {
 
 
             var el = htmlEditor.map[cur].el;
@@ -268,7 +289,7 @@ var wroot = window.opener || mw.top().win;
 
             }
 
-            var selected_el =  $(el);
+            var selected_el = $(el);
             var modules_ids = {};
             var modules_list = $('.module', selected_el);
 
@@ -295,9 +316,12 @@ var wroot = window.opener || mw.top().win;
             if (master_edit_field_holder) {
                 $(master_edit_field_holder).addClass("changed");
                 setTimeout(function () {
-                    wroot.mw.drag.fix_placeholders(true);
-                    wroot.mw.on.DOMChangePause = false;
+                    if(typeof wroot.mw.drag !== 'undefined'){
+                        wroot.mw.drag.fix_placeholders(true);
+                        wroot.mw.on.DOMChangePause = false;
+                    }
 
+                    mw.notification.success('HTML is updated', 7000,'mw-global-html-editor');
 
                 }, 200);
             }
@@ -326,14 +350,14 @@ var wroot = window.opener || mw.top().win;
         var html = '';
 
 
-        if (typeof(htmlEditor.map[cur]) != 'undefined') {
+        if (typeof (htmlEditor.map[cur]) != 'undefined') {
 
 
             var el = htmlEditor.map[cur].el;
             var mod_ids = [];
 
             var mod_ids_inside_el = htmlEditor.find_all_module_ids_in_element(el);
-            if(mod_ids_inside_el){
+            if (mod_ids_inside_el) {
                 mod_ids = mod_ids.concat(mod_ids_inside_el);
             }
 
@@ -346,7 +370,7 @@ var wroot = window.opener || mw.top().win;
                 }
                 if (typeof is_inside_layout_attr !== 'undefined' && is_inside_layout_attr === 'layouts') {
                     var is_inside_layout_attr_id = $(is_inside_layout).attr('id');
-                    if(is_inside_layout_attr_id){
+                    if (is_inside_layout_attr_id) {
                         mod_ids = mod_ids.concat([is_inside_layout_attr_id]);
                     }
                 }
@@ -386,13 +410,13 @@ var wroot = window.opener || mw.top().win;
                 var some_child = {};
                 some_child.rel = $(this).attr('rel');
                 some_child.field = $(this).attr('field');
-                if(some_child.rel && some_child.field){
+                if (some_child.rel && some_child.field) {
                     childs_arr[i] = some_child;
                 }
             });
 
 
-            var childs_arr_data = {'reset':childs_arr};
+            var childs_arr_data = {'reset': childs_arr};
 
 
             //if (childs_arr.length) {
@@ -413,7 +437,7 @@ var wroot = window.opener || mw.top().win;
 
 
             mw.tools.addClass(el, 'changed is-reset')
-           // mw.tools.removeClass(el, 'changed')
+            // mw.tools.removeClass(el, 'changed')
             mw.tools.foreachParents(el, function () {
                 if (mw.tools.hasClass(this, 'edit')) {
                     mw.tools.addClass(this, 'changed')

@@ -13,4 +13,12 @@ class Color extends Input
         'class'=>'form-control'
     ];
 
+
+    public function render() {
+
+        return view('microweber-form-builder::form-inputs.color',[
+            'input' => $this,
+            'renderAttributes' => $this->renderAttributes(),
+        ]);
+    }
 }

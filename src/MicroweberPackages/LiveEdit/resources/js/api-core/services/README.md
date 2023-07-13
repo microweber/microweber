@@ -15,10 +15,14 @@ mw.app.on('ready',function(app){
 
 
 ```js
-mw.app.canvas.on('canvasDocumentClick',function(app){
+mw.app.canvas.on('canvasDocumentClick',function(){
 
 });
-mw.app.canvas.on('liveEditCanvasLoaded',function(app){
+mw.app.canvas.on('liveEditCanvasLoaded',function(frame){
+    
+});
+ 
+mw.app.canvas.on('liveEditCanvasBeforeUnload',function(frame){
     
 });
 ```

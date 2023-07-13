@@ -18,7 +18,13 @@
         mw.require('components.css')
         mw.require('liveedit_widgets.js')
 
+        mw.require('icon_selector.js');
+        mw.iconLoader()
 
+            .addIconSet('iconsMindLine')
+            .addIconSet('iconsMindSolid')
+            .addIconSet('fontAwesome')
+            .addIconSet('materialDesignIcons')
 
     </script>
 

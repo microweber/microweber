@@ -26,20 +26,15 @@
         justify-content: flex-end;
     }
     #custom_html_code_mirror_save {
-        padding: 15px;
-        display: flex;
-        justify-content: flex-end;
+
     }
 
 
     #custom_html_code_mirror_container{
-        max-height: calc(100vh - 240px);
-        overflow: auto;
+       min-heignt:600px;
     }
     #select_edit_field_container{
-        max-height: calc(100vh - 220px);
-        overflow: auto;
-        padding: 0;
+
     }
 
 </style>
@@ -64,6 +59,7 @@
                     lineNumbers: true,
                     indentWithTabs: true,
                     matchBrackets: true,
+                    gutter: false,
                     extraKeys: {"Ctrl-Space": "autocomplete"},
                     mode: {
                         name: "css", globalVars: true
@@ -84,7 +80,7 @@
                         lineNumbers: true,
                         indentWithTabs: true,
                         matchBrackets: true,
-                        gutter: true,
+                        gutter: false,
 
                         extraKeys: {"Ctrl-Space": "autocomplete"},
                         mode: {
@@ -143,7 +139,8 @@
             }
 
             if (err_text != '') {
-                mw.notification.warning(err_text)
+                err_text = 'You have syntax error on code: ' + err_text;
+                mw.notification.warning(err_text,9000)
                 return;
             }
 
@@ -153,7 +150,8 @@
                     value: cssval
                 },
             function(){
-                var el = (window.opener || top).$('#mw-custom-user-css')[0];
+                //var el = (window.opener || top).$('#mw-custom-user-css')[0];
+                el = mw.top().app.canvas.getWindow().$('#mw-custom-user-css')[0];
 
                 if(el){
 
@@ -191,11 +189,86 @@ if ($file and is_file($file)) {
 }
 ?>
 
+<div>
+    <ul class="nav nav-pills nav-justified" id="codeEditorTabStyleEditorCssEditorNav" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" data-bs-toggle="tab"
+                    data-bs-target="#style-edit-global-template-css-editor-holder" type="button" role="tab">
+                <?php _e("Custom CSS"); ?>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab"
+                    data-bs-target="#style-edit-global-template-css-editor-holder-live-edit-css" type="button" role="tab">
+                <?php _e("Live edit CSS"); ?>
+            </button>
+        </li>
+    </ul>
 
+    <div class="tab-content">
+        <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-css-editor-holder"
+             role="tabpanel">
+
+
+<textarea class="form-select  w100 mw_option_field" dir="ltr" name="custom_css" id="custom_css_code_mirror" rows="30"
+          option-group="template" placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $custom_css ?></textarea>
+            <div class="mw-css-editor-c2a-nav" id="csssave">
+
+                <button onclick="savecss();"  class="btn btn-primary" type="button"><?php _e('Save'); ?></button>
+
+
+
+            </div>
+
+
+
+
+        </div>
+        <div class="tab-pane tab-pane-slide-right" id="style-edit-global-template-css-editor-holder-live-edit-css"
+             role="tabpanel">
+
+
+
+        <textarea class="form-select  w100" dir="ltr" name="live_edit_custom_css"
+                  id="live_edit_custom_css_code_mirror" rows="30"
+                  placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $live_edit_css_content ?></textarea>
+
+
+            <div class="mw-css-editor-c2a-nav">
+
+
+
+                <module type="content/views/layout_selector_custom_css" template="<?php print $template; ?>"/>
+
+
+                <button onclick="live_edit_savecss();" class="btn btn-primary" type="button" ><?php _e('Save'); ?></button>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
 <script>
     $(document).ready(function () {
+
+
+        const tabEl = document.querySelector('#codeEditorTabStyleEditorCssEditorNav');
+        tabEl.addEventListener('shown.bs.tab', event => {
+            if(typeof live_edit_css_code_area_editor != 'undefined'){
+                setTimeout(function(){
+                    live_edit_css_code_area_editor.refresh();
+                    live_edit_css_code_area_editor.setSize("100%", "90%");
+                }, 500);
+            }
+        })
+
+
+
 
         mw.tabs({
             nav: '#css-type-tabs-nav a',
@@ -205,7 +278,7 @@ if ($file and is_file($file)) {
                    setTimeout(function(){
                        live_edit_css_code_area_editor.refresh();
                        live_edit_css_code_area_editor.setSize("100%", "90%");
-                   }, 200);
+                   }, 500);
                }
             }
         });
@@ -278,51 +351,6 @@ if ($file and is_file($file)) {
     });
 
 </script>
-
-
-
-<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs" id="css-type-tabs-nav">
-    <a href="javascript:;" class="mw-ui-btn-tab active"><?php _e("Custom "); ?>CSS</a>
-    <a href="javascript:;" class="btn btn-primary"><?php _e("Visual Editor"); ?> CSS</a>
-</div>
-<div class="mw-ui-box" id="css-type-tabs">
-    <div class="mw-ui-box-content" style="min-height: 300px">
-
-<textarea class="form-select  w100 mw_option_field" dir="ltr" name="custom_css" id="custom_css_code_mirror" rows="30"
-          option-group="template" placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $custom_css ?></textarea>
-        <div class="mw-css-editor-c2a-nav" id="csssave">
-            <span onclick="savecss();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Save'); ?></span>
-        </div>
-
-
-    </div>
-    <div class="mw-ui-box-content" style="display: none">
-
-
-
-        <textarea class="form-select  w100" dir="ltr" name="live_edit_custom_css"
-                  id="live_edit_custom_css_code_mirror" rows="30"
-                  placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $live_edit_css_content ?></textarea>
-
-
-        <div class="mw-css-editor-c2a-nav">
-
-
-
-                <module type="content/views/layout_selector_custom_css" template="<?php print $template; ?>"/>
-
-
-
-              <span onclick="live_edit_savecss();" class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-invert"><?php _e('Save'); ?></span>
-
-
-
-        </div>
-
-
-
-    </div>
-</div>
 
 
 

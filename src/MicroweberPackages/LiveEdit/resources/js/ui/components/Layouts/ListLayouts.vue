@@ -1,6 +1,5 @@
 <template>
 
-    <link v-for='layoutItem in layoutsList.layouts' rel="preload" as="image" :href="layoutItem.screenshot">
 
     <div v-if="showModal" style="visibility: hidden; position: absolute; width: 1px; height: 1px;"></div>
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-overlay active"></div>
@@ -14,6 +13,9 @@
          class="mw-le-dialog-block mw-le-layouts-dialog w-100 active"
          style="inset:20px; transform:none; animation-duration: .3s;"
     >
+
+
+
 
         <div class="modules-list modules-list-defaultModules">
             <div class="mw-le-layouts-dialog-row">
@@ -154,7 +156,7 @@ import GridIcon from "../Icons/GridIcon.vue";
 import ListIcon from '../Icons/ListIcon.vue';
 import MasonryIcon from "../Icons/MasonryIcon.vue";
 import LazyList from '../Optimizations/LazyLoadList/LazyList.vue';
-import MasonryWall from '../Optimizations/MasonryWall/MasonryWall.vue';
+import MasonryWall from '@yeger/vue-masonry-wall'
 import { HomeIcon } from '@heroicons/vue/outline'
 
 export default {
@@ -224,7 +226,7 @@ export default {
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'top';
                 setTimeout(function() {
-                    instance.filterLayouts();
+             instance.filterLayouts();
                 }, 300);
                 mw.app.registerChangedState(element);
             });
@@ -242,6 +244,9 @@ export default {
             if (show == 'show-layouts') {
                 if (instance.showModal == false) {
                     instance.showModal = true;
+                    setTimeout(function() {
+                        instance.filterLayouts();
+                    }, 300);
                 } else {
                     instance.showModal = false;
                 }

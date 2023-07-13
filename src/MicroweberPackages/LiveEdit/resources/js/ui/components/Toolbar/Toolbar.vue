@@ -28,6 +28,8 @@
                 <div class="d-flex align-items-center">
                     <ResolutionSwitch></ResolutionSwitch>
                     <SettingsCustomize></SettingsCustomize>
+                    <StyleEditor></StyleEditor>
+                    <HtmlEditor></HtmlEditor>
                     <button class="btn live-edit-toolbar-buttons live-edit-toolbar-buttons-view me-2" @click="pagePreviewToggle()">
                         VIEW
                     </button>
@@ -77,9 +79,13 @@ import SettingsCustomize from "./SettingsCustomize.vue";
 
 import * as api from "../../../api-core/services/services/preview.service.js";
 import axios from 'axios';
+import StyleEditor from "../StyleEditor/StyleEditor.vue";
+import HtmlEditor from "../HtmlEditor/HtmlEditor.vue";
 
 export default {
-    components: {SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav, SettingsCustomize},
+    components: {
+        HtmlEditor,
+        StyleEditor, SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav, SettingsCustomize},
     methods: {
         pagePreviewToggle: () => {
            api.pagePreviewToggle()
