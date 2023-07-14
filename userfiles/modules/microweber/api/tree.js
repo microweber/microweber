@@ -867,13 +867,15 @@
                 });
                 if(!_contextMenuOnce) {
                     _contextMenuOnce = true;
-                    scope.document.defaultView.addEventListener('scroll', function (e){
-                        Array.from(scope.document.querySelectorAll('.mw-tree-context-menu-content-active')).forEach(function(node){
-                            var off = mw.element(node.$$menuButton).offset();
-                            node.style.top = off.offsetTop + 'px';
-                            node.style.left = off.offsetLeft + 'px';
-                        });
-                    })
+                    if(scope.document.defaultView) {
+                        scope.document.defaultView.addEventListener('scroll', function (e) {
+                            Array.from(scope.document.querySelectorAll('.mw-tree-context-menu-content-active')).forEach(function (node) {
+                                var off = mw.element(node.$$menuButton).offset();
+                                node.style.top = off.offsetTop + 'px';
+                                node.style.left = off.offsetLeft + 'px';
+                            });
+                        })
+                    }
                     scope.document.body.addEventListener('click', function (e){
                         var active =  Array.from(scope.document.querySelectorAll('.context-menu-active,.mw-tree-context-menu-content-active'));
                         if(active.length) {
