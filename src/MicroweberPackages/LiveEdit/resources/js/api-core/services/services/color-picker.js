@@ -8,7 +8,7 @@ export class ColorPicker extends MicroweberBaseClass {
         this.positionToElement = false;
     }
 
-    setPositionToElement(element) { 
+    setPositionToElement(element) {
         this.positionToElement = element;
     }
 

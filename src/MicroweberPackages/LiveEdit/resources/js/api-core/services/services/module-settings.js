@@ -82,7 +82,7 @@ export class ModuleSettings extends MicroweberBaseClass {
 
 
 
-            mw.dialogIframe({
+            let moduleSettingsDialogIframe = mw.dialogIframe({
                // url: route('live_edit.module_settings') + '?id=' + moduleId+ '&type=' + moduleType+ '&live_edit=true',
                 url:src,
                 width: 500,
@@ -93,8 +93,10 @@ export class ModuleSettings extends MicroweberBaseClass {
                 id: 'module-quick-setting-dialog-' + moduleId
             });
 
-
-
+            moduleSettingsDialogIframe.positionToElement(el);
+            if (moduleSettingsDialogIframe.overlay) {
+                moduleSettingsDialogIframe.overlay.style.backgroundColor = 'transparent';
+            }
 
 
         });
