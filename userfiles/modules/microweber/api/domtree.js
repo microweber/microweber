@@ -7,9 +7,9 @@ mw.DomTree = function (options) {
             title = "Row";
             icon = '<span class="mdi mdi-table-row mdi-18px"></span>';
         } else if (
-            (mw.top().mw.app.templateSettings && mw.tools.hasAnyOfClasses(node, mw.top().mw.app.templateSettings.helperClasses.external_grids_col_classes)
-                ||
-                (node.ownerDocument.defaultView.mw.drag && mw.tools.hasAnyOfClasses(node, node.ownerDocument.defaultView.mw.drag.external_grids_col_classes)) {
+            (mw.top().mw.app.templateSettings && mw.tools.hasAnyOfClasses(node, mw.top().mw.app.templateSettings.helperClasses.external_grids_col_classes)) ||
+            (node.ownerDocument.defaultView.mw.drag && mw.tools.hasAnyOfClasses(node, node.ownerDocument.defaultView.mw.drag.external_grids_col_classes))
+        ) {
             title = "Column";
             icon = '<span class="mdi mdi-table-column mdi-18px"></span>';
         } else if (node.nodeName === 'H1') {
