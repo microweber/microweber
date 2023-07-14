@@ -19,6 +19,7 @@ import '@nextapps-be/livewire-sortablejs';
 // other libs
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
+import { DynamicTargetMenus } from './services/dynamic-target-menus.js';
 
 mw.app = new MWUniversalContainer();
 
@@ -33,6 +34,7 @@ mw.app = new MWUniversalContainer();
     mw.app.register('iconPicker', IconPicker);
     mw.app.register('linkPicker', LinkPicker);
     mw.app.register('colorPicker', ColorPicker);
+    mw.app.register('dynamicTargetMenus', DynamicTargetMenus);
 
 
 //mw.app.register('commands', Commands);

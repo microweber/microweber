@@ -13,9 +13,6 @@ export const ModuleHandleContent = function (rootScope) {
     });
     this.tools = DomService;
 
-
-
-
     var staticMenu = new HandleMenu({
         id: 'mw-handle-item-element-menu-default',
         title: 'Module',
@@ -93,7 +90,8 @@ export const ModuleHandleContent = function (rootScope) {
                 },
             }
         ],
-    })
+    });
+
     this.menu = new HandleMenu({
         id: 'mw-handle-item-element-menu',
         title: 'Module',
@@ -106,8 +104,20 @@ export const ModuleHandleContent = function (rootScope) {
     this.menu.show();
     staticMenu.show();
 
-    this.root.append(this.menu.root);
-    this.root.append(staticMenu.root);
+ 
+
+
+
+    this.menusHolder = document.createElement('div');
+    this.menusHolder.className = 'mw-handle-item-menus-holder';
+
+
+    var holder = mw.element(this.menusHolder);
+    holder.append(staticMenu.root);
+    holder.append(this.menu.root);
+   
+
+    this.root.append(this.menusHolder);
 
     this.staticMenu = staticMenu;
 };

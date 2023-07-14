@@ -128,7 +128,22 @@ export const ElementHandleContent = function (proto) {
 
     this.menu.show()
 
-    this.root.append(this.menu.root)
+ 
+
+
+
+
+
+    this.menusHolder = document.createElement('div');
+    this.menusHolder.className = 'mw-handle-item-menus-holder';
+
+
+    var holder = mw.element(this.menusHolder);
+ 
+    holder.append(this.menu.root);
+   
+
+    this.root.append(this.menusHolder);
 
 
 }

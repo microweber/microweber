@@ -193,7 +193,7 @@ export class LiveEdit {
 
             scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
 
-
+ 
 
 
                 moduleHandleContent.menu.root.remove();
@@ -212,7 +212,7 @@ export class LiveEdit {
 
                 moduleHandleContent.menu.show();
 
-                moduleHandleContent.root.append(moduleHandleContent.menu.root);
+                moduleHandleContent.menusHolder.append(moduleHandleContent.menu.root.get(0));
 
 
 
@@ -318,7 +318,8 @@ export class LiveEdit {
             }
     
     
-            if(target.parentNode.classList.contains('module-layouts')) {
+             
+            if(target && target.parentNode && target.parentNode.classList.contains('module-layouts')) {
                 target = target.parentNode
             }
 

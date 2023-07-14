@@ -55,22 +55,37 @@ $bg: $lightBG;
 
 $handleHeight: 42;
 
+.mw-handle-item {
+
+    .mw-handle-item-menus-holder{
+        height: #{$handleHeight}px;
+        padding: 3px 12px;
+        display: inline-flex;
+        border-radius: 7px;
+        border: 1px solid transparent;
+        position: relative;
+        top: -60px;
+        left: -3px;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;   
+        background-color: $bg;
+            
+    }
+}
+
 
 .mw-le-handle-menu {
     .mw-le-handle-menu-buttons{
         
         height: #{$handleHeight}px;
-        border-radius: 7px;
-        border: 1px solid transparent;
-        padding: 3px 12px;
+        
+        
         display: inline-flex;
         align-items: center;
-        background-color: $bg;
+        
         pointer-events: all;
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;   
-        position: absolute;  
-        top: -40px;
-        left: -3px;   
+        
+        position: static;  
+ 
         &:empty{
             display: none !important;
         }
@@ -80,7 +95,7 @@ $handleHeight: 42;
         z-index: 2;
         
     }
-    position: absolute;
+    position: relative;
 
     color: $darkBG;
 
@@ -97,11 +112,7 @@ $handleHeight: 42;
     }
 }
 
-#mw-handle-item-element-menu-default,
-#mw-handle-item-element-menu {
-    top: -22px;
-    left: -3px;
-}
+ 
 
 #mw-handle-item-layout-menu {
     top: 5px;

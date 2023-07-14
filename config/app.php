@@ -1,7 +1,7 @@
 <?php return array (
   'name' => 'Laravel',
   'env' => 'production',
-  'debug' => true,
+  'debug' => false,
   'url' => 'http://localhost/mw2/',
   'asset_url' => NULL,
   'timezone' => 'UTC',
