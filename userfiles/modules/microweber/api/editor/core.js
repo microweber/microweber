@@ -133,9 +133,11 @@
                 }
             });
 
-            mw.app.canvas.on('canvasDocumentClick',function(app){
-                tip.hide()
-            });
+            if(typeof mw.app.canvas !== 'undefined') {
+                mw.app.canvas.on('canvasDocumentClick', function () {
+                    tip.hide()
+                });
+            }
 
             el.on('click', function (e){
                 var off = el.offset();
