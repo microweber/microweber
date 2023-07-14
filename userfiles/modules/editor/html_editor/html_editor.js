@@ -471,11 +471,11 @@ if (mw.top().app.canvas) {
 
 
                 wroot.mw.on.DOMChangePause = true;
-                setTimeout(function () {
+                 setTimeout(function () {
                     wroot.mw.drag.fix_placeholders(true);
                     wroot.mw.on.DOMChangePause = false;
-                    var saved = wroot.mw.drag.save();
-                    if (saved) {
+                    var saved =  wroot.mw.drag.save();
+                     if (saved) {
                         saved.success(function (saved_data) {
 
                             if (typeof saved_data[0] == 'undefined') {
