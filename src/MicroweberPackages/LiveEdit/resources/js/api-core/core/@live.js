@@ -294,6 +294,10 @@ export class LiveEdit {
         return this.activeNode;
     }
     selectNode(target) {
+
+
+
+
         if (this.handles.targetIsOrInsideHandle(target, this.handles.get('layout'))) {
             // this.handles.get('element').set(null)
             // this.handles.get('module').set(null)
@@ -301,6 +305,9 @@ export class LiveEdit {
             this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
             return
         }
+
+        this.activeNode = target;
+
         // const elements = this.observe.fromEvent(e);
         const elements = [];
         const directTargets = ['IMG']
@@ -312,7 +319,6 @@ export class LiveEdit {
 
         let first = elements[0];
         var target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit']);
-
 
         if (first.nodeName !== 'IMG') {
             first = DomService.firstBlockLevel(elements[0]);
@@ -417,7 +423,7 @@ export class LiveEdit {
                 return;
             }
 
-            this.selectNode(target)
+            this.selectNode(target);
 
         }
 

@@ -5,8 +5,11 @@ only_admin_access();
 
 <script>mw.require('prop_editor.js')</script>
 <script>mw.require('module_settings.js')</script>
+<script>mw.require('domtree.js')</script>
 <script>mw.lib.require('colorpicker')</script>
-<script>mw.require('domtree.js');</script>
+<script>
+    var colorPickers = [];
+</script>
 
 
 
@@ -65,6 +68,20 @@ only_admin_access();
     }
 
 </style>
+
+<script>
+
+    mw.require("events.js");
+    mw.require("forms.js");
+    mw.require("files.js");
+    mw.require("url.js");
+    mw.require('prop_editor.js');
+    mw.require('color.js');
+    mw.require('selector.js');
+    mw.require('tree.js');
+
+    mw.require('css_parser.js');
+</script>
 <script>
     mw.app = mw.top().app;
     var targetWindow = mw.top().app.canvas.getWindow();
@@ -91,22 +108,8 @@ only_admin_access();
 
 
 
-    mw.require("jquery-ui.js");
-    mw.require("events.js");
-    mw.require("forms.js");
-    mw.require("files.js");
-    mw.require("url.js");
-    mw.require('prop_editor.js');
-    mw.require('color.js');
-    mw.require('selector.js');
-    mw.require('tree.js');
 
 
-
-
-    mw.require('css_parser.js');
-
-    var colorPickers = [];
 
     var positionSelector = function () {
         var root = mw.element({props: { className: 'mw-position-selector'}})
@@ -135,31 +138,32 @@ only_admin_access();
 
     $(document).on('ready', function () {
 
-       setTimeout(function() {
-
+        setTimeout(function() {
             targetMw.liveEditDomTree = new mw.DomTree({
                 element: '#domtree',
-                resizable:true,
+                resizable: true,
                 targetDocument: targetMw.win.document,
                 canSelect: function (node, li) {
-                    var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
-                    return !cant;
+                    // var can = mw.top().app.liveEdit.canBeElement(node)
+                    // return can;
+                      var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
+                       return !cant;
                     // return mw.tools.isEditable(node) || node.classList.contains('edit');
                 },
                 onHover: function (e, target, node, element) {
-                    if(typeof targetMw !== 'undefined') {
-                    //    targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
+                    if (typeof targetMw !== 'undefined') {
+                        //    targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
                     }
                 },
                 onSelect: function (e, target, node, element) {
-                     setTimeout(function () {
-                         if(typeof targetMw !== 'undefined') {
-                         //    targetMw.liveEditSelector.select(node);
+                    setTimeout(function () {
+                        if (typeof targetMw !== 'undefined') {
+                            //    targetMw.liveEditSelector.select(node);
+                            mw.top().app.liveEdit.selectNode(node);
 
-
-                         //    targetMw.tools.scrollTo(node, undefined, (targetMw.$('#live_edit_toolbar').height() + 10))
-                         }
-                    })
+                            targetMw.tools.scrollTo(node, undefined, 30);
+                        }
+                    }, 100);
                 }
             });
         }, 700);
@@ -740,15 +744,9 @@ var populateSpecials = function (css) {
 var output = function(property, value){
     var mwTarget = targetMw;
 
+    ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 
 
-    if(!ActiveNode) {
-          ActiveNode = mw.app.liveEdit.elementHandle.getTarget();
-
-     //   ActiveNode = mwTarget.liveEditSelector.selected
-    }
-
-    mw.log(ActiveNode);
 
 
     if(ActiveNode && ActiveNode.length) {
