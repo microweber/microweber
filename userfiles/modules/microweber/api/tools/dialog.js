@@ -361,7 +361,7 @@
                 if( typeof this.options.overlay === 'string' ) {
                     this.overlay.style.backgroundColor = this.options.overlay;
                 }
-                
+
             }
             mw.$(this.overlay).on('click', function () {
                 if (this.$scope.options.overlayClose === true) {
@@ -612,7 +612,7 @@
 
             if(typeof x === 'number') {
                 x += 'px';
-                
+
             }
 
             if(typeof y === 'number') {
@@ -624,14 +624,80 @@
 
             return this;
         }
+
+        this.positionToElement = function(targetElementSelector) {
+            var element = $(targetElementSelector)[0];
+
+            var position = {};
+            if (self !== top) {
+                position = this.getElementPositionInFrames(element);
+            } else {
+                position = this.getElementPositionOnScreen(element);
+            }
+
+            let newPositionX = position.x + 40;
+            let newPositionY = position.y;
+
+            if ((window.top.innerWidth - newPositionX) < 200) {
+                newPositionX = newPositionX - 250 - (window.top.innerWidth - newPositionX);
+            }
+            if ((window.top.innerHeight - newPositionY) < 400) {
+                newPositionY = newPositionY - 400 + (window.top.innerHeight - newPositionY);
+            }
+
+            this.options.position = {
+                x: newPositionX,
+                y: newPositionY
+            };
+            this.position(newPositionX, newPositionY);
+        }
+
+        this.getElementPositionInFrames = function (element) {
+            var x = 0;
+            var y = 0;
+            var currentWindow = window;
+
+            while (currentWindow !== top) {
+                var iframe = currentWindow.frameElement;
+                var iframeRect = iframe.getBoundingClientRect();
+                var elementRect = element.getBoundingClientRect();
+
+                x += iframeRect.left + elementRect.left;
+                y += iframeRect.top + elementRect.top;
+
+                currentWindow = currentWindow.parent;
+            }
+
+            return { x: x, y: y };
+        }
+
+        this.getElementPositionOnScreen = function(element) {
+            var rect = element.getBoundingClientRect();
+
+            var scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            var x = rect.left + scrollLeft;
+            var y = rect.top + scrollTop;
+
+            // Adjust position to stay within the visible screen area
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+            x = Math.min(Math.max(x, 0), screenWidth - element.offsetWidth);
+            y = Math.min(Math.max(y, 0), screenHeight - element.offsetHeight);
+
+            return { x: x, y: y };
+        }
+
         this.init = function () {
             this.build();
             this.contentMaxHeight();
-            if(!this.options.position) { 
-                  
+            if(!this.options.position) {
+
                 this.center();
             }
-            
+
             this.show();
             if (this.options.autoCenter) {
                 (function (scope) {
@@ -647,7 +713,7 @@
             this.observeDimensions(function (){
                 scope.center();
             });
-            if(this.options.position) { 
+            if(this.options.position) {
                 this.position(this.options.position)
             }
             return this;
