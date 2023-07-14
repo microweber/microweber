@@ -45,13 +45,14 @@
             var position = getElementPositionInFrames(element);
             console.log('Element position: x =', position.x, 'y =', position.y);
 
-            let newPositionX = 0;//position.x + 30;
-            let newPositionY = 0;//position.y - 30;
+            let newPositionX = position.x + 30;
+            let newPositionY = position.y - 30;
+            colorPicker.setPosition(newPositionX, newPositionY);
 
             colorPicker.selectColor('#{{$md5name}}', function(color) {
                 element.style.backgroundColor = color;
             });
-            colorPicker.setPosition(newPositionX, newPositionY);
+
         });
     });
 </script>

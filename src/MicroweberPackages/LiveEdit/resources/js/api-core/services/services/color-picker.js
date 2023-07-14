@@ -27,16 +27,14 @@ export class ColorPicker extends MicroweberBaseClass {
         let randId = this.generateRandId(10);
 
         let colorPickerDialog = mw.top().dialog({
-            content: '<div id="color-picker-'+randId+'"></div>',
+            content: '<div id="color-picker-'+randId+'" style="width:232px;height:325px;"></div>',
             title: 'Color Picker',
             footer: false,
             width: 230,
             overlayClose: true,
-            position: { 
-                x: 0,
-                y: 0
-            }
+            position: this.position
         });
+
         if (colorPickerDialog.dialogContainer) {
             colorPickerDialog.dialogContainer.style.padding = '0px';
         }
@@ -45,7 +43,7 @@ export class ColorPicker extends MicroweberBaseClass {
         }
 
         this.colorPickerInstances.push(colorPickerDialog);
-
+        
         mw.top().colorPicker({
             element: '#color-picker-' + randId,
             onchange: function (color) {
