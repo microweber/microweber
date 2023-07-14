@@ -1,5 +1,18 @@
 <?php
 
+if (! function_exists('str_random')) {
+    /**
+     * If the given value is not an array, wrap it in one.
+     *
+     * @param  mixed  $value
+     * @return array
+     */
+    function str_random($length = 16)
+    {
+        return \Illuminate\Support\Str::random($length);
+    }
+}
+
 function mw_admin_prefix_url()
 {
     return config('microweber.admin_url', 'admin');
