@@ -635,21 +635,96 @@
                 position = this.getElementPositionOnScreen(element);
             }
 
-            let newPositionX = position.x + 40;
-            let newPositionY = position.y;
-
-            if ((window.top.innerWidth - newPositionX) < 200) {
-                newPositionX = newPositionX - 250 - (window.top.innerWidth - newPositionX);
-            }
-            if ((window.top.innerHeight - newPositionY) < 400) {
-                newPositionY = newPositionY - 400 + (window.top.innerHeight - newPositionY);
-            }
+            let calcNewPosition = this.positionDialogWithoutOverlap(this.dialogHolder, element);
 
             this.options.position = {
-                x: newPositionX,
-                y: newPositionY
+                x: calcNewPosition.dialogLeft,
+                y: calcNewPosition.dialogTop
             };
-            this.position(newPositionX, newPositionY);
+            this.position(calcNewPosition.dialogLeft, calcNewPosition.dialogTop);
+
+            this.iframe.addEventListener('load', () => {
+                setTimeout(() => {
+                    //console.log(this.dialogHolder.offsetWidth);
+                    //console.log(this.dialogHolder.offsetHeight);
+                    let calcNewPosition = this.positionDialogWithoutOverlap(this.dialogHolder, element);
+
+                    this.options.position = {
+                        x: calcNewPosition.dialogLeft,
+                        y: calcNewPosition.dialogTop
+                    };
+                    this.position(calcNewPosition.dialogLeft, calcNewPosition.dialogTop);
+
+                }, 400);
+            });
+
+            // let newPositionX = position.x + 40;
+            // let newPositionY = position.y;
+            //
+            // if ((window.top.innerWidth - newPositionX) < 200) {
+            //     newPositionX = newPositionX - 250 - (window.top.innerWidth - newPositionX);
+            // }
+            // if ((window.top.innerHeight - newPositionY) < 400) {
+            //     newPositionY = newPositionY - 400 + (window.top.innerHeight - newPositionY);
+            // }
+            //
+            // newPositionX = 0;
+            // newPositionY = 0;
+            //
+            // this.options.position = {
+            //     x: newPositionX,
+            //     y: newPositionY
+            // };
+            // this.position(newPositionX, newPositionY);
+        }
+
+        this.positionDialogWithoutOverlap = function(dialogElement, targetElement) {
+
+            var dialogRect = dialogElement.getBoundingClientRect();
+            var targetRect = targetElement.getBoundingClientRect();
+
+            var dialogWidth = dialogRect.width;
+            var dialogHeight = dialogRect.height;
+
+            var targetLeft = targetRect.left;
+            var targetTop = targetRect.top;
+            var targetWidth = targetRect.width;
+            var targetHeight = targetRect.height;
+
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+            // Calculate the available space on each side of the target element
+            var spaceLeft = targetLeft;
+            var spaceRight = screenWidth - targetLeft - targetWidth;
+            var spaceAbove = targetTop;
+            var spaceBelow = screenHeight - targetTop - targetHeight;
+
+            var dialogLeft, dialogTop;
+
+            // Position the dialog on the side with the most available space
+            if (spaceRight >= dialogWidth) {
+                dialogLeft = targetLeft + targetWidth;
+                dialogTop = Math.max(targetTop + (targetHeight - dialogHeight) / 2, 0);
+            } else if (spaceLeft >= dialogWidth) {
+                dialogLeft = targetLeft - dialogWidth;
+                dialogTop = Math.max(targetTop + (targetHeight - dialogHeight) / 2, 0);
+            } else if (spaceBelow >= dialogHeight) {
+                dialogLeft = Math.max(targetLeft + (targetWidth - dialogWidth) / 2, 0);
+                dialogTop = targetTop + targetHeight;
+            } else if (spaceAbove >= dialogHeight) {
+                dialogLeft = Math.max(targetLeft + (targetWidth - dialogWidth) / 2, 0);
+                dialogTop = targetTop - dialogHeight;
+            } else {
+                // Fallback position if no side has enough space (e.g., center of the screen)
+                dialogLeft = (screenWidth - dialogWidth) / 2;
+                dialogTop = (screenHeight - dialogHeight) / 2;
+            }
+
+            return {
+                dialogLeft: dialogLeft,
+                dialogTop: dialogTop,
+            }
         }
 
         this.getElementPositionInFrames = function (element) {
