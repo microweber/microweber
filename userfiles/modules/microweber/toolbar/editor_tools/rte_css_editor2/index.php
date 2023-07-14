@@ -1,3 +1,16 @@
+<?php
+
+only_admin_access();
+?>
+
+<script>mw.require('prop_editor.js')</script>
+<script>mw.require('module_settings.js')</script>
+<script>mw.lib.require('colorpicker')</script>
+<script>mw.require('domtree.js');</script>
+
+
+
+
 
 <div id="domtree"></div>
 
@@ -54,7 +67,7 @@
 </style>
 <script>
     mw.app = mw.top().app;
-    var targetWindow = mw.app.canvas.getWindow();
+    var targetWindow = mw.top().app.canvas.getWindow();
     if(targetWindow) {
         var targetMw = targetWindow.mw;
 
@@ -63,9 +76,7 @@
 
     //var targetmw = targetWindow.mw;
 </script>
-<script>mw.require('prop_editor.js')</script>
-<script>mw.require('module_settings.js')</script>
-<script>mw.lib.require('colorpicker')</script>
+
 <script>
 
     if(typeof targetMw === 'undefined') {
@@ -90,7 +101,7 @@
     mw.require('selector.js');
     mw.require('tree.js');
 
-    mw.require('domtree.js');
+
 
 
     mw.require('css_parser.js');
@@ -122,7 +133,7 @@
     }
 
 
-    $(window).on('load', function () {
+    $(document).on('ready', function () {
 
        setTimeout(function() {
 
@@ -729,9 +740,11 @@ var populateSpecials = function (css) {
 var output = function(property, value){
     var mwTarget = targetMw;
     if(!ActiveNode) {
-        ActiveNode = mwTarget.liveEditSelector.selected
+          ActiveNode = mw.app.liveEdit.elementHandle.getTarget();
+
+     //   ActiveNode = mwTarget.liveEditSelector.selected
     }
-    if(ActiveNode.length) {
+    if(ActiveNode && ActiveNode.length) {
         ActiveNode = ActiveNode[0]
     }
     if(ActiveNode) {

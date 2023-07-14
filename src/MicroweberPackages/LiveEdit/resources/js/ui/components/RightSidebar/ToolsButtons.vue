@@ -1,13 +1,15 @@
 <template>
     <h4>Tools</h4>
+    <div class="d-grid gap-2">
 
-    <button v-on:click="show('style-editor')">Open CSS Editor</button>
-    <button v-on:click="show('html-editor')">Open html Editor</button>
-    <button v-on:click="openContentRevisionsDialog()">openContentRevisionsDialog</button>
-    <button onclick="mw.tools.open_reset_content_editor();">open_reset_content_editor</button>
-     Open html editor<br>
-    clear cache<br>
-    content revisions<br>
+        <button class="btn btn-outline-secondary btn-sm" v-on:click="show('style-editor')">Open CSS Editor</button>
+        <button class="btn btn-outline-secondary btn-sm" v-on:click="show('html-editor')">Open Code Editor</button>
+        <button class="btn btn-outline-secondary btn-sm" v-on:click="openContentResetContent()">Reset Content</button>
+        <button class="btn btn-outline-secondary btn-sm" v-on:click="openContentRevisionsDialog()">Content Revisions
+        </button>
+        <button class="btn btn-outline-secondary btn-sm" v-on:click="clearCache()">Clear Cache</button>
+    </div>
+
 </template>
 
 
@@ -20,8 +22,63 @@ export default {
         show: function (name) {
             this.emitter.emit('live-edit-ui-show', name);
         },
+
+        clearCache: function () {
+            mw.tools.confirm("Do you want to clear cache?", function () {
+                mw.notification.warning("Clearing cache...");
+                $.get(mw.settings.api_url + "clearcache", {}, function () {
+                    mw.notification.warning("Cache is cleared! reloading the page...");
+                    location.reload();
+                });
+            });
+        },
+        openContentResetContent: function () {
+            var moduleType = 'editor/reset_content';
+            var attrsForSettings = {};
+
+            attrsForSettings.live_edit = true;
+            attrsForSettings.module_settings = true;
+            attrsForSettings.id = 'mw_global_reset_content_editor';
+            attrsForSettings.type = moduleType;
+            attrsForSettings.iframe = true;
+            attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
+
+
+            var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+
+
+            if (typeof (root_element_id) != 'undefined') {
+                var src = src + '&root_element_id=' + root_element_id;
+            }
+
+            // mw.dialogIframe({
+            var modal = mw.dialogIframe({
+                url: src,
+                // width: 500,
+                // height: mw.$(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
+                name: 'mw-reset-content-editor-front',
+                title: 'Reset content',
+                template: 'default',
+                center: false,
+                resize: true,
+                autosize: true,
+                autoHeight: true,
+                draggable: true
+            });
+        },
         openContentRevisionsDialog: function () {
-var cont_id = mw.url.windowHashParam('content_id');
+
+            var liveEditIframeData = mw.app.canvas.getLiveEditData();
+
+            if (liveEditIframeData
+                && liveEditIframeData.content
+                && liveEditIframeData.content.id
+                && liveEditIframeData.content.title
+            ) {
+                var cont_id = liveEditIframeData.content.id;
+            }
+
+
             if (typeof (cont_id) === 'undefined') {
                 return;
             }
@@ -37,13 +94,13 @@ var cont_id = mw.url.windowHashParam('content_id');
             attrsForSettings.iframe = true;
             attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
 
+            attrsForSettings.content_id = cont_id;
 
             var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
             var dlg = mw.top().dialogIframe({
-                // url: mw.settings.site_url + 'api/module?id=mw_global_html_editor&live_edit=true&module_settings=true&type=editor/code_editor&autosize=true',
                 url: src,
-                title: mw.lang('Edit Code'),
+                title: mw.lang('Content Revisions'),
                 footer: false,
                 width: 400,
                 //  height: 600,
@@ -51,8 +108,6 @@ var cont_id = mw.url.windowHashParam('content_id');
                 autoHeight: true,
                 overlay: false
             });
-
-
 
         },
     },

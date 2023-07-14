@@ -38,25 +38,17 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         }
     }
 
-    getContentId() {
+    getLiveEditData() {
         var liveEditIframe = this.getWindow();
         if (liveEditIframe
             && typeof liveEditIframe.mw !== 'undefined'
             && typeof liveEditIframe.mw.liveEditIframeData !== 'undefined'
             && liveEditIframe.mw.liveEditIframeData
-            && liveEditIframe.mw.liveEditIframeData.content
-            && liveEditIframe.mw.liveEditIframeData.content.id
-            && liveEditIframe.mw.liveEditIframeData.content.title
+
         ) {
-            this.selectedContentId = liveEditIframe.mw.liveEditIframeData.content.id;
-            this.selectedContentTitle = liveEditIframe.mw.liveEditIframeData.content.title;
-            this.liveEditSearchContentField.select(
-                {
-                    id: this.selectedContentId,
-                    title: this.selectedContentTitle,
-                }
-                ,false);
+            return liveEditIframe.mw.liveEditIframeData;
         }
+        return false;
     }
 
     mount(target) {

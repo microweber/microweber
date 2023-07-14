@@ -2,8 +2,23 @@
 export default {
     methods: {
         showStyleEditor: function () {
+            var moduleType = 'microweber/toolbar/editor_tools/rte_css_editor2';
+            var attrsForSettings = {};
+
+            attrsForSettings.live_edit = true;
+            attrsForSettings.module_settings = true;
+            attrsForSettings.id = 'mw_global_rte_css_editor2_editor';
+            attrsForSettings.type = moduleType;
+            attrsForSettings.iframe = true;
+            attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
+
+
+            var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+
+
+
             var dlg = mw.top().dialogIframe({
-                url: mw.external_tool('rte_css_editor2'),
+                url: src,
                 title: mw.lang('Edit styles'),
                 footer: false,
                 width: 600,

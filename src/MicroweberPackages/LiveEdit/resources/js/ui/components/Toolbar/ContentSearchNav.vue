@@ -42,17 +42,15 @@ export default {
         })
 
         mw.app.canvas.on('liveEditCanvasLoaded', () => {
-            var liveEditIframe = (mw.app.canvas.getWindow());
-            if (liveEditIframe
-                && typeof liveEditIframe.mw !== 'undefined'
-                && typeof liveEditIframe.mw.liveEditIframeData !== 'undefined'
-                && liveEditIframe.mw.liveEditIframeData
-                && liveEditIframe.mw.liveEditIframeData.content
-                && liveEditIframe.mw.liveEditIframeData.content.id
-                && liveEditIframe.mw.liveEditIframeData.content.title
+            var liveEditIframe = mw.app.canvas.getWindow();
+            var liveEditIframeData = mw.app.canvas.getLiveEditData();
+            if (liveEditIframeData
+                && liveEditIframeData.content
+                && liveEditIframeData.content.id
+                && liveEditIframeData.content.title
             ) {
-                this.selectedContentId = liveEditIframe.mw.liveEditIframeData.content.id;
-                this.selectedContentTitle = liveEditIframe.mw.liveEditIframeData.content.title;
+                this.selectedContentId = liveEditIframeData.content.id;
+                this.selectedContentTitle = liveEditIframeData.content.title;
                 this.liveEditSearchContentField.select(
                     {
                         id: this.selectedContentId,
