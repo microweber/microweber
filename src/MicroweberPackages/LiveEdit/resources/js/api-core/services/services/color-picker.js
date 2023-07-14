@@ -5,6 +5,14 @@ export class ColorPicker extends MicroweberBaseClass {
     constructor() {
         super();
         this.colorPickerInstances = [];
+        this.position = [];
+    }
+
+    setPositon(x, y) {
+        this.position = {
+            x: x,
+            y: y
+        };
     }
 
     selectColor(targetElementSelector, callback = false) {
@@ -23,7 +31,8 @@ export class ColorPicker extends MicroweberBaseClass {
             title: 'Color Picker',
             footer: false,
             width: 230,
-            overlayClose: true
+            overlayClose: true,
+            position: this.position
         });
         if (colorPickerDialog.dialogContainer) {
             colorPickerDialog.dialogContainer.style.padding = '0px';
