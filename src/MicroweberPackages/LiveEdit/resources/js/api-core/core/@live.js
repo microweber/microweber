@@ -547,7 +547,8 @@ export class LiveEdit {
 
     canBeElement = function (target) {
         var el = target;
-        var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container'];
+        var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container','container'];
+        var noelements_le = ['mw-le-spacer','background-image-holder','mw-layout-overlay-container','mw-le-resizer','mw-layout-overlay-container','mw-layout-overlay','mw-layout-overlay-background','mw-layout-overlay-background-image','mw-layout-overlay-wrapper'];
 
 
         var noelements_bs3 = mw.app.templateSettings.helperClasses.external_grids_col_classes;
@@ -556,12 +557,13 @@ export class LiveEdit {
         var section_selectors = mw.app.templateSettings.helperClasses.section_selectors;
         var icon_selectors = mw.app.templateSettings.helperClasses.fontIconFamilies;
 
+        noelements = noelements.concat(noelements_le);
         noelements = noelements.concat(noelements_bs3);
         noelements = noelements.concat(noelements_ext);
         noelements = noelements.concat(noelements_drag);
         noelements = noelements.concat(section_selectors);
         noelements = noelements.concat(icon_selectors);
-        return mw.tools.hasAnyOfClasses(el, noelements);
+        return !mw.tools.hasAnyOfClasses(el, noelements);
     }
     canBeEditable = function (el) {
         return el.isContentEditable || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module']);

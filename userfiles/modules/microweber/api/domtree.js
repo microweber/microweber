@@ -16,7 +16,7 @@ mw.DomTree = function (options) {
             (
               node.ownerDocument.defaultView &&
               node.ownerDocument.defaultView.mw &&
-            typeof node.ownerDocument.defaultView.mw.drag !== 'undefined' && 
+            typeof node.ownerDocument.defaultView.mw.drag !== 'undefined' &&
             typeof node.ownerDocument.defaultView.mw.drag.external_grids_col_classes !== 'undefined'
                 && node.ownerDocument.defaultView.mw.drag
                 && mw.tools.hasAnyOfClasses(node, node.ownerDocument.defaultView.mw.drag.external_grids_col_classes)

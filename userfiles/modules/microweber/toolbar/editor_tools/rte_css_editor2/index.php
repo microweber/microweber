@@ -161,7 +161,7 @@ only_admin_access();
                             //    targetMw.liveEditSelector.select(node);
                             mw.top().app.liveEdit.selectNode(node);
 
-                            targetMw.tools.scrollTo(node, undefined, 30);
+                            targetMw.tools.scrollTo(node, undefined, 200);
                         }
                     }, 100);
                 }
