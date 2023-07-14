@@ -48,7 +48,7 @@
             let newPositionY = position.y;
 
             if ((window.top.innerWidth - newPositionX) < 200) {
-                newPositionX = newPositionX - 230;
+                newPositionX = newPositionX - 250 - (window.top.innerWidth - newPositionX);
             }
             if ((window.top.innerHeight - newPositionY) < 400) {
                 newPositionY = newPositionY - 400 + (window.top.innerHeight - newPositionY);
