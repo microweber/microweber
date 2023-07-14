@@ -5,13 +5,11 @@
             Loading...
         </div>
 
-        <div v-else v-for="(settings,settingGroupKey) in settingsGroups" class="mb-3">
+        <div v-else v-for="(settings,settingGroupKey) in settingsGroups" class="mt-2 mb-5">
             <a v-on:click="showSettingsGroup(settingGroupKey)"
                   class="fs-2 mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
                 {{ settingGroupKey }}
             </a>
-
-
 
             <div class="mt-3" style="display:block" :id="'settings-group-' + stringToId(settingGroupKey)">
                 <div class="" :id="'accordionFlush' + stringToId(settingGroupKey)">

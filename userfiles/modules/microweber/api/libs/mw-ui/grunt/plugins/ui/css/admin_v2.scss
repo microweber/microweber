@@ -2072,6 +2072,20 @@ svg.text-danger {
     width: 100%;
 }
 
+.live-edit-tools {
+    text-decoration: none;
+    color: var(--tblr-body-color);
+    font-size: 12px;
+    font-weight: 400;
+    padding: 10px 0;
+    cursor: pointer;
+
+    &:hover {
+       font-weight: 600;
+        text-decoration: none;
+
+    }
+}
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
 
