@@ -678,8 +678,7 @@
             // this.position(newPositionX, newPositionY);
         }
 
-        this.positionDialogWithoutOverlap = function(dialogElement, targetElement) {
-
+        this.positionDialogWithoutOverlap = function (dialogElement, targetElement) {
             var dialogRect = dialogElement.getBoundingClientRect();
             var targetRect = targetElement.getBoundingClientRect();
 
@@ -690,6 +689,18 @@
             var targetTop = targetRect.top;
             var targetWidth = targetRect.width;
             var targetHeight = targetRect.height;
+
+            var currentWindow = window;
+
+            while (currentWindow !== top) {
+                var iframe = currentWindow.frameElement;
+                var iframeRect = iframe.getBoundingClientRect();
+
+                targetLeft += iframeRect.left;
+                targetTop += iframeRect.top;
+
+                currentWindow = currentWindow.parent;
+            }
 
             var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
             var screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -723,7 +734,7 @@
 
             return {
                 dialogLeft: dialogLeft,
-                dialogTop: dialogTop,
+                dialogTop: dialogTop
             }
         }
 
