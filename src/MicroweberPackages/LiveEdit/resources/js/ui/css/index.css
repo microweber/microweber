@@ -487,6 +487,7 @@ body.loaded #bubble-nav span {
 
     --layouts-dialog-height: calc(100vh - 50px);
     --layouts-dialog-toolbar-height: 60px;
+    overflow: hidden;
 }
 
 
@@ -520,6 +521,7 @@ body.loaded #bubble-nav span {
 .mw-le-layouts-dialog-row {
     position: relative;
     height: var(--layouts-dialog-height);
+    overflow: auto;
 }
 
 .mw-le-layouts-dialog-col:first-child {
@@ -857,8 +859,8 @@ body.loaded #bubble-nav span {
     transform: scale(0);
     transition: .2s;
     position: fixed;
-    top: 27px;
-    right: 50px;
+    top: 40px;
+    right: 70px;
     width: 25px;
     height: 25px;
     cursor: pointer;
