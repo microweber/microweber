@@ -1,7 +1,8 @@
 
 <template>
-    <div id="toolbar" class="shadow-sm d-flex flex-wrap h-100">
-        <div class="toolbar-nav toolbar-nav-hover col-xxl-2 col-auto d-flex justify-content-lg-start">
+    <div id="toolbar" class="shadow-sm d-flex flex-wrap h-100 px-md-4 px-1">
+        <div class="toolbar-nav toolbar-nav-hover col-xxl-2
+        col-auto d-flex justify-content-lg-start">
             <a class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" href="./">
                 <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                     <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">

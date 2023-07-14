@@ -1250,7 +1250,8 @@ class FrontendController extends Controller
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
                 if ($is_admin == true) {
                     if ($is_editmode_iframe) {
-                        $l = $this->liveEditToolbarIframeData($l,$page);
+
+                        $l = $this->liveEditToolbarIframeData($l,$content);
                         $l = $this->liveEditToolbarIframe($l);
                     } else {
                         // old live edit is disabled

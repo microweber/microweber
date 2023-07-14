@@ -38,6 +38,19 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         }
     }
 
+    getLiveEditData() {
+        var liveEditIframe = this.getWindow();
+        if (liveEditIframe
+            && typeof liveEditIframe.mw !== 'undefined'
+            && typeof liveEditIframe.mw.liveEditIframeData !== 'undefined'
+            && liveEditIframe.mw.liveEditIframeData
+
+        ) {
+            return liveEditIframe.mw.liveEditIframeData;
+        }
+        return false;
+    }
+
     mount(target) {
 
         this.dispatch('liveEditBeforeLoaded');

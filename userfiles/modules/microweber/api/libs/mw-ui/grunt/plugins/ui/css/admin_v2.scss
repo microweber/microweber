@@ -1,7 +1,7 @@
 @import url("../css/../../tabler-ui/dist/css/tabler.min.css");
+@import url("../css/../../tabler-ui/dist/css/tabler-vendors.css");
 @import "_mw_tabler";
 @import "file-robot-image-editor";
-
 
 
 //!!!!!!!!!!!!!!!!! RTL STYLE !!!!!!!!!!!!!!!!!!!!
@@ -203,6 +203,10 @@ body.theme-dark {
         svg {
             fill: var(--tblr-body-color) !important;
         }
+    }
+
+    .modules-list-block-item-picture {
+        filter: invert(1);
     }
 
     //END LIVE EDIT FOR DARK THEME
@@ -2068,6 +2072,20 @@ svg.text-danger {
     width: 100%;
 }
 
+.live-edit-tools {
+    text-decoration: none;
+    color: var(--tblr-body-color);
+    font-size: 12px;
+    font-weight: 400;
+    padding: 10px 0;
+    cursor: pointer;
+
+    &:hover {
+       font-weight: 600;
+        text-decoration: none;
+
+    }
+}
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -2098,3 +2116,6 @@ svg.text-danger {
     }
 }
 
+.mw-le-layouts-dialog-col-full {
+    overflow-y: scroll;
+}

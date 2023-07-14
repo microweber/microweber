@@ -1,3 +1,19 @@
+<?php
+
+only_admin_access();
+?>
+
+<script>mw.require('prop_editor.js')</script>
+<script>mw.require('module_settings.js')</script>
+<script>mw.require('domtree.js')</script>
+<script>mw.lib.require('colorpicker')</script>
+<script>
+    var colorPickers = [];
+</script>
+
+
+
+
 
 <div id="domtree"></div>
 
@@ -52,35 +68,9 @@
     }
 
 </style>
-<script>
-    mw.app = mw.top().app;
-    var targetWindow = mw.app.canvas.getWindow();
-    if(targetWindow) {
-        var targetMw = targetWindow.mw;
 
-    }
-
-
-    //var targetmw = targetWindow.mw;
-</script>
-<script>mw.require('prop_editor.js')</script>
-<script>mw.require('module_settings.js')</script>
-<script>mw.lib.require('colorpicker')</script>
 <script>
 
-    if(typeof targetMw === 'undefined') {
-        targetMw = mw.parent();
-    }
-    addEventListener('load', function (){
-        if( window.frame && window.frame.contentWindow.mw) {
-            targetMw = window.frame.contentWindow.mw;
-        }
-
-    })
-
-
-
-    mw.require("jquery-ui.js");
     mw.require("events.js");
     mw.require("forms.js");
     mw.require("files.js");
@@ -90,12 +80,36 @@
     mw.require('selector.js');
     mw.require('tree.js');
 
-    mw.require('domtree.js');
-
-
     mw.require('css_parser.js');
+</script>
+<script>
+    mw.app = mw.top().app;
+    var targetWindow = mw.top().app.canvas.getWindow();
+    if(targetWindow) {
+        var targetMw = targetWindow.mw;
 
-    var colorPickers = [];
+    }
+
+
+    //var targetmw = targetWindow.mw;
+</script>
+
+<script>
+
+    // if(typeof targetMw === 'undefined') {
+    //     targetMw = mw.parent();
+    // }
+    // addEventListener('load', function (){
+    //     if( window.frame && window.frame.contentWindow.mw) {
+    //         targetMw = window.frame.contentWindow.mw;
+    //     }
+    //
+    // })
+
+
+
+
+
 
     var positionSelector = function () {
         var root = mw.element({props: { className: 'mw-position-selector'}})
@@ -122,33 +136,34 @@
     }
 
 
-    $(window).on('load', function () {
+    $(document).on('ready', function () {
 
-       setTimeout(function() {
-
+        setTimeout(function() {
             targetMw.liveEditDomTree = new mw.DomTree({
                 element: '#domtree',
-                resizable:true,
+                resizable: true,
                 targetDocument: targetMw.win.document,
                 canSelect: function (node, li) {
-                    var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
-                    return !cant;
+                    // var can = mw.top().app.liveEdit.canBeElement(node)
+                    // return can;
+                      var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
+                       return !cant;
                     // return mw.tools.isEditable(node) || node.classList.contains('edit');
                 },
                 onHover: function (e, target, node, element) {
-                    if(typeof targetMw !== 'undefined') {
-                    //    targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
+                    if (typeof targetMw !== 'undefined') {
+                        //    targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
                     }
                 },
                 onSelect: function (e, target, node, element) {
-                     setTimeout(function () {
-                         if(typeof targetMw !== 'undefined') {
-                         //    targetMw.liveEditSelector.select(node);
+                    setTimeout(function () {
+                        if (typeof targetMw !== 'undefined') {
+                            //    targetMw.liveEditSelector.select(node);
+                            mw.top().app.liveEdit.selectNode(node);
 
-
-                         //    targetMw.tools.scrollTo(node, undefined, (targetMw.$('#live_edit_toolbar').height() + 10))
-                         }
-                    })
+                            mw.tools.scrollTo(node, undefined, 200);
+                        }
+                    }, 100);
                 }
             });
         }, 700);
@@ -217,9 +232,19 @@
 </script>
 <script>
 
-var ActiveNode = null;
+//var ActiveNode = null;
+ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+
+
+mw.top().app.canvas.on('canvasDocumentClick', function () {
+
+    ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+    activeTree();
+});
 
 var reset = function(){
+    var ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+
     if(!ActiveNode){
         return;
     }
@@ -236,7 +261,8 @@ var reset = function(){
     }).fail(function(){
 
     });
-    mw.app.registerChange(ActiveNode)
+    mw.top().app.registerChange(ActiveNode)
+    activeTree();
 };
 
 
@@ -245,11 +271,18 @@ var CSSShadow;
 var _activeTree = null;
 var _pauseActiveTree = false;
 var activeTree = function(){
+    console.log('activeTreeactiveTreeactiveTreeactiveTreeactiveTreeactiveTree')
+    console.log(ActiveNode)
+    console.log(_pauseActiveTree)
     if(!ActiveNode || _pauseActiveTree) {
         return;
     }
+    var canvasDocument = mw.top().app.canvas.getDocument();
+
     var getParent = function(node){
-        if(!node || node === document.body || !node.parentNode || mw.tools.hasClass(node, 'edit')){
+        var canvasDocument = mw.top().app.canvas.getDocument();
+
+        if(!node || node === canvasDocument.body || !node.parentNode || mw.tools.hasClass(node, 'edit')){
             return false;
         }
         if(node.parentNode.id){
@@ -261,12 +294,15 @@ var activeTree = function(){
         }
     };
     var data = [], curr = ActiveNode, count = 0;
-    while(curr && curr !== document.body){
+
+     while(curr && curr !== canvasDocument.body){
         var custom = !!curr.className;
+
+
         if(curr.id || mw.tools.hasClass(curr, 'edit') || custom){
             count++;
             if (count > 4) {
-                break;
+             //   break;
             }
             var parent = getParent(curr);
             var selector = mw.tools.generateSelectorForNode(curr)
@@ -335,9 +371,9 @@ var activeTree = function(){
 
     $(_activeTree).on('selectionChange', function(e, data){
         _pauseActiveTree = true;
-        if(data[0]){
-            targetMw.liveEditSelector.select(data[0].element);
-        }
+        // if(data[0]){
+        //     targetMw.liveEditSelector.select(data[0].element);
+        // }
         setTimeout(function(){
             _pauseActiveTree = false;
         }, 10)
@@ -600,7 +636,7 @@ var sccontainertype = function (value){
         cnt.classList.remove('container');
         cnt.classList.remove('container-fluid');
         cnt.classList.add(value);
-        mw.app.registerChange(cnt);
+        mw.top().app.registerChange(cnt);
     }
 }
 var scColumns = function (property, value){
@@ -643,11 +679,11 @@ var specialCases = function (property, value){
         return true;
     } else if(OverlayNode && property === 'overlay-color') {
         OverlayNode.style.backgroundColor = value;
-        mw.app.registerChange(OverlayNode);
+        mw.top().app.registerChange(OverlayNode);
         return true;
     }  else if(OverlayNode && property === 'overlay-blend-mode') {
         OverlayNode.style.mixBlendMode = value;
-        mw.app.registerChange(OverlayNode);
+        mw.top().app.registerChange(OverlayNode);
         return true;
     }
 
@@ -728,10 +764,13 @@ var populateSpecials = function (css) {
 
 var output = function(property, value){
     var mwTarget = targetMw;
-    if(!ActiveNode) {
-        ActiveNode = mwTarget.liveEditSelector.selected
-    }
-    if(ActiveNode.length) {
+
+    ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+
+
+
+
+    if(ActiveNode && ActiveNode.length) {
         ActiveNode = ActiveNode[0]
     }
     if(ActiveNode) {
@@ -743,7 +782,7 @@ var output = function(property, value){
 
             ActiveNode.setAttribute('staticdesign', true);
         }
-        mw.app.registerChange(ActiveNode);
+        mw.top().app.registerChange(ActiveNode);
 
     }
 
@@ -947,11 +986,11 @@ var init = function(){
 
 
 };
-function setTargetMw(mw) {
-    targetMw = mw;
-
-
-}
+// function setTargetMw(mw) {
+//     targetMw = mw;
+//
+//
+// }
 
 function selectNode(node) {
     var nodes = [node]
@@ -1082,7 +1121,7 @@ function selectNode(node) {
                         cls.push(this.title);
                     });
                     ActiveNode.setAttribute('class', cls.join(' '))
-                    mw.app.registerChange(ActiveNode);
+                    mw.top().app.registerChange(ActiveNode);
                 });
             }
             return window.classes;
@@ -1171,7 +1210,7 @@ function selectNode(node) {
                     } else {
                         output('color', '')
                     }
-                    mw.app.registerChange($node[0]);
+                    mw.top().app.registerChange($node[0]);
                 }
             </script>
             <div class="s-field-content">
@@ -1922,7 +1961,7 @@ function selectNode(node) {
                                 if(curr) {
                                     curr.when = this.value;
                                 }
-                                mw.app.registerChange(ActiveNode)
+                                mw.top().app.registerChange(ActiveNode)
                             });
 
                             $('.mw-range', speed.get(0)).slider('value', parseFloat(anim.speed))
@@ -1942,7 +1981,7 @@ function selectNode(node) {
                                 if(curr) {
                                     curr.animation = this.value;
                                 }
-                                mw.app.registerChange(ActiveNode)
+                                mw.top().app.registerChange(ActiveNode)
 
                             });
 
@@ -1957,7 +1996,7 @@ function selectNode(node) {
                                 if (curr) {
                                     curr.speed = val;
                                 }
-                                mw.app.registerChange(ActiveNode)
+                                mw.top().app.registerChange(ActiveNode)
                             });
 
                             mw.element('select', when).get(0).disabled = anim.animation === 'none';

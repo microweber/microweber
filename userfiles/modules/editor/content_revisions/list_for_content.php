@@ -106,14 +106,7 @@ if (isset($params['content_id'])) {
     <script>
 
         scroll_content_field_to_editor = function (field, rel_type) {
-            var el = mw.top().$('body').find('.edit[field="' + field + '"][rel="' + rel_type + '"]').first();
-            if (el && el[0]) {
-
-                if (!mw.tools.wholeinview(el[0])) {
-                    mw.top().tools.scrollTo(el[0]);
-                    mw.top().tools.highlight(el[0]);
-                }
-            }
+            mw.content_revisions_control.scroll_content_field_to_editor(field, rel_type);
         }
     </script>
 
@@ -139,7 +132,7 @@ if (isset($params['content_id'])) {
                     <?php if (isset($params['show_btn_for_find_element'])) { ?>
                         <a class="pull-right mw-ui-btn mw-ui-btn-small mr-3"
                            href="javascript:scroll_content_field_to_editor('<?php print $item['field'] ?>','<?php print $item['rel_type'] ?>')"><span
-                                    class="mw-icon-web-search"></span></a>
+                                    class="mdi mdi-note-text-outline"></span></a>
 
 
                     <?php } ?>
@@ -147,7 +140,7 @@ if (isset($params['content_id'])) {
 
                     <a class="pull-right mw-ui-btn mw-ui-btn-small mr-3"
                        href="javascript:mw.accordion('#accordion-example<?php print $item['id'] ?>');"><span
-                                class="mw-icon-web-note"></span></a>
+                                class="mdi mdi-note-text-outline"></span></a>
 
 
                 </div>

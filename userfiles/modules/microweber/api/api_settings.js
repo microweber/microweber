@@ -349,6 +349,13 @@
                 mw.require(mw.settings.libs_url + 'multilanguage' + '/mlTextArea.js');
             }
         ],
+
+        nouislider: [
+            function () {
+              //  mw.require(mw.settings.libs_url + 'nouislider' + '/nouislider.css');
+                mw.require(mw.settings.libs_url + 'nouislider' + '/nouislider.js');
+            }
+        ],
         xss: [
             function () {
                 mw.require(mw.settings.libs_url + "xss/xss.min.js");

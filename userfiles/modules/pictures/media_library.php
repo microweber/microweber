@@ -72,7 +72,7 @@ must_have_access();
                 top: 4px;
                 border-radius: 6px;
                 padding-bottom: 2px;
-                width: 44px;
+                max-width: 65px;
             }
 
             .image-item-likes span {
@@ -177,7 +177,7 @@ must_have_access();
                                 var download = $('<button class="btn btn-outline-primary btn-sm py-1 px-1" />');
                                 var thumbnail = $('<span class="image-item-thumbnail" style="background-image:url(' + val.url_thumb + ');">');
                                 var author = '<div class="image-item-author">Author: <br><a href="' + val.author_url + '" target="_new">' + val.author + '</a></div>';
-                                var likes = $('<span class="image-item-likes" />');
+                                var likes = $('<span class="image-item-likes d-flex align-items-center justify-content-center" />');
 
                                 download.on('click', function () {
                                     selectMediaImage($(this), val.id);
@@ -190,7 +190,7 @@ must_have_access();
                                 li.append(author);
 
                                 download.append('<?php _ejs('Download');  ?>');
-                                likes.append('<span class="mw-icon-heart"></span>' + val.likes);
+                                likes.append('<span class="mdi mdi-heart"></span>' + val.likes);
 
                                 root.append(li);
 

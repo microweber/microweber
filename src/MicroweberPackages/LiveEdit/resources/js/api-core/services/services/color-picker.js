@@ -5,6 +5,11 @@ export class ColorPicker extends MicroweberBaseClass {
     constructor() {
         super();
         this.colorPickerInstances = [];
+        this.positionToElement = false;
+    }
+
+    setPositionToElement(element) {
+        this.positionToElement = element;
     }
 
     selectColor(targetElementSelector, callback = false) {
@@ -19,12 +24,14 @@ export class ColorPicker extends MicroweberBaseClass {
         let randId = this.generateRandId(10);
 
         let colorPickerDialog = mw.top().dialog({
-            content: '<div id="color-picker-'+randId+'"></div>',
+            content: '<div id="color-picker-'+randId+'" style="width:232px;height:325px;"></div>',
             title: 'Color Picker',
             footer: false,
             width: 230,
-            overlayClose: true
+            overlayClose: true,
         });
+        colorPickerDialog.positionToElement(this.positionToElement);
+
         if (colorPickerDialog.dialogContainer) {
             colorPickerDialog.dialogContainer.style.padding = '0px';
         }
@@ -46,7 +53,7 @@ export class ColorPicker extends MicroweberBaseClass {
                 }
             }
         });
-
+        colorPickerDialog.center();
     }
 
     generateRandId(length) {
@@ -60,5 +67,4 @@ export class ColorPicker extends MicroweberBaseClass {
         }
         return result;
     }
-
 }

@@ -15,6 +15,7 @@
 
 
         mw.lib.require('jqueryui');
+        mw.lib.require('nouislider');
         mw.require('components.css')
         mw.require('liveedit_widgets.js')
 

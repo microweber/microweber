@@ -5,13 +5,13 @@
             Loading...
         </div>
 
-        <div v-else v-for="(settings,settingGroupKey) in settingsGroups" class="mb-3">
+        <div v-else v-for="(settings,settingGroupKey) in settingsGroups" class="mt-2 mb-5">
             <a v-on:click="showSettingsGroup(settingGroupKey)"
                   class="fs-2 mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
                 {{ settingGroupKey }}
             </a>
 
-            <div class="mt-3" style="display:none" :id="'settings-group-' + stringToId(settingGroupKey)">
+            <div class="mt-3" style="display:block" :id="'settings-group-' + stringToId(settingGroupKey)">
                 <div class="" :id="'accordionFlush' + stringToId(settingGroupKey)">
 
                     <div v-for="(settingGroupInside,settingGroupInsideName) in settings.values" class="mb-2">
@@ -137,18 +137,19 @@
                     </div>
                 </div>
 
-                <div class="mt-2 mr-2" v-if="settings.type == 'stylesheet'">
-                    <button v-on:click="resetStylesheetSettings"
-                            style="border-radius: 20px">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M451-122q-123-10-207-101t-84-216q0-77 35.5-145T295-695l43 43q-56 33-87 90.5T220-439q0 100 66 173t165 84v60Zm60 0v-60q100-12 165-84.5T741-439q0-109-75.5-184.5T481-699h-20l60 60-43 43-133-133 133-133 43 43-60 60h20q134 0 227 93.5T801-439q0 125-83.5 216T511-122Z"/></svg>
-                    </button>
+                <div v-on:click="resetStylesheetSettings" class="d-flex align-items-center justify-content-between cursor-pointer" v-if="settings.type == 'stylesheet'">
+                    <span>Reset Stylesheet Settings</span>
+
+                    <svg fill="currentColor" v-tooltip data-bs-toggle="tooltip" data-bs-placement="top" title="Reset stylesheet settings" xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18"><path d="M451-122q-123-10-207-101t-84-216q0-77 35.5-145T295-695l43 43q-56 33-87 90.5T220-439q0 100 66 173t165 84v60Zm60 0v-60q100-12 165-84.5T741-439q0-109-75.5-184.5T481-699h-20l60 60-43 43-133-133 133-133 43 43-60 60h20q134 0 227 93.5T801-439q0 125-83.5 216T511-122Z"/></svg>
+
                 </div>
 
-                <div class="mt-2 mr-2" v-if="settings.type == 'template'">
-                    <button v-on:click="resetTemplateSettings"
-                            style="border-radius: 20px"
-                            class="btn btn-dark btn-sm btn-block">Reset Template Settings
-                    </button>
+
+                <div v-on:click="resetTemplateSettings" class="d-flex align-items-center justify-content-between cursor-pointer" v-if="settings.type == 'template'">
+                    <span>Reset Template Settings</span>
+
+                    <svg fill="currentColor" v-tooltip data-bs-toggle="tooltip" data-bs-placement="top" title="Reset template settings" xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18"><path d="M451-122q-123-10-207-101t-84-216q0-77 35.5-145T295-695l43 43q-56 33-87 90.5T220-439q0 100 66 173t165 84v60Zm60 0v-60q100-12 165-84.5T741-439q0-109-75.5-184.5T481-699h-20l60 60-43 43-133-133 133-133 43 43-60 60h20q134 0 227 93.5T801-439q0 125-83.5 216T511-122Z"/></svg>
+
                 </div>
 
             </div>

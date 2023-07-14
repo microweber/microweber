@@ -15,11 +15,10 @@
     >
 
 
-
-
         <div class="modules-list modules-list-defaultModules">
             <div class="mw-le-layouts-dialog-row">
-                <div class="mw-le-layouts-dialog-col">
+
+                <div v-if="layoutsList.categories.length > 0" class="mw-le-layouts-dialog-col">
                     <div class="modules-list-search-block input-icon">
                           <span class="input-icon-addon ms-3">
 
@@ -39,8 +38,7 @@
 <!--                            All categories-->
 <!--                        </li>-->
 
-                        <li v-if="layoutsList.categories"
-                            v-for="categoryName in layoutsList.categories"
+                        <li v-for="categoryName in layoutsList.categories"
                             v-on:click="filterCategorySubmit(categoryName)">
 
                             <a class="mw-admin-action-links" :class="[categoryName == filterCategory ? 'active animate__animated animate__pulse': '']">
@@ -50,7 +48,8 @@
                         </li>
                     </ul>
                 </div>
-                <div class="mw-le-layouts-dialog-col">
+
+                <div :class="[layoutsList.categories.length > 0 ? 'mw-le-layouts-dialog-col' : 'mw-le-layouts-dialog-col-full col-xl-10 mx-auto px-xl-0 px-5']">
 
 <!--                    <div v-if="filterKeyword" class="pl-4 mb-3 mt-3">
                         Looking for {{filterKeyword}}
@@ -227,7 +226,7 @@ export default {
                 instance.layoutInsertLocation = 'top';
                 setTimeout(function() {
              instance.filterLayouts();
-                }, 300);
+                }, 500);
                 mw.app.registerChangedState(element);
             });
             mw.app.editor.on('insertLayoutRequestOnBottom',function(element){
@@ -235,7 +234,7 @@ export default {
                 instance.layoutInsertLocation = 'bottom';
                 setTimeout(function() {
                     instance.filterLayouts();
-                }, 300);
+                }, 500);
                 mw.app.registerChangedState(element);
             });
         });
@@ -246,7 +245,7 @@ export default {
                     instance.showModal = true;
                     setTimeout(function() {
                         instance.filterLayouts();
-                    }, 300);
+                    }, 500);
                 } else {
                     instance.showModal = false;
                 }
@@ -268,7 +267,7 @@ export default {
             ],
             filterKeyword: '',
             filterCategory: '',
-            layoutsListTypePreview: 'list',
+            layoutsListTypePreview: 'masonry',
             layoutsList: [],
             layoutsListFiltered: [],
             layoutsListLoaded: false,

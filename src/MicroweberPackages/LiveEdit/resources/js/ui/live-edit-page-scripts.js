@@ -199,13 +199,15 @@ mw.liveEditSaveService = {
 
     saveDisabled: false,
     draftDisabled: false,
-    save: async function(data, success, fail) {
+    save: function(data, success, fail) {
         mw.trigger('beforeSaveStart', data);
         // todo:
         if (mw.liveedit && mw.liveedit.cssEditor) {
             mw.liveedit.cssEditor.publishIfChanged();
         }
-        if (mw.liveEditSaveService.saveDisabled) return false;
+        if (mw.liveEditSaveService.saveDisabled) {
+            return false;
+        }
         if(!data){
             var body = mw.liveEditSaveService.parseContent().body,
                 edits = body.querySelectorAll('.edit.changed');
@@ -213,20 +215,24 @@ mw.liveEditSaveService = {
         }
 
         var animations = (mw.__pageAnimations || []).filter(function (item) {
-            return item.animation !== 'none'
-        })
+            return item.animation !== 'none';
+        });
 
-        var options = {
-            group: 'template',
-            key: 'animations-global',
-            value: JSON.stringify(animations)
-        };
+        if(animations && animations.length > 0) {
+            var options = {
+                group: 'template',
+                key: 'animations-global',
+                value: JSON.stringify(animations)
+            };
 
-        await new Promise(resolve =>  {
-            mw.options.saveOption(options, function(){
-                resolve()
-            });
-        })
+            mw.options.saveOption(options);
+            // await new Promise(resolve =>  {
+            //     mw.options.saveOption(options, function(){
+            //         resolve();
+            //     });
+            // });
+        }
+
 
 
 
@@ -347,7 +353,7 @@ mw.drag.fix_placeholders = function(isHard, selector) {
     selector = selector || '.edit .row';
 
     var more_selectors2 = 'div.col-md';
-    var a = mw.drag.external_grids_col_classes;
+    var a = mw.top().app.templateSettings.helperClasses.external_grids_col_classes;
     var index;
     for (index = a.length - 1; index >= 0; --index) {
         more_selectors2 += ',div.' + a[index];

@@ -20,9 +20,13 @@
     $(document).ready(function () {
         let element = document.getElementById('open-color-picker-{{$md5name}}');
         element.addEventListener('click', function () {
-            mw.app.colorPicker.selectColor('#{{$md5name}}', function(color) {
+
+            let colorPicker = mw.app.colorPicker;
+            colorPicker.setPositionToElement(element);
+            colorPicker.selectColor('#{{$md5name}}', function(color) {
                 element.style.backgroundColor = color;
             });
+
         });
     });
 </script>
