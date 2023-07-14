@@ -43,7 +43,7 @@ export class ColorPicker extends MicroweberBaseClass {
         }
 
         this.colorPickerInstances.push(colorPickerDialog);
-        
+
         mw.top().colorPicker({
             element: '#color-picker-' + randId,
             onchange: function (color) {
@@ -56,7 +56,7 @@ export class ColorPicker extends MicroweberBaseClass {
                 }
             }
         });
-
+        colorPickerDialog.center();
     }
 
     generateRandId(length) {
