@@ -43,12 +43,18 @@
             let colorPicker = mw.app.colorPicker;
 
             var position = getElementPositionInFrames(element);
-            console.log('Element position: x =', position.x, 'y =', position.y);
 
-            let newPositionX = position.x + 30;
-            let newPositionY = position.y - 30;
+            let newPositionX = position.x + 40;
+            let newPositionY = position.y;
+
+            if ((window.top.innerWidth - newPositionX) < 200) {
+                newPositionX = newPositionX - 230;
+            }
+            if ((window.top.innerHeight - newPositionY) < 400) {
+                newPositionY = newPositionY - 400 + (window.top.innerHeight - newPositionY);
+            }
+
             colorPicker.setPosition(newPositionX, newPositionY);
-
             colorPicker.selectColor('#{{$md5name}}', function(color) {
                 element.style.backgroundColor = color;
             });
