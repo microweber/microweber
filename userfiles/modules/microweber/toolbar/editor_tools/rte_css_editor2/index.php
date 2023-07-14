@@ -247,7 +247,7 @@ var reset = function(){
     }).fail(function(){
 
     });
-    mw.app.registerChange(ActiveNode)
+    mw.top().app.registerChange(ActiveNode)
 };
 
 
@@ -611,7 +611,7 @@ var sccontainertype = function (value){
         cnt.classList.remove('container');
         cnt.classList.remove('container-fluid');
         cnt.classList.add(value);
-        mw.app.registerChange(cnt);
+        mw.top().app.registerChange(cnt);
     }
 }
 var scColumns = function (property, value){
@@ -654,11 +654,11 @@ var specialCases = function (property, value){
         return true;
     } else if(OverlayNode && property === 'overlay-color') {
         OverlayNode.style.backgroundColor = value;
-        mw.app.registerChange(OverlayNode);
+        mw.top().app.registerChange(OverlayNode);
         return true;
     }  else if(OverlayNode && property === 'overlay-blend-mode') {
         OverlayNode.style.mixBlendMode = value;
-        mw.app.registerChange(OverlayNode);
+        mw.top().app.registerChange(OverlayNode);
         return true;
     }
 
@@ -739,11 +739,18 @@ var populateSpecials = function (css) {
 
 var output = function(property, value){
     var mwTarget = targetMw;
+
+
+
     if(!ActiveNode) {
           ActiveNode = mw.app.liveEdit.elementHandle.getTarget();
 
      //   ActiveNode = mwTarget.liveEditSelector.selected
     }
+
+    mw.log(ActiveNode);
+
+
     if(ActiveNode && ActiveNode.length) {
         ActiveNode = ActiveNode[0]
     }
@@ -756,7 +763,7 @@ var output = function(property, value){
 
             ActiveNode.setAttribute('staticdesign', true);
         }
-        mw.app.registerChange(ActiveNode);
+        mw.top().app.registerChange(ActiveNode);
 
     }
 
@@ -1095,7 +1102,7 @@ function selectNode(node) {
                         cls.push(this.title);
                     });
                     ActiveNode.setAttribute('class', cls.join(' '))
-                    mw.app.registerChange(ActiveNode);
+                    mw.top().app.registerChange(ActiveNode);
                 });
             }
             return window.classes;
@@ -1184,7 +1191,7 @@ function selectNode(node) {
                     } else {
                         output('color', '')
                     }
-                    mw.app.registerChange($node[0]);
+                    mw.top().app.registerChange($node[0]);
                 }
             </script>
             <div class="s-field-content">
@@ -1935,7 +1942,7 @@ function selectNode(node) {
                                 if(curr) {
                                     curr.when = this.value;
                                 }
-                                mw.app.registerChange(ActiveNode)
+                                mw.top().app.registerChange(ActiveNode)
                             });
 
                             $('.mw-range', speed.get(0)).slider('value', parseFloat(anim.speed))
@@ -1955,7 +1962,7 @@ function selectNode(node) {
                                 if(curr) {
                                     curr.animation = this.value;
                                 }
-                                mw.app.registerChange(ActiveNode)
+                                mw.top().app.registerChange(ActiveNode)
 
                             });
 
@@ -1970,7 +1977,7 @@ function selectNode(node) {
                                 if (curr) {
                                     curr.speed = val;
                                 }
-                                mw.app.registerChange(ActiveNode)
+                                mw.top().app.registerChange(ActiveNode)
                             });
 
                             mw.element('select', when).get(0).disabled = anim.animation === 'none';
