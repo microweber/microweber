@@ -635,14 +635,6 @@
                 position = this.getElementPositionOnScreen(element);
             }
 
-            let calcNewPosition = this.positionDialogWithoutOverlap(this.dialogHolder, element);
-
-            this.options.position = {
-                x: calcNewPosition.dialogLeft,
-                y: calcNewPosition.dialogTop
-            };
-            this.position(calcNewPosition.dialogLeft, calcNewPosition.dialogTop);
-
             this.iframe.addEventListener('load', () => {
                 setTimeout(() => {
                     //console.log(this.dialogHolder.offsetWidth);
@@ -655,7 +647,7 @@
                     };
                     this.position(calcNewPosition.dialogLeft, calcNewPosition.dialogTop);
 
-                }, 400);
+                }, 100);
             });
 
             // let newPositionX = position.x + 40;
@@ -705,31 +697,21 @@
             var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
             var screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
-            // Calculate the available space on each side of the target element
-            var spaceLeft = targetLeft;
             var spaceRight = screenWidth - targetLeft - targetWidth;
-            var spaceAbove = targetTop;
             var spaceBelow = screenHeight - targetTop - targetHeight;
 
             var dialogLeft, dialogTop;
 
-            // Position the dialog on the side with the most available space
             if (spaceRight >= dialogWidth) {
                 dialogLeft = targetLeft + targetWidth;
                 dialogTop = Math.max(targetTop + (targetHeight - dialogHeight) / 2, 0);
-            } else if (spaceLeft >= dialogWidth) {
-                dialogLeft = targetLeft - dialogWidth;
-                dialogTop = Math.max(targetTop + (targetHeight - dialogHeight) / 2, 0);
             } else if (spaceBelow >= dialogHeight) {
-                dialogLeft = Math.max(targetLeft + (targetWidth - dialogWidth) / 2, 0);
+                dialogLeft = targetLeft + (targetWidth - dialogWidth) / 2;
                 dialogTop = targetTop + targetHeight;
-            } else if (spaceAbove >= dialogHeight) {
-                dialogLeft = Math.max(targetLeft + (targetWidth - dialogWidth) / 2, 0);
-                dialogTop = targetTop - dialogHeight;
             } else {
-                // Fallback position if no side has enough space (e.g., center of the screen)
-                dialogLeft = (screenWidth - dialogWidth) / 2;
-                dialogTop = (screenHeight - dialogHeight) / 2;
+                // Fallback position if there is not enough space on the right or below
+                dialogLeft = targetLeft + targetWidth;
+                dialogTop = Math.max(targetTop + (targetHeight - dialogHeight) / 2, 0);
             }
 
             return {
