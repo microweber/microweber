@@ -171,7 +171,7 @@ export class LiveEdit {
             handle: 'self',
             setDraggableTarget: function(target) {
                 if (target.nodeType === 1) {
- 
+
                     return DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentElement, ['edit', 'module'])
                 }
                 return false;
@@ -230,7 +230,7 @@ export class LiveEdit {
             type: 'layout'
         });
 
- 
+
 
         var layoutHandle = this.layoutHandle;
 
@@ -310,14 +310,14 @@ export class LiveEdit {
             }
 
 
-            if(target && target.parentNode.getAttribute('rel') === 'module') {
+            if (target && target.parentNode && target.parentNode.getAttribute('rel') === 'module') {
                 target = DomService.firstParentOrCurrentWithAnyOfClasses(target.parentNode, ['element', 'module', 'cloneable', 'layout', 'edit']);
-                if(!target) {
+                if (!target) {
                     return target;
                 }
             }
-    
-    
+
+
             if(target.parentNode.classList.contains('module-layouts')) {
                 target = target.parentNode
             }
@@ -328,13 +328,13 @@ export class LiveEdit {
 
         const _eventsHandle = (e) => {
 
-             
+
             var target = e.target ? e.target : e;
 
             if(target && target.className && typeof target.className === 'string' && target.className.indexOf('layout-plus') !== -1) {
                 return;
             }
-            
+
 
             if(this.handles.targetIsOrInsideHandle(target, this.handles.get('layout'))) {
                 // this.handles.get('element').set(null)
@@ -357,8 +357,8 @@ export class LiveEdit {
 
 
 
-          
-         
+
+
 
             if(first.nodeName !== 'IMG') {
                 first = DomService.firstBlockLevel(elements[0]);
@@ -383,11 +383,11 @@ export class LiveEdit {
                     if(parentLayout) {
                         this.handles.set('layout', parentLayout);
                     }
-                    
+
                 }
 
                 if(type/* && type !== 'edit'*/) {
-                    
+
                     if(type === 'element') {
                         this.handles.hide('module');
                         this.handles.set(type, first)
@@ -515,14 +515,14 @@ export class LiveEdit {
             })
             ElementManager(this.root).on(events, (e) => {
                 _dblclicktarget = e.target;
-                 
+
                 if ( !this.paused  ) {
                     _eventsHandle(e)
                 } else {
                     var elementTarget = this.elementHandle.getTarget();
                     if(elementTarget && !elementTarget.contains(e.target)) {
                         this.play();
-                       
+
                     }
                     // mw.app.get('liveEdit').play();
                 }

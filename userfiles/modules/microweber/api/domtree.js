@@ -6,10 +6,10 @@ mw.DomTree = function (options) {
         if (mw.tools.hasClass(node, 'row')) {
             title = "Row";
             icon = '<span class="mdi mdi-table-row mdi-18px"></span>';
-        } else if (
-            (mw.top().mw.app.templateSettings && mw.tools.hasAnyOfClasses(node, mw.top().mw.app.templateSettings.helperClasses.external_grids_col_classes)) ||
-            (node.ownerDocument.defaultView.mw.drag && mw.tools.hasAnyOfClasses(node, node.ownerDocument.defaultView.mw.drag.external_grids_col_classes))
-        ) {
+        }  else if (node.ownerDocument.defaultView.mw
+            && mw.drag
+            && mw.drag.external_grids_col_classes
+            && mw.tools.hasAnyOfClasses(node, node.ownerDocument.defaultView.mw.drag.external_grids_col_classes)) {
             title = "Column";
             icon = '<span class="mdi mdi-table-column mdi-18px"></span>';
         } else if (node.nodeName === 'H1') {
