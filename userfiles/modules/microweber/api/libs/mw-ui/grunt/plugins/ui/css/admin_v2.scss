@@ -30,6 +30,7 @@ html[dir="rtl"] {
     //--tblr-body-bg: white;
         --tblr-body-font-family: 'Inter';
         --tblr-body-bg2: #f0f0f0;
+        --mw-forms-min-height: 45px;
 
 
     body:not(.theme-dark) {
@@ -706,7 +707,7 @@ small.text-muted {
 
 .form-control {
     padding: .65rem .9rem;
-    min-height: 45px;
+    min-height: var(--mw-forms-min-height);
 }
 
 
@@ -720,7 +721,7 @@ small.text-muted {
 
 .form-select-lg {
     padding: 0.65rem 2.25rem 0.65rem 0.75rem;
-    min-height: 45px;
+    min-height: var(--mw-forms-min-height);
     border-radius: 4px;
 }
 
@@ -731,7 +732,7 @@ small.text-muted {
 
 .btn:not(.btn-sm, .live-edit-toolbar-buttons) {
     padding: 0.65rem 1.25rem;
-    min-height: 45px;
+    min-height: var(--mw-forms-min-height);
 }
 
 
@@ -2109,7 +2110,7 @@ svg.text-danger {
     cursor: inherit;
     display: block;
     line-height: 22px;
-    min-height: 45px;
+    min-height: var(--mw-forms-min-height);
     outline: none;
     padding: 0 11px;
     position: relative;
@@ -2123,7 +2124,7 @@ svg.text-danger {
         padding: 0;
         text-align: left;
         caret-color: var(--tblr-body-color);
-        min-height: 44px;
+        min-height: var(--mw-forms-min-height);
         width: 100%;
         outline: none;
 
