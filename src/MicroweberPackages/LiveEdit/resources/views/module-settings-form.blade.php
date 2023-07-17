@@ -24,8 +24,12 @@
                 @if($formItem['type'] == 'color')
                     <div class="d-flex justify-content-between mt-4">
                         <div>
+                            @if(isset($formItem['label']))
                             <div><b>{{$formItem['label']}}</b></div>
+                            @endif
+                            @if(isset($formItem['help']))
                             <span class="text-muted">{{$formItem['help']}}</span>
+                            @endif
                         </div>
                         <div>
                             @include('microweber-live-edit::render-input-form-element')
@@ -34,8 +38,12 @@
                 @else
                     <div class="mt-4">
                         <div>
+                            @if(isset($formItem['label']))
                             <div><b>{{$formItem['label']}}</b></div>
+                            @endif
+                            @if(isset($formItem['help']))
                             <span class="text-muted">{{$formItem['help']}}</span>
+                            @endif
                         </div>
                         <div>
                             @include('microweber-live-edit::render-input-form-element')

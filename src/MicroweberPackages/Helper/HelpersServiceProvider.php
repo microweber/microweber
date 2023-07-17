@@ -43,9 +43,12 @@ class HelpersServiceProvider extends ServiceProvider
 
 
         if (is_cli()) {
-            Route::get('uri_test_details', function () {
-                return app()->url_manager->current();
-            })->name('uri_test_details');
+            if (app()->runningUnitTests()) {
+                Route::get('uri_test_details', function () {
+                    return app()->url_manager->current();
+                })->name('uri_test_details');
+            }
+
         }
     }
 

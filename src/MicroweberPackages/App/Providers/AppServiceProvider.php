@@ -240,6 +240,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
+        $this->app->register(HelpersServiceProvider::class);
 
         $this->app->register(ViewServiceProvider::class);
         $this->app->register(MicroweberUIServiceProvider::class);
@@ -275,7 +276,6 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register(EventManagerServiceProvider::class);
-        $this->app->register(HelpersServiceProvider::class);
         $this->app->register(PageServiceProvider::class);
         $this->app->register(ContentServiceProvider::class);
         $this->app->register(ContentManagerServiceProvider::class);
