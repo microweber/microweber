@@ -7,14 +7,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 ?>
 
-<?php if (isset($params['backend'])): ?>
-    <module type="admin/modules/info"/>
-<?php endif; ?>
 
 <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
-    <div class="card-header">
-        <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
-    </div>
 
     <div class=" ">
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">

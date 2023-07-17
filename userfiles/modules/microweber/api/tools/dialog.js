@@ -628,6 +628,20 @@
         this.positionToElement = function(targetElementSelector) {
             var element = $(targetElementSelector)[0];
 
+            if (this.iframe) {
+                this.iframe.addEventListener('load', () => {
+                    setTimeout(() => {
+                        this.calculateDialogPositionXY(element);
+                    }, 100);
+                });
+            } else {
+                this.calculateDialogPositionXY(element);
+            }
+
+        }
+
+        this.calculateDialogPositionXY = function (element) {
+
             var position = {};
             if (self !== top) {
                 position = this.getElementPositionInFrames(element);
@@ -635,38 +649,51 @@
                 position = this.getElementPositionOnScreen(element);
             }
 
-            this.iframe.addEventListener('load', () => {
-                setTimeout(() => {
+            let newPositionX = position.x;
+            let newPositionY = position.y;
 
-                    let newPositionX = position.x + 40;
-                    let newPositionY = position.y;
+            console.log('oldPositionX', newPositionX);
+            console.log('oldPositionY', newPositionY);
 
-                    console.log('oldPositionX', newPositionX);
-                    console.log('oldPositionY', newPositionY);
+            let elementBounding = element.getBoundingClientRect();
+            let dialogBounding = this.dialogMain.getBoundingClientRect();
 
-                    if ((window.top.innerWidth - newPositionX) < (this.dialogMain.innerWidth - 50)) {
-                        newPositionX = newPositionX - this.dialogMain.innerWidth - (window.top.innerWidth - newPositionX);
-                    }
+            let repositionDialog = this.positionDialogWithoutOverlap(this.dialogMain, element);
+            if (repositionDialog) {
+                newPositionX = repositionDialog.x;
+                newPositionY = repositionDialog.y;
+            }
 
-                    if ((window.top.innerHeight - newPositionY) < (this.dialogMain.innerHeight - 50)) {
-                        newPositionY = newPositionY - this.dialogMain.innerHeight + (window.top.innerHeight - newPositionY);
-                    }
 
-                    console.log('innerWidth', this.dialogMain.innerWidth);
-                    console.log('innerHeight', this.dialogMain.innerHeight);
+            // newPositionX = (newPositionX + elementBounding.width) - 50;
 
-                    console.log('newPositionX', newPositionX);
-                    console.log('newPositionY', newPositionY);
+            // if ((window.top.innerWidth - newPositionX) < (dialogBounding.width - 50)) {
+            //     newPositionX = newPositionX - dialogBounding.width - (window.top.innerWidth - newPositionX);
+            // }
+            //
+            // if ((window.top.innerHeight - newPositionY) < (dialogBounding.height - 50)) {
+            //     newPositionY = newPositionY - dialogBounding.height + (window.top.innerHeight - newPositionY);
+            // }
 
-                    this.options.position = {
-                        x: newPositionX,
-                        y: newPositionY
-                    };
-                    this.position(newPositionX, newPositionY);
+            if (newPositionX < 0) {
+                newPositionX = 0;
+            }
 
-                }, 100);
-            });
+            if (newPositionY < 0) {
+                newPositionY = 0;
+            }
 
+            console.log('innerWidth', elementBounding.width);
+            console.log('innerHeight', elementBounding.height);
+
+            console.log('newPositionX', newPositionX);
+            console.log('newPositionY', newPositionY);
+
+            this.options.position = {
+                x: newPositionX,
+                y: newPositionY
+            };
+            this.position(newPositionX, newPositionY);
         }
 
         this.positionDialogWithoutOverlap = function (dialogElement, targetElement) {
@@ -714,8 +741,8 @@
             }
 
             return {
-                dialogLeft: dialogLeft,
-                dialogTop: dialogTop
+                x: dialogLeft,
+                y: dialogTop
             }
         }
 

@@ -49,7 +49,7 @@ mw.moduleSettings = function(options){
     this.createItemHolderHeader = function(i){
         if(this.options.header){
             var header = document.createElement('div');
-            header.className = "card-header";
+            header.className = "card-header shadow-sm mb-2 py-3 ";
             var render = this.options.header
                 .replace(/{count}/g, '<span class="mw-module-settings-box-index">'+(i+1)+'</span>');
 
@@ -69,7 +69,7 @@ mw.moduleSettings = function(options){
 
             }
             mw.$(header).on('click', function(){
-                mw.$(this).next().slideToggle();
+                mw.$(this).next().toggle("slide", { direction: "right" }, 100);
             });
             return header;
 
@@ -92,8 +92,8 @@ mw.moduleSettings = function(options){
         i = i || 0;
         var holder = document.createElement('div');
         var holderin = document.createElement('div');
-        holder.className = 'card mw-module-settings-box';
-        holderin.className = 'card-body mw-module-settings-box-content';
+        holder.className = 'mw-module-settings-box';
+        holderin.className = 'card-body px-1 mw-module-settings-box-content';
         holderin.style.display = 'none';
         holder.appendChild(holderin);
         if(!this.options.element.children) {

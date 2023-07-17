@@ -28,6 +28,23 @@ export default {
     },
     data() {
 
+    },
+    mounted() {
+        //save on ctrl + s
+
+        var saveButtonInstance = this;
+        mw.app.canvas.on('liveEditCanvasLoaded', () => {
+            mw.app.editor.on('Ctrl+S', function (event) {
+                event.preventDefault();
+                saveButtonInstance.save();
+            });
+        });
+        document.addEventListener('keydown', function (event) {
+            if (event.ctrlKey && event.key === 's') {
+                event.preventDefault();
+                saveButtonInstance.save();
+            }
+        });
     }
 }
 </script>

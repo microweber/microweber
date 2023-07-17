@@ -21,6 +21,12 @@ use MicroweberPackages\Admin\Facades\AdminManager;
 use MicroweberPackages\Marketplace\Http\Livewire\Admin\Marketplace;
 use MicroweberPackages\Module\Http\Livewire\Admin\AskForModuleUninstallModal;
 use MicroweberPackages\Module\Http\Livewire\Admin\ListModules;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\AligmentOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\DropdownOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\IconPickerOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\LinkPickerOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\RangeSliderOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextareaOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextOption;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 
@@ -74,9 +80,15 @@ class ModuleServiceProvider extends ServiceProvider
             return $this->app->repository_manager->driver(\MicroweberPackages\Module\Models\Module::class);;
         });
 
-
         Livewire::component('microweber-module-option::text', TextOption::class);
-
+        Livewire::component('microweber-module-option::textarea', TextareaOption::class);
+        Livewire::component('microweber-module-option::icon-picker', IconPickerOption::class);
+        Livewire::component('microweber-module-option::link-picker', LinkPickerOption::class);
+        Livewire::component('microweber-module-option::alignment', AligmentOption::class);
+        Livewire::component('microweber-module-option::range-slider', RangeSliderOption::class);
+        Livewire::component('microweber-module-option::dropdown', DropdownOption::class);
+        Livewire::component('microweber-module-option::radio', DropdownOption::class);
+        Livewire::component('microweber-module-option::checkbox', DropdownOption::class);
 
     }
 
