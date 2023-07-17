@@ -658,7 +658,14 @@
             let elementBounding = element.getBoundingClientRect();
             let dialogBounding = this.dialogMain.getBoundingClientRect();
 
-            newPositionX = (newPositionX + elementBounding.width) - 50;
+            let repositionDialog = this.positionDialogWithoutOverlap(this.dialogMain, element);
+            if (repositionDialog) {
+                newPositionX = repositionDialog.x;
+                newPositionY = repositionDialog.y;
+            }
+
+
+            // newPositionX = (newPositionX + elementBounding.width) - 50;
 
             // if ((window.top.innerWidth - newPositionX) < (dialogBounding.width - 50)) {
             //     newPositionX = newPositionX - dialogBounding.width - (window.top.innerWidth - newPositionX);
@@ -734,8 +741,8 @@
             }
 
             return {
-                dialogLeft: dialogLeft,
-                dialogTop: dialogTop
+                x: dialogLeft,
+                y: dialogTop
             }
         }
 
