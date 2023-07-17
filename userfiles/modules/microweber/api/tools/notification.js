@@ -2,7 +2,7 @@
 
 ;(function(){
 
-var defaultTimeout = 2000;
+var defaultTimeout = 5000;
 
 var targetWindow = window.top;
 var targetDocument = window.top.document;
@@ -106,7 +106,7 @@ mw.notification = {
         }
 
         var tpl = `
-        
+
         <div class="position-fixed bottom-0 end-0 p-3 mw-tblr-notification">
             <div class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
@@ -117,12 +117,12 @@ mw.notification = {
                 </div>
             </div>
         </div>
-        
+
         `;
         var last = $('.mw-tblr-notification', targetDocument).last();
         if(last.length) {
             var btm = parseFloat(last.css('bottom'));
-             
+
             if(isNaN(btm)) {
                 btm = 0;
             }
@@ -131,12 +131,12 @@ mw.notification = {
 
         tpl = $(tpl, targetDocument).appendTo(targetDocument.body);
         tpl.css('bottom', btm);
-        
+
         var toast = new window.top.bootstrap.Toast(tpl.children().get(0), {
             delay: timeout
         });
         toast.show();
-        
+
     },
     success: function (text, timeout, name) {
         if ( typeof text === 'object' ) {
@@ -154,7 +154,7 @@ mw.notification = {
             text = text.text;
         }
         timeout = timeout || defaultTimeout;
-        mw.notification.append('error', text, timeout, name);
+        mw.notification.append('danger', text, timeout, name);
     },
     warning: function (text, timeout, name) {
         if ( typeof text === 'object' ) {
