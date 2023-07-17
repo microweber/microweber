@@ -21,6 +21,7 @@ use MicroweberPackages\Admin\Facades\AdminManager;
 use MicroweberPackages\Marketplace\Http\Livewire\Admin\Marketplace;
 use MicroweberPackages\Module\Http\Livewire\Admin\AskForModuleUninstallModal;
 use MicroweberPackages\Module\Http\Livewire\Admin\ListModules;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\LinkPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextOption;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 
@@ -74,9 +75,8 @@ class ModuleServiceProvider extends ServiceProvider
             return $this->app->repository_manager->driver(\MicroweberPackages\Module\Models\Module::class);;
         });
 
-
         Livewire::component('microweber-module-option::text', TextOption::class);
-
+        Livewire::component('microweber-module-option::link-picker', LinkPickerOption::class);
 
     }
 
