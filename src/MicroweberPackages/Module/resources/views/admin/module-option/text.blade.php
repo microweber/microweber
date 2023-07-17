@@ -1,4 +1,3 @@
 <div>
-    NIKI-text input
-    <input type="text" class="form-control" wire:model.debounce.100ms="state.settings.{{ $this->optionName }}"/>
+    <input type="text" class="form-control form-control-live-edit" wire:model.debounce.100ms="state.settings.{{ $this->optionName }}"/>
 </div>
