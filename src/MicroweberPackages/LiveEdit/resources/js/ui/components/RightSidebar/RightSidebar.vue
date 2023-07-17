@@ -96,9 +96,11 @@ export default {
             }
         });
         var firstTabEl = document.querySelector('#rightSidebarTabStyleEditorNav li:first-child button')
-        var firstTab = new bootstrap.Tab(firstTabEl)
+        if(firstTabEl !== null){
+            var firstTab = new bootstrap.Tab(firstTabEl)
+            firstTab.show()
+        }
 
-        firstTab.show()
         // Close on Escape
         document.addEventListener('keyup', function (evt) {
             if (evt.keyCode === 27) {
