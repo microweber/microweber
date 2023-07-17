@@ -2161,6 +2161,13 @@ svg.text-danger {
             width: 0;
         }
     }
+
+    .form-control-live-edit-settings-btn {
+        position: absolute;
+        top: 10px;
+        right: 16px;
+        cursor: pointer;
+    }
 }
 
 
