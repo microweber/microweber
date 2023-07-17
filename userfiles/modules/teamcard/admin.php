@@ -11,22 +11,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-
-<style>
-    #teamcard-settings .mw-module-settings-box .mw-ui-box-header{
-        border: none;
-        border-radius: 0;
-        cursor: pointer;
-    }
-    #teamcard-settings .mw-module-settings-box{
-        box-shadow: none !important;
-        border: none;
-        border-top: 1px solid #ccc;
-        border-radius: 0;
-        margin: 0 -20px;
-    }
-</style>
-
 <script>
     mw.require('prop_editor.js');
     mw.require('module_settings.js');
@@ -54,11 +38,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 ?>
 
-
    addEventListener('load', function (){
        var settings = new mw.moduleSettings({
            element: '#teamcard-settings',
-           header: '<i class="mw-icon-drag"></i><span data-bind="name"></span> <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>',
+           header: '<span class="cursor-move-holder">   <span href="javascript:;" class="btn btn-link text-blue-lt"> <svg class="mdi-cursor-move ui-sortable-handle" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M360 896q-33 0-56.5-23.5T280 816q0-33 23.5-56.5T360 736q33 0 56.5 23.5T440 816q0 33-23.5 56.5T360 896Zm240 0q-33 0-56.5-23.5T520 816q0-33 23.5-56.5T600 736q33 0 56.5 23.5T680 816q0 33-23.5 56.5T600 896ZM360 656q-33 0-56.5-23.5T280 576q0-33 23.5-56.5T360 496q33 0 56.5 23.5T440 576q0 33-23.5 56.5T360 656Zm240 0q-33 0-56.5-23.5T520 576q0-33 23.5-56.5T600 496q33 0 56.5 23.5T680 576q0 33-23.5 56.5T600 656ZM360 416q-33 0-56.5-23.5T280 336q0-33 23.5-56.5T360 256q33 0 56.5 23.5T440 336q0 33-23.5 56.5T360 416Zm240 0q-33 0-56.5-23.5T520 336q0-33 23.5-56.5T600 256q33 0 56.5 23.5T680 336q0 33-23.5 56.5T600 416Z"></path></svg> </span></span><span data-bind="name"></span> <a class="ms-auto" data-action="remove"><svg class="me-1 text-danger cursor-pointer" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"></path></svg></a>',
            data: data,
            key: 'settings',
            group: '<?php print $params['id']; ?>',

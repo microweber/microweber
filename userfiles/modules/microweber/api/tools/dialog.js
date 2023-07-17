@@ -638,22 +638,32 @@
             this.iframe.addEventListener('load', () => {
                 setTimeout(() => {
 
-                    let newPositionX = position.x + 40;
+                    let newPositionX = position.x;
                     let newPositionY = position.y;
 
                     console.log('oldPositionX', newPositionX);
                     console.log('oldPositionY', newPositionY);
 
-                    if ((window.top.innerWidth - newPositionX) < (this.dialogMain.innerWidth - 50)) {
-                        newPositionX = newPositionX - this.dialogMain.innerWidth - (window.top.innerWidth - newPositionX);
+                    let dialogBounding = this.dialogMain.getBoundingClientRect();
+
+                    if ((window.top.innerWidth - newPositionX) < (dialogBounding.width - 50)) {
+                        newPositionX = newPositionX - dialogBounding.width - (window.top.innerWidth - newPositionX);
                     }
 
-                    if ((window.top.innerHeight - newPositionY) < (this.dialogMain.innerHeight - 50)) {
-                        newPositionY = newPositionY - this.dialogMain.innerHeight + (window.top.innerHeight - newPositionY);
+                    if ((window.top.innerHeight - newPositionY) < (dialogBounding.height - 50)) {
+                        newPositionY = newPositionY - dialogBounding.height + (window.top.innerHeight - newPositionY);
                     }
 
-                    console.log('innerWidth', this.dialogMain.innerWidth);
-                    console.log('innerHeight', this.dialogMain.innerHeight);
+                    if (newPositionX < 0) {
+                        newPositionX = 0;
+                    }
+
+                    if (newPositionY < 0) {
+                        newPositionY = 0;
+                    }
+
+                    console.log('innerWidth', dialogBounding.width);
+                    console.log('innerHeight', dialogBounding.height);
 
                     console.log('newPositionX', newPositionX);
                     console.log('newPositionY', newPositionY);
