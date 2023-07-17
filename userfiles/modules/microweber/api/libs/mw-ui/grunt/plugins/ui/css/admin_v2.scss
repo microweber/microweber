@@ -2114,7 +2114,7 @@ svg.text-danger {
     padding: 0 11px;
     position: relative;
 
-    .form-control-live-edit-input {
+    .form-control-live-edit-input, .form-control-live-edit-input.form-select {
         background-color: transparent;
         border: none;
         flex: 1 1 0%;
@@ -2126,6 +2126,11 @@ svg.text-danger {
         min-height: 44px;
         width: 100%;
         outline: none;
+
+         &:focus, &:focus-visible {
+            outline: none;
+         }
+
 
         &:focus-visible {
             +.form-control-live-edit-bottom-effect {

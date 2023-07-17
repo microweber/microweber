@@ -1,5 +1,6 @@
-<div>
-    <select class="form-select" wire:model.debounce.100ms="state.settings.{{ $this->optionName }}">
+<label class="form-control-live-edit-label-wrapper">
+
+<select class="form-select form-control-live-edit-input" wire:model.debounce.100ms="state.settings.{{ $this->optionName }}">
         <option value="" disabled="disabled">Select option</option>
         @if(!empty($dropdownOptions))
             @foreach($dropdownOptions as $key => $option)
@@ -7,4 +8,9 @@
             @endforeach
         @endif
     </select>
-</div>
+
+    <span class="form-control-live-edit-bottom-effect"></span>
+
+</label>
+
+
