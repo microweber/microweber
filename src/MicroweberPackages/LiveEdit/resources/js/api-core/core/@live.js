@@ -190,6 +190,13 @@ export class LiveEdit {
             });
         };
 
+        this.getLayoutQuickSettings = type => {
+            return new Promise(resolve => {
+                resolve(mw.layoutQuickSettings[type]);
+                this.dispatch('layoutQuickSettings', {module: type});
+            });
+        };
+
 
         moduleHandle.on('targetChange', function (node) {
 
@@ -240,11 +247,31 @@ export class LiveEdit {
         })
 
         var title = scope.lang('Layout');
-        layoutHandleContent.menu.setTitle(title)
+        layoutHandleContent.staticMenu.setTitle(title)
         layoutHandle.on('targetChange', function (target) {
+            scope.getLayoutQuickSettings(target.dataset.type).then(function (settings) {
 
-            layoutHandleContent.menu.setTarget(target);
-            layoutHandleContent.menu.setTitle(title);
+
+
+
+                layoutHandle.menu.root.remove();
+
+
+                layoutHandle.menu = new HandleMenu({
+                    id: 'mw-handle-item-element-menu',
+                    title: node.dataset.type,
+                    rootScope: scope,
+                    buttons: settings ? settings.mainMenu || [] : [],
+                    data: {target: node}
+                });
+ 
+
+
+            });
+
+
+            layoutHandleContent.staticMenu.setTarget(target);
+            layoutHandleContent.staticMenu.setTitle(title);
             if (scope.elementAnalyzer.isEditOrInEdit(target)) {
                 layoutHandleContent.plusTop.show()
                 layoutHandleContent.plusBottom.show()
@@ -444,6 +471,8 @@ export class LiveEdit {
                 return
             }
             const elements = this.observe.fromEvent(e);
+
+            
 
             let target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'edit']);
             const layout = DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);

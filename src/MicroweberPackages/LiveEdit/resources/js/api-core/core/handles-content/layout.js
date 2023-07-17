@@ -111,7 +111,7 @@ export const LayoutHandleContent = function (rootScope) {
     const _e = {};
     this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
     this.dispatch = (e, f) => { _e[e] ? _e[e].forEach( (c) => { c.call(this, f); }) : ''; };
-    this.menu = new HandleMenu({
+    var staticMenu = new HandleMenu({
         id: 'mw-handle-item-layout-menu',
         title: rootScope.lang('Layout'),
         rootScope: rootScope,
@@ -299,9 +299,36 @@ export const LayoutHandleContent = function (rootScope) {
         this.root.append(this.plusTop)
         this.root.append(this.plusBottom)
     }
-    this.menu.show()
+    this.staticMenu = staticMenu;
+    this.staticMenu.show()
     this.addButtons()
-    this.root.append(this.menu.root)
+   
+
+
+    this.menusHolder = document.createElement('div');
+    this.menusHolder.className = 'mw-handle-item-menus-holder';
+
+
+    this.menusHolder.append(this.staticMenu.root.get(0))
+
+
+
+    this.menu = new HandleMenu({
+        id: 'mw-handle-item-element-menu',
+        title: 'Module',
+        rootScope: rootScope,
+        buttons: [
+
+        ],
+    });
+
+    this.menu.show();
+
+
+    this.root.append(this.menu.root);
+
+
+    this.root.append(this.menusHolder)
 
 }
 

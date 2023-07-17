@@ -44,6 +44,7 @@
 
 <script>
     mw.quickSettings = {};
+    mw.layoutQuickSettings = {};
 
 
 
