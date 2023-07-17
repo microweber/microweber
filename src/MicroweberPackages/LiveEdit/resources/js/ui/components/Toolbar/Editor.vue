@@ -258,6 +258,8 @@ export default {
                     element = targetChange;
                     mw.app.get('liveEdit').handles.get('element').set(element);
                   }
+
+
                   element.contentEditable = true;
                   element.focus();
 
