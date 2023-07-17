@@ -13,7 +13,7 @@ class MwModuleSettings extends TextArea
     }
     public function render()
     {
-        $mwModuleSettingsId = str_random(9);
+        $mwModuleSettingsId =  \Illuminate\Support\Str::random(9);
         if(!$this->model){
             $data = '';
         } else {
