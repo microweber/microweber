@@ -369,4 +369,10 @@ mw.drag.fix_placeholders = function(isHard, selector) {
         });
     });
 
-}
+};
+
+mw.drag.module_settings =  function() {
+    var target = mw.top().app.liveEdit.moduleHandle.getTarget();
+    return  mw.top().app.editor.dispatch('onModuleSettingsRequest', target);
+};
+

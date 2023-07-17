@@ -50,7 +50,12 @@ mw.app.editor.on('editNodeRequest',function(element){ });
   
 ```
 
+### Module Handle Target
 
+```js
+
+var target = mw.top().app.liveEdit.moduleHandle.getTarget();
+```
 
 ### Module Handle Events
 
