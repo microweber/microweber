@@ -69,7 +69,7 @@ mw.moduleSettings = function(options){
 
             }
             mw.$(header).on('click', function(){
-                mw.$(this).next().slideToggle();
+                mw.$(this).next().toggle("slide", { direction: "right" }, 100);
             });
             return header;
 

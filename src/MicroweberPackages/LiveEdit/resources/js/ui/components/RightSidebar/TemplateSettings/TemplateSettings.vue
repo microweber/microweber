@@ -14,11 +14,11 @@
             <div class="mt-3" style="display:block" :id="'settings-group-' + stringToId(settingGroupKey)">
                 <div class="" :id="'accordionFlush' + stringToId(settingGroupKey)">
 
-                    <div v-for="(settingGroupInside,settingGroupInsideName) in settings.values" class="mb-2">
+                    <div v-for="(settingGroupInside,settingGroupInsideName) in settings.values" class="mb-2 ps-2">
 
                         <label
                             :id="'flush-heading-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)">
-                            <a class="mw-admin-action-links mw-adm-liveedit-tabs collapsed" type="button" data-bs-toggle="collapse"
+                            <a class="mw-admin-action-links mw-action-links-with-accordion mw-adm-liveedit-tabs collapsed" type="button" data-bs-toggle="collapse"
                                     :data-bs-target="'#flush-collapse-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)"
                                     aria-expanded="false"
                                     :aria-controls="'flush-collapse-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)">
@@ -32,7 +32,7 @@
                             :aria-labelledby="'flush-heading-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)"
                             :data-bs-parent="'#accordionFlush' + stringToId(settingGroupKey)">
 
-                            <div class="accordion-body">
+                            <div class="accordion-body ps-2">
                                 <div v-for="(setting,settingKey) in settingGroupInside" class="mt-2">
 
                                     <div v-if="setting.type === 'text'">

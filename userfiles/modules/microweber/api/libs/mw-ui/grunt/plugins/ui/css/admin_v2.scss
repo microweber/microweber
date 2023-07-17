@@ -1096,7 +1096,7 @@ small.text-muted {
     color: var(--tblr-body-color);
 }
 
-.mw-ui-box-header, .mw-ui-box {
+.mw-ui-box-header, .mw-ui-box:not(.mw-accordion-content, .mw-module-settings-box) {
     background-color: var(--tblr-bg-surface-secondary);
 }
 
@@ -1516,7 +1516,7 @@ svg.text-danger {
         transition: .5s;
     }
 
-    &:hover, &:active, &:focus, &.active {
+    &:hover, &:active, &:focus, &.active, &.mw-action-links-with-accordion:not(.collapsed) {
         &:after {
             width: 100%;
             opacity: 1;
