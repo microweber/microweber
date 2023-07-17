@@ -253,9 +253,9 @@ export default {
                   }
 
                 } else {
-                  var target = DomService.firstParentOrCurrentWithClass(element, 'edit');
-                  if(!target.classList.contains('safe-mode')){
-                    element = target;
+                  var targetChange = DomService.firstParentOrCurrentWithClass(element, 'edit');
+                  if(targetChange && targetChange.classList && !targetChange.classList.contains('safe-mode')){
+                    element = targetChange;
                     mw.app.get('liveEdit').handles.get('element').set(element);
                   }
                   element.contentEditable = true;

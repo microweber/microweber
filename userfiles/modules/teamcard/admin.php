@@ -109,39 +109,30 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class=" ">
 
-        <div class="mw-modules-tabs">
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#listofmembers"> <?php _e('List of Members'); ?></a>
+            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
+        </nav>
 
-                      <span class="mw-admin-action-links mw-adm-liveedit-tabs">
-                           <?php _e('List of Members'); ?>
-                      </span>
 
-                </div>
-                <div class="mw-accordion-content card mw-ui-box-content">
-                    <div class="module-live-edit-settings module-teamcard-settings">
-                        <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
-                        <div class="mw-ui-field-holder add-new-button text-end">
+        <div class="tab-content py-3">
+            <div class="tab-pane fade show active" id="listofmembers">
+                <div class="module-live-edit-settings module-teamcard-settings">
+                    <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
+                    <div class="add-new-button text-end my-3">
                             <span
                                 class="btn btn-outline-dark btn-rounded icon-left"
                                 id="add-team-member">
                                 <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
                                 <?php _e('Add new'); ?></span>
-                        </div>
-                        <div id="teamcard-settings"></div>
                     </div>
+                    <div id="teamcard-settings"></div>
                 </div>
+
             </div>
 
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <span class="mw-admin-action-links mw-adm-liveedit-tabs">
-                           <?php _e('Templates'); ?>
-                      </span>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
-                    <module type="admin/modules/templates"/>
-                </div>
+            <div class="tab-pane fade" id="templates">
+                <module type="admin/modules/templates"/>
             </div>
         </div>
     </div>

@@ -628,53 +628,45 @@
         this.positionToElement = function(targetElementSelector) {
             var element = $(targetElementSelector)[0];
 
-            // var position = {};
-            // if (self !== top) {
-            //     position = this.getElementPositionInFrames(element);
-            // } else {
-            //     position = this.getElementPositionOnScreen(element);
-            // }
-            // this.options.position = {
-            //     x: position.dialogLeft,
-            //     y: position.dialogTop
-            // };
-            // this.position(position.dialogLeft, position.dialogTop);
-            this.dialogHolder.style.opacity = '0';
+            var position = {};
+            if (self !== top) {
+                position = this.getElementPositionInFrames(element);
+            } else {
+                position = this.getElementPositionOnScreen(element);
+            }
 
             this.iframe.addEventListener('load', () => {
                 setTimeout(() => {
-                    this.dialogHolder.style.opacity = '1';
-                    //console.log(this.dialogHolder.offsetWidth);
-                    //console.log(this.dialogHolder.offsetHeight);
-                    let calcNewPosition = this.positionDialogWithoutOverlap(this.dialogHolder, element);
+
+                    let newPositionX = position.x + 40;
+                    let newPositionY = position.y;
+
+                    console.log('oldPositionX', newPositionX);
+                    console.log('oldPositionY', newPositionY);
+
+                    if ((window.top.innerWidth - newPositionX) < (this.dialogMain.innerWidth - 50)) {
+                        newPositionX = newPositionX - this.dialogMain.innerWidth - (window.top.innerWidth - newPositionX);
+                    }
+
+                    if ((window.top.innerHeight - newPositionY) < (this.dialogMain.innerHeight - 50)) {
+                        newPositionY = newPositionY - this.dialogMain.innerHeight + (window.top.innerHeight - newPositionY);
+                    }
+
+                    console.log('innerWidth', this.dialogMain.innerWidth);
+                    console.log('innerHeight', this.dialogMain.innerHeight);
+
+                    console.log('newPositionX', newPositionX);
+                    console.log('newPositionY', newPositionY);
 
                     this.options.position = {
-                        x: calcNewPosition.dialogLeft,
-                        y: calcNewPosition.dialogTop
+                        x: newPositionX,
+                        y: newPositionY
                     };
-                    this.position(calcNewPosition.dialogLeft, calcNewPosition.dialogTop);
+                    this.position(newPositionX, newPositionY);
 
                 }, 100);
             });
 
-            // let newPositionX = position.x + 40;
-            // let newPositionY = position.y;
-            //
-            // if ((window.top.innerWidth - newPositionX) < 200) {
-            //     newPositionX = newPositionX - 250 - (window.top.innerWidth - newPositionX);
-            // }
-            // if ((window.top.innerHeight - newPositionY) < 400) {
-            //     newPositionY = newPositionY - 400 + (window.top.innerHeight - newPositionY);
-            // }
-            //
-            // newPositionX = 0;
-            // newPositionY = 0;
-            //
-            // this.options.position = {
-            //     x: newPositionX,
-            //     y: newPositionY
-            // };
-            // this.position(newPositionX, newPositionY);
         }
 
         this.positionDialogWithoutOverlap = function (dialogElement, targetElement) {

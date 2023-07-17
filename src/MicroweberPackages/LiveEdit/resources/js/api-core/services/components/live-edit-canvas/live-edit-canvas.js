@@ -112,9 +112,15 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             //
             // });
 
-            liveEditIframe.contentWindow.document.body.addEventListener('click', () => {
-                this.dispatch('canvasDocumentClick')
+            liveEditIframe.contentWindow.document.body.addEventListener('click', (event) => {
+                this.dispatch('canvasDocumentClick', event)
             });
+
+
+            liveEditIframe.contentWindow.document.body.addEventListener('dblclick', (event) => {
+                this.dispatch('canvasDocumentDoubleClick',  event)
+            });
+
 
             this.dispatch('liveEditCanvasLoaded', {frame: liveEditIframe, frameWindow: liveEditIframe.contentWindow, frameDocument: liveEditIframe.contentWindow.document});
             mw.spinner({
