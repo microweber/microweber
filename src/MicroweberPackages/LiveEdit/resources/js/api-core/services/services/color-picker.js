@@ -28,9 +28,9 @@ export class ColorPicker extends MicroweberBaseClass {
             title: 'Color Picker',
             footer: false,
             width: 230,
-            overlayClose: true,
+            overlayClose: true, 
         });
-        colorPickerDialog.positionToElement(this.positionToElement);
+        // colorPickerDialog.positionToElement(this.positionToElement);
 
         if (colorPickerDialog.dialogContainer) {
             colorPickerDialog.dialogContainer.style.padding = '0px';
