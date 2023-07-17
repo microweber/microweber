@@ -2087,6 +2087,66 @@ svg.text-danger {
     }
 }
 
+.form-control-live-edit-label {
+    cursor: inherit;
+    display: block;
+    line-height: 22px;
+    min-height: 45px;
+    outline: none;
+    padding: 0 11px;
+    position: relative;
+
+    .form-control-live-edit-input {
+        background-color: transparent;
+        border: none;
+        flex: 1 1 0%;
+        font-size: 14px;
+        line-height: 22px;
+        padding: 0;
+        text-align: left;
+        caret-color: var(--tblr-body-color);
+        min-height: 44px;
+        width: 100%;
+        outline: none;
+
+        &:focus-visible {
+            .form-control-live-edit-bottom-effect {
+                &:after {
+                    width: 100%;
+                    transition-duration: .3s;
+                }
+            }
+        }
+    }
+
+    .form-control-live-edit-bottom-effect {
+        bottom: 0;
+        height: 1px;
+        left: 6px;
+        position: absolute;
+        width: calc(100% - 12px);
+        background-color: rgb(231, 231, 231);
+        box-sizing: border-box;
+
+        &:focus-visible {
+            border: none;
+        }
+
+        &:after {
+            background-color: #0e0e0e;
+            bottom: 0;
+            content: "";
+            display: block;
+            height: 1px;
+            position: absolute;
+            transition: width .25s cubic-bezier(.4,0,.68,.06);
+            width: 0;
+        }
+    }
+}
+
+
+
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 .mw-list-group-accordion-buttons {
