@@ -334,6 +334,7 @@ addEventListener('load', () => {
 self.onbeforeunload = function(event) {
     mw.top().app.canvas.dispatch('liveEditCanvasBeforeUnload');
 
+
     // prevent user from leaving if there are unsaved changes
     var liveEditIframe = (mw.top().app.canvas.getWindow());
     if (liveEditIframe
@@ -375,4 +376,15 @@ mw.drag.module_settings =  function() {
     var target = mw.top().app.liveEdit.moduleHandle.getTarget();
     return  mw.top().app.editor.dispatch('onModuleSettingsRequest', target);
 };
+
+mw.top().app.canvas.on('canvasDocumentDoubleClick', function (event) {
+    if(event && event.target){
+        var hasParentModule = mw.tools.hasParentsWithClass(event.target, 'module');
+        var firstModule = mw.tools.firstParentOrCurrentWithAnyOfClasses(event.target, ['module']);
+        if(firstModule){
+            mw.top().app.editor.dispatch('onModuleSettingsRequest', firstModule);
+        }
+    }
+});
+
 
