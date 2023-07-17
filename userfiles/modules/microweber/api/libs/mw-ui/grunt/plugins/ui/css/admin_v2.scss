@@ -30,6 +30,7 @@ html[dir="rtl"] {
     //--tblr-body-bg: white;
         --tblr-body-font-family: 'Inter';
         --tblr-body-bg2: #f0f0f0;
+        --mw-forms-min-height: 45px;
 
 
     body:not(.theme-dark) {
@@ -706,7 +707,7 @@ small.text-muted {
 
 .form-control {
     padding: .65rem .9rem;
-    min-height: 45px;
+    min-height: var(--mw-forms-min-height);
 }
 
 
@@ -720,7 +721,7 @@ small.text-muted {
 
 .form-select-lg {
     padding: 0.65rem 2.25rem 0.65rem 0.75rem;
-    min-height: 45px;
+    min-height: var(--mw-forms-min-height);
     border-radius: 4px;
 }
 
@@ -731,7 +732,7 @@ small.text-muted {
 
 .btn:not(.btn-sm, .live-edit-toolbar-buttons) {
     padding: 0.65rem 1.25rem;
-    min-height: 45px;
+    min-height: var(--mw-forms-min-height);
 }
 
 
@@ -1096,7 +1097,7 @@ small.text-muted {
     color: var(--tblr-body-color);
 }
 
-.mw-ui-box-header, .mw-ui-box {
+.mw-ui-box-header, .mw-ui-box:not(.mw-accordion-content, .mw-module-settings-box) {
     background-color: var(--tblr-bg-surface-secondary);
 }
 
@@ -1516,7 +1517,7 @@ svg.text-danger {
         transition: .5s;
     }
 
-    &:hover, &:active, &:focus, &.active {
+    &:hover, &:active, &:focus, &.active, &.mw-action-links-with-accordion:not(.collapsed) {
         &:after {
             width: 100%;
             opacity: 1;
@@ -2086,6 +2087,96 @@ svg.text-danger {
 
     }
 }
+
+.live-edit-label {
+    padding: 0 11px;
+    color: rgb(90, 90, 90);
+    display: block;
+    margin-top: 33px;
+    overflow: hidden;
+    box-sizing: border-box;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 9.75px;
+    letter-spacing: 0.75px;
+    line-height: 16px;
+    text-overflow: ellipsis;
+
+}
+
+.form-control-live-edit-label-wrapper {
+    cursor: inherit;
+    display: block;
+    line-height: 22px;
+    min-height: var(--mw-forms-min-height);
+    outline: none;
+    padding: 0 11px;
+    position: relative;
+
+    .form-control-live-edit-input, .form-control-live-edit-input.form-select {
+        background-color: transparent;
+        border: none;
+        flex: 1 1 0%;
+        font-size: 14px;
+        line-height: 22px;
+        padding: 0;
+        text-align: left;
+        caret-color: var(--tblr-body-color);
+        min-height: var(--mw-forms-min-height);
+        width: 100%;
+        outline: none;
+
+         &:focus, &:focus-visible {
+            outline: none;
+         }
+
+
+        &:focus-visible {
+            +.form-control-live-edit-bottom-effect {
+                &:after {
+                    width: 100%;
+                    transition-duration: .3s;
+                }
+            }
+        }
+    }
+
+    .form-control-live-edit-bottom-effect {
+        bottom: 0;
+        height: 1px;
+        left: 6px;
+        position: absolute;
+        width: calc(100% - 12px);
+        background-color: rgb(231, 231, 231);
+        box-sizing: border-box;
+
+        &:focus-visible {
+            border: none;
+        }
+
+        &:after {
+            background-color: #0e0e0e;
+            bottom: 0;
+            content: "";
+            display: block;
+            height: 1px;
+            position: absolute;
+            transition: width .25s cubic-bezier(.4,0,.68,.06);
+            width: 0;
+        }
+    }
+
+    .form-control-live-edit-settings-btn {
+        position: absolute;
+        top: 10px;
+        right: 16px;
+        cursor: pointer;
+    }
+}
+
+
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
 

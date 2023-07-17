@@ -11,6 +11,15 @@ class MwModuleSettings extends TextArea
     {
         return 'mw-module-settings';
     }
+
+//    public function render()
+//    {
+//        return view('microweber-form-builder::form-inputs.mw-module-settings',[
+//           // 'input' => $this,
+//            'renderAttributes' => $this->renderAttributes(),
+//        ]);
+//    }
+
     public function render()
     {
         $mwModuleSettingsId =  \Illuminate\Support\Str::random(9);

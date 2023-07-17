@@ -93,7 +93,7 @@ export class ModuleSettings extends MicroweberBaseClass {
                 id: 'module-quick-setting-dialog-' + moduleId
             });
 
-            moduleSettingsDialogIframe.positionToElement(el);
+            ///moduleSettingsDialogIframe.positionToElement(el);
             if (moduleSettingsDialogIframe.overlay) {
                 moduleSettingsDialogIframe.overlay.style.backgroundColor = 'transparent';
             }
