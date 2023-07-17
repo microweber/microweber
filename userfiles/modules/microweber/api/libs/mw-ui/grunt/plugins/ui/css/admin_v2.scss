@@ -2087,6 +2087,17 @@ svg.text-danger {
     }
 }
 
+.form-control-live-edit {
+    background-color: transparent;
+    border: none;
+    flex: 1 1 0%;
+    font-size: 14px;
+    line-height: 22px;
+    padding: 0;
+    text-align: left;
+    caret-color: var(--tblr-body-color);
+}
+
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 .mw-list-group-accordion-buttons {
