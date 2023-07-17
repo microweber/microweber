@@ -2,6 +2,7 @@
 $rand = time().rand(1111,9999);
 ?>
 
+<div>
 <div wire:ignore>
 
 <label class="form-control-live-edit-label-wrapper">
@@ -36,4 +37,5 @@ $rand = time().rand(1111,9999);
         });
     });
 </script>
+</div>
 </div>
