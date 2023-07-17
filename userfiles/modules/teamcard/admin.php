@@ -118,7 +118,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                       </span>
 
                 </div>
-                <div class="mw-accordion-content card mw-ui-box-content">
+                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
                     <div class="module-live-edit-settings module-teamcard-settings">
                         <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
                         <div class="mw-ui-field-holder add-new-button text-end">
