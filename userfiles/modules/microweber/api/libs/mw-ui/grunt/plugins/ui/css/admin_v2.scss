@@ -2087,7 +2087,25 @@ svg.text-danger {
     }
 }
 
-.form-control-live-edit-label {
+.live-edit-label {
+    padding: 0 11px;
+    color: rgb(90, 90, 90);
+    display: block;
+    margin-top: 33px;
+    overflow: hidden;
+    box-sizing: border-box;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 9.75px;
+    letter-spacing: 0.75px;
+    line-height: 16px;
+    text-overflow: ellipsis;
+
+}
+
+.form-control-live-edit-label-wrapper {
     cursor: inherit;
     display: block;
     line-height: 22px;
@@ -2110,7 +2128,7 @@ svg.text-danger {
         outline: none;
 
         &:focus-visible {
-            .form-control-live-edit-bottom-effect {
+            +.form-control-live-edit-bottom-effect {
                 &:after {
                     width: 100%;
                     transition-duration: .3s;

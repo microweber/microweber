@@ -18,11 +18,11 @@ showAdvancedDesign: false
 
     <div x-show="showEditTab=='content'">
         <div>
-            Text
+            <label class="live-edit-label">{{__('Text')}} </label>
             <livewire:microweber-module-option::text optionName="text" :moduleId="$moduleId" :moduleType="$moduleType"  />
         </div>
         <div class="mt-4 mb-3">
-            <label class="form-label">Link</label>
+            <label class="form-label">{{__('Link')}} </label>
             <livewire:microweber-module-option::link-picker optionName="link" :moduleId="$moduleId" :moduleType="$moduleType"  />
         </div>
 
