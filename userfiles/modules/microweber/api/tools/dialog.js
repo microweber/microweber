@@ -628,15 +628,22 @@
         this.positionToElement = function(targetElementSelector) {
             var element = $(targetElementSelector)[0];
 
-            var position = {};
-            if (self !== top) {
-                position = this.getElementPositionInFrames(element);
-            } else {
-                position = this.getElementPositionOnScreen(element);
-            }
+            // var position = {};
+            // if (self !== top) {
+            //     position = this.getElementPositionInFrames(element);
+            // } else {
+            //     position = this.getElementPositionOnScreen(element);
+            // }
+            // this.options.position = {
+            //     x: position.dialogLeft,
+            //     y: position.dialogTop
+            // };
+            // this.position(position.dialogLeft, position.dialogTop);
+            this.dialogHolder.style.opacity = '0';
 
             this.iframe.addEventListener('load', () => {
                 setTimeout(() => {
+                    this.dialogHolder.style.opacity = '1';
                     //console.log(this.dialogHolder.offsetWidth);
                     //console.log(this.dialogHolder.offsetHeight);
                     let calcNewPosition = this.positionDialogWithoutOverlap(this.dialogHolder, element);
