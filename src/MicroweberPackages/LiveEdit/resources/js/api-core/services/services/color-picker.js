@@ -27,7 +27,7 @@ export class ColorPicker extends MicroweberBaseClass {
             content: '<div id="color-picker-'+randId+'" style="width:232px;height:325px;"></div>',
             title: 'Color Picker',
             footer: false,
-            width: 230,
+            width: 240,
             overlayClose: true,
         });
         colorPickerDialog.positionToElement(this.positionToElement);
