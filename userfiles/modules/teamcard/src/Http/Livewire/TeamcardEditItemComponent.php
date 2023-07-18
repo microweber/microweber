@@ -62,7 +62,7 @@ class TeamcardEditItemComponent extends ModuleSettingsComponent
         if (isset($json) == false or count($json) == 0) {
             $json = array(0 => $defaults);
         }
-
+        $isNewItem = false;
 
         $newItem = [];
         $newItem['name'] = $this->name;
@@ -72,30 +72,29 @@ class TeamcardEditItemComponent extends ModuleSettingsComponent
         if ($this->itemId) {
             $newItem['itemId'] = $this->itemId;
         } else {
+            $isNewItem = true;
             $newItem['itemId'] = $this->moduleId . '_' . uniqid();
         }
 
         $allItems = [];
         $allItems[] = $newItem;
+        $sortIds = [];
         if (!empty($json)) {
             foreach ($json as $item) {
+                if (isset($item['itemId']) and $newItem['itemId']) {
+                    $sortIds[] = $item['itemId'];
+                }
                 if (isset($item['itemId']) and $newItem['itemId'] != $item['itemId']) {
                     $allItems[] = $item;
                 }
             }
         }
 
-//        if (!empty($json)) {
-//            foreach ($json as $item) {
-//                $readyItem = $newItem;
-//                if (isset($item['itemId']) and $newItem['itemId'] == $item['itemId']) {
-//               //     $readyItem = $newItem;
-//                }
-//                $allItems[] = $readyItem;
-//            }
-//        } else {
-//
-//        }
+        //sots $allItems by $sortIds
+        if (!$isNewItem && $sortIds && $allItems) {
+            array_multisort(array_column($allItems, 'itemId'), SORT_ASC, $allItems);
+        }
+
 
         save_option(array(
             'option_group' => $this->moduleId,
@@ -104,11 +103,9 @@ class TeamcardEditItemComponent extends ModuleSettingsComponent
             'option_value' => json_encode($allItems)
         ));
 
-       // $this->emitTo('onItemChanged', ['moduleId' => $this->moduleId]);
-        $this->emitTo('microweber-module-teamcard::list-items','onItemChanged', ['moduleId' => $this->moduleId]);
+        $this->emitTo('microweber-module-teamcard::list-items', 'onItemChanged', ['moduleId' => $this->moduleId]);
 
         $this->emit('switchToMainTab');
-     //   $this->dispatchBrowserEvent('switchToMainTab');
 
 
     }

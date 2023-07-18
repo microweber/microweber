@@ -4,7 +4,6 @@
 ?>
 <form wire:submit.prevent="submit">
 
-    {{ _ejs("Enter bio") }}
     <div class="form-group">
         <label for="exampleInputName"><?php _e("Name") ?></label>
         <x-microweber-ui::input type="text" placeholder="Enter Name" wire:model="name"/>
@@ -32,5 +31,6 @@
         @error('file') <span class="text-danger">{{ $message }}</span> @enderror
     </div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button x-on:click="showEditTab = 'main'" class="btn btn-outline-secondary" type="button">@lang('Cancel')</button>
+    <button type="submit" class="btn btn-primary">@lang('Save')</button>
 </form>
