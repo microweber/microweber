@@ -16,7 +16,7 @@
             </button>
         </div>
 
-        <div x-show="customRange">
+        <div x-show="customRange" x-transition>
             <input type="text" x-model="currentRangeValue" id="js-custom-range-value-{{$rand}}" class="form-control" >
         </div>
 
@@ -35,12 +35,16 @@
                         'max': 100
                     }
                 });
-                slider.noUiSlider.on('update', function( values, handle ) {
 
+                slider.noUiSlider.on('update', function(values, handle) {
                     let customRangeValueField = document.getElementById('js-custom-range-value-{{$rand}}');
                     customRangeValueField.value = values[handle];
                     customRangeValueField.dispatchEvent(new Event('input'));
+                });
 
+                let customRangeValueField = document.getElementById('js-custom-range-value-{{$rand}}');
+                customRangeValueField.addEventListener('change', function() {
+                    slider.noUiSlider.set(this.value);
                 });
 
             });
