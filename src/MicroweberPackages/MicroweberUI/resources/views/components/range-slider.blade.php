@@ -29,7 +29,7 @@
                 var slider = document.getElementById('range-slider-{{$rand}}}');
                 noUiSlider.create(slider, {
                     start: [0],
-                    keyboardDefaultStep:1,
+                    step:1,
                     range: {
                         'min': 0,
                         'max': 100
