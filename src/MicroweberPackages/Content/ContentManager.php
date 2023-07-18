@@ -1996,7 +1996,7 @@ class ContentManager
 
     public function save_content_field($data, $delete_the_cache = true)
     {
-        return $this->helpers->save_content_field($data);
+        return $this->helpers->save_content_field($data,$delete_the_cache);
     }
 
     public function edit_field($data)

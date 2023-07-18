@@ -855,7 +855,19 @@ body.mw-external-loading:after {
     animation: tab-pane-slide-right 0.3s ease-out;
 }
 
+.tab-pane-slide-right-active {
+    animation: tab-pane-slide-right 0.3s ease-out;
+}
+
+.tab-pane-slide-left-active {
+    animation: tab-pane-slide-left 0.3s ease-out;
+}
+
 @keyframes tab-pane-slide-right {
     0% { opacity: 0; transform: translateX(100%); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes tab-pane-slide-left {
+    0% { opacity: 0; transform: translateX(-100%); }
     100% { opacity: 1; transform: translateX(0); }
 }
