@@ -22,7 +22,7 @@
 
     <div class="mt-4 mb-3">
         <label class="live-edit-label">Alignment</label>
-        <x-microweber-ui::alignment />
+        <x-microweber-ui::alignment/>
     </div>
 
     <div class="mt-4 mb-3">
