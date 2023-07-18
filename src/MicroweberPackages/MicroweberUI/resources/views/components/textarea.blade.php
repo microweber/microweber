@@ -1,3 +1,7 @@
+@props(['disabled' => false])
+
 <div>
-    <textarea class="form-control" rows="5"></textarea>
+    <textarea {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge([
+
+]) !!} ></textarea>
 </div>
