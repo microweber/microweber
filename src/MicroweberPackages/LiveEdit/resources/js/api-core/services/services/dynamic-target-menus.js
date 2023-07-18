@@ -25,4 +25,19 @@ export class DynamicTargetMenus extends MicroweberBaseClass {
 
     }
 
+    addLayoutQuickSetting ( items ) {
+ 
+        if(!mw.quickSettings[module].mainMenu){
+            mw.quickSettings[module].mainMenu = [];
+        }
+        if(Array.isArray(items)) {
+            for (let i = 0; i < items.length; i++) {
+                mw.layoutQuickSettings[module].mainMenu.push(items[i]);
+            }
+        } else {
+            mw.layoutQuickSettings[module].mainMenu.push(items);
+        }
+
+    }
+
 }

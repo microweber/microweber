@@ -130,8 +130,7 @@ export const ElementHandleContent = function (proto) {
 
  
 
-    this.menusHolder = document.createElement('div');
-    this.menusHolder.className = 'mw-handle-item-menus-holder';
+ 
 
 
     var holder = mw.element(this.menusHolder);

@@ -217,7 +217,6 @@ export class LiveEdit {
                     data: {target: node}
                 });
                 moduleHandleContent.menu.setTarget(node);
-                moduleHandleContent.staticMenu.setTarget(node);
 
 
                 moduleHandleContent.menu.show();
@@ -247,7 +246,7 @@ export class LiveEdit {
         })
 
         var title = scope.lang('Layout');
-        layoutHandleContent.staticMenu.setTitle(title)
+        layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target) {
             scope.getLayoutQuickSettings(target.dataset.type).then(function (settings) {
 
@@ -270,8 +269,8 @@ export class LiveEdit {
             });
 
 
-            layoutHandleContent.staticMenu.setTarget(target);
-            layoutHandleContent.staticMenu.setTitle(title);
+            layoutHandleContent.menu.setTarget(target);
+            layoutHandleContent.menu.setTitle(title);
             if (scope.elementAnalyzer.isEditOrInEdit(target)) {
                 layoutHandleContent.plusTop.show()
                 layoutHandleContent.plusBottom.show()

@@ -44,6 +44,8 @@ export const Handle = function (options) {
         this.wrapper.addClass('mw-handle-item-hidden');
         this.wrapper.removeClass('mw-handle-active');
     };
+
+    
     let _content = null;
     this.setContent = function (content) {
         if(_content){
@@ -51,6 +53,10 @@ export const Handle = function (options) {
         }
         _content = content;
         this.wrapper.append(_content);
+    }
+
+    this.getContent = function() {
+        return _content;
     }
 
 
