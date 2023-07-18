@@ -127,6 +127,18 @@
     </div>
 
     <div class="mt-4">
+        <x-microweber-ui::primary-button>
+            Primary Button
+        </x-microweber-ui::primary-button>
+    </div>
+
+    <div class="mt-4">
+        <x-microweber-ui::secondary-button>
+            Secondary Button
+        </x-microweber-ui::secondary-button>
+    </div>
+
+    <div class="mt-4">
         <x-microweber-ui::danger-button>
             Danger Button
         </x-microweber-ui::danger-button>
