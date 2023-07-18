@@ -658,7 +658,7 @@ var domHelp = {
             }
         }
         if(strict && !node.id) {
-            if(!node.classList.contains('edit') && mw.tools.isEditable(node)) {
+            if(node && node.classList && !node.classList.contains('edit') && mw.tools.isEditable(node)) {
                 node.id = mw.id('mw-selector-');
             }
         }
