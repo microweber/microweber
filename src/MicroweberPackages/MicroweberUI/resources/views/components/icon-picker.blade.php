@@ -4,19 +4,19 @@
     $randId = time() . rand(111,999);
 @endphp
 <div class="microweber-ui-icon-picker">
-    <label class="form-control-live-edit-label-wrapper d-flex flex-wrap gap-2">
+    <div class="form-control-live-edit-label-wrapper d-flex justify-content-between flex-wrap gap-2">
 
-        <button class="btn col-8" onclick="mw.app.iconPicker.selectIcon('#btn-icon-pick-{{$randId}}')" type="button">
-            <?php _e("Select Icon"); ?>
-        </button>
-
-        @if(!empty($value))
-            <button class="btn border-0 text-center col-1" onclick="mw.app.iconPicker.selectIcon('#btn-icon-pick-{{$randId}}')" style="font-size:24px; background-color: #f5f5f5;">
-                {!! $value !!}
+        <div class="d-flex justify-content-start gap-2 col-6">
+            <button class="btn" onclick="mw.app.iconPicker.selectIcon('#btn-icon-pick-{{$randId}}')" type="button">
+                <?php _e("Select Icon"); ?>
             </button>
-        @endif
 
-
+            @if(!empty($value))
+                <button class="btn border-0 text-center col-1" onclick="mw.app.iconPicker.selectIcon('#btn-icon-pick-{{$randId}}')" style="font-size:24px; background-color: #f5f5f5;">
+                    {!! $value !!}
+                </button>
+            @endif
+        </div>
 
         @if(!empty($value))
             <button class="btn border-0 col-auto px-1" onclick="mw.app.iconPicker.removeIcon('#btn-icon-pick-{{$randId}}')" type="button">
@@ -24,6 +24,6 @@
             </button>
         @endif
 
-    </label>
+    </div>
     <textarea style="display:none" {!! $attributes->merge([]) !!} id="btn-icon-pick-{{$randId}}"></textarea>
 </div>
