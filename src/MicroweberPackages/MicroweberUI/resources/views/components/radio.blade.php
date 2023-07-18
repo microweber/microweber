@@ -1,8 +1,6 @@
-@props(['options'])
+@props(['options'=>[]])
 
 <div>
-
-    radio
 
     @if(!empty($options))
         @foreach($options as $key => $option)
