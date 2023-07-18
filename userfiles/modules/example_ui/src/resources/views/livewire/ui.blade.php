@@ -1,5 +1,4 @@
-<div>
-
+<div x-data="{}">
     <div>
         <label class="live-edit-label">Text Input</label>
         <x-microweber-ui::input />
@@ -67,6 +66,15 @@
             ];
         @endphp
         <x-microweber-ui::checkbox :options="$checkboxOptions" />
+    </div>
+
+    <div class="mt-4">
+        <x-microweber-ui::action-message on="showActionMessage">
+            <?php _e('This is an action message!');?>
+        </x-microweber-ui::action-message>
+        <x-microweber-ui::button wire:click="showActionMessage()">
+            Show Action Message
+        </x-microweber-ui::button>
     </div>
 
     <div class="mt-4">

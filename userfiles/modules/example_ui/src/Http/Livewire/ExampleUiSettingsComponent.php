@@ -11,4 +11,8 @@ class ExampleUiSettingsComponent extends ModuleSettingsComponent
         return view('microweber-module-example-ui::livewire.settings');
     }
 
+    public function showActionMessage()
+    {
+        $this->emit('showActionMessage', ['message' => 'This is a message from Example UI module']);
+    }
 }
