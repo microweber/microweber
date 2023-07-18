@@ -15,10 +15,10 @@
         <x-microweber-ui::link-picker />
     </div>
 
-    <div class="mt-4 mb-3">
+<!--    <div class="mt-4 mb-3">
         <label class="live-edit-label">Icon Picker</label>
         <x-microweber-ui::icon-picker />
-    </div>
+    </div>-->
 
     <div class="mt-4 mb-3">
         <label class="live-edit-label">Alignment</label>

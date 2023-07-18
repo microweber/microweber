@@ -1,4 +1,5 @@
 <div>
+<div>
     <div>
         <label class="live-edit-label">Text</label>
         <livewire:microweber-module-option::text optionName="text" :moduleId="$moduleId" :moduleType="$moduleType"  />
@@ -85,4 +86,5 @@
             {!! json_encode($keyValueOptions, JSON_PRETTY_PRINT) !!}
             </pre>
     </div>
+</div>
 </div>

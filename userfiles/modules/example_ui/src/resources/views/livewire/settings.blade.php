@@ -21,7 +21,9 @@
                     @include('microweber-module-example-ui::livewire.ui')
                 </div>
                 <div class="tab-pane" id="tabs-profile-3" role="tabpanel">
-                    @include('microweber-module-example-ui::livewire.module-options')
+                    <div>
+                        @include('microweber-module-example-ui::livewire.module-options')
+                    </div>
                 </div>
             </div>
         </div>
