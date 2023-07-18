@@ -15,10 +15,10 @@
         <x-microweber-ui::link-picker />
     </div>
 
-    <div class="mt-4 mb-3">
+<!--    <div class="mt-4 mb-3">
         <label class="live-edit-label">Icon Picker</label>
         <x-microweber-ui::icon-picker />
-    </div>
+    </div>-->
 
     <div class="mt-4 mb-3">
         <label class="live-edit-label">Alignment</label>
@@ -33,13 +33,13 @@
     <div class="mt-4 mb-3">
         <label class="live-edit-label">Select</label>
         @php
-            $options = [
+            $selectOptions = [
                 '1' => 'Option 1',
                 '2' => 'Option 2',
                 '3' => 'Option 3',
             ];
         @endphp
-        <x-microweber-ui::select :options="$options" />
+        <x-microweber-ui::select :options="$selectOptions" />
     </div>
 
 
@@ -52,7 +52,7 @@
                 '3' => 'Radio 3',
             ];
         @endphp
-        <x-microweber-ui::radio :radioOptions="$radioOptions" />
+        <x-microweber-ui::radio :options="$radioOptions" />
     </div>
 
 
@@ -66,7 +66,7 @@
                 '3' => 'Checkbox 3',
             ];
         @endphp
-        <x-microweber-ui::checkbox :checkboxOptions="$checkboxOptions" />
+        <x-microweber-ui::checkbox :options="$checkboxOptions" />
     </div>
 
     <div class="mt-4">
