@@ -162,13 +162,13 @@ body.theme-dark {
 
     //LIVE EDIT FOR DARK THEME
 
-    .mw-live-edit-resolutions-wrapper {
+    .mw-live-edit-resolutions-wrapper, .mw-live-edit-right-sidebar-wrapper {
         background-color: var(--tblr-body-bg) !important;
     }
 
 
     .live-edit-toolbar-buttons {
-        &:hover, &.live-edit-resolution-active, &:focus, &:active {
+        &:hover, &.live-edit-resolution-active, &.live-edit-right-sidebar-active , &:focus, &:active {
             background-color: var(--tblr-bg-surface) !important;
             border-color: var(--tblr-bg-surface) !important;
 
@@ -2019,18 +2019,23 @@ svg.text-danger {
     border-color: var(--tblr-body-bg2) !important;
 }
 
-.mw-live-edit-resolutions-wrapper {
+.mw-live-edit-resolutions-wrapper, .mw-live-edit-right-sidebar-wrapper {
     background-color: var(--tblr-body-bg2) !important;
     border-radius: 5px !important;
     padding: 5px !important;
+    max-height: 35px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    gap: 2px !important;
 
     .live-edit-toolbar-buttons {
         border-radius: 5px !important;
-        padding: 5px 10px;
+        padding: 3px 7px;
         border-color: var(--tblr-body-bg2) !important;
         background-color: var(--tblr-body-bg2) !important;
 
-        &:hover, &.live-edit-resolution-active, &:focus, &:active {
+        &:hover, &.live-edit-resolution-active, &.live-edit-right-sidebar-active, &:focus, &:active {
             background-color: var(--tblr-bg-surface) !important;
             border-color: var(--tblr-bg-surface) !important;
         }
