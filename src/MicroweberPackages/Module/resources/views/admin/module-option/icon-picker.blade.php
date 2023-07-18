@@ -6,6 +6,6 @@
     }
     @endphp
 
-    <x-microweber-ui::icon-picker value="{{$value}}" wire:model.debounce.100ms="state.settings.{{ $this->optionName }}" />
+    <x-microweber-ui::icon-picker :value="$value" wire:model.debounce.100ms="state.settings.{{ $this->optionName }}" />
 
 </div>
