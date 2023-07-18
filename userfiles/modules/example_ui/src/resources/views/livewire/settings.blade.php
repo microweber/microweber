@@ -66,7 +66,7 @@
                 '3' => 'Checkbox 3',
             ];
         @endphp
-        <livewire:microweber-module-option::checkbox :radioOptions="$checkboxOptions" optionName="checkbox" :moduleId="$moduleId" :moduleType="$moduleType"  />
+        <livewire:microweber-module-option::checkbox :checkboxOptions="$checkboxOptions" optionName="checkbox" :moduleId="$moduleId" :moduleType="$moduleType"  />
     </div>
 
 
