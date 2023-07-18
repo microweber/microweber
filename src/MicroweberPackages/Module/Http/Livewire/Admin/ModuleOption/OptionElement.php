@@ -8,7 +8,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 class OptionElement extends AdminComponent
 {
     public string $view = 'module::admin.module-option.text';
-    public string $viewTranslatable = 'module::admin.module-option.text-multilanguage';
+   // public string $viewTranslatable = 'module::admin.module-option.text-multilanguage';
 
     public string $moduleId = '';
     public string $moduleType = '';
