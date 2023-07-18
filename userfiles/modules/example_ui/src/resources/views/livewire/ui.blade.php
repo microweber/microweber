@@ -78,8 +78,57 @@
     </div>
 
     <div class="mt-4">
-        <x-microweber-ui::button>
-            Save
+        <x-microweber-ui::modal wire:model="showModal">
+
+            <div style="background:#fff;color:#000;padding:50px 150px">
+
+                Here is a cleared modal
+
+                <br />
+                <br />
+                <br />
+
+                <x-microweber-ui::button wire:click="$toggle('showModal')" wire:loading.attr="disabled">
+                    Close Modal
+                </x-microweber-ui::button>
+            </div>
+
+        </x-microweber-ui::modal>
+        <x-microweber-ui::button wire:click="$toggle('showModal')" >
+            Show Modal
         </x-microweber-ui::button>
+    </div>
+
+    <div class="mt-4">
+        <x-microweber-ui::dialog-modal wire:model="showDialogModal">
+            <x-slot name="title">
+                This is the dialog modal
+            </x-slot>
+
+            <x-slot name="content">
+                Here is the content of dialog modal
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-microweber-ui::button wire:click="$toggle('showDialogModal')" wire:loading.attr="disabled">
+                    Close Dialog Modal
+                </x-microweber-ui::button>
+            </x-slot>
+        </x-microweber-ui::dialog-modal>
+        <x-microweber-ui::button wire:click="$toggle('showDialogModal')" >
+            Show Dialog Modal
+        </x-microweber-ui::button>
+    </div>
+
+    <div class="mt-4">
+        <x-microweber-ui::button>
+            Main Button
+        </x-microweber-ui::button>
+    </div>
+
+    <div class="mt-4">
+        <x-microweber-ui::danger-button>
+            Danger Button
+        </x-microweber-ui::danger-button>
     </div>
 </div>
