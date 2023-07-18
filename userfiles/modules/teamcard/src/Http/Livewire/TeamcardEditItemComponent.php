@@ -54,7 +54,7 @@ class TeamcardEditItemComponent extends ModuleSettingsComponent
             'role' => '',
             'bio' => '',
             'file' => '',
-            // 'itemId' => $this->moduleId . '_' . uniqid(),
+            'itemId' => $this->moduleId . '_' . uniqid(),
         );
 
         $json = @json_decode($settings, true);
