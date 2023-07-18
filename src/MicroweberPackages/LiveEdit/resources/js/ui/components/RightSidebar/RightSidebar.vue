@@ -92,7 +92,7 @@ export default {
                 }
             }
         });
-        var firstTabEl = document.querySelector('#rightSidebarTabStyleEditorNav li:first-child button')
+        var firstTabEl = document.querySelector('#rightSidebarTabStyleEditorNav a')
         if(firstTabEl !== null){
             var firstTab = new bootstrap.Tab(firstTabEl)
             firstTab.show()
