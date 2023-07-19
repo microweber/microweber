@@ -2135,17 +2135,14 @@ svg.text-danger {
          &:focus, &:focus-visible {
             outline: none;
              background-color: transparent;
+
+             +.form-control-live-edit-bottom-effect {
+                 &:after {
+                     width: 100%;
+                     transition-duration: .3s;
+                 }
+             }
          }
-
-
-        &:focus-visible {
-            +.form-control-live-edit-bottom-effect {
-                &:after {
-                    width: 100%;
-                    transition-duration: .3s;
-                }
-            }
-        }
     }
 
     .form-control-live-edit-bottom-effect {
