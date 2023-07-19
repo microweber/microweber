@@ -30,9 +30,9 @@
             @foreach($preformatedOptions as $option)
 
                 <button type="button"
-                        x-on:click="selectedOption = {{json_encode($option)}}; openOptions = false" :class="[selectedOption == '{{$option['key']}}' ? 'active':'']" class="dropdown-item">
+                        x-on:click="selectedOption = {{json_encode($option)}}; openOptions = false" :class="[selectedOption.key == '{{$option['key']}}' ? 'active':'']" class="dropdown-item">
                     {!! $option['value'] !!}
-                    <span x-show="selectedOption == {{json_encode($option)}}">checked</span>
+                    <span x-show="selectedOption.key == '{{$option['key']}}'">checked</span>
                 </button>
 
             @endforeach
