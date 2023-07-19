@@ -31,6 +31,7 @@ use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\CheckboxOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\RangeSliderOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextareaOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextOptionNew;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 
 
@@ -92,6 +93,16 @@ class ModuleServiceProvider extends ServiceProvider
         Livewire::component('microweber-module-option::radio', RadioOption::class);
         Livewire::component('microweber-module-option::radio-modern', RadioModernOption::class);
         Livewire::component('microweber-module-option::checkbox', CheckboxOption::class);
+
+        Livewire::component('microweber-option::text', TextOption::class);
+        Livewire::component('microweber-option::textarea', TextareaOption::class);
+        Livewire::component('microweber-option::icon-picker', IconPickerOption::class);
+        Livewire::component('microweber-option::link-picker', LinkPickerOption::class);
+        Livewire::component('microweber-option::range-slider', RangeSliderOption::class);
+        Livewire::component('microweber-option::dropdown', DropdownOption::class);
+        Livewire::component('microweber-option::radio', RadioOption::class);
+        Livewire::component('microweber-option::radio-modern', RadioModernOption::class);
+        Livewire::component('microweber-option::checkbox', CheckboxOption::class);
 
     }
 

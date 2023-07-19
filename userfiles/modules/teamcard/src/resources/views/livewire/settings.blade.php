@@ -54,11 +54,11 @@
 
         ?>
 
-        <livewire:microweber-live-edit::module-items-editor :moduleId="$moduleId" :moduleType="$moduleType"  :editorSettings="$editorSettings"/>
+        <livewire:microweber-live-edit::module-items-editor :optionGroup="$moduleId" :module="$moduleType"  :editorSettings="$editorSettings"/>
 
         <?php
 
-        /*<livewire:microweber-module-teamcard::list-items :moduleId="$moduleId" :moduleType="$moduleType"  />*/
+        /*<livewire:microweber-module-teamcard::list-items :optionGroup="$moduleId" :module="$moduleType"  />*/
         ?>
 
     </div>

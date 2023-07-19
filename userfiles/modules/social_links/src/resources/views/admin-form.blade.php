@@ -79,6 +79,18 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         })
     </script>
 
+
+        <div>
+            <livewire:microweber-option::text
+                optionKey="moeto_ime"
+                optionGroup="MW_IMENA"
+                />
+
+            <?php
+            echo get_option('moeto_ime', 'MW_IMENA');
+            ?>
+        </div>
+
     <div class="module-live-edit-settings module-social-links-settings">
         <div class="row">
             <div class="col-12 socials-settings">
@@ -94,7 +106,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <label class="form-check-label mr-2 d-flex align-items-center" for="facebook_enabled"><i class="mdi mdi-facebook mdi-20px lh-1_0 me-1"></i> facebook.com/</label>
                         </div>
                         <div class="col-xl-9 col-md-6 col-12">
-                            <livewire:microweber-module-option::text optionName="facebook_url" :moduleId="$option_group" :moduleType="$module_name"  />
+                            <livewire:microweber-option::text optionKey="facebook_url" :optionGroup="$option_group" :module="$module_name"  />
                         </div>
                     </div>
                 </div>
@@ -107,7 +119,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
 
                         <div class="col-xl-9 col-md-6 col-12">
-                            <livewire:microweber-module-option::text optionName="twitter_url" :moduleId="$option_group" :moduleType="$module_name"  />
+                            <livewire:microweber-option::text optionKey="twitter_url" :optionGroup="$option_group" :module="$module_name"  />
                         </div>
                     </div>
                 </div>
@@ -120,7 +132,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <label class="form-check-label mr-2 d-flex align-items-center" for="youtube_enabled"><i class="mdi mdi-youtube mdi-20px lh-1_0 me-1"></i> youtube.com/</label>
                         </div>
                         <div class="col-xl-9 col-md-6 col-12">
-                            <livewire:microweber-module-option::text optionName="youtube_url" :moduleId="$option_group" :moduleType="$module_name"  />
+                            <livewire:microweber-option::text optionKey="youtube_url" :optionGroup="$option_group" :module="$module_name"  />
                         </div>
                     </div>
                 </div>
@@ -133,7 +145,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <label class="form-check-label mr-2 d-flex align-items-center" for="instagram_enabled"><i class="mdi mdi-instagram mdi-20px lh-1_0 me-1"></i> instagram.com/</label>
                         </div>
                         <div class="col-xl-9 col-md-6 col-12">
-                            <livewire:microweber-module-option::text optionName="instagram_url" :moduleId="$option_group" :moduleType="$module_name"  />
+                            <livewire:microweber-option::text optionKey="instagram_url" :optionGroup="$option_group" :module="$module_name"  />
                         </div>
                     </div>
                 </div>
@@ -152,7 +164,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <label class="form-check-label mr-2 d-flex align-items-center" for="pinterest_enabled"><i class="mdi mdi-pinterest mdi-20px lh-1_0 me-1"></i> pinterest.com/</label>
                             </div>
                             <div class="col-xl-9 col-md-6 col-12">
-                                <livewire:microweber-module-option::text optionName="pinterest_url" :moduleId="$option_group" :moduleType="$module_name"  />
+                                <livewire:microweber-option::text optionKey="pinterest_url" :optionGroup="$option_group" :module="$module_name"  />
                             </div>
                         </div>
                     </div>
@@ -165,7 +177,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <label class="form-check-label mr-2 d-flex align-items-center" for="linkedin_enabled"><i class="mdi mdi-linkedin mdi-20px lh-1_0 me-1"></i> linkedin.com/</label>
                             </div>
                             <div class="col-xl-9 col-md-6 col-12">
-                                <livewire:microweber-module-option::text optionName="linkedin_url" :moduleId="$option_group" :moduleType="$module_name"  />
+                                <livewire:microweber-option::text optionKey="linkedin_url" :optionGroup="$option_group" :module="$module_name"  />
                             </div>
                         </div>
                     </div>
@@ -178,7 +190,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <label class="form-check-label mr-2 d-flex align-items-center" for="github_enabled"><i class="mdi mdi-github mdi-20px lh-1_0 me-1"></i> github.com/</label>
                             </div>
                             <div class="col-xl-9 col-md-6 col-12">
-                                <livewire:microweber-module-option::text optionName="github_url" :moduleId="$option_group" :moduleType="$module_name"  />
+                                <livewire:microweber-option::text optionKey="github_url" :optionGroup="$option_group" :module="$module_name"  />
                             </div>
                         </div>
                     </div>
@@ -192,7 +204,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <label class="form-check-label mr-2 d-flex align-items-center" for="soundcloud_enabled"><i class="mdi mdi-soundcloud mdi-20px lh-1_0 me-1"></i> soundcloud.com/</label>
                             </div>
                             <div class="col-xl-9 col-md-6 col-12">
-                                <livewire:microweber-module-option::text optionName="soundcloud_url" :moduleId="$option_group" :moduleType="$module_name"  />
+                                <livewire:microweber-option::text optionKey="soundcloud_url" :optionGroup="$option_group" :module="$module_name"  />
                             </div>
                         </div>
                     </div>
@@ -205,7 +217,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <label class="form-check-label mr-2 d-flex align-items-center" for="mixcloud_enabled"><i class="mdi mdi-mixdcloud mdi-20px lh-1_0 me-1"></i> mixdcloud.com/</label>
                             </div>
                             <div class="col-xl-9 col-md-6 col-12">
-                                <livewire:microweber-module-option::text optionName="mixcloud_url" :moduleId="$option_group" :moduleType="$module_name"  />
+                                <livewire:microweber-option::text optionKey="mixcloud_url" :optionGroup="$option_group" :module="$module_name"  />
                             </div>
                         </div>
                     </div>
@@ -218,7 +230,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <label class="form-check-label mr-2 d-flex align-items-center" for="medium_enabled"><i class="mdi mdi-medium mdi-20px lh-1_0 me-1"></i> medium.com/</label>
                             </div>
                             <div class="col-xl-9 col-md-6 col-12">
-                                <livewire:microweber-module-option::text optionName="medium_url" :moduleId="$option_group" :moduleType="$module_name"  />
+                                <livewire:microweber-option::text optionKey="medium_url" :optionGroup="$option_group" :module="$module_name"  />
                             </div>
                         </div>
                     </div>
@@ -231,7 +243,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <label class="form-check-label mr-2 d-flex align-items-center" for="rss_enabled"><i class="mdi mdi-rss mdi-20px lh-1_0 me-1"></i> RSS</label>
                             </div>
                             <div class="col-xl-9 col-md-6 col-12">
-                                <livewire:microweber-module-option::text optionName="rss_url" :moduleId="$option_group" :moduleType="$module_name"  />
+                                <livewire:microweber-option::text optionKey="rss_url" :optionGroup="$option_group" :module="$module_name"  />
                             </div>
                         </div>
                     </div>
@@ -244,7 +256,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <label class="form-check-label mr-2 d-flex align-items-center" for="discord_enabled"><i class="mdi mdi-discord mdi-20px lh-1_0 me-1"></i> discord.gg/</label>
                             </div>
                             <div class="col-xl-9 col-md-6 col-12">
-                                <livewire:microweber-module-option::text optionName="discord_url" :moduleId="$option_group" :moduleType="$module_name"  />
+                                <livewire:microweber-option::text optionKey="discord_url" :optionGroup="$option_group" :module="$module_name"  />
                             </div>
                         </div>
                     </div>

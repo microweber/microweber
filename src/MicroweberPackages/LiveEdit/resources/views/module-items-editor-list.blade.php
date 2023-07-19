@@ -119,8 +119,8 @@ showEditTab: 'main'
                          x-transition:enter="tab-pane-slide-right-active">
                         <button x-on:click="showEditTab = 'main'" type="button">@lang('Back')</button>
                         <div id="add-new-item-holder">
-                            <livewire:microweber-live-edit::module-items-editor-edit-item wire:key="newItem{{$moduleId}}" :moduleId="$moduleId"
-                                                                            :moduleType="$moduleType" :editorSettings="$editorSettings" />
+                            <livewire:microweber-live-edit::module-items-editor-edit-item wire:key="newItem{{$moduleId}}" :optionGroup="$moduleId"
+                                                                            :module="$moduleType" :editorSettings="$editorSettings" />
 
                         </div>
                     </div>
@@ -137,8 +137,8 @@ showEditTab: 'main'
 
                                 <div>
 
-                                    <livewire:microweber-live-edit::module-items-editor-edit-item :moduleId="$moduleId"
-                                                                                    :moduleType="$moduleType"
+                                    <livewire:microweber-live-edit::module-items-editor-edit-item :optionGroup="$moduleId"
+                                                                                    :module="$moduleType"
                                                                                     :wire:key="$item['itemId']"
                                                                                     :itemId="$item['itemId']" :editorSettings="$editorSettings" />
 
