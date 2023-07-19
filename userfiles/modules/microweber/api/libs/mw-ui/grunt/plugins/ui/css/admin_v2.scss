@@ -168,7 +168,7 @@ body.theme-dark {
 
 
     .live-edit-toolbar-buttons {
-        &:hover, &.live-edit-resolution-active, &.live-edit-right-sidebar-active , &:focus, &:active {
+        &:hover, &.live-edit-resolution-active, &.live-edit-right-sidebar-active , &:focus, &:active, &.active  {
             background-color: var(--tblr-bg-surface) !important;
             border-color: var(--tblr-bg-surface) !important;
 
@@ -2034,8 +2034,9 @@ svg.text-danger {
         padding: 3px 7px;
         border-color: var(--tblr-body-bg2) !important;
         background-color: var(--tblr-body-bg2) !important;
+        box-shadow: none;
 
-        &:hover, &.live-edit-resolution-active, &.live-edit-right-sidebar-active, &:focus, &:active {
+        &:hover, &.live-edit-resolution-active, &.live-edit-right-sidebar-active, &:focus, &:active, &.active {
             background-color: var(--tblr-bg-surface) !important;
             border-color: var(--tblr-bg-surface) !important;
         }
@@ -2081,9 +2082,8 @@ svg.text-danger {
 .live-edit-tools {
     text-decoration: none;
     color: var(--tblr-body-color);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
-    padding: 10px 0;
     cursor: pointer;
 
     &:hover {
@@ -2108,6 +2108,7 @@ svg.text-danger {
     letter-spacing: 0.75px;
     line-height: 16px;
     text-overflow: ellipsis;
+    margin-bottom: 7px;
 
 }
 
@@ -2117,7 +2118,7 @@ svg.text-danger {
     line-height: 22px;
     min-height: var(--mw-forms-min-height);
     outline: none;
-    padding: 0 7px;
+    margin: 0 7px;
     position: relative;
 
     .form-control-live-edit-input, .form-control-live-edit-input.form-select {
@@ -2131,20 +2132,28 @@ svg.text-danger {
         width: 100%;
         outline: none;
         background-color: #f5f5f5;
-        padding-inline-start: 5px;
+        padding-inline-start: 10px;
 
          &:focus, &:focus-visible {
             outline: none;
              background-color: transparent;
+
+             +.form-control-live-edit-bottom-effect {
+                 &:after {
+                     width: 100%;
+                     transition-duration: .3s;
+                 }
+             }
          }
 
+        &.form-control-input-range-slider {
+            background-color: transparent;
+            max-width: 45px;
+            height: 35px;
+            min-height: unset;
 
-        &:focus-visible {
-            +.form-control-live-edit-bottom-effect {
-                &:after {
-                    width: 100%;
-                    transition-duration: .3s;
-                }
+            &:focus, &:focus-visible {
+                background-color: #f5f5f5;
             }
         }
     }
@@ -2172,6 +2181,10 @@ svg.text-danger {
             transition: width .25s cubic-bezier(.4,0,.68,.06);
             width: 0;
         }
+
+        &.bottom-effect-textarea {
+            bottom: 5px;
+        }
     }
 
     .form-control-live-edit-settings-btn {
@@ -2179,6 +2192,18 @@ svg.text-danger {
         top: 10px;
         right: 16px;
         cursor: pointer;
+    }
+}
+
+.form-check-input {
+
+    &:checked {
+        background-color: var(--tblr-body-color);
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 1px var(--tblr-box-shadow-sm);
+
     }
 }
 
@@ -2216,3 +2241,42 @@ svg.text-danger {
 .mw-le-layouts-dialog-col-full {
     overflow-y: scroll;
 }
+
+
+.noUi-touch-area {
+    background-color: var(--tblr-body-color);
+    border-radius: 50%;
+}
+
+.noUi-handle.noUi-active, .noUi-handle:focus {
+    box-shadow: 0 0 0 1px var(--tblr-body-color);
+
+}
+
+.noUi-horizontal {
+    width: 97%;
+    margin-left: auto;
+}
+
+.noUi-connect {
+    background: #444746;
+}
+
+.mw-live-edit-pagination-tabler {
+
+    li {
+        display: none;
+    }
+
+    li.mw-paging-visible-range {
+        display: block;
+    }
+
+    .page-item:not(.active) .page-link:hover {
+        background-color: var(--tblr-body-color);
+        border-color: var(--tblr-body-color);
+        color: var(--tblr-bg-surface);
+    }
+}
+
+

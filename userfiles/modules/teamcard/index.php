@@ -13,7 +13,7 @@ $is_empty = false;
 $data = json_decode($settings, true);
 
 if(!$data){
-$data = array();    
+$data = array();
 }
 
 if (count($data) == 0) {
@@ -21,6 +21,17 @@ if (count($data) == 0) {
     print lnotif("Click on settings to edit this module");
   //  $data = array($defaults);
   //  return;
+}
+
+if(!empty($data)){
+    //fill keys
+    foreach ($data as $key => $value) {
+        foreach ($defaults as $key2 => $value2) {
+            if (!isset($data[$key][$key2])) {
+                $data[$key][$key2] = $value2;
+            }
+        }
+    }
 }
 
 

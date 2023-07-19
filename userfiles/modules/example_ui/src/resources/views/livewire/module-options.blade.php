@@ -2,32 +2,40 @@
 <div>
     <div>
         <label class="live-edit-label">Text</label>
-        <livewire:microweber-module-option::text optionName="text" :moduleId="$moduleId" :moduleType="$moduleType"  />
+        <livewire:microweber-option::text optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div>
         <label class="live-edit-label">TextArea</label>
-        <livewire:microweber-module-option::textarea optionName="textarea" :moduleId="$moduleId" :moduleType="$moduleType"  />
+        <livewire:microweber-option::textarea optionKey="textarea" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div class="mt-4 mb-3">
         <label class="live-edit-label">Link</label>
-        <livewire:microweber-module-option::link-picker optionName="link" :moduleId="$moduleId" :moduleType="$moduleType"  />
+        <livewire:microweber-option::link-picker optionKey="link" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div class="mt-4 mb-3">
         <label class="live-edit-label">Icon Picker</label>
-        <livewire:microweber-module-option::icon-picker optionName="icon" :moduleId="$moduleId" :moduleType="$moduleType"  />
+        <livewire:microweber-option::icon-picker optionKey="icon" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
+
     <div class="mt-4 mb-3">
-        <label class="live-edit-label">Alignment</label>
-        <livewire:microweber-module-option::alignment optionName="alignment" :moduleId="$moduleId" :moduleType="$moduleType"  />
+        <label class="live-edit-label">Radio Modern</label>
+        @php
+            $radioModernOptions = [
+                '1' => 'Modern 1',
+                '2' => 'Modern 2',
+                '3' => 'Modern 3',
+            ];
+        @endphp
+        <livewire:microweber-option::radio-modern :radioModernOptions="$radioModernOptions" optionKey="alignment" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div class="mt-4 mb-3">
         <label class="live-edit-label">Range Slider</label>
-        <livewire:microweber-module-option::range-slider optionName="range_slider" :moduleId="$moduleId" :moduleType="$moduleType"  />
+        <livewire:microweber-option::range-slider optionKey="range_slider" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div class="mt-4 mb-3">
@@ -39,7 +47,7 @@
                 '3' => 'Option 3',
             ];
         @endphp
-        <livewire:microweber-module-option::dropdown :dropdownOptions="$dropdownOptions" optionName="dropdown" :moduleId="$moduleId" :moduleType="$moduleType"  />
+        <livewire:microweber-option::dropdown :dropdownOptions="$dropdownOptions" optionKey="dropdown" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
 
@@ -52,7 +60,7 @@
                 '3' => 'Radio 3',
             ];
         @endphp
-        <livewire:microweber-module-option::radio :radioOptions="$radioOptions" optionName="radio" :moduleId="$moduleId" :moduleType="$moduleType"  />
+        <livewire:microweber-option::radio :radioOptions="$radioOptions" optionKey="radio" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
 
@@ -66,7 +74,7 @@
                 '3' => 'Checkbox 3',
             ];
         @endphp
-        <livewire:microweber-module-option::checkbox :checkboxOptions="$checkboxOptions" optionName="checkbox" :moduleId="$moduleId" :moduleType="$moduleType"  />
+        <livewire:microweber-option::checkbox :checkboxOptions="$checkboxOptions" optionKey="checkbox" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
 

@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
 use MicroweberPackages\LiveEdit\Events\ServingLiveEdit;
+use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorComponent;
+use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorEditItemComponent;
+use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorListComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleTemplateSelectComponent;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingLiveEdit;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingModuleSettings;
@@ -29,18 +32,58 @@ class LiveEditServiceProvider extends PackageServiceProvider
         $package->hasViews('microweber-live-edit');
     }
 
+    public function register()
+    {
+        parent::register();
+        View::addNamespace('microweber-live-edit', __DIR__ . '/resources/views');
+
+        \App::singleton('LiveEditManager', function () {
+            return new LiveEditManager();
+        });
+
+        Livewire::component('microweber-live-edit::module-select-template', ModuleTemplateSelectComponent::class);
+        Livewire::component('microweber-live-edit::module-items-editor', ModuleSettingsItemsEditorComponent::class);
+        Livewire::component('microweber-live-edit::module-items-editor-list', ModuleSettingsItemsEditorListComponent::class);
+        Livewire::component('microweber-live-edit::module-items-editor-edit-item', ModuleSettingsItemsEditorEditItemComponent::class);
+
+        Event::listen(ServingLiveEdit::class, [$this, 'registerMenu']);
+    }
+
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        parent::boot();
+        $router = $this->app['router'];
+
+        $router->middlewareGroup('live_edit', [
+            DispatchServingLiveEdit::class,
+        ]);
+
+        $router->middlewareGroup('module_settings', [
+            DispatchServingModuleSettings::class,
+        ]);
+
+        $this->loadRoutesFrom((__DIR__) . '/../routes/api.php');
+        $this->loadRoutesFrom((__DIR__) . '/../routes/web.php');
+        $this->loadRoutesFrom((__DIR__) . '/../routes/live_edit.php');
+    }
+
     public function registerMenu()
     {
-       \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
-           ->addChild('Back to Admin', [
-            'uri'=>admin_url(),
-            'attributes' => [
-                'icon' => '<svg viewBox="0 0 40 40">
+        \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
+            ->addChild('Back to Admin', [
+                'uri' => admin_url(),
+                'attributes' => [
+                    'icon' => '<svg viewBox="0 0 40 40">
                                                         <path
                                                             d="M20 27.3l2.1-2.1-3.7-3.7h9.1v-3h-9.1l3.7-3.7-2.1-2.1-7.3 7.3 7.3 7.3zM20 40c-2.73 0-5.32-.52-7.75-1.58-2.43-1.05-4.56-2.48-6.38-4.3s-3.25-3.94-4.3-6.38S0 22.73 0 20c0-2.77.53-5.37 1.57-7.8s2.48-4.55 4.3-6.35 3.94-3.22 6.38-4.28S17.27 0 20 0c2.77 0 5.37.53 7.8 1.57s4.55 2.48 6.35 4.28c1.8 1.8 3.23 3.92 4.28 6.35C39.48 14.63 40 17.23 40 20c0 2.73-.52 5.32-1.58 7.75-1.05 2.43-2.48 4.56-4.28 6.38-1.8 1.82-3.92 3.25-6.35 4.3C25.37 39.48 22.77 40 20 40zm0-3c4.73 0 8.75-1.66 12.05-4.97C35.35 28.71 37 24.7 37 20c0-4.73-1.65-8.75-4.95-12.05C28.75 4.65 24.73 3 20 3c-4.7 0-8.71 1.65-12.02 4.95S3 15.27 3 20c0 4.7 1.66 8.71 4.98 12.03C11.29 35.34 15.3 37 20 37z"/>
                                                     </svg>'
-            ]
-        ]);
+                ]
+            ]);
 
         \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
             ->addChild('Users', [
@@ -78,7 +121,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
 
         \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
             ->addChild('Logout', [
-                'uri'=>logout_url(),
+                'uri' => logout_url(),
                 'attributes' => [
                     'route' => 'admin.settings.index',
                     'icon' => '<svg viewBox="0 0 36 36.1">
@@ -87,43 +130,6 @@ class LiveEditServiceProvider extends PackageServiceProvider
                                                     </svg>'
                 ]
             ]);
-    }
-
-    public function register()
-    {
-        parent::register();
-        View::addNamespace('microweber-live-edit', __DIR__ . '/resources/views');
-
-        \App::singleton('LiveEditManager', function () {
-            return new LiveEditManager();
-        });
-
-        Livewire::component('microweber-live-edit::module-select-template', ModuleTemplateSelectComponent::class);
-
-        Event::listen(ServingLiveEdit::class, [$this, 'registerMenu']);
-    }
-
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        parent::boot();
-        $router = $this->app['router'];
-
-        $router->middlewareGroup('live_edit', [
-            DispatchServingLiveEdit::class,
-        ]);
-
-        $router->middlewareGroup('module_settings', [
-            DispatchServingModuleSettings::class,
-        ]);
-
-        $this->loadRoutesFrom((__DIR__) . '/../routes/api.php');
-        $this->loadRoutesFrom((__DIR__) . '/../routes/web.php');
-        $this->loadRoutesFrom((__DIR__) . '/../routes/live_edit.php');
     }
 
 }
