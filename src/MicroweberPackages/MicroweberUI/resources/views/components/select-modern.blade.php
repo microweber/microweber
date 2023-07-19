@@ -14,9 +14,10 @@
     }
 @endphp
 
-<div x-data="{selectedOption: {{json_encode($selectedOption)}}, openOptions:false}">
 
-    <button type="button" class="btn btn-primary"
+<div class="form-control-live-edit-label-wrapper" x-data="{selectedOption: {{json_encode($selectedOption)}}, openOptions:false}">
+
+    <button type="button" class="btn btn-dark"
             x-on:click="openOptions = !openOptions" x-html="selectedOption.value">
     </button>
 
