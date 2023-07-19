@@ -14,7 +14,7 @@
     @if(!empty($options))
         @foreach($options as $key => $option)
 
-            <button type="button" x-on:click="selectedOption = '{{$key}}'" :class="[selectedOption == '{{$key}}' ? 'active':'']" class="btn btn-icon live-edit-toolbar-buttons w-100">
+            <button type="button" x-on:click="selectedOption = '{{$key}}'" :class="[selectedOption == '{{$key}}' ? 'active':'']" class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">
               {!! $option !!}
             </button>
 
