@@ -91,16 +91,14 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
         }
 
 
-        save_option(array(
-            'option_group' => $this->moduleId,
-            'module' => $this->moduleType,
-            'option_key' => $this->getSettingsKey(),
-            'option_value' => json_encode($allItems)
-        ));
+       $this->saveItems($allItems);
 
-        $this->emitTo('microweber-live-edit::module-items-editor-list', 'onItemChanged', ['moduleId' => $this->moduleId]);
+     $this->emitTo('microweber-live-edit::module-items-editor-list', 'onItemChanged', ['moduleId' => $this->moduleId]);
 
         $this->emit('switchToMainTab');
+
+      //  $this->emit('onItemChanged');
+
 
 
     }

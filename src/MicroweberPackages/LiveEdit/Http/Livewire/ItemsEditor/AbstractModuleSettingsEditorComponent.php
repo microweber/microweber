@@ -10,9 +10,12 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
 
     public $moduleTitle = 'Module Settings';
 
+    public bool $areYouSureDeleteModalOpened = false;
     public string $moduleId = '';
     public string $moduleType = '';
     public array $items = [];
+    public array $selectedItemsIds = [];
+
     public array $editorSettings = [];
 
 
@@ -48,6 +51,39 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         return view($this->view);
     }
 
+    public function showConfirmDeleteItemById($itemId)
+    {
+        $this->areYouSureDeleteModalOpened = true;
+        $this->selectedItemsIds = [$itemId];
+    }
+
+    public function confirmDeleteSelectedItems()
+    {
+
+        if ($this->selectedItemsIds and !empty($this->selectedItemsIds)) {
+            $existing = $this->getItems();
+            if ($existing) {
+                foreach ($existing as $key => $item) {
+                    if (isset($item['itemId']) and in_array($item['itemId'], $this->selectedItemsIds)) {
+                        unset($existing[$key]);
+                    }
+                }
+
+                if(empty($existing)){
+                 $this->items = [];
+                }
+                $this->saveItems($existing);
+            }
+        }
+        $this->areYouSureDeleteModalOpened = false;
+        $this->selectedItemsIds = [];
+
+
+
+        $this->emit('onItemChanged');
+
+
+    }
 
     public function reorderListItems($order)
     {
@@ -70,12 +106,18 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         }
         $allItems = [];
         $allItems = array_merge($topItems, $itemsOldSort);
+
+        $this->emit('onItemChanged');
+    }
+
+    public function saveItems($allItems)
+    {
+
         save_option(array(
             'option_group' => $this->moduleId,
             'module' => $this->moduleType,
             'option_key' => $this->getSettingsKey(),
             'option_value' => json_encode($allItems)
         ));
-        $this->emit('onItemChanged');
     }
 }
