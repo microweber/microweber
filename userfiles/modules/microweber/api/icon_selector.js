@@ -542,8 +542,8 @@
             page = page || 1;
             var max = 999;
             var pages = Math.min(Math.ceil(length/scope.settings.iconsPerPage), max);
-            var paging = document.createElement('div');
-            paging.className = 'mw-paging mw-paging-small mw-icon-selector-paging';
+            var paging = document.createElement('ul');
+            paging.className = 'pagination';
             if(scope.settings.iconsPerPage >= length ) {
                 return paging;
             }
@@ -556,10 +556,17 @@
                     el.className = 'active';
                     active = i;
                 }
+                el.classList.add('page-link');
                 el.onclick = function () {
                     comRender({page: this._value });
                 };
-                paging.appendChild(el);
+                var elLi = document.createElement('li');
+                elLi.className = 'page-item';
+
+                elLi.appendChild(el);
+
+
+                paging.appendChild(elLi);
             }
             var all = paging.querySelectorAll('a');
             for (var i = active - 3; i < active + 2; i++){
@@ -583,7 +590,7 @@
             if(active > 1) {
                 var prev = document.createElement('a');
                 prev.className = 'mw-paging-visible-range mw-paging-prev';
-                prev.innerHTML = '&laquo;';
+                prev.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 6l6 6l-6 6"></path></svg>';
                 prev._value = active-1;
                 $(paging).prepend(prev);
                 prev.onclick = function () {
