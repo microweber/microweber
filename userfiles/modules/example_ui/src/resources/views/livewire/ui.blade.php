@@ -120,7 +120,7 @@
         <x-microweber-ui::select-modern :options="$selectModernOptions" />
     </div>
 
-    <div class="mt-4 mb-3">
+<!--    <div class="mt-4 mb-3">
         <label class="live-edit-label">Menu with Dropdowns</label>
         <ul class="nav navbar-light">
                 <x-microweber-ui::dropdown id="js-dropdown-id">
@@ -143,7 +143,7 @@
 
                 </x-microweber-ui::dropdown>
             </ul>
-        </div>
+        </div>--> 
 
 
         <div class="mt-4 mb-3">
