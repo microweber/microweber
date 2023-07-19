@@ -7,9 +7,9 @@
 
         <div wire:ignore>
             <script>
-                window.mw.teamcard_items_sort = function () {
-                    if (!mw.$("#js-sortable-items-holder").hasClass("ui-sortable")) {
-                        mw.$("#js-sortable-items-holder").sortable({
+                window.mw.items_editor_sort = function () {
+                    if (!mw.$("#js-sortable-items-holder-{{md5($moduleId)}}").hasClass("ui-sortable")) {
+                        mw.$("#js-sortable-items-holder-{{md5($moduleId)}}").sortable({
                             items: '.list-group-item',
                             axis: 'y',
                             handle: '.sortHandle',
@@ -17,7 +17,7 @@
 
                                 setTimeout(function () {
                                     var obj = {itemIds: []};
-                                    var sortableItems = document.querySelectorAll('.js-sortable-item');
+                                    var sortableItems = document.querySelectorAll('#js-sortable-items-holder-{{md5($moduleId)}} .js-sortable-item');
 
                                     sortableItems.forEach(function (item) {
                                         var id = item.getAttribute('sort-key');
@@ -40,11 +40,11 @@
                     }
                 }
                 $(document).ready(function () {
-                    window.mw.teamcard_items_sort();
+                    window.mw.items_editor_sort();
                 });
 
                 window.addEventListener('livewire:load', function () {
-                    window.mw.teamcard_items_sort();
+                    window.mw.items_editor_sort();
                 });
             </script>
 
@@ -77,7 +77,7 @@ showEditTab: 'main'
                                     </div>
 
                                     @if (isset($editorSettings['schema']))
-                                        <div class="list-group list-group-flush list-group-hoverable" id="js-sortable-items-holder">
+                                        <div class="list-group list-group-flush list-group-hoverable" id="js-sortable-items-holder-{{md5($moduleId)}}">
                                             @foreach ($items as $item)
                                                 <div class="list-group-item js-sortable-item" sort-key="{{ $item['itemId'] }}" id="item-list-id-{{ $item['itemId'] }}">
                                                     <div class="row align-items-center">
