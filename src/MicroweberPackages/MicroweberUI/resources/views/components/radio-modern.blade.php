@@ -5,7 +5,7 @@
 
     @if(!empty($options))
         @foreach($options as $key => $option)
-            
+
             <button type="button" class="btn btn-icon live-edit-toolbar-buttons w-100 active">
                 {{$option}}
             </button>
