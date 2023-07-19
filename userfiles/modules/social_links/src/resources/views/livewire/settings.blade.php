@@ -12,9 +12,14 @@
                 $socialNetworkOptionKeyEnable = $socialNetwork . '_enabled';
                 $socialNetworkIsEnabled = get_option($socialNetworkOptionKeyEnable, $this->moduleId);
             @endphp
-            <div class="form-check my-3">
+            <div class="form-check my-3" x-data="{socialNetworkEnabled: '{{$socialNetworkIsEnabled}}'}">
                 <div class="d-flex flex-wrap align-items-center">
-                    <div class="d-flex col-xl-3 col-md-6 col-12">
+
+                    <div @mw-option-saved.window="function() {
+                        if ($event.detail.optionKey === '{{$socialNetworkOptionKeyEnable}}') {
+                            socialNetworkEnabled = $event.detail.optionValue;
+                        }
+                    }" class="d-flex col-xl-3 col-md-6 col-12">
 
                         <livewire:microweber-option::toggle value="y" :optionKey="$socialNetworkOptionKeyEnable" :optionGroup="$moduleId" module="social_links" />
                         <div>
@@ -23,7 +28,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-xl-9 col-md-6 col-12">
+                    <div class="col-xl-9 col-md-6 col-12" x-show="socialNetworkEnabled" x-transition>
                         <livewire:microweber-option::text :optionKey="$socialNetworkOptionKeyUrl" :optionGroup="$moduleId" module="social_links" />
                     </div>
                 </div>
