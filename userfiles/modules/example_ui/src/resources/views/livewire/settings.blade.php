@@ -1,15 +1,15 @@
 <div style="width:320px;margin:0 auto;padding-top:50px">
 
     <div class="card">
-        <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a href="#tabs-home-3" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
+        <div class="card-header px-3 pb-0 pt-4">
+            <ul class="list-unstyled d-flex align-items-center gap-3" data-bs-toggle="tabs" role="tablist">
+                <li role="presentation">
+                    <a href="#tabs-home-3" class="mw-admin-action-links mw-adm-liveedit-tabs active" data-bs-toggle="tab" aria-selected="true" role="tab"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
                         Microweber Ui
                     </a>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <a href="#tabs-profile-3" class="nav-link" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab"><!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                <li role="presentation">
+                    <a href="#tabs-profile-3" class="mw-admin-action-links mw-adm-liveedit-tabs" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab"><!-- Download SVG icon from http://tabler-icons.io/i/user -->
                         Module Options
                     </a>
                 </li>
