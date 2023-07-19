@@ -6,6 +6,6 @@ class CheckboxOption extends OptionElement
 {
     public $checkboxOptions = [];
 
-    public string $view = 'module::admin.module-option.checkbox';
-    // public string $viewTranslatable = 'module::admin.module-option.text-multilanguage';
+    public string $view = 'module::admin.option.checkbox';
+    // public string $viewTranslatable = 'module::admin.option.text-multilanguage';
 }

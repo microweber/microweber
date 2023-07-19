@@ -7,8 +7,8 @@ class DropdownOption extends OptionElement
 
     public $dropdownOptions = [];
 
-    public string $view = 'module::admin.module-option.dropdown';
+    public string $view = 'module::admin.option.dropdown';
 
-   // public string $viewTranslatable = 'module::admin.module-option.text-multilanguage';
+   // public string $viewTranslatable = 'module::admin.option.text-multilanguage';
 
 }

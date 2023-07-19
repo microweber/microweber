@@ -7,12 +7,12 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class OptionElement extends AdminComponent
 {
-    public string $view = 'module::admin.module-option.text';
-   // public string $viewTranslatable = 'module::admin.module-option.text-multilanguage';
+    public string $view = 'module::admin.option.text';
+   // public string $viewTranslatable = 'module::admin.option.text-multilanguage';
 
-    public string $moduleId = '';
-    public string $moduleType = '';
-    public string $optionName = '';
+    public string $optionGroup = '';
+    public string $module = '';
+    public string $optionKey = '';
 
     public array $state = [
 
@@ -38,36 +38,45 @@ class OptionElement extends AdminComponent
 
     public function boot()
     {
-        $this->model = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', $this->optionName)
-            ->where('option_group', $this->moduleId)
-            ->where('module', $this->moduleType)
-            ->firstOrNew();
+        $this->newModelInstance();
+    }
+
+    private function newModelInstance()
+    {
+        if (!empty($this->module)) {
+            $this->model = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', $this->optionKey)
+                ->where('option_group', $this->optionGroup)
+                ->where('module', $this->module)
+                ->firstOrNew();
+        } else {
+            $this->model = \MicroweberPackages\Option\Models\Option::where('option_key', $this->optionKey)
+                ->where('option_group', $this->optionGroup)
+                ->firstOrNew();
+        }
     }
 
     public function mount()
     {
-        $this->model = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', $this->optionName)
-            ->where('option_group', $this->moduleId)
-            ->where('module', $this->moduleType)
-            ->first();
+        $this->newModelInstance();
 
-        if ($this->optionName) {
-            $val = get_module_option($this->optionName, $this->moduleId);
+        if ($this->optionKey) {
+            $val = get_module_option($this->optionKey, $this->optionGroup);
             $this->settings = [
-                $this->optionName => $val
+                $this->optionKey => $val
             ];
-            $this->state['settings'][$this->optionName] = $val;
+            $this->state['settings'][$this->optionKey] = $val;
         }
-        if (!empty($this->moduleType)) {
+
+        if (!empty($this->module)) {
             $translatableModuleOptions = MultilanguageHelpers::getTranslatableModuleOptions();
-            if (isset($translatableModuleOptions[$this->moduleType]) && !empty($translatableModuleOptions[$this->moduleType])) {
-                $this->translatableOptions = $translatableModuleOptions[$this->moduleType];
+            if (isset($translatableModuleOptions[$this->module]) && !empty($translatableModuleOptions[$this->module])) {
+                $this->translatableOptions = $translatableModuleOptions[$this->module];
             }
         }
 
         $multilanguageIsEnabled = MultilanguageHelpers::multilanguageIsEnabled();
         if ($multilanguageIsEnabled) {
-            if (in_array($this->optionName, $this->translatableOptions)) {
+            if (in_array($this->optionKey, $this->translatableOptions)) {
                 $this->translatable = true;
             }
         }
@@ -96,8 +105,11 @@ class OptionElement extends AdminComponent
             foreach ($settings as $key => $value) {
                 $option['option_value'] = $value;
                 $option['option_key'] = $key;
-                $option['option_group'] = $this->moduleId;
-                $option['module'] = $this->moduleType;
+                $option['option_group'] = $this->optionGroup;
+
+                if (!empty($this->module)) {
+                    $option['module'] = $this->module;
+                }
 
             }
         }
@@ -107,7 +119,6 @@ class OptionElement extends AdminComponent
             $translations = $this->state['translations'];
         }
 
-
         if (isset($translations) and !empty($translations)) {
             $option['multilanguage'] = [];
             foreach ($translations as $lang => $items) {
@@ -116,16 +127,13 @@ class OptionElement extends AdminComponent
                 }
             }
         }
-        $this->saveModuleOptionData($option);
-        $this->emit('settingsChanged', ['moduleId' => $this->moduleId, 'state' => $this->state]);
+        $this->saveOptionData($option);
+        $this->emit('settingsChanged', ['optionGroup' => $this->optionGroup, 'state' => $this->state]);
     }
 
-    public function saveModuleOptionData($option)
+    public function saveOptionData($option)
     {
-        $this->model = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', $this->optionName)
-            ->where('option_group', $this->moduleId)
-            ->where('module', $this->moduleType)
-            ->firstOrNew();
+        $this->newModelInstance();
 
         if (isset($option['option_value'])) {
             $this->model->option_value = $option['option_value'];
@@ -145,6 +153,7 @@ class OptionElement extends AdminComponent
         }
 
         $modelSave = $this->model->save();
+
         return $modelSave;
     }
 
@@ -155,15 +164,14 @@ class OptionElement extends AdminComponent
         $this->defaultLanguage = mw()->lang_helper->default_lang();
         $this->currentLanguage = mw()->lang_helper->current_lang();
 
-
         if ($this->model && method_exists($this->model, 'getTranslationsFormated')) {
             $modelTranslations = $this->model->getTranslationsFormated();
             if (!empty($modelTranslations)) {
                 foreach ($modelTranslations as $locale => $val) {
                     if ($locale != $this->defaultLanguage) {
                         if(isset($val['option_value'])) {
-                            $this->translations[$locale][$this->optionName] = $val['option_value'];
-                            $this->state['translations'][$locale][$this->optionName] = $val['option_value'];
+                            $this->translations[$locale][$this->optionKey] = $val['option_value'];
+                            $this->state['translations'][$locale][$this->optionKey] = $val['option_value'];
                         }
                     }
                 }
@@ -171,7 +179,7 @@ class OptionElement extends AdminComponent
             }
         }
 
-        $this->fieldName = $this->optionName;
+        $this->fieldName = $this->optionKey;
         foreach($this->supportedLanguages as $language) {
             if ($language['locale'] == $this->defaultLanguage) {
                 $this->currentLanguageData = $language;
