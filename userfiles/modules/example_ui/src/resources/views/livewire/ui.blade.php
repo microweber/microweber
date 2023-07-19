@@ -25,6 +25,19 @@
     </div>
 
     <div class="mt-4 mb-3">
+        <label class="live-edit-label">Radio Modern</label>
+        @php
+            $radioModernOptions = [
+                '1' => 'S',
+                '2' => 'L',
+                '3' => 'X',
+                '4' => 'XL',
+            ];
+        @endphp
+        <x-microweber-ui::radio-modern :options="$radioModernOptions" />
+    </div>
+
+    <div class="mt-4 mb-3">
         <label class="live-edit-label">Range Slider</label>
         <x-microweber-ui::range-slider />
     </div>
