@@ -1,6 +1,6 @@
 @props(['options'=>[]])
 
-<div>
+<div class="form-control-live-edit-label-wrapper">
     @if(!empty($options))
         @foreach($options as $key => $option)
             <label class="form-check">
