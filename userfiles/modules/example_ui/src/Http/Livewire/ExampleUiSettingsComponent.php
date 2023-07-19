@@ -9,6 +9,7 @@ class ExampleUiSettingsComponent extends ModuleSettingsComponent
 
     public $showModal = false;
     public $showDialogModal = false;
+    public $areYouSureModal = false;
 
     public function render()
     {

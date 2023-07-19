@@ -15,13 +15,8 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-microweber-ui::secondary-button>
-                {{ __('Cancel') }}
-            </x-microweber-ui::secondary-button>
-
-            <x-microweber-ui::button class="ms-2">
-                {{ $button }}
-            </x-microweber-ui::button>
+            {{ $footer }}
         </x-slot>
+
     </x-microweber-ui::dialog-modal>
 @endonce
