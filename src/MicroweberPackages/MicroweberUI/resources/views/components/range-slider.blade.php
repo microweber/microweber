@@ -4,16 +4,14 @@
     ?>
     <div class="form-control-live-edit-label-wrapper " x-data="{customRange: false, currentRangeValue: 0}">
         <div class="d-flex align-items-center gap-2 flex-wrap justify-content-between">
-          <div class="col-10">
-              <div class="form-range mt-1 " id="range-slider-{{$rand}}}"></div>
-          </div>
+            <label class="live-edit-form-control-settings">Range slider label </label>
 
-            <input type="text" x-model="currentRangeValue" id="js-custom-range-value-{{$rand}}" class="form-control-live-edit-input col-auto" style="background-color: #f5f5f5; max-width: 45px;">
+            <input type="text" x-model="currentRangeValue" id="js-custom-range-value-{{$rand}}" class="form-control-live-edit-input form-control-input-range-slider">
 
         </div>
+
+      <div class="form-range mt-1 " id="range-slider-{{$rand}}}"></div>
     </div>
-
-
 
     <script>
         $(document).ready(function() {

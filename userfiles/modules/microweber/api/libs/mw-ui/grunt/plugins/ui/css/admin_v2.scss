@@ -2145,6 +2145,17 @@ svg.text-danger {
                  }
              }
          }
+
+        &.form-control-input-range-slider {
+            background-color: transparent;
+            max-width: 45px;
+            height: 35px;
+            min-height: unset;
+
+            &:focus, &:focus-visible {
+                background-color: #f5f5f5;
+            }
+        }
     }
 
     .form-control-live-edit-bottom-effect {
