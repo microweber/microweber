@@ -28,10 +28,11 @@
         <label class="live-edit-label">Radio Modern</label>
         @php
             $radioModernOptions = [
-                '1' => 'S',
-                '2' => 'L',
-                '3' => 'X',
-                '4' => 'XL',
+                '1' => 'XS',
+                '2' => 'S',
+                '3' => 'M',
+                '4' => 'L',
+                '5' => 'XL',
             ];
         @endphp
         <x-microweber-ui::radio-modern :options="$radioModernOptions" />
