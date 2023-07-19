@@ -543,7 +543,7 @@
             var max = 999;
             var pages = Math.min(Math.ceil(length/scope.settings.iconsPerPage), max);
             var paging = document.createElement('ul');
-            paging.className = 'pagination';
+            paging.className = 'pagination mw-live-edit-pagination-tabler d-flex flex-wrap mx-auto mt-3';
             if(scope.settings.iconsPerPage >= length ) {
                 return paging;
             }
@@ -568,7 +568,7 @@
 
                 paging.appendChild(elLi);
             }
-            var all = paging.querySelectorAll('a');
+            var all = paging.querySelectorAll('li');
             for (var i = active - 3; i < active + 2; i++){
                 if(all[i]) {
                     all[i].className += ' mw-paging-visible-range';
@@ -581,7 +581,7 @@
                 next.innerHTML = '&raquo;';
                 next._value = active+1;
                 next.className = 'mw-paging-visible-range mw-paging-next';
-                next.innerHTML = '&raquo;';
+                next.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 6l6 6l-6 6"></path></svg>';
                 $(paging).append(next);
                 next.onclick = function () {
                      comRender({page: this._value });
@@ -590,7 +590,7 @@
             if(active > 1) {
                 var prev = document.createElement('a');
                 prev.className = 'mw-paging-visible-range mw-paging-prev';
-                prev.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 6l6 6l-6 6"></path></svg>';
+                prev.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M15 6l-6 6l6 6"></path></svg>';
                 prev._value = active-1;
                 $(paging).prepend(prev);
                 prev.onclick = function () {
@@ -815,9 +815,3 @@
     };
 
 })();
-
-
-
-
-
-
