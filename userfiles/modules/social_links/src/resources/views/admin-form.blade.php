@@ -53,7 +53,7 @@
         @foreach($socialNetworks as $socialNetwork=>$socialNetworkData)
         <div class="form-check my-3">
             <div class="d-flex flex-wrap align-items-center">
-                <div class="col-xl-3 col-md-6 col-12 pb-2">
+                <div class="col-xl-3 col-md-6 col-12">
                    <x-microweber-ui::toggle>
                        <div style="margin-left:10px">
                            <label class="form-check-label d-flex align-items-center" for="{{$socialNetwork}}_enabled">
@@ -63,7 +63,10 @@
                    </x-microweber-ui::toggle>
                 </div>
                 <div class="col-xl-9 col-md-6 col-12">
-                    <x-microweber-ui::input />
+                    @php
+                    $socialNetworkOptionKeyUrl = $socialNetwork . '_url';
+                    @endphp
+                    <livewire:microweber-option::text :optionKey="$socialNetworkOptionKeyUrl" :optionGroup="$params['id']" module="social_links" />
                 </div>
             </div>
         </div>
