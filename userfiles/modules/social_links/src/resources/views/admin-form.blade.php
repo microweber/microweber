@@ -244,7 +244,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <label class="form-check-label mr-2 d-flex align-items-center" for="discord_enabled"><i class="mdi mdi-discord mdi-20px lh-1_0 me-1"></i> discord.gg/</label>
                             </div>
                             <div class="col-xl-9 col-md-6 col-12">
-                                <livewire:microweber-module-option::text optionKey="discord_ur" :optionGroup="$option_group" :module="$module_name"  />
+                                <livewire:microweber-module-option::text optionKey="discord_url" :optionGroup="$option_group" :module="$module_name"  />
                             </div>
                         </div>
                     </div>
