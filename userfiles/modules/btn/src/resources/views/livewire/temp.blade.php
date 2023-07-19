@@ -57,7 +57,7 @@
 
 
             <x-microweber-ui::icon-picker wire:model="settings.icon" :value="$settings['icon']"/>
-            <x-microweber-ui::text-option wire:model="settings.title" :value="$settings['title']"/>
+            <x-microweber-ui::text wire:model="settings.title" :value="$settings['title']"/>
             <x-microweber-ui::url-picker wire:model="settings.url" :value="$settings['url']"/>
 
 
