@@ -4,7 +4,7 @@
 
     <div>
 
-        <livewire:microweber-live-edit::module-items-editor-list :moduleId="$moduleId" :moduleType="$moduleType"
+        <livewire:microweber-live-edit::module-items-editor-list :moduleId="$moduleId" :module="$moduleType"
                                                             :editorSettings="$editorSettings"/>
 
 

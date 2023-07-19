@@ -131,6 +131,29 @@
     </div>
 
     <div class="mt-4">
+
+        <x-microweber-ui::dialog-modal wire:model="areYouSureModal">
+            <x-slot name="title">
+                Confirm your action
+            </x-slot>
+            <x-slot name="content">
+                Are you sure want to do this?
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-microweber-ui::button wire:click="$toggle('areYouSureModal')" wire:loading.attr="disabled">
+                    Confirm
+                </x-microweber-ui::button>
+            </x-slot>
+        </x-microweber-ui::dialog-modal>
+
+        <x-microweber-ui::button wire:click="$toggle('areYouSureModal')" >
+            Are you Sure Modal
+        </x-microweber-ui::button>
+
+    </div>
+
+    <div class="mt-4">
         <x-microweber-ui::action-message on="showActionMessage">
             <?php _e('This is an action message!');?>
         </x-microweber-ui::action-message>

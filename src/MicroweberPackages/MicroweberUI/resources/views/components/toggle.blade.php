@@ -1,6 +1,12 @@
-<div class="form-control-live-edit-label-wrapper">
+@props(['disabled' => false])
 
+<div class="form-control-live-edit-label-wrapper">
     <label class="form-switch">
-        <input class="form-check-input" type="checkbox"> Checkbox input
+        <div>
+            <input type="checkbox" class="form-check-input" {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge() !!} />
+        </div>
+        <div>
+            {{$slot}}
+        </div>
     </label>
 </div>

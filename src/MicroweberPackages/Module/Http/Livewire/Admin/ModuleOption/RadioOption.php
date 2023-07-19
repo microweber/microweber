@@ -6,7 +6,7 @@ class RadioOption extends OptionElement
 {
     public $radioOptions = [];
 
-    public string $view = 'module::admin.module-option.radio';
-    // public string $viewTranslatable = 'module::admin.module-option.text-multilanguage';
+    public string $view = 'module::admin.option.radio';
+    // public string $viewTranslatable = 'module::admin.option.text-multilanguage';
 
 }

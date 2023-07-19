@@ -6,7 +6,7 @@ class RadioModernOption extends OptionElement
 {
     public $radioModernOptions = [];
 
-    public string $view = 'module::admin.module-option.radio-modern';
-    // public string $viewTranslatable = 'module::admin.module-option.text-multilanguage';
+    public string $view = 'module::admin.option.radio-modern';
+    // public string $viewTranslatable = 'module::admin.option.text-multilanguage';
 
 }

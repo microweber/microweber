@@ -424,7 +424,7 @@
 
         var createUI = function () {
             var root = mw.element({
-                props: { className: 'mw-icon-selector-root' }
+                props: { className: 'mw-icon-selector-root d-flex mx-auto p-3' }
             });
             var iconsBlockHolder, tabs, optionsHolder, iconsHolder;
             if(scope.settings.iconOptions) {
@@ -542,8 +542,8 @@
             page = page || 1;
             var max = 999;
             var pages = Math.min(Math.ceil(length/scope.settings.iconsPerPage), max);
-            var paging = document.createElement('div');
-            paging.className = 'mw-paging mw-paging-small mw-icon-selector-paging';
+            var paging = document.createElement('ul');
+            paging.className = 'pagination mw-live-edit-pagination-tabler d-flex flex-wrap mx-auto mt-3';
             if(scope.settings.iconsPerPage >= length ) {
                 return paging;
             }
@@ -556,12 +556,19 @@
                     el.className = 'active';
                     active = i;
                 }
+                el.classList.add('page-link');
                 el.onclick = function () {
                     comRender({page: this._value });
                 };
-                paging.appendChild(el);
+                var elLi = document.createElement('li');
+                elLi.className = 'page-item';
+
+                elLi.appendChild(el);
+
+
+                paging.appendChild(elLi);
             }
-            var all = paging.querySelectorAll('a');
+            var all = paging.querySelectorAll('li');
             for (var i = active - 3; i < active + 2; i++){
                 if(all[i]) {
                     all[i].className += ' mw-paging-visible-range';
@@ -574,7 +581,7 @@
                 next.innerHTML = '&raquo;';
                 next._value = active+1;
                 next.className = 'mw-paging-visible-range mw-paging-next';
-                next.innerHTML = '&raquo;';
+                next.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 6l6 6l-6 6"></path></svg>';
                 $(paging).append(next);
                 next.onclick = function () {
                      comRender({page: this._value });
@@ -583,7 +590,7 @@
             if(active > 1) {
                 var prev = document.createElement('a');
                 prev.className = 'mw-paging-visible-range mw-paging-prev';
-                prev.innerHTML = '&laquo;';
+                prev.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M15 6l-6 6l6 6"></path></svg>';
                 prev._value = active-1;
                 $(paging).prepend(prev);
                 prev.onclick = function () {
@@ -599,7 +606,7 @@
             scope.searchField =  mw.element({
                 tag: 'input',
                 props: {
-                    className: 'mw-ui-searchfield w100',
+                    className: 'form-control-live-edit-input',
                     placeholder: 'Search',
                     oninput: function () {
                         clearTimeout(time);
@@ -610,7 +617,12 @@
                 }
             });
 
-            return scope.searchField;
+            var searchFieldWrapper = mw.element('<div class="form-control-live-edit-label-wrapper mt-2"></div>');
+            var searchFieldSpanEffect = mw.element('<span class="form-control-live-edit-bottom-effect"></span>');
+            searchFieldWrapper.append(scope.searchField);
+            searchFieldWrapper.append(searchFieldSpanEffect);
+
+            return searchFieldWrapper;
         };
 
         var comRender = function (options) {
@@ -623,7 +635,7 @@
         };
 
         var searchSelector = function () {
-            var sel = mw.element('<select class="mw-ui-field w100" />');
+            var sel = mw.element('<select class="form-select form-control-live-edit-input" />');
             scope.selectField = sel;
             loader.storage().forEach(function (item) {
                 var el = document.createElement('option');
@@ -634,7 +646,11 @@
             sel.on('change', function (){
                 comRender()
             });
-            return sel;
+
+            var searchSelectorWrapper = mw.element('<div class="form-control-live-edit-label-wrapper mt-2"></div>');
+            searchSelectorWrapper.append(sel);
+
+            return searchSelectorWrapper;
         };
 
         var search = function (conf) {
@@ -799,9 +815,3 @@
     };
 
 })();
-
-
-
-
-
-

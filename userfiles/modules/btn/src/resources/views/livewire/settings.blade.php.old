@@ -19,28 +19,28 @@
 
             <div>
                 Text:
-                <livewire:microweber-module-option::text optionName="text"  :moduleId="$moduleId" :moduleType="$moduleType"  />
+                <livewire:microweber-module-option::text optionKey="text"  :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
             <div>
                 Url:
-                <livewire:microweber-module-option::text optionName="url"  :moduleId="$moduleId" :moduleType="$moduleType"    />
+                <livewire:microweber-module-option::text optionKey="url"  :optionGroup="$moduleId" :module="$moduleType"    />
             </div>
 
             <div>
                 Popup content:
-                <livewire:microweber-module-option::text optionName="popupcontent"  :moduleId="$moduleId" :moduleType="$moduleType"    />
+                <livewire:microweber-module-option::text optionKey="popupcontent"  :optionGroup="$moduleId" :module="$moduleType"    />
             </div>
 
 
             <?php
             /*
-             *    <livewire:microweber-module-option::text optionName="url"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
-            <livewire:microweber-module-option::text optionName="button_action"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
-            <livewire:microweber-module-option::text optionName="button_onclick"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
-            <livewire:microweber-module-option::text optionName="popupcontent"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
-            <livewire:microweber-module-option::text optionName="url_blank"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
-            <livewire:microweber-module-option::text optionName="icon"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
+             *    <livewire:microweber-module-option::text optionKey="url"  :optionGroup="$moduleId" :module="$moduleType" translatable="true"  />
+            <livewire:microweber-module-option::text optionKey="button_action"  :optionGroup="$moduleId" :module="$moduleType" translatable="true"  />
+            <livewire:microweber-module-option::text optionKey="button_onclick"  :optionGroup="$moduleId" :module="$moduleType" translatable="true"  />
+            <livewire:microweber-module-option::text optionKey="popupcontent"  :optionGroup="$moduleId" :module="$moduleType" translatable="true"  />
+            <livewire:microweber-module-option::text optionKey="url_blank"  :optionGroup="$moduleId" :module="$moduleType" translatable="true"  />
+            <livewire:microweber-module-option::text optionKey="icon"  :optionGroup="$moduleId" :module="$moduleType" translatable="true"  />
 
              * */
             ?>
@@ -55,10 +55,10 @@
 
 
 
-            <livewire:microweber-module-option::text optionName="url"  moduleId="{{$moduleId}}" moduleType="{{$moduleType}}" translatable="true"  />
-            <livewire:microweber-module-option::text optionName="button_text"  :moduleId="$moduleId" :moduleType="$moduleType" translatable="true"  />
+            <livewire:microweber-module-option::text optionKey="url"  moduleId="{{$moduleId}}" moduleType="{{$moduleType}}" translatable="true"  />
+            <livewire:microweber-module-option::text optionKey="button_text"  :optionGroup="$moduleId" :module="$moduleType" translatable="true"  />
 
-   <livewire:microweber-module-btn::settings-form :moduleId="$moduleId" :moduleType="$moduleType" /> */
+   <livewire:microweber-module-btn::settings-form :optionGroup="$moduleId" :module="$moduleType" /> */
   ?>
 
         </div>
@@ -69,13 +69,13 @@
             <div class="mt-4">
                 <div>
 
-                    <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId"
-                                                                           :moduleType="$moduleType"/>
+                    <livewire:microweber-live-edit::module-select-template :optionGroup="$moduleId"
+                                                                           :module="$moduleType"/>
                 </div>
 
 
                 <div>
-                    <livewire:microweber-module-btn::settings-form-design :moduleId="$moduleId" :moduleType="$moduleType" />
+                    <livewire:microweber-module-btn::settings-form-design :optionGroup="$moduleId" :module="$moduleType" />
                 </div>
 
                 <div>

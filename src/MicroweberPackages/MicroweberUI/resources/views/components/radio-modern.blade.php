@@ -1,10 +1,7 @@
-@props(['options'=>[]])
+@props(['options'=>[], 'selectedOption'=>null])
 
 @php
-    $selectedOption = '';
-    if (isset($options)) {
-        $selectedOption = key($options);
-    }
+    $randomId = rand(1111,9999).time();
 @endphp
 
 <div
@@ -14,9 +11,12 @@
     @if(!empty($options))
         @foreach($options as $key => $option)
 
-            <button type="button" x-on:click="selectedOption = '{{$key}}'" :class="[selectedOption == '{{$key}}' ? 'active':'']" class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">
-              {!! $option !!}
-            </button>
+            <label for="{{$randomId}}_{{$key}}" x-on:click="selectedOption = '{{$key}}'" :class="[selectedOption == '{{$key}}' ? 'active':'']" class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">
+
+                <input style="display:none" id="{{$randomId}}_{{$key}}" type="radio" {!! $attributes->merge([]) !!} value="{{$key}}">
+
+                {!! $option !!}
+            </label>
 
         @endforeach
     @endif
