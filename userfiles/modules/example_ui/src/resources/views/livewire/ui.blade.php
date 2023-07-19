@@ -62,15 +62,40 @@
         <x-microweber-ui::select :options="$selectOptions" />
     </div>
 
-
     <div class="mt-4 mb-3">
-        <label class="live-edit-label">Radio</label>
-        @php
-            $radioOptions = [
-                '1' => 'Radio 1',
-                '2' => 'Radio 2',
-                '3' => 'Radio 3',
-            ];
+        <label class="live-edit-label">Menu with Dropdowns</label>
+        <ul class="nav navbar-light">
+                <x-microweber-ui::dropdown id="js-dropdown-id">
+                    <x-slot name="trigger">
+                        <x-microweber-ui::button type="button">
+                            My Cool Dropdown
+                        </x-microweber-ui::button>
+                    </x-slot>
+                    <x-slot name="content">
+                        <x-microweber-ui::dropdown-link href="">
+                            Dropdown link 1
+                        </x-microweber-ui::dropdown-link>
+
+                        <div class="border-t border-gray-100"></div>
+
+                        <x-microweber-ui::dropdown-link href="">
+                            Dropdown link 2
+                        </x-microweber-ui::dropdown-link>
+                    </x-slot>
+
+                </x-microweber-ui::dropdown>
+            </ul>
+        </div>
+
+
+        <div class="mt-4 mb-3">
+            <label class="live-edit-label">Radio</label>
+            @php
+                $radioOptions = [
+                    '1' => 'Radio 1',
+                    '2' => 'Radio 2',
+                    '3' => 'Radio 3',
+                ];
         @endphp
         <x-microweber-ui::radio :options="$radioOptions" />
     </div>
