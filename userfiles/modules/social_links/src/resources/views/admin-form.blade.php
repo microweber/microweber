@@ -6,51 +6,7 @@
             <small class="text-muted d-block mb-2"><?php _e("Select the social networks you want to see on your site, blog and store"); ?></small>
         </div>
 
-        @php
-        $socialNetworks = array(
-            'instagram' => array(
-                'icon' => 'mdi-instagram'
-            ),
-            'facebook' => array(
-                'icon' => 'mdi-facebook'
-            ),
-            'twitter' => array(
-                'icon' => 'mdi-twitter'
-            ),
-            'googleplus' => array(
-                'icon' => 'mdi-google-plus'
-            ),
-            'pinterest' => array(
-                'icon' => 'mdi-pinterest'
-            ),
-            'youtube' => array(
-                'icon' => 'mdi-youtube'
-            ),
-            'linkedin' => array(
-                'icon' => 'mdi-linkedin'
-            ),
-            'github' => array(
-                'icon' => 'mdi-github'
-            ),
-            'soundcloud' => array(
-                'icon' => 'mdi-soundcloud'
-            ),
-            'mixcloud' => array(
-                'icon' => 'mdi-mixcloud'
-            ),
-            'medium' => array(
-                'icon' => 'mdi-medium'
-            ),
-            'discord' => array(
-                'icon' => 'mdi-discord'
-            ),
-            'skype' => array(
-                'icon' => 'mdi-skype'
-            )
-        );
-        @endphp
-
-        @foreach($socialNetworks as $socialNetwork=>$socialNetworkData)
+        @foreach(getSupprtedSocialNetworks() as $socialNetwork=>$socialNetworkData)
         <div class="form-check my-3">
             <div class="d-flex flex-wrap align-items-center">
                 <div class="col-xl-3 col-md-6 col-12">
