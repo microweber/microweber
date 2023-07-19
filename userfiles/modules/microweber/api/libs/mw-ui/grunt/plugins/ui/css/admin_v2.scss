@@ -2262,3 +2262,21 @@ svg.text-danger {
     background: #444746;
 }
 
+.mw-live-edit-pagination-tabler {
+
+    li {
+        display: none;
+    }
+
+    li.mw-paging-visible-range {
+        display: block;
+    }
+
+    .page-item:not(.active) .page-link:hover {
+        background-color: var(--tblr-body-color);
+        border-color: var(--tblr-body-color);
+        color: var(--tblr-bg-surface);
+    }
+}
+
+
