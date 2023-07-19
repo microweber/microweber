@@ -20,9 +20,17 @@
         <livewire:microweber-module-option::icon-picker optionName="icon" :moduleId="$moduleId" :moduleType="$moduleType"  />
     </div>
 
+
     <div class="mt-4 mb-3">
-        <label class="live-edit-label">Alignment</label>
-        <livewire:microweber-module-option::alignment optionName="alignment" :moduleId="$moduleId" :moduleType="$moduleType"  />
+        <label class="live-edit-label">Radio Modern</label>
+        @php
+            $radioModernOptions = [
+                '1' => 'Modern 1',
+                '2' => 'Modern 2',
+                '3' => 'Modern 3',
+            ];
+        @endphp
+        <livewire:microweber-module-option::radio-modern :radioModernOptions="$radioModernOptions" optionName="alignment" :moduleId="$moduleId" :moduleType="$moduleType"  />
     </div>
 
     <div class="mt-4 mb-3">
