@@ -424,7 +424,7 @@
 
         var createUI = function () {
             var root = mw.element({
-                props: { className: 'mw-icon-selector-root' }
+                props: { className: 'mw-icon-selector-root d-flex mx-auto p-3' }
             });
             var iconsBlockHolder, tabs, optionsHolder, iconsHolder;
             if(scope.settings.iconOptions) {
@@ -599,7 +599,7 @@
             scope.searchField =  mw.element({
                 tag: 'input',
                 props: {
-                    className: 'mw-ui-searchfield w100',
+                    className: 'form-control-live-edit-input',
                     placeholder: 'Search',
                     oninput: function () {
                         clearTimeout(time);
@@ -610,7 +610,12 @@
                 }
             });
 
-            return scope.searchField;
+            var searchFieldWrapper = mw.element('<div class="form-control-live-edit-label-wrapper mt-2"></div>');
+            var searchFieldSpanEffect = mw.element('<span class="form-control-live-edit-bottom-effect"></span>');
+            searchFieldWrapper.append(scope.searchField);
+            searchFieldWrapper.append(searchFieldSpanEffect);
+
+            return searchFieldWrapper;
         };
 
         var comRender = function (options) {
@@ -623,7 +628,7 @@
         };
 
         var searchSelector = function () {
-            var sel = mw.element('<select class="mw-ui-field w100" />');
+            var sel = mw.element('<select class="form-select form-control-live-edit-input" />');
             scope.selectField = sel;
             loader.storage().forEach(function (item) {
                 var el = document.createElement('option');
@@ -634,7 +639,11 @@
             sel.on('change', function (){
                 comRender()
             });
-            return sel;
+
+            var searchSelectorWrapper = mw.element('<div class="form-control-live-edit-label-wrapper mt-2"></div>');
+            searchSelectorWrapper.append(sel);
+
+            return searchSelectorWrapper;
         };
 
         var search = function (conf) {
