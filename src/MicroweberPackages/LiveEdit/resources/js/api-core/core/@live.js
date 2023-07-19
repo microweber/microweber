@@ -190,42 +190,20 @@ export class LiveEdit {
             });
         };
 
-        this.getLayoutQuickSettings = type => {
+        this.getLayoutQuickSettings = () => {
             return new Promise(resolve => {
-                resolve(mw.layoutQuickSettings[type]);
+                resolve(mw.layoutQuickSettings);
                 this.dispatch('layoutQuickSettings', {module: type});
             });
         };
 
-
         moduleHandle.on('targetChange', function (node) {
-
-
             scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
-
-
-
-
-                moduleHandleContent.menu.root.remove();
-
-
-                moduleHandleContent.menu = new HandleMenu({
-                    id: 'mw-handle-item-element-menu',
-                    title: node.dataset.type,
-                    rootScope: scope,
-                    buttons: settings ? settings.mainMenu || [] : [],
-                    data: {target: node}
-                });
+                console.log(settings)
+                mw.app.liveEdit.moduleHandleContent.menu.setMenu('dynamic', settings);
                 moduleHandleContent.menu.setTarget(node);
-
-
                 moduleHandleContent.menu.show();
-
-                moduleHandleContent.menusHolder.append(moduleHandleContent.menu.root.get(0));
-
-
             });
-
         });
 
         this.layoutHandle = new Handle({
@@ -250,21 +228,7 @@ export class LiveEdit {
         layoutHandle.on('targetChange', function (target) {
             scope.getLayoutQuickSettings(target.dataset.type).then(function (settings) {
 
-
-
-
-                layoutHandle.menu.root.remove();
-
-
-                layoutHandle.menu = new HandleMenu({
-                    id: 'mw-handle-item-element-menu',
-                    title: node.dataset.type,
-                    rootScope: scope,
-                    buttons: settings ? settings.mainMenu || [] : [],
-                    data: {target: node}
-                });
- 
-
+                mw.app.liveEdit.layoutHandleContent.menu.setMenu('dynamic', settings)
 
             });
 

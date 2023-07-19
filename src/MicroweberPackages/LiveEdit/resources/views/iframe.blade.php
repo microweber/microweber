@@ -44,9 +44,7 @@
 
 <script>
     mw.quickSettings = {};
-    mw.layoutQuickSettings = {};
-
-
+    mw.layoutQuickSettings = [];
 
     @php
         $templateColors = get_template_colors_settings();

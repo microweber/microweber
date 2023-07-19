@@ -108,6 +108,7 @@ export const Handle = function (options) {
         const off = DomService.offset(target);
         const scroll = getScroll();
         const menu = this.wrapper.get(0).querySelector('.mw-le-handle-menu-buttons');
+        if(!menu) return;
         let transform ;
         
         if(scroll.y > (off.top - 70)) {

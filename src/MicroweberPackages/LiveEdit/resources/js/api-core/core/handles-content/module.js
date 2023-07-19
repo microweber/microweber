@@ -101,24 +101,29 @@ export const ModuleHandleContent = function (rootScope) {
         menus: [
             {
                 name: 'primary',
-                items: primaryMenu
+                nodes: primaryMenu
             },
             {
                 name: 'dynamic',
-                items: []
+                nodes: []
             },
             {
                 name: 'tail',
-                items: tailMenu
+                nodes: tailMenu
             }
         ]
  
     });
 
     this.menu.show();
+
+
+    this.menusHolder = document.createElement('div');
+    this.menusHolder.className = 'mw-handle-item-menus-holder';
  
 
-    this.root.append(this.menu.root);
+    this.menusHolder.append(this.menu.root.get(0));
+    this.root.append(this.menusHolder);
 
  
 };

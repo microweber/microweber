@@ -7,6 +7,8 @@ export class DynamicTargetMenus extends MicroweberBaseClass {
     }
 
     addModuleQuickSetting (module, items) {
+
+ 
         if(!mw.quickSettings[module]) {
             mw.quickSettings[module] = {};
            // console.warn(`${module} is not defined`)
@@ -27,16 +29,16 @@ export class DynamicTargetMenus extends MicroweberBaseClass {
 
     addLayoutQuickSetting ( items ) {
  
-        if(!mw.quickSettings[module].mainMenu){
-            mw.quickSettings[module].mainMenu = [];
-        }
-        if(Array.isArray(items)) {
-            for (let i = 0; i < items.length; i++) {
-                mw.layoutQuickSettings[module].mainMenu.push(items[i]);
+            if(!mw.layoutQuickSettings){
+                mw.layoutQuickSettings = [];
             }
-        } else {
-            mw.layoutQuickSettings[module].mainMenu.push(items);
-        }
+            if(Array.isArray(items)) {
+                for (let i = 0; i < items.length; i++) {
+                    mw.layoutQuickSettings.push(items[i]);
+                }
+            } else {
+                mw.layoutQuickSettings.push(items);
+            }
 
     }
 
