@@ -154,6 +154,12 @@ class OptionElement extends AdminComponent
 
         $modelSave = $this->model->save();
 
+        $this->dispatchBrowserEvent('mw-option-saved', [
+            'optionGroup' => $this->optionGroup,
+            'optionKey' => $this->optionKey,
+            'optionValue' => $this->model->option_value
+        ]);
+
         return $modelSave;
     }
 
