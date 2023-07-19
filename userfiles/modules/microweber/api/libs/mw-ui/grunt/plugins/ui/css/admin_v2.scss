@@ -2185,6 +2185,18 @@ svg.text-danger {
     }
 }
 
+.form-check-input {
+
+    &:checked {
+        background-color: var(--tblr-body-color);
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 1px var(--tblr-box-shadow-sm);
+
+    }
+}
+
 
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!! END  LIVE EDIT CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!
