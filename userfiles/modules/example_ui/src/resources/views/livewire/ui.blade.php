@@ -63,6 +63,18 @@
     </div>
 
     <div class="mt-4 mb-3">
+        <label class="live-edit-label">Select Modern</label>
+        @php
+            $selectModernOptions = [
+                '1' => 'Modern Option 1',
+                '2' => 'Modern Option 2',
+                '3' => 'Modern Option 3',
+            ];
+        @endphp
+        <x-microweber-ui::select-modern :options="$selectModernOptions" />
+    </div>
+
+    <div class="mt-4 mb-3">
         <label class="live-edit-label">Menu with Dropdowns</label>
         <ul class="nav navbar-light">
                 <x-microweber-ui::dropdown id="js-dropdown-id">
