@@ -2034,6 +2034,7 @@ svg.text-danger {
         padding: 3px 7px;
         border-color: var(--tblr-body-bg2) !important;
         background-color: var(--tblr-body-bg2) !important;
+        box-shadow: none;
 
         &:hover, &.live-edit-resolution-active, &.live-edit-right-sidebar-active, &:focus, &:active, &.active {
             background-color: var(--tblr-bg-surface) !important;
@@ -2107,6 +2108,7 @@ svg.text-danger {
     letter-spacing: 0.75px;
     line-height: 16px;
     text-overflow: ellipsis;
+    margin-bottom: 7px;
 
 }
 
@@ -2116,7 +2118,7 @@ svg.text-danger {
     line-height: 22px;
     min-height: var(--mw-forms-min-height);
     outline: none;
-    padding: 0 7px;
+    margin: 0 7px;
     position: relative;
 
     .form-control-live-edit-input, .form-control-live-edit-input.form-select {

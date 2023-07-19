@@ -11,6 +11,4 @@
         @endif
     </select>
 
-    <span class="form-control-live-edit-bottom-effect"></span>
-
 </label>
