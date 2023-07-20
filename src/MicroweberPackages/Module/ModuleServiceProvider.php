@@ -23,9 +23,10 @@ use MicroweberPackages\Module\Http\Livewire\Admin\AskForModuleUninstallModal;
 use MicroweberPackages\Module\Http\Livewire\Admin\ListModules;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\AligmentOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\DropdownOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\FilePickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\IconPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\LinkPickerOption;
-use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\MediaUploadOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\MediaPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\RadioModernOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\RadioOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\CheckboxOption;
@@ -97,12 +98,14 @@ class ModuleServiceProvider extends ServiceProvider
         Livewire::component('microweber-module-option::checkbox', CheckboxOption::class);
 
         Livewire::component('microweber-option::text', TextOption::class);
-        Livewire::component('microweber-option::media-upload', MediaUploadOption::class);
         Livewire::component('microweber-option::textarea', TextareaOption::class);
+        Livewire::component('microweber-option::file-picker', FilePickerOption::class);
+        Livewire::component('microweber-option::media-picker', MediaPickerOption::class);
         Livewire::component('microweber-option::icon-picker', IconPickerOption::class);
         Livewire::component('microweber-option::link-picker', LinkPickerOption::class);
         Livewire::component('microweber-option::range-slider', RangeSliderOption::class);
         Livewire::component('microweber-option::dropdown', DropdownOption::class);
+        Livewire::component('microweber-option::color-picker', RadioOption::class);
         Livewire::component('microweber-option::radio', RadioOption::class);
         Livewire::component('microweber-option::toggle', ToggleOption::class);
         Livewire::component('microweber-option::radio-modern', RadioModernOption::class);
