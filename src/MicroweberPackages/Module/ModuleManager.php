@@ -863,11 +863,13 @@ class ModuleManager
             $replace_paths[] = $module_name_l;
         }
         $module_name_l_theme = false;
-        if (defined('ACTIVE_TEMPLATE_DIR')) {
-            $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
+        if (template_dir()) {
+            $module_name_l_theme = template_dir() . 'modules' . DS . $module_name . DS . 'templates' . DS;
             $module_name_l_theme = normalize_path($module_name_l_theme, 1);
             $replace_paths[] = $module_name_l_theme;
         }
+
+
         $replace_paths[] = normalize_path('modules' . '/' . $module_name . '/' . 'templates' . '/', 1);
 
         $template_config = mw()->template->get_config();
