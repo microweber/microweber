@@ -22,10 +22,10 @@
                         <x-microweber-ui::textarea placeholder="{{ $placeholder }}" wire:model.defer="itemState.{{ $field['name'] }}"/>
                     @elseif
                         ($field['type'] == 'image' )
-                        <x-microweber-ui::media-upload wire:model.defer="itemState.{{ $field['name'] }}"/>
+                        <x-microweber-ui::media-picker wire:model.defer="itemState.{{ $field['name'] }}"/>
                     @elseif
                         ($field['type'] == 'file' )
-                        <x-microweber-ui::file wire:model.defer="itemState.{{ $field['name'] }}"/>
+                        <x-microweber-ui::file-picker wire:model.defer="itemState.{{ $field['name'] }}"/>
                     @elseif
                         ($field['type'] == 'select' )
                         <x-microweber-ui::select wire:model.defer="itemState.{{ $field['name'] }}">
@@ -41,7 +41,7 @@
                         <x-microweber-ui::radio wire:model.defer="itemState.{{ $field['name'] }}"/>
                     @elseif
                         ($field['type'] == 'color' )
-                        <x-microweber-ui::color wire:model.defer="itemState.{{ $field['name'] }}"/>
+                        <x-microweber-ui::color-picker wire:model.defer="itemState.{{ $field['name'] }}"/>
                     @elseif
                         ($field['type'] == 'date' )
                         <x-microweber-ui::date wire:model.defer="itemState.{{ $field['name'] }}"/>
