@@ -4,17 +4,17 @@
 
     <div>
         <label class="live-edit-label">Color Picker</label>
-        <livewire:microweber-option::color-picker optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
+        <livewire:microweber-option::color-picker optionKey="color" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div>
         <label class="live-edit-label">File Picker</label>
-        <livewire:microweber-option::file-picker optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
+        <livewire:microweber-option::file-picker optionKey="file" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div>
         <label class="live-edit-label">Media Picker</label>
-        <livewire:microweber-option::media-picker optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
+        <livewire:microweber-option::media-picker optionKey="media" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div>
