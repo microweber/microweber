@@ -328,7 +328,7 @@ export const LayoutHandleContent = function (rootScope) {
     this.menu.show();
 
 
-    this.root.append(this.menu.root);
+    this.menusHolder.append(this.menu.root);
 
 
     this.root.append(this.menusHolder)
