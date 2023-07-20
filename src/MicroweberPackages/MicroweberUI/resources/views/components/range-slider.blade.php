@@ -1,4 +1,4 @@
-@props(['selectedRange'=>null])
+@props(['selectedRange'=>null, 'label'=> 'Range'])
 
 <div>
     @php
@@ -7,7 +7,11 @@
     <div class="form-control-live-edit-label-wrapper">
 
         <div class="d-flex align-items-center gap-2 flex-wrap justify-content-between">
-            <label class="live-edit-form-control-settings">Range slider label </label>
+
+            <label>
+                {{$label}}
+            </label>
+
             <input type="text" {!! $attributes->merge([]) !!} id="js-custom-range-value-{{$rand}}" class="form-control-live-edit-input form-control-input-range-slider" />
         </div>
 
