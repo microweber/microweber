@@ -227,6 +227,7 @@ export class LiveEdit {
         layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target) {
             scope.getLayoutQuickSettings(target.dataset.type).then(function (settings) {
+                console.log(settings, target)
 
                 mw.app.liveEdit.layoutHandleContent.menu.setMenu('dynamic', settings)
 
@@ -327,9 +328,14 @@ export class LiveEdit {
         this.handles.hide();
 
 
+    
+       
+
+
         if (first) {
             first = this._hoverAndSelectExceptions(first)
             const type = this.elementAnalyzer.getType(first);
+ 
             if (type !== 'layout') {
                 var parentLayout = DomService.firstParentOrCurrentWithClass(first, 'module-layouts');
                 if (parentLayout) {
@@ -347,6 +353,7 @@ export class LiveEdit {
                     this.handles.hide('element');
                     this.handles.set(type, first)
                 } else if (type === 'layout') {
+             
                     this.handles.set('layout', first);
                 } else if (type === 'edit') {
                     this.handles.set('element', first);

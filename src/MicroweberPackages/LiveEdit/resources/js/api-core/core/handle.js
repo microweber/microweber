@@ -108,7 +108,7 @@ export const Handle = function (options) {
         const off = DomService.offset(target);
         const scroll = getScroll();
         const menu = this.wrapper.get(0).querySelector('.mw-le-handle-menu-buttons');
-        if(!menu) return;
+ 
         let transform ;
         
         if(scroll.y > (off.top - 70)) {
@@ -118,16 +118,21 @@ export const Handle = function (options) {
                 transform = off.height + 10
             }
         }
-        menu.style.transition = `none`;
-        //menu.style.transform = transform ? `translateX(${transform}px)` : '';
 
-        if(off.top < 50 ) {
-            menu.style.top = `calc(100% + 60px)`;
-        } else {
-            menu.style.top = ``;
+
+        if(menu) {
+            menu.style.transition = `none`;
+            //menu.style.transform = transform ? `translateX(${transform}px)` : '';
+    
+            if(off.top < 50 ) {
+                menu.style.top = `calc(100% + 60px)`;
+            } else {
+                menu.style.top = ``;
+            }
+    
+            setTimeout(() => menu.style.transition = ``, 10)
         }
 
-        setTimeout(() => menu.style.transition = ``, 10)
 
 
          this.wrapper.css({

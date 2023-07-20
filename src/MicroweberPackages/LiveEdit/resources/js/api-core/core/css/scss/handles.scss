@@ -127,18 +127,35 @@ $handleHeight: 42;
 
  
 
-#mw-handle-item-layout-menu {
-    top: 0;
-    right: 5px;
-    left: auto;
+
+
+#mw-handle-item-layout-root{
+ 
+    .mw-handle-item-menus-holder, .mw-le-handle-menu-buttons{
+        height: auto;
+   
+        padding: 0;
+    }
 
     .mw-le-handle-menu-buttons{
         left: auto;
         right: 5px;
         top: 5px;
+        display: block;
+        *{
+            vertical-align: middle;
+        }
     }
-    .mw-le-handle-menu-title {
-        display: none;
+
+    #mw-handle-item-layout-menu {
+        top: 0;
+        right: 5px;
+        left: auto;
+    
+
+        .mw-le-handle-menu-title {
+            display: none;
+        }
     }
 }
 
@@ -160,6 +177,19 @@ $handleHeight: 42;
         transition: .3s;
         font-size: 19px;
 
+        &.mw-handle-button-wide{
+            width: auto;
+            white-space: nowrap;
+            display: block;
+            text-align: left;
+            padding: 5px 0px;
+            height: auto;
+            border: 1px solid #eee;
+            margin: 2px;
+            * {
+                vertical-align: middle;
+            }
+        }
         &:hover {
             background-color: #f1f1f1;
         }

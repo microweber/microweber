@@ -138,30 +138,24 @@ export const HandleMenu = function(options) {
         btnHolder = btnHolder || this.buttonsHolder;
         menu = menu || this.options.menus;
 
-
- 
-         
-
         if(!menu) {
             return;
         }
          
-        menu.forEach(function (itm){
-            if(itm.nodes) {
+        menu.filter(itm => !!itm).forEach(function (itm){
+            if(itm.nodes && itm.nodes.forEach) {
                 itm.nodes.forEach(function (btn){
                     btnHolder.append(scope.button(btn));
                 });
             } else if(itm.title || itm.icon) {
                 scope.button(itm)
-            }
-
-            
+            }            
         });
 
-        
     };
 
     this.button = function (conf){
+     
  
         var btn = ElementManager({
             props: {
