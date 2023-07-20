@@ -1,5 +1,4 @@
-<div style="width:320px;margin:0 auto;padding-top:50px">
-
+<div>
     <div class="card">
         <div class="card-header px-3 pb-0 pt-4">
             <ul class="list-unstyled d-flex align-items-center gap-3" data-bs-toggle="tabs" role="tablist">
@@ -26,5 +25,4 @@
             </div>
         </div>
     </div>
-
 </div>

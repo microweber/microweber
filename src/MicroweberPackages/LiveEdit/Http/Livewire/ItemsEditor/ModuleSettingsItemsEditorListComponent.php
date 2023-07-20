@@ -10,6 +10,7 @@ class ModuleSettingsItemsEditorListComponent extends AbstractModuleSettingsEdito
 
     public $listeners = [
         'onItemChanged' => '$refresh',
+        'refreshComponent' => '$refresh',
         'onReorderListItems' => 'reorderListItems',
     ];
 
@@ -36,12 +37,8 @@ class ModuleSettingsItemsEditorListComponent extends AbstractModuleSettingsEdito
         }
         $allItems = [];
         $allItems = array_merge($topItems, $itemsOldSort);
-        save_option(array(
-            'option_group' => $this->moduleId,
-            'module' => $this->moduleType,
-            'option_key' => $this->getSettingsKey(),
-            'option_value' => json_encode($allItems)
-        ));
+
+        $this->saveItems($allItems);
         $this->emit('onItemChanged');
     }
 
