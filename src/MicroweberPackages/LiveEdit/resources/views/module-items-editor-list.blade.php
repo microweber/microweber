@@ -77,7 +77,7 @@ showEditTab: 'main'
                                             @foreach ($items as $item)
                                                 @if(!isset($item['itemId']))
                                                     @continue;
-                                                @endif;
+                                                @endif
                                                 <div class="list-group-item js-sortable-item"
                                                      sort-key="{{ $item['itemId'] }}"
                                                      id="item-list-id-{{ $item['itemId'] }}">
@@ -151,7 +151,7 @@ showEditTab: 'main'
 
                             @if(!isset($item['itemId']))
                                 @continue;
-                            @endif;
+                            @endif
                             <div
                                 id="tabs-nav-tab-{{ $item['itemId']  }}"
                                 x-show="showEditTab=='tabs-nav-tab-{{ $item['itemId']  }}'"
