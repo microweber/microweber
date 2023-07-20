@@ -1505,6 +1505,11 @@ svg.text-danger {
         }
     }
 
+    &.mw-liveedit-button-animation-component {
+        background: transparent;
+        border: none;
+    }
+
     &:after {
         position: absolute;
         content: '';
@@ -2121,6 +2126,11 @@ svg.text-danger {
     margin: 0 7px;
     position: relative;
 
+    textarea.form-control-live-edit-input {
+        padding-top: 10px;
+
+    }
+
     .form-control-live-edit-input, .form-control-live-edit-input.form-select {
         border: none;
         flex: 1 1 0%;
@@ -2278,5 +2288,4 @@ svg.text-danger {
         color: var(--tblr-bg-surface);
     }
 }
-
 

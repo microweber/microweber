@@ -71,6 +71,11 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
         } else {
             $isNewItem = true;
             $newItem['itemId'] = $this->moduleId . '_' . uniqid();
+            foreach ($defaults as $key => $value) {
+                if (!isset($newItem[$key])) {
+                    $newItem[$key] = $value;
+                }
+            }
         }
         if ($isNewItem and !empty($newItem)) {
 
@@ -94,6 +99,14 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
                         }
                     }
                     $allItems[] = $item;
+                }
+            }
+        }
+
+        if($allItems){
+            foreach ($allItems as $key=>$item) {
+                if (!isset($item['itemId'])) {
+                     unset($allItems[$key]);
                 }
             }
         }

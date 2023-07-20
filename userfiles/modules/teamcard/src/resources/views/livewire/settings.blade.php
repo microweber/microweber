@@ -26,15 +26,16 @@
                     'type' => 'text',
                     'label' => 'Team member name',
                     'name' => 'name',
-                    'placeholder' => 'Enter Name',
+                    'placeholder' => 'Enter name',
                     'help' => 'Enter Name',
                 ], [
                     'type' => 'image',
-                    'label' => 'Team member name',
+                    'label' => 'Team member role',
+                    'placeholder' => 'Enter member role',
                     'name' => 'file',
 
                 ], [
-                    'type' => 'text',
+                    'type' => 'textarea',
                     'label' => 'Team member bio',
                     'name' => 'bio',
                     'placeholder' => 'Enter bio',
