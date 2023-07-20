@@ -3,8 +3,9 @@
 
 
     <div>
-        <label class="live-edit-label">Color Picker</label>
-        <livewire:microweber-option::color-picker optionKey="color" :optionGroup="$moduleId" :module="$moduleType"  />
+        <livewire:microweber-option::color-picker
+            label="Color Picker"
+            optionKey="color" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div>
@@ -51,8 +52,9 @@
     </div>
 
     <div class="mt-4 mb-3">
-        <label class="live-edit-label">Range Slider</label>
-        <livewire:microweber-option::range-slider optionKey="range_slider" :optionGroup="$moduleId" :module="$moduleType"  />
+        <livewire:microweber-option::range-slider
+            label="Range Slider"
+            optionKey="range_slider" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div class="mt-4 mb-3">
