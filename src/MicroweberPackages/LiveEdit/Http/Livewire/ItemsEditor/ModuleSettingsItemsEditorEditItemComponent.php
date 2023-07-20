@@ -103,6 +103,14 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
             }
         }
 
+        if($allItems){
+            foreach ($allItems as $key=>$item) {
+                if (!isset($item['itemId'])) {
+                     unset($allItems[$key]);
+                }
+            }
+        }
+
         if ($isNewItem) {
             $this->itemState = [];
         }
