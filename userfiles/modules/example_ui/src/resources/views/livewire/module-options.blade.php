@@ -1,5 +1,11 @@
 <div>
 <div>
+
+    <div>
+        <label class="live-edit-label">Media</label>
+        <livewire:microweber-option::media-upload optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
+    </div>
+
     <div>
         <label class="live-edit-label">Text</label>
         <livewire:microweber-option::text optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
