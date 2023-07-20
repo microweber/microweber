@@ -9,7 +9,8 @@ showMainEditTab: 'mainSettings'
         'config' => [
             'title' => 'Teamcard',
             'icon' => 'mdi mdi-account-group',
-            'addButtonText' => 'Add team member',
+            'addButtonText' => 'New Member',
+            'addButtonIconSvg' => '<svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"></path></svg>',
             'editButtonText' => 'Edit team member',
             'deleteButtonText' => 'Delete team member',
             'sortItems' => true,
