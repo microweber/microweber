@@ -1,4 +1,4 @@
-@props(['selectedRange'=>null, 'label'=> 'Range'])
+@props(['selectedRange'=>null, 'label'=> 'Range', 'labelUnit'=>'', 'min'=>0, 'max'=>100])
 
 <div>
     @php
@@ -12,7 +12,12 @@
                 {{$label}}
             </label>
 
-            <input type="text" {!! $attributes->merge([]) !!} id="js-custom-range-value-{{$rand}}" class="form-control-live-edit-input form-control-input-range-slider" />
+            <div>
+                <input type="text" {!! $attributes->merge([]) !!} id="js-custom-range-value-{{$rand}}" class="form-control-live-edit-input form-control-input-range-slider" />
+                <label>
+                    {{$labelUnit}}
+                </label>
+            </div>
         </div>
 
         <div class="form-range mt-1" id="range-slider-{{$rand}}}"></div>
@@ -29,8 +34,8 @@
                 step:1,
                 connect: [true, false],
                 range: {
-                    'min': 0,
-                    'max': 100
+                    'min': {{$min}},
+                    'max': {{$max}}
                 }
             });
 

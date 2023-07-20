@@ -57,6 +57,10 @@
     </div>
 
     <div class="mt-4 mb-3">
+        <livewire:microweber-option::range-slider labelUnit="px" min="8" max="45" label="Logo Text - Size" optionKey="font_size" :optionGroup="$moduleId" :module="$moduleType"  />
+    </div>
+
+    <div class="mt-4 mb-3">
         <label class="live-edit-label">Dropdown</label>
         @php
             $dropdownOptions = [
