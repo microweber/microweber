@@ -1,2 +1,1 @@
-@props(['label' => 'Select media'])
-<x-microweber-ui::file-picker :label="$label" allowedType="media" />
+<x-microweber-ui::file-picker  {{ $attributes->merge([]) }} allowedType="media" />

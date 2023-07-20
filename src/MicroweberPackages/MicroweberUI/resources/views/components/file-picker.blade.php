@@ -1,4 +1,4 @@
-@props(['label' => ''])
+@props(['label' => '','allowedType'=>'images'])
 
 <div>
 
@@ -65,7 +65,7 @@
                 $('.js-select-image-{{$randId}}').click(function() {
                     var dialog;
                     var picker = new mw.filePicker({
-                        type: 'images',
+                        type: '{{$allowedType}}',
                         label: false,
                         autoSelect: false,
                         footer: true,
