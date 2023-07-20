@@ -482,6 +482,10 @@ body, .is_admin {
     padding: 0 13px !important;
 }
 
+.mw-dialog-holder {
+    min-height: 350px;
+}
+
 p {
     color: var(--tblr-body-color);
 }
