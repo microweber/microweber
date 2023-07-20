@@ -71,6 +71,11 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
         } else {
             $isNewItem = true;
             $newItem['itemId'] = $this->moduleId . '_' . uniqid();
+            foreach ($defaults as $key => $value) {
+                if (!isset($newItem[$key])) {
+                    $newItem[$key] = $value;
+                }
+            }
         }
         if ($isNewItem and !empty($newItem)) {
 
