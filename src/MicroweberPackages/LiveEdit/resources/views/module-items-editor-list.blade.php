@@ -73,6 +73,7 @@ showEditTab: 'main'
                                     @if (isset($editorSettings['schema']))
                                         <div class="list-group list-group-flush list-group-hoverable"
                                              id="js-sortable-items-holder-{{md5($moduleId)}}">
+
                                             @foreach ($items as $item)
                                                 @if(!isset($item['itemId']))
                                                     @continue;
@@ -147,6 +148,10 @@ showEditTab: 'main'
 
                     @if($items)
                         @foreach($items as $item)
+
+                            @if(!isset($item['itemId']))
+                                @continue;
+                            @endif;
                             <div
                                 id="tabs-nav-tab-{{ $item['itemId']  }}"
                                 x-show="showEditTab=='tabs-nav-tab-{{ $item['itemId']  }}'"
