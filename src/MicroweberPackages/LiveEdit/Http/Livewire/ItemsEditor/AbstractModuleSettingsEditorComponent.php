@@ -111,12 +111,15 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
 
     public function saveItems($allItems)
     {
+$save = array(
+    'option_group' => $this->moduleId,
+    'module' => $this->moduleType,
+    'option_key' => $this->getSettingsKey(),
+    'option_value' => json_encode($allItems)
+);
+        save_option($save);
 
-        save_option(array(
-            'option_group' => $this->moduleId,
-            'module' => $this->moduleType,
-            'option_key' => $this->getSettingsKey(),
-            'option_value' => json_encode($allItems)
-        ));
+        $this->emit('settingsChanged', ['moduleId' => $this->moduleId, 'settings' => $save]);
+
     }
 }
