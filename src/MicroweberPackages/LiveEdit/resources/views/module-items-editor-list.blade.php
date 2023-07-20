@@ -14,6 +14,12 @@
         $icon = $editorSettings['config']['icon'];
     }
 
+    $addButtonIconSvg = 'Add Icon';
+    if (isset($editorSettings['config']['addButtonIconSvg'])) {
+        $addButtonIconSvg = $editorSettings['config']['addButtonIconSvg'];
+    }
+    $addButtonIconSvg = _e($addButtonIconSvg, true);
+
     $addButtonText = 'Add Item';
     if (isset($editorSettings['config']['addButtonText'])) {
         $addButtonText = $editorSettings['config']['addButtonText'];
@@ -61,11 +67,13 @@ showEditTab: 'main'
                         <div class="row row-cards">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="card-header">
+                                    <div class="card-header d-flex align-items-center justify-content-between px-0">
                                         <h3 class="card-title"><?php print $title ?></h3>
                                         <x-microweber-ui::button class="ms-2" type="button"
                                                                  x-on:click="showEditTab = 'tabs-nav-tab-new-item'">
+                                                <?php print $addButtonIconSvg ?>
                                                 <?php print $addButtonText ?>
+
                                         </x-microweber-ui::button>
 
                                     </div>
