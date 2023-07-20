@@ -44,6 +44,8 @@ export const Handle = function (options) {
         this.wrapper.addClass('mw-handle-item-hidden');
         this.wrapper.removeClass('mw-handle-active');
     };
+
+    
     let _content = null;
     this.setContent = function (content) {
         if(_content){
@@ -51,6 +53,10 @@ export const Handle = function (options) {
         }
         _content = content;
         this.wrapper.append(_content);
+    }
+
+    this.getContent = function() {
+        return _content;
     }
 
 
@@ -102,6 +108,7 @@ export const Handle = function (options) {
         const off = DomService.offset(target);
         const scroll = getScroll();
         const menu = this.wrapper.get(0).querySelector('.mw-le-handle-menu-buttons');
+        if(!menu) return;
         let transform ;
         
         if(scroll.y > (off.top - 70)) {

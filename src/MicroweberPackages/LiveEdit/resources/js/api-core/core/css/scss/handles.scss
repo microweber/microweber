@@ -28,6 +28,7 @@
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
+        display: none !important;
     }
 
  
@@ -55,11 +56,23 @@ $bg: $lightBG;
 
 $handleHeight: 42;
 
+#mw-handle-item-layout-root{
+    .mw-handle-item-menus-holder{
+ 
+        top: 10px;
+        right: 10px;
+        left: auto;
+        position: absolute;
+ 
+            
+    }
+}
+
 .mw-handle-item {
 
     .mw-handle-item-menus-holder{
         height: #{$handleHeight}px;
-        padding: 3px 12px;
+        padding: 0px 12px;
         display: inline-flex;
         border-radius: 7px;
         border: 1px solid transparent;
@@ -115,7 +128,7 @@ $handleHeight: 42;
  
 
 #mw-handle-item-layout-menu {
-    top: 5px;
+    top: 0;
     right: 5px;
     left: auto;
 
@@ -218,6 +231,9 @@ $handleHeight: 42;
 }
 .mw-handle-item-interaction-handle .mw-le-handle-menu-title{
     display: inline-flex;
+    position: absolute;
+    top: -22px;
+    left: -3px;
 }
 
 .mw-le-handle-menu-button-icon {
