@@ -17,6 +17,17 @@
             </div>
 
             <div>
+                <livewire:microweber-option::range-slider labelUnit="px" min="8" max="500" label="Logo Image - Size" optionKey="size" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+
+            <div>
+                <label class="live-edit-label"><?php _e("Inverse Logo"); ?></label>
+                <small class="text-muted d-block mb-2"><?php _e("This inverse logo image will appear on black theme"); ?></small>
+                <livewire:microweber-option::media-picker optionKey="logoimage_inverse" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+
+
+            <div>
                 <label class="live-edit-label"><?php _e("Logo Text"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("This logo text will appear when image not applied"); ?></small>
                 <livewire:microweber-option::text optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
