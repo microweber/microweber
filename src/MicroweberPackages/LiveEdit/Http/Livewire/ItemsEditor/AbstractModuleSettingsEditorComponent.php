@@ -69,15 +69,14 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
                     }
                 }
 
-                if(empty($existing)){
-                 $this->items = [];
+                if (empty($existing)) {
+                    $this->items = [];
                 }
                 $this->saveItems($existing);
             }
         }
         $this->areYouSureDeleteModalOpened = false;
         $this->selectedItemsIds = [];
-
 
 
         $this->emit('onItemChanged');
@@ -106,13 +105,13 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         }
         $allItems = [];
         $allItems = array_merge($topItems, $itemsOldSort);
-
+        $this->saveItems($allItems);
         $this->emit('onItemChanged');
     }
 
     public function saveItems($allItems)
     {
- 
+
         save_option(array(
             'option_group' => $this->moduleId,
             'module' => $this->moduleType,

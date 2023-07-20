@@ -56,6 +56,8 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
         $isNewItem = false;
 
         $newItem = [];
+        $allItems = [];
+
 
         $newItemState = $this->itemState;
 
@@ -70,9 +72,12 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
             $isNewItem = true;
             $newItem['itemId'] = $this->moduleId . '_' . uniqid();
         }
+        if(!empty($newItem)){
+            $allItems[] = $newItem;
+        }
 
-        $allItems = [];
-        $allItems[] = $newItem;
+
+
         $sortIds = [];
         if (!empty($json)) {
             foreach ($json as $item) {
