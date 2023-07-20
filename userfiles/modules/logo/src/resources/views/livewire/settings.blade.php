@@ -7,8 +7,7 @@
                 if ($event.detail.optionKey === 'logoimage') {
                     mw.top().reload_module_everywhere('{{$moduleType}}');
                 }
-                }" >
-
+                }">
             </div>
 
             <div>
