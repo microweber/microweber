@@ -478,9 +478,8 @@ body, .is_admin {
     padding-top: 0 !important;
 }
 
-.mw-dialog-skin-default .mw-dialog-container {
-    padding-top: 0;
-    padding: 25px;
+.mw-dialog-skin-default .mw-dialog-container, .mw-dialog-header {
+    padding: 0 13px !important;
 }
 
 p {
@@ -1562,6 +1561,11 @@ svg.text-danger {
             color: var(--tblr-body-color);
         }
     }
+}
+
+.mw-liveedit-button-actions-component {
+    background: transparent;
+    border: none;
 }
 
 .preview_frame_container iframe {

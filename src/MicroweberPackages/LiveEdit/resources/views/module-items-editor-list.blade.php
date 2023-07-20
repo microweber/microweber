@@ -14,11 +14,25 @@
         $icon = $editorSettings['config']['icon'];
     }
 
-    $addButtonIconSvg = 'Add Icon';
+    $addButtonIconSvg = 'Add Svg';
     if (isset($editorSettings['config']['addButtonIconSvg'])) {
         $addButtonIconSvg = $editorSettings['config']['addButtonIconSvg'];
     }
-    $addButtonIconSvg = _e($addButtonIconSvg, true);
+
+    $editButtonIconSvg = 'Edit Svg';
+    if (isset($editorSettings['config']['editButtonIconSvg'])) {
+        $editButtonIconSvg = $editorSettings['config']['editButtonIconSvg'];
+    }
+
+    $deleteButtonIconSvg = 'Delete Svg';
+    if (isset($editorSettings['config']['deleteButtonIconSvg'])) {
+        $deleteButtonIconSvg = $editorSettings['config']['deleteButtonIconSvg'];
+    }
+
+    $backButtonIconSvg = 'Back Svg';
+    if (isset($editorSettings['config']['backButtonIconSvg'])) {
+        $backButtonIconSvg = $editorSettings['config']['backButtonIconSvg'];
+    }
 
     $addButtonText = 'Add Item';
     if (isset($editorSettings['config']['addButtonText'])) {
@@ -67,17 +81,6 @@ showEditTab: 'main'
                         <div class="row row-cards">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="card-header d-flex align-items-center justify-content-between px-0">
-                                        <h3 class="card-title"><?php print $title ?></h3>
-                                        <x-microweber-ui::button class="ms-2" type="button"
-                                                                 x-on:click="showEditTab = 'tabs-nav-tab-new-item'">
-                                                <?php print $addButtonIconSvg ?>
-                                                <?php print $addButtonText ?>
-
-                                        </x-microweber-ui::button>
-
-                                    </div>
-
                                     @if (isset($editorSettings['schema']))
                                         <div class="list-group list-group-flush list-group-hoverable"
                                              id="js-sortable-items-holder-{{md5($moduleId)}}">
@@ -86,7 +89,7 @@ showEditTab: 'main'
                                                 @if(!isset($item['itemId']))
                                                     @continue;
                                                 @endif
-                                                <div class="list-group-item js-sortable-item"
+                                                <div class="list-group-item js-sortable-item p-2"
                                                      sort-key="{{ $item['itemId'] }}"
                                                      id="item-list-id-{{ $item['itemId'] }}">
                                                     <div class="row align-items-center">
@@ -103,32 +106,31 @@ showEditTab: 'main'
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-auto">
-                                                            @if (isset($item['file']))
-                                                                <a href="#"><span class="avatar"
-                                                                                  style="background-image: url('{{ $item['file'] }}')"></span></a>
-                                                            @endif
-                                                        </div>
-                                                        <div class="col text-truncate">
+{{--                                                        <div class="col-auto">--}}
+{{--                                                            @if (isset($item['file']))--}}
+{{--                                                                <a href="#"><span class="avatar rounded-circle"--}}
+{{--                                                                                  style="background-image: url('{{ $item['file'] }}')"></span></a>--}}
+{{--                                                            @endif--}}
+{{--                                                        </div>--}}
+                                                        <div class="col text-truncate " x-on:click="showEditTab = 'tabs-nav-tab-{{ $item['itemId'] }}'">
                                                             @foreach ($editorSettings['config']['listColumns'] as $columnKey => $columnLabel)
                                                                 @if (isset($item[$columnKey]))
-                                                                    <a href="#"
-                                                                       class="text-reset d-block">{{ $item[$columnKey] }}</a>
+                                                                    <label class="text-reset d-block cursor-pointer">{{ $item[$columnKey] }}</label>
                                                                 @endif
                                                             @endforeach
 
                                                         </div>
-                                                        <div class="col-auto">
-                                                            <x-microweber-ui::button class="ms-2" type="button"
-                                                                                     x-on:click="showEditTab = 'tabs-nav-tab-{{ $item['itemId'] }}'">
-                                                                    <?php print $editButtonText ?>
-                                                            </x-microweber-ui::button>
-
-
-                                                            <x-microweber-ui::danger-button class="ms-2" type="button"
+                                                        <div class="col-auto d-flex align-items-center">
+                                                            <x-microweber-ui::button-action type="button" :tooltip="$deleteButtonText"
                                                                                             wire:click="showConfirmDeleteItemById('{{$item['itemId']}}')">
-                                                                    <?php print $deleteButtonText ?>
-                                                            </x-microweber-ui::danger-button>
+                                                                    <?php print $deleteButtonIconSvg ?>
+                                                            </x-microweber-ui::button-action>
+
+                                                            <x-microweber-ui::button-action type="button" :tooltip="$editButtonText"
+                                                                                     x-on:click="showEditTab = 'tabs-nav-tab-{{ $item['itemId'] }}'">
+                                                                    <?php print $editButtonIconSvg ?>
+                                                            </x-microweber-ui::button-action>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -136,6 +138,12 @@ showEditTab: 'main'
                                         </div>
                                     @endif
 
+                                    <div>
+                                        <x-microweber-ui::button-animation type="button" class="mt-2"
+                                                                           x-on:click="showEditTab = 'tabs-nav-tab-new-item'">
+                                                <?php print $addButtonText ?>
+                                        </x-microweber-ui::button-animation>
+                                    </div>
 
                                 </div>
                             </div>
@@ -145,7 +153,12 @@ showEditTab: 'main'
 
                     <div x-show="showEditTab=='tabs-nav-tab-new-item'"
                          x-transition:enter="tab-pane-slide-right-active">
-                        <button x-on:click="showEditTab = 'main'" type="button">@lang('Back')</button>
+
+                        <x-microweber-ui::button-back  x-on:click="showEditTab = 'main'">
+                                {{$backButtonIconSvg}}
+
+                        </x-microweber-ui::button-back>
+
                         <div id="add-new-item-holder">
                             <livewire:microweber-live-edit::module-items-editor-edit-item
                                 wire:key="newItem{{$moduleId}}" :moduleId="$moduleId"
@@ -166,7 +179,13 @@ showEditTab: 'main'
 
                                 x-transition:enter-end="tab-pane-slide-right-active"
                                 x-transition:enter="tab-pane-slide-right-active">
-                                <button x-on:click="showEditTab = 'main'">@lang('Back')</button>
+
+                                <x-microweber-ui::button-back  x-on:click="showEditTab = 'main'">
+
+                                    {!!$backButtonIconSvg!!}
+
+                                </x-microweber-ui::button-back>
+
 
                                 <div>
 
