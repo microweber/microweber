@@ -16,7 +16,7 @@
                         'image' => 'image',
                         'text' => 'text',
                     ];
-                @endphp 
+                @endphp
                 <livewire:microweber-option::radio-modern :options="$logoTypeOptions" optionKey="logotype" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
