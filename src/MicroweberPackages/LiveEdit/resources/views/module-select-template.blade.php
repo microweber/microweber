@@ -1,7 +1,16 @@
+
+
 <div class="mw-module-select-template" @if(count($moduleTemplates) == 1) style="display:none" @endif >
 
     @php
-        $currentSkin = $settings['template'];
+
+
+
+        $currentSkin = 'default';
+        if(isset($settings['template'])){
+            $currentSkin = $settings['template'];
+        }
+
         $currentSkinName = str_replace('.php', '', $currentSkin);
         $componentNameForModuleSkin = 'microweber-module-'.$moduleType.'::template-settings-'.$currentSkinName;
 

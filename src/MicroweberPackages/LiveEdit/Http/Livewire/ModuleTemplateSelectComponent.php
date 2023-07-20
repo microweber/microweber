@@ -15,9 +15,14 @@ class ModuleTemplateSelectComponent extends ModuleSettingsComponent
     {
 
          $moduleTemplates = module_templates($this->moduleType);
+
          if(empty($moduleTemplates)){
-             return '<div class="hidden">There are no templates for this module</div>';
+
+             return '<div class="alert">There are no templates for this module</div>';
          }
+
+
+
       //  $currentTemplate = get_option('data-template', $this->moduleId);
         return view('microweber-live-edit::module-select-template', [
             'moduleTemplates' => $moduleTemplates,

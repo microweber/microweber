@@ -39,7 +39,7 @@ class ModuleSettingsComponent extends AdminComponent
                 $this->saveModuleOption($key, $setting, $this->moduleId);
             }
         }
-        $this->emit('settingsChanged', ['moduleId' => $this->moduleId, 'settings' => $this->settings]);
+        $this->emit('settingsChanged', ['moduleId' => $this->moduleId, 'moduleType' => $this->moduleType, 'settings' => $settings]);
 
     }
 
@@ -52,6 +52,7 @@ class ModuleSettingsComponent extends AdminComponent
         if($lang){
             $option['lang'] = $lang;
         }
+
         return app()->option_manager->save($option);
     }
 

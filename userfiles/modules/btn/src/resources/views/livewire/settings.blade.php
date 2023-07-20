@@ -46,7 +46,7 @@ showAdvancedDesign: false
         </div>
 
         <div x-show="showAdvancedDesign" x-transition>
-            <livewire:microweber-module-btn::settings-form-design :optionGroup="$moduleId" :module="$moduleType" />
+            <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
         </div>
     </div>
 
