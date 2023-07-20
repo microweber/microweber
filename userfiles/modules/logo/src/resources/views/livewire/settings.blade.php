@@ -4,6 +4,9 @@
         <div x-data="{'logoType': '{{get_option('logotype', $moduleId)}}'}" class="card-body" style="padding:5px;padding-bottom:25px;">
 
             <div @mw-option-saved.window="function() {
+                if ($event.detail.optionKey == 'logotype') {
+                    logoType = $event.detail.optionValue;
+                }
                 if ($event.detail.optionGroup === '{{$moduleId}}') {
                     mw.top().reload_module_everywhere('{{$moduleType}}');
                 }
