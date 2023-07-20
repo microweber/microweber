@@ -154,9 +154,17 @@ showEditTab: 'main'
                     <div x-show="showEditTab=='tabs-nav-tab-new-item'"
                          x-transition:enter="tab-pane-slide-right-active">
 
-                        <x-microweber-ui::button-back  x-on:click="showEditTab = 'main'">
-                            {!!$backButtonIconSvg!!}
-                        </x-microweber-ui::button-back>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <x-microweber-ui::button-back  x-on:click="showEditTab = 'main'">
+                                {!!$backButtonIconSvg!!}
+                            </x-microweber-ui::button-back>
+
+                            <div class="me-2">
+                                <x-microweber-ui::button-animation type="submit">@lang('Save')</x-microweber-ui::button-animation>
+                                
+                            </div>
+                        </div>
+
 
                         <div id="add-new-item-holder">
                             <livewire:microweber-live-edit::module-items-editor-edit-item
@@ -179,11 +187,21 @@ showEditTab: 'main'
                                 x-transition:enter-end="tab-pane-slide-right-active"
                                 x-transition:enter="tab-pane-slide-right-active">
 
-                                <x-microweber-ui::button-back  x-on:click="showEditTab = 'main'">
+                                <div class="d-flex align-items-center justify-content-between">
 
-                                    {!!$backButtonIconSvg!!}
 
-                                </x-microweber-ui::button-back>
+                                    <x-microweber-ui::button-back  x-on:click="showEditTab = 'main'">
+
+                                        {!!$backButtonIconSvg!!}
+
+                                    </x-microweber-ui::button-back>
+
+                                    <div class="me-2">
+                                        <x-microweber-ui::button-animation type="submit">@lang('Save')</x-microweber-ui::button-animation>
+                                    </div>
+
+                                </div>
+
 
 
                                 <div>

@@ -88,7 +88,8 @@ export class ModuleSettings extends MicroweberBaseClass {
                 width: 320,
                 height: 'auto',
                 draggable: true,
-                template: 'mw_modal_simple',
+                skin: 'mw_modal_simple mw_modal_live_edit_settings',
+                overlayClose: true,
                 title: modalTitle,
                 id: 'module-quick-setting-dialog-' + moduleId
             });
