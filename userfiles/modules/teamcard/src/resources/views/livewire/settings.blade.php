@@ -1,4 +1,4 @@
-<div class="px-2 py-2" x-data="{
+<div x-data="{
 showMainEditTab: 'mainSettings'
 }">
 
@@ -7,19 +7,22 @@ showMainEditTab: 'mainSettings'
 
     $editorSettings = [
         'config' => [
-            'title' => 'Teamcard',
+            'title' => '',
             'icon' => 'mdi mdi-account-group',
-            'addButtonText' => 'New Member',
+            'addButtonText' => 'ADD ITEM',
             'addButtonIconSvg' => '<svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"></path></svg>',
-            'editButtonText' => 'Edit team member',
-            'deleteButtonText' => 'Delete team member',
+            'editButtonIconSvg' => '<svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M530-481 332-679l43-43 241 241-241 241-43-43 198-198Z"/></svg>',
+            'deleteButtonIconSvg' => '<svg class="text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"></path></svg>',
+            'backButtonIconSvg' => '<svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>',
+            'editButtonText' => 'Edit',
+            'deleteButtonText' => 'Delete',
             'sortItems' => true,
             'settingsKey' => 'settings',
             'listColumns' => [
                 'name' => 'Name',
-                'bio' => 'Bio',
-                'role' => 'Role',
-                'website' => 'Website',
+//                'bio' => 'Bio',
+//                'role' => 'Role',
+//                'website' => 'Website',
             ],
         ],
         'schema' => [
@@ -64,7 +67,7 @@ showMainEditTab: 'mainSettings'
 
 
 @if($moduleTemplates && count($moduleTemplates) >  1)
-    <div class="d-flex justify-content-between align-items-center mb-4 collapseNav-initialized">
+    <div class="d-flex justify-content-between align-items-center collapseNav-initialized">
         <div class="d-flex flex-wrap gap-md-4 gap-3">
             <button   x-on:click="showMainEditTab = 'mainSettings'" :class="{ 'active': showMainEditTab == 'mainSettings' }"
                       class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs active">

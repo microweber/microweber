@@ -85,7 +85,7 @@ export class ModuleSettings extends MicroweberBaseClass {
             let moduleSettingsDialogIframe = mw.dialogIframe({
                // url: route('live_edit.module_settings') + '?id=' + moduleId+ '&type=' + moduleType+ '&live_edit=true',
                 url:src,
-                width: 500,
+                width: 320,
                 height: 'auto',
                 draggable: true,
                 template: 'mw_modal_simple',

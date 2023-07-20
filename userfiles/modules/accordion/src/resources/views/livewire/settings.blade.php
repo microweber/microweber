@@ -26,12 +26,14 @@ showMainEditTab: 'mainSettings'
                 'name' => 'title',
                 'placeholder' => 'Enter title',
                 'help' => 'Enter title',
-            ], [
+            ],
+            [
                 'type' => 'icon',
                 'label' => 'Icon',
                 'placeholder' => 'Icon',
                 'name' => 'icon',
-            ], [
+            ],
+            [
                 'type' => 'info',
                 'label' => 'info',
                 'placeholder' => 'info',
