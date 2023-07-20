@@ -90,6 +90,8 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
             }
         }
 
+        dump($allItems, $sortIds, $isNewItem, $this->itemId, $newItem);
+
         //sots $allItems by $sortIds
         if (!$isNewItem && $sortIds && $allItems) {
             array_multisort(array_column($allItems, 'itemId'), SORT_ASC, $allItems);

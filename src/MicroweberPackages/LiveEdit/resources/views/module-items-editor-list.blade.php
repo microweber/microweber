@@ -1,5 +1,46 @@
 <div>
 
+    <?php
+
+
+
+    $title = 'My Module';
+    if (isset($editorSettings['config']['title'])) {
+        $title = $editorSettings['config']['title'];
+    }
+    $title = _e($title, true);
+
+    $icon = 'mdi mdi-account-group';
+    if (isset($editorSettings['config']['icon'])) {
+        $icon = $editorSettings['config']['icon'];
+    }
+
+    $addButtonText = 'Add Item';
+    if (isset($editorSettings['config']['addButtonText'])) {
+        $addButtonText = $editorSettings['config']['addButtonText'];
+    }
+    $addButtonText = _e($addButtonText, true);
+
+    $editButtonText = 'Edit Item';
+    if (isset($editorSettings['config']['editButtonText'])) {
+        $editButtonText = $editorSettings['config']['editButtonText'];
+    }
+    $editButtonText = _e($editButtonText, true);
+
+    $deleteButtonText = 'Delete Item';
+    if (isset($editorSettings['config']['deleteButtonText'])) {
+        $deleteButtonText = $editorSettings['config']['deleteButtonText'];
+    }
+    $deleteButtonText = _e($deleteButtonText, true);
+
+    $sortItems = true;
+    if (isset($editorSettings['config']['sortItems'])) {
+        $sortItems = $editorSettings['config']['sortItems'];
+    }
+
+
+    ?>
+
 
     <div>
 
@@ -22,10 +63,10 @@ showEditTab: 'main'
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title"><?php _e('Teamcard items') ?></h3>
+                                        <h3 class="card-title"><?php print $title ?></h3>
                                         <x-microweber-ui::button class="ms-2" type="button"
                                                                  x-on:click="showEditTab = 'tabs-nav-tab-new-item'">
-                                            @lang('Add new')
+                                                <?php print $addButtonText ?>
                                         </x-microweber-ui::button>
 
                                     </div>
@@ -59,13 +100,13 @@ showEditTab: 'main'
                                                         <div class="col-auto">
                                                             <x-microweber-ui::button class="ms-2" type="button"
                                                                                      x-on:click="showEditTab = 'tabs-nav-tab-{{ $item['itemId'] }}'">
-                                                                @lang('Edit')
+                                                                    <?php print $editButtonText ?>
                                                             </x-microweber-ui::button>
 
 
                                                             <x-microweber-ui::danger-button class="ms-2" type="button"
                                                                                             wire:click="showConfirmDeleteItemById('{{$item['itemId']}}')">
-                                                                @lang('Delete')
+                                                                    <?php print $deleteButtonText ?>
                                                             </x-microweber-ui::danger-button>
                                                         </div>
                                                     </div>
@@ -122,7 +163,6 @@ showEditTab: 'main'
             @else
 
                 <div class="alert-info">
-                    Add new
 
                     <div id="add-new-item-holder">
                         <livewire:microweber-live-edit::module-items-editor-edit-item wire:key="newItem{{$moduleId}}"
@@ -140,16 +180,17 @@ showEditTab: 'main'
     <div>
         <x-microweber-ui::dialog-modal wire:model="areYouSureDeleteModalOpened">
             <x-slot name="title">
-                Confirm your action
+                <?php _e('Are you sure?'); ?>
             </x-slot>
             <x-slot name="content">
-                Are you sure want to do this item?
+                <?php _e('Are you sure want to delete this?'); ?>
+
             </x-slot>
 
             <x-slot name="footer">
-                <x-microweber-ui::button wire:click="confirmDeleteSelectedItems()" wire:loading.attr="disabled">
-                    Confirm
-                </x-microweber-ui::button>
+                <x-microweber-ui::danger-button wire:click="confirmDeleteSelectedItems()" wire:loading.attr="disabled">
+                    <?php _e('Delete'); ?>
+                </x-microweber-ui::danger-button>
             </x-slot>
         </x-microweber-ui::dialog-modal>
 
