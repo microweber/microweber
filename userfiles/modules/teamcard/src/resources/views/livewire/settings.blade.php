@@ -28,10 +28,10 @@ showMainEditTab: 'mainSettings'
                 'name' => 'name',
                 'placeholder' => 'Enter name',
                 'help' => 'Enter Name',
-            ], [
+            ],  [
                 'type' => 'image',
-                'label' => 'Team member role',
-                'placeholder' => 'Enter member role',
+                'label' => 'Team member picture',
+                'placeholder' => 'Team member picture',
                 'name' => 'file',
 
             ], [
@@ -77,7 +77,7 @@ showMainEditTab: 'mainSettings'
     </div>
 @endif
 
-    <div x-show="showMainEditTab=='mainSettings'">
+    <div x-show="showMainEditTab=='mainSettings'" x-transition:enter="tab-pane-slide-left-active">
 
 
 
@@ -96,7 +96,7 @@ showMainEditTab: 'mainSettings'
 
     @if($moduleTemplates && count($moduleTemplates) >  1)
 
-    <div x-show="showMainEditTab=='design'">
+    <div x-show="showMainEditTab=='design'" x-transition:enter="tab-pane-slide-right-active">
 
       <div>
           <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
