@@ -92,7 +92,7 @@ class OptionElement extends AdminComponent
 
     }
 
-    public function updated($settingKey, $value)
+    public function updated()
     {
 
         $option = array();
