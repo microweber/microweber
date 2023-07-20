@@ -6,7 +6,15 @@
             @foreach ($editorSettings['schema'] as $field)
                 <div class="form-group">
                     <label for="{{ $field['name'] }}">{{ $field['label'] }}</label>
-                    <x-microweber-ui::input type="{{ $field['type'] }}" placeholder="{{ $field['placeholder'] }}" wire:model.defer="itemState.{{ $field['name'] }}"/>
+
+                    <?php $placeholder = '';
+
+                        if(isset($field['placeholder'])){
+                            $placeholder = $field['placeholder'];
+                        }
+                        ?>
+
+                    <x-microweber-ui::input type="{{ $field['type'] }}"  placeholder="{{ $placeholder }}" wire:model.defer="itemState.{{ $field['name'] }}"/>
                     @error($field['name']) <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
             @endforeach

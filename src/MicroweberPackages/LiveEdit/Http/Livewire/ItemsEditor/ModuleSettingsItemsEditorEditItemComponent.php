@@ -51,7 +51,7 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
         }
 
         if (isset($json) == false or count($json) == 0) {
-            $json = array(0 => $defaults);
+            $json = [];
         }
         $isNewItem = false;
 
@@ -72,40 +72,43 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
             $isNewItem = true;
             $newItem['itemId'] = $this->moduleId . '_' . uniqid();
         }
-        if(!empty($newItem)){
+        if ($isNewItem and !empty($newItem)) {
+
             $allItems[] = $newItem;
         }
-
 
 
         $sortIds = [];
         if (!empty($json)) {
             foreach ($json as $item) {
-                if (isset($item['itemId']) and $newItem['itemId']) {
-                    $sortIds[] = $item['itemId'];
-                }
-                if (isset($item['itemId']) and $newItem['itemId'] != $item['itemId']) {
+                if (isset($item['itemId'])) {
+                    if (!$isNewItem and !empty($newItem)) {
+                        if ($item['itemId'] == $newItem['itemId']) {
+                            $item = $newItem;
+                        }
+
+                    }
+                    foreach ($defaults as $key => $value) {
+                        if (!isset($item[$key])) {
+                            $item[$key] = $value;
+                        }
+                    }
                     $allItems[] = $item;
                 }
             }
         }
 
-        dump($allItems, $sortIds, $isNewItem, $this->itemId, $newItem);
-
-        //sots $allItems by $sortIds
-        if (!$isNewItem && $sortIds && $allItems) {
-            array_multisort(array_column($allItems, 'itemId'), SORT_ASC, $allItems);
+        if ($isNewItem) {
+            $this->itemState = [];
         }
 
+        $this->saveItems($allItems);
 
-       $this->saveItems($allItems);
-
-     $this->emitTo('microweber-live-edit::module-items-editor-list', 'onItemChanged', ['moduleId' => $this->moduleId]);
+        $this->emitTo('microweber-live-edit::module-items-editor-list', 'onItemChanged', ['moduleId' => $this->moduleId]);
 
         $this->emit('switchToMainTab');
 
-      //  $this->emit('onItemChanged');
-
+        //  $this->emit('onItemChanged');
 
 
     }

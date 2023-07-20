@@ -29,6 +29,11 @@
                     'placeholder' => 'Enter Name',
                     'help' => 'Enter Name',
                 ], [
+                    'type' => 'image',
+                    'label' => 'Team member name',
+                    'name' => 'file',
+
+                ], [
                     'type' => 'text',
                     'label' => 'Team member bio',
                     'name' => 'bio',
