@@ -4,8 +4,12 @@
 
     @if(!empty($options))
         @foreach($options as $key => $option)
-            <label class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="{{$key}}">
+            @php
+                $optionRandId = md5($key).time();
+            @endphp
+
+            <label class="form-check form-check-inline" id="{{$optionRandId}}">
+                <input {!! $attributes->merge() !!}  class="form-check-input" type="radio" value="{{$key}}">
                 <span class="form-check-label">{{$option}}</span>
             </label>
         @endforeach
