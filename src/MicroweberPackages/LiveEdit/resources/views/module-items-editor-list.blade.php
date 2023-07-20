@@ -96,7 +96,7 @@ showEditTab: 'main'
                                                         <div class="col-auto">
                                                             <div class="sortHandle">
                                                                 <div>
-                                                                    <svg class="mdi-cursor-move ui-sortable-handle"
+                                                                    <svg class="mdi-cursor-move cursor-grab ui-sortable-handle"
                                                                          fill="currentColor"
                                                                          xmlns="http://www.w3.org/2000/svg" height="24"
                                                                          viewBox="0 96 960 960" width="24">
@@ -159,9 +159,9 @@ showEditTab: 'main'
                                 {!!$backButtonIconSvg!!}
                             </x-microweber-ui::button-back>
 
-                            <div class="me-2">
+                            <div class="me-3">
                                 <x-microweber-ui::button-animation type="submit">@lang('Save')</x-microweber-ui::button-animation>
-                                
+
                             </div>
                         </div>
 
@@ -196,7 +196,7 @@ showEditTab: 'main'
 
                                     </x-microweber-ui::button-back>
 
-                                    <div class="me-2">
+                                    <div class="me-3">
                                         <x-microweber-ui::button-animation type="submit">@lang('Save')</x-microweber-ui::button-animation>
                                     </div>
 

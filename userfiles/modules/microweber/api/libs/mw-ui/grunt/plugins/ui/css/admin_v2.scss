@@ -2297,3 +2297,20 @@ svg.text-danger {
     }
 }
 
+
+.mw_modal_live_edit_settings {
+    .mw-dialog-holder {
+        background-color: var(--tblr-bg-surface);
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        padding: 0 15px;
+    }
+    .modal-title {
+        display: none;
+    }
+
+    .mw-dialog-header {
+        height: 20px;
+        cursor: grab;
+        min-height: unset !important;
+    }
+}
