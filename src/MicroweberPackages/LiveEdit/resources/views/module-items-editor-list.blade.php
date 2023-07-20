@@ -155,8 +155,7 @@ showEditTab: 'main'
                          x-transition:enter="tab-pane-slide-right-active">
 
                         <x-microweber-ui::button-back  x-on:click="showEditTab = 'main'">
-                                {{$backButtonIconSvg}}
-
+                            {!!$backButtonIconSvg!!}
                         </x-microweber-ui::button-back>
 
                         <div id="add-new-item-holder">
