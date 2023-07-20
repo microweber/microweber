@@ -11,6 +11,16 @@
             </div>
 
             <div>
+                @php
+                    $logoTypeOptions = [
+                        'image' => 'image',
+                        'text' => 'text',
+                    ];
+                @endphp 
+                <livewire:microweber-option::radio-modern :options="$logoTypeOptions" optionKey="logotype" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+
+            <div>
                 <label class="live-edit-label"><?php _e("Main Logo"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("This logo image will appear every time"); ?></small>
                 <livewire:microweber-option::media-picker optionKey="logoimage" :optionGroup="$moduleId" :module="$moduleType"  />

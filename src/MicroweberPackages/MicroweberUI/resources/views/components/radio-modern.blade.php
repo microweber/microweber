@@ -1,4 +1,4 @@
-@props(['options'=>[], 'selectedOption'=>null])
+@props(['options'=> null, 'selectedOption'=>null])
 
 @php
     $randomId = rand(1111,9999).time();
@@ -16,6 +16,7 @@
                 <input style="display:none" id="{{$randomId}}_{{$key}}" type="radio" {!! $attributes->merge([]) !!} value="{{$key}}">
 
                 {!! $option !!}
+
             </label>
 
         @endforeach
