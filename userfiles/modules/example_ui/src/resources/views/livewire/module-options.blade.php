@@ -47,7 +47,7 @@
                 '3' => 'Modern 3',
             ];
         @endphp
-        <livewire:microweber-option::radio-modern :radioModernOptions="$radioModernOptions" optionKey="alignment" :optionGroup="$moduleId" :module="$moduleType"  />
+        <livewire:microweber-option::radio-modern :options="$radioModernOptions" optionKey="alignment" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div class="mt-4 mb-3">
