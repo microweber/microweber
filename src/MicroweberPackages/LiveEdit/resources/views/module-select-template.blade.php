@@ -20,10 +20,12 @@
          $moduleTypeForComponent = str_replace('_', '-', $moduleType);
     @endphp
 
-   <div class="mb-3">
-       <label><?php _ejs("Skin"); ?></label>
-       <div>
-           <select wire:model="settings.template" class="form-select">
+   <div>
+       <label class="live-edit-label"><?php _ejs("Skin"); ?></label>
+
+       <div class="form-control-live-edit-label-wrapper">
+
+           <select wire:model="settings.template" class="form-select form-control-live-edit-input">
                <option value="default">
                    <?php _e("Default"); ?>
                </option>
@@ -36,6 +38,7 @@
                <?php endforeach; ?>
            </select>
        </div>
+
    </div>
 
     <div class="mw-module-skin-setting-holder">
