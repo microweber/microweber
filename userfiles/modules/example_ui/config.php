@@ -17,5 +17,5 @@ $config['settings']['autoload_namespace'] = [
 ];
 
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Modules\ExampleUi\Providers\ExampleUiServiceProvider::class
+    \MicroweberPackages\Modules\ExampleUi\Providers\LogoServiceProvider::class
 ];

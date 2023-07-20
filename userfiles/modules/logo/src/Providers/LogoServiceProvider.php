@@ -1,20 +1,20 @@
 <?php
 
-namespace MicroweberPackages\Modules\ExampleUi\Providers;
+namespace MicroweberPackages\Modules\Logo\Providers;
 
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
-use MicroweberPackages\Modules\ExampleUi\Http\Livewire\LogoSettingsComponent;
+use MicroweberPackages\Modules\Logo\Http\Livewire\LogoSettingsComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 
-class ExampleUiServiceProvider extends PackageServiceProvider
+class LogoServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('microweber-module-example-ui');
-        $package->hasViews('microweber-module-example-ui');
+        $package->name('microweber-module-logo');
+        $package->hasViews('microweber-module-logo');
     }
 
 
@@ -23,7 +23,7 @@ class ExampleUiServiceProvider extends PackageServiceProvider
         parent::register();
 
        // View::addNamespace('microweber-module-example-ui', __DIR__.'/../resources/views');
-        Livewire::component('microweber-module-example-ui::settings', LogoSettingsComponent::class);
+        Livewire::component('microweber-module-logo::settings', LogoSettingsComponent::class);
 
     }
 }
