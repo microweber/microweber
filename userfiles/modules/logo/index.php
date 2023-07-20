@@ -57,6 +57,10 @@ if ($logoimage == false or $logoimage == '') {
     }
 }
 
+if (empty($logoimage)) {
+    $logoimage = false;
+    $logotype = 'text';
+}
 
 if ($logoimage_inverse == false or $logoimage_inverse == '') {
     if (isset($params['logoimage_inverse'])) {
