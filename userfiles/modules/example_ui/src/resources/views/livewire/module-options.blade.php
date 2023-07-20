@@ -1,21 +1,20 @@
 <div>
 <div>
 
-
     <div>
         <livewire:microweber-option::color-picker
-            label="Color Picker"
+            label="Color Picker - Custom Label"
             optionKey="color" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div>
         <label class="live-edit-label">File Picker</label>
-        <livewire:microweber-option::file-picker optionKey="file" :optionGroup="$moduleId" :module="$moduleType"  />
+        <livewire:microweber-option::file-picker label="Select file - Custom Label" optionKey="file" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div>
         <label class="live-edit-label">Media Picker</label>
-        <livewire:microweber-option::media-picker optionKey="media" :optionGroup="$moduleId" :module="$moduleType"  />
+        <livewire:microweber-option::media-picker label="Select media - Custom Label" optionKey="media" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div>
