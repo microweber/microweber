@@ -74,6 +74,9 @@ showEditTab: 'main'
                                         <div class="list-group list-group-flush list-group-hoverable"
                                              id="js-sortable-items-holder-{{md5($moduleId)}}">
                                             @foreach ($items as $item)
+                                                @if(!isset($item['itemId']))
+                                                    @continue;
+                                                @endif;
                                                 <div class="list-group-item js-sortable-item"
                                                      sort-key="{{ $item['itemId'] }}"
                                                      id="item-list-id-{{ $item['itemId'] }}">

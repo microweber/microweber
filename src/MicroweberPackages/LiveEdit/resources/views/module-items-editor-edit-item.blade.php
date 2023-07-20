@@ -20,8 +20,10 @@
             @endforeach
         @endif
 
-        <button x-on:click="showEditTab = 'main'" class="btn btn-outline-secondary" type="button">@lang('Cancel')</button>
-        <button type="submit" class="btn btn-primary">@lang('Save')</button>
+            <div class="d-flex align-items-center justify-content-between">
+                <x-microweber-ui::button-animation x-on:click="showEditTab = 'main'" type="button">@lang('Cancel')</x-microweber-ui::button-animation>
+                <x-microweber-ui::button-animation type="submit">@lang('Save')</x-microweber-ui::button-animation>
+            </div>
     </form>
 
 
