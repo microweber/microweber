@@ -31,6 +31,12 @@ showMainEditTab: 'mainSettings'
                 'label' => 'Icon',
                 'placeholder' => 'Icon',
                 'name' => 'icon',
+            ], [
+                'type' => 'info',
+                'label' => 'info',
+                'placeholder' => 'info',
+                'name' => 'info',
+                'help' => 'Use the live edit to drag and drop image, video or something else directly on created accordions.',
             ]
         ]
     ];
