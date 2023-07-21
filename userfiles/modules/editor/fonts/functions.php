@@ -2,6 +2,7 @@
 
 function get_editor_fonts() {
 
+
     $fonts = json_decode(file_get_contents(__DIR__ . DS . 'fonts.json'), true);
     $fontsMore = json_decode(file_get_contents(__DIR__ . DS . 'fonts-more.json'), true);
 

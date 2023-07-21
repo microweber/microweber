@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
 use MicroweberPackages\MicroweberUI\Components\Tabs;
 use MicroweberPackages\MicroweberUI\Http\Livewire\CaptchaConfirmModalComponent;
-use MicroweberPackages\MicroweberUI\Http\Livewire\FontPickerComponent;
+use MicroweberPackages\MicroweberUI\Http\Livewire\FontPickerModalComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -25,7 +25,7 @@ class MicroweberUIServiceProvider extends PackageServiceProvider
 //        Blade::componentNamespace('MicroweberPackages\\View\\Views\\Components', 'mw-ui');
 //        Blade::component('tabs', Tabs::class);
 
-        Livewire::component('font-picker', FontPickerComponent::class);
+        Livewire::component('font-picker-modal', FontPickerModalComponent::class);
         Livewire::component('captcha-confirm-modal', CaptchaConfirmModalComponent::class);
 
     }

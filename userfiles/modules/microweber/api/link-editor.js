@@ -79,8 +79,8 @@ mw.lib.require('xss');
                 this.nav = document.createElement('ul');
                  this.nav.className = 'nav nav-tabs mw-ac-editor-nav border-0 col-4 gap-3 d-flex flex-column';
 
-                var nav = scope.controllers.slice(0, 4);
-                var dropdown = scope.controllers.slice(4);
+                var nav = scope.controllers;
+                var dropdown = [];
 
                 var handleSelect = function (__for, target) {
                     [].forEach.call(scope.nav.querySelectorAll('li a'), function (item){item.classList.remove('active');});
