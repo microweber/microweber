@@ -53,6 +53,7 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
 
     public function showConfirmDeleteItemById($itemId)
     {
+
         $this->areYouSureDeleteModalOpened = true;
         $this->selectedItemsIds = [$itemId];
     }

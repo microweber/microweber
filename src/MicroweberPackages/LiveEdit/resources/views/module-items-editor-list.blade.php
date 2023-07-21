@@ -239,7 +239,7 @@ showEditTab: 'main'
     </div>
 
     <div>
-        <x-microweber-ui::dialog-modal wire:model="areYouSureDeleteModalOpened">
+        <x-microweber-ui::dialog-modal wire:model.live="areYouSureDeleteModalOpened">
             <x-slot name="title">
                 <?php _e('Are you sure?'); ?>
             </x-slot>

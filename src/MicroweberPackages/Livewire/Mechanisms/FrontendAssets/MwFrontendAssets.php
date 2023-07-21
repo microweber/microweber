@@ -125,6 +125,7 @@ class MwFrontendAssets extends FrontendAssets
 
         return <<<HTML
         <script src="{$url}" {$nonce} data-csrf="{$token}" data-uri="{$updateUri}" {$extraAttributes}></script>
+        <script>window.livewire = Livewire</script>
         HTML;
     }
 }

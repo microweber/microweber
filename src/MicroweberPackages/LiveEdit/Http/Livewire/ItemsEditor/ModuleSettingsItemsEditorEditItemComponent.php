@@ -117,7 +117,8 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
 
         $this->saveItems($allItems);
 
-        $this->emitTo('microweber-live-edit::module-items-editor-list', 'onItemChanged', ['moduleId' => $this->moduleId]);
+      //  $this->emitTo('microweber-live-edit::module-items-editor-list', 'onItemChanged', ['moduleId' => $this->moduleId]);
+        $this->emit( 'onItemChanged', ['moduleId' => $this->moduleId]);
 
         $this->emit('switchToMainTab');
 
