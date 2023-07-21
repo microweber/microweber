@@ -2348,10 +2348,14 @@ svg.text-danger {
 
     .mw-dialog-container {
         padding: 0 !important;
+        max-height: unset;
     }
 
     .mw-ui-form-controller-root > div:first-of-type {
         height: 100%;
+        padding-bottom: 25px;
     }
+
+
 }
 
