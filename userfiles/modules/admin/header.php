@@ -122,7 +122,7 @@ return;
 
 <div>
     <div>
-        @livewire('livewire-ui-modal')
+        <?php print \Livewire\Livewire::mount('livewire-ui-modal');  ?>
     </div>
 </div>
 

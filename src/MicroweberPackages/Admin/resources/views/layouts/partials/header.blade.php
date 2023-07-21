@@ -197,7 +197,8 @@ $bodyClassesStr = $bodyClasses ? implode(' ', $bodyClasses) : '';
 <?php if ($enableLivewireScripts) { ?>
 <div>
     <div>
-        @livewire('livewire-ui-modal')
+        <?php print \Livewire\Livewire::mount('livewire-ui-modal');  ?>
+
     </div>
 </div>
 <?php } ?>

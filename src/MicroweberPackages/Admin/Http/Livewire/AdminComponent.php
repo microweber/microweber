@@ -29,4 +29,8 @@ class AdminComponent extends Component
     {
         $this->dispatch($name, $data);
     }
+    public function emitTo($name, $data = [])
+    {
+        $this->dispatchTo($name, $data);
+    }
 }
