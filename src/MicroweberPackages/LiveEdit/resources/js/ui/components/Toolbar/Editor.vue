@@ -260,10 +260,14 @@ export default {
                   }
 
 
+                  
+
                   element.contentEditable = true;
-                  element.focus();
+                 
 
                     setTimeout(() => {
+                      element.focus();
+                      mw.app.liveEdit.pause()
                       mw.app.richTextEditor.smallEditorInteract(element);
                       mw.app.richTextEditor.positionSmallEditor(element)
                     });

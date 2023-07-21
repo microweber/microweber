@@ -657,7 +657,29 @@ mw.emitter = {
             var url =  this.settings.dataUrl;
             url = typeof url === 'function' ? url() : url;
 
-            var initAutoComplete = () => {
+            var initAutoComplete = async () => {
+
+
+                const idata = await new Promise(resolve => {
+                    var conf = {
+                        method: 'POST',
+                        url: url,
+                        body: JSON.stringify({
+                            limit: '5',
+                            keyword: '',
+                            order_by: 'updated_at desc',
+                            search_in_fields: 'title',
+                        })
+                    }
+                    fetch(url, conf)
+                            .then(response => response.json())
+                            .then(json => {
+                                resolve(json);
+                            }).catch(()=>{
+                                resolve();
+                            });
+                })
+
                 this.autoComplete = new TomSelect(treeEl, {
                     valueField: 'id',
                     labelField: 'title',
@@ -668,6 +690,7 @@ mw.emitter = {
                     controlInput: '<input>',
                     mode: 'single',
                     closeAfterSelect: true,
+                    options: idata,
                     // fetch remote data
                     load: function(query, callback) {
                         var conf = {

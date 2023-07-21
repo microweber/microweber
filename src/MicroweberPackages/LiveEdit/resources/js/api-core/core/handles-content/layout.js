@@ -146,7 +146,7 @@ export const LayoutHandleContent = function (rootScope) {
                 ElementManager(target).after(el.innerHTML);
                 var newEl = target.nextElementSibling;
                 mw.reload_module(newEl, function(){
-                    rootScope.statemanager.record({
+                    mw.top().app.state.record({
                         target: mw.tools.firstParentWithClass(target, 'edit'),
                         value: parent.innerHTML
                     });

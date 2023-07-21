@@ -160,6 +160,11 @@ export class LiveEdit {
             } else {
                 elementHandle.resizer.enable()
             }
+            scope.handles.set('interactionHandle', null);
+            scope.handles.set('layout', null);
+            scope.handles.get('layout').hide();
+            scope.handles.get('interactionHandle').hide();
+            
 
         });
 
@@ -199,11 +204,15 @@ export class LiveEdit {
 
         moduleHandle.on('targetChange', function (node) {
             scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
-                console.log(settings)
+         
                 mw.app.liveEdit.moduleHandleContent.menu.setMenu('dynamic', settings);
                 moduleHandleContent.menu.setTarget(node);
                 moduleHandleContent.menu.show();
             });
+            scope.handles.set('layout', null);
+            scope.handles.set('interactionHandle', null);
+            scope.handles.get('layout').hide();
+            scope.handles.get('interactionHandle').hide();
         });
 
         this.layoutHandle = new Handle({
@@ -227,7 +236,7 @@ export class LiveEdit {
         layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target) {
             scope.getLayoutQuickSettings(target.dataset.type).then(function (settings) {
-                console.log(settings, target)
+                
 
                 mw.app.liveEdit.layoutHandleContent.menu.setMenu('dynamic', settings)
 
@@ -266,10 +275,11 @@ export class LiveEdit {
 
 
         this.handles = new Handles({
+            interactionHandle: this.interactionHandle,
             element: elementHandle,
             module: moduleHandle,
             layout: layoutHandle,
-            interactionHandle: this.interactionHandle,
+            
         });
         this.observe = new GetPointerTargets(this.settings);
         this.init();
@@ -427,9 +437,27 @@ export class LiveEdit {
         }
 
 
+        function isInViewport(el) {
+            if(!el || !el.parentNode) {
+                return false;
+            }
+            const rect = el.getBoundingClientRect();
+            const doc = el.ownerDocument;
+            const win = doc.defaultView;
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (win.innerHeight || doc.documentElement.clientHeight) &&
+                rect.right <= (win.innerWidth || doc.documentElement.clientWidth)
+        
+            );
+        }
+
+
         let events, _hovered = [];
 
         events = 'mousedown touchstart';
+        // events = 'click';
         ElementManager(this.root).on('mousemove', (e) => {
             if (this.paused || this.isResizing) {
                 this.interactionHandle.hide();
@@ -442,14 +470,33 @@ export class LiveEdit {
             }
             const elements = this.observe.fromEvent(e);
 
+            let elementTarget = this.handles.get('element').getTarget();
+            let moduleTarget = this.handles.get('module').getTarget();
+
+    
+
+
+            if(!isInViewport(elementTarget)) {
+                this.handles.get('element').hide()
+                this.handles.get('element').set(null)
+            }
+
+            if(!isInViewport(moduleTarget)) {
+                this.handles.get('module').hide()
+                this.handles.get('module').set(null)
+            }
+
             
 
             let target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'edit']);
             const layout = DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
             let layoutHasSelectedTarget = false;
 
-            target = this._hoverAndSelectExceptions(target)
+           
+            target = this._hoverAndSelectExceptions(target);
+           
 
+            
 
             if (target && _hovered.indexOf(target) === -1) {
                 _hovered.forEach(node => delete node.dataset.mwLiveEdithover);
@@ -463,10 +510,16 @@ export class LiveEdit {
             }
 
 
-            if (layout /*&& !target*/) {
+            if(target === this.interactionHandle.getTarget()) {
+                this.interactionHandle.show();
+                return
+            }
 
-                const elementTarget = this.handles.get('element').getTarget();
-                const moduleTarget = this.handles.get('module').getTarget();
+
+            if (layout /*&& !target*/  ) {
+              
+
+               
 
                 if (layout.contains(elementTarget)) {
                     layoutHasSelectedTarget = true;
@@ -476,7 +529,16 @@ export class LiveEdit {
                     layoutHasSelectedTarget = true;
                 }
 
-                this.handles.set('layout', layout);
+
+                
+                if(!layoutHasSelectedTarget) {
+                    this.handles.set('layout', layout);
+                } else {
+                    this.handles.set('layout', null);
+                    this.handles.get('layout').hide();
+                }
+
+                
 
             }
 
