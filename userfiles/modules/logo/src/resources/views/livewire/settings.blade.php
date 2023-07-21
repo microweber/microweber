@@ -1,6 +1,5 @@
 <div>
-
-    <div class="card">
+    <div>
         <div x-data="{'logoType': '{{get_option('logotype', $moduleId)}}'}" class="card-body" style="padding:5px;padding-bottom:25px;">
 
             <div @mw-option-saved.window="function() {
@@ -49,7 +48,14 @@
                     <livewire:microweber-option::text optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
 
-                <div>
+                <div class="mt-3">
+                    <label class="live-edit-label"><?php _e("Font Family Text"); ?></label>
+                    <small class="text-muted d-block mb-2"><?php _e("Select font family for your logo"); ?></small>
+
+                    <livewire:microweber-option::font-picker label="Select font" optionKey="font_family" :optionGroup="$moduleId" :module="$moduleType"  />
+                </div>
+
+                <div class="mt-3">
                     <livewire:microweber-option::range-slider labelUnit="px" min="8" max="45" label="Logo Text - Size" optionKey="font_size" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
             </div>

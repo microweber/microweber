@@ -77,7 +77,7 @@ mw.lib.require('xss');
         this.buildNavigation = function (){
             if(this.settings.nav === 'tabs') {
                 this.nav = document.createElement('ul');
-                 this.nav.className = 'nav nav-tabs mw-ac-editor-nav border-0';
+                 this.nav.className = 'nav nav-tabs mw-ac-editor-nav border-0 col-4 gap-3 d-flex flex-column';
 
                 var nav = scope.controllers.slice(0, 4);
                 var dropdown = scope.controllers.slice(4);
@@ -198,6 +198,7 @@ mw.lib.require('xss');
                 this.dialog = mw.top().dialog({
                     content: this.root,
                     width: 860,
+                    skin: 'default mw_modal_live_edit_link_editor_settings',
                     height: 'auto',
                     title: this.settings.title,
                     overflowMode: 'visible',
