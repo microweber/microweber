@@ -9,12 +9,19 @@
                 </div>
 
                 <div class="d-flex flex-column align-items-start gap-2 mt-3 ms-3">
-                    <x-microweber-ui::button-animation>
-                        All
+                    @foreach($categories as $categoryKey=>$category)
+
+                        @php
+                            $buttonClass = '';
+                            if($categoryKey == $category) {
+                                $buttonClass = 'active';
+                            }
+                        @endphp
+
+                    <x-microweber-ui::button-animation :class="$buttonClass" wire:click="category('{{$categoryKey}}')">
+                        {{ $category }}
                     </x-microweber-ui::button-animation>
-                    <x-microweber-ui::button-animation>
-                        Favorites
-                    </x-microweber-ui::button-animation>
+                    @endforeach
                 </div>
 
             </div>
