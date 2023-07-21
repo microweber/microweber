@@ -54,7 +54,7 @@ mw.controlFields = {
     },
     _wrap: function () {
         var el =  document.createElement('div');
-        el.className = 'mw-ui-field-holder';
+        el.className = '';
         [].forEach.call(arguments, function (content) {
             if (typeof content === 'string') {
                 el.innerHTML += content;
