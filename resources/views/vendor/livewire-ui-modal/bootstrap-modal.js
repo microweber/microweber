@@ -130,20 +130,29 @@ window.LivewireUIBootstrapModal = () => {
 
             if (show) {
 
-                var livewireUIModal = new bootstrap.Modal(document.getElementById('livewire-ui-modal'), {
-                    keyboard:false,
-                    focus:false
+                // var livewireUIModal = new bootstrap.Modal(document.getElementById('livewire-ui-modal'), {
+                //     keyboard:false,
+                //     focus:false
+                // });
+                // livewireUIModal.show()
+
+                var mwDialogLivewire = mw.top().dialog({
+                        content: document.getElementById('livewire-ui-modal'),
+                        width: 900
                 });
-                livewireUIModal.show()
 
             } else {
-              //  $(document.body).find('#livewire-ui-modal').modal('hide');
-                var livewireUIModal = bootstrap.Modal.getInstance(document.getElementById('livewire-ui-modal')) // Returns a Bootstrap modal instance
 
-                if(typeof livewireUIModal !== 'undefined') {
-                    livewireUIModal.dispose();
-                    $('.modal-backdrop').remove();
-                }
+
+
+
+              // //  $(document.body).find('#livewire-ui-modal').modal('hide');
+              //   var livewireUIModal = bootstrap.Modal.getInstance(document.getElementById('livewire-ui-modal')) // Returns a Bootstrap modal instance
+              //
+              //   if(typeof livewireUIModal !== 'undefined') {
+              //       livewireUIModal.dispose();
+              //       $('.modal-backdrop').remove();
+              //   }
 
                 setTimeout(() => {
                     this.activeComponent = false;
