@@ -1,9 +1,16 @@
 <div>
 
-    <div class="form-control-live-edit-label-wrapper" x-data="{selectedOption: {{json_encode([])}}, openOptions:false}">
+    <div class="form-control-live-edit-label-wrapper"
+         x-data="{selectedOption: {{json_encode([])}}, openOptions:false,styles: {}}"
+
+         x-init="
+         $watch('selectedOption', val => styles['font-family'] = selectedOption.family)
+        "
+    >
 
         <button type="button" class="form-select form-control-live-edit-input"
-                x-on:click="openOptions = !openOptions" x-html="selectedOption.value">
+                x-on:click="openOptions = !openOptions">
+            <span x-html="selectedOption.family" :style="styles"></span>
         </button>
 
 
@@ -29,7 +36,7 @@
 
                     <button type="button" x-on:click="selectedOption = {{json_encode($font)}}; openOptions = false" :class="[selectedOption.key == '{{$font['family']}}' ? 'active':'']" class="dropdown-item tblr-body-color">
 
-                        <span style="font-size:16px;font-family:'{!! $font['family'] !!}',sans-serif;">
+                        <span style="font-size:18px;font-family:'{!! $font['family'] !!}',sans-serif;">
                              {!! $font['family'] !!}
                         </span>
 
