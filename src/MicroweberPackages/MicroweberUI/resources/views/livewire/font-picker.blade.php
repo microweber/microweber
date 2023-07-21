@@ -15,6 +15,15 @@
                 </div>
             </div>
 
+            <div>
+                <x-microweber-ui::button class="btn-sm">
+                    All Fonts
+                </x-microweber-ui::button>
+                <x-microweber-ui::button class="btn-sm">
+                    Favorite Fonts
+                </x-microweber-ui::button>
+            </div>
+
             @if(!empty($fonts))
                 @foreach($fonts as $font)
 
