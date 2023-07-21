@@ -738,6 +738,55 @@ abstract class AbstractRepository implements RepositoryContract
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function hasErrors(): bool
+    {
+        return $this->getMessageBag()->has('error');
+    }
+
+ 
+
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getMessageBag(): MessageBag
+    {
+        if ($this->message_bag === null) {
+            $this->message_bag = new MessageBag;
+        }
+
+        return $this->message_bag;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addMessage(string $message, string $key = 'message'): static
+    {
+        $this->getMessageBag()->add($key, $message);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasMessage(string $key = 'message'): bool
+    {
+        return $this->getMessageBag()->has($key);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getMessage(string $key = null, string $format = null, string $default = ''): string
+    {
+        return $this->getMessageBag()->first($key, $format) ?: $default;
+    }
+    /**
      * Return query scope.
      *
      * @return array
@@ -800,7 +849,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @return \Illuminate\Support\MessageBag
      */
-    public function getErrors()
+    public function getErrors() : array
     {
         if ($this->errors === null) {
             $this->errors = new MessageBag;
