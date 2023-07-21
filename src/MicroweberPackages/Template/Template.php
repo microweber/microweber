@@ -4,7 +4,6 @@
 namespace MicroweberPackages\Template;
 
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
 use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
@@ -118,18 +117,18 @@ class Template
         //$alpineUrl = mw_includes_url() . 'api/libs/alpine/alpine.min.js';
 
         //$alpineScript = '<script src="' . $alpineUrl . '" defer></script>';
-        $scripts = Blade::render('@livewireScripts') ;
-      //$scripts = \Livewire\Livewire::injectAssets();
-   $styles = Blade::render('@livewireStyles');
+        $scripts = Blade::render('@livewireScripts');
+        //$scripts = \Livewire\Livewire::injectAssets();
+        $styles = Blade::render('@livewireStyles');
 
-       // $alpineScript = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/frontend-app.js');
-        $modal = \Livewire\Livewire::mount('livewire-ui-modal') ;
+        // $alpineScript = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/frontend-app.js');
+        $modal = \Livewire\Livewire::mount('livewire-ui-modal');
 
 
-     //   $layout = Str::replaceFirst( '<head>', '<head>' . $alpineScript, $layout);
-      $layout = Str::replaceFirst( '</head>', $styles . '</head>', $layout);
-      $layout = Str::replaceFirst( '</head>', $scripts . '</head>', $layout);
-        $layout = Str::replaceFirst( '</head>', $modal . '</head>', $layout);
+        //   $layout = Str::replaceFirst( '<head>', '<head>' . $alpineScript, $layout);
+        $layout = Str::replaceFirst('</head>', $styles . '</head>', $layout);
+        $layout = Str::replaceFirst('</head>', $scripts . '</head>', $layout);
+        $layout = Str::replaceFirst('</head>', $modal . '</head>', $layout);
 
 
         return $layout;

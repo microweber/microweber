@@ -12,51 +12,19 @@ class LivewireManager extends BaseLivewireManager
         return app(MwHandleRequests::class)->getUpdateUri();
     }
 
-    protected function copyAssets()
-    {
-        $livewireCacheFolder = base_path() . '/userfiles/cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/';
-        $livewireCacheFolder = normalize_path($livewireCacheFolder,true);
-
-        if (!is_dir($livewireCacheFolder)) {
-            mkdir_recursive($livewireCacheFolder);
-        }
-
-        $livewireCachedFile = $livewireCacheFolder . '/livewire.js';
-        $livewireCachedFileMap = $livewireCacheFolder . '/livewire.js.map';
-        $livewireCachedFileManifest = $livewireCacheFolder . '/manifest.json';
-
-        if (!is_file($livewireCachedFile)) {
-
-            $livewireOriginalFile = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.js');
-            if (!is_file($livewireOriginalFile)) {
-                throw new \Exception('livewire.js not exist in vendor');
-            }
-
-            copy($livewireOriginalFile, $livewireCachedFile);
-
-
-            $livewireOriginalFileMap = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.js.map');
-            if (!is_file($livewireOriginalFileMap)) {
-                throw new \Exception('livewire.js.map not exist in vendor');
-            }
-
-            copy($livewireOriginalFileMap, $livewireCachedFileMap);
-
-            if (!is_file($livewireCachedFileManifest)) {
-                $livewireOriginalFileManifest = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/manifest.json');
-                copy($livewireOriginalFileManifest, $livewireCachedFileManifest);
-            }
-        }
-    }
+    /**
+     * @deprecated This method is deprecated and should not be used.
+     */
     protected function getAssetPath()
     {
         $livewireCacheFolder = 'userfiles/cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/livewire.js';
         return site_url($livewireCacheFolder);
 
     }
-
-
-    protected function javaScriptAssets($options)
+    /**
+     * @deprecated This method is deprecated and should not be used.
+     */
+    protected function oldjavaScriptAssets($options)
     {
         $this->copyAssets();
 
@@ -123,6 +91,47 @@ class LivewireManager extends BaseLivewireManager
     });
 </script>
 HTML;
+    }
+
+
+    /**
+     * @deprecated This method is deprecated and should not be used.
+     */
+    protected function copyAssets()
+    {
+        $livewireCacheFolder = base_path() . '/userfiles/cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/';
+        $livewireCacheFolder = normalize_path($livewireCacheFolder,true);
+
+        if (!is_dir($livewireCacheFolder)) {
+            mkdir_recursive($livewireCacheFolder);
+        }
+
+        $livewireCachedFile = $livewireCacheFolder . '/livewire.js';
+        $livewireCachedFileMap = $livewireCacheFolder . '/livewire.js.map';
+        $livewireCachedFileManifest = $livewireCacheFolder . '/manifest.json';
+
+        if (!is_file($livewireCachedFile)) {
+
+            $livewireOriginalFile = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.js');
+            if (!is_file($livewireOriginalFile)) {
+                throw new \Exception('livewire.js not exist in vendor');
+            }
+
+            copy($livewireOriginalFile, $livewireCachedFile);
+
+
+            $livewireOriginalFileMap = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.js.map');
+            if (!is_file($livewireOriginalFileMap)) {
+                throw new \Exception('livewire.js.map not exist in vendor');
+            }
+
+            copy($livewireOriginalFileMap, $livewireCachedFileMap);
+
+            if (!is_file($livewireCachedFileManifest)) {
+                $livewireOriginalFileManifest = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/manifest.json');
+                copy($livewireOriginalFileManifest, $livewireCachedFileManifest);
+            }
+        }
     }
 
 }

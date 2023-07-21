@@ -9,7 +9,7 @@ class AdminComponent extends Component
 {
     use AuthorizesRequests;
 
-    public function __construct( )
+    public function __construct()
     {
         try {
             $this->authorize('isAdmin');
@@ -18,6 +18,15 @@ class AdminComponent extends Component
         }
 
 
+    }
 
+    public function dispatchBrowserEvent($name, $data = [])
+    {
+        $this->dispatch($name, $data);
+    }
+
+    public function emit($name, $data = [])
+    {
+        $this->dispatch($name, $data);
     }
 }

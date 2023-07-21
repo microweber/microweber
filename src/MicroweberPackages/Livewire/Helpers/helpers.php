@@ -1,12 +1,15 @@
 <?php
 
 
+use Livewire\Mechanisms\ComponentRegistry;
+
 function livewire_component_exists($class): bool
 {
+
     try {
-        \Livewire\Livewire::getClass($class);
+        $name = app(ComponentRegistry::class)->getName($class);
         return true;
-    } catch (\Throwable $th) {
+    } catch (\Livewire\Exceptions\ComponentNotFoundException $th) {
         return false;
     }
 }

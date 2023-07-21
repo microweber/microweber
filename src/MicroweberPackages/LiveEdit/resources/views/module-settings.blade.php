@@ -54,10 +54,12 @@
         ?>
 
         @if(livewire_component_exists($livewireComponentName))
-                @livewire($livewireComponentName, [
-                    'moduleId' => $moduleId,
-                    'moduleType' => $moduleTypeForComponent,
-                ])
+<div>
+
+    @livewire($livewireComponentName, ['moduleId' => $moduleId, 'moduleType' => $moduleType])
+
+</div>
+
         @else
 
 

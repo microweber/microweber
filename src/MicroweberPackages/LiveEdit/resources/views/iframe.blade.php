@@ -7,8 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
-    @livewireScriptConfig
-    @livewireStyles
+
+    <?php print Blade::render('@livewireScripts') ?>
+    <?php print Blade::render('@livewireStyles') ?>
+
+
     <?php print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
 
     <script>
