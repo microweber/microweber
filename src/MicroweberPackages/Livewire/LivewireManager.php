@@ -3,9 +3,15 @@
 namespace MicroweberPackages\Livewire;
 
 use \Livewire\LivewireManager as BaseLivewireManager;
+use MicroweberPackages\Livewire\Mechanisms\HandleRequests\MwHandleRequests;
 
 class LivewireManager extends BaseLivewireManager
 {
+    function getUpdateUri()
+    {
+        return app(MwHandleRequests::class)->getUpdateUri();
+    }
+
     protected function copyAssets()
     {
         $livewireCacheFolder = base_path() . '/userfiles/cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/';
@@ -48,6 +54,7 @@ class LivewireManager extends BaseLivewireManager
         return site_url($livewireCacheFolder);
 
     }
+
 
     protected function javaScriptAssets($options)
     {

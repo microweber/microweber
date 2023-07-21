@@ -1,7 +1,7 @@
 import './index.js'
 
 import {MWUniversalContainer} from "./containers/container.js";
-
+// import { Livewire } from '../../../../../../../vendor/livewire/livewire/dist/livewire.esm';
 
 import {EditorComponent} from "./components/editor/editor.js";
 import {LiveEditCanvas} from "./components/live-edit-canvas/live-edit-canvas.js";
@@ -14,11 +14,9 @@ import {ModuleSettings} from "./services/module-settings";
 import {IconPicker} from "./services/icon-picker";
 import {LinkPicker} from "./services/link-picker";
 import {ColorPicker} from "./services/color-picker";
-import '@nextapps-be/livewire-sortablejs';
 
-// other libs
-import Alpine from 'alpinejs';
-import focus from '@alpinejs/focus';
+
+
 import { DynamicTargetMenus } from './services/dynamic-target-menus.js';
 
 mw.app = new MWUniversalContainer();
@@ -43,7 +41,8 @@ mw.app = new MWUniversalContainer();
 //}, 300);
 
 // init other libs
-window.Alpine = Alpine;
-Alpine.plugin(focus);
+// window.Alpine = Alpine;
+// //Alpine.plugin(focus);
+// Livewire.start();
 
-Alpine.start();
+//Alpine.start();

@@ -9,7 +9,7 @@ class AdminComponent extends Component
 {
     use AuthorizesRequests;
 
-    public function __construct($id = null)
+    public function __construct( )
     {
         try {
             $this->authorize('isAdmin');
@@ -17,7 +17,7 @@ class AdminComponent extends Component
             abort(401, 'Unauthorized action.');
         }
 
-        parent::__construct($id);
+
 
     }
 }

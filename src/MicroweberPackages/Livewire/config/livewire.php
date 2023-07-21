@@ -1,7 +1,6 @@
 <?php
 
 
-
 return [
 
     /*
@@ -56,7 +55,7 @@ return [
     |
     */
 
-   //'asset_url' => site_url().'/userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION,
+  'asset_url' => site_url().'userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION.'/livewire.js',
 
     /*
     |--------------------------------------------------------------------------
@@ -157,4 +156,57 @@ return [
 
     'render_on_redirect' => false,
 
+    /*
+  |---------------------------------------------------------------------------
+  | Eloquent Model Binding
+  |---------------------------------------------------------------------------
+  |
+  | Previous versions of Livewire supported binding directly to eloquent model
+  | properties using wire:model by default. However, this behavior has been
+  | deemed too "magical" and has therefore been put under a feature flag.
+  |
+  */
+
+    'legacy_model_binding' => false,
+
+    /*
+    |---------------------------------------------------------------------------
+    | Auto-inject Frontend Assets
+    |---------------------------------------------------------------------------
+    |
+    | By default, Livewire automatically injects its JavaScript and CSS into the
+    | <head> and <body> of pages containing Livewire components. By disabling
+    | this behavior, you need to use @livewireStyles and @livewireScripts.
+    |
+    */
+
+    'inject_assets' => false,
+
+    /*
+    |---------------------------------------------------------------------------
+    | Navigate (SPA mode)
+    |---------------------------------------------------------------------------
+    |
+    | By adding `wire:navigate` to links in your Livewire application, Livewire
+    | will prevent the default link handling and instead request those pages
+    | via AJAX, creating an SPA-like effect. Configure this behavior here.
+    |
+    */
+
+    'navigate' => [
+        'show_progress_bar' => true,
+    ],
+
+    /*
+    |---------------------------------------------------------------------------
+    | HTML Morph Markers
+    |---------------------------------------------------------------------------
+    |
+    | Livewire intelligently "morphs" existing HTML into the newly rendered HTML
+    | after each update. To make this process more reliable, Livewire injects
+    | "markers" into the rendered Blade surrounding @if, @class & @foreach.
+    |
+    */
+
+    'inject_morph_markers' => true
 ];

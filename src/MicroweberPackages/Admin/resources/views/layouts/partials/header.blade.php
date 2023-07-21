@@ -81,9 +81,8 @@
     ?>
     <?php if ($enableLivewireScripts) { ?>
 
-        <?php print \Livewire\Livewire::scripts(); ?>
-        <?php print \Livewire\Livewire::styles(); ?>
-
+        <?php print Blade::render('@livewireScripts') ?>
+        <?php print Blade::render('@livewireStyles') ?>
 
 
     <?php } ?>
