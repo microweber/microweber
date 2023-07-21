@@ -11,12 +11,53 @@ class FontPickerModalComponent extends ModalComponent
     use WithPagination;
 
     public $search = '';
+    public $category = 'all'; 
+    public $categories = [
+        'all' => 'All',
+        'favorites' => 'Favorites',
+        'cyrillic' => 'Cyrillic',
+        'latin' => 'Latin',
+        'sans-serif' => 'Sans Serif',
+        'handwriting' => 'Handwriting',
+        'display' => 'Display',
+    ];
 
     public function render()
     {
         $fonts = get_editor_fonts();
+        $filteredFonts = [];
 
-        $fonts = $this->paginate($fonts, 10);
+        $filterCategory = '';
+        if ($this->category !== 'all') {
+            $filterCategory = $this->category;
+        }
+
+        if (!empty($this->search) || !empty($filterCategory)) {
+            foreach ($fonts as $font) {
+                $fontFamilyLower = mb_strtolower($font['family']);
+                $searchLower = mb_strtolower($this->search);
+                if (!empty($this->search)) {
+                    if (strpos($fontFamilyLower, $searchLower) !== false) {
+                        $filteredFonts[] = $font;
+                    }
+                }
+                if (!empty($filterCategory)) {
+                   if (isset($font['category']) && $font['category'] == $filterCategory) {
+                       $filteredFonts[] = $font;
+                   }
+                   if (isset($font['subsets'])
+                       && !empty($font['subsets'])
+                       && is_array($font['subsets'])
+                       && in_array($filterCategory, $font['subsets'])) {
+                       $filteredFonts[] = $font;
+                   }
+                }
+            }
+        } else {
+            $filteredFonts = $fonts;
+        }
+
+        $fonts = $this->paginate($filteredFonts, 10);
 
         $this->dispatchBrowserEvent('font-picker-load-fonts',[
             'fonts' => $fonts->items()
@@ -25,6 +66,11 @@ class FontPickerModalComponent extends ModalComponent
         return view('microweber-ui::livewire.modals.font-picker-modal', [
             'fonts' => $fonts
         ]);
+    }
+
+    public function category($category) {
+        $this->category = $category;
+        $this->gotoPage(1);
     }
 
     public function paginate($items, $perPage = 5, $page = null)
