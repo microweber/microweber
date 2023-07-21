@@ -1,6 +1,5 @@
 <div>
-
-    <div class="card">
+    <div>
         <div x-data="{'logoType': '{{get_option('logotype', $moduleId)}}'}" class="card-body" style="padding:5px;padding-bottom:25px;">
 
             <div @mw-option-saved.window="function() {

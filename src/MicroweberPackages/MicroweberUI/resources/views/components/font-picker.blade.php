@@ -1,1 +1,3 @@
-wow
+<div>
+    <livewire:font-picker />
+</div>
