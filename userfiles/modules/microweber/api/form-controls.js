@@ -32,7 +32,7 @@ mw.controlFields = {
     _label: function (conf){
         var id = conf.id || this._id();
         var label = document.createElement('label');
-        label.className = conf.className || 'mw-ui-label';
+        label.className = conf.className || 'live-edit-label';
         label.innerHTML = conf.label || conf.content || '';
         label.htmlFor = id;
         return label;
@@ -41,7 +41,7 @@ mw.controlFields = {
         var id = conf.id || this._id();
         var button = document.createElement('button');
         button.type = conf.type || 'button';
-        var prefix = 'btn'; // bootstrap
+        var prefix = 'mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component'; // new live edit style
         button.className = prefix;
         if(conf.size) {
             button.classList.add(`${prefix}-${conf.size}`)
@@ -78,9 +78,13 @@ mw.controlFields = {
         var required = conf.required ? ('required') : '';
 
         return this._wrap(
+
             this._label(conf),
-            this._description(conf),
-            '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' ' + required + ' class="form-control w100">'
+            // this._description(conf),
+            '<div class="form-control-live-edit-label-wrapper">' +
+                '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' ' + required + ' class="form-control-live-edit-input">'
+                + '<span class="form-control-live-edit-bottom-effect"></span>'
+            + '</div>'
         );
     },
     checkbox: function (conf) {
@@ -92,10 +96,12 @@ mw.controlFields = {
         var name = conf.name ? ('name="' + conf.name + '"') : '';
         var required = conf.required ? ('required') : '';
         return  this._wrap(
-            '<label class="mw-ui-check">' +
-            '<input type="checkbox" ' + id + ' ' + name + ' ' + required + '>' +
-            '<span></span><span>' + (conf.label || conf.content || '') + '</span>' +
-            '</label>');
+            '<div class="form-control-live-edit-label-wrapper mt-3">' +
+                '<label class="form-check form-check-inline">' +
+                '<input class="form-check-input" type="checkbox" ' + id + ' ' + name + ' ' + required + '>' +
+                '<span class="form-check-label">' + (conf.label || conf.content || '') + '</span>' +
+                '</label>'
+            + '</div>');
     },
     radio: function (conf) {
         conf = conf || {};
@@ -176,10 +182,10 @@ mw.emitter = {
         },
         footer: function () {
             var data = {};
-            data.ok =  mw.controlFields._button({content: mw.lang('OK'), color: 'dark'});
-            data.cancel =  mw.controlFields._button({content: mw.lang('Cancel'), color: 'outline-dark'});
+            data.ok =  mw.controlFields._button({content: mw.lang('OK'), color: ''});
+            data.cancel =  mw.controlFields._button({content: mw.lang('Cancel'), color: ''});
             data.root = mw.controlFields._wrap(data.cancel, data.ok);
-            data.root.className = 'modal-footer mw-ui-form-controllers-footer border-0';
+            data.root.className = 'modal-footer mw-ui-form-controllers-footer border-0 px-2';
             return data;
         },
         title: function (options) {
