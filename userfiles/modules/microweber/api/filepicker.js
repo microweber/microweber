@@ -239,9 +239,9 @@ mw.filePicker = function (options) {
         }
         else if(this.settings.nav === 'tabs') {
 
-            var ul = $('<nav class="nav nav-tabs mw-ac-editor-nav" />');
+            var ul = $('<div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper mx-0" />');
             this.settings.components.forEach(function (item) {
-                ul.append('<li class="nav-item"><a href="javascript:;" class="nav-link" data-type="'+item.type+'">'+item.label+'</a></li>');
+                ul.append('<a href="javascript:;" class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100" data-type="'+item.type+'">'+item.label+'</a>');
             });
             this._navigationHolder.appendChild(this._navigationHeader);
             this._navigationHeader.appendChild(ul[0]);

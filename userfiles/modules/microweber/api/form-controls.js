@@ -185,7 +185,7 @@ mw.emitter = {
             data.ok =  mw.controlFields._button({content: mw.lang('OK'), color: ''});
             data.cancel =  mw.controlFields._button({content: mw.lang('Cancel'), color: ''});
             data.root = mw.controlFields._wrap(data.cancel, data.ok);
-            data.root.className = 'modal-footer mw-ui-form-controllers-footer border-0 px-2';
+            data.root.className = 'modal-footer mw-ui-form-controllers-footer border-0 px-2 pb-3';
             return data;
         },
         title: function (options) {
