@@ -478,9 +478,6 @@ body, .is_admin {
     padding-top: 0 !important;
 }
 
-.mw-dialog-skin-default .mw-dialog-container, .mw-dialog-header {
-    padding: 0 13px !important;
-}
 
 #settings-container {
     min-height: 350px;
@@ -575,9 +572,8 @@ p {
 }
 
 .mw-backup-restore, .mw-dialog-holder {
-    p, h3, h2, small, span:not(.btn.btn-primary), label {
+    p, h3, h2, small, span:not(.btn.btn-primary, .page-link), label {
         color: var(--tblr-body-color);
-
     }
 }
 
@@ -2313,6 +2309,10 @@ svg.text-danger {
         cursor: grab;
         min-height: unset !important;
     }
+
+    .mw-dialog-skin-default .mw-dialog-container, .mw-dialog-header {
+        padding: 0 13px !important;
+    }
 }
 
 .mw_modal_live_edit_link_editor_settings {
@@ -2359,14 +2359,10 @@ svg.text-danger {
             padding: 0 5px;
         }
 
-
-
         .mw-ui-form-controller-root > div:first-of-type {
             height: 100%;
             padding-bottom: 25px;
         }
-
-
     }
 }
 
