@@ -77,7 +77,7 @@ mw.lib.require('xss');
         this.buildNavigation = function (){
             if(this.settings.nav === 'tabs') {
                 this.nav = document.createElement('ul');
-                 this.nav.className = 'nav nav-tabs mw-ac-editor-nav border-0';
+                 this.nav.className = 'nav nav-tabs mw-ac-editor-nav border-0 row gap-4 col';
 
                 var nav = scope.controllers.slice(0, 4);
                 var dropdown = scope.controllers.slice(4);

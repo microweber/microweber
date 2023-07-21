@@ -2314,3 +2314,35 @@ svg.text-danger {
         min-height: unset !important;
     }
 }
+
+.mw-link-editor-root {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+
+    .mw-ac-editor-nav {
+        background-color: #f5f5f5;
+    }
+
+    .mw-ui-form-controller-root {
+        flex: 1 0 0%;
+        padding-inline-start: 25px;
+    }
+
+    .mw-ui-field-holder, .form-label, .modal-footer {
+        padding: 0 5px;
+    }
+
+
+
+    .mw-dialog-container {
+        padding: 0 !important;
+    }
+}
+
+#live-editor-frame {
+    .mw-dialog-header {
+        display: none;
+    }
+}
+
