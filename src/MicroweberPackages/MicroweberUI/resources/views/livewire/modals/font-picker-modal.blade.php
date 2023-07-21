@@ -9,7 +9,7 @@
                 </div>
 
                 <div class="d-flex flex-column align-items-start gap-2 mt-3 ms-3">
-                    @foreach($categories as $categoryKey=>$category)
+                    @foreach($categories as $categoryKey=>$categoryName)
 
                         @php
                             $buttonClass = '';
@@ -19,7 +19,7 @@
                         @endphp
 
                     <x-microweber-ui::button-animation :class="$buttonClass" wire:click="category('{{$categoryKey}}')">
-                        {{ $category }}
+                        {{ $categoryName }}
                     </x-microweber-ui::button-animation>
                     @endforeach
                 </div>
