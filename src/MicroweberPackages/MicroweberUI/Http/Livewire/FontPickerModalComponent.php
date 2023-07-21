@@ -4,9 +4,9 @@ namespace MicroweberPackages\MicroweberUI\Http\Livewire;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Livewire\WithPagination;
-use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
+use LivewireUI\Modal\ModalComponent;
 
-class FontPickerComponent extends AdminComponent
+class FontPickerModalComponent extends ModalComponent
 {
     use WithPagination;
 
@@ -22,7 +22,7 @@ class FontPickerComponent extends AdminComponent
             'fonts' => $fonts->items()
         ]);
 
-        return view('microweber-ui::livewire.font-picker', [
+        return view('microweber-ui::livewire.modals.font-picker-modal', [
             'fonts' => $fonts
         ]);
     }
