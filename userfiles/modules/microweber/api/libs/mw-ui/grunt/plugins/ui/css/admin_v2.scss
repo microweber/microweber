@@ -2315,6 +2315,15 @@ svg.text-danger {
     }
 }
 
+.mw_modal_live_edit_link_editor_settings {
+    .mw-dialog-header {
+        display: none;
+    }
+
+    .mw-dialog-container {
+        padding: 0 !important;
+    }
+}
 .mw-link-editor-root {
     display: flex;
     flex-wrap: wrap;
@@ -2327,22 +2336,20 @@ svg.text-danger {
     .mw-ui-form-controller-root {
         flex: 1 0 0%;
         padding-inline-start: 25px;
+        background-color: var(--tblr-bg-surface);
+        min-height: 675px;
     }
 
     .mw-ui-field-holder, .form-label, .modal-footer {
         padding: 0 5px;
     }
 
-
-
     .mw-dialog-container {
         padding: 0 !important;
     }
-}
 
-#live-editor-frame {
-    .mw-dialog-header {
-        display: none;
+    .mw-ui-form-controller-root > div:first-of-type {
+        height: 100%;
     }
 }
 
