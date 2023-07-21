@@ -48,11 +48,11 @@
                     <livewire:microweber-option::text optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
 
-                <div>
+                <div class="mt-3">
                     <livewire:microweber-option::font-picker label="Pick font" optionKey="font_family" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
 
-                <div>
+                <div class="mt-3">
                     <livewire:microweber-option::range-slider labelUnit="px" min="8" max="45" label="Logo Text - Size" optionKey="font_size" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
             </div>

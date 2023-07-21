@@ -10,11 +10,17 @@ class FontPickerComponent extends AdminComponent
 {
     use WithPagination;
 
+    public $search = '';
+
     public function render()
     {
         $fonts = get_editor_fonts();
 
-        $fonts = $this->paginate($fonts);
+        $fonts = $this->paginate($fonts, 10);
+
+        $this->dispatchBrowserEvent('font-picker-load-fonts',[
+            'fonts' => $fonts->items()
+        ]);
 
         return view('microweber-ui::livewire.font-picker', [
             'fonts' => $fonts
