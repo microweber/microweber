@@ -53,7 +53,7 @@ mw.filePicker = function (options) {
 
     this.settings = $.extend(true, {}, defaults, options);
 
-    this.$root = $('<div class="'+ (this.settings.boxed ? ('card mb-3') : '') +' mw-filepicker-root"></div>');
+    this.$root = $('<div class="'+ (this.settings.boxed ? ('card mb-3') : '') +' mw-filepicker-root form-control-live-edit-label-wrapper"></div>');
     this.root = this.$root[0];
 
     $.each(this.settings.components, function (i) {
@@ -83,7 +83,7 @@ mw.filePicker = function (options) {
 
             return $wrap[0];
         },
- 
+
         desktop: function () {
 
 
@@ -226,7 +226,7 @@ mw.filePicker = function (options) {
 
     this.navigation = function () {
         this._navigationHeader = document.createElement('div');
-        this._navigationHeader.className = 'mw-filepicker-component-navigation-header ' + (this.settings.boxed ? 'card-header no-border' : '');
+        this._navigationHeader.className = 'mw-filepicker-component-navigation-header mb-3' + (this.settings.boxed ? 'card-header no-border' : '');
         if (this.settings.hideHeader) {
             this._navigationHeader.style.display = 'none';
         }
