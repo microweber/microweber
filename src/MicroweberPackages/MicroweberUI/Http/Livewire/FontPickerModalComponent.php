@@ -11,7 +11,7 @@ class FontPickerModalComponent extends ModalComponent
     use WithPagination;
 
     public $search = '';
-    public $category = 'all'; 
+    public $category = 'all';
     public $categories = [
         'all' => 'All',
         'favorites' => 'Favorites',
