@@ -11,9 +11,9 @@ class FontPickerModalComponent extends ModalComponent
     use WithPagination;
 
     public $search = '';
-    public $category = '';
+    public $category = 'all'; 
     public $categories = [
-        '' => 'All',
+        'all' => 'All',
         'favorites' => 'Favorites',
         'cyrillic' => 'Cyrillic',
         'latin' => 'Latin',
@@ -26,7 +26,13 @@ class FontPickerModalComponent extends ModalComponent
     {
         $fonts = get_editor_fonts();
         $filteredFonts = [];
-        if (!empty($this->search) || !empty($this->category)) {
+
+        $filterCategory = '';
+        if ($this->category !== 'all') {
+            $filterCategory = $this->category;
+        }
+
+        if (!empty($this->search) || !empty($filterCategory)) {
             foreach ($fonts as $font) {
                 $fontFamilyLower = mb_strtolower($font['family']);
                 $searchLower = mb_strtolower($this->search);
@@ -35,8 +41,14 @@ class FontPickerModalComponent extends ModalComponent
                         $filteredFonts[] = $font;
                     }
                 }
-                if (!empty($this->category)) {
-                   if (isset($font['category']) && $font['category'] == $this->category) {
+                if (!empty($filterCategory)) {
+                   if (isset($font['category']) && $font['category'] == $filterCategory) {
+                       $filteredFonts[] = $font;
+                   }
+                   if (isset($font['subsets'])
+                       && !empty($font['subsets'])
+                       && is_array($font['subsets'])
+                       && in_array($filterCategory, $font['subsets'])) {
                        $filteredFonts[] = $font;
                    }
                 }
@@ -58,6 +70,7 @@ class FontPickerModalComponent extends ModalComponent
 
     public function category($category) {
         $this->category = $category;
+        $this->gotoPage(1);
     }
 
     public function paginate($items, $perPage = 5, $page = null)
