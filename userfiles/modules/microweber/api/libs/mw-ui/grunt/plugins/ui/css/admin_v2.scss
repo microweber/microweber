@@ -2331,11 +2331,13 @@ svg.text-danger {
 
     .mw-ac-editor-nav {
         background-color: #f5f5f5;
+        padding: 25px;
     }
 
     .mw-ui-form-controller-root {
         flex: 1 0 0%;
         padding-inline-start: 25px;
+        padding-inline-end: 25px;
         background-color: var(--tblr-bg-surface);
         min-height: 675px;
     }
