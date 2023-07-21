@@ -1,35 +1,41 @@
 <div>
-    <div>
+    <div class="row">
+        <div class="col-md-4 h-auto" style="background:#ececec;">
 
-        <div class="row">
-            <div class="col-md-4 h-auto" style="background:#ececec;">
-
-                <div class="d-flex mt-3 ms-2">
-                    <x-microweber-ui::input wire:model="search" type="text" placeholder="Search fonts..." />
-                </div>
-
-                <div class="d-flex flex-column align-items-start gap-2 mt-3 ms-3">
-                    @foreach($categories as $categoryKey=>$categoryName)
-
-                        @php
-                            $buttonClass = '';
-                            if($categoryKey == $category) {
-                                $buttonClass = 'active';
-                            }
-                        @endphp
-
-                    <x-microweber-ui::button-animation :class="$buttonClass" wire:click="category('{{$categoryKey}}')">
-                        {{ $categoryName }}
-                    </x-microweber-ui::button-animation>
-                    @endforeach
-                </div>
-
+            <div class="mt-3 ms-2">
+                <x-microweber-ui::input wire:model="search" type="text" placeholder="Search fonts..." />
             </div>
 
-            <div class="col-md-8 pt-3">
+            <div class="d-flex flex-column align-items-start gap-2 mt-3 ms-3">
+                @foreach($categories as $categoryKey=>$categoryName)
+
+                    @php
+                        $buttonClass = '';
+                        if($categoryKey == $category) {
+                            $buttonClass = 'active';
+                        }
+                    @endphp
+
+                <x-microweber-ui::button-animation :class="$buttonClass" wire:click="category('{{$categoryKey}}')">
+                    {{ $categoryName }}
+                </x-microweber-ui::button-animation>
+                @endforeach
+            </div>
+
+        </div>
+
+        <div class="col-md-8">
+            <div class="row">
+                <div style="background:red;padding:15px 0px">
+                    <div id="js-modal-livewire-ui-draggable-handle">drag modal</div>
+                </div>
+                <button id="js-modal-livewire-ui-close">close modal</button>
+            </div>
+            <div>
                 @if(!empty($fonts))
                     @foreach($fonts as $font)
-                        <button type="button" style="background:#fff;border:0px;text-align:left;width:100%;margin-top:5px;">
+                        <button type="button"
+                                style="background:#fff;border:0px;text-align:left;width:100%;margin-top:5px;">
                             <span style="font-size:18px;font-family:'{!! $font['family'] !!}',sans-serif;">
                                  {!! $font['family'] !!}
                             </span>
@@ -44,7 +50,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <script>

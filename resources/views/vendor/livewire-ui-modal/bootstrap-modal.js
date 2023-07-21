@@ -136,11 +136,6 @@ window.LivewireUIBootstrapModal = () => {
                 // });
                 // livewireUIModal.show()
 
-                var mwDialogLivewire = mw.top().dialog({
-                        content: document.getElementById('livewire-ui-modal'),
-                        width: 900
-                });
-
             } else {
 
 
