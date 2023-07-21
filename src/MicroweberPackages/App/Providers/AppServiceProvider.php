@@ -43,7 +43,6 @@ use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
 use MicroweberPackages\Database\DatabaseManagerServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
-use MicroweberPackages\Filament\Providers\FilamentServiceProvider;
 use MicroweberPackages\FileManager\FileManagerServiceProvider;
 use MicroweberPackages\Form\Providers\FormServiceProvider;
 use MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider;
@@ -353,7 +352,7 @@ class AppServiceProvider extends ServiceProvider
         if ($is_installed) {
             load_all_service_providers_for_modules();
         }
-        $this->app->register(FilamentServiceProvider::class);
+
 
     }
 
@@ -535,7 +534,9 @@ class AppServiceProvider extends ServiceProvider
     {
         View::addNamespace('app', __DIR__ . '/../resources/views');
 
-        \App::instance('path.public', base_path() );
+
+        app()->usePublicPath(base_path());
+
 
         \Illuminate\Support\Facades\Vite::useBuildDirectory('public/build');
 

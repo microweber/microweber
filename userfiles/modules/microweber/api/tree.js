@@ -148,7 +148,7 @@
         this.search = function(){
             if(this.options.searchInput === true) {
                 this.options.searchInput = document.createElement('input');
-                this.options.searchInput.className = 'form-control form-control-sm';
+                this.options.searchInput.className = 'form-control-live-edit-input';
 
                 if(this.options.searchInputClassName){
                     this.options.searchInput.className = this.options.searchInputClassName;

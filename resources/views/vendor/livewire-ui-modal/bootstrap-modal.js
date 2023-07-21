@@ -136,7 +136,8 @@ window.LivewireUIBootstrapModal = () => {
                 });
                 livewireUIModal.show()
 
-            } else {
+            } else
+
               //  $(document.body).find('#livewire-ui-modal').modal('hide');
                 var livewireUIModal = bootstrap.Modal.getInstance(document.getElementById('livewire-ui-modal')) // Returns a Bootstrap modal instance
 

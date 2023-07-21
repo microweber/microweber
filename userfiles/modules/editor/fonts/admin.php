@@ -117,8 +117,6 @@ if ($is_load_more) {
 
 } else {
     $fonts = json_decode(file_get_contents(__DIR__ . DS . 'fonts.json'), true);
-
-
 }
 
 ?>
