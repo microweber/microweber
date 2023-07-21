@@ -62,8 +62,13 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
         $this->mergeConfigFrom(__DIR__.'/config/livewire-tables.php', 'livewire-tables');
 
         // Load UI Modal
-        app()->register(LivewireModalServiceProvider::class);
-        $this->mergeConfigFrom(__DIR__.'/config/livewire-ui-modal.php', 'livewire-ui-modal');
+//        app()->register(LivewireModalServiceProvider::class);
+//        $this->mergeConfigFrom(__DIR__.'/config/livewire-ui-modal.php', 'livewire-ui-modal');
+//
+
+        // the new mw dialog
+        app()->register(LivewireMwModalServiceProvider::class);
+
         parent::register();
 
 

@@ -10,6 +10,15 @@ class FontPickerModalComponent extends ModalComponent
 {
     use WithPagination;
 
+    public $modalSettings = [
+        'skin'=>'black',
+        'size'=>'large',
+        'padding'=> '0px',
+        'background' => 'white',
+        'width' => '100%',
+        'height' => '100%',
+    ];
+
     public $search = '';
     public $category = 'all';
     public $categories = [

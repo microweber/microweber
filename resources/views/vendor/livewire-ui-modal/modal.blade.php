@@ -1,41 +1,29 @@
 <div>
-    <style>
-        #js-modal-livewire-ui {
+    <script>{!! file_get_contents(resource_path() . '/views/vendor/livewire-ui-modal/bootstrap-modal.js') !!}</script>
 
-        }
-    </style>
-    <script>
-        let mwDialogLivewire = false;
+    <div
+        id="livewire-ui-modal"
 
-        Livewire.on('activeModalComponentChanged', (id) => {
+        x-data="LivewireUIBootstrapModal()"
+        x-init="init()"
+        x-on:close.stop="setShowPropertyTo(false)"
+        x-on:keydown.escape.window="closeModalOnEscape()"
+        x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"
+        x-on:keydown.shift.tab.prevent="prevFocusable().focus()"
+        x-show="show"
+        class="modal modal-blur fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content bg-light overflow-auto">
 
-            mwDialogLivewire = mw.top().dialog({
-                content: document.getElementById('js-modal-livewire-ui'),
-                width: 900,
-                overlay: true,
-                overlayClose: true,
-                draggableHandle: '#js-modal-livewire-ui-draggable-handle',
-            });
-            mwDialogLivewire.dialogHeader.style.display = 'none';
-            mwDialogLivewire.dialogContainer.style.padding = '0px';
+                @forelse($components as $id => $component)
+                    <div x-show.immediate="activeComponent == '{{ $id }}'" x-ref="{{ $id }}" wire:key="{{ $id }}">
+                        @livewire($component['name'], $component['attributes'], key($id))
+                    </div>
+                @empty
+                @endforelse
 
-            let modalLivewireUiClose = document.getElementById('js-modal-livewire-ui-close');
-            if (modalLivewireUiClose) {
-                modalLivewireUiClose.addEventListener('click', function () {
-                    mwDialogLivewire.remove();
-                });
-            }
-
-           // document.getElementById('js-modal-livewire-ui').style.display = 'block';
-        });
-    </script>
-    <div id="js-modal-livewire-ui">
-
-        @forelse($components as $id => $component)
-            <div wire:key="{{ $id }}">
-                @livewire($component['name'], $component['attributes'], key($id))
             </div>
-        @empty
-        @endforelse
+        </div>
     </div>
+
 </div>
