@@ -15,13 +15,13 @@
                 </div>
             </div>
 
-            <div>
-                <x-microweber-ui::button class="btn-sm">
-                    All Fonts
-                </x-microweber-ui::button>
-                <x-microweber-ui::button class="btn-sm">
-                    Favorite Fonts
-                </x-microweber-ui::button>
+            <div class="d-flex m-3 gap-3">
+                <button class="btn btn-light btn-sm btn-outline">
+                    All
+                </button>
+                <button class="btn btn-light btn-sm btn-outline">
+                    Favorites
+                </button>
             </div>
 
             @if(!empty($fonts))

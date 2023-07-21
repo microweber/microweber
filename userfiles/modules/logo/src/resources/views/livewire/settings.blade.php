@@ -49,7 +49,10 @@
                 </div>
 
                 <div class="mt-3">
-                    <livewire:microweber-option::font-picker label="Pick font" optionKey="font_family" :optionGroup="$moduleId" :module="$moduleType"  />
+                    <label class="live-edit-label"><?php _e("Font Family Text"); ?></label>
+                    <small class="text-muted d-block mb-2"><?php _e("Select font family for your logo"); ?></small>
+
+                    <livewire:microweber-option::font-picker label="Select font" optionKey="font_family" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
 
                 <div class="mt-3">
