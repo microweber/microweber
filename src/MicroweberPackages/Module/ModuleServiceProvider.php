@@ -25,6 +25,7 @@ use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\AligmentOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\ColorPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\DropdownOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\FilePickerOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\FontPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\IconPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\LinkPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\MediaPickerOption;
@@ -101,6 +102,7 @@ class ModuleServiceProvider extends ServiceProvider
         Livewire::component('microweber-option::text', TextOption::class);
         Livewire::component('microweber-option::textarea', TextareaOption::class);
         Livewire::component('microweber-option::file-picker', FilePickerOption::class);
+        Livewire::component('microweber-option::font-picker', FontPickerOption::class);
         Livewire::component('microweber-option::media-picker', MediaPickerOption::class);
         Livewire::component('microweber-option::icon-picker', IconPickerOption::class);
         Livewire::component('microweber-option::link-picker', LinkPickerOption::class);
