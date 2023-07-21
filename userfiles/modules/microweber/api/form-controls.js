@@ -924,10 +924,13 @@ mw.emitter = {
                     sortable: false,
                     selectable: true,
                     singleSelect: true,
-                    searchInputClassName: 'form-control form-control-sm',
+                    searchInputClassName: 'form-control-live-edit-input',
                     searchInput: true
                 });
 
+                $(scope.tree).on('ready', function (){
+                    $('.form-control-live-edit-input').wrap('<div class="form-control-live-edit-label-wrapper"></div>')
+                });
                 var dialog = mw.dialog.get(treeEl);
                 if(dialog) {
                     dialog.center();
