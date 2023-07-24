@@ -1,6 +1,6 @@
 @props(['label' => '','allowedType'=>'images'])
 
-<div>
+<div class="form-control-live-edit-label-wrapper">
 
     @php
         $randId = rand(111,999).time();
@@ -10,7 +10,7 @@
         <input type="hidden" id="js-media-picker-image-{{$randId}}" {!! $attributes->merge([]) !!} />
 
         <div id="js-preview-image-wrapper-{{$randId}}" style="display:none">
-            <div class="d-flex gap-6">
+            <div class="d-flex justify-content-between">
                 <div>
                     <img src="" id="js-preview-image-{{$randId}}" />
                 </div>
@@ -28,7 +28,7 @@
 
         <div id="js-dropzone-image-{{$randId}}" class="dropzone mw-dropzone js-select-image-{{$randId}}">
             <div class="d-flex flex-column align-items-center gap-3">
-                <div style="background:rgba(0,0,0,0.11);color:#000;width:40px;height:40px; border-radius:100%; font-size:28px;">
+                <div class="d-flex align-items-center justify-content-center" style="background:rgba(0,0,0,0.11);color:#000;width:40px;height:40px; border-radius:100%; font-size:28px;">
                     <i class="mdi mdi-plus"></i>
                 </div>
                 <div>

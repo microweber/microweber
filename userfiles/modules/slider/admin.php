@@ -21,7 +21,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="tab-pane fade show active" id="list">
 
                 <?php
-                $module_template = get_module_option('data-template', $params['id']);
+                $module_template = get_module_option('template', $params['id']);
                 if (!$module_template OR $module_template == 'default') {
                     $module_template = 'bxslider-skin-1';
                 }

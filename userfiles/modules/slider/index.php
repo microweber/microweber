@@ -1,6 +1,6 @@
 <?php
 $settings = get_module_option('settings', $params['id']);
-$module_template = get_module_option('data-template', $params['id']);
+$module_template = get_module_option('template', $params['id']);
 
 if (!$module_template and isset($params['template'])) {
     $module_template = $params['template'];
