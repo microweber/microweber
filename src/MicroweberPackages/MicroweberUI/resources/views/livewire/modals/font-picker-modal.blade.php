@@ -26,9 +26,9 @@
 
         <div class="col-md-8 bg-white">
             <div class="d-flex">
-                <div class="p-5 w-full">
+                <div class="w-full">
 <!--                    Don't change the high of handle. Cause you will break the draggable modal.-->
-                    <div id="js-modal-livewire-ui-draggable-handle" class="h-6"></div>
+                    <div id="js-modal-livewire-ui-draggable-handle" class="w-full h-6" style="cursor:move"></div>
                 </div>
                 <div id="js-modal-livewire-ui-close" class="cursor-pointer" style="padding-top:5px;padding-right:5px;font-size:28px">
                     <i class="mdi mdi-close"></i>
