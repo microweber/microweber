@@ -30,10 +30,26 @@ trait LiveEditTrait
         return $html;
     }
 
-    public function liveEditToolbarIframeData($html,$page)
+    public function liveEditToolbarIframeData($html, $page)
     {
 
         $pageTitle = addslashes($page['title']);
+
+        $is_home = 0;
+        $is_shop = 0;
+
+        if (isset($page['is_home']) and $page['is_home'] == 1) {
+            $is_home = 1;
+        }
+        if (isset($page['is_shop']) and $page['is_shop'] == 1) {
+            $is_shop = 1;
+        }
+
+        $contentType = 'page';
+        if(isset($page['content_type'])){
+            $contentType = $page['content_type'];
+        }
+        $contentType = addslashes($contentType);
 
         $contentDetailsScript = "
 \n<script type='application/x-javascript' id='mw-iframe-page-data-script'>
@@ -41,10 +57,14 @@ trait LiveEditTrait
         mw.liveEditIframeData.content = {};
         mw.liveEditIframeData.content.id = '{$page['id']}';
         mw.liveEditIframeData.content.title = '{$pageTitle}';
+        mw.liveEditIframeData.content.is_home = {$is_home};
+        mw.liveEditIframeData.content.is_shop = {$is_shop};
+        mw.liveEditIframeData.content.content_type = '{$contentType}';
 </script>\n";
         $html = str_ireplace('</head>', $contentDetailsScript . '</head>', $html, $c);
         return $html;
     }
+
     public function liveEditToolbarIframe($html)
     {
         $viteScript = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js');

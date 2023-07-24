@@ -14,16 +14,17 @@ $db_get_params['order_by'] = 'id desc';
 if (isset($params['content_id'])) {
 
     if (isset($params['from_url_string'])) {
+        $params['from_url_string'] = str_replace(site_url(), '', $params['from_url_string']);
         $db_get_params2 = $db_get_params;
         $db_get_params2['url'] = $params['from_url_string'];
 
         $data = db_get($db_get_params2);
-        $db_get_params2['table'] = 'content_fields';
+        $db_get_params2['table'] = 'content_revisions_history';
 
         $data_content_fields_curr = db_get($db_get_params2);
 
     } else  if (isset($params['from_url_string_home'])) {
-
+        $params['from_url_string_home'] = str_replace(site_url(), '', $params['from_url_string_home']);
         $db_get_params2 = $db_get_params;
         $db_get_params2['__query_from_url_string_home'] = function ($query_filter) {
             $query_filter->where('url',   '')->orWhereNull('url');
@@ -31,10 +32,9 @@ if (isset($params['content_id'])) {
         };
         $db_get_params3 = $db_get_params2;
         $data = db_get($db_get_params2);
-        $db_get_params2['table'] = 'content_fields';
+        $db_get_params2['table'] = 'content_revisions_history';
 
         $data_content_fields_curr = db_get($db_get_params3);
-
 
 
 
@@ -188,4 +188,12 @@ if (isset($params['content_id'])) {
             </div>
 
     <?php } ?>
+<?php } else { ?>
+    <div class="mw-ui-box">
+        <div class="mw-ui-box-content">
+            <h3 class="mw-ui-box-header">
+                <?php _e("No revisions for this content"); ?>
+            </h3>
+        </div>
+    </div>
 <?php } ?>
