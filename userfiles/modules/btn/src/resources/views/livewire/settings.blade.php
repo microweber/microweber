@@ -29,15 +29,13 @@ showAdvancedDesign: false
     </div>
     <div x-show="showEditTab=='design'">
 
-        <livewire:microweber-live-edit::module-select-template :optionGroup="$moduleId" :module="$moduleType"/>
+        <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
 
         <div class="mt-3">
           <x-microweber-ui::icon-picker wire:model="settings.icon" :value="$settings['icon']"/>
       </div>
 
-       <div class="mt-3">
-           <x-microweber-module-btn::btn-align :settings="$settings"/>
-       </div>
+
 
         <div class="mt-3">
            <button x-on:click="showAdvancedDesign =! showAdvancedDesign" type="button" class="btn btn-link btn-sm">
