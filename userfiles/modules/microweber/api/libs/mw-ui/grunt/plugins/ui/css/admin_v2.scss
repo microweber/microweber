@@ -2372,3 +2372,21 @@ svg.text-danger {
         padding: 10px !important;
     }
 }
+
+.mw-ui-box.mw-ui-navigation {
+
+    li {
+        padding-bottom: 5px;
+    }
+
+    a {
+        white-space: wrap;
+        line-height: 18px;
+
+        &:hover {
+            text-decoration: none;
+            background-color: transparent;
+            font-weight: 500;
+        }
+    }
+}
