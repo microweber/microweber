@@ -12,12 +12,14 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
 
     public $listeners = [
         'onItemChanged' => '$refresh',
+        'onItemDeleted' => '$refresh',
         'onReorderListItems' => 'reorderListItems',
     ];
 
 
     public function render()
     {
+        $this->getItems();
         if ($this->itemId) {
             $allItems = $this->getItems();
             if ($allItems) {
@@ -103,10 +105,10 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
             }
         }
 
-        if($allItems){
-            foreach ($allItems as $key=>$item) {
+        if ($allItems) {
+            foreach ($allItems as $key => $item) {
                 if (!isset($item['itemId'])) {
-                     unset($allItems[$key]);
+                    unset($allItems[$key]);
                 }
             }
         }
@@ -121,7 +123,7 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
 
         $this->emit('switchToMainTab');
 
-        //  $this->emit('onItemChanged');
+        $this->emit('onItemChanged');
 
 
     }

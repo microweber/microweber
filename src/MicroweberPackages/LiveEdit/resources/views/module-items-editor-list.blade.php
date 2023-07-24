@@ -1,5 +1,6 @@
 <div>
 
+
     <?php
 
 
@@ -106,12 +107,7 @@ showEditTab: 'main'
                                                                 </div>
                                                             </div>
                                                         </div>
-{{--                                                        <div class="col-auto">--}}
-{{--                                                            @if (isset($item['file']))--}}
-{{--                                                                <a href="#"><span class="avatar rounded-circle"--}}
-{{--                                                                                  style="background-image: url('{{ $item['file'] }}')"></span></a>--}}
-{{--                                                            @endif--}}
-{{--                                                        </div>--}}
+
                                                         <div class="col text-truncate " x-on:click="showEditTab = 'tabs-nav-tab-{{ $item['itemId'] }}'">
                                                             @foreach ($editorSettings['config']['listColumns'] as $columnKey => $columnLabel)
                                                                 @if (isset($item[$columnKey]))
@@ -154,21 +150,12 @@ showEditTab: 'main'
                     <div x-show="showEditTab=='tabs-nav-tab-new-item'"
                          x-transition:enter="tab-pane-slide-right-active">
 
-                        <div class="d-flex align-items-center justify-content-between">
-                            <x-microweber-ui::button-back  x-on:click="showEditTab = 'main'">
-                                {!!$backButtonIconSvg!!}
-                            </x-microweber-ui::button-back>
 
-                            <div class="me-3">
-                                <x-microweber-ui::button-animation type="submit">@lang('Save')</x-microweber-ui::button-animation>
-
-                            </div>
-                        </div>
 
 
                         <div id="add-new-item-holder">
                             <livewire:microweber-live-edit::module-items-editor-edit-item
-                                wire:key="newItem{{$moduleId}}" :moduleId="$moduleId"
+                                wire:key="newItem2{{$moduleId}}" :moduleId="$moduleId"
                                 :moduleType="$moduleType" :editorSettings="$editorSettings"/>
 
                         </div>
@@ -187,20 +174,7 @@ showEditTab: 'main'
                                 x-transition:enter-end="tab-pane-slide-right-active"
                                 x-transition:enter="tab-pane-slide-right-active">
 
-                                <div class="d-flex align-items-center justify-content-between">
 
-
-                                    <x-microweber-ui::button-back  x-on:click="showEditTab = 'main'">
-
-                                        {!!$backButtonIconSvg!!}
-
-                                    </x-microweber-ui::button-back>
-
-                                    <div class="me-3">
-                                        <x-microweber-ui::button-animation type="submit">@lang('Save')</x-microweber-ui::button-animation>
-                                    </div>
-
-                                </div>
 
 
 
