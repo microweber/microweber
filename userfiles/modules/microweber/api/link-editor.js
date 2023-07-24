@@ -203,9 +203,8 @@ mw.lib.require('xss');
                     title: this.settings.title,
                     overflowMode: 'visible',
                     shadow: false,
-                    skin: 'default mw_modal_live_edit_settings',
                 });
-                
+
                 this.dialog.center();
                 this.onConfirm(function (){
                     scope.dialog.remove();
