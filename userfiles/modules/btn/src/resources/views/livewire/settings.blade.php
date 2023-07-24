@@ -37,15 +37,18 @@ showAdvancedDesign: false
 
 
 
-        <div class="mt-3">
+       <?php
+
+       /* <div class="mt-3">
            <button x-on:click="showAdvancedDesign =! showAdvancedDesign" type="button" class="btn btn-link btn-sm">
                {{__('Advanced design')}}
            </button>
         </div>
 
         <div x-show="showAdvancedDesign" x-transition>
-            <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
-        </div>
+            <livewire:microweber-module-btn::settings-form-design :moduleId="$moduleId" :moduleType="$moduleType" />
+        </div>*/
+       ?>
     </div>
 
 </div>
