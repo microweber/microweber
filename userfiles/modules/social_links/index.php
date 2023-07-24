@@ -82,8 +82,7 @@ $soundcloud_enabled = $soundcloud_enabled_option == '1';
 $mixcloud_enabled = $mixcloud_enabled_option == '1';
 $medium_enabled = $medium_enabled_option == '1';
 $discord_enabled = $discord_enabled_option == '1';
-$skype_enabled = $skype_enabled_option == '1'; 
-
+$skype_enabled = $skype_enabled_option == '1';
 
 if (isset($params['show-icons'])) {
     $all = explode(',', $params['show-icons']);
