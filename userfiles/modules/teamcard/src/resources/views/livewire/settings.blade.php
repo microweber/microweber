@@ -44,6 +44,7 @@ showMainEditTab: 'mainSettings'
                 'name' => 'bio',
                 'placeholder' => 'Enter bio',
                 'help' => 'Enter bio',
+                'maxlength' => '150'
             ]
             , [
                 'type' => 'text',
