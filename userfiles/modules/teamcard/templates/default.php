@@ -37,7 +37,17 @@
             $count++;
             ?>
             <div class="team-card-item">
-                <span class="team-card-item-image" style="background-image: url('<?php print thumbnail($slide['file'], 200); ?>');"></span>
+                <?php if ($slide['file']) { ?>
+                    <span class="team-card-item-image" style="background-image: url('<?php print thumbnail($slide['file'], 200); ?>');"></span>
+
+                <?php } else { ?>
+                <span class="team-card-item-image">
+
+                        <img  width="120" height="120" src="<?php print modules_url() ?>teamcard/templates/default-image.svg"/>
+                </span>
+                <?php } ?>
+
+
                 <span class="team-card-item-name"><?php print array_get($slide, 'name'); ?></span>
                 <span class="team-card-item-position"> <?php print array_get($slide, 'role'); ?></span>
                 <span class="team-card-item-bio"> <?php print array_get($slide, 'bio'); ?></span>
@@ -45,4 +55,4 @@
         <?php }
     } ?>
 </div>
- 
+
