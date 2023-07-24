@@ -115,6 +115,8 @@ export default {
                 autoHeight: true,
                 draggable: true
             });
+
+            this.contentResetContentInstance = modal;
         },
         openContentRevisionsDialog: function () {
 
@@ -159,12 +161,22 @@ export default {
                 overlay: false
             });
 
+            this.contentRevisionsDialogInstance = dlg;
+
         },
     },
     mounted() {
 
+
+
+
+
     },
     data() {
+        return {
+            contentRevisionsDialogInstance: null,
+            contentResetContentInstance: null,
+        }
 
     }
 }
