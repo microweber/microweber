@@ -7,11 +7,14 @@ use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 class AccordeonSettingsComponent extends ModuleSettingsComponent
 {
     public $listeners = [
-        'refreshComponent' => '$refresh',
+   //     'refreshComponent' => '$refresh',
+        'mwOptionSave' => 'render',
      ];
+
 
     public function render()
     {
+
         return view('microweber-module-accordion::livewire.settings');
     }
 

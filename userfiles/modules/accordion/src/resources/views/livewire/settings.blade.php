@@ -6,6 +6,9 @@ showMainEditTab: 'mainSettings'
     <?php
 
     $use_content_from_live_edit = get_option('use_content_from_live_edit', $moduleId);
+    if(!$use_content_from_live_edit){
+        $use_content_from_live_edit = 0;
+    }
 
 
 
@@ -42,6 +45,7 @@ showMainEditTab: 'mainSettings'
 
         ]
     ];
+
 
 
 
@@ -87,10 +91,12 @@ showMainEditTab: 'mainSettings'
     <div x-show="showMainEditTab=='mainSettings'" x-transition:enter="tab-pane-slide-left-active">
 
 
+        <div>
         <livewire:microweber-live-edit::module-items-editor :moduleId="$moduleId" :moduleType="$moduleType"
-                                                            :editorSettings="$editorSettings"/>
+                                                 wire:key="items-edit-{{ $use_content_from_live_edit }}"
+                                                :editorSettings="$editorSettings"/>
 
-
+        </div>
     </div>
 
 
@@ -99,12 +105,7 @@ showMainEditTab: 'mainSettings'
         <div x-show="showMainEditTab=='design'" x-transition:enter="tab-pane-slide-right-active">
 
             <div>
-                <div @mw-option-saved.window="function() {
-                        if ($event.detail.optionKey === 'use_content_from_live_edit') {
-                            var use_content_from_live_edit = $event.detail.optionValue;
-                               window.Livewire.emit('refreshComponent');
-                        }
-                    }" class="d-flex col-xl-3 col-md-6 col-12">
+                <div class="d-flex col-xl-3 col-md-6 col-12">
 
                     <livewire:microweber-option::toggle value="1" optionKey="use_content_from_live_edit" :optionGroup="$moduleId" :module="$moduleType" />
                     <div>
