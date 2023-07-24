@@ -35,7 +35,7 @@ showAdvancedDesign: false
           <x-microweber-ui::icon-picker wire:model="settings.icon" :value="$settings['icon']"/>
       </div>
 
-       
+
 
         <div class="mt-3">
            <button x-on:click="showAdvancedDesign =! showAdvancedDesign" type="button" class="btn btn-link btn-sm">
