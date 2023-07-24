@@ -19,36 +19,16 @@ showAdvancedDesign: false
     <div x-show="showEditTab=='content'">
         <div>
             <label class="live-edit-label">{{__('Text')}} </label>
-            <livewire:microweber-module-option::text optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
+            <livewire:microweber-option::text optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
         </div>
         <div class="mt-4 mb-3">
             <label class="live-edit-label">{{__('Link')}} </label>
-            <livewire:microweber-module-option::link-picker optionName="link" :optionGroup="$moduleId" :module="$moduleType"  />
+            <livewire:microweber-option::link-picker optionKey="link" :optionGroup="$moduleId" :module="$moduleType"  />
         </div>
 
     </div>
     <div x-show="showEditTab=='design'">
-
-        <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
-
-        <div class="mt-3">
-          <x-microweber-ui::icon-picker wire:model="settings.icon" :value="$settings['icon']"/>
-      </div>
-
-
-
-       <?php
-
-       /* <div class="mt-3">
-           <button x-on:click="showAdvancedDesign =! showAdvancedDesign" type="button" class="btn btn-link btn-sm">
-               {{__('Advanced design')}}
-           </button>
-        </div>
-
-        <div x-show="showAdvancedDesign" x-transition>
-            <livewire:microweber-module-btn::settings-form-design :moduleId="$moduleId" :moduleType="$moduleType" />
-        </div>*/
-       ?>
+        <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType" />
     </div>
 
 </div>
