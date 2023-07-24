@@ -14,7 +14,7 @@
                 <div>
                     <img src="" id="js-preview-image-{{$randId}}" />
                 </div>
-                <div class="d-flex align-items-top gap-2">
+                <div class="d-flex align-items-center gap-2">
                     <x-microweber-ui::button class="btn-sm js-select-image-{{$randId}}">
                         Change
                     </x-microweber-ui::button>
@@ -27,8 +27,8 @@
         </div>
 
         <div id="js-dropzone-image-{{$randId}}" class="dropzone mw-dropzone js-select-image-{{$randId}}">
-            <div class="d-flex flex-column align-items-top gap-3">
-                <div style="background:rgba(0,0,0,0.11);color:#000;width:40px;height:40px; border-radius:100%; font-size:28px;">
+            <div class="d-flex flex-column align-items-center gap-3">
+                <div class="d-flex align-items-center justify-content-center" style="background:rgba(0,0,0,0.11);color:#000;width:40px;height:40px; border-radius:100%; font-size:28px;">
                     <i class="mdi mdi-plus"></i>
                 </div>
                 <div>
