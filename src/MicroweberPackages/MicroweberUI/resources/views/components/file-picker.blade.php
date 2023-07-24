@@ -1,6 +1,6 @@
 @props(['label' => '','allowedType'=>'images'])
 
-<div>
+<div class="form-control-live-edit-label-wrapper">
 
     @php
         $randId = rand(111,999).time();
