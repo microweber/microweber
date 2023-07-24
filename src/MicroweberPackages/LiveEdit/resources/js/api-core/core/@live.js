@@ -444,6 +444,11 @@ export class LiveEdit {
             const rect = el.getBoundingClientRect();
             const doc = el.ownerDocument;
             const win = doc.defaultView;
+
+
+            //todo: 
+            return true;
+
             return (
                 rect.top >= 0 &&
                 rect.left >= 0 &&
