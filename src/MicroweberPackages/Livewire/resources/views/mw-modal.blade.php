@@ -1,9 +1,4 @@
 <div>
-    <style>
-        #js-modal-livewire-ui {
-            display: none;
-        }
-    </style>
     <script>
         let mwDialogLivewire = false;
 
@@ -11,6 +6,9 @@
 
             let mwDialogLivewireSettings = {
                 content: document.getElementById('js-modal-livewire-ui'),
+                onremove: () => {
+                    Livewire.emit('destroyComponent', data.id);
+                },
             };
 
             if (data.modalSettings) {
@@ -23,21 +21,23 @@
             mwDialogLivewire = mw.top().dialog(mwDialogLivewireSettings);
             mwDialogLivewire.dialogHeader.style.display = 'none';
             mwDialogLivewire.dialogContainer.style.padding = '0px';
-            document.getElementById('js-modal-livewire-ui').style.display = 'block';
 
             if (mwDialogLivewireSettings.closeHandleSelector) {
-                setTimeout(function() {
-                    let modalLivewireUiClose = document.querySelector(mwDialogLivewireSettings.closeHandleSelector);
-                    modalLivewireUiClose.addEventListener('click', function () {
-                        mwDialogLivewire.remove();
-                    });
+                setTimeout(() => {
+                    let modalLivewireUiClose = false;
+                    if (self != top) {
+                        modalLivewireUiClose = mw.top().$(mwDialogLivewireSettings.closeHandleSelector)[0];
+                    } else {
+                        modalLivewireUiClose = document.querySelector(mwDialogLivewireSettings.closeHandleSelector);
+                    }
+
+                    if (modalLivewireUiClose) {
+                        modalLivewireUiClose.addEventListener('click', function () {
+                            mwDialogLivewire.remove();
+                        });
+                    }
                 }, 500);
             }
-
-            $(mwDialogLivewire).on('Remove', () => {
-                Livewire.emit('destroyComponent', data.id);
-                // document.getElementById('js-modal-livewire-ui').style.display = 'none';
-            });
 
         });
     </script>

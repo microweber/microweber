@@ -24,14 +24,14 @@
 
         </div>
 
-        <div class="col-md-8">
-            <div class="row">
-                <div style="background:red;padding:15px 0px">
+        <div class="col-md-8 bg-white">
+            <div class="d-flex">
+                <div class="p-5 w-full" style="background:red;">
                     <div id="js-modal-livewire-ui-draggable-handle">drag modal</div>
                 </div>
                 <button id="js-modal-livewire-ui-close">close modal</button>
             </div>
-            <div>
+            <div class="pr-5">
                 @if(!empty($fonts))
                     @foreach($fonts as $font)
                         <button type="button"
@@ -45,7 +45,7 @@
 
                 <div>
                     <div class="mt-3">
-                        {!! $fonts->links('livewire-tables::specific.bootstrap-4.pagination') !!}
+                        {!! $fonts->links('microweber-ui::livewire.pagination') !!}
                     </div>
                 </div>
             </div>
