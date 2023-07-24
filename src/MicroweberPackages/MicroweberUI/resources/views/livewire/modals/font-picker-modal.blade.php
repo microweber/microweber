@@ -24,28 +24,38 @@
 
         </div>
 
-        <div class="col-md-8">
-            <div class="row">
-                <div style="background:red;padding:15px 0px">
-                    <div id="js-modal-livewire-ui-draggable-handle">drag modal</div>
+        <div class="col-md-8 bg-white">
+            <div class="d-flex">
+                <div class="w-full">
+<!--                    Don't change the high of handle. Cause you will break the draggable modal.-->
+                    <div id="js-modal-livewire-ui-draggable-handle" class="w-full h-6" style="cursor:move"></div>
                 </div>
-                <button id="js-modal-livewire-ui-close">close modal</button>
+                <div id="js-modal-livewire-ui-close" class="cursor-pointer" style="padding-top:5px;padding-right:5px;font-size:28px">
+                    <i class="mdi mdi-close"></i>
+                </div>
             </div>
-            <div>
+            <div class="pr-5">
                 @if(!empty($fonts))
                     @foreach($fonts as $font)
-                        <button type="button"
-                                style="background:#fff;border:0px;text-align:left;width:100%;margin-top:5px;">
-                            <span style="font-size:18px;font-family:'{!! $font['family'] !!}',sans-serif;">
-                                 {!! $font['family'] !!}
-                            </span>
-                        </button>
+                        <div class="d-flex justify-content-between">
+                           <div>
+                               <button type="button"
+                                       style="background:#fff;border:0px;text-align:left;width:100%;margin-top:5px;">
+                                <span style="font-size:18px;font-family:'{!! $font['family'] !!}',sans-serif;">
+                                     {!! $font['family'] !!}
+                                </span>
+                               </button>
+                           </div>
+                            <div class="pr-3" wire:click="favorite('{{$font['family']}}')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M17.562 21.56a1 1 0 0 1-.465-.116L12 18.764l-5.097 2.68a1 1 0 0 1-1.45-1.053l.973-5.676l-4.124-4.02a1 1 0 0 1 .554-1.705l5.699-.828l2.549-5.164a1.04 1.04 0 0 1 1.793 0l2.548 5.164l5.699.828a1 1 0 0 1 .554 1.705l-4.124 4.02l.974 5.676a1 1 0 0 1-.985 1.169Z"/></svg>
+                            </div>
+                        </div>
                     @endforeach
                 @endif
 
                 <div>
                     <div class="mt-3">
-                        {!! $fonts->links('livewire-tables::specific.bootstrap-4.pagination') !!}
+                        {!! $fonts->links('microweber-ui::livewire.pagination') !!}
                     </div>
                 </div>
             </div>

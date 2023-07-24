@@ -1,5 +1,6 @@
 <div>
 
+
     <?php
 
 
@@ -14,22 +15,22 @@
         $icon = $editorSettings['config']['icon'];
     }
 
-    $addButtonIconSvg = 'Add Svg';
+    $addButtonIconSvg = '<svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"></path></svg>';
     if (isset($editorSettings['config']['addButtonIconSvg'])) {
         $addButtonIconSvg = $editorSettings['config']['addButtonIconSvg'];
     }
 
-    $editButtonIconSvg = 'Edit Svg';
+    $editButtonIconSvg = '<svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M530-481 332-679l43-43 241 241-241 241-43-43 198-198Z"/></svg>';
     if (isset($editorSettings['config']['editButtonIconSvg'])) {
         $editButtonIconSvg = $editorSettings['config']['editButtonIconSvg'];
     }
 
-    $deleteButtonIconSvg = 'Delete Svg';
+    $deleteButtonIconSvg = '<svg class="text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"></path></svg>';
     if (isset($editorSettings['config']['deleteButtonIconSvg'])) {
         $deleteButtonIconSvg = $editorSettings['config']['deleteButtonIconSvg'];
     }
 
-    $backButtonIconSvg = 'Back Svg';
+    $backButtonIconSvg = '<svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M400-240 160-480l241-241 43 42-169 169h526v60H275l168 168-43 42Z"/></svg>';
     if (isset($editorSettings['config']['backButtonIconSvg'])) {
         $backButtonIconSvg = $editorSettings['config']['backButtonIconSvg'];
     }
@@ -106,12 +107,7 @@ showEditTab: 'main'
                                                                 </div>
                                                             </div>
                                                         </div>
-{{--                                                        <div class="col-auto">--}}
-{{--                                                            @if (isset($item['file']))--}}
-{{--                                                                <a href="#"><span class="avatar rounded-circle"--}}
-{{--                                                                                  style="background-image: url('{{ $item['file'] }}')"></span></a>--}}
-{{--                                                            @endif--}}
-{{--                                                        </div>--}}
+
                                                         <div class="col text-truncate " x-on:click="showEditTab = 'tabs-nav-tab-{{ $item['itemId'] }}'">
                                                             @foreach ($editorSettings['config']['listColumns'] as $columnKey => $columnLabel)
                                                                 @if (isset($item[$columnKey]))
@@ -154,21 +150,12 @@ showEditTab: 'main'
                     <div x-show="showEditTab=='tabs-nav-tab-new-item'"
                          x-transition:enter="tab-pane-slide-right-active">
 
-                        <div class="d-flex align-items-center justify-content-between">
-                            <x-microweber-ui::button-back  x-on:click="showEditTab = 'main'">
-                                {!!$backButtonIconSvg!!}
-                            </x-microweber-ui::button-back>
 
-                            <div class="me-3">
-                                <x-microweber-ui::button-animation type="submit">@lang('Save')</x-microweber-ui::button-animation>
-
-                            </div>
-                        </div>
 
 
                         <div id="add-new-item-holder">
                             <livewire:microweber-live-edit::module-items-editor-edit-item
-                                wire:key="newItem{{$moduleId}}" :moduleId="$moduleId"
+                                wire:key="newItem2{{$moduleId}}" :moduleId="$moduleId"
                                 :moduleType="$moduleType" :editorSettings="$editorSettings"/>
 
                         </div>
@@ -187,20 +174,7 @@ showEditTab: 'main'
                                 x-transition:enter-end="tab-pane-slide-right-active"
                                 x-transition:enter="tab-pane-slide-right-active">
 
-                                <div class="d-flex align-items-center justify-content-between">
 
-
-                                    <x-microweber-ui::button-back  x-on:click="showEditTab = 'main'">
-
-                                        {!!$backButtonIconSvg!!}
-
-                                    </x-microweber-ui::button-back>
-
-                                    <div class="me-3">
-                                        <x-microweber-ui::button-animation type="submit">@lang('Save')</x-microweber-ui::button-animation>
-                                    </div>
-
-                                </div>
 
 
 

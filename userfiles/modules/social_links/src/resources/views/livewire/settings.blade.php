@@ -19,6 +19,7 @@
                         if ($event.detail.optionKey === '{{$socialNetworkOptionKeyEnable}}') {
                             socialNetworkEnabled = $event.detail.optionValue;
                         }
+                        mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '{{$this->moduleId}}'} || {}))
                     }" class="d-flex col-xl-3 col-md-6 col-12">
 
                         <livewire:microweber-option::toggle value="y" :optionKey="$socialNetworkOptionKeyEnable" :optionGroup="$moduleId" module="social_links" />

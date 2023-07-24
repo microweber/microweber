@@ -14,7 +14,7 @@ description: Default
 <script>mw.moduleCSS('<?php print module_url(); ?>style.css');</script>
 <div class="mw-social-links">
 
-    <?php if ($social_links_has_enabled == false) {
+    <?php if (in_live_edit()) {
         print lnotif('Social links');
     } ?>
 
@@ -88,7 +88,7 @@ description: Default
         <a href="//discord.gg/<?php print $discord_url; ?>" target="_blank"><span class="mw-icon-web-star"></span></a>
 
     <?php } ?>
-    
+
     <?php if ($skype_enabled) { ?>
         <li>
             <a href="skype:<?php print $skype_url; ?>?chat" target="_blank" data-toggle="tooltip" data-placement="top" title="Skype">

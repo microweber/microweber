@@ -38,6 +38,8 @@ export class LiveEdit {
 
         this.paused = false;
         this.activeNode = false;
+        this.lastMousePosition = null;
+
 
 
         var defaults = {
@@ -164,7 +166,7 @@ export class LiveEdit {
             scope.handles.set('layout', null);
             scope.handles.get('layout').hide();
             scope.handles.get('interactionHandle').hide();
-            
+
 
         });
 
@@ -204,7 +206,7 @@ export class LiveEdit {
 
         moduleHandle.on('targetChange', function (node) {
             scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
-         
+
                 mw.app.liveEdit.moduleHandleContent.menu.setMenu('dynamic', settings);
                 moduleHandleContent.menu.setTarget(node);
                 moduleHandleContent.menu.show();
@@ -236,7 +238,7 @@ export class LiveEdit {
         layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target) {
             scope.getLayoutQuickSettings(target.dataset.type).then(function (settings) {
-                
+
 
                 mw.app.liveEdit.layoutHandleContent.menu.setMenu('dynamic', settings)
 
@@ -279,7 +281,7 @@ export class LiveEdit {
             element: elementHandle,
             module: moduleHandle,
             layout: layoutHandle,
-            
+
         });
         this.observe = new GetPointerTargets(this.settings);
         this.init();
@@ -338,14 +340,14 @@ export class LiveEdit {
         this.handles.hide();
 
 
-    
-       
+
+
 
 
         if (first) {
             first = this._hoverAndSelectExceptions(first)
             const type = this.elementAnalyzer.getType(first);
- 
+
             if (type !== 'layout') {
                 var parentLayout = DomService.firstParentOrCurrentWithClass(first, 'module-layouts');
                 if (parentLayout) {
@@ -363,7 +365,7 @@ export class LiveEdit {
                     this.handles.hide('element');
                     this.handles.set(type, first)
                 } else if (type === 'layout') {
-             
+
                     this.handles.set('layout', first);
                 } else if (type === 'edit') {
                     this.handles.set('element', first);
@@ -460,9 +462,13 @@ export class LiveEdit {
                 return true;
             } else {
 
-                    return false;
-            }
-           
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (win.innerHeight || doc.documentElement.clientHeight) &&
+                rect.right <= (win.innerWidth || doc.documentElement.clientWidth)
+        
+            );
         }
 
 
@@ -471,6 +477,27 @@ export class LiveEdit {
         // events = 'mousedown touchstart';
          events = 'click';
         ElementManager(this.root).on('mousemove', (e) => {
+
+            var currentMousePosition = { x: e.pageX, y: e.pageY };
+            if (this.lastMousePosition) {
+                var distance = this.getDistance(this.lastMousePosition, currentMousePosition);
+                if (distance >= 3) {
+                    // If moved 3 pixels or more, update the last mouse position
+                    this.lastMousePosition = currentMousePosition;
+                    
+                } else {
+                    // has not moved more than 3 pixels
+                    return;
+                }
+            } else {
+                // If it's the first mouse move event, just update the last mouse position
+                this.lastMousePosition = currentMousePosition;
+                // has not moved more than 3 pixels
+                return;
+            }
+
+
+
             if (this.paused || this.isResizing) {
                 this.interactionHandle.hide();
                 return
@@ -490,7 +517,7 @@ export class LiveEdit {
             let elementTarget = this.handles.get('element').getTarget();
             let moduleTarget = this.handles.get('module').getTarget();
 
-    
+
 
 
             if(!isInViewport(elementTarget)) {
@@ -503,17 +530,17 @@ export class LiveEdit {
                 this.handles.get('module').set(null)
             }
 
-            
+
 
             let target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'edit']);
             const layout = DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
             let layoutHasSelectedTarget = false;
 
            
-            // target = this._hoverAndSelectExceptions(target);
+            target = this._hoverAndSelectExceptions(target);
            
 
-            
+
 
             if (target && _hovered.indexOf(target) === -1) {
                 _hovered.forEach(node => delete node.dataset.mwLiveEdithover);
@@ -534,9 +561,9 @@ export class LiveEdit {
 
 
             if (layout /*&& !target*/  ) {
-              
 
-               
+
+
 
                 if (layout.contains(elementTarget)) {
                     layoutHasSelectedTarget = true;
@@ -547,7 +574,7 @@ export class LiveEdit {
                 }
 
 
-                
+
                 if(!layoutHasSelectedTarget) {
                     this.handles.set('layout', layout);
                 } else {
@@ -555,7 +582,7 @@ export class LiveEdit {
                     this.handles.get('layout').hide();
                 }
 
-                
+
 
             }
 
@@ -647,6 +674,13 @@ export class LiveEdit {
     }
     canBeEditable = function (el) {
         return el.isContentEditable || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module']);
+    }
+
+    // Function to calculate the distance between two points
+    getDistance = function (point1, point2) {
+        const dx = point2.x - point1.x;
+        const dy = point2.y - point1.y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
 

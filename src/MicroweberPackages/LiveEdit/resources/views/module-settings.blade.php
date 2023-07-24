@@ -193,12 +193,12 @@
                     };
                 }
 
-               // mw.interval('_settingsAutoHeight', function () {
-               //      if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
-               //        window.createAutoHeight();
-               //
-               //      }
-               // });
+               mw.interval('_settingsAutoHeight', function () {
+                    if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
+                      window.createAutoHeight();
+
+                    }
+               });
 
             });
             var domModifiedForAutoHeightIntervalId;
