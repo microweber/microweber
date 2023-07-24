@@ -9,8 +9,6 @@
 
         Livewire.on('activeModalComponentChanged', (data) => {
 
-            console.log(data);
-
             let mwDialogLivewireSettings = {
                 content: document.getElementById('js-modal-livewire-ui'),
             };
