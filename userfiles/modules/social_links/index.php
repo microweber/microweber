@@ -68,21 +68,21 @@ $medium_enabled_option = $social_links_options['medium_enabled'];
 $discord_enabled_option = $social_links_options['discord_enabled'];
 $skype_enabled_option = $social_links_options['skype_enabled'];
 
-$facebook_enabled = $facebook_enabled_option == 'y';
-$twitter_enabled = $twitter_enabled_option == 'y';
-$googleplus_enabled = $googleplus_enabled_option == 'y';
-$pinterest_enabled = $pinterest_enabled_option == 'y';
-$youtube_enabled = $youtube_enabled_option == 'y';
-$linkedin_enabled = $linkedin_enabled_option == 'y';
-$github_enabled = $github_enabled_option == 'y';
-$instagram_enabled = $instagram_enabled_option == 'y';
-$rss_enabled = $rss_enabled_option == 'y';
+$facebook_enabled = $facebook_enabled_option == '1';
+$twitter_enabled = $twitter_enabled_option == '1';
+$googleplus_enabled = $googleplus_enabled_option == '1';
+$pinterest_enabled = $pinterest_enabled_option == '1';
+$youtube_enabled = $youtube_enabled_option == '1';
+$linkedin_enabled = $linkedin_enabled_option == '1';
+$github_enabled = $github_enabled_option == '1';
+$instagram_enabled = $instagram_enabled_option == '1';
+$rss_enabled = $rss_enabled_option == '1';
 
-$soundcloud_enabled = $soundcloud_enabled_option == 'y';
-$mixcloud_enabled = $mixcloud_enabled_option == 'y';
-$medium_enabled = $medium_enabled_option == 'y';
-$discord_enabled = $discord_enabled_option == 'y';
-$skype_enabled = $skype_enabled_option == 'y';
+$soundcloud_enabled = $soundcloud_enabled_option == '1';
+$mixcloud_enabled = $mixcloud_enabled_option == '1';
+$medium_enabled = $medium_enabled_option == '1';
+$discord_enabled = $discord_enabled_option == '1';
+$skype_enabled = $skype_enabled_option == '1'; 
 
 
 if (isset($params['show-icons'])) {
