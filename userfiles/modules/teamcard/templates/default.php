@@ -31,11 +31,10 @@
                 </div>
                 <?php } ?>
 
-
                 <div class="team-card-item-name p-3"><?php print array_get($slide, 'name'); ?></div>
-                <div class="team-card-item-position"> <?php print array_get($slide, 'role'); ?></div>
-                <div class="team-card-item-website p-3"> <?php print array_get($slide, 'website'); ?></div>
-                <div class="team-card-item-bio"> <?php print array_get($slide, 'bio'); ?></div>
+                <div class="team-card-item-position pb-2"> <?php print array_get($slide, 'role'); ?></div>
+                <a href="<?php print $slide['website']; ?>" target="_blank"> <?php print array_get($slide, 'website'); ?></a>
+                <div class="team-card-item-bio pt-2"> <?php print array_get($slide, 'bio'); ?></div>
             </div>
         <?php }
     } ?>

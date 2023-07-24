@@ -56,7 +56,7 @@ showMainEditTab: 'mainSettings'
                 'type' => 'text',
                 'label' => 'Team member website',
                 'name' => 'website',
-                'placeholder' => 'Enter website',
+                'placeholder' => 'https://yourwebsite.com',
                 'help' => 'Enter website',
             ]
         ]
