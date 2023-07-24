@@ -1151,6 +1151,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $to_save2['rel_id'] = $content_id_for_con_field;
                                     $to_save2['field'] = $field;
                                     $json_print[] = $to_save2;
+                                    $history_draft = $to_save2;
+                                    $cont_field_revision = $this->app->content_manager->save_content_field($history_draft);
 
                                     $saved = $this->app->content_manager->save_content_admin($to_save);
 
