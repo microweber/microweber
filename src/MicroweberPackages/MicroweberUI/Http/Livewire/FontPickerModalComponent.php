@@ -15,8 +15,10 @@ class FontPickerModalComponent extends ModalComponent
         'size'=>'large',
         'padding'=> '0px',
         'background' => 'white',
-        'width' => '100%',
-        'height' => '100%',
+        'overlay' => true,
+        'overlayClose' => true,
+        'closeHandleSelector'=>'#js-modal-livewire-ui-close',
+        'draggableHandleSelector'=>'#js-modal-livewire-ui-draggable-handle',
     ];
 
     public $search = '';

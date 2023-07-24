@@ -5,7 +5,7 @@ namespace MicroweberPackages\Livewire;
 use Illuminate\View\View;
 use LivewireUI\Modal\Modal;
 
-class MwDodal extends Modal
+class MwModal extends Modal
 {
     public function openModal($component, $componentAttributes = [], $modalAttributes = []): void
     {

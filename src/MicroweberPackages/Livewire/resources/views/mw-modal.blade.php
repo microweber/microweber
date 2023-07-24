@@ -1,7 +1,7 @@
 <div>
     <style>
         #js-modal-livewire-ui {
-
+            display: none;
         }
     </style>
     <script>
@@ -9,26 +9,36 @@
 
         Livewire.on('activeModalComponentChanged', (data) => {
 
-            console.log(data);
-
-            mwDialogLivewire = mw.top().dialog({
+            let mwDialogLivewireSettings = {
                 content: document.getElementById('js-modal-livewire-ui'),
-                width: 900,
-                overlay: true,
-                overlayClose: true,
-                draggableHandle: '#js-modal-livewire-ui-draggable-handle',
-            });
-            mwDialogLivewire.dialogHeader.style.display = 'none';
-            mwDialogLivewire.dialogContainer.style.padding = '0px';
+            };
 
-            let modalLivewireUiClose = document.getElementById('js-modal-livewire-ui-close');
-            if (modalLivewireUiClose) {
-                modalLivewireUiClose.addEventListener('click', function () {
-                    mwDialogLivewire.remove();
-                });
+            if (data.modalSettings) {
+                mwDialogLivewireSettings = Object.assign(mwDialogLivewireSettings, data.modalSettings);
+
+                mwDialogLivewireSettings.draggableHandle = mwDialogLivewireSettings.draggableHandleSelector;
+                delete mwDialogLivewireSettings.draggableHandleSelector;
             }
 
-            // document.getElementById('js-modal-livewire-ui').style.display = 'block';
+            mwDialogLivewire = mw.top().dialog(mwDialogLivewireSettings);
+            mwDialogLivewire.dialogHeader.style.display = 'none';
+            mwDialogLivewire.dialogContainer.style.padding = '0px';
+            document.getElementById('js-modal-livewire-ui').style.display = 'block';
+
+            if (mwDialogLivewireSettings.closeHandleSelector) {
+                setTimeout(function() {
+                    let modalLivewireUiClose = document.querySelector(mwDialogLivewireSettings.closeHandleSelector);
+                    modalLivewireUiClose.addEventListener('click', function () {
+                        mwDialogLivewire.remove();
+                    });
+                }, 500);
+            }
+
+            $(mwDialogLivewire).on('Remove', () => {
+                Livewire.emit('destroyComponent', data.id);
+                // document.getElementById('js-modal-livewire-ui').style.display = 'none';
+            });
+
         });
     </script>
     <div id="js-modal-livewire-ui">

@@ -16,7 +16,7 @@ class LivewireMwModalServiceProvider extends LivewireModalServiceProvider
 
     public function bootingPackage(): void
     {
-        Livewire::component('livewire-ui-modal', MwDodal::class);
+        Livewire::component('livewire-ui-modal', MwModal::class);
     }
 
 }
