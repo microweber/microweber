@@ -441,28 +441,35 @@ export class LiveEdit {
             if(!el || !el.parentNode) {
                 return false;
             }
-            const rect = el.getBoundingClientRect();
+    
             const doc = el.ownerDocument;
             const win = doc.defaultView;
 
+ 
+            const bounding = el.getBoundingClientRect();
+            const elHeight = el.offsetHeight;
+            const elWidth = el.offsetWidth;
 
-            //todo: 
-            return true;
+ 
 
-            return (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= (win.innerHeight || doc.documentElement.clientHeight) &&
-                rect.right <= (win.innerWidth || doc.documentElement.clientWidth)
-        
-            );
+            if (bounding.top >= -elHeight 
+                && bounding.left >= -elWidth
+                && bounding.right <= (win.innerWidth || doc.documentElement.clientWidth) + elWidth
+                && bounding.bottom <= (win.innerHeight || doc.documentElement.clientHeight) + elHeight) {
+
+                return true;
+            } else {
+
+                    return false;
+            }
+           
         }
 
 
         let events, _hovered = [];
 
-        events = 'mousedown touchstart';
-        // events = 'click';
+        // events = 'mousedown touchstart';
+         events = 'click';
         ElementManager(this.root).on('mousemove', (e) => {
             if (this.paused || this.isResizing) {
                 this.interactionHandle.hide();
@@ -474,6 +481,11 @@ export class LiveEdit {
                 return
             }
             const elements = this.observe.fromEvent(e);
+            /*let element = e.target;
+            while (e.target.nodeType !== 1){
+                element = e.target.parentElement;
+            }
+            const elements = [element];*/
 
             let elementTarget = this.handles.get('element').getTarget();
             let moduleTarget = this.handles.get('module').getTarget();
@@ -498,7 +510,7 @@ export class LiveEdit {
             let layoutHasSelectedTarget = false;
 
            
-            target = this._hoverAndSelectExceptions(target);
+            // target = this._hoverAndSelectExceptions(target);
            
 
             
@@ -547,6 +559,8 @@ export class LiveEdit {
 
             }
 
+ 
+
 
             if (target && !this.handles.targetIsSelectedAndHandleIsNotHidden(target, this.interactionHandle) && !target.classList.contains('module-layouts')) {
                 var title = '';
@@ -571,11 +585,9 @@ export class LiveEdit {
                 this.interactionHandle.menu.setTitle(title);
                 this.interactionHandle.show();
                 this.interactionHandle.set(target);
-            } else {
-                this.interactionHandle.hide();
-                // mw.app.get('liveEdit').play();
 
-            }
+                this.moduleHandle.draggablePaused(target)
+            } 
 
         })
         let _dblclicktarget

@@ -4,6 +4,7 @@ import {Draggable} from "./draggable.js";
 import {ElementManager} from "./classes/element.js";
 import {DomService} from "./classes/dom.js";
 import {Resizable} from "./classes/resizable.js";
+import { type } from "jquery";
 
 export const Handle = function (options) {
 
@@ -134,12 +135,16 @@ export const Handle = function (options) {
         }
 
 
+        var height = off.height;
+        if(!height) {
+            height = target.scrollHeight;
+        }
 
          this.wrapper.css({
             top:  off.top, 
             left:  off.left,
             width: off.width,   
-            height: off.height,
+            height
         });
         
     }
@@ -183,6 +188,16 @@ export const Handle = function (options) {
         return this;
     };
 
+
+    var _draggablePaused = false;
+
+    this.draggablePaused = function(state) {
+        if (typeof state !== 'undefined') {
+            _draggablePaused = state;
+        }
+        return _draggablePaused;
+    }
+
     this.createHandle = function () {
         if (this.settings.handle === 'self') {
 
@@ -197,7 +212,11 @@ export const Handle = function (options) {
             this.wrapper.append(elementhandle);
 
             this.settings.document.addEventListener('mousedown', function(){
-                elementhandle.addClass('active');
+                const draggablePaused = scope.draggablePaused();
+
+                if(draggablePaused !== true && draggablePaused !== scope.getTarget()) {
+                    elementhandle.addClass('active');
+                }
             });
 
             this.settings.document.addEventListener('mouseup', function(){
