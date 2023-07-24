@@ -26,10 +26,13 @@
 
         <div class="col-md-8 bg-white">
             <div class="d-flex">
-                <div class="p-5 w-full" style="background:red;">
-                    <div id="js-modal-livewire-ui-draggable-handle">drag modal</div>
+                <div class="p-5 w-full">
+<!--                    Don't change the high of handle. Cause you will break the draggable modal.-->
+                    <div id="js-modal-livewire-ui-draggable-handle" class="h-6"></div>
                 </div>
-                <button id="js-modal-livewire-ui-close">close modal</button>
+                <div id="js-modal-livewire-ui-close" class="cursor-pointer" style="padding-top:5px;padding-right:5px;font-size:28px">
+                    <i class="mdi mdi-close"></i>
+                </div>
             </div>
             <div class="pr-5">
                 @if(!empty($fonts))
