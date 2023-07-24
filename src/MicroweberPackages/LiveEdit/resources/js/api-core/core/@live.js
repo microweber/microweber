@@ -38,6 +38,8 @@ export class LiveEdit {
 
         this.paused = false;
         this.activeNode = false;
+        this.lastMousePosition = null;
+
 
 
         var defaults = {
@@ -464,6 +466,27 @@ export class LiveEdit {
         events = 'mousedown touchstart';
         // events = 'click';
         ElementManager(this.root).on('mousemove', (e) => {
+
+            var currentMousePosition = { x: e.pageX, y: e.pageY };
+            if (this.lastMousePosition) {
+                var distance = this.getDistance(this.lastMousePosition, currentMousePosition);
+                if (distance >= 3) {
+                    // If moved 3 pixels or more, update the last mouse position
+                    this.lastMousePosition = currentMousePosition;
+                    
+                } else {
+                    // has not moved more than 3 pixels
+                    return;
+                }
+            } else {
+                // If it's the first mouse move event, just update the last mouse position
+                this.lastMousePosition = currentMousePosition;
+                // has not moved more than 3 pixels
+                return;
+            }
+
+
+
             if (this.paused || this.isResizing) {
                 this.interactionHandle.hide();
                 return
@@ -631,6 +654,13 @@ export class LiveEdit {
     }
     canBeEditable = function (el) {
         return el.isContentEditable || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module']);
+    }
+
+    // Function to calculate the distance between two points
+    getDistance = function (point1, point2) {
+        const dx = point2.x - point1.x;
+        const dy = point2.y - point1.y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
 
