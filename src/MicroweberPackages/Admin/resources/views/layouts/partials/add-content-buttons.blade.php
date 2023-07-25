@@ -48,7 +48,7 @@ if(isset($quickAdd) and $quickAdd){
     </div>
 
     <div class="col-lg-9 ps-3">
-        <h3 class="  font-weight-bolder"> New <?php print $title; ?></h3>
+        <h3 class="  font-weight-bolder"> <?php print $title; ?></h3>
 
 
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
@@ -62,7 +62,7 @@ if(isset($quickAdd) and $quickAdd){
         <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-post.svg" alt="">
     </div>
     <div class="col-lg-9 ps-3">
-        <h3 class="  font-weight-bolder"> New <?php print $title; ?></h3>
+        <h3 class="  font-weight-bolder">  <?php print $title; ?></h3>
 
 
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
@@ -76,7 +76,7 @@ if(isset($quickAdd) and $quickAdd){
         <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-category.svg" alt="">
     </div>
     <div class="col-lg-9 ps-3">
-        <h3 class="  font-weight-bolder"> New <?php print $title; ?></h3>
+        <h3 class="  font-weight-bolder">  <?php print $title; ?></h3>
 
 
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
@@ -91,7 +91,7 @@ if(isset($quickAdd) and $quickAdd){
 
     </div>
     <div class="col-lg-9 ps-3">
-        <h3 class="  font-weight-bolder"> New <?php print $title; ?></h3>
+        <h3 class="  font-weight-bolder">  <?php print $title; ?></h3>
 
 
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">

@@ -17,7 +17,7 @@ function mw_add_admin_menu_buttons($params = false)
     if (get_option('shop_disabled', 'website') != 'y') {
         $btn = array();
         $btn['content_type'] = 'product';
-        $btn['title'] = _e("Product", true);
+        $btn['title'] = _e("New Product", true);
         $btn['class'] = 'mai-product';
         mw()->module_manager->ui('content.create.menu', $btn);
     }
