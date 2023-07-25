@@ -1812,10 +1812,16 @@ svg.text-danger {
 
 }
 
+#pages-tree-wrapper.active .mw-admin-toggle-tree-navigation{
+    margin-left: 260px;
+    svg{
+        transform: rotate(180deg);
+    }
+}
 
 .mw-admin-toggle-tree-navigation{
     position:absolute;
-    left: 230px;
+    left: 240px;
 
     top:50%;
     transform: translateY(-50%);
