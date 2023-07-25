@@ -15,7 +15,9 @@
         </x-slot>
 
         <x-slot name="footer">
+            @if (isset($footer))
             {{ $footer }}
+            @endif
         </x-slot>
 
     </x-microweber-ui::dialog-modal>
