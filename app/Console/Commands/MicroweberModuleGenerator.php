@@ -88,5 +88,8 @@ class MicroweberModuleGenerator extends Command
             ->as('icon')
             ->ext('svg')
             ->save();
+
+        mw_post_update();
+
     }
 }
