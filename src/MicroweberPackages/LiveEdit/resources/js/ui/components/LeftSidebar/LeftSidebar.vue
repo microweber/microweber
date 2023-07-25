@@ -1,8 +1,9 @@
 <script>
 import BubbleNav from "./BubbleNav.vue";
+import SidebarAdminPanel from "./SidebarAdminPanel.vue";
 
 export default {
-    components: {BubbleNav},
+    components: {BubbleNav, SidebarAdminPanel},
     data() {
 
     }
@@ -13,6 +14,7 @@ export default {
 
     <div>
         <BubbleNav></BubbleNav>
+        <SidebarAdminPanel></SidebarAdminPanel>
     </div>
 
 </template>
