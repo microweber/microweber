@@ -56,6 +56,8 @@ class MicroweberModuleGenerator extends Command
         mkdir_recursive($moduleNamePath . 'src' . DS . 'config' . DS);
         mkdir_recursive($moduleNamePath . 'src' . DS . 'database'.DS.'migrations' . DS);
         mkdir_recursive($moduleNamePath . 'src' . DS . 'resources'.DS.'views' . DS);
+        mkdir_recursive($moduleNamePath . 'src' . DS . 'resources'.DS.'views' . DS .'livewire');
+        mkdir_recursive($moduleNamePath . 'src' . DS . 'resources'.DS.'views' . DS .'live-edit');
 
         $moduleStubPath = (dirname(dirname(__DIR__))) . DS . 'stubs' . DS . 'microweber-module';
 
@@ -86,6 +88,13 @@ class MicroweberModuleGenerator extends Command
         StubGenerator::from($moduleStubPath . '/src/Providers/ModuleNameServiceProvider.stub',true)
             ->to($moduleNamePath)
             ->as('src/Providers/'.$serviceProviderClassName)
+            ->ext('php')
+            ->withReplacers($replacers)
+            ->save();
+
+        StubGenerator::from($moduleStubPath . '/src/resources/views/livewire/settings.blade.stub',true)
+            ->to($moduleNamePath)
+            ->as('src/resources/views/livewire/settings.blade')
             ->ext('php')
             ->withReplacers($replacers)
             ->save();

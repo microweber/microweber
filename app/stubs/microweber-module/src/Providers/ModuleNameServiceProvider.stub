@@ -5,7 +5,7 @@ namespace {{moduleNamespace}}\Providers;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use {{moduleNamespace}}\Http\Livewire\ButtonSettingsComponent;
+use {{moduleNamespace}}\Http\Livewire\{{moduleNameCamelCase}}SettingsComponent;
 
 class {{moduleNameCamelCase}}ServiceProvider extends PackageServiceProvider
 {
@@ -19,7 +19,7 @@ class {{moduleNameCamelCase}}ServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-        Livewire::component('microweber-module-{{moduleSlug}}::settings', ButtonSettingsComponent::class);
+        Livewire::component('microweber-module-{{moduleSlug}}::settings', {{moduleNameCamelCase}}SettingsComponent::class);
 
     }
 
