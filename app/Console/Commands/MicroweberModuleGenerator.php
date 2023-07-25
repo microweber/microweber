@@ -51,20 +51,36 @@ class MicroweberModuleGenerator extends Command
 
         // Making controller
         mkdir_recursive($moduleNamePath . 'src' . DS . 'Http' . DS . 'Controllers' . DS);
+        mkdir_recursive($moduleNamePath . 'src' . DS . 'Providers' . DS);
+        mkdir_recursive($moduleNamePath . 'src' . DS . 'config' . DS);
+        mkdir_recursive($moduleNamePath . 'src' . DS . 'database'.DS.'migrations' . DS);
+        mkdir_recursive($moduleNamePath . 'src' . DS . 'resources'.DS.'views' . DS);
 
         $moduleStubPath = (dirname(dirname(__DIR__))) . DS . 'stubs' . DS . 'microweber-module' . DS;
+
+
+        $replacers = [
+            'moduleName' => $moduleName,
+            'moduleNamespace' => $moduleNamespace,
+            'moduleNameCamelCase' => Str::ucfirst($moduleNameNoSpaces),
+            'moduleSlug' => $moduleNameFolder,
+            'moduleServiceProvider' => $moduleNamespace .'\\'. Str::ucfirst($moduleNameNoSpaces) . 'ServiceProvider',
+        ];
 
         $controllerLiveEditSettingsName = Str::ucfirst($moduleNameNoSpaces) . 'LiveEditSettingsController';
         StubGenerator::from($moduleStubPath . '/src/Http/Controllers/ModuleLiveEditSettingsController.stub',true)
             ->to($moduleNamePath)
             ->as('src/Http/Controllers/'.$controllerLiveEditSettingsName)
             ->ext('php')
-            ->withReplacers([
-                'classNamespace' => $moduleNamespace.'\\Http\\Controllers',
-                'class' => $controllerLiveEditSettingsName,
-            ])->save();
+            ->withReplacers($replacers)->save();
 
-
+        $serviceProviderClassName = Str::ucfirst($moduleNameNoSpaces) . 'ServiceProvider';
+        StubGenerator::from($moduleStubPath . '/src/Providers/ModuleServiceProvider.stub',true)
+            ->to($moduleNamePath)
+            ->as('src/Providers/'.$serviceProviderClassName)
+            ->ext('php')
+            ->withReplacers($replacers)
+            ->save();
 
         StubGenerator::from($moduleStubPath . '/index.stub',true)
             ->to($moduleNamePath)
@@ -75,11 +91,7 @@ class MicroweberModuleGenerator extends Command
         StubGenerator::from($moduleStubPath . '/config.stub',true)
             ->to($moduleNamePath)
             ->as('config')
-            ->withReplacers([
-                'moduleName' => $moduleName,
-                'moduleNamespace' => $moduleNamespace,
-                'moduleServiceProvider' => $moduleNamespace .'\\'. Str::ucfirst($moduleNameNoSpaces) . 'ServiceProvider',
-            ])
+            ->withReplacers($replacers)
             ->ext('php')
             ->save();
 

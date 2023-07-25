@@ -1,15 +1,15 @@
 <?php
 
-namespace {{classNamespace}};
+namespace {{moduleNamespace}}\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class {{class}}
+class {{moduleNameCamelCase}}LiveEditSettingsController
 {
     public function index(Request $request)
     {
         $params = $request->all();
 
-        return view('microweber-module-btn::live-edit.settings',['moduleId' => $params['id']]);
+        return view('microweber-module-{{$moduleSlug}}::live-edit.settings',['moduleId' => $params['id']]);
     }
 }
