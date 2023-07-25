@@ -160,6 +160,11 @@ class OptionElement extends AdminComponent
             'optionKey' => $this->optionKey,
             'optionValue' => $this->model->option_value
         ]);
+        $this->emitUp('mwOptionSave', [
+            'optionGroup' => $this->optionGroup,
+            'optionKey' => $this->optionKey,
+            'optionValue' => $this->model->option_value
+        ]);
 
         return $modelSave;
     }

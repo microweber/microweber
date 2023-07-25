@@ -13,6 +13,7 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
     public $listeners = [
         'onItemChanged' => '$refresh',
         'onItemDeleted' => '$refresh',
+        'refreshComponent' => '$refresh',
         'onReorderListItems' => 'reorderListItems',
     ];
 
