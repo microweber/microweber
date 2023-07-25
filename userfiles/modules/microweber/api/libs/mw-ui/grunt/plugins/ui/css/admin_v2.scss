@@ -1821,6 +1821,10 @@ svg.text-danger {
             transform: rotate(0deg);
         }
     }
+
+    #pages-tree-wrapper.active .mw-admin-toggle-tree-navigation {
+        margin-left: 11px !important;
+    }
 }
 
 #pages-tree-wrapper.active .mw-admin-toggle-tree-navigation{
