@@ -65,7 +65,7 @@ class MicroweberModuleGenerator extends Command
             'moduleNamespace' => $moduleNamespace,
             'moduleNameCamelCase' => Str::ucfirst($moduleNameNoSpaces),
             'moduleSlug' => $moduleNameFolder,
-            'moduleServiceProvider' => $moduleNamespace .'\\'. Str::ucfirst($moduleNameNoSpaces) . 'ServiceProvider',
+            'moduleServiceProvider' => $moduleNamespace .'\\Providers\\'. Str::ucfirst($moduleNameNoSpaces) . 'ServiceProvider',
         ];
 
         $controllerLiveEditSettingsName = Str::ucfirst($moduleNameNoSpaces) . 'LiveEditSettingsController';
