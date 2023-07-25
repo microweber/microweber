@@ -15,6 +15,10 @@
             <div class="ms-3">
                 <UndoRedo></UndoRedo>
             </div>
+
+            <div class="ms-3">
+                <AddContentButton></AddContentButton>
+            </div>
         </div>
 
 
@@ -81,9 +85,11 @@ import * as api from "../../../api-core/services/services/preview.service.js";
 import axios from 'axios';
 import StyleEditor from "../StyleEditor/StyleEditor.vue";
 import HtmlEditor from "../HtmlEditor/HtmlEditor.vue";
+import AddContentButton from "./AddContentButton.vue";
 
 export default {
     components: {
+        AddContentButton,
         HtmlEditor,
         StyleEditor, SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav, SettingsCustomize},
     methods: {
