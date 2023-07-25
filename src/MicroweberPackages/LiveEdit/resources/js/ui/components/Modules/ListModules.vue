@@ -79,6 +79,9 @@ export default {
             this.showModal = false;
         },
         filterModules() {
+
+            this.filterKeyword = this.filterKeyword.trim();
+
             let modulesFiltered = this.modulesList;
             if (this.filterKeyword != '' && this.filterKeyword) {
                 modulesFiltered = modulesFiltered.filter((item) => {
