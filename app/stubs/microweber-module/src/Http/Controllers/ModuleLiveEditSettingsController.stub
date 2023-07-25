@@ -1,0 +1,15 @@
+<?php
+
+namespace {{classNamespace}};
+
+use Illuminate\Http\Request;
+
+class {{class}}
+{
+    public function index(Request $request)
+    {
+        $params = $request->all();
+
+        return view('microweber-module-btn::live-edit.settings',['moduleId' => $params['id']]);
+    }
+}

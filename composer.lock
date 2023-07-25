@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "04c83a11baba9b131fbebf4e3cef3d3f",
+    "content-hash": "6ae7fcb7a8fce1a4ebcfbbcef1bfba95",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -14539,6 +14539,63 @@
                 "source": "https://github.com/Torann/laravel-repository/tree/0.7.2"
             },
             "time": "2023-05-18T15:55:06+00:00"
+        },
+        {
+            "name": "touhidurabir/laravel-stub-generator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/touhidurabir/laravel-stub-generator.git",
+                "reference": "054b4fce65222eb14d731314965011b50d05cdca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/touhidurabir/laravel-stub-generator/zipball/054b4fce65222eb14d731314965011b50d05cdca",
+                "reference": "054b4fce65222eb14d731314965011b50d05cdca",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.57||^9.0||^10.0",
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "illuminate/container": "^8.57",
+                "orchestra/testbench": "^6.20",
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Touhidurabir\\StubGenerator\\StubGeneratorServiceProvider"
+                    ],
+                    "aliases": {
+                        "ModelRepository": "Touhidurabir\\StubGenerator\\Facades\\StubGenerator"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Touhidurabir\\StubGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Touhidur Rahman",
+                    "email": "abircse06@gmail.com"
+                }
+            ],
+            "description": "A laravel package to generate class files from stub files.",
+            "support": {
+                "issues": "https://github.com/touhidurabir/laravel-stub-generator/issues",
+                "source": "https://github.com/touhidurabir/laravel-stub-generator/tree/1.0.7"
+            },
+            "time": "2023-03-07T07:11:43+00:00"
         },
         {
             "name": "tucker-eric/eloquentfilter",
