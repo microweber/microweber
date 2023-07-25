@@ -13,7 +13,7 @@
     <div class="modal-body">
         <div class="row">
 
-            <div class="marketplace-template-img-wrapper col-xl-7 me-3 px-0" style="max-height:400px;overflow:hidden">
+            <div class="marketplace-template-img-wrapper col-sm-7 me-3 px-0" style="max-height:444px;overflow:hidden">
                 <div class="marketplace-template-img-wrapper-overlay">
 
                     <a href="" class="btn btn-dark marketplace-template-img-btn">
@@ -31,7 +31,7 @@
                 </div>
                 @endif
             </div>
-            <div class="col-xl-4">
+            <div class="col-sm-4 px-sm-0 px-4">
                 <h3 class="main-pages-title mt-3">{{$package['description']}}</h3>
                 <div class="tblr-body-color">
                     {{'Latest Version'}}: {{$package['version']}}
@@ -85,8 +85,8 @@
                 </div>
 
                 <br />
-                <div>
-                    <table cellspacing="0" cellpadding="0" class="table table-striped fs-5  m-0" width="100%">
+                <div class="table-responsive">
+                    <table class="table card-table table-vcenter fs-6 m-0">
                                 <tbody>
 
                                 <tr>
