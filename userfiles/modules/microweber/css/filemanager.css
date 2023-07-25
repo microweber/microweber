@@ -447,8 +447,8 @@
     transform-origin: left top;
 }
 .mw-file-manager-top-bar{
-    padding-bottom: 20px;
-    margin-bottom: 20px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
 .mw-file-manager-top-bar-actions{
     position: relative;
