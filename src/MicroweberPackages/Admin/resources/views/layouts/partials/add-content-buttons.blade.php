@@ -6,7 +6,7 @@
 <?php
 $appendIframeModeSuffix = '';
 if (isset($iframeMode) and $iframeMode) {
-    $appendIframeModeSuffix = '?iframe=true';
+    $appendIframeModeSuffix = '?iframe=true&enableTopBar=true';
 }
 ?>
 

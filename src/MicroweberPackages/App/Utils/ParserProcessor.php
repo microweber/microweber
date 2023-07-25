@@ -833,9 +833,14 @@ class ParserProcessor
                                     if ($mod_as_element == false) {
                                         if (!$coming_from_parent_id and (isset($options['module_as_element']) and !isset($options['populate_module_ids_in_elements'])) or ($module_name == 'text' or $module_name == 'title' or $module_name == 'text/empty_element' or $module_name == 'text/multiple_columns')) {
                                             $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
+
+                                        } else  if ((isset($options['module_as_element']) and isset($options['populate_module_ids_in_elements']))) {
+                                            $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
+
                                         } else {
                                             $module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
                                         }
+
 
                                         if(isset($options['module_as_element'])){
                                             unset($options['module_as_element']);
@@ -856,6 +861,8 @@ class ParserProcessor
                                         // $module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
 
                                     } else {
+
+
                                         $userclass = trim(str_replace(' -module ', '', $userclass));
 
                                         $module_html = str_replace('__MODULE_CLASS__', 'element ' . $module_name_url, $module_html);
