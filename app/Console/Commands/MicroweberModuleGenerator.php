@@ -28,13 +28,10 @@ class MicroweberModuleGenerator extends Command
     public function handle()
     {
 
-        $moduleName = '';
-
         $this->info('Microweber Module Generator v0.1');
         $this->info('- - - - - - - - - - -');
-      //  $moduleName = $this->ask('Enter module name:');
+        $moduleName = $this->ask('Enter module name:');
 
-        $moduleName = 'Bojkata Slaveykov';
         $moduleNameFolder = Str::slug($moduleName);
         $moduleNameNoSpaces = str_replace(' ', '', $moduleName);
         $moduleNamePath = userfiles_path() . 'modules' . DS . $moduleNameFolder . DS;
