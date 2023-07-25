@@ -1812,8 +1812,21 @@ svg.text-danger {
 
 }
 
+.mw-iframe-admin{
+    #pages-tree-wrapper:not(.active) .mw-admin-toggle-tree-navigation{
+        margin-left: 0;
+        left: 0;
+        transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);
+        svg{
+            transform: rotate(0deg);
+        }
+    }
+}
+
 #pages-tree-wrapper.active .mw-admin-toggle-tree-navigation{
     margin-left: 260px;
+    transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);
+
     svg{
         transform: rotate(180deg);
     }
@@ -1868,7 +1881,7 @@ svg.text-danger {
  #pages-tree-container{
     max-width: 600px;
     border-top-right-radius:0px;
-    transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);;
+    transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);
     transform: translateX(calc(-100% - 25px));
 
 }
