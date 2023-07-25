@@ -16,11 +16,6 @@ class MarketplaceItemModal extends AdminModalComponent
     public $package = [];
     public $installVersion = '';
 
-    public $modalSettings = [
-        'width'=>'800px',
-        'height'=>'500px',
-    ];
-
     public function mount()
     {
         $foundedPackage = [];
