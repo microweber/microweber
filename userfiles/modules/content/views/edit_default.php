@@ -405,7 +405,7 @@ if (isset($params['quick_edit'])) {
                 ?>
                 <div x-data="{ title: '<?php echo $title_for_input ?>' }">
                         <div x-show="showEditTab=='details'">
-                           <div class="card mb-5 ">
+                           <div class="card manage-content-card mb-5 ">
                                <div class="card-body" id="content-title-field-row">
 
                                   <div class="row">
