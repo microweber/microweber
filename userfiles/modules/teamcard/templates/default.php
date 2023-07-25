@@ -21,7 +21,7 @@
 
 </style>
 
-<div class="team-card-holder">
+<div class="team-card-holder d-flex flex-wrap">
     <?php
     $count = 0;
 
@@ -29,7 +29,7 @@
         foreach ($data as $slide) {
             $count++;
             ?>
-            <div class="team-card-item col-md-6 col-12 mb-3 overflow-hidden text-start float-start px-md-4 my-5 d-flex flex-wrap">
+            <div class="team-card-item col-md-6 col-12 mb-3 overflow-hidden text-start px-md-4 my-5 d-flex flex-wrap">
                <div class="col-md-6">
                    <?php if ($slide['file']) { ?>
                        <div class="team-card-item-image m-auto rounded-circle" style="background-image: url('<?php print thumbnail($slide['file'], 200); ?>');"></div>
