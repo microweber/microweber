@@ -12,11 +12,11 @@
                  <span class="ms-1 font-weight-bold">ADMIN</span>
             </a>
 
-            <div class="ms-3">
+            <div class="ms-1">
                 <UndoRedo></UndoRedo>
             </div>
 
-            <div class="ms-3">
+            <div class="ms-1">
                 <AddContentButton></AddContentButton>
             </div>
         </div>

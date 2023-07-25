@@ -9,6 +9,7 @@ $defaults = array(
     'name' => 'Name',
     'role' => 'Role',
     'bio' => 'Bio',
+    'website' => '',
     'file' => ''
 );
 $is_empty = false;
