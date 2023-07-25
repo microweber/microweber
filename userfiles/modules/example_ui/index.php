@@ -9,9 +9,9 @@
     foreach(app()->module_manager->get() as $item) {
         if ($item['ui'] !== 1) {
             continue;
-        } 
+        }
        // dump($item['module']);
-        echo '<module type="'.$item['module'].'" />';
+        // echo '<module type="'.$item['module'].'" />';
     }
 
     ?>
