@@ -1,3 +1,7 @@
+if(self === top){
+    return ;
+}
+
 
 mw.require('options.js')
 mw.require('liveedit.css')
