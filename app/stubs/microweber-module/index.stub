@@ -1,3 +1,15 @@
+<?php
+$title = get_option('title', $params['id']);
+$description = get_option('description', $params['id']);
+?>
+
+<?php if (!empty($title)): ?>
+
+    <h3><?php echo $title; ></h3>
+    <p><?php echo $description; ></p>
+
+<?php else: ?>
 <div style="padding:30px;background:#a88d0e;color:#fff">
     This is the index of the module.
 </div>
+<?php endif; ?>
