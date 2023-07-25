@@ -381,6 +381,10 @@
                              //var type =  el['subtype'];
                              // mw.url.windowHashParam("action", "editpage:" + nid);
                              // window.location = window.location;
+                         } else if (self !== parent) {
+                             if(mw.is_new_content_added){
+                                 window.location = data.admin_url;
+                             }
                          }
                          <?php endif; ?>
 
