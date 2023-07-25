@@ -147,8 +147,18 @@
 
         this.search = function(){
             if(this.options.searchInput === true) {
-                this.options.searchInput = document.createElement('input');
-                this.options.searchInput.className = 'form-control-live-edit-input';
+                const inputTemplate = mw.element(`
+                <div>
+                    <label class="live-edit-label">${mw.lang('Search for page or category')}</label>
+                    <div class="form-control-live-edit-label-wrapper">
+                        <input type="text" class="form-control-live-edit-input">
+                        <span class="form-control-live-edit-bottom-effect"></span>
+                    </div>
+                </div>
+                    
+                `);
+                this.options.searchInput = inputTemplate.find('input').get(0);
+    
 
                 if(this.options.searchInputClassName){
                     this.options.searchInput.className = this.options.searchInputClassName;
@@ -157,7 +167,7 @@
                 this.options.searchInput.placeholder = this.options.searchInputPlaceholder || mw.lang('Search');
 
                 if(this.options.searchInputSticky) {
-                    mw.$(this.options.searchInput).css({
+                    minputTemplate.css({
                         position: 'sticky',
                         top: '20px',
                         zIndex: '1',
@@ -173,7 +183,7 @@
                 });
 
                 setTimeout(function (){
-                    mw.$(scope.options.element).before(scope.options.searchInput);
+                    mw.$(scope.options.element).before(inputTemplate.get(0));
 
                 }, 200)
 

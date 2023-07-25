@@ -190,6 +190,7 @@ export default {
               }
             })
             mw.app.editor.on('editNodeRequest', async (element) => {
+          
 
                 function imagePicker(onResult) {
                   var dialog;
@@ -254,6 +255,9 @@ export default {
 
                 } else {
                   var targetChange = DomService.firstParentOrCurrentWithClass(element, 'edit');
+
+ 
+
                   if(targetChange && targetChange.classList && !targetChange.classList.contains('safe-mode')){
                     element = targetChange;
                     mw.app.get('liveEdit').handles.get('element').set(element);
@@ -261,16 +265,19 @@ export default {
 
 
                   
+                  
 
-                  element.contentEditable = true;
+                
                  
 
                     setTimeout(() => {
+                      element.contentEditable = true;
                       element.focus();
+                      element.contentEditable = true;
                       mw.app.liveEdit.pause()
                       mw.app.richTextEditor.smallEditorInteract(element);
                       mw.app.richTextEditor.positionSmallEditor(element)
-                    });
+                    }, 100);
 
                 }
 

@@ -6,7 +6,7 @@ import {ObjectService} from "./classes/object.service.js";
 import {DroppableElementAnalyzerService} from "./analizer.js";
 import {DropIndicator} from "./interact.js";
 import {ElementHandleContent} from "./handles-content/element.js";
-import {ModuleHandleContent} from "./handles-content/module.js";
+import {ModuleHandleContent, moduleSettingsDispatch} from "./handles-content/module.js";
 import {LayoutHandleContent} from "./handles-content/layout.js";
 import {ElementManager} from "./classes/element.js";
 import {lang} from "./i18n.js";
@@ -298,9 +298,14 @@ export class LiveEdit {
     getSelectedNode() {
         return this.activeNode;
     }
-    selectNode(target) {
+    selectNode(target, event) {
 
 
+
+         
+        if(target.nodeName === 'BODY') {
+            return
+        }
 
 
         if (this.handles.targetIsOrInsideHandle(target, this.handles.get('layout'))) {
@@ -312,6 +317,8 @@ export class LiveEdit {
         }
 
         this.activeNode = target;
+
+         
 
         // const elements = this.observe.fromEvent(e);
         const elements = [];
@@ -329,7 +336,23 @@ export class LiveEdit {
             first = DomService.firstBlockLevel(elements[0]);
         }
 
+ 
+
+
         first = target;
+
+
+
+        if(target === mw.app.liveEdit.handles.get('element').getTarget()) {
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+ 
+            
+            mw.app.editor.dispatch('editNodeRequest', target, event);
+        }
+        
 
 
         this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
@@ -427,6 +450,8 @@ export class LiveEdit {
 
         const _eventsHandle = (e) => {
 
+           
+
 
             var target = e.target ? e.target : e;
 
@@ -434,7 +459,7 @@ export class LiveEdit {
                 return;
             }
 
-            this.selectNode(target);
+            this.selectNode(target, e);
 
         }
 
@@ -469,8 +494,8 @@ export class LiveEdit {
 
         let events, _hovered = [];
 
-        // events = 'mousedown touchstart';
-         events = 'click';
+         events = 'mousedown touchstart';
+        // events = 'click';
         ElementManager(this.root).on('mousemove', (e) => {
 
             var currentMousePosition = { x: e.pageX, y: e.pageY };
@@ -617,6 +642,14 @@ export class LiveEdit {
         ElementManager(this.root).on('dblclick', (e) => {
 
             const selected = mw.app.liveEdit.elementHandle.getTarget();
+            const module = mw.app.liveEdit.moduleHandle.getTarget();
+
+            if(module) {
+                moduleSettingsDispatch(module);
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false
+            }
 
             if (selected && selected.contains(_dblclicktarget)) {
                 mw.app.editor.dispatch('editNodeRequest', selected);

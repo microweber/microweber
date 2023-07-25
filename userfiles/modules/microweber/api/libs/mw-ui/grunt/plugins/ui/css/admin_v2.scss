@@ -487,8 +487,10 @@ p {
     color: var(--tblr-body-color);
 }
 
-.mw-iframe-admin {
+body.mw-iframe-admin {
     background-color: var(--tblr-bg-surface);
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .settings-holder-wrapper {
