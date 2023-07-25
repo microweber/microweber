@@ -54,14 +54,14 @@
                                id="js-install-package-action"
                                onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
                                class="btn btn-outline-warning btn-sm js-package-install-btn">
-                                <i class="mdi mdi-rocket"></i> {{_e('Update to')}} {{$installVersion}}
+                                 {{_e('Update to')}} {{$installVersion}}
                             </a>
                         @elseif($package['current_install'] && $installVersion < $package['version'])
                             <a vkey="{{$installVersion}}" href="javascript:;"
                                id="js-install-package-action"
                                onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
                                class="btn btn-outline-danger btn-sm js-package-install-btn">
-                                <i class="mdi mdi-arrow-down"></i> {{_e('Downgrade to')}} {{$installVersion}}
+                                 {{_e('Downgrade to')}} {{$installVersion}}
                             </a>
                         @elseif($package['current_install'])
                             <a vkey="{{$installVersion}}" href="javascript:;"
@@ -75,7 +75,6 @@
                                id="js-install-package-action"
                                onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
                                class="btn btn-outline-success btn-sm js-package-install-btn">
-                                <i class="mdi mdi-download"></i>
                                 {{_('Install')}}
                             </a>
                         @endif
@@ -86,7 +85,7 @@
 
                 <br />
                 <div class="table-responsive">
-                    <table class="table card-table table-vcenter fs-6 m-0">
+                    <table class="table card-table table-vcenter fs-5 m-0">
                                 <tbody>
 
                                 <tr>

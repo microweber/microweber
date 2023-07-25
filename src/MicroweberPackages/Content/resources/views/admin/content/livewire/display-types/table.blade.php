@@ -53,7 +53,7 @@
                     </td>
                 @endif
                 @if($showColumns['image'])
-                    <td style="vertical-align: middle;">
+                    <td style="vertical-align: middle; min-width: 150px;">
                         @include('content::admin.content.livewire.components.picture', ['content'=>$content])
                     </td>
                 @endif
@@ -72,7 +72,7 @@
                 @endif
 
                 @if($showColumns['id'])
-                    <td style="vertical-align: middle;">
+                    <td style="vertical-align: middle; width: 30px;">
                         @include('content::admin.content.livewire.components.manage-links', ['content'=>$content])
                     </td>
                 @endif
