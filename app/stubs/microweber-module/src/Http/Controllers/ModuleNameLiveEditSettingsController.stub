@@ -10,6 +10,6 @@ class {{moduleNameCamelCase}}LiveEditSettingsController
     {
         $params = $request->all();
 
-        return view('microweber-module-{{$moduleSlug}}::live-edit.settings',['moduleId' => $params['id']]);
+        return view('microweber-module-{{moduleSlug}}::live-edit.settings',['moduleId' => $params['id']]);
     }
 }

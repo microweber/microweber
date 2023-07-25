@@ -51,12 +51,13 @@ class MicroweberModuleGenerator extends Command
 
         // Making controller
         mkdir_recursive($moduleNamePath . 'src' . DS . 'Http' . DS . 'Controllers' . DS);
+        mkdir_recursive($moduleNamePath . 'src' . DS . 'Http' . DS . 'Livewire' . DS);
         mkdir_recursive($moduleNamePath . 'src' . DS . 'Providers' . DS);
         mkdir_recursive($moduleNamePath . 'src' . DS . 'config' . DS);
         mkdir_recursive($moduleNamePath . 'src' . DS . 'database'.DS.'migrations' . DS);
         mkdir_recursive($moduleNamePath . 'src' . DS . 'resources'.DS.'views' . DS);
 
-        $moduleStubPath = (dirname(dirname(__DIR__))) . DS . 'stubs' . DS . 'microweber-module' . DS;
+        $moduleStubPath = (dirname(dirname(__DIR__))) . DS . 'stubs' . DS . 'microweber-module';
 
 
         $replacers = [
@@ -68,14 +69,21 @@ class MicroweberModuleGenerator extends Command
         ];
 
         $controllerLiveEditSettingsName = Str::ucfirst($moduleNameNoSpaces) . 'LiveEditSettingsController';
-        StubGenerator::from($moduleStubPath . '/src/Http/Controllers/ModuleLiveEditSettingsController.stub',true)
+        StubGenerator::from($moduleStubPath . '/src/Http/Controllers/ModuleNameLiveEditSettingsController.stub',true)
             ->to($moduleNamePath)
             ->as('src/Http/Controllers/'.$controllerLiveEditSettingsName)
             ->ext('php')
             ->withReplacers($replacers)->save();
 
+        $livewireSettingsComponentName = Str::ucfirst($moduleNameNoSpaces) . 'SettingsComponent';
+        StubGenerator::from($moduleStubPath . '/src/Http/Livewire/ModuleNameSettingsComponent.stub',true)
+            ->to($moduleNamePath)
+            ->as('src/Http/Livewire/'.$livewireSettingsComponentName)
+            ->ext('php')
+            ->withReplacers($replacers)->save();
+
         $serviceProviderClassName = Str::ucfirst($moduleNameNoSpaces) . 'ServiceProvider';
-        StubGenerator::from($moduleStubPath . '/src/Providers/ModuleServiceProvider.stub',true)
+        StubGenerator::from($moduleStubPath . '/src/Providers/ModuleNameServiceProvider.stub',true)
             ->to($moduleNamePath)
             ->as('src/Providers/'.$serviceProviderClassName)
             ->ext('php')
