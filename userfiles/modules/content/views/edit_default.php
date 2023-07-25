@@ -317,6 +317,10 @@ if (isset($params['quick_edit'])) {
             .mw-toolbar-back-button-wrapper {
                 display: none !important;
             }
+
+            .mw-admin-post-slug {
+                display: none !important;
+            }
         </style>
 
     <?php } ?>
@@ -496,7 +500,7 @@ if (isset($params['quick_edit'])) {
                                         <div class=" ">
                                             <div class="form-group" id="slug-field-holder">
                                                 <label
-                                                    class="form-label"><?php _e($type) ?><?php _e("title"); ?></label>
+                                                    class="form-label"><span><?php _e($type) ?></span> <?php _e("title"); ?></label>
 
 
                                                 <?php
@@ -771,16 +775,10 @@ if (isset($params['quick_edit'])) {
                         </div>
 
 
-                        <div class="card mb-5 ">
-                            <div class="card-body">
 
-                                iframe here
-
-                            </div>
-                        </div>
 
                         <?php
-                        include_once 'tabs.php';
+                        include_once __DIR__.'/tabs.php';
                         ?>
 
                     </div>
@@ -788,20 +786,20 @@ if (isset($params['quick_edit'])) {
                     <div x-show="showEditTab=='customFields'">
 
                         <?php
-                        include_once 'custom_fields.php';
+                        include_once __DIR__.'/custom_fields.php';
                         ?>
 
                     </div>
 
                     <div x-show="showEditTab=='seo'">
                         <?php
-                        include_once 'seo.php';
+                        include_once __DIR__.'/seo.php';
                         ?>
                     </div>
 
                     <div x-show="showEditTab=='advanced'" class="row">
                         <?php
-                        include_once 'advanced_settings.php';
+                        include_once __DIR__.'/advanced_settings.php';
                         ?>
                     </div>
                 </div>
@@ -824,7 +822,7 @@ if (isset($params['quick_edit'])) {
 
 
             </div>
-            <?php include 'edit_default_sidebar.php'; ?>
+            <?php include __DIR__.'/edit_default_sidebar.php'; ?>
 
         </div>
     </form>
