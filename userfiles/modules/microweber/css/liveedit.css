@@ -1734,7 +1734,7 @@ body.dragStart .element {
     background: #FFFFB9;
     color: #0088CC;
     position: relative;
-    min-height: 100px;
+    min-height: 100px !important;
     display: block;
     text-align:left;
 }
