@@ -1827,8 +1827,19 @@ svg.text-danger {
     }
 
 
-    .manage-content-card {
-        shadow: none;
+    .manage-content-body {
+        padding: 10px !important;
+        .card {
+            box-shadow: none;
+
+            .card-body, .row {
+                padding: 0 !important;
+            }
+        }
+    }
+
+    .manage-content-sidebar {
+        padding: 10px !important;
     }
 }
 
