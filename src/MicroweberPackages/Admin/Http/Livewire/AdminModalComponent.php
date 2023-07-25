@@ -9,6 +9,12 @@ class AdminModalComponent extends ModalComponent
 {
     use AuthorizesRequests;
 
+    public $modalSettings = [
+        'width'=>'800px',
+        'overlay' => true,
+        'overlayClose' => true,
+    ];
+
     public function __construct($id = null)
     {
         try {

@@ -121,7 +121,9 @@
                             }
                         } else {
                             mw.askusertostay = false;
-                            location.href = el.getAttribute('href');
+                            var newHref = el.getAttribute('href');
+
+                            location.href =newHref;
 
                         }
                     });

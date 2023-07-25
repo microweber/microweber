@@ -94,6 +94,7 @@
         "symfony/translation": "*",
         "tightenco/ziggy": "*",
         "torann/laravel-repository": "*",
+        "touhidurabir/laravel-stub-generator": "dev-master",
         "tucker-eric/eloquentfilter": "*",
         "twig/twig": "*",
         "whitecube/lingua": "1.1.0",

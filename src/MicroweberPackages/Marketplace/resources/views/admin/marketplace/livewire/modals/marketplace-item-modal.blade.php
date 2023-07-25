@@ -4,21 +4,16 @@
     @else
     <script>mw.require('admin_package_manager.js');</script>
 
-    <div class="modal-header">
-        <h5 class="modal-title">
-            {{$package['description']}}
-        </h5>
-        <button type="button" class="btn-close" wire:click="$emit('closeModal')" aria-label="Close"></button>
-    </div>
     <div class="modal-body">
         <div class="row">
-
-            <div class="marketplace-template-img-wrapper col-xl-7 me-3 px-0" style="max-height:400px;overflow:hidden">
+            <div class="marketplace-template-img-wrapper col-sm-7 pe-3 px-0" style="max-height:500px; overflow:hidden">
                 <div class="marketplace-template-img-wrapper-overlay">
 
-                    <a href="" class="btn btn-dark marketplace-template-img-btn">
-                        {{'Preview'}}
-                    </a>
+                    @if (isset($package['demo_link']))
+                        <a target="_blank" href="{{$package['demo_link']}}" class="btn btn-dark marketplace-template-img-btn">
+                            {{'Preview'}}
+                        </a>
+                    @endif
                 </div>
 
                 @if (isset($package['extra']['_meta']['screenshot_large']))
@@ -31,7 +26,7 @@
                 </div>
                 @endif
             </div>
-            <div class="col-xl-4">
+            <div class="col-sm-5 px-sm-0 px-4">
                 <h3 class="main-pages-title mt-3">{{$package['description']}}</h3>
                 <div class="tblr-body-color">
                     {{'Latest Version'}}: {{$package['version']}}
@@ -54,14 +49,14 @@
                                id="js-install-package-action"
                                onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
                                class="btn btn-outline-warning btn-sm js-package-install-btn">
-                                <i class="mdi mdi-rocket"></i> {{_e('Update to')}} {{$installVersion}}
+                                 {{_e('Update to')}} {{$installVersion}}
                             </a>
                         @elseif($package['current_install'] && $installVersion < $package['version'])
                             <a vkey="{{$installVersion}}" href="javascript:;"
                                id="js-install-package-action"
                                onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
                                class="btn btn-outline-danger btn-sm js-package-install-btn">
-                                <i class="mdi mdi-arrow-down"></i> {{_e('Downgrade to')}} {{$installVersion}}
+                                 {{_e('Downgrade to')}} {{$installVersion}}
                             </a>
                         @elseif($package['current_install'])
                             <a vkey="{{$installVersion}}" href="javascript:;"
@@ -75,7 +70,6 @@
                                id="js-install-package-action"
                                onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
                                class="btn btn-outline-success btn-sm js-package-install-btn">
-                                <i class="mdi mdi-download"></i>
                                 {{_('Install')}}
                             </a>
                         @endif
@@ -85,8 +79,8 @@
                 </div>
 
                 <br />
-                <div>
-                    <table cellspacing="0" cellpadding="0" class="table table-striped fs-5  m-0" width="100%">
+                <div class="table-responsive">
+                    <table class="table card-table table-vcenter fs-5 m-0">
                                 <tbody>
 
                                 <tr>

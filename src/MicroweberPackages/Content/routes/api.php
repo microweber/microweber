@@ -109,6 +109,10 @@ Route::name('api.')
                     $admin_url = route('admin.' . $content['content_type'] . '.edit', $content['id']);
                 }
             }
+
+            $liveEditUrl = site_url() . 'admin/live-edit';
+            $liveEditUrl = $liveEditUrl .= '?url=' . content_link($request['id']);
+
             if ($segments) {
                 return [
                     'url' => $segments['url'],
@@ -116,6 +120,7 @@ Route::name('api.')
                     'slug_prefix_url' => $segments['slug_prefix_url'],
                     'slug' => $segments['slug'],
                     'admin_url' => $admin_url ,
+                    'live_edit_url' => $liveEditUrl ,
                     'site_url' => site_url()
                 ];
             }

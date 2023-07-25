@@ -2,6 +2,10 @@
     <script>
         let mwDialogLivewire = false;
 
+        Livewire.on('closeModal', (force = false, skipPreviousModals = 0, destroySkipped = false) => {
+            mwDialogLivewire.remove();
+        });
+
         Livewire.on('activeModalComponentChanged', (data) => {
 
             let mwDialogLivewireSettings = {

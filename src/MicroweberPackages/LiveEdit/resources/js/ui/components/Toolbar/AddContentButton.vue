@@ -1,6 +1,6 @@
 <template>
     <button v-on:click="openContentAddModal()" class=" btn btn-icon me-2 live-edit-toolbar-buttons live-edit-toolbar-buttons-undo-redo tblr-body-color">
-        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M434.5-434.5H191.869v-91H434.5v-242.631h91V-525.5h242.631v91H525.5v242.631h-91V-434.5Z"/></svg>    </button>
+        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M434.5-434.5H191.869v-91H434.5v-242.631h91V-525.5h242.631v91H525.5v242.631h-91V-434.5Z"/></svg>    </button>
 
 </template>
 
@@ -26,7 +26,7 @@ export default {
 
             var modal = mw.dialogIframe({
                 url: src,
-                // width: 500,
+                width: '70%',
                 name: 'mw-add-content-editor-front',
                 title: 'Add content',
                 template: 'default',
