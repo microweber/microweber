@@ -6,7 +6,7 @@
 
     <div class="modal-body">
         <div class="row">
-            <div class="marketplace-template-img-wrapper col-sm-7 pe-3 px-0" style="max-height:444px;overflow:hidden">
+            <div class="marketplace-template-img-wrapper col-sm-7 pe-3 px-0" style="max-height:500px; overflow:hidden">
                 <div class="marketplace-template-img-wrapper-overlay">
 
                     @if (isset($package['demo_link']))
