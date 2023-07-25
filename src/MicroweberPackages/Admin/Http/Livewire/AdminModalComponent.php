@@ -11,7 +11,6 @@ class AdminModalComponent extends ModalComponent
 
     public $modalSettings = [
         'width'=>'800px',
-        'height'=>'500px',
         'overlay' => true,
         'overlayClose' => true,
     ];
