@@ -20,9 +20,11 @@
         dialog.dialogContainer.style.minHeight = '100px';
         mw.spinner({element: dialog.dialogContainer, size: 32, decorate: true}).show();
 
+         
 
-        // var maxHeight = '75vh';
-        var maxHeight = 'calc(100vh - 240px)';
+
+         
+        var maxHeight = 'calc(100vh - 140px)';
 
 
         setTimeout(function () {
@@ -35,6 +37,7 @@
             } else{
                 $(frame).height(options.height - 60);
                 frame.style.position = 'relative';
+                frame.style.maxHeight = maxHeight;
             }
             mw.$(frame).on('load', function () {
                 mw.tools.loading(dialog.dialogContainer, false);
@@ -552,7 +555,7 @@
                 mw.interval('iframe-' + this.id, function () {
                     var max = mw.$(window).height() - scope.dialogHeader.clientHeight - scope.dialogFooter.clientHeight - 40;
                     scope.dialogContainer.style.maxHeight = max + 'px';
-                    scope.dialogContainer.style.maxHeight = 'calc(100vh - 200px)';
+                    scope.dialogContainer.style.maxHeight = 'calc(100vh - 100px)';
                     scope.containmentManage();
                 });
             }

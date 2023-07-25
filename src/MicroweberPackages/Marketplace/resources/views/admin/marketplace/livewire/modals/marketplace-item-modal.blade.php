@@ -4,21 +4,16 @@
     @else
     <script>mw.require('admin_package_manager.js');</script>
 
-    <div class="modal-header">
-        <h5 class="modal-title">
-            {{$package['description']}}
-        </h5>
-        <button type="button" class="btn-close" wire:click="$emit('closeModal')" aria-label="Close"></button>
-    </div>
     <div class="modal-body">
         <div class="row">
-
-            <div class="marketplace-template-img-wrapper col-sm-7 me-3 px-0" style="max-height:444px;overflow:hidden">
+            <div class="marketplace-template-img-wrapper col-sm-7 pe-3 px-0" style="max-height:500px; overflow:hidden">
                 <div class="marketplace-template-img-wrapper-overlay">
 
-                    <a href="" class="btn btn-dark marketplace-template-img-btn">
-                        {{'Preview'}}
-                    </a>
+                    @if (isset($package['demo_link']))
+                        <a target="_blank" href="{{$package['demo_link']}}" class="btn btn-dark marketplace-template-img-btn">
+                            {{'Preview'}}
+                        </a>
+                    @endif
                 </div>
 
                 @if (isset($package['extra']['_meta']['screenshot_large']))
@@ -31,7 +26,7 @@
                 </div>
                 @endif
             </div>
-            <div class="col-sm-4 px-sm-0 px-4">
+            <div class="col-sm-5 px-sm-0 px-4">
                 <h3 class="main-pages-title mt-3">{{$package['description']}}</h3>
                 <div class="tblr-body-color">
                     {{'Latest Version'}}: {{$package['version']}}

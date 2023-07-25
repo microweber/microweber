@@ -18,7 +18,7 @@ class MicroweberBaseClass {
         }
     };
 
-    dispatch (e, f) {
+    dispatch (e, f, f2) {
         this.#events[e] ? this.#events[e].forEach(function (c) {
             c.call(this, f);
         }) : '';

@@ -487,8 +487,10 @@ p {
     color: var(--tblr-body-color);
 }
 
-.mw-iframe-admin {
+body.mw-iframe-admin {
     background-color: var(--tblr-bg-surface);
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .settings-holder-wrapper {
@@ -1601,7 +1603,7 @@ svg.text-danger {
         background-color: transparent;
         position: absolute;
         top: 50%;
-        left: 50%;
+        left: 47%;
         transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
         text-align: center;
@@ -1825,15 +1827,17 @@ svg.text-danger {
 
 }
 
-.mw-iframe-admin{
-    #pages-tree-wrapper:not(.active) .mw-admin-toggle-tree-navigation{
-        margin-left: 0;
-        left: 0;
-        transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);
-        svg{
-            transform: rotate(0deg);
-        }
+#pages-tree-wrapper:not(.active) .mw-admin-toggle-tree-navigation{
+    margin-left: 0;
+    left: 0;
+    transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);
+    svg{
+        transform: rotate(0deg);
     }
+}
+
+.mw-iframe-admin{
+
 
     #pages-tree-wrapper.active .mw-admin-toggle-tree-navigation {
         margin-left: 11px !important;

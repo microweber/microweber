@@ -75,15 +75,18 @@ export const HandleMenu = function(options) {
 
         this.rebuildButtons()
        
- 
-        for ( ; i < this.buttons.length; i++) {
-            const config = this.buttons[i].config;
-            const button = this.buttons[i].button;
-       
-            if(config && config.onTarget) {
-                config.onTarget(target, button.get(0), scope.options.rootScope);
+        setTimeout(() => {
+            for ( ; i < this.buttons.length; i++) {
+                const config = this.buttons[i].config;
+                const button = this.buttons[i].button;
+           
+                if(config && config.onTarget) {
+                    config.onTarget(target, button.get(0), scope.options.rootScope);
+                }
             }
-        }
+        })
+ 
+
     };
 
 
