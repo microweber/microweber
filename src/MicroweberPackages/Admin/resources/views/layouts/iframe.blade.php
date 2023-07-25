@@ -4,6 +4,9 @@
     'iframeMode' => true,
 ])
 
+
+
+
 @hasSection('content')
     <main class="module-main-holder col-lg-12">
         @yield('content' )

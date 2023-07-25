@@ -8,6 +8,8 @@ $appendIframeModeSuffix = '';
 if (isset($iframeMode) and $iframeMode) {
     $appendIframeModeSuffix = '?iframe=true&enableTopBar=true';
 }
+
+
 ?>
 
 <?php if (!empty($create_content_menu)): ?>

@@ -348,8 +348,6 @@ $user = get_user_by_id($user_id);
     <?php } ?>
 
 
-
-
     <?php if (isset($disableTopBar) and $disableTopBar) { ?>
 
         <style>
