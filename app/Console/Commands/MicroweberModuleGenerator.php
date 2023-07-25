@@ -28,13 +28,10 @@ class MicroweberModuleGenerator extends Command
     public function handle()
     {
 
-        $moduleName = '';
-
         $this->info('Microweber Module Generator v0.1');
         $this->info('- - - - - - - - - - -');
-      //  $moduleName = $this->ask('Enter module name:');
+        $moduleName = $this->ask('Enter module name:');
 
-        $moduleName = 'Bojkata Slaveykov';
         $moduleNameFolder = Str::slug($moduleName);
         $moduleNameNoSpaces = str_replace(' ', '', $moduleName);
         $moduleNamePath = userfiles_path() . 'modules' . DS . $moduleNameFolder . DS;
@@ -56,6 +53,8 @@ class MicroweberModuleGenerator extends Command
         mkdir_recursive($moduleNamePath . 'src' . DS . 'config' . DS);
         mkdir_recursive($moduleNamePath . 'src' . DS . 'database'.DS.'migrations' . DS);
         mkdir_recursive($moduleNamePath . 'src' . DS . 'resources'.DS.'views' . DS);
+        mkdir_recursive($moduleNamePath . 'src' . DS . 'resources'.DS.'views' . DS .'livewire');
+        mkdir_recursive($moduleNamePath . 'src' . DS . 'resources'.DS.'views' . DS .'live-edit');
 
         $moduleStubPath = (dirname(dirname(__DIR__))) . DS . 'stubs' . DS . 'microweber-module';
 
@@ -65,7 +64,7 @@ class MicroweberModuleGenerator extends Command
             'moduleNamespace' => $moduleNamespace,
             'moduleNameCamelCase' => Str::ucfirst($moduleNameNoSpaces),
             'moduleSlug' => $moduleNameFolder,
-            'moduleServiceProvider' => $moduleNamespace .'\\'. Str::ucfirst($moduleNameNoSpaces) . 'ServiceProvider',
+            'moduleServiceProvider' => $moduleNamespace .'\\Providers\\'. Str::ucfirst($moduleNameNoSpaces) . 'ServiceProvider',
         ];
 
         $controllerLiveEditSettingsName = Str::ucfirst($moduleNameNoSpaces) . 'LiveEditSettingsController';
@@ -86,6 +85,13 @@ class MicroweberModuleGenerator extends Command
         StubGenerator::from($moduleStubPath . '/src/Providers/ModuleNameServiceProvider.stub',true)
             ->to($moduleNamePath)
             ->as('src/Providers/'.$serviceProviderClassName)
+            ->ext('php')
+            ->withReplacers($replacers)
+            ->save();
+
+        StubGenerator::from($moduleStubPath . '/src/resources/views/livewire/settings.blade.stub',true)
+            ->to($moduleNamePath)
+            ->as('src/resources/views/livewire/settings.blade')
             ->ext('php')
             ->withReplacers($replacers)
             ->save();
