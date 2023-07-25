@@ -14,9 +14,15 @@ if(isset($isIframe) and $isIframe){
     $options['disableTopBar'] = true;
     $options['iframe'] = true;
 }
+if(isset($_GET['disableTopBar']) and $_GET['disableTopBar']){
+    $options['disableTopBar'] = intval($_GET['disableTopBar']);
+}
+if(isset($_GET['disableNavBar']) and $_GET['disableNavBar']){
+    $options['disableNavBar'] = intval($_GET['disableNavBar']);
+}
 
-if(isset($_GET['enableTopBar']) and $_GET['enableTopBar']){
-    $options['disableTopBar'] = false;
+if(isset($_GET['iframeMode']) and $_GET['iframeMode']){
+    $options['iframeMode'] = intval($_GET['iframeMode']);
 }
 
 

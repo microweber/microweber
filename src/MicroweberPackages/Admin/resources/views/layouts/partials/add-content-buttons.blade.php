@@ -6,7 +6,13 @@
 <?php
 $appendIframeModeSuffix = '';
 if (isset($iframeMode) and $iframeMode) {
-    $appendIframeModeSuffix = '?iframe=true&enableTopBar=true';
+    $appendIframeModeSuffix = '?iframe=true&disableTopBar=false';
+
+
+
+ }
+if(isset($quickAdd) and $quickAdd){
+    $appendIframeModeSuffix .= '&quickAdd=true';
 }
 
 
