@@ -330,7 +330,7 @@ if (isset($_GET['rel_id'])) {
             ?>
 
             <div class="card-header d-flex justify-content-between align-items-center <?php print $padding_class; ?>">
-<!--                <label class="form-label">--><?php //print  $headerText ?><!--</label>-->
+<!--                <label class="form-label font-weight-bold">--><?php //print  $headerText ?><!--</label>-->
 
                 <?php  if (!isset($_GET['iframe'])) : ?>
                     <div class="create-root">
@@ -416,7 +416,7 @@ if (isset($_GET['rel_id'])) {
                                 <div class="col-12">
                                     <div class="form-group" id="content-title-field-row">
 
-                                        <label class="form-label" for="content-title-field"><?php _e('Category name'); ?></label>
+                                        <label class="form-label font-weight-bold" for="content-title-field"><?php _e('Category name'); ?></label>
 
                                         <?php
                                         $categoryNamePlaceholder = 'Category name';
@@ -456,7 +456,7 @@ if (isset($_GET['rel_id'])) {
                                 <div class="col-12">
                                     <div class="form-group">
                                         <div class="bootstrap-select form-control">
-                                            <label class="form-label"><?php _e('Choose a parent'); ?>:</label>
+                                            <label class="form-label font-weight-bold"><?php _e('Choose a parent'); ?>:</label>
                                             <small class="text-muted d-block mb-2"><?php _e('Choose a parent page or category') ?></small>
 
                                             <span class="btn dropdown-toggle" onclick="$(this).next().stop().slideToggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
@@ -480,7 +480,7 @@ if (isset($_GET['rel_id'])) {
 
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="description"><?php _e("Description"); ?></label>
+                                        <label class="form-label font-weight-bold" for="description"><?php _e("Description"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Type description of your category in the field"); ?></small>
                                         <!--  <textarea class="form-control" id="description" name="description" rows="3" spellcheck="false"><?php /*echo $data['description']; */?></textarea>-->
 
@@ -668,8 +668,8 @@ if (isset($_GET['rel_id'])) {
                                     </div>
                                 <?php endif; ?>
 
-                                <div class="col-12">
-                                    <label class="form-label"><?php _e("Other settings"); ?></label>
+                                <div class="col-12 mt-3">
+                                    <label class="form-label font-weight-bold"><?php _e("Other settings"); ?></label>
 
                                     <button type="button" class="btn btn-link btn-sm js-edit-category-show-more" data-bs-toggle="collapse" data-bs-target="#show-more"><?php _e("Show more"); ?></button>
 
@@ -678,7 +678,7 @@ if (isset($_GET['rel_id'])) {
                                             <?php if (isset($data['id']) and $data['id'] != 0): ?>
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        <label class="form-label"><?php _e("Link"); ?></label>
+                                                        <label class="form-label font-weight-bold"><?php _e("Link"); ?></label>
                                                         <div class="mb-3">
                                                             <small><a href="<?php print category_link($data['id']); ?>" target="_blank"><?php print category_link($data['id']); ?></a></small>
                                                         </div>
@@ -689,7 +689,7 @@ if (isset($_GET['rel_id'])) {
 
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label"><?php _e("Category Slug"); ?></label>
+                                                    <label class="form-label font-weight-bold"><?php _e("Category Slug"); ?></label>
                                                     <div class="mb-3">
                                                         <?php
                                                         $url = '';
@@ -730,7 +730,7 @@ if (isset($_GET['rel_id'])) {
                                                     </script>
 
                                                     <div class="form-group">
-                                                        <label class="form-label"><?php _e("Category subtype"); ?> <span class="help-tooltip" data-bs-toggle="tooltip" title="You can set the category behaviour by changing its subtype"></span></label>
+                                                        <label class="form-label font-weight-bold"><?php _e("Category subtype"); ?> <span class="help-tooltip" data-bs-toggle="tooltip" title="You can set the category behaviour by changing its subtype"></span></label>
 
                                                         <div>
                                                             <select class="form-select edit-category-choose-subtype-dd" data-width="100%">
@@ -749,7 +749,7 @@ if (isset($_GET['rel_id'])) {
 
                                             <div class="col-md-12">
                                                 <div class="form-group ">
-                                                    <label class="form-label"><?php _e("Meta title"); ?></label>
+                                                    <label class="form-label font-weight-bold"><?php _e("Meta title"); ?></label>
                                                     <small data-bs-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
                                                     <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
 
@@ -765,7 +765,7 @@ if (isset($_GET['rel_id'])) {
 
                                             <div class="col-md-12">
                                                 <div class="form-group ">
-                                                    <label class="form-label"><?php _e("Meta description"); ?></label>
+                                                    <label class="form-label font-weight-bold"><?php _e("Meta description"); ?></label>
                                                     <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
 
                                                     <?php
@@ -779,7 +779,7 @@ if (isset($_GET['rel_id'])) {
 
                                             <div class="col-md-12">
                                                 <div class="form-group ">
-                                                    <label class="form-label"><?php _e("Meta keywords"); ?></label>
+                                                    <label class="form-label font-weight-bold"><?php _e("Meta keywords"); ?></label>
                                                     <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
                                                     <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
 
@@ -801,7 +801,7 @@ if (isset($_GET['rel_id'])) {
                                                         $data['is_hidden'] = 0;
                                                     }
                                                     ?>
-                                                    <label class="form-label"><?php _e("Is category hidden?"); ?>
+                                                    <label class="form-label font-weight-bold"><?php _e("Is category hidden?"); ?>
 
                                                         <small class="text-muted d-block mb-2"><?php _e("If you set this to YES this category will be hidden from the website"); ?></small>
                                                     </label>

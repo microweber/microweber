@@ -1,6 +1,5 @@
 <div>
 
-
     <?php
 
 
@@ -82,6 +81,15 @@ showEditTab: 'main'
                         <div class="row row-cards">
                             <div class="col-12">
                                 <div class="card">
+
+
+                                    <div class="mt-2">
+                                        <x-microweber-ui::button-animation type="button" class="mt-2"
+                                                                           x-on:click="showEditTab = 'tabs-nav-tab-new-item'">
+                                            <?php print $addButtonText ?>
+                                        </x-microweber-ui::button-animation>
+                                    </div>
+
                                     @if (isset($editorSettings['schema']))
                                         <div class="list-group list-group-flush list-group-hoverable"
                                              id="js-sortable-items-holder-{{md5($moduleId)}}">
@@ -133,13 +141,6 @@ showEditTab: 'main'
                                             @endforeach
                                         </div>
                                     @endif
-
-                                    <div>
-                                        <x-microweber-ui::button-animation type="button" class="mt-2"
-                                                                           x-on:click="showEditTab = 'tabs-nav-tab-new-item'">
-                                                <?php print $addButtonText ?>
-                                        </x-microweber-ui::button-animation>
-                                    </div>
 
                                 </div>
                             </div>

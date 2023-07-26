@@ -16,7 +16,6 @@ $defaults = array(
     'secondaryText' => 'Your text here.',
     'seemoreText' => 'See more',
     'url' => '',
-
     'urlText' => '',
     'skin' => 'bxslider-skin-1'
 );

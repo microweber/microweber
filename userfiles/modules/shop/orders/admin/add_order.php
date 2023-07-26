@@ -107,9 +107,9 @@ $data = $products;
             <div class="row">
                 <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs m-1 w-100">
                     <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active show" data-bs-toggle="tab" href="javascript:;"><i class="mdi mdi-cart-outline px-2 mdi-20px"></i><?php _e("Add to cart"); ?></a>
-                        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="javascript:;">   <?php _e("My cart's content"); ?></a>
-                        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="javascript:;"><i class="mdi mdi-arrow-right"></i> <?php _e("Checkout"); ?></a>
+                        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs tblr-body-color active show" data-bs-toggle="tab" href="javascript:;"><?php _e("Add to cart"); ?></a>
+                        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs tblr-body-color" data-bs-toggle="tab" href="javascript:;">   <?php _e("My cart's content"); ?></a>
+                        <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs tblr-body-color" data-bs-toggle="tab" href="javascript:;"> <?php _e("Checkout"); ?></a>
                     </nav>
                 </div>
                 <div class="mw-ui-box-content m-1 border-0 w-100">
@@ -208,7 +208,7 @@ $data = $products;
     <!-- Checkout -->
     <div class="mw-ui-box-content" style="display: none;">
         <module type="shop/checkout" class="no-settings" data-checkout-link-enabled="n" template="mw_default" id="mw-admin-custom-checkout-add-order"/>
-            <button type="button" class="btn btn btn-primary pull-right m-auto" onclick="mw.cart.checkout('#mw-admin-custom-checkout-add-order', mw_admin_custom_checkout_callback);"><?php _e("Complete order"); ?></button>
+            <button type="button" class="btn btn btn-dark pull-right m-auto" onclick="mw.cart.checkout('#mw-admin-custom-checkout-add-order', mw_admin_custom_checkout_callback);"><?php _e("Complete order"); ?></button>
     </div>
 </div>
 

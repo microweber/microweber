@@ -4,11 +4,6 @@
 
 
 
-    <button  v-on:click="show('sidebar-admin-panel-toggle')" class=" btn btn-icon me-2 live-edit-toolbar-buttons live-edit-toolbar-buttons-undo-redo tblr-body-color">
-
-    Settings
-    </button>
-
 </template>
 
 <script>
