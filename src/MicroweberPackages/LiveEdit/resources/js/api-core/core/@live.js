@@ -142,7 +142,14 @@ export class LiveEdit {
             document: this.settings.document,
             stateManager: this.settings.stateManager,
             resizable: true,
-
+            
+            onPosition: function(menu, transform, off){
+                if(off.top < 50 ) {
+                    menu.style.top = `calc(100% + 60px)`;
+                } else {
+                    menu.style.top = ``;
+                }
+            }
         });
 
         this.isResizing = false;
@@ -186,6 +193,14 @@ export class LiveEdit {
                     return DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentElement, ['edit', 'module'])
                 }
                 return false;
+            },
+            onPosition: function(menu, transform, off){
+                
+                if(off.top < 50 ) {
+                    menu.style.top = `calc(100% + 60px)`;
+                } else {
+                    menu.style.top = ``;
+                }
             }
         });
         var moduleHandle = this.moduleHandle;
@@ -444,6 +459,9 @@ export class LiveEdit {
 
         }
 
+
+
+ 
 
 
 

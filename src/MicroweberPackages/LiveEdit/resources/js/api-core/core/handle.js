@@ -108,28 +108,38 @@ export const Handle = function (options) {
         }
         const off = DomService.offset(target);
         const scroll = getScroll();
-        const menu = this.wrapper.get(0).querySelector('.mw-le-handle-menu-buttons');
+        const menu = this.wrapper.get(0).querySelector('.mw-handle-item-menus-holder');
+
+
  
-        let transform ;
-        
-        if(scroll.y > (off.top - 70)) {
-            transform = (scroll.y - (off.top - 70));
+ 
 
-            if((transform) > off.height) {
-                transform = off.height + 10
-            }
-        }
 
+
+ 
 
         if(menu) {
-            menu.style.transition = `none`;
-            //menu.style.transform = transform ? `translateX(${transform}px)` : '';
+
+
+            let transform ;
+         
+            if(scroll.y > (off.top - 10)) {
+                transform = (scroll.y - (off.top - 10));
     
-            if(off.top < 50 ) {
-                menu.style.top = `calc(100% + 60px)`;
-            } else {
-                menu.style.top = ``;
+                if((transform + menu.offsetHeight + 30) > off.height) {
+                     transform =  (off.height - (menu.offsetHeight + 30))  ;
+                }
             }
+
+            menu.style.transition = `none`;
+            menu.style.transform = transform ? `translateY(${transform}px)` : '';
+
+            if(typeof this.settings.onPosition === 'function') {
+                this.settings.onPosition(menu, transform, off)
+            }
+            
+    
+            
     
             setTimeout(() => menu.style.transition = ``, 10)
         }
