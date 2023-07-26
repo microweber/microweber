@@ -32,7 +32,7 @@ showMainEditTab: 'mainSettings'
             <livewire:microweber-option::text  placeholder="Example: technology" optionKey="search_string" :optionGroup="$moduleId" :module="$moduleType"  />
         </div>
 
-        <div>
+        <div class="mt-3">
             <label class="live-edit-label">
                 {{_e('Number of items')}}
             </label>
@@ -47,28 +47,28 @@ showMainEditTab: 'mainSettings'
             </h5>
 
 
-            <div>
+            <div class="mt-3">
                 <label class="live-edit-label">
                     {{_e('Consumer Key')}}
                 </label>
                 <livewire:microweber-option::text optionKey="consumer_key" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
-            <div>
+            <div class="mt-3">
                 <label class="live-edit-label">
                     {{_e('Consumer Secret')}}
                 </label>
                 <livewire:microweber-option::text optionKey="consumer_secret" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
-            <div>
+            <div class="mt-3">
                 <label class="live-edit-label">
                     {{_e('Access Token')}}
                 </label>
                 <livewire:microweber-option::text optionKey="access_token" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
-            <div>
+            <div class="mt-3">
                 <label class="live-edit-label">
                     {{_e('Access Token Secret')}}
                 </label>
