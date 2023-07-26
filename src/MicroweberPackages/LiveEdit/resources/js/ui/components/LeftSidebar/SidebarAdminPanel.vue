@@ -1,10 +1,10 @@
 <template>
     <div id="live-edit-sidebar-admin-panel-wrapper" :class="[showSidebarAdminPanel == true ? 'active' : '']">
 
-
-        <iframe v-if="showSidebarAdminPanel" :src="buildIframeUrl()" id="live-edit-sidebar-admin-panel" frameborder="0"
-                allowfullscreen></iframe>
-
+        <div v-if="showSidebarAdminPanel">
+            <iframe :src="buildIframeUrl()" id="live-edit-sidebar-admin-panel-iframe" frameborder="0"
+                    allowfullscreen></iframe>
+        </div>
     </div>
 
 </template>
@@ -85,8 +85,8 @@ export default {
     width: 300px;
     transition: var(--toolbar-height-animation-speed);
     overflow: auto;
-    background-color: var(--tblr-body-bg);
-    border-left: var(--tblr-body-color);
+    /*background-color: var(--tblr-body-bg);*/
+    /*border-left: var(--tblr-body-color);*/
 
     z-index: 100;
 }

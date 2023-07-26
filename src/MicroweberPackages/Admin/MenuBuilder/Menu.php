@@ -5,15 +5,18 @@ namespace MicroweberPackages\Admin\MenuBuilder;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 
-class Menu {
+class Menu
+{
 
     public ItemInterface $menuItems;
     public FactoryInterface $menuFactory;
 
-    public function __construct($name = 'default')
+    public function __construct($name = 'default', array $options = [])
     {
+
         $this->menuFactory = new \Knp\Menu\MenuFactory();
-        $this->menuItems = $this->menuFactory->createItem($name);
+
+        $this->menuItems = $this->menuFactory->createItem($name, $options);
     }
 
     public function addChild($title, $options = [])
@@ -25,6 +28,11 @@ class Menu {
     public function getChild($title)
     {
         return $this->menuItems->getChild($title);
+    }
+
+    public function getItems()
+    {
+        return $this->menuItems->getChildren();
     }
 
     public function render()

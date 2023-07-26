@@ -12,10 +12,11 @@ class LiveEditSidebarAdminComponent extends AdminComponent
         'onLoaded' => 'populateModulesData',
     ];
     public $modulesData = [];
+    public $modulesListKey = 'modulesListKey';
 
     public function populateModulesData($modulesData)
     {
-dd($modulesData);
+
         $this->modulesData = $modulesData;
         $this->emit('onModulesDataPopulated', $modulesData);
         $this->render();
@@ -23,6 +24,7 @@ dd($modulesData);
 
     public function render()
     {
+        $this->modulesListKey = md5(json_encode($this->modulesData));
 
         return view($this->view);
     }

@@ -19,6 +19,7 @@ use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEdi
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorEditItemComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorListComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\LiveEditSidebarAdmin\LiveEditSidebarAdminComponent;
+use MicroweberPackages\LiveEdit\Http\Livewire\LiveEditSidebarAdmin\LiveEditSidebarAdminModulesListComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleTemplateSelectComponent;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingLiveEdit;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingModuleSettings;
@@ -47,6 +48,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
         Livewire::component('microweber-live-edit::module-items-editor-list', ModuleSettingsItemsEditorListComponent::class);
         Livewire::component('microweber-live-edit::module-items-editor-edit-item', ModuleSettingsItemsEditorEditItemComponent::class);
         Livewire::component('microweber-live-edit::sidebar-admin', LiveEditSidebarAdminComponent::class);
+        Livewire::component('microweber-live-edit::sidebar-admin-modules-list', LiveEditSidebarAdminModulesListComponent::class);
 
         Event::listen(ServingLiveEdit::class, [$this, 'registerMenu']);
     }
