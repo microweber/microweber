@@ -61,3 +61,13 @@ body:not(.is_admin) [contenteditable="true"]{
     overflow: auto;
     max-height: calc(100vh - 20px);
 }
+
+
+.mw-prevent-interaction{
+    cursor: default;
+    -webkit-user-select: none; 
+    user-select: none;  
+    * {
+        pointer-events: none !important;
+    }
+}
