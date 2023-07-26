@@ -1,7 +1,7 @@
 @extends('admin::layouts.app')
 
 @section('content')
-<div class="mx-5">
+<div class="mx-sm-5 mx-1">
 
     <div class="position-relative">
         <div class="main-toolbar" id="mw-modules-toolbar">
