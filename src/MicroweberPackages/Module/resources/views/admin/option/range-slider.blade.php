@@ -1,4 +1,7 @@
 <div wire:ignore>
+
+    aaaade:::
+
     <x-microweber-ui::range-slider
 
         label="{{$label}}"

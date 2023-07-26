@@ -14,7 +14,9 @@
         $moduleTypeForLegacyModule = module_name_decode($moduleType);
        // $moduleTypeForLegacyModule = $moduleTypeForLegacyModule.'/admin';
 
+        $moduleFolder = $moduleTypeForComponent;
         $moduleTypeForComponent = str_replace('_', '-', $moduleTypeForComponent);
+
         $hasError = false;
         $output = false;
 
@@ -56,7 +58,7 @@
         @if(livewire_component_exists($livewireComponentName))
                 @livewire($livewireComponentName, [
                     'moduleId' => $moduleId,
-                    'moduleType' => $moduleTypeForComponent,
+                    'moduleType' => $moduleFolder,
                 ])
         @else
 
