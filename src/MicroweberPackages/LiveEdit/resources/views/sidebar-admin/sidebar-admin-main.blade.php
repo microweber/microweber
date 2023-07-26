@@ -91,7 +91,7 @@
             //  var modulesData = getModulesAndAttributes();
             var modulesData = getModulesAndAttributesWithChildren();
 
-            mw.log(modulesData)
+
             Livewire.emit('onLoaded', {
                 modules: modulesData,
             });
@@ -102,7 +102,9 @@
     </script>
     <div>
 
-
+        <div wire:loading>
+            Loading...
+        </div>
         <div id="wrapper-{{ $modulesListKey  }}">
 
             <livewire:microweber-live-edit::sidebar-admin-modules-list :modulesData="$modulesData"

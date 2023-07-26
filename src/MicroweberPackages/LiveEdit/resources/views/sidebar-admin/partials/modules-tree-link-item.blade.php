@@ -3,18 +3,19 @@
     @php
 
         $moduleInfo = module_info($item['data-type']);
+        $moduleName = $moduleInfo['name'];
 
     @endphp
 
     @if($moduleInfo && isset($moduleInfo['name']))
         <div class="mw-admin-action-links" id="sidebar-admin-modules-list-tree-item-{{ $item['id'] }}">
-            <span class="cursor-pointer" onclick="window.scrollToModule('{{ $item['id'] }}')">
+            <span class="cursor-pointer" ondblclick="window.selectModule('{{ $item['id'] }}')" onclick="window.scrollToModule('{{ $item['id'] }}')">
                 <?php if (isset($moduleInfo['icon'])) { ?>
             <img src="<?php print $moduleInfo['icon']; ?>"
                  style="max-width: 20px; max-height: 20px; margin-right: 10px;"/>
             <?php } ?>
 
-                @lang($moduleInfo['name'])
+                @lang($moduleName)
                 </span>
             <span>
 

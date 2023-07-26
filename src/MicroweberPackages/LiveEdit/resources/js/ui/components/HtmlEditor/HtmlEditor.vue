@@ -45,6 +45,18 @@ export default {
                 htmlEditorDialoginstance.markAsRemoved();
             })
 
+
+
+            // new mw.controlBox({
+            //     content: '<div style="overflow: auto"><iframe style="max-height:300px ; width: 100%" src="'+ src + '" /> </div>',
+            //     position:  'bottom',
+            //     id: 'live_edit_side_holder',
+            //     closeButton: true
+            // });
+
+
+
+
         },
         removeHtmlEditor: function () {
 
