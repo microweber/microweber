@@ -12,8 +12,8 @@
     <form wire:submit.prevent="submit" >
 
         <div class="d-flex align-items-center justify-content-between">
-            
-            <x-microweber-ui::button-back  x-on:click="showEditTab = 'main'">
+
+            <x-microweber-ui::button-back x-on:click="showEditTab = 'main'">
                 {!!$backButtonIconSvg!!}
             </x-microweber-ui::button-back>
 
@@ -54,6 +54,8 @@
                         <x-microweber-ui::radio wire:model.defer="itemState.{{ $field['name'] }}"/>
                     @elseif($field['type'] == 'color' )
                         <x-microweber-ui::color-picker wire:model.defer="itemState.{{ $field['name'] }}"/>
+                    @elseif($field['type'] == 'icon' )
+                        <x-microweber-ui::icon-picker wire:model.defer="itemState.{{ $field['name'] }}"/>
                     @elseif($field['type'] == 'date' )
                         <x-microweber-ui::date wire:model.defer="itemState.{{ $field['name'] }}"/>
                     @elseif($field['type'] == 'datetime' )
