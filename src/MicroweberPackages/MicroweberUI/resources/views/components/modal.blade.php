@@ -12,30 +12,41 @@ $maxWidth = [
 @endphp
 
 <!-- Modal -->
-<div
-    x-data="{
+
+<div x-data="{
         show: @entangle($attributes->wire('model')).defer,
     }"
     x-init="() => {
 
-        let el = document.querySelector('#modal-id-{{ $id }}')
-
-        let modal = new bootstrap.Modal(el);
+        let mwDialogComponent = false;
+        let el = document.getElementById('modal-id-{{ $id }}')
 
         $watch('show', value => {
             if (value) {
-                modal.show()
-            } else {
-                modal.hide()
-            }
-        });
+             el.style.display = 'block';
+             mwDialogComponent = mw.top().dialog({
+                content: el,
+                overlay: true,
+                overlayClose: true,
+                onremove: () => {
+                    show = false;
+                },
+             });
+             mwDialogComponent.dialogHeader.style.display = 'none';
+             mwDialogComponent.dialogContainer.style.padding = '0px';
 
-        el.addEventListener('hide.bs.modal', function (event) {
-          show = false
-        })
+            } else {
+               if (mwDialogComponent) {
+                mwDialogComponent.remove();
+              }
+            }
+       });
+
     }"
     wire:ignore.self
-    class="modal fade"
+
+     style="display:none"
+
     tabindex="-1"
     id="modal-id-{{ $id }}"
     aria-labelledby="modal-id-{{ $id }}"
