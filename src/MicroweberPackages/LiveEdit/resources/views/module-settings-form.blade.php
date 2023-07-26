@@ -4,6 +4,7 @@
         @foreach($this->settingsForm as $formItemKey => $formItem)
 
             <div wire:ignore>
+            <div class="mt-3">
                 <label class="live-edit-label">{{$formItem['label']}} </label>
                 @php
                     $attributes = [];
@@ -22,6 +23,7 @@
                 @endphp
 
                 @livewire('microweber-option::'.$formItem['type'], $attributes)
+            </div>
             </div>
 
         @endforeach
