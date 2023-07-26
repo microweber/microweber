@@ -2162,7 +2162,6 @@ svg.text-danger {
     padding: 0 7px;
     color: rgb(90, 90, 90);
     display: block;
-    margin-top: 33px;
     overflow: hidden;
     box-sizing: border-box;
     text-rendering: optimizelegibility;
@@ -2174,7 +2173,6 @@ svg.text-danger {
     line-height: 16px;
     text-overflow: ellipsis;
     margin-bottom: 7px;
-
 }
 
 .form-control-live-edit-label-wrapper {
@@ -2461,3 +2459,8 @@ svg.text-danger {
         pointer-events: none !important;
     }
 }
+
+.mw_modal_live_edit_settings .mw-dialog-header {
+     height: 20px;
+}
+

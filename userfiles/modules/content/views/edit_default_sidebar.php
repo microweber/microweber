@@ -229,7 +229,7 @@
                                   </div>
 
                            <?php else: ?>
-                               <div class="d-flex justify-content-between">
+                               <div class="d-flex justify-content-between flex-wrap">
                                    <strong><?php _e('Categories'); ?></strong>
                                    <script>
                                        function manage_cats_for_add_post() {
