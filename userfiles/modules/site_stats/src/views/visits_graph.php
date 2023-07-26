@@ -52,6 +52,7 @@ if ($params['period']) {
 
     $(document).ready(function () {
         $("[data-stat='<?php print $period ?>']").addClass("active").attr("checked", true);
+        $("[data-stat='<?php print $period ?>']").next().addClass("active").attr("checked", true);
     });
 
     var series = [];
