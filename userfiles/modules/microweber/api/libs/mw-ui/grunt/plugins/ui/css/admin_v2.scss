@@ -2467,3 +2467,8 @@ svg.text-danger {
      height: 20px;
 }
 
+.menu-module-wrapper {
+    .menu, .menu-item-box, .manage-menus {
+        padding: 0 !important;
+    }
+}
