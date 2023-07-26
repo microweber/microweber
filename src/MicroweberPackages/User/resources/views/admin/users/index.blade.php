@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="mx-5">
+    <div class="mx-sm-5 mx-1">
         @livewire('admin::users-list')
     </div>
 

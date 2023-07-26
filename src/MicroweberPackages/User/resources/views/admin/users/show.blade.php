@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    <div class="mx-5">
+    <div class="mx-sm-5 mx-1">
 
         @livewire('admin::edit-user.update-profile-information-form')
         <x-microweber-ui::section-border/>
