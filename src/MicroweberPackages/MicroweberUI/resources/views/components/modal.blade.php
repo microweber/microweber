@@ -43,14 +43,14 @@ $maxWidth = [
        });
 
     }"
+
     wire:ignore.self
 
      style="display:none"
 
     tabindex="-1"
     id="modal-id-{{ $id }}"
-    aria-labelledby="modal-id-{{ $id }}"
-    aria-hidden="true"
+
     x-ref="modal-id-{{ $id }}"
 >
     <div class="modal-dialog{{ $maxWidth }}">
