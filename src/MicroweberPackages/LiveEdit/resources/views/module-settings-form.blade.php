@@ -1,10 +1,5 @@
 <div id="mw-options-save-<?php print md5($this->moduleId) ?>">
 
-    @if(isset($this->moduleTitle) and $this->moduleTitle)
-        <h1 class="font-weight-bold mb-4"><?php print $this->moduleTitle; ?></h1>
-    @endif
-
-
     @php
 
         /**
@@ -20,37 +15,18 @@
         @foreach($this->settingsForm as $formItemKey => $formItem)
 
             <div wire:ignore>
+                <label class="live-edit-label">{{$formItem['label']}} </label>
+                @php
+                    $attributes = [];
+                    if (isset($formItem['attributes'])) {
+                        $attributes = $formItem['attributes'];
+                    }
 
-                @if($formItem['type'] == 'color')
-                    <div class="d-flex justify-content-between mt-4">
-                        <div>
-                            @if(isset($formItem['label']))
-                            <div><b>{{$formItem['label']}}</b></div>
-                            @endif
-                            @if(isset($formItem['help']))
-                            <span class="text-muted">{{$formItem['help']}}</span>
-                            @endif
-                        </div>
-                        <div>
-                            @include('microweber-live-edit::render-input-form-element')
-                        </div>
-                    </div>
-                @else
-                    <div class="mt-4">
-                        <div>
-                            @if(isset($formItem['label']))
-                            <div><b>{{$formItem['label']}}</b></div>
-                            @endif
-                            @if(isset($formItem['help']))
-                            <span class="text-muted">{{$formItem['help']}}</span>
-                            @endif
-                        </div>
-                        <div>
-                            @include('microweber-live-edit::render-input-form-element')
-                        </div>
-                    </div>
-                @endif
-
+                    if (isset($formItem['options'])) {
+                        $attributes['dropdownOptions'] = $formItem['options'];
+                    }
+                @endphp
+                @livewire('microweber-option::'.$formItem['type'], $attributes)
             </div>
 
         @endforeach

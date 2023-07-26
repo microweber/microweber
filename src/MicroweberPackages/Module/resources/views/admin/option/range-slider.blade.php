@@ -7,7 +7,11 @@
         max="{{$max}}"
 
         wire:model.debounce.100ms="state.settings.{{ $this->optionKey }}"
-        selectedRange="{{$this->state['settings'][$this->optionKey]}}"
+
+        @if(isset($this->state['settings']))
+            selectedRange="{{$this->state['settings'][$this->optionKey]}}"
+        @endif
 
     />
+
 </div>

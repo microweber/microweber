@@ -34,7 +34,7 @@ class GoogleMapsSettingsComponent extends ModuleSettingsFormComponent
             'placeholder' => '10001',
         ],
         'data-zoom' => [
-            'type' => 'range',
+            'type' => 'range-slider',
             'label' => 'Zoom',
             'help' => 'Enter zoom level (1-10)',
             'attributes' => [
@@ -45,7 +45,7 @@ class GoogleMapsSettingsComponent extends ModuleSettingsFormComponent
             'placeholder' => 'Enter zoom',
         ],
         'data-map-type' => [
-            'type' => 'select',
+            'type' => 'dropdown',
             'label' => 'Map type',
             'help' => 'Enter enter map type',
             'options' => [
