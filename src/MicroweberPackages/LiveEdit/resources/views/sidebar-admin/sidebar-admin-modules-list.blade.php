@@ -23,6 +23,9 @@
         .sidebar-admin-modules-list-tree-wrapper ul {
             list-style: none;
         }
+        .sidebar-admin-modules-list-tree-wrapper ul li.first {
+            text-decoration: none !important;
+          }
     </style>
 
 
