@@ -25,7 +25,37 @@ showMainEditTab: 'mainSettings'
                 'placeholder' => 'Slide Heading',
                 'help' => 'Slide Heading',
             ],
+            [
+                'type' => 'icon-picker',
+                'label' => 'Icon',
+                'name' => 'icon',
+                'placeholder' => 'Icon',
+                'help' => 'Icon',
+            ],
 
+             [
+                'type' => 'text',
+                'label' => 'Slide Description',
+                'name' => 'secondaryText',
+                'placeholder' => 'Slide Description',
+                'help' => 'Slide Description',
+            ],
+
+            [
+                'type' => 'text',
+                'label' => 'Url',
+                'name' => 'url',
+                'placeholder' => 'Url',
+                'help' => 'Url',
+            ],
+            [
+                'type' => 'text',
+                'label' => 'See More Text',
+                'name' => 'seemoreText',
+                'placeholder' => 'See More Text',
+                'help' => 'See More Text',
+            ],
+            
         ]
     ];
 
