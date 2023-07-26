@@ -26,7 +26,7 @@ showMainEditTab: 'mainSettings'
                 'help' => 'Slide Heading',
             ],
             [
-                'type' => 'icon-picker',
+                'type' => 'icon',
                 'label' => 'Icon',
                 'name' => 'icon',
                 'placeholder' => 'Icon',
