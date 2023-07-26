@@ -7,7 +7,7 @@
     @endphp
 
     @if($moduleInfo && isset($moduleInfo['name']))
-        <div id="sidebar-admin-modules-list-tree-item-{{ $item['id'] }}">
+        <div class="mw-admin-action-links" id="sidebar-admin-modules-list-tree-item-{{ $item['id'] }}">
             <span class="cursor-pointer" onclick="window.scrollToModule('{{ $item['id'] }}')">
                 <?php if (isset($moduleInfo['icon'])) { ?>
             <img src="<?php print $moduleInfo['icon']; ?>"

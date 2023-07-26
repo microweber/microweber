@@ -2,11 +2,11 @@
 
     <div class="card-body col-xl-12 mx-auto mb-3">
         <div class="card-header d-flex flex-wrap col-12 align-items-center justify-content-between">
-            <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
-                <h1 class="main-pages-title mb-0">{{_e('Orders')}}</h1>
+            <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0 d-md-block d-none">
+                <h1 class="main-pages-title mb-0 ">{{_e('Orders')}}</h1>
             </div>
 
-            <div class="my-lg-0 my-3 me-md-3">
+            <div class="col-auto my-lg-0 my-3 me-md-3 col-lg-5 ms-auto">
                 @include('order::admin.orders.livewire.components.keyword')
             </div>
 
