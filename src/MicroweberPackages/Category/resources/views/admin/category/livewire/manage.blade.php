@@ -34,7 +34,7 @@ if ($isShop){
     <div class="card-body mb-3">
         <div class="card-header d-flex flex-wrap align-items-center justify-content-between mb-5">
 
-               <h1 class="main-pages-title mb-0">
+               <h1 class="main-pages-title mb-0 d-md-block d-none">
                    <?php _e("Categories"); ?>
                    <label class="form-label">
                        <?php if ($isShop): ?>
@@ -45,7 +45,7 @@ if ($isShop){
                    </label>
                </h1>
 
-            <div class="input-icon col-xl-5 col-sm-5 col-12  text-lg-center text-start my-sm-0 mt-5 mb-3">
+            <div class="input-icon col-xl-5 col-sm-5 col  text-lg-center text-start me-sm-0 me-2">
                 <input type="text" value="" class="form-control" placeholder="Search" id="category-tree-search">
                 <span class="input-icon-addon">
 
@@ -53,19 +53,19 @@ if ($isShop){
                 </span>
             </div>
 
-            <div class="js-hide-when-no-items">
+            <div class="js-hide-when-no-items col-auto">
                 <div class="d-flex align-items-center">
                     <?php if (user_can_access('module.categories.edit')): ?>
                     <?php if ($isShop): ?>
                     <a href="<?php echo $createRoute; ?>" class="btn btn-dark">
-                        <svg fill="currentColor" class="me-1" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
+                        <svg fill="currentColor" class="me-sm-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
 
-                        <?php _e("New Category"); ?></a>
+                        <span class="d-sm-block d-none">  <?php _e("New Category"); ?></a></span>
                     <?php else: ?>
                     <a href="<?php echo $createRoute; ?>" class="btn btn-dark">
-                        <svg fill="currentColor" class="me-1" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
+                        <svg fill="currentColor" class="me-sm-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
 
-                        <?php _e("New Category"); ?></a>
+                        <span class="d-sm-block d-none">  <?php _e("New Category"); ?></a></span>
                     <?php endif; ?>
                     <?php endif; ?>
                 </div>

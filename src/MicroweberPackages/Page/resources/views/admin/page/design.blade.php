@@ -48,7 +48,7 @@
                         {{ 'Version' }} : {{$templateVersion}}
                        </a>
 
-                        <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center flex-wrap gap-3">
                             <a class="tblr-body-color font-weight-bold text-decoration-none mw-admin-action-links btn btn-link fs-3" href="{{admin_url('settings?group=general')}}">
 
                                 <svg fill="currentColor" class="me-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/></svg>
@@ -98,7 +98,7 @@
                                   </select>
                               </div>
 
-                               <div class="col-xl-9 text-end mw-design-page-prev-next-buttons-wrapper">
+                               <div class="col-xl-9 text-end mw-design-page-prev-next-buttons-wrapper mt-md-0 mt-3 mx-md-0 mx-auto">
 
                                    <button type="button" class="js-previous-layout mw-design-page-prev-next-buttons btn btn-link me-2 tblr-body-color" data-bs-toggle="tooltip" aria-label="{{ _e("Previous") }}" data-bs-original-title="{{ _e("Previous") }}">
 
