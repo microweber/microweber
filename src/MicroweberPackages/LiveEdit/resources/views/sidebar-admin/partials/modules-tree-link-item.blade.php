@@ -7,8 +7,8 @@
     @endphp
 
     @if($moduleInfo && isset($moduleInfo['name']))
-        <div id="admin-tree-list-item-{{ $item['id'] }}">
-            <span onclick="window.scrollToModule('{{ $item['id'] }}')">
+        <div id="sidebar-admin-modules-list-tree-item-{{ $item['id'] }}">
+            <span class="cursor-pointer" onclick="window.scrollToModule('{{ $item['id'] }}')">
                 <?php if (isset($moduleInfo['icon'])) { ?>
             <img src="<?php print $moduleInfo['icon']; ?>"
                  style="max-width: 20px; max-height: 20px; margin-right: 10px;"/>
