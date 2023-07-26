@@ -24,8 +24,8 @@
                                                  <h6 class="dropdown-header">{{ $dropdownFilterGroup['groupName']  }}</h6>
                                                 @foreach($dropdownFilterGroup['filters'] as $dropdownFilter)
                                                     <div class="dropdown-item">
-                                                         <label class=" form-check form-check-inline">
-                                                            <input class="form-check-input" type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}" checked="">
+                                                         <label class=" form-check form-check-inline mb-0">
+                                                            <input class="form-check-input me-2" type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}" checked="">
                                                              <span class="form-check-label">{{ $dropdownFilter['name'] }}</span>
                                                         </label>
                                                     </div>
