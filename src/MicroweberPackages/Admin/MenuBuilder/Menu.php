@@ -11,6 +11,8 @@ class Menu
     public ItemInterface $menuItems;
     public FactoryInterface $menuFactory;
 
+    public $rendererOptions = [];
+
     public function __construct($name = 'default', array $options = [])
     {
 
@@ -34,10 +36,17 @@ class Menu
     {
         return $this->menuItems->getChildren();
     }
+    public function setRendererOptions($options)
+    {
+        $this->rendererOptions = $options;
+        return $this;
+    }
 
     public function render()
     {
-        $renderer = new \Knp\Menu\Renderer\ListRenderer(new \Knp\Menu\Matcher\Matcher());
+        $rendererOptions = $this->rendererOptions;
+
+        $renderer = new \Knp\Menu\Renderer\ListRenderer(new \Knp\Menu\Matcher\Matcher(), $rendererOptions);
         return $renderer->render($this->menuItems);
     }
 
