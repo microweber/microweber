@@ -136,9 +136,9 @@ if (isset($params['content_id'])) {
                     <?php } ?>
 
 
-                    <a class="text-decoration-none cursor-pointer "
+                    <a class="text-decoration-none cursor-pointer tblr-body-color ms-2"
                        href="javascript:mw.accordion('#accordion-example<?php print $item['id'] ?>');"><span
-                                class="mdi mdi-note-text-outline"></span></a>
+                                class="mdi mdi-note-text-outline fs-3"></span></a>
 
 
                 </div>
