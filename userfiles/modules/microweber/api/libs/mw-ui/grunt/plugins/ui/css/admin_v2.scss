@@ -1827,22 +1827,24 @@ svg.text-danger {
 
 }
 
-#pages-tree-wrapper:not(.active) .mw-admin-toggle-tree-navigation{
-    margin-left: 0;
-    left: 0;
-    transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);
-    svg{
-        transform: rotate(0deg);
-    }
-}
-
 #pages-tree-wrapper.active .mw-admin-toggle-tree-navigation {
     margin-left: 2px !important;
+
 }
+
 
 .mw-iframe-admin{
     #pages-tree-wrapper.active .mw-admin-toggle-tree-navigation {
         margin-left: 11px !important;
+    }
+
+    #pages-tree-wrapper:not(.active) .mw-admin-toggle-tree-navigation{
+        margin-left: 0;
+        left: 0;
+        transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);
+        svg{
+            transform: rotate(0deg);
+        }
     }
 
     .manage-content-body {
