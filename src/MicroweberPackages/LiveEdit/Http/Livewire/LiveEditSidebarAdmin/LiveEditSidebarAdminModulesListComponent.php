@@ -44,16 +44,17 @@ class LiveEditSidebarAdminModulesListComponent extends AdminComponent
     {
 
 
-        $mwMenu = new \MicroweberPackages\Admin\MenuBuilder\Menu('SIDEBAR_ADMIN_MODULES_TREE', [
-            'childrenAttributes' => [
-                'class' => 'list-group'
-            ], 'attributes' => [
-                'class' => 'list-group'
-            ]
-        ]);
+        $options =
+            [
+                'allow_safe_labels' => true,
+            ];
+
+        $mwMenu = new \MicroweberPackages\Admin\MenuBuilder\Menu('SIDEBAR_ADMIN_MODULES_TREE', $options);
+        $mwMenu->setRendererOptions($options);
+
         // Recursively add child items to the menu
         $this->addChildItems($mwMenu, $recursiveArray);
-         $this->modulesMenuRender = $mwMenu->render();
+        $this->modulesMenuRender = $mwMenu->render();
     }
 
     private function addChildItems($parentMenu, $items)
@@ -66,12 +67,15 @@ class LiveEditSidebarAdminModulesListComponent extends AdminComponent
                 $title = isset($item['id']) ? $item['id'] : '';
             }
 
-            $uri= 'javascript:window.selectModule("'.$item['id'].'")';
-
+            $uri = 'javascript:window.selectModule("' . $item['id'] . '")';
+            $content = view('microweber-live-edit::sidebar-admin.partials.modules-tree-link-item', ['item' => $item])->render();
             $itemOptions = [
-                'uri' => $uri,
-                'label' => $title,
+                //  'uri' => $uri,
+                'label' => $content,
                 'attributes' => $attributes,
+                'extras' => [
+                    'safe_label' => true, // This prevents the HTML from being escaped
+                ],
             ];
             if (empty($item['childModules'])) {
                 $itemOptions['attributes']['class'] = 'list-group-item';
@@ -86,6 +90,10 @@ class LiveEditSidebarAdminModulesListComponent extends AdminComponent
                 $childs = [];
                 foreach ($item['childModules'] as $childModule) {
                     $childModule['attributes']['class'] = 'list-group-item';
+                    $childModule['extras'] = [
+                        'safe_label' => true, // This prevents the HTML from being escaped
+
+                    ];
                     $childs[] = $childModule;
                 }
 

@@ -4,8 +4,14 @@
     window.selectModule = function ($moduleId){
         var liveEditIframeWindow = mw.top().app.canvas.getWindow();
         var firstModule = liveEditIframeWindow.document.getElementById($moduleId);
-        liveEditIframeWindow.mw.tools.scrollTo(firstModule);
+        window.scrollToModule($moduleId);
         mw.top().app.editor.dispatch('onModuleSettingsRequest', firstModule);
+    }
+
+    window.scrollToModule = function ($moduleId){
+        var liveEditIframeWindow = mw.top().app.canvas.getWindow();
+        var firstModule = liveEditIframeWindow.document.getElementById($moduleId);
+        liveEditIframeWindow.mw.tools.scrollTo(firstModule,100);
     }
 </script>
 

@@ -12,7 +12,7 @@
 
                     @include('content::admin.content.livewire.card-header')
 
-                    <div class="ms-md-4 me-lg-0 me-4 input-icon col-lg-5 col-sm-6 col-9  ">
+                    <div class="col-lg-5 col-sm-6 col ms-md-4 me-lg-0 me-4 input-icon">
                         <div class="input-group input-group-flat ">
                             <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
                             <span class="input-group-text">
@@ -39,23 +39,23 @@
                     </div>
 
 
-                    <div class="col-sm-3 col-12 mt-sm-0 mt-2 text-sm-end text-center d-flex justify-content-sm-end justify-content-center">
+                    <div class="col-sm-3 col-auto mt-sm-0 text-sm-end text-center d-flex justify-content-sm-end justify-content-center">
                         @if($this->contentType == 'page')
                         <a href="{{route('admin.page.create')}}" class="btn btn-dark">
-                            <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
-                            {{_e("New Page")}}
+                            <svg fill="currentColor" class="me-sm-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
+                            <span class="d-sm-block d-none">{{_e("New Page")}}</span>
                         </a>
                         @endif
                         @if($this->contentType == 'post')
                             <a href="{{route('admin.post.create')}}" class="btn btn-dark">
-                                <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
-                                {{_e("New Post")}}
+                                <svg fill="currentColor" class="me-sm-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
+                                <span class="d-sm-block d-none">{{_e("New Post")}}</span>
                             </a>
                         @endif
                         @if($this->contentType == 'product')
                             <a href="{{route('admin.product.create')}}" class="btn btn-dark">
-                               <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
-                                {{_e("New Product")}}
+                               <svg fill="currentColor" class="me-sm-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
+                                <span class="d-sm-block d-none">{{_e("New Product")}}</span>
                             </a>
                         @endif
                     </div>
