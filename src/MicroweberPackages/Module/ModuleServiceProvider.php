@@ -29,6 +29,7 @@ use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\FontPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\IconPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\LinkPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\MediaPickerOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\NumericOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\RadioModernOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\RadioOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\CheckboxOption;
@@ -100,6 +101,7 @@ class ModuleServiceProvider extends ServiceProvider
         Livewire::component('microweber-module-option::checkbox', CheckboxOption::class);
 
         Livewire::component('microweber-option::text', TextOption::class);
+        Livewire::component('microweber-option::numeric', NumericOption::class);
         Livewire::component('microweber-option::textarea', TextareaOption::class);
         Livewire::component('microweber-option::file-picker', FilePickerOption::class);
         Livewire::component('microweber-option::font-picker', FontPickerOption::class);
