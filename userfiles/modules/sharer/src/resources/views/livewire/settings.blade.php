@@ -57,7 +57,33 @@ showMainEditTab: 'mainSettings'
 
     <div x-show="showMainEditTab=='mainSettings'" x-transition:enter="tab-pane-slide-left-active">
 
-        
+        <div class="mt-3">
+            <p>
+                {{_e("Select socials networks you want to share")}}
+            </p>
+        </div>
+
+        @foreach(getSharerSocialNetworks() as $socialNetwork=>$socialNetworkData)
+            @php
+                $socialNetworkOptionKeyEnable = $socialNetwork . '_enabled';
+                $socialNetworkIsEnabled = get_option($socialNetworkOptionKeyEnable, $this->moduleId);
+            @endphp
+            <div class="form-check my-3">
+                <div class="d-flex flex-wrap align-items-center">
+                    <div @mw-option-saved.window="function() {
+                            mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '{{$this->moduleId}}'} || {}))
+                        }" class="d-flex col-xl-3 col-md-6 col-12">
+
+                        <livewire:microweber-option::toggle value="y" :optionKey="$socialNetworkOptionKeyEnable" :optionGroup="$moduleId" module="social_links" />
+                        <div>
+                            <label class="form-check-label d-flex align-items-center" for="{{$socialNetworkOptionKeyEnable}}">
+                                <i class="mdi {{$socialNetworkData['icon']}} mdi-20px lh-1_0 me-1"></i> {{ucwords($socialNetwork)}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
     </div>
 
