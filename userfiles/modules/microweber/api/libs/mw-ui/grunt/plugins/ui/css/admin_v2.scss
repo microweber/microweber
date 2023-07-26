@@ -2453,3 +2453,11 @@ svg.text-danger {
     }
 }
 
+
+
+.mw-prevent-interaction{
+    cursor: default;
+    * {
+        pointer-events: none !important;
+    }
+}
