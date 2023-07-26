@@ -1,12 +1,5 @@
 <div id="mw-options-save-<?php print md5($this->moduleId) ?>">
 
-    @php
-        /**
-         * @var \MicroweberPackages\FormBuilder\FormElementBuilder $formBuilder
-         */
-        $formBuilder = app()->make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
-    @endphp
-
     @if($this->settingsForm)
         @foreach($this->settingsForm as $formItemKey => $formItem)
 
@@ -21,7 +14,13 @@
                     if (isset($formItem['options'])) {
                         $attributes['dropdownOptions'] = $formItem['options'];
                     }
+
+                    $attributes['optionKey'] = $formItemKey;
+                    $attributes['optionGroup'] = $this->moduleId;
+                    $attributes['module'] = $this->moduleType;
+
                 @endphp
+
                 @livewire('microweber-option::'.$formItem['type'], $attributes)
             </div>
 
