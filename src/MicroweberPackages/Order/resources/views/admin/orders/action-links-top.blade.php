@@ -1,4 +1,4 @@
-<div class="col-auto d-flex justify-content-md-end justify-content-end px-0 ms-md-0 ms-3">
+<div class="col-auto d-flex px-0 ms-auto">
     <a href="{{route('admin.order.abandoned')}}" class="btn btn-outline-dark me-2">
         {{_e('Abandoned')}} <span class="d-sm-block d-none ms-sm-1">{{_e('Carts')}}</span>
     </a>
