@@ -177,7 +177,8 @@ export default {
                 //  height: 600,
                 height: 'auto',
                 autoHeight: true,
-                overlay: false
+                overlay: false,
+
             });
 
             this.contentRevisionsDialogInstance = dlg;

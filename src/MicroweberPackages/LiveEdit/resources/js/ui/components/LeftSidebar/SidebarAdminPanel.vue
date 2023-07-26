@@ -2,8 +2,11 @@
     <div id="live-edit-sidebar-admin-panel-wrapper" :class="[showSidebarAdminPanel == true ? 'active' : '']">
 
         <div v-if="showSidebarAdminPanel">
-            <iframe :src="buildIframeUrl()" id="live-edit-sidebar-admin-panel-iframe" frameborder="0"
+
+            <iframe :src="buildIframeUrl()" id="live-edit-sidebar-admin-panel-iframe"
+                    frameborder="0"
                     allowfullscreen></iframe>
+
         </div>
     </div>
 
