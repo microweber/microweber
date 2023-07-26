@@ -98,7 +98,7 @@
                                   </select>
                               </div>
 
-                               <div class="col-xl-9 text-end mw-design-page-prev-next-buttons-wrapper">
+                               <div class="col-xl-9 text-end mw-design-page-prev-next-buttons-wrapper mt-md-0 mt-3 mx-md-0 mx-auto">
 
                                    <button type="button" class="js-previous-layout mw-design-page-prev-next-buttons btn btn-link me-2 tblr-body-color" data-bs-toggle="tooltip" aria-label="{{ _e("Previous") }}" data-bs-original-title="{{ _e("Previous") }}">
 
