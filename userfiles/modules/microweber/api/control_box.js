@@ -23,6 +23,17 @@ mw.controlBox = function(options){
         document.body.appendChild(this.box);
     };
 
+
+    this.position = function(position) {
+        if(typeof position === 'undefined') {
+            return this.settings.position
+        }
+        this.box.classList.remove('mw-control-box-' + this.settings.position);
+        this.settings.position = position;
+        this.box.classList.add('mw-control-box-' + this.settings.position);
+        return this.settings.position;
+    }
+
     this.createCloseButton = function () {
         if(!this.options.closeButton) return;
         this.closeButton = document.createElement('span');

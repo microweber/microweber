@@ -1,4 +1,5 @@
-<aside class="navbar navbar-vertical navbar-expand-xl admin-dashboard-left-nav p-3">
+ <aside class="navbar navbar-vertical navbar-expand-xl admin-dashboard-left-nav p-3" id="admin-sidebar">  
+ 
 
     <div class="container-fluid" id="sidebar-menu">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,6 +81,18 @@
             }
         };
         $(document).ready(function () {
+
+            $("#admin-sidebar").resizable({
+                maxWidth: 550,
+                handles: 'e',
+                minWidth: 200,
+                resize: function(e, ui) {
+                   
+                        $('#pages-tree-container').css('transition', 'none')
+                        $('#pages-tree-container').width(ui.size.width - 20)
+                        $('#pages-tree-container').css('transition', '')
+                }
+            })
 
 
 

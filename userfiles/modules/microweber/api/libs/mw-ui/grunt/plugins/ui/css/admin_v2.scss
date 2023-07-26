@@ -1872,7 +1872,7 @@ svg.text-danger {
 
 .mw-admin-toggle-tree-navigation{
     position:absolute;
-    left: 240px;
+    left: 100%;
 
     top:50%;
     transform: translateY(-50%);
@@ -2463,5 +2463,33 @@ svg.text-danger {
 
 .mw_modal_live_edit_settings .mw-dialog-header {
      height: 20px;
+}
+
+
+#mw-admin-container .page{
+    display: flex;
+    flex-direction: row;
+}
+
+#admin-side-content{
+    margin-inline: 0;
+}
+
+#admin-sidebar .navbar-brand img{
+    width: 200px;
+}
+#admin-sidebar{
+    width: 240px;
+ 
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: auto;
+
+    z-index: 1030;
+    align-items: flex-start;
+    transition: transform .3s;
+    overflow-y: scroll;
+    padding: 0;
 }
 
