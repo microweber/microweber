@@ -13,7 +13,7 @@
     .main .tree {
         display: block;
     }
- 
+
     #pages-tree-container{
         max-width: 600px;
         border-top-right-radius:0px;
@@ -22,7 +22,7 @@
 
     }
     #pages-tree-wrapper.active #pages-tree-container{
-        
+
         transform: translateX(0)
     }
 
@@ -48,7 +48,7 @@
 <button type="button" class="mw-admin-toggle-tree-navigation">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
     </button>
-<div class="card m-3 p-3" id="pages-tree-container" >
+<div class="card p-2" id="pages-tree-container" >
 
 
 

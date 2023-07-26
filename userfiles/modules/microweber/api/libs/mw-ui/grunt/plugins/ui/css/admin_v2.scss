@@ -1836,13 +1836,14 @@ svg.text-danger {
     }
 }
 
+#pages-tree-wrapper.active .mw-admin-toggle-tree-navigation {
+    margin-left: 2px !important;
+}
+
 .mw-iframe-admin{
-
-
     #pages-tree-wrapper.active .mw-admin-toggle-tree-navigation {
         margin-left: 11px !important;
     }
-
 
     .manage-content-body {
         padding: 10px !important;
