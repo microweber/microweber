@@ -12,14 +12,11 @@
     <form wire:submit.prevent="submit" >
 
         <div class="d-flex align-items-center justify-content-between">
+            
             <x-microweber-ui::button-back  x-on:click="showEditTab = 'main'">
                 {!!$backButtonIconSvg!!}
             </x-microweber-ui::button-back>
 
-            <div class="me-3">
-                <x-microweber-ui::button-animation  type="submit">@lang('Save')</x-microweber-ui::button-animation>
-
-            </div>
         </div>
 
 

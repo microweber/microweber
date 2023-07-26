@@ -55,7 +55,7 @@ showMainEditTab: 'mainSettings'
                 'placeholder' => 'See More Text',
                 'help' => 'See More Text',
             ],
-            
+
         ]
     ];
 
