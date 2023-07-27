@@ -2532,3 +2532,18 @@ svg.text-danger {
         padding-bottom: 30px;
     }
 }
+
+.js-apply-template {
+
+    margin-bottom: 20px !important;
+
+    .live-edit-label {
+        padding: 5px;
+    }
+
+    &:hover {
+        text-decoration: none;
+        cursor: pointer;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+}
