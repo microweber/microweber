@@ -6,7 +6,8 @@
                     <h5 class="mw-modal-title">Feed Exporting</h5>
                     <button type="button" class="btn btn-link" wire:click="$emit('closeModal')">Close</button>
                 </div>
-                <div class="mw-modal-body"> 
+                <div class="mw-modal-body">
+
                     <div>
 
                         @if($error)

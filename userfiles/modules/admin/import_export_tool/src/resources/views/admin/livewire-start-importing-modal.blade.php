@@ -1,11 +1,13 @@
 <div>
-
-    <div class="modal-header">
-        <h5 class="modal-title">Feed Importing</h5>
-        <button type="button" class="btn btn-link" wire:click="$emit('closeModal')">Close</button>
-    </div>
-    <div class="modal-body">
-        <div>
+    <div class="mw-modal">
+        <div class="mw-modal-dialog" role="document">
+            <div class="mw-modal-content">
+                <div class="mw-modal-header">
+                    <h5 class="mw-modal-title">Feed Importing</h5>
+                    <button type="button" class="btn btn-link" wire:click="$emit('closeModal')">Close</button>
+                </div>
+                <div class="mw-modal-body">
+                    <div>
 
             @if($error)
 
@@ -66,4 +68,7 @@
     <div class="modal-footer">
     </div>
 
+</div>
+</div>
+</div>
 </div>
