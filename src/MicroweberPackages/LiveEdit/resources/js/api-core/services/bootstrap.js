@@ -39,6 +39,14 @@ mw.app = new MWUniversalContainer();
 
 //mw.app.register('commands', Commands);
 
+mw.app.domTreeSelect = function(node) {
+    if(!mw.top().app._liveEditDomTree) {
+        return;
+    }
+
+    mw.top().app._liveEditDomTree.select(node)
+}
+
 
 //}, 300);
 

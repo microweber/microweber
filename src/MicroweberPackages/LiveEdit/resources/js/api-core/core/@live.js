@@ -174,6 +174,8 @@ export class LiveEdit {
             scope.handles.get('layout').hide();
             scope.handles.get('interactionHandle').hide();
 
+            mw.app.domTreeSelect(target)
+
 
         });
 
@@ -230,6 +232,8 @@ export class LiveEdit {
             scope.handles.set('interactionHandle', null);
             scope.handles.get('layout').hide();
             scope.handles.get('interactionHandle').hide();
+
+            mw.app.domTreeSelect(node)
         });
 
         this.layoutHandle = new Handle({
@@ -254,7 +258,6 @@ export class LiveEdit {
         layoutHandle.on('targetChange', function (target) {
             scope.getLayoutQuickSettings(target.dataset.type).then(function (settings) {
 
-
                 mw.app.liveEdit.layoutHandleContent.menu.setMenu('dynamic', settings)
 
             });
@@ -269,6 +272,7 @@ export class LiveEdit {
                 layoutHandleContent.plusTop.hide()
                 layoutHandleContent.plusBottom.hide()
             }
+            mw.app.domTreeSelect(target)
         });
 
         layoutHandleContent.handle = layoutHandle;
@@ -317,19 +321,26 @@ export class LiveEdit {
 
 
 
+ 
+
          
         if(target.nodeName === 'BODY') {
+            
+            return
+        }
+ 
+
+        if (this.handles.targetIsOrInsideHandle(target )) {
+ 
+   
+            // this.handles.hide();
+           //  this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
             return
         }
 
+ 
 
-        if (this.handles.targetIsOrInsideHandle(target, this.handles.get('layout'))) {
-            // this.handles.get('element').set(null)
-            // this.handles.get('module').set(null)
-            this.handles.hide();
-            this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
-            return
-        }
+ 
 
         this.activeNode = target;
 
@@ -378,7 +389,7 @@ export class LiveEdit {
         this.handles.hide();
 
 
-
+        console.log(4)
 
 
 
@@ -472,6 +483,7 @@ export class LiveEdit {
 
 
             var target = e.target ? e.target : e;
+            console.log(target)
 
             if (target && target.className && typeof target.className === 'string' && target.className.indexOf('layout-plus') !== -1) {
                 return;
@@ -685,11 +697,33 @@ export class LiveEdit {
             if (!this.paused) {
                 _eventsHandle(e)
             } else {
+
+                if (this.handles.targetIsOrInsideHandle(e.target )) {
+ 
+   
+                    // this.handles.hide();
+                   //  this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
+                    return
+                }
+
+
                 var elementTarget = this.elementHandle.getTarget();
-                if (elementTarget && !elementTarget.contains(e.target)) {
+
+               
+ 
+                
+               
+                console.log(elementTarget)
+
+                if (!elementTarget || (elementTarget && !elementTarget.contains(e.target))) {
                     this.play();
+                    this.handles.get('element').set(null);
+                    this.handles.get('module').set(null);
+                    mw.app.canvas.getDocument().querySelectorAll('[contenteditable="true"]').forEach(node => node.contentEditable = false)
 
                 }
+                 
+    
                 // mw.app.get('liveEdit').play();
             }
         });

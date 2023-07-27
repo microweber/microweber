@@ -142,6 +142,8 @@ only_admin_access();
 
 
 
+
+
              var liveEditDomTree = new mw.DomTree({
                 element: '#domtree',
                 resizable: true,
@@ -160,12 +162,11 @@ only_admin_access();
                 },
                 onSelect: function (e, target, node, element) {
                     setTimeout(function () {
-                        if (typeof targetMw !== 'undefined') {
-                            //    targetMw.liveEditSelector.select(node);
-                           // targetMw.liveEditSelector.select(node);
 
-                             mw.log('onSelectonSelectonSelectonSelectonSelect')
-                             mw.log(node)
+
+                        console.log(targetMw)
+                        if (typeof targetMw !== 'undefined') {
+        
                             mw.top().app.liveEdit.selectNode(node);
 
                             mw.tools.scrollTo(node, undefined, 200);
@@ -173,6 +174,10 @@ only_admin_access();
                     }, 100);
                 }
             });
+
+      
+
+            mw.top().app._liveEditDomTree = liveEditDomTree
         }, 700);
 
        $('.rte_css_editor_svg').each(function (img){
