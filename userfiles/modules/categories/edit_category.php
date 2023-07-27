@@ -420,19 +420,18 @@ if (isset($_GET['rel_id'])) {
 
                                         <?php
                                         $categoryNamePlaceholder = 'Category name';
-                                        $htmlCategoryTitlePrepend = '
-                                              <div class="input-group-prepend">
-                                             <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
-                                             </div>';
+                                        $htmlCategoryTitlePrepend = '';
+
+
 
                                         if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0) {
                                             $categoryNamePlaceholder = 'Subcategory Name';
                                         } else {
                                             if (isset($data['parent_id']) and $data['parent_id'] > 0) {
                                                 $htmlCategoryTitlePrepend = '
-                                            <div class="input-group-prepend">
-                                                 <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
-                                             </div>';
+                                                <div class="input-group-prepend">
+                                                     <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
+                                                 </div>';
                                             }
                                         }
 
