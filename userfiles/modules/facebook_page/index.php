@@ -22,7 +22,7 @@
     }
 
     if (get_option('friends', $params['id'])) {
-        if (get_option('friends', $params['id']) == 'true') {
+        if (get_option('friends', $params['id']) == 1) {
             $friends = 'true';
         } else {
             $friends = 'false';
@@ -32,7 +32,7 @@
     }
 
     if (get_option('timeline', $params['id'])) {
-        if (get_option('timeline', $params['id']) == 'true') {
+        if (get_option('timeline', $params['id']) == 1) {
             $timeline = '&tabs=timeline';
         } else {
             $timeline = '';

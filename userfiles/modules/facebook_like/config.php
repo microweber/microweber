@@ -9,3 +9,16 @@ $config['categories'] = "social";
 $config['version'] = 0.06;
 $config['position'] = 10;
 
+
+$config['settings'] = [];
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\Modules\FacebookLike'
+    ],
+];
+
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\FacebookLike\Providers\FacebookLikeServiceProvider::class
+];
+
