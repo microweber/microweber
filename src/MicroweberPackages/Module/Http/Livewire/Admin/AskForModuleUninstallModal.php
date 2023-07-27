@@ -9,6 +9,13 @@ class AskForModuleUninstallModal extends AdminModalComponent
     public $moduleId = '';
     public $moduleData = [];
 
+    public $modalSettings = [
+        'width'=>'400px',
+        'overlay' => true,
+        'overlayClose' => true,
+    ];
+
+
     public function confirm()
     {
         $findModule = \MicroweberPackages\Module\Models\Module::where('id', $this->moduleId)->first();

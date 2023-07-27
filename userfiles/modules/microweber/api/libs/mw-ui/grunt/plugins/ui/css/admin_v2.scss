@@ -2497,7 +2497,7 @@ svg.text-danger {
 }
 #admin-sidebar{
     width: 240px;
- 
+
     position: sticky;
     top: 0;
     height: 100vh;
@@ -2510,3 +2510,40 @@ svg.text-danger {
     padding: 0;
 }
 
+.mw-modal {
+    padding: 20px 20px 10px 20px;
+    position: relative;
+
+    .mw-modal-title {
+        font-weight: bold;
+        font-size: 18px;
+        color: var(--tblr-body-color);
+    }
+
+    .btn-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+
+    .mw-modal-body {
+
+        padding: 20px 0;
+        padding-bottom: 30px;
+    }
+}
+
+.js-apply-template {
+
+    margin-bottom: 20px !important;
+
+    .live-edit-label {
+        padding: 5px;
+    }
+
+    &:hover {
+        text-decoration: none;
+        cursor: pointer;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+}
