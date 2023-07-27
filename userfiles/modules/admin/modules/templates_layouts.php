@@ -156,9 +156,9 @@ $current_template = false;
 
             <script type="text/javascript">
 
-                    $(document).ready(function () {
-                        template_select_set_modal_title('<?php _ejs($current_template['name']) ?>')
-                    });
+                $(document).ready(function () {
+                    template_select_set_modal_title('<?php _ejs($current_template['name']) ?>')
+                });
 
             </script>
 
@@ -180,7 +180,7 @@ $current_template = false;
 
                         if (mw_module_settings_info.icon) {
                             modal_title_str = ('<img class="mw-module-dialog-icon" src="' + mw_module_settings_info.icon + '">' + modal_title_str + ' - ' + title)
-                         }
+                        }
 
                         if (modal_title_str) {
                             thismodal.title(modal_title_str);
@@ -329,24 +329,24 @@ $current_template = false;
 
                             <?php if (isset($current_template)): ?>
                                 <!-- Current template - Start -->
-                                <div class="row">
-                                    <div class="col-12 current-template">
-                                        <label class="form-label" title="<?php print $current_template['layout_file']; ?>"><?php _e('Current layout'); ?></label>
-                                        <div class="screenshot">
-                                            <div class="holder">
-                                                <img data-url="<?php echo thumbnail($current_template['screenshot'], 800, 400); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
-                                                <div class="title"><?php print $current_template['name']; ?></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 current-template-modules">
-                                        <div class="current-template-modules-list-wrap">
-                                            <label class="form-label">This layout contains those modules</label>
 
-                                            <div class="current-template-modules-list"></div>
+                                <div class="current-template card">
+                                    <label class="live-edit-label" title="<?php print $current_template['layout_file']; ?>"><?php _e('Current layout'); ?></label>
+                                    <div class="screenshot">
+                                        <div class="holder">
+                                            <img data-url="<?php echo thumbnail($current_template['screenshot'], 800, 400); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
+                                            <div class="live-edit-label text-decoration-none"><?php print $current_template['name']; ?></div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class=" current-template-modules">
+                                    <div class="current-template-modules-list-wrap">
+                                        <label class="live-edit-label">This layout contains those modules</label>
+
+                                        <div class="current-template-modules-list"></div>
+                                    </div>
+                                </div>
+
                             <?php endif; ?>
 
                             <?php if ($show_skin_setting_in_first_tab): ?>
@@ -450,10 +450,10 @@ $current_template = false;
                                 <?php foreach ($module_templates as $item): ?>
                                     <?php if (($item['layout_file'] == $cur_template)): ?>
                                         <?php if ((strtolower($item['name']) != 'default')): ?>
-                                            <a href="javascript:;" class="js-apply-template"
+                                            <a href="javascript:;" class="js-apply-template card m-1 card p-1"
                                                data-file="<?php print $item['layout_file'] ?>">
                                                 <?php if ($item['layout_file'] == $cur_template): ?>
-                                                    <div class="default-layout">DEFAULT</div>
+                                                    <div class="default-layout live-edit-label text-decoration-none">DEFAULT</div>
                                                 <?php endif; ?>
 
                                                 <div class="screenshot <?php if (($item['layout_file'] == $cur_template)): ?>active<?php endif; ?>">
@@ -470,7 +470,7 @@ $current_template = false;
                                                             data-url="<?php echo thumbnail($item_screenshot, 800, 400); ?>"
                                                             alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"
                                                             title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>
-                                                        <div class="title"><?php print $item['name']; ?></div>
+                                                        <div class="live-edit-label text-decoration-none"><?php print $item['name']; ?></div>
                                                     </div>
                                                 </div>
                                             </a>
@@ -481,7 +481,7 @@ $current_template = false;
                                 <?php foreach ($module_templates as $item): ?>
                                     <?php if (($item['layout_file'] != $cur_template)): ?>
                                         <?php if ((strtolower($item['name']) != 'default')): ?>
-                                            <a href="javascript:;" class="js-apply-template"
+                                            <a href="javascript:;" class="js-apply-template card m-1"
                                                data-file="<?php print $item['layout_file'] ?>">
                                                 <?php if ($item['layout_file'] == $cur_template): ?>
                                                     <div class="default-layout">DEFAULT</div>
@@ -500,7 +500,7 @@ $current_template = false;
                                                              alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"
                                                              style="max-width:100%;"
                                                              title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>
-                                                        <div class="title"><?php print $item['name']; ?></div>
+                                                        <div class="live-edit-label text-decoration-none"><?php print $item['name']; ?></div>
                                                     </div>
                                                 </div>
                                             </a>

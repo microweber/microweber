@@ -1,11 +1,11 @@
 <div>
+
     @if (!isset($package['description']))
-<div class="alert alert-danger">{{'Please select a package'}}</div>
+    <div class="alert alert-danger">{{'Please select a package'}}</div>
     @else
     <script>mw.require('admin_package_manager.js');</script>
 
-    <div class="modal-body">
-        <div class="row">
+    <div class="row">
             <div class="marketplace-template-img-wrapper col-sm-7 pe-3 px-0" style="max-height:500px; overflow:hidden">
                 <div class="marketplace-template-img-wrapper-overlay">
 
@@ -27,7 +27,15 @@
                 @endif
             </div>
             <div class="col-sm-5 px-sm-0 px-4">
-                <h3 class="main-pages-title mt-3">{{$package['description']}}</h3>
+               <div class="d-flex justify-content-between align-items-center" style="padding-right: 15px;">
+                  <div>
+                      <h3 class="main-pages-title mt-3">{{$package['description']}}</h3>
+                  </div>
+                   <div>
+                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                               wire:click="$emit('closeModal')"></button>
+                   </div>
+               </div>
                 <div class="tblr-body-color">
                     {{'Latest Version'}}: {{$package['version']}}
                 </div>
@@ -131,7 +139,7 @@
                             </table>
                 </div>
             </div>
-        </div>
-    </div>
+</div>
+
     @endif
 </div>

@@ -1,5 +1,6 @@
 <?php must_have_access(); ?>
-<?php
+
+<a href="<?php print route('admin.content.builder.index') ?>">Add post</a><?php
 
 $options = [
     'quickAdd' => true

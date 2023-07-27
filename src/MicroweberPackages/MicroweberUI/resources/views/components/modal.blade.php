@@ -53,7 +53,8 @@ $maxWidth = [
 
     x-ref="modal-id-{{ $id }}"
 >
-    <div class="modal-dialog{{ $maxWidth }}">
+    <div class="mw-modal-dialog{{ $maxWidth }}">
         {{ $slot }}
     </div>
+
 </div>

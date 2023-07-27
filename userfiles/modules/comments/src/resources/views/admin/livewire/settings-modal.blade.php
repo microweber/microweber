@@ -1,13 +1,15 @@
 <div>
-
-    <div class="modal-header bg-light border-0">
+    <div class="mw-modal">
+        <div class="mw-modal-dialog">
+            <div class="mw-modal-content">
+    <div class="mw-modal-header">
         <h5 class="modal-title">
             {{_e('Comments Settings')}}
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="$emit('closeModal')"></button>
-
     </div>
-    <div class="modal-body">
+
+    <div class="mw-modal-body">
 
         <div class="mb-3">
             <label class="form-check form-switch" style="width: 500px;">
@@ -38,7 +40,7 @@
         </div>
 
     </div>
-    <div class="modal-footer bg-light border-0 d-flex justify-content-between align-items-center">
+    <div class="mw-modal-footer d-flex justify-content-between align-items-center">
 
         <button type="button" class="btn btn-link" data-bs-dismiss="modal" aria-label="Close" wire:click="$emit('closeModal')">
             {{_e('Close')}}
@@ -46,4 +48,7 @@
 
     </div>
 
+</div>
+</div>
+</div>
 </div>
