@@ -156,9 +156,9 @@ $current_template = false;
 
             <script type="text/javascript">
 
-                    $(document).ready(function () {
-                        template_select_set_modal_title('<?php _ejs($current_template['name']) ?>')
-                    });
+                $(document).ready(function () {
+                    template_select_set_modal_title('<?php _ejs($current_template['name']) ?>')
+                });
 
             </script>
 
@@ -180,7 +180,7 @@ $current_template = false;
 
                         if (mw_module_settings_info.icon) {
                             modal_title_str = ('<img class="mw-module-dialog-icon" src="' + mw_module_settings_info.icon + '">' + modal_title_str + ' - ' + title)
-                         }
+                        }
 
                         if (modal_title_str) {
                             thismodal.title(modal_title_str);
@@ -366,10 +366,10 @@ $current_template = false;
                                 $(document).ready(function () {
                                     mw_admin_layouts_list_inner_modules_btns();
 
-                                    $('.module-layouts-viewer .js-apply-template card m-1').on('click', function () {
+                                    $('.module-layouts-viewer .js-apply-template').on('click', function () {
                                         var option = $(this).data('file');
                                         var title = $(this).find('div.title').first().html();
-                                        $('.module-layouts-viewer .js-apply-template card m-1 .screenshot').removeClass('active');
+                                        $('.module-layouts-viewer .js-apply-template .screenshot').removeClass('active');
                                         $(this).find('.screenshot').addClass('active');
                                         $('select[name="data-template"] option:selected').removeAttr('selected');
                                         $('select[name="data-template"] option[value="' + option + '"]').attr('selected', 'selected');
@@ -387,7 +387,7 @@ $current_template = false;
                                 $(document).ready(function () {
                                     mw.$('#module-skins-search').bind('keyup paste', function () {
                                         var search_kw = $(this).val();
-                                        var items = document.querySelectorAll('.module-layouts-viewer > .js-apply-template card m-1');
+                                        var items = document.querySelectorAll('.module-layouts-viewer > .js-apply-template');
                                         var el = this;
                                         var foundlen = 0;
                                         mw.tools.search(search_kw, items, function (found) {
@@ -450,7 +450,7 @@ $current_template = false;
                                 <?php foreach ($module_templates as $item): ?>
                                     <?php if (($item['layout_file'] == $cur_template)): ?>
                                         <?php if ((strtolower($item['name']) != 'default')): ?>
-                                            <a href="javascript:;" class="js-apply-template card m-1 card m-1"
+                                            <a href="javascript:;" class="js-apply-template card m-1 card p-1"
                                                data-file="<?php print $item['layout_file'] ?>">
                                                 <?php if ($item['layout_file'] == $cur_template): ?>
                                                     <div class="default-layout live-edit-label text-decoration-none">DEFAULT</div>
