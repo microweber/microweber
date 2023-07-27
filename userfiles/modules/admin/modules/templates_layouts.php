@@ -329,24 +329,24 @@ $current_template = false;
 
                             <?php if (isset($current_template)): ?>
                                 <!-- Current template - Start -->
-                                <div class="row">
-                                    <div class="col-12 current-template">
-                                        <label class="form-label" title="<?php print $current_template['layout_file']; ?>"><?php _e('Current layout'); ?></label>
-                                        <div class="screenshot">
-                                            <div class="holder">
-                                                <img data-url="<?php echo thumbnail($current_template['screenshot'], 800, 400); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
-                                                <div class="live-edit-label text-decoration-none"><?php print $current_template['name']; ?></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 current-template-modules">
-                                        <div class="current-template-modules-list-wrap">
-                                            <label class="form-label">This layout contains those modules</label>
 
-                                            <div class="current-template-modules-list"></div>
+                                <div class="col-12 current-template card">
+                                    <label class="live-edit-label" title="<?php print $current_template['layout_file']; ?>"><?php _e('Current layout'); ?></label>
+                                    <div class="screenshot">
+                                        <div class="holder">
+                                            <img data-url="<?php echo thumbnail($current_template['screenshot'], 800, 400); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
+                                            <div class="live-edit-label text-decoration-none"><?php print $current_template['name']; ?></div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-12 current-template-modules">
+                                    <div class="current-template-modules-list-wrap">
+                                        <label class="form-label">This layout contains those modules</label>
+
+                                        <div class="current-template-modules-list"></div>
+                                    </div>
+                                </div>
+
                             <?php endif; ?>
 
                             <?php if ($show_skin_setting_in_first_tab): ?>

@@ -23,6 +23,7 @@ class ContentServiceProvider extends ServiceProvider
         Livewire::component('admin-content-bulk-options', ContentBulkOptions::class);
         View::addNamespace('content', __DIR__ . DS . 'resources' . DS . 'views');
 
+        app()->register(ContentFormBuilderServiceProvider::class);
 
     }
     /**
