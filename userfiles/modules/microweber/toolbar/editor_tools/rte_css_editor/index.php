@@ -128,7 +128,6 @@
                     targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
                 },
                 onSelect: function (e, target, node, element) {
-                    console.log(e, target, node, element)
                      setTimeout(function () {
                         targetMw.liveEditSelector.select(node);
 
@@ -137,8 +136,6 @@
                     })
                 }
             });
-
-            console.log(targetMw.liveEditDomTree)
         }, 700);
 
        $('.rte_css_editor_svg').each(function (img){

@@ -632,7 +632,7 @@ mw.emitter = {
                     label: mw.lang('Search for content')
                 },
                 icon: 'd-none',
-                title: 'Post/category',
+                title: mw.lang('Post/category'),
                 dataUrl: function () {
                     try {
                         return mw.settings.site_url + "api/get_content_admin";
@@ -686,7 +686,7 @@ mw.emitter = {
                             });
                 })
 
-                this.autoComplete = new TomSelect(treeEl, {
+                scope.autoComplete = new TomSelect(treeEl, {
                     valueField: 'id',
                     labelField: 'title',
                     searchField: 'title',
@@ -698,6 +698,11 @@ mw.emitter = {
                     closeAfterSelect: true,
                     options: idata,
                     // fetch remote data
+                    onChange : function(query, callback) {
+ 
+                        scope.valid()
+                        
+                    },
                     load: function(query, callback) {
                         var conf = {
                             method: 'POST',
@@ -802,6 +807,16 @@ mw.emitter = {
             };
 
             this.isValid = function () {
+                 
+                if(! scope.autoComplete) { // still loading
+                    return false;
+                }
+
+                if(!scope.autoComplete.getValue().trim()) {
+                    return false
+                }
+            
+                 
                 if(textField && !textField.value) {
                     return false;
                 }
@@ -814,11 +829,12 @@ mw.emitter = {
                 var val = {};
                 if(textField) val.text = textField.value;
 
+                console.log(scope.autoComplete)
 
-                var getSelected, autoCompleteVal = this.autoComplete.getValue();
-                for (let i in this.autoComplete.options) {
-                    if(autoCompleteVal == this.autoComplete.options[i].id) {
-                        getSelected = this.autoComplete.options[i];
+                var getSelected, autoCompleteVal = scope.autoComplete.getValue();
+                for (let i in scope.autoComplete.options) {
+                    if(autoCompleteVal == scope.autoComplete.options[i].id) {
+                        getSelected = scope.autoComplete.options[i];
                         break;
                     }
                 }

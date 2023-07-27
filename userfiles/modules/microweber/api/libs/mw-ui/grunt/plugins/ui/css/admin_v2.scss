@@ -1498,6 +1498,11 @@ svg.text-danger {
     color: var(--tblr-body-color);
     font-weight: 500;
 
+    &:disabled{
+        opacity: .3;
+        pointer-events: none;
+    }
+
     &.mw-adm-liveedit-tabs {
         font-weight: 600;
 
