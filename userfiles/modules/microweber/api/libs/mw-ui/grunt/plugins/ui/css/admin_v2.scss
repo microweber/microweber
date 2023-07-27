@@ -2533,12 +2533,12 @@ svg.text-danger {
     }
 }
 
-.js-apply-template {
+.js-apply-template, .current-template  {
 
-    margin-bottom: 20px !important;
+    margin: 20px !important;
 
     .live-edit-label {
-        padding: 5px;
+        padding: 10px;
     }
 
     &:hover {
