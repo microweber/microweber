@@ -2511,22 +2511,24 @@ svg.text-danger {
 }
 
 .mw-modal {
-    padding: 20px;
+    padding: 20px 20px 10px 20px;
     position: relative;
 
     .mw-modal-title {
         font-weight: bold;
         font-size: 18px;
+        color: var(--tblr-body-color);
     }
 
     .btn-close {
         position: absolute;
-        top: 10px;
+        top: 20px;
         right: 20px;
     }
 
     .mw-modal-body {
-        font-size: 20px;
+
         padding: 20px 0;
+        padding-bottom: 30px;
     }
 }
