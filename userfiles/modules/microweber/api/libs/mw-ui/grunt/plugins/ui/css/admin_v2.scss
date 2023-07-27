@@ -2497,16 +2497,16 @@ svg.text-danger {
 }
 #admin-sidebar{
     width: 240px;
- 
+
     position: sticky;
     top: 0;
     height: 100vh;
-    overflow: auto;
-
     z-index: 1030;
     align-items: flex-start;
     transition: transform .3s;
-    overflow-y: scroll;
+    overflow: visible;
+    overflow-y: visible;
+    overflow-x: visible;
     padding: 0;
 }
 

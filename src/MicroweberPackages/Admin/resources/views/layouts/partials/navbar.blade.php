@@ -82,15 +82,38 @@
         };
         $(document).ready(function () {
 
+            var setSidebarSize = function(size, init) {
+                size = parseFloat(size);
+                if(!size || isNaN(size)){
+                    return;
+                }
+                 
+                $('#pages-tree-container').css('transition', 'none')
+                $('#pages-tree-container').width(size - 20)
+                $('#pages-tree-container').css('transition', '')
+                
+                if(init) {
+                    $("#admin-sidebar").width(size)
+                } else {
+                    mw.storage.set('mw-admin-sidebar-size', size);
+                }
+            }
+
+            var sidebarSize = mw.storage.get('mw-admin-sidebar-size');
+            
+            if(sidebarSize) {
+                setSidebarSize(sidebarSize, true)
+            }
+
             $("#admin-sidebar").resizable({
                 maxWidth: 550,
                 handles: 'e',
-                minWidth: 200,
+                minWidth: 250,
                 resize: function(e, ui) {
+
+                    setSidebarSize(ui.size.width)
                    
-                        $('#pages-tree-container').css('transition', 'none')
-                        $('#pages-tree-container').width(ui.size.width - 20)
-                        $('#pages-tree-container').css('transition', '')
+ 
                 }
             })
 
