@@ -352,8 +352,8 @@ mw.filePicker = function (options) {
         if(!this.settings.footer || this.settings.autoSelect) return;
         this._navigationFooter = document.createElement('div');
         this._navigationFooter.className = 'modal-footer mw-ui-form-controllers-footer mw-filepicker-footer ' + (this.settings.boxed ? 'card-footer' : '');
-        this.$ok = $('<button type="button" class="btn btn-primary">' + this.settings.okLabel + '</button>');
-        this.$cancel = $('<button type="button" class="btn">' + this.settings.cancelLabel + '</button>');
+        this.$ok = $('<button type="button" class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component">' + this.settings.okLabel + '</button>');
+        this.$cancel = $('<button type="button" class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component">' + this.settings.cancelLabel + '</button>');
         this._navigationFooter.appendChild(this.$cancel[0]);
         this._navigationFooter.appendChild(this.$ok[0]);
         this.$root.append(this._navigationFooter);

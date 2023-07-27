@@ -60,6 +60,7 @@ export const Draggable = function (options, rootSettings) {
     this.$data = {}
 
     this.helper = function (e, event) {
+        
         if(!this._helper) {
             this._helper = ElementManager().get(0);
             this._helper.className = 'mw-draggable-helper';
@@ -88,8 +89,13 @@ export const Draggable = function (options, rootSettings) {
             // this._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX - 40) + 'px';
             this.settings.document.documentElement.classList.add('le-dragging')
         }
+
+        if(this._helper.$$element !== scope.element) {
+            this._helper.$$element = scope.element;
+            this._helper.innerHTML =  scope.element.outerHTML;
+        }
          
-        this._helper.innerHTML =  scope.element.outerHTML;
+        
         return this._helper;
     };
 

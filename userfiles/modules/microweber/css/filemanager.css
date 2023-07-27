@@ -238,7 +238,7 @@
 
   @container mwfilemanagergrid (max-width: 1000px) {
     .mw-file-manager-root[data-view="grid"] tbody tr > td[class]{
-        padding: 10px;
+        padding: 0 10px;
     }
     .mw-file-manager-root[data-view="grid"] tbody tr{
         width: calc(20.2% - var(--mw-file-manager-root-grid-space));
@@ -325,6 +325,9 @@
 .mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-name-cell{
     padding-block: 0 10px;
     max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-modified-cell{
     color: #999;
@@ -354,8 +357,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
- 
-    padding: 0px 0 12px;
+    
+    padding: 10px 0;
 }
 
 .mw-file-manager-bar-view-type-selector{
