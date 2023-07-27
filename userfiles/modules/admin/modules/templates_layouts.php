@@ -330,7 +330,7 @@ $current_template = false;
                             <?php if (isset($current_template)): ?>
                                 <!-- Current template - Start -->
 
-                                <div class="col-12 current-template card">
+                                <div class="current-template card">
                                     <label class="live-edit-label" title="<?php print $current_template['layout_file']; ?>"><?php _e('Current layout'); ?></label>
                                     <div class="screenshot">
                                         <div class="holder">
@@ -339,9 +339,9 @@ $current_template = false;
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 current-template-modules">
+                                <div class=" current-template-modules">
                                     <div class="current-template-modules-list-wrap">
-                                        <label class="form-label">This layout contains those modules</label>
+                                        <label class="live-edit-label">This layout contains those modules</label>
 
                                         <div class="current-template-modules-list"></div>
                                     </div>
