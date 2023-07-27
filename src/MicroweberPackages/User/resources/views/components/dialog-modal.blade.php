@@ -1,15 +1,15 @@
 @props(['id' => null, 'maxWidth' => null])
 
 <x-user::modal :id="$id" :maxWidth="$maxWidth" {{ $attributes }}>
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">{{ $title }}</h5>
+    <div class="mw-modal-content">
+        <div class="mw-modal-header">
+            <h5 class="mw-modal-title">{{ $title }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div class="mw-modal-body">
             {{ $content }}
         </div>
-        <div class="modal-footer bg-azure-lt">
+        <div class="mw-modal-footer">
             {{ $footer }}
         </div>
     </div>

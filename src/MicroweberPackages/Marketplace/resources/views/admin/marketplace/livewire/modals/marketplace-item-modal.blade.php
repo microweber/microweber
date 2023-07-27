@@ -1,10 +1,13 @@
 <div>
+    <div class="mw-modal">
+        <div class="mw-modal-dialog">
+            <div class="mw-modal-content">
     @if (!isset($package['description']))
 <div class="alert alert-danger">{{'Please select a package'}}</div>
     @else
     <script>mw.require('admin_package_manager.js');</script>
 
-    <div class="modal-body">
+    <div class="mw-modal-body">
         <div class="row">
             <div class="marketplace-template-img-wrapper col-sm-7 pe-3 px-0" style="max-height:500px; overflow:hidden">
                 <div class="marketplace-template-img-wrapper-overlay">
@@ -134,4 +137,7 @@
         </div>
     </div>
     @endif
+</div>
+</div>
+</div>
 </div>
