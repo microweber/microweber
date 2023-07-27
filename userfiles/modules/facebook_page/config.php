@@ -11,3 +11,15 @@ $config['ui_admin'] = false;
 $config['categories'] = "social";
 $config['position'] = 11;
 $config['version'] = 0.01;
+
+$config['settings'] = [];
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\Modules\FacebookPage'
+    ],
+];
+
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\FacebookPage\Providers\FacebookPageServiceProvider::class
+];
