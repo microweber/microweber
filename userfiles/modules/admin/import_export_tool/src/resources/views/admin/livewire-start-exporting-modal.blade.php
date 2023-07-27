@@ -8,50 +8,47 @@
                 </div>
                 <div class="mw-modal-body">
 
-                    <div>
+                    @if($error)
 
-                        @if($error)
+                        <h3>Error! Can't export this feed.</h3>
+                        <p class="text-danger">{{$error}}</p>
 
-                            <h3>Error! Can't export this feed.</h3>
-                            <p class="text-danger">{{$error}}</p>
+                    @else
 
-                        @else
-
-                            @if(!$done)
-                                <div>
-                                    <h3>Exporting Content</h3>
-                                    <h4>Step {{$export_log['current_step']}} of {{$export_log['total_steps']}}</h4>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar"
-                                             style="width: {{$export_log['percentage']}}%;"
-                                             aria-valuenow="{{$export_log['percentage']}}" aria-valuemin="0"
-                                             aria-valuemax="100">
-                                            {{$export_log['percentage']}}%
-                                        </div>
+                        @if(!$done)
+                            <div>
+                                <h3>Exporting Content</h3>
+                                <h4>Step {{$export_log['current_step']}} of {{$export_log['total_steps']}}</h4>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar"
+                                         style="width: {{$export_log['percentage']}}%;"
+                                         aria-valuenow="{{$export_log['percentage']}}" aria-valuemin="0"
+                                         aria-valuemax="100">
+                                        {{$export_log['percentage']}}%
                                     </div>
                                 </div>
-                            @else
-                                <h3>Done!</h3>
-                                <br/>
-                                <a href="{{$download_file}}" target="_new" class="btn btn-outline-success"><i
-                                        class="fa fa-download"></i> Download</a>
-                            @endif
-
+                            </div>
+                        @else
+                            <h3>Done!</h3>
+                            <br/>
+                            <a href="{{$download_file}}" target="_new" class="btn btn-outline-success"><i
+                                    class="fa fa-download"></i> Download</a>
                         @endif
 
-                    </div>
+                    @endif
+
                 </div>
-                <script>
-                    setTimeout(function () {
-                        window.Livewire.emit('exportToolNextStep');
-                    }, 1000);
-
-                    window.addEventListener('nextStepCompleted', event => {
-                        window.Livewire.emit('exportToolNextStep');
-                    });
-                </script>
-
             </div>
+            <script>
+                setTimeout(function () {
+                    window.Livewire.emit('exportToolNextStep');
+                }, 1000);
+
+                window.addEventListener('nextStepCompleted', event => {
+                    window.Livewire.emit('exportToolNextStep');
+                });
+            </script>
+
         </div>
     </div>
 </div>
