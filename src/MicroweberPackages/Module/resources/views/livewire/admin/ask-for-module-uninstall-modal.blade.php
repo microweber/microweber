@@ -19,12 +19,12 @@
                         </div>
                         <div
                             class="mw-modal-footer d-flex justify-content-between align-items-center">
-                            <button type="button" class="btn btn-link" data-bs-dismiss="modal" aria-label="Close"
+                            <button type="button" class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component" data-bs-dismiss="modal" aria-label="Close"
                                     wire:click="$emit('closeModal')">
                                 {{_e('Cancel')}}
                             </button>
 
-                            <button type="submit" class="btn btn-danger">
+                            <button type="submit" class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component text-danger">
                                 {{_e('Uninstall')}}
                             </button>
 
