@@ -11,7 +11,7 @@
             continue;
         }
        // dump($item['module']);
-        // echo '<module type="'.$item['module'].'" />';
+         echo '<module type="'.$item['module'].'" />';
     }
 
     ?>
