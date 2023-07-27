@@ -797,7 +797,7 @@ if (isset($params['quick_edit'])) {
                         ?>
                     </div>
 
-                    <div x-show="showEditTab=='advanced'" class="row">
+                    <div x-show="showEditTab=='advanced'">
                         <?php
                         include_once __DIR__.'/advanced_settings.php';
                         ?>
