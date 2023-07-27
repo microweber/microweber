@@ -335,7 +335,7 @@ $current_template = false;
                                         <div class="screenshot">
                                             <div class="holder">
                                                 <img data-url="<?php echo thumbnail($current_template['screenshot'], 800, 400); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
-                                                <div class="title"><?php print $current_template['name']; ?></div>
+                                                <div class="live-edit-label text-decoration-none"><?php print $current_template['name']; ?></div>
                                             </div>
                                         </div>
                                     </div>
@@ -366,10 +366,10 @@ $current_template = false;
                                 $(document).ready(function () {
                                     mw_admin_layouts_list_inner_modules_btns();
 
-                                    $('.module-layouts-viewer .js-apply-template').on('click', function () {
+                                    $('.module-layouts-viewer .js-apply-template card m-1').on('click', function () {
                                         var option = $(this).data('file');
                                         var title = $(this).find('div.title').first().html();
-                                        $('.module-layouts-viewer .js-apply-template .screenshot').removeClass('active');
+                                        $('.module-layouts-viewer .js-apply-template card m-1 .screenshot').removeClass('active');
                                         $(this).find('.screenshot').addClass('active');
                                         $('select[name="data-template"] option:selected').removeAttr('selected');
                                         $('select[name="data-template"] option[value="' + option + '"]').attr('selected', 'selected');
@@ -387,7 +387,7 @@ $current_template = false;
                                 $(document).ready(function () {
                                     mw.$('#module-skins-search').bind('keyup paste', function () {
                                         var search_kw = $(this).val();
-                                        var items = document.querySelectorAll('.module-layouts-viewer > .js-apply-template');
+                                        var items = document.querySelectorAll('.module-layouts-viewer > .js-apply-template card m-1');
                                         var el = this;
                                         var foundlen = 0;
                                         mw.tools.search(search_kw, items, function (found) {
@@ -450,10 +450,10 @@ $current_template = false;
                                 <?php foreach ($module_templates as $item): ?>
                                     <?php if (($item['layout_file'] == $cur_template)): ?>
                                         <?php if ((strtolower($item['name']) != 'default')): ?>
-                                            <a href="javascript:;" class="js-apply-template"
+                                            <a href="javascript:;" class="js-apply-template card m-1 card m-1"
                                                data-file="<?php print $item['layout_file'] ?>">
                                                 <?php if ($item['layout_file'] == $cur_template): ?>
-                                                    <div class="default-layout">DEFAULT</div>
+                                                    <div class="default-layout live-edit-label text-decoration-none">DEFAULT</div>
                                                 <?php endif; ?>
 
                                                 <div class="screenshot <?php if (($item['layout_file'] == $cur_template)): ?>active<?php endif; ?>">
@@ -470,7 +470,7 @@ $current_template = false;
                                                             data-url="<?php echo thumbnail($item_screenshot, 800, 400); ?>"
                                                             alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"
                                                             title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>
-                                                        <div class="title"><?php print $item['name']; ?></div>
+                                                        <div class="live-edit-label text-decoration-none"><?php print $item['name']; ?></div>
                                                     </div>
                                                 </div>
                                             </a>
@@ -481,7 +481,7 @@ $current_template = false;
                                 <?php foreach ($module_templates as $item): ?>
                                     <?php if (($item['layout_file'] != $cur_template)): ?>
                                         <?php if ((strtolower($item['name']) != 'default')): ?>
-                                            <a href="javascript:;" class="js-apply-template"
+                                            <a href="javascript:;" class="js-apply-template card m-1"
                                                data-file="<?php print $item['layout_file'] ?>">
                                                 <?php if ($item['layout_file'] == $cur_template): ?>
                                                     <div class="default-layout">DEFAULT</div>
@@ -500,7 +500,7 @@ $current_template = false;
                                                              alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"
                                                              style="max-width:100%;"
                                                              title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>
-                                                        <div class="title"><?php print $item['name']; ?></div>
+                                                        <div class="live-edit-label text-decoration-none"><?php print $item['name']; ?></div>
                                                     </div>
                                                 </div>
                                             </a>
