@@ -139,7 +139,10 @@ only_admin_access();
     $(document).on('ready', function () {
 
         setTimeout(function() {
-            targetMw.liveEditDomTree = new mw.DomTree({
+
+
+
+             var liveEditDomTree = new mw.DomTree({
                 element: '#domtree',
                 resizable: true,
                 targetDocument: targetMw.win.document,
@@ -159,6 +162,10 @@ only_admin_access();
                     setTimeout(function () {
                         if (typeof targetMw !== 'undefined') {
                             //    targetMw.liveEditSelector.select(node);
+                           // targetMw.liveEditSelector.select(node);
+
+                             mw.log('onSelectonSelectonSelectonSelectonSelect')
+                             mw.log(node)
                             mw.top().app.liveEdit.selectNode(node);
 
                             mw.tools.scrollTo(node, undefined, 200);
@@ -239,6 +246,7 @@ ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 mw.top().app.canvas.on('canvasDocumentClick', function () {
 
     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+
     activeTree();
 });
 
@@ -271,12 +279,17 @@ var CSSShadow;
 var _activeTree = null;
 var _pauseActiveTree = false;
 var activeTree = function(){
-    console.log('activeTreeactiveTreeactiveTreeactiveTreeactiveTreeactiveTree')
-    console.log(ActiveNode)
-    console.log(_pauseActiveTree)
+
+
     if(!ActiveNode || _pauseActiveTree) {
         return;
     }
+
+
+
+
+
+
     var canvasDocument = mw.top().app.canvas.getDocument();
 
     var getParent = function(node){
@@ -294,6 +307,9 @@ var activeTree = function(){
         }
     };
     var data = [], curr = ActiveNode, count = 0;
+
+
+
 
      while(curr && curr !== canvasDocument.body){
         var custom = !!curr.className;
@@ -371,9 +387,10 @@ var activeTree = function(){
 
     $(_activeTree).on('selectionChange', function(e, data){
         _pauseActiveTree = true;
-        // if(data[0]){
-        //     targetMw.liveEditSelector.select(data[0].element);
-        // }
+        if(data[0]){
+            mw.top().app.liveEdit.selectNode(data[0].element);
+       //     targetMw.liveEditSelector.select(data[0].element);
+        }
         setTimeout(function(){
             _pauseActiveTree = false;
         }, 10)
@@ -1060,14 +1077,14 @@ function selectNode(node) {
     $(window).on('load', function () {
 
          document.body.addEventListener('click', function (){
-            colorPickers.forEach(function (cp) {
-                 if(cp.hide) {
-                    cp.hide()
-                } else {
-                    cp.style.display = 'none'
-                }
-
-            })
+            // colorPickers.forEach(function (cp) {
+            //      if(cp.hide) {
+            //         cp.hide()
+            //     } else {
+            //         cp.style.display = 'none'
+            //     }
+            //
+            // })
         })
 
     });

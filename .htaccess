@@ -58,6 +58,11 @@ ForceType 'text/css; charset=UTF-8'
 
     RewriteEngine On
 
+    RewriteCond %{REQUEST_URI} ^/userfiles/.*\.php$ [NC]
+    RewriteRule ^ - [F]
+    RewriteCond %{REQUEST_URI} ^/public/.*\.php$ [NC]
+    RewriteRule ^ - [F]
+
     RewriteCond %{REQUEST_URI} !^/\.well-known
     RewriteRule "(^|/)\." - [F]
 
