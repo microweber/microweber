@@ -23,7 +23,7 @@ jobs:
         run: composer dump-autoload
 
       - name: Run PHPUnit
-        run: php artisan test --debug
+        run: php artisan test
 
   microweber-build-and-upload:
     runs-on: ubuntu-latest
