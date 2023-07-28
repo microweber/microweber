@@ -62,12 +62,12 @@ jobs:
         with:
           name: console
           path: tests/Browser/console
-      - name: Upload Laravel Storage
+      - name: Upload Laravel Storage Logs
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: storage
-          path: storage
+          name: storage/logs
+          path: storage/logs
       - name: Upload Laravel config
         if: failure()
         uses: actions/upload-artifact@v2
