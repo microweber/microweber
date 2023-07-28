@@ -4,6 +4,11 @@
 
 
     $title = 'My Module';
+
+    if(!isset($editorSettings['config'])){
+        $editorSettings['config'] = [];
+    }
+
     if (isset($editorSettings['config']['title'])) {
         $title = $editorSettings['config']['title'];
     }
@@ -115,15 +120,19 @@ showEditTab: 'main'
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        @if (isset($editorSettings['config']) && isset($editorSettings['config']['listColumns']))
+                                                            <div class="col text-truncate "
+                                                                 x-on:click="showEditTab = 'tabs-nav-tab-{{ $item['itemId'] }}'">
+                                                                @foreach ($editorSettings['config']['listColumns'] as $columnKey => $columnLabel)
 
-                                                        <div class="col text-truncate " x-on:click="showEditTab = 'tabs-nav-tab-{{ $item['itemId'] }}'">
-                                                            @foreach ($editorSettings['config']['listColumns'] as $columnKey => $columnLabel)
-                                                                @if (isset($item[$columnKey]))
-                                                                    <label class="text-reset d-block cursor-pointer">{{ $item[$columnKey] }}</label>
-                                                                @endif
-                                                            @endforeach
+                                                                    @if (isset($item[$columnKey]))
+                                                                        <label
+                                                                            class="text-reset d-block cursor-pointer">{{ $item[$columnKey] }}</label>
+                                                                    @endif
+                                                                @endforeach
 
-                                                        </div>
+                                                            </div>
+                                                        @endif
                                                         <div class="col-auto d-flex align-items-center">
                                                             <x-microweber-ui::button-action type="button" :tooltip="$deleteButtonText"
                                                                                             wire:click="showConfirmDeleteItemById('{{$item['itemId']}}')">

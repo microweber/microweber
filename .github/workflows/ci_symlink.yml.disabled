@@ -46,4 +46,4 @@ jobs:
         ln -s /home/runner/work/microweber/microweber/symlinks/userfiles/modules /home/runner/work/microweber/microweber/userfiles/modules
         ln -s /home/runner/work/microweber/microweber/symlinks/userfiles/templates /home/runner/work/microweber/microweber/userfiles/templates
     - name: Run PHPUnit
-      run: php artisan test --debug
+      run: php artisan test

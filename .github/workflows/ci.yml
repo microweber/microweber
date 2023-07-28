@@ -37,7 +37,7 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
     - name: Run PHPUnit
-      run: php artisan test --debug
+      run: php artisan test
     - name: Upload Screenshots
       if: failure()
       uses: actions/upload-artifact@v2
@@ -50,12 +50,12 @@ jobs:
       with:
         name: console
         path: tests/Browser/console
-    - name: Upload Laravel Storage
+    - name: Upload Laravel Storage Logs
       if: failure()
       uses: actions/upload-artifact@v2
       with:
-        name: storage
-        path: storage
+        name: storage/logs
+        path: storage/logs
     - name: Upload Laravel config
       if: failure()
       uses: actions/upload-artifact@v2
