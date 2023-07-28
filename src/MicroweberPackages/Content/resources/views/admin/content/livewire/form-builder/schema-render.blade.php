@@ -12,8 +12,7 @@
             @endphp
 
             @if($field['type'] == 'text' )
-                <x-microweber-ui::input placeholder="{{ $placeholder }}" wire:model.defer="itemState.{{ $field['name'] }}"/>
-
+                <x-microweber-ui::input placeholder="{{ $placeholder }}" wire:model.defer="itemState.{{ $field['name'] }}" />
             @elseif($field['type'] == 'textarea' )
                 <x-microweber-ui::textarea placeholder="{{ $placeholder }}" wire:model.defer="itemState.{{ $field['name'] }}"/>
             @elseif($field['type'] == 'image' )
