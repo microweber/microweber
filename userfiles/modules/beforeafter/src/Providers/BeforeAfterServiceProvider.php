@@ -11,15 +11,15 @@ class BeforeAfterServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('microweber-module-before-after');
-        $package->hasViews('microweber-module-before-after');
+        $package->name('microweber-module-beforeafter');
+        $package->hasViews('microweber-module-beforeafter');
     }
 
     public function register(): void
     {
         parent::register();
 
-        Livewire::component('microweber-module-before-after::settings', BeforeAfterSettingsComponent::class);
+        Livewire::component('microweber-module-beforeafter::settings', BeforeAfterSettingsComponent::class);
 
     }
 

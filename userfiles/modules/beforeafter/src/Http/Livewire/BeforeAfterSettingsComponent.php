@@ -7,6 +7,6 @@ class BeforeAfterSettingsComponent extends ModuleSettingsComponent
 {
     public function render()
     {
-       return view('microweber-module-before-after::livewire.settings');
+       return view('microweber-module-beforeafter::livewire.settings');
     }
 }
