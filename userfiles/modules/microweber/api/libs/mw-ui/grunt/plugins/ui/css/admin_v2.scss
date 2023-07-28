@@ -261,14 +261,16 @@ body, .is_admin {
     overflow-x: hidden;
 }
 
+#sidebar-menu{
+    display: block !important;
+}
+
 .admin-dashboard-left-nav {
     background-color: var(--tblr-bg-surface);
-    padding: 0 !important;
+    padding: 0 0 0 20px !important;
 
 
-    .navbar-nav-padding {
-        padding-inline: 40px 20px !important;
-    }
+ 
 
 
     li {
@@ -1360,9 +1362,7 @@ input[type=number] {
     }
 }
 
-.page-wrapper {
-    overflow-x: hidden;
-}
+ 
 
 .mw-content-vision-tabs {
     border-color: transparent !important;
@@ -2498,22 +2498,47 @@ svg.text-danger {
 }
 
 #admin-sidebar .navbar-brand img{
-    width: 200px;
+    width: 190px;
 }
-#admin-sidebar{
-    width: 240px;
 
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    z-index: 1030;
-    align-items: flex-start;
-    transition: transform .3s;
-    overflow: visible;
-    overflow-y: visible;
-    overflow-x: visible;
-    padding: 0;
+@media (max-width: 1201px) {
+    #pages-tree-container,
+    #admin-sidebar {
+        width: 240px!important;
+    }
+    #admin-sidebar {
+        
+        position: fixed;
+        height: 100vh;
+        z-index: 2;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+        z-index: 10;
+        
+        
+        opacity: 0;
+        visibility: hidden;
+        left: -100%;
+    }
+    #admin-sidebar .ui-resizable-handle{
+        display: none !important;
+    }   
 }
+@media (min-width: 1200px) {
+    #admin-sidebar{
+        width: 240px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        z-index: 1030;
+        align-items: flex-start;
+        transition: transform .3s;
+        overflow: visible;
+        overflow-y: visible;
+        overflow-x: visible;
+        padding: 0;
+    }
+}
+
 
 .mw-modal {
     padding: 20px 20px 10px 20px;

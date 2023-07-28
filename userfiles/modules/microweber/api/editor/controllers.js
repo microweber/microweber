@@ -160,6 +160,53 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
+    ai: function (scope, api, rootScope) {
+        this.render = function () {
+            var scope = this;
+            var el = MWEditor.core.button({
+                props: {
+
+                    tooltip: rootScope.lang('AI edit'),
+                    innerHTML: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>flash</title><path d="M7,2V13H10V22L17,10H13L17,2H7Z" /></svg>'
+                }
+            });
+            el.on('mousedown touchstart', function (e) {
+                var sel = api.getSelection();
+
+                var node = api.elementNode(sel.focusNode);
+                    var actionTarget = mw.tools.firstBlockLevel(node);
+
+
+                    var mwAdapter = {
+                        url: 'https://textcomplete.microweberapi.com/?q=' + encodeURIComponent(actionTarget.textContent),
+                        method: 'GET',
+                    }
+ 
+                    
+
+                      fetch(mwAdapter.url, mwAdapter).then(function(res){
+                     
+                        res.json().then(function(json){
+          
+                            actionTarget.innerHTML = json.text
+                        })
+                        
+                    });
+ 
+ 
+                    api.action(actionTarget.parentNode, function () {
+                        console.log(actionTarget)
+                    }); 
+
+            });
+            return el;
+        };
+        this.checkSelection = function (opt, ee, tt) {
+
+ 
+        };
+        this.element = this.render();
+    },
     bold: function (scope, api, rootScope) {
         this.render = function () {
             var scope = this;

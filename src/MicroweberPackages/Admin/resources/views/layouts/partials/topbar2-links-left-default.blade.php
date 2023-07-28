@@ -1,3 +1,13 @@
+<button class="navbar-toggler d-xl-none" id="sidebar-toggle">
+    <span class="navbar-toggler-icon"></span>
+</button>
+
+<script>
+
+
+
+</script>
+
 @if (user_can_access('module.content.edit'))
 
 <button type="button" class="btn btn-light    border-0 admin-toolbar-buttons"

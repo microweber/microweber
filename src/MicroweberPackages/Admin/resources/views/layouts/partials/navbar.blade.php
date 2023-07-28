@@ -1,10 +1,8 @@
- <aside class="navbar navbar-vertical navbar-expand-xl admin-dashboard-left-nav p-3" id="admin-sidebar">  
+ <aside class="navbar navbar-vertical navbar-expand-xl admin-dashboard-left-nav " id="admin-sidebar">  
  
 
-    <div class="container-fluid" id="sidebar-menu">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <div class="container-fluid" >
+  
 
         <h1 class="navbar-brand navbar-nav-padding navbar-brand-autodark justify-content-start" style="padding: 0;">
             <?php
@@ -23,7 +21,7 @@
         </h1>
 
 
-        <div class="collapse navbar-collapse overflow-x-hidden" id="sidebar-menu">
+        <div class="  navbar-collapse overflow-x-hidden" id="sidebar-menu">
             <ul class="navbar-nav navbar-nav-padding" id="mw-admin-main-navigation">
 
                 <?php event_trigger('mw.admin.sidebar.li.first'); ?>
