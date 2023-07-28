@@ -21,3 +21,16 @@ $config['settings'] = [];
 $config['settings']['allowed_html_option_keys'] = [
     'source_code',
 ];
+
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\Modules\Embed'
+    ],
+];
+
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\Embed\Providers\EmbedServiceProvider::class
+];
+
+

@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         backupGlobals="false"
-         backupStaticAttributes="false"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd"
          bootstrap="bootstrap/autoload.php"
+         backupGlobals="false"
+
+
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnIncompleteTests ="true"
+         displayDetailsOnSkippedTests  ="true"
+
          colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
 
          stopOnFailure="true"
-         verbose="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+         cacheDirectory=".phpunit.cache"
+         backupStaticProperties="false">
     <coverage/>
     <logging>
         <testdoxText outputFile="php://stdout"/>
+        <testdoxHtml outputFile="phpunut.html"/>
     </logging>
     <testsuites>
         <testsuite name="MicroweberTemplatesTests">
@@ -26,28 +34,32 @@
             <directory>./userfiles/modules/*/*/src/tests/</directory>
             <exclude>./src/MicroweberPackages/Multilanguage/tests/*</exclude>
             <exclude>./src/MicroweberPackages/Helper/tests/*</exclude>
+            <exclude>./src/MicroweberPackages/User/tests/*</exclude>
             <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
         </testsuite>
         <testsuite name="MicroweberTestMultilanguage">
             <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>
         </testsuite>
+        <testsuite name="MicroweberTestUser">
+            <directory>./src/MicroweberPackages/User/tests/</directory>
+        </testsuite>
         <testsuite name="MicroweberModuleListTests">
             <directory>./src/MicroweberPackages/Module/slow_tests/</directory>
         </testsuite>
-
         <testsuite name="MicroweberSlowTests">
             <directory>./src/MicroweberPackages/Helper/tests/*</directory>
             <directory>./src/MicroweberPackages/App/tests/*</directory>
         </testsuite>
-
         <testsuite name="MicroweberModulesTests">
             <directory>./userfiles/modules/*/tests/</directory>
             <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
         </testsuite>
-
         <testsuite name="MicroweberModulesImportToolTests">
             <directory>./userfiles/modules/admin/import_export_tool/src/tests/</directory>
         </testsuite>
+
+
+
     </testsuites>
     <php>
         <env name="CACHE_DRIVER" value="array"/>
@@ -55,4 +67,5 @@
         <ini name="memory_limit" value="-1"/>
         <env name="MAIL_DRIVER" value="array"/>
     </php>
+    <source/>
 </phpunit>

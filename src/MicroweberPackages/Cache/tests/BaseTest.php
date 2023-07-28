@@ -1,6 +1,6 @@
 <?php
 
-abstract class BaseTest extends Orchestra\Testbench\TestCase
+class BaseTest extends Orchestra\Testbench\TestCase
 {
 
     public function tearDown(): void

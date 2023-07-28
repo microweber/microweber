@@ -21,7 +21,7 @@
 
 
         @if (isset($editorSettings['schema']))
-            @include('content::admin.content.livewire.form-builder.schema-render')
+            @include('microweber-live-edit::module-items-editor-edit-item-schema-render')
         @endif
 
         <div class="d-flex align-items-center justify-content-between">

@@ -28,6 +28,11 @@ class MyCustomLogger {
     {
 
     }
+
+    public function log($text)
+    {
+
+    }
     public function clearLog()
     {
 

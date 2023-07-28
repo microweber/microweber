@@ -19,9 +19,19 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
     public array $editorSettings = [];
 
 
+
     public function getSettingsKey()
     {
         $editorSettings = $this->getEditorSettings();
+        if (!$editorSettings) {
+            return 'settings';
+        }
+        if (!isset($editorSettings['config'])) {
+            return 'settings';
+        }
+        if (!isset($editorSettings['config']['settingsKey'])) {
+            return 'settings';
+        }
 
         return $editorSettings['config']['settingsKey'];
 
@@ -82,8 +92,6 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         $this->getItems();
 
         $this->emit('onItemDeleted');
-
-
 
 
     }

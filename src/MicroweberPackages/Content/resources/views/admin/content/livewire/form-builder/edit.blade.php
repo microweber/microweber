@@ -10,12 +10,12 @@ Edit post
         </div>
 
         @if (isset($editorSettings['schema']))
-            @include('content::admin.content.livewire.form-builder.schema-render')
+            @include('microweber-live-edit::module-items-editor-edit-item-schema-render')
         @endif
 
 
         <div class="d-flex align-items-center justify-content-between">
-         
+
             <x-microweber-ui::button-animation type="submit">@lang('Save')</x-microweber-ui::button-animation>
         </div>
     </form>
