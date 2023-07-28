@@ -3,7 +3,7 @@ namespace MicroweberPackages\Config\tests;
 
 use Orchestra\Testbench\TestCase;
 
-abstract class BaseTest extends TestCase
+class BaseTest extends TestCase
 {
 
     public function tearDown(): void

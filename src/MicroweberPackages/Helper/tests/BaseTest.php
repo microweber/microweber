@@ -6,7 +6,7 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-abstract class BaseTest extends TestCase
+class BaseTest extends TestCase
 {
 
     /**

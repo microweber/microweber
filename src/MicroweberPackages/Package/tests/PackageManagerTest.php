@@ -5,9 +5,9 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
 {
     public $skip = false;
 
-    public function __construct()
+    public function __construct(string $name)
     {
-        parent::__construct();
+        parent::__construct( $name);
         if (!$this->isOnline()) {
             $this->skip = true;
         }

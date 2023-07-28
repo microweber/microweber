@@ -5,7 +5,7 @@ namespace MicroweberPackages\CustomField\tests;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Product\Models\Product;
 
-class CustomFieldTestModelTest extends TestCase
+class CustomFieldModelTest extends TestCase
 {
     public function testAddCustomFieldToModel()
     {

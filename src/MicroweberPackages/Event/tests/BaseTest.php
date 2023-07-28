@@ -3,7 +3,7 @@ namespace MicroweberPackages\Event\EventManager\tests;
 
 use Orchestra\Testbench\TestCase;
 
-abstract class BaseTest extends TestCase
+class BaseTest extends TestCase
 {
     /**
      * Setup the test environment.

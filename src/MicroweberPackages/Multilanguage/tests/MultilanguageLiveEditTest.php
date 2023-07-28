@@ -7,19 +7,15 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class MultilanguageLiveEditTest extends MultilanguageTestBase
 {
-    private function _refreshServerConstantsByPageId($pageId) {
-
-        $pageLink = content_link($pageId);
-        $pageLink = '/' . str_replace(site_url(),'', $pageLink);
-
-        $_SERVER['PHP_SELF'] = '/index.php';
-        $_SERVER['REQUEST_URI'] = $pageLink;
-        $_SERVER['REDIRECT_URL'] = $pageLink;
-        $_SERVER['HTTP_REFERER'] = content_link($pageId);
-    }
-
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testSaveContentOnPage()
     {
         MultilanguageHelpers::setMultilanguageEnabled(1);
@@ -95,5 +91,16 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
 
+    }
+
+    private function _refreshServerConstantsByPageId($pageId) {
+
+        $pageLink = content_link($pageId);
+        $pageLink = '/' . str_replace(site_url(),'', $pageLink);
+
+        $_SERVER['PHP_SELF'] = '/index.php';
+        $_SERVER['REQUEST_URI'] = $pageLink;
+        $_SERVER['REDIRECT_URL'] = $pageLink;
+        $_SERVER['HTTP_REFERER'] = content_link($pageId);
     }
 }
