@@ -3,34 +3,6 @@
 @import "_mw_tabler";
 @import "file-robot-image-editor";
 
-
-//!!!!!!!!!!!!!!!!! RTL STYLE !!!!!!!!!!!!!!!!!!!!
-
-html[dir="rtl"] {
-
-    .table-blade-sortable-elements {
-        left: 0;
-        right: unset;
-    }
-
-    .input-group-text {
-        border-top-left-radius: 5px !important;
-        border-bottom-left-radius: 5px !important;
-
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-    }
-
-    .mw-le-nav-box {
-        nav a {
-            padding-right: 15px;
-        }
-    }
-}
-
-//END RTL STYLE
-
-
 :root {
 
     //--tblr-body-bg: white;
