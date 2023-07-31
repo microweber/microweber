@@ -15,7 +15,7 @@
             endif;
             ?>
             <a class="w-100 mb-md-3" href="<?php print admin_url(); ?>">
-                <img class="w-100" alt="" src="<?php print $logo; ?>">
+                <img alt="" src="<?php print $logo; ?>">
             </a>
 
         </h1>
