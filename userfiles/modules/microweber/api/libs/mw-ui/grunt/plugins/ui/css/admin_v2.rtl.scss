@@ -45,3 +45,17 @@
     padding-inline-end: 10px;
 }
 
+.mw-tree-item-title {
+    svg {
+        margin-left: 10px;
+    }
+
+}
+
+.mw-tree-nav-skin-category-manager .mw-tree-item-content-root .mw-tree-toggler {
+    right: 7px;
+    left: unset;
+    z-index: 1;
+}
+
+
