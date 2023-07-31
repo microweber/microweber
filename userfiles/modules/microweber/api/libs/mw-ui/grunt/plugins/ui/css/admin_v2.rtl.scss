@@ -46,6 +46,16 @@
 }
 
 .mw-tree-item-title {
-    margin-inline-start: 10px;
+    svg {
+        margin-left: 10px;
+    }
 
 }
+
+.mw-tree-nav-skin-category-manager .mw-tree-item-content-root .mw-tree-toggler {
+    right: 7px;
+    left: unset;
+    z-index: 1;
+}
+
+
