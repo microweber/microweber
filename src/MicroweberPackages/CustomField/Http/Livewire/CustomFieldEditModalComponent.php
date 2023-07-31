@@ -19,10 +19,14 @@ class CustomFieldEditModalComponent extends AdminModalComponent
     {
         $getCustomField = CustomField::where('id', $this->customFieldId)->first();
         if ($getCustomField) {
+
             $getCustomField->name = $this->state['name'];
             $getCustomField->options = $this->state['options'];
             $getCustomField->type = $this->state['type'];
             $getCustomField->required = $this->state['required'];
+            $getCustomField->error_text = $this->state['error_text'];
+            $getCustomField->show_label = $this->state['show_label'];
+            $getCustomField->placeholder = $this->state['placeholder'];
             $getCustomField->save();
 
             $this->emit('customFieldUpdated');
