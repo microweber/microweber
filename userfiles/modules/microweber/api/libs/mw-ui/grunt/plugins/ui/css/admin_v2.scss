@@ -277,6 +277,13 @@ body, .is_admin {
     .nav-item.nav-item-profile {
 
         padding-inline-start: 33px !important;
+
+        .profile-img {
+            width: 40px;
+            height: 40px; object-fit: cover;
+            object-position: center;
+            margin-inline-end: 10px;
+        }
     }
 
 
