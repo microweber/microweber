@@ -1,8 +1,8 @@
- <aside class="navbar navbar-vertical navbar-expand-xl admin-dashboard-left-nav " id="admin-sidebar">  
- 
+ <aside class="navbar navbar-vertical navbar-expand-xl admin-dashboard-left-nav " id="admin-sidebar">
+
 
     <div class="container-fluid" >
-  
+
 
         <h1 class="navbar-brand navbar-nav-padding navbar-brand-autodark justify-content-start" style="padding: 0;">
             <?php
@@ -85,11 +85,11 @@
                 if(!size || isNaN(size)){
                     return;
                 }
-                 
+
                 $('#pages-tree-container').css('transition', 'none')
                 $('#pages-tree-container').width(size - 20)
                 $('#pages-tree-container').css('transition', '')
-                
+
                 if(init) {
                     $("#admin-sidebar").width(size)
                 } else {
@@ -98,7 +98,7 @@
             }
 
             var sidebarSize = mw.storage.get('mw-admin-sidebar-size');
-            
+
             if(sidebarSize) {
                 setSidebarSize(sidebarSize, true)
             }
@@ -110,8 +110,8 @@
                 resize: function(e, ui) {
 
                     setSidebarSize(ui.size.width)
-                   
- 
+
+
                 }
             })
 

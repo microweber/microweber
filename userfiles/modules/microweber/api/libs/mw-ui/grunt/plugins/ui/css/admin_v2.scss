@@ -243,6 +243,11 @@ body, .is_admin {
     display: block !important;
 }
 
+.navbar-vertical.navbar-expand-xl {
+    overflow: hidden;
+}
+
+
 .admin-dashboard-left-nav {
     background-color: var(--tblr-bg-surface);
     padding: 0 0 0 20px !important;
@@ -277,6 +282,13 @@ body, .is_admin {
     .nav-item.nav-item-profile {
 
         padding-inline-start: 33px !important;
+
+        .profile-img {
+            width: 40px;
+            height: 40px; object-fit: cover;
+            object-position: center;
+            margin-inline-end: 10px;
+        }
     }
 
 
@@ -2206,6 +2218,7 @@ svg.text-danger {
         outline: none;
         background-color: #f5f5f5;
         padding-inline-start: 10px;
+
 
          &:focus, &:focus-visible {
             outline: none;

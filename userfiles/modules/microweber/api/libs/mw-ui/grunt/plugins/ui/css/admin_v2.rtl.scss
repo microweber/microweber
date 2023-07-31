@@ -22,10 +22,26 @@
     border-bottom-right-radius: 0;
 }
 
+.navbar-expand-xl.navbar-vertical~.navbar, .navbar-expand-xl.navbar-vertical~.page-wrapper {
+    margin-left: 0;
+}
 
 
 
+.admin-dashboard-left-nav {
+    .nav-link {
+        @media screen and (min-width: 767px) {
+            &:after {
+                left: 0;
+                right: unset;
+            }
+
+        }
+    }
+}
 
 
-
+.form-control-live-edit-input, .form-control-live-edit-input.form-select {
+    padding-inline-end: 10px;
+}
 
