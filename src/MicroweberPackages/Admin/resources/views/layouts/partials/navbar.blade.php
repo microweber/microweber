@@ -1,8 +1,8 @@
- <aside class="navbar navbar-vertical navbar-expand-xl admin-dashboard-left-nav " id="admin-sidebar">  
- 
+ <aside class="navbar navbar-vertical navbar-expand-xl admin-dashboard-left-nav " id="admin-sidebar">
+
 
     <div class="container-fluid" >
-  
+
 
         <h1 class="navbar-brand">
             <?php
@@ -85,7 +85,7 @@
                 if(!size || isNaN(size)){
                     size = 240
                 }
-                 
+
                 $('#pages-tree-container').css('transition', 'none')
                 $('.mw-admin-toggle-tree-navigation').css({
                     'left':  size,
@@ -102,7 +102,7 @@
             }
 
             var sidebarSize = mw.storage.get('mw-admin-sidebar-size');
-            
+
             if(sidebarSize) {
                 setSidebarSize(sidebarSize, true)
             }
@@ -114,8 +114,8 @@
                 resize: function(e, ui) {
 
                     setSidebarSize(ui.size.width)
-                   
- 
+
+
                 }
             })
 

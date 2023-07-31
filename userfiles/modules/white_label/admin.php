@@ -185,7 +185,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         For instructions use this short guide <a href="https://microweber.com/how-to-activate-your-white-label-license-key" class="mw-ui-link mw-blue" target="_blank"> White label user guide</a>.
                     </p>
 
-                    <div class="row">
+                    <div class="row p-0">
                         <div class="col-sm-6 mw-fields mw-fields-upload-buttons">
                             <div class="form-group">
                                 <label class="form-label"><?php _e('Brand Name'); ?></label>
@@ -323,10 +323,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             </div>
         </div>
 
-      <div class="d-flex">
-          <a href="<?php print admin_url() ?>module/view?type=white_label__admin_colors"  class="btn btn-primary mx-1" >Color schemes</a>
+      <div class="d-flex align-items-center flex-wrap mb-2 gap-2">
+          <a href="<?php print admin_url() ?>module/view?type=white_label__admin_colors"  class="btn btn-primary" ><?php _e("Color schemes") ?></a>
 
-          <a href="javascript:;" id="white_label-whmcs-admin-module-link" class="btn btn-outline-secondary mx-1" onclick="mw.show_white_label_whmcs_settings();">WHMCS settings</a>
+          <a href="javascript:;" id="white_label-whmcs-admin-module-link" class="btn btn-outline-secondary" onclick="mw.show_white_label_whmcs_settings();"><?php _e("WHMCS settings") ?></a>
           <script>
               mw.show_white_label_whmcs_settings = function () {
 
@@ -337,7 +337,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
 
-          <a href="javascript:;" class="btn btn-outline-secondary mx-1" onclick="mw.show_licenses_modal();">My Licenses</a>
+          <a href="javascript:;" class="btn btn-outline-secondary" onclick="mw.show_licenses_modal();"><?php _e("My Licenses") ?></a>
           <script>
               mw.show_licenses_modal = function () {
                   var data = {}
@@ -350,7 +350,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
       </div>
 
         <div class="text-end text-right">
-            <button form="white_label_settings_holder" type="submit" class="btn btn-lg btn-success btn-save " ><span>Save</span></button>
+            <button form="white_label_settings_holder" type="submit" class="btn btn-lg btn-success btn-save " ><span><?php _e("Save") ?></span></button>
         </div>
     </div>
 </div>

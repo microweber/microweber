@@ -48,6 +48,16 @@ class CustomField extends Model
         return $this->hasMany(CustomFieldValue::class, 'custom_field_id', 'id')->orderBy('position');
     }
 
+    public function fieldValueText()
+    {
+        $fieldValues = $this->fieldValue()->pluck('value');
+        if ($fieldValues->count() == 1) {
+            return $fieldValues->first();
+        }
+
+        return implode(', ', $fieldValues->toArray());
+    }
+
     public function fieldValuePrice()
     {
         return $this->hasMany(CustomFieldValue::class, 'custom_field_id', 'id')

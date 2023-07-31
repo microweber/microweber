@@ -3,14 +3,59 @@
 @import url("../css/../../tabler-ui/dist/css/tabler-vendors.rtl.css");
 
 
+.mw-le-nav-box {
+    nav a {
+        padding-right: 15px !important;
+    }
+}
+
+.table-blade-sortable-elements {
+    left: 0;
+    right: unset;
+}
+
+.input-group-text {
+    border-top-left-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
+
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.navbar-expand-xl.navbar-vertical~.navbar, .navbar-expand-xl.navbar-vertical~.page-wrapper {
+    margin-left: 0;
+}
 
 
 
+.admin-dashboard-left-nav {
+    .nav-link {
+        @media screen and (min-width: 767px) {
+            &:after {
+                left: 0;
+                right: unset;
+            }
+
+        }
+    }
+}
 
 
+.form-control-live-edit-input, .form-control-live-edit-input.form-select {
+    padding-inline-end: 10px;
+}
 
+.mw-tree-item-title {
+    svg {
+        margin-left: 10px;
+    }
 
+}
 
-
+.mw-tree-nav-skin-category-manager .mw-tree-item-content-root .mw-tree-toggler {
+    right: 7px;
+    left: unset;
+    z-index: 1;
+}
 
 
