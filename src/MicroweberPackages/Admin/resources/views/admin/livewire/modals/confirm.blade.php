@@ -16,12 +16,18 @@
                     </div>
 
                     <div class="mt-4">
-                        <button type="button" wire:click="confirm" class="btn btn-outline-primary">
+
+                        <x-microweber-ui::button-animation class="text-red" wire:click="confirm">
                             {{$button_text}}
-                        </button>
-                        <button type="button" wire:click="$emit('closeModal')" class="btn btn-outline-primary">
+                        </x-microweber-ui::button-animation>
+
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <x-microweber-ui::button-animation wire:click="$emit('closeModal')">
                             {{_e('Cancel')}}
-                        </button>
+                        </x-microweber-ui::button-animation>
+
                     </div>
 
                 </div>
