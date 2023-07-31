@@ -250,7 +250,7 @@ body, .is_admin {
 
 .admin-dashboard-left-nav {
     background-color: var(--tblr-bg-surface);
-    padding: 0 0 0 20px !important;
+ 
 
 
 
@@ -1851,6 +1851,7 @@ svg.text-danger {
         }
     }
 
+
     .manage-content-body {
         padding: 10px !important;
         .card {
@@ -1907,10 +1908,11 @@ svg.text-danger {
     box-shadow: none;
     height: 100%;
  }
+
  #pages-tree-wrapper{
     transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);
     position: fixed;
-    top: 60px;
+    top: 80px;
     bottom: 0;
     left: 0;
     z-index: 1060;

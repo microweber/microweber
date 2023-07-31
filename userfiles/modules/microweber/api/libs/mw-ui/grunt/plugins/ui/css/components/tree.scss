@@ -54,10 +54,12 @@
 .mw-tree-context-menu-content-mode-dropdown {
     &.mw-tree-context-menu-content-default{
         right: auto;
+        display: none;
         &.mw-tree-context-menu-content-active{
             visibility: visible;
             opacity: 1;
             pointer-events: all;
+            display: block;
             
         }
     }
