@@ -1,4 +1,4 @@
-<div style="padding:20px;background:#fff;">
+<div style="margin:60px;padding:20px;background:#fff;">
 
     <div class="row p-0">
         <label class="form-label font-weight-bold">
@@ -57,6 +57,9 @@
 
                     <td>
                         <span class="mobile-th">Settings</span>
+                        <div>
+                            {{$customField->fieldValueText()}}
+                        </div>
                     </td>
 
                     <td class="text-center">
