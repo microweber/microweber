@@ -11,9 +11,22 @@
                 </div>
                 <div class="mw-modal-body">
 
-                    <div>
+                    <div class="mt-3">
                         <x-microweber-ui::label for="name" value="Name" />
                         <x-microweber-ui::input id="name" class="mt-1 block w-full" wire:model="state.name" />
+                    </div>
+
+                    <div class="mt-3">
+                        <x-microweber-ui::label for="type" value="Type" />
+                        @php
+                        $customFieldsType = mw()->ui->custom_fields();
+                        @endphp
+                        <x-microweber-ui::select id="type" :options="$customFieldsType" class="mt-1 block w-full" wire:model="state.type" />
+                    </div>
+
+                    <div class="mt-3">
+                        <x-microweber-ui::label for="value" value="Value" />
+                        <x-microweber-ui::input id="value" class="mt-1 block w-full" wire:model="state.value" />
                     </div>
 
                     <div class="mt-3">
@@ -24,6 +37,15 @@
                     <div class="mt-3">
                         <x-microweber-ui::label for="required" value="Required" />
                         <x-microweber-ui::toggle id="required" class="mt-1 block w-full" wire:model="state.required" />
+                    </div>
+
+
+                    <div class="mt-3">
+                        <x-microweber-ui::label for="error_text" value="Error Text" />
+                        <x-microweber-ui::input id="error_text" class="mt-1 block w-full" wire:model="state.error_text" />
+                        <small>
+                           {{_e('This error will be shown when fields are required but not filled')}}
+                        </small>
                     </div>
 
                 </div>
