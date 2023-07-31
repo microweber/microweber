@@ -270,7 +270,7 @@ body, .is_admin {
     padding: 0 0 0 20px !important;
 
 
- 
+
 
 
     li {
@@ -1362,7 +1362,7 @@ input[type=number] {
     }
 }
 
- 
+
 
 .mw-content-vision-tabs {
     border-color: transparent !important;
@@ -2091,8 +2091,12 @@ svg.text-danger {
 
 }
 
-.mw-le-nav-box nav a:hover {
-    background-color: var(--tblr-body-bg) !important;
+.mw-le-nav-box {
+    nav a {
+        &:hover {
+            background-color: var(--tblr-body-bg) !important;
+        }
+    }
 }
 
 
@@ -2507,21 +2511,21 @@ svg.text-danger {
         width: 240px!important;
     }
     #admin-sidebar {
-        
+
         position: fixed;
         height: 100vh;
         z-index: 2;
         box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
         z-index: 10;
-        
-        
+
+
         opacity: 0;
         visibility: hidden;
         left: -100%;
     }
     #admin-sidebar .ui-resizable-handle{
         display: none !important;
-    }   
+    }
 }
 @media (min-width: 1200px) {
     #admin-sidebar{
