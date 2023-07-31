@@ -11,6 +11,7 @@ class CustomFieldsListComponent extends AdminComponent
     public $contentType;
 
     public $listeners = [
+        'customFieldUpdated'=>'$refresh',
         'executeCustomFieldDelete' => 'executeCustomFieldDelete',
     ];
 
@@ -25,6 +26,7 @@ class CustomFieldsListComponent extends AdminComponent
     {
         $getCustomFields = CustomField::where('rel_type', 'content')
             ->where('rel_id', $this->contentId)
+            ->orderBy('position', 'asc')
             ->get();
 
         return view('custom_field::livewire.custom-fields-list-component',[
