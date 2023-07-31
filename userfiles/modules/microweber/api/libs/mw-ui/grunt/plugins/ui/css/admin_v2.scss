@@ -20,6 +20,12 @@ html[dir="rtl"] {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
+
+    .mw-le-nav-box {
+        nav a {
+            padding-right: 15px;
+        }
+    }
 }
 
 //END RTL STYLE
