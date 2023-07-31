@@ -2577,6 +2577,11 @@ svg.text-danger {
     .input-group {
         .btn {
             margin-bottom: 0 !important;
+            margin-inline-start: 10px;
         }
     }
+}
+
+.navbar-expand-xl.navbar-vertical~.navbar, .navbar-expand-xl.navbar-vertical~.page-wrapper {
+    margin: 0!important;
 }
