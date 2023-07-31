@@ -1,7 +1,10 @@
 <?php
 namespace MicroweberPackages\CustomField\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
+use MicroweberPackages\CustomField\Http\Livewire\CustomFieldsListComponent;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Repositories\CustomFieldRepository;
 use MicroweberPackages\CustomField\TranslateTables\TranslateCustomFields;
@@ -30,6 +33,11 @@ class CustomFieldServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        View::addNamespace('custom_field', normalize_path(dirname(__DIR__) . '/resources/views'));
+
+        Livewire::component('custom-fields-list', CustomFieldsListComponent::class);
+
         $this->app->translate_manager->addTranslateProvider(TranslateCustomFields::class);
         $this->app->translate_manager->addTranslateProvider(TranslateCustomFieldsValues::class);
 
