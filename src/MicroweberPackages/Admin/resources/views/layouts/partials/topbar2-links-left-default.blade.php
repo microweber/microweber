@@ -4,9 +4,54 @@
 
 <script>
 
+    
+
+    document.body.addEventListener('click', function(e){
+        var sidebar = document.getElementById('admin-sidebar');
+        if(!sidebar.contains(e.target)) {
+            document.body.classList.remove('sidebar-mobile-toggle')
+        }
+        
+    });
+
+    document.getElementById('sidebar-toggle').addEventListener('click', function(e){
+        
+        document.body.classList.toggle('sidebar-mobile-toggle');
+        e.stopPropagation();
+    });
 
 
 </script>
+
+<style>
+     
+     #sidebar-toggle{
+        display: inline-block;
+     }
+
+
+    @media (max-width: 1201px) {
+ 
+        body.sidebar-mobile-toggle #admin-sidebar {
+            left: 0;
+            opacity: 1;
+            visibility: visible;box-shadow: ;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px, 200px 0 100vw #0000004f;
+             
+        }
+    }
+
+ 
+    #admin-sidebar .navbar-brand{
+        padding-top: 31px;
+        padding-bottom: 5px;
+    }
+    #admin-sidebar .navbar-brand,
+    #admin-sidebar ul{
+        padding-inline: 15px;
+    }
+
+</style>
 
 @if (user_can_access('module.content.edit'))
 

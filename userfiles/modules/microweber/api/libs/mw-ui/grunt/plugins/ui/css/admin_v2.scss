@@ -267,7 +267,7 @@ body, .is_admin {
 
 .admin-dashboard-left-nav {
     background-color: var(--tblr-bg-surface);
-    padding: 0 0 0 20px !important;
+ 
 
 
  
@@ -296,10 +296,7 @@ body, .is_admin {
         padding-bottom: 5px;
     }
 
-    .nav-item.nav-item-profile {
-
-        padding-inline-start: 33px !important;
-    }
+ 
 
 
 
@@ -1913,6 +1910,12 @@ svg.text-danger {
 
  }
 
+ @media (max-width: 1201px) {
+    .mw-admin-toggle-tree-navigation{
+        left: 100% !important;
+    }
+ }
+
  #pages-tree-wrapper .card{
     box-shadow: none;
     height: 100%;
@@ -1920,7 +1923,7 @@ svg.text-danger {
  #pages-tree-wrapper{
     transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);
     position: fixed;
-    top: 60px;
+    top: 80px;
     bottom: 0;
     left: 0;
     z-index: 1060;
@@ -2497,6 +2500,13 @@ svg.text-danger {
     margin-inline: 0;
 }
 
+#admin-sidebar{
+    align-items: start;
+}
+
+#admin-sidebar .container-fluid{
+
+}
 #admin-sidebar .navbar-brand img{
     width: 190px;
 }
@@ -2513,11 +2523,15 @@ svg.text-danger {
         z-index: 2;
         box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
         z-index: 10;
-        
+        transition: .5s;;
         
         opacity: 0;
         visibility: hidden;
         left: -100%;
+        & > .container-fluid{
+            padding-right: 0;
+            padding-left: 0;
+        }
     }
     #admin-sidebar .ui-resizable-handle{
         display: none !important;
