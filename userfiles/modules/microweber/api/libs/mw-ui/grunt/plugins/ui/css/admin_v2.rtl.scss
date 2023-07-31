@@ -3,9 +3,24 @@
 @import url("../css/../../tabler-ui/dist/css/tabler-vendors.rtl.css");
 
 
+.mw-le-nav-box {
+    nav a {
+        padding-right: 15px !important;
+    }
+}
 
+.table-blade-sortable-elements {
+    left: 0;
+    right: unset;
+}
 
+.input-group-text {
+    border-top-left-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
 
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
 
 
 
