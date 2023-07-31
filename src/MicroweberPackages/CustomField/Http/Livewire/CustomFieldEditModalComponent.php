@@ -27,6 +27,11 @@ class CustomFieldEditModalComponent extends AdminModalComponent
             $getCustomField->error_text = $this->state['error_text'];
             $getCustomField->show_label = $this->state['show_label'];
             $getCustomField->placeholder = $this->state['placeholder'];
+
+            if (isset($this->state['value'])) {
+                $getCustomField->value = $this->state['value'];
+            }
+
             $getCustomField->save();
 
             $this->emit('customFieldUpdated');
@@ -37,6 +42,8 @@ class CustomFieldEditModalComponent extends AdminModalComponent
     {
         $getCustomField = CustomField::where('id', $this->customFieldId)->first();
         $this->state = $getCustomField->toArray();
+
+        $this->state['value'] = $getCustomField->fieldValue;
 
         return view('custom_field::livewire.custom-field-edit-modal-component',[
             'customField' => $getCustomField
