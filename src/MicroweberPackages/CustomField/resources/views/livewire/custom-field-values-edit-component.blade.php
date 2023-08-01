@@ -5,16 +5,6 @@
         <div>
             <x-microweber-ui::label value="Values" />
 
-            <div class="row">
-                <div class="col-md-10">
-                    <x-microweber-ui::input class="mt-1 block w-full" wire:model="name.0" />
-                    @error('inputs.0') <span class="text-danger error">{{ $message }}</span>@enderror
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-outline-success btn-sm mx-2" wire:click.prevent="add()">Add</button>
-                </div>
-            </div>
-
             @foreach($inputs as $key => $value)
                 <div class="row mt-3">
                     <div class="col-md-8">
