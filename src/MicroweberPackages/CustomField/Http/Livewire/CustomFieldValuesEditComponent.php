@@ -9,6 +9,25 @@ class CustomFieldValuesEditComponent extends AdminComponent
 {
     public $customFieldId;
     public $state = [];
+    public $customFieldValues = [];
+
+    public $inputs = [];
+
+    public $i = 1;
+
+
+    public function add($i)
+    {
+        $i = $i + 1;
+        $this->i = $i;
+        array_push($this->inputs ,$i);
+    }
+
+
+    public function remove($i)
+    {
+        unset($this->inputs[$i]);
+    }
 
     public function mount($customFieldId)
     {
@@ -18,7 +37,7 @@ class CustomFieldValuesEditComponent extends AdminComponent
     public function updatedState()
     {
         if (isset($this->state['value'])) {
-            
+
             $getCustomField = CustomField::where('id', $this->customFieldId)->first();
             $getCustomField->value = $this->state['value'];
             $getCustomField->save();
@@ -30,11 +49,10 @@ class CustomFieldValuesEditComponent extends AdminComponent
     public function render()
     {
         $getCustomField = CustomField::where('id', $this->customFieldId)->first();
-        $customFieldValues = $getCustomField->fieldValue;
+        // $this->customFieldValues = $getCustomField->fieldValue;
 
         return view('custom_field::livewire.custom-field-values-edit-component',[
             'customField' => $getCustomField,
-            'customFieldValues' => $customFieldValues
         ]);
     }
 }
