@@ -8,19 +8,15 @@ use MicroweberPackages\CustomField\Models\CustomField;
 class CustomFieldValuesEditComponent extends AdminComponent
 {
     public $customFieldId;
+    public $customField;
     public $state = [];
     public $customFieldValues = [];
 
     public $inputs = [];
 
-    public $i = 1;
-
-
-    public function add($i)
+    public function add()
     {
-        $i = $i + 1;
-        $this->i = $i;
-        array_push($this->inputs ,$i);
+        $this->inputs[] = 'Your text here';
     }
 
 
@@ -32,9 +28,16 @@ class CustomFieldValuesEditComponent extends AdminComponent
     public function mount($customFieldId)
     {
         $this->customFieldId = $customFieldId;
+
+        $getCustomField = CustomField::where('id', $this->customFieldId)->first();
+        foreach($getCustomField->fieldValue as $fieldValue) {
+              $this->inputs[] = $fieldValue->value;
+        }
+        $this->customField = $getCustomField;
+
     }
 
-    public function updatedState()
+  /*  public function updatedState()
     {
         if (isset($this->state['value'])) {
 
@@ -44,15 +47,10 @@ class CustomFieldValuesEditComponent extends AdminComponent
 
             $this->emit('customFieldUpdated');
         }
-    }
+    }*/
 
     public function render()
     {
-        $getCustomField = CustomField::where('id', $this->customFieldId)->first();
-        // $this->customFieldValues = $getCustomField->fieldValue;
-
-        return view('custom_field::livewire.custom-field-values-edit-component',[
-            'customField' => $getCustomField,
-        ]);
+        return view('custom_field::livewire.custom-field-values-edit-component');
     }
 }

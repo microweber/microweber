@@ -1,39 +1,30 @@
 <div>
 
-    @if($customField->type == 'checkbox')
+    @if($customField->type == 'checkbox' || $customField->type == 'dropdown' || $customField->type == 'radio')
 
         <div>
             <x-microweber-ui::label value="Values" />
 
-            {{-- <div class="mt-3">
-              <x-microweber-ui::input class="mt-1 block w-full" wire:model="customFieldValues.{{ $customFieldValue->id }}" />
-          </div>--}}
-
-
-
-
-
             <div class="row">
                 <div class="col-md-10">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Enter Name" wire:model="name.0">
-                    </div>
+                    <x-microweber-ui::input class="mt-1 block w-full" wire:model="name.0" />
+                    @error('inputs.0') <span class="text-danger error">{{ $message }}</span>@enderror
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-outline-success btn-sm mx-2" wire:click.prevent="add({{$i}})">Add</button>
+                    <button class="btn btn-outline-success btn-sm mx-2" wire:click.prevent="add()">Add</button>
                 </div>
             </div>
 
-
             @foreach($inputs as $key => $value)
-                <div class="row">
-                    <div class="col-md-10">
-                        <div class="form-group">
-                            <input type="email" class="form-control" wire:model="email.{{ $value }}" placeholder="Enter Email">
-                            @error('email.'.$value) <span class="text-danger error">{{ $message }}</span>@enderror
-                        </div>
+                <div class="row mt-3">
+                    <div class="col-md-8">
+                        <x-microweber-ui::input class="mt-1 block w-full" wire:model="inputs.{{ $key }}" />
+                        @error('inputs.'.$key) <span class="text-danger error">{{ $message }}</span>@enderror
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 d-flex justify-content-center align-items-center">
+                        <button class="btn btn-outline-success btn-sm mx-2" wire:click.prevent="add()">Add</button>
+                    </div>
+                    <div class="col-md-2 d-flex justify-content-center align-items-center">
                         <button class="btn btn-outline-danger btn-sm" wire:click.prevent="remove({{$key}})">Delete</button>
                     </div>
                 </div>
