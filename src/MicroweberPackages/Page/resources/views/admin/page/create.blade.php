@@ -85,10 +85,10 @@
 
                     <h2 class="mt-3 mb-2 font-weight-bold">{{$layout['name']}}
                         @if($isDynamic)
-                            <span class="badge badge-outline text-blue"><?php _e('Dynamic page') ?></span>
+                            <span class="live-edit-label  d-inline-block"><?php _e('Dynamic page') ?></span>
                         @endif
                         @if($isShop)
-                            <span class="badge badge-outline text-cyan"><?php _e('Shop page') ?></span>
+                            <span class="live-edit-label  d-inline-block"><?php _e('Shop page') ?></span>
                         @endif
 
                     </h2>
