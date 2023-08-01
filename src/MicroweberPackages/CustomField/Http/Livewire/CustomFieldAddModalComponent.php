@@ -4,6 +4,7 @@ namespace MicroweberPackages\CustomField\Http\Livewire;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
 class CustomFieldAddModalComponent extends AdminModalComponent
 {
@@ -19,12 +20,50 @@ class CustomFieldAddModalComponent extends AdminModalComponent
         $newCustomField->type = $type;
         $newCustomField->save();
 
+        $values = $this->generateFieldNameValues($type);
+        if (!empty($values)) {
+            foreach ($values as $value) {
+                $customFieldValue = new CustomFieldValue();
+                $customFieldValue->custom_field_id = $newCustomField->id;
+                $customFieldValue->value = $value;
+                $customFieldValue->save();
+            }
+        }
+
         $this->closeModal();
         $this->emit('customFieldAdded');
 
         $this->emit('openModal','custom-field-edit-modal', [
             'customFieldId' => $newCustomField->id
         ]);
+    }
+
+    private function generateFieldNameValues($type)
+    {
+        $values = [];
+
+        if ($type == 'radio') {
+            $typeText = _e('Option', true);
+            $values[] = $typeText . ' 1';
+            $values[] = $typeText . ' 2';
+            $values[] = $typeText . ' 3';
+        }
+
+        if ($type == 'checkbox') {
+            $typeText = _e('Check', true);
+            $values[] = $typeText . ' 1';
+            $values[] = $typeText . ' 2';
+            $values[] = $typeText . ' 3';
+        }
+
+        if ($type == 'dropdown') {
+            $typeText = _e('Select', true);
+            $values[] = $typeText . ' 1';
+            $values[] = $typeText . ' 2';
+            $values[] = $typeText . ' 3';
+        }
+
+        return $values;
     }
 
     public function render()
