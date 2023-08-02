@@ -1,7 +1,7 @@
 @extends('admin::layouts.app')
 
 @section('content')
-    <div id="module-admin-wrapper" class="px-5">
+    <div id="module-admin-wrapper" class="col-xxl-10 col-lg-11 col-12 mx-auto">
 
         @if (isset($_REQUEST['ddd']))
           <module type="admin/modules" />
