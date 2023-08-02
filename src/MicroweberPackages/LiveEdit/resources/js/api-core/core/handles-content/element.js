@@ -9,6 +9,25 @@ export const ElementHandleContent = function (proto) {
         }
     });
 
+
+    const columnsMenu = [
+        {
+            title: 'Add column' ,
+            text: '',
+            icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11,2A2,2 0 0,1 13,4V20A2,2 0 0,1 11,22H2V2H11M4,10V14H11V10H4M4,16V20H11V16H4M4,4V8H11V4H4M15,11H18V8H20V11H23V13H20V16H18V13H15V11Z" /></svg>',
+            className: 'mw-handle-clone-button',
+            onTarget: function (target, selfNode) {
+                selfNode.style.display = target.classList.contains('mw-col') ? '' : 'none';
+            },
+            action: function (el) {
+
+       
+
+                ElementManager(el).after(el.outerHTML)
+            }
+        },
+    ]
+
     const cloneAbleMenu = [
         {
             title: 'Duplicate' ,
@@ -16,11 +35,20 @@ export const ElementHandleContent = function (proto) {
             icon: '<svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg>',
             className: 'mw-handle-clone-button',
             onTarget: function (target, selfNode) {
-                selfNode.style.display = target.classList.contains('cloneable') ? '' : 'none';
+                selfNode.style.display = target.classList.contains('cloneable') || target.classList.contains('mw-col') ? '' : 'none';
             },
             action: function (el) {
 
-                ElementManager(el).after(el.outerHTML)
+                
+
+                ElementManager(el).after(el.outerHTML);
+                var next = el.nextElementSibling;
+                if(el.classList.contains('mw-col')) {
+                    el.style.width = ''
+                    next.style.width = ''
+                }
+                console.log(proto)
+                proto.elementHandle.set(el)
             }
         },
         {
@@ -29,7 +57,7 @@ export const ElementHandleContent = function (proto) {
             icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24" ><path d="M20 13.5C20 17.09 17.09 20 13.5 20H6V18H13.5C16 18 18 16 18 13.5S16 9 13.5 9H7.83L10.91 12.09L9.5 13.5L4 8L9.5 2.5L10.92 3.91L7.83 7H13.5C17.09 7 20 9.91 20 13.5Z" /></svg>',
             className: 'mw-handle-move-back-button',
             onTarget: function (target, selfNode) {
-                const isCloneable = target.classList.contains('cloneable');
+                const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
                 const prev = target.previousElementSibling;
                 selfNode.style.display = isCloneable && prev ? '' : 'none';
             },
@@ -47,7 +75,7 @@ export const ElementHandleContent = function (proto) {
             icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M10.5 18H18V20H10.5C6.91 20 4 17.09 4 13.5S6.91 7 10.5 7H16.17L13.08 3.91L14.5 2.5L20 8L14.5 13.5L13.09 12.09L16.17 9H10.5C8 9 6 11 6 13.5S8 18 10.5 18Z" /></svg>',
             className: 'mw-handle-move-back-button',
             onTarget: function (target, selfNode) {
-                const isCloneable = target.classList.contains('cloneable');
+                const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
                 const next = target.nextElementSibling;
                 selfNode.style.display = isCloneable && next  ? '' : 'none';
             },
@@ -64,6 +92,17 @@ export const ElementHandleContent = function (proto) {
     ];
 
     const primaryMenu = [
+        {
+            title: 'Drag' ,
+            text: '',
+            icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7,19V17H9V19H7M11,19V17H13V19H11M15,19V17H17V19H15M7,15V13H9V15H7M11,15V13H13V15H11M15,15V13H17V15H15M7,11V9H9V11H7M11,11V9H13V11H11M15,11V9H17V11H15M7,7V5H9V7H7M11,7V5H13V7H11M15,7V5H17V7H15Z" /></svg>',
+            className: 'mw-handle-drag-button',
+            onTarget: function (target, selfNode) {
+                // console.log(target)
+            },
+             
+        },
+
         {
             title: 'Edit' ,
             text: '',
@@ -88,6 +127,7 @@ export const ElementHandleContent = function (proto) {
                 // console.log(target)
             },
             action: function (el) {
+                console.log(el)
                 mw.app.editor.dispatch('insertModuleRequest', el);
 
             }
@@ -106,6 +146,7 @@ export const ElementHandleContent = function (proto) {
             }
         },
         ...cloneAbleMenu,
+        // ...columnsMenu,
         
     ]
 

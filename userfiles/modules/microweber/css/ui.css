@@ -98,9 +98,16 @@ img[src*=pixum_img] {
   max-width: 100%;
   zoom: 1;
 }
-/*.mw-col, .mw-row, .element {
-    position: relative;
-}*/
+.mw-row {
+  display: flex !important;
+  
+}
+
+.mw-row .mw-col{
+display: block;
+min-width: 40px;
+flex-grow: 1;
+}
 body.state-element .mw-row .element {
   z-index: 91;
 }
@@ -3335,6 +3342,7 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  color: var(--tblr-body-color);
 }
 .mw-tree-nav-skin-category-manager .mw-tree-item-content.item-selectable-true {
   padding-inline-start: 50px !important;
@@ -6598,6 +6606,7 @@ li:hover > .show-on-hover {
 .mw-dialog-skin-default .mw-dialog-overlay {
   opacity: 0;
   visibility: hidden;
+  backdrop-filter: blur(4px);
 }
 .mw-dialog-skin-default.active {
   visibility: visible;
@@ -8086,7 +8095,25 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   z-index: 1101;
 }
- 
+.mw-small-editor.pinned {
+  position: fixed;
+  top: 5px !important;
+  left: 50% !important;
+  z-index: 1103 !important;
+  transform: translateX(-50%) !important;
+  margin-top: 0 !important;
+}
+.mw-small-editor.pinned .mw-editor-button-pin svg {
+  transform: rotate(45deg);
+}
+.mw-small-editor.pinned .mw-editor-controller-component[data-tooltip]:after {
+  top: 86%;
+  bottom: auto !important;
+}
+.mw-small-editor.pinned .mw-editor-controller-component[data-tooltip]:hover:after,
+.mw-small-editor.pinned .mw-editor-controller-component[data-tooltip]:focus:after {
+  top: 100%;
+}
 .mw-small-editor .mw-bar .mw-bar-row {
   border: none !important;
   white-space: nowrap;
@@ -8624,6 +8651,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-icon svg {
   width: 20px;
+  fill: currentColor;
 }
 .mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-caret {
   vertical-align: middle;
@@ -8648,8 +8676,6 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   position: absolute;
   top: 100%;
   left: 0;
-  background: #fff;
-  border: 1px solid #ccc;
   opacity: 0;
   visibility: hidden;
   transition: 0.3s;
