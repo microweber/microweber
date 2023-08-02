@@ -98,6 +98,11 @@ class CustomFieldValuesEditComponent extends AdminComponent
     public function render()
     {
         $this->customField = CustomField::where('id', $this->customFieldId)->first();
+        if ($this->customField->fieldValue->count() == 0) {
+            $this->add();
+            $this->add();
+            $this->add();
+        }
 
         return view('custom_field::livewire.custom-field-values-edit-component');
     }
