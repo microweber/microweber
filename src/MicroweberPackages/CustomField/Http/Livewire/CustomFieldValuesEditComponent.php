@@ -21,7 +21,7 @@ class CustomFieldValuesEditComponent extends AdminComponent
         $newCustomFieldValue->custom_field_id = $this->customFieldId;
         $newCustomFieldValue->value = 'Your text here';
         $newCustomFieldValue->save();
-        
+
     }
 
 
@@ -49,6 +49,14 @@ class CustomFieldValuesEditComponent extends AdminComponent
         $getCustomField = CustomField::where('id', $this->customFieldId)->first();
         foreach($getCustomField->fieldValue as $fieldValue) {
               $this->inputs[] = $fieldValue->value;
+        }
+
+        if($getCustomField->type == 'checkbox' || $getCustomField->type == 'dropdown' || $getCustomField->type == 'radio') {
+            if (empty($this->inputs)) {
+                $this->add();
+                $this->add();
+                $this->add();
+            }
         }
 
         $this->customField = $getCustomField;
