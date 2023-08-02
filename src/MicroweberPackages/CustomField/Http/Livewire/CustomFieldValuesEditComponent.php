@@ -13,6 +13,10 @@ class CustomFieldValuesEditComponent extends AdminComponent
     public $state = [];
     public $inputs = [];
 
+    public $listeners = [
+        'customFieldUpdated' => '$refresh'
+    ];
+
     public function add()
     {
         $this->inputs[] = 'Your text here';
@@ -93,6 +97,8 @@ class CustomFieldValuesEditComponent extends AdminComponent
 
     public function render()
     {
+        $this->customField = CustomField::where('id', $this->customFieldId)->first();
+
         return view('custom_field::livewire.custom-field-values-edit-component');
     }
 }
