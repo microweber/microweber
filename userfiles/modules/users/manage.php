@@ -74,7 +74,7 @@ $registration_approval_required = get_option('registration_approval_required', '
                     <td>
                         <?php if (isset($item['thumbnail']) and trim($item['thumbnail']) != ''): ?>
                             <div class="d-flex justify-content-center mx-auto" style="max-width: 100px;">
-                                <img class="rounded-circle" src="<?php print $item['thumbnail'] ?>">
+                                <img src="<?php print $item['thumbnail'] ?>">
                             </div>
                         <?php else: ?>
                             <div class="d-flex justify-content-center">
