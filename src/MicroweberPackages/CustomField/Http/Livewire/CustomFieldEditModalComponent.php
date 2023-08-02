@@ -10,7 +10,6 @@ class CustomFieldEditModalComponent extends AdminModalComponent
     public $customFieldId;
     public $state = [];
 
-
     public $showValueSettings = false;
     public $showRequiredSettings = false;
     public $showLabelSettings = false;

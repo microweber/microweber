@@ -28,6 +28,25 @@
                         </div>
                     </div>
 
+
+                    @if($state['type'] == 'upload')
+                        @php
+                        $allowedFormatsForUpload = [
+                            'images' => 'Image Files',
+                            'documents' => 'Document Files',
+                            'archives' => 'Archive Files',
+                        ];
+                        @endphp
+                        <div class="mt-3">
+                            <x-microweber-ui::label for="allowed_formats" value="Allowed Formats for upload" />
+                            <x-microweber-ui::checkbox :options="$allowedFormatsForUpload" id="allowed_formats" class="mt-1 block w-full" wire:model="state.options.file_types" />
+                        </div>
+                        <div class="mt-3">
+                            <x-microweber-ui::label for="custom_file_types" value="Custom File Types" />
+                            <x-microweber-ui::input id="custom_file_types" placeholder="psd,html,css" class="mt-1 block w-full" wire:model="state.options.custom_file_types" />
+                        </div>
+                    @endif
+
                     @if($showValueSettings)
                     <div class="mt-3">
                         <livewire:custom-field-values-edit customFieldId="{{$state['id']}}" />
