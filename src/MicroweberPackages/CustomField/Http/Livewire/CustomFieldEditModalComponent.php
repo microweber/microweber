@@ -71,6 +71,12 @@ class CustomFieldEditModalComponent extends AdminModalComponent
             $this->showPlaceholderSettings = true;
         }
 
+        if ($type == 'upload') {
+            $this->showRequiredSettings = true;
+            $this->showLabelSettings = true;
+            $this->showPlaceholderSettings = true;
+        }
+
         if ($type == 'radio' || $type == 'dropdown' || $type == 'checkbox') {
             $this->showValueSettings = true;
         }
