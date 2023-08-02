@@ -21,6 +21,11 @@
             @endforeach
         </div>
 
+    @elseif($customField->type == 'property')
+        <div class="mt-3">
+            <x-microweber-ui::label for="value" value="Value" />
+            <x-microweber-ui::textarea id="value" class="mt-1 block w-full" wire:model="state.value" />
+        </div>
     @else
         <div class="mt-3">
             <x-microweber-ui::label for="value" value="Value" />

@@ -10,6 +10,15 @@ class CustomFieldEditModalComponent extends AdminModalComponent
     public $customFieldId;
     public $state = [];
 
+
+    public $showValueSettings = false;
+    public $showRequiredSettings = false;
+    public $showLabelSettings = false;
+    public $showPlaceholderSettings = false;
+    public $showErrorTextSettings = false;
+    public $showOptionsSettings = false;
+
+
     public function mount($customFieldId)
     {
         $this->customFieldId = $customFieldId;
@@ -34,7 +43,33 @@ class CustomFieldEditModalComponent extends AdminModalComponent
 
             $getCustomField->save();
 
+            $this->showSettings($getCustomField->type);
+
             $this->emit('customFieldUpdated');
+        }
+    }
+
+    public function showSettings($type)
+    {
+        $this->showValueSettings = false;
+        $this->showRequiredSettings = false;
+        $this->showLabelSettings = false;
+        $this->showPlaceholderSettings = false;
+        $this->showOptionsSettings = false;
+
+        if ($type == 'text' || $type == 'time'  || $type == 'color') {
+            $this->showValueSettings = true;
+            $this->showRequiredSettings = true;
+            $this->showLabelSettings = true;
+            $this->showPlaceholderSettings = true;
+        }
+
+        if ($type == 'hidden') {
+            $this->showValueSettings = true;
+        }
+        
+        if ($type == 'property') {
+            $this->showValueSettings = true;
         }
     }
 
@@ -42,8 +77,9 @@ class CustomFieldEditModalComponent extends AdminModalComponent
     {
         $getCustomField = CustomField::where('id', $this->customFieldId)->first();
         $this->state = $getCustomField->toArray();
-
         $this->state['value'] = $getCustomField->fieldValue;
+
+        $this->showSettings($getCustomField->type);
 
         return view('custom_field::livewire.custom-field-edit-modal-component',[
             'customField' => $getCustomField

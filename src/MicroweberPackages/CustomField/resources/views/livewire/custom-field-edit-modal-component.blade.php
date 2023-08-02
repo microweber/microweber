@@ -27,33 +27,42 @@
                         </div>
                     </div>
 
+                    @if($showValueSettings)
                     <div class="mt-3">
                         <livewire:custom-field-values-edit customFieldId="{{$state['id']}}" />
                     </div>
-
-                    <div class="mt-3">
-                        <x-microweber-ui::label for="show_placeholder" value="Show Placeholder" />
-                        <x-microweber-ui::toggle id="show_placeholder" class="mt-1 block w-full" wire:model="state.options.show_placeholder" />
-                    </div>
-
-                    @if(isset($state['options']['show_placeholder']) && $state['options']['show_placeholder'] == 1)
-                    <div class="mt-1">
-                        <x-microweber-ui::label for="placeholder" value="Placeholder" />
-                        <x-microweber-ui::input id="placeholder" class="mt-1 block w-full" wire:model="state.placeholder" />
-                    </div>
                     @endif
 
+                    @if($showPlaceholderSettings)
+                        <div class="mt-3">
+                            <x-microweber-ui::label for="show_placeholder" value="Show Placeholder" />
+                            <x-microweber-ui::toggle id="show_placeholder" class="mt-1 block w-full" wire:model="state.options.show_placeholder" />
+                        </div>
+
+                        @if(isset($state['options']['show_placeholder']) && $state['options']['show_placeholder'] == 1)
+                        <div class="mt-1">
+                            <x-microweber-ui::label for="placeholder" value="Placeholder" />
+                            <x-microweber-ui::input id="placeholder" class="mt-1 block w-full" wire:model="state.placeholder" />
+                        </div>
+                        @endif
+                    @endif
+
+                    @if($showRequiredSettings)
                     <div class="mt-3">
                         <x-microweber-ui::label for="required" value="Required" />
                         <x-microweber-ui::toggle id="required" class="mt-1 block w-full" wire:model="state.required" />
                     </div>
+                    @endif
 
+                    @if($showLabelSettings)
                      <div class="mt-3">
                         <x-microweber-ui::label for="show_label" value="Show Label" />
                         <x-microweber-ui::toggle id="show_label" class="mt-1 block w-full" wire:model="state.show_label" />
                     </div>
+                    @endif
 
 
+                    @if($showErrorTextSettings)
                     <div class="mt-3">
                         <x-microweber-ui::label for="error_text" value="Error Text" />
                         <x-microweber-ui::input id="error_text" class="mt-1 block w-full" wire:model="state.error_text" />
@@ -61,6 +70,7 @@
                            {{_e('This error will be shown when fields are required but not filled')}}
                         </small>
                     </div>
+                    @endif
 
                 </div>
             </div>
