@@ -13,12 +13,19 @@ class CustomFieldAddModalComponent extends AdminModalComponent
 
     public function add($type, $name)
     {
+        $showEditModal = true;
+
         $newCustomField = new CustomField();
         $newCustomField->name = $name;
         $newCustomField->rel_type = 'content';
         $newCustomField->rel_id = $this->contentId;
         $newCustomField->type = $type;
         $newCustomField->save();
+
+        if ($type == 'address') {
+            $showEditModal = false;
+            $this->generateFieldAddressValues('content', $this->contentId);
+        }
 
         $values = $this->generateFieldNameValues($type);
         if (!empty($values)) {
@@ -33,9 +40,22 @@ class CustomFieldAddModalComponent extends AdminModalComponent
         $this->closeModal();
         $this->emit('customFieldAdded');
 
-        $this->emit('openModal','custom-field-edit-modal', [
-            'customFieldId' => $newCustomField->id
-        ]);
+        if ($showEditModal) {
+            $this->emit('openModal', 'custom-field-edit-modal', [
+                'customFieldId' => $newCustomField->id
+            ]);
+        }
+    }
+
+    private function generateFieldAddressValues($relType, $relId)
+    {
+        $fields = 'Country[type=country,field_size=12,show_placeholder=true],';
+        $fields .= 'City[type=text,field_size=4,show_placeholder=true],';
+        $fields .= 'State/Province[type=text,field_size=4,show_placeholder=true],';
+        $fields .= 'Zip/Post code[type=text,field_size=4,show_placeholder=true],';
+        $fields .= 'Address[type=textarea,field_size=12,show_placeholder=true]';
+
+        return mw()->fields_manager->makeDefault($relType, $relId, $fields);
     }
 
     private function generateFieldNameValues($type)
