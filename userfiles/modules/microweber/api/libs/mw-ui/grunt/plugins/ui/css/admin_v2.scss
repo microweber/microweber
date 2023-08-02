@@ -281,7 +281,7 @@ body, .is_admin {
 
     .nav-item.nav-item-profile {
 
-        padding-inline-start: 33px !important;
+       
 
         .profile-img {
             width: 40px;
@@ -2494,8 +2494,46 @@ svg.text-danger {
     margin-inline: 0;
 }
 
+#admin-sidebar .container-fluid{
+    background-color: var(--tblr-bg-surface);
+}
 #admin-sidebar .navbar-brand img{
     width: 190px;
+}
+
+#sidebar-toggle{
+    display: inline-block;
+ }
+
+
+@media (max-width: 1201px) {
+
+    body.sidebar-mobile-toggle #admin-sidebar:before{
+        content: '';
+        position: fixed;
+        z-index: -1;
+        background-color: #00000035;
+        inset: 0;
+        pointer-events: none;
+    }
+    body.sidebar-mobile-toggle #admin-sidebar {
+        left: 0;
+        opacity: 1;
+        visibility: visible; 
+        box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px, 200px 0 100vw #0000004f;
+         
+    }
+}
+
+
+
+#admin-sidebar .navbar-brand{
+    padding-top: 31px;
+    padding-bottom: 5px;
+}
+#admin-sidebar .navbar-brand,
+#admin-sidebar ul{
+    padding-inline: 15px;
 }
 
 @media (max-width: 1201px) {
@@ -2510,7 +2548,7 @@ svg.text-danger {
         z-index: 2;
         box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
         z-index: 10;
-
+        transition: .6s;
 
         opacity: 0;
         visibility: hidden;
