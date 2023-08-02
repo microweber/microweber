@@ -178,7 +178,7 @@ if (isset($params['edit-user'])) {
     <h5 class="main-pages-title"><?php _e("Manage Users"); ?></h5>
 <?php endif; ?>
 
-<div class="card  bg-azure-lt mb-3">
+<div class="card  mb-3">
     <div class="card-header">
 
     </div>

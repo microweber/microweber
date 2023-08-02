@@ -15,19 +15,13 @@
                         {{$body}}
                     </div>
 
-                    <div class="mt-4">
-
-                        <x-microweber-ui::button-animation class="text-red" wire:click="confirm">
-                            {{$button_text}}
-                        </x-microweber-ui::button-animation>
-
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
+                    <div class="d-flex justify-content-center align-items-center gap-4 mt-4">
                         <x-microweber-ui::button-animation wire:click="$emit('closeModal')">
                             {{_e('Cancel')}}
                         </x-microweber-ui::button-animation>
-
+                        <x-microweber-ui::button-animation class="text-red" wire:click="confirm">
+                            {{$button_text}}
+                        </x-microweber-ui::button-animation>
                     </div>
 
                 </div>

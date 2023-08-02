@@ -11,7 +11,7 @@ else:
 ?>
 
 <div class="table-responsive">
-    <table class="table table-striped">
+    <table class="table card-table table-vcenter">
         <thead>
         <tr>
             <th><?php _e('Coupon ID'); ?></th>

@@ -34,9 +34,9 @@ if(isset($_GET['iframeMode']) and $_GET['iframeMode']){
 
 
 @hasSection('content')
-   
-     
-     <main class="module-main-holder page-wrapper" id="admin-side-content"> 
+
+
+     <main class="module-main-holder page-wrapper" id="admin-side-content">
         @if($options['disableTopBar'] == false)
             @include('admin::layouts.partials.topbar2')
         @endif

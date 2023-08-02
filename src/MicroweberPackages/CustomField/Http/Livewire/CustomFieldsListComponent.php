@@ -12,6 +12,7 @@ class CustomFieldsListComponent extends AdminComponent
 
     public $listeners = [
         'customFieldUpdated'=>'$refresh',
+        'customFieldAdded'=>'$refresh',
         'executeCustomFieldDelete' => 'executeCustomFieldDelete',
     ];
 
