@@ -68,6 +68,13 @@ class CustomFieldAddModalComponent extends AdminModalComponent
 
     public function render()
     {
-        return view('custom_field::livewire.custom-field-add-modal-component');
+        $existingFields = \MicroweberPackages\CustomField\Models\CustomField::where('rel_type', 'content')
+            ->groupBy('name_key')
+            ->orderBy('created_at','desc')
+            ->get();
+
+        return view('custom_field::livewire.custom-field-add-modal-component',[
+            'existingFields' => $existingFields
+        ]);
     }
 }
