@@ -11,6 +11,7 @@
                 </div>
                 <div class="mw-modal-body">
 
+                    {{$state['type']}}
 
                     <div class="d-flex mt-3">
                         <div class="w-full">

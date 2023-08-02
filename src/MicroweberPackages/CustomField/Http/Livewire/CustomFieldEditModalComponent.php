@@ -57,17 +57,33 @@ class CustomFieldEditModalComponent extends AdminModalComponent
         $this->showPlaceholderSettings = false;
         $this->showOptionsSettings = false;
 
-        if ($type == 'text' || $type == 'time'  || $type == 'color') {
+        if ($type == 'text'
+            || $type == 'time'
+            || $type == 'number'
+            || $type == 'phone'
+            || $type == 'website'
+            || $type == 'email'
+            || $type == 'address'
+            || $type == 'country'
+            || $type == 'color') {
             $this->showValueSettings = true;
             $this->showRequiredSettings = true;
             $this->showLabelSettings = true;
             $this->showPlaceholderSettings = true;
         }
 
+        if ($type == 'radio' || $type == 'dropdown' || $type == 'checkbox') {
+            $this->showValueSettings = true;
+        }
+
+        if ($type == 'price') {
+            $this->showValueSettings = true;
+        }
+
         if ($type == 'hidden') {
             $this->showValueSettings = true;
         }
-        
+
         if ($type == 'property') {
             $this->showValueSettings = true;
         }
