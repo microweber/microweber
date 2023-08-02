@@ -79,6 +79,9 @@ class CustomFieldEditModalComponent extends AdminModalComponent
 
         if ($type == 'radio' || $type == 'dropdown' || $type == 'checkbox') {
             $this->showValueSettings = true;
+            $this->showRequiredSettings = true;
+            $this->showLabelSettings = true;
+            $this->showPlaceholderSettings = true;
         }
 
         if ($type == 'price') {
