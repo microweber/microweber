@@ -21,7 +21,7 @@ class CustomFieldsListComponent extends AdminComponent
     {
         if (isset($params['itemIds'])) {
             $itemIds = $params['itemIds'];
-            $position = 1;
+            $position = 0;
             foreach ($itemIds as $itemId) {
                 $findCustomField = CustomField::where('id', $itemId)->first();
                 if ($findCustomField) {

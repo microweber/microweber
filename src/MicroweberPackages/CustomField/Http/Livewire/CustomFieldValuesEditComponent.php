@@ -21,7 +21,18 @@ class CustomFieldValuesEditComponent extends AdminComponent
 
     public function onReorderCustomFieldValuesList($params)
     {
-      //  dd($params);
+        if (isset($params['itemIds'])) {
+            $itemIds = $params['itemIds'];
+            $position = 0;
+            foreach ($itemIds as $itemId) {
+                $findCustomField = CustomFieldValue::where('id', $itemId)->first();
+                if ($findCustomField) {
+                    $findCustomField->position = $position;
+                    $findCustomField->save();
+                }
+                $position++;
+            }
+        }
     }
 
     public function add()
