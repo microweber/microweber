@@ -24,7 +24,7 @@ Route::name('api.')
     ->group(function () {
 
         Route::apiResource('content', 'ContentApiController')->only([
-            'store', // 'update','destroy','index','show'
+            'update','destroy','index','show'
         ]);
 
         Route::post('save_edit', function (\Illuminate\Http\Request $request) {
