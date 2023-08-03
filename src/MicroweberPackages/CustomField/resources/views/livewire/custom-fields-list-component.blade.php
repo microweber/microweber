@@ -24,7 +24,7 @@
                     <table class="table card-table table-vcenter mw-mobile-table" style="min-width: 270px;">
                         <thead>
                         <tr>
-                            <th>
+                            <th style="width:5px">
                                 <small>#</small>
                             </th>
                             <th>
@@ -52,7 +52,7 @@
                                 <div class="js-sort-handle">
                                     <div>
                                         <svg class="mdi-cursor-move cursor-grab ui-sortable-handle"
-                                             fill="currentColor"
+                                             fill="#8e8e8e"
                                              xmlns="http://www.w3.org/2000/svg" height="24"
                                              viewBox="0 96 960 960" width="24">
                                             <path

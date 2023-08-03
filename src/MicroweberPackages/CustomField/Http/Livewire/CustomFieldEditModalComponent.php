@@ -4,6 +4,7 @@ namespace MicroweberPackages\CustomField\Http\Livewire;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
 class CustomFieldEditModalComponent extends AdminModalComponent
 {
@@ -28,6 +29,10 @@ class CustomFieldEditModalComponent extends AdminModalComponent
         $getCustomField = CustomField::where('id', $this->customFieldId)->first();
         if ($getCustomField) {
 
+            if ($getCustomField->type != $this->state['type']) {
+                CustomFieldValue::where('custom_field_id', $this->customFieldId)->delete();
+            }
+
             $getCustomField->name = $this->state['name'];
             $getCustomField->options = $this->state['options'];
             $getCustomField->type = $this->state['type'];
@@ -37,7 +42,9 @@ class CustomFieldEditModalComponent extends AdminModalComponent
             $getCustomField->placeholder = $this->state['placeholder'];
 
             if (isset($this->state['value'])) {
-                $getCustomField->value = $this->state['value'];
+                if (is_string($this->state['value'])) {
+                    $getCustomField->value = $this->state['value'];
+                }
             }
 
             $getCustomField->save();
