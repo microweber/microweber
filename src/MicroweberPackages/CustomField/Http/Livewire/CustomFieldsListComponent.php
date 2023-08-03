@@ -14,7 +14,24 @@ class CustomFieldsListComponent extends AdminComponent
         'customFieldUpdated'=>'$refresh',
         'customFieldAdded'=>'$refresh',
         'executeCustomFieldDelete' => 'executeCustomFieldDelete',
+        'onReorderCustomFieldsList'=>'onReorderCustomFieldsList'
     ];
+
+    public function onReorderCustomFieldsList($params)
+    {
+        if (isset($params['itemIds'])) {
+            $itemIds = $params['itemIds'];
+            $position = 1;
+            foreach ($itemIds as $itemId) {
+                $findCustomField = CustomField::where('id', $itemId)->first();
+                if ($findCustomField) {
+                    $findCustomField->position = $position;
+                    $findCustomField->save();
+                }
+                $position++;
+            }
+        }
+    }
 
     public function executeCustomFieldDelete($id) {
         $findCustomField = CustomField::where('id', $id)->first();
