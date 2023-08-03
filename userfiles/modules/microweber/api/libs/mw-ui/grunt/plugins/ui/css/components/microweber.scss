@@ -109,11 +109,17 @@ img[src*=pixum_img] {
     width: 100%;
     max-width: 100%;
     zoom: 1;
+    
 }
 
-/*.mw-col, .mw-row, .element {
-    position: relative;
-}*/
+.mw-row {
+    display: flex;
+    .mw-col{
+        display: flex;
+        min-width: 40px;
+        flex-grow: 1;
+    }
+}
 
 body.state-element .mw-row .element {
     z-index: 91;

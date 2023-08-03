@@ -73,7 +73,8 @@ export default {
                 options.as_element = true;
             }
 
-            mw.app.editor.insertModule(module,options);
+            console.log(module, options);
+            mw.app.editor.insertModule(module, options);
             this.showModal = false;
         },
         filterModules() {

@@ -1,10 +1,10 @@
- <aside class="navbar navbar-vertical navbar-expand-xl admin-dashboard-left-nav " id="admin-sidebar">  
- 
+ <aside class="navbar navbar-vertical navbar-expand-xl admin-dashboard-left-nav " id="admin-sidebar">
+
 
     <div class="container-fluid" >
-  
 
-        <h1 class="navbar-brand navbar-nav-padding navbar-brand-autodark justify-content-start" style="padding: 0;">
+
+        <h1 class="navbar-brand">
             <?php
             if (mw()->ui->admin_logo != false):
                 $logo = mw()->ui->admin_logo;
@@ -83,12 +83,16 @@
             var setSidebarSize = function(size, init) {
                 size = parseFloat(size);
                 if(!size || isNaN(size)){
-                    return;
+                    size = 240
                 }
-                 
+
                 $('#pages-tree-container').css('transition', 'none')
+                $('.mw-admin-toggle-tree-navigation').css({
+                    'left':  size,
+                    'transition':  'none',
+                })
                 $('#pages-tree-container').width(size - 20)
-                $('#pages-tree-container').css('transition', '')
+                $('#pages-tree-container, .mw-admin-toggle-tree-navigation').css('transition', '')
                 
                 if(init) {
                     $("#admin-sidebar").width(size)
@@ -98,7 +102,7 @@
             }
 
             var sidebarSize = mw.storage.get('mw-admin-sidebar-size');
-            
+
             if(sidebarSize) {
                 setSidebarSize(sidebarSize, true)
             }
@@ -110,8 +114,8 @@
                 resize: function(e, ui) {
 
                     setSidebarSize(ui.size.width)
-                   
- 
+
+
                 }
             })
 

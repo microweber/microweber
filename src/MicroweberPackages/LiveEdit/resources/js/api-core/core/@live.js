@@ -131,14 +131,17 @@ export class LiveEdit {
             return _dlg;
         };
 
+      
 
         var elementHandle = this.elementHandle = new Handle({
             ...this.settings,
             dropIndicator: this.dropIndicator,
             content: elementHandleContent.root,
             // handle: elementHandleContent.menu.title,
-            handle: ElementManager('.mw-handle-drag-button', elementHandleContent.root.get(0)),
-            handle: 'self',
+            handle:  '.mw-handle-drag-button' ,
+            handle:  '.mw-handle-item-menus-holder' ,
+            handle:  '.mw-le-handle-menu-buttons' ,
+            // handle: 'self',
             document: this.settings.document,
             stateManager: this.settings.stateManager,
             resizable: true,
@@ -389,7 +392,7 @@ export class LiveEdit {
         this.handles.hide();
 
 
-        console.log(4)
+ 
 
 
 
@@ -460,6 +463,13 @@ export class LiveEdit {
             target = target.parentNode
         }
 
+        if(target.classList.contains('mw-empty-element') || target.classList.contains('mw-col-container')){
+            const col = DomService.firstParentOrCurrentWithClass(target, 'mw-col');
+            if(col) {
+                target = col
+            }
+        }
+
         return target
     }
 
@@ -483,7 +493,7 @@ export class LiveEdit {
 
 
             var target = e.target ? e.target : e;
-            console.log(target)
+        
 
             if (target && target.className && typeof target.className === 'string' && target.className.indexOf('layout-plus') !== -1) {
                 return;
@@ -527,6 +537,8 @@ export class LiveEdit {
          events = 'mousedown touchstart';
         // events = 'click';
         ElementManager(this.root).on('mousemove', (e) => {
+
+            if(e.which === 1) {
 
             var currentMousePosition = { x: e.pageX, y: e.pageY };
             if (this.lastMousePosition) {
@@ -665,6 +677,7 @@ export class LiveEdit {
 
                 this.moduleHandle.draggablePaused(target)
             } 
+            } 
 
         })
         let _dblclicktarget
@@ -713,7 +726,7 @@ export class LiveEdit {
  
                 
                
-                console.log(elementTarget)
+                 
 
                 if (!elementTarget || (elementTarget && !elementTarget.contains(e.target))) {
                     this.play();

@@ -3,28 +3,6 @@
 @import "_mw_tabler";
 @import "file-robot-image-editor";
 
-
-//!!!!!!!!!!!!!!!!! RTL STYLE !!!!!!!!!!!!!!!!!!!!
-
-html[dir="rtl"] {
-
-    .table-blade-sortable-elements {
-        left: 0;
-        right: unset;
-    }
-
-    .input-group-text {
-        border-top-left-radius: 5px !important;
-        border-bottom-left-radius: 5px !important;
-
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-    }
-}
-
-//END RTL STYLE
-
-
 :root {
 
     //--tblr-body-bg: white;
@@ -265,12 +243,17 @@ body, .is_admin {
     display: block !important;
 }
 
+.navbar-vertical.navbar-expand-xl {
+    overflow: hidden;
+}
+
+
 .admin-dashboard-left-nav {
     background-color: var(--tblr-bg-surface);
-    padding: 0 0 0 20px !important;
-
-
  
+
+
+
 
 
     li {
@@ -298,7 +281,14 @@ body, .is_admin {
 
     .nav-item.nav-item-profile {
 
-        padding-inline-start: 33px !important;
+       
+
+        .profile-img {
+            width: 40px;
+            height: 40px; object-fit: cover;
+            object-position: center;
+            margin-inline-end: 10px;
+        }
     }
 
 
@@ -1362,7 +1352,7 @@ input[type=number] {
     }
 }
 
- 
+
 
 .mw-content-vision-tabs {
     border-color: transparent !important;
@@ -1861,6 +1851,7 @@ svg.text-danger {
         }
     }
 
+
     .manage-content-body {
         padding: 10px !important;
         .card {
@@ -1917,10 +1908,11 @@ svg.text-danger {
     box-shadow: none;
     height: 100%;
  }
+
  #pages-tree-wrapper{
     transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);
     position: fixed;
-    top: 60px;
+    top: 80px;
     bottom: 0;
     left: 0;
     z-index: 1060;
@@ -2091,8 +2083,12 @@ svg.text-danger {
 
 }
 
-.mw-le-nav-box nav a:hover {
-    background-color: var(--tblr-body-bg) !important;
+.mw-le-nav-box {
+    nav a {
+        &:hover {
+            background-color: var(--tblr-body-bg) !important;
+        }
+    }
 }
 
 
@@ -2224,6 +2220,7 @@ svg.text-danger {
         outline: none;
         background-color: #f5f5f5;
         padding-inline-start: 10px;
+
 
          &:focus, &:focus-visible {
             outline: none;
@@ -2497,8 +2494,46 @@ svg.text-danger {
     margin-inline: 0;
 }
 
+#admin-sidebar .container-fluid{
+    background-color: var(--tblr-bg-surface);
+}
 #admin-sidebar .navbar-brand img{
     width: 190px;
+}
+
+#sidebar-toggle{
+    display: inline-block;
+ }
+
+
+@media (max-width: 1201px) {
+
+    body.sidebar-mobile-toggle #admin-sidebar:before{
+        content: '';
+        position: fixed;
+        z-index: -1;
+        background-color: #00000035;
+        inset: 0;
+        pointer-events: none;
+    }
+    body.sidebar-mobile-toggle #admin-sidebar {
+        left: 0;
+        opacity: 1;
+        visibility: visible; 
+        box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px, 200px 0 100vw #0000004f;
+         
+    }
+}
+
+
+
+#admin-sidebar .navbar-brand{
+    padding-top: 31px;
+    padding-bottom: 5px;
+}
+#admin-sidebar .navbar-brand,
+#admin-sidebar ul{
+    padding-inline: 15px;
 }
 
 @media (max-width: 1201px) {
@@ -2507,21 +2542,21 @@ svg.text-danger {
         width: 240px!important;
     }
     #admin-sidebar {
-        
+
         position: fixed;
         height: 100vh;
         z-index: 2;
         box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
         z-index: 10;
-        
-        
+        transition: .6s;
+
         opacity: 0;
         visibility: hidden;
         left: -100%;
     }
     #admin-sidebar .ui-resizable-handle{
         display: none !important;
-    }   
+    }
 }
 @media (min-width: 1200px) {
     #admin-sidebar{
@@ -2576,4 +2611,17 @@ svg.text-danger {
         cursor: pointer;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     }
+}
+
+.mw-fields-upload-buttons {
+    .input-group {
+        .btn {
+            margin-bottom: 0 !important;
+            margin-inline-start: 10px;
+        }
+    }
+}
+
+.navbar-expand-xl.navbar-vertical~.navbar, .navbar-expand-xl.navbar-vertical~.page-wrapper {
+    margin: 0!important;
 }

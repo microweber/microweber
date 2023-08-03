@@ -148,6 +148,7 @@ mw.askusertostay = false;
 
   mw.module = {
     insert: function(target, module, config, pos, stateManager) {
+         
         return new Promise(function (resolve) {
             pos = pos || 'bottom';
             var action;
@@ -156,15 +157,24 @@ mw.askusertostay = false;
 
         if (pos === 'top') {
             action = 'before';
-            if(mw.tools.hasClass(target, 'allow-drop')) {
+            if(mw.tools.hasAnyOfClasses(target, ['allow-drop', 'mw-col'])) {
                 action = 'prepend';
             }
         } else if (pos === 'bottom') {
             action = 'after';
-            if(mw.tools.hasClass(target, 'allow-drop')) {
+            if(mw.tools.hasAnyOfClasses(target, ['allow-drop', 'mw-col'])) {
                 action = 'append';
             }
         }
+        if(mw.tools.hasAnyOfClasses(target, [ 'mw-col'])) {
+             if(target.firstElementChild.classList.contains('mw-col-container')) {
+                target = target.firstElementChild;
+                if(target.firstElementChild.classList.contains('mw-empty-element')) {
+                    target = target.firstElementChild
+                 }
+             }
+        }
+
         var parent = mw.$(target).parent().get(0);
 
         if(stateManager) {

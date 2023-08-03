@@ -40,8 +40,12 @@ export const Draggable = function (options, rootSettings) {
         if(!this.settings.handle) {
             this.settings.handle = this.settings.element;
         }
-        this.handle = this.settings.handle;
-        this.handle.attr('draggable', 'true')
+        this.handle = ElementManager(this.settings.handle);
+        this.handle.attr('draggable', 'true');
+        setTimeout(() => {
+            this.handleInit()
+        }, 3000)
+        this.handleInit()
     };
 
     this.setTargets = function (targets) {
@@ -143,9 +147,26 @@ export const Draggable = function (options, rootSettings) {
             }
             if(scope.dropIndicator) scope.dropIndicator.hide();
         });
-    
-        this.handle
+
+
+        this.handleInit()
+
+    };
+
+    this.handleInit = function() {
+        var el = this.handle.get(0);
+        var handleEl = this.handle.get(0);
+
+
+       
+         
+         
+        if(el && !handleEl.$handleInit) {
+            handleEl.$handleInit = true;
+            this.handle.attr('draggable', 'true')
+            this.handle
             .on('dragstart', function (e) {
+                 
                 scope.isDragging = true;
                 if (!scope.element.id) {
                     scope.element.id = ('mw-element-' + new Date().getTime());
@@ -178,6 +199,9 @@ export const Draggable = function (options, rootSettings) {
                 scope.dispatch('dragEnd',{element: scope.element, event: e});
                 stop = true;
             });
-    };
+        }
+    }
+
+
     this.init();
 };

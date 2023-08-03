@@ -59,7 +59,8 @@ body:not(.is_admin) [contenteditable="true"]{
 
 #sidebar-menu{
     overflow: auto;
-    max-height: calc(100vh - 20px);
+    max-height: calc(100vh - 80px);
+    padding: 0 !important;  
 }
 
 

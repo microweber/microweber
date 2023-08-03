@@ -402,7 +402,7 @@ if (isset($params['quick_edit'])) {
             })
         </script>
 
-        <div class="row" x-data="{showEditTab: 'details'}">
+        <div class="row mw-100" x-data="{showEditTab: 'details'}">
             <div class="col-lg-8 manage-content-body px-5">
 
                 <?php if (isset($data['is_deleted']) and $data['is_deleted']) : ?>

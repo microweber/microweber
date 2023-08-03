@@ -333,6 +333,7 @@ export const Handle = function (options) {
         this.resizer.mount();
         this.resizer.on('resize',  data => {
             const target = this.getTarget();
+            const prevData = target.$$prevData || data;
             if(this.settings.automaticMaxWidth) {
                 target.style.maxWidth = '100%';
             }
@@ -345,7 +346,31 @@ export const Handle = function (options) {
                 target.style.minHeight = data.height + 'px';
                 target.style.width = data.width + 'px';
             }
+             
+            var isCol = target.classList.contains('mw-col');
+            if(isCol) {
+                const next = target.nextElementSibling;
+                const prev = target.previousElementSibling;
+                if(next) {
+                    // const nextWidth = parseFloat(next.ownerDocument.defaultView.getComputedStyle(next).width)
+                    const nextWidth = next.offsetWidth
+                    if(prevData.width > data.width) {
+                        next.style.width = (nextWidth + (prevData.width - data.width )) + 'px'
+                    } else {
+                        next.style.width = (nextWidth - (data.width - prevData.width )) + 'px'
+                    }
+                } else if(prev) {
+                    const prevWidth = prev.offsetWidth
+                    if(prevData.width > data.width) {
+                        prev.style.width = (prevWidth + (prevData.width - data.width )) + 'px'
+                    } else {
+                        prev.style.width = (prevWidth - (data.width - prevData.width )) + 'px'
+                    }
+                }
+            }
             this.set(target)
+
+            target.$$prevData = data;
         });
     }
 
