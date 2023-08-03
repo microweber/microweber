@@ -127,7 +127,7 @@ class CustomFieldValuesEditComponent extends AdminComponent
 
     public function render()
     {
-//        $this->customField = CustomField::where('id', $this->customFieldId)->first();
+        $this->customField = CustomField::where('id', $this->customFieldId)->first();
 //        if ($this->customField->fieldValue->count() == 0) {
 //            $values = CustomFieldsHelper::generateFieldNameValues($this->customField->type);
 //            if (!empty($values)) {
