@@ -5,11 +5,9 @@
         <div>
             <x-microweber-ui::label value="Values" />
 
-            {!! json_encode($inputs, JSON_PRETTY_PRINT) !!}
-
-            <div id="js-sortable-items-holder">
-            @foreach($inputs as $key => $value)
-                <div class="d-flex gap-3 mt-3 js-sortable-item" sort-key="{{ $key }}">
+            <div id="js-sortable-items-holder-{{$this->id}}">
+            @foreach($customField->fieldValue as $fieldValue)
+                <div class="d-flex gap-3 mt-3 js-sortable-item" sort-key="{{ $fieldValue->id }}">
                     <div class="d-flex justify-content-center align-items-center">
                         <div class="js-sort-handle">
                             <svg class="mdi-cursor-move cursor-grab ui-sortable-handle"
@@ -22,12 +20,12 @@
                         </div>
                     </div>
                     <div class="w-full">
-                        <x-microweber-ui::input class="mt-1 block w-full" wire:model="inputs.{{ $key }}" />
-                        @error('inputs.'.$key) <span class="text-danger error">{{ $message }}</span>@enderror
+                        <x-microweber-ui::input class="mt-1 block w-full" wire:model="inputs.{{ $fieldValue->id }}" />
+                        @error('inputs.'.$fieldValue->id) <span class="text-danger error">{{ $message }}</span>@enderror
                     </div>
                     <div class="d-flex gap-3 justify-content-center align-items-center">
                         <button class="btn btn-outline-success btn-sm" wire:click.prevent="add()">Add</button>
-                        <button class="btn btn-outline-danger btn-sm" wire:click.prevent="remove({{$key}})">Delete</button>
+                        <button class="btn btn-outline-danger btn-sm" wire:click.prevent="remove({{$fieldValue->id}})">Delete</button>
                     </div>
                 </div>
             @endforeach
@@ -50,20 +48,20 @@
     <div wire:ignore>
         <script>
             window.mw.custom_fields_values_sort = function () {
-                if (!mw.$("#js-sortable-items-holder").hasClass("ui-sortable")) {
-                    mw.$("#js-sortable-items-holder").sortable({
+                if (!mw.$("#js-sortable-items-holder-{{$this->id}}").hasClass("ui-sortable")) {
+                    mw.$("#js-sortable-items-holder-{{$this->id}}").sortable({
                         items: '.js-sortable-item',
                         axis: 'y',
                         handle: '.js-sort-handle',
                         update: function () {
                             setTimeout(function () {
                                 var obj = {itemIds: []};
-                                var sortableItems = document.querySelectorAll('#js-sortable-items-holder .js-sortable-item');
+                                var sortableItems = document.querySelectorAll('#js-sortable-items-holder-{{$this->id}} .js-sortable-item');
                                 sortableItems.forEach(function (item) {
                                     var id = item.getAttribute('sort-key');
                                     obj.itemIds.push(id);
                                 });
-                                Livewire.emit('onReorderCustomFieldValuesList', obj);
+                                window.Livewire.emit('onReorderCustomFieldValuesList', obj);
                             }, 300);
                         },
                         scroll: false

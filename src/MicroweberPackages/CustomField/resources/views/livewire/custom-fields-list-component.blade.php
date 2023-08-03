@@ -18,7 +18,6 @@
                 </div>
             </div>
 
-
             <div class="table-responsive">
                 <div class="mw-responsive-table-wrapper">
                     <table class="table card-table table-vcenter mw-mobile-table" style="min-width: 270px;">
@@ -44,7 +43,7 @@
                             </th>
                         </tr>
                         </thead>
-                        <tbody id="js-sortable-items-holder">
+                        <tbody id="js-sortable-items-holder-{{$this->id}}">
 
                         @foreach($customFields as $customField)
                         <tr class="js-sortable-item" sort-key="{{ $customField->id }}">
@@ -122,15 +121,15 @@
             <script>
                 window.mw.items_editor_sort = function () {
 
-                    if (!mw.$("#js-sortable-items-holder").hasClass("ui-sortable")) {
-                        mw.$("#js-sortable-items-holder").sortable({
+                    if (!mw.$("#js-sortable-items-holder-{{$this->id}}").hasClass("ui-sortable")) {
+                        mw.$("#js-sortable-items-holder-{{$this->id}}").sortable({
                             items: '.js-sortable-item',
                             axis: 'y',
                             handle: '.js-sort-handle',
                             update: function () {
                                 setTimeout(function () {
                                     var obj = {itemIds: []};
-                                    var sortableItems = document.querySelectorAll('#js-sortable-items-holder .js-sortable-item');
+                                    var sortableItems = document.querySelectorAll('#js-sortable-items-holder-{{$this->id}} .js-sortable-item');
                                     sortableItems.forEach(function (item) {
                                         var id = item.getAttribute('sort-key');
                                         obj.itemIds.push(id);

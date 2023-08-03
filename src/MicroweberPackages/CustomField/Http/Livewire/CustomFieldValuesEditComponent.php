@@ -21,7 +21,7 @@ class CustomFieldValuesEditComponent extends AdminComponent
 
     public function onReorderCustomFieldValuesList($params)
     {
-
+      //  dd($params);
     }
 
     public function add()
@@ -40,10 +40,10 @@ class CustomFieldValuesEditComponent extends AdminComponent
 
     public function remove($i)
     {
-        if (count($this->inputs) == 1) {
-            $this->addError('inputs.'.$i, 'You must have at least one input.');
-            return;
-        }
+//        if (count($this->inputs) == 1) {
+//            $this->addError('inputs.'.$i, 'You must have at least one input.');
+//            return;
+//        }
 
         if (isset($this->inputs[$i])) {
             $findCustomFieldValue = CustomFieldValue::where('custom_field_id', $this->customFieldId)
@@ -65,22 +65,22 @@ class CustomFieldValuesEditComponent extends AdminComponent
 
         $getCustomField = CustomField::where('id', $this->customFieldId)->first();
         foreach($getCustomField->fieldValue as $fieldValue) {
-              $this->inputs[] = $fieldValue->value;
+          $this->inputs[$fieldValue->id] = $fieldValue->value;
         }
 
-        if($getCustomField->type == 'checkbox' || $getCustomField->type == 'dropdown' || $getCustomField->type == 'radio') {
-            if (empty($this->inputs)) {
-                $values = CustomFieldsHelper::generateFieldNameValues($getCustomField->type);
-                if (!empty($values)) {
-                    foreach ($values as $value) {
-                        $customFieldValue = new CustomFieldValue();
-                        $customFieldValue->custom_field_id = $getCustomField->id;
-                        $customFieldValue->value = $value;
-                        $customFieldValue->save();
-                    }
-                }
-            }
-        }
+//        if($getCustomField->type == 'checkbox' || $getCustomField->type == 'dropdown' || $getCustomField->type == 'radio') {
+//            if (empty($this->inputs)) {
+//                $values = CustomFieldsHelper::generateFieldNameValues($getCustomField->type);
+//                if (!empty($values)) {
+//                    foreach ($values as $value) {
+//                        $customFieldValue = new CustomFieldValue();
+//                        $customFieldValue->custom_field_id = $getCustomField->id;
+//                        $customFieldValue->value = $value;
+//                        $customFieldValue->save();
+//                    }
+//                }
+//            }
+//        }
 
         $this->customField = $getCustomField;
 
@@ -116,18 +116,18 @@ class CustomFieldValuesEditComponent extends AdminComponent
 
     public function render()
     {
-        $this->customField = CustomField::where('id', $this->customFieldId)->first();
-        if ($this->customField->fieldValue->count() == 0) {
-            $values = CustomFieldsHelper::generateFieldNameValues($this->customField->type);
-            if (!empty($values)) {
-                foreach ($values as $value) {
-                    $customFieldValue = new CustomFieldValue();
-                    $customFieldValue->custom_field_id = $this->customField->id;
-                    $customFieldValue->value = $value;
-                    $customFieldValue->save();
-                }
-            }
-        }
+//        $this->customField = CustomField::where('id', $this->customFieldId)->first();
+//        if ($this->customField->fieldValue->count() == 0) {
+//            $values = CustomFieldsHelper::generateFieldNameValues($this->customField->type);
+//            if (!empty($values)) {
+//                foreach ($values as $value) {
+//                    $customFieldValue = new CustomFieldValue();
+//                    $customFieldValue->custom_field_id = $this->customField->id;
+//                    $customFieldValue->value = $value;
+//                    $customFieldValue->save();
+//                }
+//            }
+//        }
 
         return view('custom_field::livewire.custom-field-values-edit-component');
     }
