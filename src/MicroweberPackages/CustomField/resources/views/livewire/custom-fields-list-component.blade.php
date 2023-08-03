@@ -128,22 +128,16 @@
                             axis: 'y',
                             handle: '.js-sort-handle',
                             update: function () {
-
                                 setTimeout(function () {
                                     var obj = {itemIds: []};
                                     var sortableItems = document.querySelectorAll('#js-sortable-items-holder .js-sortable-item');
-
                                     sortableItems.forEach(function (item) {
                                         var id = item.getAttribute('sort-key');
                                         obj.itemIds.push(id);
                                     });
-
                                     Livewire.emit('onReorderCustomFieldsList', obj);
                                 }, 300);
-
-
                             },
-
                             scroll: false
                         });
                     }
