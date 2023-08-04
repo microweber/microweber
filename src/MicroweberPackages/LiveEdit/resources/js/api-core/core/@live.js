@@ -138,7 +138,7 @@ export class LiveEdit {
             dropIndicator: this.dropIndicator,
             content: elementHandleContent.root,
  
-            handle:  '.mw-handle-drag-button' ,
+            handle:  '.mw-handle-drag-button-element' ,
  
             document: this.settings.document,
             stateManager: this.settings.stateManager,
@@ -184,12 +184,12 @@ export class LiveEdit {
             ...this.settings,
             dropIndicator: this.dropIndicator,
             content: moduleHandleContent.root,
-            handle: moduleHandleContent.menu.title,
+            // handle: moduleHandleContent.menu.title,
             document: this.settings.document,
             stateManager: this.settings.stateManager,
             resizable: false,
             id: 'mw-handle-item-module-menu',
-            handle:  '.mw-handle-drag-button' ,
+            handle:  '.mw-handle-drag-button-module' ,
             setDraggableTarget: function (target) {
                 if (target.nodeType === 1) {
 
@@ -684,14 +684,24 @@ export class LiveEdit {
 
             const selected = mw.app.liveEdit.elementHandle.getTarget();
             const module = mw.app.liveEdit.moduleHandle.getTarget();
+            const layout = mw.app.liveEdit.layoutHandle.getTarget();
 
-            if(module) {
+ 
+
+
+            if(layout && !selected && !module) {
+                moduleSettingsDispatch(layout);
+                return false
+            }
+            if(module && !selected) {
                 moduleSettingsDispatch(module);
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 return false
             }
 
+
+            
             if (selected && selected.contains(_dblclicktarget)) {
                 mw.app.editor.dispatch('editNodeRequest', selected);
             }

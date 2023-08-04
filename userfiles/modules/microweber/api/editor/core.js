@@ -402,21 +402,25 @@
                     });
 
                 }
+                
 
                 lscope.select.get(0).ownerDocument.querySelectorAll('.mw-bar-control-item.active, .mw-editor-controller-component.active').forEach(node => {
-                    if(node !== _this) {
+                    if(node !== _this  && !node.contains(_this)) {
                         node.classList.remove('active')
                     }
-                })
+                });
+
+ 
 
                 mw.element('.mw-editor-controller-component-select').each(function (){
-                    if (this !== curr ) {
+                    if (this !== curr && !this.contains(_this) ) {
                         this.classList.remove('active');
                     }
                 });
                 mw.element(_this).toggleClass('active');
                 mw.element('.mw-bar-control-item.active').each(function (){
-                    if(!this.contains(lscope.select.get(0))){
+                   
+                    if(!this.contains(lscope.select.get(0)) ){
                         mw.element(this).removeClass('active');
                     }
 

@@ -378,18 +378,7 @@ if(window.self !== window.top) {
         return mw.top().app.editor.dispatch('onModuleSettingsRequest', target);
     };
 
-    mw.top().app.canvas.on('canvasDocumentDoubleClick', function (event) {
-        if (event && event.target) {
-            var hasParentModule = mw.tools.hasParentsWithClass(event.target, 'module');
-            if (hasParentModule) {
-                var firstModule = mw.tools.firstParentOrCurrentWithAnyOfClasses(event.target, ['module']);
-                var shouldSkip = mw.tools.hasAnyOfClassesOnNodeOrParent(event.target, ['safe-element', 'nodrop', 'allow-drop', 'module-layout']);
-                if (!shouldSkip && firstModule) {
-                    mw.top().app.editor.dispatch('onModuleSettingsRequest', firstModule);
-                }
-            }
-        }
-    });
+
 
     document.addEventListener('keydown', function (event) {
         if (event.ctrlKey && event.key === 's') {

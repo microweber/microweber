@@ -21,7 +21,7 @@ export class ModuleSettings extends MicroweberBaseClass {
             mw.app.liveEdit.handles.get('module').set(module)
             mw.app.liveEdit.handles.get('module').position(module)
 
-            console.log(module)
+           
 
 
 

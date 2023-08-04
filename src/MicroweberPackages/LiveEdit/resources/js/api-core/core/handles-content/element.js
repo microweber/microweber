@@ -10,23 +10,7 @@ export const ElementHandleContent = function (proto) {
     });
 
 
-    const columnsMenu = [
-        {
-            title: 'Add column' ,
-            text: '',
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11,2A2,2 0 0,1 13,4V20A2,2 0 0,1 11,22H2V2H11M4,10V14H11V10H4M4,16V20H11V16H4M4,4V8H11V4H4M15,11H18V8H20V11H23V13H20V16H18V13H15V11Z" /></svg>',
-            className: 'mw-handle-clone-button',
-            onTarget: function (target, selfNode) {
-                selfNode.style.display = target.classList.contains('mw-col') ? '' : 'none';
-            },
-            action: function (el) {
-
-       
-
-                ElementManager(el).after(el.outerHTML)
-            }
-        },
-    ]
+ 
 
     const cloneAbleMenu = [
         {
@@ -47,8 +31,9 @@ export const ElementHandleContent = function (proto) {
                     el.style.width = ''
                     next.style.width = ''
                 }
-                console.log(proto)
-                proto.elementHandle.set(el)
+                 
+                proto.elementHandle.set(el);
+                mw.app.registerChangedState(el)
             }
         },
         {
@@ -65,7 +50,8 @@ export const ElementHandleContent = function (proto) {
                 const prev = el.previousElementSibling;
                 if(prev) {
                     prev.before(el);
-                    proto.elementHandle.set(el)
+                    proto.elementHandle.set(el);
+                    mw.app.registerChangedState(el)
                 }
             }
         },
@@ -84,7 +70,8 @@ export const ElementHandleContent = function (proto) {
 
                 if(next) {
                     next.after(el);
-                    proto.elementHandle.set(el)
+                    proto.elementHandle.set(el);
+                    mw.app.registerChangedState(el)
                 }
 
             }
@@ -96,7 +83,7 @@ export const ElementHandleContent = function (proto) {
             title: 'Drag' ,
             text: '',
             icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7,19V17H9V19H7M11,19V17H13V19H11M15,19V17H17V19H15M7,15V13H9V15H7M11,15V13H13V15H11M15,15V13H17V15H15M7,11V9H9V11H7M11,11V9H13V11H11M15,11V9H17V11H15M7,7V5H9V7H7M11,7V5H13V7H11M15,7V5H17V7H15Z" /></svg>',
-            className: 'mw-handle-drag-button',
+            className: 'mw-handle-drag-button mw-handle-drag-button-element',
             onTarget: function (target, selfNode) {
                 // console.log(target)
             },
@@ -146,7 +133,7 @@ export const ElementHandleContent = function (proto) {
             }
         },
         ...cloneAbleMenu,
-        // ...columnsMenu,
+         
         
     ]
 
