@@ -85,8 +85,6 @@ class CustomFieldEditModalComponent extends AdminModalComponent
     {
         $getCustomField = CustomField::where('id', $this->customFieldId)->first();
         $this->state = $getCustomField->toArray();
-        $this->state['value'] = $getCustomField->fieldValue;
-
         $this->showSettings($getCustomField->type);
 
         return view('custom_field::livewire.custom-field-edit-modal-component',[

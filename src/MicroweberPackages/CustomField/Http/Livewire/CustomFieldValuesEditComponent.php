@@ -84,11 +84,10 @@ class CustomFieldValuesEditComponent extends AdminComponent
     {
         if (!empty($this->inputs)) {
 
-            $values = array_values($this->inputs);
+            $saveField = $this->state;
+           // $saveField['value'] = array_values($this->inputs);
 
-            $this->state['value'] = $values;
-
-            mw()->fields_manager->save($this->state);
+            mw()->fields_manager->save($saveField);
 
             $this->emit('customFieldUpdated');
         }
