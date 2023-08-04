@@ -1,5 +1,12 @@
 <div>
 
+    @if($customField->type =='text')
+        <div class="mt-3">
+            <x-microweber-ui::label for="as_text_area" value="Use as textarea" />
+            <x-microweber-ui::toggle id="as_text_area" class="mt-1 block w-full" wire:model="state.options.as_text_area" />
+        </div>
+    @endif
+
     @if($customField->type == 'checkbox' || $customField->type == 'dropdown' || $customField->type == 'radio')
 
         <div>
@@ -31,6 +38,13 @@
             @endforeach
             </div>
         </div>
+
+    @elseif($customField->type == 'price')
+
+    <div class="mt-1">
+        <x-microweber-ui::label for="price" value="Price" />
+        <x-microweber-ui::input-price id="price" wire:model.defer="state.value" />
+    </div>
 
     @elseif($customField->type == 'property')
         <div class="mt-3">

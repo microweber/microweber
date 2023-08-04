@@ -44,13 +44,6 @@
 
                     @endif
 
-                    @if($state['type'] == 'text')
-                        <div class="mt-3">
-                            <x-microweber-ui::label for="as_text_area" value="Use as textarea" />
-                            <x-microweber-ui::toggle id="as_text_area" class="mt-1 block w-full" wire:model.defer="state.options.as_text_area" />
-                        </div>
-                    @endif
-
                     @if($state['type'] == 'upload')
                         @php
                         $allowedFormatsForUpload = [
@@ -70,12 +63,13 @@
                     @endif
 
                     @if($showValueSettings)
-                    <div class="mt-3">
-                        <livewire:custom-field-values-edit customFieldId="{{$state['id']}}" />
-                    </div>
+
+                        @include('custom_field::livewire.custom-field-values-edit-forms')
+
                     @endif
 
                     @if($showPlaceholderSettings)
+
                         <div class="mt-3">
                             <x-microweber-ui::label for="show_placeholder" value="Show Placeholder" />
                             <x-microweber-ui::toggle id="show_placeholder" class="mt-1 block w-full" wire:model="state.options.show_placeholder" />
@@ -87,6 +81,7 @@
                             <x-microweber-ui::input id="placeholder" class="mt-1 block w-full" wire:model.defer="state.placeholder" />
                         </div>
                         @endif
+
                     @endif
 
                     @if($showRequiredSettings)

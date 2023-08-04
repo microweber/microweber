@@ -19,56 +19,10 @@ class CustomFieldValuesEditComponent extends AdminComponent
         'onReorderCustomFieldValuesList' => 'onReorderCustomFieldValuesList'
     ];
 
-    public function onReorderCustomFieldValuesList($params)
-    {
-        if (isset($params['itemIds'])) {
-            $itemIds = $params['itemIds'];
-            $position = 0;
-            foreach ($itemIds as $itemId) {
-                $findCustomField = CustomFieldValue::where('id', $itemId)->first();
-                if ($findCustomField) {
-                    $findCustomField->position = $position;
-                    $findCustomField->save();
-                }
-                $position++;
-            }
-        }
-    }
 
-    public function add()
-    {
-        $values = CustomFieldsHelper::generateFieldNameValues($this->customField->type);
-        $title = $values[0];
 
-        $this->inputs[] = $title;
 
-        $newCustomFieldValue = new CustomFieldValue();
-        $newCustomFieldValue->custom_field_id = $this->customFieldId;
-        $newCustomFieldValue->value = $title;
-        $newCustomFieldValue->save();
 
-    }
-
-    public function remove($id)
-    {
-        if (count($this->inputs) == 1) {
-            $this->addError('inputs.'.$id, 'You must have at least one input.');
-            return;
-        }
-
-        if (isset($this->inputs[$id])) {
-
-            $findCustomFieldValue = CustomFieldValue::where('custom_field_id', $this->customFieldId)
-                ->where('id', $id)
-                ->first();
-            if ($findCustomFieldValue) {
-                $findCustomFieldValue->delete();
-            }
-
-            unset($this->inputs[$id]);
-            $this->emit('customFieldUpdated');
-        }
-    }
 
     public function mount($customFieldId)
     {
@@ -96,12 +50,9 @@ class CustomFieldValuesEditComponent extends AdminComponent
 
     public function updatedState()
     {
-        if (isset($this->state['value'])) {
+        mw()->fields_manager->save($this->state);
 
-            mw()->fields_manager->save($this->state);
-
-            $this->emit('customFieldUpdated');
-        }
+        $this->emit('customFieldUpdated');
     }
 
     public function render()
