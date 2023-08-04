@@ -39,6 +39,7 @@ class CustomFieldEditModalComponent extends AdminModalComponent
         $this->showLabelSettings = false;
         $this->showPlaceholderSettings = false;
         $this->showOptionsSettings = false;
+        $this->showErrorTextSettings = false;
 
         if ($type == 'text'
             || $type == 'time'
@@ -65,7 +66,8 @@ class CustomFieldEditModalComponent extends AdminModalComponent
             $this->showValueSettings = true;
             $this->showRequiredSettings = true;
             $this->showLabelSettings = true;
-            $this->showPlaceholderSettings = true;
+            $this->showPlaceholderSettings = false;
+            $this->showErrorTextSettings = true;
         }
 
         if ($type == 'price') {
