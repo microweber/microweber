@@ -51,25 +51,22 @@ class CustomFieldValuesEditComponent extends AdminComponent
 
     public function remove($id)
     {
-//        if (count($this->inputs) == 1) {
-//            $this->addError('inputs.'.$i, 'You must have at least one input.');
-//            return;
-//        }
+        if (count($this->inputs) == 1) {
+            $this->addError('inputs.'.$id, 'You must have at least one input.');
+            return;
+        }
 
-      //  dd($id);
+        if (isset($this->inputs[$id])) {
+            $findCustomFieldValue = CustomFieldValue::where('custom_field_id', $this->customFieldId)
+                ->where('id', $id)
+                ->first();
+            if ($findCustomFieldValue) {
+                $findCustomFieldValue->delete();
+            }
 
-//        if (isset($this->inputs[$i])) {
-//            $findCustomFieldValue = CustomFieldValue::where('custom_field_id', $this->customFieldId)
-//                ->where('value', $this->inputs[$i])
-//                ->first();
-//            if ($findCustomFieldValue) {
-//                $findCustomFieldValue->delete();
-//            }
-//
-//            //unset($this->inputs[$i]);
-//
-//           // $this->emit('customFieldUpdated');
-//        }
+            unset($this->inputs[$id]);
+            $this->emit('customFieldUpdated');
+        }
     }
 
     public function mount($customFieldId)
