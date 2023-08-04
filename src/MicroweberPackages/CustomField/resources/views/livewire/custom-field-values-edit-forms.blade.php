@@ -9,7 +9,7 @@
 
     @if($customField->type == 'checkbox' || $customField->type == 'dropdown' || $customField->type == 'radio')
 
-        <div>
+        <div class="mt-3">
             <x-microweber-ui::label value="Values" />
 
             <div id="js-sortable-items-holder-{{$this->id}}">
