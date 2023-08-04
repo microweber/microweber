@@ -3,6 +3,7 @@
 namespace MicroweberPackages\CustomField\Http\Livewire;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
+use MicroweberPackages\CustomField\CustomFieldsHelper;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
@@ -14,72 +15,82 @@ class CustomFieldValuesEditComponent extends AdminComponent
     public $inputs = [];
 
     public $listeners = [
-        'customFieldUpdated' => '$refresh'
+        'customFieldUpdated' => '$refresh',
+        'onReorderCustomFieldValuesList' => 'onReorderCustomFieldValuesList'
     ];
+
+    public function onReorderCustomFieldValuesList($params)
+    {
+        if (isset($params['itemIds'])) {
+            $itemIds = $params['itemIds'];
+            $position = 0;
+            foreach ($itemIds as $itemId) {
+                $findCustomField = CustomFieldValue::where('id', $itemId)->first();
+                if ($findCustomField) {
+                    $findCustomField->position = $position;
+                    $findCustomField->save();
+                }
+                $position++;
+            }
+        }
+    }
 
     public function add()
     {
-        $this->inputs[] = 'Your text here';
+        $values = CustomFieldsHelper::generateFieldNameValues($this->customField->type);
+        $title = $values[0];
+
+        $this->inputs[] = $title;
 
         $newCustomFieldValue = new CustomFieldValue();
         $newCustomFieldValue->custom_field_id = $this->customFieldId;
-        $newCustomFieldValue->value = 'Your text here';
+        $newCustomFieldValue->value = $title;
         $newCustomFieldValue->save();
 
     }
 
-
-    public function remove($i)
+    public function remove($id)
     {
         if (count($this->inputs) == 1) {
-            $this->addError('inputs.'.$i, 'You must have at least one input.');
+            $this->addError('inputs.'.$id, 'You must have at least one input.');
             return;
         }
 
-        $findCustomFieldValue = CustomFieldValue::where('custom_field_id', $this->customFieldId)
-                                    ->where('value', $this->inputs[$i])
-                                    ->first();
-        $findCustomFieldValue->delete();
+        if (isset($this->inputs[$id])) {
 
-        unset($this->inputs[$i]);
+            $findCustomFieldValue = CustomFieldValue::where('custom_field_id', $this->customFieldId)
+                ->where('id', $id)
+                ->first();
+            if ($findCustomFieldValue) {
+                $findCustomFieldValue->delete();
+            }
 
-        $this->emit('customFieldUpdated');
+            unset($this->inputs[$id]);
+            $this->emit('customFieldUpdated');
+        }
     }
 
     public function mount($customFieldId)
     {
         $this->customFieldId = $customFieldId;
 
-        $getCustomField = CustomField::where('id', $this->customFieldId)->first();
-        foreach($getCustomField->fieldValue as $fieldValue) {
-              $this->inputs[] = $fieldValue->value;
+        $this->customField = CustomField::where('id', $this->customFieldId)->first();
+        foreach($this->customField->fieldValue as $fieldValue) {
+          $this->inputs[$fieldValue->id] = $fieldValue->value;
         }
-
-        if($getCustomField->type == 'checkbox' || $getCustomField->type == 'dropdown' || $getCustomField->type == 'radio') {
-            if (empty($this->inputs)) {
-                $this->add();
-                $this->add();
-                $this->add();
-            }
-        }
-
-        $this->customField = $getCustomField;
 
     }
 
     public function updatedInputs()
     {
         if (!empty($this->inputs)) {
-              $getCustomField = CustomField::where('id', $this->customFieldId)->first();
-              $getCustomField->fieldValue()->delete();
 
-                foreach($this->inputs as $input) {
-                    $getCustomField->fieldValue()->create([
-                        'value' => $input
-                    ]);
-                }
+            $saveField = $this->state;
+           // $saveField['value'] = array_values($this->inputs);
 
-                $this->emit('customFieldUpdated');
+            mw()->fields_manager->save($saveField);
+
+            $this->emit('customFieldUpdated');
         }
     }
 
@@ -87,9 +98,7 @@ class CustomFieldValuesEditComponent extends AdminComponent
     {
         if (isset($this->state['value'])) {
 
-            $getCustomField = CustomField::where('id', $this->customFieldId)->first();
-            $getCustomField->value = $this->state['value'];
-            $getCustomField->save();
+            mw()->fields_manager->save($this->state);
 
             $this->emit('customFieldUpdated');
         }
@@ -98,11 +107,11 @@ class CustomFieldValuesEditComponent extends AdminComponent
     public function render()
     {
         $this->customField = CustomField::where('id', $this->customFieldId)->first();
-        if ($this->customField->fieldValue->count() == 0) {
-            $this->add();
-            $this->add();
-            $this->add();
-        }
+        $this->state['type'] = $this->customField->type;
+        $this->state['rel_type'] = $this->customField->rel_type;
+        $this->state['rel_id'] = $this->customField->rel_id;
+        $this->state['id'] = $this->customField->id;
+        $this->state['options'] = $this->customField->options;
 
         return view('custom_field::livewire.custom-field-values-edit-component');
     }

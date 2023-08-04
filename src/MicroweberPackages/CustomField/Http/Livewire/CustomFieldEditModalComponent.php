@@ -4,6 +4,7 @@ namespace MicroweberPackages\CustomField\Http\Livewire;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
 class CustomFieldEditModalComponent extends AdminModalComponent
 {
@@ -25,27 +26,10 @@ class CustomFieldEditModalComponent extends AdminModalComponent
 
     public function updatedState()
     {
-        $getCustomField = CustomField::where('id', $this->customFieldId)->first();
-        if ($getCustomField) {
+        $save = mw()->fields_manager->save($this->state);
 
-            $getCustomField->name = $this->state['name'];
-            $getCustomField->options = $this->state['options'];
-            $getCustomField->type = $this->state['type'];
-            $getCustomField->required = $this->state['required'];
-            $getCustomField->error_text = $this->state['error_text'];
-            $getCustomField->show_label = $this->state['show_label'];
-            $getCustomField->placeholder = $this->state['placeholder'];
-
-            if (isset($this->state['value'])) {
-                $getCustomField->value = $this->state['value'];
-            }
-
-            $getCustomField->save();
-
-            $this->showSettings($getCustomField->type);
-
-            $this->emit('customFieldUpdated');
-        }
+        $this->showSettings($this->state['type']);
+        $this->emit('customFieldUpdated');
     }
 
     public function showSettings($type)
@@ -55,6 +39,7 @@ class CustomFieldEditModalComponent extends AdminModalComponent
         $this->showLabelSettings = false;
         $this->showPlaceholderSettings = false;
         $this->showOptionsSettings = false;
+        $this->showErrorTextSettings = false;
 
         if ($type == 'text'
             || $type == 'time'
@@ -81,7 +66,8 @@ class CustomFieldEditModalComponent extends AdminModalComponent
             $this->showValueSettings = true;
             $this->showRequiredSettings = true;
             $this->showLabelSettings = true;
-            $this->showPlaceholderSettings = true;
+            $this->showPlaceholderSettings = false;
+            $this->showErrorTextSettings = true;
         }
 
         if ($type == 'price') {
@@ -101,8 +87,6 @@ class CustomFieldEditModalComponent extends AdminModalComponent
     {
         $getCustomField = CustomField::where('id', $this->customFieldId)->first();
         $this->state = $getCustomField->toArray();
-        $this->state['value'] = $getCustomField->fieldValue;
-
         $this->showSettings($getCustomField->type);
 
         return view('custom_field::livewire.custom-field-edit-modal-component',[

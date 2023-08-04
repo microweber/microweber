@@ -23,9 +23,6 @@ Route::name('api.')
     ->namespace('\MicroweberPackages\Content\Http\Controllers\Api')
     ->group(function () {
 
-        Route::apiResource('content', 'ContentApiController')->only([
-            'store', // 'update','destroy','index','show'
-        ]);
 
         Route::post('save_edit', function (\Illuminate\Http\Request $request) {
             return save_edit($request->all());
@@ -128,4 +125,13 @@ Route::name('api.')
             return false;
         })->name('content.get_link_admin');
 
+
+
+
+
+
+
+        Route::apiResource('content', 'ContentApiController')->only([
+            'update','destroy','index','show'
+        ]);
     });

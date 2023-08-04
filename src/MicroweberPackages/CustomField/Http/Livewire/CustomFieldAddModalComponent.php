@@ -3,6 +3,7 @@
 namespace MicroweberPackages\CustomField\Http\Livewire;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
+use MicroweberPackages\CustomField\CustomFieldsHelper;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
@@ -24,10 +25,10 @@ class CustomFieldAddModalComponent extends AdminModalComponent
 
         if ($type == 'address') {
             $showEditModal = false;
-            $this->generateFieldAddressValues('content', $this->contentId);
+            CustomFieldsHelper::generateFieldAddressValues('content', $this->contentId);
         }
 
-        $values = $this->generateFieldNameValues($type);
+        $values = CustomFieldsHelper::generateFieldNameValues($type);
         if (!empty($values)) {
             foreach ($values as $value) {
                 $customFieldValue = new CustomFieldValue();
@@ -45,45 +46,6 @@ class CustomFieldAddModalComponent extends AdminModalComponent
                 'customFieldId' => $newCustomField->id
             ]);
         }
-    }
-
-    private function generateFieldAddressValues($relType, $relId)
-    {
-        $fields = 'Country[type=country,field_size=12,show_placeholder=true],';
-        $fields .= 'City[type=text,field_size=4,show_placeholder=true],';
-        $fields .= 'State/Province[type=text,field_size=4,show_placeholder=true],';
-        $fields .= 'Zip/Post code[type=text,field_size=4,show_placeholder=true],';
-        $fields .= 'Address[type=textarea,field_size=12,show_placeholder=true]';
-
-        return mw()->fields_manager->makeDefault($relType, $relId, $fields);
-    }
-
-    private function generateFieldNameValues($type)
-    {
-        $values = [];
-
-        if ($type == 'radio') {
-            $typeText = _e('Option', true);
-            $values[] = $typeText . ' 1';
-            $values[] = $typeText . ' 2';
-            $values[] = $typeText . ' 3';
-        }
-
-        if ($type == 'checkbox') {
-            $typeText = _e('Check', true);
-            $values[] = $typeText . ' 1';
-            $values[] = $typeText . ' 2';
-            $values[] = $typeText . ' 3';
-        }
-
-        if ($type == 'dropdown') {
-            $typeText = _e('Select', true);
-            $values[] = $typeText . ' 1';
-            $values[] = $typeText . ' 2';
-            $values[] = $typeText . ' 3';
-        }
-
-        return $values;
     }
 
     public function render()

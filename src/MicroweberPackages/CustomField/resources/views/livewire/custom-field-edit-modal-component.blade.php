@@ -11,8 +11,6 @@
                 </div>
                 <div class="mw-modal-body">
 
-                    {{$state['type']}}
-
                     <div class="d-flex mt-3">
                         <div class="w-full">
                             <x-microweber-ui::label for="name" value="Name" />
@@ -28,6 +26,12 @@
                         </div>
                     </div>
 
+                    @if($state['type'] == 'text')
+                        <div class="mt-3">
+                            <x-microweber-ui::label for="as_text_area" value="Use as textarea" />
+                            <x-microweber-ui::toggle id="as_text_area" class="mt-1 block w-full" wire:model="state.options.as_text_area" />
+                        </div>
+                    @endif
 
                     @if($state['type'] == 'upload')
                         @php
