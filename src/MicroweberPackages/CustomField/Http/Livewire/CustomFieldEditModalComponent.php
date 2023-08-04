@@ -24,7 +24,7 @@ class CustomFieldEditModalComponent extends AdminModalComponent
         $this->customFieldId = $customFieldId;
     }
 
-    public function updatedState()
+    public function save()
     {
         $save = mw()->fields_manager->save($this->state);
 

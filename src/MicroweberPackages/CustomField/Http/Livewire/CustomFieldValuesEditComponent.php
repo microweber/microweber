@@ -113,6 +113,15 @@ class CustomFieldValuesEditComponent extends AdminComponent
         $this->state['id'] = $this->customField->id;
         $this->state['options'] = $this->customField->options;
 
+        if ($this->customField->type == 'checkbox' || $this->customField->type == 'dropdown' || $this->customField->type == 'radio') {
+            // multiple values
+        } else {
+            // One value
+            if ($this->customField->fieldValue->count() > 0) {
+                $this->state['value'] = $this->customField->fieldValue[0]->value;
+            }
+        }
+
         return view('custom_field::livewire.custom-field-values-edit-component');
     }
 }
