@@ -1,6 +1,5 @@
 <div>
-    <div style="margin:60px;padding:20px;background:#fff;">
-
+    <div class="card manage-content-card mt-5 p-5 w-full">
         <div>
             <div class="d-flex justify-content-between mb-3">
                 <div>
@@ -45,6 +44,14 @@
                         </thead>
                         <tbody id="js-sortable-items-holder-{{$this->id}}">
 
+                        @if($customFields->count() == 0)
+                            <tr>
+                                <td colspan="6">
+                                    {{__('No custom fields added')}}
+                                </td>
+                            </tr>
+                        @endif
+
                         @foreach($customFields as $customField)
                         <tr class="js-sortable-item" sort-key="{{ $customField->id }}">
                             <td>
@@ -61,14 +68,12 @@
                                 </div>
                             </td>
                             <td class="custom-field-icon">
-                                <span class="mobile-th">Type:</span>
                                 <div>
                                     <span class="mw-custom-field-icon-{{$customField->type}}"></span>
                                 </div>
                             </td>
 
                             <td>
-                                <span class="mobile-th">Name: </span>
                                 <span class="mw-custom-fields-list-preview">
                                     <span class="text-capitalize d-inline-block py-1">
                                         <small class="px-1 py-1">
@@ -80,7 +85,6 @@
 
 
                             <td>
-                                <span class="mobile-th">Settings</span>
                                 <div>
                                     {{$customField->fieldValueText()}}
                                 </div>

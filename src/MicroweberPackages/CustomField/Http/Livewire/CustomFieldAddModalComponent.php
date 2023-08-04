@@ -12,6 +12,34 @@ class CustomFieldAddModalComponent extends AdminModalComponent
     public $contentId;
     public $contentType;
 
+
+    public function addExisting($customFieldId)
+    {
+
+        $findExisting = CustomField::where('id', $customFieldId)->first();
+
+        $newCustomFieldId = mw()->fields_manager->save([
+            'copy_of' => $findExisting->id,
+            'rel_type' => $findExisting->rel_type,
+            'rel_id' => $this->contentId,
+            'type' => $findExisting->type,
+        ]);
+
+        $this->closeModal();
+        $this->emit('customFieldAdded');
+
+        $showEditModal = true;
+        if ($findExisting->type == 'address') {
+            $showEditModal = false;
+        }
+
+        if ($showEditModal) {
+            $this->emit('openModal', 'custom-field-edit-modal', [
+                'customFieldId' => $newCustomFieldId
+            ]);
+        }
+    }
+
     public function add($type, $name)
     {
         $showEditModal = true;

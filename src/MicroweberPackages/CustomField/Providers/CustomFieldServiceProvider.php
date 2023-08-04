@@ -7,7 +7,6 @@ use Livewire\Livewire;
 use MicroweberPackages\CustomField\Http\Livewire\CustomFieldAddModalComponent;
 use MicroweberPackages\CustomField\Http\Livewire\CustomFieldEditModalComponent;
 use MicroweberPackages\CustomField\Http\Livewire\CustomFieldsListComponent;
-use MicroweberPackages\CustomField\Http\Livewire\CustomFieldValuesEditComponent;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Repositories\CustomFieldRepository;
 use MicroweberPackages\CustomField\TranslateTables\TranslateCustomFields;
@@ -40,7 +39,6 @@ class CustomFieldServiceProvider extends ServiceProvider
         View::addNamespace('custom_field', normalize_path(dirname(__DIR__) . '/resources/views'));
 
         Livewire::component('custom-fields-list', CustomFieldsListComponent::class);
-        Livewire::component('custom-field-values-edit', CustomFieldValuesEditComponent::class);
         Livewire::component('custom-field-edit-modal', CustomFieldEditModalComponent::class);
         Livewire::component('custom-field-add-modal', CustomFieldAddModalComponent::class);
 

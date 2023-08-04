@@ -161,7 +161,7 @@ class Ui
             'color' => 'Color',
             'upload' => 'File Upload',
             'property' => 'Property',
-            'breakline' => 'Break Line',
+           // 'breakline' => 'Break Line',
             'hidden' => 'Hidden Field',
         );
 
