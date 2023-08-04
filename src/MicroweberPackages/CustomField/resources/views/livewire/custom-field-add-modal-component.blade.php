@@ -30,7 +30,7 @@
     <div class="row px-4 pb-4" x-show="showTab == 'existing'">
         @foreach($existingFields as $existingField)
             <div class="col-xl-3 col-md-4 col-6 hover-bg-light text-center py-4">
-                <button wire:click="add('{{$existingField->type}}','{{$existingField->name}}')" type="button"
+                <button wire:click="addExisting('{{$existingField->id}}')" type="button"
                         class="d-flex flex-column btn btn-link mx-auto text-decoration-none mw-custom-field-existing-item-btn">
                     <span class="mw-custom-field-icon-text mw-custom-field-icon-{{$existingField->type}}"></span>
                     <span class="mw-custom-field-title small" title="{{ $existingField->name }}">
