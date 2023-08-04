@@ -42,6 +42,7 @@ class CustomFieldEditModalComponent extends AdminModalComponent
         $this->showErrorTextSettings = false;
 
         if ($type == 'text'
+            || $type == 'date'
             || $type == 'time'
             || $type == 'number'
             || $type == 'phone'

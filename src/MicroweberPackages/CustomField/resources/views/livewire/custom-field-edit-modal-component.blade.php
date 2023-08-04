@@ -26,6 +26,24 @@
                         </div>
                     </div>
 
+                    @if($state['type'] == 'date')
+
+                        @php
+                            $dateFormat = [];
+                            $getDateFormat = mw()->format->available_date_formats();
+                            if ($getDateFormat) {
+                                foreach ($getDateFormat as $format) {
+                                    $dateFormat[$format['js']] = date($format['php'], time()) . ' - ' . $format['js'];
+                                }
+                            }
+                        @endphp
+                        <div class="mt-3">
+                            <x-microweber-ui::label for="date_format" value="Date format" />
+                            <x-microweber-ui::select :options="$dateFormat" id="date_format" class="mt-1 block w-full" wire:model="state.options.date_format" />
+                        </div>
+
+                    @endif
+
                     @if($state['type'] == 'text')
                         <div class="mt-3">
                             <x-microweber-ui::label for="as_text_area" value="Use as textarea" />
