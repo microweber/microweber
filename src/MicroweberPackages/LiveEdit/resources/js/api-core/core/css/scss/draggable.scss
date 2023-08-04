@@ -25,7 +25,8 @@ html.le-dragging{
 }
 
 .mw-handle-item[data-draggable="false"] {
-    .mw-handle-item-draggable-self{
+    .mw-handle-item-draggable-self, 
+    .mw-handle-drag-button{
         display: none;
         &.active{
             display: none;
