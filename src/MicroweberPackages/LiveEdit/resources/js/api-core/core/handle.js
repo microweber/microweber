@@ -65,7 +65,7 @@ export const Handle = function (options) {
  
 
       this.draggable = new Draggable({
-          handle: this.handle,
+          handle: this.settings.handle,
           element: null,
           helper: true,
           dropIndicator: this.settings.dropIndicator,
@@ -245,7 +245,7 @@ export const Handle = function (options) {
 
         if (this.settings.handle) {
             if(typeof this.settings.handle === 'string') {
-                this.settings.handle = ElementManager(this.handle)
+                //this.settings.handle = (this.handle)
             }
             this.handle = this.settings.handle;
         } else {

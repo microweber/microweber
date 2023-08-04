@@ -137,11 +137,9 @@ export class LiveEdit {
             ...this.settings,
             dropIndicator: this.dropIndicator,
             content: elementHandleContent.root,
-            // handle: elementHandleContent.menu.title,
+ 
             handle:  '.mw-handle-drag-button' ,
-            handle:  '.mw-handle-item-menus-holder' ,
-            handle:  '.mw-le-handle-menu-buttons' ,
-            // handle: 'self',
+ 
             document: this.settings.document,
             stateManager: this.settings.stateManager,
             resizable: true,
@@ -191,7 +189,7 @@ export class LiveEdit {
             stateManager: this.settings.stateManager,
             resizable: false,
             id: 'mw-handle-item-module-menu',
-            handle: 'self',
+            handle:  '.mw-handle-drag-button' ,
             setDraggableTarget: function (target) {
                 if (target.nodeType === 1) {
 

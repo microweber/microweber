@@ -37,14 +37,10 @@ export const Draggable = function (options, rootSettings) {
     };
     this.setElement = function (node) {
         this.element = ElementManager(node)/*.prop('draggable', true)*/.get(0);
-        if(!this.settings.handle) {
-            this.settings.handle = this.settings.element;
-        }
-        this.handle = ElementManager(this.settings.handle);
-        this.handle.attr('draggable', 'true');
-        setTimeout(() => {
-            this.handleInit()
-        }, 3000)
+
+        
+ 
+ 
         this.handleInit()
     };
 
@@ -154,19 +150,31 @@ export const Draggable = function (options, rootSettings) {
     };
 
     this.handleInit = function() {
+
+
+        if(!this.settings.handle) {
+            this.settings.handle = this.settings.element;
+        }
+        
+        this.handle = ElementManager(this.settings.handle, this.settings.document);
+        this.handle.attr('draggable', 'true');
+
+
         var el = this.handle.get(0);
         var handleEl = this.handle.get(0);
 
 
-       
+ 
          
          
-        if(el && !handleEl.$handleInit) {
+        if(el && !handleEl.$handleInit && handleEl.parentElement) {
+ 
             handleEl.$handleInit = true;
             this.handle.attr('draggable', 'true')
             this.handle
             .on('dragstart', function (e) {
-                 
+                
+                e.dataTransfer.setData('text/html', 'This text <strong>may</strong> be dragged');
                 scope.isDragging = true;
                 if (!scope.element.id) {
                     scope.element.id = ('mw-element-' + new Date().getTime());
@@ -204,4 +212,6 @@ export const Draggable = function (options, rootSettings) {
 
 
     this.init();
+
+ 
 };

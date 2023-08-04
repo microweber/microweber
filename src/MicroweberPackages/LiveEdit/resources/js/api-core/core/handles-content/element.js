@@ -170,6 +170,7 @@ export const ElementHandleContent = function (proto) {
     this.menu = new HandleMenu({
         id: 'mw-handle-item-element-menu',
         title: 'Element',
+        handleScope: this,
 
         menus: [
             {

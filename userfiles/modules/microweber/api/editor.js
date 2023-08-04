@@ -753,9 +753,12 @@ var MWEditor = function (options) {
             return smallEditorPinned();
         },
         pin: function () {
-            smallEditorPinned(true);
-            scope.smallEditor.addClass('pinned');
-            _afterPin();
+            if(scope.settings.canPin) {
+                smallEditorPinned(true);
+                scope.smallEditor.addClass('pinned');
+                _afterPin();
+            }
+
         },
         unPin: function () {
             smallEditorPinned(false);

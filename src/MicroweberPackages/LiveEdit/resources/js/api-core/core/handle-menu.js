@@ -4,6 +4,7 @@ import {Tooltip} from "./tooltip.js";
 export const HandleMenu = function(options) {
 
     this.options = options || {};
+ 
 
     var scope = this;
 
@@ -73,7 +74,7 @@ export const HandleMenu = function(options) {
         _target = target;
         var i = 0;
 
-        this.rebuildButtons()
+        this.rebuildButtons();
        
         setTimeout(() => {
             for ( ; i < this.buttons.length; i++) {
@@ -84,6 +85,12 @@ export const HandleMenu = function(options) {
                     config.onTarget(target, button.get(0), scope.options.rootScope);
                 }
             }
+           
+            if(options.handleScope) {
+              
+                options.handleScope.handle.draggable.handleInit();
+            }
+             
         })
  
 
