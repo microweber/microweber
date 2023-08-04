@@ -45,6 +45,14 @@
                         </thead>
                         <tbody id="js-sortable-items-holder-{{$this->id}}">
 
+                        @if($customFields->count() == 0)
+                            <tr>
+                                <td colspan="6">
+                                    {{__('No custom fields added')}}
+                                </td>
+                            </tr>
+                        @endif
+
                         @foreach($customFields as $customField)
                         <tr class="js-sortable-item" sort-key="{{ $customField->id }}">
                             <td>

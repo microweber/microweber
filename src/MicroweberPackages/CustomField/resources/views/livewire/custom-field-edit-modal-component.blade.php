@@ -112,14 +112,22 @@
 
                     <div class="mt-3 d-flex justify-content-end">
                         <x-microweber-ui::button wire:click="save">
-
+                            <span wire:loading wire:target="save">
+                                <span class="spinner-border spinner-border-sm text-white" role="status"></span>
+                            </span>
                             {{_e('Save')}}
-
                         </x-microweber-ui::button>
                     </div>
 
                 </div>
             </div>
         </div>
+    </div>
+    <div wire:ignore>
+        <script>
+            document.addEventListener('customFieldUpdated', function () {
+                mw.notification.success('Custom field saved!');
+            });
+        </script>
     </div>
 </div>

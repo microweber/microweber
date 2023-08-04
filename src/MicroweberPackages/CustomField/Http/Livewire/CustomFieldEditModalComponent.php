@@ -93,7 +93,7 @@ class CustomFieldEditModalComponent extends AdminModalComponent
 
     public function updatedState()
     {
-        $this->save();
+        $this->save(false);
     }
 
     public function updatedInputs()
@@ -109,12 +109,16 @@ class CustomFieldEditModalComponent extends AdminModalComponent
         }
     }
 
-    public function save()
+    public function save($showSave = true)
     {
         mw()->fields_manager->save($this->state);
 
         $this->showSettings($this->state['type']);
         $this->emit('customFieldUpdated');
+
+        if ($showSave) {
+            $this->dispatchBrowserEvent('customFieldUpdated');
+        }
     }
 
     public function showSettings($type)
