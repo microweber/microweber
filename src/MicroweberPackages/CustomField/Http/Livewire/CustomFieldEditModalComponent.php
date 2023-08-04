@@ -88,6 +88,16 @@ class CustomFieldEditModalComponent extends AdminModalComponent
     {
         $getCustomField = CustomField::where('id', $this->customFieldId)->first();
         $this->state = $getCustomField->toArray();
+
+        if ($this->state['type'] == 'upload') {
+            if (!isset($this->state['options']['file_types'])) {
+                $this->state['options']['file_types'] = [];
+            }
+            if (!is_array($this->state['options']['file_types'])) {
+                $this->state['options']['file_types'] = [];
+            }
+        }
+
         $this->showSettings($getCustomField->type);
 
         return view('custom_field::livewire.custom-field-edit-modal-component',[
