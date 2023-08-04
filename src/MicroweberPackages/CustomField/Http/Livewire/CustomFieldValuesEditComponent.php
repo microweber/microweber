@@ -57,6 +57,7 @@ class CustomFieldValuesEditComponent extends AdminComponent
         }
 
         if (isset($this->inputs[$id])) {
+
             $findCustomFieldValue = CustomFieldValue::where('custom_field_id', $this->customFieldId)
                 ->where('id', $id)
                 ->first();
@@ -110,6 +111,7 @@ class CustomFieldValuesEditComponent extends AdminComponent
         $this->state['rel_type'] = $this->customField->rel_type;
         $this->state['rel_id'] = $this->customField->rel_id;
         $this->state['id'] = $this->customField->id;
+        $this->state['options'] = $this->customField->options;
 
         return view('custom_field::livewire.custom-field-values-edit-component');
     }

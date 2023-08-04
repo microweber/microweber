@@ -34,10 +34,7 @@ class CustomFieldsListComponent extends AdminComponent
     }
 
     public function executeCustomFieldDelete($id) {
-        $findCustomField = CustomField::where('id', $id)->first();
-        if ($findCustomField) {
-            $findCustomField->delete();
-        }
+        return mw()->fields_manager->delete($id);
     }
 
     public function render()

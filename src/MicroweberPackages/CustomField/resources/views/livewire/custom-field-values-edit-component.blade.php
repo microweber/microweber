@@ -37,6 +37,23 @@
             <x-microweber-ui::label for="value" value="Value" />
             <x-microweber-ui::textarea id="value" class="mt-1 block w-full" wire:model="state.value" />
         </div>
+    @elseif (isset($customField->options['as_text_area']) && $customField->options['as_text_area'])
+
+        <div class="mt-3">
+            <x-microweber-ui::label for="value" value="Value" />
+            <x-microweber-ui::textarea id="value" class="mt-1 block w-full" wire:model="state.value" />
+        </div>
+
+        <div class="mt-3">
+            <x-microweber-ui::label for="textarea_rows" value="Textarea Rows" />
+            <x-microweber-ui::input id="textarea_rows" class="mt-1 block w-full" wire:model="state.options.rows" />
+        </div>
+
+        <div class="mt-3">
+            <x-microweber-ui::label for="textarea_cols" value="Textarea Cols" />
+            <x-microweber-ui::input id="textarea_cols" class="mt-1 block w-full" wire:model="state.options.cols" />
+        </div>
+
     @else
         <div class="mt-3">
             <x-microweber-ui::label for="value" value="Value" />
