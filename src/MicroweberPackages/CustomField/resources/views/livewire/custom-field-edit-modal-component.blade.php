@@ -112,9 +112,12 @@
 
                     <div class="mt-3 d-flex justify-content-end">
                         <x-microweber-ui::button wire:click="save">
+
                             {{_e('Save')}}
+
                         </x-microweber-ui::button>
                     </div>
+
                 </div>
             </div>
         </div>

@@ -91,10 +91,10 @@ class CustomFieldEditModalComponent extends AdminModalComponent
         }
     }
 
-//    public function updatedState()
-//    {
-//        $this->save();
-//    }
+    public function updatedState()
+    {
+        $this->save();
+    }
 
     public function updatedInputs()
     {
