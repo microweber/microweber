@@ -360,6 +360,47 @@
                     });
                 });
 
+
+                $(pagesTree).on('orderChange', function (e, obj) {
+
+
+                     var categories = res.tree.getSameLevelObjects(obj).filter(function (obj) {
+                         if(typeof obj !== 'undefined' && typeof obj.type !== 'undefined' && obj.type === 'category'){
+                                return true;
+                         }
+
+                    }).map(function (obj) {
+                        return obj.id;
+                    });
+                    var pages = res.tree.getSameLevelObjects(obj).filter(function (obj) {
+                        if(typeof obj !== 'undefined' && typeof obj.type !== 'undefined' && obj.type === 'page') {
+                            return true;
+                        }
+                        }).map(function (obj) {
+                        return obj.id;
+                    });
+
+
+
+
+                    if(categories && categories.length > 0) {
+                        $.post("<?php print api_link('category/reorder'); ?>", {ids: categories}, function () {
+                            mw.notification.success('<?php _ejs("All changes are saved"); ?>.');
+                            mw.parent().trigger('pagesTreeRefresh');
+                        });
+                    }
+
+                    if(pages && pages.length > 0) {
+                        $.post("<?php print api_link('content/reorder'); ?>", {ids: pages}, function () {
+                            mw.notification.success('<?php _ejs("All changes are saved"); ?>.');
+                            mw.parent().trigger('pagesTreeRefresh');
+                        });
+                    }
+                });
+
+
+
+
             });
         })();
     </script>

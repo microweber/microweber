@@ -8,6 +8,16 @@
     @else
     <div class="row px-5 mx-5">
 
+
+        @php
+            $parent_page_param = '';
+
+               if(isset($_GET['recommended_content_id'])){
+                   $parent_page_param = '&recommended_content_id='.intval($_GET['recommended_content_id']);
+               }
+        @endphp
+
+
         <h3 class="main-pages-title">{{ _e("Types of pages") }}</h3>
         <small class="text-muted">{{ _e("Select the type of page to create. You can change the content as well as add new layouts to further develop the functionality") }}</small>
 
@@ -15,7 +25,7 @@
 
             <div class="col-xxl-4 col-lg-6 col-12 pe-lg-6 ps-lg-0 pt-3 mb-4">
 
-                <a href="{{route('admin.page.create')}}?layout=clean" class="card card-link card-link-pop mw-create-page-admin-wrapper">
+                <a href="{{route('admin.page.create')}}?layout=clean{{$parent_page_param}}" class="card card-link card-link-pop mw-create-page-admin-wrapper">
                     <div id="mw-create-page-card-overlay"></div>
 
                     <div class="card-body" style="padding: 13px; height: calc(50vh - 80px);">
@@ -61,11 +71,7 @@
                     }
 
 
-                    $parent_page_param = '';
 
-                    if(isset($_GET['recommended_content_id'])){
-                        $parent_page_param = '&recommended_content_id='.intval($_GET['recommended_content_id']);
-                    }
 
 
 
