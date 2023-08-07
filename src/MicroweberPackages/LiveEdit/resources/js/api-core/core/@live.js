@@ -318,10 +318,10 @@ export class LiveEdit {
     getSelectedNode() {
         return this.activeNode;
     }
-    selectNode(tarfget, event) {
+    selectNode(target, event) {
 
 
-console.log(target, event)
+ 
  
 
          
@@ -435,6 +435,7 @@ console.log(target, event)
     }
 
      _hoverAndSelectExceptions = (target) => {
+        if(target) {
         if (target && target.classList && target.classList.contains('module-custom-fields')) {
             var form = DomService.firstParentOrCurrentWithClass(target, 'module-contact-form');
             if (form) {
@@ -462,12 +463,14 @@ console.log(target, event)
         }
 
        
+ 
 
         if(target && target.classList.contains('mw-empty-element') || target.classList.contains('mw-col-container')){
             const col = DomService.firstParentOrCurrentWithClass(target, 'mw-col');
             if(col) {
                 target = col
             }
+        }
         }
 
         return target
