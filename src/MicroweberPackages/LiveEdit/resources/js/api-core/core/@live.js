@@ -461,7 +461,7 @@ export class LiveEdit {
             target = target.parentNode
         }
 
-        if(typeof target.classList !== 'undefined') {
+        if(typeof target !== 'undefined' && typeof target.classList !== 'undefined') {
             if (target.classList.contains('mw-empty-element') || target.classList.contains('mw-col-container')) {
                 const col = DomService.firstParentOrCurrentWithClass(target, 'mw-col');
                 if (col) {
