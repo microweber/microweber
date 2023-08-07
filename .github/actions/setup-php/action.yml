@@ -49,6 +49,12 @@ runs:
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
       shell: bash
+    - name: Install NPM dependencies
+      run: npm install
+      shell: bash
+    - name: Run NPM Build
+      run: npm run build
+      shell: bash
     - name: Install Chrome Driver
       run: php artisan dusk:install
       shell: bash
