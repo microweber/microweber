@@ -2222,6 +2222,10 @@ svg.text-danger {
         background-color: #f5f5f5;
         padding-inline-start: 10px;
 
+        &:disabled {
+            background-color: #d3d3d3;
+        }
+
 
          &:focus, &:focus-visible {
             outline: none;

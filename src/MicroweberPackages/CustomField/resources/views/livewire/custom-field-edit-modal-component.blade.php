@@ -11,10 +11,10 @@
                 </div>
                 <div class="mw-modal-body">
 
-                    <div class="d-flex mt-3">
+                    <div class="d-flex align-items-center mt-3">
                         <div class="w-full">
                             <x-microweber-ui::label for="name" value="Name" />
-                            <x-microweber-ui::input id="name" class="mt-1 block w-full" wire:model.defer="state.name" />
+                            <x-microweber-ui::input id="name" class="block w-full" wire:model.defer="state.name" />
                         </div>
 
                         <div class="w-full">
@@ -100,7 +100,7 @@
 
 
                     @if($showErrorTextSettings)
-                    <div class="mt-3">
+                    <div class="mt-3 form-control-live-edit-label-wrapper">
                         <x-microweber-ui::label for="error_text" value="Error Text" />
                         <x-microweber-ui::input id="error_text" class="mt-1 block w-full" wire:model.defer="state.error_text" />
                         <small>
