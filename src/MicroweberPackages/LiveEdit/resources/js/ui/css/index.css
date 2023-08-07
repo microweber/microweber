@@ -2,7 +2,7 @@
 html {
 
     --toolbar-static-height: 70px;
-    --toolbar-height: 70px;
+    --toolbar-height: 60px;
     --toolbar-height-animation-speed: .4s;
 }
 
