@@ -400,7 +400,7 @@ $current_template = false;
                                         });
                                     });
                                 });
-                            </script> 
+                            </script>
 
                             <div class="form-group position-sticky top-0" style="z-index: 1;">
                                 <div class="input-group prepend-transparent mb-0">
