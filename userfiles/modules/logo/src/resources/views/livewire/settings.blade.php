@@ -25,8 +25,11 @@
             <div x-show="logoType == 'image'">
                 <div>
                     <label class="live-edit-label"><?php _e("Main Logo"); ?></label>
-                    <small class="text-muted d-block mb-2"><?php _e("This logo image will appear every time"); ?></small>
-                    <livewire:microweber-option::media-picker optionKey="logoimage" :optionGroup="$moduleId" :module="$moduleType"  />
+                    <small class="live-edit-label"><?php _e("This logo image will appear every time"); ?></small>
+                    <div class=form-control-live-edit-label-wrapper"">
+
+                        <livewire:microweber-option::media-picker optionKey="logoimage" :optionGroup="$moduleId" :module="$moduleType"  />
+                    </div>
                 </div>
 
                 <div>
@@ -35,7 +38,7 @@
 
                 <div>
                     <label class="live-edit-label"><?php _e("Inverse Logo"); ?></label>
-                    <small class="text-muted d-block mb-2"><?php _e("This inverse logo image will appear on black theme"); ?></small>
+                    <small class="live-edit-label"><?php _e("This inverse logo image will appear on black theme"); ?></small>
                     <livewire:microweber-option::media-picker optionKey="logoimage_inverse" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
             </div>
@@ -44,13 +47,13 @@
             <div x-show="logoType == 'text'">
                 <div>
                     <label class="live-edit-label"><?php _e("Logo Text"); ?></label>
-                    <small class="text-muted d-block mb-2"><?php _e("This logo text will appear when image not applied"); ?></small>
-                    <livewire:microweber-option::text optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
+                    <small class="live-edit-label"><?php _e("This logo text will appear when image not applied"); ?></small>
+                    <livewire:microweber-option::textarea optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
 
                 <div class="mt-3">
                     <label class="live-edit-label"><?php _e("Font Family Text"); ?></label>
-                    <small class="text-muted d-block mb-2"><?php _e("Select font family for your logo"); ?></small>
+                    <small class="live-edit-label"><?php _e("Select font family for your logo"); ?></small>
 
                     <livewire:microweber-option::font-picker label="Select font" optionKey="font_family" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
