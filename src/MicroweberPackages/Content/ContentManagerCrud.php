@@ -1237,6 +1237,8 @@ class ContentManagerCrud extends Crud
 
         $this->app->cache_manager->delete('content');
         $this->app->cache_manager->delete('categories');
+        $this->app->cache_manager->delete('media');
+        $this->app->cache_manager->delete('pages');
 
         return true;
     }

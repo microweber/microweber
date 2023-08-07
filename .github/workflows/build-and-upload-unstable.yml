@@ -26,7 +26,9 @@ jobs:
       run: |
         rm -rf .git
         rm -rf .github
-        find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
+        rm -rf .nmp
+        rm -rf node_modules
+        find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes"  \) -exec rm -rf -- {} +
         zip -r microweber-${{ env.GITHUB_REF_SLUG }}-unstable.zip `ls -A`
     - name: Upload zip
       run: |
