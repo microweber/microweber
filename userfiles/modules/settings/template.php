@@ -85,7 +85,7 @@ if ($json != false) {
 </div>
 
 <script>
-    mw.require('options.js');
+    //mw.require('options.js');
 </script>
 
 <script>

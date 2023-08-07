@@ -24,7 +24,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="tab-content py-3">
             <div class="tab-pane fade show active" id="settings">
-                <script type="text/javascript">mw.require('options.js');</script>
 
                 <script type="text/javascript">
                     __checkout_options_save_msg = function () {

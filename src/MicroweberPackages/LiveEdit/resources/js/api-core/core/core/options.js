@@ -141,6 +141,9 @@ mw.options = {
 
 
         var val;
+        var dvu;
+        var dvc;
+
         if (el[0].type === 'checkbox') {
             val = '',
                 dvu = el.attr('data-value-unchecked'),
@@ -277,6 +280,8 @@ mw.options = {
 
                         setTimeout(function () {
 
+
+
                             var mod_element = window.parent.document.getElementById(which_module_to_reload);
                             if (mod_element) {
                                 // var module_parent_edit_field = window.mw.parent().tools.firstParentWithClass(mod_element, 'edit')
@@ -299,6 +304,12 @@ mw.options = {
                             if (which_module_to_reload != og1) {
                                 mw.reload_module_parent("#" + og1);
                             }
+
+                            if (typeof mw !== 'undefined' && mw.top().app && mw.top().app.editor) {
+                                mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': which_module_to_reload} || {}));
+                            }
+
+
                             reload_in_parent_trieggered = 1;
 
 
@@ -402,7 +413,7 @@ mw.options = {
                 typeof callback === 'function' ? callback.call(data) : '';
                 setTimeout(function () {
                     mw.options.___rebindAllFormsAfterReload();
-                }, 111);
+                }, 300);
                 //
                 //
                 //d(refresh_modules11);
@@ -450,7 +461,7 @@ mw.options.form = function ($selector, callback, beforepost) {
 
 
     var numOfbindigs = 0;
-    var force_rebind = false;
+    var force_rebind = true;
 
     var $root = mw.$($selector);
     var root = $root[0];

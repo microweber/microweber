@@ -181,29 +181,29 @@ MWEditor.controllers = {
                         url: 'https://textcomplete.microweberapi.com/?q=' + encodeURIComponent(actionTarget.textContent),
                         method: 'GET',
                     }
- 
-                    
+
+
 
                       fetch(mwAdapter.url, mwAdapter).then(function(res){
-                     
+
                         res.json().then(function(json){
-          
-                            actionTarget.innerHTML = json.text
+
+                            actionTarget.innerHTML = actionTarget.innerHTML + ' '+ json.text
                         })
-                        
+
                     });
- 
- 
+
+
                     api.action(actionTarget.parentNode, function () {
                         console.log(actionTarget)
-                    }); 
+                    });
 
             });
             return el;
         };
         this.checkSelection = function (opt, ee, tt) {
 
- 
+
         };
         this.element = this.render();
     },
@@ -513,7 +513,7 @@ MWEditor.controllers = {
 
             var dropdown = new MWEditor.core.dropdown({
                 customValue: true,
-              
+
                 data: [
                     { label: '8', value: 8 },
                     { label: '10', value: 10 },

@@ -51,12 +51,14 @@ if ($registration_approval_required == false) {
 
 <script type="text/javascript">
     mw.require('forms.js', true);
-    mw.require('options.js', true);
+    //mw.require('options.js', true);
 </script>
 
 <script type="text/javascript">
     $(document).ready(function () {
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
+
+
             mw.notification.success("<?php _ejs("User settings updated"); ?>.");
         });
     });

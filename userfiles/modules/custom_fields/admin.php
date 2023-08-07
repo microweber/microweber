@@ -26,7 +26,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="settings-wrapper px-0">
                 <script type="text/javascript">
                     mw.require("custom_fields.js", true);
-                    mw.require("options.js", true);
+                    //mw.require("options.js", true);
                     mw.require("admin.js", true);
                     mw.require("admin_custom_fields.js", true);
                 </script>

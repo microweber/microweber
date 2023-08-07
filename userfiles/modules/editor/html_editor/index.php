@@ -40,7 +40,7 @@
 
 <script>
     mw.require('<?php print modules_url()?>editor/html_editor/html_editor.js');
-    mw.require('options.js');
+    //mw.require('options.js');
     mw.lib.require('codemirror');
     mw.require('<?php print modules_url()?>editor/selector.css');
     var $time_out_handle = 0, html_code_area_editor;

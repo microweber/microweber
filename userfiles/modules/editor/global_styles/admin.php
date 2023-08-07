@@ -2,7 +2,7 @@
 <script  type="text/javascript">
 
 
-mw.require('options.js', true);
+//mw.require('options.js', true);
 
 
 </script>
