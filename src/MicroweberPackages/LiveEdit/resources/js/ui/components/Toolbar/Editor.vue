@@ -144,6 +144,8 @@ export default {
                 });
             }
 
+            mw.app.editImageDialog = editImageDialog;
+
             mw.app.editor.on('elementSettingsRequest', async (element) => {
               if(element.nodeName === 'IMG') {
                   var src = await editImageDialog(element.src);
@@ -174,22 +176,11 @@ export default {
                 } else {
 
                   this.emitter.emit('live-edit-ui-show', 'style-editor');
-                 // mw.app.editor.dispatch('elementSettingsRequest', el);
-                  // const dlg = mw.top().dialogIframe({
-                  //     url: mw.external_tool('rte_css_editor2'),
-                  //     title: mw.lang('Edit styles'),
-                  //     footer: false,
-                  //     width: 400,
-                  //     height: 'auto',
-                  //     autoHeight: true,
-                  //     overlay: false
-                  // });
-                  // dlg.iframe.addEventListener('load', () => {
-                  //   dlg.iframe.contentWindow.selectNode(element)
-                  // })
+ 
               }
             })
             mw.app.editor.on('editNodeRequest', async (element) => {
+ 
           
 
                 function imagePicker(onResult) {
@@ -260,14 +251,10 @@ export default {
 
                   if(targetChange && targetChange.classList && !targetChange.classList.contains('safe-mode')){
                     element = targetChange;
+                 
                     mw.app.get('liveEdit').handles.get('element').set(element);
                   }
 
-
-                  
-                  
-
-                
                  
 
                     setTimeout(() => {

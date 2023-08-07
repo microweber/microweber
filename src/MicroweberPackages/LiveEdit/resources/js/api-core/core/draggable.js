@@ -165,15 +165,7 @@ export const Draggable = function (options, rootSettings) {
       
         var handleEl = this.handle.get(0);
 
-
  
-
-        console.log(this.settings.handle)
-        if(handleEl) {
-            console.log(handleEl.parentElement)
-        }
-       
-         
          
         if(handleEl && !handleEl.$handleInit && handleEl.parentElement) {
  
@@ -181,10 +173,7 @@ export const Draggable = function (options, rootSettings) {
             this.handle.attr('draggable', 'true')
             this.handle
             .on('dragstart', function (e) {
-
-
-                
-                // e.dataTransfer.setData('text/html', 'This text <strong>may</strong> be dragged');
+ 
                 scope.isDragging = true;
                 if (!scope.element.id) {
                     scope.element.id = ('mw-element-' + new Date().getTime());

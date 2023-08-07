@@ -496,6 +496,7 @@ export class LiveEdit {
             if (target && target.className && typeof target.className === 'string' && target.className.indexOf('layout-plus') !== -1) {
                 return;
             }
+ 
 
             this.selectNode(target, e);
 
@@ -701,7 +702,9 @@ export class LiveEdit {
             }
 
 
-            
+            console.log(e.target);
+            console.log(selected);
+
             if (selected && selected.contains(_dblclicktarget)) {
                 mw.app.editor.dispatch('editNodeRequest', selected);
             }

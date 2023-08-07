@@ -830,6 +830,7 @@ var MWEditor = function (options) {
     this._smallEditorInteract = false;
 
     this.positionSmallEditor = function(target){
+    
         var off = mw.element(target).offset();
         var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
         // var cleft =  scope.interactionData.pageX;
@@ -958,7 +959,7 @@ var MWEditor = function (options) {
                             edit.contentEditable = true;
                         }
                     }
-                    console.log(e.type, e.target)
+                    
                 }
                 //  scope.settings.document.addEventListener('mousedown', set)
                 // scope.settings.document.addEventListener('dblclick', set)
