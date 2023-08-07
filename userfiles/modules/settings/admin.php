@@ -90,7 +90,7 @@ if (isset($_GET['group'])) {
     });
 </script>
 <script type="text/javascript">
-    mw.require("options.js");
+    //mw.require("options.js");
     mw.require("<?php print $config['url_to_module']; ?>settings.css");
 
 

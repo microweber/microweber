@@ -1,4 +1,4 @@
-
+import "./options.js";
 
 mw.pauseSave = false;
 

@@ -277,6 +277,8 @@ mw.options = {
 
                         setTimeout(function () {
 
+
+
                             var mod_element = window.parent.document.getElementById(which_module_to_reload);
                             if (mod_element) {
                                 // var module_parent_edit_field = window.mw.parent().tools.firstParentWithClass(mod_element, 'edit')
@@ -299,6 +301,12 @@ mw.options = {
                             if (which_module_to_reload != og1) {
                                 mw.reload_module_parent("#" + og1);
                             }
+
+                            if (typeof mw !== 'undefined' && mw.top().app && mw.top().app.editor) {
+                                mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': which_module_to_reload} || {}));
+                            }
+
+
                             reload_in_parent_trieggered = 1;
 
 
