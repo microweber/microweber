@@ -72,6 +72,7 @@
 
                         <div class="mt-3">
                             <x-microweber-ui::label for="show_placeholder" value="Show Placeholder" />
+                            <small class="live-edit-label mt-0 mb-3" style="font-size: 8px;">Toggle to turn on the placeholder and write your text below</small>
                             <x-microweber-ui::toggle id="show_placeholder" class="mt-1 block w-full" wire:model="state.options.show_placeholder" />
                         </div>
 
@@ -87,6 +88,7 @@
                     @if($showRequiredSettings)
                     <div class="mt-3">
                         <x-microweber-ui::label for="required" value="Required" />
+                        <small class="live-edit-label mt-0 mb-3" style="font-size: 8px;">Toggle to make this field required for the user</small>
                         <x-microweber-ui::toggle id="required" class="mt-1 block w-full" wire:model.defer="state.required" />
                     </div>
                     @endif
@@ -94,6 +96,7 @@
                     @if($showLabelSettings)
                      <div class="mt-3">
                         <x-microweber-ui::label for="show_label" value="Show Label" />
+                         <small class="live-edit-label mt-0 mb-3" style="font-size: 8px;">Toggle to turn on the label and write your text below</small>
                         <x-microweber-ui::toggle id="show_label" class="mt-1 block w-full" wire:model.defer="state.show_label" />
                     </div>
                     @endif
