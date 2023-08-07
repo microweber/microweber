@@ -3,7 +3,7 @@
     showEditTab: 'content'
     }">
 
-        <div class="d-flex justify-content-between align-items-center collapseNav-initialized">
+        <div class="d-flex justify-content-between align-items-center collapseNav-initialized form-control-live-edit-label-wrapper">
             <div class="d-flex flex-wrap gap-md-4 gap-3">
                 <a href="#" x-on:click="showEditTab = 'content'" :class="{ 'active': showEditTab == 'content' }"
                    class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs active">
