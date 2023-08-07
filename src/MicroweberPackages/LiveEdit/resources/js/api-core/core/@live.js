@@ -131,19 +131,19 @@ export class LiveEdit {
             return _dlg;
         };
 
-
+      
 
         var elementHandle = this.elementHandle = new Handle({
             ...this.settings,
             dropIndicator: this.dropIndicator,
             content: elementHandleContent.root,
-
+ 
             handle:  '.mw-handle-drag-button-element' ,
-
+ 
             document: this.settings.document,
             stateManager: this.settings.stateManager,
             resizable: true,
-
+            
             onPosition: function(menu, transform, off){
                 if(off.top < 50 ) {
                     menu.style.top = `calc(100% + 60px)`;
@@ -198,7 +198,7 @@ export class LiveEdit {
                 return false;
             },
             onPosition: function(menu, transform, off){
-
+                
                 if(off.top < 50 ) {
                     menu.style.top = `calc(100% + 60px)`;
                 } else {
@@ -318,34 +318,34 @@ export class LiveEdit {
     getSelectedNode() {
         return this.activeNode;
     }
-    selectNode(target, event) {
+    selectNode(tarfget, event) {
 
 
+console.log(target, event)
+ 
 
-
-
-
+         
         if(target.nodeName === 'BODY') {
-
+            
             return
         }
-
+ 
 
         if (this.handles.targetIsOrInsideHandle(target )) {
-
-
+ 
+   
             // this.handles.hide();
            //  this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
             return
         }
 
+ 
 
-
-
+ 
 
         this.activeNode = target;
 
-
+         
 
         // const elements = this.observe.fromEvent(e);
         const elements = [];
@@ -363,7 +363,7 @@ export class LiveEdit {
             first = DomService.firstBlockLevel(elements[0]);
         }
 
-
+ 
 
 
         first = target;
@@ -375,11 +375,11 @@ export class LiveEdit {
             event.preventDefault();
             event.stopImmediatePropagation();
 
-
-
+ 
+            
             mw.app.editor.dispatch('editNodeRequest', target, event);
         }
-
+        
 
 
         this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
@@ -390,7 +390,7 @@ export class LiveEdit {
         this.handles.hide();
 
 
-
+ 
 
 
 
@@ -461,14 +461,15 @@ export class LiveEdit {
             target = target.parentNode
         }
 
-        if(typeof target !== 'undefined' && typeof target.classList !== 'undefined') {
-            if (target.classList.contains('mw-empty-element') || target.classList.contains('mw-col-container')) {
-                const col = DomService.firstParentOrCurrentWithClass(target, 'mw-col');
-                if (col) {
-                    target = col
-                }
+       
+
+        if(target && target.classList.contains('mw-empty-element') || target.classList.contains('mw-col-container')){
+            const col = DomService.firstParentOrCurrentWithClass(target, 'mw-col');
+            if(col) {
+                target = col
             }
         }
+
         return target
     }
 
@@ -481,18 +482,18 @@ export class LiveEdit {
 
 
 
-
+ 
 
 
 
 
         const _eventsHandle = (e) => {
 
-
+           
 
 
             var target = e.target ? e.target : e;
-
+        
 
             if (target && target.className && typeof target.className === 'string' && target.className.indexOf('layout-plus') !== -1) {
                 return;
@@ -507,18 +508,18 @@ export class LiveEdit {
             if(!el || !el.parentNode) {
                 return false;
             }
-
+    
             const doc = el.ownerDocument;
             const win = doc.defaultView;
 
-
+ 
             const bounding = el.getBoundingClientRect();
             const elHeight = el.offsetHeight;
             const elWidth = el.offsetWidth;
 
+ 
 
-
-            if (bounding.top >= -elHeight
+            if (bounding.top >= -elHeight 
                 && bounding.left >= -elWidth
                 && bounding.right <= (win.innerWidth || doc.documentElement.clientWidth) + elWidth
                 && bounding.bottom <= (win.innerHeight || doc.documentElement.clientHeight) + elHeight) {
@@ -536,8 +537,9 @@ export class LiveEdit {
          events = 'mousedown touchstart';
         // events = 'click';
         ElementManager(this.root).on('mousemove', (e) => {
+           
 
-            if(e.which === 1) {
+           
 
             var currentMousePosition = { x: e.pageX, y: e.pageY };
             if (this.lastMousePosition) {
@@ -545,7 +547,7 @@ export class LiveEdit {
                 if (distance >= 3) {
                     // If moved 3 pixels or more, update the last mouse position
                     this.lastMousePosition = currentMousePosition;
-
+                    
                 } else {
                     // has not moved more than 3 pixels
                     return;
@@ -597,9 +599,9 @@ export class LiveEdit {
             const layout = DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
             let layoutHasSelectedTarget = false;
 
-
+           
             target = this._hoverAndSelectExceptions(target);
-
+           
 
 
 
@@ -647,7 +649,7 @@ export class LiveEdit {
 
             }
 
-
+ 
 
 
             if (target && !this.handles.targetIsSelectedAndHandleIsNotHidden(target, this.interactionHandle) && !target.classList.contains('module-layouts')) {
@@ -675,8 +677,8 @@ export class LiveEdit {
                 this.interactionHandle.set(target);
 
                 this.moduleHandle.draggablePaused(target)
-            }
-            }
+            } 
+            
 
         })
         let _dblclicktarget
@@ -687,7 +689,7 @@ export class LiveEdit {
             const module = mw.app.liveEdit.moduleHandle.getTarget();
             const layout = mw.app.liveEdit.layoutHandle.getTarget();
 
-
+ 
 
 
             if(layout && !selected && !module) {
@@ -702,7 +704,7 @@ export class LiveEdit {
             }
 
 
-
+            
             if (selected && selected.contains(_dblclicktarget)) {
                 mw.app.editor.dispatch('editNodeRequest', selected);
             }
@@ -714,6 +716,7 @@ export class LiveEdit {
 
         })
         ElementManager(this.root).on(events, (e) => {
+            if(e.which === 1) {
             _dblclicktarget = e.target;
 
             if (!this.paused) {
@@ -721,8 +724,8 @@ export class LiveEdit {
             } else {
 
                 if (this.handles.targetIsOrInsideHandle(e.target )) {
-
-
+ 
+   
                     // this.handles.hide();
                    //  this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
                     return
@@ -731,11 +734,11 @@ export class LiveEdit {
 
                 var elementTarget = this.elementHandle.getTarget();
 
-
-
-
-
-
+               
+ 
+                
+               
+                 
 
                 if (!elementTarget || (elementTarget && !elementTarget.contains(e.target))) {
                     this.play();
@@ -744,9 +747,10 @@ export class LiveEdit {
                     mw.app.canvas.getDocument().querySelectorAll('[contenteditable="true"]').forEach(node => node.contentEditable = false)
 
                 }
-
-
+                 
+    
                 // mw.app.get('liveEdit').play();
+            }
             }
         });
 
@@ -772,9 +776,6 @@ export class LiveEdit {
         noelements = noelements.concat(noelements_drag);
         noelements = noelements.concat(section_selectors);
         noelements = noelements.concat(icon_selectors);
-
-
-
         return !mw.tools.hasAnyOfClasses(el, noelements);
     }
     canBeEditable = function (el) {
