@@ -40,7 +40,7 @@
 </style>
 
  <script>
-     mw.require('options.js');
+     //mw.require('options.js');
      mw.lib.require('codemirror')
  </script>
  <script>

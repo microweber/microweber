@@ -25,7 +25,7 @@
         mw.require("<?php print mw_includes_url(); ?>css/components.css");
         mw.require("wysiwyg.js");
         mw.require("url.js");
-        mw.require("options.js");
+       // mw.require("options.js");
         mw.require("events.js");
         mw.require("admin.js");
         mw.require("editor_externals.js");

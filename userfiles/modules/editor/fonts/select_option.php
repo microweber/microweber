@@ -1,6 +1,6 @@
 <?php must_have_access(); ?>
 <script>
-    mw.require('options.js');
+    //mw.require('options.js');
 </script>
 
 

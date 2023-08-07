@@ -141,6 +141,9 @@ mw.options = {
 
 
         var val;
+        var dvu;
+        var dvc;
+
         if (el[0].type === 'checkbox') {
             val = '',
                 dvu = el.attr('data-value-unchecked'),
@@ -410,7 +413,7 @@ mw.options = {
                 typeof callback === 'function' ? callback.call(data) : '';
                 setTimeout(function () {
                     mw.options.___rebindAllFormsAfterReload();
-                }, 111);
+                }, 300);
                 //
                 //
                 //d(refresh_modules11);
@@ -458,7 +461,7 @@ mw.options.form = function ($selector, callback, beforepost) {
 
 
     var numOfbindigs = 0;
-    var force_rebind = false;
+    var force_rebind = true;
 
     var $root = mw.$($selector);
     var root = $root[0];

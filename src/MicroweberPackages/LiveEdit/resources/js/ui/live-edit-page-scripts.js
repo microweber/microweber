@@ -1,7 +1,7 @@
 if(window.self !== window.top) {
 
 
-    mw.require('options.js');
+    //mw.require('options.js');
     mw.require('liveedit.css');
 
 

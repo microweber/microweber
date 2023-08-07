@@ -2,7 +2,7 @@
     return;
 } ?>
 <script type="text/javascript">
-    mw.require('options.js');
+    //mw.require('options.js');
 
 </script>
 
@@ -13,6 +13,7 @@
         text-align: left;
         padding: 0;
     }
+
 
     .dragable-item:hover .cursor-move-holder {
         visibility: visible;
@@ -50,6 +51,8 @@
             onremove: function () {
                 html = modal.container.innerHTML;
                 $(document.body).removeClass('paymentSettingsModal')
+                mw.reload_module_everywhere("shop/payments/admin");
+
             },
             onopen: function () {
                 $(document.body).addClass('paymentSettingsModal');
@@ -60,12 +63,14 @@
             title: $('.gateway-title', el).html()
         });
 
-        mw.options.form('#' + formId, function () {
-            mw.notification.success("<?php _ejs("Shop settings are saved"); ?>.");
-            mw.reload_module_everywhere("shop/payments/admin");
-        });
+       // mw.reload_module_everywhere("shop/payments/admin");
 
-        mw.reload_module_everywhere('#module-shop-payments-id-' + id);
+
+        mw.reload_module_everywhere('#module-shop-payments-id-' + id, function () {
+            mw.options.form('#' + formId, function () {
+                mw.notification.success("<?php _ejs("Payment provider settings are saved"); ?>.");
+            });
+        });
     }
 
     $(document).ready(function () {
@@ -142,9 +147,11 @@ $payment_modules = get_modules('type=payment_gateway');
                           if (!isset($module_info['id']) or $module_info['id'] == false) {
                               $module_info['id'] = 0;
                           }
+
+                          $isEnabled = get_option('payment_gw_' . $payment_module['module'], 'payments') == 'y';
                           ?>
 
-                          <div class="dragable-item align-items-center shadow-sm bg-light mb-3 <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') == 1): ?>bg-primary-opacity-1<?php endif; ?>" id="module-db-id-<?php print $module_info['id'] ?>">
+                          <div class="dragable-item align-items-center shadow-sm bg-light mb-3 <?php if ($isEnabled): ?>bg-primary-opacity-1<?php endif; ?>" id="module-db-id-<?php print $module_info['id'] ?>">
                               <div class="row d-flex align-items-center">
                                   <div class="col-1 cursor-move-holder "
                                       <a href="javascript:;" class="btn btn-link text-blue-lt ">
@@ -155,7 +162,7 @@ $payment_modules = get_modules('type=payment_gateway');
                                   <div class="col pl-0 js-change-method-status" style="max-width: 60px;">
 
                                       <div class="form-check form-check-single form-switch p-0">
-                                          <input onchange="setActiveProvider('#module-db-id-<?php print $module_info['id'] ?>', this);" type="checkbox" class="mw_option_field form-check-input" id="ccheckbox-payment_gw_<?php print $payment_module['module'] ?>" name="payment_gw_<?php print $payment_module['module'] ?>" data-option-group="payments" data-id="shipping_gw_shop/shipping/gateways/country"<?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') == 1): ?> checked="checked" <?php endif; ?> value="1">
+                                          <input onchange="setActiveProvider('#module-db-id-<?php print $module_info['id'] ?>', this);" type="checkbox" class="mw_option_field form-check-input" id="ccheckbox-payment_gw_<?php print $payment_module['module'] ?>" name="payment_gw_<?php print $payment_module['module'] ?>" data-option-group="payments" data-id="shipping_gw_shop/shipping/gateways/country"<?php if ($isEnabled): ?> checked="checked" <?php endif; ?> value="y">
                                           <label class="custom-control-label" for="ccheckbox-payment_gw_<?php print $payment_module['module'] ?>"></label>
                                       </div>
 
@@ -167,7 +174,7 @@ $payment_modules = get_modules('type=payment_gateway');
                                       <h4 class=" form-label fs-2 font-weight-bold mb-0 gateway-title"><?php _e($payment_module['name']) ?></h4>
 
                                       <small class="text-muted d-block mt-1">
-                                          <?php _e($payment_module['name']) ?> <span class="text-primary js-method-on <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') != 1): ?>d-none<?php endif; ?>"><?php _e("is ON"); ?></span>
+                                          <?php _e($payment_module['name']) ?> <span class="text-success js-method-on <?php if (!$isEnabled): ?>d-none<?php endif; ?>"><?php _e("is ON"); ?></span>
                                       </small>
                                   </div>
 
