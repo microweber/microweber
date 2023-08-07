@@ -100,10 +100,10 @@
 
 
                     @if($showErrorTextSettings)
-                    <div class="mt-3 form-control-live-edit-label-wrapper">
+                    <div class="mt-3">
                         <x-microweber-ui::label for="error_text" value="Error Text" />
                         <x-microweber-ui::input id="error_text" class="mt-1 block w-full" wire:model.defer="state.error_text" />
-                        <small>
+                        <small class="form-control-live-edit-label-wrapper">
                            {{_e('This error will be shown when fields are required but not filled')}}
                         </small>
                     </div>
