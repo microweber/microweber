@@ -81,14 +81,7 @@ export default {
         });
 
         var instance = this;
-        // mw.app.canvas.on('canvasDocumentClick', function () {
-        //     if (instance.isOpened) {
-        //         var selected = mw.app.liveEdit.elementHandle.getTarget();
-        //         if (selected && instance.cssEditorIframe && instance.cssEditorIframe.contentWindow && instance.cssEditorIframe.contentWindow.selectNode) {
-        //             instance.cssEditorIframe.contentWindow.selectNode(selected)
-        //         }
-        //     }
-        // });
+ 
 
         mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
             if (instance) {

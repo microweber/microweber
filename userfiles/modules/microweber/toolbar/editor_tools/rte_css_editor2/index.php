@@ -164,7 +164,7 @@ only_admin_access();
                     setTimeout(function () {
 
 
-                        console.log(targetMw)
+                        
                         if (typeof targetMw !== 'undefined') {
         
                             mw.top().app.liveEdit.selectNode(node);
