@@ -203,13 +203,11 @@
                     var item = scope.options.skip[n];
 
                     var case1 = (item.id == itemData.id && item.type == itemData.type);
-                    var case2 = (itemData.parent_id == item.id && item.type == itemData.type);
+                    var case2 = (itemData.parent_id != 0 && itemData.parent_id == item.id && item.type == itemData.type);
 
-                    if(itemData.id == 2) {
-                        console.log(case1)
-                        console.log(item)
-                        console.log(itemData)
-                    }
+                     
+
+ 
                     if(case1 || case2){
                         return true;
                     }

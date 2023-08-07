@@ -69,7 +69,7 @@
                         sortable: false,
                         selectable: true,
                         singleSelect: true,
-      			searchInput: true,
+      			        searchInput: true,
                     }
                     var tree = new mw.tree(treeSettings);
                     $(tree).on("selectionChange", function () {
