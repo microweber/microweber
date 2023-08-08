@@ -16,7 +16,6 @@ export default {
             var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
 
-
             var dlg = mw.top().dialogIframe({
                 url: src,
                 title: mw.lang('Edit styles'),
@@ -27,8 +26,16 @@ export default {
                 overlay: false
             });
             dlg.iframe.addEventListener('load', () => {
-                var selected = mw.app.liveEdit.elementHandle.getTarget();
-                dlg.iframe.contentWindow.selectNode(selected)
+              //  var selected = mw.app.liveEdit.elementHandle.getTarget();
+              //  dlg.iframe.contentWindow.selectNode(selected)
+
+
+
+                        var event = new CustomEvent('refreshSelectedElement')
+                dlg.iframe.contentWindow.document.dispatchEvent(event);
+
+
+
             })
             this.cssEditorDialog = dlg;
             this.cssEditorIframe = dlg.iframe;
@@ -47,7 +54,9 @@ export default {
         },
         removeStyleEditor: function () {
             if (this.cssEditorDialog) {
+
                 this.cssEditorDialog.remove();
+                $('#mw_global_rte_css_editor2_editor').remove();
                 this.markAsRemoved();
             }
         },
@@ -81,7 +90,7 @@ export default {
         });
 
         var instance = this;
- 
+
 
         mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
             if (instance) {
@@ -94,6 +103,16 @@ export default {
                 // remove editor if the frame is changed
                 instance.removeStyleEditor();
             }
+        });
+
+        mw.top().app.canvas.on('canvasDocumentClick', function () {
+            if (instance.isOpened) {
+                if (instance.cssEditorIframe) {
+                    var event = new CustomEvent('refreshSelectedElement')
+                    instance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
+                }
+            }
+
         });
     }
 

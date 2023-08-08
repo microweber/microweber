@@ -142,6 +142,9 @@ only_admin_access();
 
 
 
+            if(!mw.top){
+                return;
+            }
 
 
              var liveEditDomTree = new mw.DomTree({
@@ -164,9 +167,9 @@ only_admin_access();
                     setTimeout(function () {
 
 
-                        
+
                         if (typeof targetMw !== 'undefined') {
-        
+
                             mw.top().app.liveEdit.selectNode(node);
 
                             mw.tools.scrollTo(node, undefined, 200);
@@ -175,7 +178,7 @@ only_admin_access();
                 }
             });
 
-      
+
 
             mw.top().app._liveEditDomTree = liveEditDomTree
         }, 700);
@@ -248,12 +251,26 @@ only_admin_access();
 ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 
 
-mw.top().app.canvas.on('canvasDocumentClick', function () {
+// mw.top().app.canvas.on('canvasDocumentClick', function () {
+//
+//     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+//
+//     activeTree();
+// });
+
+// mw.top().app.canvas.on('refreshSelectedElement', function () {
+//
+//
+// });
+
+window.document.addEventListener('refreshSelectedElement', function(e){
+
 
     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 
     activeTree();
 });
+
 
 var reset = function(){
     var ActiveNode = mw.top().app.liveEdit.getSelectedNode();
@@ -290,7 +307,9 @@ var activeTree = function(){
         return;
     }
 
-
+    if(!mw.top){
+        return;
+    }
 
 
 
@@ -786,6 +805,10 @@ var populateSpecials = function (css) {
 
 var output = function(property, value){
     var mwTarget = targetMw;
+
+    if(!mw.top){
+        return;
+    }
 
     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 
