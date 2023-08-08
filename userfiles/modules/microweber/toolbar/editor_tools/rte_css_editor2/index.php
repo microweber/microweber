@@ -96,15 +96,6 @@ only_admin_access();
 
 <script>
 
-    // if(typeof targetMw === 'undefined') {
-    //     targetMw = mw.parent();
-    // }
-    // addEventListener('load', function (){
-    //     if( window.frame && window.frame.contentWindow.mw) {
-    //         targetMw = window.frame.contentWindow.mw;
-    //     }
-    //
-    // })
 
 
 
@@ -144,13 +135,13 @@ only_admin_access();
 
 
 
-             var liveEditDomTree = new mw.DomTree({
+             window.liveEditDomTree = new mw.DomTree({
                 element: '#domtree',
                 resizable: true,
                 targetDocument: targetMw.win.document,
                 canSelect: function (node, li) {
-                    // var can = mw.top().app.liveEdit.canBeElement(node)
-                    // return can;
+                    var can = mw.top().app.liveEdit.canBeElement(node)
+                    return can;
                       var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
                        return !cant;
                     // return mw.tools.isEditable(node) || node.classList.contains('edit');
@@ -272,7 +263,14 @@ window.document.addEventListener('refreshSelectedElement', function(e){
 
     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 
-    activeTree();
+    if(typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree){
+        window.liveEditDomTree.select(ActiveNode);
+    }
+
+
+
+
+  //  activeTree();
 });
 
 
@@ -296,7 +294,7 @@ var reset = function(){
 
     });
     mw.top().app.registerChange(ActiveNode)
-    activeTree();
+   // activeTree();
 };
 
 
@@ -306,6 +304,9 @@ var _activeTree = null;
 var _pauseActiveTree = false;
 var activeTree = function(){
 
+    // deprecated
+    // this is now handled by the liveEditDomTree
+    return;
 
     if(!ActiveNode || _pauseActiveTree) {
         return;
@@ -427,8 +428,12 @@ var activeTree = function(){
             if(data[i].element.id === ActiveNode.id){
                 console.log(data[i].element, ActiveNode.id,data[i].id)
 
-                alert('aaaaaaaaa'+ActiveNode.id)
-                _activeTree.select(data[i].id, 'page', false);
+                if(typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree){
+                    window.liveEditDomTree.select(data[i].element);
+                }
+
+                //alert('TODO SELECT NODE '+ActiveNode.id)
+               // _activeTree.select(data[i].id, 'page', false);
                // _activeTree.select($('#tree li
               //  _activeTree.select($('#tree li:first')[0], 'page', false);
                 break;
@@ -1018,7 +1023,7 @@ var init = function(){
     });
     $("#background-select-item").on("click", function () {
         var dialog;
-        var picker = new mw.filePicker({
+        var picker = new (mw.top()).filePicker({
             type: 'images',
             label: false,
             autoSelect: false,
@@ -1036,7 +1041,7 @@ var init = function(){
                 dialog.remove()
             }
         });
-        dialog = targetMw.dialog({
+        dialog = mw.top().dialog({
             content: picker.root,
             title: mw.lang('Select image'),
             footer: false,
