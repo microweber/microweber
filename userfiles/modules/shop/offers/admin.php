@@ -94,18 +94,18 @@ $allOffers = app()->offer_repository->getAll();
 
                <div class="text-center you-dont-have-any">
                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 1679.7 1612.5" style="enable-background:new 0 0 1679.7 1612.5;" xml:space="preserve">
-<style type="text/css">
-    .st0{fill:#E9EFFF;}
-    .st1{fill:#8AA5FF;}
-    .st2{fill:#FFFFFF;}
-    .st3{fill:#A03B33;}
-    .st4{fill:#668CFF;}
-    .st5{fill-opacity:0.1961;}
-    .st6{fill:#223164;}
-    .st7{fill:#668BFF;}
-    .st8{fill:#EF7C26;}
-    .st9{fill:#EA9668;}
-</style>
+                    <style type="text/css">
+                        .st0{fill:#E9EFFF;}
+                        .st1{fill:#8AA5FF;}
+                        .st2{fill:#FFFFFF;}
+                        .st3{fill:#A03B33;}
+                        .st4{fill:#668CFF;}
+                        .st5{fill-opacity:0.1961;}
+                        .st6{fill:#223164;}
+                        .st7{fill:#668BFF;}
+                        .st8{fill:#EF7C26;}
+                        .st9{fill:#EA9668;}
+                    </style>
                        <g id="Special_Offer">
                            <path class="st0" d="M434.1,1420.7c-349.2-180.6-490.2-576.3-414-629c84.3-58.2,471.1,277.2,529,228.4   c63.5-53.5-369.5-484.9-287.5-559.5c56-51,260.9,147.7,521.3,105.9c271.4-43.6,323.3-232.1,498.3-291.3   c336.5-113.9,514.6,330.7,314.3,509.8c-96.2,86-220.9,114.5-241.5,218.5c-25.5,128.8,207.8,198.4,191.7,297.9   C1520.1,1458.6,878.9,1650.7,434.1,1420.7z"/>
                            <g>
