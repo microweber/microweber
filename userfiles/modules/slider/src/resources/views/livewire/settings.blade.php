@@ -64,7 +64,7 @@ showMainEditTab: 'mainSettings'
 
 
     @if($moduleTemplates && count($moduleTemplates) >  1)
-        <div class="d-flex justify-content-between align-items-center collapseNav-initialized">
+        <div class="d-flex justify-content-between align-items-center collapseNav-initialized form-control-live-edit-label-wrapper">
             <div class="d-flex flex-wrap gap-md-4 gap-3">
                 <button x-on:click="showMainEditTab = 'mainSettings'"
                         :class="{ 'active': showMainEditTab == 'mainSettings' }"

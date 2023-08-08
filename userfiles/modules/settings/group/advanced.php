@@ -115,7 +115,7 @@
                                       <div class="card-body">
                                               <label class="form-label"><?php _e("Internal Settings"); ?></label>
                                               <small class="advanced-settings-small-helper d-block mb-2"><?php _e('Internal settings for developers'); ?></small>
-                                              <a class="btn btn-link" style="padding: 0 !important;" href="javascript:settings_load_module('Internal settings','settings/group/internal')"><?php _e("Internal settings"); ?></a>
+                                              <a class="btn btn-sm btn-outline-primary" href="javascript:settings_load_module('Internal settings','settings/group/internal')"><?php _e("Internal settings"); ?></a>
                                       </div>
                                   </div>
                               </div>
@@ -127,8 +127,8 @@
                                               <small class="advanced-settings-small-helper text-muted d-block mb-2"><?php _e('Configure Live Edit settings'); ?></small>
 
 
-                                              <a class="btn btn-link" style="padding: 0 !important;" href="javascript:settings_load_module('Live Edit settings','settings/group/live_edit')"><?php _e("Live Edit settings"); ?></a>
-                                              <a class="btn btn-link" style="padding: 0 !important;" href="javascript:settings_load_module('Live Edit elements','admin/elements')"><?php _e("Live Edit elements"); ?></a>
+                                              <a class="btn btn-sm btn-outline-primary mb-2" href="javascript:settings_load_module('Live Edit settings','settings/group/live_edit')"><?php _e("Live Edit settings"); ?></a>
+                                              <a class="btn btn-sm btn-outline-primary" href="javascript:settings_load_module('Live Edit elements','admin/elements')"><?php _e("Live Edit elements"); ?></a>
                                       </div>
                                   </div>
                               </div>
@@ -140,7 +140,7 @@
                                       <div class="card-body">
                                               <label class="form-label"><?php _e("Setup statistics"); ?></label>
                                               <small class="advanced-settings-small-helper d-block mb-2"><?php _e('Configure website statistics'); ?></small>
-                                              <a class="btn btn-link" style="padding: 0 !important;" href="javascript:settings_load_module('Statistics settings','site_stats/settings')"><?php _e("Statistics settings"); ?></a>
+                                              <a class="btn btn-sm btn-outline-primary" href="javascript:settings_load_module('Statistics settings','site_stats/settings')"><?php _e("Statistics settings"); ?></a>
                                       </div>
                                   </div>
                               </div>
@@ -150,10 +150,10 @@
                                       <div class="card-body">
                                               <label class="form-label"><?php _e("Other"); ?></label>
                                               <small class="advanced-settings-small-helper d-block mb-2"><?php _e('Other settings'); ?></small>
-                                              <a class="btn btn-link" style="padding: 0 !important;" href="javascript:reloadMwDB();"><?php _e("Reload Database"); ?></a>
+                                              <a class="btn btn-sm btn-outline-primary" href="javascript:reloadMwDB();"><?php _e("Reload Database"); ?></a>
 
                                               <?php if (is_module('shop') and get_option('shop_disabled', 'website') == "y") { ?>
-                                                  <a class="btn btn-link" style="padding: 0 !important;" href="javascript:settings_load_module('Shop settings','shop/orders/settings/enable_disable_shop')"><?php _e("Shop settings"); ?></a>
+                                                  <a class="btn btn-sm btn-outline-primary" href="javascript:settings_load_module('Shop settings','shop/orders/settings/enable_disable_shop')"><?php _e("Shop settings"); ?></a>
                                               <?php } ?>
                                       </div>
                                   </div>
@@ -166,7 +166,7 @@
                                       <div class="card-body">
                                           <label class="form-label"><?php _e("Experimental"); ?></label>
                                           <small class="advanced-settings-small-helper d-block mb-2"><?php _e("Experimental settings for developers"); ?></small>
-                                          <a class="btn btn-link" style="padding: 0 !important;" href="javascript:settings_load_module('Experimental settings','settings/group/experimental')"><?php _e("Experimental settings"); ?></a>
+                                          <a class="btn btn-sm btn-outline-primary" href="javascript:settings_load_module('Experimental settings','settings/group/experimental')"><?php _e("Experimental settings"); ?></a>
                                       </div>
                                   </div>
                               </div>

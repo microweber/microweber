@@ -250,7 +250,7 @@ body, .is_admin {
 
 .admin-dashboard-left-nav {
     background-color: var(--tblr-bg-surface);
- 
+
 
 
 
@@ -281,7 +281,7 @@ body, .is_admin {
 
     .nav-item.nav-item-profile {
 
-       
+
 
         .profile-img {
             width: 40px;
@@ -2186,6 +2186,7 @@ svg.text-danger {
     line-height: 16px;
     text-overflow: ellipsis;
     margin-bottom: 7px;
+    margin-top: 7px;
 }
 
 .form-control-live-edit-label-wrapper {
@@ -2220,6 +2221,10 @@ svg.text-danger {
         outline: none;
         background-color: #f5f5f5;
         padding-inline-start: 10px;
+
+        &:disabled {
+            background-color: #d3d3d3;
+        }
 
 
          &:focus, &:focus-visible {
@@ -2519,9 +2524,9 @@ svg.text-danger {
     body.sidebar-mobile-toggle #admin-sidebar {
         left: 0;
         opacity: 1;
-        visibility: visible; 
+        visibility: visible;
         box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px, 200px 0 100vw #0000004f;
-         
+
     }
 }
 
@@ -2624,4 +2629,27 @@ svg.text-danger {
 
 .navbar-expand-xl.navbar-vertical~.navbar, .navbar-expand-xl.navbar-vertical~.page-wrapper {
     margin: 0!important;
+}
+
+.mw-tags--container {
+    svg {
+        margin-inline-end: 5px;
+    }
+}
+
+
+.input-group-text {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+
+.x-close-modal-link {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    color: var(--tblr-body-color);
+    font-size: 24px;
+    cursor: pointer;
 }

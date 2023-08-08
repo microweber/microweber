@@ -192,7 +192,10 @@ mw.lib.require('xss');
                 }
             };
 
-            this.root.className = 'mw-link-editor-root mw-link-editor-root-inIframe-' + (window.self !== window.top )
+            this.root.className = 'mw-link-editor-root position-relative mw-link-editor-root-inIframe-' + (window.self !== window.top )
+
+            $(this.root).append('<span onclick="mw.dialog.get().remove()" class="x-close-modal-link"> <i class="mdi mdi-close"></i>  </span>');
+
             this.buildControllers ();
             if(this.settings.mode === 'dialog') {
                 this.dialog = mw.top().dialog({

@@ -11,10 +11,10 @@
                 </div>
                 <div class="mw-modal-body">
 
-                    <div class="d-flex mt-3">
+                    <div class="d-flex align-items-center mt-3">
                         <div class="w-full">
                             <x-microweber-ui::label for="name" value="Name" />
-                            <x-microweber-ui::input id="name" class="mt-1 block w-full" wire:model.defer="state.name" />
+                            <x-microweber-ui::input id="name" class="block w-full" wire:model.defer="state.name" />
                         </div>
 
                         <div class="w-full">
@@ -72,6 +72,7 @@
 
                         <div class="mt-3">
                             <x-microweber-ui::label for="show_placeholder" value="Show Placeholder" />
+                            <small class="live-edit-label mt-0 mb-3" style="font-size: 8px;">Toggle to turn on the placeholder and write your text below</small>
                             <x-microweber-ui::toggle id="show_placeholder" class="mt-1 block w-full" wire:model="state.options.show_placeholder" />
                         </div>
 
@@ -87,6 +88,7 @@
                     @if($showRequiredSettings)
                     <div class="mt-3">
                         <x-microweber-ui::label for="required" value="Required" />
+                        <small class="live-edit-label mt-0 mb-3" style="font-size: 8px;">Toggle to make this field required for the user</small>
                         <x-microweber-ui::toggle id="required" class="mt-1 block w-full" wire:model.defer="state.required" />
                     </div>
                     @endif
@@ -94,6 +96,7 @@
                     @if($showLabelSettings)
                      <div class="mt-3">
                         <x-microweber-ui::label for="show_label" value="Show Label" />
+                         <small class="live-edit-label mt-0 mb-3" style="font-size: 8px;">Toggle to turn on the label and write your text below</small>
                         <x-microweber-ui::toggle id="show_label" class="mt-1 block w-full" wire:model.defer="state.show_label" />
                     </div>
                     @endif
@@ -103,7 +106,7 @@
                     <div class="mt-3">
                         <x-microweber-ui::label for="error_text" value="Error Text" />
                         <x-microweber-ui::input id="error_text" class="mt-1 block w-full" wire:model.defer="state.error_text" />
-                        <small>
+                        <small class="form-control-live-edit-label-wrapper">
                            {{_e('This error will be shown when fields are required but not filled')}}
                         </small>
                     </div>

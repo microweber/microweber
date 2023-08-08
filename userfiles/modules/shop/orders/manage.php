@@ -154,7 +154,7 @@
                         <div class="form-inline">
                             <div class="input-group mb-0 prepend-transparent mx-2">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
+                                    <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
                                 </div>
 
                                 <input type="text" class="form-control form-control-sm" style="width: 100px;" id="orders-search-field" placeholder="<?php _e("Search"); ?>"/>
