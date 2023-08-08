@@ -142,9 +142,6 @@ only_admin_access();
 
 
 
-            if(!mw.top){
-                return;
-            }
 
 
              var liveEditDomTree = new mw.DomTree({
@@ -160,7 +157,7 @@ only_admin_access();
                 },
                 onHover: function (e, target, node, element) {
                     if (typeof targetMw !== 'undefined') {
-                        //    targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
+                       //   targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
                     }
                 },
                 onSelect: function (e, target, node, element) {
@@ -172,7 +169,7 @@ only_admin_access();
 
                             mw.top().app.liveEdit.selectNode(node);
 
-                            mw.tools.scrollTo(node, undefined, 200);
+                            targetMw.tools.scrollTo(node, undefined, 200);
                         }
                     }, 100);
                 }
@@ -180,7 +177,8 @@ only_admin_access();
 
 
 
-            mw.top().app._liveEditDomTree = liveEditDomTree
+            //  NS_ERROR_NOT_INITIALIZED
+            //  mw.top().app._liveEditDomTree = liveEditDomTree
         }, 700);
 
        $('.rte_css_editor_svg').each(function (img){
@@ -257,6 +255,12 @@ ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 //
 //     activeTree();
 // });
+// mw.top().app.canvas.on('canvasDocumentClick', function () {
+//
+//     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+//
+//     activeTree();
+// });
 
 // mw.top().app.canvas.on('refreshSelectedElement', function () {
 //
@@ -307,9 +311,7 @@ var activeTree = function(){
         return;
     }
 
-    if(!mw.top){
-        return;
-    }
+
 
 
 
@@ -319,12 +321,12 @@ var activeTree = function(){
     var getParent = function(node){
         var canvasDocument = mw.top().app.canvas.getDocument();
 
-        if(!node || node === canvasDocument.body || !node.parentNode || mw.tools.hasClass(node, 'edit')){
+        if(!node || node === canvasDocument.body || !node.parentNode || targetMw.tools.hasClass(node, 'edit')){
             return false;
         }
         if(node.parentNode.id){
             return node.parentNode;
-        } else  if(mw.tools.hasClass(node.parentNode, 'edit')){
+        } else  if(targetMw.tools.hasClass(node.parentNode, 'edit')){
             return node.parentNode;
         } else {
             return getParent(node.parentNode);
@@ -339,20 +341,21 @@ var activeTree = function(){
         var custom = !!curr.className;
 
 
+      //  if(curr.id || mw.tools.hasClass(curr, 'edit') || custom){
         if(curr.id || mw.tools.hasClass(curr, 'edit') || custom){
             count++;
             if (count > 4) {
              //   break;
             }
             var parent = getParent(curr);
-            var selector = mw.tools.generateSelectorForNode(curr)
+            var selector = targetMw.tools.generateSelectorForNode(curr)
                 .replace(/\[/g, 'mw')
                 .replace(/["']/g, '')
                 .replace(/\]/g, 'mw');
             var parent_selector = 0;
 
             if(parent) {
-                parent_selector =  mw.tools.generateSelectorForNode(parent)
+                parent_selector =  targetMw.tools.generateSelectorForNode(parent)
                     .replace(/\[/g, 'mw')
                     .replace(/["']/g, '')
                     .replace(/\]/g, 'mw');
@@ -362,7 +365,8 @@ var activeTree = function(){
                 ttitle = curr.dataset.mwTitle || curr.dataset.type;
             }
             var item = {
-                id: selector,
+                selector: selector,
+                id: curr.id,
                 type: 'page',
                 title: ttitle ,
                 parent_id: parent_selector,
@@ -386,7 +390,16 @@ var activeTree = function(){
     data = data.reverse();
 
     $('#tree').empty();
-
+    // selectedData: selectedData,
+    //
+    //     var selectedData = []
+    //     data.unshift({
+    //         id: 0,
+    //         type: 'category',
+    //         title: 'None',
+    //         "parent_id": 0,
+    //         "parent_type": "category"
+    //     });
 
 
     _activeTree = new mw.tree({
@@ -407,7 +420,26 @@ var activeTree = function(){
     });
 
     _activeTree.openAll();
-    _activeTree.select($('#tree li:last')[0]);
+   // _activeTree.select($('#tree li:last')[0]);
+
+    if(ActiveNode && ActiveNode.id){
+        for (var i = 0; i < data.length; i++) {
+            if(data[i].element.id === ActiveNode.id){
+                console.log(data[i].element, ActiveNode.id,data[i].id)
+
+                alert('aaaaaaaaa'+ActiveNode.id)
+                _activeTree.select(data[i].id, 'page', false);
+               // _activeTree.select($('#tree li
+              //  _activeTree.select($('#tree li:first')[0], 'page', false);
+                break;
+            }
+        }
+    }
+
+
+
+   // pagesTree.show(id, 'category');
+   // pagesTree.select(id, 'category', true);
 
     $(_activeTree).on('selectionChange', function(e, data){
         _pauseActiveTree = true;
@@ -806,9 +838,6 @@ var populateSpecials = function (css) {
 var output = function(property, value){
     var mwTarget = targetMw;
 
-    if(!mw.top){
-        return;
-    }
 
     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 

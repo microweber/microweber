@@ -25,18 +25,18 @@ export default {
                 autoHeight: true,
                 overlay: false
             });
-            dlg.iframe.addEventListener('load', () => {
-              //  var selected = mw.app.liveEdit.elementHandle.getTarget();
-              //  dlg.iframe.contentWindow.selectNode(selected)
-
-
-
-                        var event = new CustomEvent('refreshSelectedElement')
-                dlg.iframe.contentWindow.document.dispatchEvent(event);
-
-
-
-            })
+            // dlg.iframe.addEventListener('load', () => {
+            //   //  var selected = mw.app.liveEdit.elementHandle.getTarget();
+            //   //  dlg.iframe.contentWindow.selectNode(selected)
+            //
+            //
+            //
+            //             var event = new CustomEvent('refreshSelectedElement')
+            //     dlg.iframe.contentWindow.document.dispatchEvent(event);
+            //
+            //
+            //
+            // })
             this.cssEditorDialog = dlg;
             this.cssEditorIframe = dlg.iframe;
             var styleEditorDialoginstance = this;
@@ -108,8 +108,23 @@ export default {
         mw.top().app.canvas.on('canvasDocumentClick', function () {
             if (instance.isOpened) {
                 if (instance.cssEditorIframe) {
+                    var activeNode = mw.top().app.liveEdit.getSelectedNode();
+
+                    var can = mw.top().app.liveEdit.canBeElement(activeNode)
+                    if(can){
+                        //check if has Id
+                        var targetWindow = mw.top().app.canvas.getWindow();
+
+                        var id = activeNode.id;
+                        if(!id){
+                            targetWindow.mw.tools.generateSelectorForNode(activeNode);
+                          //  activeNode.id = id;
+                        }
+                    }
+
+
                     var event = new CustomEvent('refreshSelectedElement')
-                    instance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
+                   instance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
                 }
             }
 
