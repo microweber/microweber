@@ -96,15 +96,6 @@ only_admin_access();
 
 <script>
 
-    // if(typeof targetMw === 'undefined') {
-    //     targetMw = mw.parent();
-    // }
-    // addEventListener('load', function (){
-    //     if( window.frame && window.frame.contentWindow.mw) {
-    //         targetMw = window.frame.contentWindow.mw;
-    //     }
-    //
-    // })
 
 
 
@@ -144,40 +135,41 @@ only_admin_access();
 
 
 
-             var liveEditDomTree = new mw.DomTree({
+             window.liveEditDomTree = new mw.DomTree({
                 element: '#domtree',
                 resizable: true,
                 targetDocument: targetMw.win.document,
                 canSelect: function (node, li) {
-                    // var can = mw.top().app.liveEdit.canBeElement(node)
-                    // return can;
+                    var can = mw.top().app.liveEdit.canBeElement(node)
+                    return can;
                       var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
                        return !cant;
                     // return mw.tools.isEditable(node) || node.classList.contains('edit');
                 },
                 onHover: function (e, target, node, element) {
                     if (typeof targetMw !== 'undefined') {
-                        //    targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
+                       //   targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
                     }
                 },
                 onSelect: function (e, target, node, element) {
                     setTimeout(function () {
 
 
-                        
+
                         if (typeof targetMw !== 'undefined') {
-        
+
                             mw.top().app.liveEdit.selectNode(node);
 
-                            mw.tools.scrollTo(node, undefined, 200);
+                            targetMw.tools.scrollTo(node, undefined, 200);
                         }
                     }, 100);
                 }
             });
 
-      
 
-            mw.top().app._liveEditDomTree = liveEditDomTree
+
+            //  NS_ERROR_NOT_INITIALIZED
+            //  mw.top().app._liveEditDomTree = liveEditDomTree
         }, 700);
 
        $('.rte_css_editor_svg').each(function (img){
@@ -248,12 +240,40 @@ only_admin_access();
 ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 
 
-mw.top().app.canvas.on('canvasDocumentClick', function () {
+// mw.top().app.canvas.on('canvasDocumentClick', function () {
+//
+//     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+//
+//     activeTree();
+// });
+// mw.top().app.canvas.on('canvasDocumentClick', function () {
+//
+//     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+//
+//     activeTree();
+// });
+
+// mw.top().app.canvas.on('refreshSelectedElement', function () {
+//
+//
+// });
+
+window.document.addEventListener('refreshSelectedElement', function(e){
+
 
     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 
-    activeTree();
+    if(typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree){
+       window.liveEditDomTree.select(ActiveNode);
+        selectNode(ActiveNode);
+    }
+
+
+
+
+  //  activeTree();
 });
+
 
 var reset = function(){
     var ActiveNode = mw.top().app.liveEdit.getSelectedNode();
@@ -275,7 +295,7 @@ var reset = function(){
 
     });
     mw.top().app.registerChange(ActiveNode)
-    activeTree();
+   // activeTree();
 };
 
 
@@ -285,6 +305,9 @@ var _activeTree = null;
 var _pauseActiveTree = false;
 var activeTree = function(){
 
+    // deprecated
+    // this is now handled by the liveEditDomTree
+    return;
 
     if(!ActiveNode || _pauseActiveTree) {
         return;
@@ -300,12 +323,12 @@ var activeTree = function(){
     var getParent = function(node){
         var canvasDocument = mw.top().app.canvas.getDocument();
 
-        if(!node || node === canvasDocument.body || !node.parentNode || mw.tools.hasClass(node, 'edit')){
+        if(!node || node === canvasDocument.body || !node.parentNode || targetMw.tools.hasClass(node, 'edit')){
             return false;
         }
         if(node.parentNode.id){
             return node.parentNode;
-        } else  if(mw.tools.hasClass(node.parentNode, 'edit')){
+        } else  if(targetMw.tools.hasClass(node.parentNode, 'edit')){
             return node.parentNode;
         } else {
             return getParent(node.parentNode);
@@ -320,20 +343,21 @@ var activeTree = function(){
         var custom = !!curr.className;
 
 
+      //  if(curr.id || mw.tools.hasClass(curr, 'edit') || custom){
         if(curr.id || mw.tools.hasClass(curr, 'edit') || custom){
             count++;
             if (count > 4) {
              //   break;
             }
             var parent = getParent(curr);
-            var selector = mw.tools.generateSelectorForNode(curr)
+            var selector = targetMw.tools.generateSelectorForNode(curr)
                 .replace(/\[/g, 'mw')
                 .replace(/["']/g, '')
                 .replace(/\]/g, 'mw');
             var parent_selector = 0;
 
             if(parent) {
-                parent_selector =  mw.tools.generateSelectorForNode(parent)
+                parent_selector =  targetMw.tools.generateSelectorForNode(parent)
                     .replace(/\[/g, 'mw')
                     .replace(/["']/g, '')
                     .replace(/\]/g, 'mw');
@@ -343,7 +367,8 @@ var activeTree = function(){
                 ttitle = curr.dataset.mwTitle || curr.dataset.type;
             }
             var item = {
-                id: selector,
+                selector: selector,
+                id: curr.id,
                 type: 'page',
                 title: ttitle ,
                 parent_id: parent_selector,
@@ -367,7 +392,16 @@ var activeTree = function(){
     data = data.reverse();
 
     $('#tree').empty();
-
+    // selectedData: selectedData,
+    //
+    //     var selectedData = []
+    //     data.unshift({
+    //         id: 0,
+    //         type: 'category',
+    //         title: 'None',
+    //         "parent_id": 0,
+    //         "parent_type": "category"
+    //     });
 
 
     _activeTree = new mw.tree({
@@ -388,7 +422,30 @@ var activeTree = function(){
     });
 
     _activeTree.openAll();
-    _activeTree.select($('#tree li:last')[0]);
+   // _activeTree.select($('#tree li:last')[0]);
+
+    if(ActiveNode && ActiveNode.id){
+        for (var i = 0; i < data.length; i++) {
+            if(data[i].element.id === ActiveNode.id){
+                console.log(data[i].element, ActiveNode.id,data[i].id)
+
+                if(typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree){
+                    window.liveEditDomTree.select(data[i].element);
+                }
+
+                //alert('TODO SELECT NODE '+ActiveNode.id)
+               // _activeTree.select(data[i].id, 'page', false);
+               // _activeTree.select($('#tree li
+              //  _activeTree.select($('#tree li:first')[0], 'page', false);
+                break;
+            }
+        }
+    }
+
+
+
+   // pagesTree.show(id, 'category');
+   // pagesTree.select(id, 'category', true);
 
     $(_activeTree).on('selectionChange', function(e, data){
         _pauseActiveTree = true;
@@ -787,6 +844,7 @@ var populateSpecials = function (css) {
 var output = function(property, value){
     var mwTarget = targetMw;
 
+
     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 
 
@@ -966,7 +1024,7 @@ var init = function(){
     });
     $("#background-select-item").on("click", function () {
         var dialog;
-        var picker = new mw.filePicker({
+        var picker = new (mw.top()).filePicker({
             type: 'images',
             label: false,
             autoSelect: false,
@@ -984,7 +1042,7 @@ var init = function(){
                 dialog.remove()
             }
         });
-        dialog = targetMw.dialog({
+        dialog = mw.top().dialog({
             content: picker.root,
             title: mw.lang('Select image'),
             footer: false,

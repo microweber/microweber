@@ -699,9 +699,9 @@ mw.emitter = {
                     options: idata,
                     // fetch remote data
                     onChange : function(query, callback) {
- 
+
                         scope.valid()
-                        
+
                     },
                     load: function(query, callback) {
                         var conf = {
@@ -807,7 +807,7 @@ mw.emitter = {
             };
 
             this.isValid = function () {
-                 
+
                 if(! scope.autoComplete) { // still loading
                     return false;
                 }
@@ -815,8 +815,8 @@ mw.emitter = {
                 if(!scope.autoComplete.getValue().trim()) {
                     return false
                 }
-            
-                 
+
+
                 if(textField && !textField.value) {
                     return false;
                 }
