@@ -1,9 +1,25 @@
+.mw-bg-image-handles{
+    position: absolute;
+    z-index: 999;
+    pointer-events: none;
+    .mw-le-handle-menu .mw-le-handle-menu-buttons {
+        pointer-events: all;
+        opacity: 1;
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #fff;
+    }
+ 
+}
+
 .mw-handle-item {
     &.mw-le-resizable{
         position: absolute;
     }
     position: absolute;
-    z-index: 999;
+    z-index: 998;
     cursor: default;
     -webkit-user-select: none;
     user-select: none;

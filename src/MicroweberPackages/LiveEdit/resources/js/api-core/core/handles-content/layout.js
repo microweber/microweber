@@ -106,6 +106,11 @@ export const modulesDataRender = (data, type) => {
     return el;
 }
 
+export const layoutSettingsDispatch = function (target) {
+    mw.app.editor.dispatch('onLayoutSettingsRequest', target);
+ 
+}
+
 export const LayoutHandleContent = function (rootScope) {
     var scope = this;
     this.root = ElementManager({
@@ -126,7 +131,7 @@ export const LayoutHandleContent = function (rootScope) {
             className: 'mw-handle-button-wide mw-handle-edit-layout-button',
             action: function(target) {
                  
-                moduleSettingsDispatch(target);
+                layoutSettingsDispatch(target);
             }
  
         }

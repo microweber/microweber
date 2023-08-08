@@ -15,11 +15,19 @@ export class ModuleSettings extends MicroweberBaseClass {
 
 
         });
-        mw.app.editor.on('onModuleSettingsRequest', (module) => {
 
- 
-            mw.app.liveEdit.handles.get('module').set(module)
-            mw.app.liveEdit.handles.get('module').position(module)
+         
+
+        const moduleOrLayoutSettingsRequestHandle =  (module, isLayout) => {
+
+            if(isLayout) {
+                mw.app.liveEdit.handles.get('layout').set(module)
+                mw.app.liveEdit.handles.get('layout').position(module)
+            } else {
+                mw.app.liveEdit.handles.get('module').set(module)
+                mw.app.liveEdit.handles.get('module').position(module)
+            }
+            
 
            
 
@@ -99,13 +107,14 @@ export class ModuleSettings extends MicroweberBaseClass {
                 id: 'module-quick-setting-dialog-' + moduleId
             });
 
-            ///moduleSettingsDialogIframe.positionToElement(el);
+ 
             if (moduleSettingsDialogIframe.overlay) {
                 moduleSettingsDialogIframe.overlay.style.backgroundColor = 'transparent';
             }
+        }
 
-
-        });
+        mw.app.editor.on('onModuleSettingsRequest', module => moduleOrLayoutSettingsRequestHandle(module));
+        mw.app.editor.on('onLayoutSettingsRequest', module => moduleOrLayoutSettingsRequestHandle(module, true));
 
 
     }

@@ -258,6 +258,7 @@ $current_template = false;
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
                 <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
                 <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#change-layout">   <?php _e('Change Layout'); ?></a>
+                <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " style="display:none" id="change-background-tab-link" data-bs-toggle="tab" href="#change-background">   <?php _e('Background'); ?></a>
             </nav>
 
             <div class="tab-content py-3">
@@ -359,6 +360,162 @@ $current_template = false;
                     <!-- Settings Content - End -->
                 </div>
 
+                <div class="tab-pane fade" id="change-background">
+
+                    <div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper" id="bg-tabs">
+                        <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100 active">Image</span>
+                        <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Video</span>
+                        <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Color</span>
+                        <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Overlay</span>
+                    </div>
+                    <br>
+
+                    <div class="bg-tab">
+                    
+                    </div>
+                    <div class="bg-tab">
+                        <div id="video-picker">
+                        <div  class="dropzone mw-dropzone ">
+                            <div class="d-flex flex-column align-items-center gap-3">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="mdi mdi-plus"></i>
+                                </div>
+                                <div>
+                                    <b>
+                                        
+                                    </b>
+                                </div>
+                                <div>
+                                    <span>
+                                        <b>20MB Max</b>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="bg-tab">
+                        <div id="color-picker" class="card card-body"></div>
+                    </div>
+                    <div class="bg-tab">
+                        <div id="overlay-color-picker" class="card card-body"></div>
+                    </div>
+        
+
+                    <style>
+                        
+                        
+                    </style>
+                    <script>
+
+
+                        class SingleImageManager {
+                            constructor(options = {}) {
+                                const defaults = {
+                                    element: null
+                                }
+                                this.settings = Object.assign({}, defaults, options);
+                                if(typeof this.settings.element === 'string') {
+                                    this.settings.element = document.querySelector(this.settings.element);
+                                }
+                            }
+
+                            setPreview(url) {
+                                this.#previewNode.src = url;
+                            }
+
+                            #previewNode;
+
+                            #preview() {
+                                this.#previewNode = mw.element(` <img />`);
+                                return this.#previewNode;
+                            }
+
+                            build() {
+                                mw.element(this.settings.element)
+                                    .append(this.#preview())
+                                    .append(this.#preview())
+                            }
+
+                            init() {
+                                if(this.settings.element) {
+                                    this.settings.element.innerHTML = '';
+                                   this.build() 
+                                }
+                            }
+                        }        
+
+                        var target = mw.top().app.liveEdit.handles.get('layout').getTarget();
+                        if(target) {
+                            var bg = target.querySelector('.background-image-holder');
+                            if(bg) {
+                                var tabLink = document.querySelector('#change-background-tab-link');
+                                tabLink.style.display = '';
+                            }
+                        }
+
+                        document.addEventListener("DOMContentLoaded", function(){
+                            mw.tabs({
+                                nav: "#bg-tabs > .btn",
+                                tabs: ".bg-tab",
+                                onclick: function(){
+                                    
+                                }
+                            });
+
+                            var cp = document.querySelector('#color-picker');
+
+                            var picker = mw.colorPicker({
+                                element:cp,
+                                
+                                mode: 'inline',
+                                onchange:function(color){
+                                        
+                                }
+                            });
+
+                            var cpo = document.querySelector('#overlay-color-picker');
+
+                            var picker = mw.colorPicker({
+                                element:cpo,
+                               
+                                mode: 'inline',
+                                onchange:function(color){
+                                        
+                                }
+                            });
+
+                            document.querySelector('#video-picker').addEventListener('click', function(){
+                                var dialog;
+                                var picker = new mw.filePicker({
+                                    type: 'videos',
+                                    label: false,
+                                    autoSelect: false,
+                                    footer: true,
+                                    _frameMaxHeight: true,
+                                    onResult: function() {
+                                        
+                                    }
+                                });
+                                dialog = mw.top().dialog({
+                                    content: picker.root,
+                                    title: mw.lang('Select video'),
+                                    footer: false,
+                                    width: 860,
+
+
+                                });
+                                picker.$cancel.on('click', function(){
+                                    dialog.remove()
+                                })
+                            })
+
+                        });
+
+                        
+                    </script>
+                     
+                </div>
                 <div class="tab-pane fade" id="change-layout">
                     <div class="mw-mod-template-settings-holder">
                         <?php if ($screenshots): ?>
