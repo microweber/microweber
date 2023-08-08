@@ -25,18 +25,18 @@ export default {
                 autoHeight: true,
                 overlay: false
             });
-            // dlg.iframe.addEventListener('load', () => {
-            //   //  var selected = mw.app.liveEdit.elementHandle.getTarget();
-            //   //  dlg.iframe.contentWindow.selectNode(selected)
-            //
-            //
-            //
-            //             var event = new CustomEvent('refreshSelectedElement')
-            //     dlg.iframe.contentWindow.document.dispatchEvent(event);
-            //
-            //
-            //
-            // })
+            dlg.iframe.addEventListener('load', () => {
+              //  var selected = mw.app.liveEdit.elementHandle.getTarget();
+              //  dlg.iframe.contentWindow.selectNode(selected)
+
+
+
+                        var event = new CustomEvent('refreshSelectedElement')
+                dlg.iframe.contentWindow.document.dispatchEvent(event);
+
+
+
+            })
             this.cssEditorDialog = dlg;
             this.cssEditorIframe = dlg.iframe;
             var styleEditorDialoginstance = this;

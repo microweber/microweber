@@ -264,7 +264,8 @@ window.document.addEventListener('refreshSelectedElement', function(e){
     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 
     if(typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree){
-        window.liveEditDomTree.select(ActiveNode);
+       window.liveEditDomTree.select(ActiveNode);
+        selectNode(ActiveNode);
     }
 
 
