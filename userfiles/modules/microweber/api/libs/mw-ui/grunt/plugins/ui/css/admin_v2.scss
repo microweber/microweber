@@ -2636,3 +2636,9 @@ svg.text-danger {
         margin-inline-end: 5px;
     }
 }
+
+
+.input-group-text {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
