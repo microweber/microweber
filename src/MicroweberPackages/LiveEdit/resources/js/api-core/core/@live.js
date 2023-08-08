@@ -579,6 +579,7 @@ export class LiveEdit {
                                     target.style.backgroundImage = `url(${url})`; ;
                                     mw.app.get('liveEdit').play();
                                     dialog.remove();
+                                    mw.top().app.registerChange(target);
                                 }
                             });
                             dialog = mw.top().dialog({
@@ -586,8 +587,6 @@ export class LiveEdit {
                                 title: mw.lang('Select image'),
                                 footer: false,
                                 width: 860,
-          
-          
                             });
                             picker.$cancel.on('click', function(){
                               dialog.remove()
@@ -701,7 +700,7 @@ export class LiveEdit {
         ElementManager(this.root).on('mousemove', (e) => {
 
 
-            const hasBg = DomService.firstParentOrCurrentWithClass(e.target, 'background-image-holder');
+            const hasBg = DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['background-image-holder', 'img-holder']);
 
             if(hasBg && hasBg !== bgImageHandles.getTarget()) {
                 bgImageHandles.setTarget(hasBg)
@@ -927,7 +926,7 @@ export class LiveEdit {
 
     canBeElement = function (target) {
         var el = target;
-        var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container','container'];
+        var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container','container', 'img-holder'];
         var noelements_le = ['mw-le-spacer','background-image-holder','mw-layout-overlay-container','mw-le-resizer','mw-layout-overlay-container','mw-layout-overlay','mw-layout-overlay-background','mw-layout-overlay-background-image','mw-layout-overlay-wrapper'];
 
 
