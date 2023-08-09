@@ -392,7 +392,7 @@ mw.DomTree = function (options) {
                 '<span class="mw-ui-btn mw-ui-btn-small" onclick="mw.$(\'' + this.settings.element + '\').toggle();">' +
                 '<i class="mdi mdi-selection-search"></i>' +
                 '</span>' +
-                '</div>' 
+                '</div>'
             );
 
             $(this.settings.element).hide();
