@@ -88,13 +88,14 @@
 
 
 
-        <div class="tree-show-hide-nav" style="display:none">
-            <div class="form-check form-switch d-flex ps-0 justify-content-between align-items-center" style="width: 100%;">
+        <div class="tree-show-hide-nav position-relative" style="display:none">
+            <div class="form-check form-switch d-flex ps-2 align-items-center" style="width: 100%;">
                 <label class="form-check-label " style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Show all"); ?></small>
                 </label>
-                    <input type="checkbox" class="form-check-input js-open-close-all-tree-elements" id="open-close-all-tree-elements" value="1"/>
+                    <input type="checkbox" class="form-check-input js-open-close-all-tree-elements ms-2" id="open-close-all-tree-elements" value="1"/>
             </div>
 
+            <span class="mdi mdi-close x-close-modal-link" style="top: -8px; right: 5px;"></span>
         </div>
 
         <div id="js-page-tree" style="display:none;"></div>
@@ -107,9 +108,10 @@
         const treeContainer = document.getElementById('pages-tree-wrapper');
         var state = mw.storage.get('mw-tree-navigation-visible');
         treeContainer.classList[state ? 'add' : 'remove']('active')
-        document.querySelector('.mw-admin-toggle-tree-navigation').addEventListener('click', function(){
+        document.querySelectorAll('.mw-admin-toggle-tree-navigation, .x-close-modal-link').forEach(function (el){ el.addEventListener('click', function(){
             treeContainer.classList.toggle('active')
             mw.storage.set('mw-tree-navigation-visible', treeContainer.classList.contains('active'));
+            })
         });
 
 
