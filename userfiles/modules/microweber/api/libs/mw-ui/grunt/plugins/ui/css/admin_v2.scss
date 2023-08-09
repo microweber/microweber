@@ -240,21 +240,15 @@ body, .is_admin {
 }
 
 #sidebar-menu{
-    display: block !important;
+    display: flex;
 }
 
 .navbar-vertical.navbar-expand-xl {
     overflow: hidden;
 }
 
-
 .admin-dashboard-left-nav {
     background-color: var(--tblr-bg-surface);
-
-
-
-
-
 
     li {
         list-style: none;
@@ -266,7 +260,17 @@ body, .is_admin {
 
     .add-new {
 
+        position: absolute;
+        top: 7px;
         visibility: hidden;
+
+        &.add-new-dots {
+            right: 5px;
+        }
+
+        &.add-new-hamburger{
+            left: 5px;
+        }
 
         svg {
             width: 20px;
@@ -1893,7 +1897,7 @@ svg.text-danger {
     padding-inline: 3px;
     font-size: 0;
     cursor: pointer;
-    background-color: #d6d6d645;
+    background-color: var(--tblr-body-color);
 
     border: none;
     outline: none;
@@ -2603,9 +2607,13 @@ svg.text-danger {
     }
 }
 
+.mw-mod-template-settings-holder {
+    padding: 0 7px;
+}
+
 .js-apply-template, .current-template  {
 
-    margin: 20px !important;
+    margin: 15px 0 !important;
 
     .live-edit-label {
         padding: 10px;
@@ -2614,7 +2622,6 @@ svg.text-danger {
     &:hover {
         text-decoration: none;
         cursor: pointer;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     }
 }
 

@@ -46,12 +46,10 @@
 
 <div id="pages-tree-wrapper"  >
 <button type="button" class="mw-admin-toggle-tree-navigation">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
-    </button>
+        <svg style="filter: invert(1);" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+
+</button>
 <div class="card p-2" id="pages-tree-container" >
-
-
-
         <div class="js-page-tree-skeleton">
             <div class="d-flex">
                 <div class="skeleton-loading skeleton-toggle-btn">
@@ -88,13 +86,14 @@
 
 
 
-        <div class="tree-show-hide-nav" style="display:none">
-            <div class="form-check form-switch d-flex ps-0 justify-content-between align-items-center" style="width: 100%;">
-                <label class="form-check-label " style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Show all"); ?></small>
+        <div class="tree-show-hide-nav position-relative" style="display:none">
+            <div class="form-check form-switch d-flex ps-2 align-items-center" style="width: 100%;">
+                <label class="form-check-label " style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Show"); ?></small>
                 </label>
-                    <input type="checkbox" class="form-check-input js-open-close-all-tree-elements" id="open-close-all-tree-elements" value="1"/>
+                    <input type="checkbox" class="form-check-input js-open-close-all-tree-elements ms-2" id="open-close-all-tree-elements" value="1"/>
             </div>
 
+            <span class="mdi mdi-close x-close-modal-link" style="top: -8px; right: 5px;"></span>
         </div>
 
         <div id="js-page-tree" style="display:none;"></div>
@@ -107,9 +106,10 @@
         const treeContainer = document.getElementById('pages-tree-wrapper');
         var state = mw.storage.get('mw-tree-navigation-visible');
         treeContainer.classList[state ? 'add' : 'remove']('active')
-        document.querySelector('.mw-admin-toggle-tree-navigation').addEventListener('click', function(){
+        document.querySelectorAll('.mw-admin-toggle-tree-navigation, .x-close-modal-link').forEach(function (el){ el.addEventListener('click', function(){
             treeContainer.classList.toggle('active')
             mw.storage.set('mw-tree-navigation-visible', treeContainer.classList.contains('active'));
+            })
         });
 
 
