@@ -46,8 +46,9 @@
 
 <div id="pages-tree-wrapper"  >
 <button type="button" class="mw-admin-toggle-tree-navigation">
-        <svg style="filter: invert(1);" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-    </button>
+        <svg style="filter: invert(1);" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+
+</button>
 <div class="card p-2" id="pages-tree-container" >
         <div class="js-page-tree-skeleton">
             <div class="d-flex">
@@ -87,7 +88,7 @@
 
         <div class="tree-show-hide-nav position-relative" style="display:none">
             <div class="form-check form-switch d-flex ps-2 align-items-center" style="width: 100%;">
-                <label class="form-check-label " style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Show all"); ?></small>
+                <label class="form-check-label " style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Show"); ?></small>
                 </label>
                     <input type="checkbox" class="form-check-input js-open-close-all-tree-elements ms-2" id="open-close-all-tree-elements" value="1"/>
             </div>
