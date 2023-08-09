@@ -2,10 +2,6 @@ import MicroweberBaseClass from "../containers/base-class.js";
 import CSSJSON from "../../core/libs/cssjson/cssjson.js";
 
 
-
-
-
-
 export class StylesheetEditor extends MicroweberBaseClass {
     constructor(config) {
         super();
@@ -17,9 +13,10 @@ export class StylesheetEditor extends MicroweberBaseClass {
         };
 
 
-
-
         this.json = null;
+        this.css = null;
+
+
         this.changed = false;
         this._temp = {children: {}, attributes: {}};
         this.timeOut = null;
@@ -33,17 +30,22 @@ export class StylesheetEditor extends MicroweberBaseClass {
     }
 
     getLiveeditCSS() {
+
         if (this.settings.cssUrl) {
             this.getByUrl(this.settings.cssUrl)
                 .then(css => {
+
+
                     if (/<\/?[a-z][\s\S]*>/i.test(css)) {
                         this.json = {};
                         this._css = '';
                     } else {
                         this.json = CSSJSON.toJSON(css);
                         this._css = css;
+
                     }
-                    this.settings.document.dispatchEvent(new Event('ready'));
+
+                    //  this.settings.document.dispatchEvent(new Event('ready'));
                 })
                 .catch(error => console.error('Error fetching CSS:', error));
         } else {
@@ -131,9 +133,19 @@ export class StylesheetEditor extends MicroweberBaseClass {
     }
 
     save() {
-        this.json = this._cleanCSSJSON(Object.assign({}, this.json, this._temp));
+
+
+        var orig = this.json;
+
+        var assigned2 = this.deepMerge({},  this._temp,orig);
+        //var assigned = Object.assign({}, orig, this._temp);
+
+        this.json = this._cleanCSSJSON(assigned2);
+
+
         this._css = CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.');
-        mw.top().trigger('mw.liveeditCSSEditor.save' );
+
+        mw.top().trigger('mw.liveeditCSSEditor.save');
     }
 
     findBySelector(selector) {
@@ -145,8 +157,10 @@ export class StylesheetEditor extends MicroweberBaseClass {
         return new Promise(resolve => {
             const css = {
                 css_file_content: this.getValue()
+                //css_file_content: this.getValue()
 
             };
+
 
             var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
 
@@ -156,6 +170,14 @@ export class StylesheetEditor extends MicroweberBaseClass {
             ) {
                 var template_name = liveEditIframeData.template_name;
                 css.active_site_template = template_name;
+            }
+
+            if (liveEditIframeData
+                && liveEditIframeData.content
+
+            ) {
+                var content_id = liveEditIframeData.content.id;
+                css.content_id = content_id;
             }
 
             $.post(this.settings.saveUrl, css)
@@ -192,6 +214,28 @@ export class StylesheetEditor extends MicroweberBaseClass {
     init() {
         this.getLiveeditCSS();
     }
+
+    deepMerge(obj1, obj2) {
+        const merged = {...obj1};
+
+        for (const key in obj2) {
+            if (obj2.hasOwnProperty(key)) {
+                if (typeof obj2[key] === 'object' && obj2[key] !== null && !Array.isArray(obj2[key])) {
+                    if (!merged.hasOwnProperty(key) || typeof merged[key] !== 'object' || merged[key] === null || Array.isArray(merged[key])) {
+                        merged[key] = {...obj2[key]};
+                    } else {
+                        merged[key] = this.deepMerge(merged[key], obj2[key]);
+                    }
+                } else {
+                    merged[key] = obj2[key];
+                }
+            }
+        }
+
+        return merged;
+    }
+
+
 }
 
 export default StylesheetEditor;
