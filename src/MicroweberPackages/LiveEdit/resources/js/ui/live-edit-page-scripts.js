@@ -204,9 +204,13 @@ if(window.self !== window.top) {
         save: function (data, success, fail) {
             mw.trigger('beforeSaveStart', data);
             // todo:
-            if (mw.liveedit && mw.liveedit.cssEditor) {
-                mw.liveedit.cssEditor.publishIfChanged();
-            }
+
+             if(mw.top().app) {
+                  if (mw.top().app && mw.top().app.cssEditor) {
+
+                      mw.top().app.cssEditor.publishIfChanged();
+                 }
+             }
             if (mw.liveEditSaveService.saveDisabled) {
                 return false;
             }

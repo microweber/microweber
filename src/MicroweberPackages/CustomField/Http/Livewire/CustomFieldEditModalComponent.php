@@ -9,7 +9,7 @@ use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
 class CustomFieldEditModalComponent extends AdminModalComponent
 {
-    public $customFieldId;
+    public $customFieldId = false;
     public $state = [];
     public $inputs = [];
 
@@ -26,7 +26,7 @@ class CustomFieldEditModalComponent extends AdminModalComponent
         'onReorderCustomFieldValuesList' => 'onReorderCustomFieldValuesList'
     ];
 
-    public function mount($customFieldId)
+    public function mount($customFieldId = false)
     {
         $this->customFieldId = $customFieldId;
     }

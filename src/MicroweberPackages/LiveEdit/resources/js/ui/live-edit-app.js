@@ -3,6 +3,7 @@
 // mw live-edit core
 import '../api-core/services/bootstrap.js';
 
+import {StylesheetEditor} from "../api-core/services/services/stylesheet-editor.service.js";
 
 
 const canvas = new LiveEditCanvas();
@@ -30,7 +31,7 @@ mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
 
     window.top.history.pushState(null, null, `?url=${encodeURIComponent(data.frameWindow.location.href)}`);
 
-    const cssGUIEditor = new mw.liveeditCSSEditor({
+    const cssGUIEditor = new StylesheetEditor({
         document: data.frameDocument
     });
 
