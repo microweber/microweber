@@ -136,14 +136,16 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
 
         var orig = this.json;
+        var orig_css = CSSJSON.toCSS(orig).replace(/\.\./g, '.').replace(/\.\./g, '.');
 
         var assigned2 = this.deepMerge({},  this._temp,orig);
         //var assigned = Object.assign({}, orig, this._temp);
 
         this.json = this._cleanCSSJSON(assigned2);
 
+        var new_css = CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.')
+        this._css = orig_css + "\n" + new_css;
 
-        this._css = CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.');
 
         mw.top().trigger('mw.liveeditCSSEditor.save');
     }
