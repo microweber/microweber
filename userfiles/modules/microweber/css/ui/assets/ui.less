@@ -42,8 +42,14 @@
     background-position: center center;
     background-size: cover;
 }
-.mw-layout-background-block, .mw-layout-background-node, .mw-layout-background-overlay{
-    position: absolute;
+.mw-layout-background-block video{
+    object-fit: cover;
+}
+.mw-layout-background-block video,
+.mw-layout-background-block, 
+.mw-layout-background-node, 
+.mw-layout-background-overlay{
+    position: absolute !important;
     top: 0;
     left: 0;
     width: 100%;

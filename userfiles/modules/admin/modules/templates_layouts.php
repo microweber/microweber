@@ -371,27 +371,45 @@ $current_template = false;
                     <br>
 
                     <div class="bg-tab">
-                    
-                    </div>
-                    <div class="bg-tab">
-                        <div id="video-picker">
-                        <div  class="dropzone mw-dropzone ">
-                            <div class="d-flex flex-column align-items-center gap-3">
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <i class="mdi mdi-plus"></i>
-                                </div>
-                                <div>
-                                    <b>
-                                        
-                                    </b>
-                                </div>
-                                <div>
-                                    <span>
-                                        <b>20MB Max</b>
-                                    </span>
+                    <div id="bg-image-picker">
+                            <div  class="dropzone mw-dropzone ">
+                                <div class="d-flex flex-column align-items-center gap-3">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <i class="mdi mdi-plus"></i>
+                                    </div>
+                                    <div>
+                                        <b>
+                                            
+                                        </b>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <b>20MB Max</b>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="bg-tab">
+                        <div id="video-picker">
+                            <div  class="dropzone mw-dropzone ">
+                                <div class="d-flex flex-column align-items-center gap-3">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <i class="mdi mdi-plus"></i>
+                                    </div>
+                                    <div>
+                                        <b>
+                                            
+                                        </b>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <b>20MB Max</b>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="bg-tab">
@@ -409,41 +427,7 @@ $current_template = false;
                     <script>
 
 
-                        class SingleImageManager {
-                            constructor(options = {}) {
-                                const defaults = {
-                                    element: null
-                                }
-                                this.settings = Object.assign({}, defaults, options);
-                                if(typeof this.settings.element === 'string') {
-                                    this.settings.element = document.querySelector(this.settings.element);
-                                }
-                            }
-
-                            setPreview(url) {
-                                this.#previewNode.src = url;
-                            }
-
-                            #previewNode;
-
-                            #preview() {
-                                this.#previewNode = mw.element(` <img />`);
-                                return this.#previewNode;
-                            }
-
-                            build() {
-                                mw.element(this.settings.element)
-                                    .append(this.#preview())
-                                    .append(this.#preview())
-                            }
-
-                            init() {
-                                if(this.settings.element) {
-                                    this.settings.element.innerHTML = '';
-                                   this.build() 
-                                }
-                            }
-                        }        
+      
 
                         var setBg = function(target, value) {
 
@@ -496,6 +480,48 @@ $current_template = false;
                                 }
                             });
 
+                            document.querySelector('#bg-image-picker').addEventListener('click', function(){
+                                var dialog;
+                                var picker = new mw.filePicker({
+                                    type: 'videos',
+                                    label: false,
+                                    autoSelect: false,
+                                    footer: true,
+                                    _frameMaxHeight: true,
+                                    onResult: function(res) {
+                                        var url = res.src ? res.src : res;
+                                        if(!url) {
+                                            dialog.remove();
+                                            return
+                                        }
+                                        url = url.toString();
+                                        bgNode.innerHTML = ` `;
+
+                                        
+
+                                        bgNode.style.backgroundImage = `url(${url})`;
+
+                                        bgNode.style.backgroundColor = 'transparent';
+                                         
+
+                                         
+                                        dialog.remove();
+                                        mw.top().app.registerChange(bgNode);
+                                        
+                                    }
+                                });
+                                dialog = mw.top().dialog({
+                                    content: picker.root,
+                                    title: mw.lang('Select video'),
+                                    footer: false,
+                                    width: 860,
+
+
+                                });
+                                picker.$cancel.on('click', function(){
+                                    dialog.remove()
+                                })
+                            })
                             document.querySelector('#video-picker').addEventListener('click', function(){
                                 var dialog;
                                 var picker = new mw.filePicker({
@@ -511,7 +537,11 @@ $current_template = false;
                                             return
                                         }
                                         url = url.toString();
-                                        bgNode.style.backgroundImage = `url(${url})`;
+                                        bgNode.innerHTML = `<video src="${url}" autoplay muted></video>`;
+
+                                        
+
+                                        bgNode.style.backgroundImage = `none`;
 
                                         bgNode.style.backgroundColor = 'transparent';
                                          
