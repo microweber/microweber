@@ -51,6 +51,9 @@ trait LiveEditTrait
         }
         $contentType = addslashes($contentType);
 
+        $templateName = app()->template->name();
+        $templateName = addslashes($templateName);
+
         $contentDetailsScript = "
 \n<script type='application/x-javascript' id='mw-iframe-page-data-script'>
         mw.liveEditIframeData = mw.liveEditIframeData || {};
@@ -60,6 +63,7 @@ trait LiveEditTrait
         mw.liveEditIframeData.content.is_home = {$is_home};
         mw.liveEditIframeData.content.is_shop = {$is_shop};
         mw.liveEditIframeData.content.content_type = '{$contentType}';
+        mw.liveEditIframeData.template_name = '{$templateName}';
 </script>\n";
         $html = str_ireplace('</head>', $contentDetailsScript . '</head>', $html, $c);
         return $html;

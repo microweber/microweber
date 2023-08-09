@@ -145,7 +145,18 @@ export class StylesheetEditor extends MicroweberBaseClass {
         return new Promise(resolve => {
             const css = {
                 css_file_content: this.getValue()
+
             };
+
+            var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
+
+            if (liveEditIframeData
+                && liveEditIframeData.template_name
+
+            ) {
+                var template_name = liveEditIframeData.template_name;
+                css.active_site_template = template_name;
+            }
 
             $.post(this.settings.saveUrl, css)
                 .done(res => {
