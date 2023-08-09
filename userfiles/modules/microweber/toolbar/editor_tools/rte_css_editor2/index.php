@@ -26,13 +26,17 @@ only_admin_access();
 
 <div id="css-editor-root">
 
-  <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion" data-options="openFirst: false">
+  <div data-mwcomponent="accordion" class="mw-accordion" data-options="openFirst: false">
 
 
 
 
 <mw-accordion-item class="mw-accordion-item-css">
-    <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/background.svg"> <?php _e("Background"); ?></div>
+    <div class="rte-css-editor-accordion-header mw-accordion-title">
+        <span class="mw-admin-action-links mw-adm-liveedit-tabs">
+            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/background.svg"> <?php _e("Background"); ?>
+        </span>
+    </div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
             <label><?php _e("Image"); ?></label>
@@ -149,7 +153,11 @@ only_admin_access();
             ?>
 
 
-            <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/typography.svg"> <?php _e("Typography"); ?></div>
+            <div class="rte-css-editor-accordion-header mw-accordion-title">
+                <span class="mw-admin-action-links mw-adm-liveedit-tabs">
+                    <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/typography.svg"> <?php _e("Typography"); ?>
+                </span>
+            </div>
             <div class="mw-accordion-content mw-ui-box-content css-gui-element-typography">
 
                 <div class="s-field">
@@ -286,7 +294,11 @@ only_admin_access();
         </mw-accordion-item>
 
         <mw-accordion-item class="mw-accordion-item-css" id="overlay-edit">
-        <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/overlay.svg"> <?php _e("Overlay"); ?></div>
+        <div class="rte-css-editor-accordion-header mw-accordion-title">
+            <span class="mw-admin-action-links mw-adm-liveedit-tabs">
+                <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/overlay.svg"> <?php _e("Overlay"); ?>
+            </span>
+        </div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="s-field">
                 <label><?php _e("Color"); ?></label>
@@ -325,8 +337,10 @@ only_admin_access();
         </div>
     </mw-accordion-item>
         <mw-accordion-item class="mw-accordion-item-css" id="container-type">
-        <div class="mw-ui-box-header mw-accordion-title">
-            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/container.svg"> <?php _e("Container"); ?>
+        <div class="rte-css-editor-accordion-header mw-accordion-title">
+           <span class="mw-admin-action-links mw-adm-liveedit-tabs">
+                <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/container.svg"> <?php _e("Container"); ?>
+           <span class="mw-admin-action-links mw-adm-liveedit-tabs">
         </div>
         <div class="mw-accordion-content mw-ui-box-content">
 
@@ -342,7 +356,11 @@ only_admin_access();
     </mw-accordion-item>
         <mw-accordion-item class="mw-accordion-item-css" id="columns-edit">
 
-        <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/grid.svg"> <?php _e("Grid"); ?></div>
+        <div class="rte-css-editor-accordion-header mw-accordion-title">
+            <span class="mw-admin-action-links mw-adm-liveedit-tabs">
+                <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/grid.svg"> <?php _e("Grid"); ?>
+            </span>
+        </div>
         <div class="mw-accordion-content mw-ui-box-content">
 
             <div class="s-field">
@@ -387,7 +405,7 @@ only_admin_access();
 
     </mw-accordion-item>
         <mw-accordion-item class="mw-accordion-item-css"  id="size-box" style="display: none">
-        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Size"); ?></div>
+        <div class="rte-css-editor-accordion-header mw-accordion-title"><?php _e("Size"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-esr-col">
                 <div class="mw-esc">
@@ -457,7 +475,11 @@ only_admin_access();
     </mw-accordion-item>
 
         <mw-accordion-item class="mw-accordion-item-css" >
-        <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/spacing.svg"><?php _e("Spacing"); ?></div>
+        <div class="rte-css-editor-accordion-header mw-accordion-title">
+            <span class="mw-admin-action-links mw-adm-liveedit-tabs">
+                <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/spacing.svg"><?php _e("Spacing"); ?>
+            </span>
+        </div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-element-spacing-editor">
                 <span class="mw-ese-label"><?php _e("Margin"); ?></span>
@@ -481,7 +503,11 @@ only_admin_access();
 
 
         <mw-accordion-item class="mw-accordion-item-css"  >
-    <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/border.svg"><?php _e("Border"); ?></div>
+    <div class="rte-css-editor-accordion-header mw-accordion-title">
+        <span class="mw-admin-action-links mw-adm-liveedit-tabs">
+            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/border.svg"><?php _e("Border"); ?>
+        </span>
+    </div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
             <label><?php _e("Position"); ?></label>
@@ -537,7 +563,11 @@ only_admin_access();
     </div>
 </mw-accordion-item>
         <mw-accordion-item class="mw-accordion-item-css" >
-    <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/miscellaneous.svg"><?php _e("Miscellaneous"); ?></div>
+    <div class="rte-css-editor-accordion-header mw-accordion-title">
+        <span class="mw-admin-action-links mw-adm-liveedit-tabs">
+            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/miscellaneous.svg"><?php _e("Miscellaneous"); ?>
+        </span>
+    </div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="rouded-corners" >
             <label><?php _e("Rounded Corners"); ?></label>
@@ -572,7 +602,11 @@ only_admin_access();
 </mw-accordion-item>
         <mw-accordion-item class="mw-accordion-item-css" id="classtags-accordion">
 
-            <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/attributes.svg"><?php _e("Attributes"); ?></div>
+            <div class="rte-css-editor-accordion-header mw-accordion-title">
+                <span class="mw-admin-action-links mw-adm-liveedit-tabs">
+                    <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/attributes.svg"><?php _e("Attributes"); ?>
+                </span>
+            </div>
             <div class="mw-accordion-content mw-ui-box-content">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Classes"); ?></label>
@@ -593,8 +627,11 @@ only_admin_access();
 
 
 
-            <div class="mw-ui-box-header mw-accordion-title">
-            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/animations.svg"><?php _e("Animations"); ?></div>
+            <div class="rte-css-editor-accordion-header mw-accordion-title">
+                <span class="mw-admin-action-links mw-adm-liveedit-tabs">
+                    <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/animations.svg"><?php _e("Animations"); ?>
+                </span>
+            </div>
             <div class="mw-accordion-content mw-ui-box-content">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Animations"); ?></label>
