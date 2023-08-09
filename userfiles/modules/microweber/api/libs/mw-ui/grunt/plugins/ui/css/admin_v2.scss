@@ -2603,9 +2603,13 @@ svg.text-danger {
     }
 }
 
+.mw-mod-template-settings-holder {
+    padding: 0 7px;
+}
+
 .js-apply-template, .current-template  {
 
-    margin: 20px !important;
+    margin: 15px 0 !important;
 
     .live-edit-label {
         padding: 10px;
@@ -2614,7 +2618,6 @@ svg.text-danger {
     &:hover {
         text-decoration: none;
         cursor: pointer;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     }
 }
 
