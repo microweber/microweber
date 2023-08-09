@@ -17,7 +17,7 @@ import {DomService} from "./classes/dom.js";
 import "./core/@core.js";
 
 
-mw.require('stylesheet.editor.js');
+
 
 export class LiveEdit {
 
@@ -175,7 +175,7 @@ export class LiveEdit {
             scope.handles.get('layout').hide();
             scope.handles.get('interactionHandle').hide();
 
-            mw.app.domTreeSelect(target)
+            //mw.app.domTreeSelect(target)
 
 
         });
@@ -234,7 +234,7 @@ export class LiveEdit {
             scope.handles.get('layout').hide();
             scope.handles.get('interactionHandle').hide();
 
-            mw.app.domTreeSelect(node)
+            //mw.app.domTreeSelect(node)
         });
 
         this.layoutHandle = new Handle({
@@ -273,7 +273,7 @@ export class LiveEdit {
                 layoutHandleContent.plusTop.hide()
                 layoutHandleContent.plusBottom.hide()
             }
-            mw.app.domTreeSelect(target)
+            //mw.app.domTreeSelect(target)
         });
 
         layoutHandleContent.handle = layoutHandle;
@@ -537,7 +537,7 @@ export class LiveEdit {
              }
         }
 
- 
+
 
         class BGImageHandles {
             constructor(options = {}) {
@@ -546,18 +546,18 @@ export class LiveEdit {
                 }
                 this.settings = Object.assign({}, defaults, options);
                 this.init()
-                 
-            }
- 
 
-            #menu(){ 
+            }
+
+
+            #menu(){
 
                 const primaryMenu = [
                     {
                         title: 'Edit' ,
                         text: '',
                         icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M181.674-179.761h41.13l441.087-441.565-41.13-41.13-441.087 441.565v41.13Zm613.043-484.326L665.761-793.043l36.978-37.218q19.631-19.63 47.859-19.75 28.228-.119 47.859 19.272l37.782 37.782q18.435 18.196 17.837 44.153-.598 25.956-18.315 43.674l-41.044 41.043Zm-41.76 41.761L247.761-117.13H118.804v-128.957l504.957-504.956 129.196 128.717Zm-109.392-19.565-20.804-20.565 41.13 41.13-20.326-20.565Z"></path></svg>',
-                        
+
                         onTarget: function (target, selfNode) {
                             // console.log(target)
                         },
@@ -591,32 +591,32 @@ export class LiveEdit {
                             picker.$cancel.on('click', function(){
                               dialog.remove()
                             })
-          
-          
+
+
                             $(dialog).on('Remove', () => {
-          
+
                               mw.app.get('liveEdit').play();
                             })
                         }
-                         
+
                     },
                 ];
 
                 this.menu = new HandleMenu({
                     id: 'mw-bg-image-handles-menu',
                     title: '',
-                
-            
+
+
                     menus: [
                         {
                             name: 'primary',
                             nodes: primaryMenu
                         },
- 
+
                     ],
-                    
+
                 });
-            
+
                 this.menu.show()
             }
 
@@ -635,7 +635,7 @@ export class LiveEdit {
                 rect.offsetBottom = rect.bottom + win.pageYOffset;
                 rect.offsetLeft = rect.left + win.pageXOffset;
 
-      
+
 
                 this.handle.css({
                     top: rect.offsetTop,
@@ -645,7 +645,7 @@ export class LiveEdit {
                 })
             }
 
-            
+
 
             #target;
 
@@ -664,28 +664,28 @@ export class LiveEdit {
                     this.show()
                 }
             }
- 
+
 
             build() {
                 const handle = mw.element(`
                     <div class="mw-bg-image-handles">
-                        
+
                     </div>
                 `)
                 this.#menu();
                 handle.append(this.menu.root);
 
                 this.settings.document.body.append(handle.get(0))
-    
+
                 this.handle = handle;
-                     
-                     
+
+
             }
 
             init() {
-                this.build() 
+                this.build()
             }
-        }   
+        }
 
 
         const bgImageHandles = new BGImageHandles({
@@ -705,7 +705,7 @@ export class LiveEdit {
             if(hasBg && hasBg !== bgImageHandles.getTarget()) {
                 bgImageHandles.setTarget(hasBg)
             }
-           
+
 
             var currentMousePosition = { x: e.pageX, y: e.pageY };
             if (this.lastMousePosition) {
