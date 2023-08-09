@@ -43,7 +43,8 @@
 
         mw.require('icon_selector.js');
         mw.iconLoader()
-
+            .addIconSet('mwIcons')
+            .addIconSet('materialIcons')
             .addIconSet('iconsMindLine')
             .addIconSet('iconsMindSolid')
             .addIconSet('fontAwesome')

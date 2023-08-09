@@ -20,7 +20,7 @@ export default {
                 url: src,
                 title: mw.lang('Edit styles'),
                 footer: false,
-                width: 600,
+                width: 400,
                 height: 'auto',
                 autoHeight: true,
                 overlay: false
