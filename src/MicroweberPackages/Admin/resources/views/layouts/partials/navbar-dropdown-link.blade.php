@@ -43,12 +43,21 @@ foreach($item->getChildren() as $subItem) {
                     }
                     @endphp
 
-                    <a href="@if (!empty($subItem->getAttribute('route'))) {{route($subItem->getAttribute('route'))}} @else {{ $subItem->getUri() }} @endif" class="dropdown-item justify-content-between @if($subItemIsActive) active @endif">
-                       <span>
+                    <a href="@if (!empty($subItem->getAttribute('route'))) {{route($subItem->getAttribute('route'))}} @else {{ $subItem->getUri() }} @endif" class="dropdown-item  @if($subItemIsActive) active @endif">
+
+                        @if($subItem->hasChildren())
+                            <span class="add-new add-new-hamburger">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+
+                           </span>
+                        @endif
+
+                        <span>
                             {{_e($subItem->getName())}}
                        </span>
+
                         @if($subItem->hasChildren())
-                            <span data-href="" class="add-new" data-bs-toggle="tooltip" title="">
+                            <span data-href="" class="add-new add-new-dots" data-bs-toggle="tooltip" title="">
                              <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 656q-33 0-56.5-23.5T160 576q0-33 23.5-56.5T240 496q33 0 56.5 23.5T320 576q0 33-23.5 56.5T240 656Zm240 0q-33 0-56.5-23.5T400 576q0-33 23.5-56.5T480 496q33 0 56.5 23.5T560 576q0 33-23.5 56.5T480 656Zm240 0q-33 0-56.5-23.5T640 576q0-33 23.5-56.5T720 496q33 0 56.5 23.5T800 576q0 33-23.5 56.5T720 656Z"/></svg>
                             </span>
                         @endif
