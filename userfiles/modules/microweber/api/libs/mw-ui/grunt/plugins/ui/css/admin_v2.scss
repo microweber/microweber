@@ -260,7 +260,17 @@ body, .is_admin {
 
     .add-new {
 
+        position: absolute;
+        top: 7px;
         visibility: hidden;
+
+        &.add-new-dots {
+            right: 5px;
+        }
+
+        &.add-new-hamburger{
+            left: 5px;
+        }
 
         svg {
             width: 20px;
