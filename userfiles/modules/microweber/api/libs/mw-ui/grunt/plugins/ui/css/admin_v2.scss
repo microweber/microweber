@@ -240,21 +240,15 @@ body, .is_admin {
 }
 
 #sidebar-menu{
-    display: block !important;
+    display: flex;
 }
 
 .navbar-vertical.navbar-expand-xl {
     overflow: hidden;
 }
 
-
 .admin-dashboard-left-nav {
     background-color: var(--tblr-bg-surface);
-
-
-
-
-
 
     li {
         list-style: none;
