@@ -98,16 +98,9 @@ img[src*=pixum_img] {
   max-width: 100%;
   zoom: 1;
 }
-.mw-row {
-  display: flex !important;
-  
-}
-
-.mw-row .mw-col{
-display: block;
-min-width: 40px;
-flex-grow: 1;
-}
+/*.mw-col, .mw-row, .element {
+    position: relative;
+}*/
 body.state-element .mw-row .element {
   z-index: 91;
 }
@@ -9016,4 +9009,25 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-static-element.mw-features-boxes .text h4 {
   text-align: left;
+}
+
+
+
+.mw-layout-container{
+  position: relative;
+  z-index: 1;
+}
+.mw-layout-background-node{
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.mw-layout-background-block, .mw-layout-background-node, .mw-layout-background-overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
 }

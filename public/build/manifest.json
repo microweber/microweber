@@ -1,4 +1,28 @@
 {
+  "_bootstrap-5083d7ba.js": {
+    "css": [
+      "assets/bootstrap-0c9bf954.css"
+    ],
+    "file": "assets/bootstrap-5083d7ba.js"
+  },
+  "_bootstrap-70f3b76b.js": {
+    "css": [
+      "assets/bootstrap-0c9bf954.css"
+    ],
+    "file": "assets/bootstrap-70f3b76b.js"
+  },
+  "_bootstrap-7dc5af87.js": {
+    "css": [
+      "assets/bootstrap-0c9bf954.css"
+    ],
+    "file": "assets/bootstrap-7dc5af87.js"
+  },
+  "_bootstrap-86c018d1.js": {
+    "css": [
+      "assets/bootstrap-0c9bf954.css"
+    ],
+    "file": "assets/bootstrap-86c018d1.js"
+  },
   "_bootstrap-b97ad8e6.js": {
     "css": [
       "assets/bootstrap-0c9bf954.css"
@@ -10,30 +34,30 @@
     "src": "bootstrap.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js": {
-    "file": "assets/admin-app-a02eb4ad.js",
+    "file": "assets/admin-app-63822db3.js",
     "imports": [
-      "_bootstrap-b97ad8e6.js"
+      "_bootstrap-7dc5af87.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css": {
-    "file": "assets/live-edit-app-8634f2b6.css",
+    "file": "assets/live-edit-app-ef809984.css",
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js": {
     "css": [
-      "assets/live-edit-app-8634f2b6.css"
+      "assets/live-edit-app-ef809984.css"
     ],
-    "file": "assets/live-edit-app-c7f0d1ee.js",
+    "file": "assets/live-edit-app-a257e82d.js",
     "imports": [
-      "_bootstrap-b97ad8e6.js"
+      "_bootstrap-7dc5af87.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js": {
-    "file": "assets/live-edit-page-scripts-a3b2cfdc.js",
+    "file": "assets/live-edit-page-scripts-c96806d4.js",
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js"
   }

@@ -446,16 +446,18 @@ $current_template = false;
                         }        
 
                         var setBg = function(target, value) {
-                            
+
                         }
 
                         var target = mw.top().app.liveEdit.handles.get('layout').getTarget();
-                        var bg;
+                        var bg, bgOverlay, bgNode;
                         if(target) {
                             bg = target.querySelector('.mw-layout-background-block');
                             if(bg) {
                                 var tabLink = document.querySelector('#change-background-tab-link');
                                 tabLink.style.display = '';
+                                bgNode = bg.querySelector('.mw-layout-background-node')
+                                bgOverlay = bg.querySelector('.mw-layout-background-overlay')
                             }
                         }
 
@@ -475,18 +477,22 @@ $current_template = false;
                                 
                                 mode: 'inline',
                                 onchange:function(color){
-                                        
+                                    bgNode.style.backgroundColor = color;
+                                    bgNode.style.backgroundImage = 'transparent';
+                                    mw.top().app.registerChange(bgNode);
                                 }
                             });
 
                             var cpo = document.querySelector('#overlay-color-picker');
 
-                            var picker = mw.colorPicker({
-                                element:cpo,
+                            var cpoPicker = mw.colorPicker({
+                                element: cpo,
                                
                                 mode: 'inline',
                                 onchange:function(color){
-                                        
+                                    bgOverlay.style.backgroundColor = color;
+                                    bgOverlay.style.backgroundImage = 'none';
+                                    mw.top().app.registerChange(bgOverlay);
                                 }
                             });
 
@@ -498,7 +504,21 @@ $current_template = false;
                                     autoSelect: false,
                                     footer: true,
                                     _frameMaxHeight: true,
-                                    onResult: function() {
+                                    onResult: function(res) {
+                                        var url = res.src ? res.src : res;
+                                        if(!url) {
+                                            dialog.remove();
+                                            return
+                                        }
+                                        url = url.toString();
+                                        bgNode.style.backgroundImage = `url(${url})`;
+
+                                        bgNode.style.backgroundColor = 'transparent';
+                                         
+
+                                         
+                                        dialog.remove();
+                                        mw.top().app.registerChange(bgNode);
                                         
                                     }
                                 });
