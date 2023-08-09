@@ -387,7 +387,7 @@ mw.DomTree = function (options) {
         if (this.settings.compactTreeView) {
             $(this.settings.element).before('' +
 
-                '<div>' +
+                '<div class="d-none">' +
                 '<span id="selected-item-info-and-title-single"></span>' +
                 '<span class="mw-ui-btn mw-ui-btn-small" onclick="mw.$(\'' + this.settings.element + '\').toggle();">' +
                 '<i class="mdi mdi-selection-search"></i>' +
