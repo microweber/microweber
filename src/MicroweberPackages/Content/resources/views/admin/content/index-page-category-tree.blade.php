@@ -46,12 +46,9 @@
 
 <div id="pages-tree-wrapper"  >
 <button type="button" class="mw-admin-toggle-tree-navigation">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+        <svg style="filter: invert(1);" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
     </button>
 <div class="card p-2" id="pages-tree-container" >
-
-
-
         <div class="js-page-tree-skeleton">
             <div class="d-flex">
                 <div class="skeleton-loading skeleton-toggle-btn">
