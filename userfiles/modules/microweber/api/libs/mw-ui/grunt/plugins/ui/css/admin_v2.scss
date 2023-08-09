@@ -2660,3 +2660,18 @@ svg.text-danger {
     font-size: 24px;
     cursor: pointer;
 }
+
+
+.rte-css-editor-accordion-header {
+    background-color: var(--tblr-bg-surface);
+    margin: 20px 0;
+    svg {
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
+    }
+
+    .mw-admin-action-links {
+        font-weight: 300;
+    }
+}

@@ -371,27 +371,45 @@ $current_template = false;
                     <br>
 
                     <div class="bg-tab">
-                    
-                    </div>
-                    <div class="bg-tab">
-                        <div id="video-picker">
-                        <div  class="dropzone mw-dropzone ">
-                            <div class="d-flex flex-column align-items-center gap-3">
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <i class="mdi mdi-plus"></i>
-                                </div>
-                                <div>
-                                    <b>
-                                        
-                                    </b>
-                                </div>
-                                <div>
-                                    <span>
-                                        <b>20MB Max</b>
-                                    </span>
+                    <div id="bg-image-picker">
+                            <div  class="dropzone mw-dropzone ">
+                                <div class="d-flex flex-column align-items-center gap-3">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <i class="mdi mdi-plus"></i>
+                                    </div>
+                                    <div>
+                                        <b>
+                                            
+                                        </b>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <b>20MB Max</b>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="bg-tab">
+                        <div id="video-picker">
+                            <div  class="dropzone mw-dropzone ">
+                                <div class="d-flex flex-column align-items-center gap-3">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <i class="mdi mdi-plus"></i>
+                                    </div>
+                                    <div>
+                                        <b>
+                                            
+                                        </b>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <b>20MB Max</b>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="bg-tab">
@@ -409,53 +427,21 @@ $current_template = false;
                     <script>
 
 
-                        class SingleImageManager {
-                            constructor(options = {}) {
-                                const defaults = {
-                                    element: null
-                                }
-                                this.settings = Object.assign({}, defaults, options);
-                                if(typeof this.settings.element === 'string') {
-                                    this.settings.element = document.querySelector(this.settings.element);
-                                }
-                            }
-
-                            setPreview(url) {
-                                this.#previewNode.src = url;
-                            }
-
-                            #previewNode;
-
-                            #preview() {
-                                this.#previewNode = mw.element(` <img />`);
-                                return this.#previewNode;
-                            }
-
-                            build() {
-                                mw.element(this.settings.element)
-                                    .append(this.#preview())
-                                    .append(this.#preview())
-                            }
-
-                            init() {
-                                if(this.settings.element) {
-                                    this.settings.element.innerHTML = '';
-                                   this.build() 
-                                }
-                            }
-                        }        
+      
 
                         var setBg = function(target, value) {
-                            
+
                         }
 
                         var target = mw.top().app.liveEdit.handles.get('layout').getTarget();
-                        var bg;
+                        var bg, bgOverlay, bgNode;
                         if(target) {
                             bg = target.querySelector('.mw-layout-background-block');
                             if(bg) {
                                 var tabLink = document.querySelector('#change-background-tab-link');
                                 tabLink.style.display = '';
+                                bgNode = bg.querySelector('.mw-layout-background-node')
+                                bgOverlay = bg.querySelector('.mw-layout-background-overlay')
                             }
                         }
 
@@ -475,21 +461,67 @@ $current_template = false;
                                 
                                 mode: 'inline',
                                 onchange:function(color){
-                                        
+                                    bgNode.style.backgroundColor = color;
+                                    bgNode.style.backgroundImage = 'transparent';
+                                    mw.top().app.registerChange(bgNode);
                                 }
                             });
 
                             var cpo = document.querySelector('#overlay-color-picker');
 
-                            var picker = mw.colorPicker({
-                                element:cpo,
+                            var cpoPicker = mw.colorPicker({
+                                element: cpo,
                                
                                 mode: 'inline',
                                 onchange:function(color){
-                                        
+                                    bgOverlay.style.backgroundColor = color;
+                                    bgOverlay.style.backgroundImage = 'none';
+                                    mw.top().app.registerChange(bgOverlay);
                                 }
                             });
 
+                            document.querySelector('#bg-image-picker').addEventListener('click', function(){
+                                var dialog;
+                                var picker = new mw.filePicker({
+                                    type: 'videos',
+                                    label: false,
+                                    autoSelect: false,
+                                    footer: true,
+                                    _frameMaxHeight: true,
+                                    onResult: function(res) {
+                                        var url = res.src ? res.src : res;
+                                        if(!url) {
+                                            dialog.remove();
+                                            return
+                                        }
+                                        url = url.toString();
+                                        bgNode.innerHTML = ` `;
+
+                                        
+
+                                        bgNode.style.backgroundImage = `url(${url})`;
+
+                                        bgNode.style.backgroundColor = 'transparent';
+                                         
+
+                                         
+                                        dialog.remove();
+                                        mw.top().app.registerChange(bgNode);
+                                        
+                                    }
+                                });
+                                dialog = mw.top().dialog({
+                                    content: picker.root,
+                                    title: mw.lang('Select video'),
+                                    footer: false,
+                                    width: 860,
+
+
+                                });
+                                picker.$cancel.on('click', function(){
+                                    dialog.remove()
+                                })
+                            })
                             document.querySelector('#video-picker').addEventListener('click', function(){
                                 var dialog;
                                 var picker = new mw.filePicker({
@@ -498,7 +530,25 @@ $current_template = false;
                                     autoSelect: false,
                                     footer: true,
                                     _frameMaxHeight: true,
-                                    onResult: function() {
+                                    onResult: function(res) {
+                                        var url = res.src ? res.src : res;
+                                        if(!url) {
+                                            dialog.remove();
+                                            return
+                                        }
+                                        url = url.toString();
+                                        bgNode.innerHTML = `<video src="${url}" autoplay muted></video>`;
+
+                                        
+
+                                        bgNode.style.backgroundImage = `none`;
+
+                                        bgNode.style.backgroundColor = 'transparent';
+                                         
+
+                                         
+                                        dialog.remove();
+                                        mw.top().app.registerChange(bgNode);
                                         
                                     }
                                 });
