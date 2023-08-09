@@ -47,18 +47,23 @@ mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
 
 
     mw.app.remove('cssEditor');
+    var doc = mw.app.canvas.getDocument();
+    var liveEditCssStylesheetElement = doc.querySelector('#mw-template-settings');
+    if(!liveEditCssStylesheetElement){
+         var liveEditCssStylesheetElement = doc.querySelector('link[href*="live_edit.css"]');
+    }
 
-    var liveEditElement = mw.app.canvas.getDocument().querySelector('#mw-template-settings');
+
     var cssUrl = '';
-    if (liveEditElement) {
+    if (liveEditCssStylesheetElement) {
         //get the css url
-        var cssUrl = liveEditElement.getAttribute('href');
+        var cssUrl = liveEditCssStylesheetElement.getAttribute('href');
 
     }
 
 
     const cssGUIEditor = new StylesheetEditor({
-        document: data.frameDocument,
+        document: doc,
         cssUrl: cssUrl
 
     });
