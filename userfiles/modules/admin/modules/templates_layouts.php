@@ -445,9 +445,14 @@ $current_template = false;
                             }
                         }        
 
+                        var setBg = function(target, value) {
+                            
+                        }
+
                         var target = mw.top().app.liveEdit.handles.get('layout').getTarget();
+                        var bg;
                         if(target) {
-                            var bg = target.querySelector('.background-image-holder');
+                            bg = target.querySelector('.mw-layout-background-block');
                             if(bg) {
                                 var tabLink = document.querySelector('#change-background-tab-link');
                                 tabLink.style.display = '';
