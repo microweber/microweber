@@ -1887,7 +1887,7 @@ svg.text-danger {
     padding-inline: 3px;
     font-size: 0;
     cursor: pointer;
-    background-color: #d6d6d645;
+    background-color: var(--tblr-body-color);
 
     border: none;
     outline: none;
