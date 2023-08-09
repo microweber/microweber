@@ -245,7 +245,8 @@ export default {
                   }
 
                 } else {
-                  var targetChange = DomService.firstParentOrCurrentWithClass(element, 'edit');
+                  // var targetChange = DomService.firstParentOrCurrentWithClass(element, 'edit');
+                  var targetChange = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['edit', 'allow-drop']);
 
  
 
