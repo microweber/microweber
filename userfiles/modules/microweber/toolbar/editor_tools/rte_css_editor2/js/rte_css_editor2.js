@@ -54,6 +54,7 @@ $(document).on('ready', function () {
     window.liveEditDomTree = new mw.DomTree({
         element: '#domtree',
         resizable: true,
+        compactTreeView: true,
         targetDocument: targetMw.win.document,
         canSelect: function (node, li) {
             var can = mw.top().app.liveEdit.canBeElement(node)
