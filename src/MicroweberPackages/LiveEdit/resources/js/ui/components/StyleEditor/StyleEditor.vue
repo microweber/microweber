@@ -25,15 +25,24 @@ export default {
                 autoHeight: true,
                 overlay: false
             });
+            var x = mw.top().app.canvas.getWindow().innerWidth - 400;
+            var y = mw.top().app.canvas.getWindow().innerHeight - 400;
+            if(x < 0){
+                x = 0;
+            }
+            if(y < 0){
+                y = 0;
+            }
+            dlg.position(x, y);
+
+
             dlg.iframe.addEventListener('load', () => {
-              //  var selected = mw.app.liveEdit.elementHandle.getTarget();
-              //  dlg.iframe.contentWindow.selectNode(selected)
+                //  var selected = mw.app.liveEdit.elementHandle.getTarget();
+                //  dlg.iframe.contentWindow.selectNode(selected)
 
 
-
-                        var event = new CustomEvent('refreshSelectedElement')
+                var event = new CustomEvent('refreshSelectedElement')
                 dlg.iframe.contentWindow.document.dispatchEvent(event);
-
 
 
             })
@@ -111,20 +120,20 @@ export default {
                     var activeNode = mw.top().app.liveEdit.getSelectedNode();
 
                     var can = mw.top().app.liveEdit.canBeElement(activeNode)
-                    if(can){
+                    if (can) {
                         //check if has Id
                         var targetWindow = mw.top().app.canvas.getWindow();
 
                         var id = activeNode.id;
-                        if(!id){
+                        if (!id) {
                             targetWindow.mw.tools.generateSelectorForNode(activeNode);
-                          //  activeNode.id = id;
+                            //  activeNode.id = id;
                         }
                     }
 
 
                     var event = new CustomEvent('refreshSelectedElement')
-                   instance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
+                    instance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
                 }
             }
 

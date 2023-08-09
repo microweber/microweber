@@ -6,6 +6,11 @@ only_admin_access();
 
 
 <script src="<?php print $config['url_to_module']; ?>js/rte_css_editor2.js"></script>
+<link rel="stylesheet" href="<?php print $config['url_to_module']; ?>style.css" type="text/css" media="all" />
+<?php if (_lang_is_rtl()):?>
+<link rel="stylesheet" href="<?php print $config['url_to_module']; ?>rtl.css" type="text/css" media="all" />
+<?php endif;?>
+
 <script>
     var colorPickers = [];
 
@@ -16,73 +21,9 @@ only_admin_access();
 
 <div id="domtree"></div>
 
-<style>
-
-    #css-editor-root .mw-accordion-title svg{
-        width:21px;
-        height: 21px;
-        margin-inline-end: 8px;
-    }
-    #css-editor-root .mw-accordion-title{
-        font-weight: bold;
-    }
-
-    #css-editor-root #columns-edit .mw-field{
-        padding-bottom: 15px;
-    }
-    #css-editor-root #columns-edit .mdi{
-        font-size: 19px;
-        position: relative;
-        top: 4px;
-        margin-inline-end: 15px;
-        margin-inline-start: 15px;
-    }
-
-     .default-values-list > span{
-        display:block;
-        padding:5px 10px;
-        cursor: pointer;
-    }
-      .default-values-list{
-        position: absolute;
-        top:-100%;
-        left:-100%;
-        padding: 10px;
-        z-index:1;
-        background: #fff;
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-
-    }
-    #css-editor-root .animation-clear-btn{
-        float: right;
-        margin: -30px 0 0 0;
-    }
-
-    html[dir="rtl"] #css-editor-root  .animation-clear-btn{
-        float: left;
-     }
-
-    #css-editor-root .mw-field .mw-range + .mw-range{
-        display: none;
-    }
-
-</style>
 
 
 
-
-
-
-<style>
-
-    <?php include "style.css";  ?>
-    <?php
-        if (_lang_is_rtl()) {
-            include "rtl.css";
-        }
-    ?>
-
-</style>
 <div id="css-editor-root">
 
   <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion" data-options="openFirst: false">

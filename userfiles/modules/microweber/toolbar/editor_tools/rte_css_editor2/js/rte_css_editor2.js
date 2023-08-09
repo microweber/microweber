@@ -46,12 +46,115 @@ var positionSelector = function () {
         all: all,
     };
 }
+$(document).on('ready', function () {
+
+    // setTimeout(function () {
 
 
-//var ActiveNode = null;
+    window.liveEditDomTree = new mw.DomTree({
+        element: '#domtree',
+        resizable: true,
+        targetDocument: targetMw.win.document,
+        canSelect: function (node, li) {
+            var can = mw.top().app.liveEdit.canBeElement(node)
+            return can;
+            var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
+            return !cant;
+            // return mw.tools.isEditable(node) || node.classList.contains('edit');
+        },
+        onHover: function (e, target, node, element) {
+            if (typeof targetMw !== 'undefined') {
+                //   targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
+            }
+        },
+        onSelect: function (e, target, node, element) {
+            setTimeout(function () {
+
+
+                if (typeof targetMw !== 'undefined') {
+
+                    mw.top().app.liveEdit.selectNode(node);
+
+                    targetMw.tools.scrollTo(node, undefined, 200);
+                }
+            }, 100);
+        }
+    });
+
+
+    //  NS_ERROR_NOT_INITIALIZED
+    //  mw.top().app._liveEditDomTree = liveEditDomTree
+    // }, 700);
+
+    $('.rte_css_editor_svg').each(function (img) {
+        (function (img) {
+
+            $.get(img.src, function (data) {
+
+                $(img).replaceWith(data.all[0])
+            })
+        })(this)
+    })
+
+    $('.mw-field.mw-field-flat.unit').each(function () {
+        if (!this.querySelector('.mw-range')) {
+            var sl = mw.element('<div class="mw-range default-values-list-slider" />');
+            $('input', this).on('input', function () {
+                var val = this.value;
+                var slVal = this.value;
+                var t = ['auto', 'normal', 'inherit', 'initial'];
+
+                if (t.includes(val)) {
+                    slVal = 0
+                }
+
+                var num = parseFloat(slVal);
+                if (isNaN(num)) {
+                    num = 0;
+                }
+
+                if (/^\d+$/.test(val)) {
+                    val = this.value + 'px'
+                }
+                output(this.parentNode.dataset.prop, val);
+                $(sl.get(0)).slider('value', num)
+            })
+            $(sl.get(0)).slider({
+                min: 0,
+                max: 100,
+                step: 1,
+                slide: function (event, ui) {
+
+                    var dvalUnit = (/^\d+$/.test(this.previousElementSibling.value) ? 'px' : this.previousElementSibling.value.replace(/[0-9]/g, '')).trim().toLowerCase();
+                    var units = ['cm', 'mm', 'q', 'in', 'pc', 'pt', 'px', 'em', 'ex', 'ch', 'rem', 'lh', 'vw', 'vh', 'vmin', 'vmax',]
+                    var dval = ui.value;
+
+                    dval += (units.indexOf(dvalUnit) !== -1 ? dvalUnit : 'px');
+
+                    console.log(dval)
+                    console.log(dvalUnit)
+
+                    this.previousElementSibling.value = dval;
+                    output(this.parentNode.dataset.prop, dval)
+
+                }
+            })
+            $(this).append(sl.get(0));
+        }
+    })
+
+
+})
+
+ var ActiveNode = null;
 ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 
-
+$(document).on('ready', function () {
+    if (typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree) {
+        window.liveEditDomTree.select(ActiveNode);
+        selectNode(ActiveNode);
+    }
+})
 // mw.top().app.canvas.on('canvasDocumentClick', function () {
 //
 //     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
@@ -78,6 +181,13 @@ window.document.addEventListener('refreshSelectedElement', function (e) {
     if (typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree) {
         window.liveEditDomTree.select(ActiveNode);
         selectNode(ActiveNode);
+    } else {
+        setTimeout(function () {
+            if (typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree) {
+                window.liveEditDomTree.select(ActiveNode);
+                selectNode(ActiveNode);
+            }
+        }, 1000);
     }
 
 
@@ -940,105 +1050,7 @@ $(window).on('load', function () {
 });
 
 
-$(document).on('ready', function () {
 
-    setTimeout(function () {
-
-
-        window.liveEditDomTree = new mw.DomTree({
-            element: '#domtree',
-            resizable: true,
-            targetDocument: targetMw.win.document,
-            canSelect: function (node, li) {
-                var can = mw.top().app.liveEdit.canBeElement(node)
-                return can;
-                var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
-                return !cant;
-                // return mw.tools.isEditable(node) || node.classList.contains('edit');
-            },
-            onHover: function (e, target, node, element) {
-                if (typeof targetMw !== 'undefined') {
-                    //   targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
-                }
-            },
-            onSelect: function (e, target, node, element) {
-                setTimeout(function () {
-
-
-                    if (typeof targetMw !== 'undefined') {
-
-                        mw.top().app.liveEdit.selectNode(node);
-
-                        targetMw.tools.scrollTo(node, undefined, 200);
-                    }
-                }, 100);
-            }
-        });
-
-
-        //  NS_ERROR_NOT_INITIALIZED
-        //  mw.top().app._liveEditDomTree = liveEditDomTree
-    }, 700);
-
-    $('.rte_css_editor_svg').each(function (img) {
-        (function (img) {
-
-            $.get(img.src, function (data) {
-
-                $(img).replaceWith(data.all[0])
-            })
-        })(this)
-    })
-
-    $('.mw-field.mw-field-flat.unit').each(function () {
-        if (!this.querySelector('.mw-range')) {
-            var sl = mw.element('<div class="mw-range default-values-list-slider" />');
-            $('input', this).on('input', function () {
-                var val = this.value;
-                var slVal = this.value;
-                var t = ['auto', 'normal', 'inherit', 'initial'];
-
-                if (t.includes(val)) {
-                    slVal = 0
-                }
-
-                var num = parseFloat(slVal);
-                if (isNaN(num)) {
-                    num = 0;
-                }
-
-                if (/^\d+$/.test(val)) {
-                    val = this.value + 'px'
-                }
-                output(this.parentNode.dataset.prop, val);
-                $(sl.get(0)).slider('value', num)
-            })
-            $(sl.get(0)).slider({
-                min: 0,
-                max: 100,
-                step: 1,
-                slide: function (event, ui) {
-
-                    var dvalUnit = (/^\d+$/.test(this.previousElementSibling.value) ? 'px' : this.previousElementSibling.value.replace(/[0-9]/g, '')).trim().toLowerCase();
-                    var units = ['cm', 'mm', 'q', 'in', 'pc', 'pt', 'px', 'em', 'ex', 'ch', 'rem', 'lh', 'vw', 'vh', 'vmin', 'vmax',]
-                    var dval = ui.value;
-
-                    dval += (units.indexOf(dvalUnit) !== -1 ? dvalUnit : 'px');
-
-                    console.log(dval)
-                    console.log(dvalUnit)
-
-                    this.previousElementSibling.value = dval;
-                    output(this.parentNode.dataset.prop, dval)
-
-                }
-            })
-            $(this).append(sl.get(0));
-        }
-    })
-
-
-})
 initClasses = function () {
     if (!window.classes) {
         window.classes = new mw.tags({
