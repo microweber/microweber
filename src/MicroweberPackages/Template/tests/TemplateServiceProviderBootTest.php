@@ -23,7 +23,7 @@ class TemplateServiceProviderBootTest extends TestCase
      */
     public function testTemplateServiceProviderIsLoaded()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $this->markTestSkipped('This test has not been implemented yet.');
         return;
 
 
