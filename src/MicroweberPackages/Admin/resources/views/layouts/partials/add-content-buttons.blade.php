@@ -1,3 +1,6 @@
+@props(['quickContentAdd' => false,'showEditContentButtonForContentId' => false])
+
+
 <?php $custom_view = url_param('view'); ?>
 <?php $custom_action = url_param('action'); ?>
 <?php event_trigger('content.create.menu'); ?>
@@ -6,19 +9,23 @@
 <?php
 
 
+
+
 $appendIframeModeSuffix = '';
 if (isset($iframeMode) and $iframeMode) {
     $appendIframeModeSuffix = '?iframe=true';
 
-    if (isset($quickAdd) and $quickAdd) {
+    if (isset($quickContentAdd) and $quickContentAdd) {
         $appendIframeModeSuffix .= '&quickContentAdd=true';
     }
-//    if (isset($quickAdd) and $quickAdd) {
-//        $appendIframeModeSuffix .= '&enableIframeTopbarSaveButtons=true';
-//    }
-
 
 }
+
+
+//if($showEditContentButtonForContentId){
+//    $editContentBtnData = get_content_by_id($showEditContentButtonForContentId);
+//
+//}
 
 
 ?>

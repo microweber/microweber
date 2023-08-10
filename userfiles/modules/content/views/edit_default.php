@@ -149,6 +149,9 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
         $('#js-admin-save-content-main-btn').addClass('btn-ghost-success active').removeClass('btn-dark')
     }
 
+
+
+
     $(document).ready(function () {
         var all = $(window);
         var header = document.querySelector('#mw-admin-container header');
@@ -269,61 +272,7 @@ if (isset($params['quick_edit'])) {
     </script>
 
 
-    <?php
-    $quickAdd = false;
-    if (isset($_GET['quickAdd']) and $_GET['quickAdd']) {
-        $quickAdd = boolval($_GET['quickAdd']);
-    }
 
-
-    ?>
-
-    <?php if ($quickAdd) { ?>
-
-
-        <style>
-            .js-collapse-inner-page-menu {
-                display: none !important;
-            }
-
-            #mw-edit-page-editor-holder {
-                display: none !important;
-            }
-
-            #post-media-card-header {
-                display: none !important;
-            }
-
-            #settings-tabs {
-                display: none !important;
-            }
-
-            #edit-post-gallery-main {
-                display: none !important;
-            }
-
-            #js-admin-add-more-content-main-btn {
-                display: none !important;
-            }
-
-            #js-admin-go-live-edit-main-btn {
-                display: none !important;
-            }
-
-            .manage-content-sidebar {
-                display: none !important;
-            }
-
-            .mw-toolbar-back-button-wrapper {
-                display: none !important;
-            }
-
-            .mw-admin-post-slug {
-                display: none !important;
-            }
-        </style>
-
-    <?php } ?>
 
 
     <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?>

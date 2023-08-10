@@ -334,10 +334,11 @@
                         if (data == null) {
                             return false;
                         }
+
                         if (go_live_edit === 'n') {
-                            mw.top().win.location.href = data.url + '?editmode=n';
+                            mw.top().win.location.href = data.live_edit_url + '?editmode=n';
                         } else {
-                            mw.top().win.location.href = data.url + '?editmode=y';
+                            mw.top().win.location.href = data.live_edit_url + '?editmode=y';
                         }
                     });
                 } else {

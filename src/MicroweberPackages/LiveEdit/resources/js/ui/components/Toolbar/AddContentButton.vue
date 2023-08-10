@@ -23,6 +23,17 @@ export default {
             attrsForSettings.iframe = true;
             attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
 
+            var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
+
+            if (liveEditIframeData
+                && liveEditIframeData.content
+
+            ) {
+                var content_id = liveEditIframeData.content.id;
+                attrsForSettings.content_id = content_id;
+                attrsForSettings.show_edit_content_button = true;
+            }
+
 
             var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
