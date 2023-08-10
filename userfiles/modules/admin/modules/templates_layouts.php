@@ -464,6 +464,7 @@ $current_template = false;
                                     bgNode.style.backgroundColor = color;
                                     bgNode.style.backgroundImage = 'transparent';
                                     mw.top().app.registerChange(bgNode);
+                                    delete bgNode.dataset.mwvideo;
                                 }
                             });
 
@@ -503,7 +504,7 @@ $current_template = false;
 
                                         bgNode.style.backgroundColor = 'transparent';
                                          
-
+                                        delete bgNode.dataset.mwvideo;
                                          
                                         dialog.remove();
                                         mw.top().app.registerChange(bgNode);
@@ -512,7 +513,7 @@ $current_template = false;
                                 });
                                 dialog = mw.top().dialog({
                                     content: picker.root,
-                                    title: mw.lang('Select video'),
+                                    title: mw.lang('Select image'),
                                     footer: false,
                                     width: 860,
 
@@ -541,6 +542,7 @@ $current_template = false;
 
                                         
 
+                                        bgNode.dataset.mwvideo = url;
                                         bgNode.style.backgroundImage = `none`;
 
                                         bgNode.style.backgroundColor = 'transparent';

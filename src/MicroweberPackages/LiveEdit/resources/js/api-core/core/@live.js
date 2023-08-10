@@ -549,7 +549,6 @@ export class LiveEdit {
 
             }
 
-
             #menu(){
 
                 const primaryMenu = [
@@ -557,10 +556,7 @@ export class LiveEdit {
                         title: 'Edit' ,
                         text: '',
                         icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M181.674-179.761h41.13l441.087-441.565-41.13-41.13-441.087 441.565v41.13Zm613.043-484.326L665.761-793.043l36.978-37.218q19.631-19.63 47.859-19.75 28.228-.119 47.859 19.272l37.782 37.782q18.435 18.196 17.837 44.153-.598 25.956-18.315 43.674l-41.044 41.043Zm-41.76 41.761L247.761-117.13H118.804v-128.957l504.957-504.956 129.196 128.717Zm-109.392-19.565-20.804-20.565 41.13 41.13-20.326-20.565Z"></path></svg>',
-
-                        onTarget: function (target, selfNode) {
-                            // console.log(target)
-                        },
+ 
                         action: function(target) {
                             var dialog;
                             var picker = new mw.filePicker({
@@ -899,13 +895,7 @@ export class LiveEdit {
 
 
                 var elementTarget = this.elementHandle.getTarget();
-
-
-
-
-
-
-
+ 
                 if (!elementTarget || (elementTarget && !elementTarget.contains(e.target))) {
                     this.play();
                     this.handles.get('element').set(null);

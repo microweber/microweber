@@ -807,6 +807,7 @@ var MWEditor = function (options) {
                 }
             }
         }
+ 
         scope.$editArea.on('click', function (e) {
                var target = e.target !== scope.actionWindow.document.body ? scope.getActualTarget(e.target) : scope.actionWindow.document.body;
                scope.smallEditorInteract(target);
@@ -872,7 +873,7 @@ var MWEditor = function (options) {
     this.smallEditorInteract = function (target) {
 
         this._smallEditorInteract = false;
-
+         
        if(target && !target.isContentEditable && scope.lastRange && scope.lastRange.collapsed === false) {
            target = scope.getActualTarget(scope.lastRange.commonAncestorContainer);
        }
