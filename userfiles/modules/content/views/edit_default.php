@@ -348,6 +348,20 @@ if (isset($params['quick_edit'])) {
                value="<?php print $data['active_site_template']; ?>"/>
 
 
+        <?php if(isset($_GET['quickContentAdd']) and $_GET['quickContentAdd']): ?>
+
+        <input type="hidden" name="quickContentAdd" value="true">
+
+        <?php endif; ?>
+
+        <?php if(isset($_GET['iframe']) and $_GET['iframe']): ?>
+
+        <input type="hidden" name="iframe" value="true">
+
+        <?php endif; ?>
+
+
+
         <script type="text/javascript">
             $(document).ready(function () {
                 $('.mw-edit-page-layout-selector').change(function () {

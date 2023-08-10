@@ -1,3 +1,4 @@
+<?php exit('Deprecated'); ?>
 <?php $path = mw_includes_url() . "toolbar/editor_tools/rte_image_editor/"; ?>
 
 <script>

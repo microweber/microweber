@@ -1,22 +1,31 @@
-<div class="page-header d-print-none">
-    <div class="row g-2 align-items-center px-5 mw-100">
-        <div class="col">
-            <div class="mx-1">
-                @yield('topbar2-links-left', \View::make('admin::layouts.partials.topbar2-links-left-default'))
+@props(['quickContentAdd' => false])
+
+
+
+
+    <div class="page-header d-print-none">
+        <div class="row g-2 align-items-center  @if(!$quickContentAdd) px-5 @endif mw-100">
+            @if(!$quickContentAdd)
+
+                <div class="col">
+                    <div class="mx-1">
+                        @yield('topbar2-links-left', \View::make('admin::layouts.partials.topbar2-links-left-default'))
+                    </div>
+                </div>
+            @endif
+
+            <!-- Page title actions -->
+            <div class="col-auto ms-auto d-print-none">
+                <?php
+                event_trigger('mw.admin.header.toolbar'); ?>
+
+                <ul class="nav d-flex gap-2">
+                    @yield('topbar2-links-right', \View::make('admin::layouts.partials.topbar2-links-right-default', ['quickContentAdd' => $quickContentAdd]))
+                    <?php event_trigger('mw.admin.header.toolbar.ul'); ?>
+                </ul>
             </div>
         </div>
-        <!-- Page title actions -->
-        <div class="col-auto ms-auto d-print-none">
-            <?php
-            event_trigger('mw.admin.header.toolbar'); ?>
-
-            <ul class="nav d-flex gap-2">
-                @yield('topbar2-links-right', \View::make('admin::layouts.partials.topbar2-links-right-default'))
-                <?php event_trigger('mw.admin.header.toolbar.ul'); ?>
-            </ul>
-        </div>
     </div>
-</div>
 
 
 

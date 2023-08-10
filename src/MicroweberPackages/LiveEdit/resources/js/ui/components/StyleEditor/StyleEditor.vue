@@ -20,7 +20,7 @@ export default {
                 url: src,
                 title: mw.lang('Edit styles'),
                 footer: false,
-                width: 400,
+                width: 350,
                 height: 'auto',
                 autoHeight: true,
                 overlay: false
@@ -46,6 +46,7 @@ export default {
 
 
             })
+
             this.cssEditorDialog = dlg;
             this.cssEditorIframe = dlg.iframe;
             var styleEditorDialoginstance = this;

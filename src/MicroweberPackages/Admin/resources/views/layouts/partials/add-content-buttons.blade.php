@@ -4,15 +4,20 @@
 <?php $create_content_menu = mw()->module_manager->ui('content.create.menu'); ?>
 
 <?php
+
+
 $appendIframeModeSuffix = '';
 if (isset($iframeMode) and $iframeMode) {
-    $appendIframeModeSuffix = '?iframe=true&disableTopBar=false';
+    $appendIframeModeSuffix = '?iframe=true';
+
+    if (isset($quickAdd) and $quickAdd) {
+        $appendIframeModeSuffix .= '&quickContentAdd=true';
+    }
+//    if (isset($quickAdd) and $quickAdd) {
+//        $appendIframeModeSuffix .= '&enableIframeTopbarSaveButtons=true';
+//    }
 
 
-
- }
-if(isset($quickAdd) and $quickAdd){
-    $appendIframeModeSuffix .= '&quickAdd=true';
 }
 
 

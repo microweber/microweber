@@ -13,9 +13,27 @@
             $parent_page_param = '';
 
                if(isset($_GET['recommended_content_id'])){
-                   $parent_page_param = '&recommended_content_id='.intval($_GET['recommended_content_id']);
+                   $parent_page_param .= '&recommended_content_id='.intval($_GET['recommended_content_id']);
+               }
+
+               if(isset($_GET['iframe'])){
+                   $parent_page_param .= '&iframe='.$_GET['iframe'];
+               }
+
+
+               if(isset($_GET['quickContentAdd'])){
+                   $parent_page_param .= '&quickContentAdd='.$_GET['quickContentAdd'];
                }
         @endphp
+        @if(isset($_GET['quickContentAdd']))
+        <style>
+            .go-live-edit-nav-item-holder {
+                display: none;
+            }
+        </style>
+        @endif
+
+
 
 
         <h3 class="main-pages-title">{{ _e("Types of pages") }}</h3>
