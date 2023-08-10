@@ -5225,3 +5225,7 @@ body.dragStart picture img{
      background: #f5f5f5;
 }
 
+
+section.section {
+    position: relative;
+}
