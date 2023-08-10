@@ -57,9 +57,19 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     _cssTemp(json) {
         const css = CSSJSON.toCSS(json);
-        if (!mw.app._cssTemp) {
+
+        var tempStylesheetElement =   this.settings.document.querySelector('#mw-liveedit-dynamic-temp-style');
+
+        if(tempStylesheetElement == null){
             mw.app._cssTemp = mw.tools.createStyle('#mw-liveedit-dynamic-temp-style', css, this.settings.document.body);
-            mw.app._cssTemp.id = 'mw-liveedit-dynamic-temp-style';
+
+        } else {
+            mw.app._cssTemp._cssTemp = tempStylesheetElement;
+        }
+
+        mw.app._cssTemp.id = 'mw-liveedit-dynamic-temp-style';
+        if (!mw.app._cssTemp) {
+
         } else {
             mw.app._cssTemp.innerHTML = css;
         }
@@ -136,15 +146,16 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
 
         var orig = this.json;
-        var orig_css = CSSJSON.toCSS(orig).replace(/\.\./g, '.').replace(/\.\./g, '.');
+       // var orig_css = CSSJSON.toCSS(orig).replace(/\.\./g, '.').replace(/\.\./g, '.');
 
-        var assigned2 = this.deepMerge({},  this._temp,orig);
-        //var assigned = Object.assign({}, orig, this._temp);
 
-        this.json = this._cleanCSSJSON(assigned2);
+        var assigned =this._cleanCSSJSON($.extend(true, {}, this.json, this._temp));
+      //  var assigned2 = this.deepMerge({},  this._temp,orig);
+        this.json = this._cleanCSSJSON(assigned);
 
-        var new_css = CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.')
-        this._css = orig_css + "\n" + new_css;
+       // var new_css = CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.')
+    //    this._css = orig_css + "\n" + new_css;
+        this._css =  CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.')
 
 
         mw.top().trigger('mw.liveeditCSSEditor.save');
@@ -217,25 +228,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
         this.getLiveeditCSS();
     }
 
-    deepMerge(obj1, obj2) {
-        const merged = {...obj1};
 
-        for (const key in obj2) {
-            if (obj2.hasOwnProperty(key)) {
-                if (typeof obj2[key] === 'object' && obj2[key] !== null && !Array.isArray(obj2[key])) {
-                    if (!merged.hasOwnProperty(key) || typeof merged[key] !== 'object' || merged[key] === null || Array.isArray(merged[key])) {
-                        merged[key] = {...obj2[key]};
-                    } else {
-                        merged[key] = this.deepMerge(merged[key], obj2[key]);
-                    }
-                } else {
-                    merged[key] = obj2[key];
-                }
-            }
-        }
-
-        return merged;
-    }
 
 
 }
