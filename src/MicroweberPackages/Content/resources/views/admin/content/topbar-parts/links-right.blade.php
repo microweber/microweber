@@ -1,8 +1,20 @@
+@props(['quickContentAdd' => false])
+
+
+@php
+    if(isset($_GET['quickContentAdd']) and $_GET['quickContentAdd']){
+       $quickContentAdd= true;
+    }
+@endphp
+
+
+@if(!$quickContentAdd)
 <a  id="js-admin-add-more-content-main-btn"  href="<?php echo route('admin.'.$content_type.'.create'); ?>"
    class="btn btn-outline-dark mw-admin-bold-outline-dark p-2 mx-1">
     <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg"  width="24" height="24" viewBox="0 96 960 960"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"></path></svg>
     {{ _e("Add " . ucfirst($content_type)) }}
 </a>
+@endif
 
 @php
     $liveEditUrl = site_url() . 'admin/live-edit';

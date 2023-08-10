@@ -5,7 +5,33 @@
     @php
     $createRouteBlog = route('admin.category.create')."?parent=blog";
     $createRouteShop = route('admin.shop.category.create')."?parent=shop";
+
+    $parent_page_param = '';
+
+
+   if(isset($_GET['iframe'])){
+       $parent_page_param .= '&iframe='.$_GET['iframe'];
+   }
+
+
+   if(isset($_GET['quickContentAdd'])){
+       $parent_page_param .= '&quickContentAdd='.$_GET['quickContentAdd'];
+   }
+
+$createRouteShop .= $parent_page_param;
+$createRouteBlog .= $parent_page_param;
+
     @endphp
+
+    @if(isset($_GET['quickContentAdd']))
+        <style>
+            .go-live-edit-nav-item-holder {
+                display: none;
+            }
+        </style>
+    @endif
+
+
 
     @if($parent)
         @include('category::admin.category.edit', ['parent' => $parent])
