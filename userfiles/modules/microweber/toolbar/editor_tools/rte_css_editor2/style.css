@@ -252,7 +252,7 @@
     #css-editor-root:after{
         display: none;
         opacity: .6;
-        background-color: #f5f5f5;
+        background-color: var(--tblr-bg-surface);
         position: absolute;
         top: 0;
         left: 0;
