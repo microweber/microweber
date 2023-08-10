@@ -228,25 +228,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
         this.getLiveeditCSS();
     }
 
-    deepMerge(obj1, obj2) {
-        const merged = {...obj1};
 
-        for (const key in obj2) {
-            if (obj2.hasOwnProperty(key)) {
-                if (typeof obj2[key] === 'object' && obj2[key] !== null && !Array.isArray(obj2[key])) {
-                    if (!merged.hasOwnProperty(key) || typeof merged[key] !== 'object' || merged[key] === null || Array.isArray(merged[key])) {
-                        merged[key] = {...obj2[key]};
-                    } else {
-                        merged[key] = this.deepMerge(merged[key], obj2[key]);
-                    }
-                } else {
-                    merged[key] = obj2[key];
-                }
-            }
-        }
-
-        return merged;
-    }
 
 
 }
