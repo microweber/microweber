@@ -8678,6 +8678,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   overflow: auto;
   max-height: calc(100vh - 200px);
   min-height: 100px;
+  background: #fff;
 }
 .mw-editor-controller-component-select .mw-editor-controller-component-select-values-holder::-webkit-scrollbar {
   width: 7px;

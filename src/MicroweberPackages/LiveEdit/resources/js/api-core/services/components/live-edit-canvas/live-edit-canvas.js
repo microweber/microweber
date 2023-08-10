@@ -115,14 +115,14 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             liveEditIframe.contentWindow.document.body.addEventListener('click', (event) => {
 
                 this.dispatch('canvasDocumentClick', event)
-                event.stopImmediatePropagation();
+                 
 
             });
 
 
             liveEditIframe.contentWindow.document.body.addEventListener('dblclick', (event) => {
                 this.dispatch('canvasDocumentDoubleClick',  event)
-                event.stopImmediatePropagation();
+                 
             });
 
 

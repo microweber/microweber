@@ -40,6 +40,7 @@ $editorSpacing: 5px;
         padding: 10px 10px;
         white-space: nowrap;
         font-size: 14px;
+        
     }
     .mw-editor-dropdown-option:hover{
         background-color: rgba(145, 145, 145, 0.47);
@@ -595,7 +596,7 @@ $editorSpacing: 5px;
         overflow: auto;
         max-height: calc(100vh - 200px);
         min-height: 100px;
-
+        background-color: #fff;
     }
     &.active{
         z-index: 10;
