@@ -110,7 +110,7 @@ export const ModuleHandleContent = function (rootScope) {
             action: (el) => {
 
                 if(el) {
-                   mw.app.editor.dispatch('showModulePresetsRequest', el);
+                   mw.app.editor.dispatch('onModulePresetsRequest', el);
                }
 
 

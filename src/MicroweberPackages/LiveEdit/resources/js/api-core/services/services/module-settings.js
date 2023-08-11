@@ -17,13 +17,14 @@ export class ModuleSettings extends MicroweberBaseClass {
 
 
         });
- 
+
         mw.app.editor.on('onModuleSettingsRequest', module => this.moduleOrLayoutSettingsRequestHandle(module));
         mw.app.editor.on('onLayoutSettingsRequest', module => this.moduleOrLayoutSettingsRequestHandle(module, true));
-        mw.app.editor.on('showModulePresetsRequest', module => this.showModulePresetsRequest(module, true));
+        mw.app.editor.on('onModulePresetsRequest', module => this.moduleOrLayoutPresetsRequestHandle(module));
 
 
     }
+
     moduleOrLayoutSettingsRequestHandle(module, isLayout) {
 
         if (isLayout) {
@@ -78,14 +79,66 @@ export class ModuleSettings extends MicroweberBaseClass {
             delete (attrsForSettings.contenteditable);
         }
 
-
         moduleType = moduleType + '/admin';
+
+        attrsForSettings.id = moduleId;
+        attrsForSettings.type = moduleType;
+
+
+        this.openSettingsModal(attrsForSettings, moduleId, modalTitle);
+    }
+
+    moduleOrLayoutPresetsRequestHandle(module, isLayout) {
+
+        var moduleClone = module.cloneNode(true);
+
+        var presetsModule = 'editor/module_presets';
+        var originalModuleType = module.getAttribute('type')
+        var moduleIdForPreset = module.getAttribute('id')
+
+
+
+
+
+
+
+
+
+        moduleClone.setAttribute('data-original-module', module.getAttribute('type'));
+         moduleClone.setAttribute('data-module-original-id', module.getAttribute('data-module-original-id'));
+        // moduleClone.setAttribute('data-module-original-attrs', module.getAttribute('data-module-original-attrs'));
+        moduleClone.setAttribute('type', presetsModule);
+
+        if (isLayout) {
+            //todo
+        }
+
+        var attributes = {};
+
+        if (moduleClone && moduleClone.attributes) {
+            $.each(moduleClone.attributes, function (index, attr) {
+                attributes[attr.name] = attr.value;
+            });
+        }
+
+
+        var attrsForSettings = attributes;
+        attrsForSettings.module_name = presetsModule;
+        attrsForSettings.module_id = moduleIdForPreset;
+
+
+        this.openSettingsModal(attrsForSettings, attrsForSettings.id, 'Module presets');
+
+
+    }
+
+
+    openSettingsModal(attrsForSettings, moduleId, modalTitle) {
 
 
         attrsForSettings.live_edit = true;
         attrsForSettings.module_settings = true;
-        attrsForSettings.id = moduleId;
-        attrsForSettings.type = moduleType;
+
         attrsForSettings.iframe = true;
         attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
 
@@ -109,11 +162,6 @@ export class ModuleSettings extends MicroweberBaseClass {
         if (moduleSettingsDialogIframe.overlay) {
             moduleSettingsDialogIframe.overlay.style.backgroundColor = 'transparent';
         }
-
-
-    }
-    showModulePresetsRequest(module, isLayout) {
-         alert(3333);
     }
 }
 

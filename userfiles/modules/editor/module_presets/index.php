@@ -11,6 +11,10 @@
     if (isset($params['data-module-original-id']) and $params['data-module-original-id']) {
         $mod_orig_id = $params['data-module-original-id'];
     }
+
+    if (isset($params['data-module-original-id']) and $params['data-module-original-id']) {
+        $mod_orig_id = $params['data-module-original-id'];
+    }
     ?>
 
     <script type="text/javascript">mw.require('forms.js', true);</script>

@@ -1,7 +1,5 @@
 <div>
 
-Edit post
-
     <form wire:submit.prevent="submit" >
 
         <div class="d-flex align-items-center justify-content-between">
