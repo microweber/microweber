@@ -81,6 +81,8 @@ export const ModeAuto = (scope) => {
         allowDrop
     } = scope.settings;
     const root = scope.root;
+
+ 
     var selector = '*';
     var bgHolders = root.querySelectorAll('.' + editClass + '.' + backgroundImageHolder + ', .' + editClass + ' .' + backgroundImageHolder + ', .'+editClass+'[style*="background-image"], .'+editClass+' [style*="background-image"]');
     var noEditModules = root.querySelectorAll('.' + moduleClass + scope.settings.unEditableModules.join(',.' + moduleClass));
@@ -89,9 +91,7 @@ export const ModeAuto = (scope) => {
     for ( ; i < bgHolders.length; i++ ) {
         var curr = bgHolders[i];
         if( scope.elementAnalyzer.isInEdit(curr) ){
-            if(!mw.tools.hasClass(curr, moduleClass)) {
-                // mw.tools.addClass(curr, editClass);
-            }
+            _isElementHandle(scope.canBeElement(curr), curr, elementClass)
             if(!curr.style.backgroundImage) {
                 curr.style.backgroundImage = 'none';
             }
