@@ -698,7 +698,7 @@ export class LiveEdit {
 
             const hasBg = DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['background-image-holder', 'img-holder']);
 
-            if(hasBg && hasBg !== bgImageHandles.getTarget()) {
+            if(hasBg && hasBg !== bgImageHandles.getTarget() && this.canBeEditable(hasBg)) {
                 bgImageHandles.setTarget(hasBg)
             }
 
@@ -881,6 +881,8 @@ export class LiveEdit {
             if(e.which === 1) {
             _dblclicktarget = e.target;
 
+            
+
             if (!this.paused) {
                 _eventsHandle(e)
             } else {
@@ -932,6 +934,7 @@ export class LiveEdit {
         noelements = noelements.concat(noelements_drag);
         noelements = noelements.concat(section_selectors);
         noelements = noelements.concat(icon_selectors);
+         
         return !mw.tools.hasAnyOfClasses(el, noelements);
     }
     canBeEditable = function (el) {

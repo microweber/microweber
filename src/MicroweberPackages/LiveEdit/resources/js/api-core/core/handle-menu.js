@@ -145,6 +145,7 @@ export const HandleMenu = function(options) {
 
     this.buildButtons = function (menu, btnHolder){
         this.prepareMenu();
+        
         btnHolder = btnHolder || this.buttonsHolder;
         menu = menu || this.options.menus;
 

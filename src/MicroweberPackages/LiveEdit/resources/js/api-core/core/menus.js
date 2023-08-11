@@ -31,43 +31,4 @@ export const MenuItem = (data, scope) => {
     return btn;
 };
 
-export const MenuItems = {
-    module: [
-        {
-            title: 'Edit HTML',
-            icon: 'mw-icon-code',
-            action: function () {
-                mw.editSource(mw._activeElementOver);
-            }
-        },
-        {
-            title: 'Edit Style',
-            icon: 'mdi mdi-layers',
-            action: function () {
-                mw.liveEditSettings.show();
-                mw.sidebarSettingsTabs.set(3);
-                if(mw.cssEditorSelector){
-                    mw.liveEditSelector.active(true);
-                    mw.liveEditSelector.select(mw._activeElementOver);
-                } else {
-                    mw.$(mw.liveEditWidgets.cssEditorInSidebarAccordion()).on('load', function () {
-                        setTimeout(function(){
-                            mw.liveEditSelector.active(true);
-                            mw.liveEditSelector.select(mw._activeElementOver);
-                        }, 333);
-                    });
-                }
-                mw.liveEditWidgets.cssEditorInSidebarAccordion();
-            }
-        },
-        {
-            title: 'Remove',
-            icon: 'mw-icon-bin',
-            className:'mw-handle-remove',
-            action: function () {
-                mw.drag.delete_element(mw._activeElementOver);
-                mw.handleElement.hide()
-            }
-        }
-    ]
-};
+ 
