@@ -1,4 +1,4 @@
-<div>
+<div class="mb-3">
 
     <div>
         <label class="live-edit-label">Icon</label>
@@ -33,9 +33,9 @@
         ];
     @endphp
 
-
     <div>
         <label class="live-edit-label">{{__('Size')}} </label>
         <livewire:microweber-option::dropdown :dropdownOptions="$sizeOptions" optionKey="button_size" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
+
 </div>
