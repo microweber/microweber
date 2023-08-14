@@ -162,41 +162,62 @@ MWEditor.controllers = {
     },
     ai: function (scope, api, rootScope) {
         this.render = function () {
+            var aiIconSVG = '<svg color="gray.100" fill="currentColor" height="22" viewBox="0 0 22 22" width="22" xmlns="http://www.w3.org/2000/svg" class="ai-writer-container-1fy6kej"><path d="M12 0h-1L5 14h5v8h1l6-14h-5V0z"></path></svg>';
             var scope = this;
             var el = MWEditor.core.button({
                 props: {
-
-                    tooltip: rootScope.lang('AI edit'),
-                    innerHTML: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>flash</title><path d="M7,2V13H10V22L17,10H13L17,2H7Z" /></svg>'
+                    tooltip: rootScope.lang('AI Text Generator'),
+                    innerHTML: aiIconSVG
                 }
             });
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
-
                 var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLevel(node);
+                var actionTarget = mw.tools.firstBlockLevel(node);
+                var aiTextGeneratorHtml = '<div class="ai-text-generator-container">' +
+                    '' +
+                    '<label class="live-edit-label">What do  you need?</label>' +
+                    '<label class="form-control-live-edit-label-wrapper">\n' +
+                '        <input placeholder="Write the topic for text generating..." class="form-control-live-edit-input" id="ai-text-generator-topic">\n' +
+                '        <span class="form-control-live-edit-bottom-effect"></span>\n' +
+                '    </label>' +
+                    '<div>' +
+                    '<div class="form-control-live-edit-label-wrapper mt-3 mb-4">' +
+                    '<button class="btn" id="ai-text-generator-submit" type="button">' +
+                      aiIconSVG+'   Generate Text' +
+                    ' </button>' +
+                    '</div>' +
+                    '</div>' +
+                    '' +
+                    '</div>';
+
+                var dialog = mw.dialog({
+                    content: aiTextGeneratorHtml,
+                    overlay: true,
+                    overlayClose: true,
+                });
+                ok.on('click', function () {
+
+                });
+                cancel.on('click', function () {
+                    dialog.remove();
+                });
 
 
-                    var mwAdapter = {
-                        url: 'https://textcomplete.microweberapi.com/?q=' + encodeURIComponent(actionTarget.textContent),
-                        method: 'GET',
-                    }
-
-
-
-                      fetch(mwAdapter.url, mwAdapter).then(function(res){
-
-                        res.json().then(function(json){
-
-                            actionTarget.innerHTML = actionTarget.innerHTML + ' '+ json.text
-                        })
-
-                    });
-
-
-                    api.action(actionTarget.parentNode, function () {
-                        console.log(actionTarget)
-                    });
+                // var mwAdapter = {
+                //     url: 'https://textcomplete.microweberapi.com/?q=' + encodeURIComponent(actionTarget.textContent),
+                //     method: 'GET',
+                // };
+                //
+                // fetch(mwAdapter.url, mwAdapter).then(function(res){
+                //     res.json().then(function(json){
+                //         actionTarget.innerHTML = actionTarget.innerHTML + ' '+ json.text
+                //     })
+                // });
+                //
+                // api.action(actionTarget.parentNode, function () {
+                //     console.log(actionTarget)
+                // });
 
             });
             return el;
@@ -1017,7 +1038,7 @@ MWEditor.controllers = {
     },
     textColor: function (scope, api, rootScope) {
 
-       
+
         this.render = function () {
             var el = MWEditor.core.colorPicker({
                 displayDocument: mw.top().win.document,
