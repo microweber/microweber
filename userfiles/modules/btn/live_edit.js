@@ -19,8 +19,7 @@ let currentAlignBtnIcon = alignBtnCenterIcon;
                         text: '',
                         icon: alignBtnLeftIcon,
                         action: function (el) {
-
-
+                            saveBtnAlign(el, 'left');
                         }
                     },
                 ]
@@ -33,8 +32,7 @@ let currentAlignBtnIcon = alignBtnCenterIcon;
                         text: '',
                         icon: alignBtnCenterIcon,
                         action: function (el) {
-
-
+                            saveBtnAlign(el, 'center');
                         }
                     },
                 ]
@@ -47,8 +45,7 @@ let currentAlignBtnIcon = alignBtnCenterIcon;
                         text: '',
                         icon: alignBtnRightIcon,
                         action: function (el) {
-
-
+                            saveBtnAlign(el,moduleType, 'right');
                         }
                     },
                 ]
@@ -56,6 +53,28 @@ let currentAlignBtnIcon = alignBtnCenterIcon;
         ]
     }
 ];
+
+function saveBtnAlign(el, align) {
+
+    let moduleId = el.getAttribute('id');
+    let moduleType = el.getAttribute('data-type');
+    if (!moduleType) {
+        moduleType = el.getAttribute('type');
+    }
+
+    var data = {
+        option_group: moduleId,
+        option_key: 'align',
+        option_value: align,
+        module: moduleType,
+    };
+    mw.options.saveOption(data, function () {
+        // Saved
+        mw.app.editor.dispatch('onModuleSettingsChanged', {
+            'moduleId': moduleId
+        });
+    });
+}
 
 mw.quickSettings.btn = moduleButtonSettings;
 
