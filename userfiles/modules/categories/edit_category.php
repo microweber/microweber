@@ -689,7 +689,7 @@ if (isset($_GET['rel_id'])) {
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label class="form-label font-weight-bold"><?php _e("Category Slug"); ?></label>
-                                                    <div class="mb-3">
+                                                    <div class="input-group mb-2">
                                                         <?php
                                                         $url = '';
                                                         if ($data['id'] > 0) {
@@ -699,9 +699,14 @@ if (isset($_GET['rel_id'])) {
                                                         echo $formBuilder
                                                             ->text('url')
                                                             ->setModel($categoryModel)
-                                                            ->prepend('<div class="input-group-prepend">
-                                                     <span class="input-group-text"><i class="mdi mdi-link text-silver"></i></span>
-                                                     </div>')
+                                                            ->prepend('
+
+                                                          <span class="input-group-text">
+                                                           <i class="mdi mdi-link text-silver"></i>
+                                                          </span>
+
+                                                       
+                                                        ')
                                                             ->value($url)
                                                             ->id('url')
                                                             ->spellcheck(false);
