@@ -61,46 +61,52 @@ export const Draggable = function (options, rootSettings) {
    
     this.helper = function (e, event) {
         
-        if(!this._helper) {
-            this._helper = ElementManager().get(0);
-            this._helper.className = 'mw-draggable-helper';
+        if(!scope._helper) {
+            scope._helper = ElementManager().get(0);
+            scope._helper.className = 'mw-draggable-helper';
            
-            this.settings.document.body.appendChild(this._helper);
+            scope.settings.document.body.appendChild(scope._helper);
         }
         if (e === 'create') {
             var off = ElementManager( scope.element ).offset();
  
-            this.$data._calcMinus = {
+            scope.$data._calcMinus = {
                 y: (event.pageY - off.offsetTop),
                 x: (event.pageX - off.offsetLeft),
             }
-            this._helper.style.top = e.pageY + 'px';
-            this._helper.style.left = e.pageX + 'px';
-            this._helper.style.width = scope.element.offsetWidth + 'px';
-            this._helper.style.height = scope.element.offsetHeight + 'px';
-            this.settings.document.documentElement.classList.add('le-dragging')
-            this._helper.style.display = 'block';
-        } else if(e === 'remove' && this._helper) {
-            this._helper.style.display = 'none';
-            this.settings.document.documentElement.classList.remove('le-dragging')
-        } else if(this.settings.helper && e) {
+            scope._helper.style.top = e.pageY + 'px';
+            scope._helper.style.left = e.pageX + 'px';
+            scope._helper.style.width = scope.element.offsetWidth + 'px';
+            scope._helper.style.height = scope.element.offsetHeight + 'px';
+            scope.settings.document.documentElement.classList.add('le-dragging')
+            scope._helper.style.display = 'block';
+        } else if(e === 'remove' && scope._helper) {
+            setTimeout(() => {
+                scope.settings.document.querySelectorAll('.mw-draggable-helper').forEach(e => e.innerHTML = ``);
+                scope._helper.$$element = null;
+            })
             
-            console.log(e.clientY);
+ 
+            scope.settings.document.documentElement.classList.remove('le-dragging');
+            
+        } else if(scope.settings.helper && e) {
+            
+            
           
-            this._helper.style.top = (Math.abs(e.pageY) -  this.$data._calcMinus.y) + 'px';
-            this._helper.style.top = e.pageY + 'px';
-            this._helper.style.left = (Math.abs(e.pageX) -  this.$data._calcMinus.x) + 'px';
-            // this._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX - 40) + 'px';
-            this.settings.document.documentElement.classList.add('le-dragging')
+            scope._helper.style.top = (Math.abs(e.pageY) -  scope.$data._calcMinus.y) + 'px';
+            scope._helper.style.top = e.pageY + 'px';
+            scope._helper.style.left = (Math.abs(e.pageX) -  scope.$data._calcMinus.x) + 'px';
+            // scope._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX - 40) + 'px';
+            scope.settings.document.documentElement.classList.add('le-dragging')
         }
 
-        if(this._helper.$$element !== scope.element) {
-            this._helper.$$element = scope.element;
-            this._helper.innerHTML =  scope.element.outerHTML;
+        if(scope._helper.$$element !== scope.element) {
+            scope._helper.$$element = scope.element;
+            scope._helper.innerHTML =  scope.element.outerHTML;
         }
          
         
-        return this._helper;
+        return scope._helper;
     };
 
     this.isDragging = false;
@@ -176,8 +182,7 @@ export const Draggable = function (options, rootSettings) {
 
             function _dragHandle(e){
 
-                console.log(e.clientY);
-                return;
+ 
                 
 
                 var scrlStp = 90;
@@ -185,7 +190,7 @@ export const Draggable = function (options, rootSettings) {
                 if (e.clientY < scrlStp) {
                     scroll(-step)
                 }
-                if (e.clientY > (innerHeight - (scrlStp + ( this._helper ? this._helper.offsetHeight + 10 : 0)))) {
+                if (e.clientY > (innerHeight - (scrlStp + ( scope._helper ? scope._helper.offsetHeight + 10 : 0)))) {
                     scroll(step)
                 }
                 e.dataTransfer.dropEffect = "none";
@@ -193,8 +198,8 @@ export const Draggable = function (options, rootSettings) {
                 scope.helper(e)
 
             }
-            this.handle.get(0).addEventListener('drag', function(e) {
-                _dragHandle(e)
+            this.handle.get(0).addEventListener('drag',  (e) => {
+                _dragHandle.call(this, e)
             })
  
             handleEl.$handleInit = true;
@@ -225,6 +230,8 @@ export const Draggable = function (options, rootSettings) {
             .on('dragend', function (e) {
                 scope.isDragging = false;
                 scope.element.classList.remove('mw-element-is-dragged');
+               
+                
                 scope.helper('remove');
                 scope.dispatch('dragEnd',{element: scope.element, event: e});
                 stop = true;

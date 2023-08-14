@@ -1005,16 +1005,33 @@ var MWEditor = function (options) {
                 scope.lastRange = range;
             }
 
-            scope.$editArea.on('paste input', function(e) {
+            scope.$editArea.on('paste input', function(event) {
                 var clipboardData, pastedData;
+                var e = event.originalEvent || event; 
 
                 // Stop data actually being pasted into div
-                e.stopPropagation();
+                
 
-                clipboardData = e.clipboardData || window.clipboardData;
-                if(clipboardData) {
-                    pastedData = clipboardData.getData('Text');
+                if(e.type === 'paste') {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    clipboardData = e.clipboardData || window.clipboardData;
+                   
+                    if(clipboardData) {
+                        pastedData = clipboardData.getData('text/html');
+
+                        if(pastedData) {
+                                
+                        }
+     
+                    }
+    
+                  
+                     
                 }
+
+
+               
                 if(typeof scope.actionWindow.mw.wysiwyg !== 'undefined') {
                     scope.actionWindow.mw.wysiwyg.normalizeBase64Images(this.parentNode, function () {
                         scope.registerChange();

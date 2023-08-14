@@ -8,7 +8,6 @@ export const previewMode = function () {
     mw.app.canvas.getDocument().documentElement.classList.add('mw-le--page-preview');
     mw.app.canvas.getDocument().body.classList.remove('mw-live-edit');
  
-    document.querySelector('#bubble-nav').classList.remove('active');
     document.querySelector('#user-menu-wrapper').classList.remove('active');
     document.querySelector('#general-theme-settings').classList.remove('active');
 }
@@ -18,7 +17,7 @@ export const liveEditMode = function () {
     document.documentElement.style.setProperty('--toolbar-height', document.documentElement.style.getPropertyValue('--toolbar-static-height'));
     mw.app.canvas.getDocument().documentElement.classList.remove('mw-le--page-preview');
     mw.app.canvas.getDocument().body.classList.add('mw-live-edit');
-    document.querySelector('#bubble-nav').classList.add('active');
+     
 }
 export const pagePreviewToggle = function () {
     isPreview = !isPreview;
