@@ -5,7 +5,7 @@ const alignBtnRightIcon = '<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iM
 
 let currentAlignBtnIcon = alignBtnCenterIcon;
 
- const moduleButtonSettings = [
+let moduleButtonSettings = [
     {
         title: 'Align Settings',
         icon: currentAlignBtnIcon,
@@ -62,17 +62,34 @@ function saveBtnAlign(el, align) {
         moduleType = el.getAttribute('type');
     }
 
+    if (align == 'left') {
+        moduleButtonSettings[0].icon = alignBtnLeftIcon;
+    }
+    if (align == 'center') {
+        moduleButtonSettings[0].icon = alignBtnCenterIcon;
+    }
+    if (align == 'right') {
+        moduleButtonSettings[0].icon = alignBtnRightIcon;
+    }
+
     var data = {
         option_group: moduleId,
         option_key: 'align',
         option_value: align,
         module: moduleType,
     };
+
+    console.log(data);
+
     mw.options.saveOption(data, function () {
+
+        mw.app.liveEdit.moduleHandleContent.menu.setMenu('dynamic',  moduleButtonSettings);
+
         // Saved
         mw.app.editor.dispatch('onModuleSettingsChanged', {
             'moduleId': moduleId
         });
+
     });
 }
 

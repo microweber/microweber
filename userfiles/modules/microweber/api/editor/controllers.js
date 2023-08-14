@@ -174,6 +174,7 @@ MWEditor.controllers = {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
                 var actionTarget = mw.tools.firstBlockLevel(node);
+
                 var aiTextGeneratorHtml = '<div class="ai-text-generator-container">' +
                     '' +
                     '<div class="d-flex gap-2">' +
@@ -181,6 +182,17 @@ MWEditor.controllers = {
                     '<button class="btn" id="ai-text-generator-submit" type="button">' +
                       aiIconSVG+' Generate' +
                     ' </button>' +
+                    '</div>' +
+                    '' +
+                    '<div class="mt-2">' +
+                    '<div class="list-group">' +
+                    '  <button type="button" class="list-group-item list-group-item-action"><svg  fill="currentColor" width="22" height="22" viewBox="0 0 16 8" xmlns="http://www.w3.org/2000/svg"><path d="M1.125 1.5H14.875M1.125 7.125H14.875"></path></svg> Simplify</button>' +
+                    '  <button type="button" class="list-group-item list-group-item-action"><svg  fill="currentColor" width="22" height="22" viewBox="0 0 18 16" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 0.75H13.375M1.5 4.5H9.625M1.5 8.25H5.875M10.25 7.625L13.375 4.5M13.375 4.5L16.5 7.625M13.375 4.5V14.5"</path></svg> Shorten</button>' +
+                    '  <button type="button" class="list-group-item list-group-item-action"><svg  fill="currentColor" width="22" height="22" viewBox="0 0 18 16" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 0.75H13.375M1.5 4.5H9.625M1.5 8.25H9.625M13.375 4.5V14.5M13.375 14.5L10.25 11.375M13.375 14.5L16.5 11.375"></path></svg> Lengthen</button>' +
+                    '  <button type="button" class="list-group-item list-group-item-action"><svg  fill="currentColor" width="22" height="22" viewBox="0 0 14 18" xmlns="http://www.w3.org/2000/svg"><path d="M13.25 10.875V8.6875C13.25 7.94158 12.9537 7.22621 12.4262 6.69876C11.8988 6.17132 11.1834 5.875 10.4375 5.875H9.1875C8.93886 5.875 8.7004 5.77623 8.52459 5.60041C8.34877 5.4246 8.25 5.18614 8.25 4.9375V3.6875C8.25 2.94158 7.95368 2.22621 7.42624 1.69876C6.89879 1.17132 6.18342 0.875 5.4375 0.875H3.875M3.875 11.5H10.125M3.875 14H7M5.75 0.875H1.6875C1.17 0.875 0.75 1.295 0.75 1.8125V16.1875C0.75 16.705 1.17 17.125 1.6875 17.125H12.3125C12.83 17.125 13.25 16.705 13.25 16.1875V8.375C13.25 6.38588 12.4598 4.47822 11.0533 3.0717C9.64678 1.66518 7.73912 0.875 5.75 0.875Z"></path></svg> Summarize</button>' +
+                    '  <button type="button" class="list-group-item list-group-item-action"><svg  fill="currentColor" width="22" height="22" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" sx="[object Object]"><path clip-rule="evenodd" d="M4 6.8a1.8 1.8 0 100-3.6 1.8 1.8 0 000 3.6zM4 12.8a1.8 1.8 0 100-3.6 1.8 1.8 0 000 3.6zM4 18.8a1.8 1.8 0 100-3.6 1.8 1.8 0 000 3.6z" fill-rule="evenodd"></path><path d="M8 4h12v2H8V4zM8 10h12v2H8v-2zM8 16h12v2H8v-2z"></path></svg> Outline</button>' +
+                    '  <button type="button" class="list-group-item list-group-item-action"><svg  fill="currentColor" width="22" height="22" viewBox="0 0 18 16" xmlns="http://www.w3.org/2000/svg"><path d="M9 3.03501C7.62634 1.80281 5.84533 1.12246 4 1.12501C3.12333 1.12501 2.28167 1.27501 1.5 1.55167V13.4267C2.30302 13.1434 3.14847 12.9991 4 13C5.92083 13 7.67333 13.7225 9 14.91M9 3.03501C10.3736 1.80274 12.1547 1.12238 14 1.12501C14.8767 1.12501 15.7183 1.27501 16.5 1.55167V13.4267C15.697 13.1434 14.8515 12.9991 14 13C12.1547 12.9975 10.3737 13.6778 9 14.91M9 3.03501V14.91"></path></svg> Fix Spelling and Grammar</button>' +
+                    '</div>' +
                     '</div>' +
                     '' +
                     '</div>';
