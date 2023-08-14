@@ -191,33 +191,42 @@ MWEditor.controllers = {
                     '' +
                     '</div>';
 
-                var dialog = mw.dialog({
+                var rectActionTarget = el.node.getBoundingClientRect();
+
+                var aiTextAutocompleteDialog = mw.dialog({
                     content: aiTextGeneratorHtml,
                     overlay: true,
                     overlayClose: true,
+                    autoCenter: false,
+                    width: 300,
+                    position: {
+                        x: rectActionTarget.left,
+                        y: (rectActionTarget.top + 110)
+                    }
                 });
-                ok.on('click', function () {
-
-                });
-                cancel.on('click', function () {
-                    dialog.remove();
-                });
+                // aiTextAutocompleteDialog.overlay.style.backgroundColor = 'transparent';
 
 
-                // var mwAdapter = {
-                //     url: 'https://textcomplete.microweberapi.com/?q=' + encodeURIComponent(actionTarget.textContent),
-                //     method: 'GET',
-                // };
-                //
-                // fetch(mwAdapter.url, mwAdapter).then(function(res){
-                //     res.json().then(function(json){
-                //         actionTarget.innerHTML = actionTarget.innerHTML + ' '+ json.text
-                //     })
-                // });
-                //
-                // api.action(actionTarget.parentNode, function () {
-                //     console.log(actionTarget)
-                // });
+                document.getElementById('ai-text-generator-submit').onclick = function () {
+
+                    document.getElementById('ai-text-generator-submit').innerHTML = 'Generating...';
+
+                    var mwAdapter = {
+                        url: 'https://textcomplete.microweberapi.com/?q=' + encodeURIComponent(actionTarget.textContent),
+                        method: 'GET',
+                    };
+
+                    fetch(mwAdapter.url, mwAdapter).then(function (res) {
+                        res.json().then(function (json) {
+                            actionTarget.innerHTML = actionTarget.innerHTML + ' ' + json.text;
+                            aiTextAutocompleteDialog.remove();
+                        })
+                    });
+
+                    api.action(actionTarget.parentNode, function () {
+                        console.log(actionTarget)
+                    });
+                };
 
             });
             return el;
