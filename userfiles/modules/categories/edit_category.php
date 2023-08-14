@@ -705,7 +705,7 @@ if (isset($_GET['rel_id'])) {
                                                            <i class="mdi mdi-link text-silver"></i>
                                                           </span>
 
-                                                       
+
                                                         ')
                                                             ->value($url)
                                                             ->id('url')

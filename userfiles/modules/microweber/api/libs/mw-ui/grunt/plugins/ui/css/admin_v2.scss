@@ -1323,6 +1323,7 @@ input[type=number] {
 
 .mw-create-page-admin-wrapper {
     position: relative;
+    max-height: 750px;
 
     #mw-create-page-card-overlay {
         position: absolute;
@@ -1353,6 +1354,11 @@ input[type=number] {
         top: 44%;
         right: 41%;
         z-index: 3;
+    }
+
+    .preview_frame_container.preview-in-iframe iframe {
+            transform: scale(.25);
+            height: 3000px !important;
     }
 }
 
