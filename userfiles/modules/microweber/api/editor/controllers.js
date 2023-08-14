@@ -176,17 +176,11 @@ MWEditor.controllers = {
                 var actionTarget = mw.tools.firstBlockLevel(node);
                 var aiTextGeneratorHtml = '<div class="ai-text-generator-container">' +
                     '' +
-                    '<label class="live-edit-label">What do  you need?</label>' +
-                    '<label class="form-control-live-edit-label-wrapper">\n' +
-                '        <input placeholder="Write the topic for text generating..." class="form-control-live-edit-input" id="ai-text-generator-topic">\n' +
-                '        <span class="form-control-live-edit-bottom-effect"></span>\n' +
-                '    </label>' +
-                    '<div>' +
-                    '<div class="form-control-live-edit-label-wrapper mt-3 mb-4">' +
+                    '<div class="d-flex gap-2">' +
+                    '<input placeholder="What do you want to write? (Beta)" class="form-control" id="ai-text-generator-topic" />' +
                     '<button class="btn" id="ai-text-generator-submit" type="button">' +
-                      aiIconSVG+'   Generate Text' +
+                      aiIconSVG+' Generate' +
                     ' </button>' +
-                    '</div>' +
                     '</div>' +
                     '' +
                     '</div>';
@@ -198,12 +192,14 @@ MWEditor.controllers = {
                     overlay: true,
                     overlayClose: true,
                     autoCenter: false,
-                    width: 300,
+                    width: 500,
                     position: {
                         x: rectActionTarget.left,
                         y: (rectActionTarget.top + 110)
                     }
                 });
+                aiTextAutocompleteDialog.dialogHeader.style.display = 'none';
+                aiTextAutocompleteDialog.dialogContainer.style.padding = '5px';
                 // aiTextAutocompleteDialog.overlay.style.backgroundColor = 'transparent';
 
 
