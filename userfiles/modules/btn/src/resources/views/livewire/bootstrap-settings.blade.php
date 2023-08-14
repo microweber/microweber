@@ -1,4 +1,4 @@
-<div>
+<div class="mb-3">
 
     <div>
         <label class="live-edit-label">Icon</label>
@@ -33,9 +33,22 @@
         ];
     @endphp
 
+    @php
+        $alignOptions = [
+            'left' => 'Left',
+            'center' => 'Center',
+            'right' => 'Right',
+        ];
+    @endphp
+
+    <div>
+        <label class="live-edit-label">{{__('Align')}} </label>
+        <livewire:microweber-option::radio-modern :options="$alignOptions" optionKey="align" :optionGroup="$moduleId" :module="$moduleType"  />
+    </div>
 
     <div>
         <label class="live-edit-label">{{__('Size')}} </label>
         <livewire:microweber-option::dropdown :dropdownOptions="$sizeOptions" optionKey="button_size" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
+
 </div>
