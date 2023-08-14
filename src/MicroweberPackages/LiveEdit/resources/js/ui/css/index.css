@@ -33,15 +33,15 @@ a {
     height: calc(100% - var(--toolbar-height));
     bottom: 0;
     transition: var(--toolbar-height-animation-speed);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    overflow: hidden;
 }
 
 #live-editor-frame {
-    position: absolute;
-    top: 0;
     width: 100%;
     height: 100%;
-    left: 50%;
-    transform: translateX(-50%);
     transition: width var(--toolbar-height-animation-speed);
 }
 

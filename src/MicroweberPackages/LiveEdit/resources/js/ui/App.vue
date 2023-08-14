@@ -11,12 +11,7 @@
 
 </template>
 
-<style>
-
-#live-edit-frame-holder {
-
-}
-</style>
+ 
 
 <script>
 

@@ -223,7 +223,10 @@ export class LiveEdit {
         };
 
         moduleHandle.on('targetChange', function (node) {
+ 
             scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
+
+                console.log(settings)
 
                 mw.app.liveEdit.moduleHandleContent.menu.setMenu('dynamic', settings);
                 moduleHandleContent.menu.setTarget(node);

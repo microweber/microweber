@@ -58,7 +58,7 @@ export const Draggable = function (options, rootSettings) {
     };
 
     this.$data = {}
-
+   
     this.helper = function (e, event) {
         
         if(!this._helper) {
@@ -68,7 +68,8 @@ export const Draggable = function (options, rootSettings) {
             this.settings.document.body.appendChild(this._helper);
         }
         if (e === 'create') {
-            var off = ElementManager( scope.element ).offset()
+            var off = ElementManager( scope.element ).offset();
+ 
             this.$data._calcMinus = {
                 y: (event.pageY - off.offsetTop),
                 x: (event.pageX - off.offsetLeft),
@@ -84,8 +85,11 @@ export const Draggable = function (options, rootSettings) {
             this.settings.document.documentElement.classList.remove('le-dragging')
         } else if(this.settings.helper && e) {
             
-            this._helper.style.top = (e.pageY -  this.$data._calcMinus.y) + 'px';
-            this._helper.style.left = (e.pageX -  this.$data._calcMinus.x) + 'px';
+            console.log(e.clientY);
+          
+            this._helper.style.top = (Math.abs(e.pageY) -  this.$data._calcMinus.y) + 'px';
+            this._helper.style.top = e.pageY + 'px';
+            this._helper.style.left = (Math.abs(e.pageX) -  this.$data._calcMinus.x) + 'px';
             // this._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX - 40) + 'px';
             this.settings.document.documentElement.classList.add('le-dragging')
         }
@@ -165,9 +169,33 @@ export const Draggable = function (options, rootSettings) {
       
         var handleEl = this.handle.get(0);
 
+        
  
          
         if(handleEl && !handleEl.$handleInit && handleEl.parentElement) {
+
+            function _dragHandle(e){
+
+                console.log(e.clientY);
+                return;
+                
+
+                var scrlStp = 90;
+                var step = 5;
+                if (e.clientY < scrlStp) {
+                    scroll(-step)
+                }
+                if (e.clientY > (innerHeight - (scrlStp + ( this._helper ? this._helper.offsetHeight + 10 : 0)))) {
+                    scroll(step)
+                }
+                e.dataTransfer.dropEffect = "none";
+                scope.dispatch('drag',{element: scope.element, event: e});
+                scope.helper(e)
+
+            }
+            this.handle.get(0).addEventListener('drag', function(e) {
+                _dragHandle(e)
+            })
  
             handleEl.$handleInit = true;
             this.handle.attr('draggable', 'true')
@@ -182,21 +210,16 @@ export const Draggable = function (options, rootSettings) {
                 e.dataTransfer.setData("text", scope.element.id);
                 e.dataTransfer.effectAllowed = "move";
 
+
+                let img = new Image();
+                img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+ 
+                e.dataTransfer.setDragImage(img, 1, 1);
+
                 scope.helper('create', e);
                 scope.dispatch('dragStart',{element: scope.element, event: e});
             })
             .on('drag', function (e) {
-                var scrlStp = 90;
-                var step = 5;
-                if (e.clientY < scrlStp) {
-                    scroll(-step)
-                }
-                if (e.clientY > (innerHeight - (scrlStp + ( this._helper ? this._helper.offsetHeight + 10 : 0)))) {
-                    scroll(step)
-                }
-                e.dataTransfer.dropEffect = "copy";
-                scope.dispatch('drag',{element: scope.element, event: e});
-                scope.helper(e)
 
             })
             .on('dragend', function (e) {
