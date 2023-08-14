@@ -41,7 +41,7 @@ export default {
 
             var modal = mw.dialogIframe({
                 url: src,
-                width: '400px',
+                width: '600px',
                 name: 'mw-add-content-editor-front',
                 title: 'Add content',
                 template: 'default',
