@@ -162,41 +162,105 @@ MWEditor.controllers = {
     },
     ai: function (scope, api, rootScope) {
         this.render = function () {
+            var aiIconSVG = '<svg color="gray.100" fill="currentColor" height="22" viewBox="0 0 22 22" width="22" xmlns="http://www.w3.org/2000/svg" class="ai-writer-container-1fy6kej"><path d="M12 0h-1L5 14h5v8h1l6-14h-5V0z"></path></svg>';
             var scope = this;
             var el = MWEditor.core.button({
                 props: {
-
-                    tooltip: rootScope.lang('AI edit'),
-                    innerHTML: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>flash</title><path d="M7,2V13H10V22L17,10H13L17,2H7Z" /></svg>'
+                    tooltip: rootScope.lang('AI Text Generator'),
+                    innerHTML: aiIconSVG
                 }
             });
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
-
                 var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLevel(node);
+                var actionTarget = mw.tools.firstBlockLevel(node);
 
+                var aiTextGeneratorHtml = '<div class="ai-text-generator-container">' +
+                    '' +
+                    '<div class="d-flex gap-2">' +
+                    '<input placeholder="What do you want to write? (Beta)" class="form-control" id="ai-text-generator-topic" />' +
+                    '<button class="btn" id="ai-text-generator-submit" type="button">' +
+                      aiIconSVG+' Generate' +
+                    ' </button>' +
+                    '</div>' +
+                    '' +
+                    '<div class="mt-2" id="ai-text-generator-options">' +
+                    '<div class="list-group">' +
+                    '  <button type="button" id="ai-text-generator-simplify" class="list-group-item list-group-item-action">Simplify</button>' +
+                    '  <button type="button" id="ai-text-generator-shorten" class="list-group-item list-group-item-action">Shorten</button>' +
+                    '  <button type="button" id="ai-text-generator-lengthen" class="list-group-item list-group-item-action">Lengthen</button>' +
+                    '  <button type="button" id="ai-text-generator-summarize" class="list-group-item list-group-item-action">Summarize</button>' +
+                    '  <button type="button" id="ai-text-generator-outline" class="list-group-item list-group-item-action">Outline</button>' +
+                    '  <button type="button" id="ai-text-generator-fix" class="list-group-item list-group-item-action">Fix Spelling and Grammar</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '' +
+                    '</div>';
+
+                var rectActionTarget = el.node.getBoundingClientRect();
+
+                var aiTextAutocompleteDialog = mw.dialog({
+                    content: aiTextGeneratorHtml,
+                    overlay: true,
+                    overlayClose: true,
+                    autoCenter: false,
+                    width: 500,
+                    position: {
+                        x: rectActionTarget.left,
+                        y: (rectActionTarget.top + 110)
+                    }
+                });
+                aiTextAutocompleteDialog.dialogHeader.style.display = 'none';
+                aiTextAutocompleteDialog.dialogContainer.style.padding = '5px';
+                // aiTextAutocompleteDialog.overlay.style.backgroundColor = 'transparent';
+
+                setTimeout(function() {
+                    document.getElementById('ai-text-generator-simplify').onclick = function () {
+                        document.getElementById('ai-text-generator-options').style.display = 'none';
+                        document.getElementById('ai-text-generator-topic').value = 'Simplify';
+                    };
+                    document.getElementById('ai-text-generator-shorten').onclick = function () {
+                        document.getElementById('ai-text-generator-options').style.display = 'none';
+                        document.getElementById('ai-text-generator-topic').value = 'Shorten';
+                    };
+                    document.getElementById('ai-text-generator-lengthen').onclick = function () {
+                        document.getElementById('ai-text-generator-options').style.display = 'none';
+                        document.getElementById('ai-text-generator-topic').value = 'Lengthen';
+                    }
+                    document.getElementById('ai-text-generator-summarize').onclick = function () {
+                        document.getElementById('ai-text-generator-options').style.display = 'none';
+                        document.getElementById('ai-text-generator-topic').value = 'Summarize';
+                    }
+                    document.getElementById('ai-text-generator-outline').onclick = function () {
+                        document.getElementById('ai-text-generator-options').style.display = 'none';
+                        document.getElementById('ai-text-generator-topic').value = 'Outline';
+                    }
+                    document.getElementById('ai-text-generator-fix').onclick = function () {
+                        document.getElementById('ai-text-generator-options').style.display = 'none';
+                        document.getElementById('ai-text-generator-topic').value = 'Fix Spelling and Grammar';
+                    }
+                }, 300);
+
+                document.getElementById('ai-text-generator-submit').onclick = function () {
+
+                    document.getElementById('ai-text-generator-submit').innerHTML = 'Generating...';
 
                     var mwAdapter = {
-                        url: 'https://textcomplete.microweberapi.com/?q=' + encodeURIComponent(actionTarget.textContent),
+                        url: 'https://textcomplete.microweberapi.com/?q=' + encodeURIComponent(actionTarget.textContent) + '&instruction=' + encodeURIComponent(document.getElementById('ai-text-generator-topic').value),
                         method: 'GET',
-                    }
+                    };
 
-
-
-                      fetch(mwAdapter.url, mwAdapter).then(function(res){
-
-                        res.json().then(function(json){
-
-                            actionTarget.innerHTML = actionTarget.innerHTML + ' '+ json.text
+                    fetch(mwAdapter.url, mwAdapter).then(function (res) {
+                        res.json().then(function (json) {
+                            actionTarget.innerHTML = actionTarget.innerHTML + ' ' + json.text;
+                            aiTextAutocompleteDialog.remove();
                         })
-
                     });
-
 
                     api.action(actionTarget.parentNode, function () {
                         console.log(actionTarget)
                     });
+                };
 
             });
             return el;
@@ -1017,7 +1081,7 @@ MWEditor.controllers = {
     },
     textColor: function (scope, api, rootScope) {
 
-       
+
         this.render = function () {
             var el = MWEditor.core.colorPicker({
                 displayDocument: mw.top().win.document,

@@ -1321,6 +1321,31 @@ input[type=number] {
     background: var(--tblr-body-bg);
 }
 
+.mw-iframe-admin  {
+    .row {
+        margin: 5px !important;
+        padding: 5px !important;
+    }
+
+    .mw-create-page-admin-wrapper {
+        height: 300px;
+
+        .preview_frame_container.preview-in-iframe {
+            height: 300px !important;
+        }
+
+        .preview_frame_container.preview-in-iframe iframe {
+            transform: scale(.25);
+            height: 3000px !important;
+        }
+    }
+}
+
+.mw-defaults.mw-tree-nav.mw-tree-nav-skin-default, #mw-tree-1 {
+    overflow-y: auto;
+    max-height: 380px;
+}
+
 .mw-create-page-admin-wrapper {
     position: relative;
 
@@ -1355,8 +1380,6 @@ input[type=number] {
         z-index: 3;
     }
 }
-
-
 
 .mw-content-vision-tabs {
     border-color: transparent !important;

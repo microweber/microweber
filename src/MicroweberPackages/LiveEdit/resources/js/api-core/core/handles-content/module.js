@@ -67,46 +67,40 @@ export const ModuleHandleContent = function (rootScope) {
         },
     ];
 
-
-    const tailMenu = [
-        {
-            "title": "Delete",
-            "icon": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" ><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"></path></svg>',
-            action: () => {
+    const tailMenuDelete = {
+        "title": "Delete",
+        "icon": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" ><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"></path></svg>',
+        action: () => {
 
 
-                Confirm(ElementManager('<span>Are you sure you want to delete this module?</span>'), () => {
+            Confirm(ElementManager('<span>Are you sure you want to delete this module?</span>'), () => {
 
-                    const target = mw.app.get('liveEdit').handles.get('module').getTarget();
-                    var type = target.dataset.type || target.getAttribute('type');
-                    type = type.trim();
-                    mw.app.registerChangedState(target)
-                    target.remove()
-                    mw.app.editor.dispatch('moduleRemoved', target);
-                    mw.app.editor.dispatch('modulet@'+type+'Removed', target);
-                    rootScope.moduleHandle.hide()
-                })
-
-
+                const target = mw.app.get('liveEdit').handles.get('module').getTarget();
+                var type = target.dataset.type || target.getAttribute('type');
+                type = type.trim();
+                mw.app.registerChangedState(target)
+                target.remove()
+                mw.app.editor.dispatch('moduleRemoved', target);
+                mw.app.editor.dispatch('modulet@'+type+'Removed', target);
+                rootScope.moduleHandle.hide()
+            })
 
 
-
-
-            },
-            onTarget: (target, selfNode) => {
-
-
-                if(this.tools.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
-                    selfNode.style.display = '';
-                } else {
-                    selfNode.style.display = 'none';
-                }
-            },
         },
-        {
+        onTarget: (target, selfNode) => {
+
+
+            if(this.tools.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
+                selfNode.style.display = '';
+            } else {
+                selfNode.style.display = 'none';
+            }
+        },
+    };
+
+    const tailMenuFavorite = {
             "title": "...",
-            "icon": '\n' +
-                '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>',
+            "icon": '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>',
             action: (el) => {
 
                 if(el) {
@@ -123,10 +117,28 @@ export const ModuleHandleContent = function (rootScope) {
                     selfNode.style.display = 'none';
                 }
             },
-        }
-    ]
+    };
 
-
+    const tailMenu = [
+        {
+            title: 'Quick Settings',
+            icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg>',
+            menu: [
+                 {
+                    name: 'Delete',
+                    nodes: [
+                        tailMenuDelete,
+                    ]
+                },
+                {
+                    name: 'Favorite',
+                    nodes: [
+                        tailMenuFavorite,
+                    ]
+                },
+            ]
+        },
+    ];
 
     this.menu = new HandleMenu({
         id: 'mw-handle-item-element-menu',
@@ -152,14 +164,12 @@ export const ModuleHandleContent = function (rootScope) {
 
     this.menu.show();
 
-
     this.menusHolder = document.createElement('div');
     this.menusHolder.className = 'mw-handle-item-menus-holder';
 
 
     this.menusHolder.append(this.menu.root.get(0));
     this.root.append(this.menusHolder);
-
 
 };
 

@@ -228,8 +228,6 @@ if ($action == 'popup') { ?>
 
     <script type="text/microweber" id="area<?php print $btn_id; ?>">
         <?php print $action_content; ?>
-
-
     </script>
 
     <script>

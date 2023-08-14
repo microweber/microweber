@@ -4,7 +4,7 @@ import {Tooltip} from "./tooltip.js";
 export const HandleMenu = function(options) {
 
     this.options = options || {};
- 
+
 
     var scope = this;
 
@@ -70,29 +70,29 @@ export const HandleMenu = function(options) {
     };
 
     this.setTarget = function (target) {
-         
+
         _target = target;
         var i = 0;
 
         this.rebuildButtons();
-       
+
         setTimeout(() => {
             for ( ; i < this.buttons.length; i++) {
                 const config = this.buttons[i].config;
                 const button = this.buttons[i].button;
-           
+
                 if(config && config.onTarget) {
                     config.onTarget(target, button.get(0), scope.options.rootScope);
                 }
             }
-           
+
             if(options.handleScope) {
-              
+
                 options.handleScope.handle.draggable.handleInit();
             }
-             
+
         })
- 
+
 
     };
 
@@ -103,12 +103,12 @@ export const HandleMenu = function(options) {
         titleIcon.html( icon || '');
     };
 
- 
+
 
     this.buttons = [];
     this.prepareMenu = function() {
         this.buttons = [];
- 
+
     }
 
     this.getMenu = function(name) {
@@ -117,7 +117,7 @@ export const HandleMenu = function(options) {
                 return this.options.menus[i].name;
             }
         }
-        
+
     }
     this.setMenu = function(name, nodes) {
         let found = false;
@@ -135,24 +135,24 @@ export const HandleMenu = function(options) {
         this.rebuildButtons()
     }
 
-    
+
 
     this.rebuildButtons = function() {
-      
+
         this.buttonsHolder.empty();
         this.buildButtons();
     }
 
     this.buildButtons = function (menu, btnHolder){
         this.prepareMenu();
-        
+
         btnHolder = btnHolder || this.buttonsHolder;
         menu = menu || this.options.menus;
 
         if(!menu) {
             return;
         }
-         
+
         menu.filter(itm => !!itm).forEach(function (itm){
             if(itm.nodes && itm.nodes.forEach) {
                 itm.nodes.forEach(function (btn){
@@ -160,14 +160,14 @@ export const HandleMenu = function(options) {
                 });
             } else if(itm.title || itm.icon) {
                 scope.button(itm)
-            }            
+            }
         });
 
     };
 
     this.button = function (conf){
-     
- 
+
+
         var btn = ElementManager({
             props: {
                 className: 'mw-le-handle-menu-button' + (conf.className ? ' ' + conf.className : '')
@@ -238,9 +238,6 @@ export const HandleMenu = function(options) {
         this.setTitle(scope.options.title, scope.options.icon);
         this.buildButtons();
         this.hide();
-
-        
-
     }
     this.init()
 
