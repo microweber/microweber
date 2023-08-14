@@ -1321,9 +1321,31 @@ input[type=number] {
     background: var(--tblr-body-bg);
 }
 
+.mw-iframe-admin  {
+    .row {
+        margin: 5px !important;
+        padding: 5px !important;
+    }
+
+    .mw-create-page-admin-wrapper {
+        height: 300px;
+
+        .preview_frame_container.preview-in-iframe {
+            height: 300px !important;
+        }
+
+        .preview_frame_container.preview-in-iframe iframe {
+            transform: scale(.25);
+            height: 3000px !important;
+        }
+    }
+}
+
+
+
+
 .mw-create-page-admin-wrapper {
     position: relative;
-    max-height: 750px;
 
     #mw-create-page-card-overlay {
         position: absolute;
@@ -1355,14 +1377,7 @@ input[type=number] {
         right: 41%;
         z-index: 3;
     }
-
-    .preview_frame_container.preview-in-iframe iframe {
-            transform: scale(.25);
-            height: 3000px !important;
-    }
 }
-
-
 
 .mw-content-vision-tabs {
     border-color: transparent !important;
