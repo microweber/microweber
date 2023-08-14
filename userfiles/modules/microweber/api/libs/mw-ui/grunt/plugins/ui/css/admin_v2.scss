@@ -1341,8 +1341,10 @@ input[type=number] {
     }
 }
 
-
-
+.mw-defaults.mw-tree-nav.mw-tree-nav-skin-default, #mw-tree-1 {
+    overflow-y: auto;
+    max-height: 380px;
+}
 
 .mw-create-page-admin-wrapper {
     position: relative;
