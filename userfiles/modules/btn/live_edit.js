@@ -45,7 +45,7 @@ let currentAlignBtnIcon = alignBtnCenterIcon;
                         text: '',
                         icon: alignBtnRightIcon,
                         action: function (el) {
-                            saveBtnAlign(el,moduleType, 'right');
+                            saveBtnAlign(el, 'right');
                         }
                     },
                 ]
