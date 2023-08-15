@@ -236,7 +236,7 @@ showEditTab: 'main'
                     <?php _e('Delete'); ?>
                 </x-microweber-ui::danger-button>
             </x-slot>
-        </x-microweber-ui::dialog-modal> 
+        </x-microweber-ui::dialog-modal>
 
     </div>
 
