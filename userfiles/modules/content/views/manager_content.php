@@ -103,7 +103,7 @@
                                                     <?php foreach ($cats as $ck => $cat): ?>
                                                         <a href="#action=showpostscat:<?php print ($cat['id']); ?>" class="btn btn-link p-0 text-muted"><?php print $cat['title']; ?></a><?php if (isset($cats[$ck + 1])): ?>,<?php endif; ?>
                                                     <?php endforeach; ?>
-                                                </span>
+                                                </span> 
                                             <?php endif; ?>
 
                                             <?php if ($tags): ?>
@@ -120,15 +120,14 @@
                                         </div>
 
                                         <div class="manage-post-item-links">
-                                            dd
                                             <?php
                                             if (user_can_access('module.content.edit')):
                                                 ?>
-                                                <a href="<?php echo $edit_link; ?>" class="btn btn-outline-success btn-sm">
+                                                <a href="<?php echo $edit_link; ?>?live_edit=true" class="btn btn-outline-success btn-sm">
                                                     <?php echo $edit_text; ?>
                                                 </a>
 
-                                                <a target="<?php echo $target; ?>" class="btn btn-outline-primary btn-sm" href="<?php print $content_link; ?>?editmode:y">
+                                                <a target="<?php echo $target; ?>?live_edit=true" class="btn btn-outline-primary btn-sm" href="<?php print $content_link; ?>?editmode:y">
                                                     <?php echo $live_edit_text; ?>
                                                 </a>
                                                 <?php

@@ -243,12 +243,12 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
         <div class="tab-pane fade show active" id="list">
             <div class="text-end text-right">
                 <?php if (isset($params['global'])): ?>
-                    <a href="<?php print route('admin.page.create'); ?>" class="btn btn-success btn-sm"   style="position: absolute;top: 12px;right: 12px;z-index: 2;"><i class="mdi mdi-<?php print trim($set_content_type_mod); ?>"></i>
+                    <a href="<?php print route('admin.page.create'); ?>?live_edit=true" class="btn btn-success btn-sm"   style="position: absolute;top: 12px;right: 12px;z-index: 2;"><i class="mdi mdi-<?php print trim($set_content_type_mod); ?>"></i>
                         <?php _e("Add new page"); ?> </a>
                 <?php elseif ($is_shop) : ?>
-                    <a href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-sm" ><i class="mdi mdi-shopping"></i> <?php _e("New Product"); ?></a>
+                    <a href="<?php print route('admin.product.create'); ?>?live_edit=true" class="btn btn-success btn-sm" ><i class="mdi mdi-shopping"></i> <?php _e("New Product"); ?></a>
                 <?php else : ?>
-                    <a href="<?php print route('admin.post.create'); ?>" class="btn btn-success btn-sm" ><i class="mdi mdi-text"></i> <?php _e("New Post"); ?></a>
+                    <a href="<?php print route('admin.post.create'); ?>?live_edit=true" class="btn btn-success btn-sm" ><i class="mdi mdi-text"></i> <?php _e("New Post"); ?></a>
                 <?php endif; ?>
             </div>
 
