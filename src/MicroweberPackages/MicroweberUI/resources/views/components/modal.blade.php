@@ -14,17 +14,26 @@ $maxWidth = [
 <!-- Modal -->
 
 <div x-data="{
+        mwDialogComponentUi: false,
         show: @entangle($attributes->wire('model')).defer,
     }"
     x-init="() => {
 
-        let mwDialogComponent = false;
-        let el = document.getElementById('modal-id-{{ $id }}')
+      el = document.getElementById('modal-id-{{ $id }}')
+      
+      close = document.getElementById('js-close-modal-{{ $id }}');
+       if (close) {
+            close.addEventListener('click', () => {
+                show = false;
+            });
+       }
 
         $watch('show', value => {
+
             if (value) {
+
              el.style.display = 'block';
-             mwDialogComponent = mw.top().dialog({
+             this.mwDialogComponentUi = mw.top().dialog({
                 content: el,
                 overlay: true,
                 overlayClose: true,
@@ -32,12 +41,12 @@ $maxWidth = [
                     show = false;
                 },
              });
-             mwDialogComponent.dialogHeader.style.display = 'none';
-             mwDialogComponent.dialogContainer.style.padding = '0px';
+             this.mwDialogComponentUi.dialogHeader.style.display = 'none';
+             this.mwDialogComponentUi.dialogContainer.style.padding = '0px';
 
             } else {
-               if (mwDialogComponent) {
-                mwDialogComponent.remove();
+               if (this.mwDialogComponentUi) {
+                this.mwDialogComponentUi.remove();
               }
             }
        });
@@ -53,8 +62,10 @@ $maxWidth = [
 
     x-ref="modal-id-{{ $id }}"
 >
-    <div class="mw-modal-dialog{{ $maxWidth }}">
-        {{ $slot }}
+    <div class="mw-modal">
+        <div class="mw-modal-dialog{{ $maxWidth }}">
+            {{ $slot }}
+        </div>
     </div>
 
 </div>
