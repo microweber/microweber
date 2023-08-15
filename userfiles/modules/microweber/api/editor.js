@@ -1009,22 +1009,10 @@ var MWEditor = function (options) {
                 var clipboardData, pastedData;
                 var e = event.originalEvent || event; 
 
-                // Stop data actually being pasted into div
-                
+               
 
                 if(e.type === 'paste') {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    clipboardData = e.clipboardData || window.clipboardData;
-                   
-                    if(clipboardData) {
-                        pastedData = clipboardData.getData('text/html');
-
-                        if(pastedData) {
-                                
-                        }
-     
-                    }
+ 
     
                   
                      
