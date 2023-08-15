@@ -85,7 +85,7 @@ showEditTab: 'main'
                     <div x-show="showEditTab=='main'" x-transition:enter="tab-pane-slide-left-active">
                         <div class="row row-cards">
                             <div class="col-12">
-                                <div class="card">
+                                <div class="card shadow-none">
 
 
                                     <div class="mt-2">
@@ -236,7 +236,7 @@ showEditTab: 'main'
                     <?php _e('Delete'); ?>
                 </x-microweber-ui::danger-button>
             </x-slot>
-        </x-microweber-ui::dialog-modal>
+        </x-microweber-ui::dialog-modal> 
 
     </div>
 
