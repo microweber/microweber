@@ -1,69 +1,9 @@
 {
-  "_bootstrap-03fb597a.js": {
-    "css": [
-      "assets/bootstrap-0c9bf954.css"
-    ],
-    "file": "assets/bootstrap-03fb597a.js"
-  },
-  "_bootstrap-1aec775d.js": {
-    "css": [
-      "assets/bootstrap-0c9bf954.css"
-    ],
-    "file": "assets/bootstrap-1aec775d.js"
-  },
   "_bootstrap-43700fb8.js": {
     "css": [
       "assets/bootstrap-0c9bf954.css"
     ],
     "file": "assets/bootstrap-43700fb8.js"
-  },
-  "_bootstrap-50cdc1be.js": {
-    "css": [
-      "assets/bootstrap-0c9bf954.css"
-    ],
-    "file": "assets/bootstrap-50cdc1be.js"
-  },
-  "_bootstrap-76de8c29.js": {
-    "css": [
-      "assets/bootstrap-0c9bf954.css"
-    ],
-    "file": "assets/bootstrap-76de8c29.js"
-  },
-  "_bootstrap-9178ae05.js": {
-    "css": [
-      "assets/bootstrap-0c9bf954.css"
-    ],
-    "file": "assets/bootstrap-9178ae05.js"
-  },
-  "_bootstrap-99a77590.js": {
-    "css": [
-      "assets/bootstrap-0c9bf954.css"
-    ],
-    "file": "assets/bootstrap-99a77590.js"
-  },
-  "_bootstrap-9aa719ef.js": {
-    "css": [
-      "assets/bootstrap-0c9bf954.css"
-    ],
-    "file": "assets/bootstrap-9aa719ef.js"
-  },
-  "_bootstrap-a61f965a.js": {
-    "css": [
-      "assets/bootstrap-0c9bf954.css"
-    ],
-    "file": "assets/bootstrap-a61f965a.js"
-  },
-  "_bootstrap-b9c25f6d.js": {
-    "css": [
-      "assets/bootstrap-0c9bf954.css"
-    ],
-    "file": "assets/bootstrap-b9c25f6d.js"
-  },
-  "_bootstrap-d7cee80b.js": {
-    "css": [
-      "assets/bootstrap-0c9bf954.css"
-    ],
-    "file": "assets/bootstrap-d7cee80b.js"
   },
   "bootstrap.css": {
     "file": "assets/bootstrap-0c9bf954.css",
