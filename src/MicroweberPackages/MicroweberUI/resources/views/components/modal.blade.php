@@ -20,7 +20,7 @@ $maxWidth = [
     x-init="() => {
 
       el = document.getElementById('modal-id-{{ $id }}')
-      
+
       close = document.getElementById('js-close-modal-{{ $id }}');
        if (close) {
             close.addEventListener('click', () => {
@@ -45,6 +45,7 @@ $maxWidth = [
              this.mwDialogComponentUi.dialogContainer.style.padding = '0px';
 
             } else {
+               console.log(this.mwDialogComponentUi);
                if (this.mwDialogComponentUi) {
                 this.mwDialogComponentUi.remove();
               }
