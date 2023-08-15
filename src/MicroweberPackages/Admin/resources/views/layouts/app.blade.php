@@ -1,6 +1,5 @@
 @php
 
-
 if(!isset($options)){
  $options = [];
 }
@@ -27,30 +26,21 @@ if(isset($_GET['iframeMode']) and $_GET['iframeMode']){
     $options['iframeMode'] = true;
 }
 
+$options['quickContentAdd'] = false;
 if(isset($_GET['quickContentAdd']) and $_GET['quickContentAdd']){
     $options['quickContentAdd'] = true;
 }
-
 @endphp
-
 
 @include('admin::layouts.partials.header',$options)
 
-
-
 @hasSection('content')
 
-
      <main class="module-main-holder page-wrapper" id="admin-side-content">
-        @if(isset($options['disableTopBar']) and  $options['disableTopBar'] == false)
-            @include('admin::layouts.partials.topbar2')
-        @endif
 
-         @if(isset($options['quickContentAdd']) and $options['quickContentAdd'] != false)
-            @include('admin::layouts.partials.topbar2', ['quickContentAdd' => true])
-        @endif
-
-
+         @if(!$options['quickContentAdd'])
+             @include('admin::layouts.partials.topbar2')
+         @endif
 
        <div class="page-body  @if(isset($options['iframe'])) page-body-iframe @endif"  >
            @yield('content')
