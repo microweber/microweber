@@ -4,7 +4,7 @@ namespace MicroweberPackages\LiveEdit\Http\Livewire\Presets;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
-//class ModulePresetsManager extends AdminComponent
+
 class ModulePresetsManager extends AdminComponent
 {
     public $view = "microweber-live-edit::presets.module-presets-manager";
@@ -30,14 +30,15 @@ class ModulePresetsManager extends AdminComponent
 
     public function submit()
     {
-        $this->validate([
-            'itemState.name' => 'required|string',
-            'itemState.module' => 'required|string',
-            'itemState.module_attrs' => 'required',
-            'itemState.module_id' => 'required',
-        ]);
+        $rules = [];
+        $schema = $this->getEditorSettings()['schema'];
 
-
+        foreach ($schema as $field) {
+            if (isset($field['name']) && isset($field['rules'])) {
+                $rules['itemState.' . $field['name']] = $field['rules'];
+            }
+        }
+        $this->validate($rules);
 
         $savePreset = [];
         $savePreset['name'] = $this->itemState['name'];
@@ -61,6 +62,7 @@ class ModulePresetsManager extends AdminComponent
                 'deleteButtonText' => 'Delete',
                 'sortItems' => true,
                 'settingsKey' => 'settings',
+                'additionalButtonsView' => 'microweber-live-edit::presets.select-preset-button',
                 'listColumns' => [
                     'name' => 'name',
                 ],
@@ -76,16 +78,19 @@ class ModulePresetsManager extends AdminComponent
                 ],
                 [
                     'type' => 'textarea',
+                    'rules' => 'required|string',
                     'name' => 'module',
                     'label' => 'module',
                 ],
                 [
                     'type' => 'textarea',
+                    'rules' => 'required|string',
                     'name' => 'module_attrs',
                     'label' => 'module_attrs',
                 ],
                 [
                     'type' => 'textarea',
+                    'rules' => 'required|string',
                     'name' => 'module_id',
                     'label' => 'module_id',
                 ]

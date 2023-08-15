@@ -40,7 +40,10 @@ if(isset($_GET['quickContentAdd']) and $_GET['quickContentAdd']){
 
          @if(!$options['quickContentAdd'])
              @include('admin::layouts.partials.topbar2')
+         @elseif(isset($options['quickContentAdd']) and $options['quickContentAdd'] != false)
+             @include('admin::layouts.partials.topbar2', ['quickContentAdd' => true])
          @endif
+
 
        <div class="@if(isset($options['iframe'])) page-body-iframe @else page-body @endif"  >
            @yield('content')

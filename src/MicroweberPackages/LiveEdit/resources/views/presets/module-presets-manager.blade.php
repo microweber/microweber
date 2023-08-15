@@ -7,13 +7,11 @@
     <br>
 
 
-    aaaaaaa
-
-    <x-microweber-ui::button type="button">@lang('Save preset')</x-microweber-ui::button>
+    <x-microweber-ui::button type="button">@lang('Save as preset')</x-microweber-ui::button>
 
 
-    <div  x-transition:enter-end="tab-pane-slide-left-active"
-          x-transition:enter="tab-pane-slide-left-active">
+    <div x-transition:enter-end="tab-pane-slide-left-active"
+         x-transition:enter="tab-pane-slide-left-active">
 
         @include('microweber-live-edit::module-items-editor-list-items')
 
@@ -23,8 +21,8 @@
     <div>
 
 
-        <div  x-transition:enter-end="tab-pane-slide-right-active"
-              x-transition:enter="tab-pane-slide-right-active">
+        <div x-transition:enter-end="tab-pane-slide-right-active"
+             x-transition:enter="tab-pane-slide-right-active">
 
             <form wire:submit.prevent="submit">
 

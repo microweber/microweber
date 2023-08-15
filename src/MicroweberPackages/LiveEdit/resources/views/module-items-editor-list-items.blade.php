@@ -72,6 +72,14 @@
             $sortItems = $editorSettings['config']['sortItems'];
         }
     }
+    if (!isset($additionalButtonsView)) {
+        $additionalButtonsView = false;
+        if (isset($editorSettings['config']['additionalButtonsView'])) {
+            $additionalButtonsView = $editorSettings['config']['additionalButtonsView'];
+        }
+
+
+    }
 
     ?>
 
@@ -126,6 +134,12 @@
                                         </div>
                                     @endif
                                     <div class="col-auto d-flex align-items-center">
+
+
+                                        @if(isset($additionalButtonsView) && $additionalButtonsView)
+                                            @include($additionalButtonsView)
+                                        @endif
+
                                         <x-microweber-ui::button-action type="button" :tooltip="$deleteButtonText"
                                                                          wire:click="$emit('showConfirmDeleteItemById', '{{ $itemId }}')">
                                                 <?php print $deleteButtonIconSvg ?>
