@@ -41,7 +41,9 @@
 
         <div class="row row-cards px-3">
 
-            <div class="col-xxl-4 col-lg-6 col-12 pe-lg-6 ps-lg-0 pt-3 mb-4">
+            <div class="col-xxl-4 col-lg-6 col-12 pe-lg-6 ps-lg-0 pt-3 mb-2">
+
+                <h2 class="mt-3 mb-2 font-weight-bold">{{_e("Clean Page")}} </h2>
 
                 <a href="{{route('admin.page.create')}}?layout=clean{{$parent_page_param}}" class="card card-link card-link-pop mw-create-page-admin-wrapper">
                     <div id="mw-create-page-card-overlay"></div>
@@ -57,8 +59,6 @@
                     </span>
 
                 </a>
-                <h2 class="mt-3 mb-2 font-weight-bold">{{_e("Clean Page")}} </h2>
-                    <p>{{ _e("Start clean with a blank page and create a page layout of your own design.") }}</p>
 
 
             </div>
@@ -95,7 +95,20 @@
 
                 @endphp
 
-                <div class="col-xxl-4 col-lg-6 col-12 pe-lg-6 ps-lg-0 pt-3 mb-4 ">
+                <div class="col-xxl-4 col-lg-6 col-12 pe-lg-6 ps-lg-0 pt-3 mb-2 ">
+
+
+                    <h2 class="mt-3 mb-2 font-weight-bold">
+                        {{$layout['name']}}
+                        @if($isDynamic)
+                            <span class="live-edit-label  d-inline-block"><?php _e('Dynamic page') ?></span>
+                        @endif
+                        @if($isShop)
+                            <span class="live-edit-label  d-inline-block"><?php _e('Shop page') ?></span>
+                        @endif
+
+                    </h2>
+                    
                     <div class="card mw-create-page-admin-wrapper">
                         <div id="mw-create-page-card-overlay"></div>
                         @php
@@ -111,18 +124,6 @@
                             </a>
                         </div>
                     </div>
-
-                    <h2 class="mt-3 mb-2 font-weight-bold">{{$layout['name']}}
-                        @if($isDynamic)
-                            <span class="live-edit-label  d-inline-block"><?php _e('Dynamic page') ?></span>
-                        @endif
-                        @if($isShop)
-                            <span class="live-edit-label  d-inline-block"><?php _e('Shop page') ?></span>
-                        @endif
-
-                    </h2>
-                    <p>  {{ _e("Start clean with a blank page and create a page layout of your own design.") }}</p>
-
 
                 </div>
 
