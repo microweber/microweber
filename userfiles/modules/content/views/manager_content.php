@@ -103,7 +103,7 @@
                                                     <?php foreach ($cats as $ck => $cat): ?>
                                                         <a href="#action=showpostscat:<?php print ($cat['id']); ?>" class="btn btn-link p-0 text-muted"><?php print $cat['title']; ?></a><?php if (isset($cats[$ck + 1])): ?>,<?php endif; ?>
                                                     <?php endforeach; ?>
-                                                </span> 
+                                                </span>
                                             <?php endif; ?>
 
                                             <?php if ($tags): ?>
