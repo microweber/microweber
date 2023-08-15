@@ -442,41 +442,55 @@ export class LiveEdit {
 
      _hoverAndSelectExceptions = (target) => {
         if(target) {
-        if (target && target.classList && target.classList.contains('module-custom-fields')) {
-            var form = DomService.firstParentOrCurrentWithClass(target, 'module-contact-form');
-            if (form) {
-                target = form;
-            }
-        }
-
-
-        if (target && target.parentNode && target.parentNode.getAttribute('rel') === 'module') {
-            if(typeof target.parentNode !== 'undefined'){
-                try {
-                    target = DomService.firstParentOrCurrentWithAnyOfClasses(target.parentNode, ['element', 'module', 'cloneable', 'layout', 'edit']);
-                    if (!target) {
-                        return target;
-                    }
-                } catch (error) {
-
+            if (target && target.classList && target.classList.contains('module-custom-fields')) {
+                var form = DomService.firstParentOrCurrentWithClass(target, 'module-contact-form');
+                if (form) {
+                    target = form;
                 }
             }
-        }
 
 
-        if (target && target.parentNode && target.parentNode.classList.contains('module-layouts')) {
-            target = target.parentNode
-        }
+            if (target && target.parentNode && target.parentNode.getAttribute('rel') === 'module') {
+                if(typeof target.parentNode !== 'undefined'){
+                    try {
+                        target = DomService.firstParentOrCurrentWithAnyOfClasses(target.parentNode, ['element', 'module', 'cloneable', 'layout', 'edit']);
+                        if (!target) {
+                            return target;
+                        }
+                    } catch (error) {
 
-
-
-
-        if(target && target.classList.contains('mw-empty-element') || target.classList.contains('mw-col-container')){
-            const col = DomService.firstParentOrCurrentWithClass(target, 'mw-col');
-            if(col) {
-                target = col
+                    }
+                }
             }
-        }
+
+
+            if (target && target.parentNode && target.parentNode.classList.contains('module-layouts')) {
+                target = target.parentNode
+            }
+
+
+
+
+            if(target && target.classList.contains('mw-empty-element') || target.classList.contains('mw-col-container')){
+                const col = DomService.firstParentOrCurrentWithClass(target, 'mw-col');
+                if(col) {
+                    target = col
+                }
+            }
+
+            if(!target.classList.contains('cloneable')) {
+                const hasCloneable = DomService.firstParentOrCurrentWithClass(target.parentElement, 'cloneable');
+                if(hasCloneable) {
+                    if((target.offsetTop - hasCloneable.offsetTop) < 5) {
+                        target = hasCloneable;
+                        hasCloneable.classList.add('element')
+                        
+                    } else {
+                        hasCloneable.classList.remove('element')
+                    }
+                    
+                }
+            }
         }
 
         return target

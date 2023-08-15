@@ -43,6 +43,8 @@ export const pagePreviewToggle = function () {
                 html.mw-le--page-preview .mw-control-box,
                 html.mw-le--page-preview .mw-control-box,
                 html.mw-le--page-preview .mw-cloneable-control,
+                html.mw-le--page-preview .mw-bg-image-handles,
+                html.mw-le--page-preview .mw-small-editor,
                 html.mw-le--page-preview #live_edit_toolbar_holder
                 {
                     display: none !important
