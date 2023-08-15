@@ -19,6 +19,7 @@ if (isset($iframeMode) and $iframeMode) {
         $appendIframeModeSuffix .= '&quickContentAdd=true';
     }
 
+
 }
 
 

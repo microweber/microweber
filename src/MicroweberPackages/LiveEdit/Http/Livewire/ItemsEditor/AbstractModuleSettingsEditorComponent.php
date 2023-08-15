@@ -67,6 +67,8 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         $this->selectedItemsIds = [$itemId];
     }
 
+
+
     public function confirmDeleteSelectedItems()
     {
 

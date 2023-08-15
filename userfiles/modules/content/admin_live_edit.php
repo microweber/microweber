@@ -121,11 +121,19 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 ?>
 
 <script type="text/javascript">
+
     resizeModal = function (w, h) {
-        if (window.thismodal && thismodal.resize) {
-            thismodal.resize(w, h);
-            thismodal.center();
-        }
+
+        setTimeout(function() {
+            console.log(thismodal);
+        },300);
+
+        mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
+
+        // if (thismodal) {
+        //     thismodal.resize(w, h);
+        //     thismodal.center();
+        // }
     };
 
     mw.on.hashParam("action", function (pval) {
@@ -216,10 +224,7 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
     }
 
     $(mwd).ready(function () {
-        if(window.thismodal){
-        thismodal.width('800px');
-        resizeModal()
-        }
+        resizeModal();
     });
 </script>
 
@@ -235,18 +240,15 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 
     <div class="tab-content py-3">
 
-
-
-
         <div class="tab-pane fade show active" id="list">
             <div class="text-end text-right">
                 <?php if (isset($params['global'])): ?>
-                    <a href="<?php print route('admin.page.create'); ?>" class="btn btn-success btn-sm"   style="position: absolute;top: 12px;right: 12px;z-index: 2;"><i class="mdi mdi-<?php print trim($set_content_type_mod); ?>"></i>
+                    <a href="<?php print route('admin.page.create'); ?>?live_edit=true" class="btn btn-success btn-sm"   style="position: absolute;top: 12px;right: 12px;z-index: 2;"><i class="mdi mdi-<?php print trim($set_content_type_mod); ?>"></i>
                         <?php _e("Add new page"); ?> </a>
                 <?php elseif ($is_shop) : ?>
-                    <a href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-sm" ><i class="mdi mdi-shopping"></i> <?php _e("New Product"); ?></a>
+                    <a href="<?php print route('admin.product.create'); ?>?live_edit=true" class="btn btn-success btn-sm" ><i class="mdi mdi-shopping"></i> <?php _e("New Product"); ?></a>
                 <?php else : ?>
-                    <a href="<?php print route('admin.post.create'); ?>" class="btn btn-success btn-sm" ><i class="mdi mdi-text"></i> <?php _e("New Post"); ?></a>
+                    <a href="<?php print route('admin.post.create'); ?>?live_edit=true" class="btn btn-success btn-sm" ><i class="mdi mdi-text"></i> <?php _e("New Post"); ?></a>
                 <?php endif; ?>
             </div>
 
