@@ -121,11 +121,19 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 ?>
 
 <script type="text/javascript">
+
     resizeModal = function (w, h) {
-        if (window.thismodal && thismodal.resize) {
-            thismodal.resize(w, h);
-            thismodal.center();
-        }
+
+        setTimeout(function() {
+            console.log(thismodal);
+        },300);
+
+        mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
+
+        // if (thismodal) {
+        //     thismodal.resize(w, h);
+        //     thismodal.center();
+        // }
     };
 
     mw.on.hashParam("action", function (pval) {
@@ -216,10 +224,7 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
     }
 
     $(mwd).ready(function () {
-        if(window.thismodal){
-        thismodal.width('800px');
-        resizeModal()
-        }
+        resizeModal();
     });
 </script>
 
@@ -234,9 +239,6 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
     </nav>
 
     <div class="tab-content py-3">
-
-
-
 
         <div class="tab-pane fade show active" id="list">
             <div class="text-end text-right">
