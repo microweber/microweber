@@ -4,68 +4,61 @@ namespace MicroweberPackages\FormBuilder\Http\Livewire;
 
 
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
+use MicroweberPackages\FormBuilder\Repositories\FormItemsRepositoryInterface;
 
 class AbstractFormBuilder extends AdminComponent
 {
-    public $model = null;
+
+    public $items = [];
+    public $item = null;
+
+    public $view = 'microweber-form-builder::livewire.form-builder.main';
+
+    public FormItemsRepositoryInterface $itemsRepository;
+
 
     public function getFormConfig(): array
     {
+
         $editorSettings = [
             'config' => [
-                'title' => 'Edit post',
-
+                'title' => 'Accordion',
+                'addButtonText' => 'Add accordion item',
+                'editButtonText' => 'Edit accordion item',
+                'deleteButtonText' => 'Delete accordion item',
+                'sortItems' => true,
+                'settingsKey' => 'settings',
+                'listColumns' => [
+                    'icon' => 'icon',
+                    'title' => 'title',
+                ],
             ],
             'schema' => [
                 [
                     'type' => 'text',
-                    'rules' => 'required|min:2|max:255',
-                    'label' => 'Title',
-                    'name' => 'title',
-                    'placeholder' => 'Enter title',
-                    'help' => 'Enter title',
-                ], [
-                    'type' => 'slug',
-                    'rules' => 'required|min:2|max:255',
                     'label' => 'Title',
                     'name' => 'title',
                     'placeholder' => 'Enter title',
                     'help' => 'Enter title',
                 ],
                 [
-                    'type' => 'textarea-multilanguage',
-                    'rules' => 'required|min:2|max:255',
-                    'label' => 'Title',
-                    'name' => 'title',
-                    'placeholder' => 'Enter title',
-                    'help' => 'Enter title',
-                ],
-
-                [
-                    'type' => 'text',
-                    'value' => 'post',
-                    'name' => 'content_type',
-                    'label' => 'content_type',
-                ],
-
-                [
-                    'type' => 'text',
-                    'value' => 'post',
-                    'name' => 'content_subtype',
-                    'label' => 'content_subtype',
-
-                ],
-                [
-                    'type' => 'textarea',
-                    'label' => 'Content body',
-                    'name' => 'content_body',
-                    'label' => 'content_body',
+                    'type' => 'icon',
+                    'label' => 'Icon',
+                    'placeholder' => 'Icon',
+                    'name' => 'icon',
                 ]
 
             ]
         ];
 
         return $editorSettings;
-
     }
+
+
+    public function render()
+    {
+        return view($this->view);
+    }
+
+
 }
