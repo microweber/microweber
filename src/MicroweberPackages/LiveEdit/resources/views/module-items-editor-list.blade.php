@@ -85,7 +85,7 @@ showEditTab: 'main'
                     <div x-show="showEditTab=='main'" x-transition:enter="tab-pane-slide-left-active">
                         <div class="row row-cards">
                             <div class="col-12">
-                                <div class="card">
+                                <div class="card shadow-none">
 
 
                                     <div class="mt-2">
@@ -223,18 +223,21 @@ showEditTab: 'main'
 
     <div>
         <x-microweber-ui::dialog-modal wire:model="areYouSureDeleteModalOpened">
+
             <x-slot name="title">
                 <?php _e('Are you sure?'); ?>
             </x-slot>
             <x-slot name="content">
                 <?php _e('Are you sure want to delete this?'); ?>
-
             </x-slot>
 
             <x-slot name="footer">
-                <x-microweber-ui::danger-button wire:click="confirmDeleteSelectedItems()" wire:loading.attr="disabled">
+                <x-microweber-ui::button-animation wire:click="$toggle('areYouSureDeleteModalOpened')" wire:loading.attr="disabled">
+                    <?php _e('Cancel'); ?>
+                </x-microweber-ui::button-animation>
+                <x-microweber-ui::button-animation class="text-danger" wire:click="confirmDeleteSelectedItems()" wire:loading.attr="disabled">
                     <?php _e('Delete'); ?>
-                </x-microweber-ui::danger-button>
+                </x-microweber-ui::button-animation>
             </x-slot>
         </x-microweber-ui::dialog-modal>
 
