@@ -6,35 +6,21 @@
     @if(isset($layout) && $layout)
         @include('page::admin.page.edit', ['layout' => $layout])
     @else
+
     <div class="row px-5 mx-5">
 
-
         @php
-            $parent_page_param = '';
-
-               if(isset($_GET['recommended_content_id'])){
-                   $parent_page_param .= '&recommended_content_id='.intval($_GET['recommended_content_id']);
-               }
-
-               if(isset($_GET['iframe'])){
-                   $parent_page_param .= '&iframe='.$_GET['iframe'];
-               }
-
-
-               if(isset($_GET['quickContentAdd'])){
-                   $parent_page_param .= '&quickContentAdd='.$_GET['quickContentAdd'];
-               }
+        $parent_page_param = '';
+        if(isset($_GET['recommended_content_id'])){
+            $parent_page_param .= '&recommended_content_id='.intval($_GET['recommended_content_id']);
+        }
+        if(isset($_GET['iframe'])){
+            $parent_page_param .= '&iframe='.$_GET['iframe'];
+        }
+        if(isset($_GET['quickContentAdd'])){
+            $parent_page_param .= '&quickContentAdd='.$_GET['quickContentAdd'];
+        }
         @endphp
-        @if(isset($_GET['quickContentAdd']))
-        <style>
-            .go-live-edit-nav-item-holder {
-                display: none;
-            }
-        </style>
-        @endif
-
-
-
 
         <h3 class="main-pages-title">{{ _e("Types of pages") }}</h3>
         <small class="text-muted">{{ _e("Select the type of page to create. You can change the content as well as add new layouts to further develop the functionality") }}</small>
@@ -70,7 +56,6 @@
                         continue;
                     }
 
-
                   $layout_details_for_new_page = app()->layouts_manager->get_layout_details([
                         'layout_file' => $layout['layout_file'],
                         'active_site_template' => ACTIVE_SITE_TEMPLATE
@@ -88,11 +73,6 @@
                         $isShop = true;
                     }
 
-
-
-
-
-
                 @endphp
 
                 <div class="col-xxl-4 col-lg-6 col-12 pe-lg-6 ps-lg-0 pt-3 mb-2 ">
@@ -108,7 +88,7 @@
                         @endif
 
                     </h2>
-                    
+
                     <div class="card mw-create-page-admin-wrapper">
                         <div id="mw-create-page-card-overlay"></div>
                         @php
@@ -120,7 +100,6 @@
                         <div class="p-2 text-center mw-create-page-admin-create-btn">
                             <a href="{{route('admin.page.create')}}?layout={{$layout['layout_file_preview']}}{{$parent_page_param}}" class="btn btn-primary">
                                 {{ _e("Create") }}
-
                             </a>
                         </div>
                     </div>
