@@ -4,7 +4,7 @@ namespace MicroweberPackages\FormBuilder\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 
-class FormBuilderTest extends TestCase
+class FormBuilderElementTest extends TestCase
 {
 
     public function testFormBuilderElementsTypes()

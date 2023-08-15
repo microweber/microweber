@@ -93,7 +93,6 @@ class ContentFormBuilder extends AdminComponent
             $saveContent = $this->itemState;
             $save = save_content($saveContent);
 
-            dump($save);
         }
 
         $this->emit('content.updated');

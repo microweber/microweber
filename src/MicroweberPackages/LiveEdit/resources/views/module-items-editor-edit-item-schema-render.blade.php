@@ -51,6 +51,7 @@
             @endif
 
             @error($field['name']) <span class="text-danger">{{ $message }}</span> @enderror
+            @error('itemState.'.$field['name']) <span class="text-danger">{{ $message }}</span> @enderror
         </div>
     @endforeach
 @endif
