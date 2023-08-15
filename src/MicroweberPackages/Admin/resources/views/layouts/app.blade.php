@@ -42,7 +42,7 @@ if(isset($_GET['quickContentAdd']) and $_GET['quickContentAdd']){
              @include('admin::layouts.partials.topbar2')
          @endif
 
-       <div class="page-body  @if(isset($options['iframe'])) page-body-iframe @endif"  >
+       <div class="@if(isset($options['iframe'])) page-body-iframe @else page-body @endif"  >
            @yield('content')
        </div>
         @if(!isset($options['disableNavBar']))
