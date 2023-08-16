@@ -1,18 +1,18 @@
-<template id="js-action-buttons">
+<!--<template id="js-action-buttons">
     <div class="bg-gray-400 d-flex justify-content-end w-full">
         <button class="btn btn-success">
             <?php _e('Save'); ?>
         </button>
     </div>
-</template>
+</template>-->
 
 <script>
     $(document).ready(function () {
         if (window.thismodal && thismodal.resize) {
             thismodal.resize(991);
         }
-        let actionButtons = document.getElementById('js-action-buttons').innerHTML;
-        mw.top().dialog.get(frameElement).dialogFooter.innerHTML = actionButtons;
+        // let actionButtons = document.getElementById('js-action-buttons').innerHTML;
+        // mw.top().dialog.get(frameElement).dialogFooter.innerHTML = actionButtons;
     });
 </script>
 <?php

@@ -38,7 +38,7 @@ if(isset($_GET['quickContentAdd']) and $_GET['quickContentAdd']){
 
      <main class="module-main-holder page-wrapper" id="admin-side-content">
 
-       <div @if($options['quickContentAdd']) style="display:none" @endif>
+       <div>
            @include('admin::layouts.partials.topbar2')
        </div>
 
