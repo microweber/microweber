@@ -72,20 +72,19 @@
             $sortItems = $editorSettings['config']['sortItems'];
         }
     }
+
     if (!isset($additionalButtonsView)) {
         $additionalButtonsView = false;
         if (isset($editorSettings['config']['additionalButtonsView'])) {
             $additionalButtonsView = $editorSettings['config']['additionalButtonsView'];
         }
-
-
     }
 
     ?>
 
 
 
-                @if (isset($editorSettings['schema']))
+                @if (isset($editorSettings['schema']) and isset($items) and is_array($items) and !empty($items))
                     <div class="list-group list-group-flush list-group-hoverable"
                          id="js-sortable-items-holder-{{md5($moduleId)}}">
 

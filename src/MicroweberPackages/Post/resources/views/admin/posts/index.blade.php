@@ -1,4 +1,12 @@
-@extends('admin::layouts.app')
+@php
+$extendParams = [];
+if(isset($isIframe) && $isIframe == true) {
+    $extendParams['disableNavBar'] = true;
+    $extendParams['disableTopBar'] = true;
+}
+@endphp
+
+@extends('admin::layouts.app', $extendParams)
 
 @section('content')
 
