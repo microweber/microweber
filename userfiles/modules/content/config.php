@@ -23,4 +23,3 @@ $config['settings']['autoload_namespace'] = [
 $config['settings']['service_provider'] = [
     \MicroweberPackages\Modules\Content\Providers\ContentServiceProvider::class
 ];
-
