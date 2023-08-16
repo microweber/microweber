@@ -1005,6 +1005,50 @@ var MWEditor = function (options) {
                 scope.lastRange = range;
             }
 
+
+            function nodePath(baseNode, targetNode, currentPath = []) {
+                if (baseNode == targetNode) return currentPath;
+                currentPath.unshift(targetNode);
+                return nodePath(baseNode, targetNode.parentNode, currentPath);
+              }
+
+              function pasteSplitManager(e) {
+                const {target: editor} = e;
+                const cursorNode = scope.getSelection().anchorNode;
+                const [child]    = nodePath(editor, cursorNode);
+                const wrappers   = Array.from({length: 2}, () => editor.cloneNode(false));
+
+
+                
+                wrappers.forEach(wrapper => {
+                    wrapper.removeAttribute("id");
+                    wrapper.querySelectorAll('[style]').forEach(el => {
+                        el.removeAttribute("style");
+                    })
+                });
+                
+                
+                let seenChild = false;
+                for (const node of editor.childNodes) {
+                  if (!seenChild && node == child) {
+                    seenChild = true;
+                  } else if (!seenChild) {
+                    wrappers[0].append(node.cloneNode(true));
+                  } else {
+                    wrappers[1].append(node.cloneNode(true));
+                  }
+                }
+
+                wrappers.forEach(wrapper => {
+                    wrapper.removeAttribute("id");
+                    wrapper.querySelectorAll('[style]').forEach(el => {
+                        el.removeAttribute("style");
+                    })
+                });
+              }
+
+               
+
             scope.$editArea.on('paste input', function(event) {
                 var clipboardData, pastedData;
                 var e = event.originalEvent || event; 
@@ -1013,8 +1057,40 @@ var MWEditor = function (options) {
 
                 if(e.type === 'paste') {
  
-    
                   
+  
+                     
+                    clipboardData = e.clipboardData || window.clipboardData;
+                   
+                    if(clipboardData) {
+                        pastedData = clipboardData.getData('text/html'); // if is plain text will return undefined
+                        pastedDataText = clipboardData.getData('text/plain');  
+                 
+                     
+                        if(pastedData) {
+
+                             
+                            var plainTextNodes = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'A', 'EM', 'STRONG', 'SUP', 'B', 'SUB', 'PRE'];
+                            var splitNodes = ['P', 'DIV'];
+                              
+                            if(plainTextNodes.includes(e.target.nodeName)) {
+                                scope.api.insertHTML(pastedDataText )
+                            } else {
+                                scope.api.insertHTML(pastedData )
+                            }
+
+                            if(splitNodes.includes(e.target.nodeName)) {
+
+                                pasteSplitManager(e);
+
+                            }
+ 
+                            e.preventDefault();
+                        }
+ 
+     
+                    }
+ 
                      
                 }
 

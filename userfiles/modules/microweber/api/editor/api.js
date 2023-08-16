@@ -663,6 +663,10 @@ mw.lib.require('rangy');
                     elements[0].remove();
                     elements.shift();
                 }
+
+                Array.prototype.slice.call(this._cleaner.querySelectorAll('[style]')).forEach(node => node.removeAttribute('style'))
+                
+           
                 return _filterXSS(this._cleaner.innerHTML);
             },
             insertHTML: function(html) {

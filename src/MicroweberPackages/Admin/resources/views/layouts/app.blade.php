@@ -38,11 +38,9 @@ if(isset($_GET['quickContentAdd']) and $_GET['quickContentAdd']){
 
      <main class="module-main-holder page-wrapper" id="admin-side-content">
 
-         @if(!$options['quickContentAdd'])
-             @include('admin::layouts.partials.topbar2')
-         @elseif(isset($options['quickContentAdd']) and $options['quickContentAdd'] != false)
-             @include('admin::layouts.partials.topbar2', ['quickContentAdd' => true])
-         @endif
+       <div>
+           @include('admin::layouts.partials.topbar2')
+       </div>
 
 
        <div class="@if(isset($options['iframe'])) page-body-iframe @else page-body @endif"  >

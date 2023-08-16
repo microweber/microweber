@@ -1,8 +1,18 @@
+<!--<template id="js-action-buttons">
+    <div class="bg-gray-400 d-flex justify-content-end w-full">
+        <button class="btn btn-success">
+            <?php _e('Save'); ?>
+        </button>
+    </div>
+</template>-->
+
 <script>
     $(document).ready(function () {
         if (window.thismodal && thismodal.resize) {
             thismodal.resize(991);
         }
+        // let actionButtons = document.getElementById('js-action-buttons').innerHTML;
+        // mw.top().dialog.get(frameElement).dialogFooter.innerHTML = actionButtons;
     });
 </script>
 <?php
@@ -104,6 +114,7 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 <?php if (!$quick_edit) { ?>
     <script>
         $(document).ready(function () {
+
             $('.fade-window .btn-fullscreen').on('click', function () {
                 $(this).toggleClass('hidden');
                 $('.fade-window .btn-close').toggleClass('hidden');
@@ -797,5 +808,6 @@ if (isset($params['quick_edit'])) {
             contentChanged(true)
         });
     });
+
 </script>
 
