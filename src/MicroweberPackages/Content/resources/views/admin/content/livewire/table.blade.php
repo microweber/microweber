@@ -18,10 +18,15 @@
                 linkInModal.dialogFooter.style.display = 'none';
             }
             $(document).ready(function() {
-               $('.js-open-in-modal').click(function(e) {
-                   e.preventDefault();
-                   openLinkInModal($(this).attr('href'));
-               });
+                // This is important when click pagination or change display types
+                $(document).on("click","a",function(e) {
+                    let aEvent = e;
+                    let aElement = $(this);
+                    if (aElement.hasClass('js-open-in-modal')) {
+                        aEvent.preventDefault();
+                        openLinkInModal(aElement.attr('href'));
+                    }
+                });
             });
         </script>
         @endif

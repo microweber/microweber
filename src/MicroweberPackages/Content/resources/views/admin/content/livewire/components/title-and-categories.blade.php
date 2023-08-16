@@ -52,6 +52,6 @@
                 {{ _e("Updated") }}: {{$content->updated_at->format('M d, Y, h:i A')}}
             </small>
         </div>
-    </div> 
+    </div>
 
 </div>
