@@ -1,8 +1,9 @@
 <div class="card-body mb-3">
 
+
     @include('content::admin.content.livewire.set-tree-active-content')
 
-    <div class=" ">
+    <div>
 
         @include('content::admin.content.livewire.table-includes.table-tr-reoder-js')
 

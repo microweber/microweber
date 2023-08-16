@@ -3,7 +3,7 @@
     <script>
         $(document).ready(function () {
             mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
-        }); 
+        });
     </script>
 
     <div x-data="{
@@ -26,7 +26,7 @@
         <div x-show="showEditTab=='content'">
 
             <div>
-                <livewire:admin-content-list />
+                <livewire:admin-posts-list />
                 <livewire:admin-content-bulk-options />
             </div>
 
