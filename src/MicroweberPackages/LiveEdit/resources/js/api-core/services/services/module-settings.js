@@ -93,8 +93,11 @@ export class ModuleSettings extends MicroweberBaseClass {
         var moduleClone = module.cloneNode(true);
 
         var presetsModule = 'editor/module_presets';
-        var originalModuleType = module.getAttribute('type')
-        var moduleIdForPreset = module.getAttribute('id')
+        var moduleType = module.getAttribute('data-type');
+        if (!moduleType) {
+            moduleType = module.getAttribute('type');
+        }
+        var moduleIdForPreset = module.getAttribute('id');
 
 
 
@@ -123,8 +126,9 @@ export class ModuleSettings extends MicroweberBaseClass {
 
 
         var attrsForSettings = attributes;
-        attrsForSettings.module_name = presetsModule;
-        attrsForSettings.module_id = moduleIdForPreset;
+        attrsForSettings.module_type_for_preset = moduleType;
+        attrsForSettings.module_id_for_preset = moduleIdForPreset;
+        attrsForSettings.type = presetsModule;
 
 
         this.openSettingsModal(attrsForSettings, attrsForSettings.id, 'Module presets');
