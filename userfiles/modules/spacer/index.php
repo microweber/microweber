@@ -1,1 +1,1 @@
-<div class="mw-le-spacer" id="<?php print uniqid('spacer-'); ?>" style="height: 20px;"></div>
+<div class="mw-le-spacer no-element" id="<?php print uniqid('spacer-'); ?>" style="height: 20px;"></div>
