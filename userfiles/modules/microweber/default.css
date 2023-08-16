@@ -732,7 +732,11 @@ html[dir="rtl"] .mw-text-start{
 
 
 .mw-le-spacer {
+    height: 20px;
     min-height: auto !important;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
 }
 
 
