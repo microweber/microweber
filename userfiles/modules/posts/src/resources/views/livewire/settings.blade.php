@@ -25,7 +25,7 @@
 
         <div x-show="showEditTab=='content'">
 
-            <div>
+            <div> 
                 <livewire:admin-posts-list />
                 <livewire:admin-content-bulk-options />
             </div>
