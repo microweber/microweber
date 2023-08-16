@@ -33,10 +33,8 @@ $maxWidth = [
             if (value) {
 
              el.style.display = 'block';
-             this.mwDialogComponentUi = mw.top().dialog({
+             this.mwDialogComponentUi = mw.dialog({
                 content: el,
-                overlay: true,
-                overlayClose: true,
                 onremove: () => {
                     show = false;
                 },
@@ -45,9 +43,9 @@ $maxWidth = [
              this.mwDialogComponentUi.dialogContainer.style.padding = '0px';
 
             } else {
-               console.log(this.mwDialogComponentUi);
                if (this.mwDialogComponentUi) {
                 this.mwDialogComponentUi.remove();
+                this.mwDialogComponentUi = null;
               }
             }
        });

@@ -15,6 +15,17 @@ class ModulePresetsManager extends AdminComponent
     public $items = [];
     public $editorSettings = [];
     public array $itemState = [];
+    public array $selectedItemsIds = [];
+    public $areYouSureDeleteModalOpened = false;
+
+    public $listeners = [
+        'onItemChanged' => '$refresh',
+        'refreshComponent' => '$refresh',
+        'onReorderListItems' => 'reorderListItems',
+        'onShowConfirmDeleteItemById' => 'showConfirmDeleteItemById',
+    ];
+
+
 
     public function render()
     {
@@ -45,6 +56,7 @@ class ModulePresetsManager extends AdminComponent
         $savePreset['module'] = $this->itemState['module'];
         $savePreset['module_attrs'] = $this->itemState['module_attrs'];
         $savePreset['module_id'] = $this->itemState['module_id'];
+
        $save =  save_module_as_template($savePreset);
 
         $this->emit('settingsChanged', ['moduleId' => $this->moduleId]);
@@ -105,5 +117,31 @@ class ModulePresetsManager extends AdminComponent
         $presets = get_saved_modules_as_template("module={$this->moduleType}");
 
         return $presets;
+    }
+
+    public function showConfirmDeleteItemById($itemId)
+    {
+
+        $this->areYouSureDeleteModalOpened = true;
+        $this->selectedItemsIds = [$itemId];
+
+
+    }
+
+    public function confirmDeleteSelectedItems()
+    {
+
+        if ($this->selectedItemsIds and !empty($this->selectedItemsIds)) {
+            foreach ($this->selectedItemsIds as $itemId) {
+                $delete = delete_module_as_template(['id' => $itemId]);
+            }
+        }
+        $this->areYouSureDeleteModalOpened = false;
+        $this->selectedItemsIds = [];
+
+        $this->emit('onItemDeleted');
+        $this->render();
+
+
     }
 }
