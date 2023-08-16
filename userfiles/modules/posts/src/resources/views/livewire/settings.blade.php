@@ -25,8 +25,8 @@
 
         <div x-show="showEditTab=='content'">
 
-            <div> 
-                <livewire:admin-posts-list />
+            <div>
+                <livewire:admin-posts-list open-links-in-modal="true" />
                 <livewire:admin-content-bulk-options />
             </div>
 

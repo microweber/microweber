@@ -10,6 +10,7 @@ class ContentList extends AdminComponent
 {
     use WithPagination;
 
+    public $openLinksInModal = false;
     public $displayTypesViews = [];
     public $noActiveContentView = 'content::admin.content.livewire.no-active-content';
     public $whitelistedEmptyKeys = [];

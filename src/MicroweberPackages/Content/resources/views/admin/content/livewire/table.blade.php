@@ -1,90 +1,115 @@
 <div class="card-body mb-3">
 
+    @php
+        $openLinksInModal = 1;
+    @endphp
 
-    @include('content::admin.content.livewire.set-tree-active-content')
-
-    <div>
-
-        @include('content::admin.content.livewire.table-includes.table-tr-reoder-js')
-
-        @if($displayFilters)
-            <div class="row py-3">
-                <div class="d-flex align-items-center justify-content-between flex-wrap">
-
-                    @include('content::admin.content.livewire.card-header')
-
-                    <div class="col-lg-5 col-sm-6 col ms-md-4 me-lg-0 me-4 input-icon">
-                        <div class="input-group input-group-flat ">
-                            <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
-                            <span class="input-group-text">
-                                @include('content::admin.content.livewire.components.button-filter')
-                                <div class="dropdown-menu p-2">
-                                    @if(!empty($dropdownFilters))
-                                        @foreach($dropdownFilters as $dropdownFilterGroup)
-                                            <div class="">
-                                                 <h6 class="dropdown-header">{{ $dropdownFilterGroup['groupName']  }}</h6>
-                                                @foreach($dropdownFilterGroup['filters'] as $dropdownFilter)
-                                                    <div class="dropdown-item">
-                                                         <label class=" form-check form-check-inline mb-0">
-                                                            <input class="form-check-input me-2" type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}" checked="">
-                                                             <span class="form-check-label">{{ $dropdownFilter['name'] }}</span>
-                                                        </label>
-                                                    </div>
-                                                @endforeach
-                                             </div>
-                                        @endforeach
-                                    @endif
-                                </div>
-                            </span>
-                        </div>
-                    </div>
-
-
-                    <div class="col-sm-3 col-auto mt-sm-0 text-sm-end text-center d-flex justify-content-sm-end justify-content-center">
-                        @if($this->contentType == 'page')
-                        <a href="{{route('admin.page.create')}}" class="btn btn-dark">
-                            <svg fill="currentColor" class="me-sm-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
-                            <span class="d-sm-block d-none">{{_e("New Page")}}</span>
-                        </a>
-                        @endif
-                        @if($this->contentType == 'post')
-                            <a href="{{route('admin.post.create')}}" class="btn btn-dark">
-                                <svg fill="currentColor" class="me-sm-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
-                                <span class="d-sm-block d-none">{{_e("New Post")}}</span>
-                            </a>
-                        @endif
-                        @if($this->contentType == 'product')
-                            <a href="{{route('admin.product.create')}}" class="btn btn-dark">
-                               <svg fill="currentColor" class="me-sm-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
-                                <span class="d-sm-block d-none">{{_e("New Product")}}</span>
-                            </a>
-                        @endif
-                    </div>
-
-
-                    @if(!empty($appliedFiltersFriendlyNames))
-                        @include('content::admin.content.livewire.components.button-clear-filters')
-                    @endif
-                </div>
-            </div>
+        @if ($openLinksInModal)
+        <script>
+            function openLinkInModal(url) {
+                let linkInModal = mw.top().dialogIframe({
+                    url: url,
+                    width:800,
+                    height:600,
+                    overlayClose:true,
+                });
+                linkInModal.dialogContainer.style.padding = '0px';
+                linkInModal.dialogHeader.style.display = 'none';
+                linkInModal.dialogFooter.style.display = 'none';
+            }
+            $(document).ready(function() {
+               $('.js-open-in-modal').click(function(e) {
+                   e.preventDefault();
+                   openLinkInModal($(this).attr('href'));
+               });
+            });
+        </script>
         @endif
 
-        <div class="row py-3 dropdown-filters-if-naked">
-            <div class="d-flex flex-wrap">
+        @include('content::admin.content.livewire.set-tree-active-content')
 
-                @php
-                    if(!empty($dropdownFilters)) {
-                        foreach($dropdownFilters as $dropdownFilterGroup) {
-                            foreach($dropdownFilterGroup['filters'] as $dropdownFilter) {
-                                $skipDropdownFilter = false;
-                                if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator') {
-                                    $skipDropdownFilter = true;
-                                }
-                                if (!$skipDropdownFilter) {
+        <div>
 
-                                    if (isset($dropdownFilter['key']) && strpos($dropdownFilter['key'], '.') !== false) {
-                                            $dropdownFilterExp = explode('.', $dropdownFilter['key']);
-                                            if (isset($showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]])) {
+            @include('content::admin.content.livewire.table-includes.table-tr-reoder-js')
+
+            @if($displayFilters)
+                <div class="row py-3">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+
+                        @include('content::admin.content.livewire.card-header')
+
+                        <div class="col-lg-5 col-sm-6 col ms-md-4 me-lg-0 me-4 input-icon">
+                            <div class="input-group input-group-flat ">
+                                <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
+                                <span class="input-group-text">
+                                    @include('content::admin.content.livewire.components.button-filter')
+                                    <div class="dropdown-menu p-2">
+                                        @if(!empty($dropdownFilters))
+                                            @foreach($dropdownFilters as $dropdownFilterGroup)
+                                                <div class="">
+                                                     <h6 class="dropdown-header">{{ $dropdownFilterGroup['groupName']  }}</h6>
+                                                    @foreach($dropdownFilterGroup['filters'] as $dropdownFilter)
+                                                        <div class="dropdown-item">
+                                                             <label class=" form-check form-check-inline mb-0">
+                                                                <input class="form-check-input me-2" type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}" checked="">
+                                                                 <span class="form-check-label">{{ $dropdownFilter['name'] }}</span>
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
+                                                 </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-3 col-auto mt-sm-0 text-sm-end text-center d-flex justify-content-sm-end justify-content-center">
+                            @if($this->contentType == 'page')
+                            <a href="{{route('admin.page.create')}}" class="btn btn-dark js-open-in-modal">
+                                <svg fill="currentColor" class="me-sm-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
+                                <span class="d-sm-block d-none">{{_e("New Page")}}</span>
+                            </a>
+                            @endif
+                            @if($this->contentType == 'post')
+                                <a href="{{route('admin.post.create')}}" class="btn btn-dark js-open-in-modal">
+                                    <svg fill="currentColor" class="me-sm-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
+                                    <span class="d-sm-block d-none">{{_e("New Post")}}</span>
+                                </a>
+                            @endif
+                            @if($this->contentType == 'product')
+                                <a href="{{route('admin.product.create')}}" class="btn btn-dark js-open-in-modal">
+                                   <svg fill="currentColor" class="me-sm-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"/></svg>
+                                    <span class="d-sm-block d-none">{{_e("New Product")}}</span>
+                                </a>
+                            @endif
+                        </div>
+
+
+                        @if(!empty($appliedFiltersFriendlyNames))
+                            @include('content::admin.content.livewire.components.button-clear-filters')
+                        @endif
+                    </div>
+                </div>
+            @endif
+
+            <div class="row py-3 dropdown-filters-if-naked">
+                <div class="d-flex flex-wrap">
+
+                    @php
+                        if(!empty($dropdownFilters)) {
+                            foreach($dropdownFilters as $dropdownFilterGroup) {
+                                foreach($dropdownFilterGroup['filters'] as $dropdownFilter) {
+                                    $skipDropdownFilter = false;
+                                    if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator') {
+                                        $skipDropdownFilter = true;
+                                    }
+                                    if (!$skipDropdownFilter) {
+
+                                        if (isset($dropdownFilter['key']) && strpos($dropdownFilter['key'], '.') !== false) {
+                                                $dropdownFilterExp = explode('.', $dropdownFilter['key']);
+                                                if (isset($showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]])) {
                 @endphp
                 @include('content::admin.content.livewire.table-filters.' . $dropdownFilterExp[0], [
                    'fieldName'=>$dropdownFilter['name'],
