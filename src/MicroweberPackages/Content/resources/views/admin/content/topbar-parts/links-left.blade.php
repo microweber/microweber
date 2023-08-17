@@ -1,5 +1,14 @@
 <div class="d-flex align-items-center">
-    <div class="mw-toolbar-back-button-wrapper">
+
+    @php
+    $showBackButton = true;
+    if (isset($isIframe) && $isIframe) {
+        $showBackButton = false;
+    }
+    @endphp
+
+    @if ($showBackButton)
+    <div class="mw-toolbar-back-button-wrapper me-3">
         <div class="main-toolbar mw-modules-toolbar-back-button-holder mb-3 d-flex align-items-center" id="mw-modules-toolbar" style="">
             <div>
                 <a href="{{route('admin.'.$content_type.'.index')}}">
@@ -8,8 +17,9 @@
             </div>
         </div>
     </div>
+    @endif
 
-    <div class="ms-3 mb-3 d-flex align-items-center">
+    <div class="mb-3 d-flex align-items-center">
         <a class="tblr-body-color form-label mb-0 text-decoration-none font-weight-bold d-md-block d-none" href="{{route('admin.'.$content_type.'.index')}}" class="mb-0">
             @if($content_id > 0)
                 {{ _e("Edit " . ucfirst($content_type)) }}
