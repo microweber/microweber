@@ -20,19 +20,31 @@
                    class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs">
                     Settings
                 </a>
+                <a href="#" x-on:click="showEditTab = 'skins'" :class="{ 'active': showEditTab == 'skins' }"
+                   class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs">
+                    Skins
+                </a>
             </div>
         </div>
 
         <div x-show="showEditTab=='content'">
 
-            <div> 
-                <livewire:admin-posts-list />
+            <div>
+                <livewire:admin-posts-list open-links-in-modal="true" />
                 <livewire:admin-content-bulk-options />
             </div>
 
         </div>
         <div x-show="showEditTab=='settings'">
-            This is the settings tab
+
+            <module type="content/admin_live_edit_tab1" />
+
+        </div>
+
+        <div x-show="showEditTab=='skins'">
+
+            <module type="admin/modules/templates" for-module="posts"/>
+
         </div>
 
     </div>

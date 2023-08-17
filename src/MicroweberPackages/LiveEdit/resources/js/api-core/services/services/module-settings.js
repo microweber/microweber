@@ -154,7 +154,7 @@ export class ModuleSettings extends MicroweberBaseClass {
         var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
 
-        let moduleSettingsDialogIframe = mw.dialogIframe({
+        let dialogSettings = {
             // url: route('live_edit.module_settings') + '?id=' + moduleId+ '&type=' + moduleType+ '&live_edit=true',
             url: src,
             width: 320,
@@ -164,8 +164,16 @@ export class ModuleSettings extends MicroweberBaseClass {
             overlayClose: true,
             title: modalTitle,
             id: 'module-quick-setting-dialog-' + moduleId
-        });
+        };
+        if (attrsForSettings['type'] && attrsForSettings['type'] === 'layouts/admin') {
 
+            dialogSettings.position = {
+              x: window.innerWidth - 400,
+              y: 300
+            };
+        }
+
+        let moduleSettingsDialogIframe = mw.dialogIframe(dialogSettings);
 
         if (moduleSettingsDialogIframe.overlay) {
             moduleSettingsDialogIframe.overlay.style.backgroundColor = 'transparent';

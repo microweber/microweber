@@ -56,7 +56,6 @@ $current_template = false;
         $module_templates = module_templates($params['parent-module']);
         $templates = module_templates($params['parent-module']);
 
-
         $mod_name = $params['parent-module'];
         $mod_name = str_replace('admin', '', $mod_name);
         $mod_name = rtrim($mod_name, DS);
@@ -144,7 +143,15 @@ $current_template = false;
                     if (!isset($temp['screenshot'])) {
                         $temp['screenshot'] = '';
                     }
-                    $current_template = array('name' => $temp['name'], 'screenshot' => $temp['screenshot'], 'layout_file' => $temp['layout_file']);
+                    if (!isset($temp['categories'])) {
+                        $temp['categories'] = 'Other';
+                    }
+                    $current_template = array(
+                        'name' => $temp['name'],
+                        'screenshot' => $temp['screenshot'],
+                        'layout_file' => $temp['layout_file'],
+                        'categories'=>$temp['categories']
+                    );
                 }
             }
         }
@@ -379,7 +386,7 @@ $current_template = false;
                                     </div>
                                     <div>
                                         <b>
-                                            
+
                                         </b>
                                     </div>
                                     <div>
@@ -400,7 +407,7 @@ $current_template = false;
                                     </div>
                                     <div>
                                         <b>
-                                            
+
                                         </b>
                                     </div>
                                     <div>
@@ -418,16 +425,16 @@ $current_template = false;
                     <div class="bg-tab">
                         <div id="overlay-color-picker" class="card card-body"></div>
                     </div>
-        
+
 
                     <style>
-                        
-                        
+
+
                     </style>
                     <script>
 
 
-      
+
 
                         var setBg = function(target, value) {
 
@@ -450,7 +457,7 @@ $current_template = false;
                                 nav: "#bg-tabs > .btn",
                                 tabs: ".bg-tab",
                                 onclick: function(){
-                                    
+
                                 }
                             });
 
@@ -458,7 +465,7 @@ $current_template = false;
 
                             var picker = mw.colorPicker({
                                 element:cp,
-                                
+
                                 mode: 'inline',
                                 onchange:function(color){
                                     bgNode.style.backgroundColor = color;
@@ -472,7 +479,7 @@ $current_template = false;
 
                             var cpoPicker = mw.colorPicker({
                                 element: cpo,
-                               
+
                                 mode: 'inline',
                                 onchange:function(color){
                                     bgOverlay.style.backgroundColor = color;
@@ -498,17 +505,17 @@ $current_template = false;
                                         url = url.toString();
                                         bgNode.innerHTML = ` `;
 
-                                        
+
 
                                         bgNode.style.backgroundImage = `url(${url})`;
 
                                         bgNode.style.backgroundColor = 'transparent';
-                                         
+
                                         delete bgNode.dataset.mwvideo;
-                                         
+
                                         dialog.remove();
                                         mw.top().app.registerChange(bgNode);
-                                        
+
                                     }
                                 });
                                 dialog = mw.top().dialog({
@@ -540,18 +547,18 @@ $current_template = false;
                                         url = url.toString();
                                         bgNode.innerHTML = `<video src="${url}" autoplay muted></video>`;
 
-                                        
+
 
                                         bgNode.dataset.mwvideo = url;
                                         bgNode.style.backgroundImage = `none`;
 
                                         bgNode.style.backgroundColor = 'transparent';
-                                         
 
-                                         
+
+
                                         dialog.remove();
                                         mw.top().app.registerChange(bgNode);
-                                        
+
                                     }
                                 });
                                 dialog = mw.top().dialog({
@@ -569,9 +576,9 @@ $current_template = false;
 
                         });
 
-                        
+
                     </script>
-                     
+
                 </div>
                 <div class="tab-pane fade" id="change-layout">
                     <div class="mw-mod-template-settings-holder">
@@ -661,7 +668,37 @@ $current_template = false;
                                     })
 
                                 </script>
-                                <?php foreach ($module_templates as $item): ?>
+
+
+                                <?php
+                                $module_templates_categories = [
+                                    'Other' => true
+                                ];
+                                foreach ($module_templates as $item) {
+                                    if (isset($item['categories'])) {
+                                        $module_templates_categories[$item['categories']] = true;
+                                    }
+                                }
+
+                                $module_templates_ready = [];
+                                if (!empty($module_templates_categories)) {
+                                    foreach ($module_templates as $item) {
+                                        if (!isset($item['categories'])) {
+                                            $item['categories'] = 'Other';
+                                        }
+                                        $item['categories'] = strtolower(trim($item['categories']));
+                                        $current_template['categories'] = strtolower(trim($current_template['categories']));
+                                        if ($item['categories'] == $current_template['categories']) {
+                                            $module_templates_ready[] = $item;
+                                        }
+                                    }
+                                }
+                                ?>
+
+                                <?php
+                                foreach ($module_templates_ready as $item):
+                                    ?>
+
                                     <?php if (($item['layout_file'] == $cur_template)): ?>
                                         <?php if ((strtolower($item['name']) != 'default')): ?>
                                             <a href="javascript:;" class="js-apply-template card m-1 card p-1"
@@ -692,7 +729,7 @@ $current_template = false;
                                     <?php endif; ?>
                                 <?php endforeach; ?>
 
-                                <?php foreach ($module_templates as $item): ?>
+                                <?php foreach ($module_templates_ready as $item): ?>
                                     <?php if (($item['layout_file'] != $cur_template)): ?>
                                         <?php if ((strtolower($item['name']) != 'default')): ?>
                                             <a href="javascript:;" class="js-apply-template card m-1"

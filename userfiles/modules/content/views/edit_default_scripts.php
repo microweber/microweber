@@ -148,6 +148,8 @@
             mw.notification.success('<?php _ejs('Content saved!'); ?>');
         }
 
+        const event = new Event("mw.content-saved");
+        window.dispatchEvent(event);
 
         if (parent !== self && !!parent.mw) {
 

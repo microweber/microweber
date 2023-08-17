@@ -1,34 +1,82 @@
 <div>
 
+
+
+    <script type="text/javascript" wire:ignore>
+
+
+        const initPresetsManagerData = {
+            showEditTab: 'main'
+        }
+
+        window.initPresetsManagerData = initPresetsManagerData
+
+        mw.initPresetsManager = function () {
+
+            window.livewire.on('switchToMainTab', () => {
+                window.initPresetsManagerData.showEditTab = 'main'
+            })
+
+            window.livewire.on('editItemById', (itemId) => {
+                window.initPresetsManagerData.showEditTab = 'editItemById'
+                Livewire.emit('onEditItemById', itemId);
+            })
+
+            window.livewire.on('saveModuleAsPreset', function () {
+                var moduleId = window.livewire.find('{{$this->id}}').get('itemState.module_id')
+                // var el = mw.top().app.canvas.getWindow().$('#'+moduleId)[0];
+                // var attrs = el.attributes;
+                // var attrsObj = {};
+                // for (var i = 0; i < attrs.length; i++) {
+                //     attrsObj[attrs[i].name] = attrs[i].value;
+                // }
+                // mw.log(attrsObj)
+                //window.livewire.find('{{$this->id}}').set('itemState.module_attrs', 'sssssssssss')
+                // window.livewire.find('{{$this->id}}').set('itemState.name', 'bar')
+                Livewire.emit('onSaveAsNewPreset');
+            })
+
+
+            window.livewire.on('showConfirmDeleteItemById', (itemId) => {
+                Livewire.emit('onShowConfirmDeleteItemById', itemId);
+            })
+            window.livewire.on('selectPresetForModule', (itemId) => {
+                alert('selectPresetForModule')
+            })
+
+
+        }
+
+    </script>
+
+
+
+
     <div x-data="{
-showEditTab: 'main'
-}" x-init="() => {
-    window.livewire.on('switchToMainTab', () => {
-        showEditTab = 'main'
-    })
-
-     window.livewire.on('editItemById' , (itemId) => {
-
-        showEditTab = 'tabs-nav-tab-' +  itemId
-    })
+...initPresetsManagerData,
+}" x-init="mw.initPresetsManager">
 
 
-      window.livewire.on('showConfirmDeleteItemById' , (itemId) => {
-
-        Livewire.emit('onShowConfirmDeleteItemById', itemId);
-    })
-}">
-        <x-microweber-ui::button class="btn btn-primary-outline"
-                                 type="button">@lang('Use a preset')</x-microweber-ui::button>
-
-        <br>
 
 
-        <x-microweber-ui::button type="button">@lang('Save as preset')</x-microweber-ui::button>
 
-
-        <div x-transition:enter-end="tab-pane-slide-left-active"
+        <div  x-show="initPresetsManagerData.showEditTab=='main'"
+             x-transition:enter-end="tab-pane-slide-left-active"
              x-transition:enter="tab-pane-slide-left-active">
+
+
+            @if($isAlreadySavedAsPreset)
+
+                <div class="alert alert-info">
+                    This module is already saved as preset
+                    To use the preset , place new module of type <kbd>{{ $moduleType  }}</kbd> on the page and select this
+                    preset from the presets list
+                </div>
+            @else
+                <x-microweber-ui::button class="btn btn-primary-outline" type="button"
+                                         wire:click="$emit('saveModuleAsPreset')">@lang('Save as preset')</x-microweber-ui::button>
+            @endif
+
 
             @include('microweber-live-edit::module-items-editor-list-items')
 
@@ -38,8 +86,11 @@ showEditTab: 'main'
         <div>
 
 
-            <div x-transition:enter-end="tab-pane-slide-right-active"
-                 x-transition:enter="tab-pane-slide-right-active">
+            <div
+
+                x-show="initPresetsManagerData.showEditTab=='editItemById'"
+                x-transition:enter-end="tab-pane-slide-right-active"
+                x-transition:enter="tab-pane-slide-right-active">
 
                 <form wire:submit.prevent="submit">
 
