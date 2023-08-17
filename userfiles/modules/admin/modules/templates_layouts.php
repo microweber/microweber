@@ -56,7 +56,6 @@ $current_template = false;
         $module_templates = module_templates($params['parent-module']);
         $templates = module_templates($params['parent-module']);
 
-
         $mod_name = $params['parent-module'];
         $mod_name = str_replace('admin', '', $mod_name);
         $mod_name = rtrim($mod_name, DS);
@@ -145,7 +144,7 @@ $current_template = false;
                         $temp['screenshot'] = '';
                     }
                     if (!isset($temp['categories'])) {
-                        $temp['categories'] = '';
+                        $temp['categories'] = 'Other';
                     }
                     $current_template = array(
                         'name' => $temp['name'],
@@ -670,25 +669,29 @@ $current_template = false;
 
                                 </script>
 
-                                
+
                                 <?php
-                                $module_templates_categories = [];
+                                $module_templates_categories = [
+                                    'Other' => true
+                                ];
                                 foreach ($module_templates as $item) {
                                     if (isset($item['categories'])) {
-                                        $module_templates_categories[$item['categories']][] = true;
+                                        $module_templates_categories[$item['categories']] = true;
                                     }
                                 }
 
                                 $module_templates_ready = [];
-                                foreach ($module_templates as $item) {
-                                    if (isset($item['categories'])) {
-                                        if (isset($current_template['categories'])) {
-                                            if ($item['categories'] !== $current_template['categories']) {
-                                                continue;
-                                            }
+                                if (!empty($module_templates_categories)) {
+                                    foreach ($module_templates as $item) {
+                                        if (!isset($item['categories'])) {
+                                            $item['categories'] = 'Other';
+                                        }
+                                        $item['categories'] = strtolower(trim($item['categories']));
+                                        $current_template['categories'] = strtolower(trim($current_template['categories']));
+                                        if ($item['categories'] == $current_template['categories']) {
+                                            $module_templates_ready[] = $item;
                                         }
                                     }
-                                    $module_templates_ready[] = $item;
                                 }
                                 ?>
 
