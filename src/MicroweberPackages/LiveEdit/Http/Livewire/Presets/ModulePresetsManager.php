@@ -17,26 +17,51 @@ class ModulePresetsManager extends AdminComponent
     public array $itemState = [];
     public array $selectedItemsIds = [];
     public $areYouSureDeleteModalOpened = false;
+    public $isAlreadySavedAsPreset = false;
 
     public $listeners = [
         'onItemChanged' => '$refresh',
         'refreshComponent' => '$refresh',
         'onReorderListItems' => 'reorderListItems',
         'onShowConfirmDeleteItemById' => 'showConfirmDeleteItemById',
+        'onEditItemById' => 'showItemById',
+        'onSaveAsNewPreset' => 'saveAsNewPreset',
     ];
-
 
 
     public function render()
     {
         $this->itemState['module_id'] = $this->moduleId;
         $this->itemState['module'] = $this->moduleType;
-        $this->itemState['module_attrs'] = [];
+        // $this->itemState['module_attrs'] = [];
 
         $this->items = $this->getPresets();
         $this->editorSettings = $this->getEditorSettings();
+        $this->isAlreadySavedAsPreset = false;
+        if ($this->items) {
+            foreach ($this->items as $item) {
+                if (isset($item['module_id']) and $item['module_id'] == $this->moduleId) {
+                    $this->isAlreadySavedAsPreset = true;
+                }
+            }
+        }
 
         return view($this->view);
+    }
+
+    public function showItemById($id)
+    {
+        $presets = $this->getPresets();
+        if ($presets) {
+            foreach ($presets as $preset) {
+                if ($preset['id'] == $id) {
+                    // $preset['module_attrs'] = json_encode($preset['module_attrs']);
+                    $this->itemState = $preset;
+                }
+            }
+        }
+
+
     }
 
     public function submit()
@@ -54,12 +79,19 @@ class ModulePresetsManager extends AdminComponent
         $savePreset = [];
         $savePreset['name'] = $this->itemState['name'];
         $savePreset['module'] = $this->itemState['module'];
-        $savePreset['module_attrs'] = $this->itemState['module_attrs'];
+        if (isset($this->itemState['module_attrs'])) {
+            $savePreset['module_attrs'] = $this->itemState['module_attrs'];
+        }
         $savePreset['module_id'] = $this->itemState['module_id'];
+        if (isset($this->itemState['id'])) {
+            $savePreset['id'] = $this->itemState['id'];
+        }
+        $save = save_module_as_template($savePreset);
 
-       $save =  save_module_as_template($savePreset);
-
+        $this->emit('switchToMainTab');
         $this->emit('settingsChanged', ['moduleId' => $this->moduleId]);
+
+        return $this->render();
 
     }
 
@@ -96,7 +128,7 @@ class ModulePresetsManager extends AdminComponent
                 ],
                 [
                     'type' => 'textarea',
-                    'rules' => 'required|string',
+                    // 'rules' => 'required|string',
                     'name' => 'module_attrs',
                     'label' => 'module_attrs',
                 ],
@@ -138,10 +170,18 @@ class ModulePresetsManager extends AdminComponent
         }
         $this->areYouSureDeleteModalOpened = false;
         $this->selectedItemsIds = [];
-
-        $this->emit('onItemDeleted');
         $this->render();
 
+    }
 
+    public function saveAsNewPreset()
+    {
+
+        $this->itemState['id'] = 0;
+        $this->itemState['name'] = 'New preset ' . time();
+        $this->itemState['module'] = $this->moduleType;
+        $this->itemState['module_id'] = $this->moduleId;
+
+        $this->submit();
     }
 }
