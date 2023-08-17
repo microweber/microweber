@@ -7,6 +7,7 @@ use MicroweberPackages\Post\Models\Post;
 
 class PostsList extends ContentList
 {
+    public $openLinksInModal = false;
     public $model = Post::class;
 
     public $showColumns = [
