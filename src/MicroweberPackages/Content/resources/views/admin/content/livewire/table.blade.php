@@ -1,5 +1,12 @@
 <div class="card-body mb-3">
 
+    <script>
+        window.addEventListener("mw.content-saved", (e) => {
+            Livewire.emit('refreshContentList');
+            alert(222);
+        });
+    </script>
+
     @php
         $openLinksInModal = 1;
     @endphp
