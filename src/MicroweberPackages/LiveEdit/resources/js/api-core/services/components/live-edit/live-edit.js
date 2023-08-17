@@ -241,7 +241,11 @@ export const liveEditComponent = () => {
         
         });
 
-        initResizables();
+        mw.top().win.mw.app.on('moduleInserted', function(){
+            initResizables();
+        })
+
+        
 
     }
 

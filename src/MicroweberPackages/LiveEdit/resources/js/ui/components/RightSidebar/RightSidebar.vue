@@ -50,12 +50,18 @@
 .general-theme-settings {
     background: #000;
 }
+ 
+.live-edit-gui-editor-opened #live-editor-frame{
+    margin-right: 303px;
+}
 </style>
 
 <script>
 import TemplateSettings from "./TemplateSettings/TemplateSettings.vue";
 import Editor from "../Toolbar/Editor.vue";
 import ToolsButtons from  "./ToolsButtons.vue";
+
+import  CSSGUIService from "../../../api-core/services/services/css-gui.service.js";
 
 export default {
     components: {
@@ -68,42 +74,25 @@ export default {
         show: function (name) {
             this.emitter.emit('live-edit-ui-show', name);
         },
-
         closeSidebar() {
-            this.showSidebar = false;
-            document.getElementById('live-edit-frame-holder')
-                .removeAttribute('style');
+            
+            CSSGUIService.show()
         },
         openSidebar() {
-            this.showSidebar = true;
-            document.getElementById('live-edit-frame-holder')
-                .setAttribute('style', 'margin-right: 303px;');
+    
+            CSSGUIService.close()
         }
     },
     mounted() {
         const instance = this;
 
-        this.emitter.on("live-edit-ui-show", show => {
-            if (show == 'template-settings') {
-                if (instance.showSidebar == false) {
-                    instance.openSidebar();
-                } else {
-                    instance.closeSidebar();
-                }
-            }
-        });
         var firstTabEl = document.querySelector('#rightSidebarTabStyleEditorNav li:first-child a')
         if(firstTabEl !== null){
             var firstTab = new bootstrap.Tab(firstTabEl)
             firstTab.show()
         }
+        
 
-        // Close on Escape
-        document.addEventListener('keyup', function (evt) {
-            if (evt.keyCode === 27) {
-                instance.showSidebar = false;
-            }
-        });
     },
     data() {
         return {

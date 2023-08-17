@@ -148,6 +148,8 @@ mw.askusertostay = false;
 
   mw.module = {
     insert: function(target, module, config, pos, stateManager) {
+
+        
          
         return new Promise(function (resolve) {
             pos = pos || 'bottom';

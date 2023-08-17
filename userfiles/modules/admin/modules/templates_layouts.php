@@ -365,8 +365,8 @@ $current_template = false;
                     <div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper" id="bg-tabs">
                         <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100 active">Image</span>
                         <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Video</span>
+                        <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100" style="display: none">Color</span>
                         <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Color</span>
-                        <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Overlay</span>
                     </div>
                     <br>
 

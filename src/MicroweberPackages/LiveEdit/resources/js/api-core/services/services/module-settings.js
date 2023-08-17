@@ -26,6 +26,10 @@ export class ModuleSettings extends MicroweberBaseClass {
     }
 
     moduleOrLayoutSettingsRequestHandle(module, isLayout) {
+         
+        if(!isLayout && module) {
+            isLayout = module.classList.contains('module-layouts')
+        }
 
         if (isLayout) {
             mw.app.liveEdit.handles.get('layout').set(module)

@@ -146,7 +146,7 @@ export class LiveEdit {
 
             onPosition: function(menu, transform, off){
                 if(off.top < 50 ) {
-                    menu.style.top = `calc(100% + 60px)`;
+                    menu.style.top = `calc(100% + 10px)`;
                 } else {
                     menu.style.top = ``;
                 }
@@ -200,7 +200,7 @@ export class LiveEdit {
             onPosition: function(menu, transform, off){
 
                 if(off.top < 50 ) {
-                    menu.style.top = `calc(100% + 60px)`;
+                    menu.style.top = `calc(100% + 10px)`;
                 } else {
                     menu.style.top = ``;
                 }
@@ -704,6 +704,8 @@ export class LiveEdit {
         const bgImageHandles = new BGImageHandles({
             document: this.document
         });
+
+        bgImageHandles.hide()
 
 
         let events, _hovered = [];

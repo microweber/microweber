@@ -106,6 +106,8 @@ mw.module = {
         return data;
     },
     insert: function(target, module, config, pos) {
+
+   
         return new Promise(function (resolve) {
             pos = pos || 'bottom';
             var action;

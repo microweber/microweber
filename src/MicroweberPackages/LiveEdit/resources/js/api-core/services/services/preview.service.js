@@ -1,15 +1,20 @@
+import  CSSGUIService from "../../../api-core/services/services/css-gui.service.js";
+
 let isPreview = true;
 let _hascss;
 
 
 export const previewMode = function () {
     document.documentElement.classList.add('preview');
+ 
     document.documentElement.style.setProperty('--toolbar-height', '0px');
     mw.app.canvas.getDocument().documentElement.classList.add('mw-le--page-preview');
     mw.app.canvas.getDocument().body.classList.remove('mw-live-edit');
- 
+
+    CSSGUIService.hide();
+
     document.querySelector('#user-menu-wrapper').classList.remove('active');
-    document.querySelector('#general-theme-settings').classList.remove('active');
+ 
 }
 
 export const liveEditMode = function () {
