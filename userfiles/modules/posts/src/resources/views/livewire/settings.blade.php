@@ -20,9 +20,9 @@
                    class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs">
                     Settings
                 </a>
-                <a href="#" x-on:click="showEditTab = 'skins'" :class="{ 'active': showEditTab == 'skins' }"
+                <a href="#" x-on:click="showEditTab = 'design'" :class="{ 'active': showEditTab == 'design' }"
                    class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs">
-                    Skins
+                    Design
                 </a>
             </div>
         </div>
@@ -37,15 +37,13 @@
         </div>
         <div x-show="showEditTab=='settings'">
 
-            <module type="content/admin_live_edit_tab1" />
+
 
         </div>
 
-        <div x-show="showEditTab=='skins'">
-
-            <module type="admin/modules/templates" for-module="posts"/>
-
-        </div>
+        <div x-show="showEditTab=='design'">
+            <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType" />
+        </div> 
 
     </div>
 
