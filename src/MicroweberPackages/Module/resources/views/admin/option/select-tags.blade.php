@@ -8,8 +8,7 @@
 
 <div x-data="{openTags:false}">
 
-    @if (!empty($selectedTags))
-    <div class="tags-list">
+    <div class="tags-list"  @if (empty($selectedTags)) style="display:none" @endif>
         @foreach($selectedTags as $selectedTag)
           <span class="tag">
             {{$selectedTag}}
@@ -17,7 +16,6 @@
           </span>
         @endforeach
     </div>
-    @endif
 
     <div>
         <x-microweber-ui::input wire:model="search" placeholder="Search tags..."  x-on:click="openTags = !openTags" />

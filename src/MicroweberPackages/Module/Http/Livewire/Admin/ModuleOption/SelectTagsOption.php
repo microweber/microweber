@@ -20,12 +20,19 @@ class SelectTagsOption extends OptionElement
 
     public function appendTag($tag)
     {
-        $this->selectedTags[] = $tag;
+        $this->selectedTags[$tag] = $tag;
+
+        if (!empty($this->selectedTags)) {
+            $this->state['settings'][$this->optionKey] = implode(',', $this->selectedTags);
+            $this->updated();
+        }
+        
+        $this->renderTags();
     }
 
     public function removeTag($tag)
     {
-        $this->selectedTags = array_diff($this->selectedTags, [$tag]);
+        unset($this->selectedTags[$tag]);
     }
 
     public function renderTags()
@@ -40,6 +47,9 @@ class SelectTagsOption extends OptionElement
 
         $this->tags = [];
         foreach ($getTags as $tag) {
+            if (isset($this->selectedTags[$tag->name])) {
+                continue;
+            }
             $this->tags[$tag->id] = $tag->name;
         }
     }
