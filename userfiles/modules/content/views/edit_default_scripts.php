@@ -149,7 +149,7 @@
         }
 
         const event = new Event("mw.content-saved");
-        window.dispatchEvent(event);
+        mw.top().win.dispatchEvent(event);
 
         if (parent !== self && !!parent.mw) {
 
