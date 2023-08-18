@@ -123,7 +123,7 @@ $handleHeight: 42;
         opacity: 0;
         transform: translateY(10px);
         z-index: 2;
-        
+        position: relative;
     }
     position: relative;
 
@@ -216,10 +216,18 @@ $handleHeight: 42;
     }
 }
 
+html[dir="rtl"] {
+
+    .mw-le-handle-menu-button-sub-menu {
+        left: 0;
+        right: auto;
+    }
+}
+
 .mw-le-handle-menu-button-sub-menu {
     display: flex;
     flex-wrap: nowrap;
-    padding: 10px 0;
+    padding: 4px 0;
     position: absolute;
     visibility: hidden;
     opacity: 0;
@@ -227,9 +235,11 @@ $handleHeight: 42;
     transform-origin: center top;
     transition: .2s;
     top: 100%;
-    left: 0;
+    left: auto;
+    right: 0;
     background-color: #fff;
     box-shadow: 0px 4px 16px rgba(17, 17, 26, .1), 0px 8px 32px rgba(17, 17, 26, .05);
+    border-radius: 5px;
 
     .mw-le-handle-menu-button {
         display: block;

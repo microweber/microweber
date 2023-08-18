@@ -36,6 +36,7 @@ mw.lib.require('xss');
         this.setValue = function (data, controller) {
             data = this.cleanData(data);
             controller = controller || 'auto';
+ 
 
             if(controller === 'auto') {
                 this.controllers.forEach(function (item){
@@ -51,6 +52,7 @@ mw.lib.require('xss');
         };
 
         this.settings =  mw.object.extend({}, defaults, options || {});
+        
 
 
         var _filterXSS = function (html){
@@ -74,25 +76,39 @@ mw.lib.require('xss');
         };
 
 
+
+        var handleSelect = function (__for, target) {
+            [].forEach.call(scope.nav.querySelectorAll('li a'), function (item){item.classList.remove('active');});
+            scope.controllers.forEach(function (item){item.controller.root.classList.remove('active');});
+            if(target && target.classList) {
+                target.classList.add('active');
+            }
+            __for.controller.root.classList.add('active');
+            if(scope.dialog) {
+                scope.dialog.center();
+            }
+        };
+
+
+        this.selectController = function(type) {
+            var ctrl = scope.controllers.find(c => c.type === type);
+            if(ctrl) {
+                handleSelect(ctrl)
+            }
+        }
+
+
         this.buildNavigation = function (){
             if(this.settings.nav === 'tabs') {
                 this.nav = document.createElement('ul');
-                 this.nav.className = 'nav nav-tabs mw-ac-editor-nav border-0 col-4 gap-3 d-flex flex-column';
+                this.nav.className = 'nav nav-tabs mw-ac-editor-nav border-0 col-4 gap-3 d-flex flex-column';
 
                 var nav = scope.controllers;
                 var dropdown = [];
 
-                var handleSelect = function (__for, target) {
-                    [].forEach.call(scope.nav.querySelectorAll('li a'), function (item){item.classList.remove('active');});
-                    scope.controllers.forEach(function (item){item.controller.root.classList.remove('active');});
-                    if(target && target.classList) {
-                        target.classList.add('active');
-                    }
-                    __for.controller.root.classList.add('active');
-                    if(scope.dialog) {
-                        scope.dialog.center();
-                    }
-                };
+                
+
+
 
                 var createA = function (ctrl, index) {
                     var li =  document.createElement('li');
@@ -194,7 +210,7 @@ mw.lib.require('xss');
 
             this.root.className = 'mw-link-editor-root position-relative mw-link-editor-root-inIframe-' + (window.self !== window.top )
 
-            $(this.root).append('<span onclick="mw.dialog.get().remove()" class="x-close-modal-link"> <i class="mdi mdi-close"></i>  </span>');
+            $(this.root).append('<span onclick="mw.dialog.get(this).remove()" class="x-close-modal-link"> <i class="mdi mdi-close"></i>  </span>');
 
             this.buildControllers ();
             if(this.settings.mode === 'dialog') {

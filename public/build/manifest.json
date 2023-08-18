@@ -1,0 +1,70 @@
+{
+  "_bootstrap-04f2f701.js": {
+    "css": [
+      "assets/bootstrap-fb691bec.css"
+    ],
+    "file": "assets/bootstrap-04f2f701.js"
+  },
+  "_bootstrap-2a1a3b4a.js": {
+    "css": [
+      "assets/bootstrap-1b757cbc.css"
+    ],
+    "file": "assets/bootstrap-2a1a3b4a.js"
+  },
+  "_bootstrap-3fe55f05.js": {
+    "css": [
+      "assets/bootstrap-5f3cd4b6.css"
+    ],
+    "file": "assets/bootstrap-3fe55f05.js"
+  },
+  "_bootstrap-b1866592.js": {
+    "css": [
+      "assets/bootstrap-1b812300.css"
+    ],
+    "file": "assets/bootstrap-b1866592.js"
+  },
+  "_bootstrap-c79e05c3.js": {
+    "css": [
+      "assets/bootstrap-fb691bec.css"
+    ],
+    "file": "assets/bootstrap-c79e05c3.js"
+  },
+  "_bootstrap-ddc74512.js": {
+    "css": [
+      "assets/bootstrap-0b2e32a5.css"
+    ],
+    "file": "assets/bootstrap-ddc74512.js"
+  },
+  "bootstrap.css": {
+    "file": "assets/bootstrap-fb691bec.css",
+    "src": "bootstrap.css"
+  },
+  "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js": {
+    "file": "assets/admin-app-a1ae0d63.js",
+    "imports": [
+      "_bootstrap-04f2f701.js"
+    ],
+    "isEntry": true,
+    "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js"
+  },
+  "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css": {
+    "file": "assets/live-edit-app-a55d9ba6.css",
+    "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css"
+  },
+  "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js": {
+    "css": [
+      "assets/live-edit-app-a55d9ba6.css"
+    ],
+    "file": "assets/live-edit-app-7a4c6609.js",
+    "imports": [
+      "_bootstrap-04f2f701.js"
+    ],
+    "isEntry": true,
+    "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js"
+  },
+  "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js": {
+    "file": "assets/live-edit-page-scripts-c96806d4.js",
+    "isEntry": true,
+    "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js"
+  }
+}

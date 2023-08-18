@@ -112,7 +112,8 @@ export const Handles = function (handles) {
             })
             handle.draggable.on('dragEnd', function (){
                 scope.dragging = false;
-                handle.show()
+                handle.show();
+                mw.top().app.registerChange(handle.getTarget())
             })
         })
     }

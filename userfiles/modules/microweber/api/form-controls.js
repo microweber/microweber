@@ -387,7 +387,7 @@ mw.emitter = {
                     scope.link = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
                     scope.url = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
                     scope.src = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
-                    console.log(scope.link)
+                  
                     scope.valid();
                 });
                 list.append(li);
@@ -496,6 +496,8 @@ mw.emitter = {
                 title: 'Email'
             };
             options =  mw.object.extend(true, {}, defaults, (options || {}));
+
+             
             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.link === true) options.link = defaults.link;
@@ -829,7 +831,7 @@ mw.emitter = {
                 var val = {};
                 if(textField) val.text = textField.value;
 
-                console.log(scope.autoComplete)
+                
 
                 var getSelected, autoCompleteVal = scope.autoComplete.getValue();
                 for (let i in scope.autoComplete.options) {
@@ -955,6 +957,10 @@ mw.emitter = {
 
             }
 
+
+            var currentVal = {}
+
+
             $.getJSON(url, function (res){
 
                 scope.tree = new mw.tree({
@@ -966,6 +972,8 @@ mw.emitter = {
                     searchInputClassName: 'form-control-live-edit-input',
                     searchInput: true
                 });
+
+                scope.tree.select(currentVal)
 
                 var dialog = mw.dialog.get(treeEl);
                 if(dialog) {
@@ -1028,6 +1036,15 @@ mw.emitter = {
 
             this.setValue = function (val) {
                 val = val || {};
+                currentVal = val;
+                if(val.id && val.type) {
+                    if(scope.tree) {
+                        scope.tree.select({
+                            id: val.id,
+                            type: val.type,
+                        })
+                    } 
+                }
                 if(textField) textField.value = val.text || '';
                 if(targetField) targetField.checked = val.target;
                 return val;

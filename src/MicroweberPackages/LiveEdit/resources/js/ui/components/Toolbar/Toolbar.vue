@@ -171,9 +171,16 @@ export default {
     mounted() {
 
         this.getTopRightMenu();
+        const userMenuWrapper = document.getElementById('user-menu-wrapper')
+
+        document.addEventListener('click', e => {
+            if(!userMenuWrapper.contains(e.target)) {
+                userMenuWrapper.classList.remove('active');
+            }
+        })
 
         mw.app.canvas.on('canvasDocumentClick', () => {
-            document.getElementById('user-menu-wrapper').classList.remove('active');
+            userMenuWrapper.classList.remove('active');
         });
     }
 }

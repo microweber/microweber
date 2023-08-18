@@ -36,7 +36,7 @@ addEventListener('load', function(){
         }
     })
     mw.app.canvas.on('canvasDocumentKeydown',function(e){
-        console.log(e)
+        
         if(e.key === "Escape") {
             CSSGUIService.hide()
         }
