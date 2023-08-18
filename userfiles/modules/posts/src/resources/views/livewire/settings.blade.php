@@ -45,12 +45,48 @@
                 <label class="live-edit-label">data-tags</label>
                 <livewire:microweber-option::text optionKey="data-tags" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
-            <div>
-                <label class="live-edit-label">data-show</label>
-                <livewire:microweber-option::text optionKey="data-tags" :optionGroup="$moduleId" :module="$moduleType"  />
+
+            <div class="mt-4 mb-3">
+                <label class="live-edit-label">Display on post</label>
+                @php
+                    $radioOptions = [
+                        '' => 'Show default information from module skin',
+                        'thumbnail,title' => 'Show custom information',
+                    ];
+                @endphp
+                <livewire:microweber-option::dropdown :dropdownOptions="$radioOptions" optionKey="data-display" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
-            <module type="content/admin_live_edit_tab1" />
+            <div
+                x-data="{'dataDisplayOptions': @if (!empty(get_option('data-display', $moduleId))) true @else false @endif }"
+
+                @mw-option-saved.window="function() {
+                    if ($event.detail.optionKey == 'data-display') {
+                        if ($event.detail.optionValue.length > 0) {
+                           dataDisplayOptions = true;
+                       }
+                    }
+                }">
+
+                <div x-show="dataDisplayOptions">
+
+                    <div class="mt-4 mb-3">
+                        @php
+                            $checkboxOptions = [
+                                'thumbnail' => 'Thumbnail',
+                                'title' => 'Title',
+                                'description' => 'Description',
+                                'read_more' => 'Read More',
+                                'created_at' => 'Date',
+                            ];
+                        @endphp
+                        <livewire:microweber-option::checkbox :checkboxOptions="$checkboxOptions" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                    </div>
+
+
+                </div>
+
+            </div>
 
         </div>
 
