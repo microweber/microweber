@@ -38,12 +38,12 @@
         <div x-show="showEditTab=='settings'">
 
             <div>
-                <label class="live-edit-label">data-page-id</label>
-                <livewire:microweber-option::text optionKey="data-page-id" :optionGroup="$moduleId" :module="$moduleType"  />
+                <label class="live-edit-label">From Source</label>
+                <livewire:microweber-option::select-page optionKey="data-page-id" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
             <div>
-                <label class="live-edit-label">data-tags</label>
-                <livewire:microweber-option::text optionKey="data-tags" :optionGroup="$moduleId" :module="$moduleType"  />
+                <label class="live-edit-label">Filter Tags</label>
+                <livewire:microweber-option::select-tags optionKey="data-tags" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
             <div class="mt-4 mb-3">
@@ -64,7 +64,9 @@
                     if ($event.detail.optionKey == 'data-display') {
                         if ($event.detail.optionValue.length > 0) {
                            dataDisplayOptions = true;
-                       }
+                       } else {
+                            dataDisplayOptions = false;
+                      }
                     }
                 }">
 
