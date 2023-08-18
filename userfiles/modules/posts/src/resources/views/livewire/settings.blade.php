@@ -37,13 +37,26 @@
         </div>
         <div x-show="showEditTab=='settings'">
 
+            <div>
+                <label class="live-edit-label">data-page-id</label>
+                <livewire:microweber-option::text optionKey="data-page-id" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+            <div>
+                <label class="live-edit-label">data-tags</label>
+                <livewire:microweber-option::text optionKey="data-tags" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+            <div>
+                <label class="live-edit-label">data-show</label>
+                <livewire:microweber-option::text optionKey="data-tags" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
 
+            <module type="content/admin_live_edit_tab1" />
 
         </div>
 
         <div x-show="showEditTab=='design'">
             <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType" />
-        </div> 
+        </div>
 
     </div>
 
