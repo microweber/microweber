@@ -2,8 +2,10 @@
     <div>
 
         <div id="general-theme-settings" :class="[showSidebar == true ? 'active' : '']">
-            <div class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0">
 
+
+            <div class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0 position-relative">
+                <span v-on:click="show('template-settings')" :class="[buttonIsActive?'live-edit-right-sidebar-active':'']" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
                 <div id="rightSidebarTabStyleEditorNav" role="tablist">
                     <a class="mw-admin-action-links mw-adm-liveedit-tabs active me-3" data-bs-toggle="tab"
                        data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab">
@@ -49,8 +51,9 @@
 <style>
 .general-theme-settings {
     background: #000;
+
 }
- 
+
 .live-edit-gui-editor-opened #live-editor-frame{
     margin-right: 303px;
 }
@@ -70,16 +73,19 @@ export default {
         TemplateSettings,
     },
     methods: {
-
         show: function (name) {
             this.emitter.emit('live-edit-ui-show', name);
+
+            console.log(CSSGUIService)
+            CSSGUIService.toggle()
+            // this.emitter.emit('live-edit-ui-show', name);
         },
         closeSidebar() {
-            
+
             CSSGUIService.show()
         },
         openSidebar() {
-    
+
             CSSGUIService.close()
         }
     },
@@ -91,12 +97,23 @@ export default {
             var firstTab = new bootstrap.Tab(firstTabEl)
             firstTab.show()
         }
-        
+
+        this.emitter.on("live-edit-ui-show", show => {
+            if (show == 'template-settings') {
+                if (instance.buttonIsActive == false) {
+                    instance.buttonIsActive = true;
+                } else {
+                    instance.buttonIsActive = false;
+                }
+            }
+        });
 
     },
     data() {
         return {
-            showSidebar: false
+            showSidebar: false,
+            buttonIsActive: false
+
         }
     }
 }
