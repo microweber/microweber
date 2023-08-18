@@ -34,6 +34,8 @@ use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\RadioModernOption
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\RadioOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\CheckboxOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\RangeSliderOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\SelectPageOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\SelectTagsOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextareaOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextOptionNew;
@@ -90,16 +92,6 @@ class ModuleServiceProvider extends ServiceProvider
             return $this->app->repository_manager->driver(\MicroweberPackages\Module\Models\Module::class);;
         });
 
-        Livewire::component('microweber-module-option::text', TextOption::class);
-        Livewire::component('microweber-module-option::textarea', TextareaOption::class);
-        Livewire::component('microweber-module-option::icon-picker', IconPickerOption::class);
-        Livewire::component('microweber-module-option::link-picker', LinkPickerOption::class);
-        Livewire::component('microweber-module-option::range-slider', RangeSliderOption::class);
-        Livewire::component('microweber-module-option::dropdown', DropdownOption::class);
-        Livewire::component('microweber-module-option::radio', RadioOption::class);
-        Livewire::component('microweber-module-option::radio-modern', RadioModernOption::class);
-        Livewire::component('microweber-module-option::checkbox', CheckboxOption::class);
-
         Livewire::component('microweber-option::text', TextOption::class);
         Livewire::component('microweber-option::numeric', NumericOption::class);
         Livewire::component('microweber-option::textarea', TextareaOption::class);
@@ -115,6 +107,9 @@ class ModuleServiceProvider extends ServiceProvider
         Livewire::component('microweber-option::toggle', ToggleOption::class);
         Livewire::component('microweber-option::radio-modern', RadioModernOption::class);
         Livewire::component('microweber-option::checkbox', CheckboxOption::class);
+
+        Livewire::component('microweber-option::select-page', SelectPageOption::class);
+        Livewire::component('microweber-option::select-tags', SelectTagsOption::class);
 
     }
 

@@ -1,9 +1,8 @@
 <div class="card-body mb-3">
 
     <script>
-        window.addEventListener("mw.content-saved", (e) => {
+        mw.top().win.addEventListener("mw.content-saved", (e) => {
             Livewire.emit('refreshContentList');
-            alert(222);
         });
     </script>
 
