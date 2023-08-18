@@ -6,7 +6,10 @@
         $selectedOption = $this->state['settings'][$this->optionKey];
     }
 
-    $selectedPageTree = [];
+    $selectedPageTree = [
+        'id' => '',
+        'name' => 'Select page'
+    ];
     if (isset($pagesTree[$selectedOption])) {
         $selectedPageTree = [
             'id' => $selectedOption,

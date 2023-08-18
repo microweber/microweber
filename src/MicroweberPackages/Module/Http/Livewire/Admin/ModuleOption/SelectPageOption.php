@@ -6,10 +6,10 @@ use MicroweberPackages\Page\Models\Page;
 
 class SelectPageOption extends OptionElement
 {
+    public string $view = 'module::admin.option.select-page';
+
     public $search;
     public $pagesTree = [];
-
-    public string $view = 'module::admin.option.select-page';
 
     public function updatedSearch()
     {
