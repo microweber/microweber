@@ -1,18 +1,25 @@
+<div
+    x-data="{openTags:false}"
+    x-on:click.away="openTags = false"
+>
 
-@php
-    $selectedOption = '';
-    if (isset($this->state['settings']) and isset($this->state['settings'][$this->optionKey])) {
-        $selectedOption = $this->state['settings'][$this->optionKey];
-    }
-@endphp
+    <style>
+        .tags-list .tag .btn-close {
+            color:#fff;
+        }
+        .tags-list .tag {
+            background:#000;
+            color:#fff;
+            margin-right:5px;
+        }
 
-<div x-data="{openTags:false}">
+    </style>
 
     <div class="tags-list"  @if (empty($selectedTags)) style="display:none" @endif>
         @foreach($selectedTags as $selectedTag)
           <span class="tag">
             {{$selectedTag}}
-            <a href="#" wire:click="removeTag('{{$selectedTag}}')" class="btn-close"></a>
+            <a href="#" wire:click="removeTag('{{$selectedTag}}')" class="btn-close">X</a>
           </span>
         @endforeach
     </div>
@@ -21,7 +28,7 @@
         <x-microweber-ui::input wire:model="search" placeholder="Search tags..."  x-on:click="openTags = !openTags" />
     </div>
 
-    <div class="form-control-live-edit-label-wrapper">
+    <div x-show="openTags" class="form-control-live-edit-label-wrapper">
 
         <div class="dropdown-menu form-control-live-edit-input ps-0" style="max-height:300px;overflow-y: scroll" :class="[openTags ? 'show':'']">
 

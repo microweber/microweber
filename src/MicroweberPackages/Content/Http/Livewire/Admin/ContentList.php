@@ -73,7 +73,11 @@ class ContentList extends AdminComponent
 
         if (is_array($value)) {
             $value = implode(',', $value);
-        };
+        }
+        if (empty($value)) {
+            unset($this->filters[$key]);
+            return;
+        }
         $this->filters[$key] = $value;
     }
 

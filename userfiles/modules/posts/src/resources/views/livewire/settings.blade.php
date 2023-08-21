@@ -30,7 +30,7 @@
         <div x-show="showEditTab=='content'">
 
             <div>
-                <livewire:admin-posts-list open-links-in-modal="true" />
+                <livewire:admin-posts-list :filters="$postListFilters" open-links-in-modal="true" />
                 <livewire:admin-content-bulk-options />
             </div>
 
@@ -46,7 +46,7 @@
                 <livewire:microweber-option::select-tags optionKey="data-tags" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
-            <div class="mt-4 mb-3">
+            <div class="mb-3">
                 <label class="live-edit-label">Display on post</label>
                 @php
                     $radioOptions = [
@@ -65,7 +65,7 @@
                         if ($event.detail.optionValue.length > 0) {
                            dataDisplayOptions = true;
                        } else {
-                            dataDisplayOptions = false;
+                           dataDisplayOptions = false;
                       }
                     }
                 }">
