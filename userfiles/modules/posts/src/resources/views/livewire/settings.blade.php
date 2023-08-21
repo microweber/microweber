@@ -32,11 +32,18 @@
             <div>
                 @php
                     $pageId = get_option('data-page-id', $moduleId);
+                    $pageId = trim($pageId);
+                    
                     $tags = get_option('data-tags', $moduleId);
-                    $filters = [
-                        'page' => $pageId,
-                        'tags' => $tags,
-                    ];
+                    $tags = trim($tags);
+
+                    $filters = [];
+                     if (!empty($pageId)) {
+                        $filters['page'] = $pageId;
+                    }
+                    if (!empty($tags)) {
+                        $filters['tags'] = $tags;
+                    }
                 @endphp
                 <livewire:admin-posts-list :filters="$filters" open-links-in-modal="true" />
                 <livewire:admin-content-bulk-options />

@@ -37,9 +37,9 @@ class SelectTagsOption extends OptionElement
         if (!empty($this->selectedTags)) {
             $this->state['settings'][$this->optionKey] = implode(',', $this->selectedTags);
         } else {
-            $this->state['settings'][$this->optionKey] = null;
+            $this->state['settings'][$this->optionKey] = ' ';
         }
-        
+
         $this->updated();
     }
 
@@ -68,11 +68,14 @@ class SelectTagsOption extends OptionElement
 
         if (isset($this->state['settings']) and isset($this->state['settings'][$this->optionKey])) {
             $selectedOption = $this->state['settings'][$this->optionKey];
-            $selectedOption = explode(',', $selectedOption);
-            if (!empty($selectedOption)) {
-                foreach ($selectedOption as $option) {
-                    $this->selectedTags[$option] = $option;
-                }
+            $selectedOption = mb_trim($selectedOption);
+           if (!empty($selectedOption)) {
+               $selectedOption = explode(',', $selectedOption);
+               if (!empty($selectedOption)) {
+                   foreach ($selectedOption as $option) {
+                       $this->selectedTags[$option] = $option;
+                   }
+               }
             }
         }
 
