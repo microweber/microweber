@@ -13,7 +13,10 @@
 
 @endphp
 
-<div class="form-control-live-edit-label-wrapper" x-data="{openOptions:false}">
+<div class="form-control-live-edit-label-wrapper"
+     x-data="{openOptions:false}"
+    x-on:click.away="openOptions = false"
+>
 
     <button type="button" class="form-select form-control-live-edit-input" x-on:click="openOptions = !openOptions">
         {{$selectedPageName}}

@@ -1,4 +1,7 @@
-<div x-data="{openTags:false}">
+<div
+    x-data="{openTags:false}"
+    x-on:click.away="openTags = false"
+>
 
     <style>
         .tags-list .tag .btn-close {
