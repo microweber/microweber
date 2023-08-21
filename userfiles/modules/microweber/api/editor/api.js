@@ -581,6 +581,7 @@ mw.lib.require('rangy');
                             if(area) {
                                 parent = area;
                             }
+                            
 
                             scope.api.action(parent, function () {
                                 scope.actionWindow.document.execCommand(cmd, def, val);
@@ -716,7 +717,7 @@ mw.lib.require('rangy');
                 }
                 else {
                     var link = mw.tools.firstParentOrCurrentWithTag(this.elementNode(sel.focusNode), 'a');
-                    console.log(link)
+                  
                     if (!!link) {
                         this.selectElement(link);
                         this.execCommand('unlink', null, null);

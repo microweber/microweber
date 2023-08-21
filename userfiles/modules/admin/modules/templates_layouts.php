@@ -488,6 +488,12 @@ $current_template = false;
                                 }
                             });
 
+                            if(target) {
+                                cpoPicker.setColor(getComputedStyle(bgOverlay).backgroundColor)
+                            }
+
+                           
+
                             document.querySelector('#bg-image-picker').addEventListener('click', function(){
                                 var dialog;
                                 var picker = new mw.filePicker({

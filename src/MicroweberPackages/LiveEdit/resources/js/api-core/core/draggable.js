@@ -58,6 +58,22 @@ export const Draggable = function (options, rootSettings) {
     };
 
     this.$data = {}
+
+    this.getDragCoords = function(event) {
+        let {pageX, pageY} = event;
+        const handleNodeWin = event.target.ownerDocument.defaultView;
+
+        if(handleNodeWin.__$$dragoverCoords) {
+            pageX = handleNodeWin.__$$dragoverCoords.pageX;
+            pageY = handleNodeWin.__$$dragoverCoords.pageY;
+        }
+
+ 
+
+        return {
+            pageX, pageY
+        }
+    }
    
     this.helper = function (e, event) {
         
@@ -69,13 +85,15 @@ export const Draggable = function (options, rootSettings) {
         }
         if (e === 'create') {
             var off = ElementManager( scope.element ).offset();
+
+            let {pageX, pageY} = this.getDragCoords(event);
  
             scope.$data._calcMinus = {
-                y: (event.pageY - off.offsetTop),
-                x: (event.pageX - off.offsetLeft),
+                y: (pageY - off.offsetTop),
+                x: (pageX - off.offsetLeft),
             }
-            scope._helper.style.top = e.pageY + 'px';
-            scope._helper.style.left = e.pageX + 'px';
+            scope._helper.style.top = pageY + 'px';
+            scope._helper.style.left = pageX + 'px';
             scope._helper.style.width = scope.element.offsetWidth + 'px';
             scope._helper.style.height = scope.element.offsetHeight + 'px';
             scope.settings.document.documentElement.classList.add('le-dragging')
@@ -91,11 +109,11 @@ export const Draggable = function (options, rootSettings) {
             
         } else if(scope.settings.helper && e) {
             
-            
-          
-            scope._helper.style.top = (Math.abs(e.pageY) -  scope.$data._calcMinus.y) + 'px';
-            scope._helper.style.top = e.pageY + 'px';
-            scope._helper.style.left = (Math.abs(e.pageX) -  scope.$data._calcMinus.x) + 'px';
+            let {pageX, pageY} = this.getDragCoords(e);
+           
+            scope._helper.style.top = (pageY -  scope.$data._calcMinus.y) + 'px';
+           scope._helper.style.top = pageY + 'px';
+           scope._helper.style.left = ( pageX -  scope.$data._calcMinus.x) + 'px';
             // scope._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX - 40) + 'px';
             scope.settings.document.documentElement.classList.add('le-dragging')
         }
@@ -175,6 +193,9 @@ export const Draggable = function (options, rootSettings) {
       
         var handleEl = this.handle.get(0);
 
+
+
+
         
  
          
@@ -198,8 +219,24 @@ export const Draggable = function (options, rootSettings) {
                 scope.helper(e)
 
             }
-            this.handle.get(0).addEventListener('drag',  (e) => {
-                _dragHandle.call(this, e)
+
+            var handleNode = this.handle.get(0);
+
+            var handleNodeWin = handleNode.ownerDocument.defaultView;
+
+            if(!handleNodeWin.__$$dragoverCoords) { // firefox returns wrong pageY on drag
+                handleNodeWin.__$$dragoverCoords = {}
+            }
+
+            handleNode.ownerDocument.addEventListener('dragover',  (e) => {
+         
+                handleNodeWin.__$$dragoverCoords.pageY = e.pageY
+                handleNodeWin.__$$dragoverCoords.pageX = e.pageX
+            })
+
+            handleNode.addEventListener('drag',  (e) => {
+                _dragHandle.call(this, e);
+     
             })
  
             handleEl.$handleInit = true;

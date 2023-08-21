@@ -349,9 +349,38 @@ var MWEditor = function (options) {
         }
     }
 
+    this.adjustRange = function(sel) {
+        if(!sel) {
+            sel = scope.getSelection()
+        }
+        let range = sel.getRangeAt(0);
+        range = range.cloneRange();
+        if (range.startContainer.nodeType != 3) {
+            var nodeAfterStart = range.startContainer.childNodes[range.startOffset];
+            if (nodeAfterStart && nodeAfterStart.nodeType == 3) {
+                range.setStart(nodeAfterStart, 0);
+            }
+        }
+        if (range.endContainer.nodeType != 3 && range.endOffset >= 1) {
+            var nodeBeforeEnd = range.endContainer.childNodes[range.endOffset - 1];
+            if (nodeBeforeEnd && nodeBeforeEnd.nodeType == 3) {
+                range.setEnd(nodeBeforeEnd, nodeBeforeEnd.data.length);
+            }
+        }
+        sel.removeAllRanges();
+        sel.addRange(range);
+        return range;
+    }
+
     this.initInteraction = function () {
 
         this.interactionData = {};
+        $(scope.actionWindow.document).on('click', function(e){
+ 
+            if(e.detail >= 2) {
+                scope.adjustRange()
+            }
+        })
         $(scope.actionWindow.document).on('selectionchange', function(e){
             $(scope).trigger('selectionchange', [{
                 event: e,
@@ -937,6 +966,8 @@ var MWEditor = function (options) {
                 });
             }
             scope.settings.regions = scope.settings.regions || scope.$editArea;
+
+            scope.$editArea[0].querySelectorAll('.module').forEach(node => node.contentEditable = false)
 
 
             if (scope.settings.editMode === 'liveedit') {
