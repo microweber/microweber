@@ -1,18 +1,22 @@
-
-@php
-    $selectedOption = '';
-    if (isset($this->state['settings']) and isset($this->state['settings'][$this->optionKey])) {
-        $selectedOption = $this->state['settings'][$this->optionKey];
-    }
-@endphp
-
 <div x-data="{openTags:false}">
+
+    <style>
+        .tags-list .tag .btn-close {
+            color:#fff;
+        }
+        .tags-list .tag {
+            background:#000;
+            color:#fff;
+            margin-right:5px;
+        }
+
+    </style>
 
     <div class="tags-list"  @if (empty($selectedTags)) style="display:none" @endif>
         @foreach($selectedTags as $selectedTag)
           <span class="tag">
             {{$selectedTag}}
-            <a href="#" wire:click="removeTag('{{$selectedTag}}')" class="btn-close"></a>
+            <a href="#" wire:click="removeTag('{{$selectedTag}}')" class="btn-close">X</a>
           </span>
         @endforeach
     </div>

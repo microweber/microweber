@@ -26,7 +26,7 @@ class SelectTagsOption extends OptionElement
             $this->state['settings'][$this->optionKey] = implode(',', $this->selectedTags);
             $this->updated();
         }
-        
+
         $this->renderTags();
     }
 
@@ -57,6 +57,17 @@ class SelectTagsOption extends OptionElement
     public function mount()
     {
         parent::mount();
+
+        if (isset($this->state['settings']) and isset($this->state['settings'][$this->optionKey])) {
+            $selectedOption = $this->state['settings'][$this->optionKey];
+            $selectedOption = explode(',', $selectedOption);
+            if (!empty($selectedOption)) {
+                foreach ($selectedOption as $option) {
+                    $this->selectedTags[$option] = $option;
+                }
+            }
+        }
+
         $this->renderTags();
     }
 }
