@@ -33,6 +33,14 @@ class SelectTagsOption extends OptionElement
     public function removeTag($tag)
     {
         unset($this->selectedTags[$tag]);
+
+        if (!empty($this->selectedTags)) {
+            $this->state['settings'][$this->optionKey] = implode(',', $this->selectedTags);
+        } else {
+            $this->state['settings'][$this->optionKey] = null;
+        }
+        
+        $this->updated();
     }
 
     public function renderTags()

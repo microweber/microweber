@@ -30,7 +30,15 @@
         <div x-show="showEditTab=='content'">
 
             <div>
-                <livewire:admin-posts-list open-links-in-modal="true" />
+                @php
+                    $pageId = get_option('data-page-id', $moduleId);
+                    $tags = get_option('data-tags', $moduleId);
+                    $filters = [
+                        'page' => $pageId,
+                        'tags' => $tags,
+                    ];
+                @endphp
+                <livewire:admin-posts-list :filters="$filters" open-links-in-modal="true" />
                 <livewire:admin-content-bulk-options />
             </div>
 
