@@ -15,7 +15,11 @@ class PostsSettingsComponent extends ModuleSettingsComponent
     public function mwOptionSaveListener($e)
     {
         if (isset($e['optionKey'])) {
-            $e['optionValue'] = trim($e['optionValue']);
+
+            if (!is_array($e['optionValue'])) {
+                $e['optionValue'] = trim($e['optionValue']);
+            }
+
             if ($e['optionKey'] == 'data-page-id') {
                 $this->emit('autoCompleteSelectItem', 'page', $e['optionValue']);
             }

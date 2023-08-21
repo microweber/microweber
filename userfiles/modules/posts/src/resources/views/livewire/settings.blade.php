@@ -46,7 +46,7 @@
                 <livewire:microweber-option::select-tags optionKey="data-tags" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
-            <div class="mt-4 mb-3">
+            <div class="mb-3">
                 <label class="live-edit-label">Display on post</label>
                 @php
                     $radioOptions = [

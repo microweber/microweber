@@ -28,7 +28,7 @@
         <x-microweber-ui::input wire:model="search" placeholder="Search tags..."  x-on:click="openTags = !openTags" />
     </div>
 
-    <div class="form-control-live-edit-label-wrapper">
+    <div x-show="openTags" class="form-control-live-edit-label-wrapper">
 
         <div class="dropdown-menu form-control-live-edit-input ps-0" style="max-height:300px;overflow-y: scroll" :class="[openTags ? 'show':'']">
 

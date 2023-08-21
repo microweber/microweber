@@ -4,6 +4,12 @@
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
+<script>
+    setTimeout(function() {
+        mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
+    },300);
+</script>
+
 <?php
 
 
