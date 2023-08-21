@@ -30,22 +30,7 @@
         <div x-show="showEditTab=='content'">
 
             <div>
-                @php
-                    $pageId = get_option('data-page-id', $moduleId);
-                    $pageId = trim($pageId);
-                    
-                    $tags = get_option('data-tags', $moduleId);
-                    $tags = trim($tags);
-
-                    $filters = [];
-                     if (!empty($pageId)) {
-                        $filters['page'] = $pageId;
-                    }
-                    if (!empty($tags)) {
-                        $filters['tags'] = $tags;
-                    }
-                @endphp
-                <livewire:admin-posts-list :filters="$filters" open-links-in-modal="true" />
+                <livewire:admin-posts-list :filters="$postListFilters" open-links-in-modal="true" />
                 <livewire:admin-content-bulk-options />
             </div>
 
@@ -80,7 +65,7 @@
                         if ($event.detail.optionValue.length > 0) {
                            dataDisplayOptions = true;
                        } else {
-                            dataDisplayOptions = false;
+                           dataDisplayOptions = false;
                       }
                     }
                 }">
