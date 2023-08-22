@@ -204,7 +204,6 @@ class Front
             $post_params['category'] = $posts_parent_category;
         }
 
-
         $set_category_for_posts = false;
 
         $posts_limit = Option::fetchFromCollection($options, 'data-limit');

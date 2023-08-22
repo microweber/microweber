@@ -41,6 +41,7 @@
                 <label class="live-edit-label">From Source</label>
                 <livewire:microweber-option::select-page optionKey="data-page-id" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
+
             <div>
                 <label class="live-edit-label">Filter Tags</label>
                 <livewire:microweber-option::select-tags optionKey="data-tags" :optionGroup="$moduleId" :module="$moduleType"  />
