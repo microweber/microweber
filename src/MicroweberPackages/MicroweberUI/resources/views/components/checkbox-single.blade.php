@@ -8,7 +8,7 @@
     <label class="form-check" id="{{$optionRandId}}">
         <input class="form-check-input" :value="$value" type="checkbox" {!! $attributes->merge() !!}>
         <span class="form-check-label">
-            {{ $name }}  
+            {{ $name }}
         </span>
     </label>
 
