@@ -83,7 +83,7 @@
                         </div>
                         <div class="w-full">
                             <label class="live-edit-label">{{__('Title Limit')}} </label>
-                            <livewire:microweber-option::text optionKey="data-title-limit" :optionGroup="$moduleId" :module="$moduleType"  />
+                            <livewire:microweber-option::text type="number" optionKey="data-title-limit" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
                     </div>
 
@@ -93,7 +93,7 @@
                         </div>
                         <div class="w-full">
                             <label class="live-edit-label">{{__('Description Limit')}} </label>
-                            <livewire:microweber-option::text optionKey="data-character-limit" :optionGroup="$moduleId" :module="$moduleType"  />
+                            <livewire:microweber-option::text type="number" optionKey="data-character-limit" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
                     </div>
 
@@ -115,7 +115,7 @@
 
                             <div>
                                 <label class="live-edit-label">{{__('Post per page')}} </label>
-                                <livewire:microweber-option::text optionKey="data-limit" :optionGroup="$moduleId" :module="$moduleType"  />
+                                <livewire:microweber-option::text type="number" optionKey="data-limit" :optionGroup="$moduleId" :module="$moduleType"  />
                             </div>
 
                             <div class="mb-3">
@@ -129,7 +129,7 @@
                                         'title+asc' => 'Title (ASC)',
                                         'title+desc' => 'Title (DESC)',
                                     ];
-                                @endphp
+                                @endphp 
                                 <livewire:microweber-option::dropdown :dropdownOptions="$radioOptions" optionKey="data-order-by" :optionGroup="$moduleId" :module="$moduleType"  />
                             </div>
 
