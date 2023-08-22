@@ -71,7 +71,12 @@
                     }
                 }">
 
-                <div x-show="dataDisplayOptions">
+                <div x-show="dataDisplayOptions"
+
+                     @mw-option-saved.window="function() {
+                      //  alert($event.detail.optionKey);
+                     }"
+                >
 
                     <div>
                         <livewire:microweber-option::checkbox-single optionName="Thumbnail" optionValue="thumbnail" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
@@ -129,7 +134,7 @@
                                         'title+asc' => 'Title (ASC)',
                                         'title+desc' => 'Title (DESC)',
                                     ];
-                                @endphp 
+                                @endphp
                                 <livewire:microweber-option::dropdown :dropdownOptions="$radioOptions" optionKey="data-order-by" :optionGroup="$moduleId" :module="$moduleType"  />
                             </div>
 
