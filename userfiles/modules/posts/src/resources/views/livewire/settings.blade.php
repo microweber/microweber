@@ -108,17 +108,24 @@
 
                     </div>
 
-                    <div class="mt-4 mb-3">
-                        @php
-                            $checkboxOptions = [
-                                'thumbnail' => 'Thumbnail',
-                                'title' => 'Title',
-                                'description' => 'Description',
-                                'read_more' => 'Read More',
-                                'created_at' => 'Date',
-                            ];
-                        @endphp
-                        <livewire:microweber-option::checkbox :checkboxOptions="$checkboxOptions" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                    <div>
+                        <livewire:microweber-option::checkbox-single optionName="Thumbnail" optionValue="thumbnail" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                    </div>
+
+                    <div>
+                        <livewire:microweber-option::checkbox-single optionName="Title" optionValue="title" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                    </div>
+
+                    <div>
+                        <livewire:microweber-option::checkbox-single optionName="Description" optionValue="description" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                    </div>
+
+                    <div>
+                        <livewire:microweber-option::checkbox-single optionName="Read More" optionValue="read_more" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                    </div>
+
+                    <div>
+                        <livewire:microweber-option::checkbox-single optionName="Created At" optionValue="created_at" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
                     </div>
 
 
