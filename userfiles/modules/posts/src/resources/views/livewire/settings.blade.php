@@ -99,6 +99,8 @@
                                     'position+desc' => 'Position (DESC)',
                                     'created_at+asc' => 'Date (ASC)',
                                     'created_at+desc' => 'Date (DESC)',
+                                    'title+asc' => 'Title (ASC)',
+                                    'title+desc' => 'Title (DESC)',
                                 ];
                             @endphp
                             <livewire:microweber-option::dropdown :dropdownOptions="$radioOptions" optionKey="data-order-by" :optionGroup="$moduleId" :module="$moduleType"  />
