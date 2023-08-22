@@ -2699,3 +2699,23 @@ svg.text-danger {
     }
 }
 
+.tags-list {
+    --tblr-list-gap: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tblr-list-gap);
+}
+
+.tag {
+    --tblr-tag-height: 1.5rem;
+    border: 1px solid var(--tblr-border-color);
+    display: inline-flex;
+    align-items: center;
+    height: var(--tblr-tag-height);
+    border-radius: var(--tblr-border-radius);
+    padding: 0 0.5rem;
+    background: var(--tblr-bg-surface);
+    box-shadow: var(--tblr-box-shadow-input);
+    gap: 0.5rem;
+}
+
