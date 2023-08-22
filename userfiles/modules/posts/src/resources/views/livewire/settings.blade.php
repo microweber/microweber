@@ -73,6 +73,39 @@
 
                 <div x-show="dataDisplayOptions">
 
+                    <div>
+                        <div>
+                            <label class="live-edit-label">{{__('Title Limit')}} </label>
+                            <livewire:microweber-option::text optionKey="data-title-limit" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                        <div>
+                            <label class="live-edit-label">{{__('Description Limit')}} </label>
+                            <livewire:microweber-option::text optionKey="data-character-limit" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                        <div>
+                            <label class="live-edit-label">{{__('Read more text')}} </label>
+                            <livewire:microweber-option::text optionKey="data-read-more-text" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                        <div>
+                            <label class="live-edit-label">{{__('Post per page')}} </label>
+                            <livewire:microweber-option::text optionKey="data-limit" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="live-edit-label">Order by</label>
+                            @php
+                                $radioOptions = [
+                                    'position+asc' => 'Position (ASC)',
+                                    'position+desc' => 'Position (DESC)',
+                                    'created_at+asc' => 'Date (ASC)',
+                                    'created_at+desc' => 'Date (DESC)',
+                                ];
+                            @endphp
+                            <livewire:microweber-option::dropdown :dropdownOptions="$radioOptions" optionKey="data-order-by" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+
+                    </div>
+
                     <div class="mt-4 mb-3">
                         @php
                             $checkboxOptions = [

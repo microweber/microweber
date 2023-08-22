@@ -159,7 +159,7 @@ class Ui
             'date' => 'Date',
             'time' => 'Time',
         //    'color' => 'Color',
-            'upload' => 'File Upload', 
+            'upload' => 'File Upload',
             'property' => 'Property',
            // 'breakline' => 'Break Line',
             'hidden' => 'Hidden Field',
