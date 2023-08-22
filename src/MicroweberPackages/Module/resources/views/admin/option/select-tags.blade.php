@@ -3,23 +3,11 @@
     x-on:click.away="openTags = false"
 >
 
-    <style>
-        .tags-list .tag .btn-close {
-            color:#fff;
-        }
-        .tags-list .tag {
-            background:#000;
-            color:#fff;
-            margin-right:5px;
-        }
-
-    </style>
-
-    <div class="tags-list"  @if (empty($selectedTags)) style="display:none" @endif>
+    <div class="tags-list my-3 ms-2"  @if (empty($selectedTags)) style="display:none" @endif>
         @foreach($selectedTags as $selectedTag)
           <span class="tag">
             {{$selectedTag}}
-            <a href="#" wire:click="removeTag('{{$selectedTag}}')" class="btn-close">X</a>
+            <a href="#" wire:click="removeTag('{{$selectedTag}}')" class="btn-close"></a>
           </span>
         @endforeach
     </div>

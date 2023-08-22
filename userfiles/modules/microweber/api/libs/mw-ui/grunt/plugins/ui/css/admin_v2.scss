@@ -2706,6 +2706,13 @@ svg.text-danger {
     gap: var(--tblr-list-gap);
 }
 
+.tags-list {
+    &.btn-close {
+        width: .4px;
+        height: .4px;
+    }
+}
+
 .tag {
     --tblr-tag-height: 1.5rem;
     border: 1px solid var(--tblr-border-color);
@@ -2713,9 +2720,10 @@ svg.text-danger {
     align-items: center;
     height: var(--tblr-tag-height);
     border-radius: var(--tblr-border-radius);
-    padding: 0 0.5rem;
+    padding: .8rem;
     background: var(--tblr-bg-surface);
     box-shadow: var(--tblr-box-shadow-input);
     gap: 0.5rem;
+    font-size: 13px;
 }
 
