@@ -26,7 +26,7 @@
                         </div>
                     </div>
 
-                    @if($state['type'] == 'date')
+                    @if($state and $state['type'] == 'date')
 
                         @php
                             $dateFormat = [];
@@ -44,7 +44,7 @@
 
                     @endif
 
-                    @if($state['type'] == 'upload')
+                    @if($state and $state['type'] == 'upload')
                         @php
                         $allowedFormatsForUpload = [
                             'images' => 'Image Files',
@@ -76,7 +76,7 @@
                             <x-microweber-ui::toggle id="show_placeholder" class="mt-1 block w-full" wire:model="state.options.show_placeholder" />
                         </div>
 
-                        @if(isset($state['options']['show_placeholder']) && $state['options']['show_placeholder'] == 1)
+                        @if($state and isset($state['options']['show_placeholder']) && $state['options']['show_placeholder'] == 1)
                         <div class="mt-1">
                             <x-microweber-ui::label for="placeholder" value="Placeholder" />
                             <x-microweber-ui::input id="placeholder" class="mt-1 block w-full" wire:model.defer="state.placeholder" />
