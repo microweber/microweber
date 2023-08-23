@@ -90,6 +90,7 @@ html.preview .back-to-edit{
                         <a v-for="menuItem in menu" :href="menuItem.href">
                             <span v-html="menuItem.icon_html"></span>
                             {{ menuItem.title }}
+
                         </a>
                         <a v-on:click="this.toggleDarkMode()">
                             <span>

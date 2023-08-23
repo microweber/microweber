@@ -34,7 +34,10 @@ class LiveEditMenusApi extends Controller
                 if (!empty($hasRoute)) {
                     $href = route($hasRoute);
                 }
-
+                $hasHref = $menuItem->getAttribute('href');
+                if (!empty($hasHref)) {
+                    $href = $hasHref;
+                }
                 $icon = $menuItem->getAttribute('icon');
 
                 $menus[] = [
