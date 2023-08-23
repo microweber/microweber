@@ -71,19 +71,74 @@
                     }
                 }">
 
-                <div x-show="dataDisplayOptions">
+                <div x-show="dataDisplayOptions"
 
-                    <div class="mt-4 mb-3">
-                        @php
-                            $checkboxOptions = [
-                                'thumbnail' => 'Thumbnail',
-                                'title' => 'Title',
-                                'description' => 'Description',
-                                'read_more' => 'Read More',
-                                'created_at' => 'Date',
-                            ];
-                        @endphp
-                        <livewire:microweber-option::checkbox :checkboxOptions="$checkboxOptions" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                     @mw-option-saved.window="function() {
+                      //  alert($event.detail.optionKey);
+                     }"
+                >
+
+                    <div>
+                        <livewire:microweber-option::checkbox-single optionName="Thumbnail" optionValue="thumbnail" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center mt-3">
+                        <div class="w-full">
+                            <livewire:microweber-option::checkbox-single optionName="Title" optionValue="title" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                        <div class="w-full">
+                            <label class="live-edit-label">{{__('Title Limit')}} </label>
+                            <livewire:microweber-option::text type="number" optionKey="data-title-limit" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center mt-3">
+                        <div class="w-full">
+                            <livewire:microweber-option::checkbox-single optionName="Description" optionValue="description" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                        <div class="w-full">
+                            <label class="live-edit-label">{{__('Description Limit')}} </label>
+                            <livewire:microweber-option::text type="number" optionKey="data-character-limit" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center mt-3">
+                        <div class="w-full">
+                            <livewire:microweber-option::checkbox-single optionName="Read More" optionValue="read_more" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                        <div class="w-full">
+                            <label class="live-edit-label">{{__('Read more text')}} </label>
+                            <livewire:microweber-option::text optionKey="data-read-more-text" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center mt-6">
+                        <div class="w-full">
+                            <livewire:microweber-option::checkbox-single optionName="Created At" optionValue="created_at" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                        <div class="w-full">
+
+                            <div>
+                                <label class="live-edit-label">{{__('Post per page')}} </label>
+                                <livewire:microweber-option::text type="number" optionKey="data-limit" :optionGroup="$moduleId" :module="$moduleType"  />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="live-edit-label">Order by</label>
+                                @php
+                                    $radioOptions = [
+                                        'position+asc' => 'Position (ASC)',
+                                        'position+desc' => 'Position (DESC)',
+                                        'created_at+asc' => 'Date (ASC)',
+                                        'created_at+desc' => 'Date (DESC)',
+                                        'title+asc' => 'Title (ASC)',
+                                        'title+desc' => 'Title (DESC)',
+                                    ];
+                                @endphp
+                                <livewire:microweber-option::dropdown :dropdownOptions="$radioOptions" optionKey="data-order-by" :optionGroup="$moduleId" :module="$moduleType"  />
+                            </div>
+
+                        </div>
                     </div>
 
 
