@@ -16,11 +16,15 @@
                 let linkInModal = mw.top().dialogIframe({
                     url: url,
                     width:800,
-                    height:600,
-                    overlayClose:true,
+                    height:'auto',
+                    closeOnEscape:false,
+                    autoHeight:true,
+                    beforeRemove: function(dialog) {
+                        return false;
+                    }
                 });
-                linkInModal.dialogContainer.style.padding = '0px';
-                linkInModal.dialogHeader.style.display = 'none';
+                linkInModal.dialogContainer.style.paddingLeft = '0px';
+                linkInModal.dialogContainer.style.paddingRight = '0px';
                 linkInModal.dialogFooter.style.display = 'none';
             }
             $(document).ready(function() {
