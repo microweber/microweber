@@ -15,13 +15,18 @@
             function openLinkInModal(url) {
                 let linkInModal = mw.top().dialogIframe({
                     url: url,
-                    width:800,
+                    width:960,
                     height:'auto',
                     closeOnEscape:false,
                     autoHeight:true,
                     // skin: 'edit-post',
-                    // footer: true,  
+                    // footer: true,
                     beforeRemove: function(dialog) {
+                        if (dialog.container.querySelector('iframe').contentWindow.mw.askusertostay) {
+                            if (confirm('<?php _e("Are you sure you want to close this?"); ?>')) {
+                                return true;
+                            }
+                        }
                         return false;
                     }
                 });
