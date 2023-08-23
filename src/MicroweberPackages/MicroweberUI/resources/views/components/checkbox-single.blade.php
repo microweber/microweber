@@ -1,4 +1,4 @@
-@props(['name'=>'', 'value'=>''])
+@props(['name'=>''])
 <div class="form-control-live-edit-label-wrapper">
 
     @php
@@ -6,7 +6,7 @@
     @endphp
 
     <label class="form-check" id="{{$optionRandId}}">
-        <input class="form-check-input" :value="$value" type="checkbox" {!! $attributes->merge() !!}>
+        <input class="form-check-input" type="checkbox" {!! $attributes->merge() !!}>
         <span class="form-check-label">
             {{ $name }}
         </span>

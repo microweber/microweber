@@ -71,22 +71,41 @@
                     }
                 }">
 
-                <div x-show="dataDisplayOptions"
+                <div
+
+                    x-data="{
+                        showThumbnail: @if (get_option('data-show-thumbnail', $moduleId) == true) true @else false @endif,
+                        showTitle: @if (get_option('data-show-title', $moduleId) == true) true @else false @endif,
+                        showDescription: @if (get_option('data-show-description', $moduleId) == true) true @else false @endif,
+                        showReadMore: @if (get_option('data-show-read-more', $moduleId) == true) true @else false @endif,
+                        showDate: @if (get_option('data-show-date', $moduleId) == true) true @else false @endif
+                    }"
+                    x-show="dataDisplayOptions"
 
                      @mw-option-saved.window="function() {
-                      //  alert($event.detail.optionKey);
-                     }"
-                >
+                        if($event.detail.optionKey == 'data-show-title') {
+                            showTitle = $event.detail.optionValue;
+                        }
+                         if($event.detail.optionKey == 'data-show-description') {
+                            showDescription = $event.detail.optionValue;
+                        }
+                         if($event.detail.optionKey == 'data-show-read-more') {
+                            showReadMore = $event.detail.optionValue;
+                        }
+                         if($event.detail.optionKey == 'data-show-date') {
+                            showDate = $event.detail.optionValue;
+                        }
+                     }">
 
                     <div>
-                        <livewire:microweber-option::checkbox-single optionName="Thumbnail" optionValue="thumbnail" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                        <livewire:microweber-option::checkbox-single optionName="Thumbnail" optionKey="data-show-thumbnail" :optionGroup="$moduleId" :module="$moduleType"  />
                     </div>
 
                     <div class="d-flex justify-content-center align-items-center mt-3">
                         <div class="w-full">
-                            <livewire:microweber-option::checkbox-single optionName="Title" optionValue="title" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                            <livewire:microweber-option::checkbox-single optionName="Title" optionKey="data-show-title" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
-                        <div class="w-full">
+                        <div class="w-full" x-show="showTitle">
                             <label class="live-edit-label">{{__('Title Limit')}} </label>
                             <livewire:microweber-option::text type="number" optionKey="data-title-limit" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
@@ -94,9 +113,9 @@
 
                     <div class="d-flex justify-content-center align-items-center mt-3">
                         <div class="w-full">
-                            <livewire:microweber-option::checkbox-single optionName="Description" optionValue="description" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                            <livewire:microweber-option::checkbox-single optionName="Description" optionKey="data-show-description" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
-                        <div class="w-full">
+                        <div class="w-full" x-show="showDescription">
                             <label class="live-edit-label">{{__('Description Limit')}} </label>
                             <livewire:microweber-option::text type="number" optionKey="data-character-limit" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
@@ -104,9 +123,9 @@
 
                     <div class="d-flex justify-content-center align-items-center mt-3">
                         <div class="w-full">
-                            <livewire:microweber-option::checkbox-single optionName="Read More" optionValue="read_more" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                            <livewire:microweber-option::checkbox-single optionName="Read More" optionKey="data-show-read-more" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
-                        <div class="w-full">
+                        <div class="w-full" x-show="showReadMore">
                             <label class="live-edit-label">{{__('Read more text')}} </label>
                             <livewire:microweber-option::text optionKey="data-read-more-text" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
@@ -114,9 +133,9 @@
 
                     <div class="d-flex justify-content-center align-items-center mt-6">
                         <div class="w-full">
-                            <livewire:microweber-option::checkbox-single optionName="Created At" optionValue="created_at" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                            <livewire:microweber-option::checkbox-single optionName="Created At" optionKey="data-show-date" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
-                        <div class="w-full">
+                        <div class="w-full" x-show="showDate">
 
                             <div>
                                 <label class="live-edit-label">{{__('Post per page')}} </label>
