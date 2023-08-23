@@ -4,7 +4,7 @@ $rand = time().rand(1111,9999);
 
 <label class="form-control-live-edit-label-wrapper">
 
-    
+
     <input type="text"
            id="js-btn-link-value{{$rand}}"
            class="form-control-live-edit-input js-open-link-editor{{$rand}}-field"
@@ -86,8 +86,12 @@ $rand = time().rand(1111,9999);
 
         let currentValueLink = document.getElementById('js-btn-link-value-json{{$rand}}').value;
         if (currentValueLink) {
-            currentValueLink = JSON.parse(currentValueLink);
-            _setCurrentLinkPickerValue(currentValueLink);
+            try {
+                currentValueLink = JSON.parse(currentValueLink);
+                _setCurrentLinkPickerValue(currentValueLink);
+            } catch (e) {
+              //  console.log(e);
+            }
         }
 
         $('.js-open-link-editor{{$rand}}-field').on('focus', function () {

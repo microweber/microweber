@@ -19,6 +19,12 @@ if (!empty($get_btn_options)) {
         $btn_options[$get_btn_option['option_key']] = $get_btn_option['option_value'];
     }
 }
+if (isset($btn_options['link'])) {
+    $btnOptionsLink = json_decode($btn_options['link'], TRUE);
+    if (isset($btnOptionsLink['url'])) {
+        $btn_options['url'] = $btnOptionsLink['url'];
+    }
+}
 
 $align = get_module_option('align', $params['id']);
 
@@ -50,7 +56,6 @@ if ($btn_options['icon']) {
 } else {
     $icon = '';
 }
-
 
 $icon = html_entity_decode($icon);
 
