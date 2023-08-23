@@ -424,6 +424,17 @@
             return this;
         };
 
+        this.forceRemove = function () {
+            mw.$(this.dialogMain).remove();
+            for (var i = 0; i < mw.top().__dialogs.length; i++) {
+                if (mw.top().__dialogs[i] === this) {
+                    mw.top().__dialogs.splice(i, 1);
+                    break;
+                }
+            }
+            clearInterval(this._observe.interval);
+            return this;
+        }
         this.remove = function () {
 
             mw.$(this).trigger('BeforeRemove');
@@ -436,20 +447,13 @@
             this.hide();
             mw.removeInterval('iframe-' + this.id);
            
-            mw.$(this.dialogMain).remove();
             if(this.options.onremove) {
                 this.options.onremove()
             }
             mw.$(this).trigger('Remove');
             mw.trigger('mwDialogRemove', this);
-            for (var i = 0; i < mw.top().__dialogs.length; i++) {
-                if (mw.top().__dialogs[i] === this) {
-                    mw.top().__dialogs.splice(i, 1);
-                    break;
-                }
-            }
-            clearInterval(this._observe.interval);
-            return this;
+            
+            this.forceRemove()
         };
 
         this.destroy = this.remove;
