@@ -2,7 +2,7 @@
 
 
 <script>
-
+import liveEditHelpers from "../../../api-core/core/live-edit-helpers.service.js";
 import { func } from "prop-types";
 import {EditorComponent} from "../../../api-core/services/components/editor/editor";
 import {liveEditComponent} from "../../../api-core/services/components/live-edit/live-edit";
@@ -181,6 +181,7 @@ export default {
             })
             mw.app.editor.on('editNodeRequest', async (element) => {
  
+              console.log('edit', element)
           
 
                 function imagePicker(onResult) {
@@ -212,7 +213,11 @@ export default {
                   })
                   return dialog;
                 }
-                if(element.nodeName === 'IMG') {
+                if(liveEditHelpers.targetIsIcon(element)) {
+                  const icon = await mw.app.get('iconPicker').pickIcon(element);
+                  console.log(icon)
+                  
+                } else if(element.nodeName === 'IMG') {
 
                   var dialog = imagePicker(function (res) {
                           var url = res.src ? res.src : res;

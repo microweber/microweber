@@ -161,6 +161,7 @@ export const LayoutHandleContent = function (rootScope) {
                 });
                 ElementManager(target).after(el.innerHTML);
                 var newEl = target.nextElementSibling;
+                mw.app.registerChange(target)
                 mw.reload_module(newEl, function(){
                     mw.top().app.state.record({
                         target: mw.tools.firstParentWithClass(target, 'edit'),
@@ -210,6 +211,7 @@ export const LayoutHandleContent = function (rootScope) {
                     prev.classList.remove("mw-le-target-to-animate")
                     target.style.transform = '';
                     prev.style.transform = '';
+                    mw.app.registerChange(target)
                     target.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
                     rootScope.layoutHandle.set(target, true)
                 }, 300)
@@ -253,9 +255,10 @@ export const LayoutHandleContent = function (rootScope) {
                     prev.classList.remove("mw-le-target-to-animate")
                     target.style.transform = '';
                     prev.style.transform = '';
-
+                    mw.app.registerChange(target)
                     rootScope.layoutHandle.set(target, true);
                     target.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
+                    rootScope.layoutHandle.set(target, true)
                 }, 300)
             }
         },

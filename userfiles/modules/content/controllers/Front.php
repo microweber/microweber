@@ -1007,11 +1007,17 @@ class Front
 
         if (!isset($params['return'])) {
 
-            $module_template = Option::fetchFromCollection($options, 'data-template');
+            $module_template_legacy = Option::fetchFromCollection($options, 'data-template');
+            $module_template = Option::fetchFromCollection($options, 'template');
+            if(!$module_template){
+                if($module_template_legacy){
+                    $module_template = $module_template_legacy;
+                }
+            }
+
             if ($module_template == false and isset($params['template'])) {
                 $module_template = $params['template'];
             }
-
 
             if ($module_template != false) {
                 if (strtolower($module_template) == 'none') {

@@ -106,9 +106,12 @@
         const treeContainer = document.getElementById('pages-tree-wrapper');
         var state = mw.storage.get('mw-tree-navigation-visible');
         treeContainer.classList[state ? 'add' : 'remove']('active')
-        document.querySelectorAll('.mw-admin-toggle-tree-navigation, .x-close-modal-link').forEach(function (el){ el.addEventListener('click', function(){
-            treeContainer.classList.toggle('active')
-            mw.storage.set('mw-tree-navigation-visible', treeContainer.classList.contains('active'));
+        document.querySelectorAll('.mw-admin-toggle-tree-navigation, .x-close-modal-link, .dropdown-menu-column-item--tree-open').forEach(function (el){ 
+            el.addEventListener('click', function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                treeContainer.classList.toggle('active')
+                mw.storage.set('mw-tree-navigation-visible', treeContainer.classList.contains('active'));
             })
         });
 
