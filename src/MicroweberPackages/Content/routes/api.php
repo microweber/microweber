@@ -132,6 +132,6 @@ Route::name('api.')
 
 
         Route::apiResource('content', 'ContentApiController')->only([
-            'update','destroy','index','show'
+            'update','destroy','index','show','store'
         ]);
     });
