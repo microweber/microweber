@@ -22,10 +22,14 @@
                     // skin: 'edit-post',
                     // footer: true,
                     beforeRemove: function(dialog) {
+                        console.log(dialog.container.querySelector('iframe'));
+                        console.log(dialog.container.querySelector('iframe').contentWindow);
+                        console.log(dialog.container.querySelector('iframe').contentWindow.mw.askusertostay);
+
                         if (dialog.container.querySelector('iframe').contentWindow.mw.askusertostay) {
-                            if (confirm('<?php _e("Are you sure you want to close this?"); ?>')) {
-                                return true;
-                            }
+                            mw.top().tools.confirm('<?php _e("Are you sure you want to close this?"); ?>', function() {
+                                dialog.forceRemove();
+                            });
                         }
                         return false;
                     }
