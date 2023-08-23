@@ -253,7 +253,7 @@ if (!empty($recomended_layouts)) {
 
 
             var root = document.querySelector('#active_site_layout_<?php print $rand; ?>');
-            var form = document.querySelector('.js-template-selector');;
+            var form = document.querySelector('#quickform-edit-content');
 
 
             if (form) {
