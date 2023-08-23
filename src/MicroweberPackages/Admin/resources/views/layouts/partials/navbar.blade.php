@@ -86,6 +86,8 @@
                     size = 240
                 }
 
+                
+
                 $('#pages-tree-container').css('transition', 'none')
                 $('.mw-admin-toggle-tree-navigation').css({
                     'left':  size,
@@ -103,9 +105,9 @@
 
             var sidebarSize = mw.storage.get('mw-admin-sidebar-size');
 
-            if(sidebarSize) {
-                setSidebarSize(sidebarSize, true)
-            }
+            
+            setSidebarSize(sidebarSize, true)
+             
 
             $("#admin-sidebar").resizable({
                 maxWidth: 550,

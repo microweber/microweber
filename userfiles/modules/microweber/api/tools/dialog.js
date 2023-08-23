@@ -429,7 +429,9 @@
             mw.removeInterval('iframe-' + this.id);
             mw.$(this).trigger('BeforeRemove');
             if (typeof this.options.beforeRemove === 'function') {
-                this.options.beforeRemove.call(this, this)
+                if(this.options.beforeRemove.call(this, this) === false) {
+                    return;
+                }
             }
             mw.$(this.dialogMain).remove();
             if(this.options.onremove) {
