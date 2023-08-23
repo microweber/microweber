@@ -3,13 +3,14 @@ $rand = time().rand(1111,9999);
 @endphp
 
 <label class="form-control-live-edit-label-wrapper">
+
+    
     <input type="text"
            id="js-btn-link-value{{$rand}}"
            class="form-control-live-edit-input js-open-link-editor{{$rand}}-field"
-           placeholder="https://example.com" readonly
+           placeholder="https://example.com" readonly="readonly" />
 
-        {!! $attributes->merge([]) !!} 
-    >
+    <textarea style="display:none" id="js-btn-link-value-json{{$rand}}" {!! $attributes->merge([]) !!}></textarea>
 
     <span class="form-control-live-edit-bottom-effect"></span>
 
@@ -27,6 +28,25 @@ $rand = time().rand(1111,9999);
         type: 'category'
     }
     $(document).ready(function() {
+
+        function _setCurrentLinkPickerValue(currentValueLink)
+        {
+            currentLinkPickerValue.url = currentValueLink.url;
+            if (currentValueLink.data.id) {
+                currentLinkPickerValue.id = currentValueLink.data.id;
+            }
+            if (currentValueLink.data.title) {
+                currentLinkPickerValue.text = currentValueLink.data.title;
+            }
+            if (currentValueLink.data.content_type) {
+                currentLinkPickerValue.type = currentValueLink.data.content_type;
+            }
+            if (currentValueLink.data.type) {
+                currentLinkPickerValue.type = currentValueLink.data.type;
+            }
+            $('.js-open-link-editor{{$rand}}-field').val(currentLinkPickerValue.url);
+        }
+
         function _handleLinkSelect(){
 
             var linkItemsConfig =  {text: false, target: false}
@@ -51,31 +71,23 @@ $rand = time().rand(1111,9999);
             .promise()
             .then(function (result){
 
+                let linkValueElementJson = document.getElementById('js-btn-link-value-json{{$rand}}');
+                linkValueElementJson.value = JSON.stringify(result);
+                linkValueElementJson.dispatchEvent(new Event('input'));
+
                 let linkValueElement = document.getElementById('js-btn-link-value{{$rand}}');
-                linkValueElement.value = JSON.stringify(result);
+                linkValueElement.value = result.url;
                 linkValueElement.dispatchEvent(new Event('input'));
 
-                currentLinkPickerValue.url = result.url;
+                _setCurrentLinkPickerValue(result);
 
             });
         }
 
-        let currentValueLink = document.getElementById('js-btn-link-value{{$rand}}').value;
+        let currentValueLink = document.getElementById('js-btn-link-value-json{{$rand}}').value;
         if (currentValueLink) {
             currentValueLink = JSON.parse(currentValueLink);
-            currentLinkPickerValue.url = currentValueLink.url;
-            if (currentValueLink.data.id) {
-                currentLinkPickerValue.id = currentValueLink.data.id;
-            }
-            if (currentValueLink.data.title) {
-                currentLinkPickerValue.text = currentValueLink.data.title;
-            }
-            if (currentValueLink.data.content_type) {
-                currentLinkPickerValue.type = currentValueLink.data.content_type;
-            }
-            if (currentValueLink.data.type) {
-                currentLinkPickerValue.type = currentValueLink.data.type;
-            }
+            _setCurrentLinkPickerValue(currentValueLink);
         }
 
         $('.js-open-link-editor{{$rand}}-field').on('focus', function () {
