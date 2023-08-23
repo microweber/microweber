@@ -46,11 +46,11 @@ html.preview .back-to-edit{
                  <span class="ms-1 font-weight-bold">ADMIN</span>
             </a>
 
-            <div class="ms-1">
+            <div class="live-edit-undo-redo-buttons-wrapper ms-1">
                 <UndoRedo></UndoRedo>
             </div>
 
-            <div class="ms-1">
+            <div class="live-edit-add-content-button-wrapper ms-1">
                 <AddContentButton></AddContentButton>
             </div>
         </div>
