@@ -21,17 +21,15 @@
                 </div>
 
                 <div class="col-md col-12 my-md-0 my-3 item-title manage-post-item-col-3 manage-post-main">
-
                     @include('content::admin.content.livewire.components.title-and-categories', ['content'=>$content])
-
                 </div>
 
                 <div class="col-auto d-flex align-items-center justify-content-end flex-wrap display-types-content-icons">
-                    <a class="tblr-body-color js-open-in-modal" href="{{$content->editLink()}}" data-bs-toggle="tooltip" aria-label="Live edit" data-bs-original-title="Edit">
+                    <a class="tblr-body-color js-open-in-modal" href="{{$content->editLink()}}" target="_top" data-bs-toggle="tooltip" aria-label="Live edit" data-bs-original-title="Edit">
                         <svg class="me-3" fill="currentColor" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="18px" viewBox="0 0 24 24" width="18px"><g><rect fill="none" height="24" width="24"></rect></g><g><g><g><path d="M3,21l3.75,0L17.81,9.94l-3.75-3.75L3,17.25L3,21z M5,18.08l9.06-9.06l0.92,0.92L5.92,19L5,19L5,18.08z"></path></g><g><path d="M18.37,3.29c-0.39-0.39-1.02-0.39-1.41,0l-1.83,1.83l3.75,3.75l1.83-1.83c0.39-0.39,0.39-1.02,0-1.41L18.37,3.29z"></path></g></g></g></svg>
                     </a>
 
-                    <a class="tblr-body-color" href="{{$content->link()}}?editmode=y" data-bs-toggle="tooltip" aria-label="Preview" data-bs-original-title="Customize">
+                    <a class="tblr-body-color" href="{{$content->link()}}?editmode=y" target="_top" data-bs-toggle="tooltip" aria-label="Preview" data-bs-original-title="Customize">
                         <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M12 6c3.79 0 7.17 2.13 8.82 5.5C19.17 14.87 15.79 17 12 17s-7.17-2.13-8.82-5.5C4.83 8.13 8.21 6 12 6m0-2C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 5c1.38 0 2.5 1.12 2.5 2.5S13.38 14 12 14s-2.5-1.12-2.5-2.5S10.62 9 12 9m0-2c-2.48 0-4.5 2.02-4.5 4.5S9.52 16 12 16s4.5-2.02 4.5-4.5S14.48 7 12 7z"></path></svg>
                     </a>
                 </div>
@@ -74,7 +72,7 @@
                                     <?php _e("Page Details") ?>
 
                             </a>
-                            <a href="{{$content->link()}}?editmode=y" class="dropdown-item ps-4">
+                            <a href="{{$content->link()}}?editmode=y" target="_top" class="dropdown-item ps-4">
                                 <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6c3.79 0 7.17 2.13 8.82 5.5C19.17 14.87 15.79 17 12 17s-7.17-2.13-8.82-5.5C4.83 8.13 8.21 6 12 6m0-2C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 5c1.38 0 2.5 1.12 2.5 2.5S13.38 14 12 14s-2.5-1.12-2.5-2.5S10.62 9 12 9m0-2c-2.48 0-4.5 2.02-4.5 4.5S9.52 16 12 16s4.5-2.02 4.5-4.5S14.48 7 12 7z"/></svg>
                                 <?php _e("Live Edit") ?>
                             </a>
