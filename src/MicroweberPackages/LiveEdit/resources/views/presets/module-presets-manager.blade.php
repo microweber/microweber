@@ -1,7 +1,6 @@
 <div>
 
 
-
     <script type="text/javascript" wire:ignore>
 
 
@@ -24,26 +23,68 @@
 
             window.livewire.on('saveModuleAsPreset', function () {
                 var moduleId = window.livewire.find('{{$this->id}}').get('itemState.module_id')
-                // var el = mw.top().app.canvas.getWindow().$('#'+moduleId)[0];
-                // var attrs = el.attributes;
-                // var attrsObj = {};
-                // for (var i = 0; i < attrs.length; i++) {
-                //     attrsObj[attrs[i].name] = attrs[i].value;
-                // }
-                // mw.log(attrsObj)
-                //window.livewire.find('{{$this->id}}').set('itemState.module_attrs', 'sssssssssss')
-                // window.livewire.find('{{$this->id}}').set('itemState.name', 'bar')
-                Livewire.emit('onSaveAsNewPreset');
+                var el = mw.top().app.canvas.getWindow().$('#' + moduleId)[0];
+                var attrs = el.attributes;
+                var attrsObj = {};
+                var skipAttrs = ['contenteditable', 'class', 'data-original-attrs', 'data-original-id']
+
+                for (var i = 0; i < attrs.length; i++) {
+                    if (skipAttrs.includes(attrs[i].name)) {
+                        continue;
+                    }
+                    attrsObj[attrs[i].name] = attrs[i].value;
+                }
+
+                Livewire.emit('onSaveAsNewPreset', attrsObj);
             })
 
 
             window.livewire.on('showConfirmDeleteItemById', (itemId) => {
                 Livewire.emit('onShowConfirmDeleteItemById', itemId);
             })
-            window.livewire.on('selectPresetForModule', (itemId) => {
-                alert('selectPresetForModule')
-            })
 
+
+            window.livewire.on('applyPreset', (applyToModuleId, preset) => {
+
+                var  json = preset.module_attrs;
+                var  obj = JSON.parse(json);
+
+
+                var el = mw.top().app.canvas.getWindow().$('#' + applyToModuleId)[0];
+
+                var set_orig_id =  mw.top().app.canvas.getWindow().$(el).attr("id");
+                var have_orig_id =  mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id");
+                var have_orig_attr =  mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs");
+                var orig_attrs_encoded = null;
+                if (el != null) {
+                    var orig_attrs = mw.top().tools.getAttrs(el);
+
+                    if (orig_attrs) {
+                        var orig_attrs_encoded = window.btoa(JSON.stringify(orig_attrs));
+                    }
+                }
+                if (!have_orig_attr && orig_attrs_encoded) {
+                    mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs", orig_attrs_encoded);
+                }
+                if (!have_orig_id) {
+                    mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id", set_orig_id);
+                }
+                mw.top().app.canvas.getWindow().$(el).attr("id", preset.module_id);
+                if(obj){
+                    for (var key in obj) {
+
+                            var val = obj[key];
+                            if (key == 'id') {
+                                mw.top().app.canvas.getWindow().$(el).attr("id", val);
+                            } else {
+                                mw.top().app.canvas.getWindow().$(el).attr(key, val);
+                            }
+
+                    }
+                }
+                mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': preset.module_id}))
+
+            });
 
         }
 
@@ -60,7 +101,7 @@
 
 
 
-        <div  x-show="initPresetsManagerData.showEditTab=='main'"
+        <div x-show="initPresetsManagerData.showEditTab=='main'"
              x-transition:enter-end="tab-pane-slide-left-active"
              x-transition:enter="tab-pane-slide-left-active">
 
@@ -69,7 +110,8 @@
 
                 <div class="alert alert-info">
                     This module is already saved as preset
-                    To use the preset , place new module of type <kbd>{{ $moduleType  }}</kbd> on the page and select this
+                    To use the preset , place new module of type <kbd>{{ $moduleType  }}</kbd> on the page and select
+                    this
                     preset from the presets list
                 </div>
             @else

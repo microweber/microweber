@@ -488,11 +488,11 @@ $current_template = false;
                                 }
                             });
 
-                            if(target) {
+                            if(target && bgOverlay) {
                                 cpoPicker.setColor(getComputedStyle(bgOverlay).backgroundColor)
                             }
 
-                           
+
 
                             document.querySelector('#bg-image-picker').addEventListener('click', function(){
                                 var dialog;

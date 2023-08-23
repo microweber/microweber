@@ -1,11 +1,18 @@
 <div>
 
     <?php
-    $content_id = false;
+    $relType = 'content';
+    $relId = false;
     if (isset($params['content-id'])) {
-        $content_id = $params['content-id'];
+        $relId = $params['content-id'];
+    }
+    if (isset($params['for'])) {
+        $relType = $params['for'];
+    }
+    if (isset($params['for-id'])) {
+        $relId = $params['for-id'];
     }
     ?>
 
-    <livewire:custom-fields-list content_id="{{$content_id}}" content_type="product" />
+    <livewire:custom-fields-list relId="{{$relId}}" relType="{{$relType}}" />
 </div>

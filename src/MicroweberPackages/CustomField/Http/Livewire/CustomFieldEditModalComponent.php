@@ -3,7 +3,6 @@
 namespace MicroweberPackages\CustomField\Http\Livewire;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
-use MicroweberPackages\CustomField\CustomFieldsHelper;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
@@ -22,7 +21,7 @@ class CustomFieldEditModalComponent extends AdminModalComponent
 
 
     public $listeners = [
-        'customFieldUpdated'=>'$refresh',
+        'customFieldUpdated' => '$refresh',
         'onReorderCustomFieldValuesList' => 'onReorderCustomFieldValuesList'
     ];
 
@@ -73,7 +72,7 @@ class CustomFieldEditModalComponent extends AdminModalComponent
     public function remove($id)
     {
         if (count($this->inputs) == 1) {
-            $this->addError('inputs.'.$id, 'You must have at least one input.');
+            $this->addError('inputs.' . $id, 'You must have at least one input.');
             return;
         }
 
@@ -176,9 +175,10 @@ class CustomFieldEditModalComponent extends AdminModalComponent
     public function refreshState()
     {
         $this->customField = CustomField::where('id', $this->customFieldId)->first();
-        $this->state = $this->customField->toArray();
-
-        if ($this->state['type'] == 'upload') {
+        if ($this->customField) {
+            $this->state = $this->customField->toArray();
+        }
+        if ($this->state and $this->state['type'] == 'upload') {
             if (!isset($this->state['options']['file_types'])) {
                 $this->state['options']['file_types'] = [];
             }
@@ -187,7 +187,7 @@ class CustomFieldEditModalComponent extends AdminModalComponent
             }
         }
 
-        if ($this->customField->type == 'checkbox' || $this->customField->type == 'dropdown' || $this->customField->type == 'radio') {
+        if ($this->customField and $this->customField->type == 'checkbox' || $this->customField->type == 'dropdown' || $this->customField->type == 'radio') {
             // multiple values
             if ($this->customField->fieldValue->count() > 0) {
                 foreach ($this->customField->fieldValue as $fieldValue) {
@@ -196,12 +196,13 @@ class CustomFieldEditModalComponent extends AdminModalComponent
             }
         } else {
             // One value
-            if ($this->customField->fieldValue->count() > 0) {
+            if ($this->customField and $this->customField->fieldValue->count() > 0) {
                 $this->state['value'] = $this->customField->fieldValue[0]->value;
             }
         }
-
-        $this->showSettings($this->customField->type);
+        if ($this->customField) {
+            $this->showSettings($this->customField->type);
+        }
     }
 
     public function render()

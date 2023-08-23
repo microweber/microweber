@@ -1252,7 +1252,10 @@ class FrontendController extends Controller
                     if ($is_editmode_iframe) {
 
                         $l = $this->liveEditToolbarIframeData($l,$content);
-                        $l = $this->liveEditToolbarIframe($l);
+                        $l = $this->liveEditToolbarIframe($l,$content);
+
+
+                        // $l = $this->liveEditToolbarBack($l);
                     } else {
                         // old live edit is disabled
                        // $l = $this->liveEditToolbar($l);
@@ -1264,6 +1267,7 @@ class FrontendController extends Controller
                         if ($back_to_editmode == true) {
                             $l = $this->liveEditToolbarBack($l);
                         }
+
                     }
                 }
             } else {

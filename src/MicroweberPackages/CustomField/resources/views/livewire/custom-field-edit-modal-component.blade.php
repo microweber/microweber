@@ -26,7 +26,7 @@
                         </div>
                     </div>
 
-                    @if($state['type'] == 'date')
+                    @if($state and $state['type'] == 'date')
 
                         @php
                             $dateFormat = [];
@@ -44,7 +44,7 @@
 
                     @endif
 
-                    @if($state['type'] == 'upload')
+                    @if($state and $state['type'] == 'upload')
                         @php
                         $allowedFormatsForUpload = [
                             'images' => 'Image Files',
@@ -76,7 +76,7 @@
                             <x-microweber-ui::toggle id="show_placeholder" class="mt-1 block w-full" wire:model="state.options.show_placeholder" />
                         </div>
 
-                        @if(isset($state['options']['show_placeholder']) && $state['options']['show_placeholder'] == 1)
+                        @if($state and isset($state['options']['show_placeholder']) && $state['options']['show_placeholder'] == 1)
                         <div class="mt-1">
                             <x-microweber-ui::label for="placeholder" value="Placeholder" />
                             <x-microweber-ui::input id="placeholder" class="mt-1 block w-full" wire:model.defer="state.placeholder" />
@@ -112,6 +112,29 @@
                     </div>
                     @endif
 
+                    <div class="d-flex gap-2">
+                        <div class="w-full">
+                            <x-microweber-ui::label for="gridDesktop" value="Grid Desktop" />
+                            @php
+                                $responsiveDesktopOptions = template_field_size_options();
+                            @endphp
+                            <x-microweber-ui::select id="gridDesktop" :options="$responsiveDesktopOptions" class="mt-1 block w-full" wire:model.defer="state.options.field_size_desktop" />
+                        </div>
+                        <div class="w-full">
+                            <x-microweber-ui::label for="gridTablet" value="Grid Tablet" />
+                            @php
+                                $responsiveTabletOptions = template_field_size_options();
+                            @endphp
+                            <x-microweber-ui::select id="gridTablet" :options="$responsiveTabletOptions" class="mt-1 block w-full" wire:model.defer="state.options.field_size_tablet" />
+                        </div>
+                        <div class="w-full">
+                            <x-microweber-ui::label for="gridMobile" value="Grid Mobile" />
+                            @php
+                                $responsiveMobileOptions = template_field_size_options();
+                            @endphp
+                            <x-microweber-ui::select id="gridMobile" :options="$responsiveMobileOptions" class="mt-1 block w-full" wire:model.defer="state.options.field_size_mobile" />
+                        </div>
+                    </div>
 
                     <div class="mt-3 d-flex justify-content-end">
                         <x-microweber-ui::button wire:click="save">

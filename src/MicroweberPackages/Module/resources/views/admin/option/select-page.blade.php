@@ -48,3 +48,18 @@
     </div>
 
 </div>
+
+<div>
+    <div class="mb-3">
+        <label class="live-edit-label">Category filter</label>
+        @php
+            $selectOptions = [
+                '' => '-- All',
+                'related' => '-- Related',
+                'sub_pages' => '-- Sub Pages',
+                'current_category' => '-- Current Category',
+            ];
+        @endphp
+        <x-microweber-ui::select :options="$selectOptions" />
+    </div>
+</div>

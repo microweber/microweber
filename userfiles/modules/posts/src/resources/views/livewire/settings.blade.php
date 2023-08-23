@@ -41,6 +41,7 @@
                 <label class="live-edit-label">From Source</label>
                 <livewire:microweber-option::select-page optionKey="data-page-id" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
+
             <div>
                 <label class="live-edit-label">Filter Tags</label>
                 <livewire:microweber-option::select-tags optionKey="data-tags" :optionGroup="$moduleId" :module="$moduleType"  />
@@ -50,18 +51,18 @@
                 <label class="live-edit-label">Display on post</label>
                 @php
                     $radioOptions = [
-                        '' => 'Show default information from module skin',
-                        'thumbnail,title' => 'Show custom information',
+                        '' => 'Default information from skin',
+                        'custom' => 'Custom information',
                     ];
                 @endphp
-                <livewire:microweber-option::dropdown :dropdownOptions="$radioOptions" optionKey="data-display" :optionGroup="$moduleId" :module="$moduleType"  />
+                <livewire:microweber-option::radio :radioOptions="$radioOptions" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
             <div
-                x-data="{'dataDisplayOptions': @if (!empty(get_option('data-display', $moduleId))) true @else false @endif }"
+                x-data="{'dataDisplayOptions': @if (!empty(get_option('data-show', $moduleId))) true @else false @endif }"
 
                 @mw-option-saved.window="function() {
-                    if ($event.detail.optionKey == 'data-display') {
+                    if ($event.detail.optionKey == 'data-show') {
                         if ($event.detail.optionValue.length > 0) {
                            dataDisplayOptions = true;
                        } else {
@@ -70,19 +71,93 @@
                     }
                 }">
 
-                <div x-show="dataDisplayOptions">
+                <div
 
-                    <div class="mt-4 mb-3">
-                        @php
-                            $checkboxOptions = [
-                                'thumbnail' => 'Thumbnail',
-                                'title' => 'Title',
-                                'description' => 'Description',
-                                'read_more' => 'Read More',
-                                'created_at' => 'Date',
-                            ];
-                        @endphp
-                        <livewire:microweber-option::checkbox :checkboxOptions="$checkboxOptions" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
+                    x-data="{
+                        showThumbnail: @if (get_option('data-show-thumbnail', $moduleId) == true) true @else false @endif,
+                        showTitle: @if (get_option('data-show-title', $moduleId) == true) true @else false @endif,
+                        showDescription: @if (get_option('data-show-description', $moduleId) == true) true @else false @endif,
+                        showReadMore: @if (get_option('data-show-read-more', $moduleId) == true) true @else false @endif,
+                        showDate: @if (get_option('data-show-date', $moduleId) == true) true @else false @endif
+                    }"
+                    x-show="dataDisplayOptions"
+
+                     @mw-option-saved.window="function() {
+                        if($event.detail.optionKey == 'data-show-title') {
+                            showTitle = $event.detail.optionValue;
+                        }
+                         if($event.detail.optionKey == 'data-show-description') {
+                            showDescription = $event.detail.optionValue;
+                        }
+                         if($event.detail.optionKey == 'data-show-read-more') {
+                            showReadMore = $event.detail.optionValue;
+                        }
+                         if($event.detail.optionKey == 'data-show-date') {
+                            showDate = $event.detail.optionValue;
+                        }
+                     }">
+
+                    <div>
+                        <livewire:microweber-option::checkbox-single optionName="Thumbnail" optionKey="data-show-thumbnail" :optionGroup="$moduleId" :module="$moduleType"  />
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center mt-3">
+                        <div class="w-full">
+                            <livewire:microweber-option::checkbox-single optionName="Title" optionKey="data-show-title" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                        <div class="w-full" x-show="showTitle">
+                            <label class="live-edit-label">{{__('Title Limit')}} </label>
+                            <livewire:microweber-option::text type="number" optionKey="data-title-limit" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center mt-3">
+                        <div class="w-full">
+                            <livewire:microweber-option::checkbox-single optionName="Description" optionKey="data-show-description" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                        <div class="w-full" x-show="showDescription">
+                            <label class="live-edit-label">{{__('Description Limit')}} </label>
+                            <livewire:microweber-option::text type="number" optionKey="data-character-limit" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center mt-3">
+                        <div class="w-full">
+                            <livewire:microweber-option::checkbox-single optionName="Read More" optionKey="data-show-read-more" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                        <div class="w-full" x-show="showReadMore">
+                            <label class="live-edit-label">{{__('Read more text')}} </label>
+                            <livewire:microweber-option::text optionKey="data-read-more-text" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center mt-6">
+                        <div class="w-full">
+                            <livewire:microweber-option::checkbox-single optionName="Created At" optionKey="data-show-date" :optionGroup="$moduleId" :module="$moduleType"  />
+                        </div>
+                        <div class="w-full" x-show="showDate">
+
+                            <div>
+                                <label class="live-edit-label">{{__('Post per page')}} </label>
+                                <livewire:microweber-option::text type="number" optionKey="data-limit" :optionGroup="$moduleId" :module="$moduleType"  />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="live-edit-label">Order by</label>
+                                @php
+                                    $radioOptions = [
+                                        'position+asc' => 'Position (ASC)',
+                                        'position+desc' => 'Position (DESC)',
+                                        'created_at+asc' => 'Date (ASC)',
+                                        'created_at+desc' => 'Date (DESC)',
+                                        'title+asc' => 'Title (ASC)',
+                                        'title+desc' => 'Title (DESC)',
+                                    ];
+                                @endphp
+                                <livewire:microweber-option::dropdown :dropdownOptions="$radioOptions" optionKey="data-order-by" :optionGroup="$moduleId" :module="$moduleType"  />
+                            </div>
+
+                        </div>
                     </div>
 
 

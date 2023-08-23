@@ -22,6 +22,7 @@ use MicroweberPackages\Marketplace\Http\Livewire\Admin\Marketplace;
 use MicroweberPackages\Module\Http\Livewire\Admin\AskForModuleUninstallModal;
 use MicroweberPackages\Module\Http\Livewire\Admin\ListModules;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\AligmentOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\CheckboxSingleOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\ColorPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\DropdownOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\FilePickerOption;
@@ -107,6 +108,7 @@ class ModuleServiceProvider extends ServiceProvider
         Livewire::component('microweber-option::toggle', ToggleOption::class);
         Livewire::component('microweber-option::radio-modern', RadioModernOption::class);
         Livewire::component('microweber-option::checkbox', CheckboxOption::class);
+        Livewire::component('microweber-option::checkbox-single', CheckboxSingleOption::class);
 
         Livewire::component('microweber-option::select-page', SelectPageOption::class);
         Livewire::component('microweber-option::select-tags', SelectTagsOption::class);

@@ -15,6 +15,7 @@
          colors="true"
 
          stopOnFailure="true"
+         stopOnError="true"
          cacheDirectory=".phpunit.cache"
          backupStaticProperties="false">
     <coverage/>
