@@ -7,8 +7,8 @@ use MicroweberPackages\CustomField\Models\CustomField;
 
 class CustomFieldsListComponent extends AdminComponent
 {
-    public $contentId;
-    public $contentType;
+    public $relId;
+    public $relType = 'content';
 
     public $listeners = [
         'customFieldUpdated'=>'$refresh',
@@ -39,8 +39,8 @@ class CustomFieldsListComponent extends AdminComponent
 
     public function render()
     {
-        $getCustomFields = CustomField::where('rel_type', 'content')
-            ->where('rel_id', $this->contentId)
+        $getCustomFields = CustomField::where('rel_type', $this->relType)
+            ->where('rel_id', $this->relId)
             ->orderBy('position', 'asc')
             ->get();
 

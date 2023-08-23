@@ -9,9 +9,8 @@ use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
 class CustomFieldAddModalComponent extends AdminModalComponent
 {
-    public $contentId;
-    public $contentType;
-
+    public $relId;
+    public $relType = 'content';
 
     public function addExisting($customFieldId)
     {
@@ -21,7 +20,7 @@ class CustomFieldAddModalComponent extends AdminModalComponent
         $newCustomFieldId = mw()->fields_manager->save([
             'copy_of' => $findExisting->id,
             'rel_type' => $findExisting->rel_type,
-            'rel_id' => $this->contentId,
+            'rel_id' => $this->relId,
             'type' => $findExisting->type,
         ]);
 
@@ -46,14 +45,14 @@ class CustomFieldAddModalComponent extends AdminModalComponent
 
         $newCustomField = new CustomField();
         $newCustomField->name = $name;
-        $newCustomField->rel_type = 'content';
-        $newCustomField->rel_id = $this->contentId;
+        $newCustomField->rel_type = $this->relType;
+        $newCustomField->rel_id = $this->relId;
         $newCustomField->type = $type;
         $newCustomField->save();
 
         if ($type == 'address') {
             $showEditModal = false;
-            CustomFieldsHelper::generateFieldAddressValues('content', $this->contentId);
+            CustomFieldsHelper::generateFieldAddressValues('content', $this->relId);
         }
 
         $values = CustomFieldsHelper::generateFieldNameValues($type);
@@ -78,7 +77,7 @@ class CustomFieldAddModalComponent extends AdminModalComponent
 
     public function render()
     {
-        $existingFields = \MicroweberPackages\CustomField\Models\CustomField::where('rel_type', 'content')
+        $existingFields = \MicroweberPackages\CustomField\Models\CustomField::where('rel_type', $this->relType)
             ->groupBy('name_key')
             ->orderBy('created_at','desc')
             ->get();
