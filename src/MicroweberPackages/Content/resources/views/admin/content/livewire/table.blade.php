@@ -19,6 +19,8 @@
                     height:'auto',
                     closeOnEscape:false,
                     autoHeight:true,
+                    // skin: 'edit-post',
+                    // footer: true,  
                     beforeRemove: function(dialog) {
                         return false;
                     }
