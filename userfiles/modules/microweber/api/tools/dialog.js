@@ -425,14 +425,17 @@
         };
 
         this.remove = function () {
-            this.hide();
-            mw.removeInterval('iframe-' + this.id);
+
             mw.$(this).trigger('BeforeRemove');
             if (typeof this.options.beforeRemove === 'function') {
-                if(this.options.beforeRemove.call(this, this) === false) {
+                if(this.options.beforeRemove(this) === false) {
                     return;
                 }
             }
+
+            this.hide();
+            mw.removeInterval('iframe-' + this.id);
+           
             mw.$(this.dialogMain).remove();
             if(this.options.onremove) {
                 this.options.onremove()
