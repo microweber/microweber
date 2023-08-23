@@ -55,6 +55,31 @@ class Front
         if($getOpts){
             $options = $options->merge($getOpts);
         }
+        $dataShow = [];
+        if (!empty($options)) {
+            foreach ($options as $option) {
+
+                if ($option['option_key'] == 'data-show-thumbnail' && $option['option_value'] == true) {
+                    $dataShow[] = 'thumbnail';
+                }
+                if ($option['option_key'] == 'data-show-title' && $option['option_value'] == true) {
+                    $dataShow[] = 'title';
+                }
+                if ($option['option_key'] == 'data-show-description' && $option['option_value'] == true) {
+                    $dataShow[] = 'description';
+                }
+                if ($option['option_key'] == 'data-show-read-more' && $option['option_value'] == true) {
+                    $dataShow[] = 'read_more';
+                }
+                if ($option['option_key'] == 'data-show-date' && $option['option_value'] == true) {
+                    $dataShow[] = 'date';
+                }
+            }
+            if (!empty($dataShow)) {
+                $dataShow = implode(',', $dataShow);
+            }
+        }
+
        // $options =collect( app()->option_repository->getOptionsByGroup($params['id']));
 
         $current_page = $current_page = 1;
@@ -172,6 +197,9 @@ class Front
         $set_content_type_from_opt = Option::fetchFromCollection($options, 'data-content-type');
 
         $show_fields1 = Option::fetchFromCollection($options, 'data-show');
+        if ($show_fields1 == 'custom') {
+            $show_fields1 = $dataShow;
+        }
 
         if ($show_fields1 != false and is_string($show_fields1) and trim($show_fields1) != '') {
             $show_fields = $show_fields1;

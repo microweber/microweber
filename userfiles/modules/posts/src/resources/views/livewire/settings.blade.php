@@ -51,18 +51,18 @@
                 <label class="live-edit-label">Display on post</label>
                 @php
                     $radioOptions = [
-                        '' => 'Show default information from module skin',
-                        'thumbnail,title' => 'Show custom information',
+                        '' => 'Default information from skin',
+                        'custom' => 'Custom information',
                     ];
                 @endphp
-                <livewire:microweber-option::dropdown :dropdownOptions="$radioOptions" optionKey="data-display" :optionGroup="$moduleId" :module="$moduleType"  />
+                <livewire:microweber-option::radio :radioOptions="$radioOptions" optionKey="data-show" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
             <div
-                x-data="{'dataDisplayOptions': @if (!empty(get_option('data-display', $moduleId))) true @else false @endif }"
+                x-data="{'dataDisplayOptions': @if (!empty(get_option('data-show', $moduleId))) true @else false @endif }"
 
                 @mw-option-saved.window="function() {
-                    if ($event.detail.optionKey == 'data-display') {
+                    if ($event.detail.optionKey == 'data-show') {
                         if ($event.detail.optionValue.length > 0) {
                            dataDisplayOptions = true;
                        } else {
