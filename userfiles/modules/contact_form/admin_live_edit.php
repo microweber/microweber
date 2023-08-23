@@ -7,7 +7,10 @@ if (!user_can_access('module.contact_form.index')) {
 $for_module = $config['module'];
 $for_module_id = $params['id'];
 ?>
- 
+
+<script>
+    mw.top().dialog.get('.mw_modal_live_edit_settings').resize(500);
+</script>
 
 <script>
     mw.require('editor.js')
