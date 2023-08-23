@@ -27,7 +27,7 @@
                         console.log(dialog.container.querySelector('iframe').contentWindow.mw.askusertostay);
 
                         if (dialog.container.querySelector('iframe').contentWindow.mw.askusertostay) {
-                            mw.top().tools.confirm('<?php _e("Are you sure you want to close this?"); ?>', function() {
+                            mw.top().tools.confirm('<?php _e("You have unsaved changes, are you sure want to exit?"); ?>', function() {
                                 dialog.forceRemove();
                             });
                         }
