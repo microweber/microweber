@@ -15,13 +15,22 @@
             function openLinkInModal(url) {
                 let linkInModal = mw.top().dialogIframe({
                     url: url,
-                    width:800,
+                    width:960,
                     height:'auto',
                     closeOnEscape:false,
                     autoHeight:true,
                     // skin: 'edit-post',
-                    // footer: true,  
+                    // footer: true,
                     beforeRemove: function(dialog) {
+                        console.log(dialog.container.querySelector('iframe'));
+                        console.log(dialog.container.querySelector('iframe').contentWindow);
+                        console.log(dialog.container.querySelector('iframe').contentWindow.mw.askusertostay);
+
+                        if (dialog.container.querySelector('iframe').contentWindow.mw.askusertostay) {
+                            mw.top().tools.confirm('<?php _e("You have unsaved changes, are you sure want to exit?"); ?>', function() {
+                                dialog.forceRemove();
+                            });
+                        }
                         return false;
                     }
                 });
