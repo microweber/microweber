@@ -69,11 +69,18 @@ trait LiveEditTrait
         return $html;
     }
 
-    public function liveEditToolbarIframe($html)
+    public function liveEditToolbarIframe($html,$content)
     {
+
+        $liveEditUrl = admin_url() . 'live-edit';
+        $liveEditUrl = $liveEditUrl .= '?url=' . content_link($content['id']);
+
+
+
         $viteScript = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js');
         if ($viteScript) {
             $viteScriptSrc = '<script src="' . $viteScript . '"></script>';
+            $viteScriptSrc .= '<script>window.mwLiveEditIframeBackUrl = "' . $liveEditUrl . '"; </script>';
             $html = str_ireplace('</body>', $viteScriptSrc . '</body>', $html, $c);
             return $html;
         }

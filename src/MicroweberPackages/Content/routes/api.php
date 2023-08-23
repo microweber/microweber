@@ -107,7 +107,7 @@ Route::name('api.')
                 }
             }
 
-            $liveEditUrl = site_url() . 'admin/live-edit';
+            $liveEditUrl = admin_url() . 'live-edit';
             $liveEditUrl = $liveEditUrl .= '?url=' . content_link($request['id']);
 
             if ($segments) {

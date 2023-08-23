@@ -390,3 +390,51 @@ if(window.self !== window.top) {
         }
     });
 }
+if (self === top) {
+    window.addEventListener("load", (event) => {
+        if (window.mwLiveEditIframeBackUrl) {
+            // Create the <a> element (button)
+            var stickyButton = document.createElement('a');
+            stickyButton.id = 'back-to-live-sticky-button';
+            stickyButton.textContent = 'Live Edit';
+            stickyButton.href = window.mwLiveEditIframeBackUrl;
+            stickyButton.classList.add('sticky');
+
+            // Append the button to the document body
+            document.body.appendChild(stickyButton);
+
+            // Apply sticky behavior
+            stickyButton.classList.add('sticky');
+
+
+
+            // Create and apply the CSS style dynamically
+            var style = document.createElement('style');
+            style.textContent = `
+                #back-to-live-sticky-button {
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    z-index: 999;
+                    transition: top 0.3s;
+                    background: #000;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    border-top-left-radius: 0;
+                    border-top-right-radius: 0;
+                }
+                 a#back-to-live-sticky-button {
+                 color: #fff;
+                 }
+                #back-to-live-sticky-button.sticky {
+                    top: 0;
+                }
+            `;
+
+            document.head.appendChild(style);
+        }
+    });
+}
+
+
+

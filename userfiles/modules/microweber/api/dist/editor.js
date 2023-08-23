@@ -365,10 +365,13 @@ MWEditor.api = function (scope) {
             }, 78);
         },
         elementNode: function (c) {
-            if( !c || !c.parentNode || c.parentNode === document.body ){
-                return null;
-            }
+
             try {   /* Firefox returns wrong target (div) when you click on a spin-button */
+
+                if( !c || !c.parentNode || c.parentNode === document.body ){
+                    return null;
+                }
+
                 if (typeof c.querySelector === 'function') {
                     return c;
                 }
