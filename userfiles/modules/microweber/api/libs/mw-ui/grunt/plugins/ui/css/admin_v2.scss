@@ -2726,9 +2726,21 @@ svg.text-danger {
     gap: 0.5rem;
     font-size: 13px;
 }
+@media screen and (max-width: 1200px) {
+    .mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed span {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .mw-live-edit-search-dropdown.form-select {
+        display: none;
+
+    }
+}
 
 @media screen and (max-width: 800px) {
-    .mw-live-edit-search-dropdown.form-select, .mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed span, #user-menu-wrapper {
+    #user-menu-wrapper {
         display: none !important;
     }
     #toolbar {
