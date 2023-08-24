@@ -196,8 +196,6 @@ mw.emitter = {
                     description: mw.lang('Selected text for the link.'),
                 },
                 icon: 'd-none',
-                //
-                icon: 'd-none',
                 title: 'Page title'
             };
             options =  mw.object.extend(true, {}, defaults, (options || {}));
@@ -258,7 +256,7 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+               // footer.ok.disabled = !res;
                 return res;
             };
 
@@ -363,7 +361,8 @@ mw.emitter = {
             UIFormControllers._title(this.settings, root)
 
             var layoutsData = [];
-            var layouts = mw.top().$('.module[data-type="layouts"]');
+            var layouts = mw.top().app.canvas.getWindow().$('.module[data-type="layouts"]');
+
             layouts.each(function () {
                 layoutsData.push({
                     name: (this.getAttribute('template') || this.dataset.template || '').split('.')[0],
@@ -383,11 +382,11 @@ mw.emitter = {
                 });
                 var el = this.element;
                 $(li).find('input').on('click', function(){
-                    mw.top().tools.scrollTo(el);
-                    scope.link = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
-                    scope.url = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
-                    scope.src = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
-                  
+                    mw.top().app.canvas.getWindow().mw.tools.scrollTo(el);
+                    scope.link = mw.top().app.canvas.getWindow().location.href.split('#')[0] + '#mw@' + el.id;
+                    scope.url = mw.top().app.canvas.getWindow().location.href.split('#')[0] + '#mw@' + el.id;
+                    scope.src = mw.top().app.canvas.getWindow().location.href.split('#')[0] + '#mw@' + el.id;
+
                     scope.valid();
                 });
                 list.append(li);
@@ -405,7 +404,7 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+               // footer.ok.disabled = !res;
                 return res;
             };
 
@@ -497,7 +496,7 @@ mw.emitter = {
             };
             options =  mw.object.extend(true, {}, defaults, (options || {}));
 
-             
+
             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.link === true) options.link = defaults.link;
@@ -543,7 +542,7 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+                //footer.ok.disabled = !res;
                 return res;
             };
 
@@ -804,7 +803,7 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+                //footer.ok.disabled = !res;
                 return res;
             };
 
@@ -831,7 +830,7 @@ mw.emitter = {
                 var val = {};
                 if(textField) val.text = textField.value;
 
-                
+
 
                 var getSelected, autoCompleteVal = scope.autoComplete.getValue();
                 for (let i in scope.autoComplete.options) {
@@ -1011,7 +1010,7 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+                // footer.ok.disabled = !res;
                 return res;
             };
 
@@ -1043,7 +1042,7 @@ mw.emitter = {
                             id: val.id,
                             type: val.type,
                         })
-                    } 
+                    }
                 }
                 if(textField) textField.value = val.text || '';
                 if(targetField) targetField.checked = val.target;
@@ -1167,7 +1166,7 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+                //footer.ok.disabled = !res;
                 return res;
             };
 
@@ -1332,7 +1331,7 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+               // footer.ok.disabled = !res;
                 return res;
             };
 
