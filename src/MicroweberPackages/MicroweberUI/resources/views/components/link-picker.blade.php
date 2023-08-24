@@ -32,17 +32,19 @@ $rand = time().rand(1111,9999);
         function _setCurrentLinkPickerValue(currentValueLink)
         {
             currentLinkPickerValue.url = currentValueLink.url;
-            if (currentValueLink.data.id) {
-                currentLinkPickerValue.id = currentValueLink.data.id;
-            }
-            if (currentValueLink.data.title) {
-                currentLinkPickerValue.text = currentValueLink.data.title;
-            }
-            if (currentValueLink.data.content_type) {
-                currentLinkPickerValue.type = currentValueLink.data.content_type;
-            }
-            if (currentValueLink.data.type) {
-                currentLinkPickerValue.type = currentValueLink.data.type;
+            if (currentValueLink.data) {
+                if (currentValueLink.data.id) {
+                    currentLinkPickerValue.id = currentValueLink.data.id;
+                }
+                if (currentValueLink.data.title) {
+                    currentLinkPickerValue.text = currentValueLink.data.title;
+                }
+                if (currentValueLink.data.content_type) {
+                    currentLinkPickerValue.type = currentValueLink.data.content_type;
+                }
+                if (currentValueLink.data.type) {
+                    currentLinkPickerValue.type = currentValueLink.data.type;
+                }
             }
             $('.js-open-link-editor{{$rand}}-field').val(currentLinkPickerValue.url);
         }
