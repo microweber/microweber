@@ -70,7 +70,8 @@ $lightBG: #ffffff;
 
 $bg: $lightBG;
 
-$handleHeight: 42;
+$handleHeight: 38;
+$handleholderHeight: 42;
 
 #mw-handle-item-layout-root{
     .mw-handle-item-menus-holder{
@@ -86,20 +87,58 @@ $handleHeight: 42;
 
 .mw-handle-item {
 
-    .mw-handle-item-menus-holder{
-        height: #{$handleHeight}px;
+    .mw-handle-item-menus-holder, .mw-le-handle-menu-button-sub-menu{
+
+        height: #{$handleholderHeight}px;
         padding: 2px 2px 11px 11px!important;
         padding-bottom: 9px !important;
         display: inline-flex;
         border-radius: 7px;
         border: 1px solid transparent;
-        position: relative;
-        top: -60px;
-        left: -3px;
         box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
         background-color: $bg;
-        position: absolute;
 
+        .mw-le-handle-menu-button {
+            display: inline-flex;
+            width: 32px;
+            height: 32px;
+            margin: 0 2px;
+            border-radius: 3px;
+            cursor: pointer;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            transition: .3s;
+            font-size: 19px;
+
+            &.mw-handle-button-wide {
+                width: auto;
+                white-space: nowrap;
+                display: block;
+                text-align: left;
+                border: 1px solid #eee;
+                padding: 7px 10px 7px 5px !important;
+                height: auto;
+                margin: 2px;
+
+                * {
+                    vertical-align: middle;
+                }
+            }
+
+            &:hover {
+                background-color: #f1f1f1;
+            }
+
+            &.mw-handle-drag-button {
+                cursor: grab;
+            }
+        }
+
+    }
+
+    .mw-le-handle-menu-button-sub-menu {
+        padding: 4px 6px 4px 6px !important;
     }
 }
 
