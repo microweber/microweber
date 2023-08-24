@@ -20,10 +20,11 @@
             <label class="live-edit-label" for="{{ $field['name'] }}">{{ $field['label'] }}</label>
 
 
+
             @if($field['type'] == 'text' )
-                <x-microweber-ui::input placeholder="{{ $placeholder }}" wire:model.defer="itemState.{{ $field['name'] }}" />
+                <x-microweber-ui::input placeholder="{{ $placeholder }}" name="{{ $field['name'] }}"  wire:model.defer="itemState.{{ $field['name'] }}" />
             @elseif($field['type'] == 'textarea' )
-                <x-microweber-ui::textarea placeholder="{{ $placeholder }}" wire:model.defer="itemState.{{ $field['name'] }}"/>
+                <x-microweber-ui::textarea placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" wire:model.defer="itemState.{{ $field['name'] }}"/>
             @elseif($field['type'] == 'image' )
                 <x-microweber-ui::media-picker wire:model.defer="itemState.{{ $field['name'] }}"/>
             @elseif($field['type'] == 'file' )

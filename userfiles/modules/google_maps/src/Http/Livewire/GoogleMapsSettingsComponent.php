@@ -39,22 +39,22 @@ class GoogleMapsSettingsComponent extends ModuleSettingsFormComponent
             'help' => 'Enter zoom level (1-10)',
             'attributes' => [
                 'min' => 1,
-                'max' => 10,
+                'max' => 22,
                 'step' => 1,
             ],
             'placeholder' => 'Enter zoom',
         ],
-        'data-map-type' => [
-            'type' => 'dropdown',
-            'label' => 'Map type',
-            'help' => 'Enter enter map type',
-            'options' => [
-                'roadmap' => 'Roadmap',
-                'satellite' => 'Satellite',
-                'hybrid' => 'Hybrid',
-                'terrain' => 'Terrain',
-            ],
-        ],
+//        'data-map-type' => [
+//            'type' => 'dropdown',
+//            'label' => 'Map type',
+//            'help' => 'Enter enter map type',
+//            'options' => [
+//                'roadmap' => 'Roadmap',
+//                'satellite' => 'Satellite',
+//                'hybrid' => 'Hybrid',
+//                'terrain' => 'Terrain',
+//            ],
+//        ],
 
     ];
 
