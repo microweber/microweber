@@ -70,7 +70,8 @@ $lightBG: #ffffff;
 
 $bg: $lightBG;
 
-$handleHeight: 42;
+$handleHeight: 38;
+$handleholderHeight: 42;
 
 #mw-handle-item-layout-root{
     .mw-handle-item-menus-holder{
@@ -87,7 +88,8 @@ $handleHeight: 42;
 .mw-handle-item {
 
     .mw-handle-item-menus-holder{
-        height: #{$handleHeight}px;
+
+        height: #{$handleholderHeight}px;
         padding: 2px 2px 11px 11px!important;
         padding-bottom: 9px !important;
         display: inline-flex;
