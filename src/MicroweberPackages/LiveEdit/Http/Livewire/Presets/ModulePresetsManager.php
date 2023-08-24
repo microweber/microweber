@@ -216,6 +216,12 @@ class ModulePresetsManager extends AdminComponent
                     'name' => 'module_id',
                     'label' => 'module_id',
                     'hidden' => true,
+                ],
+                [
+                    'type' => 'textarea',
+                    'name' => 'position',
+                    'label' => 'position',
+                    'hidden' => true,
                 ]
 
             ]
