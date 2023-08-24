@@ -13,7 +13,17 @@ export class ModuleSettings extends MicroweberBaseClass {
 
         mw.app.editor.on('onModuleSettingsChanged', ($data) => {
 
-            mw.app.canvas.getWindow().mw.reload_module('#' + $data.moduleId);
+            var el = mw.app.canvas.getWindow().$('#' + $data.moduleId)[0];
+            var el2 = mw.app.canvas.getWindow().$('[data-module-id-from-preset="' + $data.moduleId + '"]')[0];
+            if (el !== null) {
+                mw.app.registerChangedState(el);
+                mw.app.canvas.getWindow().mw.reload_module('#' + $data.moduleId);
+            }
+
+            if (el2 !== null && el2 !== undefined) {
+                mw.app.registerChangedState(el2);
+                mw.app.canvas.getWindow().mw.reload_module('[data-module-id-from-preset="' + $data.moduleId + '"]');
+            }
 
 
         });
@@ -26,8 +36,8 @@ export class ModuleSettings extends MicroweberBaseClass {
     }
 
     moduleOrLayoutSettingsRequestHandle(module, isLayout) {
-         
-        if(!isLayout && module) {
+
+        if (!isLayout && module) {
             isLayout = module.classList.contains('module-layouts')
         }
 
@@ -41,6 +51,13 @@ export class ModuleSettings extends MicroweberBaseClass {
 
 
         var moduleId = module.id;
+        var moduleIdFromPreset = module.getAttribute('data-module-id-from-preset');
+        if(moduleIdFromPreset){
+            // we are in preset
+            moduleId = moduleIdFromPreset;
+        }
+
+
         var moduleType = module.getAttribute('data-type');
         if (!moduleType) {
             moduleType = module.getAttribute('type');
@@ -101,20 +118,13 @@ export class ModuleSettings extends MicroweberBaseClass {
         if (!moduleType) {
             moduleType = module.getAttribute('type');
         }
-        var moduleIdForPreset = module.getAttribute('id');
+        var moduleIdForPreset = module.getAttribute('module-id-from-preset');
 
 
-
-
-
-
-
-
-
-        moduleClone.setAttribute('data-original-module', module.getAttribute('type'));
-         moduleClone.setAttribute('data-module-original-id', module.getAttribute('data-module-original-id'));
+        //moduleClone.setAttribute('data-original-module', module.getAttribute('type'));
+      //  moduleClone.setAttribute('data-module-original-id', module.getAttribute('data-module-original-id'));
         // moduleClone.setAttribute('data-module-original-attrs', module.getAttribute('data-module-original-attrs'));
-        moduleClone.setAttribute('type', presetsModule);
+        //moduleClone.setAttribute('type', presetsModule);
 
         if (isLayout) {
             //todo
@@ -131,7 +141,7 @@ export class ModuleSettings extends MicroweberBaseClass {
 
         var attrsForSettings = attributes;
         attrsForSettings.module_type_for_preset = moduleType;
-        attrsForSettings.module_id_for_preset = moduleIdForPreset;
+          attrsForSettings.module_id_for_preset = moduleIdForPreset;
         attrsForSettings.type = presetsModule;
 
 
@@ -168,8 +178,8 @@ export class ModuleSettings extends MicroweberBaseClass {
         if (attrsForSettings['type'] && attrsForSettings['type'] === 'layouts/admin') {
 
             dialogSettings.position = {
-              x: window.innerWidth - 400,
-              y: 300
+                x: window.innerWidth - 400,
+                y: 300
             };
         }
 

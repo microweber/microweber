@@ -15,6 +15,12 @@ class ModuleSettingsController
         if(!isset($params['id'])){
             $params['id'] = 'module-'.crc32($type);
         }
+
+   //     if(isset($params['data-module-id-from-preset'])){
+       //     $params['id'] = $params['data-module-id-from-preset'];
+  //      }
+
+
         $id = $params['id'];
         $hasError = false;
 

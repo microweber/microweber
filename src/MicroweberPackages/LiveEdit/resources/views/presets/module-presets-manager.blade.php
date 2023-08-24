@@ -22,8 +22,7 @@
             })
 
             window.livewire.on('saveModuleAsPreset', function () {
-                var moduleId = window.livewire.find('{{$this->id}}').get('itemState.module_id')
-                var el = mw.top().app.canvas.getWindow().$('#' + moduleId)[0];
+                var el = mw.top().app.canvas.getWindow().$('#{{$this->moduleId}}')[0];
                 var attrs = el.attributes;
                 var attrsObj = {};
                 var skipAttrs = ['contenteditable', 'class', 'data-original-attrs', 'data-original-id']
@@ -43,46 +42,83 @@
                 Livewire.emit('onShowConfirmDeleteItemById', itemId);
             })
 
-
-            window.livewire.on('applyPreset', (applyToModuleId, preset) => {
-
-                var  json = preset.module_attrs;
-                var  obj = JSON.parse(json);
-
-
+            window.livewire.on('removeSelectedPresetForModule', (applyToModuleId) => {
                 var el = mw.top().app.canvas.getWindow().$('#' + applyToModuleId)[0];
-
-                var set_orig_id =  mw.top().app.canvas.getWindow().$(el).attr("id");
-                var have_orig_id =  mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id");
-                var have_orig_attr =  mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs");
-                var orig_attrs_encoded = null;
-                if (el != null) {
-                    var orig_attrs = mw.top().tools.getAttrs(el);
-
-                    if (orig_attrs) {
-                        var orig_attrs_encoded = window.btoa(JSON.stringify(orig_attrs));
-                    }
+                if (el !== null) {
+                     mw.top().app.registerChangedState(el);
                 }
-                if (!have_orig_attr && orig_attrs_encoded) {
-                    mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs", orig_attrs_encoded);
-                }
-                if (!have_orig_id) {
-                    mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id", set_orig_id);
-                }
-                mw.top().app.canvas.getWindow().$(el).attr("id", preset.module_id);
-                if(obj){
-                    for (var key in obj) {
 
+
+
+                var have_orig_attr = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs");
+
+
+                if (have_orig_attr) {
+                    var obj = JSON.parse(window.atob(have_orig_attr));
+                    if (obj) {
+                        for (var key in obj) {
                             var val = obj[key];
                             if (key == 'id') {
-                                mw.top().app.canvas.getWindow().$(el).attr("id", val);
+                                //   mw.top().app.canvas.getWindow().$(el).attr("data-module-id-from-preset", val);
                             } else {
                                 mw.top().app.canvas.getWindow().$(el).attr(key, val);
                             }
+                        }
+                    }
 
+                }
+
+                mw.top().app.canvas.getWindow().$(el).removeAttr("data-module-id-from-preset");
+                mw.top().app.canvas.getWindow().$(el).removeAttr("data-module-original-attrs");
+                mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': applyToModuleId}))
+
+
+            })
+
+
+            window.livewire.on('applyPreset', (applyToModuleId, preset) => {
+
+                var json = preset.module_attrs;
+                var obj = JSON.parse(json);
+
+
+                var el = mw.top().app.canvas.getWindow().$('#' + applyToModuleId)[0];
+                if (el == null) {
+                    //      var el = mw.top().app.canvas.getWindow().$('[data-module-original-id="' + applyToModuleId+'"]')[0];
+                }
+                if (el !== null) {
+                    mw.top().app.registerChangedState(el);
+                }
+
+
+                var orig_id = mw.top().app.canvas.getWindow().$(el).attr("id");
+                // var set_orig_id = mw.top().app.canvas.getWindow().$(el).attr("data-module-id-from-preset");
+                // var have_orig_id = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id");
+                var have_orig_attr = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs");
+                //
+                if(!have_orig_attr) {
+                    var orig_attrs_encoded = window.btoa(JSON.stringify(obj));
+                    if (orig_attrs_encoded) {
+                        mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs", orig_attrs_encoded);
                     }
                 }
-                mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': preset.module_id}))
+                //
+                // mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id", orig_id);
+                //
+                if (obj) {
+                    for (var key in obj) {
+                        var val = obj[key];
+                        if (key == 'id') {
+                         //   mw.top().app.canvas.getWindow().$(el).attr("data-module-id-from-preset", val);
+                        } else {
+                            mw.top().app.canvas.getWindow().$(el).attr(key, val);
+                        }
+                    }
+                }
+                mw.top().app.canvas.getWindow().$(el).attr("data-module-id-from-preset", preset.module_id);
+
+                //   mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': preset.module_id}))
+                mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': applyToModuleId}))
 
             });
 
@@ -91,14 +127,9 @@
     </script>
 
 
-
-
     <div x-data="{
 ...initPresetsManagerData,
 }" x-init="mw.initPresetsManager">
-
-
-
 
 
         <div x-show="initPresetsManagerData.showEditTab=='main'"

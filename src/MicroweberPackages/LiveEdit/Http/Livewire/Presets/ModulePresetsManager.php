@@ -16,6 +16,7 @@ class ModulePresetsManager extends AdminComponent
     public $editorSettings = [];
     public array $itemState = [];
     public array $selectedPreset = [];
+    public $moduleIdFromPreset = '';
     public array $selectedItemsIds = [];
     public $areYouSureDeleteModalOpened = false;
     public $isAlreadySavedAsPreset = false;
@@ -28,13 +29,14 @@ class ModulePresetsManager extends AdminComponent
         'onEditItemById' => 'showItemById',
         'onSaveAsNewPreset' => 'saveAsNewPreset',
         'onSelectPresetForModule' => 'selectPresetForModule',
+        'onRemoveSelectedPresetForModule' => 'removeSelectedPresetForModule',
     ];
 
 
     public function render()
     {
-        $this->itemState['module_id'] = $this->moduleId;
-        $this->itemState['module'] = $this->moduleType;
+       // $this->itemState['module_id'] = $this->moduleId;
+     //  $this->itemState['module'] = $this->moduleType;
         // $this->itemState['module_attrs'] = [];
 
         $this->items = $this->getPresets();
@@ -97,6 +99,77 @@ class ModulePresetsManager extends AdminComponent
 
     }
 
+    public function getPresets()
+    {
+        $presets = get_saved_modules_as_template("module={$this->moduleType}");
+
+        return $presets;
+    }
+
+    public function showConfirmDeleteItemById($itemId)
+    {
+
+        $this->areYouSureDeleteModalOpened = true;
+        $this->selectedItemsIds = [$itemId];
+
+
+    }
+
+    public function confirmDeleteSelectedItems()
+    {
+
+        if ($this->selectedItemsIds and !empty($this->selectedItemsIds)) {
+            foreach ($this->selectedItemsIds as $itemId) {
+                $delete = delete_module_as_template(['id' => $itemId]);
+            }
+        }
+        $this->areYouSureDeleteModalOpened = false;
+        $this->selectedItemsIds = [];
+        $this->render();
+
+    }
+
+    public function saveAsNewPreset($module_attrs = [])
+    {
+
+        $this->itemState['id'] = 0;
+        $this->itemState['name'] = 'New preset ' . time();
+        $this->itemState['module'] = $this->moduleType;
+        $this->itemState['module_id'] = $this->moduleId;
+        if ($module_attrs and is_array($module_attrs) and !empty($module_attrs)) {
+            $this->itemState['module_attrs'] = json_encode($module_attrs);
+        }
+
+        $this->submit();
+    }
+
+    public function removeSelectedPresetForModule($applyToModuleId)
+    {
+        $this->moduleIdFromPreset = false;
+        $this->selectedPreset = [];
+        $this->emit('removeSelectedPresetForModule', $applyToModuleId);
+
+    }
+
+
+    public function selectPresetForModule($id)
+    {
+
+        $applyToModuleId = $this->moduleId;
+        $presets = $this->getPresets();
+        if ($presets) {
+            foreach ($presets as $preset) {
+
+                if ($preset['id'] == $id) {
+                    $this->selectedPreset = $preset;
+                    $this->moduleIdFromPreset = $preset['module_id'];
+                    $this->emit('applyPreset', $applyToModuleId,$preset);
+                }
+            }
+        }
+
+    }
+
     public function getEditorSettings()
     {
 
@@ -144,64 +217,5 @@ class ModulePresetsManager extends AdminComponent
             ]
         ];
         return $editorSettings;
-    }
-
-    public function getPresets()
-    {
-        $presets = get_saved_modules_as_template("module={$this->moduleType}");
-
-        return $presets;
-    }
-
-    public function showConfirmDeleteItemById($itemId)
-    {
-
-        $this->areYouSureDeleteModalOpened = true;
-        $this->selectedItemsIds = [$itemId];
-
-
-    }
-
-    public function confirmDeleteSelectedItems()
-    {
-
-        if ($this->selectedItemsIds and !empty($this->selectedItemsIds)) {
-            foreach ($this->selectedItemsIds as $itemId) {
-                $delete = delete_module_as_template(['id' => $itemId]);
-            }
-        }
-        $this->areYouSureDeleteModalOpened = false;
-        $this->selectedItemsIds = [];
-        $this->render();
-
-    }
-
-    public function saveAsNewPreset($module_attrs = [])
-    {
-
-        $this->itemState['id'] = 0;
-        $this->itemState['name'] = 'New preset ' . time();
-        $this->itemState['module'] = $this->moduleType;
-        $this->itemState['module_id'] = $this->moduleId;
-        if ($module_attrs and is_array($module_attrs) and !empty($module_attrs)) {
-            $this->itemState['module_attrs'] = json_encode($module_attrs);
-        }
-
-        $this->submit();
-    }
-
-    public function selectPresetForModule($id)
-    {
-        $applyToModuleId = $this->moduleId;
-        $presets = $this->getPresets();
-        if ($presets) {
-            foreach ($presets as $preset) {
-                if ($preset['id'] == $id) {
-                    $this->selectedPreset = $preset;
-                    $this->emit('applyPreset', $applyToModuleId,$preset);
-                }
-            }
-        }
-
     }
 }

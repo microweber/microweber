@@ -125,6 +125,9 @@ trait ParserLoadModuleTrait
         if (isset($attrs['module-id']) and $attrs['module-id'] != false) {
             $attrs['id'] = $attrs['module-id'];
         }
+        if (isset($attrs['data-module-id-from-preset']) and $attrs['data-module-id-from-preset'] != false) {
+            $attrs['id'] = $attrs['data-module-id-from-preset'];
+        }
 
         if (!isset($attrs['id'])) {
             global $mw_mod_counter;
