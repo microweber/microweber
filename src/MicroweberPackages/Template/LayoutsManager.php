@@ -291,6 +291,12 @@ class LayoutsManager
                                 $to_return_temp['is_shop'] = trim($result);
                             }
 
+                            if (preg_match('/hidden:.+/', $fin, $regs)) {
+                                $result = $regs[0];
+                                $result = str_ireplace('hidden:', '', $result);
+                                $to_return_temp['hidden'] = trim($result);
+                            }
+
                             if (preg_match('/name:.+/', $fin, $regs)) {
                                 $result = $regs[0];
                                 $result = str_ireplace('name:', '', $result);

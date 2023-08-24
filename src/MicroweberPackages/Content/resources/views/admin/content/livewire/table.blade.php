@@ -6,21 +6,34 @@
         });
     </script>
 
-    @php
-        $openLinksInModal = 1;
-    @endphp
-
         @if ($openLinksInModal)
         <script>
             function openLinkInModal(url) {
                 let linkInModal = mw.top().dialogIframe({
                     url: url,
-                    width:800,
-                    height:600,
-                    overlayClose:true,
+                    width:960,
+                    height:'auto',
+                    closeOnEscape:false,
+                    autoHeight:true,
+                    // skin: 'edit-post',
+                    // footer: true,
+                    beforeRemove: function(dialog) {
+                        console.log(dialog.container.querySelector('iframe'));
+                        console.log(dialog.container.querySelector('iframe').contentWindow);
+                        console.log(dialog.container.querySelector('iframe').contentWindow.mw.askusertostay);
+
+                        if (dialog.container.querySelector('iframe').contentWindow.mw.askusertostay) {
+                            mw.top().tools.confirm('<?php _e("You have unsaved changes, are you sure want to exit?"); ?>', function() {
+                                linkInModal.forceRemove();
+                            });
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
                 });
-                linkInModal.dialogContainer.style.padding = '0px';
-                linkInModal.dialogHeader.style.display = 'none';
+                linkInModal.dialogContainer.style.paddingLeft = '0px';
+                linkInModal.dialogContainer.style.paddingRight = '0px';
                 linkInModal.dialogFooter.style.display = 'none';
             }
             $(document).ready(function() {

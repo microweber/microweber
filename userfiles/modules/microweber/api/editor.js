@@ -274,8 +274,25 @@ var MWEditor = function (options) {
                 }
                 wTarget = wTarget.parentNode;
             }
+            if(!shouldCloseSelects) {
+                var smallEditor = !!scope.smallEditor && scope.smallEditor.get(0);
+                if(smallEditor) {
+                    shouldCloseSelects = !smallEditor.contains(e.target)
+                }
+                if(!shouldCloseSelects) {
+
+                }
+                
+            }
+ 
             if(shouldCloseSelects) {
                 MWEditor.core._preSelect();
+
+                scope.document.querySelectorAll('.mw-bar-control-item.active, .mw-editor-controller-component.active').forEach(node => {
+                    if(node !== parent) {
+                        node.classList.remove('active')
+                    }
+                })
             }
         }
         var time = new Date().getTime();

@@ -56,12 +56,12 @@ html.preview .back-to-edit{
         </div>
 
 
-        <div class="col-md-3 col-auto">
+        <div class="col-md-3 col">
            <ContentSearchNav></ContentSearchNav>
         </div>
 
 
-        <div class="toolbar-col col-auto">
+        <div class="toolbar-col col-auto ms-sm-0 ms-2">
             <div class="toolbar-col-container">
                 <div class="d-flex align-items-center">
                     <ResolutionSwitch></ResolutionSwitch>

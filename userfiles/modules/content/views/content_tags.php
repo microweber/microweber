@@ -81,9 +81,9 @@ if ($all_existing_tags == null) {
 
     });
 </script>
-<div class="row py-0">
-    <div class="col-12">
-        <div id="content-tags-block" class="mb-3"></div>
+<div class="y-0">
+    <div>
+        <div id="content-tags-block"></div>
         <div id="content-tags-search-block"></div>
         <input type="hidden" name="tag_names" value="<?php print implode(',', $tags_str); ?>" id="tags"/>
     </div>

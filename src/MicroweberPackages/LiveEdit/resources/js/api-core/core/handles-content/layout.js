@@ -148,9 +148,9 @@ export const LayoutHandleContent = function (rootScope) {
             onTarget: function(target, selfNode) {
  
                 if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
-                    selfNode.style.display = '';
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
                 } else {
-                    selfNode.style.display = 'none';
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
                 }
             },
             action: function (target, selfNode, rootScope) {
@@ -161,6 +161,7 @@ export const LayoutHandleContent = function (rootScope) {
                 });
                 ElementManager(target).after(el.innerHTML);
                 var newEl = target.nextElementSibling;
+                mw.app.registerChange(target)
                 mw.reload_module(newEl, function(){
                     mw.top().app.state.record({
                         target: mw.tools.firstParentWithClass(target, 'edit'),
@@ -178,9 +179,9 @@ export const LayoutHandleContent = function (rootScope) {
             className: 'mw-handle-insert-button',
             onTarget: function(target, selfNode) {
                 if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module']) && target.nextElementSibling !== null) {
-                    selfNode.style.display = '';
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
                 } else {
-                    selfNode.style.display = 'none';
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
                 }
  
 
@@ -210,6 +211,7 @@ export const LayoutHandleContent = function (rootScope) {
                     prev.classList.remove("mw-le-target-to-animate")
                     target.style.transform = '';
                     prev.style.transform = '';
+                    mw.app.registerChange(target)
                     target.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
                     rootScope.layoutHandle.set(target, true)
                 }, 300)
@@ -223,9 +225,9 @@ export const LayoutHandleContent = function (rootScope) {
             className: 'mw-handle-insert-button',
             onTarget: function (target, selfNode, rootScope) {                 
                 if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module']) && target.previousElementSibling !== null) {
-                    selfNode.style.display = '';
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
                 } else {
-                    selfNode.style.display = 'none';
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
                 }
             },
             action: function (target, selfNode) {
@@ -253,9 +255,10 @@ export const LayoutHandleContent = function (rootScope) {
                     prev.classList.remove("mw-le-target-to-animate")
                     target.style.transform = '';
                     prev.style.transform = '';
-
+                    mw.app.registerChange(target)
                     rootScope.layoutHandle.set(target, true);
                     target.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
+                    rootScope.layoutHandle.set(target, true)
                 }, 300)
             }
         },
@@ -275,9 +278,9 @@ export const LayoutHandleContent = function (rootScope) {
 
             onTarget: function(target, selfNode) {
                 if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
-                    selfNode.style.display = '';
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
                 } else {
-                    selfNode.style.display = 'none';
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
                 }
             },
             
@@ -351,7 +354,8 @@ export const LayoutHandleContent = function (rootScope) {
             },
             {
                 name: 'primary',
-                nodes: primaryNavigation
+                nodes: primaryNavigation,
+                holder: true,
             },
             {
                 name: 'dynamic',

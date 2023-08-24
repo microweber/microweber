@@ -78,9 +78,12 @@ export const HandleMenu = function(options) {
        
 
         setTimeout(() => {
+          //   console.log(this.buttons)
             for ( ; i < this.buttons.length; i++) {
                 const config = this.buttons[i].config;
                 const button = this.buttons[i].button;
+
+                //todo: onTarget  
            
                 if(config && config.onTarget) {
                   
@@ -108,8 +111,11 @@ export const HandleMenu = function(options) {
 
 
     this.buttons = [];
-    this.prepareMenu = function() {
-        this.buttons = [];
+    this.prepareMenu = function(parent) {
+        if(!parent) {
+            parent = this;
+        }
+        parent.buttons = [];
 
     }
 
@@ -145,8 +151,8 @@ export const HandleMenu = function(options) {
         this.buildButtons();
     }
 
-    this.buildButtons = function (menu, btnHolder){
-        this.prepareMenu();
+    this.buildButtons = function (menu, btnHolder, parent){
+        this.prepareMenu(parent);
 
         btnHolder = btnHolder || this.buttonsHolder;
         menu = menu || this.options.menus;
@@ -157,8 +163,19 @@ export const HandleMenu = function(options) {
 
         menu.filter(itm => !!itm).forEach(function (itm){
             if(itm.nodes && itm.nodes.forEach) {
+                var holder = btnHolder;
+ 
+                if(itm.holder) {
+                    holder = ElementManager({
+                        props: {
+                            className: 'mw-le-handle-menu-button-holder', 
+                        }
+                    });
+                    btnHolder.append(holder);
+                }
+ 
                 itm.nodes.forEach(function (btn){
-                    btnHolder.append(scope.button(btn));
+                    holder.append(scope.button(btn));
                 });
             } else if(itm.title || itm.icon) {
                 scope.button(itm)
@@ -222,7 +239,7 @@ export const HandleMenu = function(options) {
                 }
             });
             btn.append(submenu);
-            scope.buildButtons(conf.menu, submenu);
+            scope.buildButtons(conf.menu, submenu, submenu);
             btn.on(actionEvents, function(){
                 this.classList.toggle('sub-menu-active');
             });

@@ -15,10 +15,12 @@ import {HandleMenu} from "./handle-menu.js";
 import {InteractionHandleContent} from "./handles-content/interaction.js";
 import {DomService} from "./classes/dom.js";
 import "./core/@core.js";
+import helpers from "./live-edit-helpers.service.js";
 
 
 
 
+ 
 export class LiveEdit {
 
 
@@ -324,6 +326,7 @@ export class LiveEdit {
     selectNode(target, event) {
 
 
+ 
 
 
 
@@ -352,8 +355,11 @@ export class LiveEdit {
 
         // const elements = this.observe.fromEvent(e);
         const elements = [];
-        const directTargets = ['IMG']
-        if (directTargets.indexOf(target.nodeName) !== -1) {
+        const directTargets = ['IMG'];
+        const isIcon = helpers.targetIsIcon(target);
+        if(isIcon){
+            elements.push(target);
+        } else if (directTargets.indexOf(target.nodeName) !== -1) {
             elements.push(target);
         } else {
             elements.push(DomService.firstBlockLevel(target));
@@ -367,6 +373,8 @@ export class LiveEdit {
         }
 
 
+
+        console.log(target, first, 2)
 
 
         first = target;
@@ -478,7 +486,15 @@ export class LiveEdit {
                 }
             }
 
-            if(!target.classList.contains('cloneable')) {
+ 
+
+            const isIcon = helpers.targetIsIcon(target);
+
+            if(isIcon) {
+                return target
+                
+
+            } else if(!target.classList.contains('cloneable')) {
                 const hasCloneable = DomService.firstParentOrCurrentWithClass(target.parentElement, 'cloneable');
                 if(hasCloneable) {
                     if((target.offsetTop - hasCloneable.offsetTop) < 5) {
@@ -773,17 +789,26 @@ export class LiveEdit {
                 this.handles.get('module').hide()
                 this.handles.get('module').set(null)
             }
+            let target
+
+            if(helpers.targetIsIcon(elements[0])) {
+                target = elements[0]
+            } else {
+                target= DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'edit']);
+            }
 
 
-
-            let target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'edit']);
+              
             const layout = DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
             let layoutHasSelectedTarget = false;
 
+             
+            console.log(1, target)
 
             target = this._hoverAndSelectExceptions(target);
 
-
+            console.log(2, target)
+         
 
 
             if (target && _hovered.indexOf(target) === -1) {
@@ -837,6 +862,8 @@ export class LiveEdit {
                 var title = '';
                 if (target.dataset.mwTitle) {
                     title = target.dataset.mwTitle;
+                } else if ( helpers.targetIsIcon(target) ) {
+                    title = this.lang('Icon');
                 } else if (target.dataset.type) {
                     title = target.dataset.type;
                 } else if (target.nodeName === 'P') {

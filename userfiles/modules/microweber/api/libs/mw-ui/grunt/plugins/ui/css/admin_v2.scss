@@ -2726,26 +2726,52 @@ svg.text-danger {
     gap: 0.5rem;
     font-size: 13px;
 }
-
-@media screen and (max-width: 830px) {
-    .mw-live-edit-search-dropdown.form-select, .mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed span {
+@media screen and (max-width: 1200px) {
+    .mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed span {
         display: none;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #user-menu-wrapper {
+        display: none !important;
+    }
+    #toolbar {
+        padding: 0 10px !important;
     }
 
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 500px) {
+    .mw-live-edit-right-sidebar-wrapper {
+        display: none;
+    }
 
     .live-edit-undo-redo-buttons-wrapper {
         display: none;
 
     }
+    #toolbar {
+        padding: 0 3px !important;
+    }
+
 }
 
-@media screen and (max-width: 390px) {
+@media screen and (max-width: 300px) {
 
     #toolbar {
         flex-wrap: wrap !important;
         height: auto !important;
+        align-items: center !important;
+        justify-content: center !important;
+        display: flex !important;
+        padding-bottom: 20px !important;
     }
 }
 
+.position-relative {
+    position: relative !important;
+}
+
+.mw-live-edit-search-dropdown {
+    min-width: unset !important;
+}

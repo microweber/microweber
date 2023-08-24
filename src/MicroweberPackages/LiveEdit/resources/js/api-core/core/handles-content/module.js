@@ -42,9 +42,9 @@ export const ModuleHandleContent = function (rootScope) {
             onTarget: function (target, selfNode) {
 
                 if(target.classList.contains('no-settings')) {
-                    selfNode.style.display = 'none';
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
                 } else {
-                    selfNode.style.display = '';
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
                 }
             },
         },
@@ -55,9 +55,9 @@ export const ModuleHandleContent = function (rootScope) {
             className: 'mw-handle-add-button',
             onTarget: function (target, selfNode) {
                 if(scope.tools.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
-                    selfNode.style.display = '';
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
                 } else {
-                    selfNode.style.display = 'none';
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
                 }
             },
             action: function (el) {

@@ -17,8 +17,6 @@
             </div>
         </div>
     </div>
-    @endif
-
     <div class="mb-3 d-flex align-items-center">
         <a class="tblr-body-color form-label mb-0 text-decoration-none font-weight-bold d-md-block d-none" href="{{route('admin.'.$content_type.'.index')}}" class="mb-0">
             @if($content_id > 0)
@@ -33,4 +31,6 @@
             @endif
         </span>
     </div>
+    @endif
+
 </div>

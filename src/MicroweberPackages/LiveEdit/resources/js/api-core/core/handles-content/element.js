@@ -19,8 +19,16 @@ export const ElementHandleContent = function (proto) {
             icon: '<svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg>',
             className: 'mw-handle-clone-button',
             onTarget: function (target, selfNode) {
-                selfNode.style.display = target.classList.contains('cloneable') || target.classList.contains('mw-col') ? '' : 'none';
+              
+
+                if(target.classList.contains('cloneable') || target.classList.contains('mw-col')) {
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
+                } else {
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
+                }
             },
+
+        
             action: function (el) {
 
                 
@@ -44,7 +52,13 @@ export const ElementHandleContent = function (proto) {
             onTarget: function (target, selfNode) {
                 const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
                 const prev = target.previousElementSibling;
-                selfNode.style.display = isCloneable && prev ? '' : 'none';
+                
+
+                if(isCloneable && prev) {
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
+                } else {
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
+                }
             },
             action: function (el) {
                 const prev = el.previousElementSibling;
@@ -63,7 +77,13 @@ export const ElementHandleContent = function (proto) {
             onTarget: function (target, selfNode) {
                 const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
                 const next = target.nextElementSibling;
-                selfNode.style.display = isCloneable && next  ? '' : 'none';
+           
+
+                if(isCloneable && next) {
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
+                } else {
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
+                }
             },
             action: function (el) {
                 const next = el.nextElementSibling;
@@ -84,6 +104,7 @@ export const ElementHandleContent = function (proto) {
             text: '',
             icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7,19V17H9V19H7M11,19V17H13V19H11M15,19V17H17V19H15M7,15V13H9V15H7M11,15V13H13V15H11M15,15V13H17V15H15M7,11V9H9V11H7M11,11V9H13V11H11M15,11V9H17V11H15M7,7V5H9V7H7M11,7V5H13V7H11M15,7V5H17V7H15Z" /></svg>',
             className: 'mw-handle-drag-button mw-handle-drag-button-element',
+            action: () => {},
             onTarget: (target, selfBtn) => {
                 var selfVisible = true;
                
@@ -93,12 +114,14 @@ export const ElementHandleContent = function (proto) {
                 console.log(selfBtn,  selfVisible );
                 selfBtn.style.display = selfVisible ? '' : 'node';
             },  
+            
         },
 
         {
             title: 'Edit' ,
             text: '',
             icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M181.674-179.761h41.13l441.087-441.565-41.13-41.13-441.087 441.565v41.13Zm613.043-484.326L665.761-793.043l36.978-37.218q19.631-19.63 47.859-19.75 28.228-.119 47.859 19.272l37.782 37.782q18.435 18.196 17.837 44.153-.598 25.956-18.315 43.674l-41.044 41.043Zm-41.76 41.761L247.761-117.13H118.804v-128.957l504.957-504.956 129.196 128.717Zm-109.392-19.565-20.804-20.565 41.13 41.13-20.326-20.565Z"/></svg>',
+            
             className: 'mw-handle-add-button',
 
             action: function (el) {
@@ -116,13 +139,13 @@ export const ElementHandleContent = function (proto) {
         },
 
         {
-            title: 'Insert module' ,
+            title: 'Insert module123' ,
             text: '',
             icon: '<svg style="stroke-width: 500;" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M445.935-195.935v-250h-250v-68.13h250v-250h68.13v250h250v68.13h-250v250h-68.13Z"/></svg>',
             className: 'mw-handle-add-button',
  
             action: function (el) {
-                console.log(el)
+          
                 mw.app.editor.dispatch('insertModuleRequest', el);
 
             }
@@ -148,13 +171,13 @@ export const ElementHandleContent = function (proto) {
                     name: 'primary',
                     nodes: [
                         {
-                            title: 'Insert module' ,
+                            title: 'Insert module333' ,
                             text: '',
                             icon: '<svg style="stroke-width: 500;" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M445.935-195.935v-250h-250v-68.13h250v-250h68.13v250h250v68.13h-250v250h-68.13Z"/></svg>',
                             className: 'mw-handle-add-button',
                  
                             action: function (el) {
-                                console.log(el)
+                            
                                 mw.app.editor.dispatch('insertModuleRequest', el);
                 
                             }

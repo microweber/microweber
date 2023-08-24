@@ -749,6 +749,13 @@
                 }
                 items.sortable({
                     items: selector,
+                    start: function(){ // firefox triggers click when drag ends
+                        scope._disableClick = true;
+                    },
+                    stop: function(){
+                        setTimeout(() => {scope._disableClick = false;}, 78)
+                        
+                    },
                     axis:'y',
                     listType:'ul',
                     handle: scope.options.sortableHandle || '.mw-tree-item-title',
@@ -782,7 +789,13 @@
                         update:function(e, ui){
 
                             _orderChangeHandle(e, ui)
-                        }
+                        },
+                        start: function(){ // firefox triggers click when drag ends
+                            scope._disableClick = true;
+                        },
+                        stop: function(){
+                            setTimeout(() => {scope._disableClick = false;}, 78)
+                        },
                     });
                 })
             } else if (this.options.nestedSortable === true) {
@@ -790,6 +803,12 @@
                     items: ".type-category",
                     listType:'ul',
                     handle:'.mw-tree-item-title',
+                    start: function(){ // firefox triggers click when drag ends
+                        scope._disableClick = true;
+                    },
+                    stop: function(){
+                        setTimeout(() => {scope._disableClick = false;}, 78)
+                    },
                     update:function(e, ui){
                         _orderChangeHandle(e, ui);
                     }
@@ -965,6 +984,11 @@
             $(container).wrap('<span class="mw-tree-item-content-root"></span>')
             if(!skip){
                 container.onclick = function(event){
+
+                    if(scope._disableClick) {
+                        return;
+                    }
+               
                     var target = event.target;
                     var canSelect = true;
                     if(scope.options.rowSelect === false) {
