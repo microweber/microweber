@@ -5229,3 +5229,9 @@ body.dragStart picture img{
 section.section {
     position: relative;
 }
+
+
+.mw-le-handle-menu-button-disabled{
+    opacity: .5;
+    pointer-events: none !important;
+}

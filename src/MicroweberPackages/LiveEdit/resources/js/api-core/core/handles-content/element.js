@@ -19,8 +19,16 @@ export const ElementHandleContent = function (proto) {
             icon: '<svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg>',
             className: 'mw-handle-clone-button',
             onTarget: function (target, selfNode) {
-                selfNode.style.display = target.classList.contains('cloneable') || target.classList.contains('mw-col') ? '' : 'none';
+              
+
+                if(target.classList.contains('cloneable') || target.classList.contains('mw-col')) {
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
+                } else {
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
+                }
             },
+
+        
             action: function (el) {
 
                 
@@ -44,7 +52,13 @@ export const ElementHandleContent = function (proto) {
             onTarget: function (target, selfNode) {
                 const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
                 const prev = target.previousElementSibling;
-                selfNode.style.display = isCloneable && prev ? '' : 'none';
+                
+
+                if(isCloneable && prev) {
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
+                } else {
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
+                }
             },
             action: function (el) {
                 const prev = el.previousElementSibling;
@@ -63,7 +77,13 @@ export const ElementHandleContent = function (proto) {
             onTarget: function (target, selfNode) {
                 const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
                 const next = target.nextElementSibling;
-                selfNode.style.display = isCloneable && next  ? '' : 'none';
+           
+
+                if(isCloneable && next) {
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
+                } else {
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
+                }
             },
             action: function (el) {
                 const next = el.nextElementSibling;
