@@ -1,7 +1,15 @@
 export default {
     targetIsIcon: target => {
     
-        const iconClasses = ['icon', 'mw-icon', 'material-icons'];
+        if(!target) {
+            return false;
+        }
+
+        if(!target.classList ) {
+            return false;
+        }
+
+        const iconClasses = ['icon', 'mw-icon', 'material-icons', 'mdi'];
         var isIcon = target.className.includes('mw-micon-');
     
         if(!isIcon) {

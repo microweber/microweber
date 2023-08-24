@@ -354,7 +354,8 @@ export const LayoutHandleContent = function (rootScope) {
             },
             {
                 name: 'primary',
-                nodes: primaryNavigation
+                nodes: primaryNavigation,
+                holder: true,
             },
             {
                 name: 'dynamic',

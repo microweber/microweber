@@ -789,17 +789,26 @@ export class LiveEdit {
                 this.handles.get('module').hide()
                 this.handles.get('module').set(null)
             }
+            let target
+
+            if(helpers.targetIsIcon(elements[0])) {
+                target = elements[0]
+            } else {
+                target= DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'edit']);
+            }
 
 
-
-            let target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'edit']);
+              
             const layout = DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
             let layoutHasSelectedTarget = false;
 
+             
+            console.log(1, target)
 
             target = this._hoverAndSelectExceptions(target);
 
-
+            console.log(2, target)
+         
 
 
             if (target && _hovered.indexOf(target) === -1) {
@@ -853,6 +862,8 @@ export class LiveEdit {
                 var title = '';
                 if (target.dataset.mwTitle) {
                     title = target.dataset.mwTitle;
+                } else if ( helpers.targetIsIcon(target) ) {
+                    title = this.lang('Icon');
                 } else if (target.dataset.type) {
                     title = target.dataset.type;
                 } else if (target.nodeName === 'P') {

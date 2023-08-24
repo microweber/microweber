@@ -163,8 +163,19 @@ export const HandleMenu = function(options) {
 
         menu.filter(itm => !!itm).forEach(function (itm){
             if(itm.nodes && itm.nodes.forEach) {
+                var holder = btnHolder;
+ 
+                if(itm.holder) {
+                    holder = ElementManager({
+                        props: {
+                            className: 'mw-le-handle-menu-button-holder', 
+                        }
+                    });
+                    btnHolder.append(holder);
+                }
+ 
                 itm.nodes.forEach(function (btn){
-                    btnHolder.append(scope.button(btn));
+                    holder.append(scope.button(btn));
                 });
             } else if(itm.title || itm.icon) {
                 scope.button(itm)
