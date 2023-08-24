@@ -174,6 +174,7 @@ class FrontendController extends Controller
         }
 
         $is_editmode = app()->url_manager->param('editmode');
+        $legacy_edimode_must_redirect = false;
 
         $is_no_editmode = app()->url_manager->param('no_editmode');
         $is_quick_edit = app()->url_manager->param('mw_quick_edit');
@@ -211,6 +212,16 @@ class FrontendController extends Controller
                     $page_url = app()->url_manager->param_unset('editmode', $page_url);
 
                     if ($is_admin == true) {
+                        if($is_editmode == 'y'){
+                            // legacy editmode, must redirect to the iframe
+                            $legacy_edimode_must_redirect = true;
+                            $liveEditUrl = admin_url() . 'live-edit';
+                            $liveEditUrl = $liveEditUrl .= '?url=' . site_url($page_url);
+
+                            return app()->url_manager->redirect($liveEditUrl);
+
+                        }
+
                         if ($editmode_sess == false) {
                             app()->user_manager->session_set('editmode', true);
                             app()->user_manager->session_set('back_to_editmode', false);
@@ -342,6 +353,7 @@ class FrontendController extends Controller
                 and !$is_preview_template
                 and !$is_no_editmode
                 and !$is_preview_module
+                and !$legacy_edimode_must_redirect
                 and $this->isolate_by_html_id == false
                 and !isset($request_params['isolate_content_field'])
                 and !isset($request_params['content_id'])
@@ -1247,6 +1259,9 @@ class FrontendController extends Controller
 
                 }
             }
+
+
+
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
                 if ($is_admin == true) {
                     if ($is_editmode_iframe) {
@@ -1345,7 +1360,10 @@ class FrontendController extends Controller
             }
 
             $response = \Response::make($l);
-            if (defined('MW_NO_OUTPUT_CACHE') or $is_editmode == true or (strstr($l, 'image-generate-tn-request'))) {
+            if (defined('MW_NO_OUTPUT_CACHE')
+                or $is_editmode == true
+                or $is_editmode_iframe == true
+                or (strstr($l, 'image-generate-tn-request'))) {
                 $response->header('Pragma', 'no-cache');
                 $response->header('Expires', 'Fri, 01 Jan 1990 00:00:00 GMT');
                 $response->header('Cache-Control', 'no-cache, must-revalidate, no-store, max-age=0, private');
