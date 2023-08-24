@@ -178,8 +178,22 @@ $handleHeight: 42;
 }
 
 .mw-le-handle-menu-button-holder {
+    display: flex;
+    align-items: center;
+    width: auto;
+    white-space: nowrap;
+    text-align: left;
     border: 1px solid #eee;
+    padding: 7px 10px 7px 5px !important;
+    height: auto;
+    margin: 8px 2px;
+    * {
+        vertical-align: middle;
+    }
 
+    &:hover {
+        background-color: #f1f1f1;
+    }
 }
 
 .mw-le-handle-menu-buttons {
