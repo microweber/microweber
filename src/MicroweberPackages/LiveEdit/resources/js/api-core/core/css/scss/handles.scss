@@ -11,7 +11,7 @@
         transform: translateX(-50%);
         background-color: #fff;
     }
- 
+
 }
 
 .mw-handle-item {
@@ -47,7 +47,7 @@
         display: none !important;
     }
 
- 
+
     .mw-handlemenu-item {
         pointer-events: all;
     }
@@ -74,13 +74,13 @@ $handleHeight: 42;
 
 #mw-handle-item-layout-root{
     .mw-handle-item-menus-holder{
- 
+
         top: 10px;
         right: 10px;
         left: auto;
         position: absolute;
- 
-            
+
+
     }
 }
 
@@ -88,34 +88,35 @@ $handleHeight: 42;
 
     .mw-handle-item-menus-holder{
         height: #{$handleHeight}px;
-        padding: 0px 12px;
+        padding: 2px 2px 11px 11px!important;
+        padding-bottom: 9px !important;
         display: inline-flex;
         border-radius: 7px;
         border: 1px solid transparent;
         position: relative;
         top: -60px;
         left: -3px;
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;   
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
         background-color: $bg;
         position: absolute;
-            
+
     }
 }
 
 
 .mw-le-handle-menu {
     .mw-le-handle-menu-buttons{
-        
+
         height: #{$handleHeight}px;
-        
-        
+
+
         display: inline-flex;
         align-items: center;
-        
+
         pointer-events: all;
-        
-        position: static;  
- 
+
+        position: static;
+
         &:empty{
             display: none !important;
         }
@@ -142,15 +143,15 @@ $handleHeight: 42;
     }
 }
 
- 
+
 
 
 
 #mw-handle-item-layout-root{
- 
+
     .mw-handle-item-menus-holder, .mw-le-handle-menu-buttons{
         height: auto;
-   
+
         padding: 0;
     }
 
@@ -168,7 +169,7 @@ $handleHeight: 42;
         top: 0;
         right: 5px;
         left: auto;
-    
+
 
         .mw-le-handle-menu-title {
             display: none;
@@ -176,6 +177,10 @@ $handleHeight: 42;
     }
 }
 
+.mw-le-handle-menu-button-holder {
+    border: 1px solid #eee;
+
+}
 
 .mw-le-handle-menu-buttons {
     display: inline-block;
@@ -199,9 +204,9 @@ $handleHeight: 42;
             white-space: nowrap;
             display: block;
             text-align: left;
-            padding: 5px 0px;
-            height: auto;
             border: 1px solid #eee;
+            padding: 7px 10px 7px 5px !important;
+            height: auto;
             margin: 2px;
             * {
                 vertical-align: middle;
