@@ -2727,18 +2727,25 @@ svg.text-danger {
     font-size: 13px;
 }
 
-@media screen and (max-width: 830px) {
-    .mw-live-edit-search-dropdown.form-select, .mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed span {
-        display: none;
+@media screen and (max-width: 800px) {
+    .mw-live-edit-search-dropdown.form-select, .mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed span, #user-menu-wrapper {
+        display: none !important;
+    }
+    #toolbar {
+        padding: 0 10px !important;
     }
 
 }
 @media screen and (max-width: 480px) {
 
-    .live-edit-undo-redo-buttons-wrapper {
-        display: none;
-
+    //.live-edit-undo-redo-buttons-wrapper {
+    //    display: none;
+    //
+    //}
+    #toolbar {
+        padding: 0 3px !important;
     }
+
 }
 
 @media screen and (max-width: 390px) {
@@ -2746,6 +2753,13 @@ svg.text-danger {
     #toolbar {
         flex-wrap: wrap !important;
         height: auto !important;
+        align-items: center !important;
+        justify-content: center !important;
+        display: flex !important;
+        padding-bottom: 20px !important;
     }
 }
 
+.position-relative {
+    position: relative !important;
+}
