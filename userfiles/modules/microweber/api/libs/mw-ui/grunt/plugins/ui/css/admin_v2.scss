@@ -2732,13 +2732,6 @@ svg.text-danger {
     }
 }
 
-@media screen and (max-width: 650px) {
-    .mw-live-edit-search-dropdown.form-select {
-        display: none;
-
-    }
-}
-
 @media screen and (max-width: 800px) {
     #user-menu-wrapper {
         display: none !important;
@@ -2748,19 +2741,22 @@ svg.text-danger {
     }
 
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 500px) {
+    .mw-live-edit-right-sidebar-wrapper {
+        display: none;
+    }
 
-    //.live-edit-undo-redo-buttons-wrapper {
-    //    display: none;
-    //
-    //}
+    .live-edit-undo-redo-buttons-wrapper {
+        display: none;
+
+    }
     #toolbar {
         padding: 0 3px !important;
     }
 
 }
 
-@media screen and (max-width: 390px) {
+@media screen and (max-width: 300px) {
 
     #toolbar {
         flex-wrap: wrap !important;
@@ -2774,4 +2770,8 @@ svg.text-danger {
 
 .position-relative {
     position: relative !important;
+}
+
+.mw-live-edit-search-dropdown {
+    min-width: unset !important;
 }
