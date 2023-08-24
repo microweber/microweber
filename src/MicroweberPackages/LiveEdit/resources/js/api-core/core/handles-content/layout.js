@@ -148,9 +148,9 @@ export const LayoutHandleContent = function (rootScope) {
             onTarget: function(target, selfNode) {
  
                 if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
-                    selfNode.style.display = '';
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
                 } else {
-                    selfNode.style.display = 'none';
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
                 }
             },
             action: function (target, selfNode, rootScope) {
@@ -179,9 +179,9 @@ export const LayoutHandleContent = function (rootScope) {
             className: 'mw-handle-insert-button',
             onTarget: function(target, selfNode) {
                 if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module']) && target.nextElementSibling !== null) {
-                    selfNode.style.display = '';
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
                 } else {
-                    selfNode.style.display = 'none';
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
                 }
  
 
@@ -225,9 +225,9 @@ export const LayoutHandleContent = function (rootScope) {
             className: 'mw-handle-insert-button',
             onTarget: function (target, selfNode, rootScope) {                 
                 if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module']) && target.previousElementSibling !== null) {
-                    selfNode.style.display = '';
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
                 } else {
-                    selfNode.style.display = 'none';
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
                 }
             },
             action: function (target, selfNode) {
@@ -278,9 +278,9 @@ export const LayoutHandleContent = function (rootScope) {
 
             onTarget: function(target, selfNode) {
                 if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
-                    selfNode.style.display = '';
+                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
                 } else {
-                    selfNode.style.display = 'none';
+                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
                 }
             },
             
