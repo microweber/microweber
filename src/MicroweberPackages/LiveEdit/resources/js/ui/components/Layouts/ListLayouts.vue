@@ -62,6 +62,14 @@
                         <div class="btn-group d-flex justify-content-end pe-4 layout-list-buttons">
                             <button
                                 type="button"
+                                v-on:click="switchLayoutsListTypePreview('masonry')"
+                                :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'masonry'? 'btn-dark': 'btn-outline-dark']"
+                            >
+                                <MasonryIcon style="max-width:23px;max-height:23px;" />
+                            </button>
+
+                            <button
+                                type="button"
                                 v-on:click="switchLayoutsListTypePreview('list')"
                                 :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'list'? 'btn-dark': 'btn-outline-dark']"
                             >
@@ -74,13 +82,7 @@
                             >
                                 <ListIcon style="max-width:23px;max-height:23px;" />
                             </button>
-                            <button
-                                type="button"
-                                v-on:click="switchLayoutsListTypePreview('masonry')"
-                                :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'masonry'? 'btn-dark': 'btn-outline-dark']"
-                            >
-                                <MasonryIcon style="max-width:23px;max-height:23px;" />
-                            </button>
+
                         </div>
                     </div>
 
@@ -172,7 +174,7 @@ export default {
         },
         insertLayout(template) {
             mw.app.editor.insertLayout({'template':template}, this.layoutInsertLocation);
-             
+
             this.showModal = false;
         },
         getLayoutsListFromService() {
