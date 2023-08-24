@@ -222,4 +222,27 @@ class ModulePresetsManager extends AdminComponent
         ];
         return $editorSettings;
     }
+
+
+    public function reorderListItems($items)
+    {
+        if (!isset($items['itemIds'])) {
+            return false;
+        }
+        $table = 'module_templates';
+        $res = array();
+        $indx = array();
+        $i = 0;
+        foreach ($items['itemIds'] as $value) {
+
+
+            $indx[$i] = $value;
+            ++$i;
+
+
+        }
+        $res[] =app()->database_manager->update_position_field($table, $indx);
+
+        return true;
+    }
 }
