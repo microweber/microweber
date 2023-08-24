@@ -97,11 +97,11 @@
                         }
                      }">
 
-                    <div>
+                    <div class="mb-3">
                         <livewire:microweber-option::checkbox-single optionName="Thumbnail" optionKey="data-show-thumbnail" :optionGroup="$moduleId" :module="$moduleType"  />
                     </div>
 
-                    <div class="d-flex justify-content-center align-items-center mt-3">
+                    <div class="mb-3">
                         <div class="w-full">
                             <livewire:microweber-option::checkbox-single optionName="Title" optionKey="data-show-title" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
@@ -111,7 +111,7 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-center align-items-center mt-3">
+                    <div class="mb-3">
                         <div class="w-full">
                             <livewire:microweber-option::checkbox-single optionName="Description" optionKey="data-show-description" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
@@ -121,7 +121,7 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-center align-items-center mt-3">
+                    <div class="mb-3">
                         <div class="w-full">
                             <livewire:microweber-option::checkbox-single optionName="Read More" optionKey="data-show-read-more" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
@@ -131,7 +131,7 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-center align-items-center mt-6">
+                    <div class="mb-3">
                         <div class="w-full">
                             <livewire:microweber-option::checkbox-single optionName="Created At" optionKey="data-show-date" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
