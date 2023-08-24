@@ -35,8 +35,8 @@ class ModulePresetsManager extends AdminComponent
 
     public function render()
     {
-       // $this->itemState['module_id'] = $this->moduleId;
-     //  $this->itemState['module'] = $this->moduleType;
+        // $this->itemState['module_id'] = $this->moduleId;
+        //  $this->itemState['module'] = $this->moduleType;
         // $this->itemState['module_attrs'] = [];
 
         $this->items = $this->getPresets();
@@ -131,9 +131,10 @@ class ModulePresetsManager extends AdminComponent
 
     public function saveAsNewPreset($module_attrs = [])
     {
+        $name = titlelize($this->moduleType);
 
         $this->itemState['id'] = 0;
-        $this->itemState['name'] = 'New preset ' . time();
+        $this->itemState['name'] = $name . ' ' . time();
         $this->itemState['module'] = $this->moduleType;
         $this->itemState['module_id'] = $this->moduleId;
         if ($module_attrs and is_array($module_attrs) and !empty($module_attrs)) {
@@ -163,7 +164,7 @@ class ModulePresetsManager extends AdminComponent
                 if ($preset['id'] == $id) {
                     $this->selectedPreset = $preset;
                     $this->moduleIdFromPreset = $preset['module_id'];
-                    $this->emit('applyPreset', $applyToModuleId,$preset);
+                    $this->emit('applyPreset', $applyToModuleId, $preset);
                 }
             }
         }
@@ -200,18 +201,21 @@ class ModulePresetsManager extends AdminComponent
                     'rules' => 'required|string',
                     'name' => 'module',
                     'label' => 'module',
+                    'hidden' => true,
                 ],
                 [
                     'type' => 'textarea',
                     // 'rules' => 'required|string',
                     'name' => 'module_attrs',
                     'label' => 'module_attrs',
+                    'hidden' => true,
                 ],
                 [
                     'type' => 'textarea',
                     'rules' => 'required|string',
                     'name' => 'module_id',
                     'label' => 'module_id',
+                    'hidden' => true,
                 ]
 
             ]

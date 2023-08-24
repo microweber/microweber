@@ -1,15 +1,24 @@
 @if (isset($editorSettings['schema']))
     @foreach ($editorSettings['schema'] as $field)
-        <div class="form-group">
+        @php
+            $placeholder = '';
+
+            if(isset($field['placeholder'])){
+                $placeholder = $field['placeholder'];
+            }
+
+            $hidden  = '';
+
+            if(isset($field['hidden'])){
+                $hidden = 'd-none';
+            }
+        @endphp
+
+
+
+        <div class="form-group {{ $hidden }}">
             <label class="live-edit-label" for="{{ $field['name'] }}">{{ $field['label'] }}</label>
 
-            @php
-                $placeholder = '';
-
-                if(isset($field['placeholder'])){
-                    $placeholder = $field['placeholder'];
-                }
-            @endphp
 
             @if($field['type'] == 'text' )
                 <x-microweber-ui::input placeholder="{{ $placeholder }}" wire:model.defer="itemState.{{ $field['name'] }}" />
