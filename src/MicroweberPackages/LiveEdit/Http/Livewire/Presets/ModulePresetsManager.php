@@ -16,6 +16,7 @@ class ModulePresetsManager extends AdminComponent
     public $editorSettings = [];
     public array $itemState = [];
     public array $selectedPreset = [];
+    public $moduleIdFromPreset = '';
     public array $selectedItemsIds = [];
     public $areYouSureDeleteModalOpened = false;
     public $isAlreadySavedAsPreset = false;
@@ -28,13 +29,14 @@ class ModulePresetsManager extends AdminComponent
         'onEditItemById' => 'showItemById',
         'onSaveAsNewPreset' => 'saveAsNewPreset',
         'onSelectPresetForModule' => 'selectPresetForModule',
+        'onRemoveSelectedPresetForModule' => 'removeSelectedPresetForModule',
     ];
 
 
     public function render()
     {
-        $this->itemState['module_id'] = $this->moduleId;
-        $this->itemState['module'] = $this->moduleType;
+        // $this->itemState['module_id'] = $this->moduleId;
+        //  $this->itemState['module'] = $this->moduleType;
         // $this->itemState['module_attrs'] = [];
 
         $this->items = $this->getPresets();
@@ -97,55 +99,6 @@ class ModulePresetsManager extends AdminComponent
 
     }
 
-    public function getEditorSettings()
-    {
-
-        $editorSettings = [
-            'config' => [
-                'title' => '',
-                'addButtonText' => 'Add Item',
-                'editButtonText' => 'Edit',
-                'deleteButtonText' => 'Delete',
-                'sortItems' => true,
-                'settingsKey' => 'settings',
-                'additionalButtonsView' => 'microweber-live-edit::presets.select-preset-button',
-                'listColumns' => [
-                    'name' => 'name',
-                ],
-            ],
-            'schema' => [
-                [
-                    'type' => 'text',
-                    'rules' => 'required|min:2|max:255',
-                    'label' => 'Preset name',
-                    'name' => 'name',
-                    'placeholder' => 'Preset name',
-                    'help' => 'Preset name is required'
-                ],
-                [
-                    'type' => 'textarea',
-                    'rules' => 'required|string',
-                    'name' => 'module',
-                    'label' => 'module',
-                ],
-                [
-                    'type' => 'textarea',
-                    // 'rules' => 'required|string',
-                    'name' => 'module_attrs',
-                    'label' => 'module_attrs',
-                ],
-                [
-                    'type' => 'textarea',
-                    'rules' => 'required|string',
-                    'name' => 'module_id',
-                    'label' => 'module_id',
-                ]
-
-            ]
-        ];
-        return $editorSettings;
-    }
-
     public function getPresets()
     {
         $presets = get_saved_modules_as_template("module={$this->moduleType}");
@@ -178,9 +131,10 @@ class ModulePresetsManager extends AdminComponent
 
     public function saveAsNewPreset($module_attrs = [])
     {
+        $name = titlelize($this->moduleType);
 
         $this->itemState['id'] = 0;
-        $this->itemState['name'] = 'New preset ' . time();
+        $this->itemState['name'] = $name . ' ' . time();
         $this->itemState['module'] = $this->moduleType;
         $this->itemState['module_id'] = $this->moduleId;
         if ($module_attrs and is_array($module_attrs) and !empty($module_attrs)) {
@@ -190,18 +144,111 @@ class ModulePresetsManager extends AdminComponent
         $this->submit();
     }
 
+    public function removeSelectedPresetForModule($applyToModuleId)
+    {
+        $this->moduleIdFromPreset = false;
+        $this->selectedPreset = [];
+        $this->emit('removeSelectedPresetForModule', $applyToModuleId);
+
+    }
+
+
     public function selectPresetForModule($id)
     {
+
         $applyToModuleId = $this->moduleId;
         $presets = $this->getPresets();
         if ($presets) {
             foreach ($presets as $preset) {
+
                 if ($preset['id'] == $id) {
                     $this->selectedPreset = $preset;
-                    $this->emit('applyPreset', $applyToModuleId,$preset);
+                    $this->moduleIdFromPreset = $preset['module_id'];
+                    $this->emit('applyPreset', $applyToModuleId, $preset);
                 }
             }
         }
 
+    }
+
+    public function getEditorSettings()
+    {
+
+        $editorSettings = [
+            'config' => [
+                'title' => '',
+                'addButtonText' => 'Add Item',
+                'editButtonText' => 'Edit',
+                'deleteButtonText' => 'Delete',
+                'sortItems' => true,
+                'settingsKey' => 'settings',
+                'additionalButtonsView' => 'microweber-live-edit::presets.select-preset-button',
+                'listColumns' => [
+                    'name' => 'name',
+                ],
+            ],
+            'schema' => [
+                [
+                    'type' => 'text',
+                    'rules' => 'required|min:2|max:255',
+                    'label' => 'Preset name',
+                    'name' => 'name',
+                    'placeholder' => 'Preset name',
+                    'help' => 'Preset name is required'
+                ],
+                [
+                    'type' => 'textarea',
+                    'rules' => 'required|string',
+                    'name' => 'module',
+                    'label' => 'module',
+                    'hidden' => true,
+                ],
+                [
+                    'type' => 'textarea',
+                    // 'rules' => 'required|string',
+                    'name' => 'module_attrs',
+                    'label' => 'module_attrs',
+                    'hidden' => true,
+                ],
+                [
+                    'type' => 'textarea',
+                    'rules' => 'required|string',
+                    'name' => 'module_id',
+                    'label' => 'module_id',
+                    'hidden' => true,
+                ],
+                [
+                    'type' => 'textarea',
+                    'name' => 'position',
+                    'label' => 'position',
+                    'hidden' => true,
+                ]
+
+            ]
+        ];
+        return $editorSettings;
+    }
+
+
+    public function reorderListItems($items)
+    {
+        if (!isset($items['itemIds'])) {
+            return false;
+        }
+        $table = 'module_templates';
+        $res = array();
+        $indx = array();
+        $i = 0;
+        foreach ($items['itemIds'] as $value) {
+
+
+            $indx[$i] = $value;
+            ++$i;
+
+
+        }
+        $res[] =app()->database_manager->update_position_field($table, $indx);
+
+        return true;
     }
 }

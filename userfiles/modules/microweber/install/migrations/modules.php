@@ -51,7 +51,10 @@ class Init extends Migration {
                 'edited_by' => 'integer',
                 'module_id' => 'longText',
                 'name' => 'longText',
-                'module' => 'longText'
+                'module' => 'longText',
+                'position' => 'integer',
+
+
             ],
             'system_licenses' => [
                 'updated_at' => 'dateTime',
@@ -74,7 +77,7 @@ class Init extends Migration {
             ]
         ];
     }
-    
+
 	public function up()
 	{
         foreach($this->data() as $table => $columns)

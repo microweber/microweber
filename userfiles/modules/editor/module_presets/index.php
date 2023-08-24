@@ -1,10 +1,12 @@
 <?php only_admin_access(); ?>
 <?php
 
-$moduleId = $params['module_id_for_preset'] ?? '';
+$moduleId = $params['id'] ?? '';
 $moduleType = $params['module_type_for_preset'] ?? '';
+$selectedPresetId = $params['module-id-from-preset'] ?? '';
 
 print  \Livewire\Livewire::mount('microweber-live-edit::module-presets-manager', [
     'moduleId' => $moduleId,
     'moduleType' => $moduleType,
+    'moduleIdFromPreset' => $selectedPresetId,
 ])->html();

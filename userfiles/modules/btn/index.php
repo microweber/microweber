@@ -76,7 +76,7 @@ $popup_function_id = 'btn_popup' . uniqid();
 if ($text == false and isset($params['text'])) {
     $text = $params['text'];
 } elseif ($text == '') {
-    $text = lang('Button', 'templates/dream/modules/btn');
+    $text = lang('Button', 'btn');
 }
 if ($text === '$notext') {
     $text = '';
@@ -88,7 +88,7 @@ if ($icon) {
 if ($url == false and isset($params['url'])) {
     $url = $params['url'];
 } elseif ($url == '') {
-    $url = '#';
+    $url = 'javascript:void(0);';
 }
 
 $url_display = false;

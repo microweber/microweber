@@ -20,9 +20,7 @@
         border-bottom-color:  rgba(146, 148, 166, 0)
     }
      .mw-tags--container{
-        padding-bottom: 22px;
-        margin-bottom: 22px;
-        border-bottom: 1px solid rgba(146, 148, 166, 0.38)
+        margin-bottom: 12px;
     }
 
 </style>
@@ -172,8 +170,8 @@
 
 </script>
 
-<div class="col-lg-4 mt-6 pt-4 px-5 manage-content-sidebar">
-    <div class="card mb-5">
+<div class="manage-content-sidebar">
+    <div class="card mb-3">
         <div class="card-body">
             <div class="card-header ps-0 pt-1 mb-0">
                 <strong><?php _e("Visibility"); ?></strong>
@@ -198,7 +196,7 @@
 
     <module type="content/views/edit_default_sidebar_variants" content-id="<?php echo $data['id']; ?>" />
 
-    <div class="mb-5 categories js-sidebar-categories-card">
+    <div class="mb-3 categories js-sidebar-categories-card">
 
                <div class="card">
                    <div class="card-body">
@@ -406,10 +404,10 @@
     <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
         <div class="card">
         <div class="card-body">
-            <div class=" ">
-                <div class="row py-0">
-                    <div class="col-12">
-                        <label  class="form-label font-weight-bold"><?php _e("Tags"); ?></label>
+            <div>
+                <div class="py-0">
+                    <div>
+                        <label class="form-label font-weight-bold"><?php _e("Tags"); ?></label>
                         <small data-bs-toggle="tooltip" title="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>"></small>
                     </div>
                 </div>

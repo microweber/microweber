@@ -6,10 +6,6 @@
         });
     </script>
 
-    @php
-        $openLinksInModal = 1;
-    @endphp
-
         @if ($openLinksInModal)
         <script>
             function openLinkInModal(url) {
