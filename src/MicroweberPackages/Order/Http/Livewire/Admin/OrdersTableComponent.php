@@ -165,10 +165,13 @@ class OrdersTableComponent extends AdminComponent
         }
     }
 
+    public function delete($id)
+    {
+        $this->emit("openModal", "admin-orders-bulk-delete", ["ids"=>[$id]]);
+    }
+
     public function render()
     {
-
-
         if ($this->orders and !empty($this->orders)) {
             $this->orders->load('cart');
         }
