@@ -28,10 +28,12 @@
 
                         if (dialog.container.querySelector('iframe').contentWindow.mw.askusertostay) {
                             mw.top().tools.confirm('<?php _e("You have unsaved changes, are you sure want to exit?"); ?>', function() {
-                                dialog.forceRemove();
+                                linkInModal.forceRemove();
                             });
+                            return false;
+                        } else {
+                            return true;
                         }
-                        return false;
                     }
                 });
                 linkInModal.dialogContainer.style.paddingLeft = '0px';

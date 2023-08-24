@@ -5,149 +5,29 @@
     ],
     "file": "assets/bootstrap-04351c74.js"
   },
-  "_bootstrap-10cc8f34.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-10cc8f34.js"
-  },
-  "_bootstrap-12a83848.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-12a83848.js"
-  },
-  "_bootstrap-19e1766a.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-19e1766a.js"
-  },
-  "_bootstrap-1abd6cf8.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-1abd6cf8.js"
-  },
-  "_bootstrap-1ebd1e57.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-1ebd1e57.js"
-  },
-  "_bootstrap-1f25ccb5.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-1f25ccb5.js"
-  },
-  "_bootstrap-3515a0a8.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-3515a0a8.js"
-  },
-  "_bootstrap-3870095d.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-3870095d.js"
-  },
-  "_bootstrap-43241272.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-43241272.js"
-  },
-  "_bootstrap-4aac7589.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-4aac7589.js"
-  },
-  "_bootstrap-4e737fcf.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-4e737fcf.js"
-  },
-  "_bootstrap-5c5b86f7.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-5c5b86f7.js"
-  },
-  "_bootstrap-5d2922d2.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-5d2922d2.js"
-  },
-  "_bootstrap-80a31dd5.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-80a31dd5.js"
-  },
-  "_bootstrap-9adea82a.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-9adea82a.js"
-  },
-  "_bootstrap-b9d01f8b.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-b9d01f8b.js"
-  },
-  "_bootstrap-baa4ef1c.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-baa4ef1c.js"
-  },
-  "_bootstrap-c2bfb0cc.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-c2bfb0cc.js"
-  },
-  "_bootstrap-d90117be.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-d90117be.js"
-  },
-  "_bootstrap-dda0554a.js": {
-    "css": [
-      "assets/bootstrap-fb691bec.css"
-    ],
-    "file": "assets/bootstrap-dda0554a.js"
-  },
   "bootstrap.css": {
     "file": "assets/bootstrap-fb691bec.css",
     "src": "bootstrap.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js": {
-    "file": "assets/admin-app-e5e38aed.js",
+    "file": "assets/admin-app-2cac7456.js",
     "imports": [
-      "_bootstrap-10cc8f34.js"
+      "_bootstrap-04351c74.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css": {
-    "file": "assets/live-edit-app-a55d9ba6.css",
+    "file": "assets/live-edit-app-0404712a.css",
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js": {
     "css": [
-      "assets/live-edit-app-a55d9ba6.css"
+      "assets/live-edit-app-0404712a.css"
     ],
-    "file": "assets/live-edit-app-afe0dcca.js",
+    "file": "assets/live-edit-app-5af97654.js",
     "imports": [
-      "_bootstrap-10cc8f34.js"
+      "_bootstrap-04351c74.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js"
