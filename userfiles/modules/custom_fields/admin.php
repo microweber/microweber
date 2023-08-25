@@ -21,7 +21,7 @@ must_have_access();
             reloadParentModule();
         });
         Livewire.on('customFieldUpdated', (e) => {
-            reloadParentModule(); 
+            reloadParentModule();
         });
         Livewire.on('customFieldAdded', (e) => {
             reloadParentModule();
