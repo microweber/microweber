@@ -3,7 +3,6 @@
 
     <script type="text/javascript" wire:ignore>
 
-
         const initPresetsManagerData = {
             showEditTab: 'main'
         }
