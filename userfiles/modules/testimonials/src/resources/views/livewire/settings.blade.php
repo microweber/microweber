@@ -88,7 +88,6 @@
                 <livewire:microweber-option::text optionKey="testimonials_limit" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
-
             <div class="mt-3">
                 <label class="live-edit-label">
                     <?php _e("Maximum number of characters to display"); ?>

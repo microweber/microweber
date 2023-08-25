@@ -142,13 +142,24 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
 
     public function getItems()
     {
-        $getTestimonials = Testimonial::get();
+        $getTestimonials = Testimonial::all();
+        if ($getTestimonials) {
+            foreach ($getTestimonials as $testimonial) {
+                $this->projectNames[$testimonial->project_name] = $testimonial->project_name;
+            }
+        }
+
+        $getTestimonialsQuery = Testimonial::query();
+
+        $filterProject = get_option('show_testimonials_per_project', $this->moduleId);
+        if (!empty($filterProject)) {
+            $getTestimonialsQuery->where('project_name', $filterProject);
+        }
+
+        $getTestimonials = $getTestimonialsQuery->get();
 
         if ($getTestimonials->count() > 0) {
             foreach ($getTestimonials as $testimonial) {
-
-                $this->projectNames[$testimonial->project_name] = $testimonial->project_name;
-
                 $this->items[] = $testimonial->toArray();
             }
         }
