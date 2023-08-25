@@ -8,6 +8,12 @@ use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
 class CustomFieldEditModalComponent extends AdminModalComponent
 {
+
+    public $modalSettings = [
+        'overlay' => true,
+        'overlayClose' => false,
+    ];
+
     public $customFieldId = false;
     public $state = [];
     public $inputs = [];

@@ -5,7 +5,7 @@ export default {
             return false;
         }
 
-        if(!target.classList ) {
+        if(!target.classList) {
             return false;
         }
 
@@ -13,13 +13,14 @@ export default {
         var isIcon = target.className.includes('mw-micon-');
     
         if(!isIcon) {
-            for (let i = 0; i< iconClasses.length; i++) {
-                if(target.classList.contains(iconClasses)) {
+            for (let i = 0; i < iconClasses.length; i++) {
+                if (target.classList.contains(iconClasses[i])) {
                     isIcon = true;
                     break;
                 }
             }
         }
+    
         return isIcon;
     }
 }

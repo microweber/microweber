@@ -187,7 +187,7 @@ export const LayoutHandleContent = function (rootScope) {
 
             },
             onTarget: (target, selfNode) => {
-                if(this.tools.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
+                if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
                     selfNode.style.display = '';
                 } else {
                     selfNode.style.display = 'none';
