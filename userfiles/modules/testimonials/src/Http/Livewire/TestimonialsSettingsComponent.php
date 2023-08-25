@@ -88,7 +88,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                     'help'=>'Client role is required'
                 ],
                 [
-                    'type'=>'text',
+                    'type'=>'image',
                     'rules'=>'required|min:2|max:255',
                     'label'=>'Client picture',
                     'name'=>'client_picture',
