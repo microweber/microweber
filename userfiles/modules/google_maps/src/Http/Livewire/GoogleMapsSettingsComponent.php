@@ -36,13 +36,37 @@ class GoogleMapsSettingsComponent extends ModuleSettingsFormComponent
         'data-zoom' => [
             'type' => 'range-slider',
             'label' => 'Zoom',
-            'help' => 'Enter zoom level (1-10)',
             'attributes' => [
+                'label' => 'Enter zoom level (1-10)',
                 'min' => 1,
                 'max' => 22,
                 'step' => 1,
             ],
             'placeholder' => 'Enter zoom',
+        ],
+        'data-width' => [
+            'type' => 'range-slider',
+            'label' => 'Width',
+            'help' => 'Enter width in pixels',
+            'placeholder' => 'Enter width in pixels',
+            'attributes' => [
+                'label' => 'Enter width in pixels',
+                'labelUnit' => 'px',
+                'min' => 0,
+                'max' => 2000,
+                'step' => 1,
+            ],
+        ],
+        'data-height' => [
+            'type' => 'range-slider',
+            'label' => 'Height',
+            'attributes' => [
+                'label' => 'Enter height in pixels',
+                'labelUnit' => 'px',
+                'min' => 0,
+                'max' => 2000,
+                'step' => 1,
+            ],
         ],
 //        'data-map-type' => [
 //            'type' => 'dropdown',
