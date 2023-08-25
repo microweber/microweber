@@ -1,22 +1,22 @@
 <div>
-    <div x-data="{
-    showEditTab: 'testimonials'
+    <div
+
+    x-data="{
+        showEditTab: 'testimonials'
     }"
 
-         x-init="() => {
-    window.livewire.on('switchToMainTab', () => {
-        showEditTab = 'main'
-    })
+     x-init="() => {
+        window.livewire.on('switchToMainTab', () => {
+            showEditTab = 'main'
+        })
 
-     window.livewire.on('editItemById' , (itemId) => {
-        showEditTab = 'editTestimonial'
-    })
+         window.livewire.on('editItemById' , (itemId) => {
+            showEditTab = 'editTestimonial'
+        })
 
-    window.livewire.on('showConfirmDeleteItemById', (itemId) => {
-        Livewire.emit('onShowConfirmDeleteItemById', itemId);
-    })
-
-}"
+        window.livewire.on('showConfirmDeleteItemById', (itemId) => {
+            Livewire.emit('onShowConfirmDeleteItemById', itemId);
+        })}"
 
     >
 
@@ -67,8 +67,6 @@
 
 
         <div>
-
-            @dump($areYouSureDeleteModalOpened)
 
             <x-microweber-ui::dialog-modal wire:model="areYouSureDeleteModalOpened">
                 <x-slot name="title">

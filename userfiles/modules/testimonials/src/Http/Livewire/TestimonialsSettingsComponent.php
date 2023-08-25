@@ -142,6 +142,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
     public function getItems()
     {
         $getTestimonials = Testimonial::get();
+
         if ($getTestimonials->count() > 0) {
             foreach ($getTestimonials as $testimonial) {
                 $this->items[] = $testimonial->toArray();
