@@ -70,9 +70,15 @@ mw.autoComplete = function(options){
         li.value = this.dataValue(data);
         var img = this.dataImage(data);
 
+        var url = 'javascript:void(0);';
+        if(data.url){
+            url = data.url;
+        }
+
+
         mw.$(li)
-        .append( '<a href="javascript:;">'+this.dataTitle(data)+'</a>' )
-        .on('click', function(){
+        .append( '<a  onclick="return false;" href="'+url+'">'+this.dataTitle(data)+'</a>' )
+        .on('click', function(e){
             scope.select(data);
         });
         if(img){
