@@ -1,4 +1,9 @@
 <div>
+
+    @php
+        $moduleTemplates = module_templates($moduleType);
+    @endphp
+
     <div
 
     x-data="{
@@ -30,6 +35,12 @@
                    class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs">
                     Settings
                 </a>
+                @if($moduleTemplates && count($moduleTemplates) >  1)
+                    <a href="#" x-on:click="showEditTab = 'design'" :class="{ 'active': showEditTab == 'design' }"
+                       class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs">
+                        Design
+                    </a>
+                @endif
             </div>
         </div>
 
@@ -62,8 +73,38 @@
         </div>
 
         <div x-show="showEditTab=='settings'">
-            This is the settings tab
+
+            <div class="mt-3">
+                <label class="live-edit-label">
+                   {{ _e(" Show testimonials for project ") }}
+                </label>
+                <livewire:microweber-option::dropdown :dropdownOptions="$projectNames" optionKey="show_testimonials_per_project" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+
+            <div class="mt-3">
+                <label class="live-edit-label">
+                    <?php _e("Maximum number of testimonials to display"); ?>
+                </label>
+                <livewire:microweber-option::text optionKey="testimonials_limit" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+
+
+            <div class="mt-3">
+                <label class="live-edit-label">
+                    <?php _e("Maximum number of characters to display"); ?>
+                </label>
+                <livewire:microweber-option::text optionKey="limit" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+
         </div>
+
+        @if($moduleTemplates && count($moduleTemplates) >  1)
+            <div x-show="showEditTab=='design'" x-transition:enter="tab-pane-slide-right-active">
+                <div>
+                    <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
+                </div>
+            </div>
+        @endif
 
 
         <div>

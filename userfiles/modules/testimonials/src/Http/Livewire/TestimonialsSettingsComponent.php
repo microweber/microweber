@@ -8,6 +8,7 @@ use PHPUnit\Util\Test;
 class TestimonialsSettingsComponent extends ModuleSettingsComponent
 {
     public $items = [];
+    public $projectNames = [];
     public $editorSettings = [];
 
     public $selectedItemsIds = [];
@@ -145,6 +146,9 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
 
         if ($getTestimonials->count() > 0) {
             foreach ($getTestimonials as $testimonial) {
+
+                $this->projectNames[$testimonial->project_name] = $testimonial->project_name;
+
                 $this->items[] = $testimonial->toArray();
             }
         }
