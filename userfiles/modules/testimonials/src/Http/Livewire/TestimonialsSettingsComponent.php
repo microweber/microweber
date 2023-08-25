@@ -5,6 +5,14 @@ use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 
 class TestimonialsSettingsComponent extends ModuleSettingsComponent
 {
+    public $items = [
+        [
+            'id' => 1,
+            'itemId' => 1,
+            'name' => 'John Doe',
+        ]
+    ];
+
     public $editorSettings = [];
 
     public function render()

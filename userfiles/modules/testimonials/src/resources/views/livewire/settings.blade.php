@@ -1,7 +1,20 @@
 <div>
     <div x-data="{
     showEditTab: 'testimonials'
-    }">
+    }"
+
+         x-init="() => {
+    window.livewire.on('switchToMainTab', () => {
+        showEditTab = 'main'
+    })
+
+     window.livewire.on('editItemById' , (itemId) => {
+        showEditTab = 'editTestimonial'
+    })
+
+}"
+
+    >
 
         <div class="d-flex justify-content-between align-items-center collapseNav-initialized form-control-live-edit-label-wrapper">
             <div class="d-flex flex-wrap gap-md-4 gap-3">
@@ -28,7 +41,7 @@
 
         </div>
 
-        <div x-show="showEditTab=='addNewTestimonial'">
+        <div x-show="showEditTab=='editTestimonial'">
             <form wire:submit.prevent="submit">
 
                 <div class="d-flex align-items-center justify-content-end">
