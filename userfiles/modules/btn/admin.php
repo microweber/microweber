@@ -1,6 +1,10 @@
 <?php must_have_access(); ?>
+The file userfiles/modules/btn/admin.php is deprecated. Please use the new module settings form.
+See userfiles/modules/btn/src/resources/views/livewire/settings.blade.php
 
+<?php return ''; ?>
 <?php
+
 $from_live_edit = false;
 if (isset($params["live_edit"]) and $params["live_edit"]) {
     $from_live_edit = $params["live_edit"];
