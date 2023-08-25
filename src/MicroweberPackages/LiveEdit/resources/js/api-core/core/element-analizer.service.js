@@ -1,5 +1,6 @@
 
 import {DomService} from './classes/dom.js';
+import helpers from './live-edit-helpers.service.js';
 
 export class ElementAnalyzerServiceBase {
 
@@ -63,7 +64,9 @@ export class ElementAnalyzerServiceBase {
     }
 
     getType(node) {
-        if(this.isEdit(node)) {
+        if(helpers.targetIsIcon(node)) {
+            return 'icon';
+        } else if(this.isEdit(node)) {
             return 'edit';
         } else if(this.isElement(node)) {
             return 'element';

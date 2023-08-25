@@ -346,6 +346,7 @@ export class LiveEdit {
         }
 
 
+        console.log(target)
 
 
 
@@ -366,15 +367,19 @@ export class LiveEdit {
         }
 
         let first = elements[0];
-        var target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit']);
+         
+        if(!isIcon) {
+            target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit']);
+        }
+        
 
-        if (first.nodeName !== 'IMG') {
+        if (first.nodeName !== 'IMG' && !isIcon) {
             first = DomService.firstBlockLevel(elements[0]);
         }
 
 
 
-        console.log(target, first, 2)
+     
 
 
         first = target;
@@ -412,6 +417,7 @@ export class LiveEdit {
             first = this._hoverAndSelectExceptions(first)
             const type = this.elementAnalyzer.getType(first);
 
+ 
             if (type !== 'layout') {
                 var parentLayout = DomService.firstParentOrCurrentWithClass(first, 'module-layouts');
                 if (parentLayout) {
@@ -432,6 +438,8 @@ export class LiveEdit {
 
                     this.handles.set('layout', first);
                 } else if (type === 'edit') {
+                    this.handles.set('element', first);
+                }  else if (type === 'icon') {
                     this.handles.set('element', first);
                 } else {
                     this.handles.hide();
@@ -803,12 +811,9 @@ export class LiveEdit {
             let layoutHasSelectedTarget = false;
 
              
-            console.log(1, target)
+         
 
             target = this._hoverAndSelectExceptions(target);
-
-            console.log(2, target)
-         
 
 
             if (target && _hovered.indexOf(target) === -1) {
