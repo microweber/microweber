@@ -83,7 +83,6 @@
     ?>
 
 
-
                 @if (isset($editorSettings['schema']) and isset($items) and is_array($items) and !empty($items))
                     <div class="list-group list-group-flush list-group-hoverable"
                          id="js-sortable-items-holder-{{md5($moduleId)}}">
@@ -121,7 +120,8 @@
                                     </div>
                                     @if (isset($editorSettings['config']) && isset($editorSettings['config']['listColumns']))
                                         <div class="col text-truncate "
-                                             x-on:click="showEditTab = 'tabs-nav-tab-{{ $itemId }}'">
+                                             wire:click="$emit('editItemById', '{{ $itemId }}')"
+                                        >
                                             @foreach ($editorSettings['config']['listColumns'] as $columnKey => $columnLabel)
 
                                                 @if (isset($item[$columnKey]))

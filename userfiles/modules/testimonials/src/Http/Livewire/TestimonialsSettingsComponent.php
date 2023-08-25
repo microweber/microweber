@@ -2,22 +2,54 @@
 namespace MicroweberPackages\Modules\Testimonials\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
+use MicroweberPackages\Modules\Testimonials\Models\Testimonial;
+use PHPUnit\Util\Test;
 
 class TestimonialsSettingsComponent extends ModuleSettingsComponent
 {
+    public $items = [];
+    public $projectNames = [];
     public $editorSettings = [];
+
+    public $selectedItemsIds = [];
+    public $areYouSureDeleteModalOpened = false;
+
+    public $listeners = [
+        'onShowConfirmDeleteItemById' => 'showConfirmDeleteItemById',
+        'onEditItemById' => 'showItemById',
+    ];
 
     public function render()
     {
+       $this->getItems();
         $this->editorSettings = $this->getEditorSettings();
 
        return view('microweber-module-testimonials::livewire.settings');
     }
 
+    public function showConfirmDeleteItemById($itemId)
+    {
+        $this->areYouSureDeleteModalOpened = true;
+        $this->selectedItemsIds = [$itemId];
+    }
+
+    public function confirmDeleteSelectedItems()
+    {
+        if ($this->selectedItemsIds and !empty($this->selectedItemsIds)) {
+            foreach ($this->selectedItemsIds as $itemId) {
+                Testimonial::where('id', $itemId)->delete();
+            }
+        }
+
+        $this->areYouSureDeleteModalOpened = false;
+        $this->selectedItemsIds = [];
+        $this->getItems();
+
+    }
+
 
     public function getEditorSettings()
     {
-
         $editorSettings = [
             'config' => [
                 'title' => '',
@@ -106,6 +138,31 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
             ]
         ];
         return $editorSettings;
+    }
+
+    public function getItems()
+    {
+        $getTestimonials = Testimonial::all();
+        if ($getTestimonials) {
+            foreach ($getTestimonials as $testimonial) {
+                $this->projectNames[$testimonial->project_name] = $testimonial->project_name;
+            }
+        }
+
+        $getTestimonialsQuery = Testimonial::query();
+
+        $filterProject = get_option('show_testimonials_per_project', $this->moduleId);
+        if (!empty($filterProject)) {
+            $getTestimonialsQuery->where('project_name', $filterProject);
+        }
+
+        $getTestimonials = $getTestimonialsQuery->get();
+
+        if ($getTestimonials->count() > 0) {
+            foreach ($getTestimonials as $testimonial) {
+                $this->items[] = $testimonial->toArray();
+            }
+        }
     }
 
 }

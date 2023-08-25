@@ -1,7 +1,29 @@
 <div>
-    <div x-data="{
-    showEditTab: 'testimonials'
-    }">
+
+    @php
+        $moduleTemplates = module_templates($moduleType);
+    @endphp
+
+    <div
+
+    x-data="{
+        showEditTab: 'testimonials'
+    }"
+
+     x-init="() => {
+        window.livewire.on('switchToMainTab', () => {
+            showEditTab = 'main'
+        })
+
+         window.livewire.on('editItemById' , (itemId) => {
+            showEditTab = 'editTestimonial'
+        })
+
+        window.livewire.on('showConfirmDeleteItemById', (itemId) => {
+            Livewire.emit('onShowConfirmDeleteItemById', itemId);
+        })}"
+
+    >
 
         <div class="d-flex justify-content-between align-items-center collapseNav-initialized form-control-live-edit-label-wrapper">
             <div class="d-flex flex-wrap gap-md-4 gap-3">
@@ -13,6 +35,12 @@
                    class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs">
                     Settings
                 </a>
+                @if($moduleTemplates && count($moduleTemplates) >  1)
+                    <a href="#" x-on:click="showEditTab = 'design'" :class="{ 'active': showEditTab == 'design' }"
+                       class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs">
+                        Design
+                    </a>
+                @endif
             </div>
         </div>
 
@@ -28,7 +56,7 @@
 
         </div>
 
-        <div x-show="showEditTab=='addNewTestimonial'">
+        <div x-show="showEditTab=='editTestimonial'">
             <form wire:submit.prevent="submit">
 
                 <div class="d-flex align-items-center justify-content-end">
@@ -45,7 +73,60 @@
         </div>
 
         <div x-show="showEditTab=='settings'">
-            This is the settings tab
+
+            <div class="mt-3">
+                <label class="live-edit-label">
+                   {{ _e(" Show testimonials for project ") }}
+                </label>
+                <livewire:microweber-option::dropdown :dropdownOptions="$projectNames" optionKey="show_testimonials_per_project" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+
+            <div class="mt-3">
+                <label class="live-edit-label">
+                    <?php _e("Maximum number of testimonials to display"); ?>
+                </label>
+                <livewire:microweber-option::text optionKey="testimonials_limit" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+
+            <div class="mt-3">
+                <label class="live-edit-label">
+                    <?php _e("Maximum number of characters to display"); ?>
+                </label>
+                <livewire:microweber-option::text optionKey="limit" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+
+        </div>
+
+        @if($moduleTemplates && count($moduleTemplates) >  1)
+            <div x-show="showEditTab=='design'" x-transition:enter="tab-pane-slide-right-active">
+                <div>
+                    <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
+                </div>
+            </div>
+        @endif
+
+
+        <div>
+
+            <x-microweber-ui::dialog-modal wire:model="areYouSureDeleteModalOpened">
+                <x-slot name="title">
+                    <?php _e('Are you sure?'); ?>
+                </x-slot>
+                <x-slot name="content">
+                    <?php _e('Are you sure want to delete this?'); ?>
+                </x-slot>
+
+                <x-slot name="footer">
+                    <x-microweber-ui::button-animation wire:click="$toggle('areYouSureDeleteModalOpened')"
+                                                       wire:loading.attr="disabled">
+                        <?php _e('Cancel'); ?>
+                    </x-microweber-ui::button-animation>
+                    <x-microweber-ui::button-animation class="text-danger" wire:click="confirmDeleteSelectedItems()"
+                                                       wire:loading.attr="disabled">
+                        <?php _e('Delete'); ?>
+                    </x-microweber-ui::button-animation>
+                </x-slot>
+            </x-microweber-ui::dialog-modal>
         </div>
 
     </div>
