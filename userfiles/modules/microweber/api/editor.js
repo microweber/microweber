@@ -1,6 +1,4 @@
-
-
-
+ 
 
 
 
@@ -307,7 +305,8 @@ var MWEditor = function (options) {
                 return;
             }
             var range = scope.selection.getRangeAt(0);
-            var target = scope.api.elementNode( range.commonAncestorContainer ) || scope.area;
+            // var target = scope.api.elementNode( range.commonAncestorContainer ) || scope.area;
+            var target = scope.api.elementNode( range.startContainer ) || scope.area;
 
             var css = mw.CSSParser(target);
             var api = scope.api;
@@ -366,12 +365,24 @@ var MWEditor = function (options) {
         }
     }
 
-    this.adjustRange = function(sel) {
+    this.adjustRange = function(event, sel) {
         if(!sel) {
             sel = scope.getSelection()
         }
+        if(!sel.rangeCount) {
+            return;
+        }
         let range = sel.getRangeAt(0);
+        if(range.collapsed) {
+            return;
+        }
+
+        if(event.target) {
+            this.api.selectAll(event.target);
+            return;
+        }
         range = range.cloneRange();
+      
         if (range.startContainer.nodeType != 3) {
             var nodeAfterStart = range.startContainer.childNodes[range.startOffset];
             if (nodeAfterStart && nodeAfterStart.nodeType == 3) {
@@ -395,7 +406,7 @@ var MWEditor = function (options) {
         $(scope.actionWindow.document).on('click', function(e){
  
             if(e.detail >= 2) {
-                scope.adjustRange()
+                scope.adjustRange(e)
             }
         })
         $(scope.actionWindow.document).on('selectionchange', function(e){

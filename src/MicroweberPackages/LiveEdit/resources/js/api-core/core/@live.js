@@ -346,7 +346,7 @@ export class LiveEdit {
         }
 
 
-        console.log(target)
+        
 
 
 
@@ -496,7 +496,7 @@ export class LiveEdit {
             }
 
  
-            console.log(target)
+            
 
             const isIcon = helpers.targetIsIcon(target);
 

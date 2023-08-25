@@ -9,6 +9,8 @@ export const insertModule = (target = null, module, options = {}, insertLocation
         return;
     }
     return new Promise(async resolve => {
+
+        
          
         await target.ownerDocument.defaultView.mw.module.insert(target, module, options, insertLocation, mw.liveEditState);
         

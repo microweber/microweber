@@ -46,6 +46,8 @@ export class EditorHandles extends BaseComponent {
         if(!target) {
             target = mw.app.get('liveEdit').handles.get('module').getTarget();
         }
+
+        
         return insertModule(target, module, options, insertLocation)
     };
 
