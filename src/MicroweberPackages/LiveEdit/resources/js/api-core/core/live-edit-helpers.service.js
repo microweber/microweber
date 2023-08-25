@@ -14,13 +14,13 @@ export default {
     
         if(!isIcon) {
             for (let i = 0; i < iconClasses.length; i++) {
-                if (target.classList.contains(iconClasses)) {
+                if (target.classList.contains(iconClasses[i])) {
                     isIcon = true;
                     break;
                 }
             }
         }
-        // console.log(isIcon)
+    
         return isIcon;
     }
 }

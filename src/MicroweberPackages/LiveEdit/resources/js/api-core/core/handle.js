@@ -131,7 +131,7 @@ export const Handle = function (options) {
                 }
             }
 
-            console.log(transform, scroll.y, off.top)
+            
 
             menu.style.transition = `none`;
             menu.style.transform = transform ? `translateY(${transform}px)` : '';
