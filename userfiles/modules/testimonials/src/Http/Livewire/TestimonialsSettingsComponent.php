@@ -55,21 +55,56 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                     'placeholder' => 'Read more URL',
                     'help' => 'Read more URL is required'
                 ],
-
+                [
+                    'type' => 'text',
+                    'rules' => 'required|min:2|max:255',
+                    'label' => 'Created on',
+                    'name' => 'created_on',
+                    'placeholder' => 'Created on',
+                    'help' => 'Created on is required'
+                ],
+                [
+                    'type'=>'text',
+                    'rules'=>'required|min:2|max:255',
+                    'label'=>'Project name',
+                    'name'=>'project_name',
+                    'placeholder'=>'Project name',
+                    'help'=>'Project name is required'
+                ],
+                [
+                    'type'=>'text',
+                    'rules'=>'required|min:2|max:255',
+                    'label'=>'Client company',
+                    'name'=>'client_company',
+                    'placeholder'=>'Client company',
+                    'help'=>'Client company is required'
+                ],
+                [
+                    'type'=>'text',
+                    'rules'=>'required|min:2|max:255',
+                    'label'=>'Client role',
+                    'name'=>'client_role',
+                    'placeholder'=>'Client role',
+                    'help'=>'Client role is required'
+                ],
+                [
+                    'type'=>'text',
+                    'rules'=>'required|min:2|max:255',
+                    'label'=>'Client picture',
+                    'name'=>'client_picture',
+                    'placeholder'=>'Client picture',
+                    'help'=>'Client picture is required'
+                ],
+                [
+                    'type'=>'text',
+                    'rules'=>'required|min:2|max:255',
+                    'label'=>'Client website',
+                    'name'=>'client_website',
+                    'placeholder'=>'Client website',
+                    'help'=>'Client website is required'
+                ]
             ]
         ];
-
-//        'id' => "integer",
-//        'name' => "text",
-//        'content' => "text",
-//        'read_more_url' => "text",
-//        'created_on' => "datetime",
-//		'project_name' => "text",
-//	    'client_company' => "text",
-//		'client_role' => "text",
-//		'client_picture' => "text",
-//		'client_website' => "text",
-//        'position' => "integer"
         return $editorSettings;
     }
 

@@ -31,7 +31,7 @@
         <div x-show="showEditTab=='addNewTestimonial'">
             <form wire:submit.prevent="submit">
 
-                <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center justify-content-end">
                     <x-microweber-ui::button-animation type="submit">
                         @lang('Save')
                     </x-microweber-ui::button-animation>
