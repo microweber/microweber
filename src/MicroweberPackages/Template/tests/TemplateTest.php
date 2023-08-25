@@ -54,7 +54,7 @@ class TemplateTest extends TestCase
     // @todo fix this test
     public function testCompileAdminCssUrl()
     {
-        $this->markTestIncomplete(
+        $this->markTestSkipped(
             'This test has not been implemented yet.'
         );
         return;

@@ -7,11 +7,11 @@ showAdvancedDesign: false
         <div class="d-flex flex-wrap gap-md-4 gap-3">
             <a href="#" x-on:click="showEditTab = 'content'" :class="{ 'active': showEditTab == 'content' }"
                class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs active">
-                Content
+                {{__('Content')}}
             </a>
             <a href="#" x-on:click="showEditTab = 'design'" :class="{ 'active': showEditTab == 'design' }"
                class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs">
-               Design
+                {{__('Design')}}
             </a>
         </div>
     </div>
