@@ -12,6 +12,10 @@
         showEditTab = 'editTestimonial'
     })
 
+    window.livewire.on('showConfirmDeleteItemById', (itemId) => {
+        Livewire.emit('onShowConfirmDeleteItemById', itemId);
+    })
+
 }"
 
     >
@@ -59,6 +63,32 @@
 
         <div x-show="showEditTab=='settings'">
             This is the settings tab
+        </div>
+
+
+        <div>
+
+            @dump($areYouSureDeleteModalOpened)
+
+            <x-microweber-ui::dialog-modal wire:model="areYouSureDeleteModalOpened">
+                <x-slot name="title">
+                    <?php _e('Are you sure?'); ?>
+                </x-slot>
+                <x-slot name="content">
+                    <?php _e('Are you sure want to delete this?'); ?>
+                </x-slot>
+
+                <x-slot name="footer">
+                    <x-microweber-ui::button-animation wire:click="$toggle('areYouSureDeleteModalOpened')"
+                                                       wire:loading.attr="disabled">
+                        <?php _e('Cancel'); ?>
+                    </x-microweber-ui::button-animation>
+                    <x-microweber-ui::button-animation class="text-danger" wire:click="confirmDeleteSelectedItems()"
+                                                       wire:loading.attr="disabled">
+                        <?php _e('Delete'); ?>
+                    </x-microweber-ui::button-animation>
+                </x-slot>
+            </x-microweber-ui::dialog-modal>
         </div>
 
     </div>
