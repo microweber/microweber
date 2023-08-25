@@ -18,7 +18,11 @@ export class IconPicker extends MicroweberBaseClass {
     }
 
     pickIcon(targetElementSelector, options = {}) {
-        const defaults = {iconOptions: true};
+        const defaults = {
+            iconOptions: {
+                color: true
+            }
+        };
         const settings = Object.assign({}, defaults, options);
         return new Promise(resolve => {
             var target = $(targetElementSelector)[0];
