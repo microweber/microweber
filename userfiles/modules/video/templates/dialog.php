@@ -8,8 +8,9 @@ description: Opens video in a popup
 
 <?php
     if(!isset($params['width'])) {
-        $params['width'] = 450;
+        $params['width'] = 1200;
     }
+
 ?>
 
 <script>
@@ -20,7 +21,8 @@ description: Opens video in a popup
                 header: false,
                 skin: 'video',
                 closeButtonAppendTo: '.mw-dialog-holder',
-                width: <?php print $params['width']  ?>
+                width: <?php print $params['width']  ?>,
+                height: 800,
             });
             var dialog = mw.dialog.get()
 
