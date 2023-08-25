@@ -103,7 +103,9 @@ if ($module_template != false) {
 }
 
 if (is_file($template_file)) {
+    echo '<div class="mw-prevent-interaction">';
     include($template_file);
+    echo '</div>';
 }
 
 if(!$upload and !$code){
