@@ -132,12 +132,11 @@
 
                                         </div>
                                     @endif
+
+
                                     <div class="col-auto d-flex align-items-center">
 
 
-                                        @if(isset($additionalButtonsView) && $additionalButtonsView)
-                                            @include($additionalButtonsView)
-                                        @endif
 
                                         <x-microweber-ui::button-action type="button" :tooltip="$deleteButtonText"
                                                                          wire:click="$emit('showConfirmDeleteItemById', '{{ $itemId }}')">
@@ -152,6 +151,12 @@
                                         </x-microweber-ui::button-action>
 
                                     </div>
+
+                                    @if(isset($additionalButtonsView) && $additionalButtonsView)
+                                        <div class="mt-2">
+                                        @include($additionalButtonsView)
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach
