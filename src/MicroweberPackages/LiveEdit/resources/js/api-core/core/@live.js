@@ -457,6 +457,7 @@ export class LiveEdit {
     }
 
      _hoverAndSelectExceptions = (target) => {
+       
         if(target) {
             if (target && target.classList && target.classList.contains('module-custom-fields')) {
                 var form = DomService.firstParentOrCurrentWithClass(target, 'module-contact-form');
@@ -495,6 +496,7 @@ export class LiveEdit {
             }
 
  
+            console.log(target)
 
             const isIcon = helpers.targetIsIcon(target);
 
@@ -985,8 +987,16 @@ export class LiveEdit {
         noelements = noelements.concat(noelements_drag);
         noelements = noelements.concat(section_selectors);
         noelements = noelements.concat(icon_selectors);
+
+        const exceptions = ['cloneable'];
+
+        let can = !mw.tools.hasAnyOfClasses(el, noelements);
+
+        if(!can) {
+            can = mw.tools.hasAnyOfClasses(el, exceptions);
+        }
          
-        return !mw.tools.hasAnyOfClasses(el, noelements);
+        return can;
     }
     canBeEditable = function (el) {
         return el.isContentEditable || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module']);
