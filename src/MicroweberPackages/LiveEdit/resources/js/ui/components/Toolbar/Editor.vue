@@ -181,7 +181,7 @@ export default {
             })
             mw.app.editor.on('editNodeRequest', async (element) => {
  
-              console.log('edit', element)
+              
           
 
                 function imagePicker(onResult) {
@@ -214,8 +214,28 @@ export default {
                   return dialog;
                 }
                 if(liveEditHelpers.targetIsIcon(element)) {
-                  const icon = await mw.app.get('iconPicker').pickIcon(element);
-                  console.log(icon)
+                  const iconPicker =  mw.app.get('iconPicker').pickIcon(element);
+                  
+ 
+                  
+                  iconPicker.picker.on('sizeChange', val => {
+                    element.style.fontSize = `${val}px`;
+                    mw.top().app.registerChange(element);
+                  });
+
+                  iconPicker.picker.on('colorChange', val => {
+                    element.style.color = `${val}`;
+                    mw.top().app.registerChange(element);
+                  });
+
+                  iconPicker.picker.on('reset', val => {
+                    element.style.color = ``;
+                    element.style.fontSize = ``;
+                    mw.top().app.registerChange(element);
+                  });
+
+                   const icon = await iconPicker.promise();
+                   console.log(icon)
                   
                 } else if(element.nodeName === 'IMG') {
 

@@ -64,7 +64,7 @@ body:not(.is_admin) [contenteditable="true"]{
 }
 
 
-.mw-prevent-interaction{
+html:not(.mw-le--page-preview) .mw-prevent-interaction{
     cursor: default;
     -webkit-user-select: none; 
     user-select: none;  

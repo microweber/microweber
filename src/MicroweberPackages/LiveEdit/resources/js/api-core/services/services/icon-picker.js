@@ -1,5 +1,6 @@
 import MicroweberBaseClass from "../containers/base-class.js";
 
+ 
 export class IconPicker extends MicroweberBaseClass {
     selectIcon(targetElementSelector) {
         var target = $(targetElementSelector)[0];
@@ -20,14 +21,17 @@ export class IconPicker extends MicroweberBaseClass {
     pickIcon(targetElementSelector, options = {}) {
         const defaults = {
             iconOptions: {
-                color: true
+                color: true,
+                size: true,
+                reset: true,
             }
         };
         const settings = Object.assign({}, defaults, options);
-        return new Promise(resolve => {
-            var target = $(targetElementSelector)[0];
-            mw.iconLoader().init();
-            var picker = mw.iconPicker(settings);
+        var target = $(targetElementSelector)[0];
+        mw.iconLoader().init();
+        var picker = mw.iconPicker(settings);
+
+        const promise = () => new Promise(resolve => {
             picker.target = target;
             picker.on('select', function (data) {
                 data.render();
@@ -36,6 +40,12 @@ export class IconPicker extends MicroweberBaseClass {
             });
             picker.dialog();
         })
+
+        return {
+            promise, target, picker
+        };
+        
+       
 
     }
 
