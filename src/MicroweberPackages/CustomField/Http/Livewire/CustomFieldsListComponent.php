@@ -32,7 +32,7 @@ class CustomFieldsListComponent extends AdminComponent
             }
         }
 
-        $this->emit('customFieldEdited');
+        $this->emit('customFieldUpdated');
     }
 
     public function executeCustomFieldDelete($id) {
