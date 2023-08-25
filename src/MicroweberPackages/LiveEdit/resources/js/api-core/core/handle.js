@@ -121,15 +121,17 @@ export const Handle = function (options) {
         if(menu) {
 
 
-            let transform ;
+            let transform = -60;
          
-            if(scroll.y > (off.top - 10)) {
-                transform = (scroll.y - (off.top - 10));
+            if(scroll.y > (off.top - 20)) {
+                transform = (scroll.y - (off.top - 20));
     
                 if((transform + menu.offsetHeight + 30) > off.height) {
                      transform =  (off.height - (menu.offsetHeight + 30))  ;
                 }
             }
+
+            console.log(transform, scroll.y, off.top)
 
             menu.style.transition = `none`;
             menu.style.transform = transform ? `translateY(${transform}px)` : '';
