@@ -34,6 +34,8 @@ if ($show_testimonials_per_project) {
 if (intval($testimonials_limit) > 0) {
     $testimonialsQuery->limit($testimonials_limit);
 }
+$testimonialsQuery->orderBy('position', 'asc');
+
 $data = [];
 $getTestimonials = $testimonialsQuery->get();
 if ($getTestimonials->count() > 0) {
