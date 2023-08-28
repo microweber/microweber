@@ -1,18 +1,27 @@
 <?php
 require_once __DIR__ . DS . 'vendor/autoload.php';
 
-$upload = get_option('upload', $params['id']);
-$upload = trim($upload);
+$upload = false;
+$getUpload = get_option('upload', $params['id']);
+$getUpload = trim($getUpload);
+if (!empty($getUpload)) {
+    $upload = $getUpload;
+}
 
 $prior = get_option('prior', $params['id']);
-$code = get_option('embed_url', $params['id']);
+
+$code = false;
+$getCode = get_option('embed_url', $params['id']);
+$getCode = trim($getCode);
+if (!empty($getCode)) {
+    $code = $getCode;
+}
 
 if ($code == false) {
     if ($upload == false && isset($params['url'])) {
         $code = $params['url'];
     }
 }
-$code = trim($code);
 
 $enable_full_page_cache = get_option('enable_full_page_cache','website');
 
@@ -51,11 +60,15 @@ if($upload and !$code){
 
 $video = new \Microweber\Modules\Video\VideoEmbed();
 $video->setId($params['id']);
-if (!empty($thumb)) {
-    $video->setLazyLoad(true);
-}
 $video->setAutoplay($autoplay);
-$video->setThumbnail($thumb);
+
+if (!empty($thumb)) {
+    $filesUtils = new \MicroweberPackages\Utils\System\Files();
+    if ($filesUtils->is_allowed_file($thumb)) {
+        $video->setThumbnail($thumb);
+        $video->setLazyLoad(true);
+    }
+}
 
 if ($w !== '100%') {
     $video->setWidth($w . 'px');
@@ -66,8 +79,14 @@ if (strpos($h, 'px') !== false) {
     $video->setHeight($h . 'px');
 }
 
-$video->setUploadedVideoUrl($upload);
-$video->setEmbedCode($code);
+if ($upload) {
+    $video->setUploadedVideoUrl($upload);
+}
+
+if ($code) {
+    $video->setEmbedCode($code);
+}
+
 $video->setPlayEmbedVideo(true);
 if ($upload && !$code) {
     $video->setPlayEmbedVideo(false);
