@@ -177,6 +177,16 @@ mw.askusertostay = false;
              }
         }
 
+
+        if(target.classList.contains('edit')) {
+            if(pos === 'top' || action === 'before') {
+                action = 'prepend'
+            } else if(pos === 'bottom' || action === 'after') {
+                action = 'append'
+            }
+        }
+
+
         var parent = mw.$(target).parent().get(0);
 
         if(stateManager) {
@@ -185,6 +195,8 @@ mw.askusertostay = false;
                 value: parent.innerHTML
             });
         }
+
+        console.log(target, action, el)
 
         mw.$(target)[action](el);
         mw.load_module(module, '#' + id, function () {

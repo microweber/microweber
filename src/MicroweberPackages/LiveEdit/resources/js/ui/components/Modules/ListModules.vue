@@ -73,7 +73,7 @@ export default {
                 options.as_element = true;
             }
 
-            console.log(module, options);
+             
             mw.app.editor.insertModule(module, options);
             this.showModal = false;
         },

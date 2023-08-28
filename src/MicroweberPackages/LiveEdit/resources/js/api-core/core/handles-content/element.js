@@ -139,7 +139,7 @@ export const ElementHandleContent = function (proto) {
         },
 
         {
-            title: 'Insert module123' ,
+            title: 'Insert module' ,
             text: '',
             icon: '<svg style="stroke-width: 500;" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M445.935-195.935v-250h-250v-68.13h250v-250h68.13v250h250v68.13h-250v250h-68.13Z"/></svg>',
             className: 'mw-handle-add-button',
