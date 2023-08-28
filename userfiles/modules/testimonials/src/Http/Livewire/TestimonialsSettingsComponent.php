@@ -14,7 +14,10 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
     public $selectedItemsIds = [];
     public $areYouSureDeleteModalOpened = false;
 
+    public array $itemState = [];
+
     public $listeners = [
+        'refreshTestimonials' => '$refresh',
         'onShowConfirmDeleteItemById' => 'showConfirmDeleteItemById',
         'onEditItemById' => 'showItemById',
     ];
@@ -35,6 +38,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
 
     public function confirmDeleteSelectedItems()
     {
+
         if ($this->selectedItemsIds and !empty($this->selectedItemsIds)) {
             foreach ($this->selectedItemsIds as $itemId) {
                 Testimonial::where('id', $itemId)->delete();
@@ -140,8 +144,39 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
         return $editorSettings;
     }
 
+    public function submit()
+    {
+        $rules = [];
+        $schema = $this->getEditorSettings()['schema'];
+
+        foreach ($schema as $field) {
+            if (isset($field['name']) && isset($field['rules'])) {
+                $rules['itemState.' . $field['name']] = $field['rules'];
+            }
+        }
+        $this->validate($rules);
+
+        $testimonial = new Testimonial();
+        $testimonial->name = $this->itemState['name'];
+        $testimonial->content = $this->itemState['content'];
+        $testimonial->read_more_url = $this->itemState['read_more_url'];
+        $testimonial->created_on = $this->itemState['created_on'];
+        $testimonial->project_name = $this->itemState['project_name'];
+        $testimonial->client_company = $this->itemState['client_company'];
+        $testimonial->client_role = $this->itemState['client_role'];
+        $testimonial->client_picture = $this->itemState['client_picture'];
+        $testimonial->client_website = $this->itemState['client_website'];
+        $testimonial->save();
+
+        $this->emit('switchToMainTab');
+        $this->emit('settingsChanged', ['moduleId' => $this->moduleId]);
+
+        return $this->render();
+    }
+
     public function getItems()
     {
+        $this->items = [];
         $getTestimonials = Testimonial::all();
         if ($getTestimonials) {
             foreach ($getTestimonials as $testimonial) {

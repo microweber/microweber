@@ -9,10 +9,10 @@
     x-data="{
         showEditTab: 'testimonials'
     }"
-
+    
      x-init="() => {
         window.livewire.on('switchToMainTab', () => {
-            showEditTab = 'main'
+            showEditTab = 'testimonials'
         })
 
          window.livewire.on('editItemById' , (itemId) => {
@@ -22,6 +22,12 @@
         window.livewire.on('showConfirmDeleteItemById', (itemId) => {
             Livewire.emit('onShowConfirmDeleteItemById', itemId);
         })}"
+
+    @mw-option-saved.window="function() {
+        if ($event.detail.optionKey == 'show_testimonials_per_project') {
+           Livewire.emit('refreshTestimonials');
+       }
+    }"
 
     >
 
@@ -47,7 +53,7 @@
         <div x-show="showEditTab=='testimonials'">
 
             <div class="mt-2">
-                <x-microweber-ui::button-animation type="button" class="mt-2" x-on:click="showEditTab = 'addNewTestimonial'">
+                <x-microweber-ui::button-animation type="button" class="mt-2" x-on:click="showEditTab = 'editTestimonial'">
                     @lang('Add new testimonial')
                 </x-microweber-ui::button-animation>
             </div>
