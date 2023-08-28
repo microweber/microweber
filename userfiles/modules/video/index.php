@@ -49,11 +49,15 @@ if($upload and !$code){
     $prior = 2;
 }
 
+if (!empty($thumb)) {
+    $lazyload = 1;
+}
+
 $video = new \Microweber\Modules\Video\VideoEmbed();
 $video->setId($params['id']);
 $video->setLazyLoad($lazyload);
 $video->setAutoplay($autoplay);
-$video->setThumbnail($thumb); 
+$video->setThumbnail($thumb);
 
 if ($w !== '100%') {
     $video->setWidth($w . 'px');
