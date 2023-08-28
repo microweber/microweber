@@ -12,7 +12,7 @@
 
      x-init="() => {
         window.livewire.on('switchToMainTab', () => {
-            showEditTab = 'main'
+            showEditTab = 'testimonials'
         })
 
          window.livewire.on('editItemById' , (itemId) => {
@@ -22,6 +22,12 @@
         window.livewire.on('showConfirmDeleteItemById', (itemId) => {
             Livewire.emit('onShowConfirmDeleteItemById', itemId);
         })}"
+
+    @mw-option-saved.window="function() {
+        if ($event.detail.optionKey == 'show_testimonials_per_project') {
+           Livewire.emit('refreshTestimonials');
+       }
+    }"
 
     >
 
@@ -46,10 +52,17 @@
 
         <div x-show="showEditTab=='testimonials'">
 
-            <div class="mt-2">
-                <x-microweber-ui::button-animation type="button" class="mt-2" x-on:click="showEditTab = 'addNewTestimonial'">
+            <div class="mt-2 text-right">
+                <x-microweber-ui::button-animation type="button" class="mt-2" x-on:click="showEditTab = 'editTestimonial'">
                     @lang('Add new testimonial')
                 </x-microweber-ui::button-animation>
+            </div>
+
+            <div class="mt-3">
+                <label class="live-edit-label">
+                    {{ _e("Project") }}
+                </label>
+                <livewire:microweber-option::dropdown :dropdownOptions="$projectNames" optionKey="show_testimonials_per_project" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
             @include('microweber-live-edit::module-items-editor-list-items')
@@ -73,13 +86,6 @@
         </div>
 
         <div x-show="showEditTab=='settings'">
-
-            <div class="mt-3">
-                <label class="live-edit-label">
-                   {{ _e(" Show testimonials for project ") }}
-                </label>
-                <livewire:microweber-option::dropdown :dropdownOptions="$projectNames" optionKey="show_testimonials_per_project" :optionGroup="$moduleId" :module="$moduleType"  />
-            </div>
 
             <div class="mt-3">
                 <label class="live-edit-label">
