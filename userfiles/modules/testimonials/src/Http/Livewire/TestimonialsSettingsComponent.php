@@ -77,7 +77,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                 ],
                 [
                   'type' => 'textarea',
-                    'rules' => 'required|min:2|max:255',
+                    'rules' => 'min:2|max:255',
                     'label' => 'Content',
                     'name' => 'content',
                     'placeholder' => 'Content',
@@ -85,7 +85,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                 ],
                 [
                     'type' => 'text',
-                    'rules' => 'required|min:2|max:255',
+                    'rules' => 'min:2|max:255',
                     'label' => 'Read more URL',
                     'name' => 'read_more_url',
                     'placeholder' => 'Read more URL',
@@ -93,7 +93,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                 ],
                 [
                     'type' => 'text',
-                    'rules' => 'required|min:2|max:255',
+                    'rules' => 'min:2|max:255',
                     'label' => 'Created on',
                     'name' => 'created_on',
                     'placeholder' => 'Created on',
@@ -109,7 +109,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                 ],
                 [
                     'type'=>'text',
-                    'rules'=>'required|min:2|max:255',
+                    'rules'=>'min:2|max:255',
                     'label'=>'Client company',
                     'name'=>'client_company',
                     'placeholder'=>'Client company',
@@ -117,7 +117,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                 ],
                 [
                     'type'=>'text',
-                    'rules'=>'required|min:2|max:255',
+                    'rules'=>'min:2|max:255',
                     'label'=>'Client role',
                     'name'=>'client_role',
                     'placeholder'=>'Client role',
@@ -125,7 +125,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                 ],
                 [
                     'type'=>'image',
-                    'rules'=>'required|min:2|max:255',
+                    'rules'=>'min:2|max:255',
                     'label'=>'Client picture',
                     'name'=>'client_picture',
                     'placeholder'=>'Client picture',
@@ -133,7 +133,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                 ],
                 [
                     'type'=>'text',
-                    'rules'=>'required|min:2|max:255',
+                    'rules'=>'min:2|max:255',
                     'label'=>'Client website',
                     'name'=>'client_website',
                     'placeholder'=>'Client website',
@@ -158,14 +158,30 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
 
         $testimonial = new Testimonial();
         $testimonial->name = $this->itemState['name'];
-        $testimonial->content = $this->itemState['content'];
-        $testimonial->read_more_url = $this->itemState['read_more_url'];
-        $testimonial->created_on = $this->itemState['created_on'];
         $testimonial->project_name = $this->itemState['project_name'];
-        $testimonial->client_company = $this->itemState['client_company'];
-        $testimonial->client_role = $this->itemState['client_role'];
-        $testimonial->client_picture = $this->itemState['client_picture'];
-        $testimonial->client_website = $this->itemState['client_website'];
+
+        if (isset($this->itemState['content'])) {
+            $testimonial->content = $this->itemState['content'];
+        }
+        if (isset($this->itemState['read_more_url'])) {
+            $testimonial->read_more_url = $this->itemState['read_more_url'];
+        }
+        if (isset($this->itemState['created_on'])) {
+            $testimonial->created_on = $this->itemState['created_on'];
+        }
+        if (isset($this->itemState['client_company'])) {
+            $testimonial->client_company = $this->itemState['client_company'];
+        }
+        if (isset($this->itemState['client_role'])) {
+            $testimonial->client_role = $this->itemState['client_role'];
+        }
+        if (isset($this->itemState['client_picture'])) {
+            $testimonial->client_picture = $this->itemState['client_picture'];
+        }
+        if (isset($this->itemState['client_website'])) {
+            $testimonial->client_website = $this->itemState['client_website'];
+        }
+
         $testimonial->save();
 
         $this->emit('switchToMainTab');
