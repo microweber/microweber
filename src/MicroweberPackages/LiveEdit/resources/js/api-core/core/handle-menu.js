@@ -75,6 +75,7 @@ export const HandleMenu = function(options) {
         var i = 0;
 
         this.rebuildButtons();
+ 
        
 
         setTimeout(() => {
@@ -84,6 +85,11 @@ export const HandleMenu = function(options) {
                 const button = this.buttons[i].button;
 
                 //todo: onTarget  
+
+                if(target && target.classList.contains('cloneable') && config && config.title === 'Drag') {
+                    console.log(config)
+                    console.log(button.get(0))
+                }
            
                 if(config && config.onTarget) {
                   
@@ -96,7 +102,7 @@ export const HandleMenu = function(options) {
                 options.handleScope.handle.draggable.handleInit();
             }
 
-        })
+        }, 100)
 
 
     };

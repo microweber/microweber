@@ -107,8 +107,6 @@ export const ModuleHandleContent = function (rootScope) {
                    mw.app.editor.dispatch('onModulePresetsRequest', el);
                }
 
-
-
             },
             onTarget: (target, selfNode) => {
                 if(this.tools.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
