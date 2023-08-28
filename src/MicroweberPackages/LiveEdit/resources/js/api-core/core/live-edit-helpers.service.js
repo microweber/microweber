@@ -8,9 +8,11 @@ export default {
         if(!target.classList) {
             return false;
         }
-        if(!target.className.includes) {
+
+        if(!target.className) {
             return false;
         }
+
 
         const iconClasses = ['icon', 'mw-icon', 'material-icons', 'mdi'];
         var isIcon = target.className.includes('mw-micon-');
