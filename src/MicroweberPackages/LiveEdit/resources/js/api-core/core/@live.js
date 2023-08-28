@@ -956,9 +956,13 @@ export class LiveEdit {
             if(e.which === 1) {
             _dblclicktarget = e.target;
 
+
+            let _canSelectDuringPause = true; 
+
+            const _canSelect = !this.paused || _canSelectDuringPause;
             
 
-            if (!this.paused) {
+            if (_canSelect) {
                 _eventsHandle(e)
             } else {
 

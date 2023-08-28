@@ -98,17 +98,22 @@
                 $('#js-preview-video-wrapper-{{$randId}}').hide();
                 $('#js-dropzone-image-{{$randId}}').hide();
 
+                let showDropzone = true;
                 if (fullFilePath.length > 1) {
                     if (imageFileExtensions.includes(fullFilePath.split('.').pop().toLowerCase())) {
                         $('#js-preview-image-{{$randId}}').attr('src', fullFilePath);
                         $('#js-preview-image-wrapper-{{$randId}}').show();
                         $('#js-edit-image-{{$randId}}').show();
+                        showDropzone = false;
                     }
                     if (videoFileExtensions.includes(fullFilePath.split('.').pop().toLowerCase())) {
                         $('#js-preview-video-{{$randId}}').attr('src', fullFilePath);
                         $('#js-preview-video-wrapper-{{$randId}}').show();
+                        showDropzone = false;
                     }
-                } else {
+                }
+
+                if (showDropzone) {
                     $('#js-dropzone-image-{{$randId}}').show();
                 }
             }
