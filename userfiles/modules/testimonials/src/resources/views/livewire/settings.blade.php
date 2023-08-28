@@ -9,7 +9,7 @@
     x-data="{
         showEditTab: 'testimonials'
     }"
-    
+
      x-init="() => {
         window.livewire.on('switchToMainTab', () => {
             showEditTab = 'testimonials'
@@ -52,10 +52,17 @@
 
         <div x-show="showEditTab=='testimonials'">
 
-            <div class="mt-2">
+            <div class="mt-2 text-right">
                 <x-microweber-ui::button-animation type="button" class="mt-2" x-on:click="showEditTab = 'editTestimonial'">
                     @lang('Add new testimonial')
                 </x-microweber-ui::button-animation>
+            </div>
+
+            <div class="mt-3">
+                <label class="live-edit-label">
+                    {{ _e("Project") }}
+                </label>
+                <livewire:microweber-option::dropdown :dropdownOptions="$projectNames" optionKey="show_testimonials_per_project" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
             @include('microweber-live-edit::module-items-editor-list-items')
@@ -79,13 +86,6 @@
         </div>
 
         <div x-show="showEditTab=='settings'">
-
-            <div class="mt-3">
-                <label class="live-edit-label">
-                   {{ _e(" Show testimonials for project ") }}
-                </label>
-                <livewire:microweber-option::dropdown :dropdownOptions="$projectNames" optionKey="show_testimonials_per_project" :optionGroup="$moduleId" :module="$moduleType"  />
-            </div>
 
             <div class="mt-3">
                 <label class="live-edit-label">

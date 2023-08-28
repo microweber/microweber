@@ -19,7 +19,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
     public $listeners = [
         'refreshTestimonials' => '$refresh',
         'onShowConfirmDeleteItemById' => 'showConfirmDeleteItemById',
-        'onEditItemById' => 'showItemById',
+        'editItemById' => 'showItemById',
     ];
 
     public function render()
@@ -49,8 +49,17 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
         $this->selectedItemsIds = [];
         $this->getItems();
 
+        $this->emit('settingsChanged', ['moduleId' => $this->moduleId]);
+
     }
 
+    public function showItemById($id)
+    {
+       $findTestimonial = Testimonial::where('id', $id)->first();
+       if ($findTestimonial) {
+           $this->itemState = $findTestimonial->toArray();
+       }
+    }
 
     public function getEditorSettings()
     {
@@ -99,14 +108,14 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                     'placeholder' => 'Created on',
                     'help' => 'Created on is required'
                 ],
-                [
-                    'type'=>'text',
-                    'rules'=>'required|min:2|max:255',
-                    'label'=>'Project name',
-                    'name'=>'project_name',
-                    'placeholder'=>'Project name',
-                    'help'=>'Project name is required'
-                ],
+//                [
+//                    'type'=>'text',
+//                    'rules'=>'required|min:2|max:255',
+//                    'label'=>'Project name',
+//                    'name'=>'project_name',
+//                    'placeholder'=>'Project name',
+//                    'help'=>'Project name is required'
+//                ],
                 [
                     'type'=>'text',
                     'rules'=>'min:2|max:255',
@@ -158,7 +167,12 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
 
         $testimonial = new Testimonial();
         $testimonial->name = $this->itemState['name'];
-        $testimonial->project_name = $this->itemState['project_name'];
+        $testimonial->project_name = 'General';
+
+        $filterProject = get_option('show_testimonials_per_project', $this->moduleId);
+        if (!empty($filterProject)) {
+            $testimonial->project_name = $filterProject;
+        }
 
         if (isset($this->itemState['content'])) {
             $testimonial->content = $this->itemState['content'];
