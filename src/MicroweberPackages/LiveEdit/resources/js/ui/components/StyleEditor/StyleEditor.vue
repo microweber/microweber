@@ -99,25 +99,25 @@ export default {
             }
         });
 
-        var instance = this;
+        var styleEditorInstance = this;
 
 
         mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
-            if (instance) {
+            if (styleEditorInstance) {
                 // remove editor if the frame is changed
-                instance.removeStyleEditor();
+                styleEditorInstance.removeStyleEditor();
             }
         });
         mw.app.canvas.on('liveEditCanvasBeforeUnload', function (frame) {
-            if (instance) {
+            if (styleEditorInstance) {
                 // remove editor if the frame is changed
-                instance.removeStyleEditor();
+                styleEditorInstance.removeStyleEditor();
             }
         });
 
         mw.top().app.canvas.on('canvasDocumentClick', function () {
-            if (instance.isOpened) {
-                if (instance.cssEditorIframe) {
+            if (styleEditorInstance.isOpened) {
+                if (styleEditorInstance.cssEditorIframe) {
                     var activeNode = mw.top().app.liveEdit.getSelectedNode();
 
                     var can = mw.top().app.liveEdit.canBeElement(activeNode)
@@ -134,11 +134,27 @@ export default {
 
 
                     var event = new CustomEvent('refreshSelectedElement')
-                    instance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
+                    styleEditorInstance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
                 }
             }
 
         });
+
+
+      mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
+
+
+        mw.app.editor.on('insertLayoutRequest', function (element) {
+          // close open html editor when layout is inserted
+          styleEditorInstance.removeStyleEditor();
+        });
+        mw.app.editor.on('insertModuleRequest', function (element) {
+          // close open html editor when module is inserted
+          styleEditorInstance.removeStyleEditor();
+        });
+      });
+
+
     }
 
 }
