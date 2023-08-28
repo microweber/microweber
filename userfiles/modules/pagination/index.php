@@ -1,5 +1,4 @@
 <?php
-
 if (!isset($params['paging_param']) || !isset($params['pages_count'])) {
     return;
 }
@@ -18,10 +17,12 @@ if (!$module_template) {
     $module_template = get_template_framework();
 }
 
+$template_file = module_templates($config['module'], 'default');
 if ($module_template != false) {
-    $template_file = module_templates($config['module'], $module_template);
-} else {
-    $template_file = module_templates($config['module'], 'default');
+    $template_file_module = module_templates($config['module'], $module_template);
+    if ($template_file_module) {
+        $template_file = $template_file_module;
+    }
 }
 
 // $settings = get_option('settings', $params['id']);
