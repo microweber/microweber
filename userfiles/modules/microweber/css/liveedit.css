@@ -1728,6 +1728,10 @@ body.dragStart .element {
     background: #FFFFB9;
 }
 
+
+
+
+.mw-le-empty-element,
 .mw-empty-element:empty,
 .mw-live-edit .mw-empty-element.element:empty,
 .mw-col-container .mw-empty:first-child:empty {
@@ -5230,6 +5234,10 @@ section.section {
     position: relative;
 }
 
+
+.mw-le-handle-menu-button-hidden{
+    display: none !important;
+}
 
 .mw-le-handle-menu-button-disabled{
     opacity: .5;

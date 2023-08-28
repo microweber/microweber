@@ -316,7 +316,10 @@ if(window.self !== window.top) {
             return xhr;
         },
 
-    }
+    };
+
+
+    
 
     addEventListener('load', () => {
         const save = async () => {
@@ -332,9 +335,41 @@ if(window.self !== window.top) {
 
         window.addEventListener('keydown', function (event) {
             mw.top().app.canvas.dispatch('iframeKeyDown', {event})
-        })
+        });
 
-    })
+
+        const _handleEmptyEditFields = function() {
+
+            function manageNode(node) {
+                const isEmptyLike = !node.innerHTML.trim();
+                
+                if(isEmptyLike && node.innerHTML.trim() === node.textContent.trim()) {
+                    mw.element(node).append(`<p class="element" data-mwplaceholder="${mw.lang(`This is sample text for your page`)}"></p>`);
+                } else {
+                    node.classList[ isEmptyLike ? 'add' : 'remove']('mw-le-empty-element');
+                }
+            }
+
+            document.querySelectorAll('.edit').forEach(function(node) {
+                if(!node.__$$_handleEmptyEditFields) {
+                    node.__$$_handleEmptyEditFields = true;
+                    manageNode(node);
+                    node.addEventListener('input', function(){
+                        manageNode(this);
+                    });
+                }
+            });
+
+            mw.top().app.on('editChanged', edit => {
+                setTimeout(() => manageNode(edit));
+            })
+        };
+
+        _handleEmptyEditFields()
+
+
+
+    });
 
     self.onbeforeunload = function (event) {
         mw.top().app.canvas.dispatch('liveEditCanvasBeforeUnload');

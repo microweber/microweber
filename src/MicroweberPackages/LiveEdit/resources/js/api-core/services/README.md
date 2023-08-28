@@ -2,6 +2,9 @@
 
 
 ```js
+mw.app.on('editChanged',function(edit){
+
+})
 mw.app.on('init',function(app){
 
 });

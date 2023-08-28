@@ -713,7 +713,10 @@ MWEditor.controllers = {
 
                     var block = mw.tools.firstBlockLevel(el);
                     scope.api.action(block.parentNode.parentNode, function () {
-                        mw.tools.setTag(block, e.detail.value);
+                        var el = mw.tools.setTag(block, e.detail.value);
+                        // el.focus()
+                        scope.api.setCursorAtStart(el)
+                        console.log(el)
                     });
                 }
             });

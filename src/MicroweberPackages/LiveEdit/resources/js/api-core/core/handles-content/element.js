@@ -22,9 +22,9 @@ export const ElementHandleContent = function (proto) {
               
 
                 if(target.classList.contains('cloneable') || target.classList.contains('mw-col')) {
-                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
+                    selfNode.classList.remove('mw-le-handle-menu-button-hidden');
                 } else {
-                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
+                    selfNode.classList.add('mw-le-handle-menu-button-hidden');
                 }
             },
 
@@ -55,9 +55,9 @@ export const ElementHandleContent = function (proto) {
                 
 
                 if(isCloneable && prev) {
-                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
+                    selfNode.classList.remove('mw-le-handle-menu-button-hidden');
                 } else {
-                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
+                    selfNode.classList.add('mw-le-handle-menu-button-hidden');
                 }
             },
             action: function (el) {
@@ -80,9 +80,9 @@ export const ElementHandleContent = function (proto) {
            
 
                 if(isCloneable && next) {
-                    selfNode.classList.remove('mw-le-handle-menu-button-disabled');
+                    selfNode.classList.remove('mw-le-handle-menu-button-hidden');
                 } else {
-                    selfNode.classList.add('mw-le-handle-menu-button-disabled');
+                    selfNode.classList.add('mw-le-handle-menu-button-hidden');
                 }
             },
             action: function (el) {
@@ -111,7 +111,7 @@ export const ElementHandleContent = function (proto) {
                 if(target.classList.contains('cloneable')) {
                     selfVisible = false;
                 }
-                console.log(selfBtn,  selfVisible );
+          
                 selfBtn.style.display = selfVisible ? '' : 'node';
             },  
             

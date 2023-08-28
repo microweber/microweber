@@ -26,6 +26,17 @@ mw.lib.require('rangy');
             getSelection: function () {
                 return scope.getSelection();
             },
+            setCursorAtStart: function(target){
+                var sel = scope.getSelection();
+                if(!target) {
+                    return
+                }
+                range = document.createRange();
+                range.selectNodeContents(target);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            },
             eachRange: function (c){
                 var sel = scope.getSelection();
                 if(sel.rangeCount && c) {
