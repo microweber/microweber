@@ -49,13 +49,11 @@ if($upload and !$code){
     $prior = 2;
 }
 
-if (!empty($thumb)) {
-    $lazyload = 1;
-}
-
 $video = new \Microweber\Modules\Video\VideoEmbed();
 $video->setId($params['id']);
-$video->setLazyLoad($lazyload);
+if (!empty($thumb)) {
+    $video->setLazyLoad(true);
+}
 $video->setAutoplay($autoplay);
 $video->setThumbnail($thumb);
 
