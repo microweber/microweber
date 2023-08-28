@@ -1,4 +1,12 @@
-@extends('admin::layouts.app')
+@php
+    $extendParams = [];
+    if(isset($_GET['iframe'])){
+    $extendParams['disableNavBar'] = true;
+    $extendParams['disableTopBar'] = true;
+    $extendParams['iframe'] = true;
+    }
+@endphp
+@extends('admin::layouts.app',$extendParams)
 
 @section('content')
 
@@ -18,8 +26,11 @@
        $parent_page_param .= '&quickContentAdd='.$_GET['quickContentAdd'];
    }
 
-$createRouteShop .= $parent_page_param;
-$createRouteBlog .= $parent_page_param;
+    $createRouteShop .= $parent_page_param;
+    $createRouteBlog .= $parent_page_param;
+
+    $showShop = is_shop_module_enabled_for_user();
+
 
     @endphp
 
@@ -60,6 +71,8 @@ $createRouteBlog .= $parent_page_param;
                 </a>
             </div>
 
+            @if($showShop)
+
             <div class="col-md-4 col-12">
                 <a href="{{ $createRouteShop }}" class="card card-link card-link-pop py-6">
 
@@ -78,6 +91,8 @@ $createRouteBlog .= $parent_page_param;
 
                 </a>
             </div>
+
+            @endif
 
         </div>
 
