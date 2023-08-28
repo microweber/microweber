@@ -64,12 +64,23 @@
 
         <div class="row gap-4 justify-content-center">
 
+
+
             @if(!$hasDynamicPages and !$hasShopPages)
                 <?php
                 print  view('category::admin.category.no-pages', [
                 'isShop'=>false
                 ]);
                 ?>
+
+
+            @elseif(!$hasDynamicPages and $hasShopPages and !$showShop)
+                <?php
+                print  view('category::admin.category.no-pages', [
+                'isShop'=>false
+                ]);
+                ?>
+
             @endif
 
 

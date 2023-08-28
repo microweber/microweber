@@ -253,8 +253,13 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                           open_edit_related_content_modal = function($content_id) {
                               var modal_id = 'open_edit_related_content_modal__modal';
+
+
+
+
+
                               var dialog = mw.top().dialogIframe({
-                                  url: '<?php print site_url() ?>module/?type=content/views/related_content_list&live_edit=true&id=open_edit_related_content_modal__opened__module&content_id='+$content_id+'&from_url=<?php print site_url() ?>',
+                                  url: route('live_edit.module_settings') + '?type=content/views/related_content_list&live_edit=true&id=open_edit_related_content_modal__opened__module&content_id='+$content_id+'&from_url=<?php print site_url() ?>',
                                   title: 'Edit related content',
                                   id: modal_id,
 
