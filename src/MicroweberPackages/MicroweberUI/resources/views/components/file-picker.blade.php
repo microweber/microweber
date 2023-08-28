@@ -10,7 +10,7 @@
         <input type="hidden" id="js-media-picker-file-{{$randId}}" {!! $attributes->merge([]) !!} />
 
         <div id="js-preview-video-wrapper-{{$randId}}" style="display:none">
-            <div> 
+            <div>
                 <div>
                     <video width="100%" height="200px" id="js-preview-video-{{$randId}}" controls=""></video>
                 </div>
@@ -69,51 +69,59 @@
         </div>
 
         <script>
+
+            let imageFileExtensions = [
+                'jpg',
+                'jpeg',
+                'png',
+                'gif',
+                'svg',
+                'webp',
+                'avif',
+                'apng',
+                'bmp',
+                'ico',
+                'cur',
+            ];
+            let videoFileExtensions = [
+                'mp4',
+                'webm',
+                'ogg',
+                'mov',
+                'avi',
+                'wmv',
+                'flv',
+                '3gp',
+                'mkv',
+            ];
+
+            function generatePreview{{$randId}}(fullFilePath)
+            {
+                $('#js-preview-image-wrapper-{{$randId}}').hide();
+                $('#js-preview-video-wrapper-{{$randId}}').hide();
+
+                if (fullFilePath !== '') {
+                    if (imageFileExtensions.includes(fullFilePath.split('.').pop().toLowerCase())) {
+                        $('#js-preview-image-{{$randId}}').attr('src', fullFilePath);
+                        $('#js-preview-image-wrapper-{{$randId}}').show();
+                        imageEditBtn.show();
+                    }
+                    if (videoFileExtensions.includes(fullFilePath.split('.').pop().toLowerCase())) {
+                        $('#js-preview-video-{{$randId}}').attr('src', fullFilePath);
+                        $('#js-preview-video-wrapper-{{$randId}}').show();
+                        //  videoEditBtn.show();
+                    }
+                } else {
+                    $('#js-dropzone-image-{{$randId}}').show();
+                }
+            }
+
             $(document).ready(function() {
 
                 let mediaPickerFileField = document.getElementById('js-media-picker-file-{{$randId}}');
                 var imageEditBtn = $('.js-edit-image-{{$randId}}');
 
-
-                let imageFileExtensions = [
-                    'jpg',
-                    'jpeg',
-                    'png',
-                    'gif',
-                    'svg',
-                    'webp',
-                    'avif',
-                    'apng',
-                    'bmp',
-                    'ico',
-                    'cur',
-                ];
-                let videoFileExtensions = [
-                    'mp4',
-                    'webm',
-                    'ogg',
-                    'mov',
-                    'avi',
-                    'wmv',
-                    'flv',
-                    '3gp',
-                    'mkv',
-                ];
-
-                if (mediaPickerFileField.value !== '') {
-                    if (imageFileExtensions.includes(mediaPickerFileField.value.split('.').pop().toLowerCase())) {
-                        $('#js-preview-image-{{$randId}}').attr('src', mediaPickerFileField.value);
-                        $('#js-preview-image-wrapper-{{$randId}}').show();
-                        imageEditBtn.show();
-                    }
-                    if (videoFileExtensions.includes(mediaPickerFileField.value.split('.').pop().toLowerCase())) {
-                        $('#js-preview-video-{{$randId}}').attr('src', mediaPickerFileField.value);
-                        $('#js-preview-video-wrapper-{{$randId}}').show();
-                      //  videoEditBtn.show();
-                    }
-                } else {
-                    $('#js-dropzone-image-{{$randId}}').show();
-                }
+                generatePreview{{$randId}}(mediaPickerFileField.value);
 
                 imageEditBtn.click(async function(e) {
                     e.preventDefault()
@@ -139,15 +147,12 @@
                             if(!url) return;
                             url = url.toString();
 
-                            $('#js-dropzone-image-{{$randId}}').hide();
-                            $('#js-preview-image-{{$randId}}').attr('src', url);
-                            $('#js-preview-image-wrapper-{{$randId}}').show();
+                            generatePreview{{$randId}}(url);
 
                             mediaPickerFileField.value = url;
                             mediaPickerFileField.dispatchEvent(new Event('input'));
 
                             dialog.remove();
-                            imageEditBtn.show()
                         }
                     });
                     dialog = mw.top().dialog({
