@@ -245,15 +245,23 @@ MWEditor.controllers = {
 
                     document.getElementById('ai-text-generator-submit').innerHTML = 'Generating...';
 
+                    var instruction = document.getElementById('ai-text-generator-topic').value;
+
+
                     var mwAdapter = {
-                        url: 'https://textcomplete.microweberapi.com/?q=' + encodeURIComponent(actionTarget.textContent) + '&instruction=' + encodeURIComponent(document.getElementById('ai-text-generator-topic').value),
+                        url: 'https://textcomplete.microweberapi.com/?q=' + encodeURIComponent(actionTarget.textContent) + '&instruction=' + encodeURIComponent(instruction),
                         method: 'GET',
                     };
 
+
+
+
                     fetch(mwAdapter.url, mwAdapter).then(function (res) {
                         res.json().then(function (json) {
-                            actionTarget.innerHTML = actionTarget.innerHTML + ' ' + json.text;
+                          //  actionTarget.innerHTML = actionTarget.innerHTML + ' ' + json.text;
+                            actionTarget.innerHTML = json.text;
                             aiTextAutocompleteDialog.remove();
+                            mw.app.registerUndoState(actionTarget)
                         })
                     });
 
