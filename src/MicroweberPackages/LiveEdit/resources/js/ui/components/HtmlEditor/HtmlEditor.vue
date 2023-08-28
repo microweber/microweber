@@ -117,7 +117,17 @@ export default {
                 // remove editor if the frame is changed
                 htmlEditorInstance.removeHtmlEditor();
             }
+
+          mw.app.editor.on('insertLayoutRequest', function (element) {
+            // close open html editor when layout is inserted
+            htmlEditorInstance.removeHtmlEditor();
+          });
+          mw.app.editor.on('insertModuleRequest', function (element) {
+            // close open html editor when module is inserted
+            htmlEditorInstance.removeHtmlEditor();
+          });
         });
+
         mw.app.canvas.on('liveEditCanvasBeforeUnload', function (frame) {
 
 
@@ -126,6 +136,10 @@ export default {
                 htmlEditorInstance.removeHtmlEditor();
             }
         });
+
+
+
+
     }
 
 }
