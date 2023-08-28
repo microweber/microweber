@@ -152,6 +152,17 @@ export class LiveEdit {
                 } else {
                     menu.style.top = ``;
                 }
+            },
+            offsetMenuTransform: function(scroll, off, menu){
+                let transform = -60;
+                if(scroll.y > (off.top - 20)) {
+                    transform = (scroll.y - (off.top - 20));
+        
+                    if((transform + menu.offsetHeight + 30) > off.height) {
+                        transform =  (off.height - (menu.offsetHeight + 30))  ;
+                    }
+                }
+                return transform;
             }
         });
 
@@ -206,6 +217,17 @@ export class LiveEdit {
                 } else {
                     menu.style.top = ``;
                 }
+            },
+            offsetMenuTransform: function(scroll, off, menu){
+                let transform = -60;
+                if(scroll.y > (off.top - 20)) {
+                    transform = (scroll.y - (off.top - 20));
+        
+                    if((transform + menu.offsetHeight + 30) > off.height) {
+                        transform =  (off.height - (menu.offsetHeight + 30))  ;
+                    }
+                }
+                return transform;
             }
         });
         var moduleHandle = this.moduleHandle;

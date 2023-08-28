@@ -121,11 +121,6 @@ export class ModuleSettings extends MicroweberBaseClass {
         var moduleIdForPreset = module.getAttribute('module-id-from-preset');
 
 
-        //moduleClone.setAttribute('data-original-module', module.getAttribute('type'));
-      //  moduleClone.setAttribute('data-module-original-id', module.getAttribute('data-module-original-id'));
-        // moduleClone.setAttribute('data-module-original-attrs', module.getAttribute('data-module-original-attrs'));
-        //moduleClone.setAttribute('type', presetsModule);
-
         if (isLayout) {
             //todo
         }

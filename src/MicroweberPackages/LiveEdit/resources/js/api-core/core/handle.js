@@ -120,16 +120,13 @@ export const Handle = function (options) {
 
         if(menu) {
 
+            let transform = 0
 
-            let transform = -60;
-         
-            if(scroll.y > (off.top - 20)) {
-                transform = (scroll.y - (off.top - 20));
-    
-                if((transform + menu.offsetHeight + 30) > off.height) {
-                     transform =  (off.height - (menu.offsetHeight + 30))  ;
-                }
+            if(this.settings.offsetMenuTransform) {
+                transform = this.settings.offsetMenuTransform(scroll, off, menu);
             }
+
+            
 
             
 

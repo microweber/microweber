@@ -69,20 +69,28 @@
             <script>
                 // saving module settings for legacy modules
                 var settingsBindOptionsFields = function () {
+
+
                     var settings_container_mod_el = $('#settings-container');
-                    mw.options.form(settings_container_mod_el, function () {
-                        if (mw.top().notification) {
-                            mw.top().notification.success('<?php _ejs('Settings are saved') ?>');
-                        }
-                         <?php if (isset($params['id'])) : ?>
 
-                            if (typeof mw !== 'undefined' && mw.top().app && mw.top().app.editor) {
-                                mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '<?php print $params['id']  ?>'} || {}))
+                    if(settings_container_mod_el.length !== 0) {
+
+
+                        mw.options.form(settings_container_mod_el, function () {
+                            if (mw.top().notification) {
+                                mw.top().notification.success('<?php _ejs('Settings are saved') ?>');
                             }
+                             <?php if (isset($params['id'])) : ?>
 
-                        <?php endif; ?>
+                                if (typeof mw !== 'undefined' && mw.top().app && mw.top().app.editor) {
+                                    mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '<?php print $params['id']  ?>'} || {}))
+                                }
 
-                    });
+                            <?php endif; ?>
+
+                        });
+
+                    }
 
                     createAutoHeight()
                 };

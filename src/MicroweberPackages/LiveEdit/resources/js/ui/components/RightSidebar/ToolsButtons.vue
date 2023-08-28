@@ -73,6 +73,18 @@ export default {
             this.emitter.emit('live-edit-ui-show', name);
         },
 
+      hideContentRevisionsDialog: function () {
+        if (this.contentRevisionsDialogInstance) {
+          this.contentRevisionsDialogInstance.remove();
+          this.contentRevisionsDialogInstance = null;
+        }
+      },
+      hideContentResetDialog: function () {
+        if (this.contentResetContentInstance) {
+          this.contentResetContentInstance.remove();
+          this.contentResetContentInstance = null;
+        }
+      },
         clearCache: function () {
             mw.tools.confirm("Do you want to clear cache?", function () {
                 mw.notification.warning("Clearing cache...");
@@ -186,18 +198,27 @@ export default {
         },
     },
     mounted() {
+      var toolButtonsInstance = this;
+      // close open tools when page is changed
+      mw.app.canvas.on('liveEditCanvasBeforeUnload', function () {
+        toolButtonsInstance.hideContentRevisionsDialog();
+        toolButtonsInstance.hideContentResetDialog();
+      });
 
-        // close open tools when page is changed
-        mw.app.canvas.on('liveEditCanvasBeforeUnload', () => {
-            if (this.contentRevisionsDialogInstance) {
-                this.contentRevisionsDialogInstance.remove();
-                this.contentRevisionsDialogInstance = null;
-            }
-            if (this.contentResetContentInstance) {
-                this.contentResetContentInstance.remove();
-                this.contentResetContentInstance = null;
-            }
+      mw.app.canvas.on('liveEditCanvasLoaded', function () {
+        mw.app.editor.on('insertLayoutRequest', function (element) {
+          // close open tools when layout is inserted
+          toolButtonsInstance.hideContentRevisionsDialog();
+          toolButtonsInstance.hideContentResetDialog();
         });
+        mw.app.editor.on('insertModuleRequest', function (element) {
+          // close open tools when module is inserted
+          toolButtonsInstance.hideContentRevisionsDialog();
+          toolButtonsInstance.hideContentResetDialog();
+        });
+      });
+
+
 
 
     },

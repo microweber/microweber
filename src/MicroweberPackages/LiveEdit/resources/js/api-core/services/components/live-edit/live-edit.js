@@ -65,6 +65,8 @@ export const liveEditComponent = () => {
         if(edit) {
             if(edit.getAttribute('rel') && edit.getAttribute('field')) {
                 edit.classList.add('changed');
+                mw.app.dispatch('editChanged', edit);
+
             } else {
                 return mw.app.registerChange(edit.parentElement);
             }
