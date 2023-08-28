@@ -50,7 +50,7 @@ runs:
       run: composer install --no-progress --prefer-dist --optimize-autoloader
       shell: bash
     - name:  Install npm dependencies
-      uses: ./.github/actions/npm/npm-install.yml
+      uses: ./.github/actions/npm/npm-install
     - name: Install Chrome Driver
       run: php artisan dusk:install
       shell: bash

@@ -20,7 +20,7 @@ jobs:
       run: composer dump-autoload
 
     - name:  Install npm dependencies
-      uses: ./.github/actions/npm/npm-install.yml
+      uses: ./.github/actions/npm/npm-install
 
 
     - name: Inject slug/short variables
