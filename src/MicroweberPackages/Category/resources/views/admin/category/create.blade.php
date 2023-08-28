@@ -1,25 +1,47 @@
-@extends('admin::layouts.app')
+@php
+    $extendParams = [];
+    if(isset($_GET['iframe'])){
+    $extendParams['disableNavBar'] = true;
+    $extendParams['disableTopBar'] = true;
+    $extendParams['iframe'] = true;
+    }
+@endphp
+@extends('admin::layouts.app',$extendParams)
 
 @section('content')
 
     @php
-    $createRouteBlog = route('admin.category.create')."?parent=blog";
-    $createRouteShop = route('admin.shop.category.create')."?parent=shop";
-
-    $parent_page_param = '';
 
 
-   if(isset($_GET['iframe'])){
-       $parent_page_param .= '&iframe='.$_GET['iframe'];
-   }
 
 
-   if(isset($_GET['quickContentAdd'])){
-       $parent_page_param .= '&quickContentAdd='.$_GET['quickContentAdd'];
-   }
 
-$createRouteShop .= $parent_page_param;
-$createRouteBlog .= $parent_page_param;
+        $createRoute = route('admin.shop.category.create')."?parent=shop";
+        $hasShopPages = get_pages('content_type=page&subtype=dynamic&is_shop=1&count=1');
+
+        $hasDynamicPages = get_pages('content_type=page&subtype=dynamic&is_shop=0&count=1');
+
+
+        $createRouteBlog = route('admin.category.create')."?parent=blog";
+        $createRouteShop = route('admin.shop.category.create')."?parent=shop";
+
+        $parent_page_param = '';
+
+
+       if(isset($_GET['iframe'])){
+           $parent_page_param .= '&iframe='.$_GET['iframe'];
+       }
+
+
+       if(isset($_GET['quickContentAdd'])){
+           $parent_page_param .= '&quickContentAdd='.$_GET['quickContentAdd'];
+       }
+
+        $createRouteShop .= $parent_page_param;
+        $createRouteBlog .= $parent_page_param;
+
+        $showShop = is_shop_module_enabled_for_user();
+
 
     @endphp
 
@@ -42,6 +64,27 @@ $createRouteBlog .= $parent_page_param;
 
         <div class="row gap-4 justify-content-center">
 
+
+
+            @if(!$hasDynamicPages and !$hasShopPages)
+                <?php
+                print  view('category::admin.category.no-pages', [
+                'isShop'=>false
+                ]);
+                ?>
+
+
+            @elseif(!$hasDynamicPages and $hasShopPages and !$showShop)
+                <?php
+                print  view('category::admin.category.no-pages', [
+                'isShop'=>false
+                ]);
+                ?>
+
+            @endif
+
+
+            @if($hasDynamicPages)
             <div class="col-md-4 col-12">
                 <a href="{{ $createRouteBlog }}" class="card card-link card-link-pop py-6">
 
@@ -59,6 +102,8 @@ $createRouteBlog .= $parent_page_param;
                     </div>
                 </a>
             </div>
+            @endif
+            @if($showShop and $hasShopPages)
 
             <div class="col-md-4 col-12">
                 <a href="{{ $createRouteShop }}" class="card card-link card-link-pop py-6">
@@ -78,6 +123,8 @@ $createRouteBlog .= $parent_page_param;
 
                 </a>
             </div>
+
+            @endif
 
         </div>
 

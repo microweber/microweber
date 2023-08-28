@@ -135,33 +135,34 @@
                         <div class="w-full">
                             <livewire:microweber-option::checkbox-single optionName="Created At" optionKey="data-show-date" :optionGroup="$moduleId" :module="$moduleType"  />
                         </div>
-                        <div class="w-full" x-show="showDate">
+                    </div>
+                </div>
 
-                            <div>
-                                <label class="live-edit-label">{{__('Post per page')}} </label>
-                                <livewire:microweber-option::text type="number" optionKey="data-limit" :optionGroup="$moduleId" :module="$moduleType"  />
-                            </div>
 
-                            <div class="mb-3">
-                                <label class="live-edit-label">Order by</label>
-                                @php
-                                    $radioOptions = [
-                                        'position+asc' => 'Position (ASC)',
-                                        'position+desc' => 'Position (DESC)',
-                                        'created_at+asc' => 'Date (ASC)',
-                                        'created_at+desc' => 'Date (DESC)',
-                                        'title+asc' => 'Title (ASC)',
-                                        'title+desc' => 'Title (DESC)',
-                                    ];
-                                @endphp
-                                <livewire:microweber-option::dropdown :dropdownOptions="$radioOptions" optionKey="data-order-by" :optionGroup="$moduleId" :module="$moduleType"  />
-                            </div>
+                <div class="w-full row">
 
-                        </div>
+                    <div class="col-md-6">
+                        <label class="live-edit-label">{{__('Post per page')}} </label>
+                        <livewire:microweber-option::text type="number" optionKey="data-limit" :optionGroup="$moduleId" :module="$moduleType"  />
                     </div>
 
+                    <div class="col-md-6">
+                        <label class="live-edit-label">Order by</label>
+                        @php
+                            $radioOptions = [
+                                'position+asc' => 'Position (ASC)',
+                                'position+desc' => 'Position (DESC)',
+                                'created_at+asc' => 'Date (ASC)',
+                                'created_at+desc' => 'Date (DESC)',
+                                'title+asc' => 'Title (ASC)',
+                                'title+desc' => 'Title (DESC)',
+                            ];
+                        @endphp
+                        <livewire:microweber-option::dropdown :dropdownOptions="$radioOptions" optionKey="data-order-by" :optionGroup="$moduleId" :module="$moduleType"  />
+                    </div>
 
                 </div>
+
 
             </div>
 

@@ -6,21 +6,23 @@ description: Default
 */
 ?>
 
-<ul>
+<ul class="pagination d-flex justify-content-center align-items-center">
+
+
     <?php
     foreach ($pagination_links as $pagination_link):
         ?>
 
         <?php if ($pagination_link['attributes']['current']): ?>
-        <li class="active">
-            <span>
-                 <?php echo $pagination_link['title']; ?>
-            </span>
+        <li class="page-item active">
+            <a class="page-link">
+                <?php echo $pagination_link['title']; ?>
+            </a>
         </li>
     <?php else: ?>
 
         <li class="page-item">
-            <a href="<?php echo $pagination_link['attributes']['href']; ?>">
+            <a class="page-link" href="<?php echo $pagination_link['attributes']['href']; ?>">
                 <?php echo $pagination_link['title']; ?>
             </a>
         </li>
@@ -29,4 +31,5 @@ description: Default
     <?php
     endforeach;
     ?>
+  
 </ul>

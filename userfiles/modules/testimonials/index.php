@@ -26,34 +26,23 @@ if (isset($params['limit'])) {
 }
 $testimonials_limit = get_option('testimonials_limit', $params['id']);
 
+
+$testimonialsQuery = \MicroweberPackages\Modules\Testimonials\Models\Testimonial::query();
 if ($show_testimonials_per_project) {
-
-    $get = array();
-    if (intval($testimonials_limit) > 0) {
-        $get['limit'] = $testimonials_limit;
-    } else {
-        $get['no_limit'] = true;
-    }
-
-    $get['project_name'] = $show_testimonials_per_project;
-
-    $data = get_testimonials($get);
-
-} else {
-    $get = array();
-    if (intval($testimonials_limit) > 0) {
-        $get['limit'] = $testimonials_limit;
-    } else {
-        $get['no_limit'] = true;
-    }
-
-    if (isset($params['project_name'])) {
-        $get['project_name'] = $params['project_name'];
-    }
-
-    $data = get_testimonials($get);
+    $testimonialsQuery->where('project_name', $show_testimonials_per_project);
 }
+if (intval($testimonials_limit) > 0) {
+    $testimonialsQuery->limit($testimonials_limit);
+}
+$testimonialsQuery->orderBy('position', 'asc');
 
+$data = [];
+$getTestimonials = $testimonialsQuery->get();
+if ($getTestimonials->count() > 0) {
+    foreach ($getTestimonials as $testimonial) {
+        $data[] = $testimonial->toArray();
+    }
+}
 
 $all_have_pictures = true;
 if ($data) {

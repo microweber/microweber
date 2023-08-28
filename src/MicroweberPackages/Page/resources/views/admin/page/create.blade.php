@@ -81,10 +81,10 @@
                     <h2 class="mt-3 mb-2 font-weight-bold">
                         {{$layout['name']}}
                         @if($isDynamic)
-                            <span class="live-edit-label  d-inline-block"><?php _e('Dynamic page') ?></span>
+                            <span class="live-edit-label  d-inline-block"><span class="badge bg-indigo-lt"><?php _e('Dynamic page') ?></span></span>
                         @endif
                         @if($isShop)
-                            <span class="live-edit-label  d-inline-block"><?php _e('Shop page') ?></span>
+                            <span class="live-edit-label  d-inline-block"><span class="badge bg-purple-lt"><?php _e('Shop page') ?></span></span>
                         @endif
 
                     </h2>
