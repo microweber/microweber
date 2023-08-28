@@ -191,6 +191,10 @@ body.theme-dark {
     //END LIVE EDIT FOR DARK THEME
 }
 
+.modules-list-block-item-picture {
+    background-size: contain !important;
+}
+
 .btn-outline-dark {
     &:hover, &:active, &.active, &:focus {
         border-color: var(--tblr-body-color) !important;
