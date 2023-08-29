@@ -59,6 +59,7 @@
                 @livewire($livewireComponentName, [
                     'moduleId' => $moduleId,
                     'moduleType' => $moduleFolder,
+                    'moduleParams' => $params,
                 ])
         @else
 

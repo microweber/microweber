@@ -9,6 +9,7 @@ class ModuleSettingsComponent extends AdminComponent
     public string $view = 'microweber-live-edit::module-settings';
     public string $moduleId = '';
     public string $moduleType = '';
+    public $moduleParams = [];
     public array $settings = [
 
     ];
