@@ -2,7 +2,7 @@
 
 $shipping_pickup_instructions =  get_option('shipping_pickup_instructions', 'shipping');
 
-$module_template = get_option('data-template', $params['id']);
+$module_template = get_option('template', $params['id']);
 
 
 if ($module_template == false and isset($params['template'])) {

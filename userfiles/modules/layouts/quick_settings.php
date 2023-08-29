@@ -2,7 +2,7 @@
 <?php
 $template_config = mw()->template->get_config();
 
-$cur_template = get_option('data-template', $params['parent-module-id']);
+$cur_template = get_option('template', $params['parent-module-id']);
 if ($cur_template == false) {
     if(isset($params['template'])){
         $cur_template = $params['template'];
