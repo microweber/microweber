@@ -1,6 +1,15 @@
 <div>
     <div>
-        <div x-data="{'logoType': '{{get_option('logotype', $moduleId)}}'}" class="card-body" style="padding:5px;padding-bottom:25px;">
+
+        @php
+        $logoType = 'image';
+        $getLogoType = get_option('logotype', $moduleId);
+        if ($getLogoType == 'text') {
+            $logoType = 'text';
+        }
+        @endphp
+
+        <div x-data="{'logoType': '{{$logoType}}'}" class="card-body" style="padding:5px;padding-bottom:25px;">
 
             <div @mw-option-saved.window="function() {
                 if ($event.detail.optionKey == 'logotype') {
