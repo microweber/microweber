@@ -15,9 +15,15 @@
                 if ($event.detail.optionKey == 'logotype') {
                     logoType = $event.detail.optionValue;
                 }
+ 
                 if ($event.detail.optionGroup === '{{$moduleId}}') {
-                    mw.top().reload_module_everywhere('{{$moduleType}}', function () {
-                      mw.top().app.liveEdit.handles.get('module').position(mw.top().app.liveEdit.handles.get('module').getTarget());
+                 
+                    console.log('{{$moduleType}}')
+                    console.log(mw.reload_module_everywhere)
+                  
+                     mw.reload_module_everywhere('{{$moduleType}}', function () {
+                        console.log(3)
+                        mw.top().app.liveEdit.handles.get('module').position(mw.top().app.liveEdit.handles.get('module').getTarget());
                     });
                 }
                 }">

@@ -13,6 +13,10 @@ export default {
             return false;
         }
 
+        if(!target.className.includes) { // is svg
+            return false;
+        }
+
 
         const iconClasses = ['icon', 'mw-icon', 'material-icons', 'mdi'];
         var isIcon = target.className.includes('mw-micon-');

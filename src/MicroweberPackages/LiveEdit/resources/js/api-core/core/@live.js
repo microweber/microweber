@@ -981,7 +981,14 @@ export class LiveEdit {
                     this.play();
                     this.handles.get('element').set(null);
                     this.handles.get('module').set(null);
-                    mw.app.canvas.getDocument().querySelectorAll('[contenteditable="true"]').forEach(node => node.contentEditable = false)
+                    mw.app.canvas.getDocument().querySelectorAll('[contenteditable="true"]').forEach(node => {
+                        if(node.classList.contains('element')) {
+                            console.log(66, node)
+                            node.removeAttribute('contentеditable')
+                        } else {
+                            node.contentEditable = false;
+                        }
+                    })
 
                 }
 

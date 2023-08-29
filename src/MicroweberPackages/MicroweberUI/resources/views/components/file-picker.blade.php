@@ -127,13 +127,15 @@
                 imageEditBtn.click(async function(e) {
                     e.preventDefault()
                     var src = await mw.top().app.editImageDialog($('#js-preview-image-{{$randId}}').attr('src'));
-                    console.log(src);
+                  
+                    console.log(src)
+                 
                     // here is base64 image
-                  /*  if(src) {
+                    if(src) {
                         $('#js-preview-image-{{$randId}}').attr('src', src);
                         mediaPickerFileField.value = src;
                         mediaPickerFileField.dispatchEvent(new Event('input'));
-                    }*/
+                    }
                 });
 
                 generatePreview{{$randId}}(mediaPickerFileField.value);

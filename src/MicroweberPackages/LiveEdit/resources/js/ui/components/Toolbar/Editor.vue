@@ -131,7 +131,15 @@ export default {
                     });
 
                     footer.find('[data-action="save"]').on('click', function(){
-                        resolve(imageEditor.getCurrentImgData().imageData.imageBase64);
+
+                       
+                        var _img = new Image();
+                        _img.src = imageEditor.getCurrentImgData().imageData.imageBase64
+                        mw.top().app.normalizeBase64Image(_img, function(){
+                          console.log(this);
+                          resolve(this.src);
+                         })
+                        
                         dlg.remove();
 
                     })
