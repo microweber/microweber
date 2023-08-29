@@ -53,12 +53,12 @@ description: MW Default
     </style>
 
     <div class="mw-dropdown mw-dropdown-default">
-    <span class="mw-dropdown-value btn btn-primary mw-dropdown-val">
+    <span class="mw-dropdown-value btn btn-primary btn-sm mw-dropdown-val">
 
         <?php if (!empty($current_language['display_icon'])): ?>
             <img src="<?php echo $current_language['display_icon']; ?>" class="multilanguage-display-icon-custom" />
         <?php else: ?>
-            <span class="flag-icon flag-icon-<?php echo get_flag_icon($current_language['locale']); ?> mr-2"></span>
+            <span class="flag-icon flag-icon-<?php echo get_flag_icon($current_language['locale']); ?>"></span>
         <?php endif; ?>
 
 <!--        --><?php //if (!empty($current_language['display_name'])): ?>
