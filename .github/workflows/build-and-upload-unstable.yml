@@ -11,8 +11,9 @@ jobs:
   microweber-build-and-upload-unstable:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-
+    - uses: actions/checkout@v3
+      with:
+        repository: ${{ github.repository }}
     - name:  Install npm dependencies
       uses: ./.github/actions/npm-install
 
@@ -32,6 +33,7 @@ jobs:
         rm -rf .github
         rm -rf .nmp
         rm -rf node_modules
+        rm -rf .phpunit.cache
         find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes"  \) -exec rm -rf -- {} +
         zip -r microweber-${{ env.GITHUB_REF_SLUG }}-unstable.zip `ls -A`
     - name: Upload zip

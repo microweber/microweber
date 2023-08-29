@@ -9,11 +9,15 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v3
+      with:
+        repository: ${{ github.repository }}
     - uses: actions/setup-node@v3
       with:
         node-version: 16
         cache: 'npm'
         cache-dependency-path: ./package-lock.json
+    - run: npm install
+      shell: bash
     - run: npm run build
       shell: bash
 
