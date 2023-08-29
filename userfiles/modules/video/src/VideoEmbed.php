@@ -478,10 +478,7 @@ class VideoEmbed
         $styles[] = 'height:' . $this->getHeight();
 
         if ($this->isThumbnail() && $this->isLazyLoad()) {
-           // $styles[] = 'height:' . $this->getHeight() .'!important';
             $styles[] = 'background:#000';
-//            $styles[] = 'background-image:url(' . $this->getThumbnail() . ')';
-
             $styles[] = 'background: url(' . modules_url() . 'video/video_background_cover.svg' . ') center center, url(' . $this->getThumbnail() . ') center center';
             $styles[] = 'background-repeat:no-repeat';
             $styles[] = 'background-size: 300px 100px, contain';
