@@ -16,7 +16,9 @@
                     logoType = $event.detail.optionValue;
                 }
                 if ($event.detail.optionGroup === '{{$moduleId}}') {
-                    mw.top().reload_module_everywhere('{{$moduleType}}');
+                    mw.top().reload_module_everywhere('{{$moduleType}}', function () {
+                      mw.top().app.liveEdit.handles.get('module').position(mw.top().app.liveEdit.handles.get('module').getTarget());
+                    });
                 }
                 }">
             </div>
@@ -45,11 +47,13 @@
                     <livewire:microweber-option::range-slider labelUnit="px" min="8" max="500" label="Logo Image - Size" optionKey="size" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
 
-                <div>
-                    <label class="live-edit-label"><?php _e("Inverse Logo"); ?></label>
-                    <small class="live-edit-label"><?php _e("This inverse logo image will appear on black theme"); ?></small>
-                    <livewire:microweber-option::media-picker optionKey="logoimage_inverse" :optionGroup="$moduleId" :module="$moduleType"  />
-                </div>
+                @if (isset($moduleParams['data-alt-logo']))
+                 <div>
+                        <label class="live-edit-label"><?php _e("Inverse Logo"); ?></label>
+                        <small class="live-edit-label"><?php _e("This inverse logo image will appear on black theme"); ?></small>
+                        <livewire:microweber-option::media-picker optionKey="logoimage_inverse" :optionGroup="$moduleId" :module="$moduleType"  />
+                    </div>
+                @endif
             </div>
 
 
