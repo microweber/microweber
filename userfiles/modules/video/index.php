@@ -62,15 +62,18 @@ if($upload and !$code){
 $video = new \Microweber\Modules\Video\VideoEmbed();
 $video->setId($params['id']);
 $video->setAutoplay($autoplay);
-if ($lazyload) {
-    $video->setLazyLoad(true);
-}
 
+$thumbnailApplied = false;
 if (!empty($thumb)) {
     $filesUtils = new \MicroweberPackages\Utils\System\Files();
     if ($filesUtils->is_allowed_file($thumb)) {
         $video->setThumbnail($thumb);
+        $thumbnailApplied = true;
     }
+}
+
+if ($lazyload) {
+    $video->setLazyLoad(true);
 }
 
 if ($w !== '100%') {

@@ -482,7 +482,7 @@ class VideoEmbed
             $styles[] = 'background:#000';
 //            $styles[] = 'background-image:url(' . $this->getThumbnail() . ')';
 
-            $styles[] = 'background: url(' . modules_url() . 'video/video.svg' . ') center center, url(' . $this->getThumbnail() . ') center center';
+            $styles[] = 'background: url(' . modules_url() . 'video/video_background_cover.svg' . ') center center, url(' . $this->getThumbnail() . ') center center';
             $styles[] = 'background-repeat:no-repeat';
             $styles[] = 'background-size: 300px 100px, contain';
             $styles[] = 'background-position: center center';
@@ -490,7 +490,7 @@ class VideoEmbed
 
         if (!$this->isThumbnail() && $this->isLazyLoad()) {
             $styles[] = 'background:#000';
-            $styles[] = 'background-image:url(' . modules_url() . 'video/video.svg' . ')';
+            $styles[] = 'background-image:url(' . modules_url() . 'video/video_background_cover.svg' . ')';
             $styles[] = 'background-repeat:no-repeat';
             $styles[] = 'background-position: center center';
             $styles[] = 'background-size: 60px';
