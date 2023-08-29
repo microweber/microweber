@@ -98,6 +98,8 @@
                 $('#js-preview-video-wrapper-{{$randId}}').hide();
                 $('#js-dropzone-image-{{$randId}}').hide();
 
+               // alert(fullFilePath);
+
                 let showDropzone = true;
                 if (fullFilePath.length > 1) {
                     if (imageFileExtensions.includes(fullFilePath.split('.').pop().toLowerCase())) {
@@ -126,11 +128,12 @@
                     e.preventDefault()
                     var src = await mw.top().app.editImageDialog($('#js-preview-image-{{$randId}}').attr('src'));
                     console.log(src);
-                    if(src) {
+                    // here is base64 image
+                  /*  if(src) {
                         $('#js-preview-image-{{$randId}}').attr('src', src);
                         mediaPickerFileField.value = src;
                         mediaPickerFileField.dispatchEvent(new Event('input'));
-                    }
+                    }*/
                 });
 
                 generatePreview{{$randId}}(mediaPickerFileField.value);
