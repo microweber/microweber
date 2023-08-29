@@ -26,7 +26,7 @@ class ModuleFrontController
 
     public function registerModule()
     {
-        $moduleTemplate = get_option('data-template', $this->moduleParams['id']);
+        $moduleTemplate = get_option('template', $this->moduleParams['id']);
         // if (isset($this->moduleParams['default-template'])) {
         //       $defaultTemplate = $this->moduleParams['default-template'];
         //  }

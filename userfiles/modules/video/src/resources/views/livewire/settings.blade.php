@@ -30,7 +30,26 @@ showMainEditTab: 'video'
         </div>
     </div>
 
-    <div x-show="showMainEditTab=='video'" x-transition:enter="tab-pane-slide-left-active">
+    <div x-show="showMainEditTab=='video'"
+         x-transition:enter="tab-pane-slide-left-active"
+
+         @mw-option-saved.window="function() {
+             if ($event.detail.optionKey == 'embed_url') {
+                mw.options.saveOption({
+                    option_group: $event.detail.optionGroup,
+                    option_key: 'upload',
+                    option_value: ''
+                });
+             }
+             if ($event.detail.optionKey == 'upload') {
+                mw.options.saveOption({
+                    option_group: $event.detail.optionGroup,
+                    option_key: 'embed_url',
+                    option_value: ''
+                });
+             }
+         }"
+    >
 
         <div class="mt-3">
             <label class="live-edit-label">{{__('Paste video URL or Embed Code')}} </label>

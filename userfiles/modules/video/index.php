@@ -26,6 +26,7 @@ if ($code == false) {
 $enable_full_page_cache = get_option('enable_full_page_cache','website');
 
 $lazyload = get_option('lazyload', $params['id']);
+
 $thumb = get_option('upload_thumb', $params['id']);
 
 $use_thumbnail = (!empty(trim($thumb))? true : false);
@@ -62,12 +63,17 @@ $video = new \Microweber\Modules\Video\VideoEmbed();
 $video->setId($params['id']);
 $video->setAutoplay($autoplay);
 
+$thumbnailApplied = false;
 if (!empty($thumb)) {
     $filesUtils = new \MicroweberPackages\Utils\System\Files();
     if ($filesUtils->is_allowed_file($thumb)) {
         $video->setThumbnail($thumb);
-        $video->setLazyLoad(true);
+        $thumbnailApplied = true;
     }
+}
+
+if ($lazyload) {
+    $video->setLazyLoad(true);
 }
 
 if ($w !== '100%') {
@@ -96,8 +102,7 @@ if ($upload && !$code) {
 $code = $video->render();
 $provider = $video->getProvider();
 
-$module_template = get_option('data-template', $params['id']);
-
+$module_template = get_option('template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }

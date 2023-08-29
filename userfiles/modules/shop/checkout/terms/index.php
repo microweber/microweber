@@ -1,6 +1,6 @@
 <?php
 $terms = get_option('shop_require_terms', 'website') == 1;
-$template = get_option('data-template', $params['id']);
+$template = get_option('template', $params['id']);
 
 $terms_label = get_option('terms_label', 'checkout');
 $terms_url = get_option('terms_url', 'checkout');

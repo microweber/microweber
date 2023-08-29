@@ -1,6 +1,6 @@
 <?php
 $limit = get_option('limit', $params['id']);
-$template = get_option('data-template', $params['id']);
+$template = get_option('template', $params['id']);
 if ($template == false and isset($params['template'])) {
     $template = $params['template'];
 }

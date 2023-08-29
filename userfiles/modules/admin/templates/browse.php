@@ -72,7 +72,7 @@ error('parent-module-id is required');
  $templates = module_templates($params['parent-module']);
 //$params['type'];
 
-$cur_template = get_option('data-template', $params['parent-module-id']);
+$cur_template = get_option('template', $params['parent-module-id']);
  ?>
 <?php  if(is_array( $templates)): ?>
 

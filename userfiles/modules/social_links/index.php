@@ -211,7 +211,7 @@ if ($facebook_enabled or $twitter_enabled or $googleplus_enabled or $pinterest_e
     $social_links_has_enabled = true;
 }
 
-$module_template = get_option('data-template', $params['id']);
+$module_template = get_option('template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }

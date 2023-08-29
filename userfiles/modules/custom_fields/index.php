@@ -146,7 +146,7 @@ foreach ($fields_group as $field_group_key => $fields) {
 
 $fields_group = $ready_fields_group;
 $template_file = false;
-$template_file_option = get_option('data-template', $params['id']);
+$template_file_option = get_option('template', $params['id']);
 if (!$template_file_option) {
     $template_file_default = normalize_path(__DIR__.DS.'templates'.DS.template_framework() . '/index.php', false);
 
