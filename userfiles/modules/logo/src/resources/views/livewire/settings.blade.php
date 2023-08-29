@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="mt-3">
-                    <livewire:microweber-option::range-slider labelUnit="px" min="8" max="500" label="Logo Text - Size" optionKey="font_size" :optionGroup="$moduleId" :module="$moduleType"  />
+                    <livewire:microweber-option::range-slider labelUnit="px" min="100" max="500" label="Logo Text - Size" optionKey="font_size" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
             </div>
 
