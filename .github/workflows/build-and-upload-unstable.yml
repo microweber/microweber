@@ -13,14 +13,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name:  Install npm dependencies
+      uses: ./.github/actions/npm-install
+
     - name: Install Dependencies
       run: composer install
 
     - name: Dump autoload dependecies
       run: composer dump-autoload
-
-    - name:  Install npm dependencies
-      uses: ./.github/actions/npm-install
 
 
     - name: Inject slug/short variables
