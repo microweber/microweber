@@ -26,6 +26,7 @@ if ($code == false) {
 $enable_full_page_cache = get_option('enable_full_page_cache','website');
 
 $lazyload = get_option('lazyload', $params['id']);
+
 $thumb = get_option('upload_thumb', $params['id']);
 
 $use_thumbnail = (!empty(trim($thumb))? true : false);
@@ -61,12 +62,14 @@ if($upload and !$code){
 $video = new \Microweber\Modules\Video\VideoEmbed();
 $video->setId($params['id']);
 $video->setAutoplay($autoplay);
+if ($lazyload) {
+    $video->setLazyLoad(true);
+}
 
 if (!empty($thumb)) {
     $filesUtils = new \MicroweberPackages\Utils\System\Files();
     if ($filesUtils->is_allowed_file($thumb)) {
         $video->setThumbnail($thumb);
-        $video->setLazyLoad(true);
     }
 }
 
