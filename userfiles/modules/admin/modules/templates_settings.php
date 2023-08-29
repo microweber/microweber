@@ -51,21 +51,18 @@ if ($module_template != false) {
 <div for-module-id="<?php print $params['id'] ?>" class="module">
     <?php if (isset($template_file) and $template_file != false and is_file($template_file)): ?>
         <div class="card shadow-none mt-4">
-            <div class="card-header d-block pb-0">
+            <div class="card-header d-block pb-0 px-0">
 <!--                <i class="mw-icon-gear mr-1"></i>-->
                 <label class="control-label font-weight-bold" style="font-weight: bold;"><?php _e("Skin settings"); ?></label>
                 <small class="text-muted d-block"><?php _e('Edit your design from here.');?></small>
             </div>
-            <div class="card-body">
-              <div class="row">
-                  <style>
-                      #settings-holder h5 {
-                          display: none !important;
-                      }
-                  </style>
-                  <?php include($template_file); ?>
-              </div>
-
+            <div class="card-body px-0">
+              <style>
+                  #settings-holder h5 {
+                      display: none !important;
+                  }
+              </style>
+              <?php include($template_file); ?>
             </div>
         </div>
     <?php endif; ?>
