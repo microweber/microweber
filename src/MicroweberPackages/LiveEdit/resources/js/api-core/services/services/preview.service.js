@@ -1,6 +1,6 @@
 import  CSSGUIService from "../../../api-core/services/services/css-gui.service.js";
 
-let isPreview = true;
+let isEditMode = true;
 let _hascss;
 
 
@@ -24,9 +24,16 @@ export const liveEditMode = function () {
     mw.app.canvas.getDocument().body.classList.add('mw-live-edit');
      
 }
+
+mw.app.isPreview = () => {
+    return !isEditMode;
+}
+
+
+
 export const pagePreviewToggle = function () {
-    isPreview = !isPreview;
-    if (!isPreview) {
+    isEditMode = !isEditMode;
+    if (!isEditMode) {
         previewMode();
     } else {
         liveEditMode()
@@ -39,6 +46,16 @@ export const pagePreviewToggle = function () {
                 html.mw-le--page-preview body{
                     padding-top: 0 !important
                 }
+                html.mw-le--page-preview .mw-le-spacer,
+                html.mw-le--page-preview .mw-le-spacer *,
+                html.mw-le--page-preview .mw-le-spacer * *,
+                html.mw-le--page-preview .mw-le-resizable{
+
+                    opacity:0 !important;
+                    pointer-events: none !important; 
+                }
+
+
                 html.mw-le--page-preview .mw_image_resizer,
                 html.mw-le--page-preview #live_edit_toolbar_holder,
                 html.mw-le--page-preview .mw-handle-item,
@@ -59,7 +76,7 @@ export const pagePreviewToggle = function () {
         const node = mw.app.canvas.getDocument().createElement('style');
         node.textContent = css;
         mw.app.canvas.getDocument().body.appendChild(node);
-        console.log(node)
+      
     }
 
 }

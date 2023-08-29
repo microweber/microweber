@@ -26,6 +26,9 @@
     border: 3px solid #0078ff;
     transition: opacity .2s;
     pointer-events: none;
+    & > *{
+        pointer-events: all;
+    }
 
     &.mw-handle-item-interaction-handle{
         pointer-events: none;
@@ -450,7 +453,7 @@ html[dir="rtl"] {
 }
 
 
-[data-mw-live-edithover="true"] > * {
+html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
     pointer-events: none;
     .module,.element,.cloneable, .edit{
         pointer-events: all;

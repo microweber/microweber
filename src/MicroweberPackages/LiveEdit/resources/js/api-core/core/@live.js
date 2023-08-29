@@ -922,6 +922,10 @@ export class LiveEdit {
 
         ElementManager(this.root).on('dblclick', (e) => {
 
+            if(mw.app.isPreview()) {
+                return;
+            }
+
             const selected = mw.app.liveEdit.elementHandle.getTarget();
             const module = mw.app.liveEdit.moduleHandle.getTarget();
             const layout = mw.app.liveEdit.layoutHandle.getTarget();
@@ -930,10 +934,14 @@ export class LiveEdit {
 
 
             if(layout && !selected && !module) {
+                 
                 moduleSettingsDispatch(layout);
                 return false
             }
-            if(module && !selected) {
+
+ 
+            if(module && !selected && (module.contains(e.target) || e.target.id === 'mw-handle-item-module-root') ) {
+                 
                 moduleSettingsDispatch(module);
                 e.preventDefault();
                 e.stopImmediatePropagation();
@@ -943,10 +951,12 @@ export class LiveEdit {
 
 
             if (selected && selected.contains(_dblclicktarget)) {
+                 
                 mw.app.editor.dispatch('editNodeRequest', selected);
             }
 
             if (!selected && e.target.classList.contains('edit') && e.target.style.backgroundImage) {
+                 
                 mw.app.editor.dispatch('editNodeRequest', e.target);
             }
 

@@ -91,9 +91,10 @@ export const ModuleHandleContent = function (rootScope) {
 
 
             if(this.tools.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
-                selfNode.style.display = '';
+                selfNode.classList.remove('mw-le-handle-menu-button-hidden');
             } else {
-                selfNode.style.display = 'none';
+             
+                selfNode.classList.add('mw-le-handle-menu-button-hidden');
             }
         },
     };
@@ -110,9 +111,9 @@ export const ModuleHandleContent = function (rootScope) {
             },
             onTarget: (target, selfNode) => {
                 if(this.tools.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
-                    selfNode.style.display = '';
+                    selfNode.classList.remove('mw-le-handle-menu-button-hidden');
                 } else {
-                    selfNode.style.display = 'none';
+                    selfNode.classList.add('mw-le-handle-menu-button-hidden');
                 }
             },
     };

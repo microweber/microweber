@@ -516,9 +516,16 @@ mw.requireAsync = (url, key) => {
       }
   };
   mw.reload_module_everywhere = function(module, eachCallback) {
+ 
     mw.tools.eachWindow(function () {
+
+         
+        
         if(this.mw && this.mw.reload_module){
+        
             this.mw.reload_module(module, function(){
+                console.log(234)
+                console.log(module, eachCallback)
                 if(typeof eachCallback === 'function'){
                     eachCallback.call(this);
                 }
@@ -528,7 +535,8 @@ mw.requireAsync = (url, key) => {
   };
 
   mw.reload_module = function(module, callback) {
-    if(module.constructor === [].constructor){
+ 
+    if(Array.isArray(module)){
         var l = module.length, i=0, w = 1;
         for( ; i<l; i++){
           mw.reload_module(module[i], function(){
@@ -544,11 +552,33 @@ mw.requireAsync = (url, key) => {
     var done = callback || function(){};
     if (typeof module !== 'undefined') {
       if (typeof module === 'object') {
+ 
+        var curr = mw.top().app.liveEdit.handles.get('module').getTarget(), currId, doc;
+        if(curr === module) {
+            currId = curr.id;
+            doc = curr.ownerDocument;
+        }
 
-        mw._({
+        
+        var xhr = mw._({
           selector: module,
-          done:done
+          done: done
         });
+        
+        console.log(xhr)
+        
+        if(xhr) {
+            xhr.success(function(){
+                if(doc) {
+                    var newNode = doc.getElementById(currId);
+                    if(newNode) {
+                        mw.top().app.liveEdit.handles.get('module').set(newNode);
+                        mw.top().app.liveEdit.handles.get('module').position(newNode);
+                    }
+                }
+            });
+        }
+
       } else {
         var module_name = module.toString();
         var refresh_modules_explode = module_name.split(",");

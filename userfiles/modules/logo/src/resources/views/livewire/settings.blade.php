@@ -18,11 +18,10 @@
  
                 if ($event.detail.optionGroup === '{{$moduleId}}') {
                  
-                    console.log('{{$moduleType}}')
-                    console.log(mw.reload_module_everywhere)
+ 
                   
                      mw.reload_module_everywhere('{{$moduleType}}', function () {
-                        console.log(3)
+    
                         mw.top().app.liveEdit.handles.get('module').position(mw.top().app.liveEdit.handles.get('module').getTarget());
                     });
                 }

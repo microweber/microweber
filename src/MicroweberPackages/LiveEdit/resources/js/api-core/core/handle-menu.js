@@ -84,12 +84,7 @@ export const HandleMenu = function(options) {
                 const config = this.buttons[i].config;
                 const button = this.buttons[i].button;
 
-                //todo: onTarget  
-
-                if(target && target.classList.contains('cloneable') && config && config.title === 'Drag') {
-                    console.log(config)
-                    console.log(button.get(0))
-                }
+ 
            
                 if(config && config.onTarget) {
                   
@@ -102,7 +97,21 @@ export const HandleMenu = function(options) {
                 options.handleScope.handle.draggable.handleInit();
             }
 
-        }, 100)
+
+            if(_target) {
+                _target.ownerDocument.querySelectorAll('.mw-le-handle-menu-button-sub-menu').forEach(node => {
+                    const allButtons = node.querySelectorAll('.mw-le-handle-menu-button');
+                    const allHiddenButtons = node.querySelectorAll('.mw-le-handle-menu-button-hidden');
+                    if(allButtons.length === allHiddenButtons.length) {
+                        node.parentNode.classList.add('mw-le-handle-menu-button-hidden')
+                    } else {
+                        node.parentNode.classList.remove('mw-le-handle-menu-button-hidden')
+                    }
+                })
+            }
+
+
+        }, 50)
 
 
     };
