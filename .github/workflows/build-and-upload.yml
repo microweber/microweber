@@ -33,7 +33,7 @@ jobs:
       with:
         repository: ${{ github.repository }}
     - name: Npm install
-    - uses: actions/setup-node@v3
+      uses: actions/setup-node@v3
       with:
         node-version: 16
         cache: 'npm'
