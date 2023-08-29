@@ -41,7 +41,6 @@
             <directory>./src/MicroweberPackages/Cart/tests/</directory>
             <directory>./src/MicroweberPackages/Category/tests/</directory>
             <directory>./src/MicroweberPackages/Checkout/tests/</directory>
-            <directory>./src/MicroweberPackages/Comment/tests/</directory>
             <directory>./src/MicroweberPackages/Config/tests/</directory>
             <directory>./src/MicroweberPackages/Console/tests/</directory>
             <directory>./src/MicroweberPackages/Content/tests/</directory>
