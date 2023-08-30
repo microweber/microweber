@@ -15,7 +15,7 @@ if (!isset($params['parent-module-id']) and isset($params['data-prev-module-id']
 }
 
 if (!isset($params['parent-module-id'])) {
-    return;
+    return 'Parent module id is missing';
 
 }
 
