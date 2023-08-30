@@ -19,13 +19,7 @@ if (!isset($params['parent-module-id'])) {
 
 }
 
-
-//d($params['parent-module']);
-
 $params['id'] = $params['data-id'] = $params['parent-module-id'];
-
-
-dump($params);
 
 $module_template = get_option('template', $params['parent-module-id']);
 
@@ -49,10 +43,6 @@ if ($module_template != false) {
 
 ?>
 
-<?php
-dump($template_file);
-?>
-
 <div for-module-id="<?php print $params['id'] ?>" class="module">
     <?php if (isset($template_file) and $template_file != false and is_file($template_file)): ?>
         <div class="card shadow-none mt-4">
@@ -69,12 +59,6 @@ dump($template_file);
                 </style>
 
                 <?php
-
-                $moduleId = '';
-                $moduleType = '';
-
-                dump($template_file);
-
                 if (is_file($template_file)) {
                     $template_file_settings = include_once $template_file;
                     if (!is_array($template_file_settings)) {
