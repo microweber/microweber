@@ -68,16 +68,16 @@ if ($module_template != false) {
                 $moduleType = '';
 
                 $template_file_settings = include_once $template_file;
-                if (!is_array($template_file_settings)) {
-                    echo 'No settings found for this module.';
-                } else {
-                    echo view('microweber-module-admin-module-templates-settings::index', [
-                        'params' => $params,
-                        'moduleId' => $params['id'],
-                        'moduleType' => $module_template,
-                        'templateSettings' => $template_file_settings,
-                    ]);
-                }
+//                if (!is_array($template_file_settings)) {
+//                    echo 'No settings found for this module.';
+//                } else {
+//                    echo view('microweber-module-admin-module-templates-settings::index', [
+//                        'params' => $params,
+//                        'moduleId' => $params['id'],
+//                        'moduleType' => $module_template,
+//                        'templateSettings' => $template_file_settings,
+//                    ]);
+//                }
                 ?>
 
             </div>
