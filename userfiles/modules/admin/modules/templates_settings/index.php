@@ -25,6 +25,8 @@ if (!isset($params['parent-module-id'])) {
 $params['id'] = $params['data-id'] = $params['parent-module-id'];
 
 
+dump($params);
+
 $module_template = get_option('template', $params['parent-module-id']);
 
 if (!$module_template) {
@@ -47,6 +49,10 @@ if ($module_template != false) {
 
 ?>
 
+<?php
+dump($template_file);
+?>
+
 <div for-module-id="<?php print $params['id'] ?>" class="module">
     <?php if (isset($template_file) and $template_file != false and is_file($template_file)): ?>
         <div class="card shadow-none mt-4">
@@ -67,16 +73,22 @@ if ($module_template != false) {
                 $moduleId = '';
                 $moduleType = '';
 
-                $template_file_settings = include_once $template_file;
-                if (!is_array($template_file_settings)) {
-                    echo 'No settings found for this module.';
+                dump($template_file);
+
+                if (is_file($template_file)) {
+                    $template_file_settings = include_once $template_file;
+                    if (!is_array($template_file_settings)) {
+                        echo 'No settings found for this module.';
+                    } else {
+                        echo view('microweber-module-admin-module-templates-settings::index', [
+                            'params' => $params,
+                            'moduleId' => $params['id'],
+                            'moduleType' => $module_template,
+                            'templateSettings' => $template_file_settings,
+                        ]);
+                    }
                 } else {
-                    echo view('microweber-module-admin-module-templates-settings::index', [
-                        'params' => $params,
-                        'moduleId' => $params['id'],
-                        'moduleType' => $module_template,
-                        'templateSettings' => $template_file_settings,
-                    ]);
+                    echo 'No settings found for this module.';
                 }
                 ?>
 

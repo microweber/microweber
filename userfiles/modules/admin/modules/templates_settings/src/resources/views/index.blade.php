@@ -4,7 +4,7 @@
     @foreach($templateSettings as $formItem)
 
         <div wire:ignore>
-            <div class="mt-3">
+            <div class="d-flex gap-2 justify-content-between">
                 <label class="live-edit-label">{{$formItem['label']}} </label>
                 @php
                     $attributes = [];
