@@ -9,6 +9,12 @@ use MicroweberPackages\User\Models\User;
 
 class MultilanguageCategoryApiTest extends MultilanguageTestBase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->refreshApplication();
+    }
 
     public function testSave()
     {
