@@ -16,6 +16,15 @@ use MicroweberPackages\Content\Models\Content;
 |
 */
 
+
+\Illuminate\Support\Facades\Route::post('/RequestTypeTest11', function () {
+
+    return response()->json(request()->all());
+
+
+    return request()->all();
+});
+
 Route::get('sidebar-menu-build', function (){
 
     $mwMenu = new \MicroweberPackages\Admin\MenuBuilder\Menu('SIDEBAR_MENU');

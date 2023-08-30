@@ -10,7 +10,7 @@ use Symfony\Component\Mime\Part\TextPart;
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
 
-    public $parserErrorStrings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_'];
+    public $parserErrorStrings = ['mw_replace_back', 'tag-comment', 'mw-unprocessed-module-tag', 'parser_'];
     private $sqlite_file = 'phpunit.sqlite';
 
     protected function setUp(): void
@@ -33,7 +33,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             define('MW_UNIT_TEST', true);
         }
 
-        \Illuminate\Support\Env::getRepository()->set('APP_ENV','testing');
+        \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
 
         $testing_env_name = 'testing';
         $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
@@ -67,7 +67,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         }
 
         if (!defined('MW_UNIT_TEST_CONF_FILE_CREATED')) {
-            @unlink($mw_file_database);
+            if (is_file($mw_file_database)) {
+                @unlink($mw_file_database);
+            }
             file_put_contents($mw_file, "<?php return array (
             'is_installed' => 0,
             'compile_assets' => 0,
@@ -77,10 +79,8 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             );
 
 
-         //   rmdir_recursive($config_folder, 1);
+            //   rmdir_recursive($config_folder, 1);
         }
-
-
 
 
         $app = require __DIR__ . '/../../../../bootstrap/app.php';
@@ -124,8 +124,8 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $db_user = env('DB_USERNAME', 'forge');
             $db_pass = env('DB_PASSWORD', '');
             $db_prefix = env('DB_PREFIX', 'phpunit_test_');
-          //  $db_name = env('DB_DATABASE', $this->sqlite_file);
-            $db_name = env('DB_DATABASE') ? env('DB_DATABASE') :  $this->sqlite_file;
+            //  $db_name = env('DB_DATABASE', $this->sqlite_file);
+            $db_name = env('DB_DATABASE') ? env('DB_DATABASE') : $this->sqlite_file;
 
 
             //  $db_name = $this->sqlite_file;
@@ -176,22 +176,22 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 '--env' => $environment,
             );
 
-          //  $is_installed = mw_is_installed();
+            //  $is_installed = mw_is_installed();
 
             //if (!$is_installed) {
 
-                $install = \Artisan::call('microweber:install', $install_params);
+            $install = \Artisan::call('microweber:install', $install_params);
 
-                $this->assertEquals(0, $install);
+            $this->assertEquals(0, $install);
 
-                // Clear caches
-                \Artisan::call('config:cache');
-                \Artisan::call('config:clear');
-                \Artisan::call('cache:clear');
+            // Clear caches
+            \Artisan::call('config:cache');
+            \Artisan::call('config:clear');
+            \Artisan::call('cache:clear');
 
-                $is_installed = mw_is_installed();
-                $this->assertEquals(1, $is_installed);
-          //  }
+            $is_installed = mw_is_installed();
+            $this->assertEquals(1, $is_installed);
+            //  }
             // }
 
             \Config::set('mail.driver', 'array');
@@ -199,13 +199,11 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             \Config::set('mail.transport', 'array');
 
 
-
         }
 
 
-
         //  $app['env'] = $testing_env_name;
-       // $environment = $app->environment();
+        // $environment = $app->environment();
 
 
         return $app;
@@ -242,8 +240,6 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         parent::tearDown();
     }
-
-
 
 
     private function normalizePath($path, $slash_it = true)
@@ -287,7 +283,6 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     }
 
 
-
     protected function assertPreConditions(): void
     {
         $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
@@ -295,8 +290,8 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     }
 
 
-
-    public function getEmailDataAsArrayFromObject($email) {
+    public function getEmailDataAsArrayFromObject($email)
+    {
 
         $emailOriginal = $email->getOriginalMessage();
         $body = $emailOriginal->getBody();

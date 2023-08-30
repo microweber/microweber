@@ -24,6 +24,9 @@
         <testdoxHtml outputFile="phpunut.html"/>
     </logging>
     <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
         <testsuite name="MicroweberTemplatesTests">
             <directory>./userfiles/templates/*/tests/</directory>
             <directory>./userfiles/templates/*/src/tests/</directory>
