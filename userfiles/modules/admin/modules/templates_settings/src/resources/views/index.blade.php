@@ -3,8 +3,6 @@
 
     @foreach($templateSettings as $formItem)
 
-        @dump($formItem)
-
         <div wire:ignore>
             <div class="mt-3">
                 <label class="live-edit-label">{{$formItem['label']}} </label>
@@ -21,7 +19,7 @@
                     $attributes['optionGroup'] = $moduleId;
                     $attributes['module'] = $moduleType;
                 @endphp
-                
+
                 @livewire('microweber-option::'.$formItem['type'], $attributes)
 
             </div>
