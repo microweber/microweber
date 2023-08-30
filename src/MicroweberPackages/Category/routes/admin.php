@@ -37,8 +37,21 @@ Route::name('api.')
         Route::post('category/visible-bulk', 'CategoryApiController@visibleBulk')->name('category.visible-bulk');
         Route::post('category/move-bulk', 'CategoryApiController@moveBulk')->name('category.move-bulk');
 
-        Route::apiResource('category', 'CategoryApiController');
         Route::post('category/{category}', 'CategoryApiController@update');
+
+    });
+
+
+
+
+
+Route::name('api.')
+    ->prefix('api')
+    ->middleware(['api', 'admin'])
+    ->namespace('\MicroweberPackages\Category\Http\Controllers\Api')
+    ->group(function () {
+
+        Route::apiResource('category', 'CategoryApiController');
 
     });
 

@@ -41,14 +41,15 @@ class MultilanguageCategoryApiTest extends MultilanguageTestBase
             $saveMultilanguage['description'][$language['locale']] = $language['locale'] . $language['id'] . $timeRand;
         }
 
-        $response = $this->call(
-            'POST',
+        $response = $this->postJson(
+
             route('api.category.store'),
             [
                 'title' => 'TitleApiCategoryStore', // this text must be overrwrite from multilanguage field
                 'multilanguage' => $saveMultilanguage,
             ]
         );
+        //dd($response->getContent());
         $categorySaved = $response->getData()->data;
         $findCategory = Category::where('id', $categorySaved->id)->first();
 
@@ -64,8 +65,8 @@ class MultilanguageCategoryApiTest extends MultilanguageTestBase
 
         // Switch to another language
         $switchedLangAbr = 'bg_BG';
-        $response = $this->call(
-            'POST',
+        $response = $this->postJson(
+
             route('api.multilanguage.change_language'),
             [
                 'locale' => $switchedLangAbr,

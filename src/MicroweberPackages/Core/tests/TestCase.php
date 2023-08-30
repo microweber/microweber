@@ -188,6 +188,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             \Artisan::call('config:cache');
             \Artisan::call('config:clear');
             \Artisan::call('cache:clear');
+            \Artisan::call('route:clear');
 
             $is_installed = mw_is_installed();
             $this->assertEquals(1, $is_installed);
