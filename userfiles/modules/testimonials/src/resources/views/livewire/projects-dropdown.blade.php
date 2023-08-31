@@ -4,11 +4,17 @@
     x-on:click.away="openProjects = false"
 >
 
-    <div>
-        <x-microweber-ui::input wire:model="search" placeholder="Search projects..." x-on:click="openProjects = !openProjects" />
+    <div class="w-full px-2">
+        <button type="button" class="form-select form-control-live-edit-input" x-on:click="openProjects = !openProjects">
+            {{$state['settings'][$this->optionKey]}}
+        </button>
     </div>
 
     <div x-show="openProjects" class="form-control-live-edit-label-wrapper">
+
+        <div>
+            <x-microweber-ui::input wire:model="search" placeholder="Search projects..." />
+        </div>
 
         <div class="dropdown-menu form-control-live-edit-input ps-0" style="max-height:300px;overflow-y: scroll" :class="[openProjects ? 'show':'']">
 

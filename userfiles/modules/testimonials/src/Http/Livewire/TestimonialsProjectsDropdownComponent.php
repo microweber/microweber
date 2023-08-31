@@ -53,11 +53,9 @@ class TestimonialsProjectsDropdownComponent extends OptionElement
 
     public function selectProject($project)
     {
-        if (!empty($this->selectedTags)) {
-            $this->state['settings'][$this->optionKey] = implode(',', $this->selectedTags);
-            $this->updated();
-        }
-
+        $this->state['settings'][$this->optionKey] = $project;
+        $this->updated();
+        
         $this->renderProjects();
         $this->emit('refreshTestimonials');
     }
