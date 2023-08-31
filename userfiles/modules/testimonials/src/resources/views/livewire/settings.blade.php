@@ -19,9 +19,14 @@
             showEditTab = 'editTestimonial'
         })
 
+
         window.livewire.on('showConfirmDeleteItemById', (itemId) => {
             Livewire.emit('onShowConfirmDeleteItemById', itemId);
-        })}"
+        })
+
+        }
+
+"
 
     @mw-option-saved.window="function() {
         if ($event.detail.optionKey == 'show_testimonials_per_project') {
@@ -62,7 +67,7 @@
                 <label class="live-edit-label">
                     {{ _e("Project") }}
                 </label>
-                <livewire:microweber-option::dropdown :dropdownOptions="$projectNames" optionKey="show_testimonials_per_project" :optionGroup="$moduleId" :module="$moduleType"  />
+                <livewire:microweber-module-testimonials::projects-dropdown :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
             @include('microweber-live-edit::module-items-editor-list-items')
@@ -112,9 +117,10 @@
         @endif
 
 
-        <div>
 
-            <x-microweber-ui::dialog-modal wire:model="areYouSureDeleteModalOpened">
+        <div>
+            <x-microweber-ui::dialog-modal id="dddddaa" wire:key="areYouSureDeleteModalOpened" wire:model="areYouSureDeleteModalOpened">
+
                 <x-slot name="title">
                     <?php _e('Are you sure?'); ?>
                 </x-slot>
@@ -123,16 +129,15 @@
                 </x-slot>
 
                 <x-slot name="footer">
-                    <x-microweber-ui::button-animation wire:click="$toggle('areYouSureDeleteModalOpened')"
-                                                       wire:loading.attr="disabled">
+                    <x-microweber-ui::button-animation wire:click="$toggle('areYouSureDeleteModalOpened')" wire:loading.attr="disabled">
                         <?php _e('Cancel'); ?>
                     </x-microweber-ui::button-animation>
-                    <x-microweber-ui::button-animation class="text-danger" wire:click="confirmDeleteSelectedItems()"
-                                                       wire:loading.attr="disabled">
+                    <x-microweber-ui::button-animation class="text-danger" wire:click="confirmDeleteSelectedItems()" wire:loading.attr="disabled">
                         <?php _e('Delete'); ?>
                     </x-microweber-ui::button-animation>
                 </x-slot>
             </x-microweber-ui::dialog-modal>
+
         </div>
 
     </div>
