@@ -94,7 +94,7 @@ class ModuleListTest extends TestCase
                         PHPUnit::assertFalse(str_contains($moduleOutput, $errorString), 'Found module error: ' . $errorString. ' in module: ' . $module['module']);
                     }
 
-                    $this->assertNotEmpty($moduleOutput);
+                    $this->assertNotEmpty($moduleOutput, 'Module output is empty: ' . $module['module']);
                 }
                 if ($module['ui']) {
                     $moduleOutput = app()->module_manager->load($module['module'], ['id' => 'mod-' . $i]);
@@ -104,7 +104,7 @@ class ModuleListTest extends TestCase
                         PHPUnit::assertFalse(str_contains($moduleOutput, $errorString));
                     }
 
-                    $this->assertNotEmpty($moduleOutput);
+                    $this->assertNotEmpty($moduleOutput, 'Module output is empty: ' . $module['module']);
                 }
             }
         }

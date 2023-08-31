@@ -16,6 +16,9 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class ImportExportFeedXlsxTest extends TestCase
 {
 

@@ -7,14 +7,12 @@ use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\User\Models\User;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class MultilanguageCategoryApiTest extends MultilanguageTestBase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
 
-        $this->refreshApplication();
-    }
 
     public function testSave()
     {
@@ -51,11 +49,11 @@ class MultilanguageCategoryApiTest extends MultilanguageTestBase
 
             route('api.category.store'),
             [
-                'title' => 'TitleApiCategoryStore', // this text must be overrwrite from multilanguage field
+                'title' => 'TitleApiCategoryStore'.uniqid(), // this text must be overrwrite from multilanguage field
                 'multilanguage' => $saveMultilanguage,
             ]
         );
-        //dd($response->getContent());
+
         $categorySaved = $response->getData()->data;
         $findCategory = Category::where('id', $categorySaved->id)->first();
 

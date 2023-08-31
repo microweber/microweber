@@ -149,8 +149,8 @@ mw.askusertostay = false;
   mw.module = {
     insert: function(target, module, config, pos, stateManager) {
 
-        
-         
+
+
         return new Promise(function (resolve) {
             pos = pos || 'bottom';
             var action;
@@ -516,13 +516,13 @@ mw.requireAsync = (url, key) => {
       }
   };
   mw.reload_module_everywhere = function(module, eachCallback) {
- 
+
     mw.tools.eachWindow(function () {
 
-         
-        
+
+
         if(this.mw && this.mw.reload_module){
-        
+
             this.mw.reload_module(module, function(){
                 console.log(234)
                 console.log(module, eachCallback)
@@ -535,7 +535,7 @@ mw.requireAsync = (url, key) => {
   };
 
   mw.reload_module = function(module, callback) {
- 
+
     if(Array.isArray(module)){
         var l = module.length, i=0, w = 1;
         for( ; i<l; i++){
@@ -552,28 +552,31 @@ mw.requireAsync = (url, key) => {
     var done = callback || function(){};
     if (typeof module !== 'undefined') {
       if (typeof module === 'object') {
- 
-        var curr = mw.top().app.liveEdit.handles.get('module').getTarget(), currId, doc;
-        if(curr === module) {
-            currId = curr.id;
-            doc = curr.ownerDocument;
-        }
 
-        
+          if(mw.top().app && mw.top().app.liveEdit && mw.top().app.liveEdit.handles.get('module')) {
+              var curr = mw.top().app.liveEdit.handles.get('module').getTarget(), currId, doc;
+              if (curr === module) {
+                  currId = curr.id;
+                  doc = curr.ownerDocument;
+              }
+          }
+
         var xhr = mw._({
           selector: module,
           done: done
         });
-        
+
         console.log(xhr)
-        
+
         if(xhr) {
             xhr.success(function(){
-                if(doc) {
-                    var newNode = doc.getElementById(currId);
-                    if(newNode) {
-                        mw.top().app.liveEdit.handles.get('module').set(newNode);
-                        mw.top().app.liveEdit.handles.get('module').position(newNode);
+                if (mw.top().app && mw.top().app.liveEdit && mw.top().app.liveEdit.handles.get('module')) {
+                    if (doc) {
+                        var newNode = doc.getElementById(currId);
+                        if (newNode) {
+                            mw.top().app.liveEdit.handles.get('module').set(newNode);
+                            mw.top().app.liveEdit.handles.get('module').position(newNode);
+                        }
                     }
                 }
             });
