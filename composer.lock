@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f05dbf9358a19384761a112701291dc6",
+    "content-hash": "57bf85e38cf053eb29cdcca71a86592e",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -7147,6 +7147,63 @@
             "time": "2022-03-28T17:43:20+00:00"
         },
         {
+            "name": "microweber-dev/omnipay-przelewy24",
+            "version": "0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-dev/omnipay-przelewy24.git",
+                "reference": "4622b71137de0c74e033b004885d79541a0f8197"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-dev/omnipay-przelewy24/zipball/4622b71137de0c74e033b004885d79541a0f8197",
+                "reference": "4622b71137de0c74e033b004885d79541a0f8197",
+                "shasum": ""
+            },
+            "require": {
+                "omnipay/common": "^3"
+            },
+            "require-dev": {
+                "omnipay/tests": "^3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Omnipay\\Przelewy24\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "TicketSwap",
+                    "email": "info@ticketswap.com"
+                }
+            ],
+            "description": "Przelewy24 driver for the Omnipay payment processing library",
+            "homepage": "https://github.com/ticketswap/omnipay-przelewy24",
+            "keywords": [
+                "Przelewy24",
+                "gateway",
+                "merchant",
+                "omnipay",
+                "pay",
+                "payment",
+                "transfer"
+            ],
+            "support": {
+                "source": "https://github.com/microweber-dev/omnipay-przelewy24/tree/0.2"
+            },
+            "time": "2023-04-10T09:35:09+00:00"
+        },
+        {
             "name": "microweber-modules/standalone-updater",
             "version": "4.8",
             "target-dir": "standalone-updater",
@@ -7297,7 +7354,7 @@
                 "type": "zip",
                 "url": "https://packages.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-1.5-fdd004.zip",
                 "reference": "63f1cf4e0f9cf91689d80013a16e0462002c77e8",
-                "shasum": "d9072c69c561381eb6228638d8bed335b85b34ce"
+                "shasum": "c73c6c087698972f08ee8a156b3edd12e50a9ae0"
             },
             "type": "microweber-template",
             "extra": {
@@ -7348,7 +7405,7 @@
                 "type": "zip",
                 "url": "https://packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-6.1-7d39e9.zip",
                 "reference": "8ea74843e8af583d15a1a3dbe77e58a425ffb7ff",
-                "shasum": "84ff92597cee098beaafd488f5c6d9663fb78d30"
+                "shasum": "4021cec70647350efb31c7d2b76d3db8e643c119"
             },
             "type": "microweber-template",
             "extra": {
@@ -7411,7 +7468,7 @@
                 "type": "zip",
                 "url": "https://packages.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-4.3-104633.zip",
                 "reference": "7b26f250e53e8d1cbdad82c26877f289f525f2c1",
-                "shasum": "dc19e6eb62ea07e2380f4b5b3b7a5169d34ea74d"
+                "shasum": "d401ee69f37baa57ec0897f54efe5317760a013f"
             },
             "type": "microweber-template",
             "extra": {
@@ -14470,65 +14527,6 @@
             },
             "abandoned": "symfony/html-sanitizer",
             "time": "2021-09-14T08:27:50+00:00"
-        },
-        {
-            "name": "ticketswap/omnipay-przelewy24",
-            "version": "2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TicketSwap/omnipay-przelewy24.git",
-                "reference": "62121d8fcbb5103e53656fb5fe0d0d583a567a89"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TicketSwap/omnipay-przelewy24/zipball/62121d8fcbb5103e53656fb5fe0d0d583a567a89",
-                "reference": "62121d8fcbb5103e53656fb5fe0d0d583a567a89",
-                "shasum": ""
-            },
-            "require": {
-                "omnipay/common": "^3"
-            },
-            "require-dev": {
-                "omnipay/tests": "^3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Omnipay\\Przelewy24\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "TicketSwap",
-                    "email": "info@ticketswap.com"
-                }
-            ],
-            "description": "Przelewy24 driver for the Omnipay payment processing library",
-            "homepage": "https://github.com/ticketswap/omnipay-przelewy24",
-            "keywords": [
-                "Przelewy24",
-                "gateway",
-                "merchant",
-                "omnipay",
-                "pay",
-                "payment",
-                "transfer"
-            ],
-            "support": {
-                "issues": "https://github.com/TicketSwap/omnipay-przelewy24/issues",
-                "source": "https://github.com/TicketSwap/omnipay-przelewy24/tree/2.0"
-            },
-            "abandoned": true,
-            "time": "2018-05-25T12:21:48+00:00"
         },
         {
             "name": "tightenco/ziggy",
