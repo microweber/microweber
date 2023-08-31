@@ -1,0 +1,31 @@
+
+.CodeMirror, #select_edit_field_wrap {
+    height: 100%;
+}
+
+.htmleditliframe {
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+    position: relative;
+}
+
+.htmleditliframe:after {
+    position: absolute;
+    content: '';
+    display: block;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.htmleditliframe iframe {
+    overflow: hidden;
+    width: 300%;
+    height: 360px;
+    transform: scale(.33333);
+    transform-origin: 0 0;
+    pointer-events: none;
+}
