@@ -198,6 +198,15 @@ export default {
             this.filterCategory = category;
             this.filterLayouts();
         },
+        refreshLayouts() {
+            this.layoutsListLoaded = false;
+            setTimeout(() => { 
+                this.layoutsListLoaded = true;
+                this.layoutsListFiltered = this.layoutsList.layouts;
+                console.log('refreshed');
+                console.log(this.layoutsList.layouts);
+            },100);
+        },
         filterLayouts() {
 
             this.layoutsListLoaded = false;
@@ -241,18 +250,16 @@ export default {
             mw.app.editor.on('insertLayoutRequestOnTop',function(element){
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'top';
-                instance.filterKeyword = ' ';
                 setTimeout(function() {
-                    instance.filterLayouts();
+                    instance.refreshLayouts();
                 }, 500);
                 mw.app.registerChangedState(element);
             });
             mw.app.editor.on('insertLayoutRequestOnBottom',function(element){
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'bottom';
-                instance.filterKeyword = ' ';
                 setTimeout(function() {
-                    instance.filterLayouts();
+                    instance.refreshLayouts();
                 }, 500);
                 mw.app.registerChangedState(element);
             });
@@ -262,9 +269,8 @@ export default {
             if (show == 'show-layouts') {
                 if (instance.showModal == false) {
                     instance.showModal = true;
-                    instance.filterKeyword = ' ';
                     setTimeout(function() {
-                        instance.filterLayouts();
+                        instance.refreshLayouts();
                     }, 500);
                 } else {
                     instance.showModal = false;
