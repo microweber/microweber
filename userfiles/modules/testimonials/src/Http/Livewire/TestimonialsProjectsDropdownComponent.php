@@ -8,13 +8,15 @@ use MicroweberPackages\Tag\Model\Tag;
 
 class TestimonialsProjectsDropdownComponent extends OptionElement
 {
-    // show_testimonials_per_project
+
+    public string $optionKey = 'show_testimonials_per_project';
 
     public string $view = 'microweber-module-testimonials::livewire.projects-dropdown';
 
     public $search;
     public $projects = [];
 
+    public $newProjectName = '';
     public $addNewProjectModal = false;
 
     public function addNewProject()
@@ -22,22 +24,42 @@ class TestimonialsProjectsDropdownComponent extends OptionElement
         $this->addNewProjectModal = true;
     }
 
+    public function saveNewProject()
+    {
+        $testimonials = new Testimonial();
+        $testimonials->project_name = $this->newProjectName;
+        $testimonials->name = 'My Testimonial';
+        $testimonials->save();
+
+        $this->addNewProjectModal = false;
+        $this->newProjectName = '';
+
+        $this->emit('refreshTestimonials');
+        $this->renderProjects();
+    }
+
     public function updatedSearch()
     {
         $this->renderProjects();
     }
 
+    public function deleteProject($project)
+    {
+        Testimonial::where('project_name', $project)->delete();
+
+        $this->renderProjects();
+        $this->emit('refreshTestimonials');
+    }
+
     public function selectProject($project)
     {
-
-        dd($project);
-
         if (!empty($this->selectedTags)) {
             $this->state['settings'][$this->optionKey] = implode(',', $this->selectedTags);
             $this->updated();
         }
 
         $this->renderProjects();
+        $this->emit('refreshTestimonials');
     }
 
     public function renderProjects()
