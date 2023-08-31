@@ -178,6 +178,12 @@ export const Handle = function (options) {
 
     this.set = function (target, forced) {
         
+ 
+        if(this.settings.$name === '$elementHandle') {
+            console.log(target)
+        }
+
+        
         if (!target) {
             _currentTarget = null;
             this.setDraggable(false)

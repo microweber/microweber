@@ -864,10 +864,11 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
+           
                 var paragraph = mw.tools.firstParentOrCurrentWithTag(node, 'p');
                 if(paragraph) {
-                    paragraph.contentEditable = 'inherit';
-                    paragraph.parentNode.contentEditable = true;
+                    // paragraph.contentEditable = 'inherit';
+                    //paragraph.parentNode.contentEditable = true;
                     mw.tools.setTag(paragraph, 'div');
                 }
                 var isSafeMode = api.isSafeMode(node);

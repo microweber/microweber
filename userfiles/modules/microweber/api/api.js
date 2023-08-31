@@ -565,7 +565,7 @@ mw.requireAsync = (url, key) => {
           done: done
         });
         
-        console.log(xhr)
+       
         
         if(xhr) {
             xhr.success(function(){
