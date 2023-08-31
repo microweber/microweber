@@ -6,7 +6,7 @@
 >
     <logging>
         <testdoxText outputFile="php://stdout"/>
-        <log type="coverage-clover" target="coverage.xml"/>
+        <junit outputFile="coverage.xml" />
     </logging>
     <testsuites>
         <testsuite name="Unit">
