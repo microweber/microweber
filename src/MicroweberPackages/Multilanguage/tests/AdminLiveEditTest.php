@@ -6,9 +6,7 @@ use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
-/**
- * @runTestsInSeparateProcesses
- */
+
 class AdminLiveEditTest extends TestCase
 {
     protected $preserveGlobalState = FALSE;

@@ -40,7 +40,7 @@
         <div class="tab-content">
             <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
                  role="tabpanel">
-                <module type="editor/html_editor" id="mw_code_html_editor"/>
+                <module type="editor/html_editor2" id="mw_code_html_editor"/>
             </div>
             <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"
                  role="tabpanel">
