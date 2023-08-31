@@ -1,7 +1,9 @@
 <?php
 namespace MicroweberPackages\Config\tests;
 
-class ConfigSaveServiceProviderTest extends BaseTest
+use MicroweberPackages\Core\tests\TestCase;
+
+class ConfigSaveServiceProviderTest extends TestCase
 {
 	public function testConfigIsConfigSaveWhenUsing(){
 

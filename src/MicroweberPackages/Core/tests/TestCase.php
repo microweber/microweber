@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Core\tests;
 
+use Illuminate\Foundation\Testing\WithConsoleEvents;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\Mime\Part\Multipart\MixedPart;
@@ -9,6 +10,7 @@ use Symfony\Component\Mime\Part\TextPart;
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
+    use WithConsoleEvents;
 
     public $parserErrorStrings = ['mw_replace_back', 'tag-comment', 'mw-unprocessed-module-tag', 'parser_'];
     private $sqlite_file = 'phpunit.sqlite';
@@ -185,7 +187,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $this->assertEquals(0, $install);
 
             // Clear caches
-            \Artisan::call('config:cache');
+           // \Artisan::call('config:cache');
             \Artisan::call('config:clear');
             \Artisan::call('cache:clear');
             \Artisan::call('route:clear');

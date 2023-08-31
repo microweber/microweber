@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Cache;
 
-class CacheTest extends BaseTest
+class CacheTest extends \MicroweberPackages\Core\tests\TestCase
 {
     public function testCache()
     {
