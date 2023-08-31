@@ -4,6 +4,7 @@ namespace MicroweberPackages\Backup\tests;
 use MicroweberPackages\Backup\GenerateBackup;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Export\SessionStepper;
+use MicroweberPackages\Multilanguage\tests\MultilanguageTest;
 
 
 /**
@@ -12,7 +13,7 @@ use MicroweberPackages\Export\SessionStepper;
  * @command php artisan test --filter GenerateBackupTest
  */
 
-class GenerateBackupTest extends TestCase
+class GenerateBackupTest extends MultilanguageTest
 {
     public function testSingleModuleBackup() {
 
@@ -38,7 +39,7 @@ class GenerateBackupTest extends TestCase
 
         $zip = new \ZipArchive();
         $zip->open($status['data']['filepath']);
-        
+
         $moduleInZip = $zip->getFromName('modules/categories/category_images/index.php');
         $moduleInZip2 = $zip->getFromName('modules/content/index.php');
         $moduleInZip3= $zip->getFromName('modules/menu/config.php');

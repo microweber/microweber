@@ -1,6 +1,6 @@
 <?php
 
-class TaggableFileCacheServiceProviderTest extends BaseTest
+class TaggableFileCacheServiceProviderTest extends \MicroweberPackages\Core\tests\TestCase
 {
 	public function testCacheIsTaggableFileCacheWhenUsing(){
 

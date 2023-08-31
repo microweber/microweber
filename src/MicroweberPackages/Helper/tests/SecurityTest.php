@@ -2,9 +2,10 @@
 
 namespace MicroweberPackages\Helper\tests;
 
+use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Helper\XSSClean;
 
-class SecurityTest extends BaseTest
+class SecurityTest extends TestCase
 {
     public function testComments()
     {

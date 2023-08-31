@@ -5,6 +5,7 @@ namespace MicroweberPackages\Multilanguage\tests;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use \MicroweberPackages\Multilanguage\MultilanguageApi;
 use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
+use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 
 class MultilanguageTestBase extends \Microweber\tests\TestCase
 {
@@ -30,6 +31,12 @@ class MultilanguageTestBase extends \Microweber\tests\TestCase
             return new PermalinkManager();
         });
 
+        app()->singleton('multilanguage_repository', function () {
+            return new MultilanguageRepository();
+        });
+
+
+
     }
 
     /**
@@ -53,6 +60,13 @@ class MultilanguageTestBase extends \Microweber\tests\TestCase
             app()->bind('permalink_manager', function () {
                 return new MultilanguagePermalinkManager();
             });
+
+
+
+            app()->singleton('multilanguage_repository', function () {
+                return new MultilanguageRepository();
+            });
+
 
             $option = array();
             $option['option_value'] = 'y';

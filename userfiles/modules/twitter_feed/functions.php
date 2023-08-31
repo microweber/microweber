@@ -12,20 +12,20 @@ function twitter_feed_perform_api_request($url = 'https://api.twitter.com/1.1/se
 
 
     if ($oauth_access_token==false){
-        $oauth_access_token = "220111598-87eLa7MgXZmd7YeRSkenTSVxhZikok61PXMKZFti";
+        $oauth_access_token = "";
     }
 
     if ($oauth_access_token_secret==false){
-        $oauth_access_token_secret = "KsDrxrxoGqVVK0ethvcTTrV58RBH3WUjnPeI616fnxIFS";
+        $oauth_access_token_secret = "";
     }
 
     if ($consumer_key==false){
-        $consumer_key = "WgDmyOjMgX1N7RhcLpQqzUrtR"; 
+        $consumer_key = "";
     }
 
 
     if ($consumer_secret==false){
-        $consumer_secret = "0e8PlzIeKlmGGyH1ajS2Ggaw0anPTX23p3gp2WqZ0PCNxkYYX1";
+        $consumer_secret = "";
     }
 
 
@@ -59,7 +59,7 @@ function twitter_feed_perform_api_request($url = 'https://api.twitter.com/1.1/se
 
     $return = json_decode($response, true);
 
-	
+
 
     if (!empty($return)){
         cache_save($return, $cache_id, $cache_group, $cache_expiration_minutes);
@@ -132,12 +132,12 @@ function twitter_feed_get_user_tweets($twitter_handle = false, $results_count = 
 
     $count = intval($results_count);
     $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
-	 
- 
+
+
     $getfield = '?include_entities=true&include_rts=false&count=' . $count . '&exxclude_replies=true&nofilter=retweets&screen_name=' . $twitter_handle;
-	//dd($url, $getfield); 
+	//dd($url, $getfield);
     $items = twitter_feed_perform_api_request($url, $getfield);
-		
+
 	if(isset($items["errors"])){
 		return;
 	}

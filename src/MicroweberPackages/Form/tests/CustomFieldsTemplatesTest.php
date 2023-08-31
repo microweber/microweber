@@ -78,7 +78,7 @@ class CustomFieldsTemplatesTest extends TestCase
 
             $option = array();
             $option['option_value'] = 'unit-test/index.php';
-            $option['option_key'] = 'data-template';
+            $option['option_key'] = 'template';
             $option['option_group'] = $field_id;
             $save = save_option($option);
 
@@ -123,7 +123,7 @@ class CustomFieldsTemplatesTest extends TestCase
 
             $option = array();
             $option['option_value'] = 'bootstrap3/index.php';
-            $option['option_key'] = 'data-template';
+            $option['option_key'] = 'template';
             $option['option_group'] = $field_id;
             $save = save_option($option);
 
@@ -177,7 +177,7 @@ class CustomFieldsTemplatesTest extends TestCase
 
             $option = array();
             $option['option_value'] = 'bootstrap4/index.php';
-            $option['option_key'] = 'data-template';
+            $option['option_key'] = 'template';
             $option['option_group'] = $field_id;
             $save = save_option($option);
 
@@ -227,7 +227,7 @@ class CustomFieldsTemplatesTest extends TestCase
 
             $option = array();
             $option['option_value'] = 'mw-ui/index.php';
-            $option['option_key'] = 'data-template';
+            $option['option_key'] = 'template';
             $option['option_group'] = $field_id;
             $save = save_option($option);
 

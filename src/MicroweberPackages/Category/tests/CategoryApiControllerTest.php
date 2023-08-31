@@ -26,8 +26,7 @@ class CategoryApiControllerTest extends TestCase
         ];
 
 
-        $response = $this->call(
-            'POST',
+        $response = $this->postJson(
             route('api.category.store'),
             [
                 'title' => $title,
@@ -35,6 +34,7 @@ class CategoryApiControllerTest extends TestCase
                 'content_data' => $contentData
             ]
         );
+
         $this->assertEquals(201, $response->status());
 
         $categorySaved = $response->getData()->data;

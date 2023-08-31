@@ -24,7 +24,7 @@ use MicroweberPackages\Database\Observers\BaseModelObserver;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use MicroweberPackages\Category\TranslateTables\TranslateCategory;
 
-class CategoryServiceProvider extends ServiceProvider implements DeferrableProvider
+class CategoryServiceProvider extends ServiceProvider
 {
     public function register()
     {

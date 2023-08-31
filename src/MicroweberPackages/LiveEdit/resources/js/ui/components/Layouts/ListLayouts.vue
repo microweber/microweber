@@ -58,6 +58,20 @@
                         </span>
                     </div>-->
 
+                    <div v-show="layoutsList.categories.length == 0">
+                        <div class="modules-list-search-block input-icon" style="margin-top:25px;">
+                          <span class="input-icon-addon ms-3">
+
+                                <svg fill="none" xmlns="http://www.w3.org/2000/svg" class="icon" width="32" height="32" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                            </span>
+
+                            <input
+                                v-model="filterKeyword"
+                                v-on:keydown="filterLayouts()"
+                                type="text" placeholder="Type to Search..." class="modules-list-search-field form-control rounded-0">
+                        </div>
+                    </div>
+
                     <div class="me-5 pe-3 my-3 py-0 col-xl-2 col-md-3 col-12 ms-auto text-end justify-content-end">
                         <div class="btn-group d-flex justify-content-end pe-4 layout-list-buttons">
                             <button
@@ -184,6 +198,15 @@ export default {
             this.filterCategory = category;
             this.filterLayouts();
         },
+        refreshLayouts() {
+            this.layoutsListLoaded = false;
+            setTimeout(() => { 
+                this.layoutsListLoaded = true;
+                this.layoutsListFiltered = this.layoutsList.layouts;
+                console.log('refreshed');
+                console.log(this.layoutsList.layouts);
+            },100);
+        },
         filterLayouts() {
 
             this.layoutsListLoaded = false;
@@ -228,7 +251,7 @@ export default {
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'top';
                 setTimeout(function() {
-             instance.filterLayouts();
+                    instance.refreshLayouts();
                 }, 500);
                 mw.app.registerChangedState(element);
             });
@@ -236,7 +259,7 @@ export default {
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'bottom';
                 setTimeout(function() {
-                    instance.filterLayouts();
+                    instance.refreshLayouts();
                 }, 500);
                 mw.app.registerChangedState(element);
             });
@@ -247,7 +270,7 @@ export default {
                 if (instance.showModal == false) {
                     instance.showModal = true;
                     setTimeout(function() {
-                        instance.filterLayouts();
+                        instance.refreshLayouts();
                     }, 500);
                 } else {
                     instance.showModal = false;

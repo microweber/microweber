@@ -18,6 +18,7 @@ class TemplateInstallerTest extends TestCase
         $installer = new TemplateInstaller();
         $installer->logger = $logger;
         $status = $installer->run();
+        $this->assertTrue($status);
 
     }
 }

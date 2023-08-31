@@ -14,38 +14,38 @@ $maxWidth = [
 <!-- Modal -->
 
 <div x-data="{
-        mwDialogComponentUi: false,
-        show: @entangle($attributes->wire('model')).defer,
+        mwDialogComponentUi{{ $id }}: false,
+        show{{ $id }}: @entangle($attributes->wire('model')).defer,
     }"
     x-init="() => {
 
-      el = document.getElementById('modal-id-{{ $id }}')
+      el{{ $id }} = document.getElementById('modal-id-{{ $id }}')
 
-      close = document.getElementById('js-close-modal-{{ $id }}');
-       if (close) {
-            close.addEventListener('click', () => {
-                show = false;
+      close{{ $id }} = document.getElementById('js-close-modal-{{ $id }}');
+       if (close{{ $id }}) {
+            close{{ $id }}.addEventListener('click', () => {
+                show{{ $id }} = false;
             });
        }
 
-        $watch('show', value => {
+        $watch('show{{ $id }}', value => {
 
             if (value) {
 
-             el.style.display = 'block';
-             this.mwDialogComponentUi = mw.dialog({
-                content: el,
+             el{{ $id }}.style.display = 'block';
+             this.mwDialogComponentUi{{ $id }} = mw.dialog({
+                content: el{{ $id }},
                 onremove: () => {
-                    show = false;
+                    show{{ $id }} = false;
                 },
              });
-             this.mwDialogComponentUi.dialogHeader.style.display = 'none';
-             this.mwDialogComponentUi.dialogContainer.style.padding = '0px';
+             this.mwDialogComponentUi{{ $id }}.dialogHeader.style.display = 'none';
+             this.mwDialogComponentUi{{ $id }}.dialogContainer.style.padding = '0px';
 
             } else {
-               if (this.mwDialogComponentUi) {
-                this.mwDialogComponentUi.remove();
-                this.mwDialogComponentUi = null;
+               if (this.mwDialogComponentUi{{ $id }}) {
+                this.mwDialogComponentUi{{ $id }}.remove();
+                this.mwDialogComponentUi{{ $id }} = null;
               }
             }
        });
