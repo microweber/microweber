@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Content\tests;
 
 use Livewire\Livewire;
-use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Content\Http\Livewire\Admin\ContentList;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
@@ -18,6 +17,57 @@ use MicroweberPackages\User\tests\UserTestHelperTrait;
 class ContentListLivewireComponentTest extends TestCase
 {
     use UserTestHelperTrait;
+
+    public function testContentBasicComponent()
+    {
+        $this->actingAsAdmin();
+
+        $myPage = new Page();
+        $myPage->title = 'My page';
+        $myPage->content = 'My page content';
+        $myPage->save();
+
+        $myProduct = new Product();
+        $myProduct->title = 'My product';
+        $myProduct->content = 'My product content';
+        $myProduct->save();
+
+        $myPost = new Post();
+        $myPost->title = 'My post';
+        $myPost->content = 'My post content';
+        $myPost->save();
+
+        $getAllContents = Content::get();
+
+        $contentListTest = Livewire::test(ContentList::class);
+        $contentListTest->set('paginate', 200);
+        $contentListTest->call('getRenderData');
+        $response = json_decode($contentListTest->lastResponse->content(),TRUE);
+        $responseMethod = reset($response['effects']['returns']);
+        $contentListResponseData = $responseMethod['data']['contents']['data'];
+
+        $findMyPage = false;
+        $findMyPost = false;
+        $findMyProduct = false;
+        foreach ($contentListResponseData as $contentData) {
+            if ($contentData['id'] == $myPage->id) {
+                $findMyPage = true;
+            }
+            if ($contentData['id'] == $myPost->id) {
+                $findMyPost = true;
+            }
+            if ($contentData['id'] == $myProduct->id) {
+                $findMyProduct = true;
+            }
+        }
+
+        $this->assertTrue($findMyPage);
+        $this->assertTrue($findMyPost);
+        $this->assertTrue($findMyProduct);
+
+        $this->assertEquals($getAllContents->count(), $responseMethod['data']['contents']['total']);
+
+    }
 
     public function testPageBasicComponent()
     {
