@@ -16,20 +16,37 @@ export default {
             var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
 
-
             var dlg = mw.top().dialogIframe({
                 url: src,
                 title: mw.lang('Edit styles'),
                 footer: false,
-                width: 600,
+                width: 350,
                 height: 'auto',
                 autoHeight: true,
                 overlay: false
             });
+            var x = mw.top().app.canvas.getWindow().innerWidth - 400;
+            var y = mw.top().app.canvas.getWindow().innerHeight - 400;
+            if(x < 0){
+                x = 0;
+            }
+            if(y < 0){
+                y = 0;
+            }
+            dlg.position(x, y);
+
+
             dlg.iframe.addEventListener('load', () => {
-                var selected = mw.app.liveEdit.elementHandle.getTarget();
-                dlg.iframe.contentWindow.selectNode(selected)
+                //  var selected = mw.app.liveEdit.elementHandle.getTarget();
+                //  dlg.iframe.contentWindow.selectNode(selected)
+
+
+                var event = new CustomEvent('refreshSelectedElement')
+                dlg.iframe.contentWindow.document.dispatchEvent(event);
+
+
             })
+
             this.cssEditorDialog = dlg;
             this.cssEditorIframe = dlg.iframe;
             var styleEditorDialoginstance = this;
@@ -47,7 +64,9 @@ export default {
         },
         removeStyleEditor: function () {
             if (this.cssEditorDialog) {
+
                 this.cssEditorDialog.remove();
+                $('#mw_global_rte_css_editor2_editor').remove();
                 this.markAsRemoved();
             }
         },
@@ -80,28 +99,62 @@ export default {
             }
         });
 
-        var instance = this;
-        // mw.app.canvas.on('canvasDocumentClick', function () {
-        //     if (instance.isOpened) {
-        //         var selected = mw.app.liveEdit.elementHandle.getTarget();
-        //         if (selected && instance.cssEditorIframe && instance.cssEditorIframe.contentWindow && instance.cssEditorIframe.contentWindow.selectNode) {
-        //             instance.cssEditorIframe.contentWindow.selectNode(selected)
-        //         }
-        //     }
-        // });
+        var styleEditorInstance = this;
+
 
         mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
-            if (instance) {
+            if (styleEditorInstance) {
                 // remove editor if the frame is changed
-                instance.removeStyleEditor();
+                styleEditorInstance.removeStyleEditor();
             }
         });
         mw.app.canvas.on('liveEditCanvasBeforeUnload', function (frame) {
-            if (instance) {
+            if (styleEditorInstance) {
                 // remove editor if the frame is changed
-                instance.removeStyleEditor();
+                styleEditorInstance.removeStyleEditor();
             }
         });
+
+        mw.top().app.canvas.on('canvasDocumentClick', function () {
+            if (styleEditorInstance.isOpened) {
+                if (styleEditorInstance.cssEditorIframe) {
+                    var activeNode = mw.top().app.liveEdit.getSelectedNode();
+
+                    var can = mw.top().app.liveEdit.canBeElement(activeNode)
+                    if (can) {
+                        //check if has Id
+                        var targetWindow = mw.top().app.canvas.getWindow();
+
+                        var id = activeNode.id;
+                        if (!id) {
+                            targetWindow.mw.tools.generateSelectorForNode(activeNode);
+                            //  activeNode.id = id;
+                        }
+                    }
+
+
+                    var event = new CustomEvent('refreshSelectedElement')
+                    styleEditorInstance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
+                }
+            }
+
+        });
+
+
+      mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
+
+
+        mw.app.editor.on('insertLayoutRequest', function (element) {
+          // close open html editor when layout is inserted
+          styleEditorInstance.removeStyleEditor();
+        });
+        mw.app.editor.on('insertModuleRequest', function (element) {
+          // close open html editor when module is inserted
+          styleEditorInstance.removeStyleEditor();
+        });
+      });
+
+
     }
 
 }

@@ -12,37 +12,59 @@ $maxWidth = [
 @endphp
 
 <!-- Modal -->
-<div
-    x-data="{
-        show: @entangle($attributes->wire('model')).defer,
+
+<div x-data="{
+        mwDialogComponentUi{{ $id }}: false,
+        show{{ $id }}: @entangle($attributes->wire('model')).defer,
     }"
     x-init="() => {
 
-        let el = document.querySelector('#modal-id-{{ $id }}')
+      el{{ $id }} = document.getElementById('modal-id-{{ $id }}')
 
-        let modal = new bootstrap.Modal(el);
+      close{{ $id }} = document.getElementById('js-close-modal-{{ $id }}');
+       if (close{{ $id }}) {
+            close{{ $id }}.addEventListener('click', () => {
+                show{{ $id }} = false;
+            });
+       }
 
-        $watch('show', value => {
+        $watch('show{{ $id }}', value => {
+
             if (value) {
-                modal.show()
-            } else {
-                modal.hide()
-            }
-        });
 
-        el.addEventListener('hide.bs.modal', function (event) {
-          show = false
-        })
+             el{{ $id }}.style.display = 'block';
+             this.mwDialogComponentUi{{ $id }} = mw.dialog({
+                content: el{{ $id }},
+                onremove: () => {
+                    show{{ $id }} = false;
+                },
+             });
+             this.mwDialogComponentUi{{ $id }}.dialogHeader.style.display = 'none';
+             this.mwDialogComponentUi{{ $id }}.dialogContainer.style.padding = '0px';
+
+            } else {
+               if (this.mwDialogComponentUi{{ $id }}) {
+                this.mwDialogComponentUi{{ $id }}.remove();
+                this.mwDialogComponentUi{{ $id }} = null;
+              }
+            }
+       });
+
     }"
+
     wire:ignore.self
-    class="modal fade"
+
+     style="display:none"
+
     tabindex="-1"
     id="modal-id-{{ $id }}"
-    aria-labelledby="modal-id-{{ $id }}"
-    aria-hidden="true"
+
     x-ref="modal-id-{{ $id }}"
 >
-    <div class="modal-dialog{{ $maxWidth }}">
-        {{ $slot }}
+    <div class="mw-modal">
+        <div class="mw-modal-dialog{{ $maxWidth }}">
+            {{ $slot }}
+        </div>
     </div>
+
 </div>

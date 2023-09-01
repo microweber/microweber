@@ -37,11 +37,11 @@ export const Draggable = function (options, rootSettings) {
     };
     this.setElement = function (node) {
         this.element = ElementManager(node)/*.prop('draggable', true)*/.get(0);
-        if(!this.settings.handle) {
-            this.settings.handle = this.settings.element;
-        }
-        this.handle = this.settings.handle;
-        this.handle.attr('draggable', 'true')
+
+        
+ 
+ 
+        this.handleInit()
     };
 
     this.setTargets = function (targets) {
@@ -59,38 +59,72 @@ export const Draggable = function (options, rootSettings) {
 
     this.$data = {}
 
+    this.getDragCoords = function(event) {
+        let {pageX, pageY} = event;
+        const handleNodeWin = event.target.ownerDocument.defaultView;
+
+        if(handleNodeWin.__$$dragoverCoords) {
+            pageX = handleNodeWin.__$$dragoverCoords.pageX;
+            pageY = handleNodeWin.__$$dragoverCoords.pageY;
+        }
+
+ 
+
+        return {
+            pageX, pageY
+        }
+    }
+   
     this.helper = function (e, event) {
-        if(!this._helper) {
-            this._helper = ElementManager().get(0);
-            this._helper.className = 'mw-draggable-helper';
+        
+        if(!scope._helper) {
+            scope._helper = ElementManager().get(0);
+            scope._helper.className = 'mw-draggable-helper';
            
-            this.settings.document.body.appendChild(this._helper);
+            scope.settings.document.body.appendChild(scope._helper);
         }
         if (e === 'create') {
-            var off = ElementManager( scope.element ).offset()
-            this.$data._calcMinus = {
-                y: (event.pageY - off.offsetTop),
-                x: (event.pageX - off.offsetLeft),
+            var off = ElementManager( scope.element ).offset();
+
+            let {pageX, pageY} = this.getDragCoords(event);
+ 
+            scope.$data._calcMinus = {
+                y: (pageY - off.offsetTop),
+                x: (pageX - off.offsetLeft),
             }
-            this._helper.style.top = e.pageY + 'px';
-            this._helper.style.left = e.pageX + 'px';
-            this._helper.style.width = scope.element.offsetWidth + 'px';
-            this._helper.style.height = scope.element.offsetHeight + 'px';
-            this.settings.document.documentElement.classList.add('le-dragging')
-            this._helper.style.display = 'block';
-        } else if(e === 'remove' && this._helper) {
-            this._helper.style.display = 'none';
-            this.settings.document.documentElement.classList.remove('le-dragging')
-        } else if(this.settings.helper && e) {
+            scope._helper.style.top = pageY + 'px';
+            scope._helper.style.left = pageX + 'px';
+            scope._helper.style.width = scope.element.offsetWidth + 'px';
+            scope._helper.style.height = scope.element.offsetHeight + 'px';
+            scope.settings.document.documentElement.classList.add('le-dragging')
+            scope._helper.style.display = 'block';
+        } else if(e === 'remove' && scope._helper) {
+            setTimeout(() => {
+                scope.settings.document.querySelectorAll('.mw-draggable-helper').forEach(e => e.innerHTML = ``);
+                scope._helper.$$element = null;
+            })
             
-            this._helper.style.top = (e.pageY -  this.$data._calcMinus.y) + 'px';
-            this._helper.style.left = (e.pageX -  this.$data._calcMinus.x) + 'px';
-            // this._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX - 40) + 'px';
-            this.settings.document.documentElement.classList.add('le-dragging')
+ 
+            scope.settings.document.documentElement.classList.remove('le-dragging');
+            
+        } else if(scope.settings.helper && e) {
+            
+            let {pageX, pageY} = this.getDragCoords(e);
+           
+            scope._helper.style.top = (pageY -  scope.$data._calcMinus.y) + 'px';
+           // scope._helper.style.top = pageY + 'px';
+           scope._helper.style.left = ( pageX -  scope.$data._calcMinus.x) + 'px';
+            // scope._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX - 40) + 'px';
+            scope.settings.document.documentElement.classList.add('le-dragging')
+        }
+
+        if(scope._helper.$$element !== scope.element) {
+            scope._helper.$$element = scope.element;
+            scope._helper.innerHTML =  scope.element.outerHTML;
         }
          
-        this._helper.innerHTML =  scope.element.outerHTML;
-        return this._helper;
+        
+        return scope._helper;
     };
 
     this.isDragging = false;
@@ -137,9 +171,79 @@ export const Draggable = function (options, rootSettings) {
             }
             if(scope.dropIndicator) scope.dropIndicator.hide();
         });
-    
-        this.handle
+
+
+        this.handleInit()
+
+    };
+
+    this.handleInit = function() {
+
+
+        if(!this.settings.handle) {
+            this.settings.handle = this.settings.element;
+        }
+        
+ 
+
+        this.handle = ElementManager(this.settings.handle, this.settings.document);
+        this.handle.attr('draggable', 'true');
+
+
+      
+        var handleEl = this.handle.get(0);
+
+
+
+
+        
+ 
+         
+        if(handleEl && !handleEl.$handleInit && handleEl.parentElement) {
+
+            function _dragHandle(e){
+
+ 
+                
+
+                var scrlStp = 90;
+                var step = 5;
+                if (e.clientY < scrlStp) {
+                    scroll(-step)
+                }
+                if (e.clientY > (innerHeight - (scrlStp + ( scope._helper ? scope._helper.offsetHeight + 10 : 0)))) {
+                    scroll(step)
+                }
+                e.dataTransfer.dropEffect = "none";
+                scope.dispatch('drag',{element: scope.element, event: e});
+                scope.helper(e)
+
+            }
+
+            var handleNode = this.handle.get(0);
+
+            var handleNodeWin = handleNode.ownerDocument.defaultView;
+
+            if(!handleNodeWin.__$$dragoverCoords) { // firefox returns wrong pageY on drag
+                handleNodeWin.__$$dragoverCoords = {}
+            }
+
+            handleNode.ownerDocument.addEventListener('dragover',  (e) => {
+         
+                handleNodeWin.__$$dragoverCoords.pageY = e.pageY
+                handleNodeWin.__$$dragoverCoords.pageX = e.pageX
+            })
+
+            handleNode.addEventListener('drag',  (e) => {
+                _dragHandle.call(this, e);
+     
+            })
+ 
+            handleEl.$handleInit = true;
+            this.handle.attr('draggable', 'true')
+            this.handle
             .on('dragstart', function (e) {
+ 
                 scope.isDragging = true;
                 if (!scope.element.id) {
                     scope.element.id = ('mw-element-' + new Date().getTime());
@@ -148,30 +252,32 @@ export const Draggable = function (options, rootSettings) {
                 e.dataTransfer.setData("text", scope.element.id);
                 e.dataTransfer.effectAllowed = "move";
 
+
+                let img = new Image();
+                img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+ 
+                e.dataTransfer.setDragImage(img, 1, 1);
+
                 scope.helper('create', e);
                 scope.dispatch('dragStart',{element: scope.element, event: e});
             })
             .on('drag', function (e) {
-                var scrlStp = 90;
-                var step = 5;
-                if (e.clientY < scrlStp) {
-                    scroll(-step)
-                }
-                if (e.clientY > (innerHeight - (scrlStp + ( this._helper ? this._helper.offsetHeight + 10 : 0)))) {
-                    scroll(step)
-                }
-                e.dataTransfer.dropEffect = "copy";
-                scope.dispatch('drag',{element: scope.element, event: e});
-                scope.helper(e)
 
             })
             .on('dragend', function (e) {
                 scope.isDragging = false;
                 scope.element.classList.remove('mw-element-is-dragged');
+               
+                
                 scope.helper('remove');
                 scope.dispatch('dragEnd',{element: scope.element, event: e});
                 stop = true;
             });
-    };
+        }
+    }
+
+
     this.init();
+
+ 
 };

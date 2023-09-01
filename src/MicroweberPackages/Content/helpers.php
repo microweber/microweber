@@ -121,6 +121,10 @@ function get_content_admin($params)
   //      $params['no_cache'] = true;
     }
 
+    if (!is_shop_module_enabled_for_user()) {
+        $params['is_shop'] = '[neq]1';
+        $params['content_type'] = '[neq]product';
+    }
 
     return get_content($params);
 }

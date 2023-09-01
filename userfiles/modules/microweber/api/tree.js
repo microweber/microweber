@@ -147,8 +147,18 @@
 
         this.search = function(){
             if(this.options.searchInput === true) {
-                this.options.searchInput = document.createElement('input');
-                this.options.searchInput.className = 'form-control-live-edit-input';
+                const inputTemplate = mw.element(`
+                <div>
+                    <label class="live-edit-label">${mw.lang('Search for page or category')}</label>
+                    <div class="form-control-live-edit-label-wrapper">
+                        <input type="text" class="form-control-live-edit-input">
+                        <span class="form-control-live-edit-bottom-effect"></span>
+                    </div>
+                </div>
+                    
+                `);
+                this.options.searchInput = inputTemplate.find('input').get(0);
+    
 
                 if(this.options.searchInputClassName){
                     this.options.searchInput.className = this.options.searchInputClassName;
@@ -157,7 +167,7 @@
                 this.options.searchInput.placeholder = this.options.searchInputPlaceholder || mw.lang('Search');
 
                 if(this.options.searchInputSticky) {
-                    mw.$(this.options.searchInput).css({
+                    minputTemplate.css({
                         position: 'sticky',
                         top: '20px',
                         zIndex: '1',
@@ -173,7 +183,7 @@
                 });
 
                 setTimeout(function (){
-                    mw.$(scope.options.element).before(scope.options.searchInput);
+                    mw.$(scope.options.element).before(inputTemplate.get(0));
 
                 }, 200)
 
@@ -193,13 +203,11 @@
                     var item = scope.options.skip[n];
 
                     var case1 = (item.id == itemData.id && item.type == itemData.type);
-                    var case2 = (itemData.parent_id == item.id && item.type == itemData.type);
+                    var case2 = (itemData.parent_id != 0 && itemData.parent_id == item.id && item.type == itemData.type);
 
-                    if(itemData.id == 2) {
-                        console.log(case1)
-                        console.log(item)
-                        console.log(itemData)
-                    }
+                     
+
+ 
                     if(case1 || case2){
                         return true;
                     }
@@ -741,6 +749,13 @@
                 }
                 items.sortable({
                     items: selector,
+                    start: function(){ // firefox triggers click when drag ends
+                        scope._disableClick = true;
+                    },
+                    stop: function(){
+                        setTimeout(() => {scope._disableClick = false;}, 78)
+                        
+                    },
                     axis:'y',
                     listType:'ul',
                     handle: scope.options.sortableHandle || '.mw-tree-item-title',
@@ -774,7 +789,13 @@
                         update:function(e, ui){
 
                             _orderChangeHandle(e, ui)
-                        }
+                        },
+                        start: function(){ // firefox triggers click when drag ends
+                            scope._disableClick = true;
+                        },
+                        stop: function(){
+                            setTimeout(() => {scope._disableClick = false;}, 78)
+                        },
                     });
                 })
             } else if (this.options.nestedSortable === true) {
@@ -782,6 +803,12 @@
                     items: ".type-category",
                     listType:'ul',
                     handle:'.mw-tree-item-title',
+                    start: function(){ // firefox triggers click when drag ends
+                        scope._disableClick = true;
+                    },
+                    stop: function(){
+                        setTimeout(() => {scope._disableClick = false;}, 78)
+                    },
                     update:function(e, ui){
                         _orderChangeHandle(e, ui);
                     }
@@ -957,6 +984,11 @@
             $(container).wrap('<span class="mw-tree-item-content-root"></span>')
             if(!skip){
                 container.onclick = function(event){
+
+                    if(scope._disableClick) {
+                        return;
+                    }
+               
                     var target = event.target;
                     var canSelect = true;
                     if(scope.options.rowSelect === false) {

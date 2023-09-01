@@ -4,6 +4,7 @@ namespace MicroweberPackages\Template\Traits;
 
 
 use Knp\Menu\ItemInterface;
+use MicroweberPackages\Admin\MenuBuilder\Menu;
 
 trait HasMenus
 {
@@ -40,6 +41,20 @@ trait HasMenus
         return $this->menus[$menu];
     }
 
+    /**
+     * Get the instance of a specific menu.
+     *
+     * @param string $menu The name of the menu.
+     * @return mixed The instance of the menu.
+     */
+    public function getOrCreateMenuInstance($menuName)
+    {
+        if (!isset($this->menus[$menuName])) {
+            $this->menus[$menuName] = new Menu($menuName);
+        }
+        return $this->menus[$menuName];
+
+    }
     /**
      * Reorder the menu items according to their order number.
      *

@@ -379,6 +379,12 @@ class ModulesApiLiveEdit extends Controller
                             }
                         }
 
+                        if (isset($dynamic_layout['hidden'])) {
+                            if ($dynamic_layout['hidden'] == true || $dynamic_layout['hidden'] == 1) {
+                                continue;
+                            }
+                        }
+
                         $moduleListJson['layouts'][] = [
                             // 'group' => 'layouts',
                             'template' => $dynamic_layout['layout_file'],

@@ -176,6 +176,8 @@ class CartManager extends Crud
 
     public function get_tax()
     {
+
+
         $sum = $this->sum();
         $tax = $this->app->tax_manager->calculate($sum);
 

@@ -3,7 +3,9 @@
 
 $classes = mw_get_layout_css_classes($params);
 
-$template = get_option('data-template', $params['id']);
+$template = get_option('template', $params['id']);
+
+
 if ($template == false and isset($params['template'])) {
 $template = $params['template'];
 }

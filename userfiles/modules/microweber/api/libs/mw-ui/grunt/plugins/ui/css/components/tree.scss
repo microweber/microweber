@@ -54,11 +54,13 @@
 .mw-tree-context-menu-content-mode-dropdown {
     &.mw-tree-context-menu-content-default{
         right: auto;
+        display: none;
         &.mw-tree-context-menu-content-active{
             visibility: visible;
             opacity: 1;
             pointer-events: all;
-            
+            display: block;
+
         }
     }
 }
@@ -333,7 +335,7 @@ visibility: visible;
     .opened > .mw-tree-item-content-root .mw-tree-toggler   {
       transform: rotate(90deg);
   }
-    
+
 
     .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content-button{
 
@@ -436,7 +438,7 @@ visibility: visible;
   }
 }
 
- 
+
 
 html[dir="rtl"]{
     /*.mw-tree-nav-skin-default{

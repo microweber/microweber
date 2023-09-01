@@ -1728,13 +1728,17 @@ body.dragStart .element {
     background: #FFFFB9;
 }
 
+
+
+
+.mw-le-empty-element,
 .mw-empty-element:empty,
 .mw-live-edit .mw-empty-element.element:empty,
 .mw-col-container .mw-empty:first-child:empty {
     background: #FFFFB9;
     color: #0088CC;
     position: relative;
-    min-height: 100px;
+    min-height: 100px !important;
     display: block;
     text-align:left;
 }
@@ -5225,3 +5229,17 @@ body.dragStart picture img{
      background: #f5f5f5;
 }
 
+
+section.section {
+    position: relative;
+}
+
+
+.mw-le-handle-menu-button-hidden{
+    display: none !important;
+}
+
+.mw-le-handle-menu-button-disabled{
+    opacity: .5;
+    pointer-events: none !important;
+}

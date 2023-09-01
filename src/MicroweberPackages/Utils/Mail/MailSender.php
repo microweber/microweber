@@ -350,10 +350,8 @@ class MailSender
         //  $reply_to = mw()->option_manager->get('email_reply', 'contact_form_default');
 
         ///  escapeshellcmd() has been disabled for security reasons
+        self::$last_send = $content;
 
-        if (defined('MW_UNIT_TEST')) {
-            self::$last_send = $content;
-        }
 
         //try {
             \Mail::send(

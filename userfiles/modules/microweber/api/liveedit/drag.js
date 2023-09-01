@@ -1,5 +1,5 @@
 
-mw.require('options.js')
+//mw.require('options.js')
 
 mw.drag = {
     _fixDeniedParagraphHierarchySelector: ''

@@ -97,7 +97,11 @@ export class TemplateSettings extends MicroweberBaseClass {
             'allow-drop',
             'nodrop',
             'mw-open-module-settings',
-            'module-layouts'
+            'module-layouts',
+            'mw-layout-background-block',
+            'mw-layout-background-node',
+            'mw-layout-background-overlay',
+            'mw-layout-container',
         ]
     }
     reloadStylesheet(source_file, option_group) {

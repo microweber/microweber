@@ -5,6 +5,7 @@ namespace MicroweberPackages\LiveEdit\Http\Controllers;
 use Illuminate\Http\Request;
 
 
+
 class ModuleSettingsController
 {
     public function index(Request $request)
@@ -14,6 +15,12 @@ class ModuleSettingsController
         if(!isset($params['id'])){
             $params['id'] = 'module-'.crc32($type);
         }
+
+   //     if(isset($params['data-module-id-from-preset'])){
+       //     $params['id'] = $params['data-module-id-from-preset'];
+  //      }
+
+
         $id = $params['id'];
         $hasError = false;
 
@@ -24,7 +31,7 @@ class ModuleSettingsController
             }
             unset($params['from_url']);
         }
-
+         \View::share('iframeMode', true);
 
         return view('microweber-live-edit::module-settings', ['moduleId' => $id, 'moduleType' => $type, 'params'=>$params]);
     }

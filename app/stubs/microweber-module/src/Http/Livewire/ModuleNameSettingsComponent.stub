@@ -1,0 +1,12 @@
+<?php
+namespace {{moduleNamespace}}\Http\Livewire;
+
+use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
+
+class {{moduleNameCamelCase}}SettingsComponent extends ModuleSettingsComponent
+{
+    public function render()
+    {
+       return view('microweber-module-{{moduleSlug}}::livewire.settings');
+    }
+}

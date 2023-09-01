@@ -20,9 +20,11 @@
         dialog.dialogContainer.style.minHeight = '100px';
         mw.spinner({element: dialog.dialogContainer, size: 32, decorate: true}).show();
 
+         
 
-        // var maxHeight = '75vh';
-        var maxHeight = 'calc(100vh - 240px)';
+
+         
+        var maxHeight = 'calc(100vh - 140px)';
 
 
         setTimeout(function () {
@@ -35,6 +37,7 @@
             } else{
                 $(frame).height(options.height - 60);
                 frame.style.position = 'relative';
+                frame.style.maxHeight = maxHeight;
             }
             mw.$(frame).on('load', function () {
                 mw.tools.loading(dialog.dialogContainer, false);
@@ -421,19 +424,8 @@
             return this;
         };
 
-        this.remove = function () {
-            this.hide();
-            mw.removeInterval('iframe-' + this.id);
-            mw.$(this).trigger('BeforeRemove');
-            if (typeof this.options.beforeRemove === 'function') {
-                this.options.beforeRemove.call(this, this)
-            }
+        this.forceRemove = function () {
             mw.$(this.dialogMain).remove();
-            if(this.options.onremove) {
-                this.options.onremove()
-            }
-            mw.$(this).trigger('Remove');
-            mw.trigger('mwDialogRemove', this);
             for (var i = 0; i < mw.top().__dialogs.length; i++) {
                 if (mw.top().__dialogs[i] === this) {
                     mw.top().__dialogs.splice(i, 1);
@@ -442,6 +434,26 @@
             }
             clearInterval(this._observe.interval);
             return this;
+        }
+        this.remove = function () {
+
+            mw.$(this).trigger('BeforeRemove');
+            if (typeof this.options.beforeRemove === 'function') {
+                if(this.options.beforeRemove(this) === false) {
+                    return;
+                }
+            }
+
+            this.hide();
+            mw.removeInterval('iframe-' + this.id);
+           
+            if(this.options.onremove) {
+                this.options.onremove()
+            }
+            mw.$(this).trigger('Remove');
+            mw.trigger('mwDialogRemove', this);
+            
+            this.forceRemove()
         };
 
         this.destroy = this.remove;
@@ -552,7 +564,7 @@
                 mw.interval('iframe-' + this.id, function () {
                     var max = mw.$(window).height() - scope.dialogHeader.clientHeight - scope.dialogFooter.clientHeight - 40;
                     scope.dialogContainer.style.maxHeight = max + 'px';
-                    scope.dialogContainer.style.maxHeight = 'calc(100vh - 200px)';
+                    scope.dialogContainer.style.maxHeight = 'calc(100vh - 100px)';
                     scope.containmentManage();
                 });
             }

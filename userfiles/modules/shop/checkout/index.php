@@ -52,7 +52,7 @@ $cart_totals = mw()->cart_manager->totals();
 
 
 
-$template = get_option('data-template', $params['id']);
+$template = get_option('template', $params['id']);
 $template_file = false;
 $module_template = false;
 if ($template != false and strtolower($template) != 'none') {

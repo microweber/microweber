@@ -1,6 +1,6 @@
 <div class="manage-item-main-top">
 
-    <a href="{{$content->editLink()}}" class=" form-label font-weight-bold text-break-line-1 text-decoration-none manage-post-item-title mb-0">
+    <a href="{{$content->editLink()}}" class="js-open-in-modal form-label font-weight-bold text-break-line-1 text-decoration-none manage-post-item-title mb-0">
         {{$content->title}}
     </a>
 

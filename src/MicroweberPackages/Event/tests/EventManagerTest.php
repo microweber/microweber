@@ -2,7 +2,9 @@
 namespace MicroweberPackages\Event\EventManager\tests;
 
 
-class EventManagerTest extends BaseTest
+use MicroweberPackages\Core\tests\TestCase;
+
+class EventManagerTest extends TestCase
 {
     public function testBind()
     {

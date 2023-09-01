@@ -5,6 +5,7 @@ export const HandleMenu = function(options) {
 
     this.options = options || {};
 
+
     var scope = this;
 
     this._visible = true;
@@ -69,21 +70,50 @@ export const HandleMenu = function(options) {
     };
 
     this.setTarget = function (target) {
-         
+
         _target = target;
         var i = 0;
 
-        this.rebuildButtons()
-       
+        this.rebuildButtons();
  
-        for ( ; i < this.buttons.length; i++) {
-            const config = this.buttons[i].config;
-            const button = this.buttons[i].button;
        
-            if(config && config.onTarget) {
-                config.onTarget(target, button.get(0), scope.options.rootScope);
+
+        setTimeout(() => {
+          //   console.log(this.buttons)
+            for ( ; i < this.buttons.length; i++) {
+                const config = this.buttons[i].config;
+                const button = this.buttons[i].button;
+
+ 
+           
+                if(config && config.onTarget) {
+                  
+                    config.onTarget(target, button.get(0), scope.options.rootScope);
+                }
             }
-        }
+
+            if(options.handleScope) {
+
+                options.handleScope.handle.draggable.handleInit();
+            }
+
+
+            if(_target) {
+                _target.ownerDocument.querySelectorAll('.mw-le-handle-menu-button-sub-menu').forEach(node => {
+                    const allButtons = node.querySelectorAll('.mw-le-handle-menu-button');
+                    const allHiddenButtons = node.querySelectorAll('.mw-le-handle-menu-button-hidden');
+                    if(allButtons.length === allHiddenButtons.length) {
+                        node.parentNode.classList.add('mw-le-handle-menu-button-hidden')
+                    } else {
+                        node.parentNode.classList.remove('mw-le-handle-menu-button-hidden')
+                    }
+                })
+            }
+
+
+        }, 50)
+
+
     };
 
 
@@ -93,12 +123,15 @@ export const HandleMenu = function(options) {
         titleIcon.html( icon || '');
     };
 
- 
+
 
     this.buttons = [];
-    this.prepareMenu = function() {
-        this.buttons = [];
- 
+    this.prepareMenu = function(parent) {
+        if(!parent) {
+            parent = this;
+        }
+        parent.buttons = [];
+
     }
 
     this.getMenu = function(name) {
@@ -107,7 +140,7 @@ export const HandleMenu = function(options) {
                 return this.options.menus[i].name;
             }
         }
-        
+
     }
     this.setMenu = function(name, nodes) {
         let found = false;
@@ -125,38 +158,50 @@ export const HandleMenu = function(options) {
         this.rebuildButtons()
     }
 
-    
+
 
     this.rebuildButtons = function() {
-      
+
         this.buttonsHolder.empty();
         this.buildButtons();
     }
 
-    this.buildButtons = function (menu, btnHolder){
-        this.prepareMenu();
+    this.buildButtons = function (menu, btnHolder, parent){
+        this.prepareMenu(parent);
+
         btnHolder = btnHolder || this.buttonsHolder;
         menu = menu || this.options.menus;
 
         if(!menu) {
             return;
         }
-         
+
         menu.filter(itm => !!itm).forEach(function (itm){
             if(itm.nodes && itm.nodes.forEach) {
+                var holder = btnHolder;
+ 
+                if(itm.holder) {
+                    holder = ElementManager({
+                        props: {
+                            className: 'mw-le-handle-menu-button-holder', 
+                        }
+                    });
+                    btnHolder.append(holder);
+                }
+ 
                 itm.nodes.forEach(function (btn){
-                    btnHolder.append(scope.button(btn));
+                    holder.append(scope.button(btn));
                 });
             } else if(itm.title || itm.icon) {
                 scope.button(itm)
-            }            
+            }
         });
 
     };
 
     this.button = function (conf){
-     
- 
+
+
         var btn = ElementManager({
             props: {
                 className: 'mw-le-handle-menu-button' + (conf.className ? ' ' + conf.className : '')
@@ -209,7 +254,7 @@ export const HandleMenu = function(options) {
                 }
             });
             btn.append(submenu);
-            scope.buildButtons(conf.menu, submenu);
+            scope.buildButtons(conf.menu, submenu, submenu);
             btn.on(actionEvents, function(){
                 this.classList.toggle('sub-menu-active');
             });
@@ -227,9 +272,6 @@ export const HandleMenu = function(options) {
         this.setTitle(scope.options.title, scope.options.icon);
         this.buildButtons();
         this.hide();
-
-        
-
     }
     this.init()
 

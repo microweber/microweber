@@ -1,9 +1,11 @@
+<div>
 
 
-<div class="mw-module-select-template" @if(count($moduleTemplates) == 1) style="display:none" @endif >
+
 
     @php
 
+    $showSkinsDropdown = true;
 
 
         $currentSkin = 'default';
@@ -16,78 +18,94 @@
 
         $hasSkinSettingsComponent= livewire_component_exists($componentNameForModuleSkin) === true;
 
-         $moduleTypeForComponent = str_replace('/', '.', $moduleType);
-         $moduleTypeForComponent = str_replace('_', '-', $moduleType);
+        $moduleTypeForComponent = str_replace('/', '.', $moduleType);
+        $moduleTypeForComponent = str_replace('_', '-', $moduleType);
+
+
+        if(count($moduleTemplates) == 1 && !$hasSkinSettingsComponent){
+            $showSkinsDropdown = false;
+        }
+
+        if($currentSkin and $hasSkinSettingsComponent){
+            $showSkinsDropdown = true;
+        }
+
     @endphp
 
-   <div>
-       <label class="live-edit-label"><?php _ejs("Skin"); ?></label>
 
-       <div class="form-control-live-edit-label-wrapper">
-
-           <select wire:model="settings.template" class="form-select form-control-live-edit-input">
-               <option value="default">
-                   <?php _e("Default"); ?>
-               </option>
-
-               <?php foreach ($moduleTemplates as $item): ?>
-                   <?php if ((strtolower($item['name']) != 'default')): ?>
-               <option value="<?php print $item['layout_file'] ?>"
-                       title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
-               <?php endif; ?>
-               <?php endforeach; ?>
-           </select>
-       </div>
-
-   </div>
-
-    <div class="mw-module-skin-setting-holder">
+    <div class="mw-module-select-template"
+         @if(!$showSkinsDropdown) style="display:none" @endif >
 
 
-        @if($currentSkin and $hasSkinSettingsComponent)
-            <div class="mw-module-skin-setting-inner">
-                <div>
-                    <div>
+        <div>
+            <label class="live-edit-label"><?php _ejs("Skin"); ?></label>
 
-                        <?php
-                        $moduleTypeForComponent = str_replace('/', '-', $moduleType);
-                        $hasError = false;
-                        $output = false;
+            <div class="form-control-live-edit-label-wrapper">
 
-                        try {
-                            $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
-                                'moduleId' => $moduleId,
-                                'moduleType' => $moduleType,
-                            ]);
+                <select wire:model="settings.template" class="form-select form-control-live-edit-input">
+                    <option value="default">
+                        <?php _e("Default"); ?>
+                    </option>
 
-                        } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
-                            $hasError = true;
-                            $output = $e->getMessage(). ' ' . $e->getFile() . ' ' . $e->getLine();
-                        } catch (\Exception $e) {
-                            $hasError = true;
-                            $output = $e->getMessage(). ' ' . $e->getFile() . ' ' . $e->getLine();
-                        }
-
-                        if ($hasError) {
-                            print '<div class="alert alert-danger" role="alert">';
-                            print $output;
-                            print '</div>';
-                        } else {
-                            print $output;
-                        }
-
-
-                        ?>
-
-
-                     </div>
-                    <script>
-                    //    window.livewire.rescan();
-                    </script>
-                </div>
+                    <?php foreach ($moduleTemplates as $item): ?>
+                        <?php if ((strtolower($item['name']) != 'default')): ?>
+                    <option value="<?php print $item['layout_file'] ?>"
+                            title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
-        @endif
-    </div>
+        </div>
 
+        <div class="mw-module-skin-setting-holder">
+
+
+            @if($currentSkin and $hasSkinSettingsComponent)
+                <div class="mw-module-skin-setting-inner">
+                    <div>
+                        <div>
+
+                                <?php
+                                $moduleTypeForComponent = str_replace('/', '-', $moduleType);
+                                $hasError = false;
+                                $output = false;
+
+                                try {
+                                    $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
+                                        'moduleId' => $moduleId,
+                                        'moduleType' => $moduleType,
+                                    ])->html();
+
+                                } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
+                                    $hasError = true;
+                                    $output = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
+                                } catch (\Exception $e) {
+                                    $hasError = true;
+                                    $output = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
+                                }
+
+                                if ($hasError) {
+                                    print '<div class="alert alert-danger" role="alert">';
+                                    print $output;
+                                    print '</div>';
+                                } else {
+                                    print $output;
+                                }
+
+
+                                ?>
+
+
+                        </div>
+                        <script>
+                            //    window.livewire.rescan();
+                        </script>
+                    </div>
+                </div>
+
+            @endif
+        </div>
+
+    </div>
 </div>

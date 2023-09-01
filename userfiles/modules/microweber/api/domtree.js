@@ -14,13 +14,13 @@ mw.DomTree = function (options) {
             )
             ||
             (
-              node.ownerDocument.defaultView &&
-              node.ownerDocument.defaultView.mw &&
-            typeof node.ownerDocument.defaultView.mw.drag !== 'undefined' &&
-            typeof node.ownerDocument.defaultView.mw.drag.external_grids_col_classes !== 'undefined'
+                node.ownerDocument.defaultView &&
+                node.ownerDocument.defaultView.mw &&
+                typeof node.ownerDocument.defaultView.mw.drag !== 'undefined' &&
+                typeof node.ownerDocument.defaultView.mw.drag.external_grids_col_classes !== 'undefined'
                 && node.ownerDocument.defaultView.mw.drag
                 && mw.tools.hasAnyOfClasses(node, node.ownerDocument.defaultView.mw.drag.external_grids_col_classes)
-            )){
+            )) {
             title = "Column";
             icon = '<span class="mdi mdi-table-column mdi-18px"></span>';
         } else if (node.nodeName === 'H1') {
@@ -59,6 +59,7 @@ mw.DomTree = function (options) {
         this.prepare = function () {
             var defaults = {
                 selector: '.edit',
+                compactTreeView: false,
                 document: document,
                 targetDocument: document,
                 componentMatch: [
@@ -90,23 +91,9 @@ mw.DomTree = function (options) {
                     // },
                     {
                         label: function (node) {
-                            var id = node.id ? '#' + node.id : '';
-                            var iconAndTitle = this.getNodeIconAndTitle(node);
-                            var icon = '';
-                            var title = node.nodeName.toLowerCase();
-                            if (iconAndTitle.icon) {
-                                icon = iconAndTitle.icon;
-                            }
-                            if (iconAndTitle.title) {
-                                title = iconAndTitle.title;
-                            }
 
-                            var display = title;
-                            if (icon) {
-                                display = icon + ' ' + title;
-                            }
 
-                            return display;
+                            return this.getNodeLabel(node);
                         },
                         test: function (node) {
                             return true;
@@ -155,6 +142,7 @@ mw.DomTree = function (options) {
             this.selected(el);
             this.openParents(el);
             this._scrollTo(el);
+            this.setSelectedNodeInfoInToggleBox(node);
         }
     };
 
@@ -207,6 +195,19 @@ mw.DomTree = function (options) {
         mw.$('.selected', this.root).removeClass('selected');
         node.classList.add('selected');
         this._selectedDomNode = node;
+    };
+
+    this.setSelectedNodeInfoInToggleBox = function (node) {
+        var iconAndTitle = this.getNodeLabel(node);
+        if (iconAndTitle) {
+            $('#selected-item-info-and-title-single').html(iconAndTitle);
+        } else {
+            var title = node.nodeName.toLowerCase();
+
+            $('#selected-item-info-and-title-single').html(title);
+
+        }
+
     };
 
     this.getByNode = function (el) {
@@ -317,7 +318,25 @@ mw.DomTree = function (options) {
         }
         return li;
     };
+    this.getNodeLabel = function (node) {
+        var id = node.id ? '#' + node.id : '';
+        var iconAndTitle = this.getNodeIconAndTitle(node);
+        var icon = '';
+        var title = node.nodeName.toLowerCase();
+        if (iconAndTitle.icon) {
+            icon = iconAndTitle.icon;
+        }
+        if (iconAndTitle.title) {
+            title = iconAndTitle.title;
+        }
 
+        var display = title;
+        if (icon) {
+            display = icon + ' ' + title;
+        }
+
+        return display;
+    };
     this.getComponentLabel = function (node) {
         var all = this.settings.componentMatch, i = 0;
         for (; i < all.length; i++) {
@@ -364,6 +383,22 @@ mw.DomTree = function (options) {
                 ui.element.css('maxHeight', 'none');
             }
         });
+
+        if (this.settings.compactTreeView) {
+            $(this.settings.element).before('' +
+
+                '<div class="d-none">' +
+                '<span id="selected-item-info-and-title-single"></span>' +
+                '<span class="mw-ui-btn mw-ui-btn-small" onclick="mw.$(\'' + this.settings.element + '\').toggle();">' +
+                '<i class="mdi mdi-selection-search"></i>' +
+                '</span>' +
+                '</div>'
+            );
+
+            $(this.settings.element).hide();
+        }
+
+
     };
 
     this.createChildren = function (node, parent) {

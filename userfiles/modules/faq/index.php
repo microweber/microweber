@@ -19,7 +19,7 @@ if (!$data or count($data) == 0) {
 }
 
 
-$module_template = get_module_option('data-template', $params['id']);
+$module_template = get_module_option('template', $params['id']);
 
 
 if ($module_template == false and isset($params['template'])) {

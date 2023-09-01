@@ -17,7 +17,9 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
-
+/**
+ * @runTestsInSeparateProcesses
+ */
 class ImportExportFeedXmlTest extends TestCase
 {
     public function testInstall()
@@ -74,7 +76,7 @@ class ImportExportFeedXmlTest extends TestCase
             ->call('saveMapping')
             ->set('import_feed.primary_key', 'id')
             ->set('import_feed.parent_page', $shopProductId);
-        
+
         // Let's import with modal
         $importModal = Livewire::test(StartImportingModal::class, [$instance->importFeedId]);
 

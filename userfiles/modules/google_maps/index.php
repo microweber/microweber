@@ -24,6 +24,14 @@ $city =  get_option('data-city', $params['id']);
 $street =  get_option('data-street', $params['id']);
 $zip =  get_option('data-zip', $params['id']);
 $zoom =  get_option('data-zoom', $params['id']);
+$size_x =  get_option('data-size-x', $params['id']);
+$size_y =  get_option('data-size-y', $params['id']);
+
+// roadmap, satellite, hybrid, and terrain
+$maptype  =  get_option('data-map-type', $params['id']);
+if($maptype == false or $maptype == ''){
+    $maptype = 'roadmap';
+}
 
 $address_parts = [];
 if($country){
@@ -68,13 +76,22 @@ if($address == false or $address == ''){
 
 $address = html_entity_decode($address);
 $address = strip_tags($address);
-//d($address);
+
+$width = '100%';
+$height = '100%';
+$optionWidth =  get_option('data-width', $params['id']);
+$optionHeight =  get_option('data-height', $params['id']);
+if ($optionWidth > 0) {
+    $width = $optionWidth;
+}
+if ($optionHeight > 0) {
+    $height = $optionHeight;
+}
+
 $zoom = false;
 $pin = false;
 if (isset($params['data-zoom'])) {
-
     $zoom = $params['data-zoom'];
-
 } else {
     $zoom =  get_option('data-zoom', $params['id']);
     $pin =  get_option('data-pin', $params['id']);
@@ -87,15 +104,15 @@ $pinEncoded = false;
 if($pin == false or $pin == ''){
     $pinEncoded = urlencode($pin);
 }
-
-
+$map_style_param = '';
 
 ?>
 
-<div class="relative">
-    <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-            src="https://maps.google.com/maps?f=q&amp;hl=en&amp;<?php if($pinEncoded): ?>center=<?php echo $pinEncoded;?>&amp;<?php endif; ?>geocode=&amp;time=&amp;date=&amp;ttype=&amp;q=<?php print urlencode($address); ?>&amp;ie=UTF8&amp;om=1&amp;s=AARTsJpG68j7ib5XkPnE95ZRHLMVsa8OWg&amp;spn=0.011588,0.023174&amp;z=<?php print intval($zoom); ?>&amp;output=embed&amp;style=<?php print $map_style_param ?>&amp;output=embed">
+<div class="relative mw-prevent-interaction">
+    <iframe width="<?php echo $width;?>" height="<?php echo $height;?>" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+            src="https://maps.google.com/maps?f=q&amp;hl=en&amp;<?php if($pinEncoded): ?>center=<?php echo $pinEncoded;?>&amp;<?php endif; ?>geocode=&amp;time=&amp;date=&amp;ttype=&amp;q=<?php print urlencode($address); ?>&amp;ie=UTF8&amp;om=1&amp;s=AARTsJpG68j7ib5XkPnE95ZRHLMVsa8OWg&amp;spn=0.011588,0.023174&amp;z=<?php print intval($zoom); ?>&amp;style=<?php print $map_style_param ?>$maptype=<?php print $maptype ?>&amp;output=embed">
     </iframe>
+
     <div contentEditable="false" class="iframe_fix" <?php if(  mw()->user_manager->session_get('editmode') == true ) { ?>style="display: block;"<?php } ?>></div>
 </div>
 

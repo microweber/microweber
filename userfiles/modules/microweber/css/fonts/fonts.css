@@ -7,3 +7,10 @@
     src: url('./inter/inter.woff2') format("woff2"), url('./inter/inter.woff') format("woff"), url('./inter/inter.ttf') format("truetype");
     font-display: swap;
 }
+
+@font-face {
+    font-family: 'Microweber';
+    src: url('font.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

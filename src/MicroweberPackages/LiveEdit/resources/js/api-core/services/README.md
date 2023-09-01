@@ -2,6 +2,9 @@
 
 
 ```js
+mw.app.on('editChanged',function(edit){
+
+})
 mw.app.on('init',function(app){
 
 });
@@ -15,9 +18,14 @@ mw.app.on('ready',function(app){
 
 
 ```js
+mw.app.canvas.on('canvasDocumentKeydown',function(){
+    
+});
+
 mw.app.canvas.on('canvasDocumentClick',function(){
 
 });
+
 mw.app.canvas.on('liveEditCanvasLoaded',function(frame){
     
 });

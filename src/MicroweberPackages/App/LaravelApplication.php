@@ -14,7 +14,7 @@ class LaravelApplication extends Application
 {
 
     //remember to change also in version.txt
-    const APP_VERSION = '1.3.4-dev6';
+    const APP_VERSION = '1.3.4-dev7';
 
 
     private $base_path_local;
@@ -175,6 +175,11 @@ class LaravelApplication extends Application
 
         }
 
+    }
+
+    public function rebootApplication(){
+        $this->booted = false;
+        $this->boot();
     }
 
 

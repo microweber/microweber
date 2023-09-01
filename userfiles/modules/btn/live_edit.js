@@ -1,169 +1,98 @@
-class BtnModuleSettings {
 
-    /*onRegister() {
+const alignBtnCenterIcon = '<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEwIDIwTDEwIDJIMTJMMTIgMjBIMTBaIiBmaWxsPSIjMEUwRTBFIi8+CjxwYXRoIGQ9Ik0xNy4zMjg0IDEySDIyVjEwTDE3LjMyODUgMTBMMjAuMzI4NSA3TDE3LjUgN0wxMy41IDExTDE3LjUgMTVIMjAuMzI4NEwxNy4zMjg0IDEyWiIgZmlsbD0iIzBFMEUwRSIvPgo8cGF0aCBkPSJNMCAxMkg0LjY3MTYyTDEuNjcxNjIgMTVINC41MDAwNUw4LjUgMTFMNC40OTk5NSA3TDEuNjcxNTMgN0w0LjY3MTUzIDEwSDBWMTJaIiBmaWxsPSIjMEUwRTBFIi8+Cjwvc3ZnPgo=" style="width: 22px; height: 22px;">';
+const alignBtnLeftIcon = '<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIgMlYyMEg0TDQgMkgyWiIgZmlsbD0iIzBFMEUwRSIvPgo8cGF0aCBkPSJNMTYgMTJIOS4zMjgzOEwxMi4zMjg0IDE1SDkuNDk5OTVMNS41IDExTDkuNTAwMDUgN0wxMi4zMjg1IDdMOS4zMjg0NyAxMEwxNiAxMFYxMloiIGZpbGw9IiMwRTBFMEUiLz4KPC9zdmc+Cg==" style="width: 22px; height: 22px;">';
+const alignBtnRightIcon = '<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwIDIwTDIwIDJIMThMMTggMjBIMjBaIiBmaWxsPSIjMEUwRTBFIi8+CjxwYXRoIGQ9Ik02IDEwSDEyLjY3MTZMOS42NzE2MiA3TDEyLjUgN0wxNi41IDExTDEyLjUgMTVIOS42NzE1M0wxMi42NzE1IDEySDZWMTBaIiBmaWxsPSIjMEUwRTBFIi8+Cjwvc3ZnPgo=" style="width: 22px; height: 22px;">';
 
-        mw.app.editor.on('onModuleSettingsRequest', (module) => {
+let currentAlignBtnIcon = alignBtnCenterIcon;
 
-            var moduleId = module.id;
-                var moduleType = module.getAttribute('data-type');
-                if (moduleType !== 'btn') {
-                    return;
-                }
+let moduleButtonSettings = [
+    {
+        title: 'Align Settings',
+        icon: currentAlignBtnIcon,
 
-                mw.dialogIframe({
-                    url: route('live_edit.modules.settings.btn') + '?id=' + moduleId,
-                    width: 300,
-                    height: 500,
-                    draggable: true,
-                    template: 'mw_modal_simple',
-                    title: 'Button settings',
-                    id: 'btn-quick-setting-dialog-' + moduleId
-                });
-
-            }
-        );
-
-    }*/
-
-}
-/*
-
-mw.app.on('ready', () => {
-
-
-
-
-    mw.quickSettings['btn'] = {
-
-
-        mainMenu: [
+        menu: [
             {
-                title: 'Bazaaaaaaaautton setsadasdastings',
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,8A1.5,1.5 0 0,1 13,6.5A1.5,1.5 0 0,1 14.5,5A1.5,1.5 0 0,1 16,6.5A1.5,1.5 0 0,1 14.5,8M9.5,8A1.5,1.5 0 0,1 8,6.5A1.5,1.5 0 0,1 9.5,5A1.5,1.5 0 0,1 11,6.5A1.5,1.5 0 0,1 9.5,8M6.5,12A1.5,1.5 0 0,1 5,10.5A1.5,1.5 0 0,1 6.5,9A1.5,1.5 0 0,1 8,10.5A1.5,1.5 0 0,1 6.5,12M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A1.5,1.5 0 0,0 13.5,19.5C13.5,19.11 13.35,18.76 13.11,18.5C12.88,18.23 12.73,17.88 12.73,17.5A1.5,1.5 0 0,1 14.23,16H16A5,5 0 0,0 21,11C21,6.58 16.97,3 12,3Z" /></svg>',
-                action: (target, button, api) => {
-
-                    var moduleId = $(target).attr('id');
-
-                    // var settings = api.moduleSettings.dialog()
-                    // var settings = api.moduleSettings.sidebar()
-                    api.dialog({});
-                    console.log(api)
-
-                    return
-
-
-
-                    mw.dialogIframe({
-                        url: route('live_edit.modules.settings.btn')+'?id='+moduleId,
-                        width: 300,
-                        height: 500,
-                        template:'mw_modal_simple',
-                        title: 'Button settings',
-                        id: 'btn-quick-setting-dialog-'+moduleId
-                    });
-
-
-                }
+                name: 'leftAlign',
+                nodes: [
+                    {
+                        title: 'leftAlign',
+                        text: '',
+                        icon: alignBtnLeftIcon,
+                        action: function (el) {
+                            saveBtnAlign(el, 'left');
+                        }
+                    },
+                ]
             },
             {
-                title: 'Set background color',
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,8A1.5,1.5 0 0,1 13,6.5A1.5,1.5 0 0,1 14.5,5A1.5,1.5 0 0,1 16,6.5A1.5,1.5 0 0,1 14.5,8M9.5,8A1.5,1.5 0 0,1 8,6.5A1.5,1.5 0 0,1 9.5,5A1.5,1.5 0 0,1 11,6.5A1.5,1.5 0 0,1 9.5,8M6.5,12A1.5,1.5 0 0,1 5,10.5A1.5,1.5 0 0,1 6.5,9A1.5,1.5 0 0,1 8,10.5A1.5,1.5 0 0,1 6.5,12M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A1.5,1.5 0 0,0 13.5,19.5C13.5,19.11 13.35,18.76 13.11,18.5C12.88,18.23 12.73,17.88 12.73,17.5A1.5,1.5 0 0,1 14.23,16H16A5,5 0 0,0 21,11C21,6.58 16.97,3 12,3Z" /></svg>',
-                action: (target, button, api) => {
-                    var node = document.createElement('div');
-
-                    console.log(api)
-
-                    api.tooltip({
-                        content: node,
-                    });
-                    mw.colorPicker({
-                        element: node,
-                        position: 'bottom-center',
-                        value: 'red',
-                        onchange: function (color) {
-
+                name: 'centerAlign',
+                nodes: [
+                    {
+                        title: 'centerAlign',
+                        text: '',
+                        icon: alignBtnCenterIcon,
+                        action: function (el) {
+                            saveBtnAlign(el, 'center');
                         }
-                    });
-                }
+                    },
+                ]
             },
             {
-                title: 'Set color',
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,8A1.5,1.5 0 0,1 13,6.5A1.5,1.5 0 0,1 14.5,5A1.5,1.5 0 0,1 16,6.5A1.5,1.5 0 0,1 14.5,8M9.5,8A1.5,1.5 0 0,1 8,6.5A1.5,1.5 0 0,1 9.5,5A1.5,1.5 0 0,1 11,6.5A1.5,1.5 0 0,1 9.5,8M6.5,12A1.5,1.5 0 0,1 5,10.5A1.5,1.5 0 0,1 6.5,9A1.5,1.5 0 0,1 8,10.5A1.5,1.5 0 0,1 6.5,12M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A1.5,1.5 0 0,0 13.5,19.5C13.5,19.11 13.35,18.76 13.11,18.5C12.88,18.23 12.73,17.88 12.73,17.5A1.5,1.5 0 0,1 14.23,16H16A5,5 0 0,0 21,11C21,6.58 16.97,3 12,3Z" /></svg>',
-                action: (target, button, api) => {
-                    var node = document.createElement('div');
-
-
-                    api.dialog({
-                        content: node,
-                    });
-                    mw.colorPicker({
-                        element: node,
-                        position: 'bottom-center',
-                        value: 'red',
-                        onchange: function (color) {
-
+                name: 'rightAlign',
+                nodes: [
+                    {
+                        title: 'rightAlign',
+                        text: '',
+                        icon: alignBtnRightIcon,
+                        action: function (el) {
+                            saveBtnAlign(el, 'right');
                         }
-                    });
-                }
+                    },
+                ]
             },
-            {
-                title: 'Link',
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" /></svg>',
-                action: (target, button, api) => {
-
-
-                    var linkEditor = new mw.LinkEditor({
-                        mode: 'dialog',
-                    });
-                    var val = 'http://google.com'
-                    if(val) {
-                        linkEditor.setValue(val);
-                    }
-
-                    linkEditor.promise().then(function (data){
-                        var modal = linkEditor.dialog;
-                        if(data) {
-
-
-                        }
-                        modal.remove();
-                    });
-                }
-            }
-        ],
-        settingsMenu: [
-
         ]
-    };
+    }
+];
 
+function saveBtnAlign(el, align) {
 
-    $(document).ready(function () {
-        mw.on('live_edit.modules.settings.btn.changed', function (e,data) {
-            if(data.moduleId ){
-                mw.reload_module_everywhere('#'+data.moduleId);
-            }
-        });
-    });
-
-
-
-
-});
-*/
- //mw.app.on('ready', () => {
-
-    var moduleHandleConfig = {
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,20H20V16H16M16,14H20V10H16M10,8H14V4H10M16,8H20V4H16M10,14H14V10H10M4,14H8V10H4M4,20H8V16H4M10,20H14V16H10M4,8H8V4H4V8Z" /></svg>',
-        title: 'Click to config',
-        onTarget: function (target) {
-            console.log(target)
-        },
-        action: function (target) {
-            console.log(target)
-        }
+    let moduleId = el.getAttribute('id');
+    let moduleType = el.getAttribute('data-type');
+    if (!moduleType) {
+        moduleType = el.getAttribute('type');
     }
 
+    if (align == 'left') {
+        moduleButtonSettings[0].icon = alignBtnLeftIcon;
+    }
+    if (align == 'center') {
+        moduleButtonSettings[0].icon = alignBtnCenterIcon;
+    }
+    if (align == 'right') {
+        moduleButtonSettings[0].icon = alignBtnRightIcon;
+    }
 
-    mw.app.dynamicTargetMenus.addModuleQuickSetting('btn', moduleHandleConfig);
+    var data = {
+        option_group: moduleId,
+        option_key: 'align',
+        option_value: align,
+        module: moduleType,
+    };
 
-// });
+    console.log(data);
+
+    mw.options.saveOption(data, function () {
+
+        mw.app.liveEdit.moduleHandleContent.menu.setMenu('dynamic',  moduleButtonSettings);
+
+        // Saved
+        mw.app.editor.dispatch('onModuleSettingsChanged', {
+            'moduleId': moduleId
+        });
+
+    });
+}
+
+mw.quickSettings.btn = moduleButtonSettings;
+
+

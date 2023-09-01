@@ -14,16 +14,17 @@ $db_get_params['order_by'] = 'id desc';
 if (isset($params['content_id'])) {
 
     if (isset($params['from_url_string'])) {
+        $params['from_url_string'] = str_replace(site_url(), '', $params['from_url_string']);
         $db_get_params2 = $db_get_params;
         $db_get_params2['url'] = $params['from_url_string'];
 
         $data = db_get($db_get_params2);
-        $db_get_params2['table'] = 'content_fields';
+        $db_get_params2['table'] = 'content_revisions_history';
 
         $data_content_fields_curr = db_get($db_get_params2);
 
     } else  if (isset($params['from_url_string_home'])) {
-
+        $params['from_url_string_home'] = str_replace(site_url(), '', $params['from_url_string_home']);
         $db_get_params2 = $db_get_params;
         $db_get_params2['__query_from_url_string_home'] = function ($query_filter) {
             $query_filter->where('url',   '')->orWhereNull('url');
@@ -31,10 +32,9 @@ if (isset($params['content_id'])) {
         };
         $db_get_params3 = $db_get_params2;
         $data = db_get($db_get_params2);
-        $db_get_params2['table'] = 'content_fields';
+        $db_get_params2['table'] = 'content_revisions_history';
 
         $data_content_fields_curr = db_get($db_get_params3);
-
 
 
 
@@ -115,22 +115,20 @@ if (isset($params['content_id'])) {
 <?php if ($data) { ?>
     <?php foreach ($data as $item) { ?>
 
-            <div class="mw-ui-box"
+            <div class="card mb-3 m-1 p-1"
                  id="accordion-example<?php print $item['id'] ?>">
-                <div
-
-                        class="mw-ui-box-header">
-                    <span class="mw-ui-link" onclick="mw.accordion('#accordion-example<?php print $item['id'] ?>');">
+                <div class="card-header d-block p-3">
+                    <span class="form-label cursor-pointer" onclick="mw.accordion('#accordion-example<?php print $item['id'] ?>');">
                     <em><?php print $item['field'] ?></em> &nbsp; <br> <?php print $item['created_at'] ?>
                         (<?php print mw()->format->ago($item['created_at']); ?>)
                     </span>
 
 
-                    <a class="pull-right mw-ui-btn mw-ui-btn-small"
+                    <a class="mw-admin-action-links mw-adm-liveedit-tabs"
                        href="javascript:mw.content_revisions_control.load_content_field_to_editor('<?php print $item['id'] ?>')"><?php _e("Load to editor"); ?></a>
 
                     <?php if (isset($params['show_btn_for_find_element'])) { ?>
-                        <a class="pull-right mw-ui-btn mw-ui-btn-small mr-3"
+                        <a class="mw-admin-action-links mw-adm-liveedit-tabs mr-3"
                            href="javascript:scroll_content_field_to_editor('<?php print $item['field'] ?>','<?php print $item['rel_type'] ?>')"><span
                                     class="mdi mdi-note-text-outline"></span></a>
 
@@ -138,13 +136,13 @@ if (isset($params['content_id'])) {
                     <?php } ?>
 
 
-                    <a class="pull-right mw-ui-btn mw-ui-btn-small mr-3"
+                    <a class="text-decoration-none cursor-pointer tblr-body-color ms-2"
                        href="javascript:mw.accordion('#accordion-example<?php print $item['id'] ?>');"><span
-                                class="mdi mdi-note-text-outline"></span></a>
+                                class="mdi mdi-note-text-outline fs-3"></span></a>
 
 
                 </div>
-                <div class="mw-accordion-content mw-ui-box-content" style="display: none">
+                <div class="card-body" style="display: none">
                     <table class="mw-ui-table" style="display: none">
                         <tr>
 
@@ -188,4 +186,12 @@ if (isset($params['content_id'])) {
             </div>
 
     <?php } ?>
+<?php } else { ?>
+    <div class="mw-ui-box">
+        <div class="mw-ui-box-content">
+            <h3 class="mw-ui-box-header">
+                <?php _e("No revisions for this content"); ?>
+            </h3>
+        </div>
+    </div>
 <?php } ?>

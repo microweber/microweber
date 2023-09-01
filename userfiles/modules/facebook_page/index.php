@@ -22,7 +22,7 @@
     }
 
     if (get_option('friends', $params['id'])) {
-        if (get_option('friends', $params['id']) == 'true') {
+        if (get_option('friends', $params['id']) == 1) {
             $friends = 'true';
         } else {
             $friends = 'false';
@@ -32,7 +32,7 @@
     }
 
     if (get_option('timeline', $params['id'])) {
-        if (get_option('timeline', $params['id']) == 'true') {
+        if (get_option('timeline', $params['id']) == 1) {
             $timeline = '&tabs=timeline';
         } else {
             $timeline = '';
@@ -41,7 +41,7 @@
         $timeline = '';
     }
 
-    $module_template = get_option('data-template', $params['id']);
+    $module_template = get_option('template', $params['id']);
     if ($module_template == false and isset($params['template'])) {
         $module_template = $params['template'];
     }

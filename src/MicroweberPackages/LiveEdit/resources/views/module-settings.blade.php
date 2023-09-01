@@ -14,7 +14,9 @@
         $moduleTypeForLegacyModule = module_name_decode($moduleType);
        // $moduleTypeForLegacyModule = $moduleTypeForLegacyModule.'/admin';
 
+        $moduleFolder = $moduleTypeForComponent;
         $moduleTypeForComponent = str_replace('_', '-', $moduleTypeForComponent);
+
         $hasError = false;
         $output = false;
 
@@ -54,12 +56,11 @@
         ?>
 
         @if(livewire_component_exists($livewireComponentName))
-<div>
-
-    @livewire($livewireComponentName, ['moduleId' => $moduleId, 'moduleType' => $moduleType])
-
-</div>
-
+                @livewire($livewireComponentName, [
+                    'moduleId' => $moduleId,
+                    'moduleType' => $moduleFolder,
+                    'moduleParams' => $params,
+                ])
         @else
 
 
@@ -69,20 +70,28 @@
             <script>
                 // saving module settings for legacy modules
                 var settingsBindOptionsFields = function () {
+
+
                     var settings_container_mod_el = $('#settings-container');
-                    mw.options.form(settings_container_mod_el, function () {
-                        if (mw.top().notification) {
-                            mw.top().notification.success('<?php _ejs('Settings are saved') ?>');
-                        }
-                         <?php if (isset($params['id'])) : ?>
 
-                            if (typeof mw !== 'undefined' && mw.top().app && mw.top().app.editor) {
-                                mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '<?php print $params['id']  ?>'} || {}))
+                    if(settings_container_mod_el.length !== 0) {
+
+
+                        mw.options.form(settings_container_mod_el, function () {
+                            if (mw.top().notification) {
+                                mw.top().notification.success('<?php _ejs('Settings are saved') ?>');
                             }
+                             <?php if (isset($params['id'])) : ?>
 
-                        <?php endif; ?>
+                                if (typeof mw !== 'undefined' && mw.top().app && mw.top().app.editor) {
+                                    mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '<?php print $params['id']  ?>'} || {}))
+                                }
 
-                    });
+                            <?php endif; ?>
+
+                        });
+
+                    }
 
                     createAutoHeight()
                 };
@@ -195,12 +204,12 @@
                     };
                 }
 
-               // mw.interval('_settingsAutoHeight', function () {
-               //      if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
-               //        window.createAutoHeight();
-               //
-               //      }
-               // });
+               mw.interval('_settingsAutoHeight', function () {
+                    if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
+                      window.createAutoHeight();
+
+                    }
+               });
 
             });
             var domModifiedForAutoHeightIntervalId;

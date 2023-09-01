@@ -4,6 +4,7 @@ import {Draggable} from "./draggable.js";
 import {ElementManager} from "./classes/element.js";
 import {DomService} from "./classes/dom.js";
 import {Resizable} from "./classes/resizable.js";
+import { type } from "jquery";
 
 export const Handle = function (options) {
 
@@ -64,7 +65,7 @@ export const Handle = function (options) {
  
 
       this.draggable = new Draggable({
-          handle: this.handle,
+          handle: this.settings.handle,
           element: null,
           helper: true,
           dropIndicator: this.settings.dropIndicator,
@@ -107,39 +108,52 @@ export const Handle = function (options) {
         }
         const off = DomService.offset(target);
         const scroll = getScroll();
-        const menu = this.wrapper.get(0).querySelector('.mw-le-handle-menu-buttons');
+        const menu = this.wrapper.get(0).querySelector('.mw-handle-item-menus-holder');
+
+
  
-        let transform ;
-        
-        if(scroll.y > (off.top - 70)) {
-            transform = (scroll.y - (off.top - 70));
+ 
 
-            if((transform) > off.height) {
-                transform = off.height + 10
-            }
-        }
 
+
+ 
 
         if(menu) {
-            menu.style.transition = `none`;
-            //menu.style.transform = transform ? `translateX(${transform}px)` : '';
-    
-            if(off.top < 50 ) {
-                menu.style.top = `calc(100% + 60px)`;
-            } else {
-                menu.style.top = ``;
+
+            let transform = 0
+
+            if(this.settings.offsetMenuTransform) {
+                transform = this.settings.offsetMenuTransform(scroll, off, menu);
             }
+
+            
+
+            
+
+            menu.style.transition = `none`;
+            menu.style.transform = transform ? `translateY(${transform}px)` : '';
+
+            if(typeof this.settings.onPosition === 'function') {
+                this.settings.onPosition(menu, transform, off)
+            }
+            
+    
+            
     
             setTimeout(() => menu.style.transition = ``, 10)
         }
 
 
+        var height = off.height;
+        if(!height) {
+            height = target.scrollHeight;
+        }
 
          this.wrapper.css({
             top:  off.top, 
             left:  off.left,
             width: off.width,   
-            height: off.height,
+            height
         });
         
     }
@@ -164,6 +178,12 @@ export const Handle = function (options) {
 
     this.set = function (target, forced) {
         
+ 
+        if(this.settings.$name === '$elementHandle') {
+            console.log(target)
+        }
+
+        
         if (!target) {
             _currentTarget = null;
             this.setDraggable(false)
@@ -183,6 +203,16 @@ export const Handle = function (options) {
         return this;
     };
 
+
+    var _draggablePaused = false;
+
+    this.draggablePaused = function(state) {
+        if (typeof state !== 'undefined') {
+            _draggablePaused = state;
+        }
+        return _draggablePaused;
+    }
+
     this.createHandle = function () {
         if (this.settings.handle === 'self') {
 
@@ -197,7 +227,11 @@ export const Handle = function (options) {
             this.wrapper.append(elementhandle);
 
             this.settings.document.addEventListener('mousedown', function(){
-                elementhandle.addClass('active');
+                const draggablePaused = scope.draggablePaused();
+
+                if(draggablePaused !== true && draggablePaused !== scope.getTarget()) {
+                    elementhandle.addClass('active');
+                }
             });
 
             this.settings.document.addEventListener('mouseup', function(){
@@ -216,7 +250,7 @@ export const Handle = function (options) {
 
         if (this.settings.handle) {
             if(typeof this.settings.handle === 'string') {
-                this.settings.handle = ElementManager(this.handle)
+                //this.settings.handle = (this.handle)
             }
             this.handle = this.settings.handle;
         } else {
@@ -304,6 +338,7 @@ export const Handle = function (options) {
         this.resizer.mount();
         this.resizer.on('resize',  data => {
             const target = this.getTarget();
+            const prevData = target.$$prevData || data;
             if(this.settings.automaticMaxWidth) {
                 target.style.maxWidth = '100%';
             }
@@ -316,7 +351,31 @@ export const Handle = function (options) {
                 target.style.minHeight = data.height + 'px';
                 target.style.width = data.width + 'px';
             }
+             
+            var isCol = target.classList.contains('mw-col');
+            if(isCol) {
+                const next = target.nextElementSibling;
+                const prev = target.previousElementSibling;
+                if(next) {
+                    // const nextWidth = parseFloat(next.ownerDocument.defaultView.getComputedStyle(next).width)
+                    const nextWidth = next.offsetWidth
+                    if(prevData.width > data.width) {
+                        next.style.width = (nextWidth + (prevData.width - data.width )) + 'px'
+                    } else {
+                        next.style.width = (nextWidth - (data.width - prevData.width )) + 'px'
+                    }
+                } else if(prev) {
+                    const prevWidth = prev.offsetWidth
+                    if(prevData.width > data.width) {
+                        prev.style.width = (prevWidth + (prevData.width - data.width )) + 'px'
+                    } else {
+                        prev.style.width = (prevWidth - (data.width - prevData.width )) + 'px'
+                    }
+                }
+            }
             this.set(target)
+
+            target.$$prevData = data;
         });
     }
 

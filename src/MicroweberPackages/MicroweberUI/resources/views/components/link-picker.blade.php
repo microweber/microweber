@@ -3,13 +3,14 @@ $rand = time().rand(1111,9999);
 @endphp
 
 <label class="form-control-live-edit-label-wrapper">
+
+
     <input type="text"
            id="js-btn-link-value{{$rand}}"
-           class="form-control-live-edit-input"
-           placeholder="https://example.com"
+           class="form-control-live-edit-input js-open-link-editor{{$rand}}-field"
+           placeholder="https://example.com" readonly="readonly" />
 
-        {!! $attributes->merge([]) !!}
-    >
+    <textarea style="display:none" id="js-btn-link-value-json{{$rand}}" {!! $attributes->merge([]) !!}></textarea>
 
     <span class="form-control-live-edit-bottom-effect"></span>
 
@@ -18,20 +19,89 @@ $rand = time().rand(1111,9999);
     </span>
 </label>
 
-
 <script>
+    var currentLinkPickerValue = {
+        url: '',
+        text: null,
+        target:  '_self',
+        id: 1,
+        type: 'category'
+    }
     $(document).ready(function() {
-        $('.js-open-link-editor{{$rand}}').click(function () {
-            new mw.LinkEditor({
-                mode: 'dialog'
-            }).promise()
-                .then(function (result){
 
-                    let linkValueElement = document.getElementById('js-btn-link-value{{$rand}}');
-                    linkValueElement.value = result.url;
-                    linkValueElement.dispatchEvent(new Event('input'));
+        function _setCurrentLinkPickerValue(currentValueLink)
+        {
+            currentLinkPickerValue.url = currentValueLink.url;
+            if (currentValueLink.data) {
+                if (currentValueLink.data.id) {
+                    currentLinkPickerValue.id = currentValueLink.data.id;
+                }
+                if (currentValueLink.data.title) {
+                    currentLinkPickerValue.text = currentValueLink.data.title;
+                }
+                if (currentValueLink.data.content_type) {
+                    currentLinkPickerValue.type = currentValueLink.data.content_type;
+                }
+                if (currentValueLink.data.type) {
+                    currentLinkPickerValue.type = currentValueLink.data.type;
+                }
+            }
+            $('.js-open-link-editor{{$rand}}-field').val(currentLinkPickerValue.url);
+        }
 
-                });
+        function _handleLinkSelect(){
+
+            var linkItemsConfig =  {text: false, target: false}
+
+            const linkEditor = new mw.LinkEditor({
+                mode: 'dialog',
+                controllers: [
+                    { type: 'url', config: linkItemsConfig},
+                    { type: 'page', config: linkItemsConfig },
+                    { type: 'post', config: linkItemsConfig },
+                    { type: 'file', config: linkItemsConfig },
+                    { type: 'email',  config: linkItemsConfig},
+                    { type: 'layout', config: linkItemsConfig },
+                ],
+            });
+
+            if(currentLinkPickerValue.type === 'category' || currentLinkPickerValue.type === 'page') {
+                linkEditor.selectController('page')
+            }
+            linkEditor
+            .setValue(currentLinkPickerValue)
+            .promise()
+            .then(function (result){
+
+                let linkValueElementJson = document.getElementById('js-btn-link-value-json{{$rand}}');
+                linkValueElementJson.value = JSON.stringify(result);
+                linkValueElementJson.dispatchEvent(new Event('input'));
+
+                let linkValueElement = document.getElementById('js-btn-link-value{{$rand}}');
+                linkValueElement.value = result.url;
+                linkValueElement.dispatchEvent(new Event('input'));
+
+                _setCurrentLinkPickerValue(result);
+
+            });
+        }
+
+        let currentValueLink = document.getElementById('js-btn-link-value-json{{$rand}}').value;
+        if (currentValueLink) {
+            try {
+                currentValueLink = JSON.parse(currentValueLink);
+                _setCurrentLinkPickerValue(currentValueLink);
+            } catch (e) {
+              //  console.log(e);
+            }
+        }
+
+        $('.js-open-link-editor{{$rand}}-field').on('focus', function () {
+            _handleLinkSelect()
+        })
+
+        $('.js-open-link-editor{{$rand}}').on('click', function () {
+            _handleLinkSelect()
         });
     });
 </script>

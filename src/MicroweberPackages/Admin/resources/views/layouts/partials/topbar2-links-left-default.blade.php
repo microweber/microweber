@@ -1,3 +1,30 @@
+<button class="navbar-toggler d-xl-none" id="sidebar-toggle">
+    <span class="navbar-toggler-icon"></span>
+</button>
+
+<script>
+
+    
+
+    document.body.addEventListener('click', function(e){
+        var sidebar = document.getElementById('admin-sidebar');
+        if(!sidebar.contains(e.target)) {
+            document.body.classList.remove('sidebar-mobile-toggle')
+        }
+        
+    });
+
+    document.getElementById('sidebar-toggle').addEventListener('click', function(e){
+        
+        document.body.classList.toggle('sidebar-mobile-toggle');
+        e.stopPropagation();
+    });
+
+
+</script>
+
+ 
+
 @if (user_can_access('module.content.edit'))
 
 <button type="button" class="btn btn-light    border-0 admin-toolbar-buttons"

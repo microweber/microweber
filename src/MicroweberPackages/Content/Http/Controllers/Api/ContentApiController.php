@@ -28,9 +28,11 @@ class ContentApiController extends AdminDefaultController
      * @param ContentRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return (new JsonResource($this->content->all()))->response();
+
+
+        return (new JsonResource($this->content->filter($request->all() )->get()));
     }
 
     /**

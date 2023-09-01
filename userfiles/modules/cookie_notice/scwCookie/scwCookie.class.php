@@ -86,7 +86,7 @@ class ScwCookie
         //$return[] = $this->getOutputHTML('popup',$add_html);
 
         // Module template
-        $module_template = get_option('data-template', $this->mod_id);
+        $module_template = get_option('template', $this->mod_id);
         if ($module_template == false and isset($params['template'])) {
             $module_template = $params['template'];
         }

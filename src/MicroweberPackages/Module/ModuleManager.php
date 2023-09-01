@@ -1380,7 +1380,7 @@ class ModuleManager
         $table = 'module_templates';
 
         $params['table'] = $table;
-
+        $params['order_by'] = 'position asc';
         $data = $this->app->database_manager->get($params);
 
         return $data;

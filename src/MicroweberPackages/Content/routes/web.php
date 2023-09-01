@@ -12,4 +12,9 @@ Route::name('admin.')
     ->namespace('\MicroweberPackages\Content\Http\Controllers\Admin')
     ->group(function () {
         Route::resource('content', 'ContentController',['except' => ['show']]);
+
+
+        Route::get('content-form-builder', [\MicroweberPackages\Content\Http\Controllers\Admin\ContentFormBuilderController::class, 'index'])
+            ->name('content.builder.index');
+
     });

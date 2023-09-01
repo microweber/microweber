@@ -123,11 +123,11 @@
                                             <?php
                                             if (user_can_access('module.content.edit')):
                                                 ?>
-                                                <a href="<?php echo $edit_link; ?>" class="btn btn-outline-success btn-sm">
+                                                <a href="<?php echo $edit_link; ?>?live_edit=true" class="btn btn-outline-success btn-sm">
                                                     <?php echo $edit_text; ?>
                                                 </a>
 
-                                                <a target="<?php echo $target; ?>" class="btn btn-outline-primary btn-sm" href="<?php print $content_link; ?>?editmode:y">
+                                                <a target="<?php echo $target; ?>?live_edit=true" class="btn btn-outline-primary btn-sm" href="<?php print $content_link; ?>?editmode:y">
                                                     <?php echo $live_edit_text; ?>
                                                 </a>
                                                 <?php

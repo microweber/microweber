@@ -993,8 +993,14 @@ class ApiController  extends FrontendController
             $opts = $request_data;
         }
 
-
+        $as_element = false;
         if (isset($opts['class']) and is_string($opts['class']) and strstr($opts['class'], 'module-as-element')) {
+            $as_element = true;
+        }
+        if (isset($opts['as_element']) and $opts['as_element']) {
+            $as_element = true;
+        }
+        if ($as_element) {
             $opts['module_as_element'] = true;
             $opts['populate_module_ids_in_elements'] = true;
         }

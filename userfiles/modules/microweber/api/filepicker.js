@@ -53,7 +53,7 @@ mw.filePicker = function (options) {
 
     this.settings = $.extend(true, {}, defaults, options);
 
-    this.$root = $('<div class="'+ (this.settings.boxed ? ('card mb-3') : '') +' mw-filepicker-root"></div>');
+    this.$root = $('<div class="'+ (this.settings.boxed ? ('card mb-3') : '') +' mw-filepicker-root form-control-live-edit-label-wrapper"></div>');
     this.root = this.$root[0];
 
     $.each(this.settings.components, function (i) {
@@ -83,7 +83,7 @@ mw.filePicker = function (options) {
 
             return $wrap[0];
         },
- 
+
         desktop: function () {
 
 
@@ -226,7 +226,7 @@ mw.filePicker = function (options) {
 
     this.navigation = function () {
         this._navigationHeader = document.createElement('div');
-        this._navigationHeader.className = 'mw-filepicker-component-navigation-header ' + (this.settings.boxed ? 'card-header no-border' : '');
+        this._navigationHeader.className = 'mw-filepicker-component-navigation-header mb-3' + (this.settings.boxed ? 'card-header no-border' : '');
         if (this.settings.hideHeader) {
             this._navigationHeader.style.display = 'none';
         }
@@ -239,9 +239,9 @@ mw.filePicker = function (options) {
         }
         else if(this.settings.nav === 'tabs') {
 
-            var ul = $('<nav class="nav nav-tabs mw-ac-editor-nav" />');
+            var ul = $('<div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper mx-0" />');
             this.settings.components.forEach(function (item) {
-                ul.append('<li class="nav-item"><a href="javascript:;" class="nav-link" data-type="'+item.type+'">'+item.label+'</a></li>');
+                ul.append('<a href="javascript:;" class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100" data-type="'+item.type+'">'+item.label+'</a>');
             });
             this._navigationHolder.appendChild(this._navigationHeader);
             this._navigationHeader.appendChild(ul[0]);
@@ -352,8 +352,8 @@ mw.filePicker = function (options) {
         if(!this.settings.footer || this.settings.autoSelect) return;
         this._navigationFooter = document.createElement('div');
         this._navigationFooter.className = 'modal-footer mw-ui-form-controllers-footer mw-filepicker-footer ' + (this.settings.boxed ? 'card-footer' : '');
-        this.$ok = $('<button type="button" class="btn btn-primary">' + this.settings.okLabel + '</button>');
-        this.$cancel = $('<button type="button" class="btn">' + this.settings.cancelLabel + '</button>');
+        this.$ok = $('<button type="button" class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component">' + this.settings.okLabel + '</button>');
+        this.$cancel = $('<button type="button" class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component">' + this.settings.cancelLabel + '</button>');
         this._navigationFooter.appendChild(this.$cancel[0]);
         this._navigationFooter.appendChild(this.$ok[0]);
         this.$root.append(this._navigationFooter);

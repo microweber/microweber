@@ -23,14 +23,13 @@
 
                     <input type="text"
                            v-model="filterKeyword"
-                           v-on:keydown="filterModules()"
                            placeholder="Type to Search..."
                            class="form-control mw-modules-list-search-block rounded-0">
                 </div>
 
                 <div class="modules-list-block">
 
-                    <div v-if="filterKeyword" class="pl-4 mb-3 mt-3">
+                    <div v-if="filterKeyword && filterKeyword.trim().length > 0" class="pl-4 mb-3 mt-3">
                         Looking for {{filterKeyword}}
                     </div>
 
@@ -60,7 +59,6 @@
 
 </template>
 
-
 <script>
 export default {
     methods: {
@@ -75,14 +73,20 @@ export default {
                 options.as_element = true;
             }
 
-            mw.app.editor.insertModule(module,options);
+             
+            mw.app.editor.insertModule(module, options);
             this.showModal = false;
         },
         filterModules() {
+
+            let filterKeyword = this.filterKeyword.trim();
             let modulesFiltered = this.modulesList;
-            if (this.filterKeyword != '' && this.filterKeyword) {
+
+            console.log(filterKeyword);
+
+            if (filterKeyword != '' && filterKeyword) {
                 modulesFiltered = modulesFiltered.filter((item) => {
-                    return item.name.toUpperCase().includes(this.filterKeyword.toUpperCase())
+                    return item.name.toUpperCase().includes(filterKeyword.toUpperCase())
                 });
             }
 
@@ -100,6 +104,11 @@ export default {
                 }
                 instance.modulesListFiltered[moduleElement.categories].push(moduleElement);
             });
+        }
+    },
+    watch: {
+        filterKeyword(value) {
+            this.filterModules();
         }
     },
     components: {},

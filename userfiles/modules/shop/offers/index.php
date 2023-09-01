@@ -18,7 +18,7 @@ $params['data-in-stock'] = true;
 //if (isset($params['data-parent-id']) && isset($params['data-in-stock']) && isset($params['data-count']) && isset($params['data-title']) && isset($params['data-price-name']) && isset($params['data-retail-price']) && isset($params['data-offer-price'])) {
 if ($data) {
 
-    $module_template = get_option('data-template', $params['id']);
+    $module_template = get_option('template', $params['id']);
     if ($module_template == false and isset($params['template'])) {
         $module_template = $params['template'];
     }

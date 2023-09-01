@@ -1,15 +1,34 @@
+.mw-bg-image-handles{
+    position: absolute;
+    z-index: 999;
+    pointer-events: none;
+    .mw-le-handle-menu .mw-le-handle-menu-buttons {
+        pointer-events: all;
+        opacity: 1;
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #fff;
+    }
+
+}
+
 .mw-handle-item {
     &.mw-le-resizable{
         position: absolute;
     }
     position: absolute;
-    z-index: 999;
+    z-index: 998;
     cursor: default;
     -webkit-user-select: none;
     user-select: none;
     border: 3px solid #0078ff;
     transition: opacity .2s;
     pointer-events: none;
+    & > *{
+        pointer-events: all;
+    }
 
     &.mw-handle-item-interaction-handle{
         pointer-events: none;
@@ -31,7 +50,7 @@
         display: none !important;
     }
 
- 
+
     .mw-handlemenu-item {
         pointer-events: all;
     }
@@ -54,51 +73,95 @@ $lightBG: #ffffff;
 
 $bg: $lightBG;
 
-$handleHeight: 42;
+$handleHeight: 38;
+$handleholderHeight: 42;
 
 #mw-handle-item-layout-root{
     .mw-handle-item-menus-holder{
- 
+
         top: 10px;
         right: 10px;
         left: auto;
         position: absolute;
- 
-            
+
+
     }
 }
 
 .mw-handle-item {
 
-    .mw-handle-item-menus-holder{
-        height: #{$handleHeight}px;
-        padding: 0px 12px;
+    .mw-handle-item-menus-holder, .mw-le-handle-menu-button-sub-menu{
+
+        height: #{$handleholderHeight}px;
+        padding: 2px 2px 11px 11px!important;
+        padding-bottom: 9px !important;
         display: inline-flex;
         border-radius: 7px;
         border: 1px solid transparent;
-        position: relative;
-        top: -60px;
-        left: -3px;
-        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;   
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
         background-color: $bg;
-            
+
+        .mw-le-handle-menu-button {
+            display: inline-flex;
+            width: 32px;
+            height: 32px;
+            margin: 0 2px;
+            border-radius: 3px;
+            cursor: pointer;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            transition: .3s;
+            font-size: 19px;
+
+            &.mw-handle-button-wide {
+                width: auto;
+                white-space: nowrap;
+                display: block;
+                text-align: left;
+                border: 1px solid #eee;
+                padding: 7px 10px 7px 5px !important;
+                height: auto;
+                margin: 2px;
+
+                * {
+                    vertical-align: middle;
+                }
+            }
+
+            &:hover {
+                background-color: #f1f1f1;
+            }
+
+            &.mw-handle-drag-button {
+                cursor: grab;
+            }
+        }
+
+    }
+
+    .mw-le-handle-menu-button-sub-menu {
+        padding: 4px 6px 4px 6px !important;
+        top: 40px;
+        right: -4px;
+
     }
 }
 
 
 .mw-le-handle-menu {
     .mw-le-handle-menu-buttons{
-        
+
         height: #{$handleHeight}px;
-        
-        
+
+
         display: inline-flex;
         align-items: center;
-        
+
         pointer-events: all;
-        
-        position: static;  
- 
+
+        position: static;
+
         &:empty{
             display: none !important;
         }
@@ -106,7 +169,7 @@ $handleHeight: 42;
         opacity: 0;
         transform: translateY(10px);
         z-index: 2;
-        
+        position: relative;
     }
     position: relative;
 
@@ -125,15 +188,15 @@ $handleHeight: 42;
     }
 }
 
- 
+
 
 
 
 #mw-handle-item-layout-root{
- 
+
     .mw-handle-item-menus-holder, .mw-le-handle-menu-buttons{
         height: auto;
-   
+
         padding: 0;
     }
 
@@ -151,7 +214,7 @@ $handleHeight: 42;
         top: 0;
         right: 5px;
         left: auto;
-    
+
 
         .mw-le-handle-menu-title {
             display: none;
@@ -159,6 +222,30 @@ $handleHeight: 42;
     }
 }
 
+.mw-le-handle-menu-button-holder {
+    display: flex;
+    align-items: center;
+    width: auto;
+    white-space: nowrap;
+    text-align: left;
+    border: 1px solid #eee;
+    padding: 7px 10px 7px 5px !important;
+    height: auto;
+    margin: 8px 2px;
+
+    * {
+        vertical-align: middle;
+    }
+
+    .mw-le-handle-menu-button.mw-handle-insert-button {
+        padding: 5px;
+
+        &:hover {
+            background-color: #f1f1f1;
+        }
+    }
+
+}
 
 .mw-le-handle-menu-buttons {
     display: inline-block;
@@ -182,9 +269,9 @@ $handleHeight: 42;
             white-space: nowrap;
             display: block;
             text-align: left;
-            padding: 5px 0px;
-            height: auto;
             border: 1px solid #eee;
+            padding: 7px 10px 7px 5px !important;
+            height: auto;
             margin: 2px;
             * {
                 vertical-align: middle;
@@ -199,10 +286,18 @@ $handleHeight: 42;
     }
 }
 
+html[dir="rtl"] {
+
+    .mw-le-handle-menu-button-sub-menu {
+        left: 0;
+        right: auto;
+    }
+}
+
 .mw-le-handle-menu-button-sub-menu {
     display: flex;
     flex-wrap: nowrap;
-    padding: 10px 0;
+    padding: 4px 0;
     position: absolute;
     visibility: hidden;
     opacity: 0;
@@ -210,9 +305,11 @@ $handleHeight: 42;
     transform-origin: center top;
     transition: .2s;
     top: 100%;
-    left: 0;
+    left: auto;
+    right: 0;
     background-color: #fff;
     box-shadow: 0px 4px 16px rgba(17, 17, 26, .1), 0px 8px 32px rgba(17, 17, 26, .05);
+    border-radius: 5px;
 
     .mw-le-handle-menu-button {
         display: block;
@@ -356,7 +453,7 @@ $handleHeight: 42;
 }
 
 
-[data-mw-live-edithover="true"] > * {
+html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
     pointer-events: none;
     .module,.element,.cloneable, .edit{
         pointer-events: all;

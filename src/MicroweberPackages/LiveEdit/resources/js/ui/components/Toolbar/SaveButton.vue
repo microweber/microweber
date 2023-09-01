@@ -24,6 +24,7 @@ export default {
             } else {
                 btn.classList.remove('btn-loading');
                 btn.disabled = false;
+                mw.notification.success('Page saved successfully.',7500);
             }
         }
     },

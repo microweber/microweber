@@ -359,13 +359,13 @@ body.bup.dragStart.state-element {
 .mw-selector-bottom:after{bottom:-0px;right:-0px;}
 
 
- 
+
 
 
 .mw-file-drop-zone{
     border: 2px dashed $infoBorderColor;
     width: 100%;
-    background-image: url('../api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_bg.svg');
+    background-image: url('../img/dropable_zone_bg.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: bottom center;
@@ -385,7 +385,7 @@ body.bup.dragStart.state-element {
         justify-content: space-between;
 
         .mw-file-drop-zone-img {
-            background-image: url('../api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_image.svg');
+            background-image: url('../img/dropable_zone_image.svg');
             width: 70px;
             height: 55px;
             background-size: contain;

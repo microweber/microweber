@@ -181,46 +181,54 @@ if ($content) {
             <br>
         </div>
     <?php } else { ?>
-        <table class="table table-hover table-sm  " id="mw-admin-related-content-edit-sort<?php print $rand ?>">
-            <style scoped>
-                tr {
-                    cursor: pointer;
-                }
+       <div class="table-responsive">
+           <table class="table table-vcenter card-table " id="mw-admin-related-content-edit-sort<?php print $rand ?>">
+               <style scoped>
+                   tr {
+                       cursor: pointer;
+                   }
 
-                tr i.mdi-cursor-move {
-                    opacity: 0;
-                }
+                   tr i.mdi-cursor-move {
+                       opacity: 0;
+                   }
 
-                tr:hover i.mdi-cursor-move {
-                    opacity: 1;
-                }
-            </style>
-            <?php foreach ($related as $related_cont) { ?>
-                <tr class="js-admin-related-content-sort-element" value="<?php print ($related_cont['id']) ?>">
-                    <td class="align-middle" style="width: 20px">
-                        <div class="btn js-admin-related-content-sort-element-handle">
-                            <i class="mdi mdi-cursor-move text-muted"</i>
-                        </div>
-                    </td>
-                    <td class="align-middle">
-                        <div class="img-circle-holder w-60">
-                            <img src="<?php print thumbnail(get_picture($related_cont['related_content_id']), 60, 60, true) ?>">
-                        </div>
-                    </td>
-                    <td class="align-middle"><?php print content_title($related_cont['related_content_id']) ?></td>
-                    <td class="align-middle" style="width: 20px">
+                   tr:hover i.mdi-cursor-move {
+                       opacity: 1;
+                   }
+               </style>
+               <?php foreach ($related as $related_cont) { ?>
+                   <tr class="js-admin-related-content-sort-element " value="<?php print ($related_cont['id']) ?>">
+                       <td class="align-middle" style="width: 20px">
+                        <span class="cursor-move-holder me-2 js-admin-related-content-sort-element-handle" onmousedown="mw.manage_content_sort()" style="max-width: 80px;">
+                          <span href="javascript:;" class="btn btn-link text-blue-lt">
+                              <svg class="mdi-cursor-move" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M360 896q-33 0-56.5-23.5T280 816q0-33 23.5-56.5T360 736q33 0 56.5 23.5T440 816q0 33-23.5 56.5T360 896Zm240 0q-33 0-56.5-23.5T520 816q0-33 23.5-56.5T600 736q33 0 56.5 23.5T680 816q0 33-23.5 56.5T600 896ZM360 656q-33 0-56.5-23.5T280 576q0-33 23.5-56.5T360 496q33 0 56.5 23.5T440 576q0 33-23.5 56.5T360 656Zm240 0q-33 0-56.5-23.5T520 576q0-33 23.5-56.5T600 496q33 0 56.5 23.5T680 576q0 33-23.5 56.5T600 656ZM360 416q-33 0-56.5-23.5T280 336q0-33 23.5-56.5T360 256q33 0 56.5 23.5T440 336q0 33-23.5 56.5T360 416Zm240 0q-33 0-56.5-23.5T520 336q0-33 23.5-56.5T600 256q33 0 56.5 23.5T680 336q0 33-23.5 56.5T600 416Z"></path></svg>
+                          </span>
+                    </span>
+                       </td>
+                       <td class="align-middle">
+                           <div class="d-flex align-items-center justify-content-center">
+                               <img class="rounded-circle" src="<?php print thumbnail(get_picture($related_cont['related_content_id']), 60, 60, true) ?>">
+                           </div>
+                       </td>
+                       <td class="align-middle"><?php print content_title($related_cont['related_content_id']) ?></td>
+                       <td class="align-middle" style="width: 20px">
 
-                        <a href="<?php print content_link($related_cont['related_content_id']) ?>" target="_blank"
-                           class="btn btn-link"><i class="mdi mdi-link"></i></a>
-                    </td>
-                    <td class="align-middle" style="width: 20px">
-                        <a href="javascript:;"
-                           onclick="mw_admin_remove_related_content_by_related_id(<?php print ($related_cont['id']) ?>);"
-                           class="btn btn-link"><i class="mdi text-danger mdi-delete"></i></a>
-                    </td>
-                </tr>
-            <?php } ?>
-        </table>
+                           <a href="<?php print content_link($related_cont['related_content_id']) ?>" target="_blank"
+                              class="tblr-body-color">
+                               <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/></svg>
+                           </a>
+                       </td>
+                       <td class="align-middle" style="width: 20px">
+                           <a href="javascript:;"
+                              onclick="mw_admin_remove_related_content_by_related_id(<?php print ($related_cont['id']) ?>);"
+                              class="tblr-body-color">
+                               <svg class="text-danger" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                           </a>
+                       </td>
+                   </tr>
+               <?php } ?>
+           </table>
+       </div>
     <?php } ?>
 </div>
 

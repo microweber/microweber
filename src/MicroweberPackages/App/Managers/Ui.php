@@ -36,19 +36,19 @@ class Ui
     {
         $btn = array();
         $btn['content_type'] = 'page';
-        $btn['title'] = _e('Page', true);
+        $btn['title'] = _e('New Page', true);
         $btn['class'] = 'mai-page';
         $this->module('content.create.menu', $btn);
 
         $btn = array();
         $btn['content_type'] = 'post';
-        $btn['title'] = _e('Post', true);
+        $btn['title'] = _e('New Post', true);
         $btn['class'] = 'mai-post';
         $this->module('content.create.menu', $btn);
 
         $btn = array();
         $btn['content_type'] = 'category';
-        $btn['title'] = _e('Category', true);
+        $btn['title'] = _e('New Category', true);
         $btn['class'] = 'mai-category';
         $this->module('content.create.menu', $btn);
 
@@ -158,10 +158,10 @@ class Ui
             'country' => 'Country',
             'date' => 'Date',
             'time' => 'Time',
-            'color' => 'Color',
+        //    'color' => 'Color',
             'upload' => 'File Upload',
             'property' => 'Property',
-            'breakline' => 'Break Line',
+           // 'breakline' => 'Break Line',
             'hidden' => 'Hidden Field',
         );
 

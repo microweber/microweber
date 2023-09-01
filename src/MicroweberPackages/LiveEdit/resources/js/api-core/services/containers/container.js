@@ -10,7 +10,8 @@ export class MWUniversalContainer extends MicroweberBaseClass {
             return;
         }
         method = instance[method];
-        method(data); 
+     //   method(data);
+        method.call(instance,data);
     }
 
     call(method, data){

@@ -31,3 +31,17 @@ $config['tables'] = array(
         'position' => "integer"
     )*/
 );
+
+
+
+$config['settings'] = [];
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\Modules\Testimonials'
+    ],
+];
+
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\Testimonials\Providers\TestimonialsServiceProvider::class
+];

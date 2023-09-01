@@ -52,7 +52,7 @@
         @endif
 
         <div class="flex items-center mt-2">
-            <x-microweber-ui::button wire:click="confirmLogout" wire:loading.attr="disabled">
+            <x-microweber-ui::button wire:click="confirmLogout" wire:loading.attr="disabled" @style('white-space: normal')>
                 <?php _e('Logout Other Browser Sessions');?>
             </x-microweber-ui::button>
 

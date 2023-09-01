@@ -6,7 +6,7 @@ use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Translation\Models\Translation;
 
-class MultilanguageOptionTest extends MultilanguageTestBase
+class MultilanguageModuleOptionTest extends MultilanguageTestBase
 {
 
     public function testSaveModuleOptionApi()

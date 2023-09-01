@@ -56,7 +56,6 @@ $current_template = false;
         $module_templates = module_templates($params['parent-module']);
         $templates = module_templates($params['parent-module']);
 
-
         $mod_name = $params['parent-module'];
         $mod_name = str_replace('admin', '', $mod_name);
         $mod_name = rtrim($mod_name, DS);
@@ -120,7 +119,7 @@ $current_template = false;
         }
 
 
-        $cur_template = get_option('data-template', $params['parent-module-id']);
+        $cur_template = get_option('template', $params['parent-module-id']);
 
 
         if ($cur_template == false) {
@@ -144,7 +143,15 @@ $current_template = false;
                     if (!isset($temp['screenshot'])) {
                         $temp['screenshot'] = '';
                     }
-                    $current_template = array('name' => $temp['name'], 'screenshot' => $temp['screenshot'], 'layout_file' => $temp['layout_file']);
+                    if (!isset($temp['categories'])) {
+                        $temp['categories'] = 'Other';
+                    }
+                    $current_template = array(
+                        'name' => $temp['name'],
+                        'screenshot' => $temp['screenshot'],
+                        'layout_file' => $temp['layout_file'],
+                        'categories'=>$temp['categories']
+                    );
                 }
             }
         }
@@ -156,9 +163,9 @@ $current_template = false;
 
             <script type="text/javascript">
 
-                    $(document).ready(function () {
-                        template_select_set_modal_title('<?php _ejs($current_template['name']) ?>')
-                    });
+                $(document).ready(function () {
+                    template_select_set_modal_title('<?php _ejs($current_template['name']) ?>')
+                });
 
             </script>
 
@@ -180,7 +187,7 @@ $current_template = false;
 
                         if (mw_module_settings_info.icon) {
                             modal_title_str = ('<img class="mw-module-dialog-icon" src="' + mw_module_settings_info.icon + '">' + modal_title_str + ' - ' + title)
-                         }
+                        }
 
                         if (modal_title_str) {
                             thismodal.title(modal_title_str);
@@ -258,6 +265,7 @@ $current_template = false;
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
                 <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
                 <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#change-layout">   <?php _e('Change Layout'); ?></a>
+                <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " style="display:none" id="change-background-tab-link" data-bs-toggle="tab" href="#change-background">   <?php _e('Background'); ?></a>
             </nav>
 
             <div class="tab-content py-3">
@@ -329,24 +337,24 @@ $current_template = false;
 
                             <?php if (isset($current_template)): ?>
                                 <!-- Current template - Start -->
-                                <div class="row">
-                                    <div class="col-12 current-template">
-                                        <label class="form-label" title="<?php print $current_template['layout_file']; ?>"><?php _e('Current layout'); ?></label>
-                                        <div class="screenshot">
-                                            <div class="holder">
-                                                <img data-url="<?php echo thumbnail($current_template['screenshot'], 800, 400); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
-                                                <div class="title"><?php print $current_template['name']; ?></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 current-template-modules">
-                                        <div class="current-template-modules-list-wrap">
-                                            <label class="form-label">This layout contains those modules</label>
 
-                                            <div class="current-template-modules-list"></div>
+                                <div class="current-template card">
+                                    <label class="live-edit-label" title="<?php print $current_template['layout_file']; ?>"><?php _e('Current layout'); ?></label>
+                                    <div class="screenshot">
+                                        <div class="holder">
+                                            <img data-url="<?php echo thumbnail($current_template['screenshot'], 800, 400); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
+                                            <div class="live-edit-label text-decoration-none"><?php print $current_template['name']; ?></div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class=" current-template-modules">
+                                    <div class="current-template-modules-list-wrap">
+                                        <label class="live-edit-label">This layout contains those modules</label>
+
+                                        <div class="current-template-modules-list"></div>
+                                    </div>
+                                </div>
+
                             <?php endif; ?>
 
                             <?php if ($show_skin_setting_in_first_tab): ?>
@@ -359,6 +367,225 @@ $current_template = false;
                     <!-- Settings Content - End -->
                 </div>
 
+                <div class="tab-pane fade" id="change-background">
+
+                    <div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper" id="bg-tabs">
+                        <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100 active">Image</span>
+                        <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Video</span>
+                        <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100" style="display: none">Color</span>
+                        <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Color</span>
+                    </div>
+                    <br>
+
+                    <div class="bg-tab">
+                    <div id="bg-image-picker">
+                            <div  class="dropzone mw-dropzone ">
+                                <div class="d-flex flex-column align-items-center gap-3">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <i class="mdi mdi-plus"></i>
+                                    </div>
+                                    <div>
+                                        <b>
+
+                                        </b>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <b>20MB Max</b>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-tab">
+                        <div id="video-picker">
+                            <div  class="dropzone mw-dropzone ">
+                                <div class="d-flex flex-column align-items-center gap-3">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <i class="mdi mdi-plus"></i>
+                                    </div>
+                                    <div>
+                                        <b>
+
+                                        </b>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <b>20MB Max</b>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-tab">
+                        <div id="color-picker" class="card card-body"></div>
+                    </div>
+                    <div class="bg-tab">
+                        <div id="overlay-color-picker" class="card card-body"></div>
+                    </div>
+
+
+                    <style>
+
+
+                    </style>
+                    <script>
+
+
+
+
+                        var setBg = function(target, value) {
+
+                        }
+
+                        var target = mw.top().app.liveEdit.handles.get('layout').getTarget();
+                        var bg, bgOverlay, bgNode;
+                        if(target) {
+                            bg = target.querySelector('.mw-layout-background-block');
+                            if(bg) {
+                                var tabLink = document.querySelector('#change-background-tab-link');
+                                tabLink.style.display = '';
+                                bgNode = bg.querySelector('.mw-layout-background-node')
+                                bgOverlay = bg.querySelector('.mw-layout-background-overlay')
+                            }
+                        }
+
+                        document.addEventListener("DOMContentLoaded", function(){
+                            mw.tabs({
+                                nav: "#bg-tabs > .btn",
+                                tabs: ".bg-tab",
+                                onclick: function(){
+
+                                }
+                            });
+
+                            var cp = document.querySelector('#color-picker');
+
+                            var picker = mw.colorPicker({
+                                element:cp,
+
+                                mode: 'inline',
+                                onchange:function(color){
+                                    bgNode.style.backgroundColor = color;
+                                    bgNode.style.backgroundImage = 'transparent';
+                                    mw.top().app.registerChange(bgNode);
+                                    delete bgNode.dataset.mwvideo;
+                                }
+                            });
+
+                            var cpo = document.querySelector('#overlay-color-picker');
+
+                            var cpoPicker = mw.colorPicker({
+                                element: cpo,
+
+                                mode: 'inline',
+                                onchange:function(color){
+                                    bgOverlay.style.backgroundColor = color;
+                                    bgOverlay.style.backgroundImage = 'none';
+                                    mw.top().app.registerChange(bgOverlay);
+                                }
+                            });
+
+                            if(target && bgOverlay) {
+                                cpoPicker.setColor(getComputedStyle(bgOverlay).backgroundColor)
+                            }
+
+
+
+                            document.querySelector('#bg-image-picker').addEventListener('click', function(){
+                                var dialog;
+                                var picker = new mw.filePicker({
+                                    type: 'videos',
+                                    label: false,
+                                    autoSelect: false,
+                                    footer: true,
+                                    _frameMaxHeight: true,
+                                    onResult: function(res) {
+                                        var url = res.src ? res.src : res;
+                                        if(!url) {
+                                            dialog.remove();
+                                            return
+                                        }
+                                        url = url.toString();
+                                        bgNode.innerHTML = ` `;
+
+
+
+                                        bgNode.style.backgroundImage = `url(${url})`;
+
+                                        bgNode.style.backgroundColor = 'transparent';
+
+                                        delete bgNode.dataset.mwvideo;
+
+                                        dialog.remove();
+                                        mw.top().app.registerChange(bgNode);
+
+                                    }
+                                });
+                                dialog = mw.top().dialog({
+                                    content: picker.root,
+                                    title: mw.lang('Select image'),
+                                    footer: false,
+                                    width: 860,
+
+
+                                });
+                                picker.$cancel.on('click', function(){
+                                    dialog.remove()
+                                })
+                            })
+                            document.querySelector('#video-picker').addEventListener('click', function(){
+                                var dialog;
+                                var picker = new mw.filePicker({
+                                    type: 'videos',
+                                    label: false,
+                                    autoSelect: false,
+                                    footer: true,
+                                    _frameMaxHeight: true,
+                                    onResult: function(res) {
+                                        var url = res.src ? res.src : res;
+                                        if(!url) {
+                                            dialog.remove();
+                                            return
+                                        }
+                                        url = url.toString();
+                                        bgNode.innerHTML = `<video src="${url}" autoplay muted></video>`;
+
+
+
+                                        bgNode.dataset.mwvideo = url;
+                                        bgNode.style.backgroundImage = `none`;
+
+                                        bgNode.style.backgroundColor = 'transparent';
+
+
+
+                                        dialog.remove();
+                                        mw.top().app.registerChange(bgNode);
+
+                                    }
+                                });
+                                dialog = mw.top().dialog({
+                                    content: picker.root,
+                                    title: mw.lang('Select video'),
+                                    footer: false,
+                                    width: 860,
+
+
+                                });
+                                picker.$cancel.on('click', function(){
+                                    dialog.remove()
+                                })
+                            })
+
+                        });
+
+
+                    </script>
+
+                </div>
                 <div class="tab-pane fade" id="change-layout">
                     <div class="mw-mod-template-settings-holder">
                         <?php if ($screenshots): ?>
@@ -402,7 +629,7 @@ $current_template = false;
                                 });
                             </script>
 
-                            <div class="form-group">
+                            <div class="form-group position-sticky top-0" style="z-index: 1;">
                                 <div class="input-group prepend-transparent mb-0">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text px-2  "><i class="mdi mdi-magnify mdi-18px"></i></span>
@@ -447,13 +674,43 @@ $current_template = false;
                                     })
 
                                 </script>
-                                <?php foreach ($module_templates as $item): ?>
+
+
+                                <?php
+                                $module_templates_categories = [
+                                    'Other' => true
+                                ];
+                                foreach ($module_templates as $item) {
+                                    if (isset($item['categories'])) {
+                                        $module_templates_categories[$item['categories']] = true;
+                                    }
+                                }
+
+                                $module_templates_ready = [];
+                                if (!empty($module_templates_categories)) {
+                                    foreach ($module_templates as $item) {
+                                        if (!isset($item['categories'])) {
+                                            $item['categories'] = 'Other';
+                                        }
+                                        $item['categories'] = strtolower(trim($item['categories']));
+                                        $current_template['categories'] = strtolower(trim($current_template['categories']));
+                                        if ($item['categories'] == $current_template['categories']) {
+                                            $module_templates_ready[] = $item;
+                                        }
+                                    }
+                                }
+                                ?>
+
+                                <?php
+                                foreach ($module_templates_ready as $item):
+                                    ?>
+
                                     <?php if (($item['layout_file'] == $cur_template)): ?>
                                         <?php if ((strtolower($item['name']) != 'default')): ?>
-                                            <a href="javascript:;" class="js-apply-template"
+                                            <a href="javascript:;" class="js-apply-template card m-1 card p-1"
                                                data-file="<?php print $item['layout_file'] ?>">
                                                 <?php if ($item['layout_file'] == $cur_template): ?>
-                                                    <div class="default-layout">DEFAULT</div>
+                                                    <div class="default-layout live-edit-label text-decoration-none">DEFAULT</div>
                                                 <?php endif; ?>
 
                                                 <div class="screenshot <?php if (($item['layout_file'] == $cur_template)): ?>active<?php endif; ?>">
@@ -470,7 +727,7 @@ $current_template = false;
                                                             data-url="<?php echo thumbnail($item_screenshot, 800, 400); ?>"
                                                             alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"
                                                             title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>
-                                                        <div class="title"><?php print $item['name']; ?></div>
+                                                        <div class="live-edit-label text-decoration-none"><?php print $item['name']; ?></div>
                                                     </div>
                                                 </div>
                                             </a>
@@ -478,10 +735,10 @@ $current_template = false;
                                     <?php endif; ?>
                                 <?php endforeach; ?>
 
-                                <?php foreach ($module_templates as $item): ?>
+                                <?php foreach ($module_templates_ready as $item): ?>
                                     <?php if (($item['layout_file'] != $cur_template)): ?>
                                         <?php if ((strtolower($item['name']) != 'default')): ?>
-                                            <a href="javascript:;" class="js-apply-template"
+                                            <a href="javascript:;" class="js-apply-template card m-1"
                                                data-file="<?php print $item['layout_file'] ?>">
                                                 <?php if ($item['layout_file'] == $cur_template): ?>
                                                     <div class="default-layout">DEFAULT</div>
@@ -500,7 +757,7 @@ $current_template = false;
                                                              alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"
                                                              style="max-width:100%;"
                                                              title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>
-                                                        <div class="title"><?php print $item['name']; ?></div>
+                                                        <div class="live-edit-label text-decoration-none"><?php print $item['name']; ?></div>
                                                     </div>
                                                 </div>
                                             </a>

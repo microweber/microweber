@@ -1,3 +1,3 @@
 <div>
-    <x-microweber-ui::input wire:model.live.debounce.100ms="state.settings.{{ $this->optionKey }}" />
+    <x-microweber-ui::input name="{{ $this->optionKey }}" wire:model.debounce.300ms="state.settings.{{ $this->optionKey }}" />
 </div>

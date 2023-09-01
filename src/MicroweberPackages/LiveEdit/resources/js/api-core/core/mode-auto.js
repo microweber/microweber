@@ -58,6 +58,19 @@ const getElementsLike = (selector, root, scope) => {
     return final;
 };
 
+const _isElementHandle = (is, element, elementClass) => {
+    if(!element || !elementClass) {
+        return
+    }
+ 
+
+    if (is) {
+        element.classList.add(elementClass);
+    } else {
+        element.classList.remove(elementClass);
+    }
+}
+
 export const ModeAuto = (scope) => {
 
     const {
@@ -68,6 +81,8 @@ export const ModeAuto = (scope) => {
         allowDrop
     } = scope.settings;
     const root = scope.root;
+
+ 
     var selector = '*';
     var bgHolders = root.querySelectorAll('.' + editClass + '.' + backgroundImageHolder + ', .' + editClass + ' .' + backgroundImageHolder + ', .'+editClass+'[style*="background-image"], .'+editClass+' [style*="background-image"]');
     var noEditModules = root.querySelectorAll('.' + moduleClass + scope.settings.unEditableModules.join(',.' + moduleClass));
@@ -76,9 +91,7 @@ export const ModeAuto = (scope) => {
     for ( ; i < bgHolders.length; i++ ) {
         var curr = bgHolders[i];
         if( scope.elementAnalyzer.isInEdit(curr) ){
-            if(!mw.tools.hasClass(curr, moduleClass)) {
-                // mw.tools.addClass(curr, editClass);
-            }
+            _isElementHandle(scope.canBeElement(curr), curr, elementClass)
             if(!curr.style.backgroundImage) {
                 curr.style.backgroundImage = 'none';
             }
@@ -88,24 +101,26 @@ export const ModeAuto = (scope) => {
         noEditModules[i].classList.remove(moduleClass);
     }
     for ( ; i2 < edits.length; i2++ ) {
-        var all = getElementsLike(':not(.' + elementClass + ')', edits[i2], scope), i2a = 0;
+
+        var getElementsLikeSelector = ':not(.' + elementClass + ')';
+
+        getElementsLikeSelector = '*';
+
+        var all = getElementsLike(getElementsLikeSelector, edits[i2], scope), i2a = 0;
 
 
         var allAllowDrops = edits[i2].querySelectorAll('img,.' + allowDrop), i3a = 0;
         for( ; i3a < allAllowDrops.length; i3a++){
             if(scope.elementAnalyzer.isInEdit(allAllowDrops[i3a])){
-                if (scope.canBeElement(allAllowDrops[i3a])) {
-                     allAllowDrops[i3a].classList.add(elementClass);
-                }
+                _isElementHandle(scope.canBeElement(allAllowDrops[i3a]), allAllowDrops[i3a], elementClass)
             }
 
         }
         for( ; i2a<all.length; i2a++) {
             if(!all[i2a].classList.contains(moduleClass)){
                 if(scope.elementAnalyzer.isInEdit(all[i2a])){
-                    if (scope.canBeElement(all[i2a])) {
-                         all[i2a].classList.add(elementClass);
-                    }
+ 
+                    _isElementHandle(scope.canBeElement(all[i2a]), all[i2a], elementClass)
                 }
             }
         }

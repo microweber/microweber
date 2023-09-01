@@ -10,6 +10,18 @@ class FontPickerModalComponent extends ModalComponent
 {
     use WithPagination;
 
+    public $modalSettings = [
+        'skin'=>'black',
+        'size'=>'large',
+        'padding'=> '0px',
+        'background' => 'white',
+        'width' => '700px',
+        'overlay' => true,
+        'overlayClose' => true,
+        'closeHandleSelector'=>'#js-modal-livewire-ui-close',
+        'draggableHandleSelector'=>'#js-modal-livewire-ui-draggable-handle',
+    ];
+
     public $search = '';
     public $category = 'all';
     public $categories = [

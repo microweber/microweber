@@ -26,6 +26,17 @@ mw.lib.require('rangy');
             getSelection: function () {
                 return scope.getSelection();
             },
+            setCursorAtStart: function(target){
+                var sel = scope.getSelection();
+                if(!target) {
+                    return
+                }
+                range = document.createRange();
+                range.selectNodeContents(target);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            },
             eachRange: function (c){
                 var sel = scope.getSelection();
                 if(sel.rangeCount && c) {
@@ -581,6 +592,7 @@ mw.lib.require('rangy');
                             if(area) {
                                 parent = area;
                             }
+                            
 
                             scope.api.action(parent, function () {
                                 scope.actionWindow.document.execCommand(cmd, def, val);
@@ -663,6 +675,10 @@ mw.lib.require('rangy');
                     elements[0].remove();
                     elements.shift();
                 }
+
+                Array.prototype.slice.call(this._cleaner.querySelectorAll('[style]')).forEach(node => node.removeAttribute('style'))
+                
+           
                 return _filterXSS(this._cleaner.innerHTML);
             },
             insertHTML: function(html) {
@@ -712,7 +728,7 @@ mw.lib.require('rangy');
                 }
                 else {
                     var link = mw.tools.firstParentOrCurrentWithTag(this.elementNode(sel.focusNode), 'a');
-                    console.log(link)
+                  
                     if (!!link) {
                         this.selectElement(link);
                         this.execCommand('unlink', null, null);

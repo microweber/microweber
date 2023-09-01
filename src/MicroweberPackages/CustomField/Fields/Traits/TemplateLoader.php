@@ -78,14 +78,14 @@ trait TemplateLoader
         $template_from_html_option = false;
 
         if (isset($data['params']['id'])) {
-            if (get_option('data-template', $data['params']['id'])) {
-                $template_from_option = get_option('data-template', $data['params']['id']);
+            if (get_option('template', $data['params']['id'])) {
+                $template_from_option = get_option('template', $data['params']['id']);
             }
         }
 
         if (isset($data['id'])) {
-            if (get_option('data-template', $data['id'])) {
-                $template_from_option = get_option('data-template', $data['id']);
+            if (get_option('template', $data['id'])) {
+                $template_from_option = get_option('template', $data['id']);
             }
         }
 

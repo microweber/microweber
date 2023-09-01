@@ -724,7 +724,7 @@
 
             var row = mw.element({ tag: 'tr', props: {className: `mw-file-manager-list-item-type--${item.type} mw-file-manager-list-item-matches--${this.acceptMatches(item)}` } });
             var cellImage = mw.element({ tag: 'td', content: _image(item), props: {className: 'mw-file-manager-list-item-thumb-image-cell'}  });
-            var cellName = mw.element({ tag: 'td', content: item.name , props: {className: 'mw-file-manager-list-item-name-cell'} });
+            var cellName = mw.element({ tag: 'td', content: item.name , props: {className: 'mw-file-manager-list-item-name-cell', title: item.name} });
             var cellSize = mw.element({ tag: 'td', content: _size(item), props: {className: 'mw-file-manager-list-item-size-cell'} });
 
             var cellmodified = mw.element({ tag: 'td', content: userDate(item.modified), props: {className: 'mw-file-manager-list-item-modified-cell'} });

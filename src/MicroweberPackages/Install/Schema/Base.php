@@ -52,6 +52,8 @@ class Base
                 'name' => 'text',
                 'module' => 'text',
                 'module_attrs' => 'text',
+                'position' => 'integer',
+
             ],
 
             'system_licenses' => [

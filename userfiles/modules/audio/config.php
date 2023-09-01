@@ -11,8 +11,15 @@ $config['ui'] = true;
 $config['position'] = 30;
 $config['categories'] = "media";
 
+$config['settings'] = [];
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\Modules\Audio'
+    ],
+];
 
-
-$config['categories'] = "media";
-
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\Audio\Providers\AudioServiceProvider::class
+];
 

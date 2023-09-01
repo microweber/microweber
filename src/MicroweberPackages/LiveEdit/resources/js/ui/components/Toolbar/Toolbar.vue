@@ -1,7 +1,41 @@
 
+
+<style>
+.back-to-edit{
+    position: fixed;
+    top: -80px;
+    right: -80px;
+    width: 160px;
+    height: 160px;
+    cursor: pointer;
+    background-color: #fff;
+    z-index: 10;
+    text-align: center;
+    padding: 70px 95px 0 0;
+    box-shadow: 0 0 10px #0000002b;
+    transform: scale(0) rotate(-45deg);
+    transition: .3s;
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+}
+
+html.preview .back-to-edit{
+    transform: scale(1) rotate(-45deg);
+    visibility: visible;
+    pointer-events: all;
+    opacity: 1;
+}
+
+.back-to-edit svg{
+    transform: rotate(45deg);
+    width: 24px;
+}
+
+</style>
 <template>
-    <div id="toolbar" class="shadow-sm d-flex flex-wrap h-100 px-md-4 px-1">
-        <div class="toolbar-nav toolbar-nav-hover col-xxl-2 col-auto d-flex justify-content-lg-start">
+    <div id="toolbar" class="shadow-sm" :style="{'display': toolbarDisplay}">
+        <div class="toolbar-nav toolbar-nav-hover col-xxl-3 col-auto d-flex justify-content-lg-start">
             <a class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" href="./">
                 <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                     <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
@@ -12,24 +46,32 @@
                  <span class="ms-1 font-weight-bold">ADMIN</span>
             </a>
 
-            <div class="ms-3">
+            <div class="live-edit-undo-redo-buttons-wrapper ms-1">
                 <UndoRedo></UndoRedo>
+            </div>
+
+            <div class="live-edit-add-content-button-wrapper ms-1">
+                <AddContentButton></AddContentButton>
             </div>
         </div>
 
 
-        <div class="col-md-3 col-auto">
+        <div class="col-md-3 col">
            <ContentSearchNav></ContentSearchNav>
         </div>
 
 
-        <div class="toolbar-col col-auto">
+        <div class="toolbar-col col-auto ms-sm-0 ms-2">
             <div class="toolbar-col-container">
                 <div class="d-flex align-items-center">
                     <ResolutionSwitch></ResolutionSwitch>
                     <SettingsCustomize></SettingsCustomize>
                     <StyleEditor></StyleEditor>
                     <HtmlEditor></HtmlEditor>
+
+                    <span class="back-to-edit" @click="pagePreviewToggle()" title="Back to edit">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M181.674-179.761h41.13l441.087-441.565-41.13-41.13-441.087 441.565v41.13Zm613.043-484.326L665.761-793.043l36.978-37.218q19.631-19.63 47.859-19.75 28.228-.119 47.859 19.272l37.782 37.782q18.435 18.196 17.837 44.153-.598 25.956-18.315 43.674l-41.044 41.043Zm-41.76 41.761L247.761-117.13H118.804v-128.957l504.957-504.956 129.196 128.717Zm-109.392-19.565-20.804-20.565 41.13 41.13-20.326-20.565Z"></path></svg>
+                    </span>
                     <button class="btn live-edit-toolbar-buttons live-edit-toolbar-buttons-view me-2" @click="pagePreviewToggle()">
                         VIEW
                     </button>
@@ -48,6 +90,7 @@
                         <a v-for="menuItem in menu" :href="menuItem.href">
                             <span v-html="menuItem.icon_html"></span>
                             {{ menuItem.title }}
+
                         </a>
                         <a v-on:click="this.toggleDarkMode()">
                             <span>
@@ -81,9 +124,11 @@ import * as api from "../../../api-core/services/services/preview.service.js";
 import axios from 'axios';
 import StyleEditor from "../StyleEditor/StyleEditor.vue";
 import HtmlEditor from "../HtmlEditor/HtmlEditor.vue";
+import AddContentButton from "./AddContentButton.vue";
 
 export default {
     components: {
+        AddContentButton,
         HtmlEditor,
         StyleEditor, SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav, SettingsCustomize},
     methods: {
@@ -121,15 +166,47 @@ export default {
     },
     data() {
         return {
-            menu: []
+            menu: [],
+            toolbarDisplay: 'none'
         }
     },
     mounted() {
 
         this.getTopRightMenu();
+        const userMenuWrapper = document.getElementById('user-menu-wrapper')
 
+        document.addEventListener('click', e => {
+            if(!userMenuWrapper.contains(e.target)) {
+                userMenuWrapper.classList.remove('active');
+            }
+        });
+        document.querySelector('#live-edit-app').style.display = this.toolbarDisplay;
+
+        let _ready = 0; 
+        
+        const _handleReady = () => {
+            if(_ready < 2) return;
+            setTimeout(() => {
+                this.toolbarDisplay = '';
+                document.querySelector('#live-edit-app').style.display = this.toolbarDisplay;   
+            }, 700);
+            
+        }
+        
+        window.addEventListener('load', () => {
+            _ready++
+            _handleReady()
+        })
+
+        mw.app.canvas.on('liveEditCanvasLoaded', () => {
+
+            _ready++
+           
+            _handleReady()
+             
+        })
         mw.app.canvas.on('canvasDocumentClick', () => {
-            document.getElementById('user-menu-wrapper').classList.remove('active');
+            userMenuWrapper.classList.remove('active');
         });
     }
 }

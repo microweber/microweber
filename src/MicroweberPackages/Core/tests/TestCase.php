@@ -2,15 +2,20 @@
 
 namespace MicroweberPackages\Core\tests;
 
+use Illuminate\Foundation\Testing\WithConsoleEvents;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\Mime\Part\Multipart\MixedPart;
 use Symfony\Component\Mime\Part\TextPart;
+use Tests\CreatesApplication;
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
+   // use WithConsoleEvents;
 
-    public $parserErrorStrings = ['mw_replace_back','tag-comment','mw-unprocessed-module-tag','parser_'];
+    use CreatesApplication;
+
+    public $parserErrorStrings = ['mw_replace_back', 'tag-comment', 'mw-unprocessed-module-tag', 'parser_'];
     private $sqlite_file = 'phpunit.sqlite';
 
     protected function setUp(): void
@@ -18,12 +23,21 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $_ENV['APP_ENV'] = 'testing';
         putenv('APP_ENV=testing');
         ini_set('memory_limit', '-1');
+        \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
+
+        $config_folder = __DIR__ . '/../../../../config/testing/';
+        $config_folder = realpath($config_folder);
+
+        $mw_file = $config_folder . '/microweber.php';
+       if(!is_file($mw_file)){
+           $this->install();
+       }
 
         parent::setUp();
     }
 
 
-    public function createApplication()
+    public function install()
     {
 
         ini_set('memory_limit', '4024M');
@@ -33,7 +47,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             define('MW_UNIT_TEST', true);
         }
 
-        \Illuminate\Support\Env::getRepository()->set('APP_ENV','testing');
+        \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
 
         $testing_env_name = 'testing';
         $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
@@ -67,7 +81,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         }
 
         if (!defined('MW_UNIT_TEST_CONF_FILE_CREATED')) {
-            @unlink($mw_file_database);
+            if (is_file($mw_file_database)) {
+                @unlink($mw_file_database);
+            }
             file_put_contents($mw_file, "<?php return array (
             'is_installed' => 0,
             'compile_assets' => 0,
@@ -77,10 +93,8 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             );
 
 
-         //   rmdir_recursive($config_folder, 1);
+            //   rmdir_recursive($config_folder, 1);
         }
-
-
 
 
         $app = require __DIR__ . '/../../../../bootstrap/app.php';
@@ -124,8 +138,8 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $db_user = env('DB_USERNAME', 'forge');
             $db_pass = env('DB_PASSWORD', '');
             $db_prefix = env('DB_PREFIX', 'phpunit_test_');
-          //  $db_name = env('DB_DATABASE', $this->sqlite_file);
-            $db_name = env('DB_DATABASE') ? env('DB_DATABASE') :  $this->sqlite_file;
+            //  $db_name = env('DB_DATABASE', $this->sqlite_file);
+            $db_name = env('DB_DATABASE') ? env('DB_DATABASE') : $this->sqlite_file;
 
 
             //  $db_name = $this->sqlite_file;
@@ -176,38 +190,41 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 '--env' => $environment,
             );
 
-          //  $is_installed = mw_is_installed();
+            //  $is_installed = mw_is_installed();
 
             //if (!$is_installed) {
 
-                $install = \Artisan::call('microweber:install', $install_params);
+            $install = \Artisan::call('microweber:install', $install_params);
 
-                $this->assertEquals(0, $install);
+            $this->assertEquals(0, $install);
 
-                // Clear caches
-                \Artisan::call('config:cache');
-                \Artisan::call('config:clear');
-                \Artisan::call('cache:clear');
+            // Clear caches
+            \Artisan::call('config:cache');
+            \Artisan::call('config:clear');
+            \Artisan::call('cache:clear');
+            \Artisan::call('route:clear');
 
-                $is_installed = mw_is_installed();
-                $this->assertEquals(1, $is_installed);
-          //  }
+            $is_installed = mw_is_installed();
+            $this->assertEquals(1, $is_installed);
+            //  }
             // }
-
+            //\Config::set('microweber.is_installed' , 1);
             \Config::set('mail.driver', 'array');
             \Config::set('queue.driver', 'sync');
             \Config::set('mail.transport', 'array');
 
 
-
         }
 
 
-
         //  $app['env'] = $testing_env_name;
-       // $environment = $app->environment();
-
-
+        // $environment = $app->environment();
+//        load_all_functions_files_for_modules();
+//        load_all_service_providers_for_modules();
+//         load_functions_files_for_template();
+//        load_service_providers_for_template();
+        $app->rebootApplication();
+        $this->app = $app;
         return $app;
     }
 
@@ -242,8 +259,6 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         parent::tearDown();
     }
-
-
 
 
     private function normalizePath($path, $slash_it = true)
@@ -287,7 +302,6 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     }
 
 
-
     protected function assertPreConditions(): void
     {
         $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
@@ -295,8 +309,8 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     }
 
 
-
-    public function getEmailDataAsArrayFromObject($email) {
+    public function getEmailDataAsArrayFromObject($email)
+    {
 
         $emailOriginal = $email->getOriginalMessage();
         $body = $emailOriginal->getBody();

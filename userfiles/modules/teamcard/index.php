@@ -1,12 +1,15 @@
 <?php
 
 
+use MicroweberPackages\Option\Models\ModuleOption;
+
 $settings = get_module_option('settings', $params['id']);
 
 $defaults = array(
     'name' => 'Name',
     'role' => 'Role',
     'bio' => 'Bio',
+    'website' => '',
     'file' => ''
 );
 $is_empty = false;
@@ -35,7 +38,8 @@ if(!empty($data)){
 }
 
 
-$module_template = get_module_option('data-template', $params['id']);
+$module_template = get_module_option('template', $params['id']);
+
 
 
 if ($module_template == false and isset($params['template'])) {

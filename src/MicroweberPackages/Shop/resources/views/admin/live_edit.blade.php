@@ -1,10 +1,10 @@
 <script type="text/javascript">
     mw.top().dialog.get().resize(1000);
 </script>
-<div class="card">
-    <div class="card-body mb-3 card-in-live-edit">
+<div>
+    <div class="mb-3 card-in-live-edit">
        <div class="row">
-           <div class="card-header px-0">
+           <div class="px-0">
                <?php $module_info = module_info('shop/admin'); ?>
                <h3 class="main-pages-title"><?php _e($module_info['name']); ?></h3>
            </div>
@@ -20,10 +20,12 @@
                <div class="tab-content py-3">
 
                    <div class="tab-pane fade show active" id="products">
-                       <div class="text-end text-right">
-                           <a href="<?php print route('admin.product.create'); ?>" target="_blank" class="btn btn-dark btn-sm" ><?php _e("New Product"); ?></a>
+
+                       <div>
+                           <livewire:admin-products-list open-links-in-modal="true" />
+                           <livewire:admin-content-bulk-options />
                        </div>
-                       <module content_type="product" type="content/manager" no_page_edit="true" id="mw_posts_manage_live_edit" no_toolbar="true"/>
+
                    </div>
 
                    <div class="tab-pane fade" id="settings">

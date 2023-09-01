@@ -60,13 +60,13 @@ abstract class BaseFilter
             return $contentFromId;
         }
 
-        $findFirtBlog = Page::where('content_type', 'page')
+        $findFirstBlog = Page::where('content_type', 'page')
             ->where('subtype','dynamic')
             ->where('is_shop', 0)
             ->first();
 
-        if ($findFirtBlog) {
-            return $findFirtBlog->id;
+        if ($findFirstBlog) {
+            return $findFirstBlog->id;
         }
 
         return 0;
@@ -171,6 +171,10 @@ abstract class BaseFilter
         }
 
         $showPickedFirst = get_option('filtering_show_picked_first', $this->params['moduleId']);
+        if (!empty($showPickedFirst)) {
+            $showPickedFirst = true;
+        }
+
         $requestFilters = $this->request->get('filters', false);
 
         $filters = [];
@@ -319,6 +323,7 @@ abstract class BaseFilter
 
         $readyOrderedFilters = [];
         $orderFiltersOption = get_option('filtering_by_custom_fields_order', $this->params['moduleId']);
+
         if (!empty($orderFiltersOption)) {
             $orderFilters = parse_query($orderFiltersOption);
             $i = 0;

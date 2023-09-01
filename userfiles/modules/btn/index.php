@@ -19,6 +19,12 @@ if (!empty($get_btn_options)) {
         $btn_options[$get_btn_option['option_key']] = $get_btn_option['option_value'];
     }
 }
+if (isset($btn_options['link'])) {
+    $btnOptionsLink = json_decode($btn_options['link'], TRUE);
+    if (isset($btnOptionsLink['url'])) {
+        $btn_options['url'] = $btnOptionsLink['url'];
+    }
+}
 
 $align = get_module_option('align', $params['id']);
 
@@ -51,7 +57,6 @@ if ($btn_options['icon']) {
     $icon = '';
 }
 
-
 $icon = html_entity_decode($icon);
 
 if (isset($params['button_id'])) {
@@ -71,7 +76,7 @@ $popup_function_id = 'btn_popup' . uniqid();
 if ($text == false and isset($params['text'])) {
     $text = $params['text'];
 } elseif ($text == '') {
-    $text = lang('Button', 'templates/dream/modules/btn');
+    $text = lang('Button', 'btn');
 }
 if ($text === '$notext') {
     $text = '';
@@ -83,7 +88,7 @@ if ($icon) {
 if ($url == false and isset($params['url'])) {
     $url = $params['url'];
 } elseif ($url == '') {
-    $url = '#';
+    $url = 'javascript:void(0);';
 }
 
 $url_display = false;
@@ -129,7 +134,7 @@ if ($action == 'popup') {
 }
 
 
-$module_template = get_option('data-template', $params['id']);
+$module_template = get_option('template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }
@@ -228,8 +233,6 @@ if ($action == 'popup') { ?>
 
     <script type="text/microweber" id="area<?php print $btn_id; ?>">
         <?php print $action_content; ?>
-
-
     </script>
 
     <script>

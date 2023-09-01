@@ -197,7 +197,7 @@ class Import
             $this->logger->setLogInfo('Reading data from file ' . basename($this->file));
 
 			if (! empty($readedData)) {
-				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
+				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are read.';
                 $this->logger->setLogInfo($successMessages);
 				return array(
 					'success' => $successMessages,

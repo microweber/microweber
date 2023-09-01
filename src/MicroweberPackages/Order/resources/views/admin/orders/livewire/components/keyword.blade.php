@@ -1,4 +1,4 @@
-<div class="keyword-blade-filters-menu input-icon col-xl-12 col-lg-5 col-10 ms-auto">
+<div class="keyword-blade-filters-menu input-icon col-xl-12 col-lg-5 col ms-auto">
     <div class="input-group input-group-flat ">
         <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
         <span class="input-group-text">

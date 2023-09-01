@@ -1151,6 +1151,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $to_save2['rel_id'] = $content_id_for_con_field;
                                     $to_save2['field'] = $field;
                                     $json_print[] = $to_save2;
+                                    $history_draft = $to_save2;
+                                    $cont_field_revision = $this->app->content_manager->save_content_field($history_draft);
 
                                     $saved = $this->app->content_manager->save_content_admin($to_save);
 
@@ -1214,10 +1216,22 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 $cont_field['is_draft'] = 1;
                                 $cont_field['url'] = $this->app->url_manager->string(true);
                                 $cont_field_new = $this->app->content_manager->save_content_field($cont_field);
+
+
+
                             } else {
 
 
                                 $cont_field_new = $this->app->content_manager->save_content_field($cont_field);
+
+                                $history_draft = $cont_field;
+                                $history_draft['is_draft'] = 1;
+                                $history_draft['url'] = $this->app->url_manager->string(true);
+
+                                $cont_field_revision = $this->app->content_manager->save_content_field($history_draft);
+
+
+
                             }
 
 
@@ -1226,10 +1240,14 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                 $json_print[] = $cont_field;
                                 $history_to_save = array();
-                                $history_to_save['table'] = 'global';
+                            //.    $history_to_save['table'] = 'global';
                                 $history_to_save['value'] = $cont_field['value'];
                                 $history_to_save['field'] = $field;
-                                $history_to_save['page_element_id'] = $page_element_id;
+                              //  $history_to_save['page_element_id'] = $page_element_id;
+
+
+
+
                             }
                         }
                     }

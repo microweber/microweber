@@ -1,6 +1,6 @@
 <?php must_have_access(); ?>
 <script type="text/javascript">
-    mw.require('options.js');
+    //mw.require('options.js');
 </script>
 <style>
     .more-fonts-btbn-setting{

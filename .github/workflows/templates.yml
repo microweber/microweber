@@ -12,7 +12,7 @@ jobs:
       max-parallel: 16
       fail-fast: false
       matrix:
-        php-versions: ['8.1']
+        php-versions: ['8.2']
         templates: [
 #          'microweber-templates/big',
           'microweber-templates/bootstrap5',
@@ -87,6 +87,15 @@ jobs:
 #        # Defaults to 8888
 #        http-port:
 #          8000
+    - name: Npm install
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+        cache-dependency-path: ./package-lock.json
+    - run: npm install
+    - run: npm run build
+
     - name: Add auth composer
       id: create-json
       uses: jsdaniell/create-json@1.1.2
@@ -119,12 +128,12 @@ jobs:
       with:
         name: console
         path: tests/Browser/console
-    - name: Upload Laravel Storage
+    - name: Upload Laravel Storage Logs
       if: failure()
       uses: actions/upload-artifact@v2
       with:
-        name: storage
-        path: storage
+        name: storage-logs
+        path: storage/logs
     - name: Upload Laravel config
       if: failure()
       uses: actions/upload-artifact@v2

@@ -1,40 +1,41 @@
-<div>
+<div class="mb-3">
+
     <div>
-
-        <div class="mb-3">
-            <label><?php _ejs("Style"); ?></label>
-            <div>
-                <select class="form-select" wire:model="settings.button_style">
-                    <option value="btn-default"><?php _e("Default"); ?></option>
-                    <option value="btn-primary"><?php _e("Primary"); ?></option>
-                    <option value="btn-secondary"><?php _e("Secondary"); ?></option>
-                    <option value="btn-success"><?php _e("Success"); ?></option>
-                    <option value="btn-danger"><?php _e("Danger"); ?></option>
-                    <option value="btn-warning"><?php _e("Warning"); ?></option>
-                    <option value="btn-info"><?php _e("Info"); ?></option>
-                    <option value="btn-light"><?php _e("Light"); ?></option>
-                    <option value="btn-dark"><?php _e("Dark"); ?></option>
-                </select>
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label><?php _ejs("Size"); ?></label>
-            <div>
-                <select class="form-select" wire:model="settings.button_size">
-                    <option value=""><?php _e("Default"); ?></option>
-                    <option value="btn-lg"><?php _e("Large"); ?></option>
-                    <option value="btn-md"><?php _e("Medium"); ?></option>
-                    <option value="btn-sm"><?php _e("Small"); ?></option>
-                    <option value="btn-xs"><?php _e("Mini"); ?></option>
-                </select>
-            </div>
-
-
-        </div>
-
-
+        <label class="live-edit-label">Icon</label>
+        <livewire:microweber-option::icon-picker optionKey="icon" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
+    @php
+        $styleOptions = [
+            'btn-default' => 'Default',
+            'btn-primary' => 'Primary',
+            'btn-info' => 'Info',
+            'btn-success' => 'Success',
+            'btn-warning' => 'Warning',
+            'btn-danger' => 'Danger',
+            'btn-link' => 'Simple'
+        ];
+    @endphp
+
+
+    <div>
+        <label class="live-edit-label">{{__('Style')}} </label>
+        <livewire:microweber-option::dropdown :dropdownOptions="$styleOptions" optionKey="button_style" :optionGroup="$moduleId" :module="$moduleType"  />
+    </div>
+
+    @php
+        $sizeOptions = [
+            '' => 'Default',
+            'btn-default-large btn-lg' => 'Large',
+            'btn-default-medium btn-md' => 'Medium',
+            'btn-default-small btn-sm' => 'Small',
+            'btn-default-mini btn-xs' => 'Mini'
+        ];
+    @endphp
+
+    <div>
+        <label class="live-edit-label">{{__('Size')}} </label>
+        <livewire:microweber-option::dropdown :dropdownOptions="$sizeOptions" optionKey="button_size" :optionGroup="$moduleId" :module="$moduleType"  />
+    </div>
 
 </div>

@@ -17,35 +17,35 @@
         </div>
 
         <!-- Name -->
-        <div class="col-span-6 sm:col-span-4 mt-2">
+        <div class="live-edit-label">
             <x-microweber-ui::label for="first_name" value="First Name" />
             <x-microweber-ui::input id="first_name" type="text" class="mt-1 block w-full" wire:model.defer="state.first_name" />
             <x-microweber-ui::input-error for="first_name" class="mt-2" />
         </div>
 
         <!-- Last Name -->
-        <div class="col-span-6 sm:col-span-4 mt-2">
+        <div class="live-edit-label">
             <x-microweber-ui::label for="last_name" value="Last Name" />
             <x-microweber-ui::input id="last_name" type="text" class="mt-1 block w-full" wire:model.defer="state.last_name" />
             <x-microweber-ui::input-error for="last_name" class="mt-2" />
         </div>
 
         <!-- Phone -->
-        <div class="col-span-6 sm:col-span-4 mt-2">
+        <div class="live-edit-label">
             <x-microweber-ui::label for="phone" value="Phone" />
             <x-microweber-ui::input id="phone" type="text" class="mt-1 block w-full" wire:model.defer="state.phone" />
             <x-microweber-ui::input-error for="phone" class="mt-2" />
         </div>
 
         <!-- Email -->
-        <div class="col-span-6 sm:col-span-4 mt-2">
+        <div class="live-edit-label">
             <x-microweber-ui::label for="email" value="Email" />
             <x-microweber-ui::input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
             <x-microweber-ui::input-error for="email" class="mt-2" />
         </div>
 
         <!-- Password -->
-        <div class="col-span-6 sm:col-span-4 mt-2">
+        <div class="live-edit-label">
             <x-microweber-ui::label for="password" value="Password" />
             <x-microweber-ui::input id="password" type="password" class="mt-1 block w-full" wire:model.defer="state.password" />
             <x-microweber-ui::input-error for="password" class="mt-2" />

@@ -27,10 +27,11 @@ class TagsTest extends TestCase
 
         $saved_id = save_content($new_page);
         $saved_id = intval($saved_id);
-        $c = get_content_by_id($saved_id);
 
+
+      //  $c = get_content_by_id($saved_id);
         DB::enableQueryLog();
-
+        DB::flushQueryLog();
         /*
 
         The  "find" method maybe have a bug where the whole table is selected,

@@ -2,28 +2,28 @@
     <div class="p-3">
         <label class="font-weight-bold fs-2 mt-2 mb-2">Tools</label>
         <ul class="d-grid gap-2 list-unstyled">
-           <li class="pb-2">
-               <a class="live-edit-tools" v-on:click="show('html-editor')">
+            <li class="py-2">
+                <a class="live-edit-tools" v-on:click="show('html-editor')">
 
-                   <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
-                        viewBox="0 -960 960 960" width="24">
-                       <path
-                           d="M320-242 80-482l242-242 43 43-199 199 197 197-43 43Zm318 2-43-43 199-199-197-197 43-43 240 240-242 242Z"/>
-                   </svg>
-                   Open Code Editor
-               </a>
-           </li>
+                    <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
+                         viewBox="0 -960 960 960" width="24">
+                        <path
+                            d="M320-242 80-482l242-242 43 43-199 199 197 197-43 43Zm318 2-43-43 199-199-197-197 43-43 240 240-242 242Z"/>
+                    </svg>
+                    Open Code Editor
+                </a>
+            </li>
 
-          <li class="py-2">
-              <a class="live-edit-tools" v-on:click="show('style-editor')">
-                  <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="25"
-                       viewBox="0 -960 960 960" width="25">
-                      <path
-                          d="M414-360q-15 0-24.5-9.5T380-394v-46h48v32h104v-53H414q-14 0-24-10t-10-24v-71q0-15 9.5-24.5T414-600h132q15 0 24.5 9.5T580-566v46h-48v-32H428v53h118q14 0 24 10t10 24v71q0 15-9.5 24.5T546-360H414Zm260 0q-15 0-24.5-9.5T640-394v-46h48v32h104v-53H674q-14 0-24-10t-10-24v-71q0-15 9.5-24.5T674-600h132q15 0 24.5 9.5T840-566v46h-48v-32H688v53h118q14 0 24 10t10 24v71q0 15-9.5 24.5T806-360H674Zm-520 0q-15 0-24.5-9.5T120-394v-172q0-15 9.5-24.5T154-600h132q15 0 24.5 9.5T320-566v46h-48v-32H168v144h104v-32h48v46q0 15-9.5 24.5T286-360H154Z"/>
-                  </svg>
-                  Open CSS Editor
-              </a>
-          </li>
+            <li class="pb-2">
+                <a class="live-edit-tools" v-on:click="show('style-editor')">
+                    <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="25"
+                         viewBox="0 -960 960 960" width="25">
+                        <path
+                            d="M414-360q-15 0-24.5-9.5T380-394v-46h48v32h104v-53H414q-14 0-24-10t-10-24v-71q0-15 9.5-24.5T414-600h132q15 0 24.5 9.5T580-566v46h-48v-32H428v53h118q14 0 24 10t10 24v71q0 15-9.5 24.5T546-360H414Zm260 0q-15 0-24.5-9.5T640-394v-46h48v32h104v-53H674q-14 0-24-10t-10-24v-71q0-15 9.5-24.5T674-600h132q15 0 24.5 9.5T840-566v46h-48v-32H688v53h118q14 0 24 10t10 24v71q0 15-9.5 24.5T806-360H674Zm-520 0q-15 0-24.5-9.5T120-394v-172q0-15 9.5-24.5T154-600h132q15 0 24.5 9.5T320-566v46h-48v-32H168v144h104v-32h48v46q0 15-9.5 24.5T286-360H154Z"/>
+                    </svg>
+                    Open CSS Editor
+                </a>
+            </li>
 
             <li class="pb-2">
                 <a class="live-edit-tools" v-on:click="openContentRevisionsDialog()">
@@ -36,16 +36,16 @@
                 </a>
             </li>
 
-           <li class="pb-2">
-               <a class="live-edit-tools" v-on:click="openContentResetContent()">
-                   <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
-                        viewBox="0 -960 960 960" width="24">
-                       <path
-                           d="M477-120q-149 0-253-105.5T120-481h60q0 125 86 213t211 88q127 0 215-89t88-216q0-124-89-209.5T477-780q-68 0-127.5 31T246-667h105v60H142v-208h60v106q52-61 123.5-96T477-840q75 0 141 28t115.5 76.5Q783-687 811.5-622T840-482q0 75-28.5 141t-78 115Q684-177 618-148.5T477-120Zm128-197L451-469v-214h60v189l137 134-43 43Z"/>
-                   </svg>
-                   Reset Content
-               </a>
-           </li>
+            <li class="pb-2">
+                <a class="live-edit-tools" v-on:click="openContentResetContent()">
+                    <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
+                         viewBox="0 -960 960 960" width="24">
+                        <path
+                            d="M477-120q-149 0-253-105.5T120-481h60q0 125 86 213t211 88q127 0 215-89t88-216q0-124-89-209.5T477-780q-68 0-127.5 31T246-667h105v60H142v-208h60v106q52-61 123.5-96T477-840q75 0 141 28t115.5 76.5Q783-687 811.5-622T840-482q0 75-28.5 141t-78 115Q684-177 618-148.5T477-120Zm128-197L451-469v-214h60v189l137 134-43 43Z"/>
+                    </svg>
+                    Reset Content
+                </a>
+            </li>
 
             <li class="pb-2">
                 <a class="live-edit-tools" v-on:click="clearCache()">
@@ -73,6 +73,18 @@ export default {
             this.emitter.emit('live-edit-ui-show', name);
         },
 
+      hideContentRevisionsDialog: function () {
+        if (this.contentRevisionsDialogInstance) {
+          this.contentRevisionsDialogInstance.remove();
+          this.contentRevisionsDialogInstance = null;
+        }
+      },
+      hideContentResetDialog: function () {
+        if (this.contentResetContentInstance) {
+          this.contentResetContentInstance.remove();
+          this.contentResetContentInstance = null;
+        }
+      },
         clearCache: function () {
             mw.tools.confirm("Do you want to clear cache?", function () {
                 mw.notification.warning("Clearing cache...");
@@ -101,7 +113,7 @@ export default {
                 var src = src + '&root_element_id=' + root_element_id;
             }
 
-            // mw.dialogIframe({
+
             var modal = mw.dialogIframe({
                 url: src,
                 // width: 500,
@@ -115,6 +127,8 @@ export default {
                 autoHeight: true,
                 draggable: true
             });
+
+            this.contentResetContentInstance = modal;
         },
         openContentRevisionsDialog: function () {
 
@@ -146,6 +160,25 @@ export default {
 
             attrsForSettings.content_id = cont_id;
 
+             if (liveEditIframeData
+                && liveEditIframeData.content
+                && liveEditIframeData.content.id
+                && liveEditIframeData.content.title
+                && liveEditIframeData.content.is_home
+                && liveEditIframeData.content.is_home === '1'
+            ){
+                attrsForSettings.from_url_string_home = 1;
+            } else {
+                attrsForSettings.from_url_string = mw.app.canvas.getWindow().location.href;
+            }
+
+
+
+
+
+
+            attrsForSettings.content_id = cont_id;
+
             var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
             var dlg = mw.top().dialogIframe({
@@ -156,15 +189,44 @@ export default {
                 //  height: 600,
                 height: 'auto',
                 autoHeight: true,
-                overlay: false
+                overlay: false,
+
             });
+
+            this.contentRevisionsDialogInstance = dlg;
 
         },
     },
     mounted() {
+      var toolButtonsInstance = this;
+      // close open tools when page is changed
+      mw.app.canvas.on('liveEditCanvasBeforeUnload', function () {
+        toolButtonsInstance.hideContentRevisionsDialog();
+        toolButtonsInstance.hideContentResetDialog();
+      });
+
+      mw.app.canvas.on('liveEditCanvasLoaded', function () {
+        mw.app.editor.on('insertLayoutRequest', function (element) {
+          // close open tools when layout is inserted
+          toolButtonsInstance.hideContentRevisionsDialog();
+          toolButtonsInstance.hideContentResetDialog();
+        });
+        mw.app.editor.on('insertModuleRequest', function (element) {
+          // close open tools when module is inserted
+          toolButtonsInstance.hideContentRevisionsDialog();
+          toolButtonsInstance.hideContentResetDialog();
+        });
+      });
+
+
+
 
     },
     data() {
+        return {
+            contentRevisionsDialogInstance: null,
+            contentResetContentInstance: null,
+        }
 
     }
 }

@@ -52,6 +52,24 @@
 @section('topbar2-links-right')
 
 
+    @php
+
+          $quickContentAdd = false;
+
+           if(isset($_GET['quickContentAdd']) and $_GET['quickContentAdd']){
+              $quickContentAdd = true;
+           }
+
+
+
+
+    @endphp
+
+
+
+
+
+    @if(!$quickContentAdd)
     @if($id > 0)
         @php
             if ($isShopAttribute == 1) {
@@ -67,6 +85,7 @@
             <a href="{{$addSubCateoryLink}}" class="btn btn-outline-dark"><?php _e("Add subcategory"); ?></a> &nbsp;
         </li>
     @endif
+
 
     @if($isShopAttribute == 1)
         <li>
@@ -93,6 +112,9 @@
             <i class="mdi mdi-content-save me-1"></i> <?php _e('Save') ?>
         </a>
     </li>
+
+
+    @endif
 
 @endsection
 

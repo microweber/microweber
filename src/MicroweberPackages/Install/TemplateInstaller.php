@@ -87,7 +87,7 @@ class TemplateInstaller
         }
 
         if (is_file($default_content_file)) {
-
+           // ob_start();
             $sessionId = SessionStepper::generateSessionId(0);
             $manager = new Import();
             $manager->setSessionId($sessionId);
@@ -103,7 +103,7 @@ class TemplateInstaller
             }
             $manager->start();
 
-            ob_get_clean();
+           // ob_get_clean();
         	return true;
         } else {
         	return false;

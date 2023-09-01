@@ -3,6 +3,7 @@
 ;(function (){
 
     MWEditor.core = {
+ 
         capsulatedField: function (options) {
 
             var defaults = {
@@ -103,11 +104,14 @@
         },
         colorPicker: function(config) {
 
+ 
+
             config = config || {};
             var defaults = {
                 props: {
                     className: 'mw-editor-controller-component'
-                }
+                },
+                displayDocument: document
             };
             var settings = $.extend(true, {}, defaults, config);
             var _opt = new Option();
@@ -122,30 +126,22 @@
             el.addClass('mw-editor-color-picker');
 
 
-            var tip = mw.element({
-                props: {
-                    className: 'mw-editor-color-picker-dialog'
-                }
+            var dlg = mw.top().dialog({
+                width: 280,
+                closeButtonAction: 'hide',
+                disableTextSelection: true,
+                title: mw.lang('Choose color'),
+                overlayClose: true,
+                closeOnEscape: false, //todo: escape destroys the dialog
+                // skin: 'mw_modal_simple mw_modal_live_edit_settings',
             });
-            mw.element(document.body).append(tip).on('mousedown touchstart', function (e) {
-                if(!el.get(0).contains(e.target) && !tip.get(0).contains(e.target)){
-                    tip.hide()
-                }
-            });
+ 
+     
 
-            if(typeof mw.app.canvas !== 'undefined') {
-                mw.app.canvas.on('canvasDocumentClick', function () {
-                    tip.hide()
-                });
-            }
+ 
 
             el.on('click', function (e){
-                var off = el.offset();
-                tip.css({
-                    top: off.offsetTop + off.height,
-                    left: off.offsetLeft,
-
-                }).toggle();
+                dlg.show()
             });
 
 
@@ -158,9 +154,15 @@
 
             var _pauseSetValue = false;
 
+            
+            dlg.hide();
+
+   
+
            var picker = mw.colorPicker({
-                element: tip.get(0),
-                // position: 'bottom-center',
+                // element: tip.get(0),
+                element: dlg.container,
+                 
                 method: 'inline',
                 showHEX: false,
                 onchange: function (color) {
@@ -173,11 +175,7 @@
 
             });
 
-
-
-
-
-           mw.element('.a-color-picker-row.a-color-picker-palette', tip.get(0)).before(cf.frame);
+            mw.element('.a-color-picker-row.a-color-picker-palette', dlg.container).before(cf.frame);
 
             cf.field.addEventListener('input', function (e){
                 e.stopPropagation();
@@ -402,21 +400,25 @@
                     });
 
                 }
+                
 
                 lscope.select.get(0).ownerDocument.querySelectorAll('.mw-bar-control-item.active, .mw-editor-controller-component.active').forEach(node => {
-                    if(node !== _this) {
+                    if(node !== _this  && !node.contains(_this)) {
                         node.classList.remove('active')
                     }
-                })
+                });
+
+ 
 
                 mw.element('.mw-editor-controller-component-select').each(function (){
-                    if (this !== curr ) {
+                    if (this !== curr && !this.contains(_this) ) {
                         this.classList.remove('active');
                     }
                 });
                 mw.element(_this).toggleClass('active');
                 mw.element('.mw-bar-control-item.active').each(function (){
-                    if(!this.contains(lscope.select.get(0))){
+                   
+                    if(!this.contains(lscope.select.get(0)) ){
                         mw.element(this).removeClass('active');
                     }
 

@@ -1,15 +1,19 @@
-@props(['id' => null, 'maxWidth' => null])
+@props(['id' => null, 'maxWidth' => 'sm'])
+
+@php
+$id = $id ?? md5($attributes->wire('model'));
+@endphp
 
 <x-microweber-ui::modal :id="$id" :maxWidth="$maxWidth" {{ $attributes }}>
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">{{ $title }}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="mw-modal-content">
+        <div class="mw-modal-header">
+            <h5 class="mw-modal-title">{{ $title }}</h5>
+            <button type="button" class="btn-close" id="js-close-modal-{{$id}}"></button>
         </div>
-        <div class="modal-body">
+        <div class="mw-modal-body">
             {{ $content }}
         </div>
-        <div class="modal-footer bg-azure-lt">
+        <div class="mw-modal-footer d-flex justify-content-between align-items-center">
             {{ $footer }}
         </div>
     </div>

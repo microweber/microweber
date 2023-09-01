@@ -6,7 +6,7 @@ import {ObjectService} from "./classes/object.service.js";
 import {DroppableElementAnalyzerService} from "./analizer.js";
 import {DropIndicator} from "./interact.js";
 import {ElementHandleContent} from "./handles-content/element.js";
-import {ModuleHandleContent} from "./handles-content/module.js";
+import {ModuleHandleContent, moduleSettingsDispatch} from "./handles-content/module.js";
 import {LayoutHandleContent} from "./handles-content/layout.js";
 import {ElementManager} from "./classes/element.js";
 import {lang} from "./i18n.js";
@@ -15,10 +15,12 @@ import {HandleMenu} from "./handle-menu.js";
 import {InteractionHandleContent} from "./handles-content/interaction.js";
 import {DomService} from "./classes/dom.js";
 import "./core/@core.js";
+import helpers from "./live-edit-helpers.service.js";
 
 
-mw.require('stylesheet.editor.js');
 
+
+ 
 export class LiveEdit {
 
 
@@ -38,6 +40,8 @@ export class LiveEdit {
 
         this.paused = false;
         this.activeNode = false;
+        this.lastMousePosition = null;
+
 
 
         var defaults = {
@@ -130,17 +134,37 @@ export class LiveEdit {
         };
 
 
+
         var elementHandle = this.elementHandle = new Handle({
             ...this.settings,
+            $name: '$elementHandle',
             dropIndicator: this.dropIndicator,
             content: elementHandleContent.root,
-            // handle: elementHandleContent.menu.title,
-            handle: ElementManager('.mw-handle-drag-button', elementHandleContent.root.get(0)),
-            handle: 'self',
+
+            handle:  '.mw-handle-drag-button-element' ,
+
             document: this.settings.document,
             stateManager: this.settings.stateManager,
             resizable: true,
 
+            onPosition: function(menu, transform, off){
+                if(off.top < 50 ) {
+                    menu.style.top = `calc(100% + 10px)`;
+                } else {
+                    menu.style.top = ``;
+                }
+            },
+            offsetMenuTransform: function(scroll, off, menu){
+                let transform = -60;
+                if(scroll.y > (off.top - 20)) {
+                    transform = (scroll.y - (off.top - 20));
+        
+                    if((transform + menu.offsetHeight + 30) > off.height) {
+                        transform =  (off.height - (menu.offsetHeight + 30))  ;
+                    }
+                }
+                return transform;
+            }
         });
 
         this.isResizing = false;
@@ -160,6 +184,15 @@ export class LiveEdit {
             } else {
                 elementHandle.resizer.enable()
             }
+            scope.handles.set('interactionHandle', null);
+            scope.handles.set('layout', null);
+            scope.handles.get('layout').hide();
+            scope.handles.get('interactionHandle').hide();
+            mw.top().app.richTextEditor.smallEditor.hide()
+            mw.app.get('liveEdit').play();
+
+            //mw.app.domTreeSelect(target)
+
 
         });
 
@@ -167,18 +200,37 @@ export class LiveEdit {
             ...this.settings,
             dropIndicator: this.dropIndicator,
             content: moduleHandleContent.root,
-            handle: moduleHandleContent.menu.title,
+            // handle: moduleHandleContent.menu.title,
             document: this.settings.document,
             stateManager: this.settings.stateManager,
             resizable: false,
             id: 'mw-handle-item-module-menu',
-            handle: 'self',
+            handle:  '.mw-handle-drag-button-module' ,
             setDraggableTarget: function (target) {
                 if (target.nodeType === 1) {
 
                     return DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentElement, ['edit', 'module'])
                 }
                 return false;
+            },
+            onPosition: function(menu, transform, off){
+
+                if(off.top < 50 ) {
+                    menu.style.top = `calc(100% + 10px)`;
+                } else {
+                    menu.style.top = ``;
+                }
+            },
+            offsetMenuTransform: function(scroll, off, menu){
+                let transform = -60;
+                if(scroll.y > (off.top - 20)) {
+                    transform = (scroll.y - (off.top - 20));
+        
+                    if((transform + menu.offsetHeight + 30) > off.height) {
+                        transform =  (off.height - (menu.offsetHeight + 30))  ;
+                    }
+                }
+                return transform;
             }
         });
         var moduleHandle = this.moduleHandle;
@@ -198,12 +250,23 @@ export class LiveEdit {
         };
 
         moduleHandle.on('targetChange', function (node) {
+ 
             scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
-                console.log(settings)
+
+                 
+
                 mw.app.liveEdit.moduleHandleContent.menu.setMenu('dynamic', settings);
                 moduleHandleContent.menu.setTarget(node);
                 moduleHandleContent.menu.show();
             });
+            scope.handles.set('layout', null);
+            scope.handles.set('interactionHandle', null);
+            scope.handles.get('layout').hide();
+            scope.handles.get('interactionHandle').hide();
+            mw.top().app.richTextEditor.smallEditor.hide()
+            mw.app.get('liveEdit').play();
+
+            //mw.app.domTreeSelect(node)
         });
 
         this.layoutHandle = new Handle({
@@ -227,7 +290,6 @@ export class LiveEdit {
         layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target) {
             scope.getLayoutQuickSettings(target.dataset.type).then(function (settings) {
-                console.log(settings, target)
 
                 mw.app.liveEdit.layoutHandleContent.menu.setMenu('dynamic', settings)
 
@@ -243,6 +305,9 @@ export class LiveEdit {
                 layoutHandleContent.plusTop.hide()
                 layoutHandleContent.plusBottom.hide()
             }
+            
+            
+            //mw.app.domTreeSelect(target)
         });
 
         layoutHandleContent.handle = layoutHandle;
@@ -266,10 +331,11 @@ export class LiveEdit {
 
 
         this.handles = new Handles({
+            interactionHandle: this.interactionHandle,
             element: elementHandle,
             module: moduleHandle,
             layout: layoutHandle,
-            interactionHandle: this.interactionHandle,
+
         });
         this.observe = new GetPointerTargets(this.settings);
         this.init();
@@ -286,55 +352,102 @@ export class LiveEdit {
     getSelectedNode() {
         return this.activeNode;
     }
-    selectNode(target) {
+    selectNode(target, event) {
+ 
+        if(target.nodeName === 'BODY') {
+
+            return
+        }
+ 
+ 
+
+        if (target.isContentEditable || this.handles.targetIsOrInsideHandle(target ) || this.handles.targetIsSelected(target, this.interactionHandle) ) {
 
 
-
-
-        if (this.handles.targetIsOrInsideHandle(target, this.handles.get('layout'))) {
-            // this.handles.get('element').set(null)
-            // this.handles.get('module').set(null)
-            this.handles.hide();
-            this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
+            // this.handles.hide();
+           //  this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
             return
         }
 
+
+        
+
+
+
         this.activeNode = target;
+
+
 
         // const elements = this.observe.fromEvent(e);
         const elements = [];
-        const directTargets = ['IMG']
-        if (directTargets.indexOf(target.nodeName) !== -1) {
+        const directTargets = ['IMG'];
+        const isIcon = helpers.targetIsIcon(target);
+        if(isIcon){
+            elements.push(target);
+        } else if (directTargets.indexOf(target.nodeName) !== -1) {
             elements.push(target);
         } else {
             elements.push(DomService.firstBlockLevel(target));
         }
 
         let first = elements[0];
-        var target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit']);
+         
+        if(!isIcon) {
+            target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit']);
+        }
+        
 
-        if (first.nodeName !== 'IMG') {
+        if (first.nodeName !== 'IMG' && !isIcon) {
             first = DomService.firstBlockLevel(elements[0]);
         }
 
+
+        var elementTarget =  this.handles.get('element').getTarget()
+
+        if(target && !target.classList.contains('module') && elementTarget && elementTarget.contains(target)) {
+            return
+        }
+
+
+     
+
+
         first = target;
+
+
+         
+
+        if(target && target === elementTarget  ) {
+
+           if(typeof event !== 'undefined') {
+               event.preventDefault();
+               event.stopImmediatePropagation();
+               mw.app.editor.dispatch('editNodeRequest', target, event);
+           } else {
+               mw.app.editor.dispatch('editNodeRequest', target);
+           }
+
+
+        }
+
 
 
         this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
         this.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);
 
-        this.handles.get('element').set(null)
+         this.handles.get('element').set(null)
         this.handles.get('module').set(null)
         this.handles.hide();
 
 
-    
-       
+
+
 
 
         if (first) {
             first = this._hoverAndSelectExceptions(first)
             const type = this.elementAnalyzer.getType(first);
+
  
             if (type !== 'layout') {
                 var parentLayout = DomService.firstParentOrCurrentWithClass(first, 'module-layouts');
@@ -353,9 +466,11 @@ export class LiveEdit {
                     this.handles.hide('element');
                     this.handles.set(type, first)
                 } else if (type === 'layout') {
-             
+
                     this.handles.set('layout', first);
                 } else if (type === 'edit') {
+                    this.handles.set('element', first);
+                }  else if (type === 'icon') {
                     this.handles.set('element', first);
                 } else {
                     this.handles.hide();
@@ -373,30 +488,66 @@ export class LiveEdit {
     }
 
      _hoverAndSelectExceptions = (target) => {
-        if (target && target.classList && target.classList.contains('module-custom-fields')) {
-            var form = DomService.firstParentOrCurrentWithClass(target, 'module-contact-form');
-            if (form) {
-                target = form;
-            }
-        }
-
-
-        if (target && target.parentNode && target.parentNode.getAttribute('rel') === 'module') {
-            if(typeof target.parentNode !== 'undefined'){
-                try {
-                    target = DomService.firstParentOrCurrentWithAnyOfClasses(target.parentNode, ['element', 'module', 'cloneable', 'layout', 'edit']);
-                    if (!target) {
-                        return target;
-                    }
-                } catch (error) {
-
+       
+        if(target) {
+            if (target && target.classList && target.classList.contains('module-custom-fields')) {
+                var form = DomService.firstParentOrCurrentWithClass(target, 'module-contact-form');
+                if (form) {
+                    target = form;
                 }
             }
-        }
 
 
-        if (target && target.parentNode && target.parentNode.classList.contains('module-layouts')) {
-            target = target.parentNode
+            if (target && target.parentNode && target.parentNode.getAttribute('rel') === 'module') {
+                if(typeof target.parentNode !== 'undefined'){
+                    try {
+                        target = DomService.firstParentOrCurrentWithAnyOfClasses(target.parentNode, ['element', 'module', 'cloneable', 'layout', 'edit']);
+                        if (!target) {
+                            return target;
+                        }
+                    } catch (error) {
+
+                    }
+                }
+            }
+
+
+            if (target && target.parentNode && target.parentNode.classList.contains('module-layouts')) {
+                target = target.parentNode
+            }
+
+
+
+
+            if(target && target.classList.contains('mw-empty-element') || target.classList.contains('mw-col-container')){
+                const col = DomService.firstParentOrCurrentWithClass(target, 'mw-col');
+                if(col) {
+                    target = col
+                }
+            }
+
+ 
+            
+
+            const isIcon = helpers.targetIsIcon(target);
+
+            if(isIcon) {
+                return target
+                
+
+            } else if(!target.classList.contains('cloneable')) {
+                const hasCloneable = DomService.firstParentOrCurrentWithClass(target.parentElement, 'cloneable');
+                if(hasCloneable) {
+                    if((target.offsetTop - hasCloneable.offsetTop) < 5) {
+                        target = hasCloneable;
+                        hasCloneable.classList.add('element')
+                        
+                    } else {
+                        hasCloneable.classList.remove('element')
+                    }
+                    
+                }
+            }
         }
 
         return target
@@ -413,24 +564,241 @@ export class LiveEdit {
 
 
 
+
+
+
         const _eventsHandle = (e) => {
 
 
+
+
             var target = e.target ? e.target : e;
+
 
             if (target && target.className && typeof target.className === 'string' && target.className.indexOf('layout-plus') !== -1) {
                 return;
             }
 
-            this.selectNode(target);
+            this.selectNode(target, e);
 
         }
 
 
+        function isInViewport(el) {
+            if(!el || !el.parentNode) {
+                return false;
+            }
+
+            const doc = el.ownerDocument;
+            const win = doc.defaultView;
+
+
+            const bounding = el.getBoundingClientRect();
+            const elHeight = el.offsetHeight;
+            const elWidth = el.offsetWidth;
+
+
+
+            if (bounding.top >= -elHeight
+                && bounding.left >= -elWidth
+                && bounding.right <= (win.innerWidth || doc.documentElement.clientWidth) + elWidth
+                && bounding.bottom <= (win.innerHeight || doc.documentElement.clientHeight) + elHeight) {
+
+                return true;
+            } else {
+
+                return  false
+             }
+        }
+
+
+
+        class BGImageHandles {
+            constructor(options = {}) {
+                const defaults = {
+                    document: document
+                }
+                this.settings = Object.assign({}, defaults, options);
+                this.init()
+
+            }
+
+            #menu(){
+
+                const primaryMenu = [
+                    {
+                        title: 'Edit' ,
+                        text: '',
+                        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M181.674-179.761h41.13l441.087-441.565-41.13-41.13-441.087 441.565v41.13Zm613.043-484.326L665.761-793.043l36.978-37.218q19.631-19.63 47.859-19.75 28.228-.119 47.859 19.272l37.782 37.782q18.435 18.196 17.837 44.153-.598 25.956-18.315 43.674l-41.044 41.043Zm-41.76 41.761L247.761-117.13H118.804v-128.957l504.957-504.956 129.196 128.717Zm-109.392-19.565-20.804-20.565 41.13 41.13-20.326-20.565Z"></path></svg>',
+ 
+                        action: function(target) {
+                            var dialog;
+                            var picker = new mw.filePicker({
+                                type: 'images',
+                                label: false,
+                                autoSelect: false,
+                                footer: true,
+                                _frameMaxHeight: true,
+                                onResult: function(res) {
+                                    var url = res.src ? res.src : res;
+                                    if(!url) {
+                                        dialog.remove();
+                                        return
+                                    }
+                                    url = url.toString();
+                                    target.style.backgroundImage = `url(${url})`; ;
+                                    mw.app.get('liveEdit').play();
+                                    dialog.remove();
+                                    mw.top().app.registerChange(target);
+                                }
+                            });
+                            dialog = mw.top().dialog({
+                                content: picker.root,
+                                title: mw.lang('Select image'),
+                                footer: false,
+                                width: 860,
+                            });
+                            picker.$cancel.on('click', function(){
+                              dialog.remove()
+                            })
+
+
+                            $(dialog).on('Remove', () => {
+
+                              mw.app.get('liveEdit').play();
+                            })
+                        }
+
+                    },
+                ];
+
+                this.menu = new HandleMenu({
+                    id: 'mw-bg-image-handles-menu',
+                    title: '',
+
+
+                    menus: [
+                        {
+                            name: 'primary',
+                            nodes: primaryMenu
+                        },
+
+                    ],
+
+                });
+
+                this.menu.show()
+            }
+
+            hide() {
+                this.handle.hide()
+            }
+
+            show() {
+                this.handle.show()
+            }
+
+            position(target) {
+                const win = target.ownerDocument.defaultView;
+                var rect = target.getBoundingClientRect();
+                rect.offsetTop = rect.top + win.pageYOffset;
+                rect.offsetBottom = rect.bottom + win.pageYOffset;
+                rect.offsetLeft = rect.left + win.pageXOffset;
+
+
+
+                this.handle.css({
+                    top: rect.offsetTop,
+                    left: rect.offsetLeft,
+                    width: rect.width,
+                    height: rect.height
+                })
+            }
+
+
+
+            #target;
+
+            getTarget() {
+                return this.#target;
+            }
+
+            setTarget(target) {
+                this.#target = target;
+                if(!target) {
+                    this.hide()
+                } else {
+                    this.position(this.#target);
+                    this.menu.setTarget(this.#target)
+                    this.menu.show()
+                    this.show()
+                }
+            }
+
+
+            build() {
+                const handle = mw.element(`
+                    <div class="mw-bg-image-handles">
+
+                    </div>
+                `)
+                this.#menu();
+                handle.append(this.menu.root);
+
+                this.settings.document.body.append(handle.get(0))
+
+                this.handle = handle;
+
+
+            }
+
+            init() {
+                this.build()
+            }
+        }
+
+
+        const bgImageHandles = new BGImageHandles({
+            document: this.document
+        });
+
+        bgImageHandles.hide()
+
+
         let events, _hovered = [];
 
-        events = 'mousedown touchstart';
+         events = 'mousedown touchstart';
+        // events = 'click';
         ElementManager(this.root).on('mousemove', (e) => {
+
+
+            const hasBg = DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['background-image-holder', 'img-holder']);
+
+            if(hasBg && hasBg !== bgImageHandles.getTarget() && this.canBeEditable(hasBg)) {
+                bgImageHandles.setTarget(hasBg)
+            }
+
+
+            var currentMousePosition = { x: e.pageX, y: e.pageY };
+            if (this.lastMousePosition) {
+                var distance = this.getDistance(this.lastMousePosition, currentMousePosition);
+                if (distance >= 3) {
+                    // If moved 3 pixels or more, update the last mouse position
+                    this.lastMousePosition = currentMousePosition;
+
+                } else {
+                    // has not moved more than 3 pixels
+                    return;
+                }
+            } else {
+                // If it's the first mouse move event, just update the last mouse position
+                this.lastMousePosition = currentMousePosition;
+                // has not moved more than 3 pixels
+                return;
+            }
+
+
+
             if (this.paused || this.isResizing) {
                 this.interactionHandle.hide();
                 return
@@ -441,14 +809,44 @@ export class LiveEdit {
                 return
             }
             const elements = this.observe.fromEvent(e);
+            /*let element = e.target;
+            while (e.target.nodeType !== 1){
+                element = e.target.parentElement;
+            }
+            const elements = [element];*/
 
-            
+            let elementTarget = this.handles.get('element').getTarget();
+            let moduleTarget = this.handles.get('module').getTarget();
 
-            let target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'edit']);
+
+
+
+            if(!isInViewport(elementTarget)) {
+                this.handles.get('element').hide()
+                this.handles.get('element').set(null)
+            }
+
+            if(!isInViewport(moduleTarget)) {
+                this.handles.get('module').hide()
+                this.handles.get('module').set(null)
+            }
+            let target
+
+            if(helpers.targetIsIcon(elements[0])) {
+                target = elements[0]
+            } else {
+                target= DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'edit']);
+            }
+
+
+              
             const layout = DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
             let layoutHasSelectedTarget = false;
 
-            target = this._hoverAndSelectExceptions(target)
+             
+         
+
+            target = this._hoverAndSelectExceptions(target);
 
 
             if (target && _hovered.indexOf(target) === -1) {
@@ -463,10 +861,16 @@ export class LiveEdit {
             }
 
 
-            if (layout /*&& !target*/) {
+            if(target === this.interactionHandle.getTarget()) {
+                this.interactionHandle.show();
+                return
+            }
 
-                const elementTarget = this.handles.get('element').getTarget();
-                const moduleTarget = this.handles.get('module').getTarget();
+
+            if (layout /*&& !target*/  ) {
+
+
+
 
                 if (layout.contains(elementTarget)) {
                     layoutHasSelectedTarget = true;
@@ -476,15 +880,28 @@ export class LiveEdit {
                     layoutHasSelectedTarget = true;
                 }
 
-                this.handles.set('layout', layout);
+
+
+                if(!layoutHasSelectedTarget) {
+                    this.handles.set('layout', layout);
+                } else {
+                    this.handles.set('layout', null);
+                    this.handles.get('layout').hide();
+                }
+
+
 
             }
+
+
 
 
             if (target && !this.handles.targetIsSelectedAndHandleIsNotHidden(target, this.interactionHandle) && !target.classList.contains('module-layouts')) {
                 var title = '';
                 if (target.dataset.mwTitle) {
                     title = target.dataset.mwTitle;
+                } else if ( helpers.targetIsIcon(target) ) {
+                    title = this.lang('Icon');
                 } else if (target.dataset.type) {
                     title = target.dataset.type;
                 } else if (target.nodeName === 'P') {
@@ -504,41 +921,101 @@ export class LiveEdit {
                 this.interactionHandle.menu.setTitle(title);
                 this.interactionHandle.show();
                 this.interactionHandle.set(target);
-            } else {
-                this.interactionHandle.hide();
-                // mw.app.get('liveEdit').play();
 
+                this.moduleHandle.draggablePaused(target)
             }
+
 
         })
         let _dblclicktarget
 
         ElementManager(this.root).on('dblclick', (e) => {
 
-            const selected = mw.app.liveEdit.elementHandle.getTarget();
+            if(mw.app.isPreview()) {
+                return;
+            }
 
-            if (selected && selected.contains(_dblclicktarget)) {
+            const selected = mw.app.liveEdit.elementHandle.getTarget();
+            const module = mw.app.liveEdit.moduleHandle.getTarget();
+            const layout = mw.app.liveEdit.layoutHandle.getTarget();
+
+
+
+
+            if(layout && !selected && !module) {
+                 
+                moduleSettingsDispatch(layout);
+                return false
+            }
+
+ 
+            if(module && !selected && (module.contains(e.target) || e.target.id === 'mw-handle-item-module-root') ) {
+                 
+                moduleSettingsDispatch(module);
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false
+            }
+
+
+
+ 
+            if (selected && !selected.contains(_dblclicktarget)) {
+                 
                 mw.app.editor.dispatch('editNodeRequest', selected);
             }
 
             if (!selected && e.target.classList.contains('edit') && e.target.style.backgroundImage) {
+                 
                 mw.app.editor.dispatch('editNodeRequest', e.target);
             }
 
 
         })
         ElementManager(this.root).on(events, (e) => {
+            if(e.which === 1) {
             _dblclicktarget = e.target;
 
-            if (!this.paused) {
+
+            let _canSelectDuringPause = true; 
+
+            const _canSelect = !this.paused || _canSelectDuringPause;
+            
+
+            if (_canSelect && !this.handles.targetIsOrInsideHandle(e.target ) ) {
+   
                 _eventsHandle(e)
             } else {
+ 
+                if (this.handles.targetIsOrInsideHandle(e.target ) || this.handles.targetIsSelected(e.target, this.interactionHandle )) {
+
+
+                    // this.handles.hide();
+                   //  this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
+                    return
+                }
+
+
                 var elementTarget = this.elementHandle.getTarget();
-                if (elementTarget && !elementTarget.contains(e.target)) {
+ 
+                if ( !elementTarget || (elementTarget && !elementTarget.contains(e.target)) ) {
                     this.play();
+                    this.handles.get('element').set(null);
+                    this.handles.get('module').set(null);
+                    mw.app.canvas.getDocument().querySelectorAll('[contenteditable="true"]').forEach(node => {
+                        if(node.classList.contains('element')) {
+                            console.log(66, node)
+                            node.removeAttribute('contentеditable')
+                        } else {
+                            node.contentEditable = false;
+                        }
+                    })
 
                 }
+
+
                 // mw.app.get('liveEdit').play();
+            }
             }
         });
 
@@ -548,7 +1025,7 @@ export class LiveEdit {
 
     canBeElement = function (target) {
         var el = target;
-        var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container','container'];
+        var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container','container', 'img-holder'];
         var noelements_le = ['mw-le-spacer','background-image-holder','mw-layout-overlay-container','mw-le-resizer','mw-layout-overlay-container','mw-layout-overlay','mw-layout-overlay-background','mw-layout-overlay-background-image','mw-layout-overlay-wrapper'];
 
 
@@ -564,10 +1041,26 @@ export class LiveEdit {
         noelements = noelements.concat(noelements_drag);
         noelements = noelements.concat(section_selectors);
         noelements = noelements.concat(icon_selectors);
-        return !mw.tools.hasAnyOfClasses(el, noelements);
+
+        const exceptions = ['cloneable'];
+
+        let can = !mw.tools.hasAnyOfClasses(el, noelements);
+
+        if(!can) {
+            can = mw.tools.hasAnyOfClasses(el, exceptions);
+        }
+         
+        return can;
     }
     canBeEditable = function (el) {
         return el.isContentEditable || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module']);
+    }
+
+    // Function to calculate the distance between two points
+    getDistance = function (point1, point2) {
+        const dx = point2.x - point1.x;
+        const dy = point2.y - point1.y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
 

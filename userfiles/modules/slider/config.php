@@ -2,7 +2,7 @@
 $config = array();
 
 $config['name'] = "Slider";
-$config['author'] = "Petko Yovchevski";
+$config['author'] = "Microweber";
 $config['version'] = "0.2";
 $config['categories'] = "media";
 $config['no_cache'] = false;
@@ -17,4 +17,15 @@ $config['settings']['translatable_options'] = [
 
 $config['settings']['allowed_html_option_keys'] = [
     'settings'
+];
+
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\Modules\Slider'
+    ],
+];
+
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\Slider\Providers\SliderServiceProvider::class
 ];

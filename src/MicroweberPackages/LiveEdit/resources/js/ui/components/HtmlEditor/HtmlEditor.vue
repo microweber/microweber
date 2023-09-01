@@ -45,6 +45,18 @@ export default {
                 htmlEditorDialoginstance.markAsRemoved();
             })
 
+
+
+            // new mw.controlBox({
+            //     content: '<div style="overflow: auto"><iframe style="max-height:300px ; width: 100%" src="'+ src + '" /> </div>',
+            //     position:  'bottom',
+            //     id: 'live_edit_side_holder',
+            //     closeButton: true
+            // });
+
+
+
+
         },
         removeHtmlEditor: function () {
 
@@ -105,7 +117,17 @@ export default {
                 // remove editor if the frame is changed
                 htmlEditorInstance.removeHtmlEditor();
             }
+
+          mw.app.editor.on('insertLayoutRequest', function (element) {
+            // close open html editor when layout is inserted
+            htmlEditorInstance.removeHtmlEditor();
+          });
+          mw.app.editor.on('insertModuleRequest', function (element) {
+            // close open html editor when module is inserted
+            htmlEditorInstance.removeHtmlEditor();
+          });
         });
+
         mw.app.canvas.on('liveEditCanvasBeforeUnload', function (frame) {
 
 
@@ -114,6 +136,10 @@ export default {
                 htmlEditorInstance.removeHtmlEditor();
             }
         });
+
+
+
+
     }
 
 }

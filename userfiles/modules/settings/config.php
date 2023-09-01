@@ -8,7 +8,7 @@ $config['ui'] = false;
 $config['is_system'] = true;
 $config['categories'] = "admin";
 $config['position'] = 4;
-$config['version'] = 0.3;
+$config['version'] = 0.4;
 
 $config['settings'] = [];
 $config['settings']['routes'] = [
@@ -23,6 +23,6 @@ $config['settings']['autoload_namespace'] = [
 ];
 
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Modules\Settings\SettingsServiceProvider::class
+    \MicroweberPackages\Modules\Settings\Providers\SettingsServiceProvider::class
 ];
 

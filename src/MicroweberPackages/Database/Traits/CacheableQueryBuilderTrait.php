@@ -44,23 +44,23 @@ trait CacheableQueryBuilderTrait
     protected static function bootCacheableQueryBuilderTrait()
     {
         static::saving(function ($model) {
-            $model->_clearModelCache($model);
+            $model->clearModelCache($model);
         });
 
         static::creating(function ($model) {
-            $model->_clearModelCache($model);
+            $model->clearModelCache($model);
         });
         static::updating(function ($model) {
-            $model->_clearModelCache($model);
+            $model->clearModelCache($model);
         });
         static::deleting(function ($model) {
-            $model->_clearModelCache($model);
+            $model->clearModelCache($model);
         });
 
     }
 
 
-    private function _clearModelCache($model)
+    public function clearModelCache($model)
     {
         $relatedTables = [];
 

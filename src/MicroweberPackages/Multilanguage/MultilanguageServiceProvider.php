@@ -73,7 +73,8 @@ class MultilanguageServiceProvider extends ServiceProvider
         /**
          * @property MultilanguageRepository $multilanguage_repository
          */
-        $this->app->bind('multilanguage_repository', function () {
+
+        $this->app->singleton('multilanguage_repository', function () {
             return new MultilanguageRepository();
         });
 

@@ -12,7 +12,7 @@ jobs:
       fail-fast: true
       max-parallel: 1
       matrix:
-        php-versions: [ '8.1' ]
+        php-versions: [ '8.2' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -22,6 +22,15 @@ jobs:
       - uses: ./.github/actions/setup-php
         with:
           php_version: ${{ matrix.php-versions }}
+      - name: Npm install
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: ./package-lock.json
+      - run: npm install
+      - run: npm run build
+
       - name: Run Laravel Server
         #run: php artisan serve-test --env=testing > /dev/null 2>&1 &
         #run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /dev/null 2>&1 &
@@ -58,12 +67,12 @@ jobs:
         with:
           name: console
           path: tests/Browser/console
-      - name: Upload Laravel Storage
+      - name: Upload Laravel Storage Logs
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: storage
-          path: storage
+          name: storage-logs
+          path: storage/logs
       - name: Upload Laravel config
         if: failure()
         uses: actions/upload-artifact@v2

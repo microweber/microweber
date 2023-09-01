@@ -11,13 +11,35 @@ jobs:
   microweber-build-and-upload-unstable:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+      with:
+        repository: ${{ github.repository }}
+    - name: Npm install
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+        cache-dependency-path: ./package-lock.json
+    - run: npm install
+    - run: npm run build
 
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - name: Cache composer dependencies
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        # Use composer.json for key, if composer.lock is not committed.
+        # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
     - name: Install Dependencies
       run: composer install
 
     - name: Dump autoload dependecies
       run: composer dump-autoload
+
 
     - name: Inject slug/short variables
       uses: rlespinasse/github-slug-action@v3.x
@@ -26,7 +48,10 @@ jobs:
       run: |
         rm -rf .git
         rm -rf .github
-        find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
+        rm -rf .nmp
+        rm -rf node_modules
+        rm -rf .phpunit.cache
+        find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes"  \) -exec rm -rf -- {} +
         zip -r microweber-${{ env.GITHUB_REF_SLUG }}-unstable.zip `ls -A`
     - name: Upload zip
       run: |

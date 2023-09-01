@@ -2,8 +2,10 @@
     <div>
 
         <div id="general-theme-settings" :class="[showSidebar == true ? 'active' : '']">
-            <div class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0">
 
+
+            <div class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0 position-relative">
+                <span v-on:click="show('template-settings')" :class="[buttonIsActive?'live-edit-right-sidebar-active':'']" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
                 <div id="rightSidebarTabStyleEditorNav" role="tablist">
                     <a class="mw-admin-action-links mw-adm-liveedit-tabs active me-3" data-bs-toggle="tab"
                        data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab">
@@ -49,6 +51,11 @@
 <style>
 .general-theme-settings {
     background: #000;
+
+}
+
+.live-edit-gui-editor-opened #live-editor-frame{
+    margin-right: 303px;
 }
 </style>
 
@@ -57,6 +64,8 @@ import TemplateSettings from "./TemplateSettings/TemplateSettings.vue";
 import Editor from "../Toolbar/Editor.vue";
 import ToolsButtons from  "./ToolsButtons.vue";
 
+import  CSSGUIService from "../../../api-core/services/services/css-gui.service.js";
+
 export default {
     components: {
         Editor,
@@ -64,50 +73,47 @@ export default {
         TemplateSettings,
     },
     methods: {
-
         show: function (name) {
             this.emitter.emit('live-edit-ui-show', name);
-        },
 
+            console.log(CSSGUIService)
+            CSSGUIService.toggle()
+            // this.emitter.emit('live-edit-ui-show', name);
+        },
         closeSidebar() {
-            this.showSidebar = false;
-            document.getElementById('live-edit-frame-holder')
-                .removeAttribute('style');
+
+            CSSGUIService.show()
         },
         openSidebar() {
-            this.showSidebar = true;
-            document.getElementById('live-edit-frame-holder')
-                .setAttribute('style', 'margin-right: 303px;');
+
+            CSSGUIService.close()
         }
     },
     mounted() {
         const instance = this;
 
-        this.emitter.on("live-edit-ui-show", show => {
-            if (show == 'template-settings') {
-                if (instance.showSidebar == false) {
-                    instance.openSidebar();
-                } else {
-                    instance.closeSidebar();
-                }
-            }
-        });
         var firstTabEl = document.querySelector('#rightSidebarTabStyleEditorNav li:first-child a')
         if(firstTabEl !== null){
             var firstTab = new bootstrap.Tab(firstTabEl)
             firstTab.show()
         }
 
-        // Close on Escape
-        document.addEventListener('keyup', function (evt) {
-            if (evt.keyCode === 27) {
-                instance.showSidebar = false;
+        this.emitter.on("live-edit-ui-show", show => {
+            if (show == 'template-settings') {
+                if (instance.buttonIsActive == false) {
+                    instance.buttonIsActive = true;
+                } else {
+                    instance.buttonIsActive = false;
+                }
             }
         });
+
     },
     data() {
         return {
-            showSidebar: false
+            showSidebar: false,
+            buttonIsActive: false
+
         }
     }
 }

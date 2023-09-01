@@ -114,7 +114,7 @@ $for_module_id = $mod_id;
                </div>
 
 
-                <module type="custom_fields" view="admin" data-for="module" for-id="<?php print $for_module_id ?>"/>
+                <module type="custom_fields" view="admin" data-for="module" for-id="<?php print $for_module_id ?>" />
 
             </div>
 

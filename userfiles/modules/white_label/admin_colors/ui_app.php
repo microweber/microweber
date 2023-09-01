@@ -1098,7 +1098,7 @@ foreach ($files as $file) {
                                 <div class="form-group">
                                     <div class="input-group mb-0">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
+                                            <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
                                         </div>
                                         <input type="text" class="form-control form-control-sm" aria-label="Search" placeholder="Search">
                                     </div>
@@ -2502,7 +2502,7 @@ foreach ($files as $file) {
             <div>
                 <div class="input-group mb-0 prepend-transparent">
                     <div class="input-group-prepend">
-                        <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
+                        <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
                     </div>
                     <input type="text" class="form-control form-control-sm" aria-label="Search" placeholder="Search">
                 </div>

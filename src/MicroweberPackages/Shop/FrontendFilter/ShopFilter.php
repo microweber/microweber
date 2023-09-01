@@ -19,13 +19,13 @@ class ShopFilter extends BaseFilter {
             return $contentFromId;
         }
 
-        $findFirtShop = Page::where('content_type', 'page')
+        $findFirstShop = Page::where('content_type', 'page')
             ->where('subtype','dynamic')
             ->where('is_shop', 1)
             ->first();
 
-        if ($findFirtShop) {
-            return $findFirtShop->id;
+        if ($findFirstShop) {
+            return $findFirstShop->id;
         }
 
         return 0;

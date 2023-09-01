@@ -10,7 +10,10 @@ use MicroweberPackages\User\Models\User;
 class AdminLiveEditTest extends TestCase
 {
     protected $preserveGlobalState = FALSE;
-
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testSaveCustomFieldOnPage()
     {
         $user = User::where('is_admin', '=', '1')->first();
@@ -88,6 +91,10 @@ class AdminLiveEditTest extends TestCase
 
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testSaveContentOnPage()
     {
         $user = User::where('is_admin', '=', '1')->first();

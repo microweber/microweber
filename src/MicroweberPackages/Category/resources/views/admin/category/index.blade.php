@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="px-5">
+    <div class="col-xxl-10 col-lg-11 col-12 mx-auto">
         @php
             $isShopAttribute = 0;
             if (isset($isShop)) {

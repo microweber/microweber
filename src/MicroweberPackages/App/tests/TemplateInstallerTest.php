@@ -18,6 +18,7 @@ class TemplateInstallerTest extends TestCase
         $installer = new TemplateInstaller();
         $installer->logger = $logger;
         $status = $installer->run();
+        $this->assertTrue($status);
 
     }
 }
@@ -25,6 +26,11 @@ class TemplateInstallerTest extends TestCase
 class MyCustomLogger {
 
     public function setLogInfo()
+    {
+
+    }
+
+    public function log($text)
     {
 
     }

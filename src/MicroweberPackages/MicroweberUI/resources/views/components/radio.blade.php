@@ -7,11 +7,12 @@
             @php
                 $optionRandId = md5($key).time();
             @endphp
-
-            <label class="form-check form-check-inline" id="{{$optionRandId}}">
-                <input {!! $attributes->merge() !!}  class="form-check-input" type="radio" value="{{$key}}">
-                <span class="form-check-label">{{$option}}</span>
-            </label>
+            <div class="w-full">
+                <label class="form-check form-check-inline" id="{{$optionRandId}}">
+                    <input {!! $attributes->merge() !!}  class="form-check-input" type="radio" value="{{$key}}">
+                    <span class="form-check-label">{{$option}}</span>
+                </label>
+            </div>
         @endforeach
     @endif
 

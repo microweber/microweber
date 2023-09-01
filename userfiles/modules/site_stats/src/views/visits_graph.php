@@ -52,6 +52,7 @@ if ($params['period']) {
 
     $(document).ready(function () {
         $("[data-stat='<?php print $period ?>']").addClass("active").attr("checked", true);
+        $("[data-stat='<?php print $period ?>']").next().addClass("active").attr("checked", true);
     });
 
     var series = [];
@@ -263,19 +264,19 @@ if ($params['period']) {
                </div>
 
 
-               <div class="form-selectgroup">
+               <div class="form-selectgroup gap-2">
                    <label class="form-selectgroup-item" onclick="mw_stats_period_switch('<?php print $module_id; ?>','daily');" >
                        <input type="radio" data-stat='daily'  class="form-selectgroup-input">
-                       <span class="form-selectgroup-label"><?php _e("Daily"); ?></span>
+                       <span class="mw-admin-action-links mw-adm-liveedit-tabs"><?php _e("Daily"); ?></span>
                    </label>
 
                    <label class="form-selectgroup-item" onclick="mw_stats_period_switch('<?php print $module_id; ?>','weekly');" >
                        <input type="radio" data-stat='weekly'  class="form-selectgroup-input">
-                       <span class="form-selectgroup-label"><?php _e("Weekly"); ?></span>
+                       <span class="mw-admin-action-links mw-adm-liveedit-tabs"><?php _e("Weekly"); ?></span>
                    </label>
                    <label class="form-selectgroup-item" onclick="mw_stats_period_switch('<?php print $module_id; ?>','monthly');" >
                        <input type="radio" data-stat='monthly'  class="form-selectgroup-input">
-                       <span class="form-selectgroup-label"><?php _e("Monthly"); ?></span>
+                       <span class="mw-admin-action-links mw-adm-liveedit-tabs"><?php _e("Monthly"); ?></span>
                    </label>
 
                </div>

@@ -45,7 +45,7 @@ if (isset($params['data-screenshots'])) {
     $screenshots = $params['data-screenshots'];
 }
 
-$cur_template = get_option('data-template', $params['parent-module-id']);
+$cur_template = get_option('template', $params['parent-module-id']);
 
 
 if ($cur_template == false) {

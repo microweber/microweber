@@ -1,34 +1,28 @@
 @php
+$options['disableNavBar'] = false;
+$options['disableTopBar'] = false;
 
-
-if(!isset($options)){
- $options = [];
+if (isset($disableNavBar)) {
+    $options['disableNavBar'] = $disableNavBar;
 }
-
-if(isset($_GET['iframe']) and $_GET['iframe']){
-    $isIframe = true;
+if (isset($disableTopBar)) {
+    $options['disableTopBar'] = $disableTopBar;
 }
-
-if(isset($isIframe) and $isIframe){
-    $options['disableNavBar'] = true;
-    $options['disableTopBar'] = true;
-    $options['iframe'] = true;
-}
-
 @endphp
-
 
 @include('admin::layouts.partials.header',$options)
 
-
-
 @hasSection('content')
-    <main class="module-main-holder page-wrapper">
 
-        @if(!isset($options['disableTopBar']))
-            @include('admin::layouts.partials.topbar2')
-        @endif
-       <div class="page-body  @if(isset($options['iframe'])) page-body-iframe @endif"  >
+     <main class="module-main-holder page-wrapper" id="admin-side-content">
+
+         @if ($options['disableTopBar'] == false)
+         <div>
+             @include('admin::layouts.partials.topbar2')
+         </div>
+         @endif
+
+       <div class="@if(isset($options['iframe'])) page-body-iframe @else page-body @endif"  >
            @yield('content')
        </div>
         @if(!isset($options['disableNavBar']))

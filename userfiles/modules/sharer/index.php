@@ -1,52 +1,18 @@
 <?php
 
-$facebook_enabled = get_option('facebook_enabled', $params['id']) == 'y';
-
-$twitter_enabled = get_option('twitter_enabled', $params['id']) == 'y';
-
-$googleplus_enabled = get_option('googleplus_enabled', $params['id']) == 'y';
-
-$pinterest_enabled = get_option('pinterest_enabled', $params['id']) == 'y';
-
-$viber_enabled = get_option('viber_enabled', $params['id']) == 'y';
-
-$whatsapp_enabled = get_option('whatsapp_enabled', $params['id']) == 'y';
-
-$linkedin_enabled = get_option('linkedin_enabled', $params['id']) == 'y';
-
-if ($facebook_enabled == 'y') {
-    $facebook_enabled = true;
-}
-
-if ($twitter_enabled == 'y') {
-    $twitter_enabled = true;
-}
-
-if ($googleplus_enabled == 'y') {
-    $googleplus_enabled = true;
-}
-
-if ($pinterest_enabled == 'y') {
-    $pinterest_enabled = true;
-}
-
-if ($viber_enabled == 'y') {
-    $viber_enabled = true;
-}
-
-if ($whatsapp_enabled == 'y') {
-    $whatsapp_enabled = true;
-}
-
-if ($linkedin_enabled == 'y') {
-    $linkedin_enabled = true;
-}
+$facebook_enabled = get_option('facebook_enabled', $params['id']) == '1';
+$twitter_enabled = get_option('twitter_enabled', $params['id']) == '1';
+$googleplus_enabled = get_option('googleplus_enabled', $params['id']) == '1';
+$pinterest_enabled = get_option('pinterest_enabled', $params['id']) == '1';
+$viber_enabled = get_option('viber_enabled', $params['id']) == '1';
+$whatsapp_enabled = get_option('whatsapp_enabled', $params['id']) == '1';
+$linkedin_enabled = get_option('linkedin_enabled', $params['id']) == '1';
 
 ?>
 
 
 <?php
-$module_template = get_option('data-template', $params['id']);
+$module_template = get_option('template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }

@@ -19,9 +19,19 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
     public array $editorSettings = [];
 
 
+
     public function getSettingsKey()
     {
         $editorSettings = $this->getEditorSettings();
+        if (!$editorSettings) {
+            return 'settings';
+        }
+        if (!isset($editorSettings['config'])) {
+            return 'settings';
+        }
+        if (!isset($editorSettings['config']['settingsKey'])) {
+            return 'settings';
+        }
 
         return $editorSettings['config']['settingsKey'];
 
@@ -58,6 +68,8 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         $this->selectedItemsIds = [$itemId];
     }
 
+
+
     public function confirmDeleteSelectedItems()
     {
 
@@ -80,7 +92,9 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         $this->selectedItemsIds = [];
 
 
-        $this->emit('onItemChanged');
+        $this->getItems();
+
+        $this->emit('onItemDeleted');
 
 
     }
@@ -106,18 +120,18 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         }
         $allItems = [];
         $allItems = array_merge($topItems, $itemsOldSort);
-        $this->saveItems($allItems);
         $this->emit('onItemChanged');
+        $this->saveItems($allItems);
     }
 
     public function saveItems($allItems)
     {
-$save = array(
-    'option_group' => $this->moduleId,
-    'module' => $this->moduleType,
-    'option_key' => $this->getSettingsKey(),
-    'option_value' => json_encode($allItems)
-);
+        $save = array(
+            'option_group' => $this->moduleId,
+            'module' => $this->moduleType,
+            'option_key' => $this->getSettingsKey(),
+            'option_value' => json_encode($allItems)
+        );
         save_option($save);
 
         $this->emit('settingsChanged', ['moduleId' => $this->moduleId, 'settings' => $save]);

@@ -1,6 +1,4 @@
-
-
-
+ 
 
 
 
@@ -274,8 +272,25 @@ var MWEditor = function (options) {
                 }
                 wTarget = wTarget.parentNode;
             }
+            if(!shouldCloseSelects) {
+                var smallEditor = !!scope.smallEditor && scope.smallEditor.get(0);
+                if(smallEditor) {
+                    shouldCloseSelects = !smallEditor.contains(e.target)
+                }
+                if(!shouldCloseSelects) {
+
+                }
+                
+            }
+ 
             if(shouldCloseSelects) {
                 MWEditor.core._preSelect();
+
+                scope.document.querySelectorAll('.mw-bar-control-item.active, .mw-editor-controller-component.active').forEach(node => {
+                    if(node !== parent) {
+                        node.classList.remove('active')
+                    }
+                })
             }
         }
         var time = new Date().getTime();
@@ -290,7 +305,8 @@ var MWEditor = function (options) {
                 return;
             }
             var range = scope.selection.getRangeAt(0);
-            var target = scope.api.elementNode( range.commonAncestorContainer ) || scope.area;
+            // var target = scope.api.elementNode( range.commonAncestorContainer ) || scope.area;
+            var target = scope.api.elementNode( range.startContainer ) || scope.area;
 
             var css = mw.CSSParser(target);
             var api = scope.api;
@@ -349,9 +365,50 @@ var MWEditor = function (options) {
         }
     }
 
+    this.adjustRange = function(event, sel) {
+        if(!sel) {
+            sel = scope.getSelection()
+        }
+        if(!sel.rangeCount) {
+            return;
+        }
+        let range = sel.getRangeAt(0);
+        if(range.collapsed) {
+            return;
+        }
+
+        if(event.target) {
+            this.api.selectAll(event.target);
+            return;
+        }
+        range = range.cloneRange();
+      
+        if (range.startContainer.nodeType != 3) {
+            var nodeAfterStart = range.startContainer.childNodes[range.startOffset];
+            if (nodeAfterStart && nodeAfterStart.nodeType == 3) {
+                range.setStart(nodeAfterStart, 0);
+            }
+        }
+        if (range.endContainer.nodeType != 3 && range.endOffset >= 1) {
+            var nodeBeforeEnd = range.endContainer.childNodes[range.endOffset - 1];
+            if (nodeBeforeEnd && nodeBeforeEnd.nodeType == 3) {
+                range.setEnd(nodeBeforeEnd, nodeBeforeEnd.data.length);
+            }
+        }
+        sel.removeAllRanges();
+        sel.addRange(range);
+        return range;
+    }
+
     this.initInteraction = function () {
 
         this.interactionData = {};
+        $(scope.actionWindow.document).on('click', function(e){
+ 
+            if(e.detail >= 2) {
+                scope.adjustRange(e)
+            }
+        })
         $(scope.actionWindow.document).on('selectionchange', function(e){
             $(scope).trigger('selectionchange', [{
                 event: e,
@@ -753,9 +810,12 @@ var MWEditor = function (options) {
             return smallEditorPinned();
         },
         pin: function () {
-            smallEditorPinned(true);
-            scope.smallEditor.addClass('pinned');
-            _afterPin();
+            if(scope.settings.canPin) {
+                smallEditorPinned(true);
+                scope.smallEditor.addClass('pinned');
+                _afterPin();
+            }
+
         },
         unPin: function () {
             smallEditorPinned(false);
@@ -804,6 +864,7 @@ var MWEditor = function (options) {
                 }
             }
         }
+ 
         scope.$editArea.on('click', function (e) {
                var target = e.target !== scope.actionWindow.document.body ? scope.getActualTarget(e.target) : scope.actionWindow.document.body;
                scope.smallEditorInteract(target);
@@ -827,6 +888,7 @@ var MWEditor = function (options) {
     this._smallEditorInteract = false;
 
     this.positionSmallEditor = function(target){
+    
         var off = mw.element(target).offset();
         var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
         // var cleft =  scope.interactionData.pageX;
@@ -868,7 +930,7 @@ var MWEditor = function (options) {
     this.smallEditorInteract = function (target) {
 
         this._smallEditorInteract = false;
-
+         
        if(target && !target.isContentEditable && scope.lastRange && scope.lastRange.collapsed === false) {
            target = scope.getActualTarget(scope.lastRange.commonAncestorContainer);
        }
@@ -933,6 +995,8 @@ var MWEditor = function (options) {
             }
             scope.settings.regions = scope.settings.regions || scope.$editArea;
 
+            scope.$editArea[0].querySelectorAll('.module').forEach(node => node.contentEditable = false)
+
 
             if (scope.settings.editMode === 'liveedit') {
                 scope.liveEditMode();
@@ -955,7 +1019,7 @@ var MWEditor = function (options) {
                             edit.contentEditable = true;
                         }
                     }
-                    console.log(e.type, e.target)
+                    
                 }
                 //  scope.settings.document.addEventListener('mousedown', set)
                 // scope.settings.document.addEventListener('dblclick', set)
@@ -1000,16 +1064,97 @@ var MWEditor = function (options) {
                 scope.lastRange = range;
             }
 
-            scope.$editArea.on('paste input', function(e) {
-                var clipboardData, pastedData;
 
-                // Stop data actually being pasted into div
-                e.stopPropagation();
+            function nodePath(baseNode, targetNode, currentPath = []) {
+                if (baseNode == targetNode) return currentPath;
+                currentPath.unshift(targetNode);
+                return nodePath(baseNode, targetNode.parentNode, currentPath);
+              }
 
-                clipboardData = e.clipboardData || window.clipboardData;
-                if(clipboardData) {
-                    pastedData = clipboardData.getData('Text');
+              function pasteSplitManager(e) {
+                const {target: editor} = e;
+                const cursorNode = scope.getSelection().anchorNode;
+                const [child]    = nodePath(editor, cursorNode);
+                const wrappers   = Array.from({length: 2}, () => editor.cloneNode(false));
+
+
+                
+                wrappers.forEach(wrapper => {
+                    wrapper.removeAttribute("id");
+                    wrapper.querySelectorAll('[style]').forEach(el => {
+                        el.removeAttribute("style");
+                    })
+                });
+                
+                
+                let seenChild = false;
+                for (const node of editor.childNodes) {
+                  if (!seenChild && node == child) {
+                    seenChild = true;
+                  } else if (!seenChild) {
+                    wrappers[0].append(node.cloneNode(true));
+                  } else {
+                    wrappers[1].append(node.cloneNode(true));
+                  }
                 }
+
+                wrappers.forEach(wrapper => {
+                    wrapper.removeAttribute("id");
+                    wrapper.querySelectorAll('[style]').forEach(el => {
+                        el.removeAttribute("style");
+                    })
+                });
+              }
+
+               
+
+            scope.$editArea.on('paste input', function(event) {
+                var clipboardData, pastedData;
+                var e = event.originalEvent || event; 
+
+               
+
+                if(e.type === 'paste') {
+ 
+                  
+  
+                     
+                    clipboardData = e.clipboardData || window.clipboardData;
+                   
+                    if(clipboardData) {
+                        pastedData = clipboardData.getData('text/html'); // if is plain text will return undefined
+                        pastedDataText = clipboardData.getData('text/plain');  
+                 
+                     
+                        if(pastedData) {
+
+                             
+                            var plainTextNodes = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'A', 'EM', 'STRONG', 'SUP', 'B', 'SUB', 'PRE'];
+                            var splitNodes = ['P', 'DIV'];
+                              
+                            if(plainTextNodes.includes(e.target.nodeName)) {
+                                scope.api.insertHTML(pastedDataText )
+                            } else {
+                                scope.api.insertHTML(pastedData )
+                            }
+
+                            if(splitNodes.includes(e.target.nodeName)) {
+
+                                pasteSplitManager(e);
+
+                            }
+ 
+                            e.preventDefault();
+                        }
+ 
+     
+                    }
+ 
+                     
+                }
+
+
+               
                 if(typeof scope.actionWindow.mw.wysiwyg !== 'undefined') {
                     scope.actionWindow.mw.wysiwyg.normalizeBase64Images(this.parentNode, function () {
                         scope.registerChange();

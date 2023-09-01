@@ -11,3 +11,15 @@ $config['is_system'] = true;
 
 
 
+
+$config['settings'] = [];
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\Modules\CustomFields'
+    ],
+];
+
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\CustomFields\Providers\CustomFieldsServiceProvider::class
+];

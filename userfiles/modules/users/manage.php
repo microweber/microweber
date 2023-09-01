@@ -73,11 +73,11 @@ $registration_approval_required = get_option('registration_approval_required', '
                 <tr id="mw-admin-user-<?php print $item['id']; ?>">
                     <td>
                         <?php if (isset($item['thumbnail']) and trim($item['thumbnail']) != ''): ?>
-                            <div class="img-circle-holder img-absolute w-60">
+                            <div class="d-flex justify-content-center mx-auto" style="max-width: 100px;">
                                 <img src="<?php print $item['thumbnail'] ?>">
                             </div>
                         <?php else: ?>
-                            <div class="img-circle-holder img-absolute w-60">
+                            <div class="d-flex justify-content-center">
                                 <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no-user.png"/>
                             </div>
                         <?php endif; ?>

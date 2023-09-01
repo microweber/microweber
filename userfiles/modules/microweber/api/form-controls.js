@@ -54,7 +54,7 @@ mw.controlFields = {
     },
     _wrap: function () {
         var el =  document.createElement('div');
-        el.className = 'mw-ui-field-holder';
+        el.className = '';
         [].forEach.call(arguments, function (content) {
             if (typeof content === 'string') {
                 el.innerHTML += content;
@@ -185,7 +185,7 @@ mw.emitter = {
             data.ok =  mw.controlFields._button({content: mw.lang('OK'), color: ''});
             data.cancel =  mw.controlFields._button({content: mw.lang('Cancel'), color: ''});
             data.root = mw.controlFields._wrap(data.cancel, data.ok);
-            data.root.className = 'modal-footer mw-ui-form-controllers-footer border-0 px-2';
+            data.root.className = 'modal-footer mw-ui-form-controllers-footer border-0 px-2 pb-3';
             return data;
         },
         title: function (options) {
@@ -195,8 +195,6 @@ mw.emitter = {
                     label: mw.lang('Link text'),
                     description: mw.lang('Selected text for the link.'),
                 },
-                icon: 'd-none',
-                //
                 icon: 'd-none',
                 title: 'Page title'
             };
@@ -258,7 +256,7 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+               // footer.ok.disabled = !res;
                 return res;
             };
 
@@ -363,7 +361,8 @@ mw.emitter = {
             UIFormControllers._title(this.settings, root)
 
             var layoutsData = [];
-            var layouts = mw.top().$('.module[data-type="layouts"]');
+            var layouts = mw.top().app.canvas.getWindow().$('.module[data-type="layouts"]');
+
             layouts.each(function () {
                 layoutsData.push({
                     name: (this.getAttribute('template') || this.dataset.template || '').split('.')[0],
@@ -383,11 +382,11 @@ mw.emitter = {
                 });
                 var el = this.element;
                 $(li).find('input').on('click', function(){
-                    mw.top().tools.scrollTo(el);
-                    scope.link = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
-                    scope.url = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
-                    scope.src = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
-                    console.log(scope.link)
+                    mw.top().app.canvas.getWindow().mw.tools.scrollTo(el);
+                    scope.link = mw.top().app.canvas.getWindow().location.href.split('#')[0] + '#mw@' + el.id;
+                    scope.url = mw.top().app.canvas.getWindow().location.href.split('#')[0] + '#mw@' + el.id;
+                    scope.src = mw.top().app.canvas.getWindow().location.href.split('#')[0] + '#mw@' + el.id;
+
                     scope.valid();
                 });
                 list.append(li);
@@ -405,7 +404,7 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+               // footer.ok.disabled = !res;
                 return res;
             };
 
@@ -496,6 +495,8 @@ mw.emitter = {
                 title: 'Email'
             };
             options =  mw.object.extend(true, {}, defaults, (options || {}));
+
+
             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.link === true) options.link = defaults.link;
@@ -541,7 +542,7 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+                //footer.ok.disabled = !res;
                 return res;
             };
 
@@ -632,7 +633,7 @@ mw.emitter = {
                     label: mw.lang('Search for content')
                 },
                 icon: 'd-none',
-                title: 'Post/category',
+                title: mw.lang('Post/category'),
                 dataUrl: function () {
                     try {
                         return mw.settings.site_url + "api/get_content_admin";
@@ -663,8 +664,30 @@ mw.emitter = {
             var url =  this.settings.dataUrl;
             url = typeof url === 'function' ? url() : url;
 
-            var initAutoComplete = () => {
-                this.autoComplete = new TomSelect(treeEl, {
+            var initAutoComplete = async () => {
+
+
+                const idata = await new Promise(resolve => {
+                    var conf = {
+                        method: 'POST',
+                        url: url,
+                        body: JSON.stringify({
+                            limit: '5',
+                            keyword: '',
+                            order_by: 'updated_at desc',
+                            search_in_fields: 'title',
+                        })
+                    }
+                    fetch(url, conf)
+                            .then(response => response.json())
+                            .then(json => {
+                                resolve(json);
+                            }).catch(()=>{
+                                resolve();
+                            });
+                })
+
+                scope.autoComplete = new TomSelect(treeEl, {
                     valueField: 'id',
                     labelField: 'title',
                     searchField: 'title',
@@ -674,7 +697,13 @@ mw.emitter = {
                     controlInput: '<input>',
                     mode: 'single',
                     closeAfterSelect: true,
+                    options: idata,
                     // fetch remote data
+                    onChange : function(query, callback) {
+
+                        scope.valid()
+
+                    },
                     load: function(query, callback) {
                         var conf = {
                             method: 'POST',
@@ -774,11 +803,21 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+                //footer.ok.disabled = !res;
                 return res;
             };
 
             this.isValid = function () {
+
+                if(! scope.autoComplete) { // still loading
+                    return false;
+                }
+
+                if(!scope.autoComplete.getValue().trim()) {
+                    return false
+                }
+
+
                 if(textField && !textField.value) {
                     return false;
                 }
@@ -792,10 +831,11 @@ mw.emitter = {
                 if(textField) val.text = textField.value;
 
 
-                var getSelected, autoCompleteVal = this.autoComplete.getValue();
-                for (let i in this.autoComplete.options) {
-                    if(autoCompleteVal == this.autoComplete.options[i].id) {
-                        getSelected = this.autoComplete.options[i];
+
+                var getSelected, autoCompleteVal = scope.autoComplete.getValue();
+                for (let i in scope.autoComplete.options) {
+                    if(autoCompleteVal == scope.autoComplete.options[i].id) {
+                        getSelected = scope.autoComplete.options[i];
                         break;
                     }
                 }
@@ -916,6 +956,10 @@ mw.emitter = {
 
             }
 
+
+            var currentVal = {}
+
+
             $.getJSON(url, function (res){
 
                 scope.tree = new mw.tree({
@@ -927,6 +971,8 @@ mw.emitter = {
                     searchInputClassName: 'form-control-live-edit-input',
                     searchInput: true
                 });
+
+                scope.tree.select(currentVal)
 
                 var dialog = mw.dialog.get(treeEl);
                 if(dialog) {
@@ -964,7 +1010,7 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+                // footer.ok.disabled = !res;
                 return res;
             };
 
@@ -989,6 +1035,15 @@ mw.emitter = {
 
             this.setValue = function (val) {
                 val = val || {};
+                currentVal = val;
+                if(val.id && val.type) {
+                    if(scope.tree) {
+                        scope.tree.select({
+                            id: val.id,
+                            type: val.type,
+                        })
+                    }
+                }
                 if(textField) textField.value = val.text || '';
                 if(targetField) targetField.checked = val.target;
                 return val;
@@ -1111,7 +1166,7 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+                //footer.ok.disabled = !res;
                 return res;
             };
 
@@ -1276,7 +1331,7 @@ mw.emitter = {
 
             this.valid = function () {
                 var res = this.isValid();
-                footer.ok.disabled = !res;
+               // footer.ok.disabled = !res;
                 return res;
             };
 

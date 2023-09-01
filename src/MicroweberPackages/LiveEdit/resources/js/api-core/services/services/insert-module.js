@@ -9,10 +9,15 @@ export const insertModule = (target = null, module, options = {}, insertLocation
         return;
     }
     return new Promise(async resolve => {
-        console.log(target, module, options, insertLocation)
-        await target.ownerDocument.defaultView.mw.module.insert(target, module, options, insertLocation, mw.liveEditState);
 
-        mw.top().win.mw.app.liveEdit.handles.get('element').set(mw.top().win.mw.app.liveEdit.handles.get('element').getTarget())
+        
+         
+        await target.ownerDocument.defaultView.mw.module.insert(target, module, options, insertLocation, mw.liveEditState);
+        
+
+        mw.top().win.mw.app.liveEdit.handles.get('element').set(mw.top().win.mw.app.liveEdit.handles.get('element').getTarget());
+        mw.top().win.mw.app.liveEdit.handles.get('module').set(mw.top().win.mw.app.liveEdit.handles.get('module').getTarget());
+        mw.top().win.mw.app.dispatch('moduleInserted')
         resolve();
     });
 }

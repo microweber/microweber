@@ -127,8 +127,10 @@ $rand = 'pic-sorter-' . uniqid();
 
 </script>
 
+
+
 <div class="admin-thumbs-holder" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
-    <?php if (is_array($media)): ?>
+    <?php if ($media): ?>
         <?php $default_title = _e("Image title", true); ?>
         <?php foreach ($media as $key => $item): ?>
             <div class="admin-thumb-item admin-thumb-item-<?php print $item['id'] ?>"
@@ -194,16 +196,14 @@ $rand = 'pic-sorter-' . uniqid();
             </div>
         </div>
     <?php else: ?>
-    <div>
         <div class="admin-thumb-item-uploader-holder">
-            <div class="dropzone mw-dropzone" id="post-file-picker-no-image-yet" onclick="addImagesToPost()">
+            <div class="dropzone mw-dropzone" id="post-file-picker" onclick="addImagesToPost()">
                 <div class="dz-message">
                     <h3 class="dropzone-msg-title"><?php _e("Add file"); ?></h3>
                     <span class="dropzone-msg-desc"><?php _e("or drop files to upload"); ?></span>
                 </div>
             </div>
         </div>
-    </div>
     <?php endif; ?>
 
 
