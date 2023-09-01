@@ -109,6 +109,30 @@ class ContentListLivewireComponentTest extends TestCase
         $this->assertFalse($findMyProduct);
         $this->assertEquals($getAllPosts->count(), $responseMethod['data']['contents']['total']);
 
+    }
+
+    public function testPostSearchWithTagsBasicComponent()
+    {
+        $this->actingAsAdmin();
+
+        for ($i = 1; $i <= 10; $i++) {
+            $myPost = new Post();
+            $myPost->title = 'My post content - For search with tags' . $i;
+            $myPost->content = 'My post content';
+            $myPost->save();
+        }
+
+        $contentListTest = Livewire::test(ContentList::class);
+        $contentListTest->set('filters', [
+            'tags' => 'non-existing-tag'
+        ]);
+        $contentListTest->call('getRenderData');
+        $response = json_decode($contentListTest->lastResponse->content(),TRUE);
+        $responseMethod = reset($response['effects']['returns']);
+        $contentListResponseData = $responseMethod['data']['contents']['data'];
+
+        $this->assertEmpty($contentListResponseData);
+        $this->assertEquals(0, $responseMethod['data']['contents']['total']);
 
     }
 
