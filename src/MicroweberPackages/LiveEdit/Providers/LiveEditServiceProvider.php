@@ -33,9 +33,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
     {
         $package->name('microweber-live-edit');
         $package->hasViews('microweber-live-edit');
-        $package->hasRoute('api');
-        $package->hasRoute('web');
-        $package->hasRoute('live_edit');
+
 
     }
 
@@ -129,11 +127,11 @@ class LiveEditServiceProvider extends PackageServiceProvider
                 ]
             ]);
 
+
         \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
             ->addChild('Logout', [
-                'uri' => logout_url(),
                 'attributes' => [
-                    'route' => 'admin.settings.index',
+                    'href' => logout_url(),
                     'icon' => '<svg viewBox="0 0 36 36.1">
                                                         <path
                                                             d="M3 36.1c-.8 0-1.5-.3-2.1-.9-.6-.6-.9-1.3-.9-2.1V22.6h3v10.5h30V3H3v10.6H0V3C0 2.2.3 1.5.9.9S2.2 0 3 0h30c.8 0 1.5.3 2.1.9.6.6.9 1.3.9 2.1v30.1c0 .8-.3 1.5-.9 2.1-.6.6-1.3.9-2.1.9H3zm11.65-8.35L12.4 25.5l5.9-5.9H0v-3h18.3l-5.9-5.9 2.25-2.25 9.65 9.65-9.65 9.65z"/>
