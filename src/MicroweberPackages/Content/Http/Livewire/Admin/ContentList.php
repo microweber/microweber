@@ -299,8 +299,14 @@ class ContentList extends AdminComponent
 
     public function render()
     {
-        $currentCategory = false;
+        $renderData = $this->getRenderData();
 
+        return view($renderData['view'], $renderData['data']);
+    }
+
+    public function getRenderData()
+    {
+        $currentCategory = false;
 
         $currentPageData = false;
         if (isset($this->filters['page'])) {
@@ -334,11 +340,14 @@ class ContentList extends AdminComponent
             $isInTrashed  = true;
         }
         if ($isInTrashed && (count($this->filters)==1) && $this->contents->count() == 0) {
-            return view('content::admin.content.livewire.no-content-in-trash',[
-                'isInTrashed' => $isInTrashed,
-                'currentCategoryId'=>$currentCategoryId,
-                'currentPageId' => $currentPageId,
-            ]);
+            return [
+                'view'=>'content::admin.content.livewire.no-content-in-trash',
+                'data'=>[
+                    'isInTrashed' => $isInTrashed,
+                    'currentCategoryId'=>$currentCategoryId,
+                    'currentPageId' => $currentPageId,
+                ]
+            ];
         }
 
         $displayFilters = true;
@@ -359,26 +368,32 @@ class ContentList extends AdminComponent
         }
 
         if ($showNoActiveContentsScreen) {
-            return view($this->noActiveContentView, [
-                'contentType'=>$contentTypeForAddButton,
-                'isInTrashed' => $isInTrashed,
-                'currentCategoryId'=>$currentCategoryId,
-                'currentPageId' => $currentPageId,
-            ]);
+            return [
+                'view'=>$this->noActiveContentView,
+                'data'=>[
+                    'contentType'=>$contentTypeForAddButton,
+                    'isInTrashed' => $isInTrashed,
+                    'currentCategoryId'=>$currentCategoryId,
+                    'currentPageId' => $currentPageId,
+                ]
+            ];
         }
 
 
 
         if ($currentCategory && (count($this->filters)==1) && $this->contents->count() == 0) {
-            return view($this->noActiveContentView, [
-                'contentType'=>$contentTypeForAddButton,
-                'currentCategoryId'=>$currentCategoryId,
-                'currentCategory' => $currentCategory,
-                'currentPage' => $currentPageData,
-                'currentPageId' => $currentPageId,
-                'inCategory'=>true,
-                'isInTrashed' => $isInTrashed,
-            ]);
+            return [
+                'view'=>$this->noActiveContentView,
+                'data'=>[
+                    'contentType'=>$contentTypeForAddButton,
+                    'currentCategoryId'=>$currentCategoryId,
+                    'currentCategory' => $currentCategory,
+                    'currentPage' => $currentPageData,
+                    'currentPageId' => $currentPageId,
+                    'inCategory'=>true,
+                    'isInTrashed' => $isInTrashed,
+                ]
+            ];
         }
 
         $currentPageDataId = false;
@@ -387,32 +402,38 @@ class ContentList extends AdminComponent
         }
 
         if ($currentPageDataId && (count($this->filters)==1) && $this->contents->count() == 0) {
-            return view($this->noActiveContentView, [
-                'contentType'=>$contentTypeForAddButton,
-                'currentCategoryId'=>$currentCategoryId,
+            return [
+                'view'=>$this->noActiveContentView,
+                'data'=>[
+                    'contentType'=>$contentTypeForAddButton,
+                    'currentCategoryId'=>$currentCategoryId,
+                    'currentCategory' => $currentCategory,
+                    'currentPage' => $currentPageData,
+                    'currentPageId' => $currentPageId,
+                    'inPage'=>true,
+                    'isInTrashed' => $isInTrashed,
+                ]
+            ];
+        }
+
+        return [
+            'view'=>'content::admin.content.livewire.table',
+            'data'=>[
+                'displayTypesViews' => $this->displayTypesViews,
+                'dropdownFilters' => $this->dropdownFilters,
+                'contentType' => $contentTypeForAddButton,
+
+                'displayFilters' => $displayFilters,
+                'currentCategoryId' => $currentCategoryId,
                 'currentCategory' => $currentCategory,
                 'currentPage' => $currentPageData,
                 'currentPageId' => $currentPageId,
-                'inPage'=>true,
                 'isInTrashed' => $isInTrashed,
-            ]);
-        }
-
-        return view('content::admin.content.livewire.table', [
-            'displayTypesViews' => $this->displayTypesViews,
-            'dropdownFilters' => $this->dropdownFilters,
-            'contentType' => $contentTypeForAddButton,
-
-            'displayFilters' => $displayFilters,
-            'currentCategoryId' => $currentCategoryId,
-            'currentCategory' => $currentCategory,
-            'currentPage' => $currentPageData,
-            'currentPageId' => $currentPageId,
-            'isInTrashed' => $isInTrashed,
-            'contents' => $this->contents,
-            'countActiveContents' => $this->countActiveContents,
-            'appliedFilters' => $this->appliedFilters
-        ]);
+                'contents' => $this->contents,
+                'countActiveContents' => $this->countActiveContents,
+                'appliedFilters' => $this->appliedFilters
+            ]
+        ];
     }
 
     public function getContentsProperty()
