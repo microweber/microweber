@@ -69,6 +69,49 @@ class ContentListLivewireComponentTest extends TestCase
 
     }
 
+    public function testContentSearchBasicComponent()
+    {
+        $this->actingAsAdmin();
+
+        $myPost = new Post();
+        $myPost->title = 'My post content - For search';
+        $myPost->content = 'My post content';
+        $myPost->save();
+
+        $myProduct = new Product();
+        $myProduct->title = 'My product - For search';
+        $myProduct->content = 'My product content - For search';
+        $myProduct->save();
+
+        $getAllPosts = Post::where('title', 'My post content - For search')->get();
+
+        $contentListTest = Livewire::test(ContentList::class);
+        $contentListTest->set('filters', [
+            'keyword' => 'My post content - For search'
+        ]);
+        $contentListTest->call('getRenderData');
+        $response = json_decode($contentListTest->lastResponse->content(),TRUE);
+        $responseMethod = reset($response['effects']['returns']);
+        $contentListResponseData = $responseMethod['data']['contents']['data'];
+
+        $findMyProduct = false;
+        $findMyPost = false;
+        foreach ($contentListResponseData as $contentData) {
+            if ($contentData['id'] == $myProduct->id) {
+                $findMyProduct = true;
+            }
+            if ($contentData['id'] == $myPost->id) {
+                $findMyPost = true;
+            }
+        }
+
+        $this->assertTrue($findMyPost);
+        $this->assertFalse($findMyProduct);
+        $this->assertEquals($getAllPosts->count(), $responseMethod['data']['contents']['total']);
+
+
+    }
+
     public function testPageBasicComponent()
     {
         $this->actingAsAdmin();
