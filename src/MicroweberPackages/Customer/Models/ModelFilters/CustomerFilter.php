@@ -30,5 +30,10 @@ class CustomerFilter extends ModelFilter
         return $this->query;
     }
 
+    public function createdAt($createdAt)
+    {
+        $this->query->whereDate('created_at', $createdAt);
+        return $this->query;
+    }
 
 }
