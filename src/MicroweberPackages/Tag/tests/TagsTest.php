@@ -31,6 +31,7 @@ class TagsTest extends TestCase
 
       //  $c = get_content_by_id($saved_id);
         DB::enableQueryLog();
+        DB::flushQueryLog();
         /*
 
         The  "find" method maybe have a bug where the whole table is selected,
