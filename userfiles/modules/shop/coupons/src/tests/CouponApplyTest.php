@@ -7,17 +7,31 @@ use MicroweberPackages\Checkout\CheckoutManager;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Modules\Shop\Coupons\Models\CartCouponLog;
 use MicroweberPackages\Shop\tests\ShopTestHelperTrait;
+use MicroweberPackages\Tax\Models\TaxType;
 
 class CouponApplyTest extends TestCase
 {
 
     use ShopTestHelperTrait;
 
-    public function testValidCouponCode()
+    public function setUp(): void
     {
+        parent::setUp();
+
         empty_cart();
         CartCouponLog::truncate();
+        TaxType::truncate();
+
         save_option('enable_coupons', 1, 'shop');
+        save_option('enable_taxes', 0, 'shop');
+
+        \DB::table('cart_coupon_logs')->truncate();
+    }
+
+    public function testValidCouponCode()
+    {
+
+
         $code = 'VALID_COUPON_CODE' . rand();
         $saveNewcode = [
             'coupon_code' => $code,
@@ -39,6 +53,7 @@ class CouponApplyTest extends TestCase
 
         $this->assertArrayHasKey('message', $result);
         $this->assertArrayHasKey('error', $result);
+        $this->assertStringContainsString("The coupon can't be applied because the minimum total amount is", $result['message']);
 
 
         $this->_addProductToCart('Product 1', 10);
@@ -53,16 +68,19 @@ class CouponApplyTest extends TestCase
         $this->assertArrayHasKey('message', $result);
         $this->assertArrayHasKey('success', $result);
         $this->assertTrue($result['success']);
+        $this->assertEquals($result['message'], 'Coupon code applied.');
 
 
         $checkoutDetails = array();
-        $checkoutDetails['email'] = 'test'.uniqid().'@microweber.com';
+        $checkoutDetails['email'] = 'test1'.uniqid().'@microweber.com';
         $checkoutDetails['first_name'] = 'Client';
         $checkoutDetails['last_name'] = 'Microweber';
 
 
         $checkout = new CheckoutManager();
         $checkoutStatus = $checkout->checkout($checkoutDetails);
+
+
 
         $this->assertSame($checkoutStatus['promo_code'], $code);
         $this->assertSame($checkoutStatus['coupon_id'], $couponId);
@@ -81,9 +99,7 @@ class CouponApplyTest extends TestCase
 
     public function testValidCouponCodeWithTooBigDiscount()
     {
-        empty_cart();
-        CartCouponLog::truncate();
-        save_option('enable_coupons', 1, 'shop');
+
         $code = 'VALID_COUPON_CODE' . rand();
         $saveNewcode = [
             'coupon_code' => $code,
@@ -149,9 +165,7 @@ class CouponApplyTest extends TestCase
 
     public function testValidCouponCodeWithPercent()
     {
-        empty_cart();
-        CartCouponLog::truncate();
-        save_option('enable_coupons', 1, 'shop');
+
         $code = 'VALID_COUPON_CODE' . rand();
         $saveNewcode = [
             'coupon_code' => $code,
@@ -181,6 +195,7 @@ class CouponApplyTest extends TestCase
         $this->assertArrayHasKey('message', $result);
         $this->assertArrayHasKey('success', $result);
         $this->assertTrue($result['success']);
+        $this->assertEquals($result['message'], 'Coupon code applied.');
 
 
         $checkoutDetails = array();
@@ -264,9 +279,7 @@ class CouponApplyTest extends TestCase
 
     public function testInvalidCouponCode()
     {
-        save_option('enable_coupons', 1, 'shop');
 
-        empty_cart();
         $params = [
             'coupon_code' => 'INVALID_COUPON_CODE',
         ];

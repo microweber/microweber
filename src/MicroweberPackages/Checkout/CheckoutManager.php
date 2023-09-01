@@ -440,8 +440,11 @@ class CheckoutManager
 
 
             $amount = $this->app->shop_manager->cart_total();
-            $tax = $this->app->cart_manager->get_tax();
-
+            if (get_option('enable_taxes', 'shop') == 1) {
+                $tax = $this->app->cart_manager->get_tax();
+            } else {
+                $tax = 0;
+            }
 
             if (!empty($checkout_errors)) {
                 return array('error' => $checkout_errors);
