@@ -156,4 +156,42 @@ class ContentListLivewireComponentTest extends TestCase
 
 
     }
+
+    public function testProductsSearchBasicComponent()
+    {
+        $this->actingAsAdmin();
+
+        $myProduct = new Product();
+        $myProduct->title = 'My product';
+        $myProduct->content = 'My product content';
+        $myProduct->save();
+
+        $myProduct = new Product();
+        $myProduct->title = 'My product - For search';
+        $myProduct->content = 'My product content - For search';
+        $myProduct->save();
+
+        $getAllProducts = Product::where('title', 'My product - For search')->get();
+
+        $contentListTest = Livewire::test(ProductsList::class);
+        $contentListTest->set('filters', [
+            'keyword' => 'My product content - For search'
+        ]);
+        $contentListTest->call('getRenderData');
+        $response = json_decode($contentListTest->lastResponse->content(),TRUE);
+        $responseMethod = reset($response['effects']['returns']);
+        $contentListResponseData = $responseMethod['data']['contents']['data'];
+
+        $findMyProduct = false;
+        foreach ($contentListResponseData as $pageData) {
+            if ($pageData['id'] == $myProduct->id) {
+                $findMyProduct = true;
+            }
+        }
+
+        $this->assertTrue($findMyProduct);
+        $this->assertEquals($getAllProducts->count(), $responseMethod['data']['contents']['total']);
+
+
+    }
 }
