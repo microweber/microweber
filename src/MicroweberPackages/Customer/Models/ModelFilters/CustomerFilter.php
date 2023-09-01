@@ -22,15 +22,10 @@ class CustomerFilter extends ModelFilter
         $model = $this->getModel();
         $table = $model->getTable();
 
-        if (is_numeric($keyword)) {
-            $this->query->where('id', intval($keyword));
-            $this->query->orWhere('phone', intval($keyword));
-        } else {
-            $this->query->where($table.'.first_name', 'LIKE', '%' . $keyword . '%');
-            $this->query->orWhere($table.'.last_name', 'LIKE', '%' . $keyword . '%');
-            $this->query->orWhere($table.'.email', 'LIKE', '%' . $keyword . '%');
-            $this->query->orWhere($table.'.phone', 'LIKE', '%' . $keyword . '%');
-        }
+        $this->query->where($table.'.first_name', 'LIKE', '%' . $keyword . '%');
+        $this->query->orWhere($table.'.last_name', 'LIKE', '%' . $keyword . '%');
+        $this->query->orWhere($table.'.email', 'LIKE', '%' . $keyword . '%');
+        $this->query->orWhere($table.'.phone', 'LIKE', '%' . $keyword . '%');
 
         return $this->query;
     }
