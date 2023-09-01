@@ -867,15 +867,19 @@ MWEditor.controllers = {
            
                 var paragraph = mw.tools.firstParentOrCurrentWithTag(node, 'p');
                 if(paragraph) {
-                    // paragraph.contentEditable = 'inherit';
-                    //paragraph.parentNode.contentEditable = true;
-                    mw.tools.setTag(paragraph, 'div');
+                    node = mw.tools.setTag(paragraph, 'div');
                 }
+ 
                 var isSafeMode = api.isSafeMode(node);
                 if(isSafeMode) {
                     node.parentNode.parentNode.contentEditable = true;
                 }
+                api.setCursorAtStart(node)
                 api.execCommand('insertUnorderedList');
+                var li = node.querySelector('li');
+                if(li) {
+                    api.setCursorAtStart(li)
+                }
             });
             return el;
         };
@@ -899,18 +903,23 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
+           
                 var paragraph = mw.tools.firstParentOrCurrentWithTag(node, 'p');
-
                 if(paragraph) {
-                    paragraph.contentEditable = 'inherit';
-                    paragraph.parentNode.contentEditable = true;
-                    mw.tools.setTag(paragraph, 'div');
+                    node = mw.tools.setTag(paragraph, 'div');
                 }
+ 
                 var isSafeMode = api.isSafeMode(node);
                 if(isSafeMode) {
                     node.parentNode.parentNode.contentEditable = true;
                 }
+                api.setCursorAtStart(node)
                 api.execCommand('insertOrderedList');
+                var li = node.querySelector('li');
+                if(li) {
+                    api.setCursorAtStart(li)
+                }
+                
 
             });
             return el;

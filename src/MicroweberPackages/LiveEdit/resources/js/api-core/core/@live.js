@@ -360,12 +360,10 @@ export class LiveEdit {
         }
  
  
+ 
 
         if (target.isContentEditable || this.handles.targetIsOrInsideHandle(target ) || this.handles.targetIsSelected(target, this.interactionHandle) ) {
-
-
-            // this.handles.hide();
-           //  this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
+ 
             return
         }
 
@@ -404,7 +402,7 @@ export class LiveEdit {
 
         var elementTarget =  this.handles.get('element').getTarget()
 
-        if(target && !target.classList.contains('module') && elementTarget && elementTarget.contains(target)) {
+        if(target && !target.classList.contains('module') && elementTarget && elementTarget.contains(target) && elementTarget.isContentEditable) {
             return
         }
 
