@@ -11,8 +11,8 @@
                 <link>{{ $item['url'] }}</link>
                 <description>{{ $item['url'] }}</description>
 
-                @if(!empty($item['image_url']))
-                    <enclosure url="{{ $item['image_url'] }}" length="{{ $item['image_size'] }}" type="{{ $item['image_type'] }}" />
+                @if(!empty($item['image_url']) and is_string($item['image_url']))
+                    <enclosure url="{{ $item['image_url'] }}" type="{{ $item['image_type'] }}" />
                 @endif
 
                 @php

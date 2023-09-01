@@ -8,10 +8,6 @@
 
 namespace MicroweberPackages\Database\Eloquent\Builder;
 
-use Illuminate\Support\Collection;
-use function Opis\Closure\serialize as serializeClosure;
-use function Opis\Closure\unserialize as unserializeClosure;
-
 class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
 {
     /**
@@ -44,17 +40,15 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     protected $cacheIsDisabled = false;
 
 
-
-
-
     /**
      * Execute the query as a "select" statement.
      *
-     * @param  array|string $columns
+     * @param array|string $columns
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
 
     public static $_loaded_models_cache_get = [];
+
     public function get($columns = ['*'])
     {
         if (!defined('MW_INSTALL_CONTROLLER')) {
@@ -73,16 +67,16 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
             $cacheTags = $this->generateCacheTags();
 
 
-            $cacheMem_key =  implode('-',$cacheTags).'-'.$cacheKey;
+            $cacheMem_key = implode('-', $cacheTags) . '-' . $cacheKey;
 
-            if(isset(self::$_loaded_models_cache_get[$cacheMem_key])){
+            if (isset(self::$_loaded_models_cache_get[$cacheMem_key])) {
                 return self::$_loaded_models_cache_get[$cacheMem_key];
             }
 
             $cacheFind = \Cache::tags($cacheTags)->get($cacheKey);
             if ($cacheFind) {
-                 self::$_loaded_models_cache_get[$cacheMem_key] = $cacheFind;
-                 return $cacheFind;
+                self::$_loaded_models_cache_get[$cacheMem_key] = $cacheFind;
+                return $cacheFind;
             }
         }
         $builder = $this->applyScopes();
@@ -97,34 +91,32 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
 
         $collection = $builder->getModel()->newCollection($models);
 
-/*
+        /*
 
-        $ready = new Collection();
-        if ($collection) {
-            foreach ($collection as $key=>$model) {
-                $m = $model->getModel();
-                if ($m->id) {
-                    $id = $model->getModel()->id;
-                    $cls = get_class($model->getModel());
-                    if(!isset($this->_loaded_models_cache[$cls][$id])){
-                        $this->_loaded_models_cache[get_class($model->getModel())][$id] = $model->getModel();
-                    } else {
+                $ready = new Collection();
+                if ($collection) {
+                    foreach ($collection as $key=>$model) {
+                        $m = $model->getModel();
+                        if ($m->id) {
+                            $id = $model->getModel()->id;
+                            $cls = get_class($model->getModel());
+                            if(!isset($this->_loaded_models_cache[$cls][$id])){
+                                $this->_loaded_models_cache[get_class($model->getModel())][$id] = $model->getModel();
+                            } else {
 
+                            }
+
+                            $ready[$key] = ['cached_model_mem',$cls,$id];
+
+
+                        }
                     }
-
-                    $ready[$key] = ['cached_model_mem',$cls,$id];
-
-
-                }
-            }
-        }*/
-
-
+                }*/
 
 
         if (!$is_disabled) {
             self::$_loaded_models_cache_get[$cacheMem_key] = $collection;
-             \Cache::tags($cacheTags)->put($cacheKey, $collection, $this->cacheSeconds);
+            \Cache::tags($cacheTags)->put($cacheKey, $collection, $this->cacheSeconds);
             //\Cache::tags($cacheTags)->put($cacheKey, $ready, $this->cacheSeconds);
         }
         return $collection;
@@ -135,7 +127,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
 //    private function _loadModelInCache($model, $id)
 //    {
 //        if(isset($this->_loaded_models_cache[$model][$id])){
- //            return $this->_loaded_models_cache[$model][$id];
+    //            return $this->_loaded_models_cache[$model][$id];
 //        }
 //        $model = app()->make($model);
 //        $model->disableCache();
@@ -199,7 +191,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     public function generateCacheKey($appends = [])
     {
         $name = $this->getConnection()->getDatabaseName();
-        $key = $this->getModel()->getTable() . '_' . crc32($name .$this->toSql().  implode('_', $this->generateCacheTags()) . json_encode($this->getBindings()) . implode('_', $appends) . app()->getLocale());
+        $key = $this->getModel()->getTable() . '_' . crc32($name . $this->toSql() . implode('_', $this->generateCacheTags()) . json_encode($this->getBindings()) . implode('_', $appends) . app()->getLocale());
 
         // dump($this->toSql(),$this->getBindings());
 
@@ -223,60 +215,81 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
 
     public function insert(array $values)
     {
-        $this->_clearModelTaggedCache();
+        $this->clearModelCache();
         return parent::insert($values);
     }
 
     public function delete()
     {
-        $this->_clearModelTaggedCache();
+        $this->clearModelCache();
         return parent::delete();
     }
 
     public function update(array $values)
     {
-        $this->_clearModelTaggedCache();
+        $this->clearModelCache();
         return parent::update($values);
     }
 
     public function findOrNew($id, $columns = ['*'])
     {
-        $this->_clearModelTaggedCache();
+        $this->clearModelCache();
         return parent::findOrNew($id, $columns);
     }
 
     public function firstOrCreate(array $attributes = [], array $values = [])
     {
-        $this->_clearModelTaggedCache();
+        $this->clearModelCache();
         return parent::firstOrCreate($attributes, $values);
     }
 
     public function create(array $attributes = [])
     {
-        $this->_clearModelTaggedCache();
+        $this->clearModelCache();
         return parent::create($attributes);
     }
 
     public function createOrFirst(array $attributes = [], array $values = [])
     {
-        $this->_clearModelTaggedCache();
+        $this->clearModelCache();
         return parent::createOrFirst($attributes, $values);
     }
 
     public function updateOrCreate(array $attributes, array $values = [])
     {
 
-        $this->_clearModelTaggedCache();
+        $this->clearModelCache();
         return parent::updateOrCreate($attributes, $values);
     }
 
     public function updateOrInsert(array $attributes, array $values = [])
     {
-        $this->_clearModelTaggedCache();
+        $this->clearModelCache();
         return parent::updateOrInsert($attributes, $values);
     }
 
-    private function _clearModelTaggedCache()
+    public function truncate()
+    {
+        $this->clearModelCache();
+
+        parent::truncate();
+    }
+
+    public function increment($column, $amount = 1, array $extra = [])
+    {
+        $this->clearModelCache();
+        return parent::increment($column, $amount, $extra);
+    }
+
+    public function decrement($column, $amount = 1, array $extra = [])
+    {
+        $this->clearModelCache();
+
+        return parent::decrement($column, $amount, $extra);
+    }
+
+
+    public function clearModelCache()
     {
         app()->database_manager->clearCache();
         $tags = $this->generateCacheTags();

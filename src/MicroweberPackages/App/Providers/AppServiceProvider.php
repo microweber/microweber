@@ -51,6 +51,7 @@ use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\Install\MicroweberMigrator;
+use MicroweberPackages\LiveEdit\Providers\LiveEditRouteServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditServiceProvider;
 use MicroweberPackages\Livewire\LivewireServiceProvider;
 use MicroweberPackages\Marketplace\MarketplaceServiceProvider;
@@ -240,6 +241,7 @@ class AppServiceProvider extends ServiceProvider
 
 
         $this->app->register(HelpersServiceProvider::class);
+        $this->app->register(LiveEditRouteServiceProvider::class);
 
         $this->app->register(ViewServiceProvider::class);
         $this->app->register(MicroweberUIServiceProvider::class);

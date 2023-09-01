@@ -120,10 +120,10 @@ class TemplateTest extends TestCase
     public function testTemplateNameAndDirVars()
     {
 
-        app()->content_manager->define_constants(['active_site_template' => 'default']);
+        app()->content_manager->define_constants(['active_site_template' => 'custom-template']);
 
         $template_dir = template_dir();
-        $template_dir_expected = templates_dir() . 'default' . DS;
+        $template_dir_expected = templates_dir() . 'custom-template' . DS;
         $this->assertEquals($template_dir_expected, $template_dir);
 
         app()->content_manager->define_constants(['active_site_template' => 'new-world']);

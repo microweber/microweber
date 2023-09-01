@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 
-Route::name('api.live-edit.')
+
+\Route::name('api.live-edit.')
     ->prefix('api/live-edit')
     ->middleware(['api', 'admin', 'live_edit'])
     ->group(function () {

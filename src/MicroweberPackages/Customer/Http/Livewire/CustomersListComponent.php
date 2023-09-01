@@ -24,13 +24,16 @@ class CustomersListComponent extends ContentList
     public function getDropdownFiltersProperty()
     {
         $dropdownFilters = [];
-//        $dropdownFilters[] = [
-//            'groupName' => 'Customer',
-//            'class'=> 'col-md-6',
-//            'filters'=> [
-//
-//            ]
-//        ];
+        $dropdownFilters[] = [
+            'groupName' => 'Dates',
+            'class'=> 'col-md-12',
+            'filters'=> [
+                [
+                    'name' => 'Created at',
+                    'key' => 'createdAt',
+                ]
+            ]
+        ];
 
         return $dropdownFilters;
     }
