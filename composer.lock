@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b77d9d184cb176a06e8d0b5f18c1160",
+    "content-hash": "e827e5c6a26bebf6e3c744f3b2377b38",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -474,16 +474,16 @@
         },
         {
             "name": "blade-ui-kit/blade-heroicons",
-            "version": "dev-main",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blade-ui-kit/blade-heroicons.git",
-                "reference": "1602e6599af49ae8bc83143e095052c3dcabcdee"
+                "reference": "f756c807b0d04afd2caf7079bac26492da9cc6d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blade-ui-kit/blade-heroicons/zipball/1602e6599af49ae8bc83143e095052c3dcabcdee",
-                "reference": "1602e6599af49ae8bc83143e095052c3dcabcdee",
+                "url": "https://api.github.com/repos/blade-ui-kit/blade-heroicons/zipball/f756c807b0d04afd2caf7079bac26492da9cc6d4",
+                "reference": "f756c807b0d04afd2caf7079bac26492da9cc6d4",
                 "shasum": ""
             },
             "require": {
@@ -495,7 +495,6 @@
                 "orchestra/testbench": "^7.0|^8.0",
                 "phpunit/phpunit": "^9.0"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -528,19 +527,19 @@
             ],
             "support": {
                 "issues": "https://github.com/blade-ui-kit/blade-heroicons/issues",
-                "source": "https://github.com/blade-ui-kit/blade-heroicons/tree/main"
+                "source": "https://github.com/blade-ui-kit/blade-heroicons/tree/2.1.0"
             },
             "funding": [
                 {
-                    "url": "https://github.com/sponsors/driesvints",
+                    "url": "https://github.com/caneco",
                     "type": "github"
                 },
                 {
-                    "url": "https://www.paypal.com/paypalme/driesvints",
-                    "type": "paypal"
+                    "url": "https://github.com/driesvints",
+                    "type": "github"
                 }
             ],
-            "time": "2023-07-06T21:32:47+00:00"
+            "time": "2023-01-11T08:38:22+00:00"
         },
         {
             "name": "blade-ui-kit/blade-icons",
@@ -6311,33 +6310,33 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v2.11.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "8667099d5889cab760d1d0083cdcebaa3d595733"
+                "reference": "2e426e8d47e03c4777334ec0c8397341bcfa15f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/8667099d5889cab760d1d0083cdcebaa3d595733",
-                "reference": "8667099d5889cab760d1d0083cdcebaa3d595733",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/2e426e8d47e03c4777334ec0c8397341bcfa15f3",
+                "reference": "2e426e8d47e03c4777334ec0c8397341bcfa15f3",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": "^7.0|^8.0|^9.0|^10.0",
-                "illuminate/support": "^7.0|^8.0|^9.0|^10.0",
-                "illuminate/validation": "^7.0|^8.0|^9.0|^10.0",
+                "illuminate/database": "^10.0|^11.0",
+                "illuminate/support": "^10.0|^11.0",
+                "illuminate/validation": "^10.0|^11.0",
                 "league/mime-type-detection": "^1.9",
-                "php": "^7.2.5|^8.0",
+                "php": "^8.1",
                 "symfony/http-kernel": "^5.0|^6.0"
             },
             "require-dev": {
                 "calebporzio/sushi": "^2.1",
-                "laravel/framework": "^7.0|^8.0|^9.0|^10.0",
+                "laravel/framework": "^10.0|^11.0",
                 "mockery/mockery": "^1.3.1",
-                "orchestra/testbench": "^5.0|^6.0|^7.0|^8.0",
-                "orchestra/testbench-dusk": "^5.2|^6.0|^7.0|^8.0",
-                "phpunit/phpunit": "^8.4|^9.0",
+                "orchestra/testbench": "^7.0|^8.0",
+                "orchestra/testbench-dusk": "^7.0|^8.0",
+                "phpunit/phpunit": "^9.0",
                 "psy/psysh": "@stable"
             },
             "type": "library",
@@ -6372,7 +6371,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v2.11.0"
+                "source": "https://github.com/livewire/livewire/tree/v3.0.1"
             },
             "funding": [
                 {
@@ -6380,7 +6379,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-15T23:43:31+00:00"
+            "time": "2023-08-25T18:13:03+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -6871,6 +6870,64 @@
                 "source": "https://github.com/maxmind/web-service-common-php/tree/v0.9.0"
             },
             "time": "2022-03-28T17:43:20+00:00"
+        },
+        {
+            "name": "microweber-deps/livewire-modal",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-deps/livewire-modal.git",
+                "reference": "0214ba8d43494a6a9bffa152304a804e9f5a9c67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-deps/livewire-modal/zipball/0214ba8d43494a6a9bffa152304a804e9f5a9c67",
+                "reference": "0214ba8d43494a6a9bffa152304a804e9f5a9c67",
+                "shasum": ""
+            },
+            "require": {
+                "livewire/livewire": "*",
+                "php": "^7.4|^8.0",
+                "spatie/laravel-package-tools": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.15",
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LivewireUI\\Modal\\LivewireModalServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LivewireUI\\Modal\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Philo Hermans",
+                    "email": "me@philohermans.com"
+                }
+            ],
+            "description": "Laravel Livewire modal component",
+            "keywords": [
+                "laravel",
+                "livewire",
+                "modal"
+            ],
+            "support": {
+                "source": "https://github.com/microweber-deps/livewire-modal/tree/main"
+            },
+            "time": "2023-07-21T07:39:27+00:00"
         },
         {
             "name": "microweber-deps/seo-helper",
@@ -10631,30 +10688,32 @@
         },
         {
             "name": "rappasoft/laravel-livewire-tables",
-            "version": "v2.12.0",
+            "version": "dev-v3-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rappasoft/laravel-livewire-tables.git",
-                "reference": "d4d3e24a24a169fcbbb127c0671091503f25a6f7"
+                "reference": "425051140b0dd711363116409821d7afba31a6ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rappasoft/laravel-livewire-tables/zipball/d4d3e24a24a169fcbbb127c0671091503f25a6f7",
-                "reference": "d4d3e24a24a169fcbbb127c0671091503f25a6f7",
+                "url": "https://api.github.com/repos/rappasoft/laravel-livewire-tables/zipball/425051140b0dd711363116409821d7afba31a6ed",
+                "reference": "425051140b0dd711363116409821d7afba31a6ed",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "^8.0|^9.0|^10.0",
-                "livewire/livewire": "^2.6",
-                "php": "^7.4|^8.0|^8.1|^8.2",
-                "spatie/laravel-package-tools": "^1.4.3"
+                "blade-ui-kit/blade-heroicons": "^2.1",
+                "illuminate/contracts": "^10.0|^11.0",
+                "livewire/livewire": "^3.0|dev-main",
+                "php": "^8.1|^8.2"
             },
             "require-dev": {
-                "brianium/paratest": "^4.0|^5.0|^6.0|^7.0",
+                "brianium/paratest": "^5.0|^6.0|^7.0|^8.0",
                 "ext-sqlite3": "*",
-                "nunomaduro/collision": "^4.0|^5.0|^6.0|^7.0",
-                "orchestra/testbench": "^6.0|^7.0|^8.0",
-                "phpunit/phpunit": "^9.0|^10.0"
+                "laravel/pint": "^1.10",
+                "nunomaduro/collision": "^6.0|^7.0|^8.0",
+                "nunomaduro/larastan": "^2.6",
+                "orchestra/testbench": "^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^9.0|^10.0|^11.0"
             },
             "type": "library",
             "extra": {
@@ -10691,7 +10750,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rappasoft/laravel-livewire-tables/issues",
-                "source": "https://github.com/rappasoft/laravel-livewire-tables/tree/v2.12.0"
+                "source": "https://github.com/rappasoft/laravel-livewire-tables/tree/v3-master"
             },
             "funding": [
                 {
@@ -10699,7 +10758,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-09T02:03:53+00:00"
+            "time": "2023-09-01T04:22:40+00:00"
         },
         {
             "name": "react/promise",
@@ -15248,64 +15307,6 @@
             "time": "2020-12-11T19:33:31+00:00"
         },
         {
-            "name": "wire-elements/modal",
-            "version": "1.0.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wire-elements/modal.git",
-                "reference": "1019f423485afb6df0d1531d978e93d4ad0975fb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wire-elements/modal/zipball/1019f423485afb6df0d1531d978e93d4ad0975fb",
-                "reference": "1019f423485afb6df0d1531d978e93d4ad0975fb",
-                "shasum": ""
-            },
-            "require": {
-                "livewire/livewire": "^2.0",
-                "php": "^7.4|^8.0",
-                "spatie/laravel-package-tools": "^1.9"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^6.15",
-                "phpunit/phpunit": "^9.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "LivewireUI\\Modal\\LivewireModalServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "LivewireUI\\Modal\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Philo Hermans",
-                    "email": "me@philohermans.com"
-                }
-            ],
-            "description": "Laravel Livewire modal component",
-            "keywords": [
-                "laravel",
-                "livewire",
-                "modal"
-            ],
-            "support": {
-                "issues": "https://github.com/wire-elements/modal/issues",
-                "source": "https://github.com/wire-elements/modal/tree/1.0.8"
-            },
-            "time": "2023-04-07T12:35:15+00:00"
-        },
-        {
             "name": "zircote/swagger-php",
             "version": "dev-master",
             "source": {
@@ -18659,10 +18660,12 @@
         "laracasts/presenter": 20,
         "laravel/cashier": 20,
         "league/csv": 20,
+        "microweber-deps/livewire-modal": 20,
         "microweber-deps/seo-helper": 20,
         "microweber-packages/microweber-class-alias": 20,
         "opis/closure": 20,
         "phpdocumentor/reflection-docblock": 20,
+        "rappasoft/laravel-livewire-tables": 20,
         "spatie/laravel-googletagmanager": 20,
         "spatie/laravel-menu": 20,
         "touhidurabir/laravel-stub-generator": 20,

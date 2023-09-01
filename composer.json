@@ -29,7 +29,6 @@
         "akaunting/laravel-money": "*",
         "barryvdh/laravel-debugbar": "*",
         "barryvdh/laravel-dompdf": "*",
-        "blade-ui-kit/blade-heroicons": "*",
         "blade-ui-kit/blade-icons": "*",
         "blade-ui-kit/blade-ui-kit": "*",
         "composer/composer": "*",
@@ -63,8 +62,9 @@
         "lcobucci/jwt": "*",
         "league/csv": "^9.0@dev",
         "league/omnipay": "*",
-        "livewire/livewire": "^3.0@beta",
+        "livewire/livewire": "v3.0.1",
         "mailerlite/mailerlite-api-v2-php-sdk": "*",
+        "microweber-deps/livewire-modal": "dev-main",
         "microweber-deps/seo-helper": "dev-master",
         "microweber-deps/ziggy": "*",
         "microweber-dev/omnipay-przelewy24": "0.2",
@@ -84,7 +84,7 @@
         "phpoffice/phpspreadsheet": "*",
         "phpseclib/phpseclib": "~3.0",
         "predis/predis": "*",
-
+        "rappasoft/laravel-livewire-tables": "dev-v3-master",
         "rtconner/laravel-tagging": "*",
         "scssphp/scssphp": "1.10.0",
         "simshaun/recurr": "*",
@@ -99,8 +99,7 @@
         "twig/twig": "*",
         "whitecube/lingua": "1.1.0",
         "wikimedia/composer-merge-plugin": "dev-master",
-        "wikimedia/less.php": "3.1.0",
-        "microweber-deps/livewire-modal": "dev-main"
+        "wikimedia/less.php": "3.1.0"
     },
     "require-dev": {
         "laravel/sail": "*",

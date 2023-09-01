@@ -15,24 +15,16 @@ use Illuminate\Support\Facades\Route as RouteFacade;
 
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
+
 use Livewire\LivewireServiceProvider as BaseLivewireServiceProvider;
-use LivewireUI\Modal\LivewireModalServiceProvider;
-use Rappasoft\LaravelLivewireTables\LaravelLivewireTablesServiceProvider;
+use MicroweberPackages\Livewire\LivewireManager;
+
 
 class LivewireServiceProvider extends BaseLivewireServiceProvider
 {
-    /**
-     * Whether or not to defer the loading of this service
-     * provider until it's needed
-     *
-     * @var boolean
-     */
-    protected $defer = true;
 
 
-    public function provides() {
-        return ['Livewire\Livewire'];
-    }
+
 
     protected function mergeConfigFrom($path, $key)
     {
@@ -41,11 +33,16 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
     }
 
 
+
+
     protected function registerLivewireSingleton()
     {
-        $this->app->singleton(LivewireManager::class);
-        $this->app->alias(LivewireManager::class, 'livewire');
-     }
+        $this->app->alias(\MicroweberPackages\Livewire\LivewireManager::class, 'livewire');
+
+        $this->app->singleton(\MicroweberPackages\Livewire\LivewireManager::class);
+
+        app('livewire')->setProvider($this);
+    }
 
 
     public function register()
@@ -58,8 +55,8 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
         View::addNamespace('livewire', __DIR__ . '/resources/views');
 
         // Load datatables
-        app()->register(LaravelLivewireTablesServiceProvider::class);
-        $this->mergeConfigFrom(__DIR__.'/config/livewire-tables.php', 'livewire-tables');
+    //    app()->register(LaravelLivewireTablesServiceProvider::class);
+    //    $this->mergeConfigFrom(__DIR__.'/config/livewire-tables.php', 'livewire-tables');
 
         // Load UI Modal
 //        app()->register(LivewireModalServiceProvider::class);
@@ -74,6 +71,21 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
 
     }
 
+
+    protected function getMechanisms()
+    {
+        return [
+            \Livewire\Mechanisms\PersistentMiddleware\PersistentMiddleware::class,
+            \Livewire\Mechanisms\HandleComponents\HandleComponents::class,
+            \Livewire\Mechanisms\HandleRequests\HandleRequests::class,
+            \MicroweberPackages\Livewire\Mechanisms\FrontendAssets\MwFrontendAssets::class,
+            \Livewire\Mechanisms\ExtendBlade\ExtendBlade::class,
+            \Livewire\Mechanisms\CompileLivewireTags::class,
+            \Livewire\Mechanisms\ComponentRegistry::class,
+            \Livewire\Mechanisms\RenderComponent::class,
+            \Livewire\Mechanisms\DataStore::class,
+        ];
+    }
     protected function registerRoutes()
     {
         parent::registerRoutes();
