@@ -177,5 +177,10 @@ class LaravelApplication extends Application
 
     }
 
+    public function rebootApplication(){
+        $this->booted = false;
+        $this->boot();
+    }
+
 
 }

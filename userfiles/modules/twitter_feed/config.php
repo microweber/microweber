@@ -9,7 +9,7 @@ $config['author_website'] = "https://microweber.com";
 $config['ui'] = true;
 $config['categories'] = "social";
 $config['position'] = 200;
-$config['version'] = 0.3;
+$config['version'] = 0.4;
 
 $config['settings'] = [];
 $config['settings']['autoload_namespace'] = [

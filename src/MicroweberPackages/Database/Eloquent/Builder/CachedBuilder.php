@@ -251,6 +251,18 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
         return parent::firstOrCreate($attributes, $values);
     }
 
+    public function create(array $attributes = [])
+    {
+        $this->_clearModelTaggedCache();
+        return parent::create($attributes);
+    }
+
+    public function createOrFirst(array $attributes = [], array $values = [])
+    {
+        $this->_clearModelTaggedCache();
+        return parent::createOrFirst($attributes, $values);
+    }
+
     public function updateOrCreate(array $attributes, array $values = [])
     {
 
@@ -262,6 +274,12 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     {
         $this->_clearModelTaggedCache();
         return parent::updateOrInsert($attributes, $values);
+    }
+    public function truncate()
+    {
+        $this->_clearModelTaggedCache();
+
+        parent::truncate();
     }
 
     private function _clearModelTaggedCache()

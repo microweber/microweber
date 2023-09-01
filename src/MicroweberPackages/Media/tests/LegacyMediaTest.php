@@ -2,12 +2,22 @@
 
 namespace MicroweberPackages\Media\tests;
 
+use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\User\Models\User;
 
 class LegacyMediaTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+    }
+
     public function testSaveMedia()
     {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
         $picture = array(
             'rel_type' => 'content',
             'rel_id' => 3,
@@ -30,6 +40,8 @@ class LegacyMediaTest extends TestCase
 
     public function testDeleteMedia()
     {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
         $picture = array(
             'rel_type' => 'content',
             'rel_id' => 3,
@@ -52,6 +64,8 @@ class LegacyMediaTest extends TestCase
 
     public function testSaveMediaArrayInFilename()
     {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
         $picture = array(
             'rel_type' => 'content',
             'rel_id' => 3,
@@ -65,6 +79,8 @@ class LegacyMediaTest extends TestCase
     }
     public function testSaveMediaXssFilename()
     {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
         $xss = '<style>@keyframes x{}</style><xss style="animation-name:x" onanimationend="alert(document.cookie)"></xss>';
 
         $picture = array(

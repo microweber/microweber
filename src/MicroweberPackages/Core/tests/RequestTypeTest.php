@@ -3,33 +3,53 @@
 namespace MicroweberPackages\Core\tests;
 
 
-use Illuminate\Foundation\Application;
 
-class RequestTypeTest extends \Illuminate\Foundation\Testing\TestCase
+class RequestTypeTest extends TestCase
 {
 
-    public function createApplication(): Application
+
+    public function testRequestResponseCode()
     {
-        $app = require __DIR__ . '/../../../../bootstrap/app.php';
-
-        $app->make(\Illuminate\Foundation\Console\Kernel::class)->bootstrap();
-
-        return $app;
+        $this->get('/example-route-testRequestResponseCode')
+            ->assertStatus(123);
     }
 
-    public function testJsonRequest()
+
+    public function testJsonPostRequest()
     {
-
-
         $testJsonRequest_a = 'testJsonRequest_a' . rand();
         $testJsonRequest_b = 'testJsonRequest_b' . rand();
-        $response = $this->postJson('/RequestTypeTest', ['test' => $testJsonRequest_a, 'test2' => $testJsonRequest_b]);
+
+        $response = $this->postJson('/example-route-testJsonPost', ['test' => $testJsonRequest_a, 'test2' => $testJsonRequest_b]);
 
         $userData = $response->getData();
+        $this->assertEquals($testJsonRequest_a, $userData->test);
+        $this->assertEquals($testJsonRequest_b, $userData->test2);
 
-        $this->assertEquals('testJsonRequest_a', $userData->test);
-        $this->assertEquals('testJsonRequest_b', $userData->test2);
+    }
 
+    public function testPostRequest()
+    {
+        $testJsonRequest_a = 'testJsonRequest_a' . rand();
+        $testJsonRequest_b = 'testJsonRequest_b' . rand();
+
+        $response = $this->post('/example-route-testJsonPost', ['test' => $testJsonRequest_a, 'test2' => $testJsonRequest_b]);
+        $userData = $response->getData();
+        $this->assertEquals($testJsonRequest_a, $userData->test);
+        $this->assertEquals($testJsonRequest_b, $userData->test2);
+
+    }
+
+
+    public function testPatchJsonRequest()
+    {
+        $testJsonRequest_a = 'testJsonRequest_a' . rand();
+        $testJsonRequest_b = 'testJsonRequest_b' . rand();
+
+        $response = $this->patchJson('/example-route-testJsonPatch', ['test' => $testJsonRequest_a, 'test2' => $testJsonRequest_b]);
+        $userData = $response->getData();
+        $this->assertEquals($testJsonRequest_a, $userData->test);
+        $this->assertEquals($testJsonRequest_b, $userData->test2);
 
     }
 }

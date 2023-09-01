@@ -33,6 +33,10 @@ class LiveEditServiceProvider extends PackageServiceProvider
     {
         $package->name('microweber-live-edit');
         $package->hasViews('microweber-live-edit');
+        $package->hasRoute('api');
+        $package->hasRoute('web');
+        $package->hasRoute('live_edit');
+
     }
 
     public function register()
@@ -73,9 +77,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
             DispatchServingModuleSettings::class,
         ]);
 
-        $this->loadRoutesFrom((__DIR__) . '/../routes/api.php');
-        $this->loadRoutesFrom((__DIR__) . '/../routes/web.php');
-        $this->loadRoutesFrom((__DIR__) . '/../routes/live_edit.php');
+
     }
 
     public function registerMenu()

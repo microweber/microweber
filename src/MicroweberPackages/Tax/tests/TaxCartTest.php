@@ -12,6 +12,7 @@ class TaxCartTest extends TestCase
     public function testTaxAppliedOnCheckout()
     {
         TaxType::truncate();
+        TaxType::truncate();
         save_option('enable_taxes', '1', 'shop');
         app()->tax_manager->save(array(
             'name' => 'VAT',

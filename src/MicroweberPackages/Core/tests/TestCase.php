@@ -7,10 +7,13 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\Mime\Part\Multipart\MixedPart;
 use Symfony\Component\Mime\Part\TextPart;
+use Tests\CreatesApplication;
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
-    use WithConsoleEvents;
+   // use WithConsoleEvents;
+
+    use CreatesApplication;
 
     public $parserErrorStrings = ['mw_replace_back', 'tag-comment', 'mw-unprocessed-module-tag', 'parser_'];
     private $sqlite_file = 'phpunit.sqlite';
@@ -20,12 +23,21 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $_ENV['APP_ENV'] = 'testing';
         putenv('APP_ENV=testing');
         ini_set('memory_limit', '-1');
+        \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
+
+        $config_folder = __DIR__ . '/../../../../config/testing/';
+        $config_folder = realpath($config_folder);
+
+        $mw_file = $config_folder . '/microweber.php';
+       if(!is_file($mw_file)){
+           $this->install();
+       }
 
         parent::setUp();
     }
 
 
-    public function createApplication()
+    public function install()
     {
 
         ini_set('memory_limit', '4024M');
@@ -187,7 +199,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $this->assertEquals(0, $install);
 
             // Clear caches
-           // \Artisan::call('config:cache');
+            \Artisan::call('config:cache');
             \Artisan::call('config:clear');
             \Artisan::call('cache:clear');
             \Artisan::call('route:clear');
@@ -196,7 +208,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $this->assertEquals(1, $is_installed);
             //  }
             // }
-
+            //\Config::set('microweber.is_installed' , 1);
             \Config::set('mail.driver', 'array');
             \Config::set('queue.driver', 'sync');
             \Config::set('mail.transport', 'array');
@@ -207,8 +219,12 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         //  $app['env'] = $testing_env_name;
         // $environment = $app->environment();
-
-
+//        load_all_functions_files_for_modules();
+//        load_all_service_providers_for_modules();
+//         load_functions_files_for_template();
+//        load_service_providers_for_template();
+        $app->rebootApplication();
+        $this->app = $app;
         return $app;
     }
 
