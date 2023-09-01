@@ -275,6 +275,12 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
         $this->_clearModelTaggedCache();
         return parent::updateOrInsert($attributes, $values);
     }
+    public function truncate()
+    {
+        $this->_clearModelTaggedCache();
+
+        parent::truncate();
+    }
 
     private function _clearModelTaggedCache()
     {
