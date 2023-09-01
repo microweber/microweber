@@ -2532,6 +2532,9 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 
 #admin-sidebar .container-fluid{
     background-color: var(--tblr-bg-surface);
+    @media (max-width: 1200px) {
+        display: block;
+    }
 }
 #admin-sidebar .navbar-brand img{
     width: 190px;

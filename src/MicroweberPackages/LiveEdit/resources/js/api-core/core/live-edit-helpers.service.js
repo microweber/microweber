@@ -1,3 +1,5 @@
+import { DomService } from "./classes/dom";
+
 export default {
     targetIsIcon: target => {
 
@@ -28,6 +30,10 @@ export default {
                     break;
                 }
             }
+        }
+
+        if(isIcon) {
+            isIcon = DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target, ['edit', 'module'])
         }
 
         return isIcon;

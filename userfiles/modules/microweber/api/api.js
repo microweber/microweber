@@ -565,9 +565,9 @@ mw.requireAsync = (url, key) => {
           selector: module,
           done: done
         });
-
-        console.log(xhr)
-
+        
+       
+        
         if(xhr) {
             xhr.success(function(){
                 if (mw.top().app && mw.top().app.liveEdit && mw.top().app.liveEdit.handles.get('module')) {

@@ -137,6 +137,7 @@ export class LiveEdit {
 
         var elementHandle = this.elementHandle = new Handle({
             ...this.settings,
+            $name: '$elementHandle',
             dropIndicator: this.dropIndicator,
             content: elementHandleContent.root,
 
@@ -187,6 +188,8 @@ export class LiveEdit {
             scope.handles.set('layout', null);
             scope.handles.get('layout').hide();
             scope.handles.get('interactionHandle').hide();
+            mw.top().app.richTextEditor.smallEditor.hide()
+            mw.app.get('liveEdit').play();
 
             //mw.app.domTreeSelect(target)
 
@@ -250,7 +253,7 @@ export class LiveEdit {
  
             scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
 
-                console.log(settings)
+                 
 
                 mw.app.liveEdit.moduleHandleContent.menu.setMenu('dynamic', settings);
                 moduleHandleContent.menu.setTarget(node);
@@ -260,6 +263,8 @@ export class LiveEdit {
             scope.handles.set('interactionHandle', null);
             scope.handles.get('layout').hide();
             scope.handles.get('interactionHandle').hide();
+            mw.top().app.richTextEditor.smallEditor.hide()
+            mw.app.get('liveEdit').play();
 
             //mw.app.domTreeSelect(node)
         });
@@ -300,6 +305,8 @@ export class LiveEdit {
                 layoutHandleContent.plusTop.hide()
                 layoutHandleContent.plusBottom.hide()
             }
+            
+            
             //mw.app.domTreeSelect(target)
         });
 
@@ -346,20 +353,15 @@ export class LiveEdit {
         return this.activeNode;
     }
     selectNode(target, event) {
-
-
  
-
-
-
-
         if(target.nodeName === 'BODY') {
 
             return
         }
+ 
+ 
 
-
-        if (this.handles.targetIsOrInsideHandle(target )) {
+        if (target.isContentEditable || this.handles.targetIsOrInsideHandle(target ) || this.handles.targetIsSelected(target, this.interactionHandle) ) {
 
 
             // this.handles.hide();
@@ -400,6 +402,12 @@ export class LiveEdit {
         }
 
 
+        var elementTarget =  this.handles.get('element').getTarget()
+
+        if(target && !target.classList.contains('module') && elementTarget && elementTarget.contains(target)) {
+            return
+        }
+
 
      
 
@@ -407,8 +415,9 @@ export class LiveEdit {
         first = target;
 
 
+         
 
-        if(target && target === mw.app.liveEdit.handles.get('element').getTarget()) {
+        if(target && target === elementTarget  ) {
 
            if(typeof event !== 'undefined') {
                event.preventDefault();
@@ -426,7 +435,7 @@ export class LiveEdit {
         this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
         this.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);
 
-        this.handles.get('element').set(null)
+         this.handles.get('element').set(null)
         this.handles.get('module').set(null)
         this.handles.hide();
 
@@ -950,7 +959,8 @@ export class LiveEdit {
 
 
 
-            if (selected && selected.contains(_dblclicktarget)) {
+ 
+            if (selected && !selected.contains(_dblclicktarget)) {
                  
                 mw.app.editor.dispatch('editNodeRequest', selected);
             }
@@ -972,11 +982,12 @@ export class LiveEdit {
             const _canSelect = !this.paused || _canSelectDuringPause;
             
 
-            if (_canSelect) {
+            if (_canSelect && !this.handles.targetIsOrInsideHandle(e.target ) ) {
+   
                 _eventsHandle(e)
             } else {
-
-                if (this.handles.targetIsOrInsideHandle(e.target )) {
+ 
+                if (this.handles.targetIsOrInsideHandle(e.target ) || this.handles.targetIsSelected(e.target, this.interactionHandle )) {
 
 
                     // this.handles.hide();
@@ -987,7 +998,7 @@ export class LiveEdit {
 
                 var elementTarget = this.elementHandle.getTarget();
  
-                if (!elementTarget || (elementTarget && !elementTarget.contains(e.target))) {
+                if ( !elementTarget || (elementTarget && !elementTarget.contains(e.target)) ) {
                     this.play();
                     this.handles.get('element').set(null);
                     this.handles.get('module').set(null);
