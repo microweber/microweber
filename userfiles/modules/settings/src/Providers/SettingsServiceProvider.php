@@ -16,6 +16,7 @@ class SettingsServiceProvider extends PackageServiceProvider
     {
         $package->name('microweber-module-settings');
         $package->hasRoutes('admin');
+        $package->hasViews('microweber-module-settings');
 
     }
 
@@ -24,6 +25,7 @@ class SettingsServiceProvider extends PackageServiceProvider
 
 
         AdminManager::getMenuInstance('left_menu_top')->addChild('Settings', [
+            'uri' => route('admin.settings.index'),
 
             'attributes'=>[
                 'route' => 'admin.settings.index',

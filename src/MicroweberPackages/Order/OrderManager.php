@@ -186,6 +186,7 @@ class OrderManager
 
                 $this->app->cache_manager->delete('cart');
                 $this->app->cache_manager->delete('cart_orders');
+                $this->app->cache_manager->delete('customers');
 
 
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {

@@ -56,7 +56,7 @@ class CouponApplyTest extends TestCase
 
 
         $checkoutDetails = array();
-        $checkoutDetails['email'] = 'test@microweber.com';
+        $checkoutDetails['email'] = 'test'.uniqid().'@microweber.com';
         $checkoutDetails['first_name'] = 'Client';
         $checkoutDetails['last_name'] = 'Microweber';
 
@@ -122,7 +122,7 @@ class CouponApplyTest extends TestCase
 
 
         $checkoutDetails = array();
-        $checkoutDetails['email'] = 'test@microweber.com';
+        $checkoutDetails['email'] = 'test'.uniqid().'@microweber.com';
         $checkoutDetails['first_name'] = 'Client';
         $checkoutDetails['last_name'] = 'Microweber';
 
@@ -184,7 +184,7 @@ class CouponApplyTest extends TestCase
 
 
         $checkoutDetails = array();
-        $checkoutDetails['email'] = 'test@microweber.com';
+        $checkoutDetails['email'] = 'test'.uniqid().'@microweber.com';
         $checkoutDetails['first_name'] = 'Client';
         $checkoutDetails['last_name'] = 'Microweber';
 
@@ -241,7 +241,7 @@ class CouponApplyTest extends TestCase
 
 
         $checkoutDetails = array();
-        $checkoutDetails['email'] = 'test@microweber.com';
+        $checkoutDetails['email'] = 'test'.uniqid().'@microweber.com';
         $checkoutDetails['first_name'] = 'Client';
         $checkoutDetails['last_name'] = 'Microweber';
 

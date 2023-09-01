@@ -8,7 +8,7 @@ class SettingsController
 {
     public function index(Request $request)
     {
-        return view('modules.settings::admin.index',[
+        return view('microweber-module-settings::admin.index',[
 
         ]);
     }
