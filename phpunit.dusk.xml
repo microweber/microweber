@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
+         stopOnFailure="true"
          colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="true">
+>
     <testsuites>
+
 
         <testsuite name="MicroweberCoreTests">
             <directory suffix="Test.php">./tests/Browser</directory>
@@ -30,11 +28,24 @@
             <directory>./tests/Browser/SlowTests</directory>
         </testsuite>
     </testsuites>
-    <php>
-        <ini name="display_errors" value="On" />
-        <ini name="display_startup_errors" value="On" />
-        <env name="APP_ENV" value="testing" force="true"/>
-        <server name="APP_ENV" value="testing"/>
 
+    <source>
+        <include>
+            <directory>app</directory>
+            <directory>src</directory>
+        </include>
+    </source>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <ini name="memory_limit" value="-1"/>
+        <env name="MAIL_DRIVER" value="array"/>
+        <env name="MAIL_MAILER" value="array"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="TELESCOPE_ENABLED" value="false"/>
     </php>
+
+
 </phpunit>

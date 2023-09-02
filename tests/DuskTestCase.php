@@ -59,6 +59,8 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function driver()
     {
+        $tempDir = storage_path('app/chrome-profiles/' . time() . rand(1, 1000));
+
         $arguments = [];
         $arguments[] = '--disable-web-security';
         $arguments[] = '--disable-xss-auditor';
@@ -68,8 +70,12 @@ abstract class DuskTestCase extends BaseTestCase
         $arguments[] = '--ignore-certificate-errors';
         $arguments[] = '--window-size=1280,1080';
         $arguments[] = '--disable-popup-blocking';
+        $arguments[] = '--disable-dev-shm-usage';
+      //  $arguments[] = '--user-data-dir=' . $tempDir;
+     //   $arguments[] = '--crash-dumps-dir=' . $tempDir;
 
       //  $arguments[] = '--headless';
+        //addArguments(`user-data-dir=${CURRENT_CHROMIUM_TMP_DIR}`);
 
         $options = (new ChromeOptions)->addArguments(collect($arguments)
             ->unless($this->hasHeadlessDisabled(), function ($items) use ($arguments) {
@@ -80,8 +86,12 @@ abstract class DuskTestCase extends BaseTestCase
 
             })->all());
 
+
+
+
         return RemoteWebDriver::create(
-            $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
+           $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
+        //    $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:4444/wd/hub',
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY, $options
             ), 90000, 90000
