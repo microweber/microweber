@@ -9,6 +9,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
     #canvas = null;
 
+
     go(url) {
         if(this.#canvas && this.#canvas.ownerDocument && this.#canvas.contentWindow) {
             this.#canvas.src = url;
@@ -102,6 +103,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
 
 
+
         liveEditIframe.addEventListener('load', e => {
 
             mw.spinner({element: target, decorate: true}).remove();
@@ -115,7 +117,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             liveEditIframe.contentWindow.document.body.addEventListener('click', (event) => {
 
                 this.dispatch('canvasDocumentClick', event)
-                 
+
 
             });
 
@@ -123,20 +125,24 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             liveEditIframe.contentWindow.document.addEventListener('keydown', (event) => {
 
                 this.dispatch('canvasDocumentKeydown', event)
-                 
+
 
             });
 
-            
+
 
 
             liveEditIframe.contentWindow.document.body.addEventListener('dblclick', (event) => {
                 this.dispatch('canvasDocumentDoubleClick',  event)
-                 
+
             });
 
 
+            liveEditIframe.contentWindow.mw.isNavigating = false;
+
             this.dispatch('liveEditCanvasLoaded', {frame: liveEditIframe, frameWindow: liveEditIframe.contentWindow, frameDocument: liveEditIframe.contentWindow.document});
+
+
             mw.spinner({
                 element: target,
             }).remove()
