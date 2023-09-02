@@ -379,6 +379,15 @@ if(window.self !== window.top) {
         var liveEditIframe = (mw.top().app.canvas.getWindow());
         if (liveEditIframe
             && liveEditIframe.mw && liveEditIframe.mw.askusertostay) {
+
+            liveEditIframe.mw.isNavigating = true;
+
+            setTimeout(function (liveEditIframe) {
+                if(liveEditIframe && liveEditIframe.mw) {
+                    liveEditIframe.mw.isNavigating = false;
+                }
+            }, 300);
+
             return true;
         } else {
             liveEditIframe.mw.isNavigating = true;
