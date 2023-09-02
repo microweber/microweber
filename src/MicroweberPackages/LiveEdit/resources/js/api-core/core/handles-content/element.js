@@ -108,8 +108,8 @@ export const ElementHandleContent = function (proto) {
             action: () => {},
             onTarget: (target, selfBtn) => {
                 var selfVisible = true;
-
-                if(target.classList.contains('cloneable')) {
+                const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
+                if(isCloneable) {
                     selfVisible = false;
                 }
           
@@ -131,7 +131,12 @@ export const ElementHandleContent = function (proto) {
             onTarget: (target, selfBtn) => {
                 var selfVisible = true;
 
-                if(target.classList.contains('spacer')) {
+                const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
+                if(isCloneable) {
+                    selfVisible = false;
+                }
+
+                if(target.classList.contains('spacer') ) {
                     selfVisible = false;
                 }
                 selfBtn.style.display = selfVisible ? '' : 'none';
@@ -160,6 +165,19 @@ export const ElementHandleContent = function (proto) {
             action: function (el) {
                 mw.app.editor.dispatch('elementSettingsRequest', el);
 
+            },
+            onTarget: function(target, selfBtn) {
+                var selfVisible = true;
+
+                const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
+                if(isCloneable) {
+                    selfVisible = false;
+                }
+
+                if(target.classList.contains('spacer') ) {
+                    selfVisible = false;
+                }
+                selfBtn.style.display = selfVisible ? '' : 'none';
             }
         },
         

@@ -1,33 +1,99 @@
 {
-  "_bootstrap-43328c91.js": {
+  "_bootstrap-0ff1df6c.js": {
     "css": [
       "assets/bootstrap-2179202b.css"
     ],
-    "file": "assets/bootstrap-43328c91.js"
+    "file": "assets/bootstrap-0ff1df6c.js"
+  },
+  "_bootstrap-50a10054.js": {
+    "css": [
+      "assets/bootstrap-2179202b.css"
+    ],
+    "file": "assets/bootstrap-50a10054.js"
+  },
+  "_bootstrap-718c72a5.js": {
+    "css": [
+      "assets/bootstrap-2179202b.css"
+    ],
+    "file": "assets/bootstrap-718c72a5.js"
+  },
+  "_bootstrap-72864e04.js": {
+    "css": [
+      "assets/bootstrap-2179202b.css"
+    ],
+    "file": "assets/bootstrap-72864e04.js"
+  },
+  "_bootstrap-8acb9361.js": {
+    "css": [
+      "assets/bootstrap-2179202b.css"
+    ],
+    "file": "assets/bootstrap-8acb9361.js"
+  },
+  "_bootstrap-90aeeb8e.js": {
+    "css": [
+      "assets/bootstrap-2179202b.css"
+    ],
+    "file": "assets/bootstrap-90aeeb8e.js"
+  },
+  "_bootstrap-96b28155.js": {
+    "css": [
+      "assets/bootstrap-2179202b.css"
+    ],
+    "file": "assets/bootstrap-96b28155.js"
+  },
+  "_bootstrap-ab94e6a9.js": {
+    "css": [
+      "assets/bootstrap-2179202b.css"
+    ],
+    "file": "assets/bootstrap-ab94e6a9.js"
+  },
+  "_bootstrap-c589a9b2.js": {
+    "css": [
+      "assets/bootstrap-2179202b.css"
+    ],
+    "file": "assets/bootstrap-c589a9b2.js"
+  },
+  "_bootstrap-c72d449d.js": {
+    "css": [
+      "assets/bootstrap-2179202b.css"
+    ],
+    "file": "assets/bootstrap-c72d449d.js"
+  },
+  "_bootstrap-c825c366.js": {
+    "css": [
+      "assets/bootstrap-2179202b.css"
+    ],
+    "file": "assets/bootstrap-c825c366.js"
+  },
+  "_bootstrap-f3e56b04.js": {
+    "css": [
+      "assets/bootstrap-2179202b.css"
+    ],
+    "file": "assets/bootstrap-f3e56b04.js"
   },
   "bootstrap.css": {
     "file": "assets/bootstrap-2179202b.css",
     "src": "bootstrap.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js": {
-    "file": "assets/admin-app-be9c870d.js",
+    "file": "assets/admin-app-bf164225.js",
     "imports": [
-      "_bootstrap-43328c91.js"
+      "_bootstrap-50a10054.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css": {
-    "file": "assets/live-edit-app-0404712a.css",
+    "file": "assets/live-edit-app-a55d9ba6.css",
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js": {
     "css": [
-      "assets/live-edit-app-0404712a.css"
+      "assets/live-edit-app-a55d9ba6.css"
     ],
-    "file": "assets/live-edit-app-b3b5618c.js",
+    "file": "assets/live-edit-app-92cad8af.js",
     "imports": [
-      "_bootstrap-43328c91.js"
+      "_bootstrap-50a10054.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js"

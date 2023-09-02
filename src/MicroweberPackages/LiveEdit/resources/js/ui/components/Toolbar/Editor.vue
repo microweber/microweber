@@ -228,6 +228,7 @@ export default {
                   
                   iconPicker.picker.on('sizeChange', val => {
                     element.style.fontSize = `${val}px`;
+                    mw.top().app.liveEdit.handles.get('element').position(mw.top().app.liveEdit.handles.get('element').getTarget())
                     mw.top().app.registerChange(element);
                   });
 
@@ -294,10 +295,16 @@ export default {
                     setTimeout(() => {
                       element.contentEditable = true;
                       element.focus();
+                      
                       element.contentEditable = true;
                       mw.app.liveEdit.pause()
                       mw.app.richTextEditor.smallEditorInteract(element);
-                      mw.app.richTextEditor.positionSmallEditor(element)
+                      mw.app.richTextEditor.positionSmallEditor(element);
+                      
+                      element.querySelectorAll('.element[contenteditable], .allow-drop[contenteditable]').forEach(node => {
+                          node.contentEditable = 'inherit';
+                       
+                      })
                     }, 100);
 
                 }

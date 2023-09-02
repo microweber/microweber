@@ -432,13 +432,7 @@ $current_template = false;
 
                     </style>
                     <script>
-
-
-
-
-                        var setBg = function(target, value) {
-
-                        }
+ 
 
                         var target = mw.top().app.liveEdit.handles.get('layout').getTarget();
                         var bg, bgOverlay, bgNode;

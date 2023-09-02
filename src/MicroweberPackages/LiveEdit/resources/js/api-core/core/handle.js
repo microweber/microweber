@@ -79,7 +79,12 @@ export const Handle = function (options) {
       
         this.draggable.on('dragStart', function () {
           
-            scope.wrapper.addClass('mw-handle-item-dragging');
+            scope.wrapper
+            .addClass('mw-handle-item-dragging')
+            .get(0)
+            .ownerDocument.querySelectorAll('.mw-le-handle-menu-button.sub-menu-active')
+            .forEach(el => el.classList.remove('sub-menu-active'));
+
         })
         this.draggable.on('dragEnd', function () {
              
@@ -177,11 +182,7 @@ export const Handle = function (options) {
     }
 
     this.set = function (target, forced) {
-        
  
-        if(this.settings.$name === '$elementHandle') {
-            console.log(target)
-        }
 
         
         if (!target) {
