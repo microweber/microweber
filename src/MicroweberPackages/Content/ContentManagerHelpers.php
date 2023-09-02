@@ -978,7 +978,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                         }
 
 
-
+                        $rel_ch = trim($the_field_data['attributes']['rel_type']);
 
                         if (!isset($the_field_data['attributes']['data-id']) and isset($the_field_data['attributes']['rel_id'])) {
                             $the_field_data['attributes']['data-id'] = $the_field_data['attributes']['rel_id'];
@@ -986,7 +986,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
 
                         if (isset($the_field_data['attributes']['rel_type']) and isset($the_field_data['attributes']['data-id'])) {
-                            $rel_ch = trim($the_field_data['attributes']['rel_type']);
+
                             switch ($rel_ch) {
                                 case 'content':
                                     $save_global = false;
@@ -1005,6 +1005,11 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $save_global = true;
                                     $save_module = true;
                                     break;
+                                case 'inherit':
+                                    $save_global = false;
+                                    $save_layout = false;
+                                    $content_id_for_con_field = $content_id = $page_id;
+                                    break;
 
                                 default:
                                     $save_global = true;
@@ -1019,9 +1024,12 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $save_global = false;
                             $save_layout = false;
                             $content_id = $page_id;
+                            $save_module = false;
                             $inh = $this->app->content_manager->get_inherited_parent($page_id);
                             if ($inh != false) {
                                 $content_id_for_con_field = $content_id = $inh;
+                            } else {
+                                $content_id_for_con_field = $content_id = $page_id;
                             }
                         } elseif (isset($the_field_data['attributes']['rel_type']) and ($the_field_data['attributes']['rel_type']) == 'page') {
                             $save_global = false;
@@ -1067,7 +1075,6 @@ class ContentManagerHelpers extends ContentManagerCrud
                         $html_to_save = $content = $xssClean->clean($html_to_save);
 
 
-                      //  \Log::info($html_to_save);
 
                         if ($save_module == false and $save_global == false and $save_layout == false) {
                             if ($content_id) {
@@ -1217,7 +1224,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 $cont_field['url'] = $this->app->url_manager->string(true);
                                 $cont_field_new = $this->app->content_manager->save_content_field($cont_field);
 
-
+                                $json_print[] = $cont_field;
 
                             } else {
 
@@ -1230,25 +1237,25 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                 $cont_field_revision = $this->app->content_manager->save_content_field($history_draft);
 
-
-
-                            }
-
-
-                            if ($save_global == true and $save_layout == false) {
-
-
                                 $json_print[] = $cont_field;
-                                $history_to_save = array();
-                            //.    $history_to_save['table'] = 'global';
-                                $history_to_save['value'] = $cont_field['value'];
-                                $history_to_save['field'] = $field;
-                              //  $history_to_save['page_element_id'] = $page_element_id;
-
-
-
 
                             }
+
+
+//                            if ($save_global == true and $save_layout == false) {
+//
+//
+//                                $json_print[] = $cont_field;
+//                             //   $history_to_save = array();
+//                            //.    $history_to_save['table'] = 'global';
+//                             //  $history_to_save['value'] = $cont_field['value'];
+//                           //     $history_to_save['field'] = $field;
+//                              //  $history_to_save['page_element_id'] = $page_element_id;
+//
+//
+//
+//
+//                            }
                         }
                     }
                 }
