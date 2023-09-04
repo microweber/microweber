@@ -43,8 +43,9 @@ trait DatabaseTaggingTaggedWriter
 			$itemDatabase = $this->_getTagginTaggedDatabase($saveNewTaggingTagged);
 
 			if (empty($itemDatabase)) {
-				DatabaseSave::save('tagging_tagged', $saveNewTaggingTagged);
+			return	DatabaseSave::save('tagging_tagged', $saveNewTaggingTagged);
 			}
-		}
+            return $itemDatabase['id'];
+ 		}
 	}
 }

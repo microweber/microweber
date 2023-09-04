@@ -10,9 +10,9 @@ trait DatabaseCategoriesWriter
 	private function _getCategories()
 	{
 		if (! isset($this->content['categories'])) {
+
 			return;
 		}
-
 		$categories = array();
 		foreach ($this->content['categories'] as $category) {
 			$categories[] = $category;
@@ -52,6 +52,7 @@ trait DatabaseCategoriesWriter
 		if (empty($categories)) {
 			return;
 		}
+        $idToReturn = false;
 		foreach ($categories as $category) {
 
 			$getNewCategory = $this->_getCategoryDatabase($category);
