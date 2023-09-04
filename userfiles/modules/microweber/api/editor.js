@@ -405,7 +405,7 @@ var MWEditor = function (options) {
         this.interactionData = {};
         $(scope.actionWindow.document).on('click', function(e){
  
-            if(e.detail >= 2) {
+            if(e.detail >= 3) {
                 scope.adjustRange(e)
             }
         })

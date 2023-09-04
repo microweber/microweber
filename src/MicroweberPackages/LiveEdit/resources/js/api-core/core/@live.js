@@ -933,6 +933,8 @@ export class LiveEdit {
                 return;
             }
 
+        
+
             if(mw.app.canvas) {
                 var liveEditIframeWindow =  mw.app.canvas.getWindow()
                 if(liveEditIframeWindow && liveEditIframeWindow.mw && liveEditIframeWindow.mw.isNavigating){
@@ -942,7 +944,7 @@ export class LiveEdit {
             }
 
 
-
+          
 
 
             const selected = mw.app.liveEdit.elementHandle.getTarget();
@@ -970,14 +972,16 @@ export class LiveEdit {
             }
 
 
+     
 
 
-            if (selected && !selected.contains(_dblclicktarget)) {
+            if (selected && !selected.contains(_dblclicktarget) ) {
 
                 mw.app.editor.dispatch('editNodeRequest', selected);
-            }
+            } else if (selected &&  selected === _dblclicktarget) {
 
-            if (!selected && e.target.classList.contains('edit') && e.target.style.backgroundImage) {
+                mw.app.editor.dispatch('editNodeRequest', selected);
+            } else if (!selected && e.target.classList.contains('edit') && e.target.style.backgroundImage) {
 
                 mw.app.editor.dispatch('editNodeRequest', e.target);
             }
@@ -1016,7 +1020,7 @@ export class LiveEdit {
                     this.handles.get('module').set(null);
                     mw.app.canvas.getDocument().querySelectorAll('[contenteditable="true"]').forEach(node => {
                         if(node.classList.contains('element')) {
-                            console.log(66, node)
+                             
                             node.removeAttribute('contentеditable')
                         } else {
                             node.contentEditable = false;
