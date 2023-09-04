@@ -246,6 +246,17 @@ var MWEditor = function (options) {
         var event = e.originaleEvent ? e.originaleEvent : e;
         var localTarget = event.target;
 
+        if(e.type === 'keydown') {
+            if (e.key === "Backspace" || e.key === "Delete") {
+                 if(e.target) {
+                    var all = e.target.querySelectorAll('.edit span[style*="var"]');
+                    all.forEach(node => {
+                        [...node.style].forEach(prop => node.style.removeProperty(prop) )
+                    });
+                 }
+            }
+        }
+
         if (!e.target) {
             localTarget = scope.getSelection().focusNode;
          }
@@ -459,6 +470,8 @@ var MWEditor = function (options) {
                     e.preventDefault();
                 }
             }
+            
+            
         };
         node.onkeyup = function(e) {
             if (e.keyCode === 17 || e.keyCode === 91) {
