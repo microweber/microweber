@@ -35,9 +35,24 @@ trait TaggableTrait
         $this->fillable[] = 'tag_names';
     }
 
+    /**
+     * Delete tags that are not used anymore
+     */
+    public static function shouldDeleteUnused(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Should untag on delete
+     */
+    public static function untagOnDelete()
+    {
+        return true;
+    }
+
     public static function bootTaggableTrait()
     {
-
         static::saving(function ($model) {
             // append tags to content
             if (isset($model->tag_names)) {
@@ -46,8 +61,7 @@ trait TaggableTrait
                 unset($model->tag_names);
             }
         });
-
-
+        
         static::saved(function ($model) {
             if ($model->_toSaveTags) {
                 if (!empty($model->_addTagsToContent)) {
