@@ -908,7 +908,7 @@ var MWEditor = function (options) {
         }
         var max = (cleft + scope.smallEditor.width());
         if( max > scope.actionWindow.innerWidth) {
-            cleft = max - scope.actionWindow.innerWidth;
+            cleft = scope.actionWindow.innerWidth - scope.smallEditor.width();
 
         }
 
@@ -919,6 +919,8 @@ var MWEditor = function (options) {
         if(ctop > off.offsetTop + target.offsetHeight) {
             ctop = safeTop
         }
+
+ 
 
         scope.smallEditor.css({
             top: ctop,
