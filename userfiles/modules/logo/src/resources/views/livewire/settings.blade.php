@@ -15,13 +15,13 @@
                 if ($event.detail.optionKey == 'logotype') {
                     logoType = $event.detail.optionValue;
                 }
- 
+
                 if ($event.detail.optionGroup === '{{$moduleId}}') {
-                 
- 
-                  
+
+
+
                      mw.reload_module_everywhere('{{$moduleType}}', function () {
-    
+
                         mw.top().app.liveEdit.handles.get('module').position(mw.top().app.liveEdit.handles.get('module').getTarget());
                     });
                 }
@@ -49,7 +49,7 @@
                 </div>
 
                 <div>
-                    <livewire:microweber-option::range-slider labelUnit="px" min="8" max="500" label="Logo Image - Size" optionKey="size" :optionGroup="$moduleId" :module="$moduleType"  />
+                    <livewire:microweber-option::range-slider labelUnit="px" min="100" max="500" label="Logo Image - Size" optionKey="size" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
 
                 @if (isset($moduleParams['data-alt-logo']))
@@ -77,7 +77,7 @@
                 </div>
 
                 <div class="mt-3">
-                    <livewire:microweber-option::range-slider labelUnit="px" min="100" max="500" label="Logo Text - Size" optionKey="font_size" :optionGroup="$moduleId" :module="$moduleType"  />
+                    <livewire:microweber-option::range-slider labelUnit="px" min="16" max="500" label="Logo Text - Size" optionKey="font_size" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
             </div>
 
