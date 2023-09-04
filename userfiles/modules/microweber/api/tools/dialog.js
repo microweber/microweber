@@ -47,8 +47,9 @@
                     mw.$(frame).on('bodyResize', function () {
                         dialog.center();
                     });
+                    dialog.dialogMain.classList.remove('mw-dialog-iframe-loading');
+
                     if(frame && frame.contentWindow && frame.contentWindow.thismodal) {
-                        dialog.dialogMain.classList.remove('mw-dialog-iframe-loading');
                         frame.contentWindow.thismodal = dialog;
                         if (options.autoHeight) {
                             mw.tools.iframeAutoHeight(frame, {dialog: dialog, maxHeightWindowScroll: maxHeight});

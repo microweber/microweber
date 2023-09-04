@@ -1,5 +1,14 @@
 @extends('admin::layouts.app')
 
+
+@section('topbar2-links-right')
+    @include('content::admin.content.topbar-parts.links-right')
+@endsection
+
+@section('topbar2-links-left')
+    @include('content::admin.content.topbar-parts.links-left')
+@endsection
+
 @section('content')
 
 @if(isset($recommended_content_id) and isset($recommended_category_id) and $content_id == 0)
