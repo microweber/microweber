@@ -20,10 +20,10 @@
         dialog.dialogContainer.style.minHeight = '100px';
         mw.spinner({element: dialog.dialogContainer, size: 32, decorate: true}).show();
 
-         
 
 
-         
+
+
         var maxHeight = 'calc(100vh - 140px)';
 
 
@@ -47,10 +47,12 @@
                     mw.$(frame).on('bodyResize', function () {
                         dialog.center();
                     });
-                    dialog.dialogMain.classList.remove('mw-dialog-iframe-loading');
-                    frame.contentWindow.thismodal = dialog;
-                    if (options.autoHeight) {
-                        mw.tools.iframeAutoHeight(frame, {dialog: dialog, maxHeightWindowScroll: maxHeight});
+                    if(frame && frame.contentWindow && frame.contentWindow.thismodal) {
+                        dialog.dialogMain.classList.remove('mw-dialog-iframe-loading');
+                        frame.contentWindow.thismodal = dialog;
+                        if (options.autoHeight) {
+                            mw.tools.iframeAutoHeight(frame, {dialog: dialog, maxHeightWindowScroll: maxHeight});
+                        }
                     }
                 }, 78);
                 if (mw.tools.canAccessIFrame(frame)) {
@@ -446,13 +448,13 @@
 
             this.hide();
             mw.removeInterval('iframe-' + this.id);
-           
+
             if(this.options.onremove) {
                 this.options.onremove()
             }
             mw.$(this).trigger('Remove');
             mw.trigger('mwDialogRemove', this);
-            
+
             this.forceRemove()
         };
 
