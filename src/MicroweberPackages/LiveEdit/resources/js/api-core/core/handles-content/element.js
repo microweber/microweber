@@ -105,6 +105,7 @@ export const ElementHandleContent = function (proto) {
             className: 'mw-handle-reset-image-button',
 
             action: function (el) {
+                mw.app.registerUndoState(el);
                 el.style.width = '';
                 el.style.height = '';
                 mw.app.registerChangedState(el);
@@ -231,7 +232,7 @@ export const ElementHandleContent = function (proto) {
 
                 },
                 {
-                    name: 'ResetImage',
+                    name: 'Image settings',
                     nodes:
                         elementImageMenu
 
