@@ -53,6 +53,10 @@ trait TaggableTrait
 
     public static function bootTaggableTrait()
     {
+        static::deleting(function($model) {
+            $model->untag();
+        });
+        
         static::saving(function ($model) {
             // append tags to content
             if (isset($model->tag_names)) {
@@ -61,7 +65,7 @@ trait TaggableTrait
                 unset($model->tag_names);
             }
         });
-        
+
         static::saved(function ($model) {
             if ($model->_toSaveTags) {
                 if (!empty($model->_addTagsToContent)) {
