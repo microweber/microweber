@@ -60,6 +60,12 @@ runs:
     - name: Dusk update
       run: php artisan dusk:update
       shell: bash
+    - name: Download specific ChromeDriver version 116.0.5845.96
+      run: |
+        wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/116.0.5845.96/linux64/chromedriver-linux64.zip
+        unzip chromedriver-linux64.zip
+        sudo cp chromedriver-linux64/chromedriver vendor/laravel/dusk/bin/chromedriver-linux
+      shell: bash
     - name: Copy env
       run: |
         cp --force /home/runner/work/microweber/microweber/.env.testing /home/runner/work/microweber/microweber/.env
