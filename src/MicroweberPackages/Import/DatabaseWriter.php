@@ -111,7 +111,7 @@ class DatabaseWriter
         }
 
 		if ($this->overwriteById && isset($item['id'])) {
-
+            
             $itemIdDatabase = DatabaseSave::save($item['save_to_table'], $item);
             $this->logger->setLogInfo('Saving in table "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase);
 

@@ -22,14 +22,55 @@ if (isset($iframeMode) and $iframeMode) {
 
 }
 
+$editContentBtnData = false;
+$editContentBtnData = false;
+if($showEditContentButtonForContentId){
+    $editContentBtnData = get_content_by_id($showEditContentButtonForContentId);
+    $editContentUrl = route('admin.content.edit', $showEditContentButtonForContentId);
+    if ($appendIframeModeSuffix) {
+        $editContentUrl = $editContentUrl . $appendIframeModeSuffix;
+    }
 
-//if($showEditContentButtonForContentId){
-//    $editContentBtnData = get_content_by_id($showEditContentButtonForContentId);
-//
-//}
+
+
+
+}
 
 
 ?>
+
+
+
+
+
+@if($editContentBtnData && $editContentUrl)
+    <a  href="{{ $editContentUrl }}" class="col-12 text-start d-flex align-items-center flex-wrap admin-add-new-modal-buttons me-auto">
+        <div class="col-lg-2 mx-2 modal-add-new-buttons-img">
+            <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-page.svg" alt="">
+        </div>
+
+        <div class="col-lg-9 ps-3">
+            <h3 class="  font-weight-bolder">
+                @lang('Edit current content')
+
+            </h3>
+
+
+            <p class="  font-weight-bold mb-0 modal-add-new-buttons-p   d-lg-block">
+                @lang('Edit') {{ $editContentBtnData['title'] }}
+            </p>
+        </div>
+
+
+
+
+
+    </a>
+@endif
+
+
+
+
 
 <?php if (!empty($create_content_menu)): ?>
     <?php foreach ($create_content_menu as $type => $item): ?>
@@ -51,7 +92,7 @@ if (isset($iframeMode) and $iframeMode) {
 
     ?>
 
-<a href="<?php print $base_url; ?> "
+<a href="<?php print $base_url; ?>"
    class="col-12 text-start d-flex align-items-center flex-wrap admin-add-new-modal-buttons me-auto">
 
 
@@ -116,13 +157,7 @@ if (isset($iframeMode) and $iframeMode) {
 
 <?php endforeach; ?>
 
-    <?php
 
-    /*@if(is_live_edit())
-    <div class="col-12 mt-4 modal-add-new-buttons-p">
-        <a href=""> Edit current</a>
-    </div>
-@endif*/
-    ?>
+
 
 <?php endif; ?>

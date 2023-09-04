@@ -680,7 +680,7 @@ class DatabaseManager extends DbUtils
 
         } else {
 
-            $insert_or_update = $highestId = $this->table($table)->where('id', $criteria['id'])->count();
+            $insert_or_update = $this->table($table)->where('id', $criteria['id'])->count();
             if ($insert_or_update != 0) {
                 $insert_or_update = 'update';
             } else {
@@ -976,7 +976,7 @@ class DatabaseManager extends DbUtils
 
         $this->use_model_cache[$table] = false;
         //@todo move this to external resolver class or array
-        if ($table == 'content' || $table == 'categories' || $table == 'options') {
+        if ($table == 'content' || $table == 'categories' || $table == 'options1') {
 
             $this->use_model_cache[$table]= true;
 
@@ -990,8 +990,10 @@ class DatabaseManager extends DbUtils
 
 
             }else if ($table == 'options') {
-                 $model = new Option($params);
+               //  $model = new Option($params);
+               // return $model->query();
 
+                return DB::table($table);
 
             }
           //  self::$model_cache_mem[$table] = $model ->newInstance($params, true);;
