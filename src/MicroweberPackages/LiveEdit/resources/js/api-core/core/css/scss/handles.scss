@@ -76,13 +76,21 @@ $bg: $lightBG;
 $handleHeight: 38;
 $handleholderHeight: 42;
 
+.mw-handle-item-menus-holder{
+
+ 
+    position: absolute;
+
+
+}
+
 #mw-handle-item-layout-root{
     .mw-handle-item-menus-holder{
 
         top: 10px;
         right: 10px;
         left: auto;
-        position: absolute;
+       
 
 
     }
