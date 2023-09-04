@@ -318,20 +318,20 @@ if(window.self !== window.top) {
 
     };
 
+    mw.saveLiveEdit = async () => {
+        return new Promise((resolve) => {
+            mw.liveEditSaveService.save(undefined, () => resolve(true), () => resolve(false));
+        })
+    };
+
+    mw.top().app.save = async () => {
+
+        return await mw.saveLiveEdit()
+    };
 
 
 
     addEventListener('load', () => {
-        const save = async () => {
-            return new Promise((resolve) => {
-                mw.liveEditSaveService.save(undefined, () => resolve(true), () => resolve(false));
-            })
-        };
-
-        mw.top().app.save = async () => {
-
-            return await save()
-        };
 
         window.addEventListener('keydown', function (event) {
             mw.top().app.canvas.dispatch('iframeKeyDown', {event})

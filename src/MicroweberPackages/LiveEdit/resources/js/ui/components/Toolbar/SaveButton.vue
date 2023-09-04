@@ -7,7 +7,14 @@ export default {
             const btn = document.getElementById('save-button');
             btn.classList.add('btn-loading');
             btn.disabled = true;
-            var saved = mw.app.canvas.getWindow().mw.drag.save()
+            var canvasWindow = mw.app.canvas.getWindow();
+            if(canvasWindow.mw && typeof(canvasWindow.mw.drag) === undefined){
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+                mw.notification.error('Something went wrong with saving the page.',7500);
+                return;
+            }
+            var saved =canvasWindow.mw.drag.save()
 
             if (saved) {
                 saved.success(function () {
@@ -26,6 +33,8 @@ export default {
                 btn.disabled = false;
                 mw.notification.success('Page saved successfully.',7500);
             }
+
+
         }
     },
     data() {
