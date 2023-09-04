@@ -189,7 +189,7 @@ export default {
             })
             mw.app.editor.on('editNodeRequest', async (element) => {
  
-              
+          
           
 
                 function imagePicker(onResult) {
@@ -279,6 +279,11 @@ export default {
                   }
 
                 } else {
+
+                  if(element.isContentEditable) {
+                    return
+                  }
+
                   // var targetChange = DomService.firstParentOrCurrentWithClass(element, 'edit');
                   var targetChange = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['edit', 'allow-drop']);
 
@@ -301,6 +306,9 @@ export default {
                       mw.app.richTextEditor.smallEditorInteract(element);
                       mw.app.richTextEditor.positionSmallEditor(element);
                       
+
+                      
+
                       element.querySelectorAll('.element[contenteditable], .allow-drop[contenteditable]').forEach(node => {
                           node.contentEditable = 'inherit';
                        
