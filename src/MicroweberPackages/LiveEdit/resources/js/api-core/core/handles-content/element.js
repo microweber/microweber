@@ -31,8 +31,6 @@ export const ElementHandleContent = function (proto) {
 
             action: function (el) {
 
-
-
                 ElementManager(el).after(el.outerHTML);
                 var next = el.nextElementSibling;
                 if(el.classList.contains('mw-col')) {
@@ -98,6 +96,38 @@ export const ElementHandleContent = function (proto) {
             }
         },
     ];
+    const elementImageMenu = [
+        {
+            title: 'Reset Image' ,
+            text: '',
+            icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M120-600v-240h80v134q50-62 122.5-98T480-840q118 0 210.5 67T820-600h-87q-34-72-101-116t-152-44q-57 0-107.5 21T284-680h76v80H120Zm120 360h480L570-440 450-280l-90-120-120 160ZM200-80q-33 0-56.5-23.5T120-160v-320h80v320h560v-320h80v320q0 33-23.5 56.5T760-80H200Z"/></svg>',
+
+            className: 'mw-handle-reset-image-button',
+
+            action: function (el) {
+                el.style.width = '';
+                el.style.height = '';
+                mw.app.registerChangedState(el);
+                proto.elementHandle.set(el);
+            },
+            onTarget: (target, selfBtn) => {
+                var selfVisible = false;
+
+                const isImage = target.nodeName === 'IMG';
+                if(isImage) {
+                    selfVisible = true;
+                    // var hasSizes = target.style.width || target.style.height;
+                    // if(hasSizes) {
+                    // selfVisible = true;
+                    //     }
+                }
+                selfBtn.style.display = selfVisible ? '' : 'none';
+            },
+
+        },
+
+    ];
+
 
     const primaryMenu = [
         {
@@ -112,10 +142,10 @@ export const ElementHandleContent = function (proto) {
                 if(isCloneable) {
                     selfVisible = false;
                 }
-          
+
                 selfBtn.style.display = selfVisible ? '' : 'none';
-            },  
-            
+            },
+
         },
 
         {
@@ -143,6 +173,8 @@ export const ElementHandleContent = function (proto) {
             },
 
         },
+
+
 
         {
             title: 'Insert module' ,
@@ -180,11 +212,37 @@ export const ElementHandleContent = function (proto) {
                 selfBtn.style.display = selfVisible ? '' : 'none';
             }
         },
-        
-        ...cloneAbleMenu,
-         
-        
+
+       // ...cloneAbleMenu,
+     //  ...elementImageMenu,
+
+
     ]
+
+    const tailMenuQuickSettings = [
+        {
+            title: 'Quick Settings',
+            icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg>',
+            menu: [
+                {
+                    name: 'Cloneable',
+
+                    nodes:  cloneAbleMenu,
+
+                },
+                {
+                    name: 'ResetImage',
+                    nodes:
+                        elementImageMenu
+
+                },
+            ]
+        },
+    ];
+
+
+
+
 
     const tail = [
         {
@@ -216,6 +274,9 @@ export const ElementHandleContent = function (proto) {
             {
                 name: 'dynamic',
                 nodes: []
+            },  {
+                name: 'tailMenuQuickSettings',
+                nodes: tailMenuQuickSettings
             },
             {
                 name: 'tail',
