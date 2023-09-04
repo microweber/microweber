@@ -1,9 +1,23 @@
 @if (!empty($templateSettings))
 
+    @php
+        $templateSettingsJson = [];
+        foreach ($templateSettings as $formItem) {
+            if (!isset($formItem['default'])) {
+                $formItem['default'] = false;
+            }
+            $templateSettingsJson[$formItem['name']] = $formItem['default'];
+        }
+        $templateSettingsJson = json_encode($templateSettingsJson);
+    @endphp
 
+    <div
+        x-data="{{$templateSettingsJson}}"
+    >
+        
     @foreach($templateSettings as $formItem)
 
-        <div wire:ignore>
+        <div @if(isset($formItem['show_when'])) x-show="{{$formItem['show_when']}}" @endif >
             <div class="d-flex gap-2 justify-content-between">
                 <label class="live-edit-label">{{$formItem['label']}} </label>
                 @php
@@ -26,5 +40,7 @@
         </div>
 
     @endforeach
+
+    </div>
 
 @endif
