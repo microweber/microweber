@@ -9,6 +9,7 @@ use Conner\Tagging\Events\TagAdded;
 use Conner\Tagging\Events\TagRemoved;
 use Conner\Tagging\Model\Tag;
 use Conner\Tagging\Model\Tagged;
+use Conner\Tagging\TaggingUtility;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -56,8 +57,9 @@ trait TaggableTrait
         static::deleting(function($model) {
             $model->untag();
         });
-        
+
         static::saving(function ($model) {
+            $model->untag();
             // append tags to content
             if (isset($model->tag_names)) {
                 $model->_toSaveTags = true;
@@ -84,8 +86,29 @@ trait TaggableTrait
             }
         });
 
-
     }
+
+
+    /**
+     * Removes a single tag
+     *
+     * @param $tagName string
+     */
+    private function removeSingleTag($tagName)
+    {
+        $tagName = trim($tagName);
+        $tagSlug = TaggingUtility::normalize($tagName);
+
+        if($count = $this->tagged()->where('tag_slug', '=', $tagSlug)->delete()) {
+            // TODO
+            //TaggingUtility::decrementCount($tagSlug, $count);
+        }
+
+        unset($this->relations['tagged']); // clear the "cache"
+
+        event(new TagRemoved($this, $tagSlug));
+    }
+
 
     /**
      * Return collection of tags related to the tagged model
