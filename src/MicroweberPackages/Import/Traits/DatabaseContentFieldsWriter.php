@@ -35,12 +35,13 @@ trait DatabaseContentFieldsWriter {
 		}
 
 		// Save menu item
-		if (!empty($saveNewItem)) {
-			unset($saveNewItem['id']);
-			$itemDatabase = $this->_getContentFieldDatabase($saveNewItem);
-			if (empty($itemDatabase)) {
-				DatabaseSave::save('content_fields', $saveNewItem);
-			}
-		}
+        if (!empty($saveNewItem)) {
+            unset($saveNewItem['id']);
+            $itemDatabase = $this->_getContentFieldDatabase($saveNewItem);
+            if (empty($itemDatabase)) {
+                return DatabaseSave::save('content_fields', $saveNewItem);
+            }
+            return $itemDatabase['id'];
+        }
 	}
 }

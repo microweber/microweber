@@ -23,8 +23,12 @@ trait DatabaseMediaWriter {
 
 	private function _saveMedia($item) {
 
-		// Save new item
+
+
+
+        // Save new item
 		$saveNewMedia = $item;
+
 
 		// Get content for menu
 		if ($item['rel_type'] == 'content') {
@@ -37,13 +41,21 @@ trait DatabaseMediaWriter {
 			}
 		}
 
-		// Save menu item
+
+		// Save media item
 		if (!empty($saveNewMedia)) {
 			unset($saveNewMedia['id']);
 			$itemDatabase = $this->_getMediaDatabase($saveNewMedia);
+
 			if (empty($itemDatabase)) {
-				DatabaseSave::save('media', $saveNewMedia);
+			$mediaID =	DatabaseSave::save('media', $saveNewMedia);
+
+            return $mediaID;
 			}
+
+            return $itemDatabase['id'];
 		}
+
+
 	}
 }

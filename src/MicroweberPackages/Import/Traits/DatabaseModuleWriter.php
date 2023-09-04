@@ -33,8 +33,9 @@ trait DatabaseModuleWriter
 			unset($item['id']);
 			$itemDatabase = $this->_getModuleDatabase($item);
 			if (empty($itemDatabase)) {
-				DatabaseSave::save('media', $item);
+			return	DatabaseSave::save('media', $item);
 			}
+            return $itemDatabase['id'];
 		}
 	}
 }

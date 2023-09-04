@@ -45,6 +45,7 @@ trait DatabaseContentDataWriter
 			if (empty($itemDatabase)) {
 				return DatabaseSave::save('content_data', $saveNewContentData);
 			}
+            return $itemDatabase['id'];
 		}
 	}
 }

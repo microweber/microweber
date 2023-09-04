@@ -976,7 +976,7 @@ class DatabaseManager extends DbUtils
 
         $this->use_model_cache[$table] = false;
         //@todo move this to external resolver class or array
-        if ($table == 'content' || $table == 'categories' || $table == 'options1') {
+        if ($table == 'content' || $table == 'categories' || $table == 'options') {
 
             $this->use_model_cache[$table]= true;
 

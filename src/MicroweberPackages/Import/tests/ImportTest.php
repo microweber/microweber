@@ -105,6 +105,38 @@ class ImportTest extends TestCase
 
         $importStatus = $manager->start();
 
+        $data = $importStatus['data'];
+        $optionsCheck = [] ;
+        foreach ($data as $itemObject){
+            $this->assertNotNull($itemObject);
+
+            $this->assertNotNull($itemObject['itemIdDatabase']);
+            $this->assertNotNull($itemObject['item']);
+            $item = $itemObject['item'];
+            $this->assertNotNull($item['save_to_table']);
+
+            if ($item['save_to_table'] == 'options') {
+                $optionsCheck[] = $item;
+            }
+
+        }
+
+        $this->assertNotEmpty($optionsCheck);
+        foreach ($optionsCheck as $option) {
+            $this->assertNotNull($option['option_key']);
+            $this->assertNotNull($option['option_value']);
+            $this->assertNotNull($option['option_group']);
+            $key = $option['option_key'];
+            if($key == 'app_version'){
+                continue;
+            }
+            $expectedValue =  app()->url_manager->replace_site_url_back($option['option_value']);
+            $getValueFromDb = get_option($option['option_key'], $option['option_group']);
+            $this->assertEquals($expectedValue, $getValueFromDb, 'Option key: ' . $option['option_key'] . ' Option group: ' . $option['option_group']);
+        }
+
+        $ensureTemplateIsSet = get_option('current_template', 'template');
+        $this->assertEquals('new-world', $ensureTemplateIsSet);
 
         $this->assertSame(true, $importStatus['done']);
         $this->assertSame(100, $importStatus['percentage']);

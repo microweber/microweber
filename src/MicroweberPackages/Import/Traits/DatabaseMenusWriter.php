@@ -97,8 +97,9 @@ trait DatabaseMenusWriter
 			unset($saveNewMenu['id']);
 			$menuItemDatabase = $this->_getMenuItemDatabase($saveNewMenu);
 			if (empty($menuItemDatabase)) {
-				DatabaseSave::save('menus', $saveNewMenu);
+				return DatabaseSave::save('menus', $saveNewMenu);
 			}
+            return $menuItemDatabase['id'];
 		}
 	}
 
