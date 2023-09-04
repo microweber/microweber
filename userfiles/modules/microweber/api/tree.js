@@ -155,10 +155,10 @@
                         <span class="form-control-live-edit-bottom-effect"></span>
                     </div>
                 </div>
-                    
+
                 `);
                 this.options.searchInput = inputTemplate.find('input').get(0);
-    
+
 
                 if(this.options.searchInputClassName){
                     this.options.searchInput.className = this.options.searchInputClassName;
@@ -205,9 +205,9 @@
                     var case1 = (item.id == itemData.id && item.type == itemData.type);
                     var case2 = (itemData.parent_id != 0 && itemData.parent_id == item.id && item.type == itemData.type);
 
-                     
 
- 
+
+
                     if(case1 || case2){
                         return true;
                     }
@@ -382,7 +382,7 @@
                 return;
             }
             li = this.get(li, type);
-            if(li && this.options.cantSelectTypes.indexOf(li.dataset.type) === -1){
+            if(li && li.dataset && this.options.cantSelectTypes.indexOf(li.dataset.type) === -1){
                 li.classList.add(this.options.selectedClass);
                 var input = li.querySelector('input');
                 if(input) input.checked = true;
@@ -754,7 +754,7 @@
                     },
                     stop: function(){
                         setTimeout(() => {scope._disableClick = false;}, 78)
-                        
+
                     },
                     axis:'y',
                     listType:'ul',
@@ -988,7 +988,7 @@
                     if(scope._disableClick) {
                         return;
                     }
-               
+
                     var target = event.target;
                     var canSelect = true;
                     if(scope.options.rowSelect === false) {
