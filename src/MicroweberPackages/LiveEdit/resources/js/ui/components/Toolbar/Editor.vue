@@ -326,6 +326,11 @@ export default {
                 if(mw.app.isPreview()) {
                     return;
                 }
+                var can = mw.app.liveEdit.canBeEditable(event.target)
+                if(!can) {
+                    return;
+                }
+
                 var tagName = event.target.nodeName;
                 //image click with link as a parent node and prevent default
                 if(tagName == 'IMG' && event.target.parentNode.nodeName == 'A'){

@@ -176,9 +176,12 @@ mw.askusertostay = false;
                  }
              }
         }
+        //if element is image and has a link
+        if( target.nodeName  == 'IMG' && target.parentNode && target.parentNode.nodeName === 'A'){
+            target = target.parentNode;
+         }
 
-
-        if(target.classList.contains('edit')) {
+        if(target.classList && target.classList.contains('edit')) {
             if(pos === 'top' || action === 'before') {
                 action = 'prepend'
             } else if(pos === 'bottom' || action === 'after') {
@@ -565,9 +568,9 @@ mw.requireAsync = (url, key) => {
           selector: module,
           done: done
         });
-        
-       
-        
+
+
+
         if(xhr) {
             xhr.success(function(){
                 if (mw.top().app && mw.top().app.liveEdit && mw.top().app.liveEdit.handles.get('module')) {
