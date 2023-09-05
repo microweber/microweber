@@ -16,9 +16,11 @@ export class ElementActions extends MicroweberBaseClass {
         if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
             el = el.parentNode;
         }
-        var hasImgAsBackgroundAsParent = DomService.hasAnyOfClassesOnNodeOrParent(el, ['img-as-background', 'image-holder']);
-        if (hasImgAsBackgroundAsParent) {
-            el = DomService.firstParentWithAnyOfClasses(el, ['img-as-background', 'image-holder']);
+        if (el.nodeName === 'IMG') {
+            var hasImgAsBackgroundAsParent = DomService.hasAnyOfClassesOnNodeOrParent(el, ['img-as-background', 'image-holder']);
+            if (hasImgAsBackgroundAsParent) {
+                el = DomService.firstParentWithAnyOfClasses(el, ['img-as-background', 'image-holder']);
+            }
         }
 
         var parentEditField = mw.tools.firstParentWithClass(el, 'edit');
