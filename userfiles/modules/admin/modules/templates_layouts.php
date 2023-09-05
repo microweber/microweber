@@ -204,7 +204,7 @@ $current_template = false;
                 $('.js-reset-layout').click(function() {
                     mw.top().app.canvas.getWindow().mw.tools.confirm_reset_module_by_id("<?php print $params['parent-module-id'] ?>");
                 });
-                
+
                 mw.options.form('.mw-mod-template-settings-holder', function () {
                     var selected_skin = $('#mw-module-skin-select-dropdown :selected').val();
 
