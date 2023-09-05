@@ -471,19 +471,29 @@ $current_template = false;
 
                             var cpo = document.querySelector('#overlay-color-picker');
 
+                            var cpoPickerPause = false
                             var cpoPicker = mw.colorPicker({
                                 element: cpo,
 
                                 mode: 'inline',
                                 onchange:function(color){
-                                    bgOverlay.style.backgroundColor = color;
-                                    bgOverlay.style.backgroundImage = 'none';
-                                    mw.top().app.registerChange(bgOverlay);
+                                    if(!cpoPickerPause) {
+                                        bgOverlay.style.backgroundColor = color;
+                                        bgOverlay.style.backgroundImage = 'none';
+                                        mw.top().app.registerChange(bgOverlay);
+                                    }
+                                    
                                 }
                             });
 
                             if(target && bgOverlay) {
-                                cpoPicker.setColor(getComputedStyle(bgOverlay).backgroundColor)
+                                var color = (getComputedStyle(bgOverlay).backgroundColor);
+                                if( color == 'rgba(0, 0, 0, 0)') {
+                                    color = 'rgba(0, 0, 0, 0.5)';
+                                }
+                                cpoPickerPause = true;
+                                cpoPicker.setColor(color);
+                                cpoPickerPause = false;
                             }
 
 
