@@ -49,7 +49,7 @@ export const Handles = function (handles) {
         }
     };
     this.targetIsSelected = function(target, except) {
-        
+
         if(!target) {
             return;
         }
@@ -60,7 +60,7 @@ export const Handles = function (handles) {
                 continue;
             }
             const tg = this.handles[i].getTarget();
-         
+
              if( tg && tg === target) {
                 return true
              }
@@ -69,7 +69,7 @@ export const Handles = function (handles) {
     }
 
     this.targetIsSelectedAndHandleIsNotHidden = function(target, except) {
-        
+
         if(!target) {
             return;
         }
@@ -80,7 +80,7 @@ export const Handles = function (handles) {
                 continue;
             }
             const tg = this.handles[i].getTarget();
-         
+
              if( tg && tg === target) {
                 return this.handles[i].isVisible();
              }
@@ -92,6 +92,10 @@ export const Handles = function (handles) {
             return;
         }
         target = target.target || target;
+
+        if(!target.nodeType || target.nodeType !== 1) { return }
+
+
         var i;
         for (i in this.handles) {
             if(except && except === this.handles[i]){

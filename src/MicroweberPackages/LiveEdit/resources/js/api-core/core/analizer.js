@@ -57,7 +57,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
     }
 
     getIteractionTarget(node) {
-        return this.tools.firstWithAyOfClassesOnNodeOrParent(node, [
+        return this.tools.firstParentWithAnyOfClasses(node, [
             this.settings.elementClass,
             this.settings.editClass,
             this.settings.moduleClass,
@@ -69,16 +69,16 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
         const target = this.getIteractionTarget(node);
 
 
- 
- 
+
+
         if(!target || !this.isEditOrInEdit(node) || !this.allowDrop(node)) {
             return null;
         }
 
-        
 
-        
- 
+
+
+
 
         const res = {
             target,
@@ -89,7 +89,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
         var draggedElementIsLayoutRestricted = this.settings.strictLayouts && this.isLayout(draggedElement);
         var isStrictCase = this.settings.strict && !this.isLayout(draggedElement) && !this.isInLayout(target);
 
- 
+
 
         if(isStrictCase) {
             return null;
@@ -115,7 +115,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
                 return null;
             }
         }
- 
+
         return res;
     }
 

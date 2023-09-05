@@ -132,14 +132,14 @@ export default {
 
                     footer.find('[data-action="save"]').on('click', function(){
 
-                       
+
                         var _img = new Image();
                         _img.src = imageEditor.getCurrentImgData().imageData.imageBase64
                         mw.top().app.normalizeBase64Image(_img, function(){
                           console.log(this);
                           resolve(this.src);
                          })
-                        
+
                         dlg.remove();
 
                     })
@@ -184,13 +184,13 @@ export default {
                 } else {
 
                   this.emitter.emit('live-edit-ui-show', 'style-editor');
- 
+
               }
             })
             mw.app.editor.on('editNodeRequest', async (element) => {
- 
-          
-          
+
+
+
 
                 function imagePicker(onResult) {
                   var dialog;
@@ -223,9 +223,9 @@ export default {
                 }
                 if(liveEditHelpers.targetIsIcon(element)) {
                   const iconPicker =  mw.app.get('iconPicker').pickIcon(element);
-                  
- 
-                  
+
+
+
                   iconPicker.picker.on('sizeChange', val => {
                     element.style.fontSize = `${val}px`;
                     mw.top().app.liveEdit.handles.get('element').position(mw.top().app.liveEdit.handles.get('element').getTarget())
@@ -245,7 +245,7 @@ export default {
 
                    const icon = await iconPicker.promise();
                    console.log(icon)
-                  
+
                 } else if(element.nodeName === 'IMG') {
 
                   var dialog = imagePicker(function (res) {
@@ -287,31 +287,31 @@ export default {
                   // var targetChange = DomService.firstParentOrCurrentWithClass(element, 'edit');
                   var targetChange = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['edit', 'allow-drop']);
 
- 
+
 
                   if(targetChange && targetChange.classList && !targetChange.classList.contains('safe-mode')){
                     element = targetChange;
-                 
+
                     mw.app.get('liveEdit').handles.get('element').set(element);
                   }
 
-                 
+
 
                     setTimeout(() => {
                       element.contentEditable = true;
                       element.focus();
-                      
+
                       element.contentEditable = true;
                       mw.app.liveEdit.pause()
                       mw.app.richTextEditor.smallEditorInteract(element);
                       mw.app.richTextEditor.positionSmallEditor(element);
-                      
 
-                      
+
+
 
                       element.querySelectorAll('.element[contenteditable], .allow-drop[contenteditable]').forEach(node => {
                           node.contentEditable = 'inherit';
-                       
+
                       })
                     }, 100);
 
@@ -320,6 +320,26 @@ export default {
                 mw.app.get('liveEdit').handles.hide();
                 mw.app.get('liveEdit').pause();
             });
+
+
+            mw.app.canvas.on('canvasDocumentClick', (event) => {
+                if(mw.app.isPreview()) {
+                    return;
+                }
+                var can = mw.app.liveEdit.canBeEditable(event.target)
+                if(!can) {
+                    return;
+                }
+
+                var tagName = event.target.nodeName;
+                //image click with link as a parent node and prevent default
+                if(tagName == 'IMG' && event.target.parentNode.nodeName == 'A'){
+                  //  event.stopPropagation()
+                    event.preventDefault()
+                }
+
+            })
+
         });
 
     }

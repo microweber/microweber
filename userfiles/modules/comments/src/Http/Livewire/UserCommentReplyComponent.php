@@ -46,13 +46,19 @@ class UserCommentReplyComponent extends Component
         $this->successMessage = false;
     }
 
-    public function getViewData()
+    public function isEnabledCaptcha()
     {
         $enableCaptcha = true;
         $enableCaptchaOption = get_option('enable_captcha','comments');
         if ($enableCaptchaOption == 'n') {
             $enableCaptcha = false;
         }
+
+        return $enableCaptcha;
+    }
+
+    public function getViewData()
+    {
 
         $allowAnonymousComments = true;
         $allowAnonymousCommentsOption = get_option('allow_anonymous_comments','comments');
@@ -68,7 +74,7 @@ class UserCommentReplyComponent extends Component
         $comment = Comment::where('id', $this->state['reply_to_comment_id'])->first();
 
         return [
-            'enableCaptcha' => $enableCaptcha,
+            'enableCaptcha' => $this->isEnabledCaptcha(),
             'allowAnonymousComments' => $allowAnonymousComments,
             'allowToComment' => $allowToComment,
             'comment' => $comment,
@@ -115,9 +121,11 @@ class UserCommentReplyComponent extends Component
             return;
         }
 
-        $validate = $this->validateCaptcha();
-        if (!$validate) {
-            return;
+        if ($this->isEnabledCaptcha()) {
+            $validate = $this->validateCaptcha();
+            if (!$validate) {
+                return;
+            }
         }
 
         $validate = [

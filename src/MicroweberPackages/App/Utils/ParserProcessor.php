@@ -395,6 +395,10 @@ class ParserProcessor
                                 $mod_no_wrapper = false;
                                 $module_name = false;
 
+                                if(isset($options['no_wrap']) and $options['no_wrap']){
+                                    $mod_no_wrapper = true;
+                                }
+
                                 if (isset($attrs['data-module'])) {
                                     $attrs['data-type'] = $attrs['data-module'];
                                     unset($attrs['data-module']);

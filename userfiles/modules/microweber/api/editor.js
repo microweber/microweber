@@ -1,5 +1,5 @@
- 
- 
+
+
 
 
 
@@ -67,7 +67,7 @@ var MWEditor = function (options) {
     };
 
 
- 
+
 
     var scope = this;
 
@@ -75,7 +75,7 @@ var MWEditor = function (options) {
         scope.actionWindow = scope.settings.actionWindow;
         scope.document = scope.settings.document;
         scope.storage = scope.settings.storage;
-        
+
     }
 
     this.settingsExtend = function(options = {}, trigger = true) {
@@ -117,7 +117,7 @@ var MWEditor = function (options) {
         }
     }
 
-    
+
 
     if(!this.settings.selector && this.settings.element){
         //this.settings.selector = this.settings.element;
@@ -237,9 +237,61 @@ var MWEditor = function (options) {
         }
         return this;
     }
+    this.handleDeleteAndBackspace = function (e) {
 
+       /* var caretnode =scope.getSelection().focusNode;
+        if(caretnode) {
+            // Check if caretnode is a text node, and if so, get its parent element
+            var caretnodeElement = caretnode.nodeType === 3 ? caretnode.parentNode : caretnode;
+            var caretnodeElementParent = caretnodeElement.parentNode;
+
+            // Check if the caretnode element is a <font> tag
+            var isFont = caretnodeElement.tagName === 'FONT';
+
+            if (caretnodeElementParent && isFont) {
+                if (e.key === "Delete") {
+                    var caretnodeNextSibling = caretnodeElementParent.nextElementSibling;
+
+                    if (
+                        caretnodeNextSibling &&
+                        caretnodeNextSibling.firstChild &&
+                        caretnodeNextSibling.firstChild.firstChild
+
+
+
+                    ) {
+                        mw.log(11111111111);
+                        var firstChildOfFirstElement = caretnodeNextSibling.firstChild;
+
+                        if (firstChildOfFirstElement) {
+                            mw.log(firstChildOfFirstElement.firstChild);
+                        }
+
+                        // You have a <font> tag as the next sibling
+
+                        mw.log(caretnodeElement);
+                        mw.log(caretnodeNextSibling);
+                        mw.log(event.target);
+                        mw.log(e.target);
+                    }
+                }
+            }
+        }*/
+
+        if(e.target) {
+            var edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit');
+            if(edit) {
+                var all = edit.querySelectorAll('span[style*="var"]');
+                all.forEach(node => {
+                    if(node.isContentEditable) {
+                        [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop) )
+                    }
+                });
+            }
+        }
+    }
     var notEditableSelectors = scope.settings.notEditableClasses ? scope.settings.notEditableClasses.map(c => `.${c}:not([contenteditable="false"])`).join(',') : null;
-
+    var  instance = this;
     var _observe = function(e){
         e = e || {type: 'action'};
         var max = 78;
@@ -247,21 +299,12 @@ var MWEditor = function (options) {
         var event = e.originaleEvent ? e.originaleEvent : e;
         var localTarget = event.target;
 
-         
-           // if (e.key === "Backspace" || e.key === "Delete") {
-                 if(e.target) {
-                    var edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit');
-                    if(edit) {
-                        var all = edit.querySelectorAll('span[style*="var"]');
-                        all.forEach(node => {
-                            if(node.isContentEditable) {
-                                [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop) )
-                            }
-                        });
-                    }
-                 }
-            //}
-        
+            if (e.key === "Backspace" || e.key === "Delete") {
+
+                instance.handleDeleteAndBackspace(e);
+
+            }
+
 
         if (!e.target) {
             localTarget = scope.getSelection().focusNode;
@@ -297,9 +340,9 @@ var MWEditor = function (options) {
                 if(!shouldCloseSelects) {
 
                 }
-                
+
             }
- 
+
             if(shouldCloseSelects) {
                 MWEditor.core._preSelect();
 
@@ -399,7 +442,7 @@ var MWEditor = function (options) {
             return;
         }
         range = range.cloneRange();
-      
+
         if (range.startContainer.nodeType != 3) {
             var nodeAfterStart = range.startContainer.childNodes[range.startOffset];
             if (nodeAfterStart && nodeAfterStart.nodeType == 3) {
@@ -421,7 +464,7 @@ var MWEditor = function (options) {
 
         this.interactionData = {};
         $(scope.actionWindow.document).on('click', function(e){
- 
+
             if(e.detail >= 3) {
                 scope.adjustRange(e)
             }
@@ -476,8 +519,8 @@ var MWEditor = function (options) {
                     e.preventDefault();
                 }
             }
-            
-            
+
+
         };
         node.onkeyup = function(e) {
             if (e.keyCode === 17 || e.keyCode === 91) {
@@ -796,7 +839,7 @@ var MWEditor = function (options) {
                 if(scope.storage) {
                     pinned = scope.storage.get(scope.settings.id + '-small-editor-pinned');
                 }
-                
+
                 if(typeof pinned === 'boolean'){
                     return pinned;
                 } else {
@@ -883,7 +926,7 @@ var MWEditor = function (options) {
                 }
             }
         }
- 
+
         scope.$editArea.on('click', function (e) {
                var target = e.target !== scope.actionWindow.document.body ? scope.getActualTarget(e.target) : scope.actionWindow.document.body;
                scope.smallEditorInteract(target);
@@ -907,7 +950,7 @@ var MWEditor = function (options) {
     this._smallEditorInteract = false;
 
     this.positionSmallEditor = function(target){
-    
+
         var off = mw.element(target).offset();
         var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
         // var cleft =  scope.interactionData.pageX;
@@ -939,7 +982,7 @@ var MWEditor = function (options) {
             ctop = safeTop
         }
 
- 
+
 
         scope.smallEditor.css({
             top: ctop,
@@ -951,7 +994,7 @@ var MWEditor = function (options) {
     this.smallEditorInteract = function (target) {
 
         this._smallEditorInteract = false;
-         
+
        if(target && !target.isContentEditable && scope.lastRange && scope.lastRange.collapsed === false) {
            target = scope.getActualTarget(scope.lastRange.commonAncestorContainer);
        }
@@ -1040,7 +1083,7 @@ var MWEditor = function (options) {
                             edit.contentEditable = true;
                         }
                     }
-                    
+
                 }
                 //  scope.settings.document.addEventListener('mousedown', set)
                 // scope.settings.document.addEventListener('dblclick', set)
@@ -1099,15 +1142,15 @@ var MWEditor = function (options) {
                 const wrappers   = Array.from({length: 2}, () => editor.cloneNode(false));
 
 
-                
+
                 wrappers.forEach(wrapper => {
                     wrapper.removeAttribute("id");
                     wrapper.querySelectorAll('[style]').forEach(el => {
                         el.removeAttribute("style");
                     })
                 });
-                
-                
+
+
                 let seenChild = false;
                 for (const node of editor.childNodes) {
                   if (!seenChild && node == child) {
@@ -1127,32 +1170,32 @@ var MWEditor = function (options) {
                 });
               }
 
-               
+
 
             scope.$editArea.on('paste input', function(event) {
                 var clipboardData, pastedData;
-                var e = event.originalEvent || event; 
+                var e = event.originalEvent || event;
 
-               
+
 
                 if(e.type === 'paste') {
- 
-                  
-  
-                     
+
+
+
+
                     clipboardData = e.clipboardData || window.clipboardData;
-                   
+
                     if(clipboardData) {
                         pastedData = clipboardData.getData('text/html'); // if is plain text will return undefined
-                        pastedDataText = clipboardData.getData('text/plain');  
-                 
-                     
+                        pastedDataText = clipboardData.getData('text/plain');
+
+
                         if(pastedData) {
 
-                             
+
                             var plainTextNodes = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'A', 'EM', 'STRONG', 'SUP', 'B', 'SUB', 'PRE'];
                             var splitNodes = ['P', 'DIV'];
-                              
+
                             if(plainTextNodes.includes(e.target.nodeName)) {
                                 scope.api.insertHTML(pastedDataText )
                             } else {
@@ -1164,18 +1207,18 @@ var MWEditor = function (options) {
                                 pasteSplitManager(e);
 
                             }
- 
+
                             e.preventDefault();
                         }
- 
-     
+
+
                     }
- 
-                     
+
+
                 }
 
 
-               
+
                 if(typeof scope.actionWindow.mw.wysiwyg !== 'undefined') {
                     scope.actionWindow.mw.wysiwyg.normalizeBase64Images(this.parentNode, function () {
                         scope.registerChange();

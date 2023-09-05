@@ -1,6 +1,9 @@
 import {HandleMenu} from "../handle-menu.js";
 import {ElementManager} from "../classes/element.js";
-import { Confirm } from "../classes/dialog.js";
+import {Confirm} from "../classes/dialog.js";
+import {HandleIcons} from "../handle-icons";
+import {LinkPicker} from "../../services/services/link-picker";
+import {ElementActions} from "./element-actions";
 
 export const ElementHandleContent = function (proto) {
     this.root = ElementManager({
@@ -9,19 +12,18 @@ export const ElementHandleContent = function (proto) {
         }
     });
 
-
+    const handleIcons = new HandleIcons();
+    const elementActions = new ElementActions(proto);
 
 
     const cloneAbleMenu = [
         {
-            title: 'Duplicate' ,
+            title: 'Duplicate',
             text: '',
-            icon: '<svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg>',
+            icon: handleIcons.icon('duplicate'),
             className: 'mw-handle-clone-button',
             onTarget: function (target, selfNode) {
-
-
-                if(target.classList.contains('cloneable') || target.classList.contains('mw-col')) {
+                if (target.classList.contains('cloneable') || target.classList.contains('mw-col')) {
                     selfNode.classList.remove('mw-le-handle-menu-button-hidden');
                 } else {
                     selfNode.classList.add('mw-le-handle-menu-button-hidden');
@@ -31,46 +33,34 @@ export const ElementHandleContent = function (proto) {
 
             action: function (el) {
 
-                ElementManager(el).after(el.outerHTML);
-                var next = el.nextElementSibling;
-                if(el.classList.contains('mw-col')) {
-                    el.style.width = ''
-                    next.style.width = ''
-                }
+                elementActions.cloneElement(el);
 
-                proto.elementHandle.set(el);
-                mw.app.registerChangedState(el)
             }
         },
         {
-            title: 'Move backward' ,
+            title: 'Move backward',
             text: '',
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M400-240 160-480l241-241 43 42-169 169h526v60H275l168 168-43 42Z"/></svg>',
+            icon: handleIcons.icon('move-backward'),
             className: 'mw-handle-move-back-button',
             onTarget: function (target, selfNode) {
                 const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
                 const prev = target.previousElementSibling;
 
 
-                if(isCloneable && prev) {
+                if (isCloneable && prev) {
                     selfNode.classList.remove('mw-le-handle-menu-button-hidden');
                 } else {
                     selfNode.classList.add('mw-le-handle-menu-button-hidden');
                 }
             },
             action: function (el) {
-                const prev = el.previousElementSibling;
-                if(prev) {
-                    prev.before(el);
-                    proto.elementHandle.set(el);
-                    mw.app.registerChangedState(el)
-                }
+                elementActions.moveBackward(el);
             }
         },
         {
-            title: 'Move forward' ,
+            title: 'Move forward',
             text: '',
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="m560-242-43-42 168-168H160v-60h525L516-681l43-42 241 241-240 240Z"/></svg>',
+            icon: handleIcons.icon('move-forward'),
 
             className: 'mw-handle-move-back-button',
             onTarget: function (target, selfNode) {
@@ -78,49 +68,65 @@ export const ElementHandleContent = function (proto) {
                 const next = target.nextElementSibling;
 
 
-                if(isCloneable && next) {
+                if (isCloneable && next) {
                     selfNode.classList.remove('mw-le-handle-menu-button-hidden');
                 } else {
                     selfNode.classList.add('mw-le-handle-menu-button-hidden');
                 }
             },
             action: function (el) {
-                const next = el.nextElementSibling;
-
-                if(next) {
-                    next.after(el);
-                    proto.elementHandle.set(el);
-                    mw.app.registerChangedState(el)
-                }
-
+                elementActions.moveForward(el);
             }
         },
     ];
     const elementImageMenu = [
         {
-            title: 'Reset Image' ,
+            title: 'Reset Image',
             text: '',
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M120-600v-240h80v134q50-62 122.5-98T480-840q118 0 210.5 67T820-600h-87q-34-72-101-116t-152-44q-57 0-107.5 21T284-680h76v80H120Zm120 360h480L570-440 450-280l-90-120-120 160ZM200-80q-33 0-56.5-23.5T120-160v-320h80v320h560v-320h80v320q0 33-23.5 56.5T760-80H200Z"/></svg>',
+            icon: handleIcons.icon('reset-image-size'),
 
             className: 'mw-handle-reset-image-button',
 
             action: function (el) {
-                mw.app.registerUndoState(el);
-                el.style.width = '';
-                el.style.height = '';
-                mw.app.registerChangedState(el);
-                proto.elementHandle.set(el);
+                elementActions.resetImageSize(el);
             },
             onTarget: (target, selfBtn) => {
                 var selfVisible = false;
 
                 const isImage = target.nodeName === 'IMG';
-                if(isImage) {
+                if (isImage) {
                     selfVisible = true;
-                    // var hasSizes = target.style.width || target.style.height;
+                    var hasSizes = target.style.width || target.style.height;
                     // if(hasSizes) {
                     // selfVisible = true;
                     //     }
+                    selfVisible = true;
+                }
+                selfBtn.style.display = selfVisible ? '' : 'none';
+            },
+
+        },
+
+    ];
+    const elementLinkMenu = [
+        {
+            title: 'Link',
+            text: '',
+            icon: handleIcons.icon('link'),
+
+            className: 'mw-handle-element-link-button',
+
+            action: function (el) {
+                elementActions.editLink(el);
+            },
+            onTarget: (target, selfBtn) => {
+                var selfVisible = false;
+
+                const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A';
+                if (isImageOrLink) {
+
+                    selfVisible = true;
+
                 }
                 selfBtn.style.display = selfVisible ? '' : 'none';
             },
@@ -132,15 +138,16 @@ export const ElementHandleContent = function (proto) {
 
     const primaryMenu = [
         {
-            title: 'Drag' ,
+            title: 'Drag',
             text: '',
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7,19V17H9V19H7M11,19V17H13V19H11M15,19V17H17V19H15M7,15V13H9V15H7M11,15V13H13V15H11M15,15V13H17V15H15M7,11V9H9V11H7M11,11V9H13V11H11M15,11V9H17V11H15M7,7V5H9V7H7M11,7V5H13V7H11M15,7V5H17V7H15Z" /></svg>',
+            icon: handleIcons.icon('drag'),
             className: 'mw-handle-drag-button mw-handle-drag-button-element',
-            action: () => {},
+            action: () => {
+            },
             onTarget: (target, selfBtn) => {
                 var selfVisible = true;
                 const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
-                if(isCloneable) {
+                if (isCloneable) {
                     selfVisible = false;
                 }
 
@@ -150,9 +157,9 @@ export const ElementHandleContent = function (proto) {
         },
 
         {
-            title: 'Edit' ,
+            title: 'Edit',
             text: '',
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M181.674-179.761h41.13l441.087-441.565-41.13-41.13-441.087 441.565v41.13Zm613.043-484.326L665.761-793.043l36.978-37.218q19.631-19.63 47.859-19.75 28.228-.119 47.859 19.272l37.782 37.782q18.435 18.196 17.837 44.153-.598 25.956-18.315 43.674l-41.044 41.043Zm-41.76 41.761L247.761-117.13H118.804v-128.957l504.957-504.956 129.196 128.717Zm-109.392-19.565-20.804-20.565 41.13 41.13-20.326-20.565Z"/></svg>',
+            icon: handleIcons.icon('edit'),
 
             className: 'mw-handle-add-button',
 
@@ -163,24 +170,23 @@ export const ElementHandleContent = function (proto) {
                 var selfVisible = true;
 
                 const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
-                if(isCloneable) {
+                if (isCloneable) {
                     selfVisible = false;
                 }
 
-                if(target.classList.contains('spacer') ) {
+                if (target.classList.contains('spacer')) {
                     selfVisible = false;
                 }
+                selfVisible = true;
                 selfBtn.style.display = selfVisible ? '' : 'none';
             },
 
         },
 
-
-
         {
-            title: 'Insert module' ,
+            title: 'Insert module',
             text: '',
-            icon: '<svg style="stroke-width: 500;" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M445.935-195.935v-250h-250v-68.13h250v-250h68.13v250h250v68.13h-250v250h-68.13Z"/></svg>',
+            icon: handleIcons.icon('plus'),
             className: 'mw-handle-add-button',
 
             action: function (el) {
@@ -189,33 +195,34 @@ export const ElementHandleContent = function (proto) {
 
             }
         },
+        ...elementLinkMenu,
         {
-            title: 'Settings' ,
+            title: 'Settings',
             text: '',
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" /></svg>',
+            icon: handleIcons.icon('settings'),
             className: 'mw-handle-insert-button',
 
             action: function (el) {
                 mw.app.editor.dispatch('elementSettingsRequest', el);
 
             },
-            onTarget: function(target, selfBtn) {
+            onTarget: function (target, selfBtn) {
                 var selfVisible = true;
 
                 const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
-                if(isCloneable) {
+                if (isCloneable) {
                     selfVisible = false;
                 }
 
-                if(target.classList.contains('spacer') ) {
+                if (target.classList.contains('spacer')) {
                     selfVisible = false;
                 }
                 selfBtn.style.display = selfVisible ? '' : 'none';
             }
         },
 
-       // ...cloneAbleMenu,
-     //  ...elementImageMenu,
+        // ...cloneAbleMenu,
+        //  ...elementImageMenu,
 
 
     ]
@@ -223,18 +230,18 @@ export const ElementHandleContent = function (proto) {
     const tailMenuQuickSettings = [
         {
             title: 'Quick Settings',
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg>',
+            icon: handleIcons.icon('more'),
             menu: [
                 {
                     name: 'Cloneable',
 
-                    nodes:  cloneAbleMenu,
+                    nodes: cloneAbleMenu,
 
                 },
                 {
                     name: 'Image settings',
                     nodes:
-                        elementImageMenu
+                    elementImageMenu
 
                 },
             ]
@@ -242,22 +249,14 @@ export const ElementHandleContent = function (proto) {
     ];
 
 
-
-
-
     const tail = [
         {
             title: proto.lang('Delete'),
             text: '',
-            icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" ><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"></path></svg>',
-            className: 'mw-handle-insert-button',
+            icon: handleIcons.icon('delete'),
+            className: 'mw-handle-delete-button',
             action: function (el) {
-
-                Confirm(ElementManager('<span>Are you sure you want to delete this element?</span>'), () => {
-                    mw.app.registerChangedState(el)
-                    el.remove()
-                    proto.elementHandle.hide()
-                })
+                elementActions.deleteElement(el);
             }
         }
     ]
@@ -275,7 +274,7 @@ export const ElementHandleContent = function (proto) {
             {
                 name: 'dynamic',
                 nodes: []
-            },  {
+            }, {
                 name: 'tailMenuQuickSettings',
                 nodes: tailMenuQuickSettings
             },
@@ -288,7 +287,6 @@ export const ElementHandleContent = function (proto) {
     });
 
     this.menu.show()
-
 
 
     this.menusHolder = document.createElement('div');

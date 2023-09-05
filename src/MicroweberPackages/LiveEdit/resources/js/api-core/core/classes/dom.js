@@ -101,7 +101,7 @@ export class DomService {
         return false;
     }
 
-    static firstWithAyOfClassesOnNodeOrParent(node, arr) {
+    static firstParentWithAnyOfClasses(node, arr) {
         while (node && node.nodeName !== 'BODY') {
             let i = 0, l = arr.length;
             for ( ; i < l ; i++ ) {
@@ -113,6 +113,7 @@ export class DomService {
         }
         return null;
     }
+
 
     static firstParentOrCurrentWithTag (el, tag) {
         if (!el || !tag) return;
