@@ -2,6 +2,7 @@ import {HandleMenu} from "../handle-menu.js";
 import {ElementManager} from "../classes/element.js";
 import {Confirm} from "../classes/dialog.js";
 import {HandleIcons} from "../handle-icons";
+import {LinkPicker} from "../../services/services/link-picker";
 
 export const ElementHandleContent = function (proto) {
     this.root = ElementManager({
@@ -31,9 +32,8 @@ export const ElementHandleContent = function (proto) {
 
 
             action: function (el) {
-
-                //check if is IMG and cloneable is in A tag
-                if(el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
+                //check if is IMG and cloneable is in A tag, then delete A tag
+                if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
                     el = el.parentNode;
                 }
 
@@ -124,9 +124,73 @@ export const ElementHandleContent = function (proto) {
                 if (isImage) {
                     selfVisible = true;
                     var hasSizes = target.style.width || target.style.height;
-                    if(hasSizes) {
+                    // if(hasSizes) {
+                    // selfVisible = true;
+                    //     }
                     selfVisible = true;
-                        }
+                }
+                selfBtn.style.display = selfVisible ? '' : 'none';
+            },
+
+        },
+
+    ];
+    const elementLinkMenu = [
+        {
+            title: 'Link',
+            text: '',
+            icon: handleIcons.icon('link'),
+
+            className: 'mw-handle-element-link-button',
+
+            action: function (el) {
+
+                //check if is IMG and is in A tag, then select A tag
+                if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
+                    el = el.parentNode;
+                }
+
+                var newLinkEditor = new LinkPicker();
+                newLinkEditor.on('selected', (data) => {
+                    var newUrl = '';
+                    if (data.url) {
+                        newUrl = data.url;
+                    }
+
+
+                    var shouldWrap = false;
+                    if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName !== 'A') {
+                        shouldWrap = true;
+                    } else if (el.nodeName !== 'IMG' && !el.parentNode) {
+                        shouldWrap = true;
+                    }
+                    if (shouldWrap) {
+                        var wrap = document.createElement('a');
+                        el.parentNode.insertBefore(wrap, el);
+                        wrap.appendChild(el);
+                        el = wrap;
+                    }
+                    el.setAttribute('href', newUrl);
+                    if (data.openInNewWindow) {
+                        el.setAttribute('target', '_blank');
+                    } else {
+                        el.removeAttribute('target');
+                    }
+                    mw.app.registerChangedState(el);
+                });
+
+                newLinkEditor.selectLink(el);
+
+
+            },
+            onTarget: (target, selfBtn) => {
+                var selfVisible = false;
+
+                const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A';
+                if (isImageOrLink) {
+
+                    selfVisible = true;
+
                 }
                 selfBtn.style.display = selfVisible ? '' : 'none';
             },
@@ -196,6 +260,7 @@ export const ElementHandleContent = function (proto) {
 
             }
         },
+        ...elementLinkMenu,
         {
             title: 'Settings',
             text: '',
@@ -230,7 +295,7 @@ export const ElementHandleContent = function (proto) {
     const tailMenuQuickSettings = [
         {
             title: 'Quick Settings',
-            icon:  handleIcons.icon('more'),
+            icon: handleIcons.icon('more'),
             menu: [
                 {
                     name: 'Cloneable',
@@ -254,17 +319,22 @@ export const ElementHandleContent = function (proto) {
             title: proto.lang('Delete'),
             text: '',
             icon: handleIcons.icon('delete'),
-            className: 'mw-handle-insert-button',
+            className: 'mw-handle-delete-button',
             action: function (el) {
 
                 //check if is IMG and is in A tag
-                if(el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
+                if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
                     el = el.parentNode;
                 }
+
+                var parentEditField = mw.tools.firstParentWithClass(el, 'edit');
 
                 Confirm(ElementManager('<span>Are you sure you want to delete this element?</span>'), () => {
                     mw.app.registerChangedState(el)
                     el.remove()
+                    if (parentEditField) {
+                        mw.app.registerUndoState(parentEditField)
+                    }
                     proto.elementHandle.hide()
                 })
             }

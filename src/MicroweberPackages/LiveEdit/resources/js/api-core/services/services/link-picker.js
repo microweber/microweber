@@ -11,19 +11,37 @@ export class LinkPicker extends MicroweberBaseClass {
         var linkEditor = new (mw.top()).LinkEditor({
             mode: 'dialog',
             controllers: [
-                {type: 'url', config: {text: false, target: false}},
-                {type: 'page', config: {text: false, target: false}},
-                {type: 'post', config: {text: false, target: false}},
-                {type: 'file', config: {text: false, target: false}},
-                {type: 'email', config: {text: false, target: false}},
+                {type: 'url', config: {text: false, target: true}},
+                {type: 'page', config: {text: false, target: true}},
+                {type: 'post', config: {text: false, target: true}},
+                {type: 'file', config: {text: false, target: true}},
+                {type: 'email', config: {text: false, target: true}},
                 {type: 'layout', config: {text: false, target: false}},
 
             ],
         });
 
         if (mw.$(targetElementSelector)) {
+            var elementToGetValueFrom = mw.$(targetElementSelector);
+            var linkValue = '';
+            var target = false;
+            if (elementToGetValueFrom && elementToGetValueFrom[0] && elementToGetValueFrom[0].nodeName === 'A') {
+                linkValue = elementToGetValueFrom.attr('href');
+
+                if (elementToGetValueFrom.attr('target')) {
+                    target = elementToGetValueFrom.attr('target');
+                }
+
+            } else {
+                linkValue = elementToGetValueFrom.val();
+            }
+            if (linkValue == '#') {
+                linkValue = '';
+            }
+
             linkEditor.setValue({
-                url: mw.$(targetElementSelector).val() || ''
+                url: linkValue,
+                target: target
             })
         }
         var selectLinkInstance = this;
@@ -37,6 +55,10 @@ export class LinkPicker extends MicroweberBaseClass {
 
 
             result.url = url;
+            result.openInNewWindow = false;
+            if(ldata.target){
+                result.openInNewWindow = ldata.target;
+            }
 
             if (ldata.data) {
                 if (ldata.data.id) {
