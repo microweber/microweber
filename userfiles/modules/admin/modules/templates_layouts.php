@@ -119,7 +119,7 @@ $current_template = false;
         }
 
 
-        $cur_template = get_option('template', $params['parent-module-id']);
+        $cur_template = get_option('data-template', $params['parent-module-id']);
 
 
         if ($cur_template == false) {
@@ -200,6 +200,11 @@ $current_template = false;
 
         <script type="text/javascript">
             $(document).ready(function () {
+
+                $('.js-reset-layout').click(function() {
+                    mw.top().app.canvas.getWindow().mw.tools.confirm_reset_module_by_id("<?php print $params['parent-module-id'] ?>");
+                });
+
                 mw.options.form('.mw-mod-template-settings-holder', function () {
                     var selected_skin = $('#mw-module-skin-select-dropdown :selected').val();
 
@@ -225,7 +230,7 @@ $current_template = false;
             function mw_admin_layouts_list_inner_modules_btns() {
                 var mod_in_mods_html_btn = '';
 
-                var mods_in_mod = window.parent.$('#<?php print $params['parent-module-id'] ?>').find('.module', '#<?php print $params['parent-module-id'] ?>');
+                var mods_in_mod =  mw.top().app.canvas.getWindow().$('#<?php print $params['parent-module-id'] ?>').find('.module', '#<?php print $params['parent-module-id'] ?>');
                 if (mods_in_mod) {
                     $(mods_in_mod).each(function () {
 
@@ -349,13 +354,18 @@ $current_template = false;
                                         </div>
                                     </div>
                                 </div>
-                                <div class=" current-template-modules">
+
+                                <div class="current-template-modules">
                                     <div class="current-template-modules-list-wrap">
                                         <label class="live-edit-label">This layout contains those modules</label>
 
-                                        <div class="current-template-modules-list"></div>
+                                        <div class="current-template-modules-list d-flex gap-3"></div>
                                     </div>
                                 </div>
+
+                            <div class="reset-current-template mt-4">
+                                <button type="button" class="js-reset-layout btn btn-outline-danger">Reset Layout</button>
+                            </div>
 
                             <?php endif; ?>
 
