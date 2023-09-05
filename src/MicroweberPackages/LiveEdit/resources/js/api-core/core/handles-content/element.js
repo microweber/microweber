@@ -3,6 +3,7 @@ import {ElementManager} from "../classes/element.js";
 import {Confirm} from "../classes/dialog.js";
 import {HandleIcons} from "../handle-icons";
 import {LinkPicker} from "../../services/services/link-picker";
+import {ElementActions} from "./element-actions";
 
 export const ElementHandleContent = function (proto) {
     this.root = ElementManager({
@@ -12,6 +13,7 @@ export const ElementHandleContent = function (proto) {
     });
 
     const handleIcons = new HandleIcons();
+    const elementActions = new ElementActions(proto);
 
 
     const cloneAbleMenu = [
@@ -21,8 +23,6 @@ export const ElementHandleContent = function (proto) {
             icon: handleIcons.icon('duplicate'),
             className: 'mw-handle-clone-button',
             onTarget: function (target, selfNode) {
-
-
                 if (target.classList.contains('cloneable') || target.classList.contains('mw-col')) {
                     selfNode.classList.remove('mw-le-handle-menu-button-hidden');
                 } else {
@@ -32,20 +32,9 @@ export const ElementHandleContent = function (proto) {
 
 
             action: function (el) {
-                //check if is IMG and cloneable is in A tag, then delete A tag
-                if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
-                    el = el.parentNode;
-                }
 
-                ElementManager(el).after(el.outerHTML);
-                var next = el.nextElementSibling;
-                if (el.classList.contains('mw-col')) {
-                    el.style.width = ''
-                    next.style.width = ''
-                }
+                elementActions.cloneElement(el);
 
-                proto.elementHandle.set(el);
-                mw.app.registerChangedState(el)
             }
         },
         {
@@ -65,12 +54,7 @@ export const ElementHandleContent = function (proto) {
                 }
             },
             action: function (el) {
-                const prev = el.previousElementSibling;
-                if (prev) {
-                    prev.before(el);
-                    proto.elementHandle.set(el);
-                    mw.app.registerChangedState(el)
-                }
+                elementActions.moveBackward(el);
             }
         },
         {
@@ -91,14 +75,7 @@ export const ElementHandleContent = function (proto) {
                 }
             },
             action: function (el) {
-                const next = el.nextElementSibling;
-
-                if (next) {
-                    next.after(el);
-                    proto.elementHandle.set(el);
-                    mw.app.registerChangedState(el)
-                }
-
+                elementActions.moveForward(el);
             }
         },
     ];
@@ -111,11 +88,7 @@ export const ElementHandleContent = function (proto) {
             className: 'mw-handle-reset-image-button',
 
             action: function (el) {
-                mw.app.registerUndoState(el);
-                el.style.width = '';
-                el.style.height = '';
-                mw.app.registerChangedState(el);
-                proto.elementHandle.set(el);
+                elementActions.resetImageSize(el);
             },
             onTarget: (target, selfBtn) => {
                 var selfVisible = false;
@@ -144,44 +117,7 @@ export const ElementHandleContent = function (proto) {
             className: 'mw-handle-element-link-button',
 
             action: function (el) {
-
-                //check if is IMG and is in A tag, then select A tag
-                if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
-                    el = el.parentNode;
-                }
-
-                var newLinkEditor = new LinkPicker();
-                newLinkEditor.on('selected', (data) => {
-                    var newUrl = '';
-                    if (data.url) {
-                        newUrl = data.url;
-                    }
-
-
-                    var shouldWrap = false;
-                    if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName !== 'A') {
-                        shouldWrap = true;
-                    } else if (el.nodeName !== 'IMG' && !el.parentNode) {
-                        shouldWrap = true;
-                    }
-                    if (shouldWrap) {
-                        var wrap = document.createElement('a');
-                        el.parentNode.insertBefore(wrap, el);
-                        wrap.appendChild(el);
-                        el = wrap;
-                    }
-                    el.setAttribute('href', newUrl);
-                    if (data.openInNewWindow) {
-                        el.setAttribute('target', '_blank');
-                    } else {
-                        el.removeAttribute('target');
-                    }
-                    mw.app.registerChangedState(el);
-                });
-
-                newLinkEditor.selectLink(el);
-
-
+                elementActions.editLink(el);
             },
             onTarget: (target, selfBtn) => {
                 var selfVisible = false;
@@ -246,7 +182,6 @@ export const ElementHandleContent = function (proto) {
             },
 
         },
-
 
         {
             title: 'Insert module',
@@ -321,22 +256,7 @@ export const ElementHandleContent = function (proto) {
             icon: handleIcons.icon('delete'),
             className: 'mw-handle-delete-button',
             action: function (el) {
-
-                //check if is IMG and is in A tag
-                if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
-                    el = el.parentNode;
-                }
-
-                var parentEditField = mw.tools.firstParentWithClass(el, 'edit');
-
-                Confirm(ElementManager('<span>Are you sure you want to delete this element?</span>'), () => {
-                    mw.app.registerChangedState(el)
-                    el.remove()
-                    if (parentEditField) {
-                        mw.app.registerUndoState(parentEditField)
-                    }
-                    proto.elementHandle.hide()
-                })
+                elementActions.deleteElement(el);
             }
         }
     ]
