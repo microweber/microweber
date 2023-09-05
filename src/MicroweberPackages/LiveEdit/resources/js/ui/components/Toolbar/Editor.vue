@@ -334,7 +334,7 @@ export default {
                 var tagName = event.target.nodeName;
                 //image click with link as a parent node and prevent default
                 if(tagName == 'IMG' && event.target.parentNode.nodeName == 'A'){
-                    event.stopPropagation()
+                  //  event.stopPropagation()
                     event.preventDefault()
                 }
 
