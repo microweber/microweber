@@ -119,7 +119,7 @@ $current_template = false;
         }
 
 
-        $cur_template = get_option('template', $params['parent-module-id']);
+        $cur_template = get_option('data-template', $params['parent-module-id']);
 
 
         if ($cur_template == false) {
@@ -202,16 +202,9 @@ $current_template = false;
             $(document).ready(function () {
 
                 $('.js-reset-layout').click(function() {
-                   mw.tools.confirm('Are you sure want to reset the layout to default? This will remove all your changes.', function() {
-                       $.post(mw.settings.api_url + 'layouts/reset_default', {layout_file: '<?php print $cur_template; ?>'}, function(data) {
-                           mw.notification.success('<?php _ejs("Layout is reset to default"); ?>');
-                           mw.reload_module('admin/modules/templates');
-                       }); 
-                   }, function() {
-                       // Cancel
-                   }, true, {btnConfirm: 'Reset', btnCancel: 'Cancel'});
+                    mw.top().app.canvas.getWindow().mw.tools.confirm_reset_module_by_id("<?php print $params['parent-module-id'] ?>");
                 });
-
+                
                 mw.options.form('.mw-mod-template-settings-holder', function () {
                     var selected_skin = $('#mw-module-skin-select-dropdown :selected').val();
 
