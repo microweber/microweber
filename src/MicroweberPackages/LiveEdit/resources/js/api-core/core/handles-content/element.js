@@ -32,6 +32,11 @@ export const ElementHandleContent = function (proto) {
 
             action: function (el) {
 
+                //check if is IMG and cloneable is in A tag
+                if(el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
+                    el = el.parentNode;
+                }
+
                 ElementManager(el).after(el.outerHTML);
                 var next = el.nextElementSibling;
                 if (el.classList.contains('mw-col')) {
@@ -118,10 +123,10 @@ export const ElementHandleContent = function (proto) {
                 const isImage = target.nodeName === 'IMG';
                 if (isImage) {
                     selfVisible = true;
-                    // var hasSizes = target.style.width || target.style.height;
-                    // if(hasSizes) {
-                    // selfVisible = true;
-                    //     }
+                    var hasSizes = target.style.width || target.style.height;
+                    if(hasSizes) {
+                    selfVisible = true;
+                        }
                 }
                 selfBtn.style.display = selfVisible ? '' : 'none';
             },
@@ -172,6 +177,7 @@ export const ElementHandleContent = function (proto) {
                 if (target.classList.contains('spacer')) {
                     selfVisible = false;
                 }
+                selfVisible = true;
                 selfBtn.style.display = selfVisible ? '' : 'none';
             },
 
@@ -250,6 +256,11 @@ export const ElementHandleContent = function (proto) {
             icon: handleIcons.icon('delete'),
             className: 'mw-handle-insert-button',
             action: function (el) {
+
+                //check if is IMG and is in A tag
+                if(el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
+                    el = el.parentNode;
+                }
 
                 Confirm(ElementManager('<span>Are you sure you want to delete this element?</span>'), () => {
                     mw.app.registerChangedState(el)
