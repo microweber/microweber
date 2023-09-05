@@ -1,8 +1,6 @@
 import {HandleMenu} from "../handle-menu.js";
 import {ElementManager} from "../classes/element.js";
-import {Confirm} from "../classes/dialog.js";
 import {HandleIcons} from "../handle-icons";
-import {LinkPicker} from "../../services/services/link-picker";
 import {ElementActions} from "./element-actions";
 
 export const ElementHandleContent = function (proto) {
@@ -81,7 +79,7 @@ export const ElementHandleContent = function (proto) {
     ];
     const elementImageMenu = [
         {
-            title: 'Reset Image',
+            title: 'Reset Image Size',
             text: '',
             icon: handleIcons.icon('reset-image-size'),
 

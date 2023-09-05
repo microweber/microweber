@@ -72,7 +72,7 @@ export class ElementActions extends MicroweberBaseClass {
             var shouldWrap = false;
             if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName !== 'A') {
                 shouldWrap = true;
-            } else if (el.nodeName !== 'IMG' && !el.parentNode) {
+            } else if (el.nodeName === 'IMG' && !el.parentNode) {
                 shouldWrap = true;
             }
             if (shouldWrap) {
