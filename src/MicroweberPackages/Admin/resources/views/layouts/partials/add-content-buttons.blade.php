@@ -23,14 +23,22 @@ if (isset($iframeMode) and $iframeMode) {
 }
 
 $editContentBtnData = false;
-$editContentBtnData = false;
+$editContentUrl = false;
 if($showEditContentButtonForContentId){
     $editContentBtnData = get_content_by_id($showEditContentButtonForContentId);
+
+if($editContentBtnData){
     $editContentUrl = route('admin.content.edit', $showEditContentButtonForContentId);
+
+    if (\Route::has('admin.' . $editContentBtnData['content_type'] . '.edit', $showEditContentButtonForContentId)) {
+        $editContentUrl = route('admin.' . $editContentBtnData['content_type'] . '.edit', $showEditContentButtonForContentId);
+    }
+
+
     if ($appendIframeModeSuffix) {
         $editContentUrl = $editContentUrl . $appendIframeModeSuffix;
     }
-
+}
 
 
 
@@ -46,13 +54,23 @@ if($showEditContentButtonForContentId){
 @if($editContentBtnData && $editContentUrl)
     <a  href="{{ $editContentUrl }}" class="col-12 text-start d-flex align-items-center flex-wrap admin-add-new-modal-buttons me-auto">
         <div class="col-lg-2 mx-2 modal-add-new-buttons-img">
-            <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-page.svg" alt="">
+
+            @include('content::admin.content.livewire.components.icon', ['content'=>$editContentBtnData])
+
         </div>
 
         <div class="col-lg-9 ps-3">
             <h3 class="  font-weight-bolder">
-                @lang('Edit current content')
 
+                @if($editContentBtnData && isset($editContentBtnData['content_type']) && $editContentBtnData['content_type'] == 'post')
+                    @lang('Edit current post')
+                @elseif($editContentBtnData && isset($editContentBtnData['content_type']) && $editContentBtnData['content_type'] == 'product')
+                    @lang('Edit current product')
+                @elseif($editContentBtnData && isset($editContentBtnData['content_type']) && $editContentBtnData['content_type'] == 'page')
+                    @lang('Edit current page')
+                @else
+                    @lang('Edit current content')
+                @endif
             </h3>
 
 

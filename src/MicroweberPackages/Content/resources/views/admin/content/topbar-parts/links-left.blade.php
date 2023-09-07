@@ -1,3 +1,5 @@
+@props(['quickContentAdd' => false,'content_type' => false])
+
 <div class="d-flex align-items-center">
 
     @php
@@ -7,7 +9,7 @@
     }
     @endphp
 
-    @if ($showBackButton)
+    @if ($showBackButton and $content_type)
     <div class="mw-toolbar-back-button-wrapper me-3">
         <div class="main-toolbar mw-modules-toolbar-back-button-holder mb-3 d-flex align-items-center" id="mw-modules-toolbar" style="">
             <div>
