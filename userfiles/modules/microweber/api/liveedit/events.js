@@ -1,3 +1,8 @@
+// this file is deprecated
+
+/*
+
+
 mw.liveedit.handleEvents = function() {
     mw.$(document.body).on('touchmove mousemove', function(e){
         if(mw.liveEditSelector.interactors.active) {
@@ -19,9 +24,9 @@ mw.liveedit.handleEvents = function() {
     });
 
 
-    /*mw.$("#mw-toolbar-css-editor-btn").click(function() {
+    /!*mw.$("#mw-toolbar-css-editor-btn").click(function() {
         mw.liveedit.widgets.cssEditorDialog();
-    });*/
+    });*!/
     mw.$("#mw-toolbar-html-editor-btn").click(function() {
         mw.liveedit.widgets.htmlEditorDialog();
     });
@@ -42,7 +47,7 @@ mw.liveedit.handleEvents = function() {
             left: "",
             top: ""
         });
-        /*mw.on.stopWriting(e.target, function() {
+        /!*mw.on.stopWriting(e.target, function() {
             if (mw.tools.hasClass(e.target, 'edit') || mw.tools.hasParentsWithClass(this, 'edit')) {
                 mw.liveEditState.record({
                     target:e.target,
@@ -50,7 +55,7 @@ mw.liveedit.handleEvents = function() {
                 });
                 mw.drag.saveDraft();
             }
-        });*/
+        });*!/
     });
 
     mw.$(document.body).on("keydown", function(e) {
@@ -140,3 +145,4 @@ mw.liveedit.handleEvents = function() {
     })
 
 };
+*/

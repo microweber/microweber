@@ -30,7 +30,7 @@ export class ElementActions extends MicroweberBaseClass {
         var parentEditField = mw.tools.firstParentWithClass(el, 'edit');
 
         Confirm(ElementManager('<span>Are you sure you want to delete this element?</span>'), () => {
-            mw.app.registerChangedState(el)
+            mw.app.registerChangedState(el);
             el.remove()
             if (parentEditField) {
                 mw.app.registerUndoState(parentEditField)

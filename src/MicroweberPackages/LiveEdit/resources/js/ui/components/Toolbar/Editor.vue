@@ -233,12 +233,14 @@ export default {
                   });
 
                   iconPicker.picker.on('colorChange', val => {
+
                     element.style.color = `${val}`;
                     mw.top().app.registerChange(element);
                   });
 
                   iconPicker.picker.on('reset', val => {
-                    element.style.color = ``;
+
+                      element.style.color = ``;
                     element.style.fontSize = ``;
                     mw.top().app.registerChange(element);
                   });
@@ -249,12 +251,17 @@ export default {
                 } else if(element.nodeName === 'IMG') {
 
                   var dialog = imagePicker(function (res) {
+
+                      mw.top().app.registerUndoState(element);
                           var url = res.src ? res.src : res;
                           if(!url) return;
                           url = url.toString();
                           element.src = url;
+
                           mw.app.get('liveEdit').play();
                           dialog.remove();
+
+                      mw.top().app.registerChangedState(element);
                       })
 
 
@@ -263,17 +270,22 @@ export default {
                   var bg =  element.style.backgroundImage.trim().split('url(')[1];
 
                   if(bg) {
+                      mw.top().app.registerUndoState(element);
                     bg = bg.split(')')[0]
                               .trim()
                               .split('"')
                               .join('');
                         var dialog = imagePicker(function (res) {
-                          var url = res.src ? res.src : res;
+                            mw.top().app.registerChange(element);
+                           var url = res.src ? res.src : res;
                           if(!url) return;
                           url = url.toString();
                           element.style.backgroundImage = `url(${url})`
+
                           mw.app.get('liveEdit').play();
                           dialog.remove();
+
+                            mw.top().app.registerChangedState(element);
                       })
 
                   }
