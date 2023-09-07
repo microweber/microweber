@@ -140,7 +140,7 @@ export class LiveEdit {
             ...this.settings,
             $name: '$elementHandle',
             dropIndicator: this.dropIndicator,
-            content: elementHandleContent.root,
+            content: this.elementHandleContent.root,
 
             handle:  '.mw-handle-drag-button-element' ,
 
@@ -177,8 +177,8 @@ export class LiveEdit {
 
         elementHandle.resizer.on('resizeStop', e => this.isResizing = false)
 
-        elementHandle.on('targetChange', function (target) {
-            elementHandleContent.menu.setTarget(target);
+         elementHandle.on('targetChange', target => {
+            this.elementHandleContent.menu.setTarget(target);
 
             if (target.className.includes('col-')) {
                 elementHandle.resizer.disable()

@@ -106,6 +106,16 @@ export const ElementHandleContent = function (proto) {
         },
 
     ];
+
+
+
+
+
+
+
+
+
+
     const elementLinkMenu = [
         {
             title: 'Link',
@@ -131,6 +141,37 @@ export const ElementHandleContent = function (proto) {
 
         },
 
+        {
+            title: 'Unlink',
+            text: '',
+            icon: handleIcons.icon('unlink'),
+
+            className: 'mw-handle-element-unlink-button',
+
+            action: function (el) {
+                elementActions.removeLink(el);
+            },
+            onTarget: (target, selfBtn) => {
+                var selfVisible = false;
+
+                const isLinkOrParentWithLink = target.nodeName === 'A' || target.parentNode && target.parentNode.nodeName === 'A';
+                if (isLinkOrParentWithLink) {
+                    selfVisible = true;
+                }
+                selfBtn.style.display = selfVisible ? '' : 'none';
+            },
+
+        },
+
+    ];
+
+    const elementLinkMenuGroup = [
+        {
+            title: 'Link',
+            icon: handleIcons.icon('link'),
+            menu: elementLinkMenu
+
+        },
     ];
 
 
@@ -193,7 +234,8 @@ export const ElementHandleContent = function (proto) {
 
             }
         },
-        ...elementLinkMenu,
+       ...elementLinkMenu,
+       // ...elementLinkMenuGroup,
         {
             title: 'Settings',
             text: '',

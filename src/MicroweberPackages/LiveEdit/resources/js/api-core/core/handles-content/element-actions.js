@@ -53,6 +53,39 @@ export class ElementActions extends MicroweberBaseClass {
         mw.app.registerChangedState(el);
     }
 
+    removeLink(el) {
+        //check if is IMG and is in A tag, then select A tag
+        if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
+            el = el.parentNode;
+        }
+
+        mw.app.registerUndoState(el)
+        //get the link
+
+        var closestLink = DomService.firstParentOrCurrentWithTag(el, 'a');
+        if(closestLink){
+            el = closestLink;
+
+            el.removeAttribute('href');
+            el.removeAttribute('target');
+
+            var  shouldUnWrap = true;
+            if(shouldUnWrap){
+                 //unwrap the link
+                var parent = el.parentNode;
+                while (el.firstChild) {
+                    parent.insertBefore(el.firstChild, el);
+                }
+                el.remove();
+            }
+
+            mw.app.registerChangedState(el);
+        }
+
+
+
+    }
+
     editLink(el) {
         //check if is IMG and is in A tag, then select A tag
         if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
