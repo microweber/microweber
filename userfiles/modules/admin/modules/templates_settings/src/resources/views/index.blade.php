@@ -26,9 +26,25 @@
 
     @foreach($templateSettings as $formItem)
 
-        <div @if(isset($formItem['show_when'])) x-show="$store.templateSettings.{{$formItem['show_when']}}" @endif >
-            <div class="d-flex gap-2 justify-content-between">
+        @php
+        $showWhen = '';
+        if(isset($formItem['show_when'])) {
+            $showWhenArray = [];
+            foreach ($formItem['show_when'] as $showWhen) {
+                $showWhenArray[] = '$store.templateSettings.' . $showWhen;
+            }
+            $showWhen = implode(' && ',  $showWhenArray);
+        }
+        @endphp
+
+            <div x-show="{{$showWhen}}">
+
+            <div @if(isset($formItem['label'])) class="d-flex gap-2 justify-content-between" @else class="mb-3"  @endif>
+
+                @if(isset($formItem['label']))
                 <label class="live-edit-label">{{$formItem['label']}} </label>
+                @endif
+
                 @php
                     $attributes = [];
                     if (isset($formItem['attributes'])) {
