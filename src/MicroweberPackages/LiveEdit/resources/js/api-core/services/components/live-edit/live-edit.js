@@ -170,16 +170,14 @@ export const liveEditComponent = () => {
             handleInput(e, true)
         });
 
-
-
-
-
+ 
 
         var initResizables = () => {
             Array.from(body.querySelectorAll('.mw-le-spacer:not([data-resizable])')).forEach(node => {
-                console.log(node)
+             
                 node.innerHTML = '';
-                node.className = 'mw-le-spacer noedit nodrop';
+
+                node.classList.add('mw-le-spacer', 'noedit', 'nodrop');
         
                 var nodeInfo = document.createElement('span');
                 node.append(nodeInfo);
@@ -207,7 +205,6 @@ export const liveEditComponent = () => {
         
                 ;(nodeInfoContent => {
                     node._$resizer.on('ready', data => {
-        
                         nodeInfoContent.textContent = data.height + 'px';
                     });
                 })(nodeInfoContent);

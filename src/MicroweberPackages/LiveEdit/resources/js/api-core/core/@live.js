@@ -194,7 +194,7 @@ export class LiveEdit {
 
             //mw.app.domTreeSelect(target)
 
-
+            elementHandle.resizerEnabled(!DomService.hasParentsWithClass(target, 'img-as-background'))
         });
 
         this.moduleHandle = new Handle({

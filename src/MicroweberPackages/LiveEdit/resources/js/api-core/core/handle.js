@@ -324,17 +324,43 @@ export const Handle = function (options) {
     
         return { width: srcWidth*ratio, height: srcHeight*ratio };
      }
+
+
+
+
+     var _resizerEnabled = this.settings.resizable === true;
       
+
+     this.resizerEnabled = function(state) {
+        if (!this.settings.resizable) {
+            return;
+        }
+
+        if(typeof state === 'boolean') {
+            _resizerEnabled = state;
+        }
+ 
+        this.resizer.element.classList[_resizerEnabled ? 'remove' : 'add']('mw-le-resizable-disabled');
+         
+        return _resizerEnabled
+
+     }
+
+ 
 
     this.resizable = function() {
         if(!this.settings.resizable) {
             return;
         }
 
+        
+
        this.resizer = new Resizable({
             element: this.wrapper.get(0),
             document: this.settings.document,
         });
+
+        this.resizerEnabled()
 
         this.resizer.mount();
         this.resizer.on('resize',  data => {
