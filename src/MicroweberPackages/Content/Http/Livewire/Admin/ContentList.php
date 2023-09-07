@@ -347,6 +347,8 @@ class ContentList extends AdminComponent
                     'isInTrashed' => $isInTrashed,
                     'currentCategoryId'=>$currentCategoryId,
                     'currentPageId' => $currentPageId,
+                    'total' => $contentCount,
+
                 ]
             ];
         } else {
@@ -378,6 +380,7 @@ class ContentList extends AdminComponent
                     'isInTrashed' => $isInTrashed,
                     'currentCategoryId'=>$currentCategoryId,
                     'currentPageId' => $currentPageId,
+                    'total' => $this->countActiveContents,
                 ]
             ];
         }
@@ -395,6 +398,8 @@ class ContentList extends AdminComponent
                     'currentPageId' => $currentPageId,
                     'inCategory'=>true,
                     'isInTrashed' => $isInTrashed,
+                    'total' => $this->countActiveContents,
+
                 ]
             ];
         }
@@ -415,6 +420,8 @@ class ContentList extends AdminComponent
                     'currentPageId' => $currentPageId,
                     'inPage'=>true,
                     'isInTrashed' => $isInTrashed,
+                    'total' => $this->countActiveContents,
+
                 ]
             ];
         }
@@ -434,7 +441,10 @@ class ContentList extends AdminComponent
                 'isInTrashed' => $isInTrashed,
                 'contents' => $this->contents,
                 'countActiveContents' => $this->countActiveContents,
+                'total' => $this->countActiveContents,
+
                 'appliedFilters' => $this->appliedFilters
+
             ]
         ];
     }
