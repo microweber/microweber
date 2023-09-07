@@ -3,6 +3,7 @@ import {ObjectService} from './classes/object.service.js';
 import {DroppableElementAnalyzerService} from "./analizer.js";
 import {DropPosition} from "./drop-position.js";
 import {ElementManager} from "./classes/element.js";
+import { DomService } from './classes/dom.js';
 
 export const Draggable = function (options, rootSettings) {
     var defaults = {
@@ -35,11 +36,17 @@ export const Draggable = function (options, rootSettings) {
         this.setElement(this.settings.element);
         this.dropIndicator = this.settings.dropIndicator;
     };
+
     this.setElement = function (node) {
+
+        var imgAsBg = DomService.firstParentOrCurrentWithClass(node, 'img-as-background');
+        if(imgAsBg) {
+            // node = imgAsBg;
+        }
+
         this.element = ElementManager(node)/*.prop('draggable', true)*/.get(0);
 
-        
- 
+
  
         this.handleInit()
     };
@@ -141,6 +148,7 @@ export const Draggable = function (options, rootSettings) {
              scope.action = null;
              if(e.target !== scope.element || !scope.element.contains(e.target)) {
                  var targetAction = scope.dropableService.getTarget(e.target, scope.element);
+                  
                   if (targetAction && targetAction !== scope.element) {
                      const pos = scope.dropPosition(e, targetAction);
                       if(pos) {
