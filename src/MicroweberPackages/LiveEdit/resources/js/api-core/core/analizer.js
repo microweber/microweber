@@ -61,6 +61,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
             this.settings.elementClass,
             this.settings.editClass,
             this.settings.moduleClass,
+            'allow-drop'
         ]);
     }
 
@@ -95,7 +96,9 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
             return null;
         }
 
-        if (this.isEdit(target)) {
+        if (target.classList.contains('allow-drop')) {
+            res.canInsert = true;
+        } else if (this.isEdit(target)) {
             res.canInsert = !draggedElementIsLayoutRestricted;
         } else if ( this.isElement(target) && !draggedElementIsLayoutRestricted  ) {
             if (this.canAcceptByTag(target)) {
@@ -127,6 +130,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
             this.settings.moduleClass,
             this.settings.colClass,
             this.settings.allowDrop,
+            'allow-drop'
         ];
     }
 }
