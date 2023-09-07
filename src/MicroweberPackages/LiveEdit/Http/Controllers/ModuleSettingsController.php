@@ -31,7 +31,7 @@ class ModuleSettingsController
             }
             unset($params['from_url']);
         }
-         \View::share('iframeMode', true);
+         \View::share('isIframe', true);
 
         return view('microweber-live-edit::module-settings', ['moduleId' => $id, 'moduleType' => $type, 'params'=>$params]);
     }
