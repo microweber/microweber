@@ -19,6 +19,14 @@
 
                 <?php _e("Delete") ?></a>
         <?php endif; ?>
+
+
+        <?php if($content->is_deleted): ?>
+        <a href="javascript:mw.admin.content.deleteForever('{{ $content->id }}');" class="dropdown-item ps-4 text-danger js-delete-content-btn-{{ $content->id }}">
+            <svg class="me-1 text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"/></svg>
+
+                <?php _e("Delete Forever") ?></a>
+        <?php endif; ?>
         @if ($content->is_active < 1)
             <a href="javascript:mw.admin.content.publishContent('{{ $content->id }}');" class="dropdown-item ps-4 mw-set-content-unpublish badge badge-warning font-weight-normal"><?php _e("Unpublished") ?></a>
 
