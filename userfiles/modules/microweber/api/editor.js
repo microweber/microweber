@@ -299,6 +299,11 @@ var MWEditor = function (options) {
         var event = e.originaleEvent ? e.originaleEvent : e;
         var localTarget = event.target;
 
+            if (e.type === 'keydown' && e.key === "Enter") {
+                scope.document.execCommand('insertLineBreak')
+                e.preventDefault()
+            }
+
             if (e.key === "Backspace" || e.key === "Delete") {
 
                 instance.handleDeleteAndBackspace(e);

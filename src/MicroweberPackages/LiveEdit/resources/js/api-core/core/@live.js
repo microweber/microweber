@@ -194,7 +194,10 @@ export class LiveEdit {
 
             //mw.app.domTreeSelect(target)
 
-            elementHandle.resizerEnabled(!DomService.hasParentsWithClass(target, 'img-as-background'))
+
+            const resizerEnabled = !target.classList.contains('edit') && !DomService.hasParentsWithClass(target, 'img-as-background');
+
+            elementHandle.resizerEnabled(resizerEnabled)
         });
 
         this.moduleHandle = new Handle({
@@ -510,6 +513,7 @@ export class LiveEdit {
                     try {
                         target = DomService.firstParentOrCurrentWithAnyOfClasses(target.parentNode, ['element', 'module', 'cloneable', 'layout', 'edit']);
                         if (!target) {
+                            console.log('c1', target)
                             return target;
                         }
                     } catch (error) {
@@ -533,9 +537,6 @@ export class LiveEdit {
                 }
             }
 
-
-
-
             const isIcon = helpers.targetIsIcon(target);
 
             if(isIcon) {
@@ -545,7 +546,8 @@ export class LiveEdit {
             } else if(!target.classList.contains('cloneable')) {
                 const hasCloneable = DomService.firstParentOrCurrentWithClass(target.parentElement, 'cloneable');
                 if(hasCloneable) {
-                    if((target.offsetTop - hasCloneable.offsetTop) < 5) {
+                     
+                    if((target.getBoundingClientRect().top - hasCloneable.getBoundingClientRect().top) < 5) {
                         target = hasCloneable;
                         hasCloneable.classList.add('element')
 
@@ -824,7 +826,7 @@ export class LiveEdit {
 
             var tagName = e.target.tagName.toLowerCase();
 
-
+ 
 
             if(layout && !selected && !module) {
 

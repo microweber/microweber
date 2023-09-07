@@ -12,7 +12,7 @@
 
 
 $appendIframeModeSuffix = '';
-if (isset($iframeMode) and $iframeMode) {
+if (isset($isIframe) and $isIframe) {
     $appendIframeModeSuffix = '?iframe=true';
 
     if (isset($quickContentAdd) and $quickContentAdd) {

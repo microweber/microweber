@@ -231,7 +231,7 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = true;
 
-                    const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
+                    const isCloneable = (target.classList.contains('cloneable') && target.nodeName !== 'IMG')  || target.classList.contains('mw-col');
                     if (isCloneable) {
                         selfVisible = false;
                     }
@@ -239,7 +239,7 @@ export class ElementHandleContent {
                     if (target.classList.contains('spacer')) {
                         selfVisible = false;
                     }
-                    selfVisible = true;
+ 
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
 

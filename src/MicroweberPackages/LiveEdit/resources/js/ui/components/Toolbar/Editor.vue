@@ -300,13 +300,14 @@ export default {
                   var targetChange = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['edit', 'allow-drop']);
 
 
+                  console.log(element, targetChange)
 
                   if(targetChange && targetChange.classList && !targetChange.classList.contains('safe-mode')){
                     element = targetChange;
 
                     mw.app.get('liveEdit').handles.get('element').set(element);
                   }
-
+                  console.log(element, targetChange)
 
 
                     setTimeout(() => {
