@@ -40,7 +40,10 @@ trait HasMenuItem
 
             if (!empty(self::$addContentToMenu) && is_array(self::$addContentToMenu)) {
                 foreach (self::$addContentToMenu as $menuId) {
-                    app()->content_manager->helpers->add_content_to_menu($model->id, $menuId);
+                    // check if content is already in menu
+                    if(!app()->menu_manager->is_in_menu($menuId, $model->id)) {
+                        app()->content_manager->helpers->add_content_to_menu($model->id, $menuId);
+                    }
                 }
             }
 

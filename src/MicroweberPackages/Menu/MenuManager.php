@@ -3,9 +3,6 @@
 namespace MicroweberPackages\Menu;
 
 use Content;
-use Menu;
-use MicroweberPackages\App\Http\RequestRoute;
-use MicroweberPackages\Core\Events\AbstractResourceWasUpdated;
 use MicroweberPackages\Menu\Events\MenuWasUpdated;
 
 /**
@@ -140,6 +137,7 @@ class MenuManager
         $this->app->cache_manager->delete('content_fields');
         $this->app->cache_manager->delete('content_fields');
         $this->app->cache_manager->delete('repositories');
+        $this->app->cache_manager->delete('menus');
         $this->app->content_repository->clearCache();
         $this->app->category_repository->clearCache();
         $this->app->menu_repository->clearCache();
@@ -953,8 +951,7 @@ class MenuManager
 
                     \DB::table('menus')->whereId($value2)->where('id', '!=', $k)->whereItemType('menu_item')->update(['parent_id' => $k]);
 
-                    $this->app->cache_manager->delete('menus/' . $k);
-                    $this->app->cache_manager->delete('menus/' . $value2);
+
                 }
             }
         }
@@ -975,13 +972,16 @@ class MenuManager
             }
         }
 
-        clearcache();
+        $this->app->cache_manager->delete('content');
+        $this->app->cache_manager->delete('categories');
+        $this->app->cache_manager->delete('menus');
 
         return $return_res;
     }
 
     public function is_in_menu($menu_id = false, $content_id = false)
     {
+
         if ($menu_id == false or $content_id == false) {
             return false;
         }
@@ -990,11 +990,37 @@ class MenuManager
         $content_id = intval($content_id);
         $check = $this->get_menu_items("limit=1&count=1&parent_id={$menu_id}&content_id=$content_id");
         $check = intval($check);
+
         if ($check > 0) {
             return true;
         } else {
+
+            //try to check recursively
+            $allItems = $this->get_menu_items_recursively($menu_id);
+            if (is_array($allItems)) {
+                foreach ($allItems as $item) {
+                    if (isset($item['content_id']) and $item['content_id'] == $content_id) {
+                        return true;
+                    }
+                }
+            }
+
+
             return false;
         }
+    }
+    public function get_menu_items_recursively($menu_id = null) {
+        $menu_items = [];
+        $children = $this->get_menu_items("parent_id={$menu_id}");
+
+        if ($children) {
+            foreach ($children as $child) {
+                $menu_items[] = $child;
+                // Recursively fetch children of the current menu item
+                $menu_items = array_merge($menu_items, $this->get_menu_items_recursively( $child['id']));
+            }
+        }
+        return $menu_items;
     }
 
     public function get_menu_items($params = false)

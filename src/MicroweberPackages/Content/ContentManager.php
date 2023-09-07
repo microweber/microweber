@@ -1967,7 +1967,9 @@ class ContentManager
         if (isset($data_to_save['add_content_to_menu']) and is_array($data_to_save['add_content_to_menu'])) {
             foreach ($data_to_save['add_content_to_menu'] as $menu_id) {
                 $ids_to_save = $save;
-                $this->helpers->add_content_to_menu($ids_to_save, $menu_id);
+                if (!app()->menu_manager->is_in_menu($menu_id, $ids_to_save)) {
+                    $this->helpers->add_content_to_menu($ids_to_save, $menu_id);
+                }
             }
         }
         $after_save = $data_to_save;
