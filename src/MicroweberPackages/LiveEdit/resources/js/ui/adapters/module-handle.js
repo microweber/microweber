@@ -41,13 +41,13 @@ export class EditorHandles extends BaseComponent {
         layout: new LayoutHandleAdapter(),
     }
 
-    insertModule(module, options, insertLocation = 'top') {
+    insertModule(module, options, insertLocation = 'bottom') {
         let target = mw.app.get('liveEdit').handles.get('element').getTarget();
         if(!target) {
             target = mw.app.get('liveEdit').handles.get('module').getTarget();
         }
 
-        
+
         return insertModule(target, module, options, insertLocation)
     };
 

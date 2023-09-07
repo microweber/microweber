@@ -10,9 +10,16 @@ export class ElementActions extends MicroweberBaseClass {
     constructor(proto) {
         super();
         this.proto = proto;
+
+
+
     }
 
     deleteElement(el) {
+
+
+
+
         if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
             el = el.parentNode;
         }
@@ -78,7 +85,7 @@ export class ElementActions extends MicroweberBaseClass {
                 }
                 el.remove();
             }
-
+            this.proto.refreshHandlesContent();
             mw.app.registerChangedState(el);
         }
 

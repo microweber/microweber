@@ -75,8 +75,8 @@ export const HandleMenu = function(options) {
         var i = 0;
 
         this.rebuildButtons();
- 
-       
+
+
 
         setTimeout(() => {
           //   console.log(this.buttons)
@@ -84,15 +84,13 @@ export const HandleMenu = function(options) {
                 const config = this.buttons[i].config;
                 const button = this.buttons[i].button;
 
- 
-           
                 if(config && config.onTarget) {
-                  
+
                     config.onTarget(target, button.get(0), scope.options.rootScope);
                 }
             }
 
-            if(options.handleScope) {
+            if(options.handleScope && options.handleScope.handle && options.handleScope.handle.draggable) {
 
                 options.handleScope.handle.draggable.handleInit();
             }
@@ -179,16 +177,16 @@ export const HandleMenu = function(options) {
         menu.filter(itm => !!itm).forEach(function (itm){
             if(itm.nodes && itm.nodes.forEach) {
                 var holder = btnHolder;
- 
+
                 if(itm.holder) {
                     holder = ElementManager({
                         props: {
-                            className: 'mw-le-handle-menu-button-holder', 
+                            className: 'mw-le-handle-menu-button-holder',
                         }
                     });
                     btnHolder.append(holder);
                 }
- 
+
                 itm.nodes.forEach(function (btn){
                     holder.append(scope.button(btn));
                 });

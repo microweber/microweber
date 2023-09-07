@@ -94,13 +94,13 @@ export class LiveEdit {
 
         this.dropIndicator = new DropIndicator(this.settings);
 
-        const elementHandleContent = new ElementHandleContent(this);
-        const moduleHandleContent = new ModuleHandleContent(this);
-        const layoutHandleContent = new LayoutHandleContent(this);
 
-        this.elementHandleContent = elementHandleContent;
-        this.moduleHandleContent = moduleHandleContent;
-        this.layoutHandleContent = layoutHandleContent;
+
+        this.elementHandleContent = new ElementHandleContent(this);
+        this.moduleHandleContent = new ModuleHandleContent(this);
+        this.layoutHandleContent = new LayoutHandleContent(this);
+
+
 
         this.layoutHandleContent.on('insertLayoutRequest', () => {
             this.dispatch('insertLayoutRequest')
@@ -120,7 +120,7 @@ export class LiveEdit {
             var defaults = {
                 // document: scope.document,
                 document: window.top.document,
-                position: moduleHandleContent.menu.getTarget(),
+                position: this.moduleHandleContent.menu.getTarget(),
                 mode: 'absolute'
             };
 
@@ -200,7 +200,7 @@ export class LiveEdit {
         this.moduleHandle = new Handle({
             ...this.settings,
             dropIndicator: this.dropIndicator,
-            content: moduleHandleContent.root,
+            content: this.moduleHandleContent.root,
             // handle: moduleHandleContent.menu.title,
             document: this.settings.document,
             stateManager: this.settings.stateManager,
@@ -250,15 +250,13 @@ export class LiveEdit {
             });
         };
 
-        moduleHandle.on('targetChange', function (node) {
+        moduleHandle.on('targetChange', target =>  {
 
-            scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
-
-
+            scope.getModuleQuickSettings(target.dataset.type).then(function (settings) {
 
                 mw.app.liveEdit.moduleHandleContent.menu.setMenu('dynamic', settings);
-                moduleHandleContent.menu.setTarget(node);
-                moduleHandleContent.menu.show();
+                mw.app.liveEdit.moduleHandleContent.menu.setTarget(target);
+                mw.app.liveEdit.moduleHandleContent.menu.show();
             });
             scope.handles.set('layout', null);
             scope.handles.set('interactionHandle', null);
@@ -273,8 +271,8 @@ export class LiveEdit {
         this.layoutHandle = new Handle({
             ...this.settings,
             dropIndicator: this.dropIndicator,
-            content: layoutHandleContent.root,
-            handle: layoutHandleContent.menu.title,
+            content: this.layoutHandleContent.root,
+            handle: this.layoutHandleContent.menu.title,
             document: this.settings.document,
             stateManager: this.settings.stateManager,
             type: 'layout'
@@ -288,32 +286,29 @@ export class LiveEdit {
         })
 
         var title = scope.lang('Layout');
-        layoutHandleContent.menu.setTitle(title)
-        layoutHandle.on('targetChange', function (target) {
+        this.layoutHandleContent.menu.setTitle(title)
+        layoutHandle.on('targetChange',  target => {
             scope.getLayoutQuickSettings(target.dataset.type).then(function (settings) {
 
                 mw.app.liveEdit.layoutHandleContent.menu.setMenu('dynamic', settings)
 
             });
 
-
-            layoutHandleContent.menu.setTarget(target);
-            layoutHandleContent.menu.setTitle(title);
+            this.layoutHandleContent.menu.setTarget(target);
+            this.layoutHandleContent.menu.setTitle(title);
             if (scope.elementAnalyzer.isEditOrInEdit(target)) {
-                layoutHandleContent.plusTop.show()
-                layoutHandleContent.plusBottom.show()
+                this.layoutHandleContent.plusTop.show()
+                this.layoutHandleContent.plusBottom.show()
             } else {
-                layoutHandleContent.plusTop.hide()
-                layoutHandleContent.plusBottom.hide()
+                this.layoutHandleContent.plusTop.hide()
+                this.layoutHandleContent.plusBottom.hide()
             }
-
-
             //mw.app.domTreeSelect(target)
         });
 
-        layoutHandleContent.handle = layoutHandle;
-        moduleHandleContent.handle = moduleHandle;
-        elementHandleContent.handle = elementHandle;
+        this.layoutHandleContent.handle = layoutHandle;
+        this.moduleHandleContent.handle = moduleHandle;
+        this.elementHandleContent.handle = elementHandle;
 
         const interactionHandleContent = new InteractionHandleContent(this);
 
@@ -344,6 +339,13 @@ export class LiveEdit {
 
     play() {
         this.paused = false;
+    }
+
+    refreshHandlesContent() {
+
+        this.elementHandleContent = new ElementHandleContent(this);;
+        this.moduleHandleContent = new ModuleHandleContent(this);
+        this.layoutHandleContent = new LayoutHandleContent(this);
     }
 
     pause() {
