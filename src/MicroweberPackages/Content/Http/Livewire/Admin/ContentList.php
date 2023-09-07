@@ -339,7 +339,8 @@ class ContentList extends AdminComponent
         if (isset($this->showFilters['trashed']) && $this->showFilters['trashed']) {
             $isInTrashed  = true;
         }
-        if ($isInTrashed && (count($this->filters)==1) && $this->contents->count() == 0) {
+        $contentCount =  $this->contents->count() ;
+        if ($isInTrashed && (count($this->filters)==1) && $contentCount== 0) {
             return [
                 'view'=>'content::admin.content.livewire.no-content-in-trash',
                 'data'=>[
@@ -348,6 +349,8 @@ class ContentList extends AdminComponent
                     'currentPageId' => $currentPageId,
                 ]
             ];
+        } else {
+            $this->countActiveContents =$contentCount;
         }
 
         $displayFilters = true;

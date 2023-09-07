@@ -8,18 +8,43 @@
             }
             $templateSettingsJson[$formItem['name']] = $formItem['default'];
         }
-        $templateSettingsJson = json_encode($templateSettingsJson);
     @endphp
 
-    <div
-        x-data="{{$templateSettingsJson}}"
-    >
-        
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('templateSettings', @json($templateSettingsJson));
+        });
+        document.addEventListener('mw-option-saved', ($event) => {
+            let newSettings = Alpine.store('templateSettings');
+            delete newSettings[$event.detail.optionKey];
+            newSettings[$event.detail.optionKey] = $event.detail.optionValue;
+            Alpine.store('templateSettings', newSettings);
+        });
+    </script>
+
+    <div x-data="{}">
+
     @foreach($templateSettings as $formItem)
 
-        <div @if(isset($formItem['show_when'])) x-show="{{$formItem['show_when']}}" @endif >
-            <div class="d-flex gap-2 justify-content-between">
+        @php
+        $showWhen = '';
+        if(isset($formItem['show_when'])) {
+            $showWhenArray = [];
+            foreach ($formItem['show_when'] as $showWhen) {
+                $showWhenArray[] = '$store.templateSettings.' . $showWhen;
+            }
+            $showWhen = implode(' && ',  $showWhenArray);
+        }
+        @endphp
+
+            <div x-show="{{$showWhen}}">
+
+            <div @if(isset($formItem['label'])) class="d-flex gap-2 justify-content-between" @else class="mb-3"  @endif>
+
+                @if(isset($formItem['label']))
                 <label class="live-edit-label">{{$formItem['label']}} </label>
+                @endif
+
                 @php
                     $attributes = [];
                     if (isset($formItem['attributes'])) {
