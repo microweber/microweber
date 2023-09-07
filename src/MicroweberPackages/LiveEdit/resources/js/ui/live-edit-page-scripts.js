@@ -164,6 +164,22 @@ if(window.self !== window.top) {
                     mw.$('.module-over', helper.item).each(function () {
                         mw.$(this).removeClass('module-over');
                     });
+
+
+                    mw.$('.element[data-mwplaceholder]', helper.item).each(function () {
+                        var isEmpty = !this.innerHTML.trim();
+                        if (!isEmpty) {
+                            mw.$(this).removeAttr('data-mwplaceholder');
+                        }
+
+                    });
+                    mw.$('.element.lipsum', helper.item).each(function () {
+                        mw.$(this).removeClass('lipsum');
+                    });
+
+                    mw.$('[data-mw-live-edithover]', helper.item).each(function () {
+                        mw.$(this).removeAttr('data-mw-live-edithover');
+                    });
                     mw.$('[class]', helper.item).each(function () {
                         var cls = this.getAttribute("class");
                         if (typeof cls === 'string') {

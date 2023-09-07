@@ -17,9 +17,6 @@ export class ElementActions extends MicroweberBaseClass {
 
     deleteElement(el) {
 
-
-
-
         if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
             el = el.parentNode;
         }
@@ -66,11 +63,14 @@ export class ElementActions extends MicroweberBaseClass {
             el = el.parentNode;
         }
 
-        mw.app.registerUndoState(el)
+
         //get the link
 
         var closestLink = DomService.firstParentOrCurrentWithTag(el, 'a');
         if(closestLink){
+            var elementForUndo = closestLink.parentNode || closestLink;
+            mw.app.registerUndoState(elementForUndo)
+
             el = closestLink;
 
             el.removeAttribute('href');
@@ -86,7 +86,7 @@ export class ElementActions extends MicroweberBaseClass {
                 el.remove();
             }
             this.proto.refreshElementHandle(el);
-            mw.app.registerChangedState(el);
+            mw.app.registerChangedState(elementForUndo);
         }
 
 
