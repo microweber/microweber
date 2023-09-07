@@ -341,12 +341,18 @@ export class LiveEdit {
         this.paused = false;
     }
 
-    refreshHandlesContent() {
-
-        this.elementHandleContent = new ElementHandleContent(this);;
-        this.moduleHandleContent = new ModuleHandleContent(this);
-        this.layoutHandleContent = new LayoutHandleContent(this);
+    refreshElementHandle(target) {
+         mw.app.liveEdit.elementHandleContent.menu.setTarget(target);
     }
+
+    refreshModuleHandle(target) {
+         mw.app.liveEdit.moduleHandleContent.menu.setTarget(target);
+    }
+
+    refreshLayoutHandle(target) {
+         mw.app.liveEdit.layoutHandleContent.menu.setTarget(target);
+    }
+
 
     pause() {
         this.handles.hide();

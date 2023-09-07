@@ -85,7 +85,7 @@ export class ElementActions extends MicroweberBaseClass {
                 }
                 el.remove();
             }
-            this.proto.refreshHandlesContent();
+            this.proto.refreshElementHandle(el);
             mw.app.registerChangedState(el);
         }
 
@@ -127,6 +127,8 @@ export class ElementActions extends MicroweberBaseClass {
             } else {
                 el.removeAttribute('target');
             }
+            this.proto.refreshElementHandle(el);
+
             mw.app.registerChangedState(el);
         });
 
