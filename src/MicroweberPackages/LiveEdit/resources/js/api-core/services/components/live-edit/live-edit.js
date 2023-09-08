@@ -170,61 +170,74 @@ export const liveEditComponent = () => {
             handleInput(e, true)
         });
 
- 
+
 
         var initResizables = () => {
             Array.from(body.querySelectorAll('.mw-le-spacer:not([data-resizable])')).forEach(node => {
-             
+
                 node.innerHTML = '';
 
                 node.classList.add('mw-le-spacer', 'noedit', 'nodrop');
-        
+
                 var nodeInfo = document.createElement('span');
                 node.append(nodeInfo);
                 nodeInfo.className = 'mw-le-spacer-info';
-        
+
                 var nodeInfoContent = document.createElement('span');
                 nodeInfo.append(nodeInfoContent);
                 nodeInfoContent.className = 'mw-le-spacer-info-content';
-        
-        
+
+
                 node._$resizer = new Resizable({
                     element: node,
                     document: node.ownerDocument,
                     direction: 'vertical',
                     maxHeight: 220
                 });
-        
-        
+
+
                 node._$resizer.on('resize', data => {
                     nodeInfoContent.textContent = data.height + 'px';
                     node.classList.add('mw-le-spacer-resizing');
                     node.ownerDocument.body.classList.add('mw--resizing');
                     mw.top().app.liveEdit.pause()
                 });
-        
+
                 ;(nodeInfoContent => {
                     node._$resizer.on('ready', data => {
                         nodeInfoContent.textContent = data.height + 'px';
                     });
                 })(nodeInfoContent);
-        
-        
-        
+
+
+
                 node._$resizer.on('resizeStop', data => {
+                    // is in spacer module
+                    var nodeForOffsetHeight = false;
+                    var isInsideSpacerModule = mw.tools.firstParentOrCurrentWithAnyOfClasses(node, ['module']);
+                    if(isInsideSpacerModule && isInsideSpacerModule.classList){
+                        if(isInsideSpacerModule.classList.contains('module-spacer')){
+                            nodeForOffsetHeight = isInsideSpacerModule;
+                            nodeForOffsetHeight.style.height = '';
+                        }
+                    }
+
+
+
                     node.classList.remove('mw-le-spacer-resizing');
                     mw.top().app.cssEditor.temp(node, 'height', node.offsetHeight + 'px');
+
                     mw.top().app.registerChange(node);
                     mw.top().app.liveEdit.play()
                     node.style.height = '';
                     node.ownerDocument.body.classList.remove('mw--resizing');
                 });
-        
+
                 node._$resizer.mount()
-        
+
             });
         };
-        
+
         addEventListener('load', function () {
             initResizables();
 
@@ -232,19 +245,19 @@ export const liveEditComponent = () => {
                 initResizables();
             });
             mw.app.canvas.getWindow().mw.on.moduleReload(function () {
-                 
+
                     initResizables();
-                
+
             });
-        
-        
+
+
         });
 
         mw.top().win.mw.app.on('moduleInserted', function(){
             initResizables();
         })
 
-        
+
 
     }
 

@@ -37,5 +37,18 @@ export default {
         }
 
         return isIcon;
+    },
+
+    targetIsInacesibleModule: target => {
+        // check if module is inaccesible and move the handle to the parent if its layout
+        var isInaccesibleFirstChild = false;
+        var isInaccesible = DomService.hasAnyOfClassesOnNodeOrParent(target, ['no-settings', 'inaccessibleModule']);
+        if(target.firstChild){
+              isInaccesibleFirstChild = DomService.hasAnyOfClassesOnNodeOrParent(target.firstChild, ['no-settings', 'inaccessibleModule']);
+        }
+        if (isInaccesible || isInaccesibleFirstChild) {
+            return true;
+        }
+
     }
 }

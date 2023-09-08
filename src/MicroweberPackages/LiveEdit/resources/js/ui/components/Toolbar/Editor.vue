@@ -1,9 +1,5 @@
-
-
-
 <script>
 import liveEditHelpers from "../../../api-core/core/live-edit-helpers.service.js";
-import { func } from "prop-types";
 import {EditorComponent} from "../../../api-core/services/components/editor/editor";
 import {liveEditComponent} from "../../../api-core/services/components/live-edit/live-edit";
 import FilerobotImageEditor from 'filerobot-image-editor';

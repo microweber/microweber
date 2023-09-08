@@ -15,7 +15,7 @@ import {HandleMenu} from "./handle-menu.js";
 import {InteractionHandleContent} from "./handles-content/interaction.js";
 import {DomService} from "./classes/dom.js";
 import "./core/@core.js";
-import helpers from "./live-edit-helpers.service.js";
+import liveEditHelpers from "./live-edit-helpers.service.js";
 import {BGImageHandles} from "./handle-bg-image";
 
 
@@ -42,6 +42,7 @@ export class LiveEdit {
         this.paused = false;
         this.activeNode = false;
         this.lastMousePosition = null;
+        this.liveEditHelpers = liveEditHelpers;
 
 
 
@@ -391,7 +392,7 @@ export class LiveEdit {
         // const elements = this.observe.fromEvent(e);
         const elements = [];
         const directTargets = ['IMG'];
-        const isIcon = helpers.targetIsIcon(target);
+        const isIcon = liveEditHelpers.targetIsIcon(target);
         if(isIcon){
             elements.push(target);
         } else if (directTargets.indexOf(target.nodeName) !== -1) {
@@ -508,6 +509,8 @@ export class LiveEdit {
             }
 
 
+
+
             if (target && target.parentNode && target.parentNode.getAttribute('rel') === 'module') {
                 if(typeof target.parentNode !== 'undefined'){
                     try {
@@ -523,8 +526,20 @@ export class LiveEdit {
             }
 
 
+
             if (target && target.parentNode && target.parentNode.classList.contains('module-layouts')) {
                 target = target.parentNode
+            }
+
+
+            // check if module is inaccesible and move the handle to the parent if its layout
+            var isInaccesible =  liveEditHelpers.targetIsInacesibleModule(target);
+            if (isInaccesible) {
+                //check if parents are in layout
+               var isInLayout = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['module-layouts']);
+               if(isInLayout){
+                  target = isInLayout;
+               }
             }
 
 
@@ -537,7 +552,7 @@ export class LiveEdit {
                 }
             }
 
-            const isIcon = helpers.targetIsIcon(target);
+            const isIcon = liveEditHelpers.targetIsIcon(target);
 
             if(isIcon) {
                 return target
@@ -546,7 +561,7 @@ export class LiveEdit {
             } else if(!target.classList.contains('cloneable')) {
                 const hasCloneable = DomService.firstParentOrCurrentWithClass(target.parentElement, 'cloneable');
                 if(hasCloneable) {
-                     
+
                     if((target.getBoundingClientRect().top - hasCloneable.getBoundingClientRect().top) < 5) {
                         target = hasCloneable;
                         hasCloneable.classList.add('element')
@@ -702,7 +717,7 @@ export class LiveEdit {
             }
             let target
 
-            if(helpers.targetIsIcon(elements[0])) {
+            if(liveEditHelpers.targetIsIcon(elements[0])) {
                 target = elements[0]
             } else {
                 target= DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'edit']);
@@ -770,7 +785,7 @@ export class LiveEdit {
                 var title = '';
                 if (target.dataset.mwTitle) {
                     title = target.dataset.mwTitle;
-                } else if ( helpers.targetIsIcon(target) ) {
+                } else if ( liveEditHelpers.targetIsIcon(target) ) {
                     title = this.lang('Icon');
                 } else if (target.dataset.type) {
                     title = target.dataset.type;
@@ -826,7 +841,7 @@ export class LiveEdit {
 
             var tagName = e.target.tagName.toLowerCase();
 
- 
+
 
             if(layout && !selected && !module) {
 

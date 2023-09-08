@@ -4,6 +4,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     $from_live_edit = $params["live_edit"];
 }
 $current_template = false;
+
+
+
 ?>
 
 <?php if (isset($params['backend'])): ?>
@@ -231,8 +234,13 @@ $current_template = false;
                 var mod_in_mods_html_btn = '';
 
                 var mods_in_mod =  mw.top().app.canvas.getWindow().$('#<?php print $params['parent-module-id'] ?>').find('.module', '#<?php print $params['parent-module-id'] ?>');
+                var mods_in_mod =  mw.top().app.canvas.getWindow().$('#<?php print $params['parent-module-id'] ?>').find('.module', '#<?php print $params['parent-module-id'] ?>');
                 if (mods_in_mod) {
                     $(mods_in_mod).each(function () {
+                         var isInaccessible =  mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(this);
+                        if(isInaccessible){
+                        return;
+                        }
 
                         var inner_mod_type = $(this).attr("type");
                         var inner_mod_id = $(this).attr("id");
@@ -494,7 +502,7 @@ $current_template = false;
                                         bgOverlay.style.backgroundImage = 'none';
                                         mw.top().app.registerChange(bgOverlay);
                                     }
-                                    
+
                                 }
                             });
 
@@ -703,6 +711,7 @@ $current_template = false;
                                 }
 
                                 $module_templates_ready = [];
+                                $module_templates_ready_end = [];
                                 if (!empty($module_templates_categories)) {
                                     foreach ($module_templates as $item) {
                                         if (!isset($item['categories'])) {
@@ -712,8 +721,12 @@ $current_template = false;
                                         $current_template['categories'] = strtolower(trim($current_template['categories']));
                                         if ($item['categories'] == $current_template['categories']) {
                                             $module_templates_ready[] = $item;
+                                        } else {
+                                            $module_templates_ready_end[] = $item;
                                         }
                                     }
+                                    $module_templates_ready = array_merge($module_templates_ready, $module_templates_ready_end);
+
                                 }
                                 ?>
 

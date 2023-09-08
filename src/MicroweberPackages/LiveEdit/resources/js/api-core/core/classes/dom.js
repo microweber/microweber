@@ -68,7 +68,7 @@ export class DomService {
         while (node && node.nodeName !== 'BODY') {
             let i = 0, l = arr.length;
             for ( ; i < l ; i++ ) {
-                if (node.classList.contains(arr[i])) {
+                if (node && node.classList && node.classList.contains(arr[i])) {
                     return true;
                 }
             }
@@ -225,8 +225,10 @@ export class DomService {
         if (!node) return;
         let i = 0, l = arr.length;
         for (; i < l; i++) {
-            if (node.classList.contains(arr[i])) {
-                return true;
+            if (node && node.classList) {
+                if (node.classList.contains(arr[i])) {
+                    return true;
+                }
             }
         }
         return false;
@@ -264,6 +266,9 @@ export class DomService {
         }
         return obj;
     }
+
+
+
 
 
 }
