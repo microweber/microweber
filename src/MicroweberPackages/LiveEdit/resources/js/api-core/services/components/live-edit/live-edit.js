@@ -226,11 +226,25 @@ export const liveEditComponent = () => {
 
 
                     node.classList.remove('mw-le-spacer-resizing');
-                    mw.top().app.cssEditor.temp(node, 'height', node.offsetHeight + 'px');
+                    if(!isInsideSpacerModule) {
+                        mw.top().app.cssEditor.temp(node, 'height', node.offsetHeight + 'px');
+                        node.style.height = '';
 
+                    } else {
+
+                       var moduleId = node.getAttribute('data-for-module-id');
+
+                        var options = {
+                            group: moduleId,
+                            key: 'height',
+                            value: node.offsetHeight + 'px'
+                        };
+                        // save option
+                        mw.top().options.saveOption(options);
+
+                    }
                     mw.top().app.registerChange(node);
                     mw.top().app.liveEdit.play()
-                    node.style.height = '';
                     node.ownerDocument.body.classList.remove('mw--resizing');
                 });
 
