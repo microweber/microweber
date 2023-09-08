@@ -36,7 +36,8 @@ html.preview .back-to-edit{
 <template>
     <div id="toolbar" class="shadow-sm" :style="{'display': toolbarDisplay}">
         <div class="toolbar-nav toolbar-nav-hover col-xxl-3 col-auto d-flex justify-content-lg-start">
-            <a class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" href="./">
+
+            <a class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" :href="backToAdminLink">
                 <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                     <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
                         <circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle>
@@ -167,7 +168,8 @@ export default {
     data() {
         return {
             menu: [],
-            toolbarDisplay: 'none'
+            toolbarDisplay: 'none',
+            backToAdminLink: ''
         }
     },
     mounted() {
@@ -182,17 +184,17 @@ export default {
         });
         document.querySelector('#live-edit-app').style.display = this.toolbarDisplay;
 
-        let _ready = 0; 
-        
+        let _ready = 0;
+
         const _handleReady = () => {
             if(_ready < 2) return;
             setTimeout(() => {
                 this.toolbarDisplay = '';
-                document.querySelector('#live-edit-app').style.display = this.toolbarDisplay;   
+                document.querySelector('#live-edit-app').style.display = this.toolbarDisplay;
             }, 700);
-            
+
         }
-        
+
         window.addEventListener('load', () => {
             _ready++
             _handleReady()
@@ -200,10 +202,22 @@ export default {
 
         mw.app.canvas.on('liveEditCanvasLoaded', () => {
 
-            _ready++
-           
-            _handleReady()
-             
+            _ready++;
+            _handleReady();
+
+
+            var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
+
+            this.backToAdminLink = liveEditIframeData.back_to_admin_link;
+
+            if (liveEditIframeData && liveEditIframeData.content) {
+                this.backToAdminLink = liveEditIframeData.content.content_edit_link;
+                if (liveEditIframeData.content.is_home) {
+                    this.backToAdminLink = liveEditIframeData.back_to_admin_link;
+                }
+            }
+
+
         })
         mw.app.canvas.on('canvasDocumentClick', () => {
             userMenuWrapper.classList.remove('active');
