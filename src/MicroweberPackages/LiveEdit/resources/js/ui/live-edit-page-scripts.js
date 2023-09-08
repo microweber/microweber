@@ -247,7 +247,7 @@ if(window.self !== window.top) {
                     value: JSON.stringify(animations)
                 };
 
-                mw.options.saveOption(options);
+                mw.top().options.saveOption(options);
                 // await new Promise(resolve =>  {
                 //     mw.options.saveOption(options, function(){
                 //         resolve();
@@ -260,9 +260,9 @@ if(window.self !== window.top) {
                 if (success) {
                     success.call({})
                 }
-                return false
+                return false;
             }
-            ;
+
 
             mw._liveeditData = data;
 
