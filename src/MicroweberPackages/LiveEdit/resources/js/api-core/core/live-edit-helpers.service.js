@@ -33,7 +33,7 @@ export default {
         }
 
         if(isIcon) {
-            isIcon = DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target, ['edit', 'module'])
+            isIcon = DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target, ['edit', 'module']);
         }
 
         return isIcon;
@@ -50,5 +50,20 @@ export default {
             return true;
         }
 
+    },
+
+    targetGetFirstModuleOfType: (target, moduleType) => {
+        var isInsideModule = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['module']);
+        if (isInsideModule) {
+            var typeAttr = isInsideModule.getAttribute('type');
+            if (!typeAttr) {
+                  typeAttr = isInsideModule.getAttribute('data-type');
+            }
+            if (typeAttr) {
+                if (typeAttr === moduleType) {
+                    return isInsideModule;
+                }
+            }
+        }
     }
 }

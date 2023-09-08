@@ -9,6 +9,7 @@ import {DomService} from '../../../core/classes/dom.js';
 import liveeditCssDist from '../../../core/css/scss/liveedit.scss';
 import {ModuleSettings} from "../../services/module-settings";
 import {TemplateSettings} from "../../services/template-settings";
+import liveEditHelpers from "../../../core/live-edit-helpers.service";
 
 
 export const liveEditComponent = () => {
@@ -214,9 +215,9 @@ export const liveEditComponent = () => {
                 node._$resizer.on('resizeStop', data => {
                     // is in spacer module
                     var nodeForOffsetHeight = false;
-                    var isInsideSpacerModule = mw.tools.firstParentOrCurrentWithAnyOfClasses(node, ['module']);
-                    if(isInsideSpacerModule && isInsideSpacerModule.classList){
-                        if(isInsideSpacerModule.classList.contains('module-spacer')){
+                    var isInsideSpacerModule=liveEditHelpers.targetGetFirstModuleOfType(node, 'spacer');
+                    if(isInsideSpacerModule ){
+                        if(isInsideSpacerModule){
                             nodeForOffsetHeight = isInsideSpacerModule;
                             nodeForOffsetHeight.style.height = '';
                         }
