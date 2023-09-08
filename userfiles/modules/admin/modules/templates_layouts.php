@@ -238,24 +238,24 @@ $current_template = false;
                 if (mods_in_mod) {
                     $(mods_in_mod).each(function () {
                          var isInaccessible =  mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(this);
-                        if(isInaccessible){
-                        return;
+                        if(!isInaccessible){
+                            var inner_mod_type = $(this).attr("type");
+                            var inner_mod_id = $(this).attr("id");
+                            if (!inner_mod_type) {
+                                var inner_mod_type = $(this).attr("data-type");
+                            }
+                            var inner_mod_title = $(this).attr("data-mw-title");
+                            if (!inner_mod_title) {
+                                inner_mod_title = inner_mod_type;
+                            }
+
+                            if (inner_mod_type) {
+                                var inner_mod_type_admin = inner_mod_type + '/admin'
+                                mod_in_mods_html_btn += '<a href="javascript:;" class="btn btn-primary mb-1 mr-1" onclick=\'window.mw.parent().tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
+                            }
                         }
 
-                        var inner_mod_type = $(this).attr("type");
-                        var inner_mod_id = $(this).attr("id");
-                        if (!inner_mod_type) {
-                            var inner_mod_type = $(this).attr("data-type");
-                        }
-                        var inner_mod_title = $(this).attr("data-mw-title");
-                        if (!inner_mod_title) {
-                            inner_mod_title = inner_mod_type;
-                        }
 
-                        if (inner_mod_type) {
-                            var inner_mod_type_admin = inner_mod_type + '/admin'
-                            mod_in_mods_html_btn += '<a href="javascript:;" class="btn btn-primary mb-1 mr-1" onclick=\'window.mw.parent().tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
-                        }
                     });
                 }
 
