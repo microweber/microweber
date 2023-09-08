@@ -54,18 +54,27 @@ trait LiveEditTrait
         $templateName = app()->template->name();
         $templateName = addslashes($templateName);
 
-        $contentEditLink = content_edit_link($page['id']);
+        $pageId = '';
+        $contentEditLink = '';
+        if (isset($page['id'])) {
+            $pageId = $page['id'];
+            $contentEditLink = content_edit_link($page['id']);
+        }
 
         $contentDetailsScript = "
 \n<script type='application/x-javascript' id='mw-iframe-page-data-script'>
         mw.liveEditIframeData = mw.liveEditIframeData || {};
+
+
         mw.liveEditIframeData.content = {};
-        mw.liveEditIframeData.content.id = '{$page['id']}';
+        mw.liveEditIframeData.content.id = '{$pageId}';
         mw.liveEditIframeData.content.title = '{$pageTitle}';
         mw.liveEditIframeData.content.is_home = {$is_home};
         mw.liveEditIframeData.content.is_shop = {$is_shop};
         mw.liveEditIframeData.content.content_type = '{$contentType}';
         mw.liveEditIframeData.content.content_edit_link = '{$contentEditLink}';
+
+
         mw.liveEditIframeData.back_to_admin_link = '" . admin_url() . "';
         mw.liveEditIframeData.template_name = '{$templateName}';
 </script>\n";
@@ -77,7 +86,10 @@ trait LiveEditTrait
     {
 
         $liveEditUrl = admin_url() . 'live-edit';
-        $liveEditUrl = $liveEditUrl .= '?url=' . content_link($content['id']);
+
+        if (isset($content['id'])) {
+            $liveEditUrl = $liveEditUrl .= '?url=' . content_link($content['id']);
+        }
 
 
 
