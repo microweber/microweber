@@ -75,7 +75,7 @@ $cart_price_summary = true;
 $cart_totals = mw()->cart_manager->totals();
 
 
-$template = get_option('template', $params['id']);
+$template = get_option('data-template', $params['id']);
 $template_css_prefix = '';
 $template_file = false;
 $module_template = false;

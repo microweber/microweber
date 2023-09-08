@@ -1,5 +1,5 @@
 <?php
-$template = get_option('template', $params['id']);
+$template = get_option('data-template', $params['id']);
 
 $search_string = get_option('search_string', $params['id']);
 if ($search_string) {

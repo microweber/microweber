@@ -284,7 +284,7 @@ if (!$selected_cats) {
 }
 
 $data = $selected_cats;
-$module_template = get_option('template', $params['id']);
+$module_template = get_option('data-template', $params['id']);
 
 if ($module_template != false and $module_template != 'none') {
     $template_file = module_templates($config['module'], $module_template);

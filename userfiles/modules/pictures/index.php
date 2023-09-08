@@ -122,9 +122,9 @@ if (isset($params['rel_id']) == true) {
 
     }
 
-    $module_template = get_option('template', $params['id']);
+    $module_template = get_option('data-template', $params['id']);
     if ($module_template == false and isset($params['template'])) {
-        $module_template = $params['template'];
+        $module_template = $params['template']; 
     }
     if ($module_template != false) {
         $template_file = module_templates($config['module'], $module_template);

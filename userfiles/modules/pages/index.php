@@ -79,7 +79,7 @@ if (isset($params['parent']) and $params['parent'] != 0) {
  $params['is_active'] = 1;
 
 // loading the module template
-$module_template = get_option('template', $params['id']);
+$module_template = get_option('data-template', $params['id']);
 
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
