@@ -25,17 +25,17 @@
 
 
 @if($contentType == 'post')
-    <a href="{{route('admin.post.create')}}{{ $suffix }}" class="{{ $buttonClass }}"><?php _e('Add post'); ?></a>
+    <a href="{{route('admin.post.create')}}{{ $suffix }}" class="js-open-in-modal {{ $buttonClass }}"><?php _e('Add post'); ?></a>
 @endif
 
 @if($contentType == 'product')
-    <a href="{{route('admin.product.create')}}{{ $suffix }}" class="{{ $buttonClass }}"><?php _e('Add product'); ?></a>
+    <a href="{{route('admin.product.create')}}{{ $suffix }}" class="js-open-in-modal {{ $buttonClass }}"><?php _e('Add product'); ?></a>
 @endif
 
 @if($contentType == 'page')
 
 
-    <a href="{{route('admin.page.create')}}{{ $suffix }}" class="{{ $buttonClass }}"><?php _e('Add page'); ?></a>
+    <a href="{{route('admin.page.create')}}{{ $suffix }}" class="js-open-in-modal {{ $buttonClass }}"><?php _e('Add page'); ?></a>
 @endif
 
 @if($contentType == 'content')
@@ -47,10 +47,10 @@
                 <?php _e('Create content'); ?>
         </button>
         <ul class="dropdown-menu">
-            <a href="{{route('admin.page.create')}}{{ $suffix }}" class="dropdown-item {{ $buttonClass }}"><?php _e('Add page'); ?></a>
-            <a href="{{route('admin.post.create')}}{{ $suffix }}" class="dropdown-item {{ $buttonClass }}"><?php _e('Add post'); ?></a>
+            <a href="{{route('admin.page.create')}}{{ $suffix }}" class="js-open-in-modal dropdown-item {{ $buttonClass }}"><?php _e('Add page'); ?></a>
+            <a href="{{route('admin.post.create')}}{{ $suffix }}" class="js-open-in-modal dropdown-item {{ $buttonClass }}"><?php _e('Add post'); ?></a>
             <?php if (is_shop_module_enabled_for_user()): ?>
-            <a href="{{route('admin.product.create')}}{{ $suffix }}" class="dropdown-item {{ $buttonClass }}"><?php _e('Add product'); ?></a>
+            <a href="{{route('admin.product.create')}}{{ $suffix }}" class="js-open-in-modal dropdown-item {{ $buttonClass }}"><?php _e('Add product'); ?></a>
             <?php endif; ?>
         </ul>
     </div>
