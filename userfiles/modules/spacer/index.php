@@ -4,7 +4,10 @@ $styles_attr = '';
 $height = '';
 
 if(isset($params['height'])){
-    $height = $params['height'];
+    $height = trim($params['height']);
+}
+if(!$height ){
+    $height = '20px';
 }
 $optionHeight = get_option('height', $params['id']);
 if($optionHeight){

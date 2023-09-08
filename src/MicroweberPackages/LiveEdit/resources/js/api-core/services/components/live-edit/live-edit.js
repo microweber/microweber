@@ -10,6 +10,7 @@ import liveeditCssDist from '../../../core/css/scss/liveedit.scss';
 import {ModuleSettings} from "../../services/module-settings";
 import {TemplateSettings} from "../../services/template-settings";
 import liveEditHelpers from "../../../core/live-edit-helpers.service";
+import {LiveEditSpacer} from "./live-edit-spacer";
 
 
 export const liveEditComponent = () => {
@@ -46,6 +47,7 @@ export const liveEditComponent = () => {
     mw.app.register('state', mw.liveEditState);
 
     mw.app.register('editor', EditorHandles );
+    mw.app.register('spacer', LiveEditSpacer );
 
     mw.app.register('moduleSettings', ModuleSettings);
 
@@ -171,106 +173,6 @@ export const liveEditComponent = () => {
             handleInput(e, true)
         });
 
-
-
-        var initResizables = () => {
-            Array.from(body.querySelectorAll('.mw-le-spacer:not([data-resizable])')).forEach(node => {
-
-                node.innerHTML = '';
-
-                node.classList.add('mw-le-spacer', 'noedit', 'nodrop');
-
-                var nodeInfo = document.createElement('span');
-                node.append(nodeInfo);
-                nodeInfo.className = 'mw-le-spacer-info';
-
-                var nodeInfoContent = document.createElement('span');
-                nodeInfo.append(nodeInfoContent);
-                nodeInfoContent.className = 'mw-le-spacer-info-content';
-
-
-                node._$resizer = new Resizable({
-                    element: node,
-                    document: node.ownerDocument,
-                    direction: 'vertical',
-                    maxHeight: 220
-                });
-
-
-                node._$resizer.on('resize', data => {
-                    nodeInfoContent.textContent = data.height + 'px';
-                    node.classList.add('mw-le-spacer-resizing');
-                    node.ownerDocument.body.classList.add('mw--resizing');
-                    mw.top().app.liveEdit.pause()
-                });
-
-                ;(nodeInfoContent => {
-                    node._$resizer.on('ready', data => {
-                        nodeInfoContent.textContent = data.height + 'px';
-                    });
-                })(nodeInfoContent);
-
-
-
-                node._$resizer.on('resizeStop', data => {
-                    // is in spacer module
-                    var nodeForOffsetHeight = false;
-                    var isInsideSpacerModule=liveEditHelpers.targetGetFirstModuleOfType(node, 'spacer');
-                    if(isInsideSpacerModule ){
-                        if(isInsideSpacerModule){
-                            nodeForOffsetHeight = isInsideSpacerModule;
-                            nodeForOffsetHeight.style.height = '';
-                        }
-                    }
-
-
-
-                    node.classList.remove('mw-le-spacer-resizing');
-                    if(!isInsideSpacerModule) {
-                        mw.top().app.cssEditor.temp(node, 'height', node.offsetHeight + 'px');
-                        node.style.height = '';
-
-                    } else {
-
-                       var moduleId = node.getAttribute('data-for-module-id');
-
-                        var options = {
-                            group: moduleId,
-                            key: 'height',
-                            value: node.offsetHeight + 'px'
-                        };
-                        // save option
-                        mw.top().options.saveOption(options);
-
-                    }
-                    mw.top().app.registerChange(node);
-                    mw.top().app.liveEdit.play()
-                    node.ownerDocument.body.classList.remove('mw--resizing');
-                });
-
-                node._$resizer.mount()
-
-            });
-        };
-
-        addEventListener('load', function () {
-            initResizables();
-
-            mw.on.moduleReload(function () {
-                initResizables();
-            });
-            mw.app.canvas.getWindow().mw.on.moduleReload(function () {
-
-                    initResizables();
-
-            });
-
-
-        });
-
-        mw.top().win.mw.app.on('moduleInserted', function(){
-            initResizables();
-        })
 
 
 
