@@ -3,6 +3,7 @@ import {ElementManager} from "../classes/element.js";
 import {DomService} from '../classes/dom.js';
 import {Confirm} from "../classes/dialog";
 import {HandleIcons} from "../handle-icons";
+import liveEditHelpers from "../live-edit-helpers.service";
 
 export const moduleSettingsDispatch = function (target) {
     mw.app.editor.dispatch('onModuleSettingsRequest', target);
@@ -57,8 +58,9 @@ export class ModuleHandleContent {
 
                 },
                 onTarget: function (target, selfNode) {
-
-                    if(target.classList.contains('no-settings')) {
+                    var isInaccesible =  liveEditHelpers.targetIsInacesibleModule(target);
+                    // hide setting if module is inaccesible
+                    if (isInaccesible) {
                         selfNode.classList.add('mw-le-handle-menu-button-hidden');
                     } else {
                         selfNode.classList.remove('mw-le-handle-menu-button-hidden');

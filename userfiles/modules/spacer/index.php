@@ -1,1 +1,1 @@
-<div class="mw-le-spacer noelement nodrop" contenteditable="false" id="<?php print uniqid('spacer-'); ?>" style="height: 20px;"></div>
+<div class="mw-le-spacer noelement nodrop no-settings inaccessibleModule" contenteditable="false" id="spacer-item-<?php print $params['id'] ?>"></div>
