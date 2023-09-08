@@ -7,7 +7,7 @@ if (is_logged() == false) {
 
 $orders_params = array('created_by' => user_id(), 'order_by' => 'updated_at desc');
 $orders = get_orders($orders_params);
-$module_template = get_option('template', $params['id']);
+$module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }

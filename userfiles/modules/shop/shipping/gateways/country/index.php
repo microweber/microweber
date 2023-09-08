@@ -58,7 +58,7 @@ $data = mw('shop\shipping\gateways\country\shipping_to_country')->get_available_
     </script>
 <?php
 
-$module_template = get_option('template', $params['id']);
+$module_template = get_option('data-template', $params['id']);
 
 $disable_default_shipping_fields = get_option('disable_default_shipping_fields', 'shipping');
 $enable_custom_shipping_fields = get_option('enable_custom_shipping_fields', 'shipping');

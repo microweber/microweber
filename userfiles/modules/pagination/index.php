@@ -8,7 +8,7 @@ $paging_param = $params['paging_param'];
 
 $pagination_links = paging("num={$pages_count}&paging_param={$paging_param}&return_as_array=1&show_first_last=1&limit=5");
 
-$module_template = get_option('template', $params['id']);
+$module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }
