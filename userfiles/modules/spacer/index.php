@@ -9,7 +9,7 @@ if(isset($params['height'])){
 
 $styles = [];
 if($height){
-    $styles[] = 'height: '.$height.'px';
+    $styles[] = 'height: '.$height.'';
 }
 if(!empty($styles)) {
     $styles_attr = 'style="' . implode(';', $styles) . '"';
