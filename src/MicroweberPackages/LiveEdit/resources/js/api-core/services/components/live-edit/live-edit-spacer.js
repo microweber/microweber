@@ -69,8 +69,6 @@ export class LiveEditSpacer extends BaseComponent {
         })
         addEventListener('load', function () {
             LiveEditSpacerInstance.init();
-
-
         });
 
         //this.init();

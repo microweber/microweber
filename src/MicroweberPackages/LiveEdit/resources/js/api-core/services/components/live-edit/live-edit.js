@@ -11,6 +11,7 @@ import {ModuleSettings} from "../../services/module-settings";
 import {TemplateSettings} from "../../services/template-settings";
 import liveEditHelpers from "../../../core/live-edit-helpers.service";
 import {LiveEditSpacer} from "./live-edit-spacer";
+import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler";
 
 
 export const liveEditComponent = () => {
@@ -48,6 +49,7 @@ export const liveEditComponent = () => {
 
     mw.app.register('editor', EditorHandles );
     mw.app.register('spacer', LiveEditSpacer );
+    mw.app.register('undoHandler', LiveEditUndoRedoHandler );
 
     mw.app.register('moduleSettings', ModuleSettings);
 
@@ -93,38 +95,10 @@ export const liveEditComponent = () => {
 
 
 
-        const handleUndoRedo = ( data) => {
-        if(data.active) {
-            var target = data.active.target;
-            if(typeof target === 'string'){
-                target = doc.querySelector(data.active.target);
-            }
-
-            if(!data.active || (!target && !data.active.action)) {
-
-                return;
-            }
-
-            if(data.active.action) {
-                data.active.action();
-            } else if(doc.body.contains(target)) {
-                mw.element(target).html(data.active.value);
-            } else{
-                if(target.id) {
-                    mw.element(doc.getElementById(target.id)).html(data.active.value);
-                }
-            }
-            if(data.active.prev) {
-                mw.$(data.active.prev).html(data.active.prevValue);
-            }
-        }
-    }
 
 
-    mw.app.state.on('change',  (data) => {
 
-        handleUndoRedo(data)
-    });
+
 
 
 
