@@ -1,5 +1,11 @@
 <div class="card col-xxl-11 mx-auto" x-data="{ showFilters: false }">
 
+    <script>
+        document.addEventListener('mw.admin.modules.reload_list', function (event) {
+            mw.notification.success('{{  _e("Modules list is reloaded")}}');
+        });
+    </script>
+
    <div class="card-body">
        <div class="row">
            <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 ps-lg-0">
@@ -28,7 +34,7 @@
                    <button type="button" class="btn btn-outline-primary mt-md-0 mt-2" wire:click="reloadModules">
                        <div wire:loading wire:target="reloadModules" class="spinner-border spinner-border-sm" role="status">
                            <span class="visually-hidden">{{  _e("Loading")}}...</span>
-                       </div>
+                       </div> 
                        {{ _e("Reload modules") }}
                    </button>
 

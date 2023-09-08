@@ -35,6 +35,8 @@ class ListModules extends AdminComponent
     public function reloadModules()
     {
         mw_post_update();
+
+        $this->dispatchBrowserEvent('mw.admin.modules.reload_list');
     }
 
     public function filter()
