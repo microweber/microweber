@@ -17,6 +17,9 @@ export class LiveEditSpacer extends BaseComponent {
                 // is in spacer module
                 var isInsideSpacerModule = liveEditHelpers.targetGetFirstModuleOfType(undoTarget.target, 'spacer');
                 if (isInsideSpacerModule) {
+                    if (undoTarget.previousOption) {
+                        mw.top().options.saveOption(undoTarget.previousOption);
+                    }
                     // mw.reload_module(isInsideSpacerModule, function () {
                     //     initResizables();
                     // });
@@ -34,6 +37,14 @@ export class LiveEditSpacer extends BaseComponent {
                 // is in spacer module
                 var isInsideSpacerModule = liveEditHelpers.targetGetFirstModuleOfType(undoTarget.target, 'spacer');
                 if (isInsideSpacerModule) {
+
+
+                    if (undoTarget.previousOption) {
+                        mw.top().options.saveOption(undoTarget.previousOption);
+                    }
+
+
+
                     // mw.reload_module(isInsideSpacerModule, function () {
                     //     setTimeout(function () {
                     //         initResizables();
@@ -95,7 +106,7 @@ export class LiveEditSpacer extends BaseComponent {
                 nodeInfoContent.textContent = data.height + 'px';
                 node.classList.add('mw-le-spacer-resizing');
                 node.ownerDocument.body.classList.add('mw--resizing');
-                mw.top().app.liveEdit.pause()
+                mw.top().app.liveEdit.pause();
             });
 
             ;(nodeInfoContent => {
@@ -111,7 +122,7 @@ export class LiveEditSpacer extends BaseComponent {
 
             });
 
-            node._$resizer.mount()
+            node._$resizer.mount();
 
         });
 
@@ -152,21 +163,20 @@ export class LiveEditSpacer extends BaseComponent {
 
                 //get back new html
                 var htmlforUndo = div.innerHTML;
-
-                mw.app.state.record({
-                    target: isInsideSpacerModule,
-                    value: htmlforUndo
-                });
-                isInsideSpacerModule.setAttribute('height', node.offsetHeight + 'px');
-
-
-                //save optons
-
                 var options = {
                     group: isInsideSpacerModule.id,
                     key: 'height',
                     value: node.offsetHeight + 'px'
                 };
+
+                mw.app.state.record({
+                    target: isInsideSpacerModule,
+                    previousOption: options,
+                    value: htmlforUndo
+                });
+                isInsideSpacerModule.setAttribute('height', node.offsetHeight + 'px');
+
+
                 mw.top().options.saveOption(options);
 
             }
