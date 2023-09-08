@@ -254,10 +254,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                           open_edit_related_content_modal = function($content_id) {
                               var modal_id = 'open_edit_related_content_modal__modal';
 
-
-
-
-
                               var dialog = mw.top().dialogIframe({
                                   url: route('live_edit.module_settings') + '?type=content/views/related_content_list&live_edit=true&id=open_edit_related_content_modal__opened__module&content_id='+$content_id+'&from_url=<?php print site_url() ?>',
                                   title: 'Edit related content',
@@ -268,32 +264,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                               })
                           }
                       </script>
-                      <script>
-
-                          toggle_change_template_box = function() {
-
-                              $('#js-change-template-layout-selector-holder').toggle();
-                              mw.edit_content.load_change_design_selector('#js-change-template-layout-selector-holder');
-                          }
-                      </script>
-
-
-                      <div class="row p-0 d-flex align-items-center mt-3">
-                          <div class="col-md-8">
-                              <label class="form-label font-weight-bold my-2"><?php _e('Change template'); ?>:</label>
-                              <small class="text-muted d-block mb-3"><?php _e('You can change the template for content');?></small>
-                              <a class="btn btn btn-outline-primary btn-sm" href="javascript:toggle_change_template_box()"><?php _e("Change template"); ?></a>
-                          </div>
-                          <div class="col-md-4 text-center text-md-right">
-                          </div>
-
-
-                          <div id="js-change-template-layout-selector-holder" style="display: none">
-
-
-
-                          </div>
-                      </div>
 
 
                       <div class="row p-0 d-flex align-items-center mt-3">
@@ -335,7 +305,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                           <div class="col-12">
                               <div class="form-group">
                                   <label class="form-label font-weight-bold my-2"><?php _e("Is Shop"); ?></label>
-                                  <small class="text-muted d-block mb-2"><?php _e("If yes this page will accept products to be added to it"); ?></small>
+                                  <small class="text-muted d-block mb-2"><?php _e("If is enabled, this page will accept products to be added to it"); ?></small>
                                   <div class="form-check form-switch pl-0 d-flex">
                                       <input type="checkbox" name="is_shop" class="form-check-input" id="is_shop" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_shop']): ?>checked="1"<?php endif; ?> />
                                   </div>

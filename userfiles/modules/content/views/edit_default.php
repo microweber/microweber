@@ -748,6 +748,16 @@ if (isset($params['quick_edit'])) {
                                 <?php
                                 include_once __DIR__.'/tabs.php';
                                 ?>
+                                <div>
+                                    <script>
+                                        $(document).ready(function () {
+                                            mw.edit_content.load_change_design_selector('#js-change-template-layout-selector-holder');
+                                        });
+                                    </script>
+                                    <div id="js-change-template-layout-selector-holder">
+                                        <?php echo _lang('Loading...'); ?>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <?php include __DIR__.'/edit_default_sidebar.php'; ?>
