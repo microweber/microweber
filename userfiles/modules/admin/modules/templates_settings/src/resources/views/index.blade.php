@@ -28,11 +28,16 @@
 
         @php
         $showWhen = '';
-        if(isset($formItem['show_when'])) {
+        if(isset($formItem['show_when']) and !empty($formItem['show_when'])) {
             $showWhenArray = [];
-            foreach ($formItem['show_when'] as $showWhen) {
+            if(is_array($formItem['show_when'])) {
+                foreach ($formItem['show_when'] as $showWhen) {
                 $showWhenArray[] = '$store.templateSettings.' . $showWhen;
+                }
+            } else {
+                $showWhenArray[] = '$store.templateSettings.' . $formItem['show_when'];
             }
+
             $showWhen = implode(' && ',  $showWhenArray);
         }
         @endphp
