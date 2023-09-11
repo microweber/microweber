@@ -16,15 +16,15 @@ import mitt from 'mitt';
 import './css/app.sass';
 import './css/gui.css';
 import './css/index.css';
-import {LiveEditCanvas} from "../api-core/services/components/live-edit-canvas/live-edit-canvas";
 
 
-const canvas = new LiveEditCanvas();
+// const canvas = new LiveEditCanvas();
+// mw.app.register('canvas', canvas);
 const canvasHolder = document.getElementById('live-edit-frame-holder');
+mw.app.canvas.mount(canvasHolder);
 
-//mw.app.register('canvas', canvas);
-mw.app.canvas = canvas;
-canvas.mount(canvasHolder);
+
+//mw.app.canvas = canvas;
 
 mw.app.canvas.on('iframeKeyDown', function (data) {
     const event = data.event;
@@ -41,7 +41,6 @@ mw.app.canvas.on('liveEditBeforeLoaded', function () {
 });
 
 mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
-
 
     window.top.history.pushState(null, null, `?url=${encodeURIComponent(data.frameWindow.location.href)}`);
 

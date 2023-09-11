@@ -82,9 +82,9 @@ export class LiveEditLayoutBackground extends BaseComponent {
         }
 
 
-        node.style.backgroundImage = `none`;
+        node.style.backgroundImage = null;
 
-        node.style.backgroundColor = 'transparent';
+        node.style.backgroundColor = null;
 
 
         var isInsideBackgroundModule = liveEditHelpers.targetGetFirstModuleOfType(node, 'background');
@@ -123,6 +123,7 @@ export class LiveEditLayoutBackground extends BaseComponent {
     getBackgroundColor(node){
         if(node && node.style){
             var bg = node.style.backgroundColor;
+
             if (bg) {
                 return bg;
             }
