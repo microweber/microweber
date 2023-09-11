@@ -1,4 +1,85 @@
 import BaseComponent from "../../containers/base-class";
+import FilerobotImageEditor from "filerobot-image-editor";
+
+
+
+const { TABS, TOOLS } = FilerobotImageEditor;
+
+const editImage = (url, target, dialog) => {
+    const config = {
+        source: url,
+
+        showCanvasOnly: false,
+
+        annotationsCommon: {
+            fill: '#ff0000',
+        },
+        Text: { text: 'Double click to edit text' },
+        Rotate: { angle: 90, componentType: 'slider' },
+        translations: {
+            profile: 'Profile',
+            coverPhoto: 'Cover photo',
+            facebook: 'Facebook',
+            socialMedia: 'Social Media',
+            fbProfileSize: '180x180px',
+            fbCoverPhotoSize: '820x312px',
+        },
+        Crop: {
+            presetsItems: [
+                {
+                    titleKey: 'classicTv',
+                    descriptionKey: '4:3',
+                    ratio: 4 / 3,
+                },
+                {
+                    titleKey: 'cinemascope',
+                    descriptionKey: '21:9',
+                    ratio: 21 / 9,
+                },
+            ],
+            presetsFolders: [
+                {
+                    titleKey: 'socialMedia',
+                    groups: [
+                        {
+                            titleKey: 'facebook',
+                            items: [
+                                {
+                                    titleKey: 'profile',
+                                    width: 180,
+                                    height: 180,
+                                    descriptionKey: 'fbProfileSize',
+                                },
+                                {
+                                    titleKey: 'coverPhoto',
+                                    width: 820,
+                                    height: 312,
+                                    descriptionKey: 'fbCoverPhotoSize',
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+        tabsIds: [TABS.FINETUNE, TABS.FILTERS, TABS.ADJUST, TABS.ANNOTATE, /*TABS.WATERMARK*/], // or ['Adjust', 'Annotate', 'Watermark']
+        defaultTabId: TABS.FINETUNE, // or 'Annotate'
+        defaultToolId: TOOLS.TEXT, // or 'Text'
+    };
+
+
+
+    // Assuming we have a div with id="editor_container"
+    const filerobotImageEditor = new FilerobotImageEditor(
+        target,
+        config,
+    );
+
+    filerobotImageEditor.render({
+
+    });
+    return filerobotImageEditor;
+}
 
 export class LiveEditImageDialog extends BaseComponent {
     constructor() {
@@ -37,11 +118,11 @@ export class LiveEditImageDialog extends BaseComponent {
 
             footer.find('[data-action="save"]').on('click', function () {
 
-
+                mw.top().app.registerChange(this);
                 var _img = new Image();
                 _img.src = imageEditor.getCurrentImgData().imageData.imageBase64
                 mw.top().app.normalizeBase64Image(_img, function () {
-                    console.log(this);
+
                     resolve(this.src);
                 })
 

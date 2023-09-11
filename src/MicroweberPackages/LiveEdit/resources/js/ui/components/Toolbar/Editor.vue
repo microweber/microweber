@@ -2,86 +2,7 @@
 import liveEditHelpers from "../../../api-core/core/live-edit-helpers.service.js";
 import {EditorComponent} from "../../../api-core/services/components/editor/editor";
 import {liveEditComponent} from "../../../api-core/services/components/live-edit/live-edit";
-import FilerobotImageEditor from 'filerobot-image-editor';
 import { DomService } from "../../../api-core/core/classes/dom";
-
-const { TABS, TOOLS } = FilerobotImageEditor;
-
-const editImage = (url, target, dialog) => {
-    const config = {
-  source: url,
-
-  showCanvasOnly: false,
-
-  annotationsCommon: {
-    fill: '#ff0000',
-  },
-  Text: { text: 'Double click to edit text' },
-  Rotate: { angle: 90, componentType: 'slider' },
-  translations: {
-    profile: 'Profile',
-    coverPhoto: 'Cover photo',
-    facebook: 'Facebook',
-    socialMedia: 'Social Media',
-    fbProfileSize: '180x180px',
-    fbCoverPhotoSize: '820x312px',
-  },
-  Crop: {
-    presetsItems: [
-      {
-        titleKey: 'classicTv',
-        descriptionKey: '4:3',
-        ratio: 4 / 3,
-      },
-      {
-        titleKey: 'cinemascope',
-        descriptionKey: '21:9',
-        ratio: 21 / 9,
-      },
-    ],
-    presetsFolders: [
-      {
-        titleKey: 'socialMedia',
-        groups: [
-          {
-            titleKey: 'facebook',
-            items: [
-              {
-                titleKey: 'profile',
-                width: 180,
-                height: 180,
-                descriptionKey: 'fbProfileSize',
-              },
-              {
-                titleKey: 'coverPhoto',
-                width: 820,
-                height: 312,
-                descriptionKey: 'fbCoverPhotoSize',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  tabsIds: [TABS.FINETUNE, TABS.FILTERS, TABS.ADJUST, TABS.ANNOTATE, /*TABS.WATERMARK*/], // or ['Adjust', 'Annotate', 'Watermark']
-  defaultTabId: TABS.FINETUNE, // or 'Annotate'
-  defaultToolId: TOOLS.TEXT, // or 'Text'
-};
-
-
-
-    // Assuming we have a div with id="editor_container"
-    const filerobotImageEditor = new FilerobotImageEditor(
-    target,
-    config,
-    );
-
-    filerobotImageEditor.render({
-
-    });
-    return filerobotImageEditor;
-}
 
 
 export default {
@@ -157,6 +78,7 @@ export default {
                   if(src) {
                     element.src = src
                   }
+                  mw.top().app.registerChange(element);
                   mw.app.liveEdit.play();
 
               } else if(element.style.backgroundImage) {
@@ -173,6 +95,7 @@ export default {
 
                       element.style.backgroundImage = `url(${src})`
                     }
+                      mw.top().app.registerChange(element);
                     mw.app.liveEdit.play();
 
                   }
