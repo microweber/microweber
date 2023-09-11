@@ -38,6 +38,11 @@ mw.options = {
             lang = o.lang;
         }
 
+        var module = false;
+        if (typeof(o.module) !== 'undefined') {
+            module = o.module;
+        }
+
         var data = {
             option_group: group,
             option_key: key,
@@ -48,6 +53,10 @@ mw.options = {
         if(lang){
             // for multilanguage module
             data.lang=lang;
+        }
+        if(module){
+            // for module param
+            data.module=module;
         }
 
 
@@ -423,9 +432,33 @@ mw.options = {
     },
 
 
-    tempOption: function (element,option) {
-        element.setAttribute('data-mw-temp-option-save', JSON.stringify(option));
+    tempOption: function (element, option) {
+        var existingOption = [];
+        var jsonAttr = element.getAttribute('data-mw-temp-option-save');
+
+        if (jsonAttr) {
+            existingOption = JSON.parse(jsonAttr);
+        }
+        // find by group  and key
+        // Specify the group and key to search for
+        const searchGroup = option.group;
+        const searchKey = option.key;
+
+        // Find the index of the matching object
+        const index = existingOption.findIndex(item => item.group === searchGroup && item.key === searchKey);
+
+        if (index !== -1) {
+            // Merge the option into the existing object
+            existingOption[index] = { ...existingOption[index], ...option };
+        } else if (Array.isArray(existingOption)) {
+            existingOption.push(option);
+        } else {
+            existingOption = [option];
+        }
+
+        element.setAttribute('data-mw-temp-option-save', JSON.stringify(existingOption));
     },
+
 
 
     publishTempOptions: function (doc) {
@@ -435,10 +468,17 @@ mw.options = {
             for (var i = 0; i < optionElements.length; i++) {
                 var optionElement = optionElements[i];
                 var jsonAttr = optionElement.getAttribute('data-mw-temp-option-save');
-                var option = JSON.parse(jsonAttr);
+                var optionsAll = JSON.parse(jsonAttr);
 
-                optionsToSave.push(option);
-                optionElement.removeAttr('data-mw-temp-option-save')
+                if(optionsAll.length >0){
+                    for (var j = 0; j < optionsAll.length; j++) {
+                        var option = optionsAll[j];
+                        optionsToSave.push(option);
+                    }
+                }
+
+
+                optionElement.removeAttribute('data-mw-temp-option-save');
             }
         }
         if(optionsToSave){
