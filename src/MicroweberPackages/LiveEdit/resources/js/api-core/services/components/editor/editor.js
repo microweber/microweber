@@ -30,9 +30,9 @@ export const EditorComponent = function () {
 
     var fontFamilyProvider = new _fontFamilyProvider();
     window.fontFamilyProvider = fontFamilyProvider;
-    const frame = mw.app.get('canvas').getFrame();
+    const frame = mw.app.canvas.getFrame();
     frame.contentWindow.fontFamilyProvider = fontFamilyProvider;
- 
+
 
 
     const editorControls = [
@@ -120,7 +120,7 @@ export const EditorComponent = function () {
         forced: true
     });
 
- 
+
 
     holder.innerHTML = '';
     holder.appendChild(liveEditor.wrapper);

@@ -15,9 +15,9 @@ import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler";
 
 
 export const liveEditComponent = () => {
-    const frame = mw.app.get('canvas').getFrame();
+    const frame = mw.app.canvas.getFrame();
     const frameHolder = frame.parentElement;
-    const doc = mw.app.get('canvas').getDocument();
+    const doc = mw.app.canvas.getDocument();
     const link = doc.createElement('style');
     link.textContent = liveeditCssDist;
 

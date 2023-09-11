@@ -22,8 +22,8 @@ import {LiveEditCanvas} from "../api-core/services/components/live-edit-canvas/l
 const canvas = new LiveEditCanvas();
 const canvasHolder = document.getElementById('live-edit-frame-holder');
 
-mw.app.register('canvas', canvas);
-
+//mw.app.register('canvas', canvas);
+mw.app.canvas = canvas;
 canvas.mount(canvasHolder);
 
 mw.app.canvas.on('iframeKeyDown', function (data) {

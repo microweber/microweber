@@ -13,7 +13,7 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
     handleUndoRedo = (data) => {
 
         if (data.active) {
-            var doc = mw.app.get('canvas').getDocument();
+            var doc = mw.app.canvas.getDocument();
 
             var target = data.active.target;
             if (typeof target === 'string') {
