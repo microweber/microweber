@@ -279,7 +279,19 @@ export class LiveEdit {
             handle: this.layoutHandleContent.menu.title,
             document: this.settings.document,
             stateManager: this.settings.stateManager,
-            type: 'layout'
+            type: 'layout',
+            offsetMenuTransform: function(scroll, off, menu){
+                let transform = 10;
+                if(scroll.y > (off.top - 10)) {
+                    transform = (scroll.y - (off.top - 10));
+
+                    if((transform + menu.offsetHeight + 30) > off.height) {
+                        transform =  (off.height - (menu.offsetHeight + 30))  ;
+                    }
+                }
+                return transform;
+            },
+ 
         });
 
 

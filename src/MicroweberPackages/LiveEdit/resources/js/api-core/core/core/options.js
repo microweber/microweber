@@ -413,6 +413,11 @@ mw.options = {
                 typeof callback === 'function' ? callback.call(data) : '';
                 setTimeout(function () {
                     mw.options.___rebindAllFormsAfterReload();
+
+                    if(mw.top && mw.top().app) {
+                        mw.top().app.dispatch('moduleReloaded');
+                      
+                    }
                 }, 300);
                 //
                 //
