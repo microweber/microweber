@@ -1,5 +1,6 @@
 <?php
 $style_attributes = [];
+$style_attributes_overlay = [];
 $background_color = '';
 
 if(isset($params['data-background-color'])){
@@ -22,9 +23,13 @@ if($background_image){
  }
 
 $style_attr = '';
+$background_color_option = get_option('background_color', $params['id']);
+if($background_color_option){
+    $background_color = $background_color_option;
+}
 
 if($background_color != ''){
-    $style_attributes[] = 'background-color: '.$background_color;
+    $style_attributes_overlay[] = 'background-color: '.$background_color;
 }
 $video_url = '';
 if(isset($params['data-video-url'])){
@@ -47,14 +52,18 @@ if($style_attributes) {
     $style_attr_items = implode('; ', $style_attributes);
     $style_attr = 'style="' . $style_attr_items . '"';
 }
-// bgNode = bg.querySelector('.mw-layout-background-node')
-// bgOverlay = bg.querySelector('.mw-layout-background-overlay')
+$style_attr_overlay = '';
+if($style_attributes_overlay) {
+    $style_attributes_overlay_items = implode('; ', $style_attributes_overlay);
+    $style_attr_overlay = 'style="' . $style_attributes_overlay_items . '"';
+}
+
 ?>
 <div class="mw-layout-background-block xxxedit no-settings inaccessibleModule"  field="layout-content-skin-63-<?php print $params['id'] ?>--background" rel="module">
     <div class="mw-layout-background-node" <?php print $video_attr_parent; ?>  <?php print $style_attr; ?>>
         <?php print $video_html; ?>
     </div>
-    <div class="mw-layout-background-overlay">
+    <div class="mw-layout-background-overlay" <?php print $style_attr_overlay; ?>>
 
     </div>
 </div>
