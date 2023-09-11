@@ -35,7 +35,8 @@
                 </div>
             </div>
             <div class="pr-5">
-                @if(!empty($fonts))
+
+                @if($fonts->count() > 0)
                     @foreach($fonts as $font)
                         @php
                             $fontId = md5($font['family'].$font['category']);
@@ -59,6 +60,10 @@
                             </div>
                         </div>
                     @endforeach
+                @else
+                    <div>
+                        No fonts in this {{ $category }}
+                    </div>
                 @endif
 
                 <div>

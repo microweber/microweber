@@ -47,15 +47,21 @@ class FontPickerModalComponent extends ModalComponent
     {
         $favoritesFonts = $this->getFavoriteFonts();
 
+        $newFavorites = [];
         if (is_array($favoritesFonts) && !empty($favoritesFonts)) {
-            $newFavorites = [];
             foreach ($favoritesFonts as $font) {
                 if ($font !== $fontFamily) {
                     $newFavorites[] = $font;
                 }
             }
-            save_option("enabled_custom_fonts", implode(',', $newFavorites), "template");
         }
+
+        if (!empty($newFavorites)) {
+            save_option("enabled_custom_fonts", implode(',', $newFavorites), "template");
+        } else {
+            save_option("enabled_custom_fonts", " ", "template");
+        }
+
     }
 
     public function favorite($fontFamily)
