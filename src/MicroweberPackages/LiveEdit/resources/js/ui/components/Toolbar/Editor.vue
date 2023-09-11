@@ -148,11 +148,11 @@ export default {
                 });
             }
 
-            mw.app.editImageDialog = editImageDialog;
+           // mw.app.editImageDialog = editImageDialog;
 
             mw.app.editor.on('elementSettingsRequest', async (element) => {
               if(element.nodeName === 'IMG') {
-                  var src = await editImageDialog(element.src);
+                  var src = await mw.app.editImageDialog.editImageUrl(element.src);
 
                   if(src) {
                     element.src = src

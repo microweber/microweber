@@ -12,6 +12,7 @@ import {TemplateSettings} from "../../services/template-settings";
 import liveEditHelpers from "../../../core/live-edit-helpers.service";
 import {LiveEditSpacer} from "./live-edit-spacer";
 import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler";
+import LiveEditImageDialog from "./live-edit-image-dialog";
 
 
 export const liveEditComponent = () => {
@@ -41,15 +42,20 @@ export const liveEditComponent = () => {
     liveEdit.on('insertLayoutRequestOnBottom', function(){
         mw.app.editor.dispatch('insertLayoutRequestOnBottom', mw.app.liveEdit.handles.get('layout').getTarget());
     });
-
-
-    mw.app.moduleSettings = new ModuleSettings();
     mw.app.templateSettings = new TemplateSettings();
+
+
     mw.app.liveEdit =liveEdit;
-    mw.app.state =mw.liveEditState;
-
-
     mw.app.editor = new EditorHandles();
+    mw.app.moduleSettings = new ModuleSettings();
+    mw.app.moduleSettings.init()
+
+
+    mw.app.state =mw.liveEditState;
+    mw.app.editImageDialog =  new LiveEditImageDialog();
+
+
+
     mw.app.spacer = new LiveEditSpacer();
     mw.app.undoHandler = new LiveEditUndoRedoHandler();
 

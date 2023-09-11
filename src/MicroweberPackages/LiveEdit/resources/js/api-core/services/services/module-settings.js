@@ -6,10 +6,9 @@ export class ModuleSettings extends MicroweberBaseClass {
     constructor() {
         super();
 
-
     }
 
-    onRegister() {
+    init() {
 
         mw.app.editor.on('onModuleSettingsChanged', ($data) => {
 
