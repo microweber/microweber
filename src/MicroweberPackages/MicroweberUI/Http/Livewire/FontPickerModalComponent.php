@@ -5,6 +5,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Livewire\WithPagination;
 use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\Utils\Misc\GoogleFonts;
 
 class FontPickerModalComponent extends ModalComponent
 {
@@ -34,21 +35,12 @@ class FontPickerModalComponent extends ModalComponent
         'display' => 'Display',
     ];
 
-    private function getFavoriteFonts()
-    {
-        $favoritesFonts = get_option("enabled_custom_fonts", "template");
-        if (is_string($favoritesFonts)) {
-            $favoritesFonts = explode(',', $favoritesFonts);
-        }
-        return $favoritesFonts;
-    }
-
     public function removeFavorite($fontFamily)
     {
-        $favoritesFonts = $this->getFavoriteFonts();
+        $favoritesFonts = GoogleFonts::getEnabledFonts();
 
         $newFavorites = [];
-        if (is_array($favoritesFonts) && !empty($favoritesFonts)) {
+        if (!empty($favoritesFonts)) {
             foreach ($favoritesFonts as $font) {
                 if ($font !== $fontFamily) {
                     $newFavorites[] = $font;
@@ -57,9 +49,9 @@ class FontPickerModalComponent extends ModalComponent
         }
 
         if (!empty($newFavorites)) {
-            save_option("enabled_custom_fonts", implode(',', $newFavorites), "template");
+            save_option("enabled_custom_fonts", json_encode($newFavorites), "template");
         } else {
-            save_option("enabled_custom_fonts", " ", "template");
+            save_option("enabled_custom_fonts", json_encode([]), "template");
         }
 
     }
@@ -67,7 +59,7 @@ class FontPickerModalComponent extends ModalComponent
     public function favorite($fontFamily)
     {
         $newFavorites = [];
-        $favoritesFonts = $this->getFavoriteFonts();
+        $favoritesFonts = GoogleFonts::getEnabledFonts();
 
         if (is_array($favoritesFonts) && !empty($favoritesFonts)) {
             $newFavorites = array_merge($newFavorites, $favoritesFonts);
@@ -84,7 +76,7 @@ class FontPickerModalComponent extends ModalComponent
             $newFavorites[] = $fontFamily;
         }
 
-        save_option("enabled_custom_fonts", implode(',', $newFavorites), "template");
+        save_option("enabled_custom_fonts", json_encode($newFavorites), "template");
 
     }
 
@@ -98,7 +90,7 @@ class FontPickerModalComponent extends ModalComponent
             $filterCategory = $this->category;
         }
 
-        $favoritesFonts = $this->getFavoriteFonts();
+        $favoritesFonts = GoogleFonts::getEnabledFonts();
         if (!empty($favoritesFonts)) {
             foreach ($fonts as &$font) {
                 if (in_array($font['family'], $favoritesFonts)) {

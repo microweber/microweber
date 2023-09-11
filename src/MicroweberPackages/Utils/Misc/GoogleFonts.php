@@ -5,17 +5,21 @@ namespace MicroweberPackages\Utils\Misc;
 class GoogleFonts
 {
 
-    public static function getEnabledFonts() : string
+    public static function getEnabledFonts() : array
     {
-        $custom_fonts = '';
-        $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
-        if ($enabled_custom_fonts) {
-            $custom_fonts = $enabled_custom_fonts;
+        $enabledCustomFonts = get_option("enabled_custom_fonts", "template");
+        if ($enabledCustomFonts) {
+            if (!empty($enabledCustomFonts)) {
+                $enabledCustomFonts = json_decode($enabledCustomFonts, true);
+                if (is_array($enabledCustomFonts)) {
+                    return $enabledCustomFonts;
+                }
+            }
         }
-        return $custom_fonts;
+
+        return [];
 
     }
-
 
     public static function getDomain() : string
     {
