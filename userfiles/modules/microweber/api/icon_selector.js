@@ -398,8 +398,8 @@
         var tabAccordionBuilder = function (items) {
             var res = {root: mw.element('<div class="mw-tab-accordion" data-options="tabsSize: medium, tabsColor: tab" />'), items: []};
             items.forEach(function (item){
-                var el = mw.element('<div class="mw-accordion-item" />');
-                var content = mw.element('<div class="mw-accordion-content mw-ui-box mw-ui-box-content">' +(item.content || '') +'</div>');
+                var el = mw.element('<div class="mw-accordion-item px-3" />');
+                var content = mw.element('<div class="mw-accordion-content px-1">' +(item.content || '') +'</div>');
                 var title = mw.element('<div class="mw-ui-box-header mw-accordion-title">' + item.title +'</div>');
                 el.append(title);
                 el.append(content);
@@ -424,7 +424,7 @@
 
         var createUI = function () {
             var root = mw.element({
-                props: { className: 'mw-icon-selector-root d-flex mx-auto p-3' }
+                props: { className: 'mw-icon-selector-root mx-auto w-100' }
             });
             var iconsBlockHolder, tabs, optionsHolder, iconsHolder;
             if(scope.settings.iconOptions) {
@@ -462,9 +462,9 @@
 
             if(holder && scope.settings.iconOptions) {
                 if(scope.settings.iconOptions.size) {
-                    var label = mw.element('<div class="mw-icon-selector-flex"> <label class="mw-icon-selector-control-label">Icon size in px</label> </div>');
+                    var label = mw.element('<div class="mw-icon-selector-flex my-2"> <label class="mw-icon-selector-control-label live-edit-label px-0">Icon size in px</label> </div>');
                     var sizeel = mw.element('<div class="mwiconlist-settings-section-block-item mw-icon-selector-flex  mw-icon-selector-12-column"></div>');
-                    var sizeinput = mw.element('<input class="mw-icon-selector-form-control" type="number" min="8" max="200">');
+                    var sizeinput = mw.element('<input class="mw-icon-selector-form-control me-2" type="number" min="8" max="200">');
                     var sizeinput2 = mw.element('<input class=" mw-icon-selector-form-control-range " type="range" min="8" max="200">');
 
                     actionNodes.size = sizeinput;
@@ -483,7 +483,7 @@
                     holder.append(sizeel);
                 }
                 if(scope.settings.iconOptions.color) {
-                    cel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-icon-selector-control-label  ps-2">Choose color</label></div>');
+                    cel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-icon-selector-control-label live-edit-label px-0 mb-2 ps-2">Choose color</label></div>');
                     cinput = mw.element('<input class="mw-icon-selector-form-control mw-icon-selector-2-column" type="color">');
                     actionNodes.color = cinput;
                     cinput.on('input', function () {
@@ -504,8 +504,8 @@
                     holder.append(cel);
                 }
                 if(scope.settings.iconOptions.reset) {
-                    var rel = mw.element('<div class="mwiconlist-settings-section-block-item"> </div>');
-                    var rinput = mw.element('<input type="button" class="mw-ui-btn" value="' + mw.lang('Reset') + '">');
+                    var rel = mw.element('<div class="my-3"> </div>');
+                    var rinput = mw.element('<input type="button" class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs" value="' + mw.lang('Reset') + '">');
                     rinput.on('click', function () {
                         scope.dispatch('reset', rinput.get(0).value);
 
@@ -617,7 +617,7 @@
                 }
             });
 
-            var searchFieldWrapper = mw.element('<div class="form-control-live-edit-label-wrapper mt-2"></div>');
+            var searchFieldWrapper = mw.element('<div class="form-control-live-edit-label-wrapper m-0 mt-2"></div>');
             var searchFieldSpanEffect = mw.element('<span class="form-control-live-edit-bottom-effect"></span>');
             searchFieldWrapper.append(scope.searchField);
             searchFieldWrapper.append(searchFieldSpanEffect);
@@ -647,7 +647,7 @@
                 comRender()
             });
 
-            var searchSelectorWrapper = mw.element('<div class="form-control-live-edit-label-wrapper mt-2"></div>');
+            var searchSelectorWrapper = mw.element('<div class="form-control-live-edit-label-wrapper m-0 mt-2"></div>');
             searchSelectorWrapper.append(sel);
 
             return searchSelectorWrapper;

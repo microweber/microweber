@@ -78,10 +78,15 @@ $handleholderHeight: 42;
 
 .mw-handle-item-menus-holder{
 
- 
+
     position: absolute;
 
 
+}
+
+#mw-handle-item-element-menu {
+    display: flex;
+    align-items: center;
 }
 
 #mw-handle-item-layout-root{
@@ -90,7 +95,7 @@ $handleholderHeight: 42;
         top: 10px;
         right: 10px;
         left: auto;
-       
+
 
 
     }
@@ -101,7 +106,7 @@ $handleholderHeight: 42;
     .mw-handle-item-menus-holder, .mw-le-handle-menu-button-sub-menu{
 
         height: #{$handleholderHeight}px;
-        padding: 2px 2px 11px 11px!important;
+        padding: 11px!important;
         padding-bottom: 9px !important;
         display: inline-flex;
         border-radius: 7px;
@@ -209,9 +214,6 @@ $handleholderHeight: 42;
     }
 
     .mw-le-handle-menu-buttons{
-        left: auto;
-        right: 5px;
-        top: 5px;
         display: block;
         *{
             vertical-align: middle;

@@ -14,6 +14,7 @@ import {LiveEditSpacer} from "./live-edit-spacer";
 import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler";
 import LiveEditImageDialog from "./live-edit-image-dialog";
 import {LiveEditLayoutBackground} from "./live-edit-layout-background";
+import LiveEditFontManager from "./live-edit-font-manager";
 
 
 export const liveEditComponent = () => {
@@ -70,10 +71,13 @@ export const liveEditComponent = () => {
     mw.app.editImageDialog =  new LiveEditImageDialog();
     mw.app.layoutBackground =  new LiveEditLayoutBackground();
 
+    mw.app.fontManager =  new LiveEditFontManager();
+
 
 
     mw.app.spacer = new LiveEditSpacer();
     mw.app.undoHandler = new LiveEditUndoRedoHandler();
+
 
 
     mw.app.registerUndoState = function(element){
@@ -162,7 +166,7 @@ export const liveEditComponent = () => {
         });
 
 
-    mw.app.call('onLiveEditReady');
+    mw.app.dispatch('onLiveEditReady');
 
     }
 

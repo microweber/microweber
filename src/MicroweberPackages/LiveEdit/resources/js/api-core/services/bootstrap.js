@@ -16,11 +16,13 @@ import '@nextapps-be/livewire-sortablejs';
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
 import { DynamicTargetMenus } from './services/dynamic-target-menus.js';
+import {LiveEditCanvas} from "./components/live-edit-canvas/live-edit-canvas";
 
 mw.app = new MWUniversalContainer();
 
 //setTimeout(function() {
-
+const canvas = new LiveEditCanvas();
+mw.app.register('canvas', canvas);
     mw.app.register('commands', Commands);
     mw.app.register('modules', Modules);
 

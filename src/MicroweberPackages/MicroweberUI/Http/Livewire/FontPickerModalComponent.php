@@ -5,6 +5,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Livewire\WithPagination;
 use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\Utils\Misc\GoogleFonts;
 
 class FontPickerModalComponent extends ModalComponent
 {
@@ -34,6 +35,51 @@ class FontPickerModalComponent extends ModalComponent
         'display' => 'Display',
     ];
 
+    public function removeFavorite($fontFamily)
+    {
+        $favoritesFonts = GoogleFonts::getEnabledFonts();
+
+        $newFavorites = [];
+        if (!empty($favoritesFonts)) {
+            foreach ($favoritesFonts as $font) {
+                if ($font !== $fontFamily) {
+                    $newFavorites[] = $font;
+                }
+            }
+        }
+
+        if (!empty($newFavorites)) {
+            save_option("enabled_custom_fonts", json_encode($newFavorites), "template");
+        } else {
+            save_option("enabled_custom_fonts", json_encode([]), "template");
+        }
+
+    }
+
+    public function favorite($fontFamily)
+    {
+        $newFavorites = [];
+        $favoritesFonts = GoogleFonts::getEnabledFonts();
+
+        if (is_array($favoritesFonts) && !empty($favoritesFonts)) {
+            $newFavorites = array_merge($newFavorites, $favoritesFonts);
+            $findFont = false;
+            foreach ($favoritesFonts as $font) {
+                if ($font == $fontFamily) {
+                    $findFont = true;
+                }
+            }
+            if (!$findFont) {
+                $newFavorites[] = $fontFamily;
+            }
+        } else {
+            $newFavorites[] = $fontFamily;
+        }
+
+        save_option("enabled_custom_fonts", json_encode($newFavorites), "template");
+
+    }
+
     public function render()
     {
         $fonts = get_editor_fonts();
@@ -44,26 +90,47 @@ class FontPickerModalComponent extends ModalComponent
             $filterCategory = $this->category;
         }
 
+        $favoritesFonts = GoogleFonts::getEnabledFonts();
+        if (!empty($favoritesFonts)) {
+            foreach ($fonts as &$font) {
+                if (in_array($font['family'], $favoritesFonts)) {
+                    $font['favorite'] = true;
+                }
+            }
+        }
+
         if (!empty($this->search) || !empty($filterCategory)) {
             foreach ($fonts as $font) {
+
+                $appendFont = false;
                 $fontFamilyLower = mb_strtolower($font['family']);
                 $searchLower = mb_strtolower($this->search);
                 if (!empty($this->search)) {
                     if (strpos($fontFamilyLower, $searchLower) !== false) {
-                        $filteredFonts[] = $font;
+                        $appendFont = true;
                     }
                 }
                 if (!empty($filterCategory)) {
                    if (isset($font['category']) && $font['category'] == $filterCategory) {
-                       $filteredFonts[] = $font;
+                       $appendFont = true;
+                   }
+                   if ($filterCategory == 'favorites') {
+                       if (isset($font['favorite']) && $font['favorite'] == true) {
+                           $appendFont = true;
+                       }
                    }
                    if (isset($font['subsets'])
                        && !empty($font['subsets'])
                        && is_array($font['subsets'])
                        && in_array($filterCategory, $font['subsets'])) {
-                       $filteredFonts[] = $font;
+                       $appendFont = true;
                    }
                 }
+
+               if ($appendFont) {
+                    $filteredFonts[] = $font;
+               }
+
             }
         } else {
             $filteredFonts = $fonts;

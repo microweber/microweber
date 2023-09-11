@@ -251,7 +251,7 @@ $current_template = false;
 
                             if (inner_mod_type) {
                                 var inner_mod_type_admin = inner_mod_type + '/admin'
-                                mod_in_mods_html_btn += '<a href="javascript:;" class="btn btn-primary mb-1 mr-1" onclick=\'window.mw.parent().tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
+                                mod_in_mods_html_btn += '<a href="javascript:;" class="btn btn-outline-dark btn-sm" onclick=\'window.mw.parent().tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
                             }
                         }
 
@@ -367,12 +367,12 @@ $current_template = false;
                                     <div class="current-template-modules-list-wrap">
                                         <label class="live-edit-label">This layout contains those modules</label>
 
-                                        <div class="current-template-modules-list d-flex gap-3"></div>
+                                        <div class="current-template-modules-list d-flex flex-wrap gap-2 ms-2"></div>
                                     </div>
                                 </div>
 
                             <div class="reset-current-template mt-4">
-                                <button type="button" class="js-reset-layout btn btn-outline-danger">Reset Layout</button>
+                                <button type="button" class="js-reset-layout btn btn-link mw-admin-action-links mw-adm-liveedit-tabs text-danger ms-2">Reset Layout</button>
                             </div>
 
                             <?php endif; ?>
