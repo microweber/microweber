@@ -470,7 +470,7 @@ mw.requireAsync = (url, key) => {
 		 mw.top().win.mweditor.contentWindow.mw.reload_module(module, callback)
 		} else if(typeof(mw.top().win.iframe_editor_window) != 'undefined'  && typeof(mw.top().win.iframe_editor_window) == 'object'   && typeof(mw.top().win.iframe_editor_window.mw) != 'undefined'){
 
-		mw.top().win.iframe_editor_window.mw.reload_module(module, callback)
+		    mw.top().win.iframe_editor_window.mw.reload_module(module, callback)
 		}
 
         if(typeof(parent.mw_preview_frame_object) != 'undefined'  && typeof(parent.mw_preview_frame_object) == 'object'   && typeof(parent.mw_preview_frame_object.contentWindow) != 'undefined'){
@@ -597,6 +597,10 @@ mw.requireAsync = (url, key) => {
                 try { m = $(module); }  catch(e) {};
             }
 
+            if( !m.length && typeof callback === 'function'){
+                callback.call();
+            }
+
               (function(callback){
                   var count = 0;
                   for (var i=0;i<m.length;i++){
@@ -615,6 +619,10 @@ mw.requireAsync = (url, key) => {
           }
         }
       }
+    } else {
+        if( typeof callback === 'function'){
+            callback.call();
+        }
     }
   }
 

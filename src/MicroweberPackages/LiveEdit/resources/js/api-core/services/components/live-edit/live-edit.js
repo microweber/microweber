@@ -40,6 +40,20 @@ export const liveEditComponent = () => {
         mw.app.editor.dispatch('insertLayoutRequestOnTop', mw.app.liveEdit.handles.get('layout').getTarget());
     });
 
+    mw.app.on('moduleReloaded', function(){
+        const layoutTarget = mw.top().app.liveEdit.handles.get('layout').getTarget();
+
+        console.log(1, layoutTarget)
+         
+        if(layoutTarget && !layoutTarget.parentElement) {
+            
+            mw.top().app.liveEdit.handles.get('layout').set(null);
+            mw.top().app.liveEdit.handles.get('layout').set(mw.app.canvas.getDocument().getElementById(layoutTarget.id));
+
+            console.log(mw.app.canvas.getDocument().getElementById(layoutTarget.id))
+        }
+    });
+
     liveEdit.on('insertLayoutRequestOnBottom', function(){
         mw.app.editor.dispatch('insertLayoutRequestOnBottom', mw.app.liveEdit.handles.get('layout').getTarget());
     });

@@ -399,11 +399,12 @@ mw.options = {
 
 
                     if (window.mw.reload_module !== undefined) {
-
-                        mw.reload_module_parent(which_module_to_reload);
-                        mw.reload_module_parent("#" + which_module_to_reload);
-
-
+                        mw.reload_module_parent(which_module_to_reload, function() {
+                            mw.reload_module_parent("#" + which_module_to_reload, function(){
+                                mw.top().app.dispatch('moduleReloaded');
+                            });
+                        });
+                        
                     }
 
 
@@ -415,7 +416,9 @@ mw.options = {
                     mw.options.___rebindAllFormsAfterReload();
 
                     if(mw.top && mw.top().app) {
+                        setTimeout(function () {
                         mw.top().app.dispatch('moduleReloaded');
+                    }, 300);
                       
                     }
                 }, 300);
