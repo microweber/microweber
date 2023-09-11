@@ -38,6 +38,11 @@ mw.options = {
             lang = o.lang;
         }
 
+        var module = false;
+        if (typeof(o.module) !== 'undefined') {
+            module = o.module;
+        }
+
         var data = {
             option_group: group,
             option_key: key,
@@ -48,6 +53,10 @@ mw.options = {
         if(lang){
             // for multilanguage module
             data.lang=lang;
+        }
+        if(module){
+            // for module param
+            data.module=module;
         }
 
 
@@ -438,7 +447,7 @@ mw.options = {
                 var option = JSON.parse(jsonAttr);
 
                 optionsToSave.push(option);
-                optionElement.removeAttr('data-mw-temp-option-save')
+                optionElement.removeAttribute('data-mw-temp-option-save');
             }
         }
         if(optionsToSave){

@@ -15,8 +15,23 @@ export class LiveEditLayoutBackground extends BaseComponent {
 
         node.style.backgroundColor = 'transparent';
 
+
+        var isInsideBackgroundModule = liveEditHelpers.targetGetFirstModuleOfType(node, 'background');
+        if (isInsideBackgroundModule) {
+            var options = {
+                group: isInsideBackgroundModule.id,
+                key: 'image',
+                module: 'background',
+                value: url
+            };
+            alert('save option');
+            mw.top().options.tempOption(isInsideBackgroundModule,options);
+
+        }
+
         delete node.dataset.mwvideo;
         mw.top().app.registerChange(node);
+
     }
     setBackgroundVideo(node, url) {
         node.innerHTML = `<video src="${url}" autoplay muted></video>`;
@@ -35,6 +50,12 @@ export class LiveEditLayoutBackground extends BaseComponent {
         delete node.dataset.mwvideo;
         mw.top().app.registerChange(node);
     }
+
+
+
+
+
+
 }
 
 export default LiveEditLayoutBackground;

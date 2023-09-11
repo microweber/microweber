@@ -169,7 +169,7 @@ export class LiveEditSpacer extends BaseComponent {
 
                 mw.app.state.record({
                     target: isInsideSpacerModule,
-                    previousOption: options,
+                    //previousOption: options,
                     value: htmlforUndo
                 });
                 isInsideSpacerModule.setAttribute('height', node.offsetHeight + 'px');
