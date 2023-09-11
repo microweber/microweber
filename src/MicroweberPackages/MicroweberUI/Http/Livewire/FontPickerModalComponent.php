@@ -103,29 +103,36 @@ class FontPickerModalComponent extends ModalComponent
 
         if (!empty($this->search) || !empty($filterCategory)) {
             foreach ($fonts as $font) {
+
+                $appendFont = false;
                 $fontFamilyLower = mb_strtolower($font['family']);
                 $searchLower = mb_strtolower($this->search);
                 if (!empty($this->search)) {
                     if (strpos($fontFamilyLower, $searchLower) !== false) {
-                        $filteredFonts[] = $font;
+                        $appendFont = true;
                     }
                 }
                 if (!empty($filterCategory)) {
                    if (isset($font['category']) && $font['category'] == $filterCategory) {
-                       $filteredFonts[] = $font;
+                       $appendFont = true;
                    }
                    if ($filterCategory == 'favorites') {
                        if (isset($font['favorite']) && $font['favorite'] == true) {
-                           $filteredFonts[] = $font;
+                           $appendFont = true;
                        }
                    }
                    if (isset($font['subsets'])
                        && !empty($font['subsets'])
                        && is_array($font['subsets'])
                        && in_array($filterCategory, $font['subsets'])) {
-                       $filteredFonts[] = $font;
+                       $appendFont = true;
                    }
                 }
+
+               if ($appendFont) {
+                    $filteredFonts[] = $font;
+               }
+
             }
         } else {
             $filteredFonts = $fonts;
