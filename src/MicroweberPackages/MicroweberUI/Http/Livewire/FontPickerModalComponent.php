@@ -49,9 +49,9 @@ class FontPickerModalComponent extends ModalComponent
         }
 
         if (!empty($newFavorites)) {
-            save_option("enabled_custom_fonts", $newFavorites, "template");
+            save_option("enabled_custom_fonts", json_encode($newFavorites), "template");
         } else {
-            save_option("enabled_custom_fonts", [], "template");
+            save_option("enabled_custom_fonts", json_encode([]), "template");
         }
 
     }
@@ -76,7 +76,7 @@ class FontPickerModalComponent extends ModalComponent
             $newFavorites[] = $fontFamily;
         }
 
-        save_option("enabled_custom_fonts", $newFavorites, "template");
+        save_option("enabled_custom_fonts", json_encode($newFavorites), "template");
 
     }
 

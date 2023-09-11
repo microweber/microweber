@@ -9,8 +9,11 @@ class GoogleFonts
     {
         $enabledCustomFonts = get_option("enabled_custom_fonts", "template");
         if ($enabledCustomFonts) {
-            if (!empty($enabledCustomFonts) && is_array($enabledCustomFonts)) {
-                return $enabledCustomFonts;
+            if (!empty($enabledCustomFonts)) {
+                $enabledCustomFonts = json_decode($enabledCustomFonts, true);
+                if (is_array($enabledCustomFonts)) {
+                    return $enabledCustomFonts;
+                }
             }
         }
 
