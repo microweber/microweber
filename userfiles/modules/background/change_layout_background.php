@@ -91,10 +91,9 @@
 
                 mode: 'inline',
                 onchange: function (color) {
-                    bgNode.style.backgroundColor = color;
-                    bgNode.style.backgroundImage = 'transparent';
-                    mw.top().app.registerChange(bgNode);
-                    delete bgNode.dataset.mwvideo;
+
+                    mw.top().app.layoutBackground.setBackgroundColor(bgNode, color);
+
                 }
             });
 
@@ -107,9 +106,8 @@
                 mode: 'inline',
                 onchange: function (color) {
                     if (!cpoPickerPause) {
-                        bgOverlay.style.backgroundColor = color;
-                        bgOverlay.style.backgroundImage = 'none';
-                        mw.top().app.registerChange(bgOverlay);
+                        mw.top().app.layoutBackground.setBackgroundColor(bgOverlay, color);
+
                     }
 
                 }
@@ -141,17 +139,10 @@
                             return
                         }
                         url = url.toString();
-                        bgNode.innerHTML = ` `;
 
-
-                        bgNode.style.backgroundImage = `url(${url})`;
-
-                        bgNode.style.backgroundColor = 'transparent';
-
-                        delete bgNode.dataset.mwvideo;
-
+                        mw.top().app.layoutBackground.setBackgroundImage(bgNode, url);
                         dialog.remove();
-                        mw.top().app.registerChange(bgNode);
+
 
                     }
                 });
@@ -182,19 +173,10 @@
                             return
                         }
                         url = url.toString();
-                        bgNode.innerHTML = `<video src="${url}" autoplay muted></video>`;
-
-
-                        bgNode.dataset.mwvideo = url;
-                        bgNode.style.backgroundImage = `none`;
-
-                        bgNode.style.backgroundColor = 'transparent';
-
-
+                        mw.top().app.layoutBackground.setBackgroundVideo(bgNode, url);
                         dialog.remove();
-                        mw.top().app.registerChange(bgNode);
 
-                    }
+                   }
                 });
                 dialog = mw.top().dialog({
                     content: picker.root,

@@ -13,6 +13,7 @@ import liveEditHelpers from "../../../core/live-edit-helpers.service";
 import {LiveEditSpacer} from "./live-edit-spacer";
 import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler";
 import LiveEditImageDialog from "./live-edit-image-dialog";
+import {LiveEditLayoutBackground} from "./live-edit-layout-background";
 
 
 export const liveEditComponent = () => {
@@ -53,6 +54,7 @@ export const liveEditComponent = () => {
 
     mw.app.state =mw.liveEditState;
     mw.app.editImageDialog =  new LiveEditImageDialog();
+    mw.app.layoutBackground =  new LiveEditLayoutBackground();
 
 
 
