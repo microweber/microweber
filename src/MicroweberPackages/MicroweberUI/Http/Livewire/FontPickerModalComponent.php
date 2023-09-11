@@ -94,12 +94,9 @@ class FontPickerModalComponent extends ModalComponent
 
         $favoritesFonts = $this->getFavoriteFonts();
         if (!empty($favoritesFonts)) {
-            foreach ($fonts as $font) {
+            foreach ($fonts as &$font) {
                 if (in_array($font['family'], $favoritesFonts)) {
-                    $appendNewFont = $font;
-                    $appendNewFont['favorite'] = true;
-                    $appendNewFont['category'] = 'favorites';
-                    $fonts[] = $appendNewFont;
+                    $font['favorite'] = true;
                 }
             }
         }
@@ -116,6 +113,11 @@ class FontPickerModalComponent extends ModalComponent
                 if (!empty($filterCategory)) {
                    if (isset($font['category']) && $font['category'] == $filterCategory) {
                        $filteredFonts[] = $font;
+                   }
+                   if ($filterCategory == 'favorites') {
+                       if (isset($font['favorite']) && $font['favorite'] == true) {
+                           $filteredFonts[] = $font;
+                       }
                    }
                    if (isset($font['subsets'])
                        && !empty($font['subsets'])

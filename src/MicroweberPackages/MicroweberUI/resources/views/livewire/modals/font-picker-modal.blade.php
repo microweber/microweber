@@ -45,7 +45,7 @@
                                <button type="button"
                                        style="background:#fff;border:0px;text-align:left;width:100%;margin-top:5px;">
                                 <span style="font-size:18px;font-family:'{!! $font['family'] !!}',sans-serif;">
-                                     {!! $font['family'] !!} 
+                                     {!! $font['family'] !!}
                                 </span>
                                </button>
                            </div>
