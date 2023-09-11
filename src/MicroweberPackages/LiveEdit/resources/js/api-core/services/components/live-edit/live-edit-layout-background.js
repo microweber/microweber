@@ -18,14 +18,26 @@ export class LiveEditLayoutBackground extends BaseComponent {
 
         var isInsideBackgroundModule = liveEditHelpers.targetGetFirstModuleOfType(node, 'background');
         if (isInsideBackgroundModule) {
-            var options = {
+
+            //set bg image option
+            var optionsBg = {
                 group: isInsideBackgroundModule.id,
-                key: 'image',
+                key: 'background_image',
                 module: 'background',
                 value: url
             };
-            alert('save option');
-            mw.top().options.tempOption(isInsideBackgroundModule,options);
+
+            mw.top().options.tempOption(isInsideBackgroundModule,optionsBg);
+            //remove bg video option
+            var optionsVideo = {
+                group: isInsideBackgroundModule.id,
+                key: 'background_video',
+                module: 'background',
+                value: ''
+            };
+
+            mw.top().options.tempOption(isInsideBackgroundModule,optionsVideo);
+
 
         }
 
@@ -41,6 +53,36 @@ export class LiveEditLayoutBackground extends BaseComponent {
 
         node.style.backgroundColor = 'transparent';
 
+
+        var isInsideBackgroundModule = liveEditHelpers.targetGetFirstModuleOfType(node, 'background');
+        if (isInsideBackgroundModule) {
+
+            //set bg image option
+            var optionsBg = {
+                group: isInsideBackgroundModule.id,
+                key: 'background_image',
+                module: 'background',
+                value: ''
+            };
+
+            mw.top().options.tempOption(isInsideBackgroundModule,optionsBg);
+
+            //remove bg video option
+            var optionsVideo = {
+                group: isInsideBackgroundModule.id,
+                key: 'background_video',
+                module: 'background',
+                value: url
+            };
+
+            mw.top().options.tempOption(isInsideBackgroundModule,optionsVideo);
+
+
+        }
+
+
+
+
         mw.top().app.registerChange(node);
 
     }
@@ -48,6 +90,12 @@ export class LiveEditLayoutBackground extends BaseComponent {
         node.style.backgroundColor = color;
         node.style.backgroundImage = 'transparent';
         delete node.dataset.mwvideo;
+
+
+
+
+
+
         mw.top().app.registerChange(node);
     }
 
