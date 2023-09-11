@@ -28,6 +28,17 @@
                 </div>
             </div>
         </div>
+
+        <div id="bg-image-picker-remove-wrapper">
+            <button id="bg-image-picker-remove-image"  type="button" class="btn btn-ghost-danger w-100">
+                Remove image
+            </button>
+
+
+        </div>
+
+
+
     </div>
     <div class="bg-tab">
         <div id="video-picker">
@@ -49,12 +60,29 @@
                 </div>
             </div>
         </div>
+
+        <div id="video-picker-remove-wrapper">
+            <button id="video-picker-remove-video"  type="button" class="btn btn-ghost-danger w-100">
+                Remove video
+            </button>
+
+
+        </div>
     </div>
     <div class="bg-tab">
         <div id="color-picker" class="card card-body"></div>
+
     </div>
     <div class="bg-tab">
         <div id="overlay-color-picker" class="card card-body"></div>
+
+        <div id="overlay-color-picker-remove-wrapper">
+            <button id="overlay-color-picker-remove-color"  type="button" class="btn btn-ghost-danger w-100">
+                Remove color
+            </button>
+
+
+        </div>
     </div>
 
 
@@ -93,7 +121,7 @@
                 onchange: function (color) {
 
                     mw.top().app.layoutBackground.setBackgroundColor(bgNode, color);
-
+                    showHideRemoveBackgroundsButtons();
                 }
             });
 
@@ -107,7 +135,7 @@
                 onchange: function (color) {
                     if (!cpoPickerPause) {
                         mw.top().app.layoutBackground.setBackgroundColor(bgOverlay, color);
-
+                        showHideRemoveBackgroundsButtons();
                     }
 
                 }
@@ -143,7 +171,7 @@
                         mw.top().app.layoutBackground.setBackgroundImage(bgNode, url);
                         dialog.remove();
 
-
+                        showHideRemoveBackgroundsButtons();
                     }
                 });
                 dialog = mw.top().dialog({
@@ -175,7 +203,7 @@
                         url = url.toString();
                         mw.top().app.layoutBackground.setBackgroundVideo(bgNode, url);
                         dialog.remove();
-
+                        showHideRemoveBackgroundsButtons();
                    }
                 });
                 dialog = mw.top().dialog({
@@ -191,8 +219,49 @@
                 })
             })
 
+
+            document.querySelector('#video-picker-remove-video').addEventListener('click', function () {
+                mw.top().app.layoutBackground.setBackgroundVideo(bgNode, '');
+                showHideRemoveBackgroundsButtons()
+            })
+            document.querySelector('#bg-image-picker-remove-image').addEventListener('click', function () {
+                mw.top().app.layoutBackground.setBackgroundImage(bgNode, '');
+                showHideRemoveBackgroundsButtons()
+            })
+
+            document.querySelector('#overlay-color-picker-remove-color').addEventListener('click', function () {
+
+                mw.top().app.layoutBackground.setBackgroundColor(bgOverlay, '');
+                showHideRemoveBackgroundsButtons()
+            })
+            showHideRemoveBackgroundsButtons();
         });
 
+
+        function showHideRemoveBackgroundsButtons(){
+            var hasBgImage = mw.top().app.layoutBackground.getBackgroundImage(bgNode);
+            if(hasBgImage){
+                $('#bg-image-picker-remove-image').show()
+            } else {
+                $('#bg-image-picker-remove-image').hide()
+
+            }
+
+            var hasBgVideo = mw.top().app.layoutBackground.getBackgroundVideo(bgNode);
+            if(hasBgVideo){
+                $('#video-picker-remove-video').show()
+            } else {
+                $('#video-picker-remove-video').hide()
+            }
+
+            var hasBgColor = mw.top().app.layoutBackground.getBackgroundColor(bgOverlay)
+            if(hasBgColor){
+                $('#overlay-color-picker-remove-color').show()
+            } else {
+                $('#overlay-color-picker-remove-color').hide()
+            }
+
+        }
 
     </script>
 
