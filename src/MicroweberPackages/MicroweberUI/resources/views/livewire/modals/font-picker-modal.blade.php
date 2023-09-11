@@ -35,7 +35,8 @@
                 </div>
             </div>
             <div class="pr-5">
-                @if(!empty($fonts))
+
+                @if($fonts->count() > 0)
                     @foreach($fonts as $font)
                         @php
                             $fontId = md5($font['family'].$font['category']);
@@ -45,7 +46,7 @@
                                <button type="button"
                                        style="background:#fff;border:0px;text-align:left;width:100%;margin-top:5px;">
                                 <span style="font-size:18px;font-family:'{!! $font['family'] !!}',sans-serif;">
-                                     {!! $font['family'] !!} 
+                                     {!! $font['family'] !!}
                                 </span>
                                </button>
                            </div>
@@ -59,6 +60,10 @@
                             </div>
                         </div>
                     @endforeach
+                @else
+                    <div>
+                        No fonts in this {{ $category }}
+                    </div>
                 @endif
 
                 <div>

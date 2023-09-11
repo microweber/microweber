@@ -7,15 +7,16 @@ class GoogleFonts
 
     public static function getEnabledFonts() : string
     {
-        $custom_fonts = '';
-        $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
-        if ($enabled_custom_fonts) {
-            $custom_fonts = $enabled_custom_fonts;
+        $enabledCustomFonts = get_option("enabled_custom_fonts", "template");
+        if ($enabledCustomFonts) {
+            if (!empty($enabledCustomFonts) && is_array($enabledCustomFonts)) {
+                return $enabledCustomFonts;
+            }
         }
-        return $custom_fonts;
+
+        return [];
 
     }
-
 
     public static function getDomain() : string
     {
