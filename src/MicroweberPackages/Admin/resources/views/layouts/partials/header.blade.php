@@ -34,6 +34,7 @@
         mw.require("custom_fields.js");
         mw.require("session.js");
         mw.require("content.js");
+        mw.require("filepicker.js");
         mw.require("upgrades.js");
         mw.require("tree.js");
         mw.lib.require("bootstrap_select");

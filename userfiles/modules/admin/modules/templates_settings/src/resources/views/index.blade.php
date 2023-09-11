@@ -27,7 +27,7 @@
     @foreach($templateSettings as $formItem)
 
         @php
-        $showWhen = '';
+        $showWhen = false;
         if(isset($formItem['show_when']) and !empty($formItem['show_when'])) {
             $showWhenArray = [];
             if(is_array($formItem['show_when'])) {
@@ -37,12 +37,13 @@
             } else {
                 $showWhenArray[] = '$store.templateSettings.' . $formItem['show_when'];
             }
-
+            if($showWhenArray){
             $showWhen = implode(' && ',  $showWhenArray);
+            }
         }
         @endphp
 
-            <div x-show="{{$showWhen}}">
+            <div  @if($showWhen) x-show="{{$showWhen}}" @endif>
 
             <div @if(isset($formItem['label'])) class="d-flex gap-2 justify-content-between" @else class="mb-3"  @endif>
 

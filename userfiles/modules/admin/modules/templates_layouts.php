@@ -457,6 +457,8 @@ $current_template = false;
                         var target = mw.top().app.liveEdit.handles.get('layout').getTarget();
                         var bg, bgOverlay, bgNode;
                         if(target) {
+
+
                             bg = target.querySelector('.mw-layout-background-block');
                             if(bg) {
                                 var tabLink = document.querySelector('#change-background-tab-link');
