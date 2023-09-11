@@ -141,7 +141,7 @@ export default {
                     })
                     $(dlg).on('remove', () => {
                       resolve()
-                      mw.app.get('liveEdit').play();
+                      mw.app.liveEdit.play();
                     })
 
                     imageEditor = editImage(url, editor, dlg)
@@ -157,7 +157,7 @@ export default {
                   if(src) {
                     element.src = src
                   }
-                  mw.app.get('liveEdit').play();
+                  mw.app.liveEdit.play();
 
               } else if(element.style.backgroundImage) {
                   var bg =  element.style.backgroundImage.trim().split('url(')[1];
@@ -173,7 +173,7 @@ export default {
 
                       element.style.backgroundImage = `url(${src})`
                     }
-                    mw.app.get('liveEdit').play();
+                    mw.app.liveEdit.play();
 
                   }
 
@@ -213,7 +213,7 @@ export default {
 
                   $(dialog).on('Remove', () => {
 
-                    mw.app.get('liveEdit').play();
+                    mw.app.liveEdit.play();
                   })
                   return dialog;
                 }
@@ -254,7 +254,7 @@ export default {
                           url = url.toString();
                           element.src = url;
 
-                          mw.app.get('liveEdit').play();
+                          mw.app.liveEdit.play();
                           dialog.remove();
 
                       mw.top().app.registerChangedState(element);
@@ -278,7 +278,7 @@ export default {
                           url = url.toString();
                           element.style.backgroundImage = `url(${url})`
 
-                          mw.app.get('liveEdit').play();
+                          mw.app.liveEdit.play();
                           dialog.remove();
 
                             mw.top().app.registerChangedState(element);
@@ -301,7 +301,7 @@ export default {
                   if(targetChange && targetChange.classList && !targetChange.classList.contains('safe-mode')){
                     element = targetChange;
 
-                    mw.app.get('liveEdit').handles.get('element').set(element);
+                    mw.app.liveEdit.handles.get('element').set(element);
                   }
                   console.log(element, targetChange)
 
@@ -326,8 +326,8 @@ export default {
 
                 }
 
-                mw.app.get('liveEdit').handles.hide();
-                mw.app.get('liveEdit').pause();
+                mw.app.liveEdit.handles.hide();
+                mw.app.liveEdit.pause();
             });
 
 

@@ -4,7 +4,7 @@
 class ModuleHandleAdapter extends BaseComponent {
     constructor() {
         super();
-        const handle = mw.app.get('liveEdit').moduleHandle;
+        const handle = mw.app.liveEdit.moduleHandle;
         handle.on('targetChange', taget => {
             this.dispatch('targetChange', taget)
         })
@@ -15,7 +15,7 @@ class ModuleHandleAdapter extends BaseComponent {
 class ElementHandleAdapter extends BaseComponent {
     constructor() {
         super();
-        const handle = mw.app.get('liveEdit').elementHandle;
+        const handle = mw.app.liveEdit.elementHandle;
         handle.on('targetChange', taget => {
             this.dispatch('targetChange', taget)
         })
@@ -25,7 +25,7 @@ class ElementHandleAdapter extends BaseComponent {
 class LayoutHandleAdapter extends BaseComponent {
     constructor() {
         super();
-        const handle = mw.app.get('liveEdit').layoutHandleContent;
+        const handle = mw.app.liveEdit.layoutHandleContent;
         handle.on('targetChange', taget => {
             this.dispatch('targetChange', taget)
         })
@@ -34,7 +34,9 @@ class LayoutHandleAdapter extends BaseComponent {
 
 
 export class EditorHandles extends BaseComponent {
-
+    constructor() {
+        super();
+    }
     handle = {
         module:  new ModuleHandleAdapter(),
         element: new ElementHandleAdapter(),
@@ -42,9 +44,9 @@ export class EditorHandles extends BaseComponent {
     }
 
     insertModule(module, options, insertLocation = 'bottom') {
-        let target = mw.app.get('liveEdit').handles.get('element').getTarget();
+        let target = mw.app.liveEdit.handles.get('element').getTarget();
         if(!target) {
-            target = mw.app.get('liveEdit').handles.get('module').getTarget();
+            target = mw.app.liveEdit.handles.get('module').getTarget();
         }
 
 
@@ -52,7 +54,7 @@ export class EditorHandles extends BaseComponent {
     };
 
     insertLayout(options, insertLocation = 'top') {
-        const target = mw.app.get('liveEdit').handles.get('layout').getTarget()
+        const target = mw.app.liveEdit.handles.get('layout').getTarget()
         return insertModule(target, 'layouts', options, insertLocation)
     };
 

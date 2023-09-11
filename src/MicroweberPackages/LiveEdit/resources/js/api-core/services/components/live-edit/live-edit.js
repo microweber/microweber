@@ -31,39 +31,31 @@ export const liveEditComponent = () => {
     });
 
     liveEdit.on('insertLayoutRequest', function(){
-        mw.app.editor.dispatch('insertLayoutRequest', mw.app.get('liveEdit').handles.get('layout').getTarget());
+        mw.app.editor.dispatch('insertLayoutRequest', mw.app.liveEdit.handles.get('layout').getTarget());
     });
 
     liveEdit.on('insertLayoutRequestOnTop', function(){
-        mw.app.editor.dispatch('insertLayoutRequestOnTop', mw.app.get('liveEdit').handles.get('layout').getTarget());
+        mw.app.editor.dispatch('insertLayoutRequestOnTop', mw.app.liveEdit.handles.get('layout').getTarget());
     });
 
     liveEdit.on('insertLayoutRequestOnBottom', function(){
-        mw.app.editor.dispatch('insertLayoutRequestOnBottom', mw.app.get('liveEdit').handles.get('layout').getTarget());
+        mw.app.editor.dispatch('insertLayoutRequestOnBottom', mw.app.liveEdit.handles.get('layout').getTarget());
     });
 
-    mw.app.call('onLiveEditReady');
 
-    mw.app.register('liveEdit', liveEdit);
-    mw.app.register('state', mw.liveEditState);
+    mw.app.moduleSettings = new ModuleSettings();
+    mw.app.templateSettings = new TemplateSettings();
+    mw.app.liveEdit =liveEdit;
+    mw.app.state =mw.liveEditState;
 
-    mw.app.register('editor', EditorHandles );
-    mw.app.register('spacer', LiveEditSpacer );
-    mw.app.register('undoHandler', LiveEditUndoRedoHandler );
 
-    mw.app.register('moduleSettings', ModuleSettings);
+    mw.app.editor = new EditorHandles();
+    mw.app.spacer = new LiveEditSpacer();
+    mw.app.undoHandler = new LiveEditUndoRedoHandler();
 
-    mw.app.register('templateSettings', TemplateSettings);// don't remove this
+
     mw.app.registerUndoState = function(element){
-        var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
-        if(edit) {
-            if(edit.getAttribute('rel') && edit.getAttribute('field')) {
-                mw.app.state.record({
-                    target: edit,
-                    value: edit.innerHTML
-                });
-            }
-        }
+        return mw.app.undoHandler.registerUndoState(element);
     };
     mw.app.registerChange = function(element){
         var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
@@ -148,7 +140,7 @@ export const liveEditComponent = () => {
         });
 
 
-
+    mw.app.call('onLiveEditReady');
 
     }
 

@@ -39,6 +39,19 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
             }
         }
     }
+
+
+    registerUndoState = (element) => {
+        var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
+        if(edit) {
+            if(edit.getAttribute('rel') && edit.getAttribute('field')) {
+                mw.app.state.record({
+                    target: edit,
+                    value: edit.innerHTML
+                });
+            }
+        }
+    }
 }
 
 export default LiveEditUndoRedoHandler;

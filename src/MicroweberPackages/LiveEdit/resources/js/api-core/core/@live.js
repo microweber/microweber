@@ -191,7 +191,7 @@ export class LiveEdit {
             scope.handles.get('layout').hide();
             scope.handles.get('interactionHandle').hide();
             mw.top().app.richTextEditor.smallEditor.hide()
-            mw.app.get('liveEdit').play();
+            mw.app.liveEdit.play();
 
             //mw.app.domTreeSelect(target)
 
@@ -267,7 +267,7 @@ export class LiveEdit {
             scope.handles.get('layout').hide();
             scope.handles.get('interactionHandle').hide();
             mw.top().app.richTextEditor.smallEditor.hide()
-            mw.app.get('liveEdit').play();
+            mw.app.liveEdit.play();
 
             //mw.app.domTreeSelect(node)
         });
@@ -917,7 +917,7 @@ export class LiveEdit {
                 }
 
 
-                // mw.app.get('liveEdit').play();
+                // mw.app.liveEdit.play();
             }
             }
         });

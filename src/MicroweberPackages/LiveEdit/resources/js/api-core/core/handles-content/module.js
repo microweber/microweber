@@ -53,7 +53,7 @@ export class ModuleHandleContent {
                 "title": "Settings",
                 "icon": handleIcons.icon('settings'),
                 action: () => {
-                    const target = mw.app.get('liveEdit').handles.get('module').getTarget();
+                    const target = mw.app.liveEdit.handles.get('module').getTarget();
                     moduleSettingsDispatch(target);
 
                 },
@@ -94,7 +94,7 @@ export class ModuleHandleContent {
 
                 Confirm(ElementManager('<span>Are you sure you want to delete this module?</span>'), () => {
 
-                    const target = mw.app.get('liveEdit').handles.get('module').getTarget();
+                    const target = mw.app.liveEdit.handles.get('module').getTarget();
                     var type = target.dataset.type || target.getAttribute('type');
                     type = type.trim();
                     mw.app.registerChangedState(target)

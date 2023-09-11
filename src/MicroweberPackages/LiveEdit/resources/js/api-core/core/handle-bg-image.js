@@ -37,7 +37,7 @@ export class BGImageHandles {
                             }
                             url = url.toString();
                             target.style.backgroundImage = `url(${url})`; ;
-                            mw.app.get('liveEdit').play();
+                            mw.app.liveEdit.play();
                             dialog.remove();
                             mw.top().app.registerChange(target);
                         }
@@ -55,7 +55,7 @@ export class BGImageHandles {
 
                     $(dialog).on('Remove', () => {
 
-                        mw.app.get('liveEdit').play();
+                        mw.app.liveEdit.play();
                     })
                 }
 

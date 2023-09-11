@@ -3,6 +3,12 @@ import MicroweberBaseClass from "../containers/base-class.js";
 import axios from 'axios';
 
 export class TemplateSettings extends MicroweberBaseClass {
+
+    constructor() {
+        super();
+
+
+    }
     helperClasses = {
         external_grids_col_classes: [
             'col-1',

@@ -164,6 +164,7 @@ export class LiveEditSpacer extends BaseComponent {
                 var options = {
                     group: isInsideSpacerModule.id,
                     key: 'height',
+                    module: 'spacer',
                     value: node.offsetHeight + 'px'
                 };
 
