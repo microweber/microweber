@@ -34,6 +34,54 @@ class FontPickerModalComponent extends ModalComponent
         'display' => 'Display',
     ];
 
+    private function getFavoriteFonts()
+    {
+        $favoritesFonts = get_option("enabled_custom_fonts", "template");
+        if (is_string($favoritesFonts)) {
+            $favoritesFonts = explode(',', $favoritesFonts);
+        }
+        return $favoritesFonts;
+    }
+
+    public function removeFavorite($fontFamily)
+    {
+        $favoritesFonts = $this->getFavoriteFonts();
+
+        if (is_array($favoritesFonts) && !empty($favoritesFonts)) {
+            $newFavorites = [];
+            foreach ($favoritesFonts as $font) {
+                if ($font !== $fontFamily) {
+                    $newFavorites[] = $font;
+                }
+            }
+            save_option("enabled_custom_fonts", implode(',', $newFavorites), "template");
+        }
+    }
+
+    public function favorite($fontFamily)
+    {
+        $newFavorites = [];
+        $favoritesFonts = $this->getFavoriteFonts();
+
+        if (is_array($favoritesFonts) && !empty($favoritesFonts)) {
+            $newFavorites = array_merge($newFavorites, $favoritesFonts);
+            $findFont = false;
+            foreach ($favoritesFonts as $font) {
+                if ($font == $fontFamily) {
+                    $findFont = true;
+                }
+            }
+            if (!$findFont) {
+                $newFavorites[] = $fontFamily;
+            }
+        } else {
+            $newFavorites[] = $fontFamily;
+        }
+
+        save_option("enabled_custom_fonts", implode(',', $newFavorites), "template");
+
+    }
+
     public function render()
     {
         $fonts = get_editor_fonts();
@@ -42,6 +90,18 @@ class FontPickerModalComponent extends ModalComponent
         $filterCategory = '';
         if ($this->category !== 'all') {
             $filterCategory = $this->category;
+        }
+
+        $favoritesFonts = $this->getFavoriteFonts();
+        if (!empty($favoritesFonts)) {
+            foreach ($fonts as $font) {
+                if (in_array($font['family'], $favoritesFonts)) {
+                    $appendNewFont = $font;
+                    $appendNewFont['favorite'] = true;
+                    $appendNewFont['category'] = 'favorites';
+                    $fonts[] = $appendNewFont;
+                }
+            }
         }
 
         if (!empty($this->search) || !empty($filterCategory)) {

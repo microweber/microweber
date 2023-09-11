@@ -7,6 +7,13 @@
             optionKey="color" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
+    <div class="mt-3">
+        <label class="live-edit-label"><?php _e("Font Family Text"); ?></label>
+        <small class="live-edit-label"><?php _e("Select font family for your logo"); ?></small>
+
+        <livewire:microweber-option::font-picker label="Select font" optionKey="font_family" :optionGroup="$moduleId" :module="$moduleType"  />
+    </div>
+
     <div>
         <label class="live-edit-label">File Picker</label>
         <livewire:microweber-option::file-picker label="Select file - Custom Label" optionKey="file_picker" :optionGroup="$moduleId" :module="$moduleType"  />
