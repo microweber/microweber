@@ -464,7 +464,7 @@
                 if(scope.settings.iconOptions.size) {
                     var label = mw.element('<div class="mw-icon-selector-flex my-2"> <label class="mw-icon-selector-control-label live-edit-label px-0">Icon size in px</label> </div>');
                     var sizeel = mw.element('<div class="mwiconlist-settings-section-block-item mw-icon-selector-flex  mw-icon-selector-12-column"></div>');
-                    var sizeinput = mw.element('<input class="mw-icon-selector-form-control d-block mb-1" type="number" min="8" max="200">');
+                    var sizeinput = mw.element('<input class="mw-icon-selector-form-control me-2" type="number" min="8" max="200">');
                     var sizeinput2 = mw.element('<input class=" mw-icon-selector-form-control-range " type="range" min="8" max="200">');
 
                     actionNodes.size = sizeinput;
