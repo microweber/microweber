@@ -180,6 +180,10 @@ if(window.self !== window.top) {
                     mw.$('[data-mw-live-edithover]', helper.item).each(function () {
                         mw.$(this).removeAttr('data-mw-live-edithover');
                     });
+
+                    mw.$('[data-mw-temp-option-save]', helper.item).each(function () {
+                        mw.$(this).removeAttr('data-mw-temp-option-save');
+                    });
                     mw.$('[class]', helper.item).each(function () {
                         var cls = this.getAttribute("class");
                         if (typeof cls === 'string') {
@@ -225,6 +229,13 @@ if(window.self !== window.top) {
                   if (mw.top().app && mw.top().app.cssEditor) {
 
                       mw.top().app.cssEditor.publishIfChanged();
+                 }
+             }
+
+             if(mw.top().app) {
+                  if (mw.top().app && mw.top().options) {
+
+                      mw.top().options.publishTempOptions(document);
                  }
              }
             if (mw.liveEditSaveService.saveDisabled) {

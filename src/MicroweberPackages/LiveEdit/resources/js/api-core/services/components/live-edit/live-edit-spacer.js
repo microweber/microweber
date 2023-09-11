@@ -18,7 +18,7 @@ export class LiveEditSpacer extends BaseComponent {
                 var isInsideSpacerModule = liveEditHelpers.targetGetFirstModuleOfType(undoTarget.target, 'spacer');
                 if (isInsideSpacerModule) {
                     if (undoTarget.previousOption) {
-                        mw.top().options.saveOption(undoTarget.previousOption);
+                     //   mw.top().options.saveOption(undoTarget.previousOption);
                     }
                     // mw.reload_module(isInsideSpacerModule, function () {
                     //     initResizables();
@@ -40,12 +40,11 @@ export class LiveEditSpacer extends BaseComponent {
 
 
                     if (undoTarget.previousOption) {
-                        mw.top().options.saveOption(undoTarget.previousOption);
+                    //    mw.top().options.saveOption(undoTarget.previousOption);
                     }
 
 
-
-                    // mw.reload_module(isInsideSpacerModule, function () {
+                  // mw.reload_module(isInsideSpacerModule, function () {
                     //     setTimeout(function () {
                     //         initResizables();
                     //     }, 178);
@@ -174,9 +173,10 @@ export class LiveEditSpacer extends BaseComponent {
                     value: htmlforUndo
                 });
                 isInsideSpacerModule.setAttribute('height', node.offsetHeight + 'px');
+                //isInsideSpacerModule.setAttribute('data-mw-temp-options-save', JSON.stringify(options));
+                mw.top().options.tempOption(isInsideSpacerModule,options);
 
-
-                mw.top().options.saveOption(options);
+             //   mw.top().options.saveOption(options);
 
             }
             mw.top().app.registerChange(node);

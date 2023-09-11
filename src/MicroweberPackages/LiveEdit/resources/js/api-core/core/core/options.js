@@ -425,6 +425,33 @@ mw.options = {
                 //d(mw.options._bindedRootFormsRegistry);
             }
         })
+    },
+
+
+    tempOption: function (element,option) {
+        element.setAttribute('data-mw-temp-option-save', JSON.stringify(option));
+    },
+
+
+    publishTempOptions: function (doc) {
+        var optionElements = doc.querySelectorAll('[data-mw-temp-option-save]');
+        var optionsToSave  = [];
+        if(optionElements){
+            for (var i = 0; i < optionElements.length; i++) {
+                var optionElement = optionElements[i];
+                var jsonAttr = optionElement.getAttribute('data-mw-temp-option-save');
+                var option = JSON.parse(jsonAttr);
+
+                optionsToSave.push(option);
+                optionElement.removeAttr('data-mw-temp-option-save')
+            }
+        }
+        if(optionsToSave){
+            for (var i = 0; i < optionsToSave.length; i++) {
+                var option = optionsToSave[i];
+                this.saveOption(option);
+            }
+        }
     }
 };
 
