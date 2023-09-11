@@ -76,7 +76,7 @@ class FontPickerModalComponent extends ModalComponent
             $newFavorites[] = $fontFamily;
         }
 
-        save_option("enabled_custom_fonts", implode(',', $newFavorites), "template");
+        save_option("enabled_custom_fonts", $newFavorites, "template");
 
     }
 

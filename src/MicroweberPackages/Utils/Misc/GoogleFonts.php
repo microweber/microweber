@@ -5,7 +5,7 @@ namespace MicroweberPackages\Utils\Misc;
 class GoogleFonts
 {
 
-    public static function getEnabledFonts() : string
+    public static function getEnabledFonts() : array
     {
         $enabledCustomFonts = get_option("enabled_custom_fonts", "template");
         if ($enabledCustomFonts) {
