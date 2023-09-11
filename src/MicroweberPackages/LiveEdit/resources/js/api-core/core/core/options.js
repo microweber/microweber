@@ -441,11 +441,11 @@ mw.options = {
         }
         // find by group  and key
         // Specify the group and key to search for
-        const searchGroup = option.group;
-        const searchKey = option.key;
+        var searchGroup = option.group;
+        var searchKey = option.key;
 
         // Find the index of the matching object
-        const index = existingOption.findIndex(item => item.group === searchGroup && item.key === searchKey);
+        var index = existingOption.findIndex(item => item.group === searchGroup && item.key === searchKey);
 
         if (index !== -1) {
             // Merge the option into the existing object

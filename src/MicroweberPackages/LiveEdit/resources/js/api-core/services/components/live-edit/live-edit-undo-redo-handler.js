@@ -1,4 +1,5 @@
 import BaseComponent from "../../containers/base-class";
+import alert from "bootstrap/js/src/alert";
 
 export class LiveEditUndoRedoHandler extends BaseComponent {
     constructor() {
@@ -48,6 +49,15 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
                 mw.app.state.record({
                     target: edit,
                     value: edit.innerHTML
+                });
+            }
+        } else {
+            var module = mw.tools.firstParentOrCurrentWithClass(element, 'module');
+            if (module) {
+
+                mw.app.state.record({
+                    target: module,
+                    value: module.innerHTML
                 });
             }
         }
