@@ -927,6 +927,7 @@ export class LiveEdit {
 
 
     canBeElement = function (target) {
+
         var el = target;
         var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container','container', 'img-holder'];
         var noelements_le = ['mw-le-spacer','background-image-holder','mw-layout-overlay-container','mw-le-resizer','mw-layout-overlay-container','mw-layout-overlay','mw-layout-overlay-background','mw-layout-overlay-background-image','mw-layout-overlay-wrapper'];
@@ -947,16 +948,16 @@ export class LiveEdit {
 
         const exceptions = ['cloneable'];
 
-        let can = !mw.tools.hasAnyOfClasses(el, noelements);
+        let can = !DomService.hasAnyOfClasses(el, noelements);
 
         if(!can) {
-            can = mw.tools.hasAnyOfClasses(el, exceptions);
+            can = DomService.hasAnyOfClasses(el, exceptions);
         }
 
         return can;
     }
     canBeEditable = function (el) {
-        return el.isContentEditable || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module']);
+        return el.isContentEditable || DomService.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module']);
     }
 
     // Function to calculate the distance between two points
