@@ -30,6 +30,7 @@ export class LiveEditFontManager extends BaseComponent {
 
         if (!this.fonts.includes(font)) {
             this.fonts.push(font);
+            this._fireFontsManagerChange();
         }
 
         return this.getFonts();
@@ -38,21 +39,49 @@ export class LiveEditFontManager extends BaseComponent {
     addFonts(fonts) {
         if (fonts) {
             fonts.forEach(font => {
-                this.addFont(font);
+                if (!this.fonts.includes(font)) {
+                    this.fonts.push(font);
+                }
             });
+            this._fireFontsManagerChange();
         }
         return this.getFonts();
+    }
+
+    _fireFontsManagerChange() {
+        mw.top().app.dispatch('fontsManagerChange', this.getFonts());
     }
 
     removeFont(font) {
 
         this.fonts = this.fonts.filter(item => item !== font);
+        this._fireFontsManagerChange();
 
         return this.getFonts();
     }
 
     getFonts() {
         return this.fonts;
+    }
+
+    subscribe(callback) {
+        if (typeof callback === 'function') {
+            mw.top().app.on('fontsManagerChange', (e) => {
+                callback(this.getFonts());
+            });
+        }
+        return this.getFonts();
+    }
+
+    manageFontsModal() {
+        mw.top().app.showModal({
+            name: 'mw_manage_fonts_modal',
+            title: 'Manage fonts',
+            width: 600,
+            height: 600, 
+            template: '<div id="mw_manage_fonts_modal">222</div>',
+            id: 'mw_manage_fonts_modal' + mw.random(),
+        });
     }
 }
 
