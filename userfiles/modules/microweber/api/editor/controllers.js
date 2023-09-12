@@ -766,6 +766,9 @@ MWEditor.controllers = {
             });
 
             if(mw.top().app && mw.top().app.fontManager) {
+                mw.top().app.fontManager.subscribeToSelectedFont(function (fontFamily) {
+                    api.fontFamily(fontFamily);
+                });
                 mw.top().app.fontManager.subscribe(function(fonts) {
                     var newDefaultData = [];
                     if (fonts) {

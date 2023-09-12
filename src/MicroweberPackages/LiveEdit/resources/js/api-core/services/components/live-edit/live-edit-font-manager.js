@@ -5,6 +5,8 @@ export class LiveEditFontManager extends BaseComponent {
     constructor() {
         super();
 
+        this.selectedFont = 'Arial';
+
         this.fonts = [
             'Arial',
             'Tahoma',
@@ -24,6 +26,24 @@ export class LiveEditFontManager extends BaseComponent {
 
     init() {
         mw.log('LiveEditFontManager');
+    }
+
+    selectFont(font) {
+        this.selectedFont = font;
+        if (!this.fonts.includes(font)) {
+            this.fonts.push(font);
+            this._fireFontsManagerChange(); 
+        }
+        mw.top().app.dispatch('fontsManagerSelectedFont', font);
+    }
+
+    subscribeToSelectedFont(callback) {
+        if (typeof callback === 'function') {
+            mw.top().app.on('fontsManagerSelectedFont', (e) => {
+                callback(this.selectedFont);
+            });
+        }
+        return this.selectedFont;
     }
 
     addFont(font) {
@@ -97,8 +117,10 @@ export class LiveEditFontManager extends BaseComponent {
             dialog.iframe.contentWindow.document.getElementById('js-modal-livewire-ui-close').addEventListener('click', () => {
                 dialog.remove();
             });
-        }); 
-
+        });
+        mw.top().app.on('fontsManagerSelectedFont', (newFont) => {
+            dialog.remove();
+        });
     }
 }
 
