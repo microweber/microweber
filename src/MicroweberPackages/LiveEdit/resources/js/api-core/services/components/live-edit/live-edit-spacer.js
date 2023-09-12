@@ -65,8 +65,13 @@ export class LiveEditSpacer extends BaseComponent {
             LiveEditSpacerInstance.init();
 
         });
-        mw.top().win.mw.app.on('moduleInserted', function () {
+        mw.top().app.on('moduleInserted', function () {
             //LiveEditSpacerInstance.init();
+            setTimeout(function () {
+                LiveEditSpacerInstance.init();
+            }, 300);
+        })
+        mw.top().app.on('layoutCloned', function () {
             setTimeout(function () {
                 LiveEditSpacerInstance.init();
             }, 300);
@@ -90,7 +95,6 @@ export class LiveEditSpacer extends BaseComponent {
 
         });
 
-
         //this.init();
     }
 
@@ -99,12 +103,6 @@ export class LiveEditSpacer extends BaseComponent {
         const body = mw.app.canvas.getDocument().body;
         Array.from(body.querySelectorAll('.mw-le-spacer:not([data-resizable])')).forEach(node => {
 
-         //   var isInsideSpacerModule = liveEditHelpers.targetGetFirstModuleOfType(node, 'spacer');
-           // if (isInsideSpacerModule) {
-                // node.removeEventListener('mouseover', () => {
-                //     this.makeResizableNode(node);
-                // });
-
                 node.addEventListener('mouseover', () => {
                     this.makeSpacerNode(node);
                 });
@@ -112,13 +110,6 @@ export class LiveEditSpacer extends BaseComponent {
                 node.removeEventListener('mouseout', () => {
                     this.removeSpacerNode(node);
                 });
-                // node.addEventListener('mouseout', () => {
-                //     this.removeResizableNode(node);
-                // });
-         //   }
-
-
-
 
         });
 
