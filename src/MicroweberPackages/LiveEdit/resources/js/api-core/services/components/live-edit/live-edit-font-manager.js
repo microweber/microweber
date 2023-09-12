@@ -32,6 +32,7 @@ export class LiveEditFontManager extends BaseComponent {
         this.selectedFont = font;
         if (!this.fonts.includes(font)) {
             this.fonts.push(font);
+            this._fireFontsManagerChange(); 
         }
         mw.top().app.dispatch('fontsManagerSelectedFont', font);
     }
