@@ -6,6 +6,11 @@ export class ModuleSettings extends MicroweberBaseClass {
     constructor() {
         super();
 
+        mw.app.on('onLiveEditReady', event =>{
+            this.init();
+        });
+
+
     }
 
     init() {

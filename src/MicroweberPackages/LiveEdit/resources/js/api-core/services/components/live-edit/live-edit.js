@@ -64,7 +64,7 @@ export const liveEditComponent = () => {
     mw.app.liveEdit =liveEdit;
     mw.app.editor = new EditorHandles();
     mw.app.moduleSettings = new ModuleSettings();
-    mw.app.moduleSettings.init()
+
 
 
     mw.app.state =mw.liveEditState;
@@ -107,14 +107,6 @@ export const liveEditComponent = () => {
         mw.app.registerUndoState(element);
         mw.app.registerAskUserToStay(true);
     };
-
-
-
-
-
-
-
-
 
 
 
@@ -166,7 +158,7 @@ export const liveEditComponent = () => {
         });
 
 
-    mw.app.dispatch('onLiveEditReady');
+     mw.app.dispatch('onLiveEditReady');
 
     }
 

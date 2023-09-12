@@ -128,7 +128,7 @@ export const EditorComponent = function () {
 
     var memPin = liveEditor.storage.get(liveEditor.settings.id + '-small-editor-pinned');
     if (typeof memPin === 'undefined' && typeof liveEditor.smallEditorApi !== 'undefined') {
-        liveEditor.smallEditorApi.pin()
+        liveEditor.smallEditorApi.pin();
     }
     mw.app.register('richTextEditor', liveEditor);
 

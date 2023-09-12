@@ -228,15 +228,17 @@ export class ElementHandleContent {
                 className: 'mw-handle-add-button',
 
                 action: function (el) {
-                    mw.app.editor.dispatch('editNodeRequest', el);
+
+                    elementActions.editElement(el);
                 },
                 onTarget: (target, selfBtn) => {
                     var selfVisible = true;
 
-                    const isCloneable = (target.classList.contains('cloneable') && target.nodeName !== 'IMG')  || target.classList.contains('mw-col');
+                    var isCloneable = (target.classList.contains('cloneable') && target.nodeName !== 'IMG')  || target.classList.contains('mw-col');
                     if (isCloneable) {
                         selfVisible = false;
                     }
+                    var firstChild = target.firstElementChild;
 
                     if (target.classList.contains('edit')) {
                         if(!!target.textContent.trim()) {
@@ -251,7 +253,13 @@ export class ElementHandleContent {
                     if (target.classList.contains('spacer')) {
                         selfVisible = false;
                     }
- 
+
+ var isCloneableWithImageAsFirstChild = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
+
+                    if(isCloneableWithImageAsFirstChild){
+                        selfVisible = true;
+                    }
+
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
 

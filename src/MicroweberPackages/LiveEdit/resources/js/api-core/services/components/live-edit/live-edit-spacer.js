@@ -70,6 +70,11 @@ export class LiveEditSpacer extends BaseComponent {
             LiveEditSpacerInstance.init();
         });
 
+//         mw.app.canvas.on('canvasDocumentClick',function(event){
+// mw.log(event.target)
+//         });
+
+
         //this.init();
     }
 
@@ -80,50 +85,79 @@ export class LiveEditSpacer extends BaseComponent {
 
             node.innerHTML = '';
 
-            node.classList.add('mw-le-spacer', 'noedit', 'nodrop');
-
-            var nodeInfo = document.createElement('span');
-            node.append(nodeInfo);
-            nodeInfo.className = 'mw-le-spacer-info';
-
-            var nodeInfoContent = document.createElement('span');
-            nodeInfo.append(nodeInfoContent);
-            nodeInfoContent.className = 'mw-le-spacer-info-content';
-
-
-            node._$resizer = new Resizable({
-                element: node,
-                document: node.ownerDocument,
-                direction: 'vertical',
-                maxHeight: 220
+            node.addEventListener('mouseover', () => {
+                this.makeResizableNode(node);
             });
 
-
-            node._$resizer.on('resize', data => {
-                nodeInfoContent.textContent = data.height + 'px';
-                node.classList.add('mw-le-spacer-resizing');
-                node.ownerDocument.body.classList.add('mw--resizing');
-                mw.top().app.liveEdit.pause();
+            node.addEventListener('mouseout', () => {
+                this.removeResizableNode(node);
             });
 
-            ;(nodeInfoContent => {
-                node._$resizer.on('ready', data => {
-                    nodeInfoContent.textContent = data.height + 'px';
-                });
-            })(nodeInfoContent);
-
-
-            node._$resizer.on('resizeStop', data => {
-                // is in spacer module
-                this.saveHeight(node);
-
-            });
-
-            node._$resizer.mount();
 
         });
 
 
+
+    }
+
+
+    makeResizableNode(node) {
+
+        if(node.classList.contains('mw-le-spacer-is-ready')){
+            return;
+        }
+
+        node.classList.add('mw-le-spacer', 'noedit', 'nodrop', 'mw-le-spacer-is-ready');
+
+        var nodeInfo = document.createElement('span');
+        node.append(nodeInfo);
+        nodeInfo.className = 'mw-le-spacer-info';
+
+        var nodeInfoContent = document.createElement('span');
+        nodeInfo.append(nodeInfoContent);
+        nodeInfoContent.className = 'mw-le-spacer-info-content';
+
+
+        node._$resizer = new Resizable({
+            element: node,
+            document: node.ownerDocument,
+            direction: 'vertical',
+            maxHeight: 220
+        });
+
+
+        node._$resizer.on('resize', data => {
+            nodeInfoContent.textContent = data.height + 'px';
+            node.classList.add('mw-le-spacer-resizing');
+            node.ownerDocument.body.classList.add('mw--resizing');
+            mw.top().app.liveEdit.pause();
+        });
+
+        ;(nodeInfoContent => {
+            node._$resizer.on('ready', data => {
+                nodeInfoContent.textContent = data.height + 'px';
+            });
+        })(nodeInfoContent);
+
+
+        node._$resizer.on('resizeStop', data => {
+            // is in spacer module
+            this.saveHeight(node);
+
+        });
+
+        node._$resizer.mount();
+     }
+
+
+    removeResizableNode(node) {
+//@todo fix this
+        //
+        // if(node._$resizer){
+        //     node._$resizer = null
+        //     delete node._$resizer;
+        // }
+        //
     }
 
 

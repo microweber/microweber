@@ -7,7 +7,7 @@ if(isset($params['height'])){
     $height = trim($params['height']);
 }
 if(!$height ){
-    $height = '20px';
+    $height = '50px';
 }
 $optionHeight = get_option('height', $params['id']);
 if($optionHeight){

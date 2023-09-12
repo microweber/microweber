@@ -46,6 +46,8 @@
     mw.quickSettings = {};
     mw.layoutQuickSettings = [];
 
+   // mw.app.fontManager.addFonts({!! json_encode(\MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts()) !!});
+
     @php
         $templateColors = get_template_colors_settings();
     @endphp
