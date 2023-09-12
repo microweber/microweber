@@ -433,6 +433,18 @@ if (!empty($recomended_layouts)) {
 
     <?php
     $is_layout_file_set = false;
+    $is_chosen = false;
+
+
+
+
+
+    ?>
+
+
+
+    <?php
+
 
     if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
         <?php
@@ -442,20 +454,23 @@ if (!empty($recomended_layouts)) {
                 $data['layout_file'] = $params["layout_file"];
             } else {
                 $is_layout_file_set = 1;
+                $is_chosen = true;
             }
         }
 
         $data['layout_file'] = normalize_path($data['layout_file'], false);
         $data['layout_file'] = module_name_encode($data['layout_file']);
+
         ?>
     <?php endif; ?>
 
     <?php if (isset($data['layout_file']) and $data['layout_file'] == false) {
         $is_layout_file_set = 1;
         $data['layout_file'] = 'inherit';
+
     }
 
-    $is_chosen = false;
+
     ?>
 
     <?php
@@ -587,6 +602,9 @@ if (!empty($recomended_layouts)) {
                                             <label class="form-label"><?php _e("Choose Page Layout"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Select a page from the current template"); ?></small>
                                             <div>
+
+
+
                                                 <select name="preview_layout_file" class="form-select mw-edit-page-layout-selector" data-width="100%" data-live-search="true" data-size="7" id="active_site_layout_<?php print $rand; ?>" autocomplete="off">
                                                     <?php if (!empty($layouts)): ?>
                                                         <?php $i = 0;
@@ -598,7 +616,7 @@ if (!empty($recomended_layouts)) {
                                                                     onclick="mw.templatePreview<?php print $rand; ?>.view('<?php print $i ?>');"
                                                                     data-index="<?php print $i ?>"
                                                                     data-layout_file="<?php print $item['layout_file'] ?>"
-                                                                <?php if (crc32(trim($item['layout_file'])) == crc32(trim($data['layout_file'])) and $data['id'] != 0): ?><?php $is_chosen = 1; ?>  selected="selected"  <?php endif; ?>
+                                                                <?php if (crc32(trim($item['layout_file'])) == crc32(trim($data['layout_file']))  ): ?><?php $is_chosen = 1; ?>  selected="selected"  <?php endif; ?>
                                                                 <?php if (isset($item['is_default']) and $item['is_default'] != false): ?>
                                                                     data-is-default="<?php print $item['is_default'] ?>" <?php if ($is_layout_file_set == false and $is_chosen == false): ?>   selected="selected" <?php $is_chosen = 1; ?><?php endif; ?><?php endif; ?>
                                                                 <?php if (isset($item['is_recomended']) and $item['is_recomended'] != false): ?>   data-is-is_recomended="<?php print $item['is_recomended'] ?>" <?php if ($is_layout_file_set == false and $is_chosen == false): ?>   selected="selected" <?php $is_chosen = 1; ?><?php endif; ?><?php endif; ?>

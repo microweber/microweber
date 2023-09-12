@@ -198,8 +198,11 @@ export class LayoutHandleContent {
                             target: mw.tools.firstParentWithClass(target, 'edit'),
                             value: parent.innerHTML
                         });
+
+                        newEl.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
+                        mw.app.dispatch('layoutCloned', newEl);
                     });
-                    newEl.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
+
                 }
             },
 

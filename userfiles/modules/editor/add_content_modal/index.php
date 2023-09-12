@@ -6,6 +6,13 @@
 */
 
 ?>
+
+
+<script>
+    window.addEventListener('beforeunload', function () {
+       mw.spinner({element: '#<?php print $params['id'] ?>', size: 32,decorate:true})
+     });
+</script>
 <?php
 
 $options = [
