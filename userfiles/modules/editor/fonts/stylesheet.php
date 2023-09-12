@@ -1,18 +1,10 @@
 <?php
 
-
 $google_font_domain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
-
 $enabled_custom_fonts =  \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
 
-$enabled_custom_fonts_array = array();
-
-if (is_string($enabled_custom_fonts)) {
-    $enabled_custom_fonts_array = explode(',', $enabled_custom_fonts);
-}
-
-if (!empty($enabled_custom_fonts_array)) {
-    foreach ($enabled_custom_fonts_array as $font) {
+if (!empty($enabled_custom_fonts)) {
+    foreach ($enabled_custom_fonts as $font) {
         if ($font) {
             $font = str_replace('%2B', '+', $font);
             $font_url = urlencode($font);
