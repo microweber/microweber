@@ -1,15 +1,9 @@
-
-
-import { init } from 'aos';
 import { EditorHandles } from '../../../../ui/adapters/module-handle.js';
 import {LiveEdit} from '../../../core/@live.js';
-
-
 import {DomService} from '../../../core/classes/dom.js';
 import liveeditCssDist from '../../../core/css/scss/liveedit.scss';
 import {ModuleSettings} from "../../services/module-settings";
 import {TemplateSettings} from "../../services/template-settings";
-import liveEditHelpers from "../../../core/live-edit-helpers.service";
 import {LiveEditSpacer} from "./live-edit-spacer";
 import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler";
 import LiveEditImageDialog from "./live-edit-image-dialog";
@@ -51,9 +45,10 @@ export const liveEditComponent = () => {
     mw.app.editor = new EditorHandles();
     mw.app.moduleSettings = new ModuleSettings();
 
+ //   mw.app.register('liveEdit', liveEdit);
+    mw.app.register('state', mw.liveEditState);
 
-
-    mw.app.state =mw.liveEditState;
+  //  mw.app.state =mw.liveEditState;
     mw.app.editImageDialog =  new LiveEditImageDialog();
     mw.app.layoutBackground =  new LiveEditLayoutBackground();
 

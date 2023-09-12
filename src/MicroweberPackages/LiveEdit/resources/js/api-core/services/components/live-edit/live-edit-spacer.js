@@ -6,12 +6,12 @@ export class LiveEditSpacer extends BaseComponent {
         super();
 
         var LiveEditSpacerInstance = this;
-        mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
+        mw.app.canvas.on('onLiveEditReady', (data) => {
 
             LiveEditSpacerInstance.init();
         });
 
-        mw.app.state.on('undo', function (data) {
+        mw.app.state.on('11undo', function (data) {
             var undoTarget = mw.app.state.active();
             if (undoTarget.target) {
                 // is in spacer module
@@ -31,7 +31,7 @@ export class LiveEditSpacer extends BaseComponent {
             }, 300);
         });
 
-        mw.app.state.on('redo', function (data) {
+        mw.app.state.on('11redo', function (data) {
             var undoTarget = mw.app.state.active();
             if (undoTarget && undoTarget.target) {
                 // is in spacer module
@@ -70,9 +70,14 @@ export class LiveEditSpacer extends BaseComponent {
             LiveEditSpacerInstance.init();
         });
 
-//         mw.app.canvas.on('canvasDocumentClick',function(event){
-// mw.log(event.target)
-//         });
+        mw.app.canvas.on('canvasDocumentClick',event => {
+            //is in resizer
+            if(event.target && event.target.classList && event.target.classList.contains('mw-resizer')){
+                return;
+            }
+            this.removeAllSpacers();
+
+        });
 
 
         //this.init();
@@ -85,13 +90,21 @@ export class LiveEditSpacer extends BaseComponent {
 
             node.innerHTML = '';
 
+
+            // node.removeEventListener('mouseover', () => {
+            //     this.makeResizableNode(node);
+            // });
+
             node.addEventListener('mouseover', () => {
-                this.makeResizableNode(node);
+                this.makeSpacerNode(node);
             });
 
-            node.addEventListener('mouseout', () => {
-                this.removeResizableNode(node);
+            node.removeEventListener('mouseout', () => {
+                this.removeSpacerNode(node);
             });
+            // node.addEventListener('mouseout', () => {
+            //     this.removeResizableNode(node);
+            // });
 
 
         });
@@ -101,12 +114,13 @@ export class LiveEditSpacer extends BaseComponent {
     }
 
 
-    makeResizableNode(node) {
+    makeSpacerNode(node) {
+
 
         if(node.classList.contains('mw-le-spacer-is-ready')){
             return;
         }
-
+        node.setAttribute('data-resizable-spacer', 'true');
         node.classList.add('mw-le-spacer', 'noedit', 'nodrop', 'mw-le-spacer-is-ready');
 
         var nodeInfo = document.createElement('span');
@@ -148,12 +162,19 @@ export class LiveEditSpacer extends BaseComponent {
 
         node._$resizer.mount();
      }
+    removeAllSpacers() {
+        const body = mw.app.canvas.getDocument().body;
+        Array.from(body.querySelectorAll('.mw-le-spacer[data-resizable]')).forEach(node => {
+            this.removeSpacerNode(node);
+        });
+    }
 
-
-    removeResizableNode(node) {
+    removeSpacerNode(node) {
 //@todo fix this
+        mw.log('removeResizableNode is not working yet, please fix it');
         //
         // if(node._$resizer){
+        //     node._$resizer.removeResizer();
         //     node._$resizer = null
         //     delete node._$resizer;
         // }

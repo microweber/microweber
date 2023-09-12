@@ -236,14 +236,16 @@ export class ElementHandleContent {
                     if (isCloneable) {
                         selfVisible = false;
                     }
-                    var firstChild = target.firstElementChild;
 
-                    var isCloneableWithImageAsFirstChild = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
-
-                    if(isCloneableWithImageAsFirstChild){
-                        selfVisible = true;
+                    if(target.firstElementChild) {
+                        var firstChild = target.firstElementChild;
+                        // if its clonable and has image as first child
+                        // you must be able to edit the image
+                        var isCloneableWithImageAsFirstChild = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
+                        if (isCloneableWithImageAsFirstChild) {
+                            selfVisible = true;
+                        }
                     }
-
 
                     if (target.classList && target.classList.contains('spacer')) {
                         selfVisible = false;

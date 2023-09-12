@@ -1,3 +1,4 @@
+
 export const State = function(options){
 
     var scope = this;
@@ -114,6 +115,8 @@ export const State = function(options){
     };
 
     this.undo = function(){
+
+
         if(this._activeIndex === -1) {
             this._activeIndex = 1;
         }
@@ -121,8 +124,8 @@ export const State = function(options){
             this._activeIndex++;
         }
         this._active = this._state[this._activeIndex];
-        this.afterChange('stateUndo');
-        this.dispatch('undo');
+       // this.afterChange('stateUndo');
+       // this.dispatch('undo');
         return this;
     };
 
