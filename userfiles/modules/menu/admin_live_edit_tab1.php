@@ -94,6 +94,7 @@ if (!isset($rand)) {
             $.post("<?php echo route('api.menu.delete'); ?>", data, function (resp) {
                 window.location.href = window.location.href;
             });
+            mw.top().reload_module_everywhere('menu');
         }
     }
 
@@ -125,7 +126,7 @@ if (!isset($rand)) {
                 data.parent_id = $("#add-custom-link-parent-id").val();
                 requestLink();
                 $.post("<?php print route('api.menu.item.save'); ?>", data, function (msg) {
-                    mw.top().reload_module('menu');
+                    mw.top().reload_module_everywhere('menu');
                     mw.reload_module('menu/edit_items');
                 });
             })

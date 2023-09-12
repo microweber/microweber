@@ -558,7 +558,7 @@ mw.requireAsync = (url, key) => {
 
           if(mw.top().app && mw.top().app.liveEdit && mw.top().app.liveEdit.handles.get('module')) {
               var curr = mw.top().app.liveEdit.handles.get('module').getTarget(), currId, doc;
-              if (curr === module) {
+              if (curr && curr === module) {
                   currId = curr.id;
                   doc = curr.ownerDocument;
               }

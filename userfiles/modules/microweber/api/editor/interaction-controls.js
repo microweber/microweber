@@ -79,6 +79,13 @@ MWEditor.interactionControls = {
                 }
             });
 
+            rootScope.document.addEventListener('click', function(e){
+                var node = el.get(0);
+                if(!node.contains(e.target) && !e.target.contains(node)) {
+                    el.hide();
+                }
+            })
+
 
             var changeButton = mw.element({
                 props: {
