@@ -506,7 +506,7 @@ $current_template = false;
                                             $module_templates_ready_end[] = $item;
                                         }
                                     }
-                                    $module_templates_ready = array_merge($module_templates_ready, $module_templates_ready_end);
+                                //    $module_templates_ready = array_merge($module_templates_ready, $module_templates_ready_end);
 
                                 }
                                 ?>
@@ -544,36 +544,27 @@ $current_template = false;
                                         <?php endif; ?>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
-
+                                <?php if ($module_templates_ready): ?>
                                 <?php foreach ($module_templates_ready as $item): ?>
-                                    <?php if (($item['layout_file'] != $cur_template)): ?>
-                                        <?php if ((strtolower($item['name']) != 'default')): ?>
-                                            <a href="javascript:;" class="js-apply-template card m-1"
-                                               data-file="<?php print $item['layout_file'] ?>">
-                                                <?php if ($item['layout_file'] == $cur_template): ?>
-                                                    <div class="default-layout">DEFAULT</div>
-                                                <?php endif; ?>
-
-                                                <div class="screenshot <?php if (($item['layout_file'] == $cur_template)): ?>active<?php endif; ?>">
-                                                    <?php
-                                                    $item_screenshot = thumbnail('');
-                                                    if (isset($item['screenshot'])) {
-                                                        $item_screenshot = $item['screenshot'];
-                                                    }
-                                                    ?>
-
-                                                    <div class="holder">
-                                                        <img data-url="<?php echo thumbnail($item_screenshot, 800, 400); ?>"
-                                                             alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"
-                                                             style="max-width:100%;"
-                                                             title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>
-                                                        <div class="live-edit-label text-decoration-none"><?php print $item['name']; ?></div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        <?php endif; ?>
-                                    <?php endif; ?>
+                                    <?php include (__DIR__.'/templates_layouts_item.php'); ?>
                                 <?php endforeach; ?>
+                                <?php endif; ?>
+                                <?php if ($module_templates_ready_end): ?>
+                                <div>
+                                <button  class="btn btn-ghost-primary w-100" onclick="$('#more-layouts-toggle').toggle();">
+                                    <?php _e("More layouts"); ?>
+                                </button>
+                                </div>
+                                <div id="more-layouts-toggle" style="display: none">
+                                <?php foreach ($module_templates_ready_end as $item): ?>
+                                    <?php include (__DIR__.'/templates_layouts_item.php'); ?>
+                                <?php endforeach; ?>
+                                <?php endif; ?>
+                                </div>
+
+
+
+
                             </div>
                         <?php endif; ?>
                     </div>
