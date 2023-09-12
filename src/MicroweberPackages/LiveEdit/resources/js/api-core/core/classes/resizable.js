@@ -34,13 +34,13 @@ export class Resizable  {
         let calcH = this.h + dy;
         let calcW;
 
-      
+
         if(this.activeHandle === this.handles.left) {
             calcW = this.w - dx;
         } else {
             calcW = this.w + dx;
         }
-        
+
 
 
         if(this.settings.maxWidth) {
@@ -101,7 +101,7 @@ export class Resizable  {
         this.element.classList.add('mw-le-resizable-disabled');
     }
 
-    
+
     enable() {
         this.#disabled = false;
         this.#enabled = true;
@@ -153,6 +153,21 @@ export class Resizable  {
         this.dispatch('ready', { height: this.element.offsetHeight, width: this.element.offsetWidth });
         return this;
     }
+
+    destroy() {
+        if(!this.element) { return this; }
+        if(!this.element.dataset.resizable) { return this; }
+        this.element.dataset.resizable = false;
+        const resizers = this.element.querySelectorAll('.mw-le-resizer');
+        Array.from(resizers).forEach(resizer => {
+            resizer.removeEventListener('mousedown', e => {
+                this.mouseDownHandler(e)
+            });
+        });
+        return this;
+    }
+
+
 
 }
 

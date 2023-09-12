@@ -164,21 +164,17 @@ export class LiveEditSpacer extends BaseComponent {
      }
     removeAllSpacers() {
         const body = mw.app.canvas.getDocument().body;
-        Array.from(body.querySelectorAll('.mw-le-spacer[data-resizable]')).forEach(node => {
+        Array.from(body.querySelectorAll('.mw-le-spacer[data-resizable-spacer]')).forEach(node => {
             this.removeSpacerNode(node);
         });
     }
 
     removeSpacerNode(node) {
-//@todo fix this
-        mw.log('removeResizableNode is not working yet, please fix it');
-        //
-        // if(node._$resizer){
-        //     node._$resizer.removeResizer();
-        //     node._$resizer = null
-        //     delete node._$resizer;
-        // }
-        //
+         if(node._$resizer){
+            node._$resizer.destroy();
+            node._$resizer = null;
+            delete node._$resizer;
+        }
     }
 
 
