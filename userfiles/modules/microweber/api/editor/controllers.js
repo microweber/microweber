@@ -755,8 +755,21 @@ MWEditor.controllers = {
                 { label:'Verdana', value: 'Verdana' },
                 { label:'Georgia', value: 'Georgia' },
                 { label:'Times New Roman', value: 'Times New Roman' },
-
             ];
+
+            if(mw.top().app && mw.top().app.fontManager) {
+                var newDefaultData = [];
+                var getFonts = mw.top().app.fontManager.getFonts();
+                if(getFonts) {
+                    getFonts.forEach(function (fontFamily) {
+                        newDefaultData.push({ label: fontFamily, fontFamily });
+                    });
+                }
+                if(newDefaultData.length > 0) {
+                    defaultData = newDefaultData;
+                }
+            }
+
             var dropdown = new MWEditor.core.dropdown({
                 data: defaultData,
                 placeholder: rootScope.lang('Font'),
@@ -864,12 +877,12 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
-           
+
                 var paragraph = mw.tools.firstParentOrCurrentWithTag(node, 'p');
                 if(paragraph) {
                     node = mw.tools.setTag(paragraph, 'div');
                 }
- 
+
                 var isSafeMode = api.isSafeMode(node);
                 if(isSafeMode) {
                     node.parentNode.parentNode.contentEditable = true;
@@ -903,12 +916,12 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
-           
+
                 var paragraph = mw.tools.firstParentOrCurrentWithTag(node, 'p');
                 if(paragraph) {
                     node = mw.tools.setTag(paragraph, 'div');
                 }
- 
+
                 var isSafeMode = api.isSafeMode(node);
                 if(isSafeMode) {
                     node.parentNode.parentNode.contentEditable = true;
@@ -919,7 +932,7 @@ MWEditor.controllers = {
                 if(li) {
                     api.setCursorAtStart(li)
                 }
-                
+
 
             });
             return el;
