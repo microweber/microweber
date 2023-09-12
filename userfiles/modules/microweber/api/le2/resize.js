@@ -103,6 +103,19 @@ class Resizable  {
         return this;
     }
 
+    removeResizer() {
+        if(!this.element) { return this; }
+        if(!this.element.dataset.resizable) { return this; }
+        this.element.dataset.resizable = false;
+        const resizers = this.element.querySelectorAll('.mw-le-resizer');
+        Array.from(resizers).forEach(resizer => {
+            resizer.removeEventListener('mousedown', e => {
+                this.mouseDownHandler(e)
+            });
+        });
+        return this;
+    }
+
 }
 
 globalThis.Resizable = Resizable
