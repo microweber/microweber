@@ -73,15 +73,26 @@ export class LiveEditFontManager extends BaseComponent {
         return this.getFonts();
     }
 
-    manageFontsModal() {
-        mw.top().app.showModal({
-            name: 'mw_manage_fonts_modal',
-            title: 'Manage fonts',
-            width: 600,
-            height: 600, 
-            template: '<div id="mw_manage_fonts_modal">222</div>',
-            id: 'mw_manage_fonts_modal' + mw.random(),
+    manageFonts() {
+
+        var attrsForSettings = {};
+
+        attrsForSettings.live_edit = true;
+        attrsForSettings.module_settings = true;
+        attrsForSettings.id = 'mw_editor_fonts_manager_modal';
+        attrsForSettings.type = 'editor/fonts/font-manager-modal';
+        attrsForSettings.iframe = true;
+        attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
+
+        var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+
+        var dialog = mw.top().dialogIframe({
+            url: src,
+            autoHeight: true,
+            width: 800,
+            skin: 'square_clean',
         });
+
     }
 }
 
