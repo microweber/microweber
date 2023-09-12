@@ -20,7 +20,23 @@ if (isset($isIframe) and $isIframe) {
     }
 
 
+} else {
+    $appendIframeModeSuffix = '?addEditContent=true';
 }
+$allBlogs = [];
+$allShops = [];
+$firstBlogId = false;
+$firstShopId = false;
+$allBlogs = get_content('content_type=page&subtype=dynamic&is_shop=0&is_deleted=0&limit=10');
+$allShops = get_content('content_type=page&is_shop=1&is_deleted=0&limit=10');
+if($allBlogs){
+    $firstBlogId = $allBlogs[0]['id'];
+}
+if($allShops){
+    $firstShopId = $allShops[0]['id'];
+}
+
+
 
 $editContentBtnData = false;
 $editContentUrl = false;
@@ -99,6 +115,9 @@ if($editContentBtnData){
     <?php $subtype = (isset($item['subtype'])) ? ($item['subtype']) : false; ?>
     <?php $base_url = (isset($item['base_url'])) ? ($item['base_url']) : false; ?>
     <?php
+
+    $additionalButtons = [];
+
     $base_url = route('admin.content.create');
     if (\Route::has('admin.' . $item['content_type'] . '.create')) {
         $base_url = route('admin.' . $item['content_type'] . '.create');
@@ -106,12 +125,48 @@ if($editContentBtnData){
     if ($appendIframeModeSuffix) {
         $base_url = $base_url . $appendIframeModeSuffix;
     }
+    $base_url_orig = $base_url;
+    if ($item['content_type'] == 'post') {
+        if($firstBlogId){
+            $base_url = $base_url .'&recommended_content_id='.$firstBlogId; ;
+        }
+        if(count($allBlogs) > 1){
+            foreach ($allBlogs as $buttonItem){
+                $base_url_item = $base_url_orig .'&recommended_content_id='.$buttonItem['id']; ;
+
+                $additionalButtons[] = [
+                    'title' => $buttonItem['title'],
+                    'url' =>$base_url_item,
+
+                    'id' => $buttonItem['id'],
+                ];
+            }
+        }
+    }
+    if ($item['content_type'] == 'product') {
+        if($firstShopId){
+            $base_url = $base_url .'&recommended_content_id='.$firstShopId; ;
+        }
+        if(count($allShops) > 1){
+            foreach ($allShops as $buttonItem){
+                $base_url_item = $base_url_orig .'&recommended_content_id='.$buttonItem['id']; ;
+                $additionalButtons[] = [
+                    'title' => $buttonItem['title'],
+                    'url' =>$base_url_item,
+                    'id' => $buttonItem['id'],
+                ];
+            }
+        }
+    }
+
+
+
 
 
     ?>
 
-<a href="<?php print $base_url; ?>"
-   class="col-12 text-start d-flex align-items-center flex-wrap admin-add-new-modal-buttons me-auto">
+<div  href="<?php print $base_url; ?>" onclick="window.location.href='<?php print $base_url; ?>'"
+   class="col-12 text-start d-flex align-items-center flex-wrap admin-add-new-modal-buttons me-auto cursor-pointer">
 
 
         <?php if ($item['content_type'] == 'page') { ?>
@@ -120,7 +175,7 @@ if($editContentBtnData){
     </div>
 
     <div class="col-lg-9 ps-3">
-        <h3 class="  font-weight-bolder"> <?php print $title; ?></h3>
+        <h3 class="font-weight-bolder"> <?php print $title; ?>      </h3>
 
 
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
@@ -134,7 +189,24 @@ if($editContentBtnData){
         <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-post.svg" alt="">
     </div>
     <div class="col-lg-9 ps-3">
-        <h3 class="  font-weight-bolder">  <?php print $title; ?></h3>
+
+        <div class="d-flex">
+
+            <h3 class="  font-weight-bolder">
+                <a href="<?php print $base_url; ?>"> <?php print $title; ?></a>
+
+            </h3>
+
+                <?php if ($additionalButtons){ ?>
+                <span  class="mw-add-content-quick-parents">
+                      <?php foreach ($additionalButtons as $additionalButton){ ?>
+                    <a href="<?php print $additionalButton['url']; ?>" class="btn btn-ghost-secondary btn-sm me-2">
+                            <?php print $additionalButton['title']; ?></a>
+                     <?php } ?>
+                </span>
+            <?php } ?>
+
+        </div>
 
 
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
@@ -163,7 +235,25 @@ if($editContentBtnData){
 
     </div>
     <div class="col-lg-9 ps-3">
-        <h3 class="  font-weight-bolder">  <?php print $title; ?></h3>
+
+
+        <div class="d-flex">
+
+            <h3 class="  font-weight-bolder">
+                <a href="<?php print $base_url; ?>"> <?php print $title; ?></a>
+
+            </h3>
+
+                <?php if ($additionalButtons){ ?>
+            <span  class="mw-add-content-quick-parents">
+                      <?php foreach ($additionalButtons as $additionalButton){ ?>
+                    <a href="<?php print $additionalButton['url']; ?>" class="btn btn-ghost-secondary btn-sm me-2">
+                            <?php print $additionalButton['title']; ?></a>
+                     <?php } ?>
+                </span>
+            <?php } ?>
+
+        </div>
 
 
         <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
@@ -171,7 +261,7 @@ if($editContentBtnData){
         </p>
     </div>
     <?php } ?>
-</a>
+</div>
 
 <?php endforeach; ?>
 
