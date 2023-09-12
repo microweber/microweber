@@ -1,5 +1,6 @@
 import MicroweberBaseClass from "../../services/containers/base-class";
 import {ElementManager} from "../classes/element";
+import {Confirm} from "../classes/dialog";
 
 
 export class LayoutActions extends MicroweberBaseClass {
@@ -9,21 +10,20 @@ export class LayoutActions extends MicroweberBaseClass {
         super();
         this.proto = proto;
 
-
-
     }
+
     cloneLayout(target) {
         mw.app.registerUndoState(target)
 
         var el = document.createElement('div');
         el.innerHTML = target.outerHTML;
-        ElementManager('[id]', el).each(function(){
+        ElementManager('[id]', el).each(function () {
             this.id = 'le-id-' + new Date().getTime();
         });
         ElementManager(target).after(el.innerHTML);
         var newEl = target.nextElementSibling;
         mw.app.registerChange(target);
-        mw.reload_module(newEl, function(){
+        mw.reload_module(newEl, function () {
             mw.top().app.state.record({
                 target: mw.tools.firstParentWithClass(target, 'edit'),
                 value: parent.innerHTML
@@ -33,11 +33,12 @@ export class LayoutActions extends MicroweberBaseClass {
             mw.app.dispatch('layoutCloned', newEl);
         });
     }
+
     moveUp(target) {
         mw.app.registerUndoState(target)
 
         var prev = target.previousElementSibling;
-        if(!prev) return;
+        if (!prev) return;
         var offTarget = target.getBoundingClientRect();
         var offPrev = prev.getBoundingClientRect();
         var to = 0;
@@ -49,10 +50,10 @@ export class LayoutActions extends MicroweberBaseClass {
         target.classList.add("mw-le-target-to-animate");
         prev.classList.add("mw-le-target-to-animate");
 
-        target.style.transform = 'translateY('+to+'px)';
-        prev.style.transform = 'translateY('+(-to)+'px)';
+        target.style.transform = 'translateY(' + to + 'px)';
+        prev.style.transform = 'translateY(' + (-to) + 'px)';
 
-        setTimeout(()=> {
+        setTimeout(() => {
             prev.parentNode.insertBefore(target, prev);
             target.classList.remove("mw-le-target-to-animate");
             prev.classList.remove("mw-le-target-to-animate");
@@ -65,11 +66,12 @@ export class LayoutActions extends MicroweberBaseClass {
         }, 300);
 
     }
+
     moveDown(target) {
         mw.app.registerUndoState(target)
 
         var prev = target.nextElementSibling;
-        if(!prev) return;
+        if (!prev) return;
         var offTarget = target.getBoundingClientRect();
         var offPrev = prev.getBoundingClientRect();
         var to = 0;
@@ -81,10 +83,10 @@ export class LayoutActions extends MicroweberBaseClass {
         target.classList.add("mw-le-target-to-animate")
         prev.classList.add("mw-le-target-to-animate")
 
-        target.style.transform = 'translateY('+to+'px)';
-        prev.style.transform = 'translateY('+(-to)+'px)';
+        target.style.transform = 'translateY(' + to + 'px)';
+        prev.style.transform = 'translateY(' + (-to) + 'px)';
 
-        setTimeout(()=> {
+        setTimeout(() => {
             prev.parentNode.insertBefore(target, prev.nextSibling);
             target.classList.remove("mw-le-target-to-animate")
             prev.classList.remove("mw-le-target-to-animate")
@@ -94,5 +96,16 @@ export class LayoutActions extends MicroweberBaseClass {
             target.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
             this.proto.layoutHandle.set(target, true)
         }, 300)
+    }
+
+    deleteLayout(target) {
+        if (target.parentNode) {
+            mw.app.registerUndoState(target.parentNode)
+        }
+
+        Confirm('Are you sure you want to delete this layout?', function () {
+            mw.app.registerChange(target)
+            target.remove()
+        })
     }
 }

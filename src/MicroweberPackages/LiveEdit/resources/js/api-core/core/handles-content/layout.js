@@ -273,10 +273,7 @@ export class LayoutHandleContent {
                 },
 
                 action: function (target, selfNode, rootScope) {
-                    Confirm('Are you sure you want to delete this layout?', function (){
-                        mw.app.registerChange(target)
-                        target.remove()
-                    })
+                    layoutActions.deleteLayout(target);
                 }
             }
         ];
