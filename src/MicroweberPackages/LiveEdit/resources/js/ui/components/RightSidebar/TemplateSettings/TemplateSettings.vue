@@ -125,9 +125,15 @@
                                                 v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
                                                 :name="settingKey"
                                                 :value="[setting.value ? setting.value : setting.default]">
-                                            <option value="Arial">Arial</option>
-                                            <option value="Tahoma">Tahoma</option>
+                                            <option v-for="(fontFamily) in supportedFonts"
+                                                    :value="fontFamily">
+                                                {{ fontFamily }}
+                                            </option>
                                         </select>
+                                        {{ supportedFonts }}
+                                        <button type="button" class="btn btn-outline-dark" v-on:click="loadMoreFonts()">
+                                            Load more
+                                        </button>
                                     </div>
 
                                 </div>
@@ -221,6 +227,13 @@ export default {
             mw.tools.confirm_reset_module_by_id(this.optionGroupLess, function () {
                 // Reset template settings
             });
+        },
+        loadMoreFonts() {
+            mw.top().app.fontManager.manageFonts();
+        },
+        reload() {
+            this.state = false;
+            this.$nextTick(() => this.state = true);
         }
     },
     mounted() {
@@ -234,9 +247,19 @@ export default {
                 appInstance.styleSheetSourceFile = response.data.styleSheetSourceFile;
             }
         });
+        mw.app.canvas.on('liveEditCanvasLoaded', () => {
+            mw.app.fontManager.subscribe((fonts) => {
+                if (fonts) {
+                    this.supportedFonts = fonts;
+                }
+                this.$forceUpdate();
+            });
+        });
     },
     data() {
         return {
+            state: true,
+            supportedFonts: [],
             settingsGroups: [],
             options: {},
             optionGroup: '',

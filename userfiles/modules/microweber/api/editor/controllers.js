@@ -766,8 +766,14 @@ MWEditor.controllers = {
             });
 
             if(mw.top().app && mw.top().app.fontManager) {
-                mw.top().app.fontManager.subscribeToSelectedFont(function (fontFamily) {
-                    api.fontFamily(fontFamily);
+                mw.top().app.fontManager.subscribeToSelectedFont(function (selectedFontEvent) {
+                    var sel = api.getSelection();
+                    var focusNode = sel.focusNode;
+                    console.log('selectedFontEvent');
+                    console.log(selectedFontEvent);
+                    if (selectedFontEvent.applyToSelectedElement == focusNode) {
+                        api.fontFamily(fontFamily);
+                    }
                 });
                 mw.top().app.fontManager.subscribe(function(fonts) {
                     var newDefaultData = [];
@@ -795,7 +801,11 @@ MWEditor.controllers = {
                 if(val) {
                     if(val.value == '$more') {
                         if(mw.top().app && mw.top().app.fontManager) {
-                            mw.top().app && mw.top().app.fontManager.manageFonts();
+                            var sel = api.getSelection();
+                            var focusNode = sel.focusNode;
+                            mw.top().app && mw.top().app.fontManager.manageFonts({
+                               applySelectionToElement: focusNode
+                            });
                         }
                     } else {
                         api.fontFamily(val.value);

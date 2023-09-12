@@ -6,6 +6,7 @@ export class LiveEditFontManager extends BaseComponent {
         super();
 
         this.selectedFont = 'Arial';
+        this.applyToSelectedElement = null;
 
         this.fonts = [
             'Arial',
@@ -32,18 +33,43 @@ export class LiveEditFontManager extends BaseComponent {
         this.selectedFont = font;
         if (!this.fonts.includes(font)) {
             this.fonts.push(font);
-            this._fireFontsManagerChange(); 
+            this._fireFontsManagerChange();
         }
-        mw.top().app.dispatch('fontsManagerSelectedFont', font);
+        mw.top().app.dispatch('fontsManagerSelectedFont', [
+            {
+                fontFamily: this.selectedFont,
+                applyToSelectedElement: this.applyToSelectedElement
+            }
+        ]);
+        this.reloadLiveEdit();
+    }
+
+    removeSelectedFont() {
+        this.selectedFont = null;
+    }
+
+    reloadLiveEdit() {
+        var customFontsStylesheet = mw.top().app.canvas.getDocument().getElementById("mw-custom-user-css");
+        if (customFontsStylesheet != null) {
+            var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
+            customFontsStylesheet.href = customFontsStylesheetRestyle;
+        }
     }
 
     subscribeToSelectedFont(callback) {
         if (typeof callback === 'function') {
             mw.top().app.on('fontsManagerSelectedFont', (e) => {
-                callback(this.selectedFont);
+                if (e && e.fontFamily) {
+                    callback(e);
+                }
+                console.log('fontsManagerSelectedFont');
+                console.log(e);
             });
         }
-        return this.selectedFont;
+        return {
+            fontFamily: this.selectedFont,
+            applyToSelectedElement: this.applyToSelectedElement
+        };
     }
 
     addFont(font) {
@@ -93,7 +119,14 @@ export class LiveEditFontManager extends BaseComponent {
         return this.getFonts();
     }
 
-    manageFonts() {
+    manageFonts(params) {
+
+        console.log('params');
+        console.log(params);
+
+        if (params.applySelectionToElement) {
+            this.applyToSelectedElement = params.applySelectionToElement;
+        }
 
         var attrsForSettings = {};
 
