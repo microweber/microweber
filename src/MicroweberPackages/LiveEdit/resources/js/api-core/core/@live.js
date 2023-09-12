@@ -291,7 +291,7 @@ export class LiveEdit {
                 }
                 return transform;
             },
- 
+
         });
 
 
@@ -523,19 +523,20 @@ export class LiveEdit {
 
 
 
-            if (target && target.parentNode && target.parentNode.getAttribute('rel') === 'module') {
-                if(typeof target.parentNode !== 'undefined'){
-                    try {
-                        target = DomService.firstParentOrCurrentWithAnyOfClasses(target.parentNode, ['element', 'module', 'cloneable', 'layout', 'edit']);
-                        if (!target) {
-                            console.log('c1', target)
-                            return target;
-                        }
-                    } catch (error) {
-
-                    }
-                }
-            }
+            // must see why is this
+            // if (target && target.parentNode && target.parentNode.getAttribute('rel') === 'module') {
+            //     if(typeof target.parentNode !== 'undefined'){
+            //         try {
+            //             target = DomService.firstParentOrCurrentWithAnyOfClasses(target.parentNode, ['element', 'module', 'cloneable', 'layout', 'edit']);
+            //             if (!target) {
+            //                 console.log('c1', target)
+            //                 return target;
+            //             }
+            //         } catch (error) {
+            //
+            //         }
+            //     }
+            // }
 
 
 
