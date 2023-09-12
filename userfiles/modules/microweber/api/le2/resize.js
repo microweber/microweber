@@ -103,7 +103,7 @@ class Resizable  {
         return this;
     }
 
-    removeResizer() {
+    destroy() {
         if(!this.element) { return this; }
         if(!this.element.dataset.resizable) { return this; }
         this.element.dataset.resizable = false;
