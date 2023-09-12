@@ -89,9 +89,7 @@ export class LiveEditSpacer extends BaseComponent {
             if(event.target && event.target.classList && event.target.classList.contains('mw-resizer')){
                 return;
             }
-
-            mw.log('canvasDocumentClick remove all spacers');
-             this.removeAllSpacers();
+            this.removeAllSpacers();
 
         });
 
