@@ -757,19 +757,6 @@ MWEditor.controllers = {
                 { label:'Times New Roman', value: 'Times New Roman' },
             ];
 
-            if(mw.top().app && mw.top().app.fontManager) {
-                var newDefaultData = [];
-                var getFonts = mw.top().app.fontManager.getFonts();
-                if(getFonts) {
-                    getFonts.forEach(function (fontFamily) {
-                        newDefaultData.push({ label: fontFamily, fontFamily });
-                    });
-                }
-                if(newDefaultData.length > 0) {
-                    defaultData = newDefaultData;
-                }
-            }
-
             var dropdown = new MWEditor.core.dropdown({
                 data: defaultData,
                 placeholder: rootScope.lang('Font'),
@@ -778,19 +765,35 @@ MWEditor.controllers = {
                 }
             });
 
-
-
-            if(scope.settings.fontFamilyProvider) {
-                scope.settings.fontFamilyProvider.on('change', function (data){
-                    dropdown.setData([...defaultData, ...data, ...[{ label:'More...', value: '$more' }]])
+            if(mw.top().app && mw.top().app.fontManager) {
+                mw.top().app.fontManager.subscribe(function(fonts) {
+                    var newDefaultData = [];
+                    if (fonts) {
+                        fonts.forEach(function (fontFamily) {
+                            newDefaultData.push({ label: fontFamily, value: fontFamily });
+                        });
+                    }
+                    if (newDefaultData.length > 0) {
+                        newDefaultData.push({ label:'More...', value: '$more' });
+                        defaultData = newDefaultData;
+                        dropdown.setData(defaultData);
+                    }
                 });
             }
+
+            // if(scope.settings.fontFamilyProvider) {
+            //     scope.settings.fontFamilyProvider.on('change', function (data){
+            //         dropdown.setData([...defaultData, ...data, ...[{ label:'More...', value: '$more' }]])
+            //     });
+            // }
 
             dropdown.select.on('change', function (e, val) {
 
                 if(val) {
                     if(val.value !== '$more') {
-                        api.fontFamily(val.value);
+
+                        alert(22222);
+
                     } else {
                         mw.top().drag.module_settings('#font_family_selector_main','admin');
                     }
