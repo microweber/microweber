@@ -48,9 +48,8 @@ mw.menu_admin.after_save_item = function(){
         }
 
     }
-
-    mw.reload_module_parent('menu');
-
+    mw.top().reload_module_everywhere('menu');
+ 
 };
 mw.menu_admin.delete_item = function($item_id){
 

@@ -8,8 +8,10 @@ import liveEditHelpers from "../live-edit-helpers.service";
 export const moduleSettingsDispatch = function (target) {
     mw.app.editor.dispatch('onModuleSettingsRequest', target);
     var type = target.dataset.type || target.getAttribute('type');
-    type = type.trim();
-    mw.app.editor.dispatch('onModuleSettingsRequest@' + type, target);
+    if(type) {
+        type = type.trim();
+        mw.app.editor.dispatch('onModuleSettingsRequest@' + type, target);
+    }
 }
 
 
