@@ -790,12 +790,12 @@ MWEditor.controllers = {
             dropdown.select.on('change', function (e, val) {
 
                 if(val) {
-                    if(val.value !== '$more') {
+                    if(val.value == '$more') {
                         if(mw.top().app && mw.top().app.fontManager) {
-                            mw.top().app && mw.top().app.fontManager.manageFontsModal();
+                            mw.top().app && mw.top().app.fontManager.manageFonts();
                         }
                     } else {
-                        mw.top().drag.module_settings('#font_family_selector_main','admin');
+                        api.fontFamily(val.value);
                     }
                 }
 
