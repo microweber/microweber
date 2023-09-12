@@ -125,13 +125,9 @@ export class ElementHandleContent {
                     const isImage = target.nodeName === 'IMG';
                     if (isImage) {
                         selfVisible = true;
-                        var hasSizes = target.style.width || target.style.height;
-                        // if(hasSizes) {
-                        // selfVisible = true;
-                        //     }
-                        selfVisible = true;
                     }
-                    selfBtn.style.display = selfVisible ? '' : 'none';
+     
+                    selfBtn.classList[selfVisible ? 'remove' : 'add']('mw-le-handle-menu-button-hidden');
                 },
 
             },
@@ -209,9 +205,15 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = true;
                     const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
-                    if (isCloneable) {
+                    const isEdit = target.classList.contains('edit')  ;
+                    if (isCloneable || isEdit) {
                         selfVisible = false;
                     }
+
+                    if(DomService.hasAnyOfClassesOnNodeOrParent(target, ['img-as-background'])) {
+                        selfVisible = false;
+                    }
+                    
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
@@ -236,19 +238,26 @@ export class ElementHandleContent {
                     if (isCloneable) {
                         selfVisible = false;
                     }
+                    var firstChild = target.firstElementChild;
 
-                    if(target.firstElementChild) {
-                        var firstChild = target.firstElementChild;
-                        // if its clonable and has image as first child
-                        // you must be able to edit the image
-                        var isCloneableWithImageAsFirstChild = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
-                        if (isCloneableWithImageAsFirstChild) {
-                            selfVisible = true;
+                    if (target.classList.contains('edit')) {
+                        if(!!target.textContent.trim()) {
+                            if((target.getAttribute('field') !== 'title' || target.getAttribute('rel') !== 'title') && !target.classList.contains('plain-text')) {
+                                selfVisible = false;
+                            }
+                        }
+                        if(target.querySelector('.module')) {
+                            selfVisible = false;
                         }
                     }
-
-                    if (target.classList && target.classList.contains('spacer')) {
+                    if (target.classList.contains('spacer')) {
                         selfVisible = false;
+                    }
+
+ var isCloneableWithImageAsFirstChild = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
+
+                    if(isCloneableWithImageAsFirstChild){
+                        selfVisible = true;
                     }
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
@@ -261,6 +270,18 @@ export class ElementHandleContent {
                 text: '',
                 icon: handleIcons.icon('plus'),
                 className: 'mw-handle-add-button',
+
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = true;
+
+                    const cantDrop = !DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['allow-drop', 'nodrop']);
+
+                    if (cantDrop) {
+                        selfVisible = false;
+                    }
+ 
+                    selfBtn.style.display = selfVisible ? '' : 'none';
+                },
 
                 action: function (el) {
 
