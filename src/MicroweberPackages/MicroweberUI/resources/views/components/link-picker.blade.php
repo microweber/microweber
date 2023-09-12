@@ -49,7 +49,11 @@ $rand = time().rand(1111,9999);
             $('.js-open-link-editor{{$rand}}-field').val(currentLinkPickerValue.url);
         }
 
-        function _handleLinkSelect(){
+        function _handleLinkSelect(e){
+            if(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
 
             var linkItemsConfig =  {text: false, target: false}
 
@@ -96,12 +100,12 @@ $rand = time().rand(1111,9999);
             }
         }
 
-        $('.js-open-link-editor{{$rand}}-field').on('focus', function () {
-            _handleLinkSelect()
+        $('.js-open-link-editor{{$rand}}-field').on('focus', function (e) {
+            _handleLinkSelect(e)
         })
 
-        $('.js-open-link-editor{{$rand}}').on('click', function () {
-            _handleLinkSelect()
+        $('.js-open-link-editor{{$rand}}').on('click', function (e) {
+            _handleLinkSelect(e)
         });
     });
 </script>
