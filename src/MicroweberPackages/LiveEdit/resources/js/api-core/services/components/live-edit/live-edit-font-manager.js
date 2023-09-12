@@ -30,6 +30,9 @@ export class LiveEditFontManager extends BaseComponent {
 
     selectFont(font) {
         this.selectedFont = font;
+        if (!this.fonts.includes(font)) {
+            this.fonts.push(font);
+        }
         mw.top().app.dispatch('fontsManagerSelectedFont', font);
     }
 
@@ -114,7 +117,9 @@ export class LiveEditFontManager extends BaseComponent {
                 dialog.remove();
             });
         });
-
+        mw.top().app.on('fontsManagerSelectedFont', (newFont) => {
+            dialog.remove();
+        });
     }
 }
 
