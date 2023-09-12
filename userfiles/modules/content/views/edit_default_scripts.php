@@ -53,8 +53,9 @@
         // attributes.content_type = content_type;
         // attributes.subtype = subtype;
         // attributes.subtype_value = subtype_value;
-        // attributes.active_site_template = active_site_template;
-        // attributes.active_site_layout = active_site_layout;
+          attributes.active_site_template = active_site_template;
+          attributes.active_site_layout = active_site_layout;
+          attributes.layout_file = active_site_layout;
         attributes['template-selector-position'] = 'top';
         attributes['live-edit-overlay'] = true;
         attributes['content_id'] = content_id;

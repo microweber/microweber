@@ -748,6 +748,9 @@ if (isset($params['quick_edit'])) {
                                 <?php
                                 include_once __DIR__.'/tabs.php';
                                 ?>
+
+                                <?php if(isset($data['content_type']) and $data['content_type'] == 'page'):          ?>
+
                                 <div>
                                     <script>
                                         $(document).ready(function () {
@@ -758,6 +761,9 @@ if (isset($params['quick_edit'])) {
                                         <?php echo _lang('Loading...'); ?>
                                     </div>
                                 </div>
+
+                                <?php endif; ?>
+
                             </div>
                             <div class="col-md-4">
                                 <?php include __DIR__.'/edit_default_sidebar.php'; ?>
