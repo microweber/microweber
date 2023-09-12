@@ -1,8 +1,8 @@
 import {HandleMenu} from "../handle-menu.js";
 import {ElementManager} from "../classes/element.js";
 import {Confirm} from "../classes/dialog.js";
-import { moduleSettingsDispatch } from "./module.js";
 import { DomService } from "../classes/dom.js";
+import {LayoutActions} from "./layout-actions";
 
 const _getModulesDataCache = {};
 
@@ -154,6 +154,9 @@ export class LayoutHandleContent {
 
         let layoutHandleInstance = this;
 
+        const layoutActions = new LayoutActions(this.rootScope);
+
+
         const editNavigation = [
             {
                 title: this.rootScope.lang('Settings'),
@@ -185,24 +188,7 @@ export class LayoutHandleContent {
                     }
                 },
                 action: function (target, selfNode, rootScope) {
-                    var el = document.createElement('div');
-                    el.innerHTML = target.outerHTML;
-                    ElementManager('[id]', el).each(function(){
-                        this.id = 'le-id-' + new Date().getTime();
-                    });
-                    ElementManager(target).after(el.innerHTML);
-                    var newEl = target.nextElementSibling;
-                    mw.app.registerChange(target)
-                    mw.reload_module(newEl, function(){
-                        mw.top().app.state.record({
-                            target: mw.tools.firstParentWithClass(target, 'edit'),
-                            value: parent.innerHTML
-                        });
-
-                        newEl.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
-                        mw.app.dispatch('layoutCloned', newEl);
-                    });
-
+                    layoutActions.cloneLayout(target);
                 }
             },
 
@@ -241,37 +227,10 @@ export class LayoutHandleContent {
                         selfNode.classList.add('mw-le-handle-menu-button-disabled');
                     }
 
-
-
                 },
                 action: function (target, selfNode) {
 
-                    var prev = target.nextElementSibling;
-                    if(!prev) return;
-                    var offTarget = target.getBoundingClientRect();
-                    var offPrev = prev.getBoundingClientRect();
-                    var to = 0;
-
-                    if (offTarget.top < offPrev.top) {
-                        to = -(offTarget.top - offPrev.top)
-                    }
-
-                    target.classList.add("mw-le-target-to-animate")
-                    prev.classList.add("mw-le-target-to-animate")
-
-                    target.style.transform = 'translateY('+to+'px)';
-                    prev.style.transform = 'translateY('+(-to)+'px)';
-
-                    setTimeout(function (){
-                        prev.parentNode.insertBefore(target, prev.nextSibling);
-                        target.classList.remove("mw-le-target-to-animate")
-                        prev.classList.remove("mw-le-target-to-animate")
-                        target.style.transform = '';
-                        prev.style.transform = '';
-                        mw.app.registerChange(target)
-                        target.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
-                        layoutHandleInstance.rootScope.layoutHandle.set(target, true)
-                    }, 300)
+                    layoutActions.moveDown(target)
                 }
 
             },
@@ -289,34 +248,7 @@ export class LayoutHandleContent {
                 },
                 action: function (target, selfNode) {
 
-
-                    var prev = target.previousElementSibling;
-                    if(!prev) return;
-                    var offTarget = target.getBoundingClientRect();
-                    var offPrev = prev.getBoundingClientRect();
-                    var to = 0;
-
-                    if (offTarget.top > offPrev.top) {
-                        to = -(offTarget.top - offPrev.top)
-                    }
-
-                    target.classList.add("mw-le-target-to-animate")
-                    prev.classList.add("mw-le-target-to-animate")
-
-                    target.style.transform = 'translateY('+to+'px)';
-                    prev.style.transform = 'translateY('+(-to)+'px)';
-
-                    setTimeout(function (){
-                        prev.parentNode.insertBefore(target, prev);
-                        target.classList.remove("mw-le-target-to-animate")
-                        prev.classList.remove("mw-le-target-to-animate")
-                        target.style.transform = '';
-                        prev.style.transform = '';
-                        mw.app.registerChange(target)
-                        layoutHandleInstance.rootScope.layoutHandle.set(target, true);
-                        layoutHandleInstance.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
-                        layoutHandleInstance.rootScope.layoutHandle.set(target, true)
-                    }, 300)
+                    layoutActions.moveUp(target)
                 }
             },
 
@@ -341,10 +273,7 @@ export class LayoutHandleContent {
                 },
 
                 action: function (target, selfNode, rootScope) {
-                    Confirm('Are you sure you want to delete this layout?', function (){
-                        mw.app.registerChange(target)
-                        target.remove()
-                    })
+                    layoutActions.deleteLayout(target);
                 }
             }
         ];
