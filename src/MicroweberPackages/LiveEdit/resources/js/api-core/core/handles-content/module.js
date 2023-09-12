@@ -8,9 +8,11 @@ import liveEditHelpers from "../live-edit-helpers.service";
 export const moduleSettingsDispatch = function (target) {
     mw.app.editor.dispatch('onModuleSettingsRequest', target);
     var type = target.dataset.type || target.getAttribute('type');
-    if(type) {
+    if (type) {
         type = type.trim();
         mw.app.editor.dispatch('onModuleSettingsRequest@' + type, target);
+    } else {
+        mw.log('moduleSettingsDispatch error : Module type is not defined');
     }
 }
 
