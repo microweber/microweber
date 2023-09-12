@@ -88,12 +88,11 @@ export class LiveEditFontManager extends BaseComponent {
 
         var dialog = mw.top().dialogIframe({
             url: src,
-            autoHeight: true, 
+            autoHeight: true,
             width: 800,
+            skin: 'square_clean',
         });
 
-        dialog.dialogContainer.style.padding = '0px';
-        dialog.dialogHeader.style.display = 'none';
     }
 }
 
