@@ -53,23 +53,17 @@ export default {
     },
 
     targetGetFirstModuleOfType: (target, moduleType) => {
-        let currentElement = target;
-
-        while (currentElement) {
-            if (currentElement && currentElement.classList && currentElement.classList.contains('module')) {
-                const typeAttr = currentElement.getAttribute('type') || currentElement.getAttribute('data-type');
+        var isInsideModule = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['module']);
+        if (isInsideModule) {
+            var typeAttr = isInsideModule.getAttribute('type');
+            if (!typeAttr) {
+                typeAttr = isInsideModule.getAttribute('data-type');
+            }
+            if (typeAttr) {
                 if (typeAttr === moduleType) {
-                    return currentElement;
+                    return isInsideModule;
                 }
             }
-
-            // Move up to the parent element
-            if(currentElement.parentElement) {
-                currentElement = currentElement.parentElement;
-            }
         }
-
-        // Return null if no matching module is found
-        return null;
     }
 }
