@@ -74,7 +74,14 @@ export class LiveEditFontManager extends BaseComponent {
     }
 
     manageFontsModal() {
-
+        mw.top().app.showModal({
+            name: 'mw_manage_fonts_modal',
+            title: 'Manage fonts',
+            width: 600,
+            height: 600, 
+            template: '<div id="mw_manage_fonts_modal">222</div>',
+            id: 'mw_manage_fonts_modal' + mw.random(),
+        });
     }
 }
 

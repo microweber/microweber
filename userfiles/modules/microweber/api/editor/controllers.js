@@ -791,9 +791,9 @@ MWEditor.controllers = {
 
                 if(val) {
                     if(val.value !== '$more') {
-
-                        alert(22222);
-
+                        if(mw.top().app && mw.top().app.fontManager) {
+                            mw.top().app && mw.top().app.fontManager.manageFontsModal();
+                        }
                     } else {
                         mw.top().drag.module_settings('#font_family_selector_main','admin');
                     }
