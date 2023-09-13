@@ -24,13 +24,13 @@ showMainEditTab: 'mainSettings'
                 'name' => 'image',
 
             ],
-            [
-                'type' => 'text',
-                'label' => 'Image alt text',
-                'name' => 'imageAltText',
-                'placeholder' => 'Image alt text',
-                'help' => 'Image alt text',
-            ],
+//            [
+//                'type' => 'text',
+//                'label' => 'Image alt text',
+//                'name' => 'imageAltText',
+//                'placeholder' => 'Image alt text',
+//                'help' => 'Image alt text',
+//            ],
             [
                 'type' => 'text',
                 'label' => 'Title',

@@ -1,38 +1,16 @@
 <?php
 
-$moduleName = 'layout_content';
-
 $getContents = get_module_option('contents', $params['id']);
 $contents = json_decode($getContents, true);
 
 if (empty($contents)) {
-    $isDefaultSettingsApplied = get_option('default_settings_is_applied', $params['id']);
-    if (!$isDefaultSettingsApplied) {
-        $defaultSettingsFile = dirname(__FILE__) . DS . 'default_settings.json';
-        if (is_file($defaultSettingsFile)) {
-            $checkForDefaultSettings = file_get_contents($defaultSettingsFile);
-            if ($checkForDefaultSettings) {
-                $defaultSettings = json_decode($checkForDefaultSettings, true);
-                if (!empty($defaultSettings) && is_array($defaultSettings)) {
-
-                    foreach ($defaultSettings as $defaultSettingOptionKey => $defaultSettingOptionValue) {
-                        if (is_array($defaultSettingOptionValue)) {
-                            $defaultSettingOptionValue = json_encode($defaultSettingOptionValue);
-                        }
-                        save_option([
-                            'option_value' => $defaultSettingOptionValue,
-                            'option_key' => $defaultSettingOptionKey,
-                            'option_group' => $params['id'],
-                            'module'=> $moduleName
-                        ]);
-                    }
-                    save_option('default_settings_is_applied', true, $params['id']);
-
-                    $getContents = get_module_option('contents', $params['id']);
-                    $contents = json_decode($getContents, true);
-                }
-            }
-        }
+    $newModuleDefaultSettingsApplied = new \MicroweberPackages\Module\ModuleDefaultSettingsApplier();
+    $newModuleDefaultSettingsApplied->moduleName = 'layout_content';
+    $newModuleDefaultSettingsApplied->modulePath = __DIR__;
+    $applied = $newModuleDefaultSettingsApplied->apply();
+    if (isset($applied['success']) && $applied['success']) {
+        $getContents = get_module_option('contents', $params['id']);
+        $contents = json_decode($getContents, true);
     }
 }
 
