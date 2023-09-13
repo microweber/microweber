@@ -13,7 +13,6 @@ class ModuleDefaultSettingsApplier
         $isDefaultSettingsApplied = get_option('default_settings_is_applied', $this->moduleId);
         if (!$isDefaultSettingsApplied) {
             $defaultSettingsFile = $this->modulePath . '/default_settings.json';
-
             if (is_file($defaultSettingsFile)) {
                 $checkForDefaultSettings = file_get_contents($defaultSettingsFile);
                 if ($checkForDefaultSettings) {

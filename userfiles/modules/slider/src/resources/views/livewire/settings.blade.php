@@ -19,22 +19,29 @@ showMainEditTab: 'mainSettings'
         ],
         'schema' => [
             [
+                'type' => 'image',
+                'label' => 'Image',
+                'name' => 'images',
+                'placeholder' => 'Image',
+                'help' => 'Image',
+            ],
+            [
                 'type' => 'text',
                 'label' => 'Slide Heading',
                 'name' => 'primaryText',
                 'placeholder' => 'Slide Heading',
                 'help' => 'Slide Heading',
             ],
-            [
-                'type' => 'icon',
-                'label' => 'Icon',
-                'name' => 'icon',
-                'placeholder' => 'Icon',
-                'help' => 'Icon',
-            ],
+//            [
+//                'type' => 'icon',
+//                'label' => 'Icon',
+//                'name' => 'icon',
+//                'placeholder' => 'Icon',
+//                'help' => 'Icon',
+//            ],
 
              [
-                'type' => 'text',
+                'type' => 'textarea',
                 'label' => 'Slide Description',
                 'name' => 'secondaryText',
                 'placeholder' => 'Slide Description',
@@ -43,17 +50,18 @@ showMainEditTab: 'mainSettings'
 
             [
                 'type' => 'text',
-                'label' => 'Url',
-                'name' => 'url',
-                'placeholder' => 'Url',
-                'help' => 'Url',
-            ],
-            [
-                'type' => 'text',
-                'label' => 'See More Text',
+                'label' => 'Button text',
                 'name' => 'seemoreText',
-                'placeholder' => 'See More Text',
-                'help' => 'See More Text',
+                'placeholder' => 'Button text',
+                'help' => 'Button text',
+            ],
+
+            [
+                'type' => 'url',
+                'label' => 'Button url',
+                'name' => 'url',
+                'placeholder' => 'Button url',
+                'help' => 'Button url',
             ],
 
         ]

@@ -4,14 +4,19 @@ $getContents = get_module_option('contents', $params['id']);
 $contents = json_decode($getContents, true);
 
 if (empty($contents)) {
+
     $newModuleDefaultSettingsApplied = new \MicroweberPackages\Module\ModuleDefaultSettingsApplier();
     $newModuleDefaultSettingsApplied->moduleName = 'layout_content';
     $newModuleDefaultSettingsApplied->modulePath = __DIR__;
+    $newModuleDefaultSettingsApplied->moduleId = $params['id'];
+
     $applied = $newModuleDefaultSettingsApplied->apply();
+
     if (isset($applied['success']) && $applied['success']) {
         $getContents = get_module_option('contents', $params['id']);
         $contents = json_decode($getContents, true);
     }
+
 }
 
 $title = get_module_option('title', $params['id']);
