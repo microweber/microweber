@@ -13,21 +13,22 @@ description: default
 <div class="layout-content-holder">
 
     <div class="mt-6">
-        <div class="text-center">
+        <div class="text-<?php echo $align; ?>">
             <h2><?php echo $title; ?></h2>
             <p><?php echo $description; ?></p>
         </div>
     </div>
 
-    <div class="row mt-8">
+    <div class="row mt-4">
     <?php
     $count = 0;
 
     if (!empty($contents)) {
         foreach ($contents as $content) {
             $count++;
+            $col_md_calculate = 12 / $max_columns;
             ?>
-            <div class="col-md-4 text-center">
+            <div class="col-md-<?php echo $col_md_calculate; ?> text-<?php echo $align; ?>">
                 <?php if ($content['image']) { ?>
                     <img src="<?php echo thumbnail($content['image'], 600, 400, true); ?>" />
                 <?php } else { ?>
@@ -49,7 +50,7 @@ description: default
     } ?>
     </div>
 
-    <div class="d-flex justify-content-center align-items-center mt-6">
+    <div class="text-<?php echo $align; ?> mt-6">
         <a href="" class="btn btn-primary w-25" target="_blank">
             See all
         </a>

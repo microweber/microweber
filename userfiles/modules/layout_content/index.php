@@ -22,8 +22,12 @@ if (empty($contents)) {
 
                     save_option('contents', json_encode($defaultContentReady), $params['id']);
                     save_option('default_content_is_applied', true, $params['id']);
+
                     save_option('title', 'Your story online', $params['id']);
                     save_option('description', 'The way you tell your story online can make all the difference', $params['id']);
+
+                    save_option('align', 'center', $params['id']);
+                    save_option('max_columns', 3, $params['id']);
 
                     $getDefaultContents = get_module_option('contents', $params['id']);
                     $contents = json_decode($getDefaultContents, true);
@@ -35,6 +39,9 @@ if (empty($contents)) {
 
 $title = get_module_option('title', $params['id']);
 $description = get_module_option('description', $params['id']);
+$align = get_module_option('align', $params['id']);
+$max_columns = get_module_option('max_columns', $params['id']);
+
 
 if(!$contents){
     $contents = array();

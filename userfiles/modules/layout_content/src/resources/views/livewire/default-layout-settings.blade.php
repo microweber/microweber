@@ -1,6 +1,4 @@
-<div class="mb-3">
-
-
+<div class="mt-3 mb-3">
 
     @php
         $alignOptions = [
@@ -16,10 +14,8 @@
     </div>
 
     <div class="mt-4 mb-3">
-        <livewire:microweber-option::range-slider
-            min="1" max="6" label="Max Columns"
+        <livewire:microweber-option::range-slider min="1" max="6" label="Max Columns"
             optionKey="max_columns" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
-
 
 </div>
