@@ -49,6 +49,43 @@ if (route_is('admin.shop.category.create')) {
 if (route_is('admin.shop.category.edit')) {
     $creteCategoryIn = 'shop';
 }
+
+if (isset($_GET['rel_id'])) {
+    $data['rel_id'] = $_GET['rel_id'];
+}
+
+if (isset($params['parent_page_id'])) {
+    $data['rel_id'] = intval($params['parent_page_id']);
+}
+
+if (isset($_GET['parent_page_id'])) {
+    $data['rel_id'] = intval($_GET['parent_page_id']);
+
+}
+
+
+if( $data['parent_id']){
+    $page_for_category = app()->category_manager->get_page($data['parent_id']);
+    if($page_for_category){
+        $data['rel_id'] = $page_for_category['id'];
+    }
+ }
+
+
+if(isset( $data['rel_id'] )){
+    //check if page is hop or blog
+    $page = get_content_by_id($data['rel_id']);
+
+    if($page and isset($page['is_shop'])){
+        if($page['is_shop'] == 1){
+            $creteCategoryIn = 'shop';
+        } else {
+            $creteCategoryIn = 'blog';
+        }
+    }
+}
+
+
 if (isset($_GET['is_shop']) && $_GET['is_shop'] == '1') {
     $creteCategoryIn = 'shop';
 }
@@ -61,17 +98,9 @@ if ($creteCategoryIn == 'shop') {
         $data['rel_id'] = $shop['id'];
     }
 }
-if (isset($_GET['rel_id'])) {
-    $data['rel_id'] = $_GET['rel_id'];
-}
 
-if (isset($params['parent_page_id'])) {
-    $data['rel_id'] = intval($params['parent_page_id']);
-}
 
-if (isset($_GET['parent_page_id'])) {
-    $data['rel_id'] = intval($_GET['parent_page_id']);
-}
+
 ?>
 <style>
 
