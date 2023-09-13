@@ -1,0 +1,30 @@
+{
+    "title": "Your story online",
+
+    "settings": [
+        {
+            "url": "#",
+            "buttonText": "Make It",
+            "seemoreText": "It all begins with an idea. Maybe you want to launch a business. Maybe you want to turn a hobby into something more. Or maybe you have a creative project to share with the world. Whatever it is, the way you tell your story online can make all the difference.",
+            "primaryText": "Maybe you want to turn a hobby into something more",
+            "images": "{SITE_URL}userfiles/modules/slider/default-content/picture1.jpg",
+            "itemId": "slider-content-default-1"
+        },
+        {
+            "url": "#",
+            "seemoreText": "Make It",
+            "secondaryText": "It all begins with an idea. Maybe you want to launch a business. Maybe you want to turn a hobby into something more. Or maybe you have a creative project to share with the world. Whatever it is, the way you tell your story online can make all the difference.",
+            "primaryText": "Maybe you want to launch a business",
+            "images": "{SITE_URL}userfiles/modules/slider/default-content/picture2.jpg",
+            "itemId": "slider-content-default-2"
+        },
+        {
+            "url": "#",
+            "seemoreText": "Make It",
+            "secondaryText": "It all begins with an idea. Maybe you want to launch a business. Maybe you want to turn a hobby into something more. Or maybe you have a creative project to share with the world. Whatever it is, the way you tell your story online can make all the difference. \n\n",
+            "primaryText": "The way you tell your story online can make all the difference",
+            "images": "{SITE_URL}userfiles/modules/slider/default-content/picture3.jpg",
+            "itemId": "slider-content-default-3"
+        }
+    ]
+}
