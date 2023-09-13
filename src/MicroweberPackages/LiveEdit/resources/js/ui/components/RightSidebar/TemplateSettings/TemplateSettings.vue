@@ -130,8 +130,7 @@
                                                 {{ fontFamily }}
                                             </option>
                                         </select>
-                                        {{ supportedFonts }}
-                                        <button type="button" class="btn btn-outline-dark" v-on:click="loadMoreFonts()">
+                                        <button type="button" class="btn btn-outline-dark btn-sm mt-3" v-on:click="loadMoreFonts()">
                                             Load more
                                         </button>
                                     </div>
@@ -230,10 +229,6 @@ export default {
         },
         loadMoreFonts() {
             mw.top().app.fontManager.manageFonts();
-        },
-        reload() {
-            this.state = false;
-            this.$nextTick(() => this.state = true);
         }
     },
     mounted() {
@@ -258,7 +253,6 @@ export default {
     },
     data() {
         return {
-            state: true,
             supportedFonts: [],
             settingsGroups: [],
             options: {},

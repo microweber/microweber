@@ -124,7 +124,7 @@ export class LiveEditFontManager extends BaseComponent {
         console.log('params');
         console.log(params);
 
-        if (params.applySelectionToElement) {
+        if (params && params.applySelectionToElement) {
             this.applyToSelectedElement = params.applySelectionToElement;
         }
 
