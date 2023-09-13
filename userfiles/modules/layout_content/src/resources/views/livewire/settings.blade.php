@@ -3,8 +3,6 @@ showMainEditTab: 'mainSettings'
 }">
 
     <?php
-    $moduleTemplates = module_templates($moduleType);
-
     $editorSettings = [
         'config' => [
             'title' => '',
@@ -14,7 +12,7 @@ showMainEditTab: 'mainSettings'
             'sortItems' => true,
             'settingsKey' => 'settings',
             'listColumns' => [
-                'image' => 'Image',
+            //    'image' => 'Image',
                 'title' => 'Title',
             ],
         ],
@@ -56,7 +54,7 @@ showMainEditTab: 'mainSettings'
                 'help' => 'Enter Button Text',
             ],
             [
-                'type' => 'text',
+                'type' => 'url',
                 'label' => 'Button Link',
                 'name' => 'button_link',
                 'placeholder' => 'https://yourwebsite.com',
@@ -67,23 +65,19 @@ showMainEditTab: 'mainSettings'
 
     ?>
 
-
-
-    @if($moduleTemplates && count($moduleTemplates) >  1)
-        <div class="d-flex justify-content-between align-items-center collapseNav-initialized form-control-live-edit-label-wrapper">
-            <div class="d-flex flex-wrap gap-md-4 gap-3">
-                <button x-on:click="showMainEditTab = 'mainSettings'"
-                        :class="{ 'active': showMainEditTab == 'mainSettings' }"
-                        class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs active">
-                    @lang('Main settings')
-                </button>
-                <button x-on:click="showMainEditTab = 'design'" :class="{ 'active': showMainEditTab == 'design' }"
-                        class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs">
-                    @lang('Design')
-                </button>
-            </div>
+    <div class="d-flex justify-content-between align-items-center collapseNav-initialized form-control-live-edit-label-wrapper">
+        <div class="d-flex flex-wrap gap-md-4 gap-3">
+            <button x-on:click="showMainEditTab = 'mainSettings'"
+                    :class="{ 'active': showMainEditTab == 'mainSettings' }"
+                    class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs active">
+                @lang('Content')
+            </button>
+            <button x-on:click="showMainEditTab = 'design'" :class="{ 'active': showMainEditTab == 'design' }"
+                    class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs">
+                @lang('Design')
+            </button>
         </div>
-    @endif
+    </div>
 
     <div x-show="showMainEditTab=='mainSettings'" x-transition:enter="tab-pane-slide-left-active">
 
@@ -91,22 +85,13 @@ showMainEditTab: 'mainSettings'
         <livewire:microweber-live-edit::module-items-editor :moduleId="$moduleId" :moduleType="$moduleType"
                                                             :editorSettings="$editorSettings"/>
 
-        <?php
-
-        /*<livewire:microweber-module-teamcard::list-items :moduleId="$moduleId" :moduleType="$moduleType"  />*/
-        ?>
-
     </div>
 
 
-    @if($moduleTemplates && count($moduleTemplates) >  1)
-
         <div x-show="showMainEditTab=='design'" x-transition:enter="tab-pane-slide-right-active">
-
             <div>
                 <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
             </div>
         </div>
 
-    @endif
 </div>

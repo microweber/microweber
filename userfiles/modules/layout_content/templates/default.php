@@ -1,3 +1,15 @@
+<?php
+
+/*
+
+type: layout
+name: default
+description: default
+
+*/
+
+?>
+
 <div class="layout-content-holder row">
     <?php
     $count = 0;
