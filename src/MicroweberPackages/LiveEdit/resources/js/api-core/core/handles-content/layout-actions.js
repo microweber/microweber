@@ -3,6 +3,37 @@ import {ElementManager} from "../classes/element";
 import {Confirm} from "../classes/dialog";
 
 
+const afterLayoutChange = target => {
+    const edit = mw.tools.firstParentOrCurrentWithClass(target, 'edit');
+    if(edit) { 
+        const canHasLayout = edit.dataset.layoutContainer !== undefined;
+        if(canHasLayout) {
+            if(edit.querySelector('.module-layouts') === null) {
+            
+                var ghostLayout = mw.element()
+                    .addClass('mw-le-ghost-layout')
+                    .addClass('noedit')
+                    .addClass('noelement')
+                    .addClass('mw-handle-item-layout-plus')
+                    .addClass('mw-handle-item-layout-plus-top')
+                    .html(mw.lang('Add Layout'))
+                    .on('mousedown touchstart', e => {
+                        mw.app.editor.dispatch('appendLayoutRequestOnBottom', edit);
+                        e.preventDefault()
+                        e.stopPropagation()
+                    });
+                edit.appendChild(ghostLayout.get(0))
+            } else {
+                const ghost = edit.querySelector('.mw-le-ghost-layout');
+                if(ghost) {
+                    ghost.remove()
+                }
+            }
+        }
+        
+    }
+}
+
 export class LayoutActions extends MicroweberBaseClass {
     proto = null;
 
@@ -104,8 +135,12 @@ export class LayoutActions extends MicroweberBaseClass {
         }
 
         Confirm('Are you sure you want to delete this layout?', function () {
-            mw.app.registerChange(target)
-            target.remove()
+            var edit = mw.tools.firstParentWithClass(target, 'edit');
+            mw.app.registerChange(target);
+            target.remove();
+            mw.app.registerChange(target);
+ 
+            afterLayoutChange(edit)
         })
     }
 }

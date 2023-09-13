@@ -69,16 +69,15 @@ export default {
 
 
     targetIsDisabledWriteInEditField: element => {
-        if (element && element.classList && element.classList.contains('edit')) {
-            var isInContainer = element.hasAttribute('data-layout-container');
-
-            if(isInContainer ){
+        if (element.classList.contains('edit')) {
+            var isInContainer = element.dataset.layoutContainer;
+            if (isInContainer ){
+                return false;
+            }
+            if (element.classList.contains('no-typing')) {
                 return true;
             }
-            if (element && element.classList && element.classList.contains('no-type')) {
-                return true;
-            }
-
         }
+        return false;
     }
 }

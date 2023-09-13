@@ -534,7 +534,7 @@ MWEditor.api = function (scope) {
             return this._cleaner.innerHTML;
         },
         insertHTML: function(html) {
-            console.log(this.cleanHTML(html))
+          
             return scope.api.execCommand('insertHTML', false, this.cleanHTML(html));
         },
         insertImage: function (url) {
@@ -2088,6 +2088,7 @@ MWEditor.leSave = {
                 }
                 mw.$(helper.item).removeClass('changed orig_changed');
                 mw.$(helper.item).removeClass('module-over');
+                mw.$('.mw-le-ghost-layout', helper.item).remove();
 
                 mw.$('.module-over', helper.item).each(function(){
                     mw.$(this).removeClass('module-over');

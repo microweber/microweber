@@ -255,6 +255,14 @@ export default {
                 }, 500);
                 mw.app.registerChangedState(element);
             });
+            mw.app.editor.on('appendLayoutRequestOnBottom',function(element){
+                instance.showModal = true;
+                instance.layoutInsertLocation = 'append';
+                setTimeout(function() {
+                    instance.refreshLayouts();
+                }, 500);
+                mw.app.registerChangedState(element);
+            })
             mw.app.editor.on('insertLayoutRequestOnBottom',function(element){
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'bottom';
