@@ -189,7 +189,7 @@ class ContentRepository extends AbstractRepository
                 $customField['value'] = $customFieldValues[0] ?? false;
                 $customField['values'] = $customFieldValues;
                 $customField['values_plain'] = implode('|', $customFieldValues);// for the offers module
-                
+
                 $customFields[] = $customField;
             }
 
@@ -334,24 +334,26 @@ class ContentRepository extends AbstractRepository
      */
     public function getFirstShopPage()
     {
-        $shop_page = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
-            $check = DB::table('content')
-                ->select('id')
-                ->where('content_type', '=', 'page')
-                ->where('is_shop', '=', 1)
-                ->limit(1)
-                ->first();
-            if ($check and !empty($check)) {
-                return (array)$check;
-            }
-            return false;
-        });
-
-        if ($shop_page and isset($shop_page['id'])) {
-            return $this->getById($shop_page['id']);
-        }
+        return get_pages('content_type=page&is_shop=1&is_deleted=0&single=1');
 
     }
+    public function getAllShopPages()
+    {
+        return get_pages('content_type=page&is_deleted=0&is_shop=1');
+
+    }
+
+    public function getAllBlogPages()
+    {
+        return get_pages('content_type=page&subtype=dynamic&is_deleted=0&is_shop=0');
+
+    }
+
+    public function getFirstBlogPage()
+    {
+        return get_pages('content_type=page&subtype=dynamic&is_shop=0&single=1');
+    }
+
 
 
     /**
@@ -490,5 +492,9 @@ class ContentRepository extends AbstractRepository
 
         return $ids ? array_unique($ids) : false;
     }
+
+
+
+
 
 }

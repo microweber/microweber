@@ -1,12 +1,12 @@
 <?php
 $hasPages = false;
 
-if ($isShop){
+if (isset($isShop) and $isShop){
     $createRoute = route('admin.shop.category.create')."?parent=shop";
-    $hasPages = get_pages('content_type=page&subtype=dynamic&is_shop=1&count=1');
+    $hasPages = app()->content_repository->getFirstShopPage();
 } else {
     $createRoute = route('admin.category.create')."?parent=blog";
-    $hasPages = get_pages('content_type=page&subtype=dynamic&is_shop=0&count=1');
+    $hasPages = app()->content_repository->getFirstBlogPage();
 
 }
 

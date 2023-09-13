@@ -17,9 +17,9 @@
 
 
         $createRoute = route('admin.shop.category.create')."?parent=shop";
-        $hasShopPages = get_pages('content_type=page&subtype=dynamic&is_shop=1&count=1');
 
-        $hasDynamicPages = get_pages('content_type=page&subtype=dynamic&is_shop=0&count=1');
+        $hasShopPages = app()->content_repository->getFirstShopPage();
+        $hasDynamicPages = app()->content_repository->getFirstBlogPage();
 
 
         $createRouteBlog = route('admin.category.create')."?parent=blog";
