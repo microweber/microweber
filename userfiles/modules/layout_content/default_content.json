@@ -5,7 +5,7 @@
         "description": "It all begins with an idea. Maybe you want to launch a business. Maybe you want to turn a hobby into something more. Or maybe you have a creative project to share with the world. Whatever it is, the way you tell your story online can make all the difference.",
         "title": "Maybe you want to turn a hobby into something more",
         "image_alt_text": "Maybe you want to turn a hobby into something more",
-        "image": ""
+        "image": "{SITE_URL}userfiles/modules/layout_content/default-content/picture1.jpg"
     },
     {
         "button_link": "#",
@@ -13,7 +13,7 @@
         "description": "It all begins with an idea. Maybe you want to launch a business. Maybe you want to turn a hobby into something more. Or maybe you have a creative project to share with the world. Whatever it is, the way you tell your story online can make all the difference.",
         "title": "Maybe you want to launch a business",
         "image_alt_text": "Maybe you want to launch a business",
-        "image": ""
+        "image": "{SITE_URL}userfiles/modules/layout_content/default-content/picture2.jpg"
     },
     {
         "button_link": "#",
@@ -21,14 +21,6 @@
         "description": "It all begins with an idea. Maybe you want to launch a business. Maybe you want to turn a hobby into something more. Or maybe you have a creative project to share with the world. Whatever it is, the way you tell your story online can make all the difference. \n\n",
         "title": "The way you tell your story online can make all the difference ",
         "image_alt_text": "",
-        "image": ""
-    },
-    {
-        "button_link": "#",
-        "button_text": "Make It",
-        "description": "It all begins with an idea. Maybe you want to launch a business. Maybe you want to turn a hobby into something more. Or maybe you have a creative project to share with the world. Whatever it is, the way you tell your story online can make all the difference.",
-        "title": "Maybe you have a creative project to share with the world",
-        "image_alt_text": "Maybe you have a creative project to share with the world",
-        "image": ""
+        "image": "{SITE_URL}userfiles/modules/layout_content/default-content/picture3.jpg"
     }
 ]
