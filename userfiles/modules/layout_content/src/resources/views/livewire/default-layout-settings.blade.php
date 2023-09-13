@@ -15,7 +15,7 @@
 
     <div class="mt-4 mb-3">
         <livewire:microweber-option::range-slider min="1" max="6" label="Max Columns"
-            optionKey="max_columns" :optionGroup="$moduleId" :module="$moduleType"  />
+            optionKey="maxColumns" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
 </div>

@@ -27,7 +27,7 @@ showMainEditTab: 'mainSettings'
             [
                 'type' => 'text',
                 'label' => 'Image alt text',
-                'name' => 'image_alt_text',
+                'name' => 'imageAltText',
                 'placeholder' => 'Image alt text',
                 'help' => 'Image alt text',
             ],
@@ -49,14 +49,14 @@ showMainEditTab: 'mainSettings'
             , [
                 'type' => 'text',
                 'label' => 'Button Text',
-                'name' => 'button_text',
+                'name' => 'buttonText',
                 'placeholder' => 'Enter Button Text',
                 'help' => 'Enter Button Text',
             ],
             [
                 'type' => 'url',
                 'label' => 'Button Link',
-                'name' => 'button_link',
+                'name' => 'buttonLink',
                 'placeholder' => 'https://yourwebsite.com',
                 'help' => 'Select Link',
             ]

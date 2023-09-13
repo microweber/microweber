@@ -2,33 +2,36 @@
     "title": "Your story online",
     "description": "The way you tell your story online can make all the difference.",
     "align": "center",
-    "max_columns": "3",
-    "max_columns_tablet": "2",
-    "max_columns_mobile": "1",
+    "maxColumns": "3",
+    "maxColumnsTablet": "2",
+    "maxColumnsMobile": "1",
     "contents": [
         {
-            "button_link": "#",
-            "button_text": "Make It",
+            "buttonLink": "#",
+            "buttonText": "Make It",
             "description": "It all begins with an idea. Maybe you want to launch a business. Maybe you want to turn a hobby into something more. Or maybe you have a creative project to share with the world. Whatever it is, the way you tell your story online can make all the difference.",
             "title": "Maybe you want to turn a hobby into something more",
-            "image_alt_text": "Maybe you want to turn a hobby into something more",
-            "image": "{SITE_URL}userfiles/modules/layout_content/default-content/picture1.jpg"
+            "imageAltText": "Maybe you want to turn a hobby into something more",
+            "image": "{SITE_URL}userfiles/modules/layout_content/default-content/picture1.jpg",
+            "itemId": "layout-content-default-1"
         },
         {
-            "button_link": "#",
-            "button_text": "Make It",
+            "buttonLink": "#",
+            "buttonText": "Make It",
             "description": "It all begins with an idea. Maybe you want to launch a business. Maybe you want to turn a hobby into something more. Or maybe you have a creative project to share with the world. Whatever it is, the way you tell your story online can make all the difference.",
             "title": "Maybe you want to launch a business",
-            "image_alt_text": "Maybe you want to launch a business",
-            "image": "{SITE_URL}userfiles/modules/layout_content/default-content/picture2.jpg"
+            "imageAltText": "Maybe you want to launch a business",
+            "image": "{SITE_URL}userfiles/modules/layout_content/default-content/picture2.jpg",
+            "itemId": "layout-content-default-2"
         },
         {
-            "button_link": "#",
-            "button_text": "Make It",
+            "buttonLink": "#",
+            "buttonText": "Make It",
             "description": "It all begins with an idea. Maybe you want to launch a business. Maybe you want to turn a hobby into something more. Or maybe you have a creative project to share with the world. Whatever it is, the way you tell your story online can make all the difference. \n\n",
             "title": "The way you tell your story online can make all the difference ",
-            "image_alt_text": "",
-            "image": "{SITE_URL}userfiles/modules/layout_content/default-content/picture3.jpg"
+            "imageAltText": "",
+            "image": "{SITE_URL}userfiles/modules/layout_content/default-content/picture3.jpg",
+            "itemId": "layout-content-default-3"
         }
     ]
 }

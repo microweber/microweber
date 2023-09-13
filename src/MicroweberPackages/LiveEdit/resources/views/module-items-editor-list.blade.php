@@ -130,17 +130,25 @@ showEditTab: 'main'
                     @if($items)
                         @foreach($items as $item)
 
-                            @if(!isset($item['itemId']))
-                                @continue;
-                            @endif
+                            @php
+                                $itemId = false;
+
+                                if(isset($item['itemId'])){
+                                    $itemId = $item['itemId'];
+                                }else if(isset($item['id'])){
+                                    $itemId = $item['id'];
+                                } else {
+                                    continue;
+                                }
+                            @endphp
+
+
                             <div
-                                id="tabs-nav-tab-{{ $item['itemId']  }}"
-                                x-show="showEditTab=='tabs-nav-tab-{{ $item['itemId']  }}'"
+                                id="tabs-nav-tab-{{ $itemId  }}"
+                                x-show="showEditTab=='tabs-nav-tab-{{ $itemId  }}'"
 
                                 x-transition:enter-end="tab-pane-slide-right-active"
                                 x-transition:enter="tab-pane-slide-right-active">
-
-
 
 
 
@@ -148,8 +156,8 @@ showEditTab: 'main'
 
                                     <livewire:microweber-live-edit::module-items-editor-edit-item :moduleId="$moduleId"
                                                                                                   :moduleType="$moduleType"
-                                                                                                  wire:key="item-edit-{{ $item['itemId']  }}"
-                                                                                                  :itemId="$item['itemId']"
+                                                                                                  wire:key="item-edit-{{ $itemId }}"
+                                                                                                  :itemId="$itemId"
                                                                                                   :editorSettings="$editorSettings"/>
 
                                 </div>

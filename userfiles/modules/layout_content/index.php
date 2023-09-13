@@ -16,8 +16,8 @@ if (empty($contents)) {
                 if (!empty($defaultSettings) && is_array($defaultSettings)) {
 
                     foreach ($defaultSettings as $defaultSettingOptionKey => $defaultSettingOptionValue) {
-                        if ($defaultSettingOptionKey == 'contents') {
-                            continue;
+                        if (is_array($defaultSettingOptionValue)) {
+                            $defaultSettingOptionValue = json_encode($defaultSettingOptionValue);
                         }
                         save_option([
                             'option_value' => $defaultSettingOptionValue,
@@ -26,20 +26,10 @@ if (empty($contents)) {
                             'module'=> $moduleName
                         ]);
                     }
-
-                    $defaultContentReady = array();
-                    $defaultContentDataI = 0;
-                    foreach ($defaultSettings['contents'] as $key => $value) {
-                        $value['itemId'] = 'mw-module-'.$params['id'].'-'.$defaultContentDataI.time();
-                        $defaultContentReady[$key] = $value;
-                        $defaultContentDataI++;
-                    }
-
-                    save_option('contents', json_encode($defaultContentReady), $params['id']);
                     save_option('default_settings_is_applied', true, $params['id']);
 
-                    $getDefaultContents = get_module_option('contents', $params['id']);
-                    $contents = json_decode($getDefaultContents, true);
+                    $getContents = get_module_option('contents', $params['id']);
+                    $contents = json_decode($getContents, true);
                 }
             }
         }
@@ -52,9 +42,9 @@ $align = get_module_option('align', $params['id']);
 if (!$align) {
     $align = 'center';
 }
-$max_columns = get_module_option('max_columns', $params['id']);
-if (!$max_columns) {
-    $max_columns = 3;
+$maxColumns = get_module_option('maxColumns', $params['id']);
+if (!$maxColumns) {
+    $maxColumns = 3;
 }
 
 if(!$contents){

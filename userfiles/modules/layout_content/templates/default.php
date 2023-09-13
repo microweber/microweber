@@ -26,9 +26,9 @@ description: default
     if (!empty($contents)) {
         foreach ($contents as $content) {
             $count++;
-            $col_md_calculate = 12 / $max_columns;
+            $colMdCalculate = 12 / $maxColumns;
             ?>
-            <div class="col-md-<?php echo $col_md_calculate; ?> text-<?php echo $align; ?>">
+            <div class="col-md-<?php echo $colMdCalculate; ?> text-<?php echo $align; ?>">
                 <?php if ($content['image']) { ?>
                     <img src="<?php echo thumbnail($content['image'], 600, 400, true); ?>" />
                 <?php } else { ?>
@@ -42,8 +42,8 @@ description: default
                         <?php echo $content['description']; ?>
                     </p>
                 </div>
-                <a href="<?php echo $content['button_link']; ?>" class="btn btn-primary" target="_blank">
-                    <?php echo $content['button_text']; ?>
+                <a href="<?php echo $content['buttonLink']; ?>" class="btn btn-primary" target="_blank">
+                    <?php echo $content['buttonText']; ?>
                 </a>
             </div>
         <?php }
