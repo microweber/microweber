@@ -6,6 +6,19 @@ if (isset($params['option-group'])) {
     $option_group = $params['option-group'];
 }
 
+
+$settings = get_module_option('settings', $params['id']);
+if (empty($settings)) {
+
+    $newModuleDefaultSettingsApplied = new \MicroweberPackages\Module\ModuleDefaultSettingsApplier();
+    $newModuleDefaultSettingsApplied->moduleName = 'social_links';
+    $newModuleDefaultSettingsApplied->modulePath = __DIR__;
+    $newModuleDefaultSettingsApplied->moduleId = $params['id'];
+    $newModuleDefaultSettingsApplied->apply();
+
+}
+
+
 $social_links_options = [];
 $social_links_options['facebook_enabled'] = '';
 $social_links_options['twitter_enabled'] = '';
