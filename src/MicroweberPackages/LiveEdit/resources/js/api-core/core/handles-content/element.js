@@ -241,7 +241,7 @@ export class ElementHandleContent {
                     var firstChild = target.firstElementChild;
 
                     if (target.classList.contains('edit')) {
-                        if(!!target.textContent.trim()) {
+                        if(!!target.innerHTML.trim()) {
                             if((target.getAttribute('field') !== 'title' || target.getAttribute('rel') !== 'title') && !target.classList.contains('plain-text')) {
                                 selfVisible = false;
                             }
@@ -254,7 +254,7 @@ export class ElementHandleContent {
                         selfVisible = false;
                     }
 
- var isCloneableWithImageAsFirstChild = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
+                    var isCloneableWithImageAsFirstChild = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
 
                     if(isCloneableWithImageAsFirstChild){
                         selfVisible = true;
@@ -352,6 +352,24 @@ export class ElementHandleContent {
                 className: 'mw-handle-delete-button',
                 action: function (el) {
                     elementActions.deleteElement(el);
+                },
+                onTarget: function(target, selfBtn) {
+                    let selfVisible = true;
+                    if(target.classList.contains('edit')) {
+                        selfVisible = false;
+                    }
+ 
+                    if(!DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
+                        selfVisible = false;
+                    }  
+
+ 
+                    if(selfVisible) {
+                         
+                        selfBtn.classList.remove('mw-le-handle-menu-button-disabled');
+                    } else {
+                        selfBtn.classList.add('mw-le-handle-menu-button-disabled');
+                    }
                 }
             }
         ]
