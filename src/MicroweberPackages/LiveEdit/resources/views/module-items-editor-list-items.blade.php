@@ -99,9 +99,10 @@
 
                             @endphp
 
-                            @if(!$itemId))
-                                @continue;
+                            @if(!$itemId)
+                                @continue
                             @endif
+
                             <div class="list-group-item js-sortable-item p-2" sort-key="{{ $itemId }}"
                                  id="item-list-id-{{ $itemId }}">
                                 <div class="row align-items-center">
