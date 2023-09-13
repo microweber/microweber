@@ -285,7 +285,7 @@ export class LiveEdit {
                 if(scroll.y > (off.top - 10)) {
                     transform = (scroll.y - (off.top - 10));
 
-                    if((transform + menu.offsetHeight + 30) > off.height) {
+                    if((transform + menu.offsetHeight + 30) > off.height && menu.offsetHeight < off.height) {
                         transform =  (off.height - (menu.offsetHeight + 30))  ;
                     }
                 }
