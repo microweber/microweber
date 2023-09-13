@@ -213,8 +213,7 @@ export default {
 
 
 
-                    var isInaccessibleEdit =  mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(element);
-
+                    var isInaccessibleEdit =  mw.top().app.liveEdit.liveEditHelpers.targetIsDisabledWriteInEditField(element);
                     if(isInaccessibleEdit ){
                         return;
                     }
