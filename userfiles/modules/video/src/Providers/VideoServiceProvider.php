@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Video\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\Video\Http\Livewire\VideoSettingsComponent;
@@ -18,8 +19,7 @@ class VideoServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-
-        Livewire::component('microweber-module-video::settings', VideoSettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('video', VideoSettingsComponent::class);
 
     }
 

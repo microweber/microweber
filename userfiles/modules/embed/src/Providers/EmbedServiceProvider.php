@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Embed\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\Embed\Http\Livewire\EmbedSettingsComponent;
@@ -18,8 +19,7 @@ class EmbedServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-
-        Livewire::component('microweber-module-embed::settings', EmbedSettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('embed', EmbedSettingsComponent::class);
 
     }
 

@@ -74,7 +74,9 @@ class ModuleServiceProvider extends ServiceProvider
 
         View::addNamespace('module', __DIR__.'/resources/views');
 
-
+        $this->app->singleton('module_admin_manager',function(){
+            return new ModuleAdminManager();
+        });
         $this->app->singleton('module_manager', function ($app) {
             return new ModuleManager();
         });

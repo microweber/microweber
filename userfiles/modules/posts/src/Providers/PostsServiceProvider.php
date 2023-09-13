@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Posts\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\Posts\Http\Livewire\PostsSettingsComponent;
@@ -18,8 +19,7 @@ class PostsServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-
-        Livewire::component('microweber-module-posts::settings', PostsSettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('posts', PostsSettingsComponent::class);
 
     }
 
