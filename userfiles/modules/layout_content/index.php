@@ -7,6 +7,7 @@ $defaults = array(
 );
 $is_empty = false;
 $data = json_decode($settings, true);
+
 if (empty($data)) {
     $isDefaultContentApplied = get_option('default_content_is_applied', $params['id']);
     if (!$isDefaultContentApplied) {
@@ -16,6 +17,11 @@ if (empty($data)) {
             if ($checkForDefaultContent) {
                 $defaultContentData = json_decode($checkForDefaultContent, true);
                 if (!empty($defaultContentData) && is_array($defaultContentData)) {
+                    $defaultContentReady = array();
+                    foreach ($defaultContentData as $key => $value) { 
+                        $value['itemId'] = 'mw-module-'.$params['id'].'_'.time();
+                        $defaultContentReady[$key] = $value;
+                    }
                     save_option('settings', json_encode($defaultContentData), $params['id']);
                     save_option('default_content_is_applied', true, $params['id']);
                     $settings = get_module_option('settings', $params['id']);
