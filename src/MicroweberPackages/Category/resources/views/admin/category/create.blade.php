@@ -33,6 +33,9 @@
             $createRouteShop = route('admin.shop.category.create')."?parent_page_id=".$hasShopPages['id'];
         }
 
+
+
+
         $parent_page_param = '';
 
 
@@ -48,6 +51,7 @@
        if(isset($_GET['parent_page_id'])){
            $parent = $_GET['parent_page_id'];
        }
+
 
         $createRouteShop .= $parent_page_param;
         $createRouteBlog .= $parent_page_param;

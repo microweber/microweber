@@ -249,15 +249,13 @@
                 title: '<?php _ejs("Add subcategory"); ?>',
                 icon: 'add-subcategory-icon-tree',
                 action: function (element, data, menuitem) {
-                    window.location.href = '<?php print admin_url('category'); ?>/create?addsubcategory=' + data.id;
+                    window.location.href = '<?php print admin_url('category'); ?>/0/edit?addsubcategory=' + data.id;
                 },
                 filter: function(data) {
                     if (data.type === 'category') {
                         return true;
                     }
-                    if (data.type === 'page' && data.subtype === 'dynamic') {
-                            return true;
-                    }
+
                     return false;
                 }
             });
@@ -271,6 +269,37 @@
                 filter: function(data) {
                     if (data.type === 'page') {
                         return true;
+                    }
+                    return false;
+                }
+            });
+
+            contextMenu.push({
+                title: '<?php _ejs("Add category"); ?>',
+                icon: 'add-subcategory-icon-tree',
+                action: function (element, data, menuitem) {
+
+                    var loc = '<?php print admin_url('category'); ?>/create?parent_page_id=' + data.id;
+                    if (data.type === 'page') {
+                        if(data.is_shop === 1){
+                            loc = '<?php print admin_url('shop/category'); ?>/create?parent_page_id=' + data.id;
+                        }
+                    }
+
+                    window.location.href = loc;
+                },
+                filter: function(data) {
+                    if (data.type === 'page') {
+
+                        if(data.is_shop === 1){
+                            return true;
+                        }
+                        if(data.subtype === 'dynamic'){
+                            return true;
+                        }
+
+
+                        return false;
                     }
                     return false;
                 }

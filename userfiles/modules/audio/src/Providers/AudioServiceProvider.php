@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Audio\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\Audio\Http\Livewire\AudioSettingsComponent;
@@ -18,8 +19,7 @@ class AudioServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-
-        Livewire::component('microweber-module-audio::settings', AudioSettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('audio', AudioSettingsComponent::class);
 
     }
 

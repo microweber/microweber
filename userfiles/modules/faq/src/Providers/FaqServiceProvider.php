@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Faq\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\Faq\Http\Livewire\FaqSettingsComponent;
@@ -19,7 +20,7 @@ class FaqServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-        Livewire::component('microweber-module-faq::settings', FaqSettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('faq', FaqSettingsComponent::class);
 
     }
 
