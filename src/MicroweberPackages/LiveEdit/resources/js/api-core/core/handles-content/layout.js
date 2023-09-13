@@ -265,7 +265,14 @@ export class LayoutHandleContent {
                 className: 'mw-handle-button-wide mw-handle-layout-delete-button',
 
                 onTarget: function(target, selfNode) {
-                    if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
+                    let selfVisible = true;
+         
+ 
+                    if(!DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
+                        selfVisible = false;
+                    }  
+                    if(selfVisible) {
+                         
                         selfNode.classList.remove('mw-le-handle-menu-button-disabled');
                     } else {
                         selfNode.classList.add('mw-le-handle-menu-button-disabled');

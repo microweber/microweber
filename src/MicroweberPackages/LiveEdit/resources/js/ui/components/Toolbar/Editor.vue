@@ -211,22 +211,42 @@ export default {
 
                 } else {
 
+                   
+
+                  if (element.classList.contains('edit')) {
+                        if(!!element.innerHTML.trim()) {
+                            if((element.getAttribute('field') !== 'title' || element.getAttribute('rel') !== 'title') && !element.classList.contains('plain-text')) {
+                                return
+                            }
+                        }
+                        if(element.querySelector('.module')) {
+                            return
+                        }
+                    }
+
                   if(element.isContentEditable) {
                     return
+                  }
+
+                  if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['noedit', 'edit'])) {
+                    return;
+                  }
+                  if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['no-edit', 'edit'])) {
+                    return;
                   }
 
                   // var targetChange = DomService.firstParentOrCurrentWithClass(element, 'edit');
                   var targetChange = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['edit', 'allow-drop']);
 
 
-                  console.log(element, targetChange)
+ 
 
                   if(targetChange && targetChange.classList && !targetChange.classList.contains('safe-mode')){
                     element = targetChange;
 
                     mw.app.liveEdit.handles.get('element').set(element);
                   }
-                  console.log(element, targetChange)
+   
 
 
                     setTimeout(() => {
