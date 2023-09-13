@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\FacebookLike\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\FacebookLike\Http\Livewire\FacebookLikeSettingsComponent;
@@ -19,8 +20,7 @@ class FacebookLikeServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-        Livewire::component('microweber-module-facebook-like::settings', FacebookLikeSettingsComponent::class);
-
+         ModuleAdmin::registerSettingsComponent('facebook_like', FacebookLikeSettingsComponent::class);
     }
 
 }

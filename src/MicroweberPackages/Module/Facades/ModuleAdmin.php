@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Class ModuleAdmin
  *
- * @method static void registerSettingsComponent(string $moduleName, string $componentName)
- * @method static void registerSkinSettingsComponent(string $moduleName, string $skinName, string $componentName)
+ * @method static void registerSettingsComponent(string $moduleType, string $componentName)
+ * @method static void registerSkinSettingsComponent(string $moduleType, string $skinName, string $componentName)
  * @method static string|null getSettingsComponent(string $moduleName)
  * @method static string|null getSkinSettingsComponent(string $moduleName, string $skinName)
  * @see \MicroweberPackages\Module\ModuleAdminManager

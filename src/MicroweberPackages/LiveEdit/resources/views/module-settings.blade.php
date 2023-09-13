@@ -15,12 +15,13 @@
        // $moduleTypeForLegacyModule = $moduleTypeForLegacyModule.'/admin';
 
         $moduleFolder = $moduleTypeForComponent;
-        $moduleTypeForComponent = str_replace('_', '-', $moduleTypeForComponent);
+        $moduleTypeForComponentDashed = str_replace('_', '-', $moduleTypeForComponent);
 
         $hasError = false;
         $output = false;
 
         $livewireComponentName = 'microweber-module-'.$moduleTypeForComponent.'::settings';
+        $livewireComponentDashed = 'microweber-module-'.$moduleTypeForComponentDashed.'::settings';
 
 
 
@@ -57,6 +58,12 @@
 
         @if(livewire_component_exists($livewireComponentName))
                 @livewire($livewireComponentName, [
+                    'moduleId' => $moduleId,
+                    'moduleType' => $moduleFolder,
+                    'moduleParams' => $params,
+                ])
+        @elseif(livewire_component_exists($livewireComponentDashed))
+                @livewire($livewireComponentDashed, [
                     'moduleId' => $moduleId,
                     'moduleType' => $moduleFolder,
                     'moduleParams' => $params,

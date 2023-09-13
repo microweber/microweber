@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\ExampleUi\Providers;
 
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\ExampleUi\Http\Livewire\ExampleUiSettingsComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -22,8 +23,7 @@ class ExampleUiServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-       // View::addNamespace('microweber-module-example-ui', __DIR__.'/../resources/views');
-        Livewire::component('microweber-module-example-ui::settings', ExampleUiSettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('example_ui', ExampleUiSettingsComponent::class);
 
     }
 }
