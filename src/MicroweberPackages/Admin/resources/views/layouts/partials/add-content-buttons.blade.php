@@ -27,8 +27,8 @@ $allBlogs = [];
 $allShops = [];
 $firstBlogId = false;
 $firstShopId = false;
-$allBlogs = get_content('content_type=page&subtype=dynamic&is_shop=0&is_deleted=0&limit=10');
-$allShops = get_content('content_type=page&is_shop=1&is_deleted=0&limit=10');
+$allBlogs = app()->content_repository->getAllBlogPages();
+$allShops = app()->content_repository->getAllShopPages();
 if($allBlogs){
     $firstBlogId = $allBlogs[0]['id'];
 }
@@ -130,7 +130,7 @@ if($editContentBtnData){
         if($firstBlogId){
             $base_url = $base_url .'&recommended_content_id='.$firstBlogId; ;
         }
-        if(count($allBlogs) > 1){
+        if($allBlogs && count($allBlogs) > 1){
             foreach ($allBlogs as $buttonItem){
                 $base_url_item = $base_url_orig .'&recommended_content_id='.$buttonItem['id']; ;
 
@@ -147,7 +147,7 @@ if($editContentBtnData){
         if($firstShopId){
             $base_url = $base_url .'&recommended_content_id='.$firstShopId; ;
         }
-        if(count($allShops) > 1){
+        if($allShops && count($allShops) > 1){
             foreach ($allShops as $buttonItem){
                 $base_url_item = $base_url_orig .'&recommended_content_id='.$buttonItem['id']; ;
                 $additionalButtons[] = [

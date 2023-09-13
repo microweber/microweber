@@ -56,13 +56,17 @@ if (isset($params['is_shop']) && $params['is_shop'] == '1') {
     $creteCategoryIn = 'shop';
 }
 if ($creteCategoryIn == 'shop') {
-    $shop = get_content('one=1&subtype=dynamic&is_shop=1');
+    $shop = app()->content_repository->getFirstShopPage();
     if ($shop) {
         $data['rel_id'] = $shop['id'];
     }
 }
 if (isset($_GET['rel_id'])) {
     $data['rel_id'] = $_GET['rel_id'];
+}
+
+if (isset($params['parent_page_id'])) {
+    $data['rel_id'] = $params['parent_page_id'];
 }
 ?>
 <style>
