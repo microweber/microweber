@@ -51,8 +51,8 @@ description: default
     </div>
 
     <div class="text-<?php echo $align; ?> mt-6">
-        <a href="" class="btn btn-primary w-25" target="_blank">
-            See all
+        <a href="<?php echo $buttonLink; ?>" class="btn btn-primary w-25" target="_blank">
+            <?php echo $buttonText; ?>
         </a>
     </div>
 

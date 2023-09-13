@@ -29,6 +29,14 @@ $maxColumns = get_module_option('maxColumns', $params['id']);
 if (!$maxColumns) {
     $maxColumns = 3;
 }
+$buttonLink = get_module_option('buttonLink', $params['id']);
+if (!$buttonLink) {
+    $buttonLink = '#';
+}
+$buttonText = get_module_option('buttonText', $params['id']);
+if (!$buttonText) {
+    $buttonText = 'Make it';
+}
 
 if(!$contents){
     $contents = array();
