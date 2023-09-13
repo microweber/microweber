@@ -5,6 +5,7 @@ namespace {{moduleNamespace}}\Providers;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use {{moduleNamespace}}\Http\Livewire\{{moduleNameCamelCase}}SettingsComponent;
 
 class {{moduleNameCamelCase}}ServiceProvider extends PackageServiceProvider
@@ -18,8 +19,7 @@ class {{moduleNameCamelCase}}ServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-
-        Livewire::component('microweber-module-{{moduleSlug}}::settings', {{moduleNameCamelCase}}SettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('{{moduleSlug}}', {{moduleNameCamelCase}}SettingsComponent::class);
 
     }
 

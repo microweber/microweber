@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Tabs\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\Tabs\Http\Livewire\TabsSettingsComponent;
@@ -18,8 +19,7 @@ class TabsServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-
-        Livewire::component('microweber-module-tabs::settings', TabsSettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('tabs', TabsSettingsComponent::class);
 
     }
 
