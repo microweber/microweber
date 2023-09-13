@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\TweetEmbed\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\TweetEmbed\Http\Livewire\TweetEmbedSettingsComponent;
@@ -18,8 +19,7 @@ class TweetEmbedServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-
-        Livewire::component('microweber-module-tweet-embed::settings', TweetEmbedSettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('tweet_embed', TweetEmbedSettingsComponent::class);
 
     }
 

@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Sharer\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\Sharer\Http\Livewire\SharerSettingsComponent;
@@ -18,8 +19,7 @@ class SharerServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-
-        Livewire::component('microweber-module-sharer::settings', SharerSettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('sharer', SharerSettingsComponent::class);
 
     }
 

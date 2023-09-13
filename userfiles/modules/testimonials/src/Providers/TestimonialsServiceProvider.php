@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Testimonials\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Testimonials\Http\Livewire\TestimonialsProjectsDropdownComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -19,8 +20,7 @@ class TestimonialsServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-
-        Livewire::component('microweber-module-testimonials::settings', TestimonialsSettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('testimonials', TestimonialsSettingsComponent::class);
         Livewire::component('microweber-module-testimonials::projects-dropdown', TestimonialsProjectsDropdownComponent::class);
 
     }

@@ -21,7 +21,6 @@ class CustomFieldsServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-       // Livewire::component('microweber-module-custom-fields::settings', CustomFieldsSettingsComponent::class);
         ModuleAdmin::registerSettingsComponent('custom_fields', CustomFieldsSettingsComponent::class);
 
     }

@@ -76,7 +76,7 @@ showMainEditTab: 'mainSettings'
             </div>
 
             <p>{{_e('Get your Twitter access keys')}}
-                <a href="https://apps.twitter.com/app" target="_blank" class="mw-ui-link">
+                <a href="https://developer.twitter.com/" target="_blank" class="mw-ui-link">
                     {{_e('from here')}}
                 </a>
             </p>
