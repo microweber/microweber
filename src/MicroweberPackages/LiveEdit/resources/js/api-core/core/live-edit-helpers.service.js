@@ -65,5 +65,20 @@ export default {
                 }
             }
         }
+    },
+
+
+    targetCanWriteInEditField: element => {
+        if (element && element.classList && element.classList.contains('edit')) {
+            var isInContainer = element.hasAttribute('data-layout-container')
+
+            if(isInContainer ){
+                return;
+            }
+            if (element && element.classList && element.classList.contains('no-type')) {
+                return;
+            }
+
+        }
     }
 }

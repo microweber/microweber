@@ -211,18 +211,14 @@ export default {
 
                 } else {
 
-                   
 
-                  if (element.classList.contains('edit')) {
-                        if(!!element.innerHTML.trim()) {
-                            if((element.getAttribute('field') !== 'title' || element.getAttribute('rel') !== 'title') && !element.classList.contains('plain-text')) {
-                                return
-                            }
-                        }
-                        if(element.querySelector('.module')) {
-                            return
-                        }
+
+                    var isInaccessibleEdit =  mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(element);
+
+                    if(isInaccessibleEdit ){
+                        return;
                     }
+
 
                   if(element.isContentEditable) {
                     return
@@ -239,14 +235,14 @@ export default {
                   var targetChange = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['edit', 'allow-drop']);
 
 
- 
+
 
                   if(targetChange && targetChange.classList && !targetChange.classList.contains('safe-mode')){
                     element = targetChange;
 
                     mw.app.liveEdit.handles.get('element').set(element);
                   }
-   
+
 
 
                     setTimeout(() => {
