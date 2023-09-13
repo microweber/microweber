@@ -66,7 +66,11 @@ if (isset($_GET['rel_id'])) {
 }
 
 if (isset($params['parent_page_id'])) {
-    $data['rel_id'] = $params['parent_page_id'];
+    $data['rel_id'] = intval($params['parent_page_id']);
+}
+
+if (isset($_GET['parent_page_id'])) {
+    $data['rel_id'] = intval($_GET['parent_page_id']);
 }
 ?>
 <style>
@@ -155,10 +159,12 @@ if (isset($params['parent_page_id'])) {
                 window.location.reload();
                 <?php else: ?>
                 mw.reload_module('#<?php print $params['id'] ?>');
-
+                mw.top().trigger('pagesTreeRefresh');
                 <?php endif; ?>
 
                 mw.reload_module_everywhere('content/manager');
+
+
 
             }
 
@@ -259,7 +265,7 @@ if (isset($params['parent_page_id'])) {
                         mw.reload_module_everywhere('content/manager');
 
 
-                        mw.parent().trigger('pagesTreeRefresh')
+                        mw.top().trigger('pagesTreeRefresh')
 
                         if (window.pagesTreeRefresh) {
                             pagesTreeRefresh()

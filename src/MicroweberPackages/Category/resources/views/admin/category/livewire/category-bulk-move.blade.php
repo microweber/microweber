@@ -29,7 +29,7 @@
                         success: function (data) {
                             mw.reload_module('categories/manage');
                             mw.notification.success('<?php _ejs("Categories are moved."); ?>.');
-                            mw.parent().trigger('pagesTreeRefresh');
+                            mw.top().trigger('pagesTreeRefresh');
                             dialog.remove();
                         }
                     });
@@ -73,7 +73,7 @@
                     }
                     var tree = new mw.tree(treeSettings);
                     $(tree).on("selectionChange", function () {
-                         
+
                         btn.disabled = tree.getSelected().length === 0;
 
                         var selected = tree.getSelected();

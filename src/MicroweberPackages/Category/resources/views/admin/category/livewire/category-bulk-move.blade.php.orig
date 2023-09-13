@@ -29,7 +29,7 @@
                         success: function (data) {
                             mw.reload_module('categories/manage');
                             mw.notification.success('<?php _ejs("Categories are moved."); ?>.');
-                            mw.parent().trigger('pagesTreeRefresh');
+                            mw.top().trigger('pagesTreeRefresh');
                             dialog.remove();
                         }
                     });
@@ -70,7 +70,7 @@
 <<<<<<< HEAD
                         selectable: true,
                         singleSelect: true,
-      
+
                     }
                     var tree = new mw.tree(treeSettings);
 =======
@@ -80,7 +80,7 @@
                     });
 >>>>>>> 1ec5818298d4c78f8d5f9a4c3c27b36cfb342095
                     $(tree).on("selectionChange", function () {
-                         
+
                         btn.disabled = tree.getSelected().length === 0;
 
                         var selected = tree.getSelected();

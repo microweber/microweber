@@ -79,7 +79,7 @@
                     if (self !== parent && !!parent.mw) {
                         mw.parent().reload_module('categories');
                     }
-                    mw.parent().trigger('pagesTreeRefresh')
+                    mw.top().trigger('pagesTreeRefresh')
 
                 });
             },

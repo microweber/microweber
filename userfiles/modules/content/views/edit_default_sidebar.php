@@ -40,121 +40,137 @@
     ?>
 
     var loadCategoriesTree = function () {
-        var request = new XMLHttpRequest();
-        request.open('GET', '<?php print $categoryTreeEndPoint; ?>', true);
-        request.send();
-        request.onload = function() {
-            if (request.status >= 200 && request.status < 400) {
-                var tdata = JSON.parse(request.responseText);
+        try
+        {
 
-                if(!tdata || !tdata.length){
-                    tdata = [];
-                }
+            var request = new XMLHttpRequest();
+            request.open('GET', '<?php print $categoryTreeEndPoint; ?>', true);
+            request.send();
+            request.onload = function() {
+                if (request.status >= 200 && request.status < 400) {
+                    var tdata = JSON.parse(request.responseText);
 
-                window.selectedPages = [ <?php print $data['parent']; ?>];
-                var selectedCategories = [ <?php print $categories_active_ids; ?>];
+                    if(!tdata || !tdata.length){
+                        tdata = [];
+                    }
 
-
-
-                var tags = mw.element();
-                var tree = mw.element();
-
-                mw.element('.post-category-tags').empty().append(tags)
-                mw.element('#quick-parent-selector-tree').empty().append(tree)
+                    window.selectedPages = [ <?php print $data['parent']; ?>];
+                    var selectedCategories = [ <?php print $categories_active_ids; ?>];
 
 
 
-                window.categorySelector = new mw.treeTags({
-                    data: tdata,
-                    selectable: true,
-                    multiPageSelect: false,
-                    tagsHolder: tags.get(0),
-                    treeHolder: tree.get(0),
-                    color: '',
-                    size: 'sm',
-                    outline: true,
-                    saveState: false,
-                    on: {
-                        selectionChange: function () {
-                            //  document.querySelector('.btn-save').disabled = false;
-                            mw.askusertostay = true;
+                    var tags = mw.element();
+                    var tree = mw.element();
 
-                            var selected = categorySelector.tree.getSelected();
-                            if(selected.length){
+                    mw.element('.post-category-tags').empty().append(tags)
+                    mw.element('#quick-parent-selector-tree').empty().append(tree)
 
-                                var hasPage = selected.find(function (item){
-                                    return item.type === 'page';
-                                });
 
-                                for(var i = 0; i < selected.length; i++){
-                                    if(selected[i].type === 'page') {
-                                        window.selectedPages = [selected[i].id];
+
+                    window.categorySelector = new mw.treeTags({
+                        data: tdata,
+                        selectable: true,
+                        multiPageSelect: false,
+                        tagsHolder: tags.get(0),
+                        treeHolder: tree.get(0),
+                        color: '',
+                        size: 'sm',
+                        outline: true,
+                        saveState: false,
+                        on: {
+                            selectionChange: function () {
+                                //  document.querySelector('.btn-save').disabled = false;
+                                mw.askusertostay = true;
+
+                                var selected = categorySelector.tree.getSelected();
+                                if(selected.length){
+
+                                    var hasPage = selected.find(function (item){
+                                        return item.type === 'page';
+                                    });
+
+                                    for(var i = 0; i < selected.length; i++){
+                                        if(selected[i].type === 'page') {
+                                            window.selectedPages = [selected[i].id];
+                                        }
+                                    }
+
+                                    // console.log(window.selectedPages);
+
+                                    if(typeof hasPage === 'undefined'){
+                                        var category = selected[0];
+                                        categorySelector.tree.select(category.parent_id, 'page', true);
                                     }
                                 }
 
-                                // console.log(window.selectedPages);
-
-                                if(typeof hasPage === 'undefined'){
-                                    var category = selected[0];
-                                    categorySelector.tree.select(category.parent_id, 'page', true);
-                                }
-                             }
-
-                        }
-                    }
-                });
-
-                $(categorySelector.tree).on('ready', function () {
-                    if (window.pagesTree && pagesTree.selectedData.length) {
-                        $.each(pagesTree.selectedData, function () {
-                            categorySelector.tree.select(this, undefined, false)
-                        })
-                    } else {
-
-                        $.each(window.selectedPages, function () {
-                            categorySelector.tree.select(this, 'page', false);
-                            categorySelector.tree.open(this, 'page', false);
-
-                        });
-                        $.each(selectedCategories, function () {
-                            categorySelector.tree.select(this, 'category', false);
-                            categorySelector.tree.open(this, 'category', false);
-                        });
-
-                    }
-                    categorySelector.tags.setData(categorySelector.tree.getSelected());
-
-                    var atcmplt = mw.element('<div class="input-group mb-0 prepend-transparent"> <div class="input-group-prepend"> <span class="input-group-text"><i class="mdi mdi-magnify"></i></span> </div> <input type="text" class="form-control form-control-sm" placeholder= <?php _e("Search"); ?>> </div>');
-
-                    tree.before(atcmplt);
-
-                    atcmplt.find('input').on('input', function () {
-                        var val = this.value.toLowerCase().trim();
-                        if (!val) {
-                            categorySelector.tree.showAll();
-                        }
-                        else {
-                            categorySelector.tree.options.data.forEach(function (item) {
-
-                                if (item.title.toLowerCase().indexOf(val) === -1) {
-                                    categorySelector.tree.hide(item);
-                                }
-                                else {
-                                    categorySelector.tree.show(item);
-                                }
-                            });
+                            }
                         }
                     });
-                    $('.mw-page-component-disabled').removeClass('mw-page-component-disabled');
-                });
 
-                $(categorySelector.tags).on("tagClick", function (e, data) {
-                    $(".mw-tree-selector").show();
-                    mw.tools.highlight(categorySelector.tree.get(data))
-                });
+                    $(categorySelector.tree).on('ready', function () {
+                        if (window.pagesTree && pagesTree.selectedData.length) {
+                            $.each(pagesTree.selectedData, function () {
+                                categorySelector.tree.select(this, undefined, false)
+                            })
+                        } else {
 
+                            $.each(window.selectedPages, function () {
+                                categorySelector.tree.select(this, 'page', false);
+                                categorySelector.tree.open(this, 'page', false);
+
+                            });
+                            $.each(selectedCategories, function () {
+                                categorySelector.tree.select(this, 'category', false);
+                                categorySelector.tree.open(this, 'category', false);
+                            });
+
+                        }
+                        categorySelector.tags.setData(categorySelector.tree.getSelected());
+
+                        var atcmplt = mw.element('<div class="input-group mb-0 prepend-transparent"> <div class="input-group-prepend"> <span class="input-group-text"><i class="mdi mdi-magnify"></i></span> </div> <input type="text" class="form-control form-control-sm" placeholder= <?php _e("Search"); ?>> </div>');
+
+                        tree.before(atcmplt);
+
+                        atcmplt.find('input').on('input', function () {
+                            var val = this.value.toLowerCase().trim();
+                            if (!val) {
+                                categorySelector.tree.showAll();
+                            }
+                            else {
+                                categorySelector.tree.options.data.forEach(function (item) {
+
+                                    if (item.title.toLowerCase().indexOf(val) === -1) {
+                                        categorySelector.tree.hide(item);
+                                    }
+                                    else {
+                                        categorySelector.tree.show(item);
+                                    }
+                                });
+                            }
+                        });
+                        $('.mw-page-component-disabled').removeClass('mw-page-component-disabled');
+                    });
+
+                    $(categorySelector.tags).on("tagClick", function (e, data) {
+                        $(".mw-tree-selector").show();
+                        mw.tools.highlight(categorySelector.tree.get(data))
+                    });
+
+                }
             }
         }
+        catch (e) {
+          //Document is already detached.
+        }
+
+
+
+
+
+
+
+
+
 
     }
     var catManager;
@@ -272,7 +288,7 @@
                                     var editContentCategoryTreeSelector;
 
 
-                                    mw.on("mwSelectToAddCategoryToContent", function(event,catId) {
+                                    mw.top().on("mwSelectToAddCategoryToContent", function(event,catId) {
                                         if (typeof(window.categorySelector) != 'undefined') {
                                             editContentCategoryTreeSelector = window.categorySelector.tree;
                                         }
@@ -359,11 +375,14 @@
                                             <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>">
                                                 <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                                                     <script>
+
+
                                                         $(document).ready(function () {
                                                             loadCategoriesTree();
                                                         });
 
-                                                        mw.on('pagesTreeRefresh', function () {
+                                                        mw.top().on('pagesTreeRefresh', function () {
+
                                                             loadCategoriesTree();
                                                         });
                                                     </script>

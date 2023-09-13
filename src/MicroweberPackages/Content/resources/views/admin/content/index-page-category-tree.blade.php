@@ -106,7 +106,7 @@
         const treeContainer = document.getElementById('pages-tree-wrapper');
         var state = mw.storage.get('mw-tree-navigation-visible');
         treeContainer.classList[state ? 'add' : 'remove']('active')
-        document.querySelectorAll('.mw-admin-toggle-tree-navigation, .x-close-modal-link, .dropdown-menu-column-item--tree-open').forEach(function (el){ 
+        document.querySelectorAll('.mw-admin-toggle-tree-navigation, .x-close-modal-link, .dropdown-menu-column-item--tree-open').forEach(function (el){
             el.addEventListener('click', function(e){
                 e.preventDefault();
                 e.stopPropagation();
@@ -389,14 +389,14 @@
                     if(categories && categories.length > 0) {
                         $.post("<?php print api_link('category/reorder'); ?>", {ids: categories}, function () {
                             mw.notification.success('<?php _ejs("All changes are saved"); ?>.');
-                            mw.parent().trigger('pagesTreeRefresh');
+                            mw.top().trigger('pagesTreeRefresh');
                         });
                     }
 
                     if(pages && pages.length > 0) {
                         $.post("<?php print api_link('content/reorder'); ?>", {ids: pages}, function () {
                             mw.notification.success('<?php _ejs("All changes are saved"); ?>.');
-                            mw.parent().trigger('pagesTreeRefresh');
+                            mw.top().trigger('pagesTreeRefresh');
                         });
                     }
                 });
