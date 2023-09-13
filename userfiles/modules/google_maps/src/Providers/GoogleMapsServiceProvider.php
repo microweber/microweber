@@ -6,6 +6,7 @@ namespace MicroweberPackages\Modules\GoogleMaps\Providers;
 
 use Livewire\Livewire;
 
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\GoogleMaps\Http\Livewire\GoogleMapsSettingsComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -23,7 +24,7 @@ class GoogleMapsServiceProvider extends PackageServiceProvider
     {
 
         parent::register();
-        Livewire::component('microweber-module-google-maps::settings', GoogleMapsSettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('google_maps', GoogleMapsSettingsComponent::class);
 
     }
 

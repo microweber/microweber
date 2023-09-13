@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Slider\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\Slider\Http\Livewire\SliderSettingsComponent;
@@ -18,8 +19,7 @@ class SliderServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-
-        Livewire::component('microweber-module-slider::settings', SliderSettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('slider', SliderSettingsComponent::class);
 
     }
 

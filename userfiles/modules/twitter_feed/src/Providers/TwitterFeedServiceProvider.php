@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\TwitterFeed\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\TwitterFeed\Http\Livewire\TwitterFeedSettingsComponent;
@@ -18,8 +19,7 @@ class TwitterFeedServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-
-        Livewire::component('microweber-module-twitter-feed::settings', TwitterFeedSettingsComponent::class);
+        ModuleAdmin::registerSettingsComponent('twitter_feed', TwitterFeedSettingsComponent::class);
 
     }
 
