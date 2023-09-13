@@ -106,7 +106,7 @@
         const treeContainer = document.getElementById('pages-tree-wrapper');
         var state = mw.storage.get('mw-tree-navigation-visible');
         treeContainer.classList[state ? 'add' : 'remove']('active')
-        document.querySelectorAll('.mw-admin-toggle-tree-navigation, .x-close-modal-link, .dropdown-menu-column-item--tree-open').forEach(function (el){ 
+        document.querySelectorAll('.mw-admin-toggle-tree-navigation, .x-close-modal-link, .dropdown-menu-column-item--tree-open').forEach(function (el){
             el.addEventListener('click', function(e){
                 e.preventDefault();
                 e.stopPropagation();
@@ -249,15 +249,13 @@
                 title: '<?php _ejs("Add subcategory"); ?>',
                 icon: 'add-subcategory-icon-tree',
                 action: function (element, data, menuitem) {
-                    window.location.href = '<?php print admin_url('category'); ?>/create?addsubcategory=' + data.id;
+                    window.location.href = '<?php print admin_url('category'); ?>/0/edit?addsubcategory=' + data.id;
                 },
                 filter: function(data) {
                     if (data.type === 'category') {
                         return true;
                     }
-                    if (data.type === 'page' && data.subtype === 'dynamic') {
-                            return true;
-                    }
+
                     return false;
                 }
             });
@@ -271,6 +269,37 @@
                 filter: function(data) {
                     if (data.type === 'page') {
                         return true;
+                    }
+                    return false;
+                }
+            });
+
+            contextMenu.push({
+                title: '<?php _ejs("Add category"); ?>',
+                icon: 'add-subcategory-icon-tree',
+                action: function (element, data, menuitem) {
+
+                    var loc = '<?php print admin_url('category'); ?>/create?parent_page_id=' + data.id;
+                    if (data.type === 'page') {
+                        if(data.is_shop === 1){
+                            loc = '<?php print admin_url('shop/category'); ?>/create?parent_page_id=' + data.id;
+                        }
+                    }
+
+                    window.location.href = loc;
+                },
+                filter: function(data) {
+                    if (data.type === 'page') {
+
+                        if(data.is_shop === 1){
+                            return true;
+                        }
+                        if(data.subtype === 'dynamic'){
+                            return true;
+                        }
+
+
+                        return false;
                     }
                     return false;
                 }
@@ -389,14 +418,14 @@
                     if(categories && categories.length > 0) {
                         $.post("<?php print api_link('category/reorder'); ?>", {ids: categories}, function () {
                             mw.notification.success('<?php _ejs("All changes are saved"); ?>.');
-                            mw.parent().trigger('pagesTreeRefresh');
+                            mw.top().trigger('pagesTreeRefresh');
                         });
                     }
 
                     if(pages && pages.length > 0) {
                         $.post("<?php print api_link('content/reorder'); ?>", {ids: pages}, function () {
                             mw.notification.success('<?php _ejs("All changes are saved"); ?>.');
-                            mw.parent().trigger('pagesTreeRefresh');
+                            mw.top().trigger('pagesTreeRefresh');
                         });
                     }
                 });

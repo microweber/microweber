@@ -23,7 +23,18 @@
 
 
         $createRouteBlog = route('admin.category.create')."?parent=blog";
+        if($hasDynamicPages){
+            $createRouteBlog = route('admin.category.create')."?parent_page_id=".$hasDynamicPages['id'];
+        }
+
+
         $createRouteShop = route('admin.shop.category.create')."?parent=shop";
+        if($hasShopPages){
+            $createRouteShop = route('admin.shop.category.create')."?parent_page_id=".$hasShopPages['id'];
+        }
+
+
+
 
         $parent_page_param = '';
 
@@ -36,6 +47,11 @@
        if(isset($_GET['quickContentAdd'])){
            $parent_page_param .= '&quickContentAdd='.$_GET['quickContentAdd'];
        }
+
+       if(isset($_GET['parent_page_id'])){
+           $parent = $_GET['parent_page_id'];
+       }
+
 
         $createRouteShop .= $parent_page_param;
         $createRouteBlog .= $parent_page_param;
@@ -56,7 +72,7 @@
 
 
     @if($parent)
-        @include('category::admin.category.edit', ['parent' => $parent])
+        @include('category::admin.category.edit', ['parent_page_id' => $parent])
     @else
     <div class="row px-5">
 

@@ -113,6 +113,8 @@ if (isset($isShop) and $isShop){
                     selectedPages = [];
                     selectedCategories = [];
 
+
+
                     $('.js-multiple-move-to-category').click(function() {
                         categoryBulkMoveModal(selectedCategories);
                     });
@@ -126,7 +128,7 @@ if (isset($isShop) and $isShop){
                                 success: function (data) {
                                     mw.reload_module('categories/manage');
                                     mw.notification.success('<?php _ejs("Categories are visible."); ?>.');
-                                    mw.parent().trigger('pagesTreeRefresh');
+                                    mw.top().trigger('pagesTreeRefresh');
                                 }
                             });
                         });
@@ -141,7 +143,7 @@ if (isset($isShop) and $isShop){
                                 success: function (data) {
                                     mw.reload_module('categories/manage');
                                     mw.notification.success('<?php _ejs("Categories are hidden."); ?>.');
-                                    mw.parent().trigger('pagesTreeRefresh');
+                                    mw.top().trigger('pagesTreeRefresh');
                                 }
                             });
                         });
@@ -157,7 +159,7 @@ if (isset($isShop) and $isShop){
                                 success: function (data) {
                                     mw.reload_module('categories/manage');
                                     mw.notification.success('<?php _ejs("Categories are deleted."); ?>.');
-                                    mw.parent().trigger('pagesTreeRefresh');
+                                    mw.top().trigger('pagesTreeRefresh');
                                 }
                             });
                         });
@@ -296,7 +298,7 @@ if (isset($isShop) and $isShop){
                                 });
                                 $.post("<?php print api_link('category/reorder'); ?>", {ids: items}, function () {
                                     mw.notification.success('<?php _ejs("All changes are saved"); ?>.');
-                                    mw.parent().trigger('pagesTreeRefresh');
+                                    mw.top().trigger('pagesTreeRefresh');
                                 });
                             });
                             $(res.tree).on("selectionChange", function () {
