@@ -10,7 +10,7 @@ showMainEditTab: 'mainSettings'
             'editButtonText' => 'Edit',
             'deleteButtonText' => 'Delete',
             'sortItems' => true,
-            'settingsKey' => 'settings',
+            'settingsKey' => 'contents',
             'listColumns' => [
             //    'image' => 'Image',
                 'title' => 'Title',

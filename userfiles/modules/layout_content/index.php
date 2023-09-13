@@ -1,14 +1,9 @@
 <?php
 
-$settings = get_module_option('settings', $params['id']);
+$getContents = get_module_option('contents', $params['id']);
+$contents = json_decode($getContents, true);
 
-$defaults = array(
-    'title' => 'Title',
-);
-$is_empty = false;
-$data = json_decode($settings, true);
-
-if (empty($data)) {
+if (empty($contents)) {
     $isDefaultContentApplied = get_option('default_content_is_applied', $params['id']);
     if (!$isDefaultContentApplied) {
         $defaultContentFile = dirname(__FILE__) . DS . 'default_content.json';
@@ -24,36 +19,29 @@ if (empty($data)) {
                         $defaultContentReady[$key] = $value;
                         $defaultContentDataI++;
                     }
-                    save_option('settings', json_encode($defaultContentReady), $params['id']);
+
+                    save_option('contents', json_encode($defaultContentReady), $params['id']);
                     save_option('default_content_is_applied', true, $params['id']);
-                    $settings = get_module_option('settings', $params['id']);
-                    $data = json_decode($settings, true);
+                    save_option('title', 'Your story online', $params['id']);
+                    save_option('description', 'The way you tell your story online can make all the difference', $params['id']);
+
+                    $getDefaultContents = get_module_option('contents', $params['id']);
+                    $contents = json_decode($getDefaultContents, true);
                 }
             }
         }
     }
 }
 
-if(!$data){
-    $data = array();
+$title = get_module_option('title', $params['id']);
+$description = get_module_option('description', $params['id']);
+
+if(!$contents){
+    $contents = array();
 }
 
-if (count($data) == 0) {
-    $is_empty = true;
-    print lnotif("Click on settings to edit this module");
-    //  $data = array($defaults);
-    //  return;
-}
-
-if(!empty($data)){
-    //fill keys
-    foreach ($data as $key => $value) {
-        foreach ($defaults as $key2 => $value2) {
-            if (!isset($data[$key][$key2])) {
-                $data[$key][$key2] = $value2;
-            }
-        }
-    }
+if (count($contents) == 0) {
+    echo lnotif("Click on settings to edit this module");
 }
 
 $module_template = get_module_option('template', $params['id']);
