@@ -92,10 +92,13 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
 
     }
 
-    public function render()
+    public function mount()
     {
         $this->getSettings();
+    }
 
+    public function render()
+    {
         return view('template::livewire.live-edit.template-settings-sidebar');
     }
 }
