@@ -49,6 +49,8 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
             var editOriginal = DomService.firstParentOrCurrentWithClass(originalTarget, 'edit');
             if (editOriginal) {
                 this.dragElementOriginalHtmlForUndo = editOriginal.innerHTML;
+                this.dragElementTargetForUndo = editOriginal;
+
             }
         }
 
