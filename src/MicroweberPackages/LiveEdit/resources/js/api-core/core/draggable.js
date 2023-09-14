@@ -70,9 +70,10 @@ export const Draggable = function (options, rootSettings) {
         let {pageX, pageY} = event;
         const handleNodeWin = event.target.ownerDocument.defaultView;
 
+        // todo: pageY in firefox is wrong 
         if(handleNodeWin.__$$dragoverCoords) {
-            pageX = handleNodeWin.__$$dragoverCoords.pageX;
-            pageY = handleNodeWin.__$$dragoverCoords.pageY;
+            //pageX = handleNodeWin.__$$dragoverCoords.pageX;
+            //pageY = handleNodeWin.__$$dragoverCoords.pageY;
         }
 
 

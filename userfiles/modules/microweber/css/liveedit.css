@@ -5140,6 +5140,11 @@ body.dragStart picture img{
 }
 
 
+#mw-handle-item-element-root{
+    position: relative;
+    z-index: 1;
+}
+
 /*  Spacer */
 
 
