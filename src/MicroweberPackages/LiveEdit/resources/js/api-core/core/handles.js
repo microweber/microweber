@@ -110,7 +110,7 @@ export const Handles = function (handles) {
 
     this.init = function (){
         this.each(function (name, handle){
-            handle.draggable.on('dragStart', function (){
+            handle.draggable.on('dragStart', ()=>{
                 scope.dragging = true;
                 scope.hideAllBut(name)
             })
