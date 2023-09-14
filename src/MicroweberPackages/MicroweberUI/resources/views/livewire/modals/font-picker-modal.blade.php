@@ -34,6 +34,15 @@
                     <i class="mdi mdi-close"></i>
                 </div>
             </div>
+
+            <script>
+                document.addEventListener('fontAddedToFavorites', function (e) {
+                    if (mw.top().app.fontManager) {
+                        mw.top().app.fontManager.selectFont(e.detail.fontFamily);
+                    }
+                });
+            </script>
+
             <div class="pr-5">
 
                 @if($fonts->count() > 0)
@@ -43,14 +52,7 @@
                         @endphp
                         <div wire:key="font-id-{{$fontId}}" x-data="{favorite: @if (isset($font['favorite']) && $font['favorite']) true @else false @endif }" class="d-flex justify-content-between">
                            <div>
-                               <button type="button" x-on:click="()=> {
-                                    favorite = true;
-
-                                    if (mw.top().app.fontManager) {
-                                        mw.top().app.fontManager.selectFont('{{$font['family']}}');
-                                    }
-
-                                }" wire:click="favorite('{{$font['family']}}')"
+                               <button type="button" x-on:click="favorite = true" wire:click="favorite('{{$font['family']}}')"
                                        style="background:#fff;border:0px;text-align:left;width:100%;margin-top:5px;">
                                 <span style="font-size:18px;font-family:'{!! $font['family'] !!}',sans-serif;">
                                      {!! $font['family'] !!}

@@ -78,6 +78,10 @@ class FontPickerModalComponent extends ModalComponent
 
         save_option("enabled_custom_fonts", json_encode($newFavorites), "template");
 
+        $this->dispatchBrowserEvent('fontAddedToFavorites',[
+            'fontFamily' => $fontFamily
+        ]);
+
     }
 
     public function render()
