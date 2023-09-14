@@ -12,12 +12,14 @@ description: default
 
 <div class="layout-content-holder">
 
+    <?php if (isset($title)): ?>
     <div class="mt-6">
         <div class="text-<?php echo $align; ?>">
             <h2><?php echo $title; ?></h2>
             <p><?php echo $description; ?></p>
         </div>
     </div>
+    <?php endif; ?>
 
     <div class="row mt-4">
     <?php
@@ -42,18 +44,24 @@ description: default
                         <?php echo $content['description']; ?>
                     </p>
                 </div>
+
+                <?php if (isset($content['buttonLink'])) : ?>
                 <a href="<?php echo $content['buttonLink']; ?>" class="btn btn-primary" target="_blank">
                     <?php echo $content['buttonText']; ?>
                 </a>
+                <?php endif; ?>
+
             </div>
         <?php }
     } ?>
     </div>
 
+    <?php if (isset($buttonText) && !empty($buttonText)): ?>
     <div class="text-<?php echo $align; ?> mt-6">
         <a href="<?php echo $buttonLink; ?>" class="btn btn-primary w-25" target="_blank">
             <?php echo $buttonText; ?>
         </a>
     </div>
+    <?php endif; ?>
 
 </div>
