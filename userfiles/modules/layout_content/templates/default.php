@@ -27,23 +27,29 @@ description: default
         foreach ($contents as $content) {
             $count++;
             $colMdCalculate = 12 / $maxColumns;
+
+            $title = isset($content['title']) ? $content['title'] : '';
+            $description = isset($content['description']) ? $content['description'] : '';
+            $image = isset($content['image']) ? $content['image'] : '';
+            $buttonLink = isset($content['buttonLink']) ? $content['buttonLink'] : '';
+            $buttonText = isset($content['buttonText']) ? $content['buttonText'] : '';
             ?>
             <div class="col-md-<?php echo $colMdCalculate; ?> text-<?php echo $align; ?>">
-                <?php if ($content['image']) { ?>
-                    <img src="<?php echo thumbnail($content['image'], 600, 400, true); ?>" />
+                <?php if ($image) { ?>
+                    <img src="<?php echo thumbnail($image, 600, 400, true); ?>" />
                 <?php } else { ?>
                     <img src="<?php echo modules_url() ?>layout_content/templates/default-image.png" />
                 <?php } ?>
                 <div class="mt-2">
                     <h4>
-                        <?php echo $content['title']; ?>
+                        <?php echo $title; ?>
                     </h4>
                     <p>
-                        <?php echo $content['description']; ?>
+                        <?php echo $description; ?>
                     </p>
                 </div>
-                <a href="<?php echo $content['buttonLink']; ?>" class="btn btn-primary" target="_blank">
-                    <?php echo $content['buttonText']; ?>
+                <a href="<?php echo $buttonLink; ?>" class="btn btn-primary" target="_blank">
+                    <?php echo $buttonText; ?>
                 </a>
             </div>
         <?php }
