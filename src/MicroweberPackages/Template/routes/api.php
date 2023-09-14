@@ -10,6 +10,12 @@ Route::name('api.template.')
     ->middleware(['api', 'admin'])
     ->group(function () {
 
+        Route::get('template-settings-sidebar', function() {
+
+            return view('template::template-settings-sidebar-render-component');
+        });
+
+
         Route::namespace('MicroweberPackages\Template\Http\Controllers\Api')->group(function () {
             \Route::get('change', 'TemplateApiController@change')->name('change');
 
@@ -59,9 +65,6 @@ Route::name('api.template.')
              return mw()->template->admin->resetSelectedStyleVariables();
 
         })->name('reset_admin_stylesheet_colors');
-
-
-
 
     });
 

@@ -35,12 +35,10 @@ export class LiveEditFontManager extends BaseComponent {
             this.fonts.push(font);
             this._fireFontsManagerChange();
         }
-        mw.top().app.dispatch('fontsManagerSelectedFont', [
-            {
-                fontFamily: this.selectedFont,
-                applyToSelectedElement: this.applyToSelectedElement
-            }
-        ]);
+        mw.top().app.dispatch('fontsManagerSelectedFont', {
+            fontFamily: this.selectedFont,
+            applyToSelectedElement: this.applyToSelectedElement
+        });
         this.reloadLiveEdit();
     }
 
@@ -59,11 +57,12 @@ export class LiveEditFontManager extends BaseComponent {
     subscribeToSelectedFont(callback) {
         if (typeof callback === 'function') {
             mw.top().app.on('fontsManagerSelectedFont', (e) => {
-                if (e && e.fontFamily) {
-                    callback(e);
+                if (typeof e.fontFamily !== 'undefined') {
+                    callback({
+                        fontFamily: e.fontFamily,
+                        applyToSelectedElement: e.applyToSelectedElement
+                    });
                 }
-                console.log('fontsManagerSelectedFont');
-                console.log(e);
             });
         }
         return {

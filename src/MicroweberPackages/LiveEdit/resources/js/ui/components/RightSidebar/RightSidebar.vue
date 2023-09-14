@@ -31,7 +31,9 @@
                 <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
                      role="tabpanel">
 
-                    <TemplateSettings></TemplateSettings>
+                    <iframe :src="'/api/template/template-settings-sidebar'" style="width:100%;height:100vh;">
+
+                    </iframe>
 
                 </div>
                 <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"

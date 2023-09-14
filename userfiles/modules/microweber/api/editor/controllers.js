@@ -769,10 +769,8 @@ MWEditor.controllers = {
                 mw.top().app.fontManager.subscribeToSelectedFont(function (selectedFontEvent) {
                     var sel = api.getSelection();
                     var focusNode = sel.focusNode;
-                    console.log('selectedFontEvent');
-                    console.log(selectedFontEvent);
                     if (selectedFontEvent.applyToSelectedElement == focusNode) {
-                        api.fontFamily(fontFamily);
+                        api.fontFamily(selectedFontEvent.fontFamily);
                     }
                 });
                 mw.top().app.fontManager.subscribe(function(fonts) {
