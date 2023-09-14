@@ -7,8 +7,8 @@
     <select {!! $attributes->merge(['class'=>'form-select form-control-live-edit-input']) !!} >
         <option value="" disabled="disabled">Select Font</option>
         @if(!empty($options))
-            @foreach($options as $key => $option)
-                <option value="{{ $key }}">{{ $option }}</option>
+            @foreach($options as $option)
+                <option value="{{ $option }}">{{ $option }}</option>
             @endforeach
         @endif
     </select>
