@@ -149,6 +149,7 @@ mw.askusertostay = false;
   mw.module = {
     insert: function(target, module, config, pos, stateManager) {
 
+        console.log(target)
 
 
         return new Promise(function (resolve) {
@@ -199,7 +200,14 @@ mw.askusertostay = false;
             });
         }
 
-        console.log(target, action, el)
+        if(pos === 'append') {
+            action = 'append'
+        }
+        if(pos === 'prepend') {
+            action = 'prepend'
+        }
+
+   
 
         mw.$(target)[action](el);
         mw.load_module(module, '#' + id, function () {

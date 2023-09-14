@@ -270,5 +270,29 @@ export class DomService {
 
 
 
+    static findFirstCommonAncestor(nodeA, nodeB, ancestorsB) {
+        const ancestorsBArray = ancestorsB || DomService.getAncestors(nodeB);
+
+        if (ancestorsBArray.length === 0) {
+            return null;
+        } else if (ancestorsBArray.indexOf(nodeA) > -1) {
+            return nodeA;
+        } else if (nodeA === document) {
+            return null;
+        } else {
+            return DomService.findFirstCommonAncestor(nodeA.parentNode, nodeB, ancestorsBArray);
+        }
+    }
+
+    static getAncestors(node) {
+        if(typeof node === 'undefined' || !node) return [];
+        if(!node.parentNode) return [];
+
+        if (node !== document) return [node].concat(DomService.getAncestors(node.parentNode));
+        else return [node];
+    }
+
+
+
 
 }
