@@ -12,7 +12,7 @@ showMainEditTab: 'mainSettings'
             'sortItems' => true,
             'settingsKey' => 'contents',
             'listColumns' => [
-            //    'image' => 'Image',
+                'image' => 'Image',
                 'title' => 'Title',
             ],
         ],

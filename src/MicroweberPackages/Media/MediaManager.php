@@ -466,7 +466,7 @@ class MediaManager
 
                 if ($dl_remote and isset($data['src'])) {
                     $ext = get_file_extension($data['src']);
-                    $data['media_type'] = $this->_guess_media_type_from_file_ext($ext);
+                    $data['media_type'] = self::_guess_media_type_from_file_ext($ext);
                     if ($data['media_type'] != false) {
                         // starting download
 
@@ -546,7 +546,7 @@ class MediaManager
 
         if (!isset($s['id']) and isset($s['filename']) and is_string($s['filename']) and !isset($data['media_type'])) {
             $ext = get_file_extension($s['filename']);
-            $data['media_type'] = $this->_guess_media_type_from_file_ext($ext);
+            $data['media_type'] = self::_guess_media_type_from_file_ext($ext);
         }
 
         if (isset($data['media_type'])) {
@@ -716,7 +716,14 @@ class MediaManager
         }
     }
 
-    private function _guess_media_type_from_file_ext($ext)
+    public static function guessMediaTypeFromUrl($url)
+    {
+        $ext = get_file_extension($url);
+
+        return self::_guess_media_type_from_file_ext($ext);
+    }
+
+    private static function _guess_media_type_from_file_ext($ext)
     {
         $type = false;
         switch ($ext) {
