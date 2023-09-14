@@ -12,7 +12,7 @@ if (empty($contents)) {
 
     $applied = $newModuleDefaultSettingsApplied->apply();
 
-    if (isset($applied['success']) && $applied['success']) {
+    if (isset($applied['success']) && $applied['success'] == true) {
         $getContents = get_module_option('contents', $params['id']);
         $contents = json_decode($getContents, true);
     }
@@ -35,7 +35,7 @@ if (!$buttonLink) {
 }
 $buttonText = get_module_option('buttonText', $params['id']);
 if (!$buttonText) {
-    $buttonText = 'Make it';
+    $buttonText = '';
 }
 
 if(!$contents){

@@ -14,10 +14,8 @@ showMainEditTab: 'mainSettings'
             'sortItems' => true,
             'settingsKey' => 'settings',
             'listColumns' => [
+                'file' => 'Image',
                 'name' => 'Name',
-//                'bio' => 'Bio',
-//                'role' => 'Role',
-//                'website' => 'Website',
             ],
         ],
         'schema' => [

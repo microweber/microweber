@@ -120,16 +120,23 @@
                                         </div>
                                     </div>
                                     @if (isset($editorSettings['config']) && isset($editorSettings['config']['listColumns']))
-                                        <div class="col text-truncate "
+                                        <div class="col text-truncate"
                                              wire:click="$emit('editItemById', '{{ $itemId }}')"
                                         >
+                                            <div class="d-flex align-items-center gap-2">
                                             @foreach ($editorSettings['config']['listColumns'] as $columnKey => $columnLabel)
-
                                                 @if (isset($item[$columnKey]))
-                                                    <label
-                                                        class="text-reset d-block cursor-pointer">{{ $item[$columnKey] }}</label>
+                                                    @if (\MicroweberPackages\Media\MediaManager::guessMediaTypeFromUrl($item[$columnKey]) == 'picture')
+                                                        <img src="{{ thumbnail($item[$columnKey], 100, 100, true) }}" style="border-radius:3px;width: 40px;"
+                                                             alt="{{ $item[$columnKey] }}" />
+                                                    @else
+                                                    <label class="d-block cursor-pointer">
+                                                        {{ str_limit($item[$columnKey], 17) }}
+                                                    </label>
+                                                @endif
                                                 @endif
                                             @endforeach
+                                            </div>
 
                                         </div>
                                     @endif
