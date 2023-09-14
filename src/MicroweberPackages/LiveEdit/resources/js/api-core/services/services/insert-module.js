@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ElementManager } from "../../core/classes/element";
+import { afterLayoutChange } from "../../core/handles-content/layout-actions";
 
 
 export const insertModule = (target = null, module, options = {}, insertLocation = 'top') => {
@@ -19,5 +20,7 @@ export const insertModule = (target = null, module, options = {}, insertLocation
         mw.top().win.mw.app.liveEdit.handles.get('module').set(mw.top().win.mw.app.liveEdit.handles.get('module').getTarget());
         mw.top().win.mw.app.dispatch('moduleInserted')
         resolve();
+
+        afterLayoutChange(target)
     });
 }

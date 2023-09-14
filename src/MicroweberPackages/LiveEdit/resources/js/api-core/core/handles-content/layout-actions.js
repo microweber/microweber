@@ -3,16 +3,15 @@ import {ElementManager} from "../classes/element";
 import {Confirm} from "../classes/dialog";
 
 
-const afterLayoutChange = target => {
+export const afterLayoutChange = target => {
     const edit = mw.tools.firstParentOrCurrentWithClass(target, 'edit');
     if(edit) {
         const canHasLayout = edit.dataset.layoutContainer !== undefined;
         if(canHasLayout) {
             if(edit.querySelector('.module-layouts') === null) {
 
-                console.log(edit, target)
-
                 var ghostLayout = mw.element()
+                     
                     .addClass('mw-le-ghost-layout')
                     .addClass('noedit')
                     .addClass('noelement')
@@ -45,6 +44,10 @@ export class LayoutActions extends MicroweberBaseClass {
         super();
         this.proto = proto;
 
+    }
+
+    afterLayoutChange(target) {
+        return afterLayoutChange(target)
     }
 
     cloneLayout(target) {
