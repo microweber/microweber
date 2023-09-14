@@ -29,28 +29,28 @@ description: default
         foreach ($contents as $content) {
             $count++;
             $colMdCalculate = 12 / $maxColumns;
+
+            $contentTitle = isset($content['title']) ? $content['title'] : '';
+            $contentDescription = isset($content['description']) ? $content['description'] : '';
+            $contentImage = isset($content['image']) ? $content['image'] : '';
+            $contentButtonLink = isset($content['buttonLink']) ? $content['buttonLink'] : '';
+            $contentButtonText = isset($content['buttonText']) ? $content['buttonText'] : '';
             ?>
             <div class="col-md-<?php echo $colMdCalculate; ?> text-<?php echo $align; ?>">
-                <?php if ($content['image']) { ?>
-                    <img src="<?php echo thumbnail($content['image'], 600, 400, true); ?>" />
+                <?php if ($contentImage) { ?>
+                    <img src="<?php echo thumbnail($contentImage, 600, 400, true); ?>" />
                 <?php } else { ?>
                     <img src="<?php echo modules_url() ?>layout_content/templates/default-image.png" />
                 <?php } ?>
                 <div class="mt-2">
-                    <h4>
-                        <?php echo $content['title']; ?>
-                    </h4>
-                    <p>
-                        <?php echo $content['description']; ?>
-                    </p>
+                    <h4><?php echo $contentTitle; ?></h4>
+                    <p><?php echo $contentDescription; ?></p>
                 </div>
-
-                <?php if (isset($content['buttonLink'])) : ?>
-                <a href="<?php echo $content['buttonLink']; ?>" class="btn btn-primary" target="_blank">
-                    <?php echo $content['buttonText']; ?>
+                <?php if (!empty($contentButtonText)) : ?>
+                <a href="<?php echo $contentButtonLink; ?>" class="btn btn-primary" target="_blank">
+                    <?php echo $contentButtonText; ?>
                 </a>
                 <?php endif; ?>
-
             </div>
         <?php }
     } ?>

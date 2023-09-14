@@ -70,7 +70,7 @@ export default {
 
     targetIsDisabledWriteInEditField: element => {
         if (element.classList.contains('edit')) {
-            var isInContainer = element.dataset.layoutContainer;
+            var isInContainer = element.hasAttribute('data-layout-container');
             if (isInContainer ){
                 return false;
             }
