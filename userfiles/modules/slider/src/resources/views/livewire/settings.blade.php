@@ -27,10 +27,10 @@ showMainEditTab: 'mainSettings'
             ],
             [
                 'type' => 'text',
-                'label' => 'Slide Heading',
+                'label' => 'Slide Title',
                 'name' => 'primaryText',
-                'placeholder' => 'Slide Heading',
-                'help' => 'Slide Heading',
+                'placeholder' => 'Slide Title',
+                'help' => 'Slide Title',
             ],
 //            [
 //                'type' => 'icon',

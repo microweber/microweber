@@ -5,6 +5,8 @@
     "maxColumns": "3",
     "maxColumnsTablet": "2",
     "maxColumnsMobile": "1",
+    "buttonLink": "#",
+    "buttonText": "Make It",
     "contents": [
         {
             "buttonLink": "#",

@@ -211,12 +211,10 @@ export default {
 
                 } else {
 
-
-
-                    var isInaccessibleEdit =  mw.top().app.liveEdit.liveEditHelpers.targetIsDisabledWriteInEditField(element);
-                    if(isInaccessibleEdit ){
-                        return;
-                    }
+                  var isInaccessibleEdit =  mw.top().app.liveEdit.liveEditHelpers.targetIsDisabledWriteInEditField(element);
+                  if( isInaccessibleEdit ){
+                      return;
+                  }
 
 
                   if(element.isContentEditable) {
