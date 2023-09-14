@@ -137,6 +137,9 @@ export default {
                   $(dialog).on('Remove', () => {
 
                     mw.app.liveEdit.play();
+                    const target = mw.top().app.liveEdit.handles.get('element').getTarget();
+                    mw.top().app.liveEdit.handles.get('element').set(null);
+                    mw.top().app.liveEdit.handles.get('element').set(target);
                   })
                   return dialog;
                 }
@@ -165,7 +168,7 @@ export default {
                   });
 
                    const icon = await iconPicker.promise();
-                   console.log(icon)
+                   
 
                 } else if(element.nodeName === 'IMG') {
 

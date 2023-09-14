@@ -186,8 +186,14 @@ export default {
         switchLayoutsListTypePreview(type) {
             this.layoutsListTypePreview = type;
         },
-        insertLayout(template) {
-            mw.app.editor.insertLayout({'template':template}, this.layoutInsertLocation);
+        insertLayout(template, target) {
+            if(!target) {
+                target = this.$data.target
+            }
+  
+            console.log(this.$data)
+            console.log(this.$data.target)
+            mw.app.editor.insertLayout({'template':template}, this.layoutInsertLocation, target);
 
             this.showModal = false;
         },
@@ -203,8 +209,6 @@ export default {
             setTimeout(() => { 
                 this.layoutsListLoaded = true;
                 this.layoutsListFiltered = this.layoutsList.layouts;
-                console.log('refreshed');
-                console.log(this.layoutsList.layouts);
             },100);
         },
         filterLayouts() {
@@ -258,18 +262,21 @@ export default {
             mw.app.editor.on('appendLayoutRequestOnBottom',function(element){
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'append';
+                
                 setTimeout(function() {
                     instance.refreshLayouts();
                 }, 500);
                 mw.app.registerChangedState(element);
             })
             mw.app.editor.on('insertLayoutRequestOnBottom',function(element){
+                instance.$data.target = element;
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'bottom';
                 setTimeout(function() {
                     instance.refreshLayouts();
                 }, 500);
                 mw.app.registerChangedState(element);
+                instance.$data.target = undefined;
             });
         });
 
@@ -306,7 +313,8 @@ export default {
             layoutsListFiltered: [],
             layoutsListLoaded: false,
             layoutInsertLocation: 'top',
-            showModal: false
+            showModal: false,
+            target: undefined,
         }
     }
 }

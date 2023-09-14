@@ -9,6 +9,8 @@ const afterLayoutChange = target => {
         const canHasLayout = edit.dataset.layoutContainer !== undefined;
         if(canHasLayout) {
             if(edit.querySelector('.module-layouts') === null) {
+
+                console.log(edit, target)
             
                 var ghostLayout = mw.element()
                     .addClass('mw-le-ghost-layout')
@@ -17,11 +19,13 @@ const afterLayoutChange = target => {
                     .addClass('mw-handle-item-layout-plus')
                     .addClass('mw-handle-item-layout-plus-top')
                     .html(mw.lang('Add Layout'))
+                    .css({position: 'static'})
                     .on('mousedown touchstart', e => {
                         mw.app.editor.dispatch('appendLayoutRequestOnBottom', edit);
                         e.preventDefault()
                         e.stopPropagation()
                     });
+                    ghostLayout.get(0).__edit = edit;
                 edit.appendChild(ghostLayout.get(0))
             } else {
                 const ghost = edit.querySelector('.mw-le-ghost-layout');
