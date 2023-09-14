@@ -137,22 +137,22 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
 
     registerUndoState = (element) => {
         var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
-        if (edit) {
-            if (edit.getAttribute('rel') && edit.getAttribute('field')) {
-                mw.app.state.record({
-                    target: edit,
-                    value: edit.innerHTML
-                });
-            }
+        var module = mw.tools.firstParentOrCurrentWithClass(element, 'module');
+        if (edit && edit.getAttribute('rel') && edit.getAttribute('field')) {
+            mw.app.state.record({
+                target: edit,
+                value: edit.innerHTML
+            });
+        } else if (module) {
+            mw.app.state.record({
+                target: module,
+                value: module.innerHTML
+            });
         } else {
-            var module = mw.tools.firstParentOrCurrentWithClass(element, 'module');
-            if (module) {
-
-                mw.app.state.record({
-                    target: module,
-                    value: module.innerHTML
-                });
-            }
+            mw.app.state.record({
+                target: element,
+                value: element.innerHTML
+            });
         }
     }
 }
