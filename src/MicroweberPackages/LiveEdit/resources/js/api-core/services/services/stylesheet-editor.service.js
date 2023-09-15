@@ -99,6 +99,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
 
     setPropertyForSelector(sel, prop, val) {
+        this.changed = true;
         if (!this._temp.children[sel]) {
             this._temp.children[sel] = {};
         }
@@ -120,7 +121,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     temp(node, prop, val) {
         val = (val || '').trim();
-        this.changed = true;
+        
 
         if (node.length) {
             node = node[0];
