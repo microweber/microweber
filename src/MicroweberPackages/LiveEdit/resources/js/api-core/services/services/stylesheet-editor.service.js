@@ -128,7 +128,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
         const sel = mw.tools.generateSelectorForNode(node);
 
-        this.setCSSForSelector(sel, prop, val)
+        this.setPropertyForSelector(sel, prop, val)
     }
 
     _cleanCSSJSON(obj) {
