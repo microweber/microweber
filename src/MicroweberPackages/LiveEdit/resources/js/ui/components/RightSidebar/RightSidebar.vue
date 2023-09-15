@@ -109,7 +109,7 @@ export default {
 
             return src;
 
-        },
+        } 
     },
     mounted() {
         const instance = this;

@@ -1,6 +1,7 @@
 <?php
 
 only_admin_access();
+
 ?>
 
 
@@ -13,6 +14,87 @@ only_admin_access();
 
 <script>
     var colorPickers = [];
+
+
+</script>
+<script>
+    <?php if(isset($params['output_static_selector'])): ?>
+
+    var output = function (property, value) {
+        var mwTarget = targetMw;
+
+        if (ActiveNode && ActiveNode.length) {
+            ActiveNode = ActiveNode[0]
+        }
+        if (ActiveNode && ActiveSelector) {
+            if (!specialCases(property, value)) {
+
+                mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), value)
+
+
+               //mw.top().app.cssEditor.temp(ActiveNode, property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), value)
+
+               ActiveNode.setAttribute('staticdesign', true);
+            }
+            mw.top().app.registerChange(ActiveNode);
+
+        }
+
+    };
+
+
+    <?php endif; ?>
+    var ActiveNode = null;
+    var ActiveSelector = null;
+
+  <?php if(!isset($params['disable_auto_element_change'])): ?>
+    ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+
+    $(document).on('ready', function () {
+        if(ActiveNode) {
+            if (typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree) {
+                window.liveEditDomTree.select(ActiveNode);
+                selectNode(ActiveNode);
+            }
+        }
+    })
+    <?php endif; ?>
+
+    mw.top().app.on('cssEditorSelectElementBySelector', function (selector) {
+        var canvasDocument = mw.top().app.canvas.getDocument();
+
+        if (selector) {
+            ActiveNode = canvasDocument.querySelector(selector);
+            ActiveSelector= selector;
+
+
+                selectNode(ActiveNode);
+
+
+        }
+    });
+    <?php if(!isset($params['disable_auto_element_change'])): ?>
+    window.document.addEventListener('refreshSelectedElement', function (e) {
+
+
+        ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+
+        if (typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree) {
+            window.liveEditDomTree.select(ActiveNode);
+            selectNode(ActiveNode);
+        } else {
+            setTimeout(function () {
+                if (typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree) {
+                    window.liveEditDomTree.select(ActiveNode);
+                    selectNode(ActiveNode);
+                }
+            }, 1000);
+        }
+
+
+        //  activeTree();
+    });
+    <?php endif; ?>
 
 
 </script>
