@@ -11,9 +11,36 @@
         }
     </style>
 
-    @if (!empty($styleSettings))
-        @include('template::livewire.live-edit.template-style-item', ['item' => $styleSettings])
+    @if(isset($styleSettings))
+        <div>
+            @foreach($styleSettings as $styleSetting)
+
+                <div style="border:1px solid #000;margin-top:25px;">
+
+                    <div>
+                        @if (isset($styleSetting['title']))
+                            <a class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
+                                {{ $styleSetting['title'] }}
+                            </a>
+                        @endif
+                        @if(isset($styleSetting['description']))
+                            <p>{{$styleSetting['description']}}</p>
+                        @endif
+                    </div>
+
+                    <div class="mt-3">
+                        <div>
+                            @if(isset($styleSetting['settings']))
+                                @include('template::livewire.live-edit.template-setting-item', ['item' => $styleSetting])
+                            @endif
+                        </div>
+                    </div>
+
+                </div>
+            @endforeach
+        </div>
     @endif
+
 
 
     <br />
