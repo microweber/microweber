@@ -160,6 +160,7 @@
 
     <select onchange="mw.selectCssEditorElement(this)">
         <option value=".main">Main</option>
+        <option value="body">body</option>
         <option value="h1">h1</option>
         <option value="h2">h2</option>
         <option value="h3">h3</option>
@@ -167,6 +168,9 @@
         <option value=".btn.btn-primary">.btn.btn-primary</option>
         <option value=".col-6">.col-6</option>
         <option value=".btn.btn-link">.btn.btn-link</option>
+        <option value="aaaaaaa">aaaaaaa</option>
+        <option value="aaaaaaa.btn-link">aaaaaaa.btn-link</option>
+        <option value="aaaaaaa#test">aaaaaaa#test</option>
     </select>
 
 

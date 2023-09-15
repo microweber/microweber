@@ -6,6 +6,7 @@ only_admin_access();
 
 
 
+<script src="<?php print $config['url_to_module']; ?>js/jseldom-jquery.js"></script>
 <script src="<?php print $config['url_to_module']; ?>js/rte_css_editor2.js"></script>
 <link rel="stylesheet" href="<?php print $config['url_to_module']; ?>style.css" type="text/css" media="all" />
 <?php if (_lang_is_rtl()):?>
@@ -63,13 +64,32 @@ only_admin_access();
     mw.top().app.on('cssEditorSelectElementBySelector', function (selector) {
         var canvasDocument = mw.top().app.canvas.getDocument();
 
+
         if (selector) {
             ActiveNode = canvasDocument.querySelector(selector);
+            if (!ActiveNode) {
+mw.log('selector not found' + selector)
+//mw.log( $.jseldom(selector).html('dummy element').appendTo('body',canvasDocument))
+                var newEl =    $.jseldom(selector);
+
+                var holder = canvasDocument.querySelector('#mw-non-existing-element-holder');
+                if(!holder){
+                    holder = canvasDocument.createElement('div');
+                    holder.id = 'mw-non-existing-element-holder';
+                    holder.style.display = 'none';
+                    canvasDocument.body.append(holder);
+                    holder = canvasDocument.querySelector('#mw-non-existing-element-holder');
+                }
+                holder.append( newEl[0]);
+                ActiveNode = canvasDocument.querySelector(selector);
+
+
+
+                mw.log(111111111)
+mw.log(ActiveNode)
+            }
             ActiveSelector= selector;
-
-
-                selectNode(ActiveNode);
-
+            selectNode(ActiveNode);
 
         }
     });

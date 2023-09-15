@@ -23,6 +23,11 @@ if (targetWindow) {
 }
 
 
+if(typeof ActiveNode === 'undefined') {
+    ActiveNode = null;
+}
+
+
 var positionSelector = function () {
     var root = mw.element({props: {className: 'mw-position-selector'}})
     var posTop = mw.element({props: {className: 'mw-position-selector-top'}});
@@ -170,8 +175,9 @@ $(document).on('ready', function () {
 
 
 var reset = function () {
-    var ActiveNode = mw.top().app.liveEdit.getSelectedNode();
-
+    if(!ActiveNode) {
+        var ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+    }
     if (!ActiveNode) {
         return;
     }
