@@ -9,6 +9,7 @@
     <br>
 
     <div class="bg-tab">
+        
         <div id="bg-image-picker">
             <div class="dropzone mw-dropzone ">
                 <div class="d-flex flex-column align-items-center gap-3">
@@ -21,9 +22,9 @@
                         </b>
                     </div>
                     <div>
-                                        <span>
-                                            <b>20MB Max</b>
-                                        </span>
+                        <span>
+                            <b>20MB Max</b>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -152,7 +153,9 @@
             }
 
 
-            document.querySelector('#bg-image-picker').addEventListener('click', function () {
+            const bgNode = document.querySelector('#bg-image-picker')
+
+            bgNode.addEventListener('click', function () {
                 var dialog;
                 var picker = new mw.filePicker({
                     type: 'videos',

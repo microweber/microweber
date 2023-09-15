@@ -39,6 +39,7 @@ html.le-dragging{
 
     .mw-le-resizer:before,
     .mw-le-resizer:after{
+        border-radius: 3px;
         position: absolute;
         width: 9px;
         height: 9px;

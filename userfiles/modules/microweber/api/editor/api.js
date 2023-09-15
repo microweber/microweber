@@ -317,6 +317,7 @@ mw.lib.require('rangy');
                     value: targetParent.innerHTML
                 });
                     scope.dispatch('action');
+                    scope.registerChange();
                 }, (recordTimeout ? 600 : 78));
             },
             elementNode: function (c) {
@@ -413,6 +414,7 @@ mw.lib.require('rangy');
                 });
                 range.deleteContents()
                 range.insertNode(frag)
+                scope.registerChange();
             },
 
             cleanApplier: function (){
@@ -439,6 +441,7 @@ mw.lib.require('rangy');
                 }
                 cl()
                 scope.api.restoreSelection();
+                scope.registerChange();
             },
             cssApplier: function (css) {
                 var styles = '';
@@ -464,6 +467,7 @@ mw.lib.require('rangy');
                     all[i].setAttribute('style', styles);
                      mw.tools.removeClass(all[i], clstemp);
                 }
+                scope.registerChange();
             },
             cssApplier2: function (css) {
                 var styles = '';
@@ -513,6 +517,7 @@ mw.lib.require('rangy');
                             all[i].removeAttribute('style');
                         }
                     }
+                    scope.registerChange();
                 }
             },
             domCommand: function (method, options) {
@@ -639,6 +644,7 @@ mw.lib.require('rangy');
                     scope.api.action(node.parentNode, function () {
                         node.style.fontSize = size + unit;
                     });
+                    
                     return;
                 }
                 var range = sel.getRangeAt(0),

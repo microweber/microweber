@@ -400,6 +400,10 @@ html[dir="rtl"] {
     font-size: 12px;
 }
 
+
+
+
+
 .mw-handle-item-layout-plus {
     $height: 30;
     font-size: 12px;
@@ -433,6 +437,15 @@ html[dir="rtl"] {
 
     &:hover {
         background-color: #016ce6;
+    }
+
+    &.mw-le-ghost-layout{
+        position: static;
+        display: flex;
+        margin: 50px auto;
+        transform: none;
+        max-width: 200px;
+        height: #{$height + ($height/2)}px;
     }
 }
 

@@ -1,3 +1,4 @@
+import { DomService } from "../../../core/classes/dom";
 
  mw.require('editor.js');
 mw.require('css_parser.js');
@@ -118,6 +119,14 @@ export const EditorComponent = function () {
 
         fontFamilyProvider: fontFamilyProvider,
         forced: true
+    });
+
+    $(liveEditor).on('change', function(e, html){
+        const node = mw.top().app.richTextEditorAPI.elementNode(mw.top().app.richTextEditorAPI.getSelection().focusNode);
+        const edit = DomService.firstParentOrCurrentWithClass(node, 'edit');
+        if(edit) {
+            edit.classList.add('changed')
+        }
     });
 
 
