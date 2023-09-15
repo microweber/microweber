@@ -75,12 +75,14 @@ mw.log('selector not found' + selector)
                 var holder = canvasDocument.querySelector('#mw-non-existing-temp-element-holder');
                 if(!holder){
                     holder = canvasDocument.createElement('div');
-                    holder.id = 'mw-non-existing-element-holder';
+                    holder.id = 'mw-non-existing-temp-element-holder';
                     holder.style.display = 'none';
                     canvasDocument.body.append(holder);
-                    holder = canvasDocument.querySelector('#mw-non-existing-temp-element-holder');
                 }
-                holder.append( newEl[0]);
+                if(newEl) {
+                    holder = canvasDocument.getElementById('mw-non-existing-temp-element-holder');
+                    holder.append(newEl[0]);
+                }
                 ActiveNode = canvasDocument.querySelector(selector);
 
             }
@@ -201,9 +203,26 @@ mw.log('selector not found' + selector)
                     $node[action]('mw-bg-mask');
                     if (action === 'addClass') {
                         output('color', 'transparent')
+                        // background-clip: text;
+                        // -webkit-background-clip: text;
+                        // color: rgba(0,0,0,0) !important;
+                        $(ActiveNode).css({
+                            'background-clip': 'text',
+                            '-webkit-background-clip': 'text',
+                            'color': 'rgba(0,0,0,0) !important'
+                        });
                     } else {
+                        $(ActiveNode).css({
+                            'background-clip': '',
+                            '-webkit-background-clip': '',
+                            'color': ''
+                        });
                         output('color', '')
                     }
+
+
+
+
                     mw.top().app.registerChange($node[0]);
                 }
             </script>
