@@ -234,6 +234,10 @@ body, .is_admin {
     color: var(--tblr-body-color) !important;
 }
 
+.tblr-body-bg, .mw-ese-holder, .mw-field select, .mw-field input {
+    background-color: var(--tblr-body-bg) !important;
+}
+
 .tblr-body-bg {
     background-color: var(--tblr-body-bg) !important;
 }

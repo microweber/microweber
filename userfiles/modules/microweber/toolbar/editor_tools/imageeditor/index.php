@@ -254,7 +254,7 @@
                             <label><?php _e("Size"); ?></label>
                             <div class="s-field-content">
                                 <div class="mw-field" data-size="medium">
-                                    <select type="text" class="regular" data-prop="backgroundSize">
+                                    <select type="text" class="regular tblr-body-bg" data-prop="backgroundSize">
                                         <option value="auto"><?php _e("Auto"); ?></option>
                                         <option value="contain"><?php _e("Fit"); ?></option>
                                         <option value="cover"><?php _e("Cover"); ?></option>
@@ -268,7 +268,7 @@
                             <label><?php _e("Position"); ?></label>
                             <div class="s-field-content">
                                 <div class="mw-field" data-size="medium">
-                                    <select type="text" class="regular" data-prop="backgroundPosition">
+                                    <select type="text" class="regular tblr-body-bg" data-prop="backgroundPosition">
                                         <option value="0% 0%"><?php _e("Left Top"); ?></option>
                                         <option value="50% 0%"><?php _e("Center Top"); ?></option>
                                         <option value="100% 0%"><?php _e("Right Top"); ?></option>

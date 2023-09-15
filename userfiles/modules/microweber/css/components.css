@@ -871,3 +871,7 @@ body.mw-external-loading:after {
     0% { opacity: 0; transform: translateX(-100%); }
     100% { opacity: 1; transform: translateX(0); }
 }
+
+.mw-component-ready {
+    background-color: var(--tblr-body-bg) !important;
+}

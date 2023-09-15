@@ -1146,7 +1146,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Size"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field mw-field-flat" data-size="medium">
-                    <select type="text" class="regular" data-prop="backgroundSize">
+                    <select type="text" class="regular tblr-body-bg" data-prop="backgroundSize">
                         <option value="auto"><?php _e("Auto"); ?></option>
                         <option value="contain"><?php _e("Fit"); ?></option>
                         <option value="cover"><?php _e("Cover"); ?></option>
@@ -1159,7 +1159,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Repeat"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field mw-field-flat" data-size="medium">
-                    <select type="text" class="regular" data-prop="backgroundRepeat">
+                    <select type="text" class="regular tblr-body-bg" data-prop="backgroundRepeat">
                         <option value="repeat"><?php _e("repeat"); ?></option>
                         <option value="no-repeat"><?php _e("no-repeat"); ?></option>
                         <option value="repeat-x"><?php _e("repeat horizontally"); ?></option>
@@ -1195,7 +1195,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Position"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field mw-field-flat" data-size="medium">
-                    <select class="regular" data-prop="backgroundPosition">
+                    <select class="regular form-select" data-prop="backgroundPosition">
                         <option value="0% 0%"><?php _e("Left Top"); ?></option>
                         <option value="50% 0%"><?php _e("Center Top"); ?></option>
                         <option value="100% 0%"><?php _e("Right Top"); ?></option>
@@ -1236,7 +1236,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
                             <div class="mw-field mw-field-flat" data-size="medium">
-                                <select class="regular" data-prop="fontFamily">
+                                <select class="regular form-select" data-prop="fontFamily">
                                     <option value="inherit">Default</option>
 
                                     <?php if($enabled_custom_fonts_array): ?>
@@ -1295,7 +1295,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
                             <div class="mw-field mw-field-flat" data-size="medium">
-                                <select class="regular" data-prop="fontStyle">
+                                <select class="regular form-select" data-prop="fontStyle">
                                     <option value="normal"><?php _e("normal"); ?></option>
                                     <option value="italic"><?php _e("italic"); ?></option>
                                     <option value="oblique"><?php _e("oblique"); ?></option>
@@ -1309,7 +1309,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
                             <div class="mw-field mw-field-flat" data-size="medium">
-                                <select class="regular" data-prop="fontWeight">
+                                <select class="regular form-select" data-prop="fontWeight">
                                     <option value="normal"><?php _e("normal"); ?></option>
                                     <option value="bold"><?php _e("bold"); ?></option>
                                     <option value="bolder"><?php _e("bolder"); ?></option>
@@ -1333,7 +1333,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                     <div class="s-field-content">
                         <div class="mw-multiple-fields">
                             <div class="mw-field mw-field-flat" data-size="medium">
-                                <select class="regular" data-prop="textTransform">
+                                <select class="regular form-select" data-prop="textTransform">
                                     <option value="none"><?php _e("none"); ?></option>
                                     <option value="capitalize"><?php _e("capitalize"); ?></option>
                                     <option value="uppercase"><?php _e("uppercase"); ?></option>
@@ -1381,7 +1381,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                 <div class="s-field-content">
                     <div class="mw-field mw-field-flat" data-size="medium">
 
-                        <select data-prop="overlay-blend-mode" id="overlay-blend-mode" class="regular">
+                        <select data-prop="overlay-blend-mode" id="overlay-blend-mode" class="regular tblr-body-bg">
                             <option value='normal' selected><?php _e('None'); ?></option>
                             <option value='multiply'>multiply</option>
                             <option value='screen'>screen</option>
@@ -1430,7 +1430,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                     <div class="mw-field mw-field-flat" data-size="medium">
                         <label><?php _e('Desktop'); ?></label>
                         <i class=" mdi mdi-monitor"></i>
-                        <select data-prop="col-desktop" class="regular">
+                        <select data-prop="col-desktop" class="regular tblr-body-bg">
                             <option value='' selected disabled><?php _e('Choose'); ?></option>
                             <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
                                 <option value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
@@ -1440,7 +1440,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                     <div class="mw-field mw-field-flat" data-size="medium">
                         <label><?php _e('Tablet'); ?></label>
                         <i class=" mdi mdi-tablet"></i>
-                        <select data-prop="col-tablet" class="regular">
+                        <select data-prop="col-tablet" class="regular tblr-body-bg">
                             <option value='' selected disabled><?php _e('Choose'); ?></option>
                             <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
                                 <option value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
@@ -1450,7 +1450,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                     <div class="mw-field mw-field-flat" data-size="medium">
                         <label><?php _e('Mobile'); ?></label>
                         <i class=" mdi mdi-cellphone"></i>
-                        <select data-prop="col-mobile" class="regular">
+                        <select data-prop="col-mobile" class="regular tblr-body-bg">
                             <option value='' selected disabled><?php _e('Choose'); ?></option>
                             <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
                                 <option value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
@@ -1629,7 +1629,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                         </div>
                         <div class="mw-field mw-field-flat" data-size="medium">
                             <span class="mw-field mw-field-flat-prepend"><i class="angle angle-top-right"></i></span>
-                            <input class="regular" type="text" data-prop="borderTopRightRadius">
+                            <input class="regular tblr-body-bg" type="text" data-prop="borderTopRightRadius">
                         </div>
                     </div>
                 </div>
@@ -1641,7 +1641,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                         </div>
                         <div class="mw-field mw-field-flat" data-size="medium">
                             <span class="mw-field mw-field-flat-prepend"><i class="angle angle-bottom-right"></i></span>
-                            <input class="regular" type="text" data-prop="borderBottomRightRadius">
+                            <input class="regular tblr-body-bg" type="text" data-prop="borderBottomRightRadius">
                         </div>
                     </div>
                 </div>
