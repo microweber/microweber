@@ -109,6 +109,7 @@ mw.log('selector not found' + selector)
 
 
         //  activeTree();
+        //  activeTree();
     });
     <?php endif; ?>
 
