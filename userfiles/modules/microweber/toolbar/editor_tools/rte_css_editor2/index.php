@@ -72,21 +72,17 @@ mw.log('selector not found' + selector)
 //mw.log( $.jseldom(selector).html('dummy element').appendTo('body',canvasDocument))
                 var newEl =    $.jseldom(selector);
 
-                var holder = canvasDocument.querySelector('#mw-non-existing-element-holder');
+                var holder = canvasDocument.querySelector('#mw-non-existing-temp-element-holder');
                 if(!holder){
                     holder = canvasDocument.createElement('div');
                     holder.id = 'mw-non-existing-element-holder';
                     holder.style.display = 'none';
                     canvasDocument.body.append(holder);
-                    holder = canvasDocument.querySelector('#mw-non-existing-element-holder');
+                    holder = canvasDocument.querySelector('#mw-non-existing-temp-element-holder');
                 }
                 holder.append( newEl[0]);
                 ActiveNode = canvasDocument.querySelector(selector);
 
-
-
-                mw.log(111111111)
-mw.log(ActiveNode)
             }
             ActiveSelector= selector;
             selectNode(ActiveNode);
