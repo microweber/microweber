@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Template\Http\Livewire\Admin\AdminTemplateUpdateModal;
+use MicroweberPackages\Template\Http\Livewire\Admin\LiveEditTemplateSettingsSidebar;
 
 class TemplateManagerServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,7 @@ class TemplateManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         Livewire::component('admin-template-update-modal', AdminTemplateUpdateModal::class);
+        Livewire::component('live-edit-template-settings-sidebar', LiveEditTemplateSettingsSidebar::class);
     }
 
     public function register()

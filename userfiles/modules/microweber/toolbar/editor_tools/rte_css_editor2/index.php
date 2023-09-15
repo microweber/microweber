@@ -1,10 +1,12 @@
 <?php
 
 only_admin_access();
+
 ?>
 
 
 
+<script src="<?php print $config['url_to_module']; ?>js/jseldom-jquery.js"></script>
 <script src="<?php print $config['url_to_module']; ?>js/rte_css_editor2.js"></script>
 <link rel="stylesheet" href="<?php print $config['url_to_module']; ?>style.css" type="text/css" media="all" />
 <?php if (_lang_is_rtl()):?>
@@ -13,6 +15,105 @@ only_admin_access();
 
 <script>
     var colorPickers = [];
+
+
+</script>
+<script>
+    <?php if(isset($params['output_static_selector'])): ?>
+
+    var output = function (property, value) {
+        var mwTarget = targetMw;
+
+        if (ActiveNode && ActiveNode.length) {
+            ActiveNode = ActiveNode[0]
+        }
+        if (ActiveNode && ActiveSelector) {
+            if (!specialCases(property, value)) {
+
+                mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), value)
+
+
+               //mw.top().app.cssEditor.temp(ActiveNode, property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), value)
+
+               ActiveNode.setAttribute('staticdesign', true);
+            }
+            mw.top().app.registerChange(ActiveNode);
+
+        }
+
+    };
+
+
+    <?php endif; ?>
+    var ActiveNode = null;
+    var ActiveSelector = null;
+
+  <?php if(!isset($params['disable_auto_element_change'])): ?>
+    ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+
+    $(document).on('ready', function () {
+        if(ActiveNode) {
+            if (typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree) {
+                window.liveEditDomTree.select(ActiveNode);
+                selectNode(ActiveNode);
+            }
+        }
+    })
+    <?php endif; ?>
+
+    mw.top().app.on('cssEditorSelectElementBySelector', function (selector) {
+        var canvasDocument = mw.top().app.canvas.getDocument();
+
+
+        if (selector) {
+            ActiveNode = canvasDocument.querySelector(selector);
+            if (!ActiveNode) {
+mw.log('selector not found' + selector)
+//mw.log( $.jseldom(selector).html('dummy element').appendTo('body',canvasDocument))
+                var newEl =    $.jseldom(selector);
+
+                var holder = canvasDocument.querySelector('#mw-non-existing-temp-element-holder');
+                if(!holder){
+                    holder = canvasDocument.createElement('div');
+                    holder.id = 'mw-non-existing-temp-element-holder';
+                    holder.style.display = 'none';
+                    canvasDocument.body.append(holder);
+                }
+                if(newEl) {
+                    holder = canvasDocument.getElementById('mw-non-existing-temp-element-holder');
+                    holder.append(newEl[0]);
+                }
+                ActiveNode = canvasDocument.querySelector(selector);
+
+            }
+            ActiveSelector= selector;
+            selectNode(ActiveNode);
+
+        }
+    });
+    <?php if(!isset($params['disable_auto_element_change'])): ?>
+    window.document.addEventListener('refreshSelectedElement', function (e) {
+
+
+        ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+
+        if (typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree) {
+            window.liveEditDomTree.select(ActiveNode);
+            selectNode(ActiveNode);
+        } else {
+            setTimeout(function () {
+                if (typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree) {
+                    window.liveEditDomTree.select(ActiveNode);
+                    selectNode(ActiveNode);
+                }
+            }, 1000);
+        }
+
+
+        //  activeTree();
+        //  activeTree();
+    });
+    <?php endif; ?>
 
 
 </script>
@@ -102,9 +203,26 @@ only_admin_access();
                     $node[action]('mw-bg-mask');
                     if (action === 'addClass') {
                         output('color', 'transparent')
+                        // background-clip: text;
+                        // -webkit-background-clip: text;
+                        // color: rgba(0,0,0,0) !important;
+                        $(ActiveNode).css({
+                            'background-clip': 'text',
+                            '-webkit-background-clip': 'text',
+                            'color': 'rgba(0,0,0,0) !important'
+                        });
                     } else {
+                        $(ActiveNode).css({
+                            'background-clip': '',
+                            '-webkit-background-clip': '',
+                            'color': ''
+                        });
                         output('color', '')
                     }
+
+
+
+
                     mw.top().app.registerChange($node[0]);
                 }
             </script>

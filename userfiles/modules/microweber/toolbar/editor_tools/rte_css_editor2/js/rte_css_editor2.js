@@ -23,6 +23,11 @@ if (targetWindow) {
 }
 
 
+if(typeof ActiveNode === 'undefined') {
+    ActiveNode = null;
+}
+
+
 var positionSelector = function () {
     var root = mw.element({props: {className: 'mw-position-selector'}})
     var posTop = mw.element({props: {className: 'mw-position-selector-top'}});
@@ -147,15 +152,8 @@ $(document).on('ready', function () {
 
 })
 
- var ActiveNode = null;
-ActiveNode = mw.top().app.liveEdit.getSelectedNode();
 
-$(document).on('ready', function () {
-    if (typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree) {
-        window.liveEditDomTree.select(ActiveNode);
-        selectNode(ActiveNode);
-    }
-})
+
 // mw.top().app.canvas.on('canvasDocumentClick', function () {
 //
 //     ActiveNode = mw.top().app.liveEdit.getSelectedNode();
@@ -174,31 +172,12 @@ $(document).on('ready', function () {
 //
 // });
 
-window.document.addEventListener('refreshSelectedElement', function (e) {
-
-
-    ActiveNode = mw.top().app.liveEdit.getSelectedNode();
-
-    if (typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree) {
-        window.liveEditDomTree.select(ActiveNode);
-        selectNode(ActiveNode);
-    } else {
-        setTimeout(function () {
-            if (typeof window.liveEditDomTree !== 'undefined' && window.liveEditDomTree) {
-                window.liveEditDomTree.select(ActiveNode);
-                selectNode(ActiveNode);
-            }
-        }, 1000);
-    }
-
-
-    //  activeTree();
-});
 
 
 var reset = function () {
-    var ActiveNode = mw.top().app.liveEdit.getSelectedNode();
-
+    if(!ActiveNode) {
+        var ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+    }
     if (!ActiveNode) {
         return;
     }
@@ -753,16 +732,15 @@ var populateSpecials = function (css) {
 var output = function (property, value) {
     var mwTarget = targetMw;
 
-
-    ActiveNode = mw.top().app.liveEdit.getSelectedNode();
-
+    if (typeof ActiveNode === 'undefined' || !ActiveNode) {
+        ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+    }
 
     if (ActiveNode && ActiveNode.length) {
         ActiveNode = ActiveNode[0]
     }
     if (ActiveNode) {
         if (!specialCases(property, value)) {
-
 
             mw.top().app.cssEditor.temp(ActiveNode, property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), value)
 
@@ -1430,7 +1408,7 @@ var animations = {
                 el.removeChild(el.firstChild);
             }
             /* Add blank animation to each */
-            if(!ActiveNode.$$mwAnimations) {
+            if(ActiveNode && !ActiveNode.$$mwAnimations) {
 
                 animationApi.add(ActiveNode, {
                     selector: mw.tools.generateSelectorForNode(ActiveNode),

@@ -3,6 +3,8 @@
 @php
 $id = $id ?? md5($attributes->wire('model'));
 
+
+
 $maxWidth = [
     'sm' => ' modal-sm',
     'md' => '',
@@ -15,8 +17,9 @@ $maxWidth = [
 
 <div x-data="{
         mwDialogComponentUi{{ $id }}: false,
-        show{{ $id }}: @entangle($attributes->wire('model')).defer,
+        show{{ $id }}: @entangle($attributes->wire('model')),
     }"
+    x-show="show{{ $id }}"
     x-init="() => {
 
       el{{ $id }} = document.getElementById('modal-id-{{ $id }}')
@@ -46,7 +49,9 @@ $maxWidth = [
                if (this.mwDialogComponentUi{{ $id }}) {
                 this.mwDialogComponentUi{{ $id }}.remove();
                 this.mwDialogComponentUi{{ $id }} = null;
+
               }
+              show{{ $id }} = false;
             }
        });
 
@@ -64,6 +69,8 @@ $maxWidth = [
     <div class="mw-modal">
         <div class="mw-modal-dialog{{ $maxWidth }}">
             {{ $slot }}
+
+            @entangle($attributes->wire('model')).defer
         </div>
     </div>
 

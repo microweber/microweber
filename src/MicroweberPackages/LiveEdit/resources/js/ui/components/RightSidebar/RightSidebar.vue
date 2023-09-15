@@ -31,7 +31,11 @@
                 <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
                      role="tabpanel">
 
-                    <TemplateSettings></TemplateSettings>
+                    <iframe :src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
+                            frameborder="0"
+                            allowfullscreen></iframe>
+
+
 
                 </div>
                 <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"
@@ -87,7 +91,25 @@ export default {
         openSidebar() {
 
             CSSGUIService.close()
-        }
+        },
+        buildIframeUrlTemplateSettings: function (url) {
+
+            var moduleType = 'editor/sidebar_template_settings';
+            var attrsForSettings = {};
+
+            attrsForSettings.live_edit = true;
+            attrsForSettings.module_settings = true;
+            attrsForSettings.id = 'mw_global_sidebar_template_settings';
+            attrsForSettings.type = moduleType;
+            attrsForSettings.iframe = true;
+            attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
+
+
+            var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+
+            return src;
+
+        } 
     },
     mounted() {
         const instance = this;

@@ -535,8 +535,7 @@ mw.requireAsync = (url, key) => {
         if(this.mw && this.mw.reload_module){
 
             this.mw.reload_module(module, function(){
-                console.log(234)
-                console.log(module, eachCallback)
+ 
                 if(typeof eachCallback === 'function'){
                     eachCallback.call(this);
                 }

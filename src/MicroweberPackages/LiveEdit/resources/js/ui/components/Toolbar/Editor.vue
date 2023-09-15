@@ -109,6 +109,8 @@ export default {
             mw.app.editor.on('editNodeRequest', async (element) => {
 
 
+              mw.app.registerChangedState(element);
+
 
 
                 function imagePicker(onResult) {

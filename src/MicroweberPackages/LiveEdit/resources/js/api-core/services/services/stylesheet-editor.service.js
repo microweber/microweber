@@ -95,16 +95,11 @@ export class StylesheetEditor extends MicroweberBaseClass {
         removePropertyFromSheet(sheet2);
     }
 
-    temp(node, prop, val) {
-        val = (val || '').trim();
+
+
+
+    setPropertyForSelector(sel, prop, val) {
         this.changed = true;
-
-        if (node.length) {
-            node = node[0];
-        }
-
-        const sel = mw.tools.generateSelectorForNode(node);
-
         if (!this._temp.children[sel]) {
             this._temp.children[sel] = {};
         }
@@ -122,6 +117,19 @@ export class StylesheetEditor extends MicroweberBaseClass {
         }
 
         this._cssTemp(this._temp);
+    }
+
+    temp(node, prop, val) {
+        val = (val || '').trim();
+        
+
+        if (node.length) {
+            node = node[0];
+        }
+
+        const sel = mw.tools.generateSelectorForNode(node);
+
+        this.setPropertyForSelector(sel, prop, val)
     }
 
     _cleanCSSJSON(obj) {
