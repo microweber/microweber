@@ -1,3 +1,16 @@
+setInterval(function(){
+
+    //todo: remove
+    var fn = getSelection().focusNode;
+    if(fn && window.$ && window.$.fn) {
+        fn = $(fn.parentElement);
+        if(fn.hasClass('edit')) {
+            fn.addClass('changed')
+        }
+        fn.parents('.edit').addClass('changed')
+    }
+}, 500)
+
 if(window.self !== window.top) {
 
 
