@@ -223,6 +223,20 @@ var MWEditor = function (options) {
             ctrl.interact(data);
         });
     };
+    this.hide = function (target) {
+        var node = target.get ? target.get(0) : target;
+        //hide the node
+        if(node) {
+            node.style.display = 'none';
+        }
+    }
+    this.show = function (target) {
+        var node = target.get ? target.get(0) : target;
+        // show the node
+        if(node) {
+            node.style.display = '';
+        }
+    }
 
     this.disabled = function (target, state) {
         var node = target.get ? target.get(0) : target;
