@@ -303,16 +303,16 @@ if (!empty($recomended_layouts)) {
             }
 
 
-            if (template != undefined) {
-                if (typeof(form) == 'object' && form.querySelector('input[name="active_site_template"]') != null) {
-                    form.querySelector('input[name="active_site_template"]').value = template
+            if (typeof(template) !== 'undefined') {
+                if (form && form.querySelector('[name="active_site_template"]') != null) {
+                    form.querySelector('[name="active_site_template"]').value = template
                 }
                 var template = safe_chars_to_str(template);
                 var template = template.replace('/', '___');
             }
             if (layout != undefined) {
-                if (typeof(form) == 'object' && form.querySelector('input[name="layout_file"]') != null) {
-                    form.querySelector('input[name="layout_file"]').value = layout
+                if (form && form.querySelector('[name="layout_file"]') != null) {
+                    form.querySelector('[name="layout_file"]').value = layout
                 }
                 var layout = safe_chars_to_str(layout);
                 var layout = layout.replace('/', '___');
