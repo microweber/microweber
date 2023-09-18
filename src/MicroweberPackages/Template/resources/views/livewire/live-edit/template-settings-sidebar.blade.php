@@ -12,23 +12,46 @@
     </style>
 
     @if(isset($styleSettings))
-        <div>
+        <div x-data="{showStyleSettings: 'all'}">
+
             @foreach($styleSettings as $styleSetting)
 
-                <div style="border:1px solid #000;margin-top:25px;">
+                @php
+                    $hash = md5(json_encode($styleSetting));
+                @endphp
 
-                    <div>
+                <div x-show="showStyleSettings == 'all' || showStyleSettings == '{{ $hash }}'" class="mt-3">
+
+                    <div x-show="showStyleSettings !== '{{ $hash }}'">
                         @if (isset($styleSetting['title']))
-                            <a class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
+                            <a x-on:click="showStyleSettings = '{{ $hash }}'" class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
                                 {{ $styleSetting['title'] }}
                             </a>
                         @endif
-                        @if(isset($styleSetting['description']))
-                            <p>{{$styleSetting['description']}}</p>
-                        @endif
                     </div>
 
-                    <div class="mt-3">
+
+                    <div x-show="showStyleSettings == '{{ $hash }}'" x-transition:enter="tab-pane-slide-left-active" class="mt-3">
+
+                        <div>
+                            <button x-on:click="showStyleSettings = 'all'" class="d-flex gap-2 btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed text-start text-start" type="button">
+                                <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10"><circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle><path class="arrow-icon--arrow" d="M16.14 9.93L22.21 16l-6.07 6.07M8.23 16h13.98"></path></g></svg>
+                                <div class="ms-1 font-weight-bold">
+                                    Back to main
+                                </div>
+                            </button>
+                        </div>
+
+                        <div>
+                            @if(isset($styleSetting['title']))
+                                <h4>{{$styleSetting['title']}}</h4>
+                            @endif
+                            @if(isset($styleSetting['description']))
+                                <p>{{$styleSetting['description']}}</p>
+                            @endif
+                        </div>
+
+
                         <div>
                             @if(isset($styleSetting['settings']))
                                 @include('template::livewire.live-edit.template-setting-item', ['item' => $styleSetting])
@@ -38,6 +61,7 @@
 
                 </div>
             @endforeach
+
         </div>
     @endif
 
