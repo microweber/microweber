@@ -37,8 +37,8 @@
                 $('#iframe-holder').html('<iframe id="' + iframeStyleEdiorId + '" src="' + src + '" style="width:100%;height:500px;border:none;"></iframe>');
 
                 document.getElementById(iframeStyleEdiorId).addEventListener('load', function(e) {
-                    alert('iframe loaded');
-                    alert(settings.selectors[0]);
+                    // alert('iframe loaded');
+                    // alert(settings.selectors[0]);
                     mw.top().app.dispatch('cssEditorSelectElementBySelector', settings.selectors[0]);
                 });
 
