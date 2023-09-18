@@ -252,15 +252,20 @@ export const Draggable = function (options, rootSettings) {
             this.handle.attr('draggable', 'true')
             this.handle
             .on('dragstart', function (e) {
-                scope.dispatch('dragStart',{target: scope.target, element: scope.element, event: e});
 
-                scope.isDragging = true;
                 if (!scope.element.id) {
                     scope.element.id = ('mw-element-' + new Date().getTime());
                 }
                  scope.element.classList.add('mw-element-is-dragged');
                 e.dataTransfer.setData("text", scope.element.id);
+
+                scope.dispatch('dragStart',{target: scope.target, element: scope.element, event: e});
+
+                scope.isDragging = true;
+
                 e.dataTransfer.effectAllowed = "move";
+
+                 
 
 
                 let img = new Image();

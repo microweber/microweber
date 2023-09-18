@@ -4,14 +4,32 @@ import {DomService} from './classes/dom.js';
 let prevY = -1;
 let prev = null;
 
+const _dropPositionExceptions = (target, res, e, conf, rect) => {
+
+    if(target.classList.contains('mw-empty-element')) {
+        if(res.action === 'after') {
+            res.action = 'append'
+        }
+        if(res.action === 'before') {
+            res.action = 'prepend'
+        }
+    }
+    
+    return res;
+}
+
 export const DropPosition = (e, conf) => {
     if(!e || !conf) {
         return false
     }
+ 
+ 
     const target = conf.target;
     if( !target || target.nodeType !== 1) return false;
     const x = e.pageX;
     const y = e.pageY;
+
+     
 
     /*
     *  conf { canInsert: boolean,  beforeAfter: boolean }
@@ -61,5 +79,6 @@ export const DropPosition = (e, conf) => {
         }
     }
 
-    return res
+
+    return _dropPositionExceptions(target, res, e, conf, rect);
 };

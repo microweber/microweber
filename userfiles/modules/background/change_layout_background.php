@@ -153,9 +153,9 @@
             }
 
 
-            const bgNode = document.querySelector('#bg-image-picker')
+            const bgImagePicker = document.querySelector('#bg-image-picker')
 
-            bgNode.addEventListener('click', function () {
+            bgImagePicker.addEventListener('click', function () {
                 var dialog;
                 var picker = new mw.filePicker({
                     type: 'videos',

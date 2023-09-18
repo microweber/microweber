@@ -360,13 +360,28 @@ export const Handle = function (options) {
             document: this.settings.document,
         });
 
-        this.resizerEnabled()
+        this.resizerEnabled();
 
         this.resizer.mount();
+
+        this.resizer.on('resizeStop',  () => {
+            const target = this.getTarget();
+             var isCol = target.classList.contains('mw-col');
+             if(isCol) {
+                const row = DomService.firstParentOrCurrentWithClass(target, 'mw-row');
+                if(row) {
+                    Array.from(row.children).forEach(col => col.style.width = ((100/row.offsetWidth) * col.offsetWidth) + '%'); 
+                }
+             }
+          
+            mw.app.registerChange(target);
+        });
+
+
         this.resizer.on('resize',  data => {
             const target = this.getTarget();
             const prevData = target.$$prevData || data;
-            if(this.settings.automaticMaxWidth) {
+            if (this.settings.automaticMaxWidth) {
                 target.style.maxWidth = '100%';
             }
             if(target.nodeName === 'IMG') {

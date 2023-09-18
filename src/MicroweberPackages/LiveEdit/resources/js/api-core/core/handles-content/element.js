@@ -52,6 +52,7 @@ export class ElementHandleContent {
                 icon: handleIcons.icon('duplicate'),
                 className: 'mw-handle-clone-button',
                 onTarget: function (target, selfNode) {
+                    
                     if (target.classList.contains('cloneable') || target.classList.contains('mw-col')) {
                         selfNode.classList.remove('mw-le-handle-menu-button-hidden');
                     } else {
@@ -366,9 +367,9 @@ export class ElementHandleContent {
  
                     if(selfVisible) {
                          
-                        selfBtn.classList.remove('mw-le-handle-menu-button-disabled');
+                        selfBtn.classList.remove('mw-le-handle-menu-button-hidden');
                     } else {
-                        selfBtn.classList.add('mw-le-handle-menu-button-disabled');
+                        selfBtn.classList.add('mw-le-handle-menu-button-hidden');
                     }
                 }
             }
