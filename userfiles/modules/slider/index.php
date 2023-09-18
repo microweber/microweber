@@ -229,4 +229,8 @@ if (is_file($template_file)) {
         });
     </script>
 <?php endif; ?>
+
+<?php   if (empty($data)): ?>
 <?php print lnotif("Click here to manage slides"); ?>
+
+<?php endif; ?>

@@ -65,10 +65,10 @@ if ($slides_xl) {
     $slides_xl = 4;
 }
 
-$thumb_quality_x = 2000;
+$thumb_quality_x = 8000;
 $thumb_quality_x = $thumb_quality_x / $slides_xl;
 
-$thumb_quality_y = 2000;
+$thumb_quality_y = 8000;
 $thumb_quality_y = $thumb_quality_y / $slides_xl;
 
 //bxSlider & Slick
@@ -134,7 +134,7 @@ if ($autoplaySpeed) {
 } elseif (isset($params['autoplay_speed'])) {
     $autoplaySpeed = $params['autoplay_speed'];
 } else {
-    $autoplaySpeed = '2000';
+    $autoplaySpeed = '4000';
 }
 
 $pauseOnHover = get_module_option('pauseOnHover', $params['id']);
