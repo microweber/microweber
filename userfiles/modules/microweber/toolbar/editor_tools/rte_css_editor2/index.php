@@ -6,6 +6,7 @@ only_admin_access();
 
 
 
+<script src="<?php print $config['url_to_module']; ?>js/jseldom-jquery.js"></script>
 <script src="<?php print $config['url_to_module']; ?>js/rte_css_editor2.js"></script>
 <link rel="stylesheet" href="<?php print $config['url_to_module']; ?>style.css" type="text/css" media="all" />
 <?php if (_lang_is_rtl()):?>
@@ -63,13 +64,30 @@ only_admin_access();
     mw.top().app.on('cssEditorSelectElementBySelector', function (selector) {
         var canvasDocument = mw.top().app.canvas.getDocument();
 
+
         if (selector) {
             ActiveNode = canvasDocument.querySelector(selector);
+            if (!ActiveNode) {
+mw.log('selector not found' + selector)
+//mw.log( $.jseldom(selector).html('dummy element').appendTo('body',canvasDocument))
+                var newEl =    $.jseldom(selector);
+
+                var holder = canvasDocument.querySelector('#mw-non-existing-temp-element-holder');
+                if(!holder){
+                    holder = canvasDocument.createElement('div');
+                    holder.id = 'mw-non-existing-temp-element-holder';
+                    holder.style.display = 'none';
+                    canvasDocument.body.append(holder);
+                }
+                if(newEl) {
+                    holder = canvasDocument.getElementById('mw-non-existing-temp-element-holder');
+                    holder.append(newEl[0]);
+                }
+                ActiveNode = canvasDocument.querySelector(selector);
+
+            }
             ActiveSelector= selector;
-
-
-                selectNode(ActiveNode);
-
+            selectNode(ActiveNode);
 
         }
     });
@@ -92,6 +110,7 @@ only_admin_access();
         }
 
 
+        //  activeTree();
         //  activeTree();
     });
     <?php endif; ?>
@@ -184,9 +203,26 @@ only_admin_access();
                     $node[action]('mw-bg-mask');
                     if (action === 'addClass') {
                         output('color', 'transparent')
+                        // background-clip: text;
+                        // -webkit-background-clip: text;
+                        // color: rgba(0,0,0,0) !important;
+                        $(ActiveNode).css({
+                            'background-clip': 'text',
+                            '-webkit-background-clip': 'text',
+                            'color': 'rgba(0,0,0,0) !important'
+                        });
                     } else {
+                        $(ActiveNode).css({
+                            'background-clip': '',
+                            '-webkit-background-clip': '',
+                            'color': ''
+                        });
                         output('color', '')
                     }
+
+
+
+
                     mw.top().app.registerChange($node[0]);
                 }
             </script>

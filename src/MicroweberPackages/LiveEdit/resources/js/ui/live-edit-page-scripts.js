@@ -177,6 +177,7 @@ if(window.self !== window.top) {
                     mw.$(helper.item).removeClass('changed orig_changed');
                     mw.$(helper.item).removeClass('module-over');
                     mw.$('.mw-le-ghost-layout', helper.item).remove();
+                    mw.$('#mw-non-existing-temp-element-holder', helper.item).remove();
 
                     mw.$('.module-over', helper.item).each(function () {
                         mw.$(this).removeClass('module-over');

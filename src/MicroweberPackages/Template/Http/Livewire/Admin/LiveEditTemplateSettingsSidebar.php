@@ -13,6 +13,8 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
     public $optionGroup;
     public $optionGroupLess;
 
+    public $styleSettings = [];
+
     public function getSettings()
     {
         $getTemplateConfig = mw()->template->get_config();
@@ -94,7 +96,20 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
 
     public function mount()
     {
-        $this->getSettings();
+
+        $templateDir = template_dir();
+
+        $styleSettingsFile = $templateDir . 'style-settings.json';
+        if (is_file($styleSettingsFile)) {
+            $getStyleSettings = file_get_contents($styleSettingsFile);
+            $getStyleSettings = json_decode($getStyleSettings, true);
+            if (isset($getStyleSettings['settings'])) {
+                if (!empty($getStyleSettings['settings']) && is_array($getStyleSettings['settings'])) {
+                    $this->styleSettings = $getStyleSettings['settings'];
+                }
+            }
+        }
+
     }
 
     public function render()
