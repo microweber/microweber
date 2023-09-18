@@ -68,7 +68,7 @@ only_admin_access();
         if (selector) {
             ActiveNode = canvasDocument.querySelector(selector);
             if (!ActiveNode) {
-mw.log('selector not found' + selector)
+
 //mw.log( $.jseldom(selector).html('dummy element').appendTo('body',canvasDocument))
                 var newEl =    $.jseldom(selector);
 

@@ -30,11 +30,13 @@
             <div class="tab-content">
                 <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
                      role="tabpanel">
+                    <div v-if="showTemplateSettings" >
 
                     <iframe :src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
                             frameborder="0"
                             allowfullscreen></iframe>
 
+                    </div>
 
 
                 </div>
@@ -109,23 +111,41 @@ export default {
 
             return src;
 
-        } 
+        }
     },
     mounted() {
-        const instance = this;
+        const rightSidebarInstance = this;
+
+        rightSidebarInstance.showTemplateSettings = true;
+
+        mw.app.canvas.on('liveEditCanvasLoaded', function () {
+          //  rightSidebarInstance.showTemplateSettings = true;
+
+        });
+
+        mw.app.canvas.on('liveEditCanvasBeforeUnload', function () {
+       //     rightSidebarInstance.showTemplateSettings = false;
+        });
+
+
+
 
         var firstTabEl = document.querySelector('#rightSidebarTabStyleEditorNav li:first-child a')
         if(firstTabEl !== null){
             var firstTab = new bootstrap.Tab(firstTabEl)
             firstTab.show()
+            rightSidebarInstance.showTemplateSettings = true;
+            rightSidebarInstance.buttonIsActive = true;
         }
 
         this.emitter.on("live-edit-ui-show", show => {
             if (show == 'template-settings') {
-                if (instance.buttonIsActive == false) {
-                    instance.buttonIsActive = true;
+                if (rightSidebarInstance.buttonIsActive == false) {
+                    rightSidebarInstance.buttonIsActive = true;
+                    rightSidebarInstance.showTemplateSettings = true;
                 } else {
-                    instance.buttonIsActive = false;
+                    rightSidebarInstance.buttonIsActive = false;
+                    rightSidebarInstance.showTemplateSettings = false;
                 }
             }
         });
@@ -134,6 +154,7 @@ export default {
     data() {
         return {
             showSidebar: false,
+            showTemplateSettings: false,
             buttonIsActive: false
 
         }
