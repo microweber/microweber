@@ -69,7 +69,7 @@ if($editContentBtnData){
 
 @if($editContentBtnData && $editContentUrl)
     <a  href="{{ $editContentUrl }}" class="col-12 text-start d-flex align-items-center flex-wrap admin-add-new-modal-buttons me-auto">
-        <div class="col-lg-2 mx-2 modal-add-new-buttons-img">
+        <div class="col-lg-2 mx-2 modal-add-new-buttons-img tblr-body-color">
 
             @include('content::admin.content.livewire.components.icon', ['content'=>$editContentBtnData])
 
