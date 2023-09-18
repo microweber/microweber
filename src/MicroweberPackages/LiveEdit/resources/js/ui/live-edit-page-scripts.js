@@ -1,6 +1,9 @@
+
+//todo: remove
+/*
 setInterval(function(){
 
-    //todo: remove
+    
     var fn = getSelection().focusNode;
     if(fn && window.$ && window.$.fn) {
         fn = $(fn.parentElement);
@@ -9,7 +12,7 @@ setInterval(function(){
         }
         fn.parents('.edit').addClass('changed')
     }
-}, 500)
+}, 500) */
 
 if(window.self !== window.top) {
 
