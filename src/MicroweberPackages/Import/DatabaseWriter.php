@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Import;
 
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Formats\ZipReader;
 use MicroweberPackages\Import\Traits\DatabaseCategoriesWriter;
@@ -158,7 +159,7 @@ class DatabaseWriter
 
         if ($item['save_to_table'] == 'media' && isset($item['rel_type'])) {
             $itemIdDatabaseMedia = $this->_saveMedia($item);
-             return array('item' => $item, 'itemIdDatabase' => $itemIdDatabaseMedia);
+            return array('item' => $item, 'itemIdDatabase' => $itemIdDatabaseMedia);
         }
 
         if ($item['save_to_table'] == 'menus') {
@@ -175,13 +176,13 @@ class DatabaseWriter
             if ($itemIdDatabase) {
                 $this->_fixCategoryParents();
             }
-         //   return array('item' => $item, 'itemIdDatabase' => $itemIdDatabase);
+            //   return array('item' => $item, 'itemIdDatabase' => $itemIdDatabase);
 
         }
 
         if ($item['save_to_table'] == 'categories') {
-              $this->_fixCategoryParents();
-       //     return array('item' => $item, 'itemIdDatabase' => $itemIdDatabase);
+            $this->_fixCategoryParents();
+            //     return array('item' => $item, 'itemIdDatabase' => $itemIdDatabase);
 
         }
 
@@ -274,33 +275,49 @@ class DatabaseWriter
      */
     public function runWriter()
     {
-        $this->logger->clearLog();
-        $this->_deleteOldCssFiles();
-        $this->_deleteOldContent();
 
-        if (isset($this->content->__table_structures)) {
-            $this->logger->setLogInfo('Building database tables');
 
-            app()->database_manager->build_tables($this->content->__table_structures);
-        }
-        $success = array();
-        foreach ($this->content as $table => $items) {
 
-            if (!\Schema::hasTable($table)) {
-                continue;
+        try {
+            DB::beginTransaction();
+
+            $this->logger->clearLog();
+            $this->_deleteOldCssFiles();
+            $this->_deleteOldContent();
+
+
+
+
+
+            if (isset($this->content->__table_structures)) {
+                $this->logger->setLogInfo('Building database tables');
+
+                app()->database_manager->build_tables($this->content->__table_structures);
             }
+            $success = array();
+            foreach ($this->content as $table => $items) {
 
-            $this->logger->setLogInfo('Importing in table: ' . $table);
+                if (!\Schema::hasTable($table)) {
+                    continue;
+                }
 
-            if (!empty($items)) {
-                foreach ($items as $item) {
-                    $item['save_to_table'] = $table;
-                    $success[] = $this->_saveItem($item);
+                $this->logger->setLogInfo('Importing in table: ' . $table);
+
+                if (!empty($items)) {
+                    foreach ($items as $item) {
+                        $item['save_to_table'] = $table;
+                        $success[] = $this->_saveItem($item);
+                    }
                 }
             }
-        }
 
-        $this->_finishUp('runWriterBottom');
+            $this->_finishUp('runWriterBottom');
+            DB::commit(); // <= Commit the changes
+        } catch (\Exception $e) {
+            report($e);
+
+            DB::rollBack(); // <= Rollback in case of an exception
+        }
         return $success;
     }
 

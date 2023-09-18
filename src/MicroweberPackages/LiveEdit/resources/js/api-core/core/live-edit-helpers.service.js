@@ -79,5 +79,35 @@ export default {
             }
         }
         return false;
+    },
+
+
+    targetHasAbilityToDropElementsInside: target => {
+        var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr|body)$/i;
+        if (typeof target === 'string') {
+            return !items.test(target);
+        }
+        if(!DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target, ['allow-drop', 'nodrop'])){
+            return false;
+        }
+        if(DomService.hasAnyOfClasses(target, ['plain-text'])){
+            return false;
+        }
+        var x = items.test(target.nodeName);
+        if (x) {
+            return false;
+        }
+        if (DomService.hasParentsWithClass(target, 'module')) {
+            if (DomService.hasParentsWithClass(target, 'edit')) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (mw.tools.hasClass(target, 'module')) {
+            return false;
+        }
+        return true;
     }
+
+
 }
