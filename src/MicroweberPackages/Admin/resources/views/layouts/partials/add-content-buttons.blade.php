@@ -190,17 +190,17 @@ if($editContentBtnData){
     </div>
     <div class="col-lg-9 ps-3">
 
-        <div class="d-flex">
+        <div>
 
-            <h3 class="  font-weight-bolder">
+            <h3 class=" mb-0 font-weight-bolder">
                 <a href="<?php print $base_url; ?>"> <?php print $title; ?></a>
 
             </h3>
 
                 <?php if ($additionalButtons){ ?>
-                <span  class="mw-add-content-quick-parents">
+                <span  class="mw-add-content-quick-parents d-flex gap-2">
                       <?php foreach ($additionalButtons as $additionalButton){ ?>
-                    <a href="<?php print $additionalButton['url']; ?>" class="btn btn-ghost-secondary btn-sm me-2">
+                    <a href="<?php print $additionalButton['url']; ?>" class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs ">
                             <?php print $additionalButton['title']; ?></a>
                      <?php } ?>
                 </span>
@@ -237,17 +237,17 @@ if($editContentBtnData){
     <div class="col-lg-9 ps-3">
 
 
-        <div class="d-flex">
+        <div>
 
-            <h3 class="  font-weight-bolder">
+            <h3 class=" mb-0 font-weight-bolder">
                 <a href="<?php print $base_url; ?>"> <?php print $title; ?></a>
 
             </h3>
 
                 <?php if ($additionalButtons){ ?>
-            <span  class="mw-add-content-quick-parents">
+            <span  class="mw-add-content-quick-parents d-flex gap-2">
                       <?php foreach ($additionalButtons as $additionalButton){ ?>
-                    <a href="<?php print $additionalButton['url']; ?>" class="btn btn-ghost-secondary btn-sm me-2">
+                    <a href="<?php print $additionalButton['url']; ?>" class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs ">
                             <?php print $additionalButton['title']; ?></a>
                      <?php } ?>
                 </span>
