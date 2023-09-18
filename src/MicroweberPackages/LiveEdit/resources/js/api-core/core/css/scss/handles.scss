@@ -445,7 +445,8 @@ html[dir="rtl"] {
         margin: 50px auto;
         transform: none;
         max-width: 200px;
-        height: #{$height + ($height/2)}px;
+
+        height: #{calc($height + ($height/2))}px;
     }
 }
 
