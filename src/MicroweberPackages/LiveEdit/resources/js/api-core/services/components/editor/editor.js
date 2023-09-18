@@ -34,11 +34,10 @@ export const EditorComponent = function () {
     const frame = mw.app.canvas.getFrame();
     frame.contentWindow.fontFamilyProvider = fontFamilyProvider;
 
-
-
     const editorControls = [
         [
 
+            'plus',
             'ai',
             {
                 group: {

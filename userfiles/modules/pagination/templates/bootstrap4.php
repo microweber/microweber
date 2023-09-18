@@ -1,10 +1,4 @@
-<?php
-/*
-type: layout
-name: Bootstrap 4
-description: Bootstrap 4
-*/
-?>
+
 
 <ul class="pagination justify-content-center">
     <?php foreach ($pagination_links as $pagination_link): ?>

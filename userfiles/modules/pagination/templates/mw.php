@@ -1,10 +1,4 @@
-<?php
-/*
-type: layout
-name: MW
-description: MW
-*/
-?>
+
 
 <div class="mw-paging d-flex justify-content-center">
     <?php
