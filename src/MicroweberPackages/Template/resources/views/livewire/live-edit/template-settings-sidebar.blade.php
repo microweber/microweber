@@ -16,28 +16,36 @@
 
             console.log('openRTECSsEditor2', settings);
 
-            var moduleType = 'microweber/toolbar/editor_tools/rte_css_editor2';
-            var attrsForSettings = {};
-
-            attrsForSettings.live_edit = true;
-            attrsForSettings.module_settings = true;
-            attrsForSettings.id = 'mw_global_rte_css_editor2_editor';
-            attrsForSettings.type = moduleType;
-            attrsForSettings.iframe = true;
-            attrsForSettings.disable_auto_element_change = true;
-            attrsForSettings.output_static_selector = true;
-            attrsForSettings.from_url = mw.top().app.canvas.getWindow().location.href;
-
-            var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
-
             let iframeStyleEdiorId = 'iframeStyleEditorId-1';
-            $('#iframe-holder').html('<iframe id="'+iframeStyleEdiorId+'" src="'+src+'" style="width:100%;height:500px;border:none;"></iframe>');
+            let checkIframeStyleEditor = document.getElementById(iframeStyleEdiorId);
 
-            document.getElementById(iframeStyleEdiorId).addEventListener('load', function(e) {
-                alert('iframe loaded');
-                alert(settings.selectors[0]); 
+            if (!checkIframeStyleEditor) {
+                var moduleType = 'microweber/toolbar/editor_tools/rte_css_editor2';
+                var attrsForSettings = {};
+
+                attrsForSettings.live_edit = true;
+                attrsForSettings.module_settings = true;
+                attrsForSettings.id = 'mw_global_rte_css_editor2_editor';
+                attrsForSettings.type = moduleType;
+                attrsForSettings.iframe = true;
+                attrsForSettings.disable_auto_element_change = true;
+                attrsForSettings.output_static_selector = true;
+                attrsForSettings.from_url = mw.top().app.canvas.getWindow().location.href;
+
+                var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+
+                $('#iframe-holder').html('<iframe id="' + iframeStyleEdiorId + '" src="' + src + '" style="width:100%;height:500px;border:none;"></iframe>');
+
+                document.getElementById(iframeStyleEdiorId).addEventListener('load', function(e) {
+                    alert('iframe loaded');
+                    alert(settings.selectors[0]);
+                    mw.top().app.dispatch('cssEditorSelectElementBySelector', settings.selectors[0]);
+                });
+
+            } else {
                 mw.top().app.dispatch('cssEditorSelectElementBySelector', settings.selectors[0]);
-            });
+            }
+
         }
         mw.top().app.on('mw.rte.css.editor2.open', function(e) {
             openRTECSsEditor2(e);
