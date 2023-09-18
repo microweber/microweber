@@ -7,10 +7,6 @@
                    class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
                     {{$setting['title']}}
                 </a>
-            @else
-                <b>
-                    {{$setting['title']}}
-                </b>
             @endif
         </div>
     @endif
@@ -19,9 +15,16 @@
         @if(isset($setting['fieldType']))
 
             @if ($setting['fieldType'] == 'styleEditor')
-               <button x-on:click="showStyleSettings = 'styleEditor'">
-                   styleEditor
-               </button>
+                <hr />
+                <a href="#"
+                   x-on:click="() => {
+                        showStyleSettings = 'styleEditor';
+                        styleEditorData = {{json_encode($setting)}};
+                    }"
+
+                   class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
+                    {{$setting['title']}}
+                </a>
             @endif
 
             @if ($setting['fieldType'] == 'infoBox')
