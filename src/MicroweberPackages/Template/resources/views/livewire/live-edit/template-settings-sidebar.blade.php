@@ -11,6 +11,37 @@
         }
     </style>
 
+    <script>
+        document.addEventListener('livewire:load', function () {
+
+            var moduleType = 'microweber/toolbar/editor_tools/rte_css_editor2';
+            var attrsForSettings = {};
+
+            attrsForSettings.live_edit = true;
+            attrsForSettings.module_settings = true;
+            attrsForSettings.id = 'mw_global_rte_css_editor2_editor';
+            attrsForSettings.type = moduleType;
+            attrsForSettings.iframe = true;
+            attrsForSettings.disable_auto_element_change = true;
+            attrsForSettings.output_static_selector = true;
+            attrsForSettings.from_url = mw.top().app.canvas.getWindow().location.href;
+
+
+            var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+
+            $('#iframe-holder').html('<iframe src="'+src+'" style="width:100%;height:500px;border:none;"></iframe>');
+        });
+
+
+        mw.selectCssEditorElement = function (el){
+            var val = $(el).val();
+
+            mw.top().app.dispatch('cssEditorSelectElementBySelector', val);
+
+        }
+
+    </script>
+
     @if(isset($styleSettings))
 
         <div x-data="{showStyleSettings: '/'}">
@@ -78,39 +109,9 @@
                 </div>
             @endforeach
 
-            <div
+            <div 
                 x-show="showStyleSettings == 'styleEditor'"
                 class="mt-3" style="background:#ff0000;">
-                <script>
-                    document.addEventListener('livewire:load', function () {
-
-                        var moduleType = 'microweber/toolbar/editor_tools/rte_css_editor2';
-                        var attrsForSettings = {};
-
-                        attrsForSettings.live_edit = true;
-                        attrsForSettings.module_settings = true;
-                        attrsForSettings.id = 'mw_global_rte_css_editor2_editor';
-                        attrsForSettings.type = moduleType;
-                        attrsForSettings.iframe = true;
-                        attrsForSettings.disable_auto_element_change = true;
-                        attrsForSettings.output_static_selector = true;
-                        attrsForSettings.from_url = mw.top().app.canvas.getWindow().location.href;
-
-
-                        var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
-
-                        $('#iframe-holder').html('<iframe src="'+src+'" style="width:100%;height:500px;border:none;"></iframe>');
-                    });
-
-
-                    mw.selectCssEditorElement = function (el){
-                        var val = $(el).val();
-
-                        mw.top().app.dispatch('cssEditorSelectElementBySelector', val);
-
-                    }
-
-                </script>
 
                 <select onchange="mw.selectCssEditorElement(this)">
                     <option value=".main">Main</option>
