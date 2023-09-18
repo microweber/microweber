@@ -272,10 +272,10 @@ if ($screenshots) {
                 for-module-id="<?php print $params['parent-module-id'] ?>"
                 parent-module-id="<?php print $params['parent-module-id'] ?>"
                 parent-module="<?php print $params['parent-module'] ?>" parent-template="<?php print $cur_template ?>"/>
-
-        <?php if (!isset($params['simple'])) { ?>
-            <small class="text-umted d-block mt-3"><?php _e("Looking for more designs ?"); ?></small>
-            <a class="btn btn-link btn-sm p-0" target="_blank" href="<?php print admin_url(); ?>marketplace"><?php _e("Check in our Marketplace"); ?></a>
-        <?php } ?>
+<!---->
+<!--        --><?php //if (!isset($params['simple'])) { ?>
+<!--            <small class="text-umted d-block mt-3">--><?php //_e("Looking for more designs ?"); ?><!--</small>-->
+<!--            <a class="btn btn-link btn-sm p-0" target="_blank" href="--><?php //print admin_url(); ?><!--marketplace">--><?php //_e("Check in our Marketplace"); ?><!--</a>-->
+<!--        --><?php //} ?>
     </div>
 <?php endif; ?>

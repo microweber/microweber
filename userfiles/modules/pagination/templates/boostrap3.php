@@ -1,10 +1,4 @@
-<?php
-/*
-type: layout
-name: Bootstrap 3
-description: Bootstrap 3
-*/
-?>
+
 <ul class="pagination">
     <?php foreach ($pagination_links as $pagination_link): ?>
         <?php if ($pagination_link['attributes']['current']): ?>
