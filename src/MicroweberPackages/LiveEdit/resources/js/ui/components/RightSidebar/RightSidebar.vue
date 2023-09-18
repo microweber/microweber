@@ -116,15 +116,15 @@ export default {
     mounted() {
         const rightSidebarInstance = this;
 
-        rightSidebarInstance.showTemplateSettings = true;
+     //   rightSidebarInstance.showTemplateSettings = true;
 
         mw.app.canvas.on('liveEditCanvasLoaded', function () {
-          //  rightSidebarInstance.showTemplateSettings = true;
+            rightSidebarInstance.showTemplateSettings = true;
 
         });
 
         mw.app.canvas.on('liveEditCanvasBeforeUnload', function () {
-       //     rightSidebarInstance.showTemplateSettings = false;
+          rightSidebarInstance.showTemplateSettings = false;
         });
 
 

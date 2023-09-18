@@ -160,6 +160,61 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
+    plus: function (scope, api, rootScope) {
+
+
+        this.render = function () {
+            var plusIconSVG = '<svg style="stroke-width: 500;" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M445.935-195.935v-250h-250v-68.13h250v-250h68.13v250h250v68.13h-250v250h-68.13Z"/></svg>';
+            var scope = this;
+            var el = MWEditor.core.button({
+                props: {
+                    tooltip: rootScope.lang('Insert Module'),
+                    innerHTML: plusIconSVG
+                }
+            });
+
+            el.on('mousedown touchstart', function (e) {
+
+                var isInLiveEdit = false;
+                if(mw.top().app && mw.top().app.canvas) {
+                    var isInLiveEdit = mw.top().app.canvas.getWindow();
+                }
+               var sel = api.getSelection();
+                var focusNode = sel.focusNode;
+                if (focusNode) {
+                    var elementNode = api.elementNode(focusNode)
+                    if (elementNode) {
+                        var isEl = mw.tools.hasAnyOfClassesOnNodeOrParent(elementNode, ['element']);
+                        mw.app.editor.dispatch('insertModuleRequest', elementNode);
+                    }
+                }
+            });
+
+            return el;
+        };
+        this.checkSelection = function (opt, ee, tt) {
+
+            var allowed = false;
+            var sel = api.getSelection();
+            var focusNode = sel.focusNode;
+            if (focusNode) {
+                var elementNode = api.elementNode(focusNode)
+                if (elementNode) {
+                    allowed = mw.top().app.liveEdit.liveEditHelpers.targetHasAbilityToDropElementsInside(elementNode)
+                }
+            }
+
+            if (!allowed) {
+                rootScope.hide(opt.controller.element.get(0), true);
+                //   rootScope.disabled(opt.controller.element.get(0), true);
+            } else {
+                //   rootScope.disabled(opt.controller.element.get(0), false);
+                rootScope.show(opt.controller.element.get(0));
+
+            }
+        };
+        this.element = this.render();
+    },
     ai: function (scope, api, rootScope) {
         this.render = function () {
             var aiIconSVG = '<svg color="gray.100" fill="currentColor" height="22" viewBox="0 0 22 22" width="22" xmlns="http://www.w3.org/2000/svg" class="ai-writer-container-1fy6kej"><path d="M12 0h-1L5 14h5v8h1l6-14h-5V0z"></path></svg>';
