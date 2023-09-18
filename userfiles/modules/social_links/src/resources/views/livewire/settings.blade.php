@@ -10,11 +10,14 @@
         @php
             $socialNetworksEnabled = [];
             $socialLinksOptions = get_module_options($this->moduleId);
-            foreach ($socialLinksOptions as $socialLinkOption) {
-                if (strpos($socialLinkOption['option_key'], '_enabled') !== false) {
-                    $socialNetworksEnabled[$socialLinkOption['option_key']] =  $socialLinkOption['option_value'];
+            if($socialLinksOptions){
+                foreach ($socialLinksOptions as $socialLinkOption) {
+                    if (strpos($socialLinkOption['option_key'], '_enabled') !== false) {
+                        $socialNetworksEnabled[$socialLinkOption['option_key']] =  $socialLinkOption['option_value'];
+                    }
                 }
             }
+
         @endphp
 
 
@@ -33,7 +36,7 @@
         </script>
 
         <div x-data>
-        @foreach(getSupprtedSocialNetworks() as $socialNetwork=>$socialNetworkData)
+        @foreach($supportedSocialNetworks as $socialNetwork=>$socialNetworkData)
             @php
                 $socialNetworkOptionKeyUrl = $socialNetwork . '_url';
                 $socialNetworkOptionKeyEnable = $socialNetwork . '_enabled';
