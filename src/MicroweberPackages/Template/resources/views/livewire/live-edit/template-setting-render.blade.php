@@ -19,7 +19,9 @@
         @if(isset($setting['fieldType']))
 
             @if ($setting['fieldType'] == 'styleEditor')
-                styleEditor
+               <button x-on:click="showStyleSettings = 'styleEditor'">
+                   styleEditor
+               </button>
             @endif
 
             @if ($setting['fieldType'] == 'infoBox')
