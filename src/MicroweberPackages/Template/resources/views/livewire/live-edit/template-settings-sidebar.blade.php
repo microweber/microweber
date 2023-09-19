@@ -83,11 +83,10 @@
         }"
         >
 
-            <div
+            <div>
+            <span
                 x-show="showStyleSettings == '/'"
-                class="mt-3"
-            >
-            <span class="fs-2 mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
+                class="fs-2 mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
                Styles
             </span>
 
