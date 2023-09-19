@@ -21,8 +21,10 @@ class TeamcardServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('teamcard', TeamcardSettingsComponent::class);
- 
+
+        Livewire::component('microweber-module-teamcard::settings', TeamcardSettingsComponent::class);
+        ModuleAdmin::registerSettings('teamcard', 'microweber-module-teamcard::settings');
+
 
     }
 }

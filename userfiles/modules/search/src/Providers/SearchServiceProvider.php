@@ -19,7 +19,9 @@ class SearchServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('search', SearchSettingsComponent::class);
+
+        Livewire::component('microweber-module-search::settings', SearchSettingsComponent::class);
+        ModuleAdmin::registerSettings('search', 'microweber-module-search::settings');
 
     }
 

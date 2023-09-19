@@ -19,7 +19,10 @@ class SharerServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('sharer', SharerSettingsComponent::class);
+
+        Livewire::component('microweber-module-sharer::settings', SharerSettingsComponent::class);
+
+        ModuleAdmin::registerSettings('sharer', 'microweber-module-sharer::settings');
 
     }
 

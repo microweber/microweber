@@ -1,10 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Modules\PDF\Http\Controllers;
+namespace MicroweberPackages\Modules\Pdf\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PDFLiveEditSettingsController
+class PdfLiveEditSettingsController
 {
     public function index(Request $request)
     {
