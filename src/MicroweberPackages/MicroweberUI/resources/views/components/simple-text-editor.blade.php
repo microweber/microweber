@@ -13,7 +13,7 @@
        <script>
            mw.require('editor.js');
 
-               console.log('mwEditorId{{$editorId}}')
+
                let mwEditorId{{$editorId}} = mw.Editor({
                    selector: '#editor-{{$editorId}}',
                    mode: 'div',
@@ -22,7 +22,7 @@
                    maxHeight: '50vh',
                    interactionControls: [],
                    controls: [
-                       ['italic', 'underline', 'strikeThrough', 'removeFormat','textColor','textBackgroundColor']
+                       ['italic', 'underline', 'strikeThrough', 'removeFormat','textBackgroundColor','textColor']
                    ]
 
                });
@@ -35,6 +35,8 @@
                    target{{$editorId}}.dispatchEvent(event{{$editorId}});
 
                });
+
+
 
        </script>
    </div>
