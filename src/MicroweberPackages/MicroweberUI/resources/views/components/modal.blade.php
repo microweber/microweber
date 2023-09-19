@@ -1,61 +1,78 @@
 @props(['id', 'maxWidth'])
 
-@php
-$id = $id ?? md5($attributes->wire('model'));
 
-
-
-$maxWidth = [
-    'sm' => ' modal-sm',
-    'md' => '',
-    'lg' => ' modal-lg',
-    'xl' => ' modal-xl',
-][$maxWidth ?? 'md'];
-@endphp
 
 <!-- Modal -->
+<div wire:ignore >
 
-<div x-data="{
-        mwDialogComponentUi{{ $id }}: false,
-        show{{ $id }}: @entangle($attributes->wire('model')),
-    }"
-    x-show="show{{ $id }}"
-    x-init="() => {
+    @php
+        $id = $id ?? md5($attributes->wire('model'));
 
-      el{{ $id }} = document.getElementById('modal-id-{{ $id }}')
 
-      close{{ $id }} = document.getElementById('js-close-modal-{{ $id }}');
-       if (close{{ $id }}) {
-            close{{ $id }}.addEventListener('click', () => {
-                show{{ $id }} = false;
-            });
-       }
+        $maxWidth = [
+            'sm' => ' modal-sm',
+            'md' => '',
+            'lg' => ' modal-lg',
+            'xl' => ' modal-xl',
+        ][$maxWidth ?? 'md'];
+    @endphp
 
-        $watch('show{{ $id }}', value => {
 
-            if (value) {
+ <script>
+     if(typeof window.createModalDialogLivewire{{ $id }} === 'undefined') {
+         window.createModalDialogLivewire{{ $id }} = function (id) {
+             var config = {};
+             var el = document.getElementById('modal-id-' + id);
+             var close = document.getElementById('js-close-modal-' + id);
+             var hasModal = false;
 
-             el{{ $id }}.style.display = 'block';
-             this.mwDialogComponentUi{{ $id }} = mw.dialog({
-                content: el{{ $id }},
-                onremove: () => {
-                    show{{ $id }} = false;
-                },
-             });
-             this.mwDialogComponentUi{{ $id }}.dialogHeader.style.display = 'none';
-             this.mwDialogComponentUi{{ $id }}.dialogContainer.style.padding = '0px';
+             config['show' + id] = @entangle($attributes->wire('model'));
 
-            } else {
-               if (this.mwDialogComponentUi{{ $id }}) {
-                this.mwDialogComponentUi{{ $id }}.remove();
-                this.mwDialogComponentUi{{ $id }} = null;
+             return {
+                 ...config,
+                 show: 'show' + id,
+                 init: function () {
 
-              }
-              show{{ $id }} = false;
-            }
-       });
+                     if (close) {
+                         close.addEventListener('click', () => {
+                             this.show = false;
+                         });
+                     }
 
-    }"
+                     this.$watch(this.show, (value) => {
+                         if (value) {
+                             el.style.display = 'block';
+                             this['mwDialogComponentUi' + id] = mw.dialog({
+                                 content: el,
+                                 id: 'mwDialogComponentUi' + id,
+                                 onremove: () => {
+                                     this.show = false;
+                                 },
+                             });
+
+                             this['mwDialogComponentUi' + id].dialogHeader.style.display = 'none';
+                             this['mwDialogComponentUi' + id].dialogContainer.style.padding = '0px';
+                         } else {
+                             if (this['mwDialogComponentUi' + id]) {
+                                 this['mwDialogComponentUi' + id].remove();
+                                 this['mwDialogComponentUi' + id] = null;
+                             }
+
+                             this.show = false;
+                         }
+                     });
+                 },
+             };
+
+
+         };
+     }
+ </script>
+
+<div x-data="createModalDialogLivewire{{ $id }}('{{ $id }}')"
+     x-show="show{{ $id }}"
+     x-init="init()"
+
 
     wire:ignore.self
 
@@ -65,13 +82,15 @@ $maxWidth = [
     id="modal-id-{{ $id }}"
 
     x-ref="modal-id-{{ $id }}"
+
 >
     <div class="mw-modal">
         <div class="mw-modal-dialog{{ $maxWidth }}">
             {{ $slot }}
 
-            @entangle($attributes->wire('model')).defer
+
         </div>
     </div>
 
+</div>
 </div>
