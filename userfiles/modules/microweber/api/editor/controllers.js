@@ -779,7 +779,6 @@ MWEditor.controllers = {
                         var el = mw.tools.setTag(block, e.detail.value);
                         // el.focus()
                         scope.api.setCursorAtStart(el)
-                        console.log(el)
                     });
                 }
             });
@@ -1058,6 +1057,17 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
+
+                var sel = scope.getSelection();
+                if(sel.isCollapsed) {
+                    var el = scope.api.elementNode(sel.focusNode);
+                    if(el) {
+
+
+                     }
+                }
+
+
                 api.execCommand('removeFormat');
             });
             return el;
@@ -1111,7 +1121,6 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                console.log(scope, api, rootScope)
 
             });
             return el;
