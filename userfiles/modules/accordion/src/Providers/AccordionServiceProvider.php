@@ -21,8 +21,10 @@ class AccordionServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('accordion', AccordeonSettingsComponent::class);
 
+
+        Livewire::component('microweber-module-accordion::settings', AccordeonSettingsComponent::class);
+        ModuleAdmin::registerSettings('accordion', 'microweber-module-accordion::settings');
 
 
     }

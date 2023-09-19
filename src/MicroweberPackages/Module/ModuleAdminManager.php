@@ -79,4 +79,34 @@ class ModuleAdminManager
             ? $this->skinSettingsComponent[$moduleName][$skinName]
             : null;
     }
+
+    public $settings = [];
+    public function registerSettings($moduleName, $componentAlias)
+    {
+        $this->settings[$moduleName] = $componentAlias;
+    }
+    public function getSettings($moduleName)
+    {
+        return isset($this->settings[$moduleName])
+            ? $this->settings[$moduleName]
+            : null;
+    }
+
+    public $skinSettings = [];
+
+    public function registerSkinSettings($moduleName, $skinName, $componentAlias)
+    {
+        if (!isset($this->skinSettings[$moduleName])) {
+            $this->skinSettings[$moduleName] = [];
+        }
+        $this->skinSettings[$moduleName][$skinName] = $componentAlias;
+    }
+
+
+    public function getSkinSettings($moduleName, $skinName)
+    {
+        return isset($this->skinSettings[$moduleName][$skinName])
+            ? $this->skinSettings[$moduleName][$skinName]
+            : null;
+    }
 }

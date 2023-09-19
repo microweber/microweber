@@ -16,6 +16,13 @@
         $currentSkinName = str_replace('.php', '', $currentSkin);
         $componentNameForModuleSkin = 'microweber-module-'.$moduleType.'::template-settings-'.$currentSkinName;
 
+        $moduleSkinSettingsRegisteredAlias =  \MicroweberPackages\Module\Facades\ModuleAdmin::getSkinSettings($moduleType, $currentSkinName);
+        if($moduleSkinSettingsRegisteredAlias){
+            $componentNameForModuleSkin = $moduleSkinSettingsRegisteredAlias;
+        }
+
+
+
         $hasSkinSettingsComponent= livewire_component_exists($componentNameForModuleSkin) === true;
 
         $moduleTypeForComponent = str_replace('/', '.', $moduleType);

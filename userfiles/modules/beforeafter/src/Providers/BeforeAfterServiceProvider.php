@@ -19,8 +19,10 @@ class BeforeAfterServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('beforeafter', BeforeAfterSettingsComponent::class);
 
+        Livewire::component('microweber-module-beforeafter::settings', BeforeAfterSettingsComponent::class);
+
+        ModuleAdmin::registerSettings('beforeafter', 'microweber-module-beforeafter::settings');
     }
 
 }

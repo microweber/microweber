@@ -9,7 +9,8 @@
 
         <?php
 
-        $moduleTypeForComponent = str_replace('/admin', '', $moduleType);
+        $moduleType = str_replace('/admin', '', $moduleType);
+        $moduleTypeForComponent =$moduleType;
         $moduleTypeForComponent = str_replace('/', '-', $moduleTypeForComponent);
         $moduleTypeForLegacyModule = module_name_decode($moduleType);
        // $moduleTypeForLegacyModule = $moduleTypeForLegacyModule.'/admin';
@@ -25,6 +26,12 @@
 
 
 
+
+        $moduleSettingsRegisteredAlias =  \MicroweberPackages\Module\Facades\ModuleAdmin::getSettings($moduleType);
+
+        if($moduleSettingsRegisteredAlias){
+            $livewireComponentName = $moduleSettingsRegisteredAlias;
+        }
 
 
 

@@ -19,7 +19,8 @@ class {{moduleNameCamelCase}}ServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('{{moduleSlug}}', {{moduleNameCamelCase}}SettingsComponent::class);
+        Livewire::component('microweber-module-{{moduleSlug}}::settings', {{moduleNameCamelCase}}SettingsComponent::class);
+        ModuleAdmin::registerSettings('{{moduleSlug}}', 'microweber-module-{{moduleSlug}}::settings');
 
     }
 

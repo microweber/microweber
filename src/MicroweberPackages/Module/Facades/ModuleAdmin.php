@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Facade;
  *
  * @method static void registerSettingsComponent(string $moduleType, string $componentName)
  * @method static void registerSkinSettingsComponent(string $moduleType, string $skinName, string $componentName)
+ * @method static void registerSettings(string $moduleType, string $componentAlias)
+ * @method static void registerSkinSettings(string $moduleType, string $skinName, string $componentAlias)
+ * @method static string|null getSettings(string $moduleName)
+ * @method static string|null getSkinSettings(string $moduleName, string $skinName)
  * @method static string|null getSettingsComponent(string $moduleName)
  * @method static string|null getSkinSettingsComponent(string $moduleName, string $skinName)
  * @see \MicroweberPackages\Module\ModuleAdminManager

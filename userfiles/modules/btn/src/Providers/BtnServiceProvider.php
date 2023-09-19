@@ -27,15 +27,13 @@ class BtnServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
+        Livewire::component('microweber-module-btn::settings', ButtonSettingsComponent::class);
+        Livewire::component('microweber-module-btn::template-settings-bootstrap', ButtonSettingsBootstrapTemplateComponent::class);
+        Livewire::component('microweber-module-btn::template-settings-default', ButtonSettingsDefaultTemplateComponent::class);
 
-        ModuleAdmin::registerSettingsComponent('btn', ButtonSettingsComponent::class);
-        ModuleAdmin::registerSkinSettingsComponent('btn', 'default', ButtonSettingsDefaultTemplateComponent::class);
-        ModuleAdmin::registerSkinSettingsComponent('btn', 'bootstrap', ButtonSettingsBootstrapTemplateComponent::class);
-
-//        Livewire::component('microweber-module-btn::settings', ButtonSettingsComponent::class);
-//
-//      Livewire::component('microweber-module-btn::template-settings-bootstrap', ButtonSettingsBootstrapTemplateComponent::class);
-//        Livewire::component('microweber-module-btn::template-settings-default', ButtonSettingsDefaultTemplateComponent::class);
+        ModuleAdmin::registerSettings('btn', 'microweber-module-btn::settings');
+        ModuleAdmin::registerSkinSettings('btn', 'default', 'microweber-module-btn::template-settings-default');
+        ModuleAdmin::registerSkinSettings('btn', 'bootstrap', 'microweber-module-btn::template-settings-bootstrap');
 
     }
 

@@ -19,7 +19,11 @@ class AudioServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('audio', AudioSettingsComponent::class);
+
+        Livewire::component('microweber-module-audio::settings', AudioSettingsComponent::class);
+
+        ModuleAdmin::registerSettings('audio', 'microweber-module-audio::settings');
+
 
     }
 
