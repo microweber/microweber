@@ -1058,12 +1058,26 @@ MWEditor.controllers = {
             });
             el.on('mousedown touchstart', function (e) {
 
+                var  removeFormatFromElementIfNotInSelection = function(element) {
+                    if (!element) {
+                        return;
+                    }
+
+                    // Remove any formatting attributes from the element
+                    element.removeAttribute('style');
+                    element.removeAttribute('class');
+
+                    // Recursively remove formatting from child elements
+                    for (var i = 0; i < element.children.length; i++) {
+                        removeFormatFromElementIfNotInSelection(element.children[i]);
+                    }
+                }
+
                 var sel = scope.getSelection();
                 if(sel.isCollapsed) {
                     var el = scope.api.elementNode(sel.focusNode);
                     if(el) {
-
-
+                        removeFormatFromElementIfNotInSelection(el);
                      }
                 }
 
@@ -1077,6 +1091,7 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
+
     unlink: function (scope, api, rootScope) {
         this.render = function () {
             var el = MWEditor.core.button({
