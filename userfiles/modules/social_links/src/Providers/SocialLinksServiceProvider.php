@@ -22,7 +22,9 @@ class SocialLinksServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('social_links', SocialLinksSettingsComponent::class);
+
+        Livewire::component('microweber-module-social-links::settings', SocialLinksSettingsComponent::class);
+        ModuleAdmin::registerSettings('social_links', 'microweber-module-social-links::settings');
 
     }
 }

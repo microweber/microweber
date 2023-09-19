@@ -19,7 +19,9 @@ class FacebookPageServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('facebook_page', FacebookPageSettingsComponent::class);
+
+        Livewire::component('microweber-module-facebook-page::settings', FacebookPageSettingsComponent::class);
+        ModuleAdmin::registerSettings('facebook_page', 'microweber-module-facebook-page::settings');
 
     }
 

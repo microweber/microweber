@@ -19,7 +19,10 @@ class TabsServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('tabs', TabsSettingsComponent::class);
+
+        Livewire::component('microweber-module-tabs::settings', TabsSettingsComponent::class);
+        ModuleAdmin::registerSettings('tabs', 'microweber-module-tabs::settings');
+
 
     }
 

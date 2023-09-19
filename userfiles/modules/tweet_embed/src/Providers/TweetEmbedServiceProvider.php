@@ -19,7 +19,9 @@ class TweetEmbedServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('tweet_embed', TweetEmbedSettingsComponent::class);
+
+        Livewire::component('microweber-module-tweet-embed::settings', TweetEmbedSettingsComponent::class);
+        ModuleAdmin::registerSettings('tweet_embed', 'microweber-module-tweet-embed::settings');
 
     }
 

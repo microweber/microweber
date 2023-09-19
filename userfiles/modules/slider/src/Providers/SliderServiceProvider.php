@@ -19,7 +19,8 @@ class SliderServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('slider', SliderSettingsComponent::class);
+        Livewire::component('microweber-module-slider::settings', SliderSettingsComponent::class);
+        ModuleAdmin::registerSettings('slider', 'microweber-module-slider::settings');
 
     }
 

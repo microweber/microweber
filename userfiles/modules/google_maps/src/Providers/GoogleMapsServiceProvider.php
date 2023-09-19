@@ -24,7 +24,8 @@ class GoogleMapsServiceProvider extends PackageServiceProvider
     {
 
         parent::register();
-        ModuleAdmin::registerSettingsComponent('google_maps', GoogleMapsSettingsComponent::class);
+        Livewire::component('microweber-module-google-maps::settings', GoogleMapsSettingsComponent::class);
+        ModuleAdmin::registerSettings('google_maps', 'microweber-module-google-maps::settings');
 
     }
 

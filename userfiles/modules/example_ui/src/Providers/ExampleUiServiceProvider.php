@@ -23,7 +23,8 @@ class ExampleUiServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-        ModuleAdmin::registerSettingsComponent('example_ui', ExampleUiSettingsComponent::class);
+        Livewire::component('microweber-module-example-ui::settings', ExampleUiSettingsComponent::class);
+        ModuleAdmin::registerSettings('example_ui', 'microweber-module-example-ui::settings');
 
     }
 }

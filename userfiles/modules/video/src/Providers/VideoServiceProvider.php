@@ -19,7 +19,9 @@ class VideoServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('video', VideoSettingsComponent::class);
+
+        Livewire::component('microweber-module-video::settings', VideoSettingsComponent::class);
+        ModuleAdmin::registerSettings('video', 'microweber-module-video::settings');
 
     }
 

@@ -22,8 +22,9 @@ class LogoServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('logo', LogoSettingsComponent::class);
-       // View::addNamespace('microweber-module-example-ui', __DIR__.'/../resources/views');
+
+        Livewire::component('microweber-module-logo::settings', LogoSettingsComponent::class);
+        ModuleAdmin::registerSettings('logo', 'microweber-module-logo::settings');
 
     }
 }

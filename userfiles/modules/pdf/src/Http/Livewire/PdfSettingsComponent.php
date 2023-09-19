@@ -1,9 +1,9 @@
 <?php
-namespace MicroweberPackages\Modules\PDF\Http\Livewire;
+namespace MicroweberPackages\Modules\Pdf\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 
-class PDFSettingsComponent extends ModuleSettingsComponent
+class PdfSettingsComponent extends ModuleSettingsComponent
 {
     public function render()
     {

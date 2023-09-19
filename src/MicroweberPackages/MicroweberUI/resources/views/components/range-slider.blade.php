@@ -3,6 +3,10 @@
 <div>
     @php
     $rand = md5(time().rand(111,999));
+    $min = $min ?? 0;
+    $min = intval($min);
+    $max = $max ?? 100;
+    $max = intval($max);
     @endphp
     <div class="form-control-live-edit-label-wrapper">
 
@@ -33,10 +37,12 @@
                 start: customRangeValueField.value,
                 step:1,
                 connect: [true, false],
+
                 range: {
                     'min': {{$min}},
                     'max': {{$max}}
                 }
+
             });
 
            slider.noUiSlider.on('update', function(values, handle) {

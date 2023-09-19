@@ -19,7 +19,9 @@ class HighlightCodeServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('highlight_code', HighlightCodeSettingsComponent::class);
+        Livewire::component('microweber-module-highlight-code::settings', HighlightCodeSettingsComponent::class);
+
+        ModuleAdmin::registerSettings('highlight_code', 'microweber-module-highlight-code::settings');
 
     }
 

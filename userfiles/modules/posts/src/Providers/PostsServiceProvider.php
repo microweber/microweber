@@ -19,8 +19,8 @@ class PostsServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('posts', PostsSettingsComponent::class);
-
+        Livewire::component('microweber-module-posts::settings', PostsSettingsComponent::class);
+        ModuleAdmin::registerSettings('posts', 'microweber-module-posts::settings');
     }
 
 }
