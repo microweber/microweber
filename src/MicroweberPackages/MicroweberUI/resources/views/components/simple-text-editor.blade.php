@@ -19,27 +19,12 @@
                    mode: 'div',
                    smallEditor: false,
                    minHeight: 250,
-                   maxHeight: '70vh',
+                   maxHeight: '50vh',
+                   interactionControls: [],
                    controls: [
-                       [
-                           'undoRedo', '|',
-                           {
-                               group: {
-                                   controller: 'bold',
-                                   controls: ['italic', 'underline', 'strikeThrough']
-                               }
-                           },
-                           '|',
-                           {
-                               group: {
-                                   icon: 'mdi mdi-format-align-left',
-                                   controls: ['align']
-                               }
-                           },
-                           '|', 'format',
-                           '|', 'link', 'unlink', 'removeFormat'
-                       ],
+                       ['italic', 'underline', 'strikeThrough', 'removeFormat','textColor','textBackgroundColor']
                    ]
+
                });
 
                $(mwEditorId{{$editorId}}).on('change', function (e, val) {
