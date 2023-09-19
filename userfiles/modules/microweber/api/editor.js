@@ -1010,34 +1010,39 @@ var MWEditor = function (options) {
         });
     }
 
+    var _smallEditorInteractTimeout = null;
     this.smallEditorInteract = function (target) {
+        clearTimeout(_smallEditorInteractTimeout);
+        _smallEditorInteractTimeout = setTimeout(() => {
+            this._smallEditorInteract = false;
 
-        this._smallEditorInteract = false;
-
-       if(target && !target.isContentEditable && scope.lastRange && scope.lastRange.collapsed === false) {
-           target = scope.getActualTarget(scope.lastRange.commonAncestorContainer);
-       }
-        if(target && mw.tools.hasAnyOfClassesOnNodeOrParent(target, _smallEditorExceptionClasses)){
-            return
+        if(target && !target.isContentEditable && scope.lastRange && scope.lastRange.collapsed === false) {
+            target = scope.getActualTarget(scope.lastRange.commonAncestorContainer);
         }
-
-        if (scope.selection && (target && target.isContentEditable || mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['mw-small-editor', 'mw-editor', 'mw-tooltip'])) && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
-
-            if(!mw.tools.hasParentsWithClass(target, 'mw-bar')){
-                this._smallEditorInteract = target;
-
-                scope.positionSmallEditor(target)
-
-                scope.smallEditor.css({
-                    display: 'block'
-                });
+            if(target && mw.tools.hasAnyOfClassesOnNodeOrParent(target, _smallEditorExceptionClasses)){
+                return
             }
-        } else {
-            if(target !== scope.actionWindow.document.body ) {
-                scope.smallEditor.hide();
-            }
+ 
 
-        }
+            if (scope.selection && (target && target.isContentEditable || mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['mw-small-editor', 'mw-editor', 'mw-tooltip'])) && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
+
+                if(!mw.tools.hasParentsWithClass(target, 'mw-bar')){
+                    this._smallEditorInteract = target;
+
+                    scope.positionSmallEditor(target)
+
+                    scope.smallEditor.css({
+                        display: 'block'
+                    });
+                }
+            } else {
+                if(target !== scope.actionWindow.document.body ) {
+                    scope.smallEditor.hide();
+                }
+
+            }            
+        }, 10)
+
     }
     this.createBar = function () {
         this.bar = mw.settings.bar || mw.bar();
