@@ -873,5 +873,5 @@ body.mw-external-loading:after {
 }
 
 .mw-component-ready {
-    background-color: var(--tblr-body-bg) !important;
+    background-color: var(--tblr-bg-surface) !important;
 }

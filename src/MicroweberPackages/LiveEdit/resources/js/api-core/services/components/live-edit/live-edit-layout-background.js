@@ -77,7 +77,7 @@ export class LiveEditLayoutBackground extends BaseComponent {
             node.innerHTML = "";
             delete node.dataset.mwvideo;
         } else {
-            node.innerHTML = `<video src="${url}" autoplay muted></video>`;
+            node.innerHTML = `<video src="${url}" autoplay muted loop playsinline></video>`;
             node.dataset.mwvideo = url;
         }
 
