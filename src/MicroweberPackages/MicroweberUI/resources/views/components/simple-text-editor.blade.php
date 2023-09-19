@@ -4,14 +4,16 @@
         $editorId = uniqid();
     @endphp
 
- <div class="m-1">
-     <textarea {!! $attributes->merge([]) !!} id="editor-{{$editorId}}"></textarea>
- </div>
 
-   <div wire:ignore wire:key="wire-scripts-key-{{$editorId}}">
+
+   <div  wire:key="wire-scripts-key-{{$editorId}}">
+       <div class="m-1">
+           <textarea {!! $attributes->merge([]) !!} id="editor-{{$editorId}}"></textarea>
+       </div>
        <script>
            mw.require('editor.js');
-           document.addEventListener('livewire:load', function () {
+
+               console.log('mwEditorId{{$editorId}}')
                let mwEditorId{{$editorId}} = mw.Editor({
                    selector: '#editor-{{$editorId}}',
                    mode: 'div',
@@ -48,7 +50,7 @@
                    target{{$editorId}}.dispatchEvent(event{{$editorId}});
 
                });
-           });
+
        </script>
    </div>
 </div>
