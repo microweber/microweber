@@ -45,7 +45,7 @@ if($background_video_option){
 $video_html  = '';
 $video_attr_parent  = '';
 if($video_url) {
-    $video_html = '<video src="' . $video_url . '" autoplay muted></video>';
+    $video_html = '<video src="' . $video_url . '" autoplay muted loop playsinline></video>';
     $video_attr_parent  = ' data-mwvideo="'. $video_url.'" ';
 }
 if($style_attributes) {
