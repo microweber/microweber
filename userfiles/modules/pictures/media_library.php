@@ -231,7 +231,7 @@ must_have_access();
         </script>
 
 
-        <div class="text-center text-center mt-3 mx-auto" style="max-width: 450px;">
+        <div class="text-center mt-3 mx-auto" style="max-width: 450px;">
             <h4 class="mb-3"><?php _e("Search free images from Unsplash"); ?></h4>
             <small class="text-muted d-block"><?php _e("Enter a search term above to begin searching images from "); ?><a href="http://unsplash.com" target="_new" style="color:#009cff;">Unsplash.com</a>. <br/><?php _e("You can use free stock images."); ?></small>
 
