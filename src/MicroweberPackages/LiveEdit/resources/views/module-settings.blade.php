@@ -8,11 +8,12 @@
 
 
         <?php
+        $moduleTypeOriginal = $moduleType;
+        $moduleTypeForLegacyModule = module_name_decode($moduleTypeOriginal);
 
         $moduleType = str_replace('/admin', '', $moduleType);
         $moduleTypeForComponent =$moduleType;
         $moduleTypeForComponent = str_replace('/', '-', $moduleTypeForComponent);
-        $moduleTypeForLegacyModule = module_name_decode($moduleType);
        // $moduleTypeForLegacyModule = $moduleTypeForLegacyModule.'/admin';
 
         $moduleFolder = $moduleTypeForComponent;

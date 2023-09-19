@@ -19,7 +19,9 @@ class BreadcrumbServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('breadcrumb', BreadcrumbSettingsComponent::class);
+        Livewire::component('microweber-module-breadcrumb::settings', BreadcrumbSettingsComponent::class);
+
+        ModuleAdmin::registerSettings('breadcrumb', 'microweber-module-breadcrumb::settings');
 
     }
 
