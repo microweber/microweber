@@ -22,7 +22,19 @@
             return frame;
         },
           confirm_reset_module_by_id: function (module_id, cb) {
-              mw.tools.confirm(mw.lang('Are you sure you want to reset this module') + '?', function () {
+
+              var html = '<div class="alert alert-danger">' +
+                  '<h4 class="alert-title">' +  mw.lang('Are you sure you want to reset this module ?') +  '</h4>' +
+                  '<div class="text-secondary">' +
+                 
+                  '<br>' + mw.lang('You will delete all settings of the module !') +
+                  '<br>' + mw.lang('This operation cannot be undone !') +
+                  '</div>';
+                  '</div>';
+              mw.tools.confirm(
+                  html
+
+                  , function () {
 
                       var is_a_preset = mw.$('#'+module_id).attr('data-module-original-id');
                       var is_a_preset_attrs = mw.$('#'+module_id).attr('data-module-original-attrs');

@@ -123,7 +123,7 @@ export class ModuleHandleContent {
         };
 
         const tailMenuFavorite = {
-            "title": "...",
+            "title": "Add to Favorites",
             "icon":  handleIcons.icon('favorite'),
             action: (el) => {
 
@@ -140,6 +140,24 @@ export class ModuleHandleContent {
                 }
             },
         };
+    const tailMenuResetModule = {
+            "title": "Reset Module",
+            "icon":  handleIcons.icon('reset'),
+            action: (el) => {
+
+                var module_id = el.id;
+
+                mw.top().app.canvas.getWindow().mw.tools.confirm_reset_module_by_id(module_id);
+
+            },
+            onTarget: (target, selfNode) => {
+                if(this.tools.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['module'])) {
+                    selfNode.classList.remove('mw-le-handle-menu-button-hidden');
+                } else {
+                    selfNode.classList.add('mw-le-handle-menu-button-hidden');
+                }
+            },
+        };
 
         const tailMenu = [
             {
@@ -150,6 +168,11 @@ export class ModuleHandleContent {
                         name: 'Favorite',
                         nodes: [
                             tailMenuFavorite,
+                        ]
+                    }, {
+                        name: 'Reset Module',
+                        nodes: [
+                            tailMenuResetModule,
                         ]
                     },
                     {
