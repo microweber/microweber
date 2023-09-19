@@ -131,7 +131,7 @@
                                                              alt="{{ $item[$columnKey] }}" />
                                                     @else
                                                     <label class="d-block cursor-pointer">
-                                                        {{ str_limit($item[$columnKey], 17) }}
+                                                        {{ str_limit($item[$columnKey], 22) }}
                                                     </label>
                                                 @endif
                                                 @endif
