@@ -19,7 +19,8 @@ class TwitterFeedServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('twitter_feed', TwitterFeedSettingsComponent::class);
+        Livewire::component('microweber-module-twitter-feed::settings', TwitterFeedSettingsComponent::class);
+        ModuleAdmin::registerSettings('twitter_feed', 'microweber-module-twitter-feed::settings');
 
     }
 

@@ -20,8 +20,10 @@ class TestimonialsServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('testimonials', TestimonialsSettingsComponent::class);
+        Livewire::component('microweber-module-testimonials::settings', TestimonialsSettingsComponent::class);
         Livewire::component('microweber-module-testimonials::projects-dropdown', TestimonialsProjectsDropdownComponent::class);
+
+        ModuleAdmin::registerSettings('testimonials', 'microweber-module-testimonials::settings');
 
     }
 
