@@ -575,13 +575,10 @@ export class LiveEdit {
             } else if(!target.classList.contains('cloneable')) {
                 const hasCloneable = DomService.firstParentOrCurrentWithClass(target.parentElement, 'cloneable');
                 if(hasCloneable) {
-
                     if((target.getBoundingClientRect().top - hasCloneable.getBoundingClientRect().top) < 5) {
                         target = hasCloneable;
                         hasCloneable.classList.add('element')
 
-                    } else {
-                        hasCloneable.classList.remove('element')
                     }
 
                 }
@@ -967,6 +964,11 @@ export class LiveEdit {
         if(!can) {
             can = DomService.hasAnyOfClasses(el, exceptions);
         }
+
+ 
+         
+
+        
 
         return can;
     }

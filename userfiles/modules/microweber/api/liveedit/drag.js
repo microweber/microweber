@@ -823,7 +823,12 @@ mw.drag = {
             noelements = noelements.concat(noelements_drag);
             noelements = noelements.concat(section_selectors);
             noelements = noelements.concat(icon_selectors);
-            return mw.tools.hasAnyOfClasses(el, noelements) && !mw.tools.hasClass(el, 'cloneable');
+            var can = mw.tools.hasAnyOfClasses(el, noelements);
+            if(!can) {
+                can = mw.tools.hasClass(el, 'cloneable')
+            }
+          
+            return  can;
         },
         canBeEditable: function(el) {
             return el.isContentEditable || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit','module']);
