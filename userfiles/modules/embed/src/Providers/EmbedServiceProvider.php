@@ -19,7 +19,8 @@ class EmbedServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('embed', EmbedSettingsComponent::class);
+        Livewire::component('microweber-module-embed::settings', EmbedSettingsComponent::class);
+        ModuleAdmin::registerSettings('embed', 'microweber-module-embed::settings');
 
     }
 
