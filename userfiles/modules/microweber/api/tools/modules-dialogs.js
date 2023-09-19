@@ -26,7 +26,7 @@
               var html = '<div class="alert alert-danger">' +
                   '<h4 class="alert-title">' +  mw.lang('Are you sure you want to reset this module ?') +  '</h4>' +
                   '<div class="text-secondary">' +
-                 
+
                   '<br>' + mw.lang('You will delete all settings of the module !') +
                   '<br>' + mw.lang('This operation cannot be undone !') +
                   '</div>';
@@ -43,6 +43,7 @@
                           if (orig_attrs_decoded) {
                               mw.$('#'+module_id).removeAttr('data-module-original-id');
                               mw.$('#'+module_id).removeAttr('data-module-original-attrs');
+                              mw.$('#'+module_id).removeAttr('data-module-original-attrs');
                               mw.$('#'+module_id).attr(orig_attrs_decoded).reload_module();
 
                               if(  mw.top().win.module_settings_modal_reference_preset_editor_thismodal ){
@@ -51,6 +52,7 @@
                           }
                           return;
                       }
+                      mw.$('#'+module_id).removeAttr('data-module-id-from-preset');
 
                       var data = {};
                       data.modules_ids = [module_id];
