@@ -137,9 +137,9 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
             });
 
-
-            liveEditIframe.contentWindow.mw.isNavigating = false;
-
+            if(liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw) {
+                liveEditIframe.contentWindow.mw.isNavigating = false;
+            }
             this.dispatch('liveEditCanvasLoaded', {frame: liveEditIframe, frameWindow: liveEditIframe.contentWindow, frameDocument: liveEditIframe.contentWindow.document});
 
 
