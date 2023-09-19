@@ -1,4 +1,52 @@
 <div>
+
+    <script wire:ignore>
+        window.loadFontFamily = function (family) {
+
+            if (!family) {
+                return;
+            }
+            var id = 'font-' + family.replace(/[^a-zA-Z0-9]/g, '');
+
+            var filename = "//fonts.googleapis.com/css?family=" + encodeURIComponent(family) + "&text=" + encodeURIComponent(family);
+            var fileref = document.createElement("link")
+            fileref.setAttribute("rel", "stylesheet")
+            fileref.setAttribute("type", "text/css")
+            fileref.setAttribute("href", filename)
+            fileref.setAttribute("referrerpolicy", "no-referrer")
+            fileref.setAttribute("crossorigin", "anonymous")
+            fileref.setAttribute("data-noprefix", "1")
+            fileref.setAttribute("id", id)
+
+
+            var fileref2 = document.createElement("link")
+            fileref2.setAttribute("rel", "stylesheet")
+            fileref2.setAttribute("type", "text/css")
+            fileref2.setAttribute("href", filename);
+            fileref2.setAttribute("referrerpolicy", "no-referrer")
+            fileref2.setAttribute("crossorigin", "anonymous")
+            fileref2.setAttribute("data-noprefix", "1")
+            fileref2.setAttribute("data-noprefix", "1")
+            fileref2.setAttribute("id", id)
+
+
+            if(self !== top){
+                //check if the font is already loaded
+                if (mw.top().doc.getElementById(id)) {
+                    return;
+                }
+                mw.top().doc.getElementsByTagName("head")[0].appendChild(fileref)
+                document.getElementsByTagName("head")[0].appendChild(fileref2)
+            } else {
+                //check if the font is already loaded
+                if (document.getElementById(id)) {
+                    return;
+                }
+                document.getElementsByTagName("head")[0].appendChild(fileref)
+            }
+        }
+    </script>
+
     <div class="row">
         <div class="col-md-4 h-auto" style="background:#ececec;">
 
@@ -45,13 +93,20 @@
 
             <div class="pr-5">
 
+
+
                 @if($fonts->count() > 0)
                     @foreach($fonts as $font)
                         @php
                             $fontId = md5($font['family'].$font['category']);
                         @endphp
                         <div wire:key="font-id-{{$fontId}}" x-data="{favorite: @if (isset($font['favorite']) && $font['favorite']) true @else false @endif }" class="d-flex justify-content-between">
-                           <div>
+
+                            <script>
+                                loadFontFamily('{{$font['family']}}');
+                            </script>
+
+                                <div>
                                <button type="button" x-on:click="favorite = true" wire:click="favorite('{{$font['family']}}')"
                                        style="background:#fff;border:0px;text-align:left;width:100%;margin-top:5px;">
                                 <span style="font-size:18px;font-family:'{!! $font['family'] !!}',sans-serif;">
@@ -85,11 +140,9 @@
     </div>
 
     <script>
-        @foreach($fonts as $font)
-        loadFontFamily('{{$font['family']}}');
-        @endforeach
 
-        window.addEventListener('font-picker-load-fonts', function (e) {
+        document.addEventListener('font-picker-load-fonts', function (e) {
+
             if (e.detail.fonts) {
                 for (var i in e.detail.fonts) {
                     loadFontFamily(e.detail.fonts[i]['family']);
@@ -97,34 +150,8 @@
             }
         });
 
-        function loadFontFamily(family) {
-
-            if (!family) {
-                return;
-            }
-
-            var filename = "//fonts.googleapis.com/css?family=" + encodeURIComponent(family) + "&text=" + encodeURIComponent(family);
-            var fileref = document.createElement("link")
-            fileref.setAttribute("rel", "stylesheet")
-            fileref.setAttribute("type", "text/css")
-            fileref.setAttribute("href", filename)
-            fileref.setAttribute("crossorigin", "anonymous")
-            fileref.setAttribute("data-noprefix", "1")
 
 
-            var fileref2 = document.createElement("link")
-            fileref2.setAttribute("rel", "stylesheet")
-            fileref2.setAttribute("type", "text/css")
-            fileref2.setAttribute("href", filename);
-            fileref2.setAttribute("crossorigin", "anonymous")
-            fileref2.setAttribute("data-noprefix", "1")
 
-            if(self !== top){
-                mw.top().doc.getElementsByTagName("head")[0].appendChild(fileref)
-                document.getElementsByTagName("head")[0].appendChild(fileref2)
-            } else {
-                document.getElementsByTagName("head")[0].appendChild(fileref)
-            }
-        }
     </script>
 </div>
