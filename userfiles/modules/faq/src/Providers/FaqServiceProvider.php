@@ -19,8 +19,8 @@ class FaqServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-
-        ModuleAdmin::registerSettingsComponent('faq', FaqSettingsComponent::class);
+        Livewire::component('microweber-module-faq::settings', FaqSettingsComponent::class);
+        ModuleAdmin::registerSettings('faq', 'microweber-module-faq::settings');
 
     }
 

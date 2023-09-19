@@ -20,10 +20,11 @@ class LayoutContentServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        ModuleAdmin::registerSettingsComponent('layout_content', LayoutContentSettingsComponent::class);
-        ModuleAdmin::registerSkinSettingsComponent('layout_content', 'default', LayoutContentDefaultSettingsTemplateComponent::class);
-        //  Livewire::component('microweber-module-layout-content::settings', LayoutContentSettingsComponent::class);
-        //    Livewire::component('microweber-module-layout_content::template-settings-default', LayoutContentDefaultSettingsTemplateComponent::class);
+        Livewire::component('microweber-module-layout-content::settings', LayoutContentSettingsComponent::class);
+        Livewire::component('microweber-module-layout-content::template-settings-default', LayoutContentDefaultSettingsTemplateComponent::class);
+
+        ModuleAdmin::registerSettings('layout_content', 'microweber-module-layout-content::settings');
+        ModuleAdmin::registerSkinSettings('layout_content', 'default', 'microweber-module-layout-content::template-settings-default');
 
     }
 

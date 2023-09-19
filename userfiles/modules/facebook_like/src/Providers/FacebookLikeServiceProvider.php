@@ -20,7 +20,9 @@ class FacebookLikeServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-         ModuleAdmin::registerSettingsComponent('facebook_like', FacebookLikeSettingsComponent::class);
+        Livewire::component('microweber-module-facebook-like::settings', FacebookLikeSettingsComponent::class);
+        ModuleAdmin::registerSettings('facebook_like', 'microweber-module-facebook-like::settings');
+
     }
 
 }
