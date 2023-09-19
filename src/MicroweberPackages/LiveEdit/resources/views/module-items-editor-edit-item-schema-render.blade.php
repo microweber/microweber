@@ -25,6 +25,8 @@
                 <x-microweber-ui::input placeholder="{{ $placeholder }}" name="{{ $field['name'] }}"  wire:model.defer="itemState.{{ $field['name'] }}" />
             @elseif($field['type'] == 'textarea' )
                 <x-microweber-ui::textarea placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" wire:model.defer="itemState.{{ $field['name'] }}"/>
+            @elseif($field['type'] == 'simple-text-editor' )
+                <x-microweber-ui::simple-text-editor placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" wire:model.defer="itemState.{{ $field['name'] }}"/>
             @elseif($field['type'] == 'image' )
                 <x-microweber-ui::media-picker wire:model.defer="itemState.{{ $field['name'] }}"/>
             @elseif($field['type'] == 'file' )

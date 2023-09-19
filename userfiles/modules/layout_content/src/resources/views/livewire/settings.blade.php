@@ -39,7 +39,7 @@ showMainEditTab: 'mainSettings'
                 'help' => 'Enter Title',
             ],
             [
-                'type' => 'textarea',
+                'type' => 'simple-text-editor',
                 'label' => 'Description',
                 'name' => 'description',
                 'placeholder' => 'Enter description',
