@@ -39,6 +39,14 @@
                 ]
             });
 
+            $(mwEditorId{{$editorId}}).on('change', function (e, val) {
+
+                let target{{$editorId}} = document.getElementById('editor-{{$editorId}}');
+
+                var event{{$editorId}} = new Event('input');
+                target{{$editorId}}.dispatchEvent(event{{$editorId}});
+
+            });
         });
     </script>
 </div>
