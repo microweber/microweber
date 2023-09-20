@@ -125,7 +125,7 @@ export class ElementHandleContent {
 
                     const isImage = target.nodeName === 'IMG';
                     if (isImage) {
-                        selfVisible = true;
+                        selfVisible = !target.parentNode.classList.contains('img-as-background');
                     }
      
                     selfBtn.classList[selfVisible ? 'remove' : 'add']('mw-le-handle-menu-button-hidden');

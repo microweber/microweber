@@ -206,6 +206,18 @@ export default {
             _handleReady();
 
 
+
+            setTimeout(() =>  {
+                if(mw.app.isPreview()) {
+                    api.previewMode();
+                    
+                } else {
+                    api.liveEditMode();
+                }
+            }, 10);
+ 
+ 
+
             var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
 
             this.backToAdminLink = liveEditIframeData.back_to_admin_link;

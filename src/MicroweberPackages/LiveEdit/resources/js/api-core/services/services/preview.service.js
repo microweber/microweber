@@ -9,12 +9,13 @@ if(isEditMode === undefined) {
 isEditMode = mw.cookie.get('isEditMode') === 'true';
 
 
-let _hascss;
+ 
 
 
 const _prepareCss = () => {
-    if (!_hascss) {
-        _hascss = true;
+    var body = mw.app.canvas.getDocument().body;
+    if (!body.__hasPreviewcss) {
+        body.__hasPreviewcss = true;
         var css = `
                 html.mw-le--page-preview body{
                     padding-top: 0 !important
@@ -48,7 +49,7 @@ const _prepareCss = () => {
 
         const node = mw.app.canvas.getDocument().createElement('style');
         node.textContent = css;
-        mw.app.canvas.getDocument().body.appendChild(node);
+        body.appendChild(node);
       
     }
 }
@@ -85,13 +86,9 @@ mw.app.isPreview = () => {
     return mw.cookie.get('isEditMode') === 'false';
 }
 
-addEventListener('load', () => {
-    if(!isEditMode) {
-       setTimeout(() =>  previewMode(), 10)
-    }
-})
+ 
 
-
+ 
 
 export const pagePreviewToggle = function () {
     isEditMode = !isEditMode;
