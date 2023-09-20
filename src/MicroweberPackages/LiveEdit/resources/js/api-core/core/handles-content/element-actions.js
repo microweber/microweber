@@ -75,6 +75,8 @@ export class ElementActions extends MicroweberBaseClass {
 
         this.proto.elementHandle.set(el);
         mw.app.registerChangedState(el);
+        mw.app.liveEdit.handles.get('element').set(null);
+        mw.app.liveEdit.handles.get('element').set(el);
     }
 
     removeLink(el) {
@@ -161,7 +163,9 @@ export class ElementActions extends MicroweberBaseClass {
         if (prev) {
             prev.before(el);
             this.proto.elementHandle.set(el);
-            mw.app.registerChangedState(el)
+            mw.app.registerChangedState(el);
+            mw.app.liveEdit.handles.get('element').set(null);
+        mw.app.liveEdit.handles.get('element').set(el);
         }
     }
 
@@ -171,7 +175,9 @@ export class ElementActions extends MicroweberBaseClass {
         if (next) {
             next.after(el);
             this.proto.elementHandle.set(el);
-            mw.app.registerChangedState(el)
+            mw.app.registerChangedState(el);
+            mw.app.liveEdit.handles.get('element').set(null);
+            mw.app.liveEdit.handles.get('element').set(el);
         }
     }
 
