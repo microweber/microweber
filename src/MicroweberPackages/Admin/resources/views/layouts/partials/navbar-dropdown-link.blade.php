@@ -46,10 +46,12 @@ foreach($item->getChildren() as $subItem) {
                     <a href="@if (!empty($subItem->getAttribute('route'))) {{route($subItem->getAttribute('route'))}} @else {{ $subItem->getUri() }} @endif" class="dropdown-item  @if($subItemIsActive) active @endif">
 
                         @if($subItem->hasChildren())
-                            <span class="add-new add-new-hamburger dropdown-menu-column-item--tree-open">
+                          <?php
+/*  <span class="add-new add-new-hamburger dropdown-menu-column-item--tree-open">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
 
-                           </span>
+                           </span>*/
+?>
                         @endif
 
                         <span>

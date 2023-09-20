@@ -18,7 +18,7 @@
         <div class="modules-list modules-list-defaultModules">
             <div class="mw-le-layouts-dialog-row">
 
-                <div v-if="layoutsList.categories && layoutsList.categories.length > 0" class="mw-le-layouts-dialog-col">
+                <div v-if="layoutsList && layoutsList.categories && layoutsList.categories.length > 0" class="mw-le-layouts-dialog-col">
                     <div class="modules-list-search-block input-icon">
                           <span class="input-icon-addon ms-3">
 
