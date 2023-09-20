@@ -28,11 +28,22 @@ if ($moduleTemplate != false) {
 }
 ?>
 
+
+<?php
+if (is_file($templateFile)) {
+    include($templateFile);
+} else {
+    print lnotif("No template found. Please choose template.");
+    return;
+}
+
+?>
+
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 <script src="//cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script>
     $(document).ready(function () {
-        const swiper = new Swiper('.swiper', {
+        new Swiper('#js-slider-<?php echo $params['id']; ?>', {
             loop: true,
             // If we need pagination
             pagination: {
@@ -47,11 +58,3 @@ if ($moduleTemplate != false) {
     });
 </script>
 
-<?php
-if (is_file($templateFile)) {
-    include($templateFile);
-} else {
-    print lnotif("No template found. Please choose template.");
-}
-
-?>
