@@ -52,7 +52,7 @@ export class ElementHandleContent {
                 icon: handleIcons.icon('duplicate'),
                 className: 'mw-handle-clone-button',
                 onTarget: function (target, selfNode) {
-                    
+
                     if (target.classList.contains('cloneable') || target.classList.contains('mw-col')) {
                         selfNode.classList.remove('mw-le-handle-menu-button-hidden');
                     } else {
@@ -127,7 +127,7 @@ export class ElementHandleContent {
                     if (isImage) {
                         selfVisible = true;
                     }
-     
+
                     selfBtn.classList[selfVisible ? 'remove' : 'add']('mw-le-handle-menu-button-hidden');
                 },
 
@@ -214,7 +214,7 @@ export class ElementHandleContent {
                     if(DomService.hasAnyOfClassesOnNodeOrParent(target, ['img-as-background'])) {
                         selfVisible = false;
                     }
-                    
+
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
@@ -235,7 +235,8 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = true;
 
-                    var isCloneable = (target.classList.contains('cloneable') && target.nodeName !== 'IMG')  || target.classList.contains('mw-col');
+                  //  var isCloneable = (target.classList.contains('cloneable') && target.nodeName !== 'IMG')  || target.classList.contains('mw-col');
+                    var isCloneable = (target.classList.contains('cloneable') && target.nodeName !== 'IMG');
                     if (isCloneable) {
                         selfVisible = false;
                     }
@@ -253,11 +254,15 @@ export class ElementHandleContent {
                     }
                     if (target.classList.contains('spacer')) {
                         selfVisible = false;
-                    }
+                    } //
 
                     var isCloneableWithImageAsFirstChild = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
+                    var isCloneableWithImageAsFirstChildAsBg = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.classList && firstChild.classList.contains('img-as-background');
 
                     if(isCloneableWithImageAsFirstChild){
+                        selfVisible = true;
+                    }
+                    if(isCloneableWithImageAsFirstChildAsBg){
                         selfVisible = true;
                     }
 
@@ -280,7 +285,7 @@ export class ElementHandleContent {
                     if (cantDrop) {
                         selfVisible = false;
                     }
- 
+
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
 
@@ -359,14 +364,14 @@ export class ElementHandleContent {
                     if(target.classList.contains('edit')) {
                         selfVisible = false;
                     }
- 
+
                     if(!DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
                         selfVisible = false;
-                    }  
+                    }
 
- 
+
                     if(selfVisible) {
-                         
+
                         selfBtn.classList.remove('mw-le-handle-menu-button-hidden');
                     } else {
                         selfBtn.classList.add('mw-le-handle-menu-button-hidden');
