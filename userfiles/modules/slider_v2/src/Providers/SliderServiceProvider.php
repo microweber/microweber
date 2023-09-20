@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Slider\Providers;
+namespace MicroweberPackages\Modules\SliderV2\Providers;
 
 use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
@@ -12,15 +12,15 @@ class SliderServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('microweber-module-slider');
-        $package->hasViews('microweber-module-slider');
+        $package->name('microweber-module-slider-v2');
+        $package->hasViews('microweber-module-slider-v2');
     }
 
     public function register(): void
     {
         parent::register();
-        Livewire::component('microweber-module-slider::settings', SliderSettingsComponent::class);
-        ModuleAdmin::registerSettings('slider', 'microweber-module-slider::settings');
+        Livewire::component('microweber-module-slider-v2::settings', SliderSettingsComponent::class);
+        ModuleAdmin::registerSettings('slider_v2', 'microweber-module-slider::settings');
 
     }
 

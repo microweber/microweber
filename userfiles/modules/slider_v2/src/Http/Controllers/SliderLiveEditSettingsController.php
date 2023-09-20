@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Slider\Http\Controllers;
+namespace MicroweberPackages\Modules\SliderV2\Http\Controllers;
 
 use Illuminate\Http\Request;
 
@@ -10,6 +10,6 @@ class SliderLiveEditSettingsController
     {
         $params = $request->all();
 
-        return view('microweber-module-slider::live-edit.settings',['moduleId' => $params['id']]);
+        return view('microweber-module-slider-v2::live-edit.settings',['moduleId' => $params['id']]);
     }
 }

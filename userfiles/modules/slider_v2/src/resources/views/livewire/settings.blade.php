@@ -108,7 +108,7 @@ showMainEditTab: 'mainSettings'
                     'grayscale' => 'Grayscale',
                     'hue-rotate' => 'Hue Rotate',
                     'invert' => 'Invert',
-                    'sepia' => 'Sepia', 
+                    'sepia' => 'Sepia',
                 ],
             ],
 
