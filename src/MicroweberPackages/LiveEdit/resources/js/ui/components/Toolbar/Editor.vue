@@ -170,7 +170,7 @@ export default {
                   });
 
                    const icon = await iconPicker.promise();
-                   
+
 
                 } else if(element.nodeName === 'IMG') {
 
@@ -190,7 +190,7 @@ export default {
 
 
 
-                } else if(element.style.backgroundImage) {
+                } else if(element.style && element.style.backgroundImage) {
                   var bg =  element.style.backgroundImage.trim().split('url(')[1];
 
                   if(bg) {

@@ -19,10 +19,16 @@ export class ElementActions extends MicroweberBaseClass {
             var firstChild = el.firstElementChild;
 
             var isCloneableWithImageAsFirstChild = el.classList && el.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
+            var isCloneableWithImageAsFirstChildAsBg = el.classList && el.classList.contains('cloneable') && firstChild && firstChild.classList && firstChild.classList.contains('img-as-background') &&firstChild.firstElementChild && firstChild.firstElementChild.nodeName === 'IMG'
 
             if (isCloneableWithImageAsFirstChild) {
                 // move the element to the image for edit
                 el = firstChild;
+            }
+
+            if (isCloneableWithImageAsFirstChildAsBg && firstChild.firstElementChild) {
+                // move the element to the image for edit
+                el = firstChild.firstElementChild;
             }
         }
 
