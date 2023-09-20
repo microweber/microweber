@@ -96,15 +96,19 @@ if ($module_template == false and isset($params['template'])) {
 if ($module_template != false) {
     $template_file = module_templates($config['module'], $module_template);
 } else {
-    $template_file = module_templates($config['module'], 'bxslider-skin-1');
+    $template_file = module_templates($config['module'], 'bxslider-skin-2.php');
 }
 
 include('options.php');
 
 if (is_file($template_file)) {
     include($template_file);
+} else {
+    print lnotif("No template found. Please choose template.");
+    return;
 }
 ?>
+
 
 <?php if ($engine == 'slickslider'): ?>
 <?php endif; ?>
