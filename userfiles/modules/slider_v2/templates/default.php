@@ -2,21 +2,27 @@
 
     <div class="swiper-wrapper">
         <?php foreach($slides as $slide): ?>
-        <div class="swiper-slide"
-             style="
-                background: url('<?php echo $slide['image'];?>');
-                 background-size:cover;
-            ">
+
+        <?php print getCssForSlide($slide); ?>
+
+
+        <div class="swiper-slide">
+
+            <div class="js-slide-image-<?php echo $slide['itemId']; ?>"
+                 style="
+                     background-image: url('<?php echo $slide['image'];?>');
+                 ">
+            </div>
 
             <div style="height:600px" class="d-flex flex-column justify-content-center align-items-center">
                <div>
-                   <h3 style="font-size:24px">
-                       <?php echo $slide['primaryText'];?>
+                   <h3 class="js-slide-title-<?php echo $slide['itemId']; ?>" style="font-size:32px">
+                       <?php echo $slide['title'];?>
                    </h3>
                </div>
                 <div>
-                    <p style="font-size:24px">
-                        <?php echo $slide['secondaryText'];?>
+                    <p class="js-slide-description-<?php echo $slide['itemId']; ?>" style="font-size:20px">
+                        <?php echo $slide['description'];?>
                     </p>
                 </div>
             </div>

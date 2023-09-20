@@ -1,30 +1,62 @@
 {
     "title": "Your story online",
-
     "settings": [
         {
             "url": "#",
-            "seemoreText": "Button",
-            "primaryText": "Your Title Slide 1",
-            "secondaryText": "A short description of this slide here.",
-            "images": "{SITE_URL}userfiles/modules/slider/default-content/gallery-1-2.jpg",
-            "itemId": "slider-content-default-1"
+            "buttonText": "Button",
+            "title": "Your Title Slide 1",
+            "description": "A short description of this slide here.",
+            "image": "{SITE_URL}userfiles/modules/slider_v2/default-content/gallery-1-2.jpg",
+            "itemId": "slider-content-default-1",
+            "titleColor": "#ffffff",
+            "descriptionColor": "#ffffff",
+            "buttonColor": "#ffffff",
+            "buttonTextColor": "#000000",
+            "titleFontSize": "40",
+            "descriptionFontSize": "20",
+            "buttonFontSize": "20",
+            "titleFontFamily": "Arial",
+            "descriptionFontFamily": "Arial",
+            "imageBackgroundColor": "#000000",
+            "imageBackgroundOpacity": "60"
         },
         {
             "url": "#",
-            "seemoreText": "Button",
-            "primaryText": "Your Title Slide 2",
-            "secondaryText": "A short description of this slide here.",
-            "images": "{SITE_URL}userfiles/modules/slider/default-content/gallery-1-3.jpg",
-            "itemId": "slider-content-default-2"
+            "buttonText": "Button",
+            "title": "Your Title Slide 2",
+            "description": "A short description of this slide here.",
+            "image": "{SITE_URL}userfiles/modules/slider_v2/default-content/gallery-1-3.jpg",
+            "itemId": "slider-content-default-2",
+            "titleColor": "#ffffff",
+            "descriptionColor": "#ffffff",
+            "buttonColor": "#ffffff",
+            "buttonTextColor": "#000000",
+            "titleFontSize": "40",
+            "descriptionFontSize": "20",
+            "buttonFontSize": "20",
+            "titleFontFamily": "Arial",
+            "descriptionFontFamily": "Arial",
+            "imageBackgroundColor": "#000000",
+            "imageBackgroundOpacity": "60"
         },
         {
             "url": "#",
-            "seemoreText": "Button",
-            "primaryText": "Your Title Slide 3",
-            "secondaryText": "A short description of this slide here.",
-            "images": "{SITE_URL}userfiles/modules/slider/default-content/gallery-1-4.jpg",
-            "itemId": "slider-content-default-3"
+            "buttonText": "Button",
+            "title": "Your Title Slide 3",
+            "description": "A short description of this slide here.",
+            "image": "{SITE_URL}userfiles/modules/slider_v2/default-content/gallery-1-4.jpg",
+            "itemId": "slider-content-default-3",
+            "titleColor": "#ffffff",
+            "descriptionColor": "#ffffff",
+            "buttonColor": "#ffffff",
+            "buttonTextColor": "#000000",
+            "titleFontSize": "40",
+            "descriptionFontSize": "20",
+            "buttonFontSize": "20",
+            "titleFontFamily": "Arial",
+            "descriptionFontFamily": "Arial",
+            "imageBackgroundColor": "#000000",
+            "imageBackgroundOpacity": "60"
         }
     ]
 }

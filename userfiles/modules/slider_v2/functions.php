@@ -32,10 +32,22 @@ function getCssForSlide($slide)
             color: '.$descriptionColor.' !important;
         }
         .js-slide-image-'.$slide['itemId'].' {
-            background-color: '.$imageBackgroundColor.' !important;
-            opacity: '.$imageBackgroundOpacity.' !important;
+            background-size:cover;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: -1;
+          '.getCssRulesByFilter($imageBackgroundFilter).'
+        }
+         .js-slide-image-'.$slide['itemId'].'::after {
+            content: "";
+            left: 0;
+            background: '.$imageBackgroundColor.';
+            opacity: 0.'.$imageBackgroundOpacity.';
+            width: 100%;
+            height: 100%;
+            position: absolute;
 
-            '.getCssRulesByFilter($imageBackgroundFilter).'
         }
     </style>';
 

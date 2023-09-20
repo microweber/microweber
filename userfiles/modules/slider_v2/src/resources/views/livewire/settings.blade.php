@@ -15,7 +15,7 @@ showMainEditTab: 'mainSettings'
             'settingsKey' => 'settings',
             'listColumns' => [
                 'image' => 'Image',
-                'primaryText' => 'Slide Heading',
+                'title' => 'Title',
             ],
         ],
         'schema' => [
@@ -29,7 +29,7 @@ showMainEditTab: 'mainSettings'
             [
                 'type' => 'text',
                 'label' => 'Slide Title',
-                'name' => 'primaryText',
+                'name' => 'title',
                 'placeholder' => 'Slide Title',
                 'help' => 'Slide Title',
             ],
@@ -44,7 +44,7 @@ showMainEditTab: 'mainSettings'
              [
                 'type' => 'textarea',
                 'label' => 'Slide Description',
-                'name' => 'secondaryText',
+                'name' => 'description',
                 'placeholder' => 'Slide Description',
                 'help' => 'Slide Description',
             ],
@@ -52,7 +52,7 @@ showMainEditTab: 'mainSettings'
             [
                 'type' => 'text',
                 'label' => 'Button text',
-                'name' => 'seemoreText',
+                'name' => 'buttonText',
                 'placeholder' => 'Button text',
                 'help' => 'Button text',
             ],
