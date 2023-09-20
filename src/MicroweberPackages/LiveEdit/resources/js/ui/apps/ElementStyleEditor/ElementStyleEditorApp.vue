@@ -2,7 +2,12 @@
 
   <div>
     aaaaaaaaa
-
+    <hr>
+    <ElementStyleEditorTypography></ElementStyleEditorTypography>
+<hr>
+    bbbbbb
+<hr>
+<hr>
     marginTop: {{ marginTop }}
 
     <input v-model="marginTop" placeholder="marginTop">
@@ -143,10 +148,12 @@
 </template>
 
 <script>
-
+import ElementStyleEditorTypography from './ElementStyleEditorTypography.vue';
 
 export default {
-  components: {},
+  components: {
+    ElementStyleEditorTypography
+  },
 
   data() {
     return {
@@ -366,7 +373,7 @@ export default {
         return;
       }
 
-      mw.log(1111111111111111)
+
       if (this.activeNode) {
         mw.top().app.dispatch('mw.elementStyleEditor.applyCssPropertyToNode', {
           node: this.activeNode,
