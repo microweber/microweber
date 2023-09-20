@@ -1,3 +1,4 @@
+@props(['url', 'lazyLoad' => false ])
 @php
     $rand = md5($url);
 @endphp
@@ -92,6 +93,11 @@
             var framewindow = iframe.contentWindow;
             framewindow.scrollTo(0, 0);
         },
+        afterLoad: function () {
+            mw.templatePreview<?php print $rand; ?>.set();
+            mw.$('.preview_frame_wrapper_{{$rand}} .mw-add-post-placeholder-loading').remove();
+            mw.$('.preview_frame_container_{{$rand}}').show();
+        },
         rend: function (url) {
 
             var holder = mw.$('.preview_frame_container_{{$rand}}');
@@ -106,14 +112,14 @@
             var frame = document.createElement('iframe');
             frame.src = url;
             frame.className = 'preview_frame_small';
+            frame.id = 'preview_frame_wrapper_{{$rand}}_iframe';
             frame.tabIndex = -1;
             frame.frameborder = 0;
             frame.onload = function (ev) {
-                mw.templatePreview<?php print $rand; ?>.set();
+                mw.templatePreview<?php print $rand; ?>.afterLoad();
                 this.contentWindow.document.documentElement.className = 'mw-template-document-preview';
 
-                mw.$('.preview_frame_wrapper_{{$rand}} .mw-add-post-placeholder-loading').remove();
-                mw.$('.preview_frame_container_{{$rand}}').show();
+
             };
             holder.empty();
             holder.append(frame);
@@ -138,6 +144,30 @@
             mw.$('.preview_frame_wrapper_{{$rand}} iframe')[0].contentWindow.scrollTo(0, 0);
         }
     }
-    mw.templatePreview{{$rand}}.rend('{!! $url !!}');
+   // mw.templatePreview{{$rand}}.rend('{!! $url !!}');
    // mw.templatePreview{{$rand}}.zoom();
+</script>
+<script>
+
+     @if(isset($lazyLoad) and $lazyLoad)
+     $(window).on('load scroll', function () {
+         if (mw.tools.inview(document.querySelector('.preview_frame_wrapper_{{$rand}}'))) {
+             if(!document.getElementById('preview_frame_wrapper_{{$rand}}_iframe')){
+                 mw.templatePreview{{$rand}}.rend('{!! $url !!}');
+             }
+         }
+     });
+
+
+
+
+     @else
+     $(window).on('load', function () {
+         if(!document.getElementById('preview_frame_wrapper_{{$rand}}_iframe')){
+             mw.templatePreview{{$rand}}.rend('{!! $url !!}');
+         }
+     });
+     @endif
+
+
 </script>
