@@ -1,7 +1,7 @@
 <?php
 $config = array();
 
-$config['name'] = "Slider";
+$config['name'] = "Slider V2";
 $config['author'] = "Microweber";
 $config['version'] = "0.2";
 $config['categories'] = "media";

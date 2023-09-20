@@ -14,6 +14,7 @@ showMainEditTab: 'mainSettings'
             'sortItems' => true,
             'settingsKey' => 'settings',
             'listColumns' => [
+                'image' => 'Image',
                 'primaryText' => 'Slide Heading',
             ],
         ],
@@ -21,7 +22,7 @@ showMainEditTab: 'mainSettings'
             [
                 'type' => 'image',
                 'label' => 'Image',
-                'name' => 'images',
+                'name' => 'image',
                 'placeholder' => 'Image',
                 'help' => 'Image',
             ],
