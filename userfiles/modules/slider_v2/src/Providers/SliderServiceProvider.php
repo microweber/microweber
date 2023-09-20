@@ -6,7 +6,7 @@ use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use MicroweberPackages\Modules\Slider\Http\Livewire\SliderSettingsComponent;
+use MicroweberPackages\Modules\SliderV2\Http\Livewire\SliderSettingsComponent;
 
 class SliderServiceProvider extends PackageServiceProvider
 {

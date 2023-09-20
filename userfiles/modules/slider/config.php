@@ -1,12 +1,12 @@
 <?php
 $config = array();
 
-$config['name'] = "Slider";
+$config['name'] = "Slider (Deprecated)";
 $config['author'] = "Microweber";
 $config['version'] = "0.2";
 $config['categories'] = "media";
 $config['no_cache'] = false;
-$config['ui'] = true;
+$config['ui'] = false;
 $config['ui_admin'] = false;
 $config['position'] = 18;
 

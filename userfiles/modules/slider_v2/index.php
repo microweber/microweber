@@ -3,7 +3,7 @@ $settings = get_module_option('settings', $params['id']);
 if (empty($settings)) {
 
     $newModuleDefaultSettingsApplied = new \MicroweberPackages\Module\ModuleDefaultSettingsApplier();
-    $newModuleDefaultSettingsApplied->moduleName = 'slider';
+    $newModuleDefaultSettingsApplied->moduleName = 'slider_v2';
     $newModuleDefaultSettingsApplied->modulePath = __DIR__;
     $newModuleDefaultSettingsApplied->moduleId = $params['id'];
 
@@ -16,3 +16,7 @@ if (empty($settings)) {
 }
 
 $moduleTemplate = get_module_option('template', $params['id']);
+?>
+
+
+new fresh slider
