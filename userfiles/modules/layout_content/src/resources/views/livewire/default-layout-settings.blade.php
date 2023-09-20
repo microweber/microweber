@@ -32,7 +32,7 @@
 
         <div class="mt-4 mb-3">
             <label class="live-edit-label">{{__('Description')}}</label>
-            <livewire:microweber-option::textarea optionKey="description" :optionGroup="$moduleId" :module="$moduleType"  />
+            <livewire:microweber-option::simple-text-editor optionKey="description" :optionGroup="$moduleId" :module="$moduleType"  />
         </div>
     </div>
 

@@ -37,6 +37,7 @@ use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\CheckboxOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\RangeSliderOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\SelectPageOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\SelectTagsOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\SimpleTextEditorOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextareaOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextOptionNew;
@@ -98,6 +99,7 @@ class ModuleServiceProvider extends ServiceProvider
         Livewire::component('microweber-option::text', TextOption::class);
         Livewire::component('microweber-option::numeric', NumericOption::class);
         Livewire::component('microweber-option::textarea', TextareaOption::class);
+        Livewire::component('microweber-option::simple-text-editor', SimpleTextEditorOption::class);
         Livewire::component('microweber-option::file-picker', FilePickerOption::class);
         Livewire::component('microweber-option::font-picker', FontPickerOption::class);
         Livewire::component('microweber-option::media-picker', MediaPickerOption::class);

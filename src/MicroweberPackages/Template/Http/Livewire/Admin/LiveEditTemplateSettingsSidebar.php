@@ -97,6 +97,8 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
     public function mount()
     {
 
+        $this->getSettings();
+
         $templateDir = template_dir();
 
         $styleSettingsFile = $templateDir . 'style-settings.json';

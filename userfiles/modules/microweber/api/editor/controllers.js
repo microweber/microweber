@@ -1058,12 +1058,48 @@ MWEditor.controllers = {
             });
             el.on('mousedown touchstart', function (e) {
 
+
+                var  removeFormatFromElementIfNotInSelection = function(element) {
+                    if (!element) {
+                        return;
+                    }
+
+                    // Remove any formatting attributes from the element
+                    element.removeAttribute('style');
+                    element.removeAttribute('class');
+                    var tagsToUnwrap = ['B', 'I', 'U','FONT','S','STRIKE','EM','STRONG'];
+                    // Recursively remove formatting from child elements
+                    for (var i = 0; i < element.children.length; i++) {
+                        removeFormatFromElementIfNotInSelection(element.children[i]);
+                    }
+
+                    function unwrapTagsOfElement(node) {
+                        if (tagsToUnwrap.includes(node.nodeName.toUpperCase())) {
+                            var parent = node.parentNode;
+                            while (node.firstChild) {
+                                parent.insertBefore(node.firstChild, node);
+                            }
+                            parent.removeChild(node);
+                        }
+                    }
+
+                    // Iterate through child nodes and unwrap specified tags
+                    var childNodes = element.childNodes;
+                    for (var i = 0; i < childNodes.length; i++) {
+                        var childNode = childNodes[i];
+                        if (childNode.nodeType === Node.ELEMENT_NODE) {
+                            unwrapTagsOfElement(childNode);
+                            removeFormatFromElementIfNotInSelection(childNode, tagsToUnwrap);
+                        }
+                    }
+                }
+
                 var sel = scope.getSelection();
                 if(sel.isCollapsed) {
                     var el = scope.api.elementNode(sel.focusNode);
-                    if(el) {
-
-
+                    var actionTarget = mw.tools.firstBlockLevel(el);
+                    if(actionTarget) {
+                        removeFormatFromElementIfNotInSelection(actionTarget);
                      }
                 }
 
@@ -1077,6 +1113,7 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
+
     unlink: function (scope, api, rootScope) {
         this.render = function () {
             var el = MWEditor.core.button({

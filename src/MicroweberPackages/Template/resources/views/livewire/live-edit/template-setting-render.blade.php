@@ -15,7 +15,6 @@
         @if(isset($setting['fieldType']))
 
             @if ($setting['fieldType'] == 'styleEditor')
-                <hr />
                 <a href="#"
                    x-on:click="() => {
                         showStyleSettings = 'styleEditor';
