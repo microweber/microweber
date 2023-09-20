@@ -80,9 +80,15 @@ class CategoryRepositoryApi extends BaseRepository
         }
 
         if (!empty($ids) && !empty($moveToParentIds)) {
-            foreach($moveToParentIds as $moveToParentId) {
+            foreach ($moveToParentIds as $moveToParentId) {
+                if(in_array($moveToParentId, $ids)){
+                    // cannot move to self
+                    continue;
+                }
                 $this->model->whereIn('id', $ids)->update(['parent_id' => $moveToParentId]);
             }
+        } else if (!empty($ids) && empty($moveToParentIds)) {
+            $this->model->whereIn('id', $ids)->update(['parent_id' => null]);
         }
 
     }
