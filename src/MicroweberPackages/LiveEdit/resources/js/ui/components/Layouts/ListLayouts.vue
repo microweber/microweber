@@ -187,15 +187,23 @@ export default {
             this.layoutsListTypePreview = type;
         },
         insertLayout(template, target) {
+            if(this.isInserting) {
+              return;
+            }
             if(!target) {
                 target = this.$data.target
             }
-  
- 
+
+
+           this.showModal = false;
+
+
             mw.app.editor.insertLayout({'template':template}, this.layoutInsertLocation, target);
 
-            this.showModal = false;
             this.$data.target = undefined;
+            setTimeout(() => {
+                this.isInserting = false;
+            }, 300);
         },
         getLayoutsListFromService() {
             return mw.app.layouts.list();
@@ -206,7 +214,7 @@ export default {
         },
         refreshLayouts() {
             this.layoutsListLoaded = false;
-            setTimeout(() => { 
+            setTimeout(() => {
                 this.layoutsListLoaded = true;
                 this.layoutsListFiltered = this.layoutsList.layouts;
             },100);
@@ -252,7 +260,7 @@ export default {
                 }
             });
             mw.app.editor.on('insertLayoutRequestOnTop',function(element){
-                
+
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'top';
                 setTimeout(function() {
@@ -266,22 +274,22 @@ export default {
                 instance.layoutInsertLocation = 'append';
 
 
-                
+
                 setTimeout(function() {
                     instance.refreshLayouts();
                 }, 500);
                 mw.app.registerChangedState(element);
-                
+
             })
             mw.app.editor.on('insertLayoutRequestOnBottom',function(element){
-                
+
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'bottom';
                 setTimeout(function() {
                     instance.refreshLayouts();
                 }, 500);
                 mw.app.registerChangedState(element);
-                
+
             });
         });
 
@@ -319,6 +327,7 @@ export default {
             layoutsListLoaded: false,
             layoutInsertLocation: 'top',
             showModal: false,
+            isInserting: false,
             target: undefined,
         }
     }
