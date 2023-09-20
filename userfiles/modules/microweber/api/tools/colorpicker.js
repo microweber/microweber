@@ -103,7 +103,9 @@
 
             sett.attachTo = $el[0];
 
-            frame = AColorPicker.createPicker(sett);
+ 
+
+            frame = sett.attachTo.ownerDocument.defaultView.AColorPicker.createPicker(sett); // AColorPicker works only with local window
             frame.onchange = function (data) {
 
                 if (proto.settings.onchange) {
