@@ -19,8 +19,6 @@
         <div class="form-group {{ $hidden }}">
             <label class="live-edit-label" for="{{ $field['name'] }}">{{ $field['label'] }}</label>
 
-
-
             @if($field['type'] == 'text' )
                 <x-microweber-ui::input placeholder="{{ $placeholder }}" name="{{ $field['name'] }}"  wire:model.defer="itemState.{{ $field['name'] }}" />
             @elseif($field['type'] == 'textarea' )
@@ -32,11 +30,10 @@
             @elseif($field['type'] == 'file' )
                 <x-microweber-ui::file-picker wire:model.defer="itemState.{{ $field['name'] }}"/>
             @elseif($field['type'] == 'select' )
-                <x-microweber-ui::select wire:model.defer="itemState.{{ $field['name'] }}">
-                    @foreach ($field['options'] as $option)
-                        <option value="{{ $option['value'] }}">{{ $option['label'] }}</option>
-                    @endforeach
-                </x-microweber-ui::select>
+                @php
+                    $fieldOptions = ($field['options'] ? $field['options'] : []);
+                @endphp
+                <x-microweber-ui::select :options="$fieldOptions" wire:model.defer="itemState.{{ $field['name'] }}" />
             @elseif($field['type'] == 'checkbox' )
                 <x-microweber-ui::checkbox wire:model.defer="itemState.{{ $field['name'] }}"/>
             @elseif($field['type'] == 'radio' )
@@ -59,7 +56,6 @@
                 <x-microweber-ui::alert type="info"> {{ $field['help'] }} </x-microweber-ui::alert>
             @else
                 <x-microweber-ui::input placeholder="{{ $placeholder }}" wire:model.defer="itemState.{{ $field['name'] }}"/>
-
             @endif
 
             @error($field['name']) <span class="text-danger">{{ $message }}</span> @enderror
