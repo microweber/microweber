@@ -48,6 +48,18 @@
 
     window.addEventListener('load', function () {
         mw.top().app.fontManager.addFonts({!! json_encode(\MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts()) !!});
+
+        const scrollContainer = document.querySelector("#live-edit-frame-holder");
+        const frame = scrollContainer.querySelector("iframe");
+
+        scrollContainer.addEventListener("wheel", (e) => {
+            if(e.target === scrollContainer) {
+                e.preventDefault();
+                const win = mw.top().app.canvas.getWindow();
+                win.scrollTo(0, (win.scrollY + e.deltaY) + (e.deltaY < 0 ? -10 : 10));                
+            }
+
+        });
     });
 
     @php

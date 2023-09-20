@@ -38,13 +38,13 @@ description: default
             ?>
             <div class="col-md-<?php echo $colMdCalculate; ?> text-<?php echo $align; ?>">
                 <?php if ($contentImage) { ?>
-                    <img src="<?php echo thumbnail($contentImage, 600, 400, true); ?>" />
+                    <img src="<?php echo thumbnail($contentImage, 1000, 1000, true); ?>" />
                 <?php } else { ?>
                     <img src="<?php echo modules_url() ?>layout_content/templates/default-image.png" />
                 <?php } ?>
                 <div class="mt-2">
-                    <h4><?php echo $contentTitle; ?></h4>
-                    <p><?php echo $contentDescription; ?></p>
+                    <h3><?php echo $contentTitle; ?></h3>
+                    <p style="text-align: justify; text-justify: inter-word;"><?php echo substr($contentDescription, 0, 145) . "..."; ?></p>
                 </div>
                 <?php if (!empty($contentButtonText)) : ?>
                 <a href="<?php echo $contentButtonLink; ?>" class="btn btn-primary" target="_blank">
