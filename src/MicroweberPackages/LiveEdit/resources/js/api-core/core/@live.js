@@ -573,15 +573,21 @@ export class LiveEdit {
 
 
             } else if(!target.classList.contains('cloneable')) {
-                const hasCloneable = DomService.firstParentOrCurrentWithClass(target.parentElement, 'cloneable');
-                if(hasCloneable) {
-                    if((target.getBoundingClientRect().top - hasCloneable.getBoundingClientRect().top) < 5) {
-                        target = hasCloneable;
-                        hasCloneable.classList.add('element')
 
-                    }
-
+                var newTarget = mw.app.liveEdit.elementHandleContent.settingsTarget.getSettingsTarget(target);
+                if (target !== newTarget) {
+                    target = newTarget;
                 }
+
+                // const hasCloneable = DomService.firstParentOrCurrentWithClass(target.parentElement, 'cloneable');
+                // if(hasCloneable) {
+                //     if((target.getBoundingClientRect().top - hasCloneable.getBoundingClientRect().top) < 5) {
+                //         target = hasCloneable;
+                //         hasCloneable.classList.add('element')
+                //
+                //     }
+                //
+                // }
             }
         }
 
@@ -845,9 +851,9 @@ export class LiveEdit {
 
 
 
-            const selected = mw.app.liveEdit.elementHandle.getTarget();
-            const module = mw.app.liveEdit.moduleHandle.getTarget();
-            const layout = mw.app.liveEdit.layoutHandle.getTarget();
+            var selected = mw.app.liveEdit.elementHandle.getTarget();
+            var module = mw.app.liveEdit.moduleHandle.getTarget();
+            var layout = mw.app.liveEdit.layoutHandle.getTarget();
 
 
             var tagName = e.target.tagName.toLowerCase();
@@ -869,13 +875,11 @@ export class LiveEdit {
                 return false
             }
 
-            //
-            // var newTarget = mw.app.liveEdit.elementHandleContent.settingsTarget.getSettingsTarget(selected);
-            // if(selected !== newTarget) {
-            //     mw.log(11111111)
-            //     mw.log(newTarget)
-            //     mw.log(selected)
-            // }
+
+            var newTarget = mw.app.liveEdit.elementHandleContent.settingsTarget.getSettingsTarget(selected);
+            if (selected !== newTarget) {
+                var selected = newTarget;
+            }
 
             if (selected && !selected.contains(_dblclicktarget) ) {
 
