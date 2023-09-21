@@ -25,6 +25,15 @@ class FileManagerApiController extends Controller {
             $keyword = $request->get('keyword');
         }
 
+        // parameter for filetypes , ex ?filetypes=images
+        $filetypes = false;
+        $areAllowedExtensions = false;
+        if (!empty($request->get('filetypes'))) {
+            $filetypes = $request->get('filetypes');
+            $files_utils = new \MicroweberPackages\Utils\System\Files();
+            $areAllowedExtensions = $files_utils->get_allowed_files_extensions_for_upload($filetypes);
+         }
+
         $limit = intval($request->get('limit', false));
         $order = $request->get('order', 'asc');
         $orderBy = $request->get('orderBy', 'filemtime');
@@ -45,6 +54,10 @@ class FileManagerApiController extends Controller {
 
         if (!empty($keyword)) {
             $fileFilter['search'] = $keyword;
+        }
+
+        if (!empty($areAllowedExtensions)) {
+            $fileFilter['extensions'] = $areAllowedExtensions;
         }
 
         $fileFilter['sort_order'] = $order;

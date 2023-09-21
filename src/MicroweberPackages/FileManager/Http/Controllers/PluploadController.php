@@ -451,7 +451,7 @@ class PluploadController extends Controller
                     if ($_FILES['file']['error'] === UPLOAD_ERR_OK) {
                         //uploading successfully done
                     } else {
-                        throw new UploadException($_FILES['file']['error']);
+                        throw new \Exception($_FILES['file']['error']);
                     }
                 }
 
