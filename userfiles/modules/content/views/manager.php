@@ -50,6 +50,10 @@ $params_module = $params;
                         mw.$(".manage-post-item-" + fade).fadeOut();
                     });
                 });
+
+                mw.reload_module_everywhere('posts');
+                mw.reload_module_everywhere('content');
+                mw.reload_module_everywhere('shop/products');
             });
         });
     }
@@ -139,9 +143,9 @@ $params_module = $params;
                     });
                     $.post("<?php print api_link('content/reorder'); ?>", obj, function () {
                         mw.reload_module('#mw_page_layout_preview');
-                        mw.reload_module_parent('posts');
-                        mw.reload_module_parent('content');
-                        mw.reload_module_parent('shop/products');
+                        mw.reload_module_everywhere('posts');
+                        mw.reload_module_everywhere('content');
+                        mw.reload_module_everywhere('shop/products');
                         mw.notification.success('<?php _ejs("All changes are saved"); ?>.');
                     });
                 },
