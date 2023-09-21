@@ -150,6 +150,7 @@ class Files
 
         if (isset($params['extensions']) and is_string($params['extensions'])) {
             $filter_extensions = explode(',', $params['extensions']);
+            $filter_extensions = array_trim($filter_extensions);
         }
 
         $hide_files = false;
@@ -219,10 +220,13 @@ class Files
                     $skip = false;
                     $df = normalize_path($file, false);
                     $file_ext = get_file_extension($df);
+                    $file_ext = strtolower($file_ext);
 
                     if ($filter_extensions and !empty($filter_extensions)) {
                         $skip = true;
                         foreach ($filter_extensions as $filter_extension) {
+                            $filter_extension = trim($filter_extension);
+                            $filter_extension = strtolower($filter_extension);
                             if ($filter_extension == $file_ext) {
                                 $skip = false;
                             }
