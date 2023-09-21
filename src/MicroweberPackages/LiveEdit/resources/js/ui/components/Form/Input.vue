@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
-    modelValue: String
+    modelValue: String,
+    label: String,
 })
 
 // defines what events our component emits

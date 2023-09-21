@@ -1,31 +1,11 @@
 <template>
 
   <div>
-    ElementStyleEditorTypography
-    <hr>
     <ElementStyleEditorTypography></ElementStyleEditorTypography>
-    <hr>
-    ElementStyleEditorMargin
-    <hr>
     <ElementStyleEditorMargin></ElementStyleEditorMargin>
-
-    <hr>
-    ElementStyleEditorPadding
-    <hr>
     <ElementStyleEditorPadding></ElementStyleEditorPadding>
-    <hr>
-    <hr>
-    ElementStyleEditorBackground
-    <hr>
     <ElementStyleEditorBackground></ElementStyleEditorBackground>
-    <hr>
-    <hr>
-    ElementStyleEditorBorder
-    <hr>
     <ElementStyleEditorBorder></ElementStyleEditorBorder>
-    <hr>
-
-
   </div>
 
 </template>

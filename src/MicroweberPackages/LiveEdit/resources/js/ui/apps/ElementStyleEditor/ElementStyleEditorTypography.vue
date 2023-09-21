@@ -1,30 +1,19 @@
 <template>
-    <div>
-
-        <div>
-            fontSize: {{fontSize}} <br />
-            fontWeight: {{fontWeight}} <br />
-            fontStyle: {{fontStyle}} <br />
-            lineHeight: {{lineHeight}} <br />
-            fontFamily: {{fontFamily}} <br />
-            color: {{color}} <br />
-            textAlign: {{textAlign}} <br />
-            textDecorationIsBold: {{textDecorationIsBold}} <br />
-            textDecorationIsItalic: {{textDecorationIsItalic}} <br />
-            textDecorationIsUnderline: {{textDecorationIsUnderline}} <br />
-            textDecorationIsStrikethrough: {{textDecorationIsStrikethrough}} <br />
-        </div>
-
+    <div class="d-flex flex-column gap-3">
        <div>
            <Input v-model="fontSize" :label="'Font Size'"/>
        </div>
 
         <div>
-            <Input v-model="fontWeight" :label="'Font Weight'"/>
+            <Dropdown v-model="fontWeight" :options='["normal","bold","bolder","lighter","100","200","300","400","500","600","700","800","900"]' :label="'Font Weight'"/>
         </div>
 
         <div>
-            <Input v-model="fontStyle" :label="'Font Style'"/>
+            <Dropdown v-model="textTransform" :options='["none","capitalize","uppercase","lowercase"]' :label="'Text Transform'"/>
+        </div>
+
+        <div>
+            <Dropdown v-model="fontStyle" :options='["normal", "italic", "oblique"]' :label="'Font Style'"/>
         </div>
 
         <div>
@@ -32,20 +21,22 @@
         </div>
 
         <div>
-            <Input v-model="fontFamily" :label="'Font Family'"/>
+            <Dropdown v-model="fontFamily" :label="'Font Family'"/>
         </div>
 
         <div>
             <Input v-model="color" :label="'Font Color'"/>
         </div>
+
     </div>
 </template>
 
 <script>
 import Input from '../../components/Form/Input.vue';
+import Dropdown from '../../components/Form/Dropdown.vue';
 
 export default {
-    components: {Input},
+    components: {Dropdown, Input},
     data() {
         return {
             'activeNode': null,
@@ -57,6 +48,7 @@ export default {
             'lineHeight': null,
             'fontFamily': null,
             'color': null,
+            'textTransform': null,
             'textDecorationIsBold': null,
             'textDecorationIsItalic': null,
             'textDecorationIsUnderline': null,
@@ -72,6 +64,7 @@ export default {
             this.lineHeight = null;
             this.fontFamily = null;
             this.color = null;
+            this.textTransform = null;
             this.textDecorationIsBold = null;
             this.textDecorationIsItalic = null;
             this.textDecorationIsUnderline = null;
@@ -113,7 +106,6 @@ export default {
 
         populateCssFont: function (css) {
             if (!css || !css.get) return;
-
             var font = css.get.font();
 
             this.fontSize = font.size;
@@ -122,16 +114,12 @@ export default {
             this.lineHeight = font.lineHeight;
             this.fontFamily = font.family;
             this.color = font.color;
-
         },
-
 
         applyPropertyToActiveNode: function (prop, val) {
             if (!this.isReady) {
                 return;
             }
-
-
             if (this.activeNode) {
                 mw.top().app.dispatch('mw.elementStyleEditor.applyCssPropertyToNode', {
                     node: this.activeNode,
@@ -142,17 +130,12 @@ export default {
         },
 
     },
+
     mounted() {
-
         mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
-
             this.populateStyleEditor(element)
-
         });
-
-
     },
-
 
     watch: {
         // Font-related property watchers
@@ -173,6 +156,9 @@ export default {
         },
         color: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('color', newValue);
+        },
+        textTransform: function (newValue, oldValue) {
+            this.applyPropertyToActiveNode('textTransform', newValue);
         },
     },
 
