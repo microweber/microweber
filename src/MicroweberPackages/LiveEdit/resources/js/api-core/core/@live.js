@@ -396,7 +396,6 @@ export class LiveEdit {
 
 
 
-
         this.activeNode = target;
 
 
@@ -904,14 +903,16 @@ export class LiveEdit {
             const _canSelect = !this.paused || _canSelectDuringPause;
 
 
+          //  var targetIsImageElement = liveEditHelpers.targetIsImageElement(target);
+
+
             if (_canSelect && !this.handles.targetIsOrInsideHandle(e.target ) ) {
+
+                var target = e.target;
 
                 _eventsHandle(e)
             } else {
-
                 if (this.handles.targetIsOrInsideHandle(e.target ) || this.handles.targetIsSelected(e.target, this.interactionHandle )) {
-
-
                     // this.handles.hide();
                    //  this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
                     return

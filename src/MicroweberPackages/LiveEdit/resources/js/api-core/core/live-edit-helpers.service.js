@@ -1,6 +1,23 @@
 import { DomService } from "./classes/dom";
 
 export default {
+
+    targetIsImageElement: target => {
+        if(!target) {
+            return false;
+        }
+        if(!target.classList) {
+            return false;
+        }
+        if(target.nodeName === 'IMG') {
+            //has class .element
+            if(target.classList.contains('element')) {
+                return true;
+            }
+
+        }
+    },
+
     targetIsIcon: target => {
 
         if(!target) {
