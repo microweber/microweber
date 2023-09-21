@@ -191,6 +191,8 @@
         this.settings = mw.object.extend({}, defaults, options);
         if(this.settings.accept) {
             this.settings.accept = normalizeAccept(this.settings.accept);
+        } else if(this.settings.type) {
+            this.settings.accept = normalizeAccept(this.settings.type);
         }
 
         var table, tableHeader, tableBody;
