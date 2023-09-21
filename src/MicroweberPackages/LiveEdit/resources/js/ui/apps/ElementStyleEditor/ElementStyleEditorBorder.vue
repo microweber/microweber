@@ -93,7 +93,7 @@
     <br>
     <Input v-model="borderColor" label="Border Color" />
     <br>
-    <Dropdown v-model="borderStyle" :options="borderStyles" label="Border Style" />
+    <Dropdown v-model="borderStyle" :options="borderStylesOptions" label="Border Style" />
     <br> 
   </div>
   
@@ -113,7 +113,7 @@ export default {
       'activeNode': null,
       'isReady': false,
 
-      'borderStyles': [
+      'borderStylesOptions': [
           { "key": "none", "value": "None" },
           { "key": "solid", "value": "Solid" },
           { "key": "dotted", "value": "Dotted" },
