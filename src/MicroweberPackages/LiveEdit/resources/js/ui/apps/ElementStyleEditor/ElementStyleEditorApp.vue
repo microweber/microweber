@@ -2,8 +2,7 @@
 
   <div>
     <ElementStyleEditorTypography></ElementStyleEditorTypography>
-    <ElementStyleEditorMargin></ElementStyleEditorMargin>
-    <ElementStyleEditorPadding></ElementStyleEditorPadding>
+    <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
     <ElementStyleEditorBackground></ElementStyleEditorBackground>
     <ElementStyleEditorBorder></ElementStyleEditorBorder>
   </div>
@@ -12,18 +11,16 @@
 
 <script>
 import ElementStyleEditorTypography from './ElementStyleEditorTypography.vue';
-import ElementStyleEditorMargin from './ElementStyleEditorMargin.vue';
-import ElementStyleEditorPadding from './ElementStyleEditorPadding.vue';
+import ElementStyleEditorSpacing from './ElementStyleEditorSpacing.vue';
 import ElementStyleEditorBackground from './ElementStyleEditorBackground.vue';
 import ElementStyleEditorBorder from './ElementStyleEditorBorder.vue';
 
 export default {
   components: {
     ElementStyleEditorTypography,
-    ElementStyleEditorPadding,
+    ElementStyleEditorSpacing,
     ElementStyleEditorBackground,
     ElementStyleEditorBorder,
-    ElementStyleEditorMargin
   },
 
   data() {
