@@ -118,7 +118,7 @@ mw.filePicker = function (options) {
             scope.uploader = mw.upload({
                 element: $wrap[0],
                 multiple: scope.settings.multiple,
-                accept: scope.settings.accept,
+                type: scope.settings.type,
                 on: {
                     progress: function (prg, obj, b) {
                         scope.uploaderHolder.find('.mw-ui-progress-bar').stop().animate({width: prg.percent + '%'}, 'fast');

@@ -9,7 +9,7 @@
     <br>
 
     <div class="bg-tab">
-        
+
         <div id="bg-image-picker">
             <div class="dropzone mw-dropzone ">
                 <div class="d-flex flex-column align-items-center gap-3">
@@ -158,7 +158,7 @@
             bgImagePicker.addEventListener('click', function () {
                 var dialog;
                 var picker = new mw.filePicker({
-                    type: 'videos',
+                    type: 'images',
                     label: false,
                     autoSelect: false,
                     footer: true,
