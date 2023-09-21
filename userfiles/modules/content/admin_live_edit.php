@@ -124,9 +124,7 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 
     resizeModal = function (w, h) {
 
-        setTimeout(function() {
-            console.log(thismodal);
-        },300);
+
 
         mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
 
@@ -216,9 +214,9 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
                 typeof callback === 'function' ? callback.call(data) : '';
                 $('.manage-post-item-' + a).fadeOut();
                 mw.notification.warning("<?php _ejs('Content was sent to Trash'); ?>.");
-                mw.reload_module_parent('posts')
-                mw.reload_module_parent('shop/products')
-                mw.reload_module_parent('content')
+                mw.reload_module_everywhere('posts')
+                mw.reload_module_everywhere('shop/products')
+                mw.reload_module_everywhere('content')
             });
         });
     }

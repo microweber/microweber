@@ -32,8 +32,8 @@ if($background_color != ''){
     $style_attributes_overlay[] = 'background-color: '.$background_color;
 }
 $video_url = '';
-if(isset($params['data-video-url'])){
-    $background_color = $params['data-video-url'];
+if(isset($params['data-background-video'])){
+    $background_color = $params['data-background-video'];
 }
 $background_video_option = get_option('background_video', $params['id']);
 if($background_video_option){
