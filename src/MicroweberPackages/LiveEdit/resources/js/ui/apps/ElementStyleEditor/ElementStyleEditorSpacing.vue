@@ -1,4 +1,3 @@
-<template>
 
 
 <style>
@@ -83,6 +82,8 @@
         transform: translateY(-50%);
     }
   </style>
+
+<template>
 
 <div class="mw-accordion-content mw-ui-box-content active" style="">
     <div class="mw-element-spacing-editor">
@@ -199,30 +200,30 @@ export default {
   watch: {
     // Margin-related property watchers
     marginTop: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('marginTop', newValue);
+      this.applyPropertyToActiveNode('marginTop', newValue + 'px');
     },
     marginRight: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('marginRight', newValue);
+      this.applyPropertyToActiveNode('marginRight', newValue + 'px');
     },
     marginBottom: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('marginBottom', newValue);
+      this.applyPropertyToActiveNode('marginBottom', newValue + 'px');
     },
     marginLeft: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('marginLeft', newValue);
+      this.applyPropertyToActiveNode('marginLeft', newValue + 'px');
     },
 
     // Padding-related property watchers
      paddingTop: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('paddingTop', newValue);
+      this.applyPropertyToActiveNode('paddingTop', newValue + 'px');
     },
     paddingRight: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('paddingRight', newValue);
+      this.applyPropertyToActiveNode('paddingRight', newValue + 'px');
     },
     paddingBottom: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('paddingBottom', newValue);
+      this.applyPropertyToActiveNode('paddingBottom', newValue + 'px');
     },
     paddingLeft: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('paddingLeft', newValue);
+      this.applyPropertyToActiveNode('paddingLeft', newValue + 'px');
     },
 
   },
@@ -230,5 +231,3 @@ export default {
 
 }
 </script>
-
-

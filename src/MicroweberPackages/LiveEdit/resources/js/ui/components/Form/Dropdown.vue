@@ -17,7 +17,7 @@ defineEmits(['update:modelValue'])
             <label class="form-control-live-edit-label-wrapper">
                 <select class="form-select form-control-live-edit-input"
                         @input="$emit('update:modelValue', $event.target.value)">
-                    <option v-for="option in options" :value="option">{{ option }}</option>
+                    <option v-for="option in options" :value="option.key">{{ option.value }}</option>
                 </select>
             </label>
         </div>
