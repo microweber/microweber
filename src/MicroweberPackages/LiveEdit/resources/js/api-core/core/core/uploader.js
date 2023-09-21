@@ -3,7 +3,7 @@
     export const Uploader = function( options ) {
         //var upload = function( url, data, callback, type ) {
         options = options || {};
-        options.accept = options.accept || options.filetypes;
+        options.accept = options.accept || options.filetypes || options.type;
         var defaults = {
             multiple: false,
             progress: null,
