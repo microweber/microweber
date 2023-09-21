@@ -574,20 +574,20 @@ export class LiveEdit {
 
             } else if(!target.classList.contains('cloneable')) {
 
-                var newTarget = mw.app.liveEdit.elementHandleContent.settingsTarget.getSettingsTarget(target);
-                if (target !== newTarget) {
-                    target = newTarget;
-                }
-
-                // const hasCloneable = DomService.firstParentOrCurrentWithClass(target.parentElement, 'cloneable');
-                // if(hasCloneable) {
-                //     if((target.getBoundingClientRect().top - hasCloneable.getBoundingClientRect().top) < 5) {
-                //         target = hasCloneable;
-                //         hasCloneable.classList.add('element')
-                //
-                //     }
-                //
+                // var newTarget = mw.app.liveEdit.elementHandleContent.settingsTarget.getSettingsTarget(target);
+                // if (target !== newTarget) {
+                //     target = newTarget;
                 // }
+
+                const hasCloneable = DomService.firstParentOrCurrentWithClass(target.parentElement, 'cloneable');
+                if(hasCloneable) {
+                    if((target.getBoundingClientRect().top - hasCloneable.getBoundingClientRect().top) < 5) {
+                        target = hasCloneable;
+                     //   hasCloneable.classList.add('element')
+
+                    }
+
+                }
             }
         }
 

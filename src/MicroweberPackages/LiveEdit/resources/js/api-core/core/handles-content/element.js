@@ -291,9 +291,9 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = true;
 
-                    const cantDrop = !DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['allow-drop', 'nodrop']);
+                    var canDrop = this.settingsTarget.canDropInTarget(target);
 
-                    if (cantDrop) {
+                    if (!canDrop) {
                         selfVisible = false;
                     }
 

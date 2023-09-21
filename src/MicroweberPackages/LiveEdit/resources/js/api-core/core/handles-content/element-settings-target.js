@@ -1,4 +1,5 @@
 import MicroweberBaseClass from "../../services/containers/base-class";
+import {DomService} from "../classes/dom";
 
 export class ElementSettingsTarget extends MicroweberBaseClass {
     proto = null;
@@ -30,5 +31,27 @@ export class ElementSettingsTarget extends MicroweberBaseClass {
 
         return target;
     }
+
+
+    canDropInTarget(target) {
+        var cantDrop = DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['allow-drop', 'nodrop']);
+        var cantDropInNoTyping = DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['no-typing']);
+
+
+        if(cantDrop){
+            return false;
+        }
+
+        if(cantDropInNoTyping){
+            return false;
+        }
+
+
+
+        return true;
+    }
+
+
+
 
 }
