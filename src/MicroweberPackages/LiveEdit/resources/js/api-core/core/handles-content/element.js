@@ -3,6 +3,7 @@ import {ElementManager} from "../classes/element.js";
 import {HandleIcons} from "../handle-icons";
 import {ElementActions} from "./element-actions";
 import {DomService} from "../classes/dom";
+import {ElementSettingsTarget} from "./element-settings-target";
 
 
 export class ElementHandleContent {
@@ -17,6 +18,7 @@ export class ElementHandleContent {
 
         this.tools = DomService;
         this.rootScope = rootScope;
+        this.settingsTarget = new ElementSettingsTarget(this.rootScope);
 
 
         this.initMenu();
@@ -240,7 +242,14 @@ export class ElementHandleContent {
                     if (isCloneable) {
                         selfVisible = false;
                     }
-                    var firstChild = target.firstElementChild;
+                //    var firstChild = target.firstElementChild;
+
+                    //can be targeted
+                    var newTarget = this.settingsTarget.getSettingsTarget(target);
+                    if(newTarget !== target) {
+                        selfVisible = true;
+                    }
+
 
                     if (target.classList.contains('edit')) {
                         if(!!target.innerHTML.trim()) {
@@ -254,17 +263,19 @@ export class ElementHandleContent {
                     }
                     if (target.classList.contains('spacer')) {
                         selfVisible = false;
-                    } //
-
-                    var isCloneableWithImageAsFirstChild = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
-                    var isCloneableWithImageAsFirstChildAsBg = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.classList && firstChild.classList.contains('img-as-background');
-
-                    if(isCloneableWithImageAsFirstChild){
-                        selfVisible = true;
                     }
-                    if(isCloneableWithImageAsFirstChildAsBg){
-                        selfVisible = true;
-                    }
+
+
+
+                    // var isCloneableWithImageAsFirstChild = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
+                    // var isCloneableWithImageAsFirstChildAsBg = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.classList && firstChild.classList.contains('img-as-background');
+                    //
+                    // if(isCloneableWithImageAsFirstChild){
+                    //     selfVisible = true;
+                    // }
+                    // if(isCloneableWithImageAsFirstChildAsBg){
+                    //     selfVisible = true;
+                    // }
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },

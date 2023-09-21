@@ -520,7 +520,7 @@ export class LiveEdit {
                 }
             }
 
-         
+
 
 
 
@@ -869,9 +869,13 @@ export class LiveEdit {
                 return false
             }
 
-
-
-
+            //
+            // var newTarget = mw.app.liveEdit.elementHandleContent.settingsTarget.getSettingsTarget(selected);
+            // if(selected !== newTarget) {
+            //     mw.log(11111111)
+            //     mw.log(newTarget)
+            //     mw.log(selected)
+            // }
 
             if (selected && !selected.contains(_dblclicktarget) ) {
 
@@ -965,10 +969,10 @@ export class LiveEdit {
             can = DomService.hasAnyOfClasses(el, exceptions);
         }
 
- 
-         
 
-        
+
+
+
 
         return can;
     }
