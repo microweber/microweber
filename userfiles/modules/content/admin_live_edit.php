@@ -124,9 +124,7 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 
     resizeModal = function (w, h) {
 
-        setTimeout(function() {
-            console.log(thismodal);
-        },300);
+
 
         mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
 
