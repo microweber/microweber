@@ -232,6 +232,9 @@ export default {
                   if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['no-edit', 'edit'])) {
                     return;
                   }
+                  if(DomService.firstParentOrCurrentWithAnyOfClasses(element, ['no-typing'])) {
+                    return;
+                  }
 
                   // var targetChange = DomService.firstParentOrCurrentWithClass(element, 'edit');
                   var targetChange = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['edit', 'allow-drop']);
