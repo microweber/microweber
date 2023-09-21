@@ -28,12 +28,12 @@ description: Default
 
             <div style="height:600px" class="d-flex flex-column justify-content-center align-items-center">
                <div>
-                   <h3 data-option-value="settings.<?php echo $i; ?>.title" class="js-slide-title-<?php echo $slide['itemId']; ?>" style="font-size:32px">
+                   <h3 class="js-slide-title-<?php echo $slide['itemId']; ?>" style="font-size:32px">
                        <?php echo $slide['title'];?>
                    </h3>
                </div>
                 <div>
-                    <p data-option-value="settings.<?php echo $i; ?>.description" class="js-slide-description-<?php echo $slide['itemId']; ?>" style="font-size:20px">
+                    <p class="js-slide-description-<?php echo $slide['itemId']; ?>" style="font-size:20px">
                         <?php echo $slide['description'];?>
                     </p>
                 </div>
