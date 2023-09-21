@@ -949,7 +949,7 @@ export class LiveEdit {
     canBeElement = function (target) {
 
         var el = target;
-        var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container','container', 'img-holder'];
+        var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container','container', 'img-holder','module'];
         var noelements_le = ['mw-le-spacer','background-image-holder','mw-layout-overlay-container','mw-le-resizer','mw-layout-overlay-container','mw-layout-overlay','mw-layout-overlay-background','mw-layout-overlay-background-image','mw-layout-overlay-wrapper'];
 
 

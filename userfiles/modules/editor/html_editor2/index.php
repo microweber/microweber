@@ -1,81 +1,136 @@
 <?php must_have_access(); ?>
 
 
+<style>
+
+
+    .CodeMirror,
+    #select_edit_field_wrap {
+        height: 100%;
+    }
+
+    .htmleditliframe {
+        width: 100%;
+        height: 120px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .htmleditliframe:after {
+        position: absolute;
+        content: '';
+        display: block;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .htmleditliframe iframe {
+        overflow: hidden;
+        width: 300%;
+        height: 360px;
+        transform: scale(.33333);
+        transform-origin: 0 0;
+        pointer-events: none;
+    }
+
+</style>
+
+
+
 
 <script>
     mw.require('<?php print modules_url()?>editor/html_editor2/html_editor2.css');
 
+    var targetWindow = mw.top().app.canvas.getWindow();
 
     mw.lib.require('codemirror');
+    var html_code_area_editor2
 
+    var setHtmlToNode = false;
     var $time_out_handle = 0, html_code_area_editor;
-    $(document).ready(function () {
-        mw.tools.loading(document.body, true);
+
+    function setEditorContent() {
+        if(setHtmlToNode){
+            var htmlOrig = setHtmlToNode.innerHTML;
+            //  var frag = document.createDocumentFragment();
+            //  var holder = document.createElement("div")
+            //  holder.innerHTML = htmlOrig;
+            //  frag.appendChild(holder);
+            //
+            //   $('.module', frag).html('[module]');
+            // var html_no_mods = frag.innerHTML;
+
+            html_code_area_editor2.setValue(htmlOrig);
+            html_code_area_editor2.refresh();
+        } else {
+            // disable editor
+            html_code_area_editor2.setValue('');
+            html_code_area_editor2.refresh();
 
 
-        html_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
-            lineNumbers: true,
-            lineWrapping: true,
-            matchTags: {bothTags: true},
-            indentWithTabs: true,
-            matchBrackets: true,
-            extraKeys: {
-                "Ctrl-Space": "autocomplete",
-                "Ctrl-Q": function (cm) {
-                    cm.foldCode(cm.getCursor());
-                },
-                "Ctrl-J": "toMatchingTag"
-            },
-            mode: {
-                name: "htmlmixed",
-                scriptTypes: [{
-                    matches: /\/x-handlebars-template|\/x-mustache/i,
-                    mode: null
-                },
-                    {
-                        matches: /(text|application)\/(x-)?vb(a|script)/i,
-                        mode: "vbscript"
-                    }]
-            },
-            foldGutter: true,
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
-        });
-        html_code_area_editor.setOption("theme", 'material');
-        html_code_area_editor.setSize("100%", "100%");
-        html_code_area_editor.on("change", function (cm, change) {
-            var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")
-            custom_html_code_mirror.value = cm.getValue();
-            window.clearTimeout($time_out_handle);
-            $time_out_handle = window.setTimeout(function () {
-                $(custom_html_code_mirror).change();
-            }, 2000);
-        });
-        mw.tools.loading(false);
+        }
+    }
+    function applyHtmlEdit2() {
+        var custom_html_code_mirror = document.getElementById("html_code_area_editor2")
+        var val = $(custom_html_code_mirror).val();
+
+        if(setHtmlToNode){
+            setHtmlToNode.innerHTML = val;
+
+            //
+            // var modules_ids = {};
+            // var modules_list = $('.module', setHtmlToNode);
+            //
+            //
+            // $(modules_list).each(function () {
+            //     var id = $(this).attr('id');
+            //     if (id) {
+            //         id = '#' + id;
+            //     } else {
+            //         id = $(this).attr('data-type');
+            //     }
+            //     if (!id) {
+            //         id = $(this).attr('type');
+            //     }
+            //     modules_ids[id] = true;
+            // });
+            //
+            //
+            // $.each(modules_ids, function (index, value) {
+            //     targetWindow.mw.reload_module(index);
+            // });
 
 
-    })
+
+            mw.top().app.registerChangedState(setHtmlToNode);
+        }
 
 
-    function format_code() {
-        html_code_area_editor.setSelection({
-                'line': html_code_area_editor.firstLine(),
+    }
+
+    function format_code2() {
+        html_code_area_editor2.setSelection({
+                'line': html_code_area_editor2.firstLine(),
                 'ch': 0,
                 'sticky': null
             }, {
-                'line': html_code_area_editor.lastLine(),
+                'line': html_code_area_editor2.lastLine(),
                 'ch': 0,
                 'sticky': null
             },
             {scroll: false});
         //auto indent the selection
-        html_code_area_editor.indentSelection("smart");
+        html_code_area_editor2.indentSelection("smart");
 
-        html_code_area_editor.setSelection({
-                'line': html_code_area_editor.firstLine(),
+        html_code_area_editor2.setSelection({
+                'line': html_code_area_editor2.firstLine(),
                 'ch': 0,
                 'sticky': null
             }, {
-                'line': html_code_area_editor.firstLine(),
+                'line': html_code_area_editor2.firstLine(),
                 'ch': 0,
                 'sticky': null
             },
@@ -84,62 +139,67 @@
     }
 
 
-    $(document).ready(function () {
-      //  mw.html_editor.init();
-    })
 
+    $(document).ready(function () {
+
+        html_code_area_editor2 = CodeMirror.fromTextArea(document.getElementById("html_code_area_editor2"), {
+            lineNumbers: true,
+            gutter: false,
+            lineWrapping: true,
+           matchTags: {bothTags: true},
+
+            extraKeys: {"Ctrl-Space": "autocomplete"},
+            mode: {
+                name: "text/html", globalVars: true
+            }
+        });
+
+        html_code_area_editor2.setSize("100%", "auto");
+        html_code_area_editor2.setOption("theme", 'material');
+        html_code_area_editor2.on("change", function (cm, change) {
+            $('#html_code_area_editor2').val(cm.getValue());
+
+        });
+
+
+
+
+
+
+
+
+    });
+
+
+
+    mw.top().app.canvas.on('canvasDocumentClick', function () {
+        var activeNode = mw.top().app.liveEdit.getSelectedNode();
+        var can = mw.top().app.liveEdit.canBeElement(activeNode)
+        if(!can){
+            setHtmlToNode = false;
+        } else {
+            setHtmlToNode = activeNode;
+        }
+        setEditorContent();
+    });
 
 </script>
 
 
-<nav class="navbar navbar-expand-md ">
-    <div class="container-fluid">
-
-        <div id="select_edit_field_container">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                    <?php _e('Select field to edit'); ?>
-                </button>
-                <div id="select_edit_field_wrap"></div>
-            </div>
-        </div>
-
-
-
-
-
-
-
-    </div>
-</nav>
-
-
-
-
-
-
-
-
 
 <div id="custom_html_code_mirror_container">
-                <textarea class="form-select  w100" name="custom_html" id="custom_html_code_mirror"
-                          option-group="template" placeholder="<?php _e('Type your HTML code here'); ?>"></textarea>
+<textarea class="form-select w100" dir="ltr"  id="html_code_area_editor2" rows="30">
+
+
+</textarea>
 </div>
 
 
-
-
-
-<div   class="mw-css-editor-c2a-nav">
+<div class="mw-css-editor-c2a-nav">
     <div class="btn-group btn-block" role="group">
-        <button onclick="format_code();"  class="btn btn-outline-primary" type="button"><?php _e('Format code'); ?></button>
-        <button onclick="mw.html_editor.apply();" class="btn btn-primary" type="button"><?php _e('Update'); ?></button>
+
+<?php /*        <button onclick="format_code2();"  class="btn btn-outline-primary" type="button"><?php _e('Format code'); ?></button>
+*/ ?>
+        <button onclick="applyHtmlEdit2();" class="btn btn-primary" type="button"><?php _e('Update'); ?></button>
     </div>
-
-    <?php
-
-    /*  <span onclick="mw.html_editor.apply_and_save();"
-            class="mw-ui-btn mw-ui-btn-invert"><?php _e('Update'); ?><?php _e('and'); ?><?php _e('save'); ?></span>*/
-    ?>
 </div>
