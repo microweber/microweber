@@ -577,7 +577,7 @@ export class LiveEdit {
                 if(hasCloneable) {
                     if((target.getBoundingClientRect().top - hasCloneable.getBoundingClientRect().top) < 5) {
                         target = hasCloneable;
-                        hasCloneable.classList.add('element')
+                        hasCloneable.classList.add('element');
 
                     }
 
