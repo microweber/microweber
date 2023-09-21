@@ -1,13 +1,22 @@
 <template>
     <div class="d-flex flex-column gap-3">
+
+        <div>
+            <FontPicker v-model="fontFamily" :label="'Font Family'"/>
+        </div>
+
+        <div>
+            <Input v-model="color" :label="'Font Color'"/>
+        </div>
+
        <div>
            <Input v-model="fontSize" :label="'Font Size'"/>
-           {{ fontSize }} 
+           {{ fontSize }}
        </div>
 
         <div>
             <Dropdown v-model="fontWeight" :options="fontWeightOptions" :label="'Font Weight'"/>
-        </div> 
+        </div>
 
         <div>
             <Dropdown v-model="textTransform" :options="textTransformOptions" :label="'Text Transform'"/>
@@ -21,23 +30,16 @@
             <Input v-model="lineHeight" :label="'Line Height'"/>
         </div>
 
-        <div>
-            <Dropdown v-model="fontFamily" :label="'Font Family'"/>
-        </div>
-
-        <div>
-            <Input v-model="color" :label="'Font Color'"/>
-        </div>
-
     </div>
 </template>
 
 <script>
 import Input from '../../components/Form/Input.vue';
 import Dropdown from '../../components/Form/Dropdown.vue';
+import FontPicker from "../../components/Form/FontPicker.vue";
 
 export default {
-    components: {Dropdown, Input},
+    components: {FontPicker, Dropdown, Input},
     data() {
         return {
             'activeNode': null,
