@@ -2,19 +2,19 @@
     <div class="d-flex flex-column gap-3">
        <div>
            <Input v-model="fontSize" :label="'Font Size'"/>
-           {{ fontSize }}
+           {{ fontSize }} 
        </div>
 
         <div>
-            <Dropdown v-model="fontWeight" :options='["normal","bold","bolder","lighter","100","200","300","400","500","600","700","800","900"]' :label="'Font Weight'"/>
+            <Dropdown v-model="fontWeight" :options="fontWeightOptions" :label="'Font Weight'"/>
+        </div> 
+
+        <div>
+            <Dropdown v-model="textTransform" :options="textTransformOptions" :label="'Text Transform'"/>
         </div>
 
         <div>
-            <Dropdown v-model="textTransform" :options='["none","capitalize","uppercase","lowercase"]' :label="'Text Transform'"/>
-        </div>
-
-        <div>
-            <Dropdown v-model="fontStyle" :options='["normal", "italic", "oblique"]' :label="'Font Style'"/>
+            <Dropdown v-model="fontStyle" :options="fontStylesOptions" :label="'Font Style'"/>
         </div>
 
         <div>
@@ -42,6 +42,32 @@ export default {
         return {
             'activeNode': null,
             'isReady': false,
+            'textTransformOptions': [
+                { "key": "none", "value": "None" },
+                { "key": "capitalize", "value": "Capitalize" },
+                { "key": "uppercase", "value": "Uppercase" },
+                { "key": "lowercase", "value": "Lowercase" }
+            ],
+            'fontWeightOptions': [
+                { "key": "normal", "value": "Normal" },
+                { "key": "bold", "value": "Bold" },
+                { "key": "bolder", "value": "Bolder" },
+                { "key": "lighter", "value": "Lighter" },
+                { "key": "100", "value": "100" },
+                { "key": "200", "value": "200" },
+                { "key": "300", "value": "300" },
+                { "key": "400", "value": "400" },
+                { "key": "500", "value": "500" },
+                { "key": "600", "value": "600" },
+                { "key": "700", "value": "700" },
+                { "key": "800", "value": "800" },
+                { "key": "900", "value": "900" }
+            ],
+            "fontStylesOptions": [
+                { "key": "normal", "value": "Normal" },
+                { "key": "italic", "value": "Italic" },
+                { "key": "oblique", "value": "Oblique" }
+            ],
             'textAlign': null,
             'fontSize': null,
             'fontWeight': null,

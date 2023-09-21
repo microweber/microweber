@@ -1,29 +1,130 @@
+<style>
+.mw-field{
+    width: 100%;
+}
+.mw-field.unit input + input{
+    width: 40px;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
+    text-align: center;
+}
+.rouded-corners {
+    padding-bottom: 20px;
+  }
+.rouded-corners .mw-field .mw-field{
+    width: 70px;
+    margin: 10px 0 5px;
+}
+.rouded-corners .mw-field .mw-field + .mw-field{
+    margin-inline-start: 10px;
+}
+.angle{
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px dotted #ccc;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.angle-top-left{
+    border-top-left-radius: 7px;
+    border-left: 1px solid #000;
+    border-top: 1px solid #000;
+}
+.angle-top-right{
+    border-top-right-radius: 7px;
+    border-right: 1px solid #000;
+    border-top: 1px solid #000;
+}
+.angle-bottom-left{
+    border-bottom-left-radius: 7px;
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+.angle-bottom-right{
+    border-bottom-right-radius: 7px;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+</style>
+
 <template>
+
+<div class="rouded-corners">
+    <label>Rounded Corners</label>
+    <div class="s-field-content">
+        <div class="mw-field mw-field-flat">
+            <div class="mw-multiple-fields">
+                <div class="mw-field mw-field-flat">
+                    <input type="text" class="regular order-1" v-model="borderTopLeftRadius" />
+                    <span class="mw-field mw-field-flat-prepend order-2">
+                      <i class="angle angle-top-left"></i>
+                    </span>
+                </div>
+                <div class="mw-field mw-field-flat">
+                    <span class="mw-field mw-field-flat-prepend"><i class="angle angle-top-right"></i></span>
+                    <input class="regular" type="text" v-model="borderTopRightRadius" />
+                  </div>
+            </div>
+        </div>
+        <div class="mw-field mw-field-flat">
+            <div class="mw-multiple-fields">
+                <div class="mw-field mw-field-flat">
+                    <input class="regular order-1" type="text" v-model="borderBottomLeftRadius" />
+                    <span class="mw-field mw-field-flat-prepend order-2"><i class="angle angle-bottom-left"></i>
+                    </span>
+                </div>
+                <div class="mw-field mw-field-flat">
+                    <span class="mw-field mw-field-flat-prepend"><i class="angle angle-bottom-right"></i></span>
+                    <input class="regular" type="text" v-model="borderBottomRightRadius" />
+                  </div> 
+            </div>
+        </div>
+    </div>
+</div>
+
+
   <div>
-    <input v-model="borderPosition" placeholder="Border Position">
+    <Input v-model="borderPosition" label="Border Position" />
     <br>
-    <input v-model="borderSize" placeholder="Border Size">
+    <Input v-model="borderSize" label="Border Size" />
     <br>
-    <input v-model="borderColor" placeholder="Border Color">
+    <Input v-model="borderColor" label="Border Color" />
     <br>
-    <input v-model="borderStyle" placeholder="Border Style">
-    <br>
-    <input v-model="borderTopLeftRadius" placeholder="Border Top Left Radius">
-    <br>
-    <input v-model="borderTopRightRadius" placeholder="Border Top Right Radius">
-    <br>
-    <input v-model="borderBottomRightRadius" placeholder="Border Bottom Right Radius">
-    <br>
-    <input v-model="borderBottomLeftRadius" placeholder="Border Bottom Left Radius">
+    <Dropdown v-model="borderStyle" :options="borderStylesOptions" label="Border Style" />
+    <br> 
   </div>
+  
 </template>
 
 <script>
+import Input from '../../components/Form/Input.vue';
+import Dropdown from '../../components/Form/Dropdown.vue';
+
+
 export default {
+
+  components: {Dropdown, Input},
+
   data() {
     return {
       'activeNode': null,
       'isReady': false,
+
+      'borderStylesOptions': [
+          { "key": "none", "value": "None" },
+          { "key": "solid", "value": "Solid" },
+          { "key": "dotted", "value": "Dotted" },
+          { "key": "dashed", "value": "Dashed" },
+          { "key": "double", "value": "Double" },
+          { "key": "groove", "value": "Groove" },
+          { "key": "ridge", "value": "Ridge" },
+          { "key": "inset", "value": "Inset" },
+          { "key": "outset", "value": "Outset" }
+      ],
+
       'borderPosition': null,
       'borderSize': null,
       'borderColor': null,
@@ -120,7 +221,7 @@ export default {
       this.applyPropertyToActiveNode('borderPosition', newValue);
     },
     borderSize: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('borderSize', newValue);
+      this.applyPropertyToActiveNode('borderSize', newValue + 'px');
     },
     borderColor: function (newValue, oldValue) {
       this.applyPropertyToActiveNode('borderColor', newValue);
@@ -129,16 +230,16 @@ export default {
       this.applyPropertyToActiveNode('borderStyle', newValue);
     },
     borderTopLeftRadius: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('borderTopLeftRadius', newValue);
+      this.applyPropertyToActiveNode('borderTopLeftRadius', newValue + 'px');
     },
     borderTopRightRadius: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('borderTopRightRadius', newValue);
+      this.applyPropertyToActiveNode('borderTopRightRadius', newValue + 'px');
     },
     borderBottomRightRadius: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('borderBottomRightRadius', newValue);
+      this.applyPropertyToActiveNode('borderBottomRightRadius', newValue + 'px');
     },
     borderBottomLeftRadius: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('borderBottomLeftRadius', newValue);
+      this.applyPropertyToActiveNode('borderBottomLeftRadius', newValue + 'px');
     },
   },
 }
