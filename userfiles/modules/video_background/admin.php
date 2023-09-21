@@ -20,7 +20,7 @@
     }
 
     var picker = new mw.filePicker({
-        type: 'video/*',
+        type: 'video',
         element: '#file-picker',
         label: false,
         autoSelect: true,

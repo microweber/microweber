@@ -33,6 +33,7 @@ mw.filePicker = function (options) {
         hideHeader: false,
         dropDownTargetMode: 'self', // 'self', 'dialog'
         element: null,
+     //   type: null, // filetypes to accept, ex. images, videos, audios, documents
         footer: true,
         okLabel: mw.lang('OK'),
         cancelLabel: mw.lang('Cancel'),
@@ -156,14 +157,14 @@ mw.filePicker = function (options) {
 
             $(scope).on('$firstOpen', function (e, el, type) {
                  if (type === 'server') {
-                     var fm = mw.FileManager({
+                      var fm = mw.FileManager({
                          element:$wrap[0],
                          canSelectFolder: false,
                          selectable: true,
                          multiselect: scope.settings.multiple,
                          stickyHeader: true,
                          selectableRow: true,
-                         accept: this.settings.accept
+                         type: scope.settings.type
                      });
                      fm.on('selectionChanged', function (val){
 

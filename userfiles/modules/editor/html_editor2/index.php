@@ -3,7 +3,6 @@
 
 
 <script>
-    mw.require('<?php print modules_url()?>editor/html_editor2/html_editor2.js');
     mw.require('<?php print modules_url()?>editor/html_editor2/html_editor2.css');
 
 
@@ -86,7 +85,7 @@
 
 
     $(document).ready(function () {
-        mw.html_editor.init();
+      //  mw.html_editor.init();
     })
 
 
