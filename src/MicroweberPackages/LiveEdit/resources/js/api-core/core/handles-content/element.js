@@ -291,6 +291,7 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = true;
 
+
                     var canDrop = this.settingsTarget.canDropInTarget(target);
 
                     if (!canDrop) {

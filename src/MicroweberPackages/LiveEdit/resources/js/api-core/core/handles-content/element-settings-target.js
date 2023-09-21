@@ -34,17 +34,17 @@ export class ElementSettingsTarget extends MicroweberBaseClass {
 
 
     canDropInTarget(target) {
-        var cantDrop = DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['allow-drop', 'nodrop']);
-        var cantDropInNoTyping = DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['no-typing']);
+        var cantDrop = !DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['allow-drop', 'nodrop']);
+        //var cantDropInNoTyping = DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['no-typing']);
 
 
         if(cantDrop){
             return false;
         }
 
-        if(cantDropInNoTyping){
-            return false;
-        }
+        // if(cantDropInNoTyping){
+        //     return false;
+        // }
 
 
 
