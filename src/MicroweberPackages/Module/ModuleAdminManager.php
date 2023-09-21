@@ -29,6 +29,7 @@ class ModuleAdminManager
     {
         $this->settingsComponent[$moduleName] = $componentName;
         $livewireComponentName = 'microweber-module-'.$moduleName.'::settings';
+
         Livewire::component($livewireComponentName, $componentName);
     }
 

@@ -1,4 +1,4 @@
 
 <div>
-    <livewire:microweber-module-social_links::settings :moduleType="$moduleType" :moduleId="$moduleId" />
+    <livewire:microweber-module-social-links::settings :moduleType="$moduleType" :moduleId="$moduleId" />
 </div>
