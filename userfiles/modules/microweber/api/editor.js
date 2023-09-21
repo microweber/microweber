@@ -1,4 +1,4 @@
-
+ 
 
 
 
@@ -444,6 +444,8 @@ var MWEditor = function (options) {
         }
     }
 
+    this.__$tempNodes = [];
+
     this.adjustDoubleClickRange = function(event, sel) {
         if(!sel) {
             sel = scope.getSelection()
@@ -456,14 +458,24 @@ var MWEditor = function (options) {
             return;
         } 
         var isLink = event.target.nodeName === 'A';
-        console.log(event.target)
+        
         if(isLink) {
             this.api.selectAll(event.target);
             const sel = this.api.getSelection();
-            sel.collapseToStart();
-            sel.getRangeAt(0).selectNodeContents(event.target);
+            sel.getRangeAt(0).selectNodeContents(event.target.firstChild);
              
+            const cnode = document.createTextNode('\u200B');
+            event.target.appendChild(cnode);
+            this.__$tempNodes.push({node: cnode, rel: 'link'});
             return;
+        } else {
+            this.__$tempNodes = this.__$tempNodes.filter(obj => {
+                if(obj.rel === 'link') {
+                    obj.node.remove();
+                    return false;
+                }
+                return true;
+            })
         }
     }
     this.adjustRange = function(event, sel) {

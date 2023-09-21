@@ -21,6 +21,11 @@
                 params.limit = 50;
             }
 
+            if(scope.settings.accept) {
+                params.filetypes = scope.originalAccept;
+                params.extensions = scope.settings.accept;
+            }
+
             scope.dispatch('beforeRequest', {xhr: xhr, params: params});
             xhr.onreadystatechange = function(e) {
                 if (this.readyState === 4 && this.status === 200) {
@@ -170,6 +175,8 @@
 
 
         var normalizeAccept = function (type) {
+
+            scope.originalAccept = type;
 
             type = (type || '').trim().toLowerCase();
             if(!type) return '*';
