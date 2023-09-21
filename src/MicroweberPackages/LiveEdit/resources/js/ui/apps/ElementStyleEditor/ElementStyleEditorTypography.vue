@@ -2,6 +2,7 @@
     <div class="d-flex flex-column gap-3">
        <div>
            <Input v-model="fontSize" :label="'Font Size'"/>
+           {{ fontSize }}
        </div>
 
         <div>
