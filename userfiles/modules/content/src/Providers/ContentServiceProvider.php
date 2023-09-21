@@ -19,10 +19,10 @@ class ContentServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
+        // not ready yet
+        // Livewire::component('microweber-module-content::settings', ContentSettingsComponent::class);
 
-        Livewire::component('microweber-module-content::settings', ContentSettingsComponent::class);
-
-        ModuleAdmin::registerSettings('content', 'microweber-module-content::settings');
+        //  ModuleAdmin::registerSettings('content', 'microweber-module-content::settings');
 
     }
 
