@@ -47,12 +47,12 @@ if (is_file($templateFile)) {
             loop: true,
             // If we need pagination
             pagination: {
-                el: '.swiper-pagination',
+                el: '#js-slide-pagination-<?php echo $params['id']; ?>',
             },
             // Navigation arrows
             navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
+                nextEl: '#js-slide-pagination-next-<?php echo $params['id']; ?>',
+                prevEl: '#js-slide-pagination-previous-<?php echo $params['id']; ?>',
             },
         });
     });
