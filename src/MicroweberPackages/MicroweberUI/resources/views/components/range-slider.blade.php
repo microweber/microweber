@@ -12,7 +12,7 @@
 
         <div class="d-flex align-items-center gap-2 flex-wrap justify-content-between">
 
-            <label>
+            <label class="live-edit-label">
                 {{$label}}
             </label>
 
@@ -27,6 +27,7 @@
         <div class="form-range mt-1" id="range-slider-{{$rand}}}"></div>
     </div>
 
+    <div wire:ignore>
     <script>
         $(document).ready(function() {
 
@@ -57,6 +58,7 @@
 
         });
     </script>
+    </div>
 
 
 </div>

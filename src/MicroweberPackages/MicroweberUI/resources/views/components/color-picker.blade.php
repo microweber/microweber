@@ -12,7 +12,7 @@
 
     <div class="d-flex justify-content-between align-items-center">
         <div>
-            <label>
+            <label class="live-edit-label">
                 {{$label}}
             </label>
         </div>
