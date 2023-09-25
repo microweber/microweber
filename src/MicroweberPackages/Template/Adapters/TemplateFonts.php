@@ -22,7 +22,7 @@ class TemplateFonts
         return implode("\n", $output);
     }
 
-    public function clearCachedFontsStylesheet(): void
+    public function clearCache(): void
     {
         $userfiles_dir = userfiles_path();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);

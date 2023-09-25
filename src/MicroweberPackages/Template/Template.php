@@ -663,6 +663,11 @@ class Template
                 rmdir_recursive($userfiles_cache_dir);
             }
         }
+
+        $this->customCssAdapter->clearCache();
+        $this->fontsAdapter->clearCache();
+
+
     }
 
     /**

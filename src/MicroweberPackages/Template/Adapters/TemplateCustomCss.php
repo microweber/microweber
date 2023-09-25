@@ -31,7 +31,16 @@ class TemplateCustomCss
 
         return $url;
     }
+    public function clearCache()
+    {
+        $userfiles_dir = userfiles_path();
+        $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
+        $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . crc32(site_url()) . '.' . MW_VERSION . '.css';
+        if (is_file($userfiles_cache_filename)) {
+            @unlink($userfiles_cache_filename);
+        }
 
+    }
     public function getCustomCss()
     {
 
