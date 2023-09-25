@@ -64,6 +64,8 @@ if (is_file($templateFile)) {
             initialSlide: <?php echo $currentSlide; ?>,
         });
 
+
+
     });
 </script>
 
