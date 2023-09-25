@@ -5,6 +5,9 @@ function getCssForSlide($slide)
         $imageBackgroundColor = '';
         $descriptionColor = '';
         $titleColor = '';
+        $buttonFontSize = '18px';
+        $descriptionFontSize = '18px';
+        $titleFontSize = '36px';
         $imageBackgroundOpacity = '';
         if (isset($slide['imageBackgroundFilter'])) {
             $imageBackgroundFilter = $slide['imageBackgroundFilter'];
@@ -15,8 +18,17 @@ function getCssForSlide($slide)
         if (isset($slide['descriptionColor'])) {
             $descriptionColor = $slide['descriptionColor'];
         }
+        if (isset($slide['descriptionFontSize'])) {
+            $descriptionFontSize = $slide['descriptionFontSize'] . 'px';
+        }
         if (isset($slide['titleColor'])) {
             $titleColor = $slide['titleColor'];
+        }
+        if (isset($slide['titleFontSize'])) {
+            $titleFontSize = $slide['titleFontSize'] . 'px';
+        }
+        if (isset($slide['buttonFontSize'])) {
+            $buttonFontSize = $slide['buttonFontSize'] . 'px';
         }
         if (isset($slide['imageBackgroundOpacity'])) {
             $imageBackgroundOpacity = $slide['imageBackgroundOpacity'];
@@ -27,9 +39,15 @@ function getCssForSlide($slide)
     <style>
         .js-slide-title-'.$slide['itemId'].' {
             color: '.$titleColor.' !important;
+            font-size: '.$titleFontSize.' !important;
         }
         .js-slide-description-'.$slide['itemId'].' {
             color: '.$descriptionColor.' !important;
+            font-size: '.$descriptionFontSize.' !important;
+        }
+        .js-slide-button-'.$slide['itemId'].' {
+            color: '.$descriptionColor.' !important;
+            font-size: '.$buttonFontSize.' !important;
         }
         .js-slide-image-'.$slide['itemId'].' {
             background-size:cover;

@@ -405,14 +405,26 @@ export class ElementHandleContent {
                 {
                     name: 'dynamic',
                     nodes: []
-                }, {
-                    name: 'tailMenuQuickSettings',
-                    nodes: tailMenuQuickSettings
+                }, 
+                {
+                    name: 'cloneAbleMenu',
+                    nodes: cloneAbleMenu
                 },
+                {
+                    name: 'Image settings',
+                    nodes: elementImageMenu
+
+                },
+                
                 {
                     name: 'tail',
                     nodes: tail
-                }
+                },
+                /*{
+                    name: 'tailMenuQuickSettings',
+                    nodes: tailMenuQuickSettings
+                },*/
+                
             ],
 
         });

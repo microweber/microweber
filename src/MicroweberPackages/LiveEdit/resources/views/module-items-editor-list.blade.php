@@ -76,7 +76,7 @@ showEditTab: 'main'
     })
 
      window.livewire.on('editItemById' , (itemId) => {
-
+        mw.top().app.dispatch('editItemById', itemId);
         showEditTab = 'tabs-nav-tab-' +  itemId
     })
 

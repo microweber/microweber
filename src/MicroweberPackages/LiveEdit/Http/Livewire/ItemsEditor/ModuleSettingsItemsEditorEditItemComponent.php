@@ -37,9 +37,11 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
 
     public function updatedItemState()
     {
-       $this->submit([
-           'switchToMainTab'=>false
-       ]);
+        if (isset($this->itemState['itemId'])) {
+           $this->submit([
+               'switchToMainTab'=>false
+           ]);
+        }
     }
 
     public function submit($options = [])
