@@ -5,6 +5,12 @@ use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
+use MicroweberPackages\Option\Events\OptionIsCreating;
+use MicroweberPackages\Option\Events\OptionIsUpdating;
+use MicroweberPackages\Option\Events\OptionWasCreated;
+use MicroweberPackages\Option\Events\OptionWasDeleted;
+use MicroweberPackages\Option\Events\OptionWasRetrieved;
+use MicroweberPackages\Option\Events\OptionWasUpdated;
 
 class Option extends Model
 {
@@ -13,6 +19,17 @@ class Option extends Model
 
     use CacheableQueryBuilderTrait;
     use HasSearchableTrait;
+
+    protected $dispatchesEvents = [
+        'retrieved' =>  OptionWasRetrieved::class,
+        'creating'   => OptionIsCreating::class,
+        'created'   => OptionWasCreated::class,
+        'updating'   => OptionIsUpdating::class,
+        'updated'   => OptionWasUpdated::class,
+        'saved'   => OptionWasUpdated::class,
+        'deleted'   => OptionWasDeleted::class,
+    ];
+
 
     protected $casts = [
         'option_value' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ =>  {SITE_URL}400/200/
