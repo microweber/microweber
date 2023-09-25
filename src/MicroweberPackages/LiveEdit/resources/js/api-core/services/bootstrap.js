@@ -17,6 +17,7 @@ import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
 import { DynamicTargetMenus } from './services/dynamic-target-menus.js';
 import {LiveEditCanvas} from "./components/live-edit-canvas/live-edit-canvas";
+import { SingleFilePickerComponent } from './services/single-file-picker-component.js';
 
 mw.app = new MWUniversalContainer();
 
@@ -36,6 +37,10 @@ mw.app.register('canvas', canvas);
 
     mw.app.normalizeBase64Image = normalizeBase64Image;
     mw.app.normalizeBase64Images = normalizeBase64Images;
+
+    mw.app.singleFilePickerComponent = options => {
+        return new SingleFilePickerComponent(options)
+    };
 
 
 
