@@ -126,7 +126,7 @@
                 var imageEditBtn = $('#js-edit-image-{{$randId}}');
                 imageEditBtn.click(async function(e) {
                     e.preventDefault();
-                    var src = await mw.top().app.editImageDialog($('#js-preview-image-{{$randId}}').attr('src'));
+                    var src = await mw.top().app.editImageDialog.editImageUrl($('#js-preview-image-{{$randId}}').attr('src'));
                     if(src) {
                         $('#js-preview-image-{{$randId}}').attr('src', src);
                         mediaPickerFileField.value = src;

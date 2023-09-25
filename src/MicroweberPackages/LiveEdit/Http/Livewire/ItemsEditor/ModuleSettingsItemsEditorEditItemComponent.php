@@ -35,8 +35,14 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
         return view($this->view);
     }
 
+    public function updatedItemState()
+    {
+       $this->submit([
+           'switchToMainTab'=>false
+       ]);
+    }
 
-    public function submit()
+    public function submit($options = [])
     {
         $json = $this->getItems();
         $editorSettings = $this->getEditorSettings();
@@ -122,7 +128,13 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
 
         $this->emitTo('microweber-live-edit::module-items-editor-list', 'onItemChanged', ['moduleId' => $this->moduleId]);
 
-        $this->emit('switchToMainTab');
+        $switchToMainTab = true;
+        if (isset($options['switchToMainTab'])) {
+            $switchToMainTab = $options['switchToMainTab'];
+        }
+        if ($switchToMainTab) {
+            $this->emit('switchToMainTab');
+        }
 
         $this->emit('onItemChanged');
 
