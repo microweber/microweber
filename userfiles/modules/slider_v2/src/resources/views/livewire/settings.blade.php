@@ -17,6 +17,7 @@ showMainEditTab: 'mainSettings'
                 'image' => 'Image',
                 'title' => 'Title',
             ],
+            'realtimeEditing'=> true,
         ],
         'schema' => [
             [
@@ -56,7 +57,16 @@ showMainEditTab: 'mainSettings'
                 'placeholder' => 'Button text',
                 'help' => 'Button text',
             ],
-
+            [
+                'type' => 'range',
+                'label' => 'Button Font Size',
+                'name' => 'buttonFontSize',
+                'placeholder' => 'Button Font Size',
+                'help' => 'Button Font Size',
+                'min' => 8,
+                'max' => 64,
+                'labelUnit' => 'px',
+            ],
             [
                 'type' => 'url',
                 'label' => 'Button url',
@@ -72,11 +82,31 @@ showMainEditTab: 'mainSettings'
                 'help' => 'Title color',
             ],
             [
+                'type' => 'range',
+                'label' => 'Title Font Size',
+                'name' => 'titleFontSize',
+                'placeholder' => 'Title Font Size',
+                'help' => 'Title Font Size',
+                'min' => 8,
+                'max' => 64,
+                'labelUnit' => 'px',
+            ],
+            [
                 'type' => 'color',
                 'label' => 'Description color',
                 'name' => 'descriptionColor',
                 'placeholder' => 'Description color',
                 'help' => 'Description color',
+            ],
+            [
+                'type' => 'range',
+                'label' => 'Description Font Size',
+                'name' => 'descriptionFontSize',
+                'placeholder' => 'Description Font Size',
+                'help' => 'Description Font Size',
+                'min' => 8,
+                'max' => 64,
+                'labelUnit' => 'px',
             ],
             [
                 'type' => 'color',

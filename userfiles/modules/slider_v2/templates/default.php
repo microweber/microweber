@@ -37,6 +37,13 @@ description: skin 1
                             <?php echo $slide['description'];?>
                         </p>
                     </div>
+                    <?php if(!empty($slide['buttonText'])): ?>
+                    <div>
+                        <button class="btn btn-primary js-slide-button-<?php echo $slide['itemId']; ?>">
+                            <?php echo $slide['buttonText'];?>
+                        </button>
+                    </div>
+                    <?php endif; ?>
                 </div>
 
             </div>

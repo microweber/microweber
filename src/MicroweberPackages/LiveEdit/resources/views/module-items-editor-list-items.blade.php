@@ -84,7 +84,7 @@
 
 
                 @if (isset($editorSettings['schema']) and isset($items) and is_array($items) and !empty($items))
-                    <div class="list-group list-group-flush list-group-hoverable"
+                    <div x-data="{}" class="list-group list-group-flush list-group-hoverable"
                          id="js-sortable-items-holder-{{md5($moduleId)}}">
 
                         @foreach ($items as $item)
@@ -144,17 +144,12 @@
 
                                     <div class="col-auto d-flex align-items-center">
 
-
-
                                         <x-microweber-ui::button-action type="button" :tooltip="$deleteButtonText"
                                                                          wire:click="$emit('showConfirmDeleteItemById', '{{ $itemId }}')">
                                                 <?php print $deleteButtonIconSvg ?>
                                         </x-microweber-ui::button-action>
 
-                                        <x-microweber-ui::button-action type="button" :tooltip="$editButtonText"
-                                                                        wire:click="$emit('editItemById', '{{ $itemId }}')">
-
-
+                                        <x-microweber-ui::button-action type="button" wire:click="$emit('editItemById', '{{ $itemId }}')">
                                                 <?php print $editButtonIconSvg ?>
                                         </x-microweber-ui::button-action>
 

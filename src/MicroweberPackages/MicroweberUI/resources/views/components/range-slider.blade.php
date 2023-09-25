@@ -2,7 +2,7 @@
 
 <div>
     @php
-    $rand = md5(time().rand(111,999));
+    $rand = md5(time().rand(111111111,99999999));
     $min = $min ?? 0;
     $min = intval($min);
     $max = $max ?? 100;
@@ -29,13 +29,20 @@
 
     <div wire:ignore>
     <script>
+
         $(document).ready(function() {
+          loadSlider{{$rand}}();
+        });
+        window.addEventListener('livewire:load', function () {
+            loadSlider{{$rand}}();
+        });
 
-           let slider = document.getElementById('range-slider-{{$rand}}}');
-            let customRangeValueField = document.getElementById('js-custom-range-value-{{$rand}}');
+        function loadSlider{{$rand}}() {
+            let slider{{$rand}} = document.getElementById('range-slider-{{$rand}}}');
+            let customRangeValueField{{$rand}} = document.getElementById('js-custom-range-value-{{$rand}}');
 
-            noUiSlider.create(slider, {
-                start: customRangeValueField.value,
+            noUiSlider.create(slider{{$rand}}, {
+                start: customRangeValueField{{$rand}}.value,
                 step:1,
                 connect: [true, false],
 
@@ -46,17 +53,16 @@
 
             });
 
-           slider.noUiSlider.on('update', function(values, handle) {
+            slider{{$rand}}.noUiSlider.on('update', function(values, handle) {
                 let customRangeValueField = document.getElementById('js-custom-range-value-{{$rand}}');
                 customRangeValueField.value = parseFloat(values[handle]).toFixed();
                 customRangeValueField.dispatchEvent(new Event('input'));
             });
 
-            customRangeValueField.addEventListener('change', function() {
-                slider.noUiSlider.set(parseFloat(this.value).toFixed());
+            customRangeValueField{{$rand}}.addEventListener('change', function() {
+                slider{{$rand}}.noUiSlider.set(parseFloat(this.value).toFixed());
             });
-
-        });
+        }
     </script>
     </div>
 

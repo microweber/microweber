@@ -16,6 +16,10 @@ if (empty($settings)) {
 }
 
 $slides = json_decode($settings, true);
+$slidesIndexes = [];
+foreach ($slides as $iSlide=>$slide) {
+    $slidesIndexes[$slide['itemId']] = $iSlide;
+}
 
 $moduleTemplate = get_module_option('template', $params['id']);
 if ($moduleTemplate == false and isset($params['template'])) {
@@ -43,8 +47,9 @@ if (is_file($templateFile)) {
     mw.lib.require('swiper');
 </script>
 <script>
+
     $(document).ready(function () {
-        new Swiper('#js-slider-<?php echo $params['id']; ?>', {
+        let swiper<?php echo md5($params['id']); ?> = new Swiper('#js-slider-<?php echo $params['id']; ?>', {
             loop: true,
             // If we need pagination
             pagination: {
@@ -56,6 +61,21 @@ if (is_file($templateFile)) {
                 prevEl: '#js-slide-pagination-previous-<?php echo $params['id']; ?>',
             },
         });
+
+        <?php if (in_live_edit()) { ?>
+        let slidesIndexes<?php echo md5($params['id']); ?> = <?php echo json_encode($slidesIndexes); ?>;
+        mw.top().app.on('editItemById', function(itemId) {
+            let slideIndex<?php echo md5($params['id']); ?> = Object.keys(slidesIndexes<?php echo md5($params['id']); ?>).findIndex((itemValue) => {
+                if (itemValue == itemId) {
+                    return true;
+                }
+            });
+            if (typeof(slideIndex<?php echo md5($params['id']); ?>) != 'undefined') {
+                swiper<?php echo md5($params['id']); ?>.slideTo(slideIndex<?php echo md5($params['id']); ?>);
+            }
+        });
+        <?php } ?>
+
     });
 </script>
 
