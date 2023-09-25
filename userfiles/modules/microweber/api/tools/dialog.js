@@ -667,8 +667,6 @@
             let newPositionX = position.x;
             let newPositionY = position.y;
 
-            console.log('oldPositionX', newPositionX);
-            console.log('oldPositionY', newPositionY);
 
             let elementBounding = element.getBoundingClientRect();
             let dialogBounding = this.dialogMain.getBoundingClientRect();

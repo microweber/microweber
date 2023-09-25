@@ -104,13 +104,34 @@ export class ModuleSettings extends MicroweberBaseClass {
             delete (attrsForSettings.contenteditable);
         }
 
+        var moduleTypeOrig = moduleType;
         moduleType = moduleType + '/admin';
 
         attrsForSettings.id = moduleId;
         attrsForSettings.type = moduleType;
 
 
-        this.openSettingsModal(attrsForSettings, moduleId, modalTitle);
+        let modal = this.openSettingsModal(attrsForSettings, moduleId, modalTitle);
+
+
+
+
+        if (modal) {
+            //on load
+            modal.iframe.addEventListener('load', () => {
+                var eventData = {
+                    target: module,
+                    modal: modal,
+                    moduleType: moduleTypeOrig,
+                    moduleId: moduleId,
+
+                };
+
+                mw.app.dispatch('onModuleSettingsLoaded', eventData);
+
+
+             });
+        }
     }
 
     moduleOrLayoutPresetsRequestHandle(module, isLayout) {
@@ -187,6 +208,8 @@ export class ModuleSettings extends MicroweberBaseClass {
         if (moduleSettingsDialogIframe.overlay) {
             moduleSettingsDialogIframe.overlay.style.backgroundColor = 'transparent';
         }
+
+        return moduleSettingsDialogIframe;
     }
 }
 
