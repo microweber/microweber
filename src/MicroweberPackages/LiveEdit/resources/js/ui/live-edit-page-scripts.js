@@ -416,8 +416,20 @@ if(window.self !== window.top) {
 
     });
 
+
+    let _beforeUnload = null;
+
+    mw.top().app.isNavigating = () => {
+        return !!_beforeUnload && _beforeUnload.returnValue  && _beforeUnload.defaultPrevented === true
+    };
+
+
+
     self.onbeforeunload = function (event) {
         mw.top().app.canvas.dispatch('liveEditCanvasBeforeUnload');
+        _beforeUnload = event;
+
+        console.log(event)
 
 
         // prevent user from leaving if there are unsaved changes
@@ -432,6 +444,7 @@ if(window.self !== window.top) {
                     liveEditIframe.mw.isNavigating = false;
                 }
             }, 300);
+            
 
             return true;
         } else {
