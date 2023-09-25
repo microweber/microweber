@@ -31,8 +31,10 @@
 
 
             ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+            if(ActiveNode){
+                selectNodeInElementStyleEditorApp(ActiveNode);
+            }
 
-            selectNodeInElementStyleEditorApp(ActiveNode);
         });
 
         mw.top().app.on('cssEditorSelectElementBySelector', function (selector) {
@@ -70,39 +72,27 @@
     selectNodeInElementStyleEditorApp = function (ActiveNode) {
         if (ActiveNode) {
             mw.top().app.dispatch('mw.elementStyleEditor.selectNode', ActiveNode);
-
         }
     }
 
     mw.top().app.on('mw.elementStyleEditor.applyCssPropertyToNode', function (data) {
-        // node: this.activeNode,
-        //     prop: prop,
-        //     val: val
-
-
-mw.log('mw.elementStyleEditor.applyCssPropertyToNode')
-mw.log(data)
-        output(data.prop, data.val);
-
+       output(data.prop, data.val, data.node);
     });
 
 
-    var output = function (property, value) {
+    var output = function (property, value,ActiveNode) {
         var mwTarget = targetMw;
 
-        if (ActiveNode && ActiveNode.length) {
-            ActiveNode = ActiveNode[0]
-        }
-        if (ActiveNode && ActiveSelector) {
+        if (ActiveNode) {
             if (!specialCases(property, value)) {
-
-                mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), value)
-
-
-                ActiveNode.setAttribute('staticdesign', true);
+                if(ActiveSelector){
+                    // global
+                    mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), value)
+                }
+                mw.top().app.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value)
+               // ActiveNode.setAttribute('staticdesign', true);
             }
             mw.top().app.registerChange(ActiveNode);
-
         }
 
     };

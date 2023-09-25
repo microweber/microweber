@@ -64,7 +64,7 @@
         }
         function openRTECSsEditor2Vue(settings) {
 
-            console.log('openRTECSsEditor2Vue', settings);
+            
 
             let iframeStyleEdiorId = 'iframeStyleEditorId-Vue';
             let checkIframeStyleEditor = document.getElementById(iframeStyleEdiorId);

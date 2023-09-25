@@ -2,7 +2,8 @@
 export default {
     methods: {
         showStyleEditor: function () {
-            var moduleType = 'microweber/toolbar/editor_tools/rte_css_editor2';
+            //var moduleType = 'microweber/toolbar/editor_tools/rte_css_editor2';
+            var moduleType = 'microweber/toolbar/editor_tools/rte_css_editor2/rte_editor_vue';
             var attrsForSettings = {};
 
             attrsForSettings.live_edit = true;
