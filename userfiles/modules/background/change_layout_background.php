@@ -116,9 +116,14 @@
                         </b>
                     </div>
                     <div>
-                        <span>
-                            <b>20MB Max</b>
-                        </span>
+                        <div id="bg-image-picker-preview-image">
+
+                        </div>
+                        <div id="bg-image-picker-upload-text">
+                            <span>
+                                <b>20MB Max</b>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -147,7 +152,10 @@
 
                         </b>
                     </div>
-                    <div>
+                    <div id="bg-video-picker-preview-video">
+
+                    </div>
+                    <div id="bg-video-picker-preview-text">
                                         <span>
                                             <b>20MB Max</b>
                                         </span>
@@ -338,17 +346,29 @@
         function showHideRemoveBackgroundsButtons(){
             var hasBgImage = mw.top().app.layoutBackground.getBackgroundImage(bgNode);
             if(hasBgImage){
+
+                $('#bg-image-picker-preview-image').html('<img src="'+hasBgImage+'" style="max-width: 100%; max-height: 100%">')
+                $('#bg-image-picker-preview-image').show()
                 $('#bg-image-picker-remove-image').show()
+                $('#bg-image-picker-upload-text').hide()
+
             } else {
+                $('#bg-image-picker-upload-text').show()
+                $('#bg-image-picker-preview-image').hide()
                 $('#bg-image-picker-remove-image').hide()
 
             }
 
             var hasBgVideo = mw.top().app.layoutBackground.getBackgroundVideo(bgNode);
             if(hasBgVideo){
+                $('#bg-video-picker-preview-video').html('<video src="'+hasBgVideo+'" style="max-width: 100%; max-height: 100%" autoplay muted loop></video>')
+                $('#bg-video-picker-preview-video').show()
                 $('#video-picker-remove-video').show()
+                $('#bg-video-picker-preview-text').hide()
             } else {
+                $('#bg-video-picker-preview-text').show()
                 $('#video-picker-remove-video').hide()
+                $('#bg-video-picker-preview-video').hide()
             }
 
             var hasBgColor = mw.top().app.layoutBackground.getBackgroundColor(bgOverlay)

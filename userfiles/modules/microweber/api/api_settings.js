@@ -8,7 +8,7 @@
 
     var mw = {};
 
- 
+
     const renderBgVideos = function() {
 
         function rend(root) {
@@ -24,14 +24,14 @@
         if(frame && frame.contentDocument) {
             rend(frame.contentDocument);
         }
-        
+
     }
 
     renderBgVideos();
 
     addEventListener('DOMContentLoaded', e => renderBgVideos());
     addEventListener('load', e => renderBgVideos());
-    
+
 
     mw.settings = {
         regions: false,
@@ -290,6 +290,13 @@
                 /*$(document).ready(function () {
                  fitty('.fitty-element');
                  });*/
+            }
+        ],
+
+        swiper: [
+            function () {
+                mw.require(mw.settings.libs_url + "swiper/swiper-bundle.min.css");
+                mw.require(mw.settings.libs_url + "swiper/swiper-bundle.min.js");
             }
         ],
 
