@@ -383,12 +383,17 @@ html[dir="rtl"] {
         max-width: 25px;
         max-height: 25px;
         display: inline-block;
+        fill: black;
+
+        &.path {
+            fill: black;
+        }
     }
 
     svg {
         width: 25px;
         height: 25px;
-        fill: currentColor;
+        //fill: currentColor;
     }
 
     * {
