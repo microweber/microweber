@@ -1,6 +1,6 @@
 @props(['selectedRange'=>null, 'label'=> 'Range', 'labelUnit'=>'', 'min'=>0, 'max'=>100])
 
-<div>
+<div wire:ignore>
     @php
     $rand = md5(time().rand(111111111,99999999));
     $min = $min ?? 0;
@@ -27,14 +27,11 @@
         <div class="form-range mt-1" id="range-slider-{{$rand}}}"></div>
     </div>
 
-    <div wire:ignore>
+    <div>
     <script>
 
         $(document).ready(function() {
           loadSlider{{$rand}}();
-        });
-        window.addEventListener('livewire:load', function () {
-            loadSlider{{$rand}}();
         });
 
         function loadSlider{{$rand}}() {
@@ -45,12 +42,10 @@
                 start: customRangeValueField{{$rand}}.value,
                 step:1,
                 connect: [true, false],
-
                 range: {
                     'min': {{$min}},
                     'max': {{$max}}
                 }
-
             });
 
             slider{{$rand}}.noUiSlider.on('update', function(values, handle) {
