@@ -9,6 +9,8 @@ use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
 use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateOptimizeLoadingHelper;
 use MicroweberPackages\Template\Adapters\TemplateCssParser;
+use MicroweberPackages\Template\Adapters\TemplateCustomCss;
+use MicroweberPackages\Template\Adapters\TemplateFonts;
 use MicroweberPackages\Template\Adapters\TemplateStackRenderer;
 
 /**
@@ -40,6 +42,21 @@ class Template
      * @var  $templateAdapter MicroweberTemplate
      */
     public $templateAdapter = null;
+
+    /**
+     *
+     * @var  $fontsAdapter TemplateFonts
+     */
+    public $fontsAdapter = null;
+
+
+    /**
+     *
+     * @var  $customCssAdapter TemplateCustomCss
+     */
+    public $customCssAdapter = null;
+
+
     public $adapter_default = null;
     public $admin = null;
     public $stylesheet_adapter = null;
@@ -62,13 +79,26 @@ class Template
         $this->stack_compiler_adapter = new TemplateStackRenderer($app);
 
         $this->admin = new AdminTemplateStyle($app);
+        $this->admin = new AdminTemplateStyle($app);
 
         $this->setTemplateAdapter(new MicroweberTemplate());
+        $this->setFontsAdapter(new TemplateFonts());
+        $this->setCustomCssAdapter(new TemplateCustomCss());
     }
 
     public function setTemplateAdapter($adapter)
     {
         $this->templateAdapter = $adapter;
+    }
+
+    public function setFontsAdapter($adapter)
+    {
+        $this->fontsAdapter = $adapter;
+    }
+
+    public function setCustomCssAdapter($adapter)
+    {
+        $this->customCssAdapter = $adapter;
     }
 
     public function compile_css($params)
@@ -122,10 +152,10 @@ class Template
         $modal = \Livewire\Livewire::mount('livewire-ui-modal')->html();
 
 
-        $layout = Str::replaceFirst( '<head>', '<head>' . $alpineScript, $layout);
-        $layout = Str::replaceFirst( '</head>', $styles . '</head>', $layout);
-        $layout = Str::replaceFirst( '</head>', $scripts . '</head>', $layout);
-        $layout = Str::replaceFirst( '</head>', $modal . '</head>', $layout);
+        $layout = Str::replaceFirst('<head>', '<head>' . $alpineScript, $layout);
+        $layout = Str::replaceFirst('</head>', $styles . '</head>', $layout);
+        $layout = Str::replaceFirst('</head>', $scripts . '</head>', $layout);
+        $layout = Str::replaceFirst('</head>', $modal . '</head>', $layout);
 
 
         return $layout;
@@ -277,105 +307,32 @@ class Template
         return $val;
     }
 
+
     public function get_custom_fonts_css_content()
     {
-        $google_font_domain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
-        $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
-        $output = [];
-        if (!empty($enabled_custom_fonts)) {
-            foreach ($enabled_custom_fonts as $font) {
-                if ($font) {
-                    $font = str_replace('%2B', '+', $font);
-                    $font_url = urlencode($font);
-                    $output[] = "@import url(//{$google_font_domain}/css?family={$font_url}:300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic);";
-                }
-            }
-        }
+        return $this->fontsAdapter->getFontsStylesheetCss();
+    }
 
-        return implode("\n", $output);
-
+    public function get_custom_fonts_css_url()
+    {
+        return $this->fontsAdapter->getFontsStylesheetCssUrl();
     }
 
     public function get_custom_css_content()
     {
-        ob_start();
-
-        event_trigger('mw.template.print_custom_css_includes');
-
-        $fonts_file = modules_path() . 'editor' . DS . 'fonts' . DS . 'stylesheet.php';
-        if (is_file($fonts_file)) {
-            include $fonts_file;
-        }
-        $custom_css = get_option('custom_css', 'template');
-        if (is_string($custom_css)) {
-            echo $custom_css;
-        }
-
-        event_trigger('mw.template.print_custom_css');
-
-        $output = ob_get_contents();
-        ob_end_clean();
-
-
-        return $output;
+        return $this->customCssAdapter->getCustomCssContent();
     }
 
 
     public function get_custom_css()
     {
+        return $this->customCssAdapter->getCustomCss();
 
-
-        $l = $this->get_custom_css_content();
-        $compile_assets = \Config::get('microweber.compile_assets');
-        if ($compile_assets and defined('MW_VERSION')) {
-            $userfiles_dir = userfiles_path();
-            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
-            $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
-            if (!is_file($userfiles_cache_filename)) {
-                if (!is_dir($userfiles_cache_dir)) {
-                    mkdir_recursive($userfiles_cache_dir);
-                }
-
-                if (is_dir($userfiles_cache_dir)) {
-                    @file_put_contents($userfiles_cache_filename, $l);
-                }
-            } else {
-                $fmd5 = md5_file($userfiles_cache_filename);
-                $fmd = md5($l);
-                if ($fmd5 != $fmd) {
-                    @file_put_contents($userfiles_cache_filename, $l);
-                }
-            }
-        }
-
-        return $l;
     }
 
     public function get_custom_css_url()
     {
-        $content = $this->get_custom_css_content();
-
-        if (trim($content) == '') {
-            return false;
-        }
-
-        $url = api_nosession_url('template/print_custom_css');
-        if (in_live_edit() and is_admin()) {
-            return $url;
-        }
-
-        $compile_assets = \Config::get('microweber.compile_assets');
-        if ($compile_assets and defined('MW_VERSION')) {
-            $userfiles_dir = userfiles_path();
-            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
-            $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
-            if (is_file($userfiles_cache_filename)) {
-                $custom_live_editmtime = filemtime($userfiles_cache_filename);
-                $url = userfiles_url() . 'cache/' . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css?ver=' . $custom_live_editmtime;
-            }
-        }
-
-        return $url;
+        return $this->customCssAdapter->getCustomCssUrl();
     }
 
     public function optimize_page_loading($layout)
@@ -468,7 +425,7 @@ class Template
         $compile_assets = \Config::get('microweber.compile_assets');
         $userfiles_dir = userfiles_path();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
-        $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css';
+        $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . crc32(site_url()) . '.' . MW_VERSION . '.css';
         if (!is_dir($userfiles_cache_dir)) {
             return;
         }
