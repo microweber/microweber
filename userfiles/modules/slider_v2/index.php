@@ -39,8 +39,9 @@ if (is_file($templateFile)) {
 
 ?>
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-<script src="//cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+    mw.lib.require('swiper');
+</script>
 <script>
     $(document).ready(function () {
         new Swiper('#js-slider-<?php echo $params['id']; ?>', {
