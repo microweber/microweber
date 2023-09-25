@@ -1,7 +1,20 @@
+<?php
+
+/*
+
+type: layout
+
+name: Default
+
+description: Default
+
+*/
+?>
+
 <div id="js-slider-<?php echo $params['id']; ?>" class="swiper">
     <div class="swiper-wrapper">
 
-        <?php foreach($slides as $slide): ?>
+        <?php foreach($slides as $i => $slide): ?>
 
         <?php print getCssForSlide($slide); ?>
 
@@ -30,10 +43,7 @@
         <?php endforeach; ?>
     </div>
 
-    <!-- If we need pagination -->
     <div id="js-slide-pagination-<?php echo $params['id']; ?>" class="swiper-pagination"></div>
-
-    <!-- If we need navigation buttons -->
     <div id="js-slide-pagination-previous-<?php echo $params['id']; ?>" class="swiper-button-prev"></div>
     <div id="js-slide-pagination-next-<?php echo $params['id']; ?>" class="swiper-button-next"></div>
 </div>
