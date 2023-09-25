@@ -37,9 +37,11 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
 
     public function updatedItemState()
     {
-       $this->submit([
-           'switchToMainTab'=>false
-       ]);
+        if (isset($this->itemState['itemId'])) {
+           $this->submit([
+               'switchToMainTab'=>false
+           ]);
+        }
     }
 
     public function submit($options = [])
@@ -77,9 +79,12 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
 
         if ($this->itemId) {
             $newItem['itemId'] = $this->itemId;
+            $newItem['createdAt'] = date('Y-m-d H:i:s');
+            $newItem['updatedAt'] = date('Y-m-d H:i:s');
         } else {
             $isNewItem = true;
             $newItem['itemId'] = $this->moduleId . '_' . uniqid();
+            $newItem['updatedAt'] = date('Y-m-d H:i:s');
             foreach ($defaults as $key => $value) {
                 if (!isset($newItem[$key])) {
                     $newItem[$key] = $value;
@@ -136,8 +141,12 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
             $this->emit('switchToMainTab');
         }
 
-        $this->emit('onItemChanged');
-
+        $this->emit('onItemChanged', [
+            'moduleId' => $this->moduleId,
+            'itemId' => $newItem['itemId'],
+            'item' => $newItem,
+            'isNew' => $isNewItem,
+        ]);
 
     }
 

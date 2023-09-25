@@ -1,5 +1,8 @@
 @php
-$realtimeEditing = true;
+$realtimeEditing = false;
+if (isset($editorSettings['config']['realtimeEditing'])) {
+    $realtimeEditing = $editorSettings['config']['realtimeEditing'];
+}
 @endphp
 
 @if (isset($editorSettings['schema']))

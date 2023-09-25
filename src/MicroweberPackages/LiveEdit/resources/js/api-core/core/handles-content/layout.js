@@ -218,7 +218,7 @@ export class LayoutHandleContent {
             {
                 title: this.rootScope.lang('Move Down'),
                 text: '',
-                icon: '<svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" /></svg>',
+                icon: '<svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24"><path d="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" /></svg>',
                 className: 'mw-handle-insert-button',
                 onTarget: function(target, selfNode) {
                     if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module']) && target.nextElementSibling !== null) {
@@ -237,7 +237,7 @@ export class LayoutHandleContent {
             {
                 title: this.rootScope.lang('Move up'),
                 text: '',
-                icon: '<svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" /></svg>',
+                icon: '<svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24"><path d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" /></svg>',
                 className: 'mw-handle-insert-button',
                 onTarget: function (target, selfNode, rootScope) {
                     if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module']) && target.previousElementSibling !== null) {
@@ -266,13 +266,13 @@ export class LayoutHandleContent {
 
                 onTarget: function(target, selfNode) {
                     let selfVisible = true;
-         
- 
+
+
                     if(!DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
                         selfVisible = false;
-                    }  
+                    }
                     if(selfVisible) {
-                         
+
                         selfNode.classList.remove('mw-le-handle-menu-button-disabled');
                     } else {
                         selfNode.classList.add('mw-le-handle-menu-button-disabled');

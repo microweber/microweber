@@ -83,6 +83,7 @@ use MicroweberPackages\Shipping\ShippingManagerServiceProvider;
 use MicroweberPackages\Shop\ShopManagerServiceProvider;
 use MicroweberPackages\Tag\TagsManagerServiceProvider;
 use MicroweberPackages\Tax\TaxManagerServiceProvider;
+use MicroweberPackages\Template\TemplateEventServiceProvider;
 use MicroweberPackages\Template\TemplateManagerServiceProvider;
 use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
@@ -292,6 +293,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(ContentFieldServiceProvider::class);
         $this->app->register(CustomFieldServiceProvider::class);
         $this->app->register(CustomFieldEventServiceProvider::class);
+        $this->app->register(TemplateEventServiceProvider::class);
+
         $this->app->register(TemplateManagerServiceProvider::class);
         $this->app->register(DatabaseManagerServiceProvider::class);
 
@@ -338,6 +341,7 @@ class AppServiceProvider extends ServiceProvider
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
+
 
 
         $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
