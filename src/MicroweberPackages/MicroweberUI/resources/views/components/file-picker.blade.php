@@ -29,7 +29,7 @@
         <div id="js-preview-image-wrapper-{{$randId}}" style="display:none">
             <div class="d-flex justify-content-between">
                 <div>
-                    <img src="" id="js-preview-image-{{$randId}}" />
+                    <img src="" style="border-radius:4px" class="js-select-file-{{$randId}} cursor-pointer" id="js-preview-image-{{$randId}}" />
                 </div>
                 <div class="d-flex gap-2">
                     <x-microweber-ui::button-action type="button" class="btn-sm js-select-file-{{$randId}}">
@@ -125,10 +125,8 @@
                 let mediaPickerFileField = document.getElementById('js-media-picker-file-{{$randId}}');
                 var imageEditBtn = $('#js-edit-image-{{$randId}}');
                 imageEditBtn.click(async function(e) {
-                    e.preventDefault()
+                    e.preventDefault();
                     var src = await mw.top().app.editImageDialog($('#js-preview-image-{{$randId}}').attr('src'));
-                  
- 
                     if(src) {
                         $('#js-preview-image-{{$randId}}').attr('src', src);
                         mediaPickerFileField.value = src;
