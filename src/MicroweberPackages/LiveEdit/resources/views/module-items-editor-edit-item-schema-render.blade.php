@@ -167,6 +167,17 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 <label class="live-edit-label" for="{{ $field['name'] }}">{{ $field['label'] }}</label>
 
                 @if ($realtimeEditing)
+                    <x-microweber-ui::input type="url" label="{{$field['label']}}" wire:model.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                @else
+                    <x-microweber-ui::input type="url" label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                @endif
+
+
+            @elseif($field['type'] == 'link-picker' )
+
+                <label class="live-edit-label" for="{{ $field['name'] }}">{{ $field['label'] }}</label>
+
+                @if ($realtimeEditing)
                     <x-microweber-ui::link-picker label="{{$field['label']}}" wire:model.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
                     <x-microweber-ui::link-picker label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />

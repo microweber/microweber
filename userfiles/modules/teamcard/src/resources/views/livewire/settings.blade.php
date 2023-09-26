@@ -47,7 +47,7 @@ showMainEditTab: 'mainSettings'
                 'help' => 'Enter role',
             ]
             , [
-                'type' => 'text',
+                'type' => 'url',
                 'label' => 'Team member website',
                 'name' => 'website',
                 'placeholder' => 'https://yourwebsite.com',
