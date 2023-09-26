@@ -1,3 +1,15 @@
+<?php
+
+/*
+
+type: layout
+
+name: Default
+
+description: default
+
+*/
+?>
 <style>
     .team-card-item-image {
         height: 185px;
@@ -26,13 +38,13 @@
     $count = 0;
 
     if (isset($data) AND $data) {
-        foreach ($data as $slide) {
+        foreach ($data as $teamData) {
             $count++;
             ?>
             <div class="team-card-item col-md-6 col-12 mb-3 overflow-hidden text-start px-md-4 my-5 d-flex flex-wrap">
                <div class="col-md-6">
-                   <?php if ($slide['file']) { ?>
-                       <div class="team-card-item-image m-auto rounded-circle" style="background-image: url('<?php print thumbnail($slide['file'], 200); ?>');"></div>
+                   <?php if ($teamData['file']) { ?>
+                       <div class="team-card-item-image m-auto rounded-circle" style="background-image: url('<?php print thumbnail($teamData['file'], 200); ?>');"></div>
 
                    <?php } else { ?>
                        <div class="m-auto rounded-circle">
@@ -44,10 +56,10 @@
                </div>
 
                 <div class="col-md-6">
-                    <div class="team-card-item-name py-4 fs-4" ><?php print array_get($slide, 'name'); ?></div>
-                    <div class="team-card-item-position pb-3"> <?php print array_get($slide, 'role'); ?></div>
-                    <a href="<?php print $slide['website']; ?>" target="_blank"> <?php print array_get($slide, 'website'); ?></a>
-                    <div class="team-card-item-bio pt-3 italic"> <?php print array_get($slide, 'bio'); ?></div>
+                    <div class="team-card-item-name py-4 fs-4" ><?php print array_get($teamData, 'name'); ?></div>
+                    <div class="team-card-item-position pb-3"> <?php print array_get($teamData, 'role'); ?></div>
+                    <a href="<?php print $teamData['website']; ?>" target="_blank"> <?php print array_get($teamData, 'website'); ?></a>
+                    <div class="team-card-item-bio pt-3 italic"> <?php print array_get($teamData, 'bio'); ?></div>
                 </div>
             </div>
         <?php }

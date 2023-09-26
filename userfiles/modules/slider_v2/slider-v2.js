@@ -59,6 +59,9 @@ class SliderV2 {
                 clickable: true
             };
         }
+        if (this.config.direction) {
+            swiperConfig.direction = this.config.direction;
+        }
 
         // if (this.config.initialSlide) {
         //     swiperConfig.initialSlide = this.config.initialSlide;
