@@ -147,6 +147,55 @@ showMainEditTab: 'mainSettings'
     ];
 
     ?>
+<div wire:ignore>
+    <script>
+        var canvasWindow = mw.top().app.canvas.getWindow();
+        var lastSlideEditItemId = null;
+        window.livewire.on('editItemById' , (itemId) => {
+            lastSlideEditItemId = itemId;
+            window.slideModuleSettingsSwitchToSlide(itemId);
+
+        });
+        window.livewire.on('onItemChanged', (data) => {
+            lastSlideEditItemId = data.itemId;
+            if(lastSlideEditItemId) {
+                window.slideModuleSettingsSwitchToSlide(lastSlideEditItemId);
+            }
+        });
+
+        window.livewire.on('mouseoverItemId' , (itemId) => {
+            lastSlideEditItemId = itemId;
+            if(lastSlideEditItemId) {
+                window.slideModuleSettingsSwitchToSlide(lastSlideEditItemId);
+            }
+        });
+
+        mw.top().app.on('onModuleReloaded', (moduleId) => {
+            if(moduleId !== '<?php print $moduleId ?>'){
+                return;
+            }
+
+            if(lastSlideEditItemId) {
+             window.slideModuleSettingsSwitchToSlide(lastSlideEditItemId);
+            }
+        });
+
+        window.slideModuleSettingsSwitchToSlide = function (itemId) {
+            var sliderInstanceName = 'sliderV2<?php echo md5($moduleId); ?>'
+            var sliderInstanceNameInitialSlide =   'sliderV2<?php echo md5($moduleId); ?>_initialSlide'
+
+            if (canvasWindow && canvasWindow[sliderInstanceName]) {
+                canvasWindow[sliderInstanceName].switchToSlideByItemId(itemId);
+            }
+
+        }
+
+    </script>
+</div>
+
+
+
+
 
 
 

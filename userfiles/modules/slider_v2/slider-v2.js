@@ -27,10 +27,13 @@ class SliderV2 {
 
     switchToSlideByItemId(itemId) {
         let slideIndex = Object.keys(this.config.slidesIndexes).findIndex((itemValue) => {
+
             if (itemValue == itemId) {
-                return true;
+
+                 return true;
             }
         });
+
         if (typeof (slideIndex) != 'undefined') {
             this.slideTo(slideIndex);
         }

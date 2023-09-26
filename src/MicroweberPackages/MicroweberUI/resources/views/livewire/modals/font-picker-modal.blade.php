@@ -93,14 +93,12 @@
 
             <div class="pr-5">
 
-
-
                 @if($fonts->count() > 0)
                     @foreach($fonts as $font)
                         @php
                             $fontId = md5($font['family'].$font['category']);
                         @endphp
-                        <div wire:key="font-id-{{$fontId}}" x-data="{favorite: @if (isset($font['favorite']) && $font['favorite']) true @else false @endif }" class="d-flex justify-content-between">
+                        <div wire:key="font-id-{{$fontId}}" x-data="{favorite: @if (isset($font['favorite']) && $font['favorite']) true @else false @endif }" class="d-flex justify-content-between px-3">
 
                             <script>
                                 loadFontFamily('{{$font['family']}}');
@@ -119,8 +117,7 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M22 10.1c.1-.5-.3-1.1-.8-1.1l-5.7-.8L12.9 3c-.1-.2-.2-.3-.4-.4c-.5-.3-1.1-.1-1.4.4L8.6 8.2L2.9 9c-.3 0-.5.1-.6.3c-.4.4-.4 1 0 1.4l4.1 4l-1 5.7c0 .2 0 .4.1.6c.3.5.9.7 1.4.4l5.1-2.7l5.1 2.7c.1.1.3.1.5.1h.2c.5-.1.9-.6.8-1.2l-1-5.7l4.1-4c.2-.1.3-.3.3-.5z"/></svg>
                                 </div>
                                 <div x-show="!favorite" class="pr-3" x-on:click="favorite = true" wire:click="favorite('{{$font['family']}}')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5a1 1 0 0 1 .894.553l2.58 5.158l5.67.824a1 1 0 0 1 .554 1.706l-4.127 4.024l.928 5.674a1 1 0 0 1-1.455 1.044L12 18.807l-5.044 2.676a1 1 0 0 1-1.455-1.044l.928-5.674l-4.127-4.024a1 1 0 0 1 .554-1.706l5.67-.824l2.58-5.158A1 1 0 0 1 12 2.5zm0 3.236l-1.918 3.836a1 1 0 0 1-.75.543l-4.184.608l3.05 2.973a1 1 0 0 1 .289.878L7.8 18.771l3.731-1.98a1 1 0 0 1 .938 0l3.731 1.98l-.687-4.197a1 1 0 0 1 .289-.877l3.05-2.974l-4.183-.608a1 1 0 0 1-.75-.543L12 5.736z"/></svg>
-                                </div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m354-247 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-80l65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Zm247-350Z"/></svg>                                </div>
                             </div>
                         </div>
                     @endforeach

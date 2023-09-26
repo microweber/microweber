@@ -10,6 +10,10 @@ export class ElementSettingsTarget extends MicroweberBaseClass {
     }
 
     getSettingsTarget(target) {
+        if(!target){
+            return target;
+        }
+
         if(!target.firstElementChild) {
             return target;
         }

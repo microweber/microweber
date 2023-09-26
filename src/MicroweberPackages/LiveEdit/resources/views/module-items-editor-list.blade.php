@@ -73,28 +73,34 @@ showEditTab: 'main'
 }" x-init="() => {
     window.livewire.on('switchToMainTab', () => {
         showEditTab = 'main'
-        mw.top().app.dispatch('moduleSettings.switchToMainTab');
+        var event = new Event('moduleSettings.switchToMainTab', { detail: 'main' });
+        window.dispatchEvent(event);
     })
      window.livewire.on('onItemChanged' , (item) => {
-        mw.top().app.dispatch('moduleSettings.itemChanged', item);
+        var event = new Event('moduleSettings.onItemChanged', { detail: item });
+        window.dispatchEvent(event);
      });
 
      window.livewire.on('editItemById' , (itemId) => {
-        mw.top().app.dispatch('moduleSettings.editItemById', itemId);
+        var event = new Event('moduleSettings.editItemById', { detail: itemId });
+        window.dispatchEvent(event);
         showEditTab = 'tabs-nav-tab-' +  itemId
     })
 
     window.livewire.on('mouseoverItemId' , (itemId) => {
-        mw.top().app.dispatch('moduleSettings.mouseoverItemId', itemId);
+        var event = new Event('moduleSettings.mouseoverItemId',  { detail: itemId });
+        window.dispatchEvent(event);
+
     })
 
     window.livewire.on('mouseoutItemId' , (itemId) => {
-        mw.top().app.dispatch('moduleSettings.mouseoutItemId', itemId);
+        var event = new Event('moduleSettings.mouseoutItemId',  { detail: itemId });
+        window.dispatchEvent(event);
     })
 
     window.livewire.on('showConfirmDeleteItemById' , (itemId) => {
-
-        Livewire.emit('onShowConfirmDeleteItemById', itemId);
+        Livewire.emit('onShowConfirmDeleteItemById',  itemId);
+        var event = new Event('moduleSettings.showConfirmDeleteItemById',  { detail: itemId });
     })
 }">
 

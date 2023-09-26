@@ -17,6 +17,7 @@ class FontPickerModalComponent extends ModalComponent
         'padding'=> '0px',
         'background' => 'white',
         'width' => '700px',
+        'height' => '700px',
         'overlay' => true,
         'overlayClose' => true,
         'closeHandleSelector'=>'#js-modal-livewire-ui-close',

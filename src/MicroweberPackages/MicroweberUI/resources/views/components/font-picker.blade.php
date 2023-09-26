@@ -14,8 +14,6 @@
     </select>
 
     <div class="mt-1 mb-3">
-        <button type="button" class="btn btn-outline-dark btn-sm" onclick="Livewire.emit('openModal', 'font-picker-modal')">
-            <i class="mdi mdi-format-font"></i> Add More Fonts
-        </button>
+        <button type="button" class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs" onclick="Livewire.emit('openModal', 'font-picker-modal')">Add more fonts</button>
     </div>
 </div>
