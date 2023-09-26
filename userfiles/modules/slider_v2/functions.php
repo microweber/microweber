@@ -50,7 +50,9 @@ function getCssForSlide($slide)
             font-size: '.$buttonFontSize.' !important;
         }
         .js-slide-image-'.$slide['itemId'].' {
-            background-size:cover;
+            background-size: auto;
+            background-repeat: no-repeat;
+            background-position: center center;
             width: 100%;
             height: 100%;
             position: absolute;
@@ -67,7 +69,7 @@ function getCssForSlide($slide)
             position: absolute;
 
         }
-    </style>';
+    </style> ';
 
 }
 
