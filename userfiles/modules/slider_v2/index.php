@@ -48,6 +48,11 @@ if (is_file($templateFile)) {
 }
 ?>
 
+<style>
+    #js-slider-<?php echo $params['id']; ?>{
+        max-width: 100vw !important;
+    }
+</style>
 <script>
     mw.require('<?php print $config['url_to_module']; ?>slider-v2.js');
     $(document).ready(function () {
@@ -63,9 +68,6 @@ if (is_file($templateFile)) {
             slidesIndexes: <?php echo json_encode($slidesIndexes); ?>,
             initialSlide: <?php echo $currentSlide; ?>,
         });
-
-
-
     });
 </script>
 
