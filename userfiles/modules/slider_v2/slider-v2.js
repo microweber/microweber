@@ -53,6 +53,9 @@ class SliderV2 {
         if (this.config.loop) {
             swiperConfig.loop = true;
         }
+        if (this.config.autoplay) {
+            swiperConfig.autoplay = true;
+        }
         if (this.config.pagination.element) {
             swiperConfig.pagination = {
                 el: this.config.pagination.element,
