@@ -23,6 +23,14 @@
             "website": "www.example.com",
             "bio": "Gamer. Music maven. Hardcore social media ninja. Reader. Beer buff.",
             "itemId": 3
+        },
+        {
+            "file": "{SITE_URL}userfiles/modules/teamcard/default-content/4.jpg",
+            "name": "Maryln E Walker",
+            "role": "Social Media Ninja",
+            "website": "www.example.com",
+            "bio": "Gamer. Music maven. Hardcore social media ninja. Reader. Beer buff.",
+            "itemId": 3
         }
     ]
 }
