@@ -48,6 +48,11 @@ if (is_file($templateFile)) {
 }
 ?>
 
+<style>
+    #js-slider-<?php echo $params['id']; ?>{
+        max-width: 100vw !important;
+    }
+</style>
 <script>
     mw.require('<?php print $config['url_to_module']; ?>slider-v2.js');
     $(document).ready(function () {
@@ -72,9 +77,6 @@ console.log(window.sliderV2<?php echo md5($params['id']); ?>_initialSlide = <?ph
             slidesIndexes: <?php echo json_encode($slidesIndexes); ?>,
             initialSlide: window.sliderV2<?php echo md5($params['id']); ?>_initialSlide,
         });
-
-
-
     });
 </script>
 
