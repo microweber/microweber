@@ -23,10 +23,17 @@ export class LiveEditLayoutBackground extends BaseComponent {
     setBackgroundImage(node, url) {
         mw.app.registerUndoState(node);
         mw.app.registerAskUserToStay(true);
+        let bg
+        if (!url) {
+            bg = 'none'
+        } else {
+            url = url.toString();
+            bg = `url(${url})`
+        }
 
-        url = url.toString();
+        
         node.innerHTML = ``;
-        node.style.backgroundImage = `url(${url})`;
+        node.style.backgroundImage = bg;
 
         node.style.backgroundColor = 'transparent';
 
@@ -72,6 +79,9 @@ export class LiveEditLayoutBackground extends BaseComponent {
     setBackgroundVideo(node, url) {
         mw.app.registerAskUserToStay(true);
         mw.app.registerUndoState(node);
+        if(!url) {
+            url = ''
+        }
         url = url.toString();
         if (url == '') {
             node.innerHTML = "";

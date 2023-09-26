@@ -19,7 +19,9 @@
         mw.lib.require('colorpicker');
 
         if (!mw.tools.colorPickerColors) {
-            mw.tools.colorPickerColors = [];
+            mw.tools.colorPickerColors = [
+
+            ];
 
             if (typeof mw.color !== 'undefined' && typeof mw.color.rgbToHex !== 'undefined') {
                 var colorpicker_els = mw.top().$(".btn,h1,h2,h3,h4,h5");
@@ -103,7 +105,7 @@
 
             sett.attachTo = $el[0];
 
- 
+
 
             frame = sett.attachTo.ownerDocument.defaultView.AColorPicker.createPicker(sett); // AColorPicker works only with local window
             frame.onchange = function (data) {
@@ -137,6 +139,7 @@
             sett.attachTo = mw.$('.mw-tooltip-content', tip)[0]
 
             frame = AColorPicker.createPicker(sett);
+
 
             frame.onchange = function (data) {
 
@@ -218,6 +221,25 @@
             $el.addClass('mw-color-picker-field')
 
             }
+
+
+
+        if(frame && frame.element){
+            //append remove color
+            var frameEl = $(frame.element).find('.a-color-picker-palette').first()[0];
+            var removeColorButton = mw.element('<div  class="xxxxxxa-color-picker-palette-color" data-color="#0000ff" style="background-color: yellow;">xxxxxx</div>')
+            removeColorButton.on('click', function () {
+                if (proto.settings.onchange) {
+                    //blue
+                    proto.settings.onchange('#0000ff');
+                }
+
+            });
+            frameEl.prepend(removeColorButton.get(0))
+        }
+
+
+
             if (this.tip) {
                 this.show = function () {
                     mw.$(this.tip).show();

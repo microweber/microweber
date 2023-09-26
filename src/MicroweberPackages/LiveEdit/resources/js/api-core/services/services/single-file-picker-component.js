@@ -55,7 +55,7 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
                         <div data-fpc-action="preview">
                              
                         </div>
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2 justify-content-between w-100">
                             <div class="form-control-live-edit-label-wrapper d-flex align-items-center">
                                 <button type="button" class="mw-liveedit-button-actions-component btn-sm js-select-file-${id}" data-fpc-action="selectFile">
                                     ${mw.lang('Change')}
@@ -161,6 +161,11 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
         }
     }
 
+    setFile(src) {
+        this.file = src;
+        this.templatePrepare();
+    }
+
     removeFile() {
         const previewNodes = this.root.querySelectorAll('[data-fpc-action="preview"]');
         this.file = null;
@@ -178,10 +183,14 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
             if(src) {
                 this.file = src;
                 this.templatePrepare();
+                this.dispatch('change')
+                this.dispatch('edit')
             }
         },
         remove: (event, node, scope) => {
             this.removeFile();
+            this.dispatch('change')
+            this.dispatch('remove')
         },
         selectFile: (event, node, scope) => {
             var dialog;
@@ -198,6 +207,8 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
                     this.file = url;
                     this.templatePrepare();
                     dialog.remove();
+                    this.dispatch('change')
+                    this.dispatch('selectFile')
                 }
             });
             dialog = mw.top().dialog({

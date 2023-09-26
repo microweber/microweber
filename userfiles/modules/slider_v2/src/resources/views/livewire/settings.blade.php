@@ -182,6 +182,7 @@ showMainEditTab: 'mainSettings'
 
         window.slideModuleSettingsSwitchToSlide = function (itemId) {
             var sliderInstanceName = 'sliderV2<?php echo md5($moduleId); ?>'
+            var sliderInstanceNameInitialSlide =   'sliderV2<?php echo md5($moduleId); ?>_initialSlide'
 
             if (canvasWindow && canvasWindow[sliderInstanceName]) {
                 canvasWindow[sliderInstanceName].switchToSlideByItemId(itemId);
