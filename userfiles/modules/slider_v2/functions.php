@@ -50,7 +50,7 @@ function getCssForSlide($slide)
             font-size: '.$buttonFontSize.' !important;
         }
         .js-slide-image-'.$slide['itemId'].' {
-            background-size: auto;
+            background-size: cover; 
             background-repeat: no-repeat;
             background-position: center center;
             width: 100%;
