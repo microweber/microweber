@@ -163,6 +163,13 @@ showMainEditTab: 'mainSettings'
             }
         });
 
+        window.livewire.on('mouseoverItemId' , (itemId) => {
+            lastSlideEditItemId = itemId;
+            if(lastSlideEditItemId) {
+                window.slideModuleSettingsSwitchToSlide(lastSlideEditItemId);
+            }
+        });
+
         mw.top().app.on('onModuleReloaded', (moduleId) => {
             if(moduleId !== '<?php print $moduleId ?>'){
                 return;
