@@ -5,7 +5,7 @@
     $md5name = md5(time().rand(1111,9999));
 @endphp
 
-<div>
+<div wire:ignore>
 
 
     <input style="display:none" id="{{$md5name}}" {!! $attributes->merge() !!} />
