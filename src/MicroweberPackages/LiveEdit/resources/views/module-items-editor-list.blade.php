@@ -73,19 +73,26 @@ showEditTab: 'main'
 }" x-init="() => {
     window.livewire.on('switchToMainTab', () => {
         showEditTab = 'main'
+        mw.top().app.dispatch('moduleSettings.switchToMainTab');
     })
-
      window.livewire.on('onItemChanged' , (item) => {
-        mw.top().app.dispatch('onItemChanged', item);
+        mw.top().app.dispatch('moduleSettings.itemChanged', item);
      });
 
      window.livewire.on('editItemById' , (itemId) => {
-        mw.top().app.dispatch('editItemById', itemId);
+        mw.top().app.dispatch('moduleSettings.editItemById', itemId);
         showEditTab = 'tabs-nav-tab-' +  itemId
     })
 
+    window.livewire.on('mouseoverItemId' , (itemId) => {
+        mw.top().app.dispatch('moduleSettings.mouseoverItemId', itemId);
+    })
 
-      window.livewire.on('showConfirmDeleteItemById' , (itemId) => {
+    window.livewire.on('mouseoutItemId' , (itemId) => {
+        mw.top().app.dispatch('moduleSettings.mouseoutItemId', itemId);
+    })
+
+    window.livewire.on('showConfirmDeleteItemById' , (itemId) => {
 
         Livewire.emit('onShowConfirmDeleteItemById', itemId);
     })

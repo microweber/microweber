@@ -127,7 +127,7 @@ export class ModuleSettings extends MicroweberBaseClass {
 
                 };
 
-                mw.app.dispatch('onModuleSettingsLoaded', eventData);
+                mw.app.dispatch('moduleSettings.loaded', eventData);
 
 
              });
