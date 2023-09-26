@@ -1,11 +1,4 @@
-<script>
-    addEventListener('load', () => {
-        const picker = mw.app.singleFilePickerComponent({
-            element: '#bg--image-picker',
-            accept: 'images'
-        });
-    })
-</script>
+ 
 
 <div>
 
@@ -22,73 +15,18 @@
         <div id="bg--image-picker">
             
         </div>
-        <div id="bg-image-picker">
-            <div class="dropzone mw-dropzone ">
-                <div class="d-flex flex-column align-items-center gap-3">
-                    <div class="d-flex align-items-center justify-content-center">
-                        <i class="mdi mdi-plus"></i>
-                    </div>
-                    <div>
-                        <b>
+        
 
-                        </b>
-                    </div>
-                    <div>
-                        <div id="bg-image-picker-preview-image">
-
-                        </div>
-                        <div id="bg-image-picker-upload-text">
-                            <span>
-                                <b>20MB Max</b>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="bg-image-picker-remove-wrapper">
-            <button id="bg-image-picker-remove-image"  type="button" class="btn btn-ghost-danger w-100">
-                Remove image
-            </button>
-
-
-        </div>
-
+ 
 
 
     </div>
     <div class="bg-tab">
-        <div id="video-picker">
-            <div class="dropzone mw-dropzone ">
-                <div class="d-flex flex-column align-items-center gap-3">
-                    <div class="d-flex align-items-center justify-content-center">
-                        <i class="mdi mdi-plus"></i>
-                    </div>
-                    <div>
-                        <b>
-
-                        </b>
-                    </div>
-                    <div id="bg-video-picker-preview-video">
-
-                    </div>
-                    <div id="bg-video-picker-preview-text">
-                                        <span>
-                                            <b>20MB Max</b>
-                                        </span>
-                    </div>
-                </div>
+        
+    <div id="bg--video-picker">
+            
             </div>
-        </div>
-
-        <div id="video-picker-remove-wrapper">
-            <button id="video-picker-remove-video"  type="button" class="btn btn-ghost-danger w-100">
-                Remove video
-            </button>
-
-
-        </div>
+ 
     </div>
     <div class="bg-tab">
         <div id="color-picker" class="card card-body"></div>
@@ -112,6 +50,38 @@
 
         var target = mw.top().app.liveEdit.handles.get('layout').getTarget();
         var bg, bgOverlay, bgNode;
+
+        addEventListener('load', () => {
+
+            const bgImage = mw.top().app.layoutBackground.getBackgroundImage(bgNode);
+            const bgVideo = mw.top().app.layoutBackground.getBackgroundVideo(bgNode)
+
+            
+            const picker = mw.app.singleFilePickerComponent({
+                element: '#bg--image-picker',
+                accept: 'images',
+                file:  bgImage ? bgImage : null
+            });
+
+            picker.on('change', () => {
+                videoPicker.setFile(null);
+                mw.top().app.layoutBackground.setBackgroundImage(bgNode, picker.file);
+            })
+
+            const videoPicker = mw.app.singleFilePickerComponent({
+                element: '#bg--video-picker',
+                accept: 'videos',
+                file:  bgVideo ? bgVideo : null,
+                canEdit: false
+            });
+
+            videoPicker.on('change', () => {
+                mw.top().app.layoutBackground.setBackgroundVideo(bgNode, videoPicker.file);
+                picker.setFile(null);
+            })
+        })
+
+
         if (target) {
 
 
@@ -173,84 +143,7 @@
             }
 
 
-            const bgImagePicker = document.querySelector('#bg-image-picker')
-
-            bgImagePicker.addEventListener('click', function () {
-                var dialog;
-                var picker = new mw.filePicker({
-                    type: 'images',
-                    label: false,
-                    autoSelect: false,
-                    footer: true,
-                    _frameMaxHeight: true,
-                    onResult: function (res) {
-                        var url = res.src ? res.src : res;
-                        if (!url) {
-                            dialog.remove();
-                            return
-                        }
-                        url = url.toString();
-
-                        mw.top().app.layoutBackground.setBackgroundImage(bgNode, url);
-                        dialog.remove();
-
-                        showHideRemoveBackgroundsButtons();
-                    }
-                });
-                dialog = mw.top().dialog({
-                    content: picker.root,
-                    title: mw.lang('Select image'),
-                    footer: false,
-                    width: 860,
-
-
-                });
-                picker.$cancel.on('click', function () {
-                    dialog.remove()
-                })
-            })
-            document.querySelector('#video-picker').addEventListener('click', function () {
-                var dialog;
-                var picker = new mw.filePicker({
-                    type: 'videos',
-                    label: false,
-                    autoSelect: false,
-                    footer: true,
-                    _frameMaxHeight: true,
-                    onResult: function (res) {
-                        var url = res.src ? res.src : res;
-                        if (!url) {
-                            dialog.remove();
-                            return
-                        }
-                        url = url.toString();
-                        mw.top().app.layoutBackground.setBackgroundVideo(bgNode, url);
-                        dialog.remove();
-                        showHideRemoveBackgroundsButtons();
-                   }
-                });
-                dialog = mw.top().dialog({
-                    content: picker.root,
-                    title: mw.lang('Select video'),
-                    footer: false,
-                    width: 860,
-
-
-                });
-                picker.$cancel.on('click', function () {
-                    dialog.remove()
-                })
-            })
-
-
-            document.querySelector('#video-picker-remove-video').addEventListener('click', function () {
-                mw.top().app.layoutBackground.setBackgroundVideo(bgNode, '');
-                showHideRemoveBackgroundsButtons()
-            })
-            document.querySelector('#bg-image-picker-remove-image').addEventListener('click', function () {
-                mw.top().app.layoutBackground.setBackgroundImage(bgNode, '');
-                showHideRemoveBackgroundsButtons()
-            })
+ 
 
             document.querySelector('#overlay-color-picker-remove-color').addEventListener('click', function () {
 
@@ -262,32 +155,7 @@
 
 
         function showHideRemoveBackgroundsButtons(){
-            var hasBgImage = mw.top().app.layoutBackground.getBackgroundImage(bgNode);
-            if(hasBgImage){
-
-                $('#bg-image-picker-preview-image').html('<img src="'+hasBgImage+'" style="max-width: 100%; max-height: 100%">')
-                $('#bg-image-picker-preview-image').show()
-                $('#bg-image-picker-remove-image').show()
-                $('#bg-image-picker-upload-text').hide()
-
-            } else {
-                $('#bg-image-picker-upload-text').show()
-                $('#bg-image-picker-preview-image').hide()
-                $('#bg-image-picker-remove-image').hide()
-
-            }
-
-            var hasBgVideo = mw.top().app.layoutBackground.getBackgroundVideo(bgNode);
-            if(hasBgVideo){
-                $('#bg-video-picker-preview-video').html('<video src="'+hasBgVideo+'" style="max-width: 100%; max-height: 100%" autoplay muted loop></video>')
-                $('#bg-video-picker-preview-video').show()
-                $('#video-picker-remove-video').show()
-                $('#bg-video-picker-preview-text').hide()
-            } else {
-                $('#bg-video-picker-preview-text').show()
-                $('#video-picker-remove-video').hide()
-                $('#bg-video-picker-preview-video').hide()
-            }
+ 
 
             var hasBgColor = mw.top().app.layoutBackground.getBackgroundColor(bgOverlay)
             if(hasBgColor){
