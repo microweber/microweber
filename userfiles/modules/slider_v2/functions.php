@@ -1,14 +1,14 @@
 <?php
 function getCssForSlide($slide)
 {
-        $imageBackgroundFilter = '';
-        $imageBackgroundColor = '';
-        $descriptionColor = '';
-        $titleColor = '';
+        $imageBackgroundFilter = 'inherit';
+        $imageBackgroundColor = 'inherit';
+        $descriptionColor = 'inherit';
+        $titleColor = 'inherit';
         $buttonFontSize = '18px';
         $descriptionFontSize = '18px';
         $titleFontSize = '36px';
-        $imageBackgroundOpacity = '';
+        $imageBackgroundOpacity = 'inherit';
         if (isset($slide['imageBackgroundFilter'])) {
             $imageBackgroundFilter = $slide['imageBackgroundFilter'];
         }
