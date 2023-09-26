@@ -23,8 +23,8 @@ if (!empty($slides)) {
     foreach ($slides as $iSlide => $slide) {
         $slidesIndexes[$slide['itemId']] = $iSlide;
     }
-    $slidesOrderedByDate = collect($slides)->sortBy('updatedAt')->reverse()->toArray();
-    $currentSlide = key($slidesOrderedByDate);
+ //   $slidesOrderedByDate = collect($slides)->sortBy('updatedAt')->reverse()->toArray();
+  //  $currentSlide = key($slidesOrderedByDate);
 }
 
 $moduleTemplate = get_module_option('template', $params['id']);
@@ -51,7 +51,16 @@ if (is_file($templateFile)) {
 <script>
     mw.require('<?php print $config['url_to_module']; ?>slider-v2.js');
     $(document).ready(function () {
-       let sliderV2<?php echo md5($params['id']); ?> = new SliderV2('#js-slider-<?php echo $params['id']; ?>', {
+
+        console.log(typeof(window.sliderV2<?php echo md5($params['id']); ?>_initialSlide))
+
+        if(typeof 'sliderV2<?php echo md5($params['id']); ?>_initialSlide' === 'undefined'){
+            window.sliderV2<?php echo md5($params['id']); ?>_initialSlide = <?php echo $currentSlide; ?>;
+
+        }
+console.log(window.sliderV2<?php echo md5($params['id']); ?>_initialSlide = <?php echo $currentSlide; ?>)
+       window.sliderV2<?php echo md5($params['id']); ?> = null;
+       window.sliderV2<?php echo md5($params['id']); ?> = new SliderV2('#js-slider-<?php echo $params['id']; ?>', {
             loop: true,
             pagination: {
                 element: '#js-slide-pagination-<?php echo $params['id']; ?>',
@@ -61,7 +70,7 @@ if (is_file($templateFile)) {
                 previousElement: '#js-slide-pagination-previous-<?php echo $params['id']; ?>',
             },
             slidesIndexes: <?php echo json_encode($slidesIndexes); ?>,
-            initialSlide: <?php echo $currentSlide; ?>,
+            initialSlide: window.sliderV2<?php echo md5($params['id']); ?>_initialSlide,
         });
 
 

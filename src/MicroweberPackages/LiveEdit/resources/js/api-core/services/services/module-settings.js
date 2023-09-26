@@ -21,12 +21,16 @@ export class ModuleSettings extends MicroweberBaseClass {
             var el2 = mw.app.canvas.getWindow().$('[data-module-id-from-preset="' + $data.moduleId + '"]')[0];
             if (el !== null) {
                 mw.app.registerChangedState(el);
-                mw.app.canvas.getWindow().mw.reload_module('#' + $data.moduleId);
+                mw.app.canvas.getWindow().mw.reload_module('#' + $data.moduleId,function () {
+                    mw.app.dispatch('onModuleReloaded', $data.moduleId);
+                });
             }
 
             if (el2 !== null && el2 !== undefined) {
                 mw.app.registerChangedState(el2);
-                mw.app.canvas.getWindow().mw.reload_module('[data-module-id-from-preset="' + $data.moduleId + '"]');
+                mw.app.canvas.getWindow().mw.reload_module('[data-module-id-from-preset="' + $data.moduleId + '"]',function () {
+                    mw.app.dispatch('onModuleReloaded', $data.moduleId);
+                });
             }
 
 
@@ -127,7 +131,7 @@ export class ModuleSettings extends MicroweberBaseClass {
 
                 };
 
-                mw.app.dispatch('moduleSettings.loaded', eventData);
+                mw.app.dispatch('moduleSettingsLoaded', eventData);
 
 
              });

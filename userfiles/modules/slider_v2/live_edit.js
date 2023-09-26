@@ -1,26 +1,71 @@
 
 
 
+// mw.top().app.on('onModuleReloaded', (moduleId) => {
+//     console.log('onModuleReloaded');
+//     alert(moduleId);
+// });
 
-mw.top().app.on('moduleSettings.loaded', (eventData) => {
 
-    console.log('moduleSettings.loaded');
+mw.top().app.on('moduleSettingsLoaded', (eventData) => {
+
+    console.log('moduleSettingsLoaded');
     console.log(eventData);
-
-    mw.top().app.on('moduleSettings.editItemById', (item) => {
-        console.log('moduleSettings.itemChanged');
-        console.log(item);
-    });
-    mw.top().app.on('moduleSettings.editItemById', (itemId) => {
-        console.log('moduleSettings.editItemById');
-        console.log(itemId);
-    });
+    console.log(eventData.modal.iframe);
 
 
-    mw.top().app.on('moduleSettings.mouseoverItemId', (itemId) => {
-        console.log('moduleSettings.mouseoverItemId');
-        console.log(itemId);
-    });
+    // var handleSwitchToMainTab = function () {
+    //     console.log('switchToMainTab');
+    // });
+    //
+    //
+    //
+    //
+    // $(eventData.modal).on('Remove', function () {
+    //     eventData.modal.iframe.contentWindow.removeEventListener('moduleSettings.switchToMainTab', handleSwitchToMainTab());
+    // });
+
+
+
+    // eventData.modal.iframe.contentWindow.addEventListener('moduleSettings.switchToMainTab',(event) => {
+    //     console.log('switchToMainTab');
+    //     console.log(event);
+    //  });
+    //
+    // eventData.modal.iframe.contentWindow.addEventListener('moduleSettings.editItemById', (event) => {
+    //     console.log('editItemById');
+    //     console.log(event);
+    // });
+    //  eventData.modal.iframe.contentWindow.addEventListener('moduleSettings.onItemChanged', (event) => {
+    //     console.log('itemChanged');
+    //      console.log(event);
+    // });
+    //
+    // eventData.modal.iframe.contentWindow.addEventListener('xxmoduleSettings.mouseoverItemId', (event) => {
+    //     console.log('mouseoverItemId');
+    //     console.log(event);
+    // });
+    //
+    // eventData.modal.iframe.contentWindow.addEventListener('xxmoduleSettings.mouseoutItemId', (event) => {
+    //     console.log('mouseoutItemId');
+    //     console.log(event);
+    // });
+
+
+    // mw.top().app.on('moduleSettings.editItemById', (item) => {
+    //     console.log('moduleSettings.itemChanged');
+    //     console.log(item);
+    // });
+    // mw.top().app.on('moduleSettings.editItemById', (itemId) => {
+    //     console.log('moduleSettings.editItemById');
+    //     console.log(itemId);
+    // });
+    //
+    //
+    // mw.top().app.on('moduleSettings.mouseoverItemId', (itemId) => {
+    //     console.log('moduleSettings.mouseoverItemId');
+    //     console.log(itemId);
+    // });
 
 
 });
