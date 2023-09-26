@@ -36,7 +36,7 @@ description: default
             $contentButtonLink = isset($content['buttonLink']) ? $content['buttonLink'] : '';
             $contentButtonText = isset($content['buttonText']) ? $content['buttonText'] : '';
             ?>
-            <div class="col-md-<?php echo $colMdCalculate; ?> text-<?php echo $align; ?>">
+            <div class="col-md-<?php echo $colMdCalculate; ?> py-md-0 py-3 text-<?php echo $align; ?>">
                 <?php if ($contentImage) { ?>
                     <img src="<?php echo thumbnail($contentImage, 1000, 1000, true); ?>" />
                 <?php } else { ?>
