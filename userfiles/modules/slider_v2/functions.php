@@ -1,14 +1,14 @@
 <?php
 function getCssForSlide($slide)
 {
-        $imageBackgroundFilter = '';
-        $imageBackgroundColor = '';
-        $descriptionColor = '';
-        $titleColor = '';
+        $imageBackgroundFilter = 'inherit';
+        $imageBackgroundColor = 'inherit';
+        $descriptionColor = 'inherit';
+        $titleColor = 'inherit';
         $buttonFontSize = '18px';
         $descriptionFontSize = '18px';
         $titleFontSize = '36px';
-        $imageBackgroundOpacity = '';
+        $imageBackgroundOpacity = 'inherit';
         if (isset($slide['imageBackgroundFilter'])) {
             $imageBackgroundFilter = $slide['imageBackgroundFilter'];
         }
@@ -50,7 +50,9 @@ function getCssForSlide($slide)
             font-size: '.$buttonFontSize.' !important;
         }
         .js-slide-image-'.$slide['itemId'].' {
-            background-size:cover;
+            background-size: auto;
+            background-repeat: no-repeat;
+            background-position: center center;
             width: 100%;
             height: 100%;
             position: absolute;
@@ -67,7 +69,7 @@ function getCssForSlide($slide)
             position: absolute;
 
         }
-    </style>';
+    </style> ';
 
 }
 
