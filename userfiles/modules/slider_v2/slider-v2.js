@@ -53,14 +53,13 @@ class SliderV2 {
         if (this.config.pagination.element) {
             swiperConfig.pagination = {
                 el: this.config.pagination.element,
+                clickable: true
             };
         }
 
-        if (this.config.initialSlide) {
-            swiperConfig.initialSlide = this.config.initialSlide;
-        }
-
-        swiperConfig.initialSlide = 2;
+        // if (this.config.initialSlide) {
+        //     swiperConfig.initialSlide = this.config.initialSlide;
+        // }
 
         swiperConfig.navigation = {};
         if (this.config.navigation.nextElement) {
@@ -69,8 +68,6 @@ class SliderV2 {
         if (this.config.navigation.previousElement) {
             swiperConfig.navigation.prevEl = this.config.navigation.previousElement;
         }
-
-        console.log(swiperConfig);
 
         this.driverInstance = new Swiper(this.element, swiperConfig);
     }
