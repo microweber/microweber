@@ -56,7 +56,7 @@ $moduleHash = md5($params['id']);
     }
 </style>
 <script>
-    mw.require('<?php print $config['url_to_module']; ?>slider-v2.js');
+    mw.require('<?php print modules_url(); ?>slider_v2/slider-v2.js');
     $(document).ready(function () {
         if(typeof sliderV2<?php echo $moduleHash; ?>_initialSlide === 'undefined'){
             window.sliderV2<?php echo $moduleHash; ?>_initialSlide = <?php echo $currentSlide; ?>;

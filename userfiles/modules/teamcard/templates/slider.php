@@ -10,12 +10,12 @@ description slider
 ?>
 
 <script>
-    mw.require('<?php print userfiles_url() ?>slider_v2/slider-v2.js');
+    mw.require('<?php print modules_url() ?>slider_v2/slider-v2.js');
     $(document).ready(function () {
         new SliderV2('#js-teamcard-slider-<?php echo $params['id']; ?>', {
             loop: true,
             autoplay:true,
-            direction: 'vertical',
+            direction: 'vertical', //horizontal or vertical
             pagination: {
                 element: '#js-teamcard-slider-pagination-<?php echo $params['id']; ?>',
             },
@@ -26,8 +26,8 @@ description slider
 
 <style>
     #js-teamcard-slider-<?php echo $params['id']; ?>{
-        max-height: 20rem;
-        background: #bebebe;
+        max-height: 500px;
+        background-color: #f5f5f5;
     }
 </style>
 
