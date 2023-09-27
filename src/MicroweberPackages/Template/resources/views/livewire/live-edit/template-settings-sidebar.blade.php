@@ -66,11 +66,12 @@
 
             let iframeStyleEdiorId = 'iframeStyleEditorId-Vue';
             let checkIframeStyleEditor = document.getElementById(iframeStyleEdiorId);
-            //temp fix
-            if (checkIframeStyleEditor) {
-                $('#'+iframeStyleEdiorId).remove();
-                checkIframeStyleEditor = null;
-            }
+
+            // //temp fix
+            // if (checkIframeStyleEditor) {
+            //     $('#'+iframeStyleEdiorId).remove();
+            //     checkIframeStyleEditor = null;
+            // }
 
             if (!checkIframeStyleEditor) {
                 var moduleType = 'microweber/toolbar/editor_tools/rte_css_editor2/rte_editor_vue';
@@ -100,8 +101,8 @@
                 mw.top().app.dispatch('cssEditorSelectElementBySelector', settings.selectors[0]);
                 mw.top().app.dispatch('cssEditorSettings', settings);
             }
-
         }
+
         mw.top().app.on('mw.rte.css.editor2.open', function(e) {
            // openRTECSsEditor2(e);
             openRTECSsEditor2Vue(e);
