@@ -20,9 +20,9 @@
 
 <style>
 .hu-color-picker {
-    width: 217px!important;
-    right: 47px;
-    position: fixed;
+    width: 200px!important;
+    right: 0px;
+    position: absolute;
     margin-top: 2px;
 }
 .color-picker-badge {
