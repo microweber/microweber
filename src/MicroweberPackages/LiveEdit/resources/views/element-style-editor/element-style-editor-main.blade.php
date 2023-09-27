@@ -109,6 +109,6 @@
 
 
 
-<div id="mw-element-style-editor-app">
+<div id="mw-element-style-editor-app" style="background:#f6f8fb;">
     Loading ...
 </div>

@@ -79,7 +79,7 @@
                 <div class="mw-field mw-field-flat">
                     <span class="mw-field mw-field-flat-prepend"><i class="angle angle-bottom-right"></i></span>
                     <input class="regular" type="text" v-model="borderBottomRightRadius" />
-                  </div> 
+                  </div>
             </div>
         </div>
     </div>
@@ -87,32 +87,62 @@
 
 
   <div>
-    <Input v-model="borderPosition" label="Border Position" />
+      <Dropdown v-model="borderPosition" :options="borderPositionOptions" label="Border Position" />
     <br>
-    <Input v-model="borderSize" label="Border Size" />
-    <br>
-    <Input v-model="borderColor" label="Border Color" />
+
+      <div>
+          <div class="mr-4">Border Size - {{borderSize}}</div>
+          <div>
+              <Slider
+                  :min="6"
+                  :max="120"
+                  :step="1"
+                  :merge="1"
+                  :tooltips="false"
+                  :tooltipPosition="'right'"
+                  v-model="borderSize"
+              />
+          </div>
+      </div>
+
+      <div class="d-flex justify-content-between">
+          <div class="mr-4">Border Color</div>
+          <div>
+              <ColorPicker />
+          </div>
+      </div>
+
     <br>
     <Dropdown v-model="borderStyle" :options="borderStylesOptions" label="Border Style" />
-    <br> 
+    <br>
   </div>
-  
+
 </template>
 
 <script>
 import Input from '../../components/Form/Input.vue';
 import Dropdown from '../../components/Form/Dropdown.vue';
-
+import FontPicker from "../../components/Form/FontPicker.vue";
+import ColorPicker from "../../components/Editor/Colors/ColorPicker.vue";
+import Slider from '@vueform/slider';
 
 export default {
 
-  components: {Dropdown, Input},
+  components: {Dropdown, Input, FontPicker, ColorPicker, Slider},
 
   data() {
     return {
       'activeNode': null,
       'isReady': false,
 
+        'borderPositionOptions': [
+            { "key": "all", "value": "All" },
+            { "key": "top", "value": "Top" },
+            { "key": "right", "value": "Right" },
+            { "key": "bottom", "value": "Bottom" },
+            { "key": "left", "value": "Left" },
+        ],
+        
       'borderStylesOptions': [
           { "key": "none", "value": "None" },
           { "key": "solid", "value": "Solid" },
