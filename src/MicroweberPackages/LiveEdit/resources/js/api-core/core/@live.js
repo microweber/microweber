@@ -384,16 +384,26 @@ export class LiveEdit {
             return
         }
 
+ 
 
 
 
-        if (target.isContentEditable || this.handles.targetIsOrInsideHandle(target ) || this.handles.targetIsSelected(target, this.interactionHandle) ) {
+        if (this.handles.targetIsOrInsideHandle(target ) || this.handles.targetIsSelected(target, this.interactionHandle) ) {
 
             return
         }
 
+        if( target.isContentEditable ) {
+            if(target.nodeName === 'IMG') {
+                this.stopTyping()
+                mw.top().win.mw.app.liveEdit.handles.get('element').set(target);
+                 
+            }
+            return;
+        }
 
 
+        
 
 
         this.activeNode = target;
@@ -412,16 +422,19 @@ export class LiveEdit {
             elements.push(DomService.firstBlockLevel(target));
         }
 
+        
         let first = elements[0];
 
         if(!isIcon) {
             target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit']);
         }
-
+         
 
         if (first.nodeName !== 'IMG' && !isIcon) {
             first = DomService.firstBlockLevel(elements[0]);
         }
+
+         
 
 
         var elementTarget =  this.handles.get('element').getTarget()
@@ -431,7 +444,7 @@ export class LiveEdit {
         }
 
 
-
+         
 
 
         first = target;
@@ -519,24 +532,7 @@ export class LiveEdit {
                 }
             }
 
-
-
-
-
-            // must see why is this
-            // if (target && target.parentNode && target.parentNode.getAttribute('rel') === 'module') {
-            //     if(typeof target.parentNode !== 'undefined'){
-            //         try {
-            //             target = DomService.firstParentOrCurrentWithAnyOfClasses(target.parentNode, ['element', 'module', 'cloneable', 'layout', 'edit']);
-            //             if (!target) {
-            //                 console.log('c1', target)
-            //                 return target;
-            //             }
-            //         } catch (error) {
-            //
-            //         }
-            //     }
-            // }
+ 
 
 
 
@@ -892,11 +888,28 @@ export class LiveEdit {
             }
 
 
-        })
+        });
+
+        this.stopTyping = () => {
+            this.play();
+            this.handles.get('element').set(null);
+            this.handles.get('module').set(null);
+            mw.app.canvas.getDocument().querySelectorAll('[contenteditable="true"]').forEach(node => {
+                if(node.classList.contains('element')) {
+
+                    node.removeAttribute('contentеditable')
+                } else {
+                    node.contentEditable = false;
+                }
+            })
+        }
+
+
         ElementManager(this.root).on(events, (e) => {
+            
             if(e.which === 1) {
             _dblclicktarget = e.target;
-
+           
 
             let _canSelectDuringPause = true;
 
@@ -910,11 +923,17 @@ export class LiveEdit {
 
                 var target = e.target;
 
-                _eventsHandle(e)
+                _eventsHandle(e);
+                 
             } else {
-                if (this.handles.targetIsOrInsideHandle(e.target ) || this.handles.targetIsSelected(e.target, this.interactionHandle )) {
-                    // this.handles.hide();
-                   //  this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
+                 
+
+                if (this.handles.targetIsOrInsideHandle(e.target ) ) {
+                    return;
+                }
+
+                if ( this.handles.targetIsSelected(e.target, this.interactionHandle )) {
+                      
                     return
                 }
 
@@ -922,17 +941,7 @@ export class LiveEdit {
                 var elementTarget = this.elementHandle.getTarget();
 
                 if ( !elementTarget || (elementTarget && !elementTarget.contains(e.target)) ) {
-                    this.play();
-                    this.handles.get('element').set(null);
-                    this.handles.get('module').set(null);
-                    mw.app.canvas.getDocument().querySelectorAll('[contenteditable="true"]').forEach(node => {
-                        if(node.classList.contains('element')) {
-
-                            node.removeAttribute('contentеditable')
-                        } else {
-                            node.contentEditable = false;
-                        }
-                    })
+                    this.stopTyping()
 
                 }
 

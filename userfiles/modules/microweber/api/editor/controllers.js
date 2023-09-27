@@ -162,9 +162,10 @@ MWEditor.controllers = {
     },
     plus: function (scope, api, rootScope) {
 
+        this.target = null;
 
         this.render = function () {
-            var plusIconSVG = '<svg style="stroke-width: 500;" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M445.935-195.935v-250h-250v-68.13h250v-250h68.13v250h250v68.13h-250v250h-68.13Z"/></svg>';
+            var plusIconSVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M445.935-195.935v-250h-250v-68.13h250v-250h68.13v250h250v68.13h-250v250h-68.13Z"/></svg>';
             var scope = this;
             var el = MWEditor.core.button({
                 props: {
@@ -173,44 +174,39 @@ MWEditor.controllers = {
                 }
             });
 
-            el.on('mousedown touchstart', function (e) {
-
+            el.on('mousedown touchstart', e => {
                 var isInLiveEdit = false;
                 if(mw.top().app && mw.top().app.canvas) {
-                    var isInLiveEdit = mw.top().app.canvas.getWindow();
+                    isInLiveEdit = mw.top().app.canvas.getWindow();
                 }
-               var sel = api.getSelection();
-                var focusNode = sel.focusNode;
-                if (focusNode) {
-                    var elementNode = api.elementNode(focusNode)
-                    if (elementNode) {
-                        var isEl = mw.tools.hasAnyOfClassesOnNodeOrParent(elementNode, ['element']);
-                        mw.app.editor.dispatch('insertModuleRequest', elementNode);
-                    }
+
+                if (this.target) {
+                    mw.app.editor.dispatch('insertModuleRequest', this.target);
                 }
             });
 
             return el;
         };
         this.checkSelection = function (opt, ee, tt) {
-
             var allowed = false;
             var sel = api.getSelection();
             var focusNode = sel.focusNode;
             if (focusNode) {
                 var elementNode = api.elementNode(focusNode)
-                if (elementNode) {
-                    allowed = mw.top().app.liveEdit.liveEditHelpers.targetHasAbilityToDropElementsInside(elementNode)
+                if (elementNode && mw.top().app.liveEdit) {
+                    elementNode = mw.tools.firstParentOrCurrentWithAnyOfClasses(elementNode, ['edit', 'element']);
+                    if(elementNode  ) {
+                        allowed = mw.top().app.liveEdit.liveEditHelpers.targetHasAbilityToDropElementsInside(elementNode)
+                    }
                 }
             }
 
             if (!allowed) {
                 rootScope.hide(opt.controller.element.get(0), true);
-                //   rootScope.disabled(opt.controller.element.get(0), true);
+                this.target = null;
             } else {
-                //   rootScope.disabled(opt.controller.element.get(0), false);
                 rootScope.show(opt.controller.element.get(0));
-
+                this.target = allowed;
             }
         };
         this.element = this.render();

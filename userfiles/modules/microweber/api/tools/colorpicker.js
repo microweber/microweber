@@ -227,15 +227,26 @@
         if(frame && frame.element){
             //append remove color
             var frameEl = $(frame.element).find('.a-color-picker-palette').first()[0];
-            var removeColorButton = mw.element('<div  class="xxxxxxa-color-picker-palette-color" data-color="#0000ff" style="background-color: yellow;">xxxxxx</div>')
-            removeColorButton.on('click', function () {
+            var removeColorButton = mw.element('<div class="a-color-picker-palette-color color-picker-palette-color-transparent"  style="background-image: repeating-conic-gradient(silver 0 25%, transparent 0 50%);background-size: 9px 9px;"></div>')
+            removeColorButton.on('click', function (e) {
+                e.stopPropagation()
                 if (proto.settings.onchange) {
-                    //blue
-                    proto.settings.onchange('#0000ff');
+                    proto.settings.onchange('rgb(0 0 0 / 0%)');
                 }
-
             });
-            frameEl.prepend(removeColorButton.get(0))
+
+            var resetColorButton = mw.element(`
+                <div 
+                    class="a-color-picker-palette-color color-picker-palette-color-reset"></div>
+                    `)
+            resetColorButton.on('click', function (e) {
+                e.stopPropagation()
+                if (proto.settings.onchange) {
+                    proto.settings.onchange('revert-layer');
+                }
+            });
+            frameEl.append(removeColorButton.get(0))
+            frameEl.append(resetColorButton.get(0))
         }
 
 

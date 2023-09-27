@@ -14,10 +14,22 @@ export const insertModule = (target = null, module, options = {}, insertLocation
         
          
         await target.ownerDocument.defaultView.mw.module.insert(target, module, options, insertLocation, mw.liveEditState);
+
+
+        //todo: optimise
+        let isTextEditing = mw.top().app.richTextEditor.smallEditor.get(0).style.display !== 'none' 
+            && !mw.top().win.mw.app.liveEdit.handles.get('element').isVisible()
+            && !mw.top().win.mw.app.liveEdit.handles.get('module').isVisible();
         
 
-        mw.top().win.mw.app.liveEdit.handles.get('element').set(mw.top().win.mw.app.liveEdit.handles.get('element').getTarget());
-        mw.top().win.mw.app.liveEdit.handles.get('module').set(mw.top().win.mw.app.liveEdit.handles.get('module').getTarget());
+            if(isTextEditing) {
+
+            } else {
+                mw.top().win.mw.app.liveEdit.handles.get('element').set(mw.top().win.mw.app.liveEdit.handles.get('element').getTarget());
+                mw.top().win.mw.app.liveEdit.handles.get('module').set(mw.top().win.mw.app.liveEdit.handles.get('module').getTarget());
+            }
+        
+
         mw.top().win.mw.app.dispatch('moduleInserted')
         resolve();
 
