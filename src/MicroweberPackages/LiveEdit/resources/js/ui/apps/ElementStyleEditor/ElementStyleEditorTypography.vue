@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <div>
+        <div class="m-3">
             <div class="mr-4">Font Size - {{fontSize}}</div>
             <div>
                 <Slider
@@ -21,7 +21,6 @@
                     :step="1"
                     :merge="1"
                     :tooltips="false"
-                    :tooltipPosition="'right'"
                     v-model="fontSize"
                 />
             </div>
@@ -39,7 +38,7 @@
             <Dropdown v-model="fontStyle" :options="fontStylesOptions" :label="'Font Style'"/>
         </div>
 
-        <div>
+        <div class="m-3">
             <div class="mr-4">Line Heigh - {{fontSize}}</div>
             <div>
                 <Slider
@@ -48,7 +47,6 @@
                     :step="1"
                     :merge="1"
                     :tooltips="false"
-                    :tooltipPosition="'right'"
                     v-model="lineHeight"
                 />
             </div>
