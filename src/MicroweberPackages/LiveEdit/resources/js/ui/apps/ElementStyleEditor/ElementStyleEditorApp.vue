@@ -2,9 +2,9 @@
 
   <div>
     <ElementStyleEditorTypography></ElementStyleEditorTypography>
-<!--    <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
+    <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
     <ElementStyleEditorBackground></ElementStyleEditorBackground>
-    <ElementStyleEditorBorder></ElementStyleEditorBorder>-->
+    <ElementStyleEditorBorder></ElementStyleEditorBorder>
   </div>
 
 </template>

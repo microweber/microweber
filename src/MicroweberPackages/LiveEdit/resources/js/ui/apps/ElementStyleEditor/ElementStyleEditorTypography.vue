@@ -38,7 +38,7 @@
         <div>
             <Dropdown v-model="fontStyle" :options="fontStylesOptions" :label="'Font Style'"/>
         </div>
-        
+
         <div>
             <div class="mr-4">Line Heigh - {{fontSize}}</div>
             <div>
@@ -64,7 +64,7 @@ import Input from '../../components/Form/Input.vue';
 import Dropdown from '../../components/Form/Dropdown.vue';
 import FontPicker from "../../components/Form/FontPicker.vue";
 import ColorPicker from "../../components/Editor/Colors/ColorPicker.vue";
-import Slider from '@vueform/slider'
+import Slider from '@vueform/slider';
 
 export default {
     components: {ColorPicker, FontPicker, Dropdown, Input, Slider},
