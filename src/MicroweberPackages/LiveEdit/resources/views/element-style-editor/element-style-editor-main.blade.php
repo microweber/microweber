@@ -97,17 +97,9 @@
 
     };
 
-
-
-
-
-
-
-
 </script>
+
 @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.js')
-
-
 
 <div id="mw-element-style-editor-app" style="background:#f6f8fb;">
     Loading ...

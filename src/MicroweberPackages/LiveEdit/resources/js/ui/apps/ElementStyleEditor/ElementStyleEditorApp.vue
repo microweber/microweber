@@ -1,11 +1,19 @@
 <template>
 
-  <div>
-    <ElementStyleEditorTypography></ElementStyleEditorTypography>
-    <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
-    <ElementStyleEditorBackground></ElementStyleEditorBackground>
-    <ElementStyleEditorBorder></ElementStyleEditorBorder>
-  </div>
+    <div>
+        <div v-show="showTypography">
+            <ElementStyleEditorTypography></ElementStyleEditorTypography>
+        </div>
+        <div v-show="showSpacing">
+            <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
+        </div>
+        <div v-show="showBackground">
+            <ElementStyleEditorBackground></ElementStyleEditorBackground>
+        </div>
+        <div v-show="showBorder">
+            <ElementStyleEditorBorder></ElementStyleEditorBorder>
+        </div>
+    </div>
 
 </template>
 
@@ -16,22 +24,43 @@ import ElementStyleEditorBackground from './ElementStyleEditorBackground.vue';
 import ElementStyleEditorBorder from './ElementStyleEditorBorder.vue';
 
 export default {
-  components: {
-    ElementStyleEditorTypography,
-    ElementStyleEditorSpacing,
-    ElementStyleEditorBackground,
-    ElementStyleEditorBorder,
-  },
+    components: {
+        ElementStyleEditorTypography,
+        ElementStyleEditorSpacing,
+        ElementStyleEditorBackground,
+        ElementStyleEditorBorder,
+    },
 
-  data() {
-    return {}
-  },
+    data() {
+        return {
+            showTypography: false,
+            showSpacing: false,
+            showBackground: false,
+            showBorder: false,
+        }
+    },
 
-  methods: {},
-  mounted() {
+    methods: {},
+    mounted() {
 
+        mw.top().app.on('cssEditorSettings', (settings) => {
+            if (settings.fieldSettings.components) {
+                if (settings.fieldSettings.components.includes('typography')) {
+                    this.showTypography = true;
+                }
+                if (settings.fieldSettings.components.includes('spacing')) {
+                    this.showSpacing = true;
+                }
+                if (settings.fieldSettings.components.includes('background')) {
+                    this.showBackground = true;
+                }
+                if (settings.fieldSettings.components.includes('border')) {
+                    this.showBorder = true;
+                }
+            }
+        });
 
-  },
+    },
 
 
 }

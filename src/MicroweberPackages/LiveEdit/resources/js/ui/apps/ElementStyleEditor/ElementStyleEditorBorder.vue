@@ -86,9 +86,11 @@
 </div>
 
 
-  <div>
-      <Dropdown v-model="borderPosition" :options="borderPositionOptions" label="Border Position" />
-    <br>
+  <div class="d-flex flex-column gap-3">
+
+      <div>
+        <Dropdown v-model="borderPosition" :options="borderPositionOptions" label="Border Position" />
+      </div>
 
       <div>
           <div class="mr-4">Border Size - {{borderSize}}</div>
@@ -112,9 +114,10 @@
           </div>
       </div>
 
-    <br>
+      <div>
     <Dropdown v-model="borderStyle" :options="borderStylesOptions" label="Border Style" />
-    <br>
+      </div>
+
   </div>
 
 </template>
@@ -142,7 +145,7 @@ export default {
             { "key": "bottom", "value": "Bottom" },
             { "key": "left", "value": "Left" },
         ],
-        
+
       'borderStylesOptions': [
           { "key": "none", "value": "None" },
           { "key": "solid", "value": "Solid" },

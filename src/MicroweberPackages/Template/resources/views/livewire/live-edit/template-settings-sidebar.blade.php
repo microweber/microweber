@@ -64,8 +64,6 @@
         }
         function openRTECSsEditor2Vue(settings) {
 
-            
-
             let iframeStyleEdiorId = 'iframeStyleEditorId-Vue';
             let checkIframeStyleEditor = document.getElementById(iframeStyleEdiorId);
             //temp fix
@@ -95,15 +93,17 @@
                     // alert('iframe loaded');
                     // alert(settings.selectors[0]);
                     mw.top().app.dispatch('cssEditorSelectElementBySelector', settings.selectors[0]);
+                    mw.top().app.dispatch('cssEditorSettings', settings);
                 });
 
             } else {
                 mw.top().app.dispatch('cssEditorSelectElementBySelector', settings.selectors[0]);
+                mw.top().app.dispatch('cssEditorSettings', settings);
             }
 
         }
         mw.top().app.on('mw.rte.css.editor2.open', function(e) {
-            openRTECSsEditor2(e);
+           // openRTECSsEditor2(e);
             openRTECSsEditor2Vue(e);
         });
     </script>
@@ -114,13 +114,11 @@
             x-data="{styleEditorData:{}, showStyleSettings: '/'}"
 
             x-init="()=>{
-
-        $watch('styleEditorData', (value) => {
-            if (value.selectors) {
-                mw.top().app.dispatch('mw.rte.css.editor2.open', value);
-            }
-        });
-
+            $watch('styleEditorData', (value) => {
+                if (value.selectors) {
+                    mw.top().app.dispatch('mw.rte.css.editor2.open', value);
+                }
+            });
         }"
         >
 
@@ -211,10 +209,10 @@
                     </button>
                 </div>
 
-                <b x-html="styleEditorData.title"></b>
-                <p x-html="styleEditorData.description"></p>
+                <b x-show="styleEditorData.title" x-html="styleEditorData.title"></b>
+                <p x-show="styleEditorData.description" x-html="styleEditorData.description"></p>
 
-                <div>
+                <div class="mt-2">
                     <div id="iframe-holder"></div>
                 </div>
             </div>
