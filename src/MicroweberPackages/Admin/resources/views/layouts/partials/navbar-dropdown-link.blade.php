@@ -76,7 +76,7 @@ foreach($item->getChildren() as $subItem) {
                                                 {{_e($subItemChildren->getName())}}
                                             </a>
                                         @endforeach
-                                        <a class="mw-admin-action-links btn btn-link text-decoration-none fs-5 dropdown-menu-column-item--tree-open">Site structure</a>
+                                         
                                     </nav>
                                 </div>
                             </div>
