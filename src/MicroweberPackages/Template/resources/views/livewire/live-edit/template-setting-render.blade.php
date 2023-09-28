@@ -37,6 +37,6 @@
             @if ($setting['fieldType'] == 'fontSize')
                 <x-microweber-ui::range-slider label="{{$setting['title']}}" min="8" max="120" labelUnit="px" />
             @endif
-        @endif 
+        @endif
     </div>
 </div>
