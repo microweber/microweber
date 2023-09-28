@@ -27,15 +27,21 @@
             @endif
 
             @if ($setting['fieldType'] == 'infoBox')
+                <b>{{$setting['title']}}</b>
                 <p>{{$setting['description']}}</p>
             @endif
 
             @if ($setting['fieldType'] == 'fontFamily')
-                <x-microweber-ui::font-picker />
+                <x-microweber-ui::font-picker x-on:change="(e) => {
+                    console.log(event.target.value);
+                }" />
             @endif
 
             @if ($setting['fieldType'] == 'fontSize')
-                <x-microweber-ui::range-slider label="{{$setting['title']}}" min="8" max="120" labelUnit="px" />
+                <x-microweber-ui::range-slider x-on:update="(e) => {
+                    console.log(event.target.value);
+                }"
+               label="{{$setting['title']}}" min="8" max="120" labelUnit="px" />
             @endif
         @endif
     </div>
