@@ -14,6 +14,33 @@
     <div>
         @if(isset($setting['fieldType']))
 
+            @if ($setting['fieldType'] == 'colorPalette')
+
+               @if(isset($setting['fieldSettings']['colors']))
+                    @foreach($setting['fieldSettings']['colors'] as $colorPallete)
+                        <div style="background:#fff;padding: 8px;">
+                            <div>
+                                {{$colorPallete['name']}}
+                            </div>
+                            <div class="d-flex"
+
+                                 x-on:click="(e) => {
+                                    @foreach($colorPallete['properties'] as $property=>$propertyValue)
+                                    mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$property}}', '{{$propertyValue}}');
+                                    @endforeach
+                                }"
+
+                            >
+                                @foreach($colorPallete['mainColors'] as $mainColors)
+                                    <div style="width:100%;height:50px;background:{{$mainColors}}"></div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+
+            @endif
+
             @if ($setting['fieldType'] == 'colorPicker')
 
                 <x-microweber-ui::color-picker x-on:update="(e) => {
