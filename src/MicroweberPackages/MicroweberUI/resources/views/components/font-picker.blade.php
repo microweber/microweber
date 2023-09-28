@@ -13,7 +13,6 @@ $randId = time() . rand(111,999);
                 console.log(fonts);
             });
 
-
         }
       }"
      class="form-control-live-edit-label-wrapper">

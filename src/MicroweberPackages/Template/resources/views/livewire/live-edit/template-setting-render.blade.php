@@ -32,16 +32,16 @@
             @endif
 
             @if ($setting['fieldType'] == 'fontFamily')
-                <x-microweber-ui::font-picker x-on:change="(e) => {
+              {{--  <x-microweber-ui::font-picker x-on:change="(e) => {
                     mw.top().app.cssEditor.setPropertyForSelector('body', 'fontFamily', event.target.value);
-                }" />
+                }" />--}}
             @endif
 
             @if ($setting['fieldType'] == 'fontSize')
-                <x-microweber-ui::range-slider x-on:update="(e) => {
+<!--                <x-microweber-ui::range-slider x-on:update="(e) => {
                     mw.top().app.cssEditor.setPropertyForSelector('body', 'fontSize', event.target.value + 'px);
                 }"
-               label="{{$setting['title']}}" min="8" max="120" labelUnit="px" />
+               label="{{$setting['title']}}" min="8" max="120" labelUnit="px" />-->
             @endif
         @endif
     </div>
