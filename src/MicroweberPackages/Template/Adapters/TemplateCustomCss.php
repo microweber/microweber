@@ -70,11 +70,11 @@ class TemplateCustomCss
         ob_start();
 
         event_trigger('mw.template.print_custom_css_includes');
-
-        $fonts_file = modules_path() . 'editor' . DS . 'fonts' . DS . 'stylesheet.php';
-        if (is_file($fonts_file)) {
-            include $fonts_file;
-        }
+//  moved to class  TemplateFonts 
+//        $fonts_file = modules_path() . 'editor' . DS . 'fonts' . DS . 'stylesheet.php';
+//        if (is_file($fonts_file)) {
+//            include $fonts_file;
+//        }
         $custom_css = get_option('custom_css', 'template');
         if (is_string($custom_css)) {
             echo $custom_css;

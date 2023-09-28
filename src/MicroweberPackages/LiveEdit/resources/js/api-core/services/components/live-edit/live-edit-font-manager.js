@@ -52,6 +52,12 @@ export class LiveEditFontManager extends BaseComponent {
             var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
             customFontsStylesheet.href = customFontsStylesheetRestyle;
         }
+
+        var customFontsStylesheetFonts = mw.top().app.canvas.getDocument().getElementById("mw-custom-user-fonts");
+        if (customFontsStylesheetFonts != null) {
+            var customFontsStylesheetFontsRestyle = mw.settings.api_url + 'template/print_custom_css_fonts?time=' + Math.random(0, 10000);
+            customFontsStylesheet.href = customFontsStylesheetFontsRestyle;
+        }
     }
 
     subscribeToSelectedFont(callback) {
