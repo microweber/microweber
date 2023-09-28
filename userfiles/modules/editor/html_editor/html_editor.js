@@ -428,6 +428,21 @@ if (mw.top().app.canvas) {
                 var some_child = {};
                 some_child.rel = $(this).attr('rel');
                 some_child.field = $(this).attr('field');
+
+                var relId = null;
+                if($(this).attr('rel_id')){
+                    relId = $(this).attr('rel_id');
+                } else if ($(this).attr('rel-id')){
+                    relId = $(this).attr('rel-id');
+                } else if ($(this).attr('data- rel-id')){
+                    relId = $(this).attr('rel-id');
+                }
+                if(relId){
+                    some_child.rel_id = relId;
+                }
+
+
+
                 if (some_child.rel && some_child.field) {
                     childs_arr[i] = some_child;
                 }
