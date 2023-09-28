@@ -439,6 +439,19 @@ if (mw.top().app.canvas) {
                 }
                 if(relId){
                     some_child.rel_id = relId;
+                } else if(some_child.rel == 'content'){
+                    // we will need to get the content id
+
+                    var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
+                    if (liveEditIframeData
+                        && liveEditIframeData.content
+                        && liveEditIframeData.content.id
+
+                    ) {
+                        relId = liveEditIframeData.content.id;
+                        some_child.rel_id = relId;
+                    }
+
                 }
 
 
