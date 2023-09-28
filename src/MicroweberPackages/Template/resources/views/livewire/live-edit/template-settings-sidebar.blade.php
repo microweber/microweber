@@ -141,7 +141,6 @@
                     x-show="showStyleSettings == '{{$styleSetting['url']}}'"
                     @endif
 
-                    x-transition:enter="tab-pane-slide-left-active"
 
                     class="mt-2">
 
@@ -249,7 +248,7 @@
                                         </a>
                                     </div>
 
-                                    <div x-show="showStyleSettings == 'setting-values-key-{{md5($settingName)}}'" x-transition:enter="tab-pane-slide-right-active">
+                                    <div x-show="showStyleSettings == 'setting-values-key-{{md5($settingName)}}'" >
                                         @foreach($settingFields as $settingFieldKey=>$settingField)
 
                                             <div wire:key="setting-field-key-{{md5($settingFieldKey)}}">
