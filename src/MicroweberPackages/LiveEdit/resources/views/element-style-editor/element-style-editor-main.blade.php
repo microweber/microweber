@@ -1,3 +1,7 @@
+
+<script>
+    mw.lib.require('jseldom');
+</script>
 <script>
 
     var ActiveSelector = false;
