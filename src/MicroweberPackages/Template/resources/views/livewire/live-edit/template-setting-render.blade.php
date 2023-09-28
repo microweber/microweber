@@ -18,10 +18,7 @@
 
                @if(isset($setting['fieldSettings']['colors']))
                     @foreach($setting['fieldSettings']['colors'] as $colorPallete)
-                        <div style="background:#fff;padding: 8px;">
-                            <div>
-                                {{$colorPallete['name']}}
-                            </div>
+                        <div>
                             <div class="d-flex"
 
                                  x-on:click="(e) => {
