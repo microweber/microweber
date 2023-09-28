@@ -43,43 +43,49 @@
     border-left: 1px solid #000;
     border-bottom: 1px solid #000;
 }
-.angle-bottom-right{
+.angle-bottom-right {
     border-bottom-right-radius: 7px;
     border-right: 1px solid #000;
     border-bottom: 1px solid #000;
+}
+.s-field-content {
+    display: flex;
+    flex-direction: column;
 }
 </style>
 
 <template>
 
-<div class="rouded-corners">
-    <label>Rounded Corners</label>
-    <div class="s-field-content">
-        <div class="mw-field mw-field-flat">
-            <div class="mw-multiple-fields">
-                <div class="mw-field mw-field-flat">
-                    <input type="text" class="regular order-1" v-model="borderTopLeftRadius" />
-                    <span class="mw-field mw-field-flat-prepend order-2">
-                      <i class="angle angle-top-left"></i>
-                    </span>
+<div class="d-flex justify-content-center align-items-center">
+    <div class="rouded-corners">
+        <label>Rounded Corners</label>
+        <div class="s-field-content">
+            <div class="mw-field mw-field-flat">
+                <div class="mw-multiple-fields">
+                    <div class="mw-field mw-field-flat">
+                        <input type="text" class="regular order-1" v-model="borderTopLeftRadius" />
+                        <span class="mw-field mw-field-flat-prepend order-2">
+                          <i class="angle angle-top-left"></i>
+                        </span>
+                    </div>
+                    <div class="mw-field mw-field-flat">
+                        <span class="mw-field mw-field-flat-prepend"><i class="angle angle-top-right"></i></span>
+                        <input class="regular" type="text" v-model="borderTopRightRadius" />
+                      </div>
                 </div>
-                <div class="mw-field mw-field-flat">
-                    <span class="mw-field mw-field-flat-prepend"><i class="angle angle-top-right"></i></span>
-                    <input class="regular" type="text" v-model="borderTopRightRadius" />
-                  </div>
             </div>
-        </div>
-        <div class="mw-field mw-field-flat">
-            <div class="mw-multiple-fields">
-                <div class="mw-field mw-field-flat">
-                    <input class="regular order-1" type="text" v-model="borderBottomLeftRadius" />
-                    <span class="mw-field mw-field-flat-prepend order-2"><i class="angle angle-bottom-left"></i>
-                    </span>
+            <div class="mw-field mw-field-flat">
+                <div class="mw-multiple-fields">
+                    <div class="mw-field mw-field-flat">
+                        <input class="regular order-1" type="text" v-model="borderBottomLeftRadius" />
+                        <span class="mw-field mw-field-flat-prepend order-2"><i class="angle angle-bottom-left"></i>
+                        </span>
+                    </div>
+                    <div class="mw-field mw-field-flat">
+                        <span class="mw-field mw-field-flat-prepend"><i class="angle angle-bottom-right"></i></span>
+                        <input class="regular" type="text" v-model="borderBottomRightRadius" />
+                      </div>
                 </div>
-                <div class="mw-field mw-field-flat">
-                    <span class="mw-field mw-field-flat-prepend"><i class="angle angle-bottom-right"></i></span>
-                    <input class="regular" type="text" v-model="borderBottomRightRadius" />
-                  </div>
             </div>
         </div>
     </div>

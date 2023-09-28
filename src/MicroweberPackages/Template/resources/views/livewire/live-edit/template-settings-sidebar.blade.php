@@ -101,6 +101,8 @@
                 mw.top().app.dispatch('cssEditorSelectElementBySelector', settings.selectors[0]);
                 mw.top().app.dispatch('cssEditorSettings', settings);
             }
+
+           // console.log(settings);
         }
 
         mw.top().app.on('mw.rte.css.editor2.open', function(e) {
