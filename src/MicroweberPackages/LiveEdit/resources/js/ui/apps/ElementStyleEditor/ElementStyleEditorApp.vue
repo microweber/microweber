@@ -44,7 +44,14 @@ export default {
     mounted() {
 
         mw.top().app.on('cssEditorSettings', (settings) => {
+
             if (settings.fieldSettings.components) {
+
+                this.showTypography = false;
+                this.showSpacing = false;
+                this.showBackground = false;
+                this.showBorder = false;
+
                 if (settings.fieldSettings.components.includes('typography')) {
                     this.showTypography = true;
                 }

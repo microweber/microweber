@@ -77,6 +77,17 @@ api_expose('template/print_custom_css', function ($data) {
     return $response;
 
 });
+api_expose('template/print_custom_css_fonts', function ($data) {
+
+
+    $contents = mw()->template->get_custom_fonts_css_content();
+
+    $response = Response::make($contents);
+    $response->header('Content-Type', 'text/css');
+
+    return $response;
+
+});
 
 api_expose_admin('media_library/search', function ($data) {
 

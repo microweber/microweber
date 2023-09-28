@@ -300,6 +300,12 @@
             }
         ],
 
+        jseldom: [
+            function () {
+                mw.require(mw.settings.libs_url + "jseldom/jseldom.js");
+             }
+        ],
+
 
         flatstrap3: [
             function () {

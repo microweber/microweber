@@ -31,7 +31,7 @@ export class LiveEditLayoutBackground extends BaseComponent {
             bg = `url(${url})`
         }
 
-        
+
         node.innerHTML = ``;
         node.style.backgroundImage = bg;
 
@@ -48,9 +48,10 @@ export class LiveEditLayoutBackground extends BaseComponent {
                 module: 'background',
                 value: url
             };
+            mw.top().options.tempOption(isInsideBackgroundModule, optionsBg);
+
             if(url != '') {
 
-                mw.top().options.tempOption(isInsideBackgroundModule, optionsBg);
                 //remove bg video option
                 var optionsVideo = {
                     group: isInsideBackgroundModule.id,

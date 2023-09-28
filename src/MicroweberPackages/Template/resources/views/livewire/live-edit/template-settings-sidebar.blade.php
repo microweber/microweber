@@ -14,11 +14,18 @@
     <script>
         document.addEventListener('mw-option-saved', function() {
 
-            var customFontsStylesheet = mw.top().app.canvas.getDocument().getElementById("mw-custom-user-css");
-            if (customFontsStylesheet != null) {
-                var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
-                customFontsStylesheet.href = customFontsStylesheetRestyle;
+
+            if (mw.top().app.fontManager) {
+                mw.top().app.fontManager.reloadLiveEdit();
             }
+
+
+            // var customFontsStylesheet = mw.top().app.canvas.getDocument().getElementById("mw-custom-user-css");
+            // if (customFontsStylesheet != null) {
+            //     var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
+            //     customFontsStylesheet.href = customFontsStylesheetRestyle;
+            // }
+
             setTimeout(function() {
                 mw.top().app.templateSettings.reloadStylesheet('{{$styleSheetSourceFile}}', '{{$optionGroupLess}}');
             }, 1000);
@@ -101,6 +108,8 @@
                 mw.top().app.dispatch('cssEditorSelectElementBySelector', settings.selectors[0]);
                 mw.top().app.dispatch('cssEditorSettings', settings);
             }
+
+           // console.log(settings);
         }
 
         mw.top().app.on('mw.rte.css.editor2.open', function(e) {
@@ -139,7 +148,6 @@
                     x-show="showStyleSettings == '{{$styleSetting['url']}}'"
                     @endif
 
-                    x-transition:enter="tab-pane-slide-left-active"
 
                     class="mt-2">
 
@@ -247,7 +255,7 @@
                                         </a>
                                     </div>
 
-                                    <div x-show="showStyleSettings == 'setting-values-key-{{md5($settingName)}}'" x-transition:enter="tab-pane-slide-right-active">
+                                    <div x-show="showStyleSettings == 'setting-values-key-{{md5($settingName)}}'" >
                                         @foreach($settingFields as $settingFieldKey=>$settingField)
 
                                             <div wire:key="setting-field-key-{{md5($settingFieldKey)}}">
