@@ -29,14 +29,6 @@ $randId = time() . rand(111,999);
         </template>
     </div>
 
-    <div style="font-family:'Vollkorn'">
-        Volkorn
-    </div>
-
-    <div style="font-family:'Arvo'">
-        Arvo
-    </div>
-
 <!--    <div class="mt-1 mb-3">
         <button type="button" class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs"
                 onclick="Livewire.emit('openModal', 'font-picker-modal')">

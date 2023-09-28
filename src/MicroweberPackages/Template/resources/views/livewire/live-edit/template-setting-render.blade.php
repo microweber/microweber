@@ -14,6 +14,22 @@
     <div>
         @if(isset($setting['fieldType']))
 
+            @if ($setting['fieldType'] == 'colorPicker')
+
+                <x-microweber-ui::color-picker x-on:update="(e) => {
+                    mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value);
+                }"
+               label="{{$setting['title']}}" />
+
+            @endif
+
+            @if ($setting['fieldType'] == 'rangeSlider')
+                <x-microweber-ui::range-slider x-on:update="(e) => {
+                    mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value + 'px');
+                }"
+               label="{{$setting['title']}}" min="0" max="100" labelUnit="" />
+            @endif
+
             @if ($setting['fieldType'] == 'styleEditor')
                 <a href="#"
                    x-on:click="() => {
@@ -32,9 +48,9 @@
             @endif
 
             @if ($setting['fieldType'] == 'fontFamily')
-              {{--  <x-microweber-ui::font-picker x-on:change="(e) => {
-                    mw.top().app.cssEditor.setPropertyForSelector('body', 'fontFamily', event.target.value);
-                }" />--}}
+            <x-microweber-ui::font-picker x-on:change="(e) => {
+                    mw.top().app.cssEditor.setPropertyForSelector(':root', '--fontFamily', event.target.value);
+                }" />
             @endif
 
             @if ($setting['fieldType'] == 'fontSize')
