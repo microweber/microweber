@@ -19,7 +19,7 @@
                @if(isset($setting['fieldSettings']['colors']))
                     @foreach($setting['fieldSettings']['colors'] as $colorPallete)
                         <div class="mt-2">
-                            <div class="d-flex"
+                            <div class="d-flex gap-2"
 
                                  x-on:click="(e) => {
                                     @foreach($colorPallete['properties'] as $property=>$propertyValue)
@@ -29,7 +29,7 @@
 
                             >
                                 @foreach($colorPallete['mainColors'] as $mainColors)
-                                    <div style="width:100%;height:50px;background:{{$mainColors}}"></div>
+                                    <div style="border-radius:6px;width:100%;height:50px;background:{{$mainColors}}"></div>
                                 @endforeach
                             </div>
                         </div>
