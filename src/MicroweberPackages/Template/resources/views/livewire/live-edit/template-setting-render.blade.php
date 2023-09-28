@@ -18,7 +18,7 @@
 
                @if(isset($setting['fieldSettings']['colors']))
                     @foreach($setting['fieldSettings']['colors'] as $colorPallete)
-                        <div>
+                        <div class="mt-2">
                             <div class="d-flex"
 
                                  x-on:click="(e) => {
