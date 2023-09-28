@@ -24,12 +24,14 @@ function template_stylesheet_url()
         $stylesheet_settings = $template_settings['stylesheet_compiler']['settings'];
     }
 
-    if (!$stylesheet_settings) {
-        return;
-    }
+//    if (!$stylesheet_settings) {
+//        return;
+//    }
+
     if(!isset($template_settings['stylesheet_compiler']['source_file'])){
         return;
     }
+
     if(!isset($template_settings['stylesheet_compiler']['css_file'])){
         return;
     }
