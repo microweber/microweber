@@ -76,10 +76,12 @@ export class StylesheetEditor extends MicroweberBaseClass {
     }
 
     removeSheetRuleProperty(selector, property) {
-        const css = this.settings.document.querySelector('link#mw-template-settings');
-        const css2 = this.settings.document.querySelector('#mw-liveedit-dynamic-temp-style');
-        const sheet1 = css ? css.sheet : null;
-        const sheet2 = css2 ? css2.sheet : null;
+        this.changed = true;
+        const sheets = [
+            this.settings.document.querySelector('link#mw-template-settings'),
+            this.settings.document.querySelector('#mw-liveedit-dynamic-temp-style'),
+            this.settings.document.querySelector('#mw-custom-user-css'),
+        ];
 
         const removePropertyFromSheet = (sheet) => {
             if (sheet) {
@@ -91,8 +93,9 @@ export class StylesheetEditor extends MicroweberBaseClass {
             }
         };
 
-        removePropertyFromSheet(sheet1);
-        removePropertyFromSheet(sheet2);
+        sheets.forEach((sheet) => {
+            removePropertyFromSheet(sheet);
+        });
     }
 
 
@@ -121,7 +124,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     temp(node, prop, val) {
         val = (val || '').trim();
-        
+
 
         if (node.length) {
             node = node[0];

@@ -70,7 +70,7 @@ class TemplateCustomCss
         ob_start();
 
         event_trigger('mw.template.print_custom_css_includes');
-//  moved to class  TemplateFonts 
+//  moved to class  TemplateFonts
 //        $fonts_file = modules_path() . 'editor' . DS . 'fonts' . DS . 'stylesheet.php';
 //        if (is_file($fonts_file)) {
 //            include $fonts_file;

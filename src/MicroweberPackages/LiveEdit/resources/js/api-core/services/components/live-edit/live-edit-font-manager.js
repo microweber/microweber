@@ -47,17 +47,26 @@ export class LiveEditFontManager extends BaseComponent {
     }
 
     reloadLiveEdit() {
-        var customFontsStylesheet = mw.top().app.canvas.getDocument().getElementById("mw-custom-user-css");
-        if (customFontsStylesheet != null) {
-            var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
-            customFontsStylesheet.href = customFontsStylesheetRestyle;
-        }
 
-        var customFontsStylesheetFonts = mw.top().app.canvas.getDocument().getElementById("mw-custom-user-fonts");
-        if (customFontsStylesheetFonts != null) {
-            var customFontsStylesheetFontsRestyle = mw.settings.api_url + 'template/print_custom_css_fonts?time=' + Math.random(0, 10000);
-            customFontsStylesheet.href = customFontsStylesheetFontsRestyle;
-        }
+        mw.tools.eachWindow(function (win) {
+
+            var customFontsStylesheet = win.document.getElementById("mw-custom-user-css");
+
+            if (customFontsStylesheet != null) {
+                var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
+                customFontsStylesheet.href = customFontsStylesheetRestyle;
+            }
+
+            var customFontsStylesheetFonts = win.document.getElementById("mw-custom-user-fonts");
+            if (customFontsStylesheetFonts != null) {
+                var customFontsStylesheetFontsRestyle = mw.settings.api_url + 'template/print_custom_css_fonts?time=' + Math.random(0, 10000);
+                customFontsStylesheetFonts.href = customFontsStylesheetFontsRestyle;
+            }
+        });
+
+
+
+
     }
 
     subscribeToSelectedFont(callback) {
