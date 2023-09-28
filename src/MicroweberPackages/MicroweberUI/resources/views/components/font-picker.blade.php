@@ -13,12 +13,14 @@ $randId = time() . rand(111,999);
                 console.log(fonts);
             });
 
-            mw.top().app && mw.top().app.fontManager.manageFonts({
-               applySelectionToElement: '#{{$randId}}'
-            });
+
         }
       }"
      class="form-control-live-edit-label-wrapper">
+<!--
+    mw.top().app && mw.top().app.fontManager.manageFonts({
+    applySelectionToElement: '#{{$randId}}'
+    });-->
 
     <div {!! $attributes->merge(['class'=>'form-select form-control-live-edit-input']) !!} >
         <template x-for="availableFont in availableFonts">
