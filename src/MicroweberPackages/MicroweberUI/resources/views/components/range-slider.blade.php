@@ -54,6 +54,12 @@
                 customRangeValueField.dispatchEvent(new Event('input'));
             });
 
+            slider{{$rand}}.noUiSlider.on('update', function(values, handle) {
+                let customRangeValueField = document.getElementById('js-custom-range-value-{{$rand}}');
+                customRangeValueField.value = parseFloat(values[handle]).toFixed();
+                customRangeValueField.dispatchEvent(new Event('update'));
+            });
+
             customRangeValueField{{$rand}}.addEventListener('change', function() {
                 slider{{$rand}}.noUiSlider.set(parseFloat(this.value).toFixed());
             });
