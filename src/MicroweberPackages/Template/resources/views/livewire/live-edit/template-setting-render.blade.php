@@ -19,7 +19,7 @@
                    <div>
                        <b>{{$setting['title']}}</b>
                    </div>
-                    <div>
+                    <div class="mt-1">
                         <p>{{$setting['description']}}</p>
                     </div>
                     <button
@@ -49,7 +49,7 @@
 
                             >
                                 @foreach($colorPallete['mainColors'] as $mainColors)
-                                    <div style="border-radius:6px;width:20px;height:20px;background:{{$mainColors}}"></div>
+                                    <div style="border-radius:6px;width:100%;height:40px;background:{{$mainColors}}"></div>
                                 @endforeach
                             </div>
                         </div>
@@ -87,8 +87,14 @@
             @endif
 
             @if ($setting['fieldType'] == 'infoBox')
-                <b>{{$setting['title']}}</b>
-                <p>{{$setting['description']}}</p>
+                <div class="mt-2">
+                    <div>
+                        <b>   {{$setting['title']}}</b>
+                    </div>
+                    <div class="mt-1">
+                      <p>{{$setting['description']}}</p>
+                  </div>
+              </div>
             @endif
 
             @if ($setting['fieldType'] == 'fontFamily')
