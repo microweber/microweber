@@ -28,8 +28,8 @@
                                  mw.top().app.cssEditor.removeSheetRuleProperty('{{end($setting['selectors'])}}', '{{$property}}');
                             @endforeach
                             }"
-                        class="btn btn-outline-dark btn-block">
-                        {{$setting['title']}}
+                        class="btn btn-outline-dark" style="width:100%;">
+                        {{$setting['title']}} 
                     </button>
                 </div>
             @endif
