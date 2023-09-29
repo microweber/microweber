@@ -14,6 +14,26 @@
     <div>
         @if(isset($setting['fieldType']))
 
+            @if ($setting['fieldType'] == 'clearAll')
+                <div class="mt-2">
+                   <div>
+                       <b>{{$setting['title']}}</b>
+                   </div>
+                    <div>
+                        <p>{{$setting['description']}}</p>
+                    </div>
+                    <button
+                        x-on:click="(e) => {
+                            @foreach($setting['fieldSettings']['properties'] as $property)
+                                 mw.top().app.cssEditor.removeSheetRuleProperty('{{end($setting['selectors'])}}', '{{$property}}');
+                            @endforeach 
+                            }"
+                        class="btn btn-outline-dark">
+                        <i class="mdi mdi-delete-sweep" style="font-size:22px"></i> {{$setting['title']}}
+                    </button>
+                </div>
+            @endif
+
             @if ($setting['fieldType'] == 'colorPalette')
 
                @if(isset($setting['fieldSettings']['colors']))
@@ -86,3 +106,9 @@
         @endif
     </div>
 </div>
+<script>
+    import BubbleNav from "../../../../../LiveEdit/resources/js/ui/components/LeftSidebar/BubbleNav";
+    export default {
+        components: {BubbleNav}
+    }
+</script>
