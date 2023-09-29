@@ -1,3 +1,7 @@
+
+<script>
+    mw.lib.require('jseldom');
+</script>
 <script>
 
     var ActiveSelector = false;
@@ -97,18 +101,16 @@
 
     };
 
-
-
-
-
-
-
-
 </script>
+
+<style>
+    body {
+        background: #f6f8fb !important;
+    }
+</style>
+
 @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.js')
 
-
-
-<div id="mw-element-style-editor-app">
+<div id="mw-element-style-editor-app" style="background:#f6f8fb;">
     Loading ...
 </div>

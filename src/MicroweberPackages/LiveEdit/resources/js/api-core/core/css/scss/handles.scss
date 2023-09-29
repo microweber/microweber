@@ -54,6 +54,12 @@
     .mw-handlemenu-item {
         pointer-events: all;
     }
+
+    .mw-le-resizer.mw-le-resizer-r:after,
+    .mw-le-resizer:not(.mw-le-resizer-r) {
+        display: none;
+          
+    }
 }
 
 .mw-draggable-helper {

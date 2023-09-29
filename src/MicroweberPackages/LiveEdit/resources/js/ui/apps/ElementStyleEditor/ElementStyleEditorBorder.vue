@@ -43,75 +43,114 @@
     border-left: 1px solid #000;
     border-bottom: 1px solid #000;
 }
-.angle-bottom-right{
+.angle-bottom-right {
     border-bottom-right-radius: 7px;
     border-right: 1px solid #000;
     border-bottom: 1px solid #000;
+}
+.s-field-content {
+    display: flex;
+    flex-direction: column;
 }
 </style>
 
 <template>
 
-<div class="rouded-corners">
-    <label>Rounded Corners</label>
-    <div class="s-field-content">
-        <div class="mw-field mw-field-flat">
-            <div class="mw-multiple-fields">
-                <div class="mw-field mw-field-flat">
-                    <input type="text" class="regular order-1" v-model="borderTopLeftRadius" />
-                    <span class="mw-field mw-field-flat-prepend order-2">
-                      <i class="angle angle-top-left"></i>
-                    </span>
+<div class="d-flex justify-content-center align-items-center">
+    <div class="rouded-corners">
+        <label>Rounded Corners</label>
+        <div class="s-field-content">
+            <div class="mw-field mw-field-flat">
+                <div class="mw-multiple-fields">
+                    <div class="mw-field mw-field-flat">
+                        <input type="text" class="regular order-1" v-model="borderTopLeftRadius" />
+                        <span class="mw-field mw-field-flat-prepend order-2">
+                          <i class="angle angle-top-left"></i>
+                        </span>
+                    </div>
+                    <div class="mw-field mw-field-flat">
+                        <span class="mw-field mw-field-flat-prepend"><i class="angle angle-top-right"></i></span>
+                        <input class="regular" type="text" v-model="borderTopRightRadius" />
+                      </div>
                 </div>
-                <div class="mw-field mw-field-flat">
-                    <span class="mw-field mw-field-flat-prepend"><i class="angle angle-top-right"></i></span>
-                    <input class="regular" type="text" v-model="borderTopRightRadius" />
-                  </div>
             </div>
-        </div>
-        <div class="mw-field mw-field-flat">
-            <div class="mw-multiple-fields">
-                <div class="mw-field mw-field-flat">
-                    <input class="regular order-1" type="text" v-model="borderBottomLeftRadius" />
-                    <span class="mw-field mw-field-flat-prepend order-2"><i class="angle angle-bottom-left"></i>
-                    </span>
+            <div class="mw-field mw-field-flat">
+                <div class="mw-multiple-fields">
+                    <div class="mw-field mw-field-flat">
+                        <input class="regular order-1" type="text" v-model="borderBottomLeftRadius" />
+                        <span class="mw-field mw-field-flat-prepend order-2"><i class="angle angle-bottom-left"></i>
+                        </span>
+                    </div>
+                    <div class="mw-field mw-field-flat">
+                        <span class="mw-field mw-field-flat-prepend"><i class="angle angle-bottom-right"></i></span>
+                        <input class="regular" type="text" v-model="borderBottomRightRadius" />
+                      </div>
                 </div>
-                <div class="mw-field mw-field-flat">
-                    <span class="mw-field mw-field-flat-prepend"><i class="angle angle-bottom-right"></i></span>
-                    <input class="regular" type="text" v-model="borderBottomRightRadius" />
-                  </div> 
             </div>
         </div>
     </div>
 </div>
 
 
-  <div>
-    <Input v-model="borderPosition" label="Border Position" />
-    <br>
-    <Input v-model="borderSize" label="Border Size" />
-    <br>
-    <Input v-model="borderColor" label="Border Color" />
-    <br>
+  <div class="d-flex flex-column gap-3">
+
+      <div>
+        <Dropdown v-model="borderPosition" :options="borderPositionOptions" label="Border Position" />
+      </div>
+
+      <div>
+          <div class="mr-4">Border Size - {{borderSize}}</div>
+          <div>
+              <Slider
+                  :min="6"
+                  :max="120"
+                  :step="1"
+                  :merge="1"
+                  :tooltips="false"
+                  :tooltipPosition="'right'"
+                  v-model="borderSize"
+              />
+          </div>
+      </div>
+
+      <div class="d-flex justify-content-between">
+          <div class="mr-4">Border Color</div>
+          <div>
+              <ColorPicker />
+          </div>
+      </div>
+
+      <div>
     <Dropdown v-model="borderStyle" :options="borderStylesOptions" label="Border Style" />
-    <br> 
+      </div>
+
   </div>
-  
+
 </template>
 
 <script>
 import Input from '../../components/Form/Input.vue';
 import Dropdown from '../../components/Form/Dropdown.vue';
-
+import FontPicker from "../../components/Form/FontPicker.vue";
+import ColorPicker from "../../components/Editor/Colors/ColorPicker.vue";
+import Slider from '@vueform/slider';
 
 export default {
 
-  components: {Dropdown, Input},
+  components: {Dropdown, Input, FontPicker, ColorPicker, Slider},
 
   data() {
     return {
       'activeNode': null,
       'isReady': false,
+
+        'borderPositionOptions': [
+            { "key": "all", "value": "All" },
+            { "key": "top", "value": "Top" },
+            { "key": "right", "value": "Right" },
+            { "key": "bottom", "value": "Bottom" },
+            { "key": "left", "value": "Left" },
+        ],
 
       'borderStylesOptions': [
           { "key": "none", "value": "None" },

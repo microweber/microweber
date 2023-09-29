@@ -116,8 +116,9 @@ body.dragStart .element, body.dragStart .edit .module {
   -webkit-transition: none !important;
   transition: none !important; }
 
-.mw-live-edit .module {
-  min-height: 20px; }
+  .mw-live-edit .module:not(.module-background) {
+    min-height: 20px;
+}
 
 img[align='center'],
 img[align='middle'] {

@@ -1203,6 +1203,22 @@ class FrontendController extends Controller
             }
 
 
+            $liv_ed_css_get_custom_css_content_fonts = $this->app->template->get_custom_fonts_css_content();
+            if ($liv_ed_css_get_custom_css_content_fonts == false) {
+                if ($is_editmode) {
+                    $liv_ed_css = '<link rel="stylesheet"  crossorigin="anonymous" referrerpolicy="no-referrer"  id="mw-custom-user-fonts" type="text/css" />';
+                }
+            } else {
+                $liv_ed_css = $this->app->template->get_custom_fonts_css_url();
+
+                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-fonts" type="text/css"  crossorigin="anonymous" referrerpolicy="no-referrer" />';
+            }
+
+            if ($liv_ed_css != false) {
+                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+            }
+
+
             $liv_ed_css_get_custom_css_content = $this->app->template->get_custom_css_content();
             if ($liv_ed_css_get_custom_css_content == false) {
                 if ($is_editmode) {
@@ -1217,6 +1233,11 @@ class FrontendController extends Controller
             if ($liv_ed_css != false) {
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
+
+
+
+
+
             //    }
 
             // Add custom head tags

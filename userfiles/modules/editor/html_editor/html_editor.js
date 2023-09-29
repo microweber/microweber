@@ -428,6 +428,34 @@ if (mw.top().app.canvas) {
                 var some_child = {};
                 some_child.rel = $(this).attr('rel');
                 some_child.field = $(this).attr('field');
+
+                var relId = null;
+                if($(this).attr('rel_id')){
+                    relId = $(this).attr('rel_id');
+                } else if ($(this).attr('rel-id')){
+                    relId = $(this).attr('rel-id');
+                } else if ($(this).attr('data- rel-id')){
+                    relId = $(this).attr('rel-id');
+                }
+                if(relId){
+                    some_child.rel_id = relId;
+                } else if(some_child.rel == 'content'){
+                    // we will need to get the content id
+
+                    var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
+                    if (liveEditIframeData
+                        && liveEditIframeData.content
+                        && liveEditIframeData.content.id
+
+                    ) {
+                        relId = liveEditIframeData.content.id;
+                        some_child.rel_id = relId;
+                    }
+
+                }
+
+
+
                 if (some_child.rel && some_child.field) {
                     childs_arr[i] = some_child;
                 }

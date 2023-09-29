@@ -14,11 +14,18 @@
     <script>
         document.addEventListener('mw-option-saved', function() {
 
-            var customFontsStylesheet = mw.top().app.canvas.getDocument().getElementById("mw-custom-user-css");
-            if (customFontsStylesheet != null) {
-                var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
-                customFontsStylesheet.href = customFontsStylesheetRestyle;
+
+            if (mw.top().app.fontManager) {
+                mw.top().app.fontManager.reloadLiveEdit();
             }
+
+
+            // var customFontsStylesheet = mw.top().app.canvas.getDocument().getElementById("mw-custom-user-css");
+            // if (customFontsStylesheet != null) {
+            //     var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
+            //     customFontsStylesheet.href = customFontsStylesheetRestyle;
+            // }
+
             setTimeout(function() {
                 mw.top().app.templateSettings.reloadStylesheet('{{$styleSheetSourceFile}}', '{{$optionGroupLess}}');
             }, 1000);
@@ -64,15 +71,14 @@
         }
         function openRTECSsEditor2Vue(settings) {
 
-            
-
             let iframeStyleEdiorId = 'iframeStyleEditorId-Vue';
             let checkIframeStyleEditor = document.getElementById(iframeStyleEdiorId);
-            //temp fix
-            if (checkIframeStyleEditor) {
-                $('#'+iframeStyleEdiorId).remove();
-                checkIframeStyleEditor = null;
-            }
+
+            // //temp fix
+            // if (checkIframeStyleEditor) {
+            //     $('#'+iframeStyleEdiorId).remove();
+            //     checkIframeStyleEditor = null;
+            // }
 
             if (!checkIframeStyleEditor) {
                 var moduleType = 'microweber/toolbar/editor_tools/rte_css_editor2/rte_editor_vue';
@@ -95,15 +101,19 @@
                     // alert('iframe loaded');
                     // alert(settings.selectors[0]);
                     mw.top().app.dispatch('cssEditorSelectElementBySelector', settings.selectors[0]);
+                    mw.top().app.dispatch('cssEditorSettings', settings);
                 });
 
             } else {
                 mw.top().app.dispatch('cssEditorSelectElementBySelector', settings.selectors[0]);
+                mw.top().app.dispatch('cssEditorSettings', settings);
             }
 
+           // console.log(settings);
         }
+
         mw.top().app.on('mw.rte.css.editor2.open', function(e) {
-            openRTECSsEditor2(e);
+           // openRTECSsEditor2(e);
             openRTECSsEditor2Vue(e);
         });
     </script>
@@ -114,13 +124,11 @@
             x-data="{styleEditorData:{}, showStyleSettings: '/'}"
 
             x-init="()=>{
-
-        $watch('styleEditorData', (value) => {
-            if (value.selectors) {
-                mw.top().app.dispatch('mw.rte.css.editor2.open', value);
-            }
-        });
-
+            $watch('styleEditorData', (value) => {
+                if (value.selectors) {
+                    mw.top().app.dispatch('mw.rte.css.editor2.open', value);
+                }
+            });
         }"
         >
 
@@ -140,7 +148,6 @@
                     x-show="showStyleSettings == '{{$styleSetting['url']}}'"
                     @endif
 
-                    x-transition:enter="tab-pane-slide-left-active"
 
                     class="mt-2">
 
@@ -211,10 +218,10 @@
                     </button>
                 </div>
 
-                <b x-html="styleEditorData.title"></b>
-                <p x-html="styleEditorData.description"></p>
+                <b x-show="styleEditorData.title" x-html="styleEditorData.title"></b>
+                <p x-show="styleEditorData.description" x-html="styleEditorData.description"></p>
 
-                <div>
+                <div class="mt-2">
                     <div id="iframe-holder"></div>
                 </div>
             </div>
@@ -248,7 +255,7 @@
                                         </a>
                                     </div>
 
-                                    <div x-show="showStyleSettings == 'setting-values-key-{{md5($settingName)}}'" x-transition:enter="tab-pane-slide-right-active">
+                                    <div x-show="showStyleSettings == 'setting-values-key-{{md5($settingName)}}'" >
                                         @foreach($settingFields as $settingFieldKey=>$settingField)
 
                                             <div wire:key="setting-field-key-{{md5($settingFieldKey)}}">

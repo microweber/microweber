@@ -139,7 +139,7 @@ body.dragStart {
 
 
 
-.mw-live-edit .module {
+.mw-live-edit .module:not(.module-background) {
     min-height: 20px;
 }
 

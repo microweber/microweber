@@ -5,14 +5,26 @@
             <FontPicker v-model="fontFamily" :label="'Font Family'"/>
         </div>
 
-        <div>
-            <Input v-model="color" :label="'Font Color'"/>
+        <div class="d-flex justify-content-between">
+            <div class="mr-4">Font Color</div>
+            <div>
+                <ColorPicker />
+            </div>
         </div>
 
-       <div>
-           <Input v-model="fontSize" :label="'Font Size'"/>
-           {{ fontSize }}
-       </div>
+        <div class="m-3">
+            <div class="mr-4">Font Size - {{fontSize}}</div>
+            <div>
+                <Slider
+                    :min="6"
+                    :max="120"
+                    :step="1"
+                    :merge="1"
+                    :tooltips="false"
+                    v-model="fontSize"
+                />
+            </div>
+        </div>
 
         <div>
             <Dropdown v-model="fontWeight" :options="fontWeightOptions" :label="'Font Weight'"/>
@@ -26,20 +38,34 @@
             <Dropdown v-model="fontStyle" :options="fontStylesOptions" :label="'Font Style'"/>
         </div>
 
-        <div>
-            <Input v-model="lineHeight" :label="'Line Height'"/>
+        <div class="m-3">
+            <div class="mr-4">Line Heigh - {{fontSize}}</div>
+            <div>
+                <Slider
+                    :min="6"
+                    :max="120"
+                    :step="1"
+                    :merge="1"
+                    :tooltips="false"
+                    v-model="lineHeight"
+                />
+            </div>
         </div>
 
     </div>
 </template>
 
+<style src="@vueform/slider/themes/default.css"></style>
+
 <script>
 import Input from '../../components/Form/Input.vue';
 import Dropdown from '../../components/Form/Dropdown.vue';
 import FontPicker from "../../components/Form/FontPicker.vue";
+import ColorPicker from "../../components/Editor/Colors/ColorPicker.vue";
+import Slider from '@vueform/slider';
 
 export default {
-    components: {FontPicker, Dropdown, Input},
+    components: {ColorPicker, FontPicker, Dropdown, Input, Slider},
     data() {
         return {
             'activeNode': null,
@@ -169,7 +195,7 @@ export default {
     watch: {
         // Font-related property watchers
         fontSize: function (newValue, oldValue) {
-            this.applyPropertyToActiveNode('fontSize', newValue);
+            this.applyPropertyToActiveNode('fontSize', newValue + 'px');
         },
         fontWeight: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('fontWeight', newValue);
@@ -178,7 +204,7 @@ export default {
             this.applyPropertyToActiveNode('fontStyle', newValue);
         },
         lineHeight: function (newValue, oldValue) {
-            this.applyPropertyToActiveNode('lineHeight', newValue);
+            this.applyPropertyToActiveNode('lineHeight', newValue + 'px');
         },
         fontFamily: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('fontFamily', newValue);
