@@ -1233,7 +1233,7 @@ var MWEditor = function (options) {
 
 
 
-            scope.$editArea.on('paste input', function(event) {
+            scope.$editArea.on('paste input', async event => {
                 var clipboardData, pastedData;
                 var e = event.originalEvent || event;
 
@@ -1242,6 +1242,7 @@ var MWEditor = function (options) {
                 if(e.type === 'paste') {
 
 
+               
 
 
                     clipboardData = e.clipboardData || window.clipboardData;
@@ -1258,8 +1259,9 @@ var MWEditor = function (options) {
 
                             var plainTextNodes = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'A', 'EM', 'STRONG', 'SUP', 'B', 'SUB', 'PRE'];
                             var splitNodes = ['P', 'DIV'];
+                            var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(scope.api.elementNode(scope.api.getSelection().focusNode), ['safe-mode', 'regular-mode'])
 
-                            if(plainTextNodes.includes(e.target.nodeName)) {
+                            if(isSafeMode || plainTextNodes.includes(e.target.nodeName)) {
                                 scope.api.insertHTML(pastedDataText )
                             } else {
                                 var doc = document.implementation.createHTMLDocument("");
