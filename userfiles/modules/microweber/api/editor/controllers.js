@@ -179,9 +179,16 @@ MWEditor.controllers = {
                 if(mw.top().app && mw.top().app.canvas) {
                     isInLiveEdit = mw.top().app.canvas.getWindow();
                 }
-
+ 
                 if (this.target) {
                     mw.app.editor.dispatch('insertModuleRequest', this.target);
+
+                    mw.top().win.mw.app.liveEdit.handles.get('element').set(this.target)
+                    setTimeout(() => {
+                         
+                        mw.top().app.liveEdit.handles.hide();
+                        mw.top().app.liveEdit.pause();
+                    })
                 }
             });
 
@@ -195,18 +202,15 @@ MWEditor.controllers = {
                 var elementNode = api.elementNode(focusNode)
                 if (elementNode && mw.top().app.liveEdit) {
                     elementNode = mw.tools.firstParentOrCurrentWithAnyOfClasses(elementNode, ['edit', 'element']);
-                    if(elementNode  ) {
-                        allowed = mw.top().app.liveEdit.liveEditHelpers.targetHasAbilityToDropElementsInside(elementNode)
-                    }
+                    allowed = !!elementNode;
                 }
             }
-
             if (!allowed) {
                 rootScope.hide(opt.controller.element.get(0), true);
                 this.target = null;
             } else {
                 rootScope.show(opt.controller.element.get(0));
-                this.target = allowed;
+                this.target = elementNode;
             }
         };
         this.element = this.render();

@@ -11,16 +11,17 @@ export const insertModule = (target = null, module, options = {}, insertLocation
     }
     return new Promise(async resolve => {
 
-        
+        //todo: optimise
+        let isTextEditing = mw.top().app.richTextEditor.smallEditor.get(0).style.display !== 'none' 
+                && !mw.top().win.mw.app.liveEdit.handles.get('element').isVisible()
+                && !mw.top().win.mw.app.liveEdit.handles.get('module').isVisible();
          
         await target.ownerDocument.defaultView.mw.module.insert(target, module, options, insertLocation, mw.liveEditState);
 
 
-        //todo: optimise
-        let isTextEditing = mw.top().app.richTextEditor.smallEditor.get(0).style.display !== 'none' 
-            && !mw.top().win.mw.app.liveEdit.handles.get('element').isVisible()
-            && !mw.top().win.mw.app.liveEdit.handles.get('module').isVisible();
+
         
+            console.log(isTextEditing)
 
             if(isTextEditing) {
 

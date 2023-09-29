@@ -5073,10 +5073,9 @@ body.dragStart picture img{
     opacity: .8;
 }
 
-.mw-live-edit .element:empty {
+.mw-live-edit .element:not(img):empty {
     cursor: pointer;
     background: #ffffff38;
-
     color: inherit;
     opacity: .57;
     white-space: nowrap;

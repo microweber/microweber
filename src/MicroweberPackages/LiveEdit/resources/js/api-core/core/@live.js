@@ -584,7 +584,13 @@ export class LiveEdit {
 
                 }
             }
+
+            if(!DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['allow-select', 'no-select'])) {
+                target = null;
+            }
         }
+
+        
 
         return target
     }
