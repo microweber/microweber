@@ -34,6 +34,13 @@
 
         $(document).ready(function () {
             let element = document.getElementById('open-color-picker-{{$md5name}}');
+            let inputElement{{$md5name}} = document.getElementById('{{$md5name}}');
+
+            inputElement{{$md5name}}.dispatchEvent(new Event('loaded'));
+            inputElement{{$md5name}}.addEventListener('input', function () {
+                element.style.backgroundColor = inputElement{{$md5name}}.value;
+            });
+
             setTimeout(function () {
                 element.style.backgroundColor = document.getElementById('{{$md5name}}').value;
             }, 5);

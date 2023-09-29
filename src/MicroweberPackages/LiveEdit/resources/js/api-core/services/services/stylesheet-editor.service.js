@@ -172,6 +172,12 @@ export class StylesheetEditor extends MicroweberBaseClass {
         }
 
         this._cssTemp(this._temp);
+
+        mw.top().app.dispatch('setPropertyForSelector', {
+            selector: sel,
+            property: prop,
+            value: val
+        });
     }
 
     temp(node, prop, val) {
