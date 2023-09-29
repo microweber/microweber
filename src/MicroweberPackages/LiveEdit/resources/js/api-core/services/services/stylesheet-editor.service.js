@@ -85,9 +85,18 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
         const removePropertyFromSheet = (sheet) => {
             if (sheet) {
-                for (let i = 0, l = sheet.cssRules.length; i < l; i++) {
-                    if (sheet.cssRules[i].selectorText === selector) {
-                        sheet.cssRules[i].style.removeProperty(property);
+                var rules;
+                if(sheet.cssRules) {
+                    rules = sheet.cssRules;
+                } else if(sheet.sheet) {
+                    rules = sheet.sheet.cssRules;
+                }
+                if(!rules || !rules.length) {
+                    return;
+                }
+                for (let i = 0, l = rules.length; i < l; i++) {
+                    if (rules[i].selectorText === selector) {
+                        rules[i].style.removeProperty(property);
                     }
                 }
             }
