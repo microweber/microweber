@@ -60,7 +60,19 @@
 
             @if ($setting['fieldType'] == 'colorPicker')
 
-                <x-microweber-ui::color-picker x-on:update="(e) => {
+                <x-microweber-ui::color-picker
+                x-on:loaded="(colorPickerEvent) => {
+                    let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
+                    colorPickerEvent.target.value = propertyValue;
+                    mw.top().app.on('setPropertyForSelector', (propertyChangeEvent) => {
+                         if (propertyChangeEvent.selector == '{{end($setting['selectors'])}}' && propertyChangeEvent.property == '{{$setting['fieldSettings']['property']}}') {
+
+                             colorPickerEvent.target.value = propertyChangeEvent.value;
+                             colorPickerEvent.target.dispatchEvent(new Event('input'));
+                         }
+                    });
+                }"
+                x-on:update="(e) => {
                     mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value);
                 }"
                label="{{$setting['title']}}" />
@@ -72,7 +84,7 @@
                 x-on:loaded="(e) => {
                     let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
                     propertyValue = propertyValue.replace('px', '');
-                    e.target.value = propertyValue; 
+                    e.target.value = propertyValue;
                 }"
                 x-on:update="(e) => {
                     if (mw.top().app.cssEditor) {
