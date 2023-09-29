@@ -19,7 +19,7 @@
                    <div>
                        <b>{{$setting['title']}}</b>
                    </div>
-                    <div>
+                    <div class="mt-1">
                         <p>{{$setting['description']}}</p>
                     </div>
                     <button
@@ -29,7 +29,7 @@
                             @endforeach
                             }"
                         class="btn btn-outline-dark" style="width:100%;">
-                        {{$setting['title']}} 
+                        {{$setting['title']}}
                     </button>
                 </div>
             @endif
@@ -39,7 +39,7 @@
                @if(isset($setting['fieldSettings']['colors']))
                     @foreach($setting['fieldSettings']['colors'] as $colorPallete)
                         <div class="mt-2">
-                            <div class="d-flex gap-2"
+                            <div class="d-flex flex-cols gap-2"
 
                                  x-on:click="(e) => {
                                     @foreach($colorPallete['properties'] as $property=>$propertyValue)
@@ -49,7 +49,7 @@
 
                             >
                                 @foreach($colorPallete['mainColors'] as $mainColors)
-                                    <div style="border-radius:6px;width:100%;height:50px;background:{{$mainColors}}"></div>
+                                    <div style="border-radius:6px;width:100%;height:40px;background:{{$mainColors}}"></div>
                                 @endforeach
                             </div>
                         </div>
@@ -68,8 +68,16 @@
             @endif
 
             @if ($setting['fieldType'] == 'rangeSlider')
-                <x-microweber-ui::range-slider x-on:update="(e) => {
-                    mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value + 'px');
+                <x-microweber-ui::range-slider
+                x-on:loaded="(e) => {
+                    let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
+                    propertyValue = propertyValue.replace('px', '');
+                    e.target.value = propertyValue; 
+                }"
+                x-on:update="(e) => {
+                    if (mw.top().app.cssEditor) {
+                        mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value + 'px');
+                    }
                 }"
                label="{{$setting['title']}}" min="0" max="100" labelUnit="" />
             @endif
@@ -87,8 +95,14 @@
             @endif
 
             @if ($setting['fieldType'] == 'infoBox')
-                <b>{{$setting['title']}}</b>
-                <p>{{$setting['description']}}</p>
+                <div class="mt-2">
+                    <div>
+                        <b>{{$setting['title']}}</b>
+                    </div>
+                    <div class="mt-1">
+                      <p>{{$setting['description']}}</p>
+                  </div>
+              </div>
             @endif
 
             @if ($setting['fieldType'] == 'fontFamily')

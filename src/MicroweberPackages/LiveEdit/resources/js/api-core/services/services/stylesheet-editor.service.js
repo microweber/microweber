@@ -1,6 +1,7 @@
 import MicroweberBaseClass from "../containers/base-class.js";
 import CSSJSON from "../../core/libs/cssjson/cssjson.js";
 
+mw.lib.require('jseldom');
 
 export class StylesheetEditor extends MicroweberBaseClass {
     constructor(config) {
@@ -108,7 +109,49 @@ export class StylesheetEditor extends MicroweberBaseClass {
     }
 
 
+    getPropertyForSelector(selector, prop) {
 
+        var canvasDocument = mw.top().app.canvas.getDocument();
+
+        if (selector) {
+
+            if (selector.indexOf(':root') === 0) {
+                return getComputedStyle(canvasDocument.querySelector(selector)).getPropertyValue(prop);
+            }
+
+            var ActiveNode = canvasDocument.querySelector(selector);
+            if (!ActiveNode) {
+
+
+
+                var newEl = $.jseldom(selector);
+
+                var holder = canvasDocument.querySelector('#mw-non-existing-temp-element-holder');
+                if(!holder){
+                    holder = canvasDocument.createElement('div');
+                    holder.id = 'mw-non-existing-temp-element-holder';
+                    holder.style.display = 'none';
+                    canvasDocument.body.append(holder);
+                }
+                if(newEl) {
+                    holder = canvasDocument.getElementById('mw-non-existing-temp-element-holder');
+                    holder.append(newEl[0]);
+                }
+                ActiveNode = canvasDocument.querySelector(selector);
+
+
+            }
+
+            if (ActiveNode && ActiveNode && ActiveNode.nodeType === 1) {
+                var css = mw.CSSParser(ActiveNode);
+
+                return css.get(prop);
+
+            }
+
+        }
+
+    }
 
     setPropertyForSelector(sel, prop, val) {
         this.changed = true;
