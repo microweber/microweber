@@ -5066,12 +5066,21 @@ body.dragStart picture img{
     color: #0084d8;
 }
 
- 
+
 [data-mwplaceholder]:empty:after {
     content: attr(data-mwplaceholder);
+    color: #ccc;
+    opacity: .8;
+}
+
+.mw-live-edit .element:empty {
+    cursor: pointer;
+    background: #ffffff38;
+
     color: inherit;
     opacity: .57;
     white-space: nowrap;
+
 }
 
 
@@ -5251,7 +5260,6 @@ section.section {
     pointer-events: none !important;
 }
 
-
 .no-select{
     pointer-events: none !important;
 }
@@ -5259,3 +5267,4 @@ section.section {
 .allow-select{
     pointer-events: all !important;
 }
+

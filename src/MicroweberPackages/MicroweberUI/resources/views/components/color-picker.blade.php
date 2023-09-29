@@ -43,6 +43,10 @@
                 colorPicker.setPositionToElement(element);
                 colorPicker.selectColor('#{{$md5name}}', function(color) {
                     element.style.backgroundColor = color;
+
+                    let event = new Event('update');
+                    document.getElementById('{{$md5name}}').dispatchEvent(event);
+
                 });
 
             });
