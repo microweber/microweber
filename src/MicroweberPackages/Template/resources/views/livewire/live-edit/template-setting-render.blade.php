@@ -26,10 +26,10 @@
                         x-on:click="(e) => {
                             @foreach($setting['fieldSettings']['properties'] as $property)
                                  mw.top().app.cssEditor.removeSheetRuleProperty('{{end($setting['selectors'])}}', '{{$property}}');
-                            @endforeach 
+                            @endforeach
                             }"
-                        class="btn btn-outline-dark">
-                        <i class="mdi mdi-delete-sweep" style="font-size:22px"></i> {{$setting['title']}}
+                        class="btn btn-outline-dark btn-block">
+                        {{$setting['title']}}
                     </button>
                 </div>
             @endif
