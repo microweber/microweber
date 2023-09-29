@@ -111,11 +111,13 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     getPropertyForSelector(selector, prop) {
 
-
-
         var canvasDocument = mw.top().app.canvas.getDocument();
 
         if (selector) {
+
+            if (selector.indexOf(':root') === 0) {
+                return getComputedStyle(canvasDocument.querySelector(selector)).getPropertyValue(prop);
+            }
 
             var ActiveNode = canvasDocument.querySelector(selector);
             if (!ActiveNode) {
@@ -143,12 +145,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
             if (ActiveNode && ActiveNode && ActiveNode.nodeType === 1) {
                 var css = mw.CSSParser(ActiveNode);
 
-
-                console.log(css); 
-
-                if (css[prop]) {
-                    return css[prop];
-                }
+                return css.get(prop);
 
             }
 

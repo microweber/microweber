@@ -38,6 +38,8 @@
             let slider{{$rand}} = document.getElementById('range-slider-{{$rand}}}');
             let customRangeValueField{{$rand}} = document.getElementById('js-custom-range-value-{{$rand}}');
 
+            customRangeValueField{{$rand}}.dispatchEvent(new Event('loaded'));
+
             noUiSlider.create(slider{{$rand}}, {
                 start: customRangeValueField{{$rand}}.value,
                 step:1,

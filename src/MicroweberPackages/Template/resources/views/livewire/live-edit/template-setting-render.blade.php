@@ -68,8 +68,16 @@
             @endif
 
             @if ($setting['fieldType'] == 'rangeSlider')
-                <x-microweber-ui::range-slider x-on:update="(e) => {
-                    mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value + 'px');
+                <x-microweber-ui::range-slider
+                x-on:loaded="(e) => {
+                    let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
+                    propertyValue = propertyValue.replace('px', '');
+                    e.target.value = propertyValue; 
+                }"
+                x-on:update="(e) => {
+                    if (mw.top().app.cssEditor) {
+                        mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value + 'px');
+                    }
                 }"
                label="{{$setting['title']}}" min="0" max="100" labelUnit="" />
             @endif
@@ -89,7 +97,7 @@
             @if ($setting['fieldType'] == 'infoBox')
                 <div class="mt-2">
                     <div>
-                        <b>   {{$setting['title']}}</b>
+                        <b>{{$setting['title']}}</b>
                     </div>
                     <div class="mt-1">
                       <p>{{$setting['description']}}</p>
@@ -112,9 +120,4 @@
         @endif
     </div>
 </div>
-<script>
-    import BubbleNav from "../../../../../LiveEdit/resources/js/ui/components/LeftSidebar/BubbleNav";
-    export default {
-        components: {BubbleNav}
-    }
-</script>
+
