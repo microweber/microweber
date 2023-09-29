@@ -25,7 +25,7 @@
                     <button
                         x-on:click="(e) => {
                             @foreach($setting['fieldSettings']['properties'] as $property)
-                                 mw.top().app.cssEditor.removeSheetRuleProperty('{{end($setting['selectors'])}}', '{{$property}}');
+                                 mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$property}}', '');
                             @endforeach
                             }"
                         class="btn btn-outline-dark" style="width:100%;">
@@ -106,9 +106,4 @@
         @endif
     </div>
 </div>
-<script>
-    import BubbleNav from "../../../../../LiveEdit/resources/js/ui/components/LeftSidebar/BubbleNav";
-    export default {
-        components: {BubbleNav}
-    }
-</script>
+
