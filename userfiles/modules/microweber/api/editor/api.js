@@ -684,11 +684,11 @@ mw.lib.require('rangy');
 
                 Array.prototype.slice.call(this._cleaner.querySelectorAll('[style]')).forEach(node => node.removeAttribute('style'))
                 
-           
-                return _filterXSS(this._cleaner.innerHTML);
+ 
+                return _filterXSS(this._cleaner.innerHTML) || '';
             },
             insertHTML: function(html) {
-
+                
 
 
                 return scope.api.execCommand('insertHTML', false, this.cleanHTML(html));

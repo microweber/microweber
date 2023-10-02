@@ -121,22 +121,22 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                     'placeholder' => 'Content',
                     'help' => 'Content is required'
                 ],
-                [
-                    'type' => 'text',
-                    'rules' => 'max:255',
-                    'label' => 'Read more URL',
-                    'name' => 'read_more_url',
-                    'placeholder' => 'Read more URL',
-                    'help' => 'Read more URL is required'
-                ],
-                [
-                    'type' => 'text',
-                    'rules' => 'max:255',
-                    'label' => 'Created on',
-                    'name' => 'created_on',
-                    'placeholder' => 'Created on',
-                    'help' => 'Created on is required'
-                ],
+//                [
+//                    'type' => 'text',
+//                    'rules' => 'max:255',
+//                    'label' => 'Read more URL',
+//                    'name' => 'read_more_url',
+//                    'placeholder' => 'Read more URL',
+//                    'help' => 'Read more URL is required'
+//                ],
+//                [
+//                    'type' => 'text',
+//                    'rules' => 'max:255',
+//                    'label' => 'Created on',
+//                    'name' => 'created_on',
+//                    'placeholder' => 'Created on',
+//                    'help' => 'Created on is required'
+//                ],
 //                [
 //                    'type'=>'text',
 //                    'rules'=>'required|min:2|max:255',
@@ -162,11 +162,11 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                     'help'=>'Client role is required'
                 ],
                 [
-                    'type'=>'text',
+                    'type'=>'url',
                     'rules'=>'max:255',
                     'label'=>'Client website',
                     'name'=>'client_website',
-                    'placeholder'=>'Client website',
+                    'placeholder'=>'https://example.com/', 
                     'help'=>'Client website is required'
                 ]
             ]
