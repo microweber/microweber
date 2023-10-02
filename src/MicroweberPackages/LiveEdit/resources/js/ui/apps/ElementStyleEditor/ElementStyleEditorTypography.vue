@@ -2,7 +2,7 @@
     <div class="d-flex flex-column gap-3">
 
         <div>
-            <FontPicker v-model="fontFamily" :label="'Font Family'"/>
+            <FontPicker v-model="fontFamily"  @change="handleFontChange" :label="'Font Family'"/>
         </div>
 
         <div class="d-flex justify-content-between">
@@ -159,6 +159,10 @@ export default {
 
         },
 
+      handleFontChange: function (fontFamily) {
+        this.applyPropertyToActiveNode('fontFamily', fontFamily);
+      },
+
         populateCssFont: function (css) {
             if (!css || !css.get) return;
             var font = css.get.font();
@@ -194,20 +198,21 @@ export default {
 
     watch: {
         // Font-related property watchers
-        fontSize: function (newValue, oldValue) {
+      // fontFamily: function (newValue, oldValue) {
+      // applied in handleFontChange
+      //   this.applyPropertyToActiveNode('fontFamily', newValue);
+      // },
+      fontSize: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('fontSize', newValue + 'px');
         },
-        fontWeight: function (newValue, oldValue) {
+      fontWeight: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('fontWeight', newValue);
         },
-        fontStyle: function (newValue, oldValue) {
+      fontStyle: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('fontStyle', newValue);
         },
-        lineHeight: function (newValue, oldValue) {
+      lineHeight: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('lineHeight', newValue + 'px');
-        },
-        fontFamily: function (newValue, oldValue) {
-            this.applyPropertyToActiveNode('fontFamily', newValue);
         },
         color: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('color', newValue);

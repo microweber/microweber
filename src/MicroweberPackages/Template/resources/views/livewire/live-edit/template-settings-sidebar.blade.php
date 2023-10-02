@@ -2,6 +2,11 @@
 
 @section('content')
 
+
+@include('admin::layouts.partials.loads-user-custom-fonts')
+
+
+
 <div wire:ignore>
     <style>
         body {
