@@ -21,6 +21,7 @@ export const Handle = function (options) {
 
     const _e = {};
     this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+    this.off = (e, f) => { _e[e] && _e[e].indexOf(f) !== -1 ?_e[e].splice(_e[e].indexOf(f), 1) :  '' };
     this.dispatch = (e, f) => { _e[e] ? _e[e].forEach( (c) => { c.call(this, f); }) : ''; };
 
     var _visible = true;

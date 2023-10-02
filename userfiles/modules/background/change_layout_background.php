@@ -48,53 +48,101 @@
     <script>
 
 
-        var target = mw.top().app.liveEdit.handles.get('layout').getTarget();
-        var bg, bgOverlay, bgNode;
-
-        addEventListener('load', () => {
-
-            const bgImage = mw.top().app.layoutBackground.getBackgroundImage(bgNode);
-            const bgVideo = mw.top().app.layoutBackground.getBackgroundVideo(bgNode)
-
-            
-            const picker = mw.app.singleFilePickerComponent({
-                element: '#bg--image-picker',
-                accept: 'images',
-                file:  bgImage ? bgImage : null
-            });
-
-            picker.on('change', () => {
-                videoPicker.setFile(null);
-                mw.top().app.layoutBackground.setBackgroundImage(bgNode, picker.file);
-            })
-
-            const videoPicker = mw.app.singleFilePickerComponent({
-                element: '#bg--video-picker',
-                accept: 'videos',
-                file:  bgVideo ? bgVideo : null,
-                canEdit: false
-            });
-
-            videoPicker.on('change', () => {
-                mw.top().app.layoutBackground.setBackgroundVideo(bgNode, videoPicker.file);
-                picker.setFile(null);
-            })
-        })
+  
+        
+        const getTargets = () => {
+            const target = mw.top().app.liveEdit.handles.get('layout').getTarget();
+            let bg, bgOverlay, bgNode;
+            if (target) {
 
 
-        if (target) {
+                bg = target.querySelector('.mw-layout-background-block');
+                if (bg) {
+    
+                    bgNode = bg.querySelector('.mw-layout-background-node')
+                    bgOverlay = bg.querySelector('.mw-layout-background-overlay')
+                }
 
-
-            bg = target.querySelector('.mw-layout-background-block');
-            if (bg) {
-                var tabLink = document.querySelector('#change-background-tab-link');
-                tabLink.style.display = '';
-                bgNode = bg.querySelector('.mw-layout-background-node')
-                bgOverlay = bg.querySelector('.mw-layout-background-overlay')
+                if (target && bg) {
+                    var tabLink = document.querySelector('#change-background-tab-link');
+                    tabLink.style.display = '';
+                } else {
+                    tabLink.style.display = 'none';
+                }
             }
+                return {bg, bgOverlay, bgNode, target}
+            
         }
 
+
+
+       
+
+        let picker, videoPicker;
+        const handleReady = () => {
+            let {bg, bgOverlay, bgNode, target} = getTargets();
+
+            let bgImage = mw.top().app.layoutBackground.getBackgroundImage(bgNode);
+            let bgVideo = mw.top().app.layoutBackground.getBackgroundVideo(bgNode);
+
+            if(!picker) {
+                picker = mw.app.singleFilePickerComponent({
+                    element: '#bg--image-picker',
+                    accept: 'images',
+                    file:  bgImage ? bgImage : null
+                });
+                videoPicker = mw.app.singleFilePickerComponent({
+                    element: '#bg--video-picker',
+                    accept: 'videos',
+                    file:  bgVideo ? bgVideo : null,
+                    canEdit: false
+                });
+
+                picker.on('change', () => {
+                    const {bg, bgOverlay, bgNode, target} = getTargets();
+                    videoPicker.setFile(null);
+                    mw.top().app.layoutBackground.setBackgroundImage(bgNode, picker.file);
+                })
+
+            
+
+                videoPicker.on('change', () => {
+                    const {bg, bgOverlay, bgNode, target} = getTargets();
+                    mw.top().app.layoutBackground.setBackgroundVideo(bgNode, videoPicker.file);
+                    picker.setFile(null);
+                })
+            }
+
+            
+        }
+
+
+        const handleLayoutTargetChange = function() {
+            handleReady();
+            
+        }
+
+
+        mw.top().app.liveEdit.handles.get('layout').on('targetChange', handleLayoutTargetChange);
+
+       
+
+        addEventListener('load', () => {
+            
+
+            handleReady();
+ 
+             
+            mw.top().$(mw.top().dialog.get(this.frameElement)).on('Remove', function() {
+                mw.top().app.liveEdit.handles.get('layout').off('targetChange', handleLayoutTargetChange);
+                 
+            })
+            
+        })
+
+    
         document.addEventListener("DOMContentLoaded", function () {
+            let {bg, bgOverlay, bgNode, target} = getTargets();
             mw.tabs({
                 nav: "#bg-tabs > .btn",
                 tabs: ".bg-tab",
@@ -111,6 +159,8 @@
                 mode: 'inline',
                 onchange: function (color) {
 
+                    let {bg, bgOverlay, bgNode, target} = getTargets();
+
                     mw.top().app.layoutBackground.setBackgroundColor(bgNode, color);
                     showHideRemoveBackgroundsButtons();
                 }
@@ -124,6 +174,7 @@
 
                 mode: 'inline',
                 onchange: function (color) {
+                    let {bg, bgOverlay, bgNode, target} = getTargets();
                     if (!cpoPickerPause) {
                         mw.top().app.layoutBackground.setBackgroundColor(bgOverlay, color);
                         showHideRemoveBackgroundsButtons();
@@ -146,6 +197,7 @@
  
 
             document.querySelector('#overlay-color-picker-remove-color').addEventListener('click', function () {
+                let {bg, bgOverlay, bgNode, target} = getTargets();
 
                 mw.top().app.layoutBackground.setBackgroundColor(bgOverlay, '');
                 showHideRemoveBackgroundsButtons()
@@ -156,6 +208,7 @@
 
         function showHideRemoveBackgroundsButtons(){
  
+            let {bg, bgOverlay, bgNode, target} = getTargets();
 
             var hasBgColor = mw.top().app.layoutBackground.getBackgroundColor(bgOverlay)
             if(hasBgColor){
