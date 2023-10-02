@@ -8,7 +8,7 @@
         <div class="d-flex justify-content-between">
             <div class="mr-4">Font Color</div>
             <div>
-                <ColorPicker />
+                <ColorPicker v-model="color" v-bind:color=color   :label="'Font Color'" @change="handleFontColorChange" />
             </div>
         </div>
 
@@ -39,7 +39,7 @@
         </div>
 
         <div class="m-3">
-            <div class="mr-4">Line Heigh - {{fontSize}}</div>
+            <div class="mr-4">Line Heigh - {{lineHeight}}</div>
             <div>
                 <Slider
                     :min="6"
@@ -128,6 +128,8 @@ export default {
 
         populateStyleEditor: function (node) {
             if (node && node && node.nodeType === 1) {
+
+              mw.top().app.dispatch('mw.elementStyleEditor.closeAllOpenedMenus');
                 var css = mw.CSSParser(node);
                 this.isReady = false;
                 this.resetAllProperties();
@@ -161,6 +163,10 @@ export default {
 
       handleFontChange: function (fontFamily) {
         this.applyPropertyToActiveNode('fontFamily', fontFamily);
+      },
+
+      handleFontColorChange: function (color) {
+        this.applyPropertyToActiveNode('color', color);
       },
 
         populateCssFont: function (css) {
