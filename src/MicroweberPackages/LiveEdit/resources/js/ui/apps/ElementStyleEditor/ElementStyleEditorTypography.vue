@@ -2,7 +2,7 @@
     <div class="d-flex flex-column gap-3">
 
         <div>
-            <FontPicker v-model="fontFamily"  @change="handleFontChange" :label="'Font Family'"/>
+            <FontPicker v-model="fontFamily" v-bind:value=fontFamily   @change="handleFontChange" :label="'Font Family'"/>
         </div>
 
         <div class="d-flex justify-content-between">
