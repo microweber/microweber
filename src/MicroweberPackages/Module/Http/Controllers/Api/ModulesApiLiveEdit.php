@@ -466,12 +466,21 @@ class ModulesApiLiveEdit extends Controller
                         if (!isset($module_item['as_element'])) {
                             $module_item['as_element'] = '';
                         }
+                        if (!isset($module_item['icon'])) {
+                            $module_item['icon'] = '';
+                        }
+
+                        $title = $module_item["name"];
+                        $title = _e($title, true);
+
+
 
                         $moduleDataItem = [
                             'module_id' => $module_id,
                             'hidden' => false,
                             'mod_cat' => $mod_cat,
                             'name' => $module_item['name'],
+                            'title' => $title,
                             'name_clean' => $module_item['name_clean'],
                             'position' => $module_item['position'],
                             'icon' => $module_item['icon'],

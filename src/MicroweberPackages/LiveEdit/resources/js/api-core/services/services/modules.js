@@ -15,6 +15,8 @@ export const Modules = {
                 this.modulesListData = response.data;
             });
 
+
+
         return this.modulesListData;
 
     },
@@ -31,6 +33,25 @@ export const Modules = {
 
         if (this.modulesSkinsData[module]) {
             return this.modulesSkinsData[module];
+        }
+
+    },
+
+    getModuleInfo: function (module) {
+        var moduleData = null;
+
+        if(!this.modulesListData){
+            this.list();
+        }
+
+        if(this.modulesListData && this.modulesListData.modules) {
+            var foundModule = this.modulesListData.modules.find(function (element) {
+                return element.module == module;
+            });
+
+
+            return foundModule;
+
         }
 
     }

@@ -55,6 +55,8 @@ export default {
         },
 
         populateDomTree: function (element){
+
+
             this.domTree = new mw.DomTree({
                 element: '#domtree',
                 resizable: true,
@@ -62,8 +64,12 @@ export default {
               //  targetDocument: targetMw.win.document,
                 targetDocument: element.ownerDocument,
                 canSelect: function (node, li) {
-                    // var can = mw.top().app.liveEdit.canBeElement(node)
-                    // return can;
+                     var can = mw.top().app.liveEdit.canBeElement(node)
+                     var isInaccessible =  mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(node);
+                     if(isInaccessible){
+                         return false;
+                     }
+                    //   return can;
                     // var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
                     // return !cant;
                     // return mw.tools.isEditable(node) || node.classList.contains('edit');
@@ -75,10 +81,14 @@ export default {
                 },
                 onSelect:  (e, target, node, element) => {
                     mw.top().app.dispatch('mw.elementStyleEditor.selectNode', node);
-                    node.ownerDocument.defaultView.mw.tools.scrollTo(node, false, 100);
+                    if(node.ownerDocument.defaultView.mw) {
+                        node.ownerDocument.defaultView.mw.tools.scrollTo(node, false, 100);
+                    }
 
                 }
             });
+
+
 
             this.domTree.select(element)
         }

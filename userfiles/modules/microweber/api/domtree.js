@@ -73,6 +73,20 @@ mw.DomTree = function (options) {
                     },
                     {
                         label: function (node) {
+                            if (mw.top().app.modules) {
+                                var info = mw.top().app.modules.getModuleInfo(node.getAttribute('data-type'));
+                                var display = '';
+                                if (info && info.name) {
+                                    display = info.name;
+                                }
+                                if (info && info.icon) {
+                                    display = '<span  style="background-image: url(' + info.icon + ')" class="mw_module_settings_sidebar_icon"></span> ' + display;
+                                }
+
+                                return display;
+
+                            }
+
                             if (!node.ownerDocument.defaultView.mw.live_edit) {
                                 return ''
                             }
