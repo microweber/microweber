@@ -6,7 +6,7 @@
       <div class="d-flex justify-content-between">
           <div class="mr-4">Background Color</div>
           <div>
-              <ColorPicker />
+             <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor   :label="'Background Color'" @change="handleBackgroundColorChange" />
           </div>
       </div>
 
@@ -105,6 +105,10 @@ export default {
       this.backgroundPosition = bg.position;
       this.backgroundRepeat = bg.repeat;
       this.backgroundSize = bg.size;
+    },
+
+    handleBackgroundColorChange: function (color) {
+       this.applyPropertyToActiveNode('backgroundColor', color)
     },
 
     applyPropertyToActiveNode: function (prop, val) {

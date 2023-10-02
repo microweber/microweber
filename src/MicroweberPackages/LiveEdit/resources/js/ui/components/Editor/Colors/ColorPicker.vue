@@ -24,6 +24,7 @@
     right: 0px;
     position: absolute;
     margin-top: 2px;
+    z-index: 99;
 }
 .color-picker-badge {
     width: 30px;
@@ -64,7 +65,13 @@ export default {
             isSucking: false,
         }
     },
-    methods: {
+  mounted() {
+    mw.top().app.on('mw.elementStyleEditor.closeAllOpenedMenus', () => {
+      this.closePicker()
+    });
+  },
+
+  methods: {
         changeColor(color) {
             this.$props.color = color.hex;
         },

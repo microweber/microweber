@@ -2,13 +2,13 @@
     <div class="d-flex flex-column gap-3">
 
         <div>
-            <FontPicker v-model="fontFamily" :label="'Font Family'"/>
+            <FontPicker v-model="fontFamily" v-bind:value=fontFamily   @change="handleFontChange" :label="'Font Family'"/>
         </div>
 
         <div class="d-flex justify-content-between">
             <div class="mr-4">Font Color</div>
             <div>
-                <ColorPicker />
+                <ColorPicker v-model="color" v-bind:color=color   :label="'Font Color'" @change="handleFontColorChange" />
             </div>
         </div>
 
@@ -39,7 +39,7 @@
         </div>
 
         <div class="m-3">
-            <div class="mr-4">Line Heigh - {{fontSize}}</div>
+            <div class="mr-4">Line Heigh - {{lineHeight}}</div>
             <div>
                 <Slider
                     :min="6"
@@ -128,6 +128,8 @@ export default {
 
         populateStyleEditor: function (node) {
             if (node && node && node.nodeType === 1) {
+
+              mw.top().app.dispatch('mw.elementStyleEditor.closeAllOpenedMenus');
                 var css = mw.CSSParser(node);
                 this.isReady = false;
                 this.resetAllProperties();
@@ -158,6 +160,14 @@ export default {
             this.textDecorationIsStrikethrough = is.striked;
 
         },
+
+      handleFontChange: function (fontFamily) {
+        this.applyPropertyToActiveNode('fontFamily', fontFamily);
+      },
+
+      handleFontColorChange: function (color) {
+        this.applyPropertyToActiveNode('color', color);
+      },
 
         populateCssFont: function (css) {
             if (!css || !css.get) return;
@@ -194,20 +204,21 @@ export default {
 
     watch: {
         // Font-related property watchers
-        fontSize: function (newValue, oldValue) {
+      // fontFamily: function (newValue, oldValue) {
+      // applied in handleFontChange
+      //   this.applyPropertyToActiveNode('fontFamily', newValue);
+      // },
+      fontSize: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('fontSize', newValue + 'px');
         },
-        fontWeight: function (newValue, oldValue) {
+      fontWeight: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('fontWeight', newValue);
         },
-        fontStyle: function (newValue, oldValue) {
+      fontStyle: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('fontStyle', newValue);
         },
-        lineHeight: function (newValue, oldValue) {
+      lineHeight: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('lineHeight', newValue + 'px');
-        },
-        fontFamily: function (newValue, oldValue) {
-            this.applyPropertyToActiveNode('fontFamily', newValue);
         },
         color: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('color', newValue);
