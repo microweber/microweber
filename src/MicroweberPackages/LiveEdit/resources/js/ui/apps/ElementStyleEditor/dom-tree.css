@@ -1,0 +1,108 @@
+
+#domtree .ui-resizable-s:after{
+    content: '...';
+    color: #a4a4a4;
+    font-size: 17px;
+    line-height: 3px;
+}
+#domtree .ui-resizable-s{
+    position: sticky;
+    background-color: #eee;
+    text-align: center;
+    height: 12px;
+    bottom: 0;
+}
+#domtree{
+    max-height: 220px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#domtree .mw-domtree{
+    min-height: calc(100% - 30px);
+    min-height: -webkit-calc(100% - 30px);
+}
+.mw-domtree li.selectable-true.hover > span{
+    background-color: #d1d1d1;
+}
+
+.mw-domtree li.selected > span{background-color: #0e80e5; color: #fff}
+
+.mw-domtree li.selectable-true{
+    cursor:pointer;
+}
+.mw-domtree li.selectable-false{
+    cursor: default;
+    opacity:.8;
+}
+.mw-domtree li{
+    list-style: none;
+}
+.mw-domtree li li{
+    padding-inline-start: 10px;
+}
+.mw-domtree ul{
+    display: none;
+}
+.mw-domtree .expand > ul{
+    display: block;
+}
+
+.mw-domtree-item-label .mw_module_settings_sidebar_icon,
+.mw-domtree-item-label svg{
+    width: 19px;
+    height: 19px;
+}
+.mw-domtree-item-label .mw_module_settings_sidebar_icon {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: relative;
+    margin: 0 5px 0 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mw-domtree-item-label{
+    display: inline-block;
+    width: 90%;
+    width: -webkit-calc(100% - 20px);
+    width: calc(100% - 20px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mw-domtree{
+    text-align: left;
+    direction: ltr;
+}
+
+.mw-domtree-item-opener{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-style: normal;
+    line-height: 12px;
+    vertical-align: top;
+    position: relative;
+    top: 5px;
+}
+
+.mw-domtree-item-opener:after{
+    content: '\f10a';
+    transition: .3s;
+    position: relative;
+    display: inline-block;
+    font-family: Microweber;
+    color: #5f5f5f;
+
+}
+.expand > .mw-domtree-item-opener:after{
+    transform: rotate(90deg);
+}

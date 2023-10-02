@@ -1,6 +1,10 @@
 <template>
 
     <div>
+        <div v-show="showElementSelector">
+            <ElementStyleEditorElementSelector></ElementStyleEditorElementSelector>
+        </div>
+
         <div v-show="showTypography">
             <ElementStyleEditorTypography></ElementStyleEditorTypography>
         </div>
@@ -22,9 +26,11 @@ import ElementStyleEditorTypography from './ElementStyleEditorTypography.vue';
 import ElementStyleEditorSpacing from './ElementStyleEditorSpacing.vue';
 import ElementStyleEditorBackground from './ElementStyleEditorBackground.vue';
 import ElementStyleEditorBorder from './ElementStyleEditorBorder.vue';
+import ElementStyleEditorElementSelector from './ElementStyleEditorElementSelector.vue';
 
 export default {
     components: {
+        ElementStyleEditorElementSelector,
         ElementStyleEditorTypography,
         ElementStyleEditorSpacing,
         ElementStyleEditorBackground,
@@ -33,6 +39,7 @@ export default {
 
     data() {
         return {
+            showElementSelector: false,
             showTypography: false,
             showSpacing: false,
             showBackground: false,
@@ -51,7 +58,11 @@ export default {
                 this.showSpacing = false;
                 this.showBackground = false;
                 this.showBorder = false;
+                this.showElementSelector = false;
 
+                if (settings.fieldSettings.components.includes('elementSelector')) {
+                    this.showElementSelector = true;
+                }
                 if (settings.fieldSettings.components.includes('typography')) {
                     this.showTypography = true;
                 }
