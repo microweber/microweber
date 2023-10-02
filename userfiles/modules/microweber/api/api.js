@@ -149,7 +149,7 @@ mw.askusertostay = false;
   mw.module = {
     insert: function(target, module, config, pos, stateManager) {
 
-        console.log(target)
+        
 
 
         return new Promise(function (resolve) {

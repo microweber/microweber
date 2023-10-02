@@ -10,14 +10,32 @@ export class ElementAnalyzerServiceBase {
     }
 
     isRow (node) {
+        if(!node) {
+            return false;
+        }
+        if(!node.classList){
+            return false;
+        }
         return node.classList.contains(this.settings.rowClass);
     }
 
     isModule (node) {
+        if(!node) {
+            return false;
+        }
+        if(!node.classList){
+            return false;
+        }
         return node.classList.contains(this.settings.moduleClass) && node.dataset.type !== 'layouts';
     }
 
     isLayout (node) {
+        if(!node) {
+            return false;
+        }
+        if(!node.classList){
+            return false;
+        }
         return node.classList.contains(this.settings.moduleClass) && node.dataset.type === 'layouts';
     }
 
@@ -35,14 +53,33 @@ export class ElementAnalyzerServiceBase {
     }
 
     isElement (node) {
+        if(!node) {
+            return false;
+        }
+        if(!node.classList){
+            return false;
+        }
         return node.classList.contains(this.settings.elementClass);
     }
 
     isEmptyElement (node) {
+        if(!node) {
+            return false;
+        }
+        if(!node.classList){
+            return false;
+        }
         return node.classList.contains(this.settings.emptyElementClass);
     }
 
     isEdit (node) {
+        if(!node) {
+            return false;
+        }
+        if(!node.classList){
+            return false;
+        }
+
         return node.classList.contains(this.settings.editClass);
     }
 
@@ -51,7 +88,7 @@ export class ElementAnalyzerServiceBase {
             this.settings.editClass,
             this.settings.moduleClass,
         ];
-       
+
         return this.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node.parentNode, order);
     }
 
@@ -60,6 +97,12 @@ export class ElementAnalyzerServiceBase {
     }
 
     isPlainText (node) {
+        if(!node) {
+            return false;
+        }
+        if(!node.classList){
+            return false;
+        }
         return node.classList.contains(this.settings.plainElementClass);
     }
 
