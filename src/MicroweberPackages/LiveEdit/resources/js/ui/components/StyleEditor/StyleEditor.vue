@@ -40,6 +40,13 @@ export default {
             dlg.iframe.addEventListener('load', () => {
                 //  var selected = mw.app.liveEdit.elementHandle.getTarget();
                 //  dlg.iframe.contentWindow.selectNode(selected)
+                var styleEditorSettings = {
+                    fieldSettings: {}
+                };
+                styleEditorSettings.fieldSettings.components = ['elementSelector','typography', 'spacing', 'background', 'border'];
+
+                mw.top().app.dispatch('cssEditorSettings', styleEditorSettings);
+
 
 
                 var event = new CustomEvent('refreshSelectedElement')
@@ -125,20 +132,18 @@ export default {
                     if (can) {
                         //check if has Id
                         var targetWindow = mw.top().app.canvas.getWindow();
-
-                        var id = activeNode.id;
-                        if (!id) {
-                            targetWindow.mw.tools.generateSelectorForNode(activeNode);
-                            //  activeNode.id = id;
+                        if(activeNode){
+                            var id = activeNode.id;
+                            if (!id) {
+                                targetWindow.mw.tools.generateSelectorForNode(activeNode);
+                                //  activeNode.id = id;
+                            }
+                            var event = new CustomEvent('refreshSelectedElement')
+                            styleEditorInstance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
                         }
                     }
-
-
-                    var event = new CustomEvent('refreshSelectedElement')
-                    styleEditorInstance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
                 }
             }
-
         });
 
 

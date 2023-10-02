@@ -1,8 +1,16 @@
 
 <script>
     mw.lib.require('jseldom');
+    mw.require('domtree.js');
 </script>
 <script>
+
+    selectNodeInElementStyleEditorApp = function (ActiveNode) {
+        if (ActiveNode) {
+            mw.top().app.dispatch('mw.elementStyleEditor.selectNode', ActiveNode);
+        }
+    }
+
 
     var ActiveSelector = false;
     var ActiveNode = false;
@@ -32,6 +40,7 @@
 
     $(document).on('ready', function () {
         window.document.addEventListener('refreshSelectedElement', function (e) {
+
 
 
             ActiveNode = mw.top().app.liveEdit.getSelectedNode();
@@ -73,11 +82,6 @@
         });
     });
 
-    selectNodeInElementStyleEditorApp = function (ActiveNode) {
-        if (ActiveNode) {
-            mw.top().app.dispatch('mw.elementStyleEditor.selectNode', ActiveNode);
-        }
-    }
 
     mw.top().app.on('mw.elementStyleEditor.applyCssPropertyToNode', function (data) {
        output(data.prop, data.val, data.node);
