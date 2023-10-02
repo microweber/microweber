@@ -1236,99 +1236,52 @@ var MWEditor = function (options) {
             scope.$editArea.on('paste input', async event => {
                 var clipboardData, pastedData;
                 var e = event.originalEvent || event;
-
-
-
-                if(e.type === 'paste') {
-
-
-               
-
-
-                    clipboardData = e.clipboardData || window.clipboardData;
-
-                    if(clipboardData) {
-                        pastedData = clipboardData.getData('text/html'); // if is plain text will return undefined
-                        pastedDataText = clipboardData.getData('text/plain');
-
-                        console.log(pastedData)
-                        console.log(pastedDataText)
-
-                        if(pastedData) {
-
-
-                            var plainTextNodes = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'A', 'EM', 'STRONG', 'SUP', 'B', 'SUB', 'PRE'];
-                            var splitNodes = ['P', 'DIV'];
+                if(e.type === 'paste' && !scope.$editArea._pasting) {
+                    scope.$editArea._pasting = true;
+                    const edoc = e.target.ownerDocument;
+                    const ta = edoc.createElement('div');
+                    ta.contentEditable = true;
+                    mw.element(ta).css('position', 'absolute').css(mw.element(e.target).offset())
+                    edoc.body.appendChild(ta);
+                    scope.api.saveSelection();
+                    ta.focus();
+                    setTimeout(() => {
+                        scope.api.restoreSelection();
+                        var content;
+                        var plainTextNodes = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'A', 'EM', 'STRONG', 'SUP', 'B', 'SUB', 'PRE'];
+                             
                             var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(scope.api.elementNode(scope.api.getSelection().focusNode), ['safe-mode', 'regular-mode'])
 
-                            if(isSafeMode || plainTextNodes.includes(e.target.nodeName)) {
-                                scope.api.insertHTML(pastedDataText )
-                            } else {
-                                var doc = document.implementation.createHTMLDocument("");
-                                doc.body.innerHTML = pastedData;
+                            const allowedTags = 'a,abbr,address,audio,b,bdi,bdo,blockquote,br,button,caption,cite,code,data,dd,del,details,dfn,dl,dt,em,figcaption,figure,h1,h2,h3,h4,h5,h6,hr,i,img,font,ins,kbd,label,legend,li,mark,ol,p,picture,pre,q,rp,rt,ruby,s,samp,small,span,strong,sub,summary,sup,svg,table,tbody,td,tfoot,th,thead,time,tr,u,ul,var,video,wbr';
+                            const safeModeAllowedTags = 'a,b,br,del,em,i,font,s,samp,small,span,strong,sub,summary,sup,time,u,var,wbr';
+                            const noBlocksInThese = 'p,h1,h2,h3,h4,h5,h6';
+
+                            if(plainTextNodes.includes(e.target.nodeName)){
+                                content = ta.textContent;
+                               
+                            } else if(isSafeMode) {
                                 
-                                doc.body.querySelectorAll('[style]').forEach(node => {
-                                    node.removeAttribute('style')
-                                });
-                                const allowedTags = 'a,abbr,address,audio,b,bdi,bdo,blockquote,br,button,caption,cite,code,data,dd,del,details,dfn,dl,dt,em,figcaption,figure,h1,h2,h3,h4,h5,h6,hr,i,img,font,ins,kbd,label,legend,li,mark,ol,p,picture,pre,q,rp,rt,ruby,s,samp,small,span,strong,sub,summary,sup,svg,table,tbody,td,tfoot,th,thead,time,tr,u,ul,var,video,wbr';
-                                const noBlocksInThese = 'p,h1,h2,h3,h4,h5,h6';
-                                
-                                let all = doc.body.querySelectorAll(`*:not(${allowedTags})`);
+                                let all = ta.querySelectorAll(`*:not(${safeModeAllowedTags})`);
                                 while ( all.length ) {
                                     all.forEach(node => node.replaceWith(...node.childNodes));
-                                    all = doc.body.querySelectorAll(`*:not(${allowedTags})`);
+                                    all = ta.querySelectorAll(`*:not(${safeModeAllowedTags})`);
                                 }
-                                
-                                doc.body.querySelectorAll('*').forEach(node => {
-                                    console.log(node)
-                                });
-                                doc.body.querySelectorAll('[style]').forEach(node => {
-                                    node.removeAttribute('style')
-                                });
-                                var html = doc.body.innerHTML;
+                                content = ta.innerHTML;
+                            } else {
+                            
+                                let all = ta.querySelectorAll(`*:not(${allowedTags})`);
+                                while ( all.length ) {
+                                    all.forEach(node => node.replaceWith(...node.childNodes));
+                                    all = ta.querySelectorAll(`*:not(${allowedTags})`);
+                                }
+                                content = ta.innerHTML;
+                            }
 
-                                var sel = scope.api.getSelection()
-                                range = sel.getRangeAt(0);
-                                range.deleteContents();
-
+                        scope.api.insertHTML(content);
+                        mw.element(ta).remove();
+                        scope.$editArea._pasting = false;
+                    })
  
-                                var el = document.createElement("div");
-                                el.innerHTML = html;
-                                var frag = document.createDocumentFragment(), node, lastNode;
-                                while ( (node = el.firstChild) ) {
-                                    lastNode = frag.appendChild(node);
-                                }
-                                range.insertNode(frag);
-                                
-                                // Preserve the selection
-                                if (lastNode) {
-                                    range = range.cloneRange();
-                                    range.setStartAfter(lastNode);
-                                    range.collapse(true);
-                                    sel.removeAllRanges();
-                                    sel.addRange(range);
-                                }
-                                                    
-                                                
-                                                    // scope.api.insertHTML(html )
-                            }
-
-        
-
-
-                            if(splitNodes.includes(e.target.nodeName)) {
-
-                                pasteSplitManager(e);
-
-                            }
-
-                            e.preventDefault();
-                        }
-
-
-                    }
-
-
                 }
 
 
