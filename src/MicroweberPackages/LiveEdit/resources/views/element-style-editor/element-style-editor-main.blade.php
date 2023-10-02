@@ -1,4 +1,7 @@
 
+@include('admin::layouts.partials.loads-user-custom-fonts')
+
+
 <script>
     mw.lib.require('jseldom');
     mw.require('domtree.js');
