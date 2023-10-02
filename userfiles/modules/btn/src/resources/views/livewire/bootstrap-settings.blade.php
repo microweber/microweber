@@ -7,15 +7,10 @@
 
     @php
         $styleOptions = [
-            'btn-default' => 'Default',
             'btn-primary' => 'Primary',
-            'btn-info' => 'Info',
-            'btn-success' => 'Success',
-            'btn-warning' => 'Warning',
-            'btn-danger' => 'Danger',
-            'btn-link' => 'Simple'
+            'btn-secondary' => 'Secondary',
         ];
-    @endphp
+    @endphp 
 
 
     <div>

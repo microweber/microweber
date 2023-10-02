@@ -166,7 +166,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                     'rules'=>'max:255',
                     'label'=>'Client website',
                     'name'=>'client_website',
-                    'placeholder'=>'https://example.com/', 
+                    'placeholder'=>'https://example.com/',
                     'help'=>'Client website is required'
                 ]
             ]
