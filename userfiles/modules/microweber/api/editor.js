@@ -782,7 +782,13 @@ var MWEditor = function (options) {
                 icon.prepend('<span class="' + group.icon + ' mw-editor-group-button-icon"></span>');
             }
 
-            icon.on('click', function () {
+            icon.on('mousedown touchstart', function () {
+                const parent = this.parentNode.parentNode;
+                scope.document.querySelectorAll('.mw-bar-control-item.active, .mw-editor-controller-component.active').forEach(node => {
+                    if(node !== parent) {
+                        node.classList.remove('active')
+                    }
+                });
                 MWEditor.core._preSelect(this.parentNode);
                 this.parentNode.classList.toggle('active');
             });
@@ -794,11 +800,12 @@ var MWEditor = function (options) {
                 icon.prepend(ctrl.element);
                 mw.element(icon.get(0).querySelector('.mw-editor-group-button-caret')).on('mousedown touchstart', function (e) {
                     const parent = this.parentNode.parentNode;
+ 
                     scope.document.querySelectorAll('.mw-bar-control-item.active, .mw-editor-controller-component.active').forEach(node => {
                         if(node !== parent) {
                             node.classList.remove('active')
                         }
-                    })
+                    });
                     e.preventDefault();
                     MWEditor.core._preSelect(parent);
                     parent.classList.toggle('active');
@@ -1244,7 +1251,7 @@ var MWEditor = function (options) {
                     mw.element(ta).css('position', 'absolute').css(mw.element(e.target).offset())
                     edoc.body.appendChild(ta);
                     scope.api.saveSelection();
-                    ta.focus();
+                    ta.focus({preventScroll: true});
                     setTimeout(() => {
                         scope.api.restoreSelection();
                         var content;
