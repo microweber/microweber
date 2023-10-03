@@ -143,6 +143,9 @@ export default {
       } else {
         this.backgroundImageUrl = '';
       }
+      if(urlVal == null){
+        urlVal = 'none';
+      }
       this.backgroundImage = urlVal;
     },
 

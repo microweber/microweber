@@ -15,14 +15,15 @@
     <div class="m-3">
       <div class="mr-4">Font Size - {{ fontSize }}</div>
       <div>
-        <Slider
+
+        <v-slider
             :min="6"
             :max="120"
             :step="1"
-            :merge="1"
-            :tooltips="false"
             v-model="fontSize"
-        />
+        >
+        </v-slider>
+
       </div>
     </div>
 
@@ -41,14 +42,18 @@
     <div class="m-3">
       <div class="mr-4">Line Heigh - {{ lineHeight }}</div>
       <div>
-        <Slider
-            :min="6"
+
+        <v-slider
+            :min="0"
             :max="120"
             :step="1"
-            :merge="1"
-            :tooltips="false"
             v-model="lineHeight"
-        />
+        >
+        </v-slider>
+
+
+
+
       </div>
     </div>
 
@@ -174,8 +179,12 @@ export default {
 
 
       //repalce px
-      font.size = font.size.replace('px', '');
-
+      if(font.size) {
+        font.size = font.size.replace('px', '');
+      }
+      if(font.lineHeight) {
+        font.lineHeight = font.lineHeight.replace('px', '');
+      }
       this.fontSize = font.size;
 
       this.fontWeight = font.weight;
@@ -220,6 +229,17 @@ export default {
       this.applyPropertyToActiveNode('fontStyle', newValue);
     },
     lineHeight: function (newValue, oldValue) {
+      var setAuto = false;
+      if(typeof (newValue) === 'undefined'  ){
+        setAuto = true;
+      }
+      if(newValue == null){
+        setAuto = true;
+      }
+      if(setAuto){
+        this.applyPropertyToActiveNode('lineHeight', 'auto');
+        return;
+      }
       this.applyPropertyToActiveNode('lineHeight', newValue + 'px');
     },
     color: function (newValue, oldValue) {
