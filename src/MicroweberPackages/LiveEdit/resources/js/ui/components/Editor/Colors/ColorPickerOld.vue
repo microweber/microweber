@@ -2,11 +2,14 @@
     <div v-click-away="closePicker">
         <div class="color-picker-badge"
              @click="togglePicker"
-             :style="{ background: selectedColor }"></div>
+             :style="{background: color}"></div>
 
-        <input type="text" class="form-control" v-model="selectedColor">
+
+        <input type="text" v-model="color" @change="triggerChange" />
+
     </div>
 </template>
+
 <style>
 .hu-color-picker {
     width: 200px !important;
@@ -30,7 +33,10 @@
 </style>
 
 <script>
+
+
 export default {
+    components: {},
     props: {
         color: {
             type: String,
@@ -44,23 +50,23 @@ export default {
     data() {
         return {
             showPicker: false,
-            selectedColor: this.$props.color // Use a different data property to store the selected color
-        };
-    },
-    watch: {
-        selectedColor(newColor) {
-            this.$emit('change', newColor);
+
         }
     },
     mounted() {
         mw.top().app.on('mw.elementStyleEditor.closeAllOpenedMenus', () => {
-            this.closePicker();
+            this.closePicker()
         });
     },
+
     methods: {
         changeColor(color) {
-            this.selectedColor = color.hex; // Update the selectedColor property
+            this.$props.color = color.hex;
         },
+        triggerChange() {
+            this.$emit('change', this.$props.color);
+        },
+
         closePicker() {
             this.showPicker = false;
         },
@@ -68,5 +74,5 @@ export default {
             this.showPicker = !this.showPicker;
         }
     }
-};
+}
 </script>

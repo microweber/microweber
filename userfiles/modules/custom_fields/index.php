@@ -90,6 +90,16 @@ if (!empty($data)){
             $field['options']['field_size_class'] = template_field_size_class($field['options']['field_size']);
         }
 
+        if(!isset($field['field_size_mobile'])){
+            $field['options']['field_size_mobile'] = 12;
+        }
+        if(!isset($field['field_size_tablet'])){
+            $field['options']['field_size_tablet'] = 12;
+        }
+        if(!isset($field['field_size_desktop'])){
+            $field['options']['field_size_desktop'] = 12;
+        }
+
         $fields_group[$group_i][] = $field;
     }
 }
