@@ -6,7 +6,7 @@
         <span class="input-group-text">
             {{get_currency_symbol()}}
         </span>
-        <input
+        <input type="number"
             {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => 'form-control']) !!}
         />
     </div>
