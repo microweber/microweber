@@ -9,8 +9,8 @@
 
 
 
-  <button v-if="selectedFile" type="button" class="btn btn-link btn-sm mw-btn-icon-delete mw-btn-icon-delete" v-on:click="removeBackgroundImage()">
-
+  <button v-if="selectedFile" type="button" class="btn btn-link btn-sm" v-on:click="removeBackgroundImage()">
+     <i class="mdi mdi-delete"></i>
   </button>
 
 
