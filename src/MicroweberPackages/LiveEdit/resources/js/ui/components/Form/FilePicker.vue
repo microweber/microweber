@@ -1,15 +1,26 @@
 <template>
 
-  <input type="text" ref="filepickerinput" v-model="selectedFile" @input="triggerChangeSelectedFile"/>
+
+<div class="d-inline-flex">
+
+  <input type="hidden" ref="filepickerinput" v-model="selectedFile" @input="triggerChangeSelectedFile"/>
+
+
+
+
+  <button v-if="selectedFile" type="button" class="btn btn-outline-dark btn-sm" v-on:click="removeBackgroundImage()">
+    X
+  </button>
 
 
 
   <div class="file-picker-badge"
 
        @click="togglePicker"
-       :style="{background: file}"></div>
+       :style="{ backgroundImage: 'url(' + selectedFile + ')' }"></div>
 
 
+</div>
 </template>
 
 <style>
@@ -25,12 +36,14 @@
   width: 30px;
   height: 30px;
   background: #ddd;
-  file: #fff;
-  text-align: center;
+   text-align: center;
   line-height: 30px;
   border-radius: 100%;
   cursor: pointer;
   border: 1px solid #e0e0e0;
+  background-size: cover;
+  backgound-position: center;
+
 }
 </style>
 
@@ -79,18 +92,18 @@ export default {
       this.$emit('change', this.$props.file);
     },
     triggerChange() {
-
-
       this.$emit('change', this.$props.file);
     },
 
-
+    removeBackgroundImage() {
+      this.selectedFile = '';
+      this.$props.file = '';
+      this.$emit('change', this.$props.file);
+    },
     closePicker() {
       this.showPicker = false;
     },
     togglePicker() {
-
-
 
 //       var picker = new mw.filePicker({
 //         type: 'image',

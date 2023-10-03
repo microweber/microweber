@@ -1,6 +1,5 @@
 <template>
   <div>
-    <input v-model="backgroundImage" placeholder="Background Image">
     <br>
 
     <div class="d-flex justify-content-between">
@@ -15,6 +14,8 @@
     <div class="d-flex justify-content-between">
       <div class="mr-4">Background Image</div>
       <div>
+        <input type="hidden" v-model="backgroundImage" placeholder="Background Image">
+
         <FilePicker v-model="backgroundImage" v-bind:file=backgroundImageUrl :label="'Background Image'"
                     @change="handleBackgroundImageChange"/>
       </div>
