@@ -36,6 +36,7 @@ mw.filePickerDialog = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) 
     const {pickerOptions, dialogOptions} = conf;
     let dialog, picker;
 
+
     let filePickerDefaults = {
         type: 'images',
         label: false,
@@ -62,6 +63,8 @@ mw.filePickerDialog = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) 
         }
     });
 
+ 
+
 
     var dialogDefaults = {
         content: picker.root,
@@ -81,12 +84,15 @@ mw.filePickerDialog = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) 
     picker.$cancel.on('click', function(){
         dialog.remove()
     });
-    $(dialog).on('Remove', () => {
+    mw.top().$(dialog).on('Remove', function(){
+ 
         resolver(url);
         if(typeof callback === 'function') {
             callback.call(undefined, url)
         }
-    })
+    });
+
+ 
 
     return {
         picker, dialog, promise: () => promise
