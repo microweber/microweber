@@ -37,16 +37,13 @@ export const liveEditComponent = () => {
 
     mw.app.on('moduleReloaded', function(){
         const layoutTarget = mw.top().app.liveEdit.handles.get('layout').getTarget();
+        setTimeout(function(){
+            if(layoutTarget) {
+                mw.top().app.liveEdit.handles.get('layout').set(null);
+                mw.top().app.liveEdit.handles.get('layout').set(mw.app.canvas.getDocument().getElementById(layoutTarget.id));
+            }
 
-        console.log(1, layoutTarget)
-         
-        if(layoutTarget && !layoutTarget.parentElement) {
-            
-            mw.top().app.liveEdit.handles.get('layout').set(null);
-            mw.top().app.liveEdit.handles.get('layout').set(mw.app.canvas.getDocument().getElementById(layoutTarget.id));
-
-            console.log(mw.app.canvas.getDocument().getElementById(layoutTarget.id))
-        }
+        }, 600)
     });
 
     liveEdit.on('insertLayoutRequestOnBottom', function(){
@@ -55,7 +52,7 @@ export const liveEditComponent = () => {
     mw.app.templateSettings = new TemplateSettings();
 
 
-    mw.app.liveEdit =liveEdit;
+    mw.app.liveEdit = liveEdit;
     mw.app.editor = new EditorHandles();
     mw.app.moduleSettings = new ModuleSettings();
 
