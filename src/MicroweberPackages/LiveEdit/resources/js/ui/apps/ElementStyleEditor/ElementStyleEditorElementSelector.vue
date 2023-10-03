@@ -84,9 +84,14 @@ export default {
           if (isInaccessible) {
             return false;
           }
+
+
+          // if (!node.id) {
+          //   return false;
+          // }
           //   return can;
-          // var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
-          // return !cant;
+         // var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
+          //return !cant;
           // return mw.tools.isEditable(node) || node.classList.contains('edit');
 
           return true;

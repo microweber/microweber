@@ -229,6 +229,17 @@ export default {
       this.applyPropertyToActiveNode('fontStyle', newValue);
     },
     lineHeight: function (newValue, oldValue) {
+      var setAuto = false;
+      if(typeof (newValue) === 'undefined'  ){
+        setAuto = true;
+      }
+      if(newValue == null){
+        setAuto = true;
+      }
+      if(setAuto){
+        this.applyPropertyToActiveNode('lineHeight', 'auto');
+        return;
+      }
       this.applyPropertyToActiveNode('lineHeight', newValue + 'px');
     },
     color: function (newValue, oldValue) {
