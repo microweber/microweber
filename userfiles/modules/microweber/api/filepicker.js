@@ -19,6 +19,80 @@ var fileUploadProgress = function (fileName, progress, target) {
 };
 
 
+mw.filePickerDialog = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) => {
+
+    if(typeof conf === 'function') {
+        callback = conf;
+        conf = {pickerOptions: {}, dialogOptions: {}}
+    }
+    if(!conf.pickerOptions) {
+        conf.pickerOptions = {}
+    }
+
+    if(!conf.dialogOptions) {
+        conf.dialogOptions = {}
+    }
+
+    const {pickerOptions, dialogOptions} = conf;
+    let dialog, picker;
+
+    let filePickerDefaults = {
+        type: 'images',
+        label: false,
+        autoSelect: false,
+        footer: true,
+        _frameMaxHeight: true,
+    }
+
+    let filepickerSettings = Object.assign({}, filePickerDefaults, pickerOptions);
+    let url;
+
+    picker = new mw.filePicker({
+        ...filepickerSettings,
+        onResult: function(res) {
+            url = res.src ? res.src : res;
+            if(!url) {
+                dialog.remove();
+                return
+            }
+            url = url.toString();
+            result = url
+            dialog.remove();
+   
+        }
+    });
+
+
+    var dialogDefaults = {
+        content: picker.root,
+        title: mw.lang('Select image'),
+        footer: false,
+        width: 860,
+    }
+   
+    var dialogSettings = Object.assign({}, dialogDefaults, dialogOptions);
+    
+    let resolver, result = null;
+    const promise = new Promise(resolve => {
+        resolver = resolve;
+    });
+    
+    dialog = mw.top().dialog(dialogSettings);
+    picker.$cancel.on('click', function(){
+        dialog.remove()
+    });
+    $(dialog).on('Remove', () => {
+        resolver(url);
+        if(typeof callback === 'function') {
+            callback.call(undefined, url)
+        }
+    })
+
+    return {
+        picker, dialog, promise: () => promise
+    }
+}
+
 mw.filePicker = function (options) {
     options = options || {};
     var scope = this;
