@@ -59,7 +59,7 @@ if($style_attributes_overlay) {
 }
 
 ?>
-<div class="mw-layout-background-block xxxedit no-settings inaccessibleModule"  field="layout-content-skin-63-<?php print $params['id'] ?>--background" rel="module">
+<div class="mw-layout-background-block no-settings inaccessibleModule">
     <div class="mw-layout-background-node" <?php print $video_attr_parent; ?>  <?php print $style_attr; ?>>
         <?php print $video_html; ?>
     </div>
