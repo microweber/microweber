@@ -8,8 +8,9 @@
 
 
 
-  <button v-if="selectedFile" type="button" class="btn btn-outline-dark btn-sm" v-on:click="removeBackgroundImage()">
-    X
+
+  <button v-if="selectedFile" type="button" class="btn btn-link btn-sm mw-btn-icon-delete mw-btn-icon-delete" v-on:click="removeBackgroundImage()">
+
   </button>
 
 
@@ -72,11 +73,14 @@ export default {
   data() {
     return {
       showPicker: false,
+      iconDelete: false,
 
       selectedFile: this.$props.file
     }
   },
   mounted() {
+
+
     mw.top().app.on('mw.elementStyleEditor.closeAllOpenedMenus', () => {
       this.closePicker()
     });
@@ -116,11 +120,7 @@ export default {
 
 
       mw.filePickerDialog( (url) => {
-
-         console.log(111111111111111);
-         console.log(url);
-
-        this.selectedFile = url;
+         this.selectedFile = url;
         this.$props.file = url;
         this.$emit('change', this.$props.file);
       });
