@@ -11,6 +11,52 @@ export class ColorPicker extends MicroweberBaseClass {
     setPositionToElement(element) {
         this.positionToElement = element;
     }
+    openColorPicker(value, callback = false) {
+
+        if (this.colorPickerInstances.length > 0) {
+            for (let i = 0; i < this.colorPickerInstances.length; i++) {
+                this.colorPickerInstances[i].remove();
+            }
+        }
+
+        let randId = this.generateRandId(10);
+
+        let colorPickerDialog = mw.top().dialog({
+            content: '<div id="color-picker-'+randId+'" style="width:232px;height:325px;"></div>',
+            title: 'Color Picker',
+            footer: false,
+            width: 240,
+            overlayClose: true,
+        });
+
+        if (colorPickerDialog.dialogContainer) {
+            colorPickerDialog.dialogContainer.style.padding = '0px';
+        }
+        if (colorPickerDialog.overlay) {
+            colorPickerDialog.overlay.style.backgroundColor = 'transparent';
+        }
+
+        this.colorPickerInstances.push(colorPickerDialog);
+
+        var options = {
+            element: '#color-picker-' + randId,
+
+            onchange: function (color) {
+                if (callback) {
+                    callback(color);
+                }
+            }
+        };
+
+        if(value){
+            options.value = value;
+        }
+
+        mw.top().colorPicker(options);
+
+        return colorPickerDialog;
+
+    }
 
     selectColor(targetElementSelector, callback = false) {
 

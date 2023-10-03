@@ -1,12 +1,14 @@
 <template>
-    <div v-click-away="closePicker">
-        <div class="color-picker-badge"
-             @click="togglePicker"
-             :style="{ background: selectedColor }"></div>
 
-        <input type="text" class="form-control" v-model="selectedColor">
-    </div>
+    <input type="hidden" ref="colorpickerinput" v-model="selectedColor" @input="triggerChangeSelectedColor"/>
+    <div class="color-picker-badge"
+
+         @click="togglePicker"
+         :style="{background: color}"></div>
+
+
 </template>
+
 <style>
 .hu-color-picker {
     width: 200px !important;
@@ -30,7 +32,9 @@
 </style>
 
 <script>
+
 export default {
+
     props: {
         color: {
             type: String,
@@ -44,29 +48,68 @@ export default {
     data() {
         return {
             showPicker: false,
-            selectedColor: this.$props.color // Use a different data property to store the selected color
-        };
-    },
-    watch: {
-        selectedColor(newColor) {
-            this.$emit('change', newColor);
+
+            selectedColor: this.$props.color
         }
     },
     mounted() {
         mw.top().app.on('mw.elementStyleEditor.closeAllOpenedMenus', () => {
-            this.closePicker();
+            this.closePicker()
         });
     },
+
+    watch: {
+        color(newColor) {
+            this.selectedColor = newColor;
+        },
+    },
+
     methods: {
         changeColor(color) {
-            this.selectedColor = color.hex; // Update the selectedColor property
+            this.selectedColor = color.hex;
+            this.$props.color = color.hex;
         },
+        triggerChangeSelectedColor() {
+
+            this.$props.color = this.selectedColor;
+
+            this.$emit('change', this.$props.color);
+        },
+        triggerChange() {
+
+
+            this.$emit('change', this.$props.color);
+        },
+
+
         closePicker() {
             this.showPicker = false;
         },
         togglePicker() {
+
+
+            let colorPicker = mw.app.colorPicker.openColorPicker(this.selectedColor, color => {
+                this.$props.color = color;
+                this.$emit('change', this.$props.color);
+
+            });
+            // var left = this.$refs.colorpickerinput.getBoundingClientRect().left
+            // var top = this.$refs.colorpickerinput.getBoundingClientRect().top
+            //
+            // // if (self !== top) {
+            // //     // Get a reference to the top-level window (parent window)
+            // //     const topWindow = window.top;
+            // //
+            // //     const rect = this.$refs.colorpickerinput.getBoundingClientRect();
+            // //     const iframeRect =  topWindow.document.querySelector('iframe').getBoundingClientRect();
+            // //     var left = rect.left - iframeRect.left + topWindow.scrollX;
+            // //     var top = rect.top - iframeRect.top + topWindow.scrollY;
+            // // }
+            // colorPicker.position( left, top);
+
+
             this.showPicker = !this.showPicker;
         }
     }
-};
+}
 </script>
