@@ -20,6 +20,7 @@
     </div>
 
 </template>
+<style src="@vueform/slider/themes/default.css"></style>
 
 <script>
 import ElementStyleEditorTypography from './ElementStyleEditorTypography.vue';

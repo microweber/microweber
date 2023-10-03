@@ -17,7 +17,8 @@ class Price extends DefaultField
 
     public $defaultSettings = [
         'required'=>false,
-        'make_select'=>false
+        'make_select'=>false,
+
     ];
 
     public $defaultDataOptions = [

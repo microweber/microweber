@@ -1,27 +1,38 @@
 <template>
   <div>
-    <input v-model="backgroundImage" placeholder="Background Image">
     <br>
 
-      <div class="d-flex justify-content-between">
-          <div class="mr-4">Background Color</div>
-          <div>
-             <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor   :label="'Background Color'" @change="handleBackgroundColorChange" />
-          </div>
-      </div>
-
-
+    <div class="d-flex justify-content-between">
+      <div class="mr-4">Background Color</div>
       <div>
-          <Dropdown v-model="backgroundSize" :options="backgroundSizeOptions" :label="'Background Size'"/>
+        <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Background Color'"
+                     @change="handleBackgroundColorChange"/>
       </div>
+    </div>
 
+
+    <div class="d-flex justify-content-between">
+      <div class="mr-4">Background Image</div>
       <div>
+        <input type="hidden" v-model="backgroundImage" placeholder="Background Image">
+
+        <FilePicker v-model="backgroundImage" v-bind:file=backgroundImageUrl :label="'Background Image'"
+                    @change="handleBackgroundImageChange"/>
+      </div>
+    </div>
+
+
+    <div>
+      <Dropdown v-model="backgroundSize" :options="backgroundSizeOptions" :label="'Background Size'"/>
+    </div>
+
+    <div>
       <Dropdown v-model="backgroundRepeat" :options="backgroundRepeatOptions" :label="'Background Repeat'"/>
-  </div>
+    </div>
 
-      <div>
-          <Dropdown v-model="backgroundPosition" :options="backgroundPositionOptions" :label="'Background Position'"/>
-      </div>
+    <div>
+      <Dropdown v-model="backgroundPosition" :options="backgroundPositionOptions" :label="'Background Position'"/>
+    </div>
 
   </div>
 </template>
@@ -32,40 +43,41 @@ import Dropdown from '../../components/Form/Dropdown.vue';
 import FontPicker from "../../components/Form/FontPicker.vue";
 import ColorPicker from "../../components/Editor/Colors/ColorPicker.vue";
 import Slider from '@vueform/slider';
+import FilePicker from "../../components/Form/FilePicker.vue";
 
 export default {
 
-    components: {ColorPicker, FontPicker, Dropdown, Input, Slider},
+  components: {ColorPicker, FontPicker, Dropdown, Input, Slider, FilePicker},
 
   data() {
     return {
 
-        'backgroundPositionOptions': [
-            { key: "none", value: "None" },
-            { key: "0% 0%", value: "Left Top" },
-            { key: "50% 0%", value: "Center Top" },
-            { key: "100% 0%", value: "Right Top" },
-            { key: "0% 50%", value: "Left Center" },
-            { key: "50% 50%", value: "Center Center" },
-            { key: "100% 50%", value: "Right Center" },
-            { key: "0% 100%", value: "Left Bottom" },
-            { key: "50% 100%", value: "Center Bottom" },
-            { key: "100% 100%", value: "Right Bottom" }
-        ],
-        'backgroundRepeatOptions': [
-            { key: "none", value: "None" },
-            { key: "repeat", value: "repeat" },
-            { key: "no-repeat", value: "no-repeat" },
-            { key: "repeat-x", value: "repeat horizontally" },
-            { key: "repeat-y", value: "repeat vertically" }
-        ],
-        'backgroundSizeOptions': [
-            { key: "none", value: "None" },
-            { key: "auto", value: "Auto" },
-            { key: "contain", value: "Fit" },
-            { key: "cover", value: "Cover" },
-            { key: "100% 100%", value: "Scale" }
-        ],
+      'backgroundPositionOptions': [
+        {key: "none", value: "None"},
+        {key: "0% 0%", value: "Left Top"},
+        {key: "50% 0%", value: "Center Top"},
+        {key: "100% 0%", value: "Right Top"},
+        {key: "0% 50%", value: "Left Center"},
+        {key: "50% 50%", value: "Center Center"},
+        {key: "100% 50%", value: "Right Center"},
+        {key: "0% 100%", value: "Left Bottom"},
+        {key: "50% 100%", value: "Center Bottom"},
+        {key: "100% 100%", value: "Right Bottom"}
+      ],
+      'backgroundRepeatOptions': [
+        {key: "none", value: "None"},
+        {key: "repeat", value: "repeat"},
+        {key: "no-repeat", value: "no-repeat"},
+        {key: "repeat-x", value: "repeat horizontally"},
+        {key: "repeat-y", value: "repeat vertically"}
+      ],
+      'backgroundSizeOptions': [
+        {key: "none", value: "None"},
+        {key: "auto", value: "Auto"},
+        {key: "contain", value: "Fit"},
+        {key: "cover", value: "Cover"},
+        {key: "100% 100%", value: "Scale"}
+      ],
 
       'activeNode': null,
       'isReady': false,
@@ -74,12 +86,14 @@ export default {
       'backgroundPosition': null,
       'backgroundRepeat': null,
       'backgroundSize': null,
+      'backgroundImageUrl': null,
     };
   },
 
   methods: {
     resetAllProperties: function () {
       this.backgroundImage = null;
+      this.backgroundImageUrl = null;
       this.backgroundColor = null;
       this.backgroundPosition = null;
       this.backgroundRepeat = null;
@@ -100,6 +114,14 @@ export default {
     populateCssBackground: function (css) {
       if (!css || !css.get) return;
       var bg = css.get.background();
+
+      if (bg.image) {
+        if (bg.image.indexOf('url(') !== -1) {
+          this.backgroundImageUrl = bg.image.replace('url(', '').replace(')', '');
+          //also replace "
+          this.backgroundImageUrl = this.backgroundImageUrl.replace(/\"/g, "");
+        }
+      }
       this.backgroundImage = bg.image;
       this.backgroundColor = bg.color;
       this.backgroundPosition = bg.position;
@@ -108,7 +130,20 @@ export default {
     },
 
     handleBackgroundColorChange: function (color) {
-       this.applyPropertyToActiveNode('backgroundColor', color)
+      this.backgroundColor = color
+    },
+    handleBackgroundImageChange: function (url) {
+      var urlVal = url;
+      if (url && url != '' && url != 'none' && url != 'inherit' && url != 'initial') {
+        //check if contain url(
+        this.backgroundImageUrl = url;
+        if (url.indexOf('url(') === -1) {
+          urlVal = 'url(' + url + ')';
+        }
+      } else {
+        this.backgroundImageUrl = '';
+      }
+      this.backgroundImage = urlVal;
     },
 
     applyPropertyToActiveNode: function (prop, val) {
@@ -150,9 +185,9 @@ export default {
     backgroundRepeat: function (newValue, oldValue) {
       this.applyPropertyToActiveNode('backgroundRepeat', newValue);
     },
-      backgroundSize: function (newValue, oldValue) {
-          this.applyPropertyToActiveNode('backgroundSize', newValue);
-      },
+    backgroundSize: function (newValue, oldValue) {
+      this.applyPropertyToActiveNode('backgroundSize', newValue);
+    },
   },
 }
 </script>

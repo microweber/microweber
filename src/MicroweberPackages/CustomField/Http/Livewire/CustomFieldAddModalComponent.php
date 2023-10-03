@@ -28,6 +28,7 @@ class CustomFieldAddModalComponent extends AdminModalComponent
         $this->emit('customFieldAdded');
 
         $showEditModal = true;
+        $showEditModal = false;
         if ($findExisting->type == 'address') {
             $showEditModal = false;
         }

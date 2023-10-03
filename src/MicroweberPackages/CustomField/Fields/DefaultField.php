@@ -43,6 +43,18 @@ class DefaultField
         'field_size_mobile'=>12,
     ];
 
+    public $defaultSettingsAll = [
+        'required'=>false,
+        'multiple'=>'',
+        'show_label'=>true,
+        'show_placeholder'=>false,
+        'as_text_area'=>false,
+        'field_size'=>12,
+        'field_size_desktop'=>12,
+        'field_size_tablet'=>12,
+        'field_size_mobile'=>12,
+    ];
+
     public $defaultDataOptions = [
 
     ];
@@ -131,6 +143,13 @@ class DefaultField
         $this->preparePreview();
 
         $parseView = new View($this->getTempalteFile());
+
+        foreach ($this->defaultSettingsAll as $defaultSettingsKey => $defaultSettingsValue) {
+            if (!isset($this->renderSettings[$defaultSettingsKey])) {
+                $this->renderSettings[$defaultSettingsKey] = $defaultSettingsValue;
+            }
+        }
+
 
         $parseView->assign('data', $this->renderData);
         $parseView->assign('settings', $this->renderSettings);
