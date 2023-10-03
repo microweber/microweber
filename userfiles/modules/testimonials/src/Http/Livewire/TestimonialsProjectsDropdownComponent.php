@@ -24,6 +24,12 @@ class TestimonialsProjectsDropdownComponent extends OptionElement
         $this->addNewProjectModal = true;
     }
 
+    public function closeProjectModal()
+    {
+        $this->addNewProjectModal = false;
+        $this->newProjectName = '';
+    }
+
     public function saveNewProject()
     {
         $testimonials = new Testimonial();
@@ -55,7 +61,7 @@ class TestimonialsProjectsDropdownComponent extends OptionElement
     {
         $this->state['settings'][$this->optionKey] = $project;
         $this->updated();
-        
+
         $this->renderProjects();
         $this->emit('refreshTestimonials');
     }

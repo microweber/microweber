@@ -1,0 +1,44 @@
+{
+    "testimonials": [
+        {
+            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/1.jpg",
+            "name": "Beverly A Richardson",
+            "client_role": "Creator",
+            "client_company": "Example Inc.",
+            "client_website": "www.example.com",
+            "content": "Pop culture specialist. Evil tv practitioner. Friend of animals everywhere. Creator.",
+
+            "project_name": "Default"
+        },
+        {
+            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/2.jpg",
+            "name": "Margaret J Otero",
+            "client_role": "Game Designer",
+            "client_company": "Example Inc.",
+            "client_website": "www.example.com",
+            "content": "Gamer. Incurable twitter buff. Communicator. Zombie nerd. Devoted student.",
+
+            "project_name": "Default"
+        },
+        {
+            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/3.jpg",
+            "name": "Maryln E Walker",
+            "client_role": "Social Media Ninja",
+            "client_company": "Example Inc.",
+            "client_website": "www.example.com",
+            "content": "Gamer. Music maven. Hardcore social media ninja. Reader. Beer buff.",
+
+            "project": "Default"
+        },
+        {
+            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/4.jpg",
+            "name": "Maryln E Walker",
+            "client_role": "Social Media Ninja",
+            "client_company": "Example Inc.",
+            "client_website": "www.example.com",
+            "content": "Gamer. Music maven. Hardcore social media ninja. Reader. Beer buff.",
+
+            "project_name": "Default"
+        }
+    ]
+}
