@@ -42,8 +42,7 @@ export const liveEditComponent = () => {
                 mw.top().app.liveEdit.handles.get('layout').set(null);
                 mw.top().app.liveEdit.handles.get('layout').set(mw.app.canvas.getDocument().getElementById(layoutTarget.id));
             }
-
-        }, 600)
+        }, 1200)
     });
 
     liveEdit.on('insertLayoutRequestOnBottom', function(){

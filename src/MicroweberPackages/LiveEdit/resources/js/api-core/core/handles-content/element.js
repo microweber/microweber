@@ -237,14 +237,12 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = true;
 
-                  //  var isCloneable = (target.classList.contains('cloneable') && target.nodeName !== 'IMG')  || target.classList.contains('mw-col');
+ 
                     var isCloneable = (target.classList.contains('cloneable') && target.nodeName !== 'IMG');
-                    if (isCloneable) {
+                    if (isCloneable || target.classList.contains('mw-col')) {
                         selfVisible = false;
                     }
-                //    var firstChild = target.firstElementChild;
-
-                    //can be targeted
+ 
                     var newTarget = this.settingsTarget.getSettingsTarget(target);
                     if(newTarget !== target) {
                         selfVisible = true;

@@ -111,48 +111,20 @@ export default {
     closePicker() {
       this.showPicker = false;
     },
-      togglePicker() {
-
-
-
-      mw.filePickerDialog( (url) => {
-
-         console.log(111111111111111);
-         console.log(url);
-
+    togglePicker() {
+ 
+    
+ 
+      mw.filePickerDialog( url => {
         this.selectedFile = url;
         this.$props.file = url;
         this.$emit('change', this.$props.file);
       });
 
+       
 
 
-
-//       var picker = new mw.filePicker({
-//         type: 'image',
-//          element: this.$refs.colorpickerinput,
-//         label: false,
-//         autoSelect: true,
-//         footer: false,
-//         _frameMaxHeight: true,
-//         fileUploaded: function (file) {
-//
-//           alert(file)
-//         },
-//         onResult: function (file) {
-// alert(file)
-//
-//         }
-//
-//       });
-
-
-
-      // let filePicker = mw.app.filePicker.openfilePicker(this.selectedFile, file => {
-      //   this.$props.file = file;
-      //   this.$emit('change', this.$props.file);
-      //
-      // });
+ 
 
       this.showPicker = !this.showPicker;
     }

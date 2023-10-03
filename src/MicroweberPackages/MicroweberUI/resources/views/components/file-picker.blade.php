@@ -126,10 +126,10 @@
                 var imageEditBtn = $('#js-edit-image-{{$randId}}');
                 imageEditBtn.click(async function(e) {
                     e.preventDefault();
-                    var src = await mw.top().app.editImageDialog.editImageUrl($('#js-preview-image-{{$randId}}').attr('src'));
-                    if(src) {
-                        $('#js-preview-image-{{$randId}}').attr('src', src);
-                        mediaPickerFileField.value = src;
+                    var imData = await mw.top().app.editImageDialog.editImageUrl($('#js-preview-image-{{$randId}}').attr('src'));
+                    if(imData) {
+                        $('#js-preview-image-{{$randId}}').attr('src', imData.src);
+                        mediaPickerFileField.value = imData.src;
                         mediaPickerFileField.dispatchEvent(new Event('input'));
                     }
                 });

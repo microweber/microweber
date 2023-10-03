@@ -120,10 +120,33 @@ export class LiveEditImageDialog extends BaseComponent {
 
                 mw.top().app.registerChange(this);
                 var _img = new Image();
-                _img.src = imageEditor.getCurrentImgData().imageData.imageBase64
+                const currentImgData = imageEditor.getCurrentImgData();
+                _img.src = currentImgData.imageData.imageBase64;
+
+                const adjustments = currentImgData.designState.adjustments
+
+                const adjustmentsData = {
+                    crop: adjustments.crop.width || adjustments.crop.height,
+                    isFlippedX: adjustments.isFlippedX,
+                    isFlippedY: adjustments.isFlippedY,
+                    rotated: adjustments.rotation !== 0,
+                };
+
+                let sizeChanged = false;
+                for(let key in adjustmentsData) {
+                    if(adjustmentsData[key] === true){
+                        sizeChanged = true
+                        break;
+                    }
+                }
+                 
                 mw.top().app.normalizeBase64Image(_img, function () {
 
-                    resolve(this.src);
+                    resolve({
+                        src: this.src,
+                        sizeChanged,
+                        sizeAdjustments: adjustmentsData
+                    });
                 })
 
                 dlg.remove();

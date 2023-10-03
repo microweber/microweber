@@ -73,10 +73,10 @@ export default {
 
             mw.app.editor.on('elementSettingsRequest', async (element) => {
               if(element.nodeName === 'IMG') {
-                  var src = await mw.app.editImageDialog.editImageUrl(element.src);
+                  var imData = await mw.app.editImageDialog.editImageUrl(element.src);
 
-                  if(src) {
-                    element.src = src
+                  if(imData) {
+                    element.src = imData.src
                   }
                   mw.top().app.registerChange(element);
                   mw.app.liveEdit.play();
@@ -89,11 +89,11 @@ export default {
                               .trim()
                               .split('"')
                               .join('');
-                              var src = await mw.app.editImageDialog.editImageUrl(bg);
+                              var imData = await mw.app.editImageDialog.editImageUrl(bg);
 
-                    if(src) {
+                    if(imData) {
 
-                      element.style.backgroundImage = `url(${src})`
+                      element.style.backgroundImage = `url(${imData.src})`
                     }
                       mw.top().app.registerChange(element);
                     mw.app.liveEdit.play();

@@ -123,7 +123,7 @@
                     @endforeach
                 @else
                     <div>
-                        No fonts in this {{ $category }}
+                        No fonts in <b>{{ $category }}</b>
                     </div>
                 @endif
 
