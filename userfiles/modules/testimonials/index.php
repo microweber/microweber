@@ -38,6 +38,19 @@ $testimonialsQuery->orderBy('position', 'asc');
 
 $data = [];
 $getTestimonials = $testimonialsQuery->get();
+if ($getTestimonials->count() == 0) {
+    $defaultTestimonials = file_get_contents(__DIR__ . '/default_testimonials.json');
+    $defaultTestimonials = json_decode($defaultTestimonials, true);
+    if (isset($defaultTestimonials['testimonials'])) {
+        foreach ($defaultTestimonials['testimonials'] as $defaultTestimonial) {
+            $testimonial = new \MicroweberPackages\Modules\Testimonials\Models\Testimonial();
+            $testimonial->fill($defaultTestimonial);
+            $testimonial->save();
+        }
+    }
+
+}
+
 if ($getTestimonials->count() > 0) {
     foreach ($getTestimonials as $testimonial) {
         $data[] = $testimonial->toArray();
