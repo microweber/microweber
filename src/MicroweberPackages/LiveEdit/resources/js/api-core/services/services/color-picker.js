@@ -48,9 +48,17 @@ export class ColorPicker extends MicroweberBaseClass {
             }
         };
 
-        if(value){
+        if(value == 'rgba(0, 0, 0, 0)'){
+            value = '';
+        }
+
+
+        if(!value){
+           // options.value = '#000000FF';
+        } else {
             options.value = value;
         }
+
 
         mw.top().colorPicker(options);
 

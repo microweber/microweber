@@ -100,6 +100,9 @@ export default {
     populateCssBackground: function (css) {
       if (!css || !css.get) return;
       var bg = css.get.background();
+
+
+
       this.backgroundImage = bg.image;
       this.backgroundColor = bg.color;
       this.backgroundPosition = bg.position;
