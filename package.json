@@ -49,6 +49,7 @@
         "vue": "^3.2.36",
         "vue-color-kit": "^1.0.5",
         "vue-loader": "^17.0.1",
-        "vue3-click-away": "^1.2.4"
+        "vue3-click-away": "^1.2.4",
+        "vuetify": "^3.3.19"
     }
 }

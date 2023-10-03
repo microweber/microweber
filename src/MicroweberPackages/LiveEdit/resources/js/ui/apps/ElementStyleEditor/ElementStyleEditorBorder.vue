@@ -111,15 +111,15 @@
         <div>
             <div class="mr-4">Border Size - {{ borderSize }}</div>
             <div>
-                <Slider
-                    :min="6"
-                    :max="120"
-                    :step="1"
-                    :merge="1"
-                    :tooltips="false"
-                    :tooltipPosition="'right'"
-                    v-model="borderSize"
-                />
+              <v-slider
+                  :min="6"
+                  :max="120"
+                  :step="1"
+                  v-model="borderSize"
+              >
+              </v-slider>
+
+
             </div>
         </div>
 
@@ -230,6 +230,10 @@ export default {
             var size = frst.width || 0;
             var color = frst.color || 'rgba(0,0,0,1)';
             var style = frst.style || 'none';
+
+            //relace px
+            //size = size.replace('px', '');
+
 
             this.borderSize = size;
             this.borderColor = color;
