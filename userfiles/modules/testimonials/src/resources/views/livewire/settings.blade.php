@@ -63,13 +63,6 @@
                 </x-microweber-ui::button-animation>
             </div>
 
-            <div class="mt-3">
-                <label class="live-edit-label">
-                    {{ _e("Project") }}
-                </label>
-                <livewire:microweber-module-testimonials::projects-dropdown :optionGroup="$moduleId" :module="$moduleType"  />
-            </div>
-
             @include('microweber-live-edit::module-items-editor-list-items')
 
         </div>
@@ -97,6 +90,13 @@
         </div>
 
         <div x-show="showEditTab=='settings'">
+
+            <div class="mt-3">
+                <label class="live-edit-label">
+                    {{ _e("Groups") }}
+                </label>
+                <livewire:microweber-module-testimonials::projects-dropdown :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
 
             <div class="mt-3">
                 <label class="live-edit-label">

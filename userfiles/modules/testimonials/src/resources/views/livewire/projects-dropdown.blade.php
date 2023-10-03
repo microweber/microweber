@@ -13,13 +13,13 @@
     <div x-show="openProjects" class="form-control-live-edit-label-wrapper">
 
         <div>
-            <x-microweber-ui::input wire:model="search" placeholder="Search projects..." />
+            <x-microweber-ui::input wire:model="search" placeholder="Search group..." />
         </div>
 
         <div class="dropdown-menu form-control-live-edit-input ps-0" style="max-height:300px;overflow-y: scroll" :class="[openProjects ? 'show':'']">
 
             <button type="button" wire:click="addNewProject()" class="dropdown-item">
-                Add new project
+                Add new group
             </button>
 
             @if(!empty($projects))
@@ -46,11 +46,11 @@
 
     <x-microweber-ui::dialog-modal wire:key="addNewProjectModal" wire:model="addNewProjectModal">
         <x-slot name="title">
-            Add new project
+            Add new group
         </x-slot>
 
         <x-slot name="content">
-            <label class="live-edit-label">Project Name</label>
+            <label class="live-edit-label">Group Name</label>
             <x-microweber-ui::input type="text" wire:model="newProjectName" />
         </x-slot>
 
