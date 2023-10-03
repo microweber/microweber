@@ -172,7 +172,12 @@ export default {
       if (!css || !css.get) return;
       var font = css.get.font();
 
+
+      //repalce px
+      font.size = font.size.replace('px', '');
+
       this.fontSize = font.size;
+
       this.fontWeight = font.weight;
       this.fontStyle = font.style;
       this.lineHeight = font.lineHeight;

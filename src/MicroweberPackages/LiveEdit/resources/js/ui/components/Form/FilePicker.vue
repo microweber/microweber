@@ -14,10 +14,17 @@
 
 
 
-  <div class="file-picker-badge"
+
+
+  <div v-if="selectedFile" class="file-picker-badge"
 
        @click="togglePicker"
        :style="{ backgroundImage: 'url(' + selectedFile + ')' }"></div>
+
+  <div v-if="!selectedFile" class="file-picker-badge"
+
+       @click="togglePicker"></div>
+
 
 
 </div>
@@ -42,7 +49,8 @@
   cursor: pointer;
   border: 1px solid #e0e0e0;
   background-size: cover;
-  backgound-position: center;
+  background-position: center;
+
 
 }
 </style>
@@ -103,7 +111,22 @@ export default {
     closePicker() {
       this.showPicker = false;
     },
-    togglePicker() {
+      togglePicker() {
+
+
+
+      mw.filePickerDialog( (url) => {
+
+         console.log(111111111111111);
+         console.log(url);
+
+        this.selectedFile = url;
+        this.$props.file = url;
+        this.$emit('change', this.$props.file);
+      });
+
+
+
 
 //       var picker = new mw.filePicker({
 //         type: 'image',
