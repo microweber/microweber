@@ -1,42 +1,42 @@
 {
     "testimonials": [
         {
-            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/1.jpg",
-            "name": "Beverly A Richardson",
+            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/4.jpg",
+            "name": "Wilma Hover",
             "client_role": "Creator",
             "client_company": "Example Inc.",
             "client_website": "www.example.com",
-            "content": "Pop culture specialist. Evil tv practitioner. Friend of animals everywhere. Creator.",
+            "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+
+            "project_name": "Default"
+        },
+        {
+            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/1.jpg",
+            "name": "Hattie Nelson",
+            "client_role": "Game Designer",
+            "client_company": "Example Inc.",
+            "client_website": "www.example.com",
+            "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
 
             "project_name": "Default"
         },
         {
             "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/2.jpg",
-            "name": "Margaret J Otero",
-            "client_role": "Game Designer",
-            "client_company": "Example Inc.",
-            "client_website": "www.example.com",
-            "content": "Gamer. Incurable twitter buff. Communicator. Zombie nerd. Devoted student.",
-
-            "project_name": "Default"
-        },
-        {
-            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/3.jpg",
-            "name": "Maryln E Walker",
+            "name": "John Doe",
             "client_role": "Social Media Ninja",
             "client_company": "Example Inc.",
             "client_website": "www.example.com",
-            "content": "Gamer. Music maven. Hardcore social media ninja. Reader. Beer buff.",
+            "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
 
             "project": "Default"
         },
         {
-            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/4.jpg",
-            "name": "Maryln E Walker",
+            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/3.jpg",
+            "name": "Janna Dark",
             "client_role": "Social Media Ninja",
             "client_company": "Example Inc.",
             "client_website": "www.example.com",
-            "content": "Gamer. Music maven. Hardcore social media ninja. Reader. Beer buff.",
+            "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
 
             "project_name": "Default"
         }
