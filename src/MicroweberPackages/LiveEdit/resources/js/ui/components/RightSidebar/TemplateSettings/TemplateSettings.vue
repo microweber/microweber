@@ -1,6 +1,11 @@
 <template>
     <div class="p-3">
 
+      <div class="alert alert-danger">
+
+        This file is deprecated
+      </div>
+
         <div v-if="settingsGroups.length === 0" class="text-center">
             Loading...
         </div>
@@ -173,7 +178,7 @@
 <style src="@vueform/slider/themes/default.css"></style>
 <script>
 import axios from 'axios';
-import ColorPicker from '../../Editor/Colors/ColorPicker.vue';
+import ColorPicker from '../../../apps/ElementStyleEditor/components/ColorPicker.vue';
 import Slider from '@vueform/slider'
 
 export default {

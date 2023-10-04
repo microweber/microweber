@@ -31,10 +31,10 @@
 
 <script>
 import Input from '../../components/Form/Input.vue';
-import ImagePicker from '../../components/Form/ImagePicker.vue';
+import ImagePicker from './components/ImagePicker.vue';
 import Dropdown from '../../components/Form/Dropdown.vue';
-import FontPicker from "../../components/Form/FontPicker.vue";
-import ColorPicker from "../../components/Editor/Colors/ColorPicker.vue";
+import FontPicker from "./components/FontPicker.vue";
+import ColorPicker from "./components/ColorPicker.vue";
 import Slider from '@vueform/slider';
 import FilePicker from "../../components/Form/FilePicker.vue";
 
