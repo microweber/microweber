@@ -8,10 +8,21 @@ $randId = time() . rand(111,999);
 }"
      x-init="
       () => {
+
       if (mw.top().app && mw.top().app.fontManager) {
+
             mw.top().app.fontManager.subscribe((fonts) => {
-                availableFonts = fonts;
+              availableFonts = fonts;
+
+              inputFontElement = document.getElementById('input-font-{{$randId}}');
+              inputFontElement.dispatchEvent(new Event('loaded'));
+
+                inputFontElement.addEventListener('input', function () {
+                    selectedFont = inputFontElement.value;
+                });
+
             });
+
             mw.top().app.fontManager.subscribeToSelectedFont((selectedFontEvent) => {
 
                 if (selectedFontEvent.applyToSelectedElement == '#{{$randId}}') {
