@@ -123,7 +123,15 @@
             @endif
 
             @if ($setting['fieldType'] == 'fontFamily')
-            <x-microweber-ui::font-picker x-on:input="(e) => {
+            <x-microweber-ui::font-picker
+                x-on:loaded="(e) => {
+                    setTimeout((et)=> {
+                        let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
+                        e.target.value = propertyValue;
+                        e.target.dispatchEvent(new Event('input'));
+                    }, 200);
+                }"
+                x-on:input="(e) => {
                    if (mw.top().app.cssEditor) {
                         mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value);
                     }
