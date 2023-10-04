@@ -86,7 +86,12 @@
                     propertyValue = propertyValue.replace('px', '');
                     e.target.value = propertyValue;
                 }"
-                x-on:input="(e) => {
+                x-on:update="(e) => {
+                    let currentPropertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
+                    currentPropertyValue = currentPropertyValue.replace('px', '');
+                    if (currentPropertyValue == event.target.value) {
+                        return;
+                    }
                     if (mw.top().app.cssEditor) {
                         mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value + 'px');
                     }
@@ -118,17 +123,13 @@
             @endif
 
             @if ($setting['fieldType'] == 'fontFamily')
-            <x-microweber-ui::font-picker x-on:change="(e) => {
-                    mw.top().app.cssEditor.setPropertyForSelector(':root', '--fontFamily', event.target.value);
+            <x-microweber-ui::font-picker x-on:input="(e) => {
+                   if (mw.top().app.cssEditor) {
+                        mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value);
+                    }
                 }" />
             @endif
 
-            @if ($setting['fieldType'] == 'fontSize')
-<!--                <x-microweber-ui::range-slider x-on:update="(e) => {
-                    mw.top().app.cssEditor.setPropertyForSelector('body', 'fontSize', event.target.value + 'px);
-                }"
-               label="{{$setting['title']}}" min="8" max="120" labelUnit="px" />-->
-            @endif
         @endif
     </div>
 </div>
