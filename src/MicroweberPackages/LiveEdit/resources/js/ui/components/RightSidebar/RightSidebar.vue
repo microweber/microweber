@@ -3,8 +3,11 @@
 
         <div id="general-theme-settings" :class="[showSidebar == true ? 'active' : '']">
 
+            <div v-show="showElementStyleEditor" class="px-3 pt-4 pb-0">
+                <ElementStyleEditorApp />
+            </div>
 
-            <div class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0 position-relative">
+            <div v-show="showTemplateSettings" class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0 position-relative">
                 <span v-on:click="show('template-settings')" :class="[buttonIsActive?'live-edit-right-sidebar-active':'']" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
                 <div id="rightSidebarTabStyleEditorNav" role="tablist">
                     <a class="mw-admin-action-links mw-adm-liveedit-tabs active me-3" data-bs-toggle="tab"
@@ -71,9 +74,11 @@ import Editor from "../Toolbar/Editor.vue";
 import ToolsButtons from  "./ToolsButtons.vue";
 
 import  CSSGUIService from "../../../api-core/services/services/css-gui.service.js";
+import ElementStyleEditorApp from "../../apps/ElementStyleEditor/ElementStyleEditorApp.vue";
 
 export default {
     components: {
+        ElementStyleEditorApp,
         Editor,
         ToolsButtons,
         TemplateSettings,
@@ -81,18 +86,13 @@ export default {
     methods: {
         show: function (name) {
             this.emitter.emit('live-edit-ui-show', name);
-
-            console.log(CSSGUIService)
-            CSSGUIService.toggle()
-            // this.emitter.emit('live-edit-ui-show', name);
+            CSSGUIService.toggle();
         },
         closeSidebar() {
-
-            CSSGUIService.show()
+            CSSGUIService.show();
         },
         openSidebar() {
-
-            CSSGUIService.close()
+            CSSGUIService.close();
         },
         buildIframeUrlTemplateSettings: function (url) {
 
@@ -114,21 +114,22 @@ export default {
         }
     },
     mounted() {
+
         const rightSidebarInstance = this;
+
+        mw.top().app.on('cssEditorSettings', (settings) => {
+            this.show();
+        });
 
      //   rightSidebarInstance.showTemplateSettings = true;
 
         mw.app.canvas.on('liveEditCanvasLoaded', function () {
             rightSidebarInstance.showTemplateSettings = true;
-
         });
 
         mw.app.canvas.on('liveEditCanvasBeforeUnload', function () {
           rightSidebarInstance.showTemplateSettings = false;
         });
-
-
-
 
         var firstTabEl = document.querySelector('#rightSidebarTabStyleEditorNav li:first-child a')
         if(firstTabEl !== null){
@@ -139,10 +140,14 @@ export default {
         }
 
         this.emitter.on("live-edit-ui-show", show => {
+
             if (show == 'template-settings') {
                 if (rightSidebarInstance.buttonIsActive == false) {
                     rightSidebarInstance.buttonIsActive = true;
                     rightSidebarInstance.showTemplateSettings = true;
+                } else if(show == 'element-style-editor') {
+                    rightSidebarInstance.showTemplateSettings = false;
+                    rightSidebarInstance.showElementStyleEditor = true;
                 } else {
                     rightSidebarInstance.buttonIsActive = false;
                     rightSidebarInstance.showTemplateSettings = false;
@@ -155,8 +160,8 @@ export default {
         return {
             showSidebar: false,
             showTemplateSettings: false,
-            buttonIsActive: false
-
+            buttonIsActive: false,
+            showElementStyleEditor: false
         }
     }
 }
