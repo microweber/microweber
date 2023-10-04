@@ -2,7 +2,7 @@
 import liveEditHelpers from "../../../api-core/core/live-edit-helpers.service.js";
 import {EditorComponent} from "../../../api-core/services/components/editor/editor";
 import {liveEditComponent} from "../../../api-core/services/components/live-edit/live-edit";
-import { DomService } from "../../../api-core/core/classes/dom";
+import {DomService} from "../../../api-core/core/classes/dom";
 
 
 export default {
@@ -69,201 +69,201 @@ export default {
             //     });
             // }
 
-           // mw.app.editImageDialog = editImageDialog;
+            // mw.app.editImageDialog = editImageDialog;
 
             mw.app.editor.on('elementSettingsRequest', async (element) => {
-              if(element.nodeName === 'IMG') {
-                  var imData = await mw.app.editImageDialog.editImageUrl(element.src);
+                if (element.nodeName === 'IMG') {
+                    var imgData = await mw.app.editImageDialog.editImageUrl(element.src);
 
-                  if(imData) {
-                    element.src = imData.src
-                  }
-                  mw.top().app.registerChange(element);
-                  mw.app.liveEdit.play();
+                    if (imgData) {
 
-              } else if(element.style.backgroundImage) {
-                  var bg =  element.style.backgroundImage.trim().split('url(')[1];
+                        element.src = imgData.src
 
-                  if(bg) {
-                    bg = bg.split(')')[0]
-                              .trim()
-                              .split('"')
-                              .join('');
-                              var imData = await mw.app.editImageDialog.editImageUrl(bg);
-
-                    if(imData) {
-
-                      element.style.backgroundImage = `url(${imData.src})`
+                        if (imgData.sizeChanged) {
+                           // reset width and height
+                         //   element.style.width = '';
+                            element.style.height = 'auto';
+                        }
                     }
-                      mw.top().app.registerChange(element);
+                    mw.top().app.registerChange(element);
                     mw.app.liveEdit.play();
 
-                  }
+                } else if (element.style.backgroundImage) {
+                    var bg = element.style.backgroundImage.trim().split('url(')[1];
+
+                    if (bg) {
+                        bg = bg.split(')')[0]
+                            .trim()
+                            .split('"')
+                            .join('');
+                        var imData = await mw.app.editImageDialog.editImageUrl(bg);
+
+                        if (imData) {
+
+                            element.style.backgroundImage = `url(${imData.src})`
+                        }
+                        mw.top().app.registerChange(element);
+                        mw.app.liveEdit.play();
+
+                    }
 
                 } else {
 
-                  this.emitter.emit('live-edit-ui-show', 'style-editor');
+                    this.emitter.emit('live-edit-ui-show', 'style-editor');
 
-              }
+                }
             })
             mw.app.editor.on('editNodeRequest', async (element) => {
 
 
-              mw.app.registerChangedState(element);
-
+                mw.app.registerChangedState(element);
 
 
                 function imagePicker(onResult) {
-                  var dialog;
-                  var picker = new mw.filePicker({
-                      type: 'images',
-                      label: false,
-                      autoSelect: false,
-                      footer: true,
-                      _frameMaxHeight: true,
-                      onResult: onResult
-                  });
-                  dialog = mw.top().dialog({
-                      content: picker.root,
-                      title: mw.lang('Select image'),
-                      footer: false,
-                      width: 860,
+                    var dialog;
+                    var picker = new mw.filePicker({
+                        type: 'images',
+                        label: false,
+                        autoSelect: false,
+                        footer: true,
+                        _frameMaxHeight: true,
+                        onResult: onResult
+                    });
+                    dialog = mw.top().dialog({
+                        content: picker.root,
+                        title: mw.lang('Select image'),
+                        footer: false,
+                        width: 860,
 
 
-                  });
-                  picker.$cancel.on('click', function(){
-                    dialog.remove()
-                  })
+                    });
+                    picker.$cancel.on('click', function () {
+                        dialog.remove()
+                    })
 
 
-                  $(dialog).on('Remove', () => {
+                    $(dialog).on('Remove', () => {
 
-                    mw.app.liveEdit.play();
-                    const target = mw.top().app.liveEdit.handles.get('element').getTarget();
-                    mw.top().app.liveEdit.handles.get('element').set(null);
-                    mw.top().app.liveEdit.handles.get('element').set(target);
-                  })
-                  return dialog;
+                        mw.app.liveEdit.play();
+                        const target = mw.top().app.liveEdit.handles.get('element').getTarget();
+                        mw.top().app.liveEdit.handles.get('element').set(null);
+                        mw.top().app.liveEdit.handles.get('element').set(target);
+                    })
+                    return dialog;
                 }
-                if(liveEditHelpers.targetIsIcon(element)) {
-                  const iconPicker =  mw.app.get('iconPicker').pickIcon(element);
+
+                if (liveEditHelpers.targetIsIcon(element)) {
+                    const iconPicker = mw.app.get('iconPicker').pickIcon(element);
 
 
+                    iconPicker.picker.on('sizeChange', val => {
+                        element.style.fontSize = `${val}px`;
+                        mw.top().app.liveEdit.handles.get('element').position(mw.top().app.liveEdit.handles.get('element').getTarget())
+                        mw.top().app.registerChange(element);
+                    });
 
-                  iconPicker.picker.on('sizeChange', val => {
-                    element.style.fontSize = `${val}px`;
-                    mw.top().app.liveEdit.handles.get('element').position(mw.top().app.liveEdit.handles.get('element').getTarget())
-                    mw.top().app.registerChange(element);
-                  });
+                    iconPicker.picker.on('colorChange', val => {
 
-                  iconPicker.picker.on('colorChange', val => {
+                        element.style.color = `${val}`;
+                        mw.top().app.registerChange(element);
+                    });
 
-                    element.style.color = `${val}`;
-                    mw.top().app.registerChange(element);
-                  });
+                    iconPicker.picker.on('reset', val => {
 
-                  iconPicker.picker.on('reset', val => {
+                        element.style.color = ``;
+                        element.style.fontSize = ``;
+                        mw.top().app.registerChange(element);
+                    });
 
-                      element.style.color = ``;
-                    element.style.fontSize = ``;
-                    mw.top().app.registerChange(element);
-                  });
-
-                   const icon = await iconPicker.promise();
-
-
-                } else if(element.nodeName === 'IMG') {
-
-                  var dialog = imagePicker(function (res) {
-
-                      mw.top().app.registerUndoState(element);
-                          var url = res.src ? res.src : res;
-                          if(!url) return;
-                          url = url.toString();
-                          element.src = url;
-
-                          mw.app.liveEdit.play();
-                          dialog.remove();
-
-                      mw.top().app.registerChangedState(element);
-                      })
+                    const icon = await iconPicker.promise();
 
 
+                } else if (element.nodeName === 'IMG') {
 
-                } else if(element.style && element.style.backgroundImage) {
-                  var bg =  element.style.backgroundImage.trim().split('url(')[1];
+                    var dialog = imagePicker(function (res) {
 
-                  if(bg) {
-                      mw.top().app.registerUndoState(element);
-                    bg = bg.split(')')[0]
-                              .trim()
-                              .split('"')
-                              .join('');
+                        mw.top().app.registerUndoState(element);
+                        var url = res.src ? res.src : res;
+                        if (!url) return;
+                        url = url.toString();
+                        element.src = url;
+
+                        mw.app.liveEdit.play();
+                        dialog.remove();
+
+                        mw.top().app.registerChangedState(element);
+                    })
+
+
+                } else if (element.style && element.style.backgroundImage) {
+                    var bg = element.style.backgroundImage.trim().split('url(')[1];
+
+                    if (bg) {
+                        mw.top().app.registerUndoState(element);
+                        bg = bg.split(')')[0]
+                            .trim()
+                            .split('"')
+                            .join('');
                         var dialog = imagePicker(function (res) {
                             mw.top().app.registerChange(element);
-                           var url = res.src ? res.src : res;
-                          if(!url) return;
-                          url = url.toString();
-                          element.style.backgroundImage = `url(${url})`
+                            var url = res.src ? res.src : res;
+                            if (!url) return;
+                            url = url.toString();
+                            element.style.backgroundImage = `url(${url})`
 
-                          mw.app.liveEdit.play();
-                          dialog.remove();
+                            mw.app.liveEdit.play();
+                            dialog.remove();
 
                             mw.top().app.registerChangedState(element);
-                      })
+                        })
 
-                  }
+                    }
 
                 } else {
 
-                  var isInaccessibleEdit =  mw.top().app.liveEdit.liveEditHelpers.targetIsDisabledWriteInEditField(element);
-                  if( isInaccessibleEdit ){
-                      return;
-                  }
+                    var isInaccessibleEdit = mw.top().app.liveEdit.liveEditHelpers.targetIsDisabledWriteInEditField(element);
+                    if (isInaccessibleEdit) {
+                        return;
+                    }
 
 
-                  if(element.isContentEditable) {
-                    return
-                  }
+                    if (element.isContentEditable) {
+                        return
+                    }
 
-                  if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['noedit', 'edit'])) {
-                    return;
-                  }
-                  if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['no-edit', 'edit'])) {
-                    return;
-                  }
- 
-
-                  // var targetChange = DomService.firstParentOrCurrentWithClass(element, 'edit');
-                  var targetChange = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['edit', 'allow-drop']);
+                    if (DomService.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['noedit', 'edit'])) {
+                        return;
+                    }
+                    if (DomService.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['no-edit', 'edit'])) {
+                        return;
+                    }
 
 
+                    // var targetChange = DomService.firstParentOrCurrentWithClass(element, 'edit');
+                    var targetChange = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['edit', 'allow-drop']);
 
 
-                  if(targetChange && targetChange.classList && !targetChange.classList.contains('safe-mode')){
-                    element = targetChange;
+                    if (targetChange && targetChange.classList && !targetChange.classList.contains('safe-mode')) {
+                        element = targetChange;
 
-                    mw.app.liveEdit.handles.get('element').set(element);
-                  }
-
+                        mw.app.liveEdit.handles.get('element').set(element);
+                    }
 
 
                     setTimeout(() => {
-                      element.contentEditable = true;
-                      element.focus();
+                        element.contentEditable = true;
+                        element.focus();
 
-                      element.contentEditable = true;
-                      mw.app.liveEdit.pause()
-                      mw.app.richTextEditor.smallEditorInteract(element);
-                      mw.app.richTextEditor.positionSmallEditor(element);
-
-
+                        element.contentEditable = true;
+                        mw.app.liveEdit.pause()
+                        mw.app.richTextEditor.smallEditorInteract(element);
+                        mw.app.richTextEditor.positionSmallEditor(element);
 
 
-                      element.querySelectorAll('.element[contenteditable], .allow-drop[contenteditable]').forEach(node => {
-                          node.contentEditable = 'inherit';
+                        element.querySelectorAll('.element[contenteditable], .allow-drop[contenteditable]').forEach(node => {
+                            node.contentEditable = 'inherit';
 
-                      })
+                        })
                     }, 100);
 
                 }
@@ -274,18 +274,18 @@ export default {
 
 
             mw.app.canvas.on('canvasDocumentClick', (event) => {
-                if(mw.app.isPreview()) {
+                if (mw.app.isPreview()) {
                     return;
                 }
                 var can = mw.app.liveEdit.canBeEditable(event.target)
-                if(!can) {
+                if (!can) {
                     return;
                 }
 
                 var tagName = event.target.nodeName;
                 //image click with link as a parent node and prevent default
-                if(tagName == 'IMG' && event.target.parentNode.nodeName == 'A'){
-                  //  event.stopPropagation()
+                if (tagName == 'IMG' && event.target.parentNode.nodeName == 'A') {
+                    //  event.stopPropagation()
                     event.preventDefault()
                 }
 
@@ -305,7 +305,6 @@ export default {
 
 
 <style scoped>
-
 
 
 </style>
