@@ -88,16 +88,6 @@ export default {
     methods: {
         show: function (name) {
             CSSGUIService.show();
-            setTimeout(() => {
-                this.emitter.emit('live-edit-ui-show', name);
-                if (name == 'element-style-editor') {
-                    this.showElementStyleEditor = true;
-                    this.showTemplateSettings = false;
-                } else {
-                    this.showElementStyleEditor = false;
-                    this.showTemplateSettings = true;
-                }
-            }, 100);
         },
         closeSidebar() {
             CSSGUIService.hide();
@@ -117,7 +107,6 @@ export default {
             attrsForSettings.iframe = true;
             attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
 
-
             var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
             return src;
@@ -129,10 +118,8 @@ export default {
         const rightSidebarInstance = this;
 
         mw.top().app.on('cssEditorSettings', (settings) => {
-            this.show('element-style-editor');
+            this.emitter.emit('live-edit-ui-show', 'element-style-editor');
         });
-
-     //   rightSidebarInstance.showTemplateSettings = true;
 
         mw.app.canvas.on('liveEditCanvasLoaded', function () {
             rightSidebarInstance.showTemplateSettings = true;
@@ -142,28 +129,26 @@ export default {
           rightSidebarInstance.showTemplateSettings = false;
         });
 
-        var firstTabEl = document.querySelector('#rightSidebarTabStyleEditorNav li:first-child a')
-        if(firstTabEl !== null){
-            var firstTab = new bootstrap.Tab(firstTabEl)
-            firstTab.show()
-            rightSidebarInstance.showTemplateSettings = true;
-            rightSidebarInstance.buttonIsActive = true;
-        }
-
         this.emitter.on("live-edit-ui-show", show => {
+
+            rightSidebarInstance.showTemplateSettings = false;
+            rightSidebarInstance.showElementStyleEditor = false;
 
             if (show == 'template-settings') {
                 if (rightSidebarInstance.buttonIsActive == false) {
                     rightSidebarInstance.buttonIsActive = true;
                     rightSidebarInstance.showTemplateSettings = true;
-                } else if(show == 'element-style-editor') {
-                    rightSidebarInstance.showTemplateSettings = false;
-                    rightSidebarInstance.showElementStyleEditor = true;
                 } else {
                     rightSidebarInstance.buttonIsActive = false;
                     rightSidebarInstance.showTemplateSettings = false;
                 }
             }
+
+            if(show == 'element-style-editor') {
+                rightSidebarInstance.showTemplateSettings = false;
+                rightSidebarInstance.showElementStyleEditor = true;
+            }
+
         });
 
     },
