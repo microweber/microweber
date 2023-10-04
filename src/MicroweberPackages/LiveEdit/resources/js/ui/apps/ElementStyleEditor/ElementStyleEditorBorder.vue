@@ -123,17 +123,12 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-between">
-      <div class="mr-4">Border Color</div>
-      <div>
+    <ColorPicker v-model="borderColor" v-bind:color=borderColor :label="'Border Color'"
+                 @change="handleBorderColorChange"/>
 
 
-        <ColorPicker v-model="borderColor" v-bind:color=borderColor :label="'Border Color'"
-                     @change="handleBorderColorChange"/>
-      </div>
-    </div>
 
-    <div>
+   <div>
       <Dropdown v-model="borderStyle" :options="borderStylesOptions" label="Border Style"/>
     </div>
 
@@ -202,6 +197,9 @@ export default {
   methods: {
 
     handleBorderColorChange(color) {
+      if(typeof(color) != 'string'){
+        return;
+      }
       this.borderColor = color;
     },
     resetAllProperties: function () {

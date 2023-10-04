@@ -2,24 +2,16 @@
   <div>
     <br>
 
-    <div class="d-flex justify-content-between">
-      <div class="mr-4">Background Color</div>
-      <div>
-        <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Background Color'"
-                     @change="handleBackgroundColorChange"/>
-      </div>
-    </div>
 
 
-    <div class="d-flex justify-content-between">
-      <div class="mr-4">Background Image</div>
-      <div>
-        <input type="hidden" v-model="backgroundImage" placeholder="Background Image">
 
-        <FilePicker v-model="backgroundImage" v-bind:file=backgroundImageUrl :label="'Background Image'"
-                    @change="handleBackgroundImageChange"/>
-      </div>
-    </div>
+    <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Background Color'"
+                 @change="handleBackgroundColorChange"/>
+
+
+
+    <ImagePicker label="Background Image"  v-model="backgroundImage" v-bind:file="backgroundImageUrl" @change="handleBackgroundImageChange" />
+
 
 
     <div>
@@ -39,6 +31,7 @@
 
 <script>
 import Input from '../../components/Form/Input.vue';
+import ImagePicker from '../../components/Form/ImagePicker.vue';
 import Dropdown from '../../components/Form/Dropdown.vue';
 import FontPicker from "../../components/Form/FontPicker.vue";
 import ColorPicker from "../../components/Editor/Colors/ColorPicker.vue";
@@ -47,7 +40,7 @@ import FilePicker from "../../components/Form/FilePicker.vue";
 
 export default {
 
-  components: {ColorPicker, FontPicker, Dropdown, Input, Slider, FilePicker},
+  components: {ColorPicker, FontPicker, Dropdown, Input, Slider, FilePicker,ImagePicker},
 
   data() {
     return {
@@ -130,6 +123,10 @@ export default {
     },
 
     handleBackgroundColorChange: function (color) {
+
+      if(typeof(color) != 'string'){
+        return;
+      }
       this.backgroundColor = color
     },
     handleBackgroundImageChange: function (url) {

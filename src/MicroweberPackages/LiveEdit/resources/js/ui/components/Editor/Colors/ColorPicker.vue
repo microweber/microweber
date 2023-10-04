@@ -1,115 +1,89 @@
 <template>
+  <div class="s-field">
+    <label>{{ label }}</label>
+     <div class="s-field-content">
+      <div class="mw-multiple-fields">
+        <div class="mw-field mw-field-flat" data-size="medium" >
 
-    <input type="hidden" ref="colorpickerinput" v-model="selectedColor" @input="triggerChangeSelectedColor"/>
-    <div class="color-picker-badge"
+          <span class="mw-field-color-indicator">
+            <span
 
-         @click="togglePicker"
-         :style="{background: color}"></div>
+                class="mw-field-color-indicator-display"
+                :style="{ backgroundColor: selectedColor }"
+            ></span>
+          </span>
 
-
+          <input
+              @click="togglePicker"
+              type="text"
+              class="colorField unit ready mw-color-picker-field"
+              :value="selectedColor"
+              @input="handleColorChange"
+              autocomplete="off"
+              placeholder="#ffffff"
+          />
+          <span
+              class="reset-field tip"
+              data-tipposition="top-right"
+              data-tip="Restore default value"
+              @click="resetColor"
+          >
+            <i class="mdi mdi-history"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
-<style>
-.hu-color-picker {
-    width: 200px !important;
-    right: 0px;
-    position: absolute;
-    margin-top: 2px;
-    z-index: 99;
-}
-
-.color-picker-badge {
-    width: 30px;
-    height: 30px;
-    background: #ddd;
-    color: #fff;
-    text-align: center;
-    line-height: 30px;
-    border-radius: 100%;
-    cursor: pointer;
-    border: 1px solid #e0e0e0;
-}
-</style>
 
 <script>
-
 export default {
-
-    props: {
-        color: {
-            type: String,
-            default: '#000000'
-        },
-        name: {
-            type: String,
-            default: 'color'
-        }
+  props: {
+    label: {
+      type: String,
+      default: 'Color', // Default label text
     },
-    data() {
-        return {
-            showPicker: false,
-
-            selectedColor: this.$props.color
-        }
+    color: {
+      type: String,
+      default: '#ffffff',
     },
-    mounted() {
-        mw.top().app.on('mw.elementStyleEditor.closeAllOpenedMenus', () => {
-            this.closePicker()
-        });
+  },
+  data() {
+    return {
+      selectedColor: this.color,
+    };
+  },
+  watch: {
+    color(newColor) {
+      this.selectedColor = newColor;
     },
+  },
+  methods: {
+    handleColorChange(event) {
+      const newColor = event.target.value;
+      this.selectedColor = newColor;
 
-    watch: {
-        color(newColor) {
-            this.selectedColor = newColor;
-        },
+
+      console.log(typeof newColor)
+      this.$emit('change', newColor);
     },
-
-    methods: {
-        changeColor(color) {
-            this.selectedColor = color.hex;
-            this.$props.color = color.hex;
-        },
-        triggerChangeSelectedColor() {
-
-            this.$props.color = this.selectedColor;
-
-            this.$emit('change', this.$props.color);
-        },
-        triggerChange() {
+    resetColor() {
+      this.selectedColor = '';
+      this.$emit('change', this.selectedColor);
+    },
+    togglePicker() {
 
 
-            this.$emit('change', this.$props.color);
-        },
+      let colorPicker = mw.app.colorPicker.openColorPicker(this.selectedColor, color => {
+        this.$props.color = color;
+        this.selectedColor = color;
+        this.$emit('change', this.$props.color);
+      });
 
 
-        closePicker() {
-            this.showPicker = false;
-        },
-        togglePicker() {
 
-
-            let colorPicker = mw.app.colorPicker.openColorPicker(this.selectedColor, color => {
-                this.$props.color = color;
-                this.$emit('change', this.$props.color);
-
-            });
-            // var left = this.$refs.colorpickerinput.getBoundingClientRect().left
-            // var top = this.$refs.colorpickerinput.getBoundingClientRect().top
-            //
-            // // if (self !== top) {
-            // //     // Get a reference to the top-level window (parent window)
-            // //     const topWindow = window.top;
-            // //
-            // //     const rect = this.$refs.colorpickerinput.getBoundingClientRect();
-            // //     const iframeRect =  topWindow.document.querySelector('iframe').getBoundingClientRect();
-            // //     var left = rect.left - iframeRect.left + topWindow.scrollX;
-            // //     var top = rect.top - iframeRect.top + topWindow.scrollY;
-            // // }
-            // colorPicker.position( left, top);
-
-
-            this.showPicker = !this.showPicker;
-        }
     }
-}
+  },
+};
 </script>
