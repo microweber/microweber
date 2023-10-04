@@ -86,7 +86,7 @@
                     propertyValue = propertyValue.replace('px', '');
                     e.target.value = propertyValue;
                 }"
-                x-on:update="(e) => {
+                x-on:slide="(e) => {
                     let currentPropertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
                     currentPropertyValue = currentPropertyValue.replace('px', '');
                     if (currentPropertyValue == event.target.value) {
