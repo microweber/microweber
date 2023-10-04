@@ -11,41 +11,32 @@
 
       <ColorPicker v-model="color" v-bind:color=color :label="'Font Color'" @change="handleFontColorChange"/>
 
-        <div class="m-3">
-            <div class="mr-4">Font Size - {{ fontSize }}</div>
-            <div>
+      <SliderSmall
+          label="Font Size"
+          v-model="fontSize"
+          :min="0"
+          :max="100"
+          :step="5"
+      ></SliderSmall>
 
-                <v-slider
-                    :min="6"
-                    :max="120"
-                    :step="1"
-                    v-model="fontSize"
-                >
-                </v-slider>
 
-            </div>
-        </div>
 
        <DropdownSmall v-model="fontWeight" :options="fontWeightOptions" :label="'Font Weight'"/>
        <DropdownSmall v-model="textTransform" :options="textTransformOptions" :label="'Text Transform'"/>
        <DropdownSmall v-model="fontStyle" :options="fontStylesOptions" :label="'Font Style'"/>
 
 
-        <div class="m-3">
-            <div class="mr-4">Line Heigh - {{ lineHeight }}</div>
-            <div>
 
-                <v-slider
-                    :min="0"
-                    :max="120"
-                    :step="1"
-                    v-model="lineHeight"
-                >
-                </v-slider>
+        <SliderSmall
+            label="Line Height"
+            v-model="lineHeight"
+            :min="0"
+            :max="100"
+            :step="5"
+        ></SliderSmall>
 
 
-            </div>
-        </div>
+
 
     </div>
 </template>
@@ -58,10 +49,11 @@ import DropdownSmall from './components/DropdownSmall.vue';
 import Dropdown from '../../components/Form/Dropdown.vue';
 import FontPicker from "./components/FontPicker.vue";
 import ColorPicker from "./components/ColorPicker.vue";
+import SliderSmall from "./components/SliderSmall.vue";
 import Slider from '@vueform/slider';
 
 export default {
-    components: {ColorPicker, FontPicker, Dropdown, Input, Slider,Align,DropdownSmall},
+    components: {ColorPicker, FontPicker, Dropdown, Input, Slider,Align,DropdownSmall,SliderSmall},
     data() {
         return {
             'activeNode': null,
