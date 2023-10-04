@@ -48,6 +48,18 @@ export const Handles = function (handles) {
             c.call(scope, i, this.handles[i]);
         }
     };
+
+
+    this.reposition = function(except = []) {
+        this.each(handle => {
+            if(except,indexOf(handle) === -1) {
+                if(handle.isVisible()) {
+                    handle.reposition()
+                }
+            }
+        })
+    }
+
     this.targetIsSelected = function(target, except) {
 
         if(!target) {

@@ -108,6 +108,10 @@ export const Handle = function (options) {
         }
     }
 
+    this.reposition = function(target) {
+        this.set(this.getTarget())
+    }
+    
     this.position = function(target) {
         if(!target){
             return
