@@ -86,7 +86,12 @@
                     propertyValue = propertyValue.replace('px', '');
                     e.target.value = propertyValue;
                 }"
-                x-on:input="(e) => {
+                x-on:update="(e) => {
+                    let currentPropertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
+                    currentPropertyValue = currentPropertyValue.replace('px', '');
+                    if (currentPropertyValue == event.target.value) {
+                        return;
+                    }
                     if (mw.top().app.cssEditor) {
                         mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value + 'px');
                     }
