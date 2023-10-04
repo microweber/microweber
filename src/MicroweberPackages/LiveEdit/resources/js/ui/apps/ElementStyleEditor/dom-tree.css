@@ -1,3 +1,6 @@
+#tree > ul{
+    padding-bottom: 25px;
+}
 
 #domtree .ui-resizable-s:after{
     content: '...';
