@@ -18,9 +18,8 @@ import DesignSettingsIcon from "../Icons/DesignSettingsIcon.vue";
 export default {
     methods: {
         show: function (name) {
-            console.log(CSSGUIService)
             CSSGUIService.toggle()
-             // this.emitter.emit('live-edit-ui-show', name);
+             this.emitter.emit('live-edit-ui-show', name);
         }
     },
 

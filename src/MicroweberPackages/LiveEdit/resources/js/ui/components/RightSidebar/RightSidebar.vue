@@ -7,51 +7,53 @@
                 <ElementStyleEditorApp />
             </div>
 
-            <div v-show="showTemplateSettings" class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0 position-relative">
-                <span v-on:click="show('template-settings')" :class="[buttonIsActive?'live-edit-right-sidebar-active':'']" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
-                <div id="rightSidebarTabStyleEditorNav" role="tablist">
-                    <a class="mw-admin-action-links mw-adm-liveedit-tabs active me-3" data-bs-toggle="tab"
-                       data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab">
-                        Template Styles
-                    </a>
+            <div v-show="showTemplateSettings">
+                <div class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0 position-relative">
+                    <span v-on:click="show('template-settings')" :class="[buttonIsActive?'live-edit-right-sidebar-active':'']" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
+                    <div id="rightSidebarTabStyleEditorNav" role="tablist">
+                        <a class="mw-admin-action-links mw-adm-liveedit-tabs active me-3" data-bs-toggle="tab"
+                           data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab">
+                            Template Styles
+                        </a>
 
+                        <a class="mw-admin-action-links mw-adm-liveedit-tabs" data-bs-toggle="tab"
+                           data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab">
+                            Tools
+                        </a>
+                    </div>
 
-                    <a class="mw-admin-action-links mw-adm-liveedit-tabs" data-bs-toggle="tab"
-                       data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab">
-                        Tools
-                    </a>
+                    <div v-if="showSidebar" class="mb-2">
+                        <span v-on:click="closeSidebar" class="cursor-pointer">
+                           <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg>
+
+                        </span>
+                    </div>
                 </div>
 
-                <div v-if="showSidebar" class="mb-2">
-                    <span v-on:click="closeSidebar" class="cursor-pointer">
-                       <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg>
+                <div class="tab-content">
+                    <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
+                         role="tabpanel">
+                        <div v-if="showTemplateSettings" >
 
-                    </span>
-                </div>
-            </div>
+                        <iframe :src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
+                                frameborder="0"
+                                allowfullscreen></iframe>
 
-            <div class="tab-content">
-                <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
-                     role="tabpanel">
-                    <div v-if="showTemplateSettings" >
+                        </div>
 
-                    <iframe :src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
-                            frameborder="0"
-                            allowfullscreen></iframe>
+
+                    </div>
+                    <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"
+                         role="tabpanel">
+
+                        <ToolsButtons></ToolsButtons>
+
 
                     </div>
 
-
                 </div>
-                <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"
-                     role="tabpanel">
-
-                    <ToolsButtons></ToolsButtons>
-
-
-                </div>
-
             </div>
+
         </div>
 
     </div>
@@ -85,14 +87,23 @@ export default {
     },
     methods: {
         show: function (name) {
-            this.emitter.emit('live-edit-ui-show', name);
-            CSSGUIService.toggle();
+            CSSGUIService.show();
+            setTimeout(() => {
+                this.emitter.emit('live-edit-ui-show', name);
+                if (name == 'element-style-editor') {
+                    this.showElementStyleEditor = true;
+                    this.showTemplateSettings = false;
+                } else {
+                    this.showElementStyleEditor = false;
+                    this.showTemplateSettings = true;
+                }
+            }, 100);
         },
         closeSidebar() {
-            CSSGUIService.show();
+            CSSGUIService.hide();
         },
         openSidebar() {
-            CSSGUIService.close();
+            CSSGUIService.show();
         },
         buildIframeUrlTemplateSettings: function (url) {
 
@@ -118,7 +129,7 @@ export default {
         const rightSidebarInstance = this;
 
         mw.top().app.on('cssEditorSettings', (settings) => {
-            this.show();
+            this.show('element-style-editor');
         });
 
      //   rightSidebarInstance.showTemplateSettings = true;
