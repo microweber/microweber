@@ -26,17 +26,10 @@
             </div>
         </div>
 
-        <div>
-            <Dropdown v-model="fontWeight" :options="fontWeightOptions" :label="'Font Weight'"/>
-        </div>
+       <DropdownSmall v-model="fontWeight" :options="fontWeightOptions" :label="'Font Weight'"/>
+       <DropdownSmall v-model="textTransform" :options="textTransformOptions" :label="'Text Transform'"/>
+       <DropdownSmall v-model="fontStyle" :options="fontStylesOptions" :label="'Font Style'"/>
 
-        <div>
-            <Dropdown v-model="textTransform" :options="textTransformOptions" :label="'Text Transform'"/>
-        </div>
-
-        <div>
-            <Dropdown v-model="fontStyle" :options="fontStylesOptions" :label="'Font Style'"/>
-        </div>
 
         <div class="m-3">
             <div class="mr-4">Line Heigh - {{ lineHeight }}</div>
@@ -61,13 +54,14 @@
 <script>
 import Input from '../../components/Form/Input.vue';
 import Align from './components/Align.vue';
+import DropdownSmall from './components/DropdownSmall.vue';
 import Dropdown from '../../components/Form/Dropdown.vue';
 import FontPicker from "./components/FontPicker.vue";
 import ColorPicker from "./components/ColorPicker.vue";
 import Slider from '@vueform/slider';
 
 export default {
-    components: {ColorPicker, FontPicker, Dropdown, Input, Slider,Align},
+    components: {ColorPicker, FontPicker, Dropdown, Input, Slider,Align,DropdownSmall},
     data() {
         return {
             'activeNode': null,
@@ -105,7 +99,7 @@ export default {
             'lineHeight': null,
             'fontFamily': null,
             'color': null,
-            'textTransform': null,
+            'textTransform': 'none',
             'textDecorationIsBold': null,
             'textDecorationIsItalic': null,
             'textDecorationIsUnderline': null,
@@ -121,7 +115,7 @@ export default {
             this.lineHeight = null;
             this.fontFamily = null;
             this.color = null;
-            this.textTransform = null;
+            this.textTransform = 'none';
             this.textDecorationIsBold = null;
             this.textDecorationIsItalic = null;
             this.textDecorationIsUnderline = null;
@@ -141,6 +135,7 @@ export default {
                 this.populateCssTextAlign(css);
                 this.populateCssTextDecoration(css);
                 this.populateCssFont(css);
+                this.populateCssTextTransform(css);
 
                 this.isReady = true;
             }
@@ -198,7 +193,12 @@ export default {
             this.lineHeight = font.lineHeight;
             this.fontFamily = font.family;
             this.color = font.color;
-        },
+         },
+      populateCssTextTransform: function (css) {
+        if (!css || !css.get) return;
+        var textTransform = css.get.textTransform();
+        this.textTransform = textTransform;
+      },
 
         applyPropertyToActiveNode: function (prop, val) {
             if (!this.isReady) {
