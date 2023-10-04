@@ -66,81 +66,30 @@
 
 <template>
 
-  <div class="d-flex justify-content-center align-items-center">
-    <div class="rouded-corners">
-      <label>Rounded Corners</label>
-      <div class="s-field-content">
-        <div class="mw-field mw-field-flat">
-          <div class="mw-multiple-fields">
-            <div class="mw-field mw-field-flat">
-              <input type="text" class="regular order-1" v-model="borderTopLeftRadius"/>
-              <span class="mw-field mw-field-flat-prepend order-2">
-                          <i class="angle angle-top-left"></i>
-                        </span>
-            </div>
-            <div class="mw-field mw-field-flat">
-              <span class="mw-field mw-field-flat-prepend"><i class="angle angle-top-right"></i></span>
-              <input class="regular" type="text" v-model="borderTopRightRadius"/>
-            </div>
-          </div>
-        </div>
-        <div class="mw-field mw-field-flat">
-          <div class="mw-multiple-fields">
-            <div class="mw-field mw-field-flat">
-              <input class="regular order-1" type="text" v-model="borderBottomLeftRadius"/>
-              <span class="mw-field mw-field-flat-prepend order-2"><i class="angle angle-bottom-left"></i>
-                        </span>
-            </div>
-            <div class="mw-field mw-field-flat">
-              <span class="mw-field mw-field-flat-prepend"><i class="angle angle-bottom-right"></i></span>
-              <input class="regular" type="text" v-model="borderBottomRightRadius"/>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+
+  <BorderRadius v-model="borderRadius"></BorderRadius>
+
+
 
 
   <div class="d-flex flex-column gap-3">
 
-    <div>
-      <Dropdown v-model="borderPosition" :options="borderPositionOptions" label="Border Position"/>
-    </div>
 
-    <div>
-      <div class="mr-4">Border Size - {{ borderSize }}</div>
-      <div>
-        <v-slider
-            :min="6"
-            :max="120"
-            :step="1"
-            v-model="borderSize"
-        >
-        </v-slider>
+    <DropdownSmall v-model="borderPosition" :options="borderPositionOptions" label="Border Position"/>
 
 
-      </div>
-    </div>
+    <SliderSmall label="Border Size" v-model="borderSize" :min="0" :max="120" :step="5"></SliderSmall>
+
 
     <ColorPicker v-model="borderColor" v-bind:color=borderColor :label="'Border Color'"
                  @change="handleBorderColorChange"/>
 
 
-
-   <div>
-      <Dropdown v-model="borderStyle" :options="borderStylesOptions" label="Border Style"/>
+    <div>
+      <DropdownSmall v-model="borderStyle" :options="borderStylesOptions" label="Border Style"/>
     </div>
 
-<!--    <div class="d-flex justify-content-between">
-      <div class="mr-4">Border  ImageUrl</div>
-      <div>
-
-
-        <input type="text" v-model="borderImageUrl" placeholder="Border Image">
-
-      </div>
-    </div>-->
   </div>
 
 </template>
@@ -150,11 +99,15 @@ import Input from '../../components/Form/Input.vue';
 import Dropdown from '../../components/Form/Dropdown.vue';
 import FontPicker from "./components/FontPicker.vue";
 import ColorPicker from "./components/ColorPicker.vue";
+import DropdownSmall from "./components/DropdownSmall.vue";
+import SliderSmall from "./components/SliderSmall.vue";
+import BorderRadius from "./components/BorderRadius.vue";
+
 import Slider from '@vueform/slider';
 
 export default {
 
-  components: {Dropdown, Input, FontPicker, ColorPicker, Slider},
+  components: {Dropdown, Input, FontPicker, ColorPicker, Slider, DropdownSmall, SliderSmall, BorderRadius},
 
   data() {
     return {
@@ -187,6 +140,12 @@ export default {
       'borderImage': null,
       'borderImageUrl': null,
       'borderStyle': null,
+      'borderRadius': {
+        borderTopLeftRadius: '',
+        borderTopRightRadius: '',
+        borderBottomLeftRadius: '',
+        borderBottomRightRadius: '',
+      },
       'borderTopLeftRadius': null,
       'borderTopRightRadius': null,
       'borderBottomRightRadius': null,
@@ -197,7 +156,7 @@ export default {
   methods: {
 
     handleBorderColorChange(color) {
-      if(typeof(color) != 'string'){
+      if (typeof (color) != 'string') {
         return;
       }
       this.borderColor = color;
@@ -207,6 +166,12 @@ export default {
       this.borderSize = null;
       this.borderColor = null;
       this.borderStyle = null;
+      this.borderRadius = {
+        borderTopLeftRadius: '',
+        borderTopRightRadius: '',
+        borderBottomLeftRadius: '',
+        borderBottomRightRadius: '',
+      }
       this.borderTopLeftRadius = null;
       this.borderTopRightRadius = null;
       this.borderBottomRightRadius = null;
@@ -256,6 +221,13 @@ export default {
       this.borderTopRightRadius = borderRadius.tr;
       this.borderBottomRightRadius = borderRadius.br;
       this.borderBottomLeftRadius = borderRadius.bl;
+
+      this.borderRadius = {
+        borderTopLeftRadius: borderRadius.tl,
+        borderTopRightRadius: borderRadius.tr,
+        borderBottomLeftRadius: borderRadius.bl,
+        borderBottomRightRadius: borderRadius.br,
+      }
     },
 
     applyPropertyToActiveNode: function (prop, val) {
@@ -284,13 +256,43 @@ export default {
   },
 
   watch: {
+    borderRadius: function (newValue, oldValue) {
+
+      //Proxy(Object) {borderTopLeftRadius: '', borderTopRightRadius: '', borderBottomLeftRadius: '', borderBottomRightRadius: ''}
+
+      var borderRadiusValue = '';
+      if (newValue.borderTopLeftRadius) {
+        borderRadiusValue += newValue.borderTopLeftRadius + 'px ';
+      } else {
+        borderRadiusValue += '0px ';
+      }
+      if (newValue.borderTopRightRadius) {
+        borderRadiusValue += newValue.borderTopRightRadius + 'px ';
+      } else {
+        borderRadiusValue += '0px ';
+      }
+      if (newValue.borderBottomRightRadius) {
+        borderRadiusValue += newValue.borderBottomRightRadius + 'px ';
+      } else {
+        borderRadiusValue += '0px ';
+      }
+      if (newValue.borderBottomLeftRadius) {
+        borderRadiusValue += newValue.borderBottomLeftRadius + 'px ';
+      } else {
+        borderRadiusValue += '0px ';
+      }
+
+      this.applyPropertyToActiveNode('border-radius', borderRadiusValue);
+
+
+    },
     // Border-related property watchers
     borderImageUrl: function (newValue, oldValue) {
       var borderImageValue = '';
       borderImageValue += 'url(' + newValue + ') ';
       borderImageValue += this.borderSize + ' ';
-  //    borderImageValue +=  this.borderStyle + ' ';
-    borderImageValue += ' space ';
+      //    borderImageValue +=  this.borderStyle + ' ';
+      borderImageValue += ' space ';
       this.borderImage = borderImageValue;
     },
     borderImage: function (newValue, oldValue) {
@@ -309,18 +311,20 @@ export default {
     borderStyle: function (newValue, oldValue) {
       this.applyPropertyToActiveNode('border-style', newValue);
     },
-    borderTopLeftRadius: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('borderTopLeftRadius', newValue + 'px');
-    },
-    borderTopRightRadius: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('borderTopRightRadius', newValue + 'px');
-    },
-    borderBottomRightRadius: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('borderBottomRightRadius', newValue + 'px');
-    },
-    borderBottomLeftRadius: function (newValue, oldValue) {
-      this.applyPropertyToActiveNode('borderBottomLeftRadius', newValue + 'px');
-    },
+
+
+    // borderTopLeftRadius: function (newValue, oldValue) {
+    //   this.applyPropertyToActiveNode('borderTopLeftRadius', newValue + 'px');
+    // },
+    // borderTopRightRadius: function (newValue, oldValue) {
+    //   this.applyPropertyToActiveNode('borderTopRightRadius', newValue + 'px');
+    // },
+    // borderBottomRightRadius: function (newValue, oldValue) {
+    //   this.applyPropertyToActiveNode('borderBottomRightRadius', newValue + 'px');
+    // },
+    // borderBottomLeftRadius: function (newValue, oldValue) {
+    //   this.applyPropertyToActiveNode('borderBottomLeftRadius', newValue + 'px');
+    // },
   },
 }
 </script>
