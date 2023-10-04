@@ -51,8 +51,8 @@ export const Handles = function (handles) {
 
 
     this.reposition = function(except = []) {
-        this.each(handle => {
-            if(except,indexOf(handle) === -1) {
+        this.each((i, handle) => {
+            if(except.indexOf(handle) === -1) {
                 if(handle.isVisible()) {
                     handle.reposition()
                 }
