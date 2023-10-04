@@ -3,28 +3,21 @@
     <br>
 
 
-
-
     <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Background Color'"
                  @change="handleBackgroundColorChange"/>
 
 
+    <ImagePicker label="Background Image" v-model="backgroundImage" v-bind:file="backgroundImageUrl"
+                 @change="handleBackgroundImageChange"/>
 
-    <ImagePicker label="Background Image"  v-model="backgroundImage" v-bind:file="backgroundImageUrl" @change="handleBackgroundImageChange" />
+    <DropdownSmall v-model="backgroundSize" :options="backgroundSizeOptions" :label="'Background Size'"/>
 
 
+    <DropdownSmall v-model="backgroundRepeat" :options="backgroundRepeatOptions" :label="'Background Repeat'"/>
 
-    <div>
-      <Dropdown v-model="backgroundSize" :options="backgroundSizeOptions" :label="'Background Size'"/>
-    </div>
 
-    <div>
-      <Dropdown v-model="backgroundRepeat" :options="backgroundRepeatOptions" :label="'Background Repeat'"/>
-    </div>
+    <DropdownSmall v-model="backgroundPosition" :options="backgroundPositionOptions" :label="'Background Position'"/>
 
-    <div>
-      <Dropdown v-model="backgroundPosition" :options="backgroundPositionOptions" :label="'Background Position'"/>
-    </div>
 
   </div>
 </template>
@@ -35,12 +28,13 @@ import ImagePicker from './components/ImagePicker.vue';
 import Dropdown from '../../components/Form/Dropdown.vue';
 import FontPicker from "./components/FontPicker.vue";
 import ColorPicker from "./components/ColorPicker.vue";
+import DropdownSmall from "./components/DropdownSmall.vue";
 import Slider from '@vueform/slider';
 import FilePicker from "../../components/Form/FilePicker.vue";
 
 export default {
 
-  components: {ColorPicker, FontPicker, Dropdown, Input, Slider, FilePicker,ImagePicker},
+  components: {ColorPicker, FontPicker, Dropdown, Input, Slider, FilePicker, ImagePicker, DropdownSmall},
 
   data() {
     return {
@@ -124,7 +118,7 @@ export default {
 
     handleBackgroundColorChange: function (color) {
 
-      if(typeof(color) != 'string'){
+      if (typeof (color) != 'string') {
         return;
       }
       this.backgroundColor = color
@@ -140,7 +134,7 @@ export default {
       } else {
         this.backgroundImageUrl = '';
       }
-      if(urlVal == null){
+      if (urlVal == null) {
         urlVal = 'none';
       }
       this.backgroundImage = urlVal;
