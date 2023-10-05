@@ -104,6 +104,11 @@
                // ActiveNode.setAttribute('staticdesign', true);
             }
             mw.top().app.registerChange(ActiveNode);
+
+            if(mw.top().app.liveEdit) {
+ 
+                mw.top().app.liveEdit.handles.reposition();
+            }
         }
 
     };
