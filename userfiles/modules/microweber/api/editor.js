@@ -1,4 +1,4 @@
- 
+
 
 
 
@@ -313,9 +313,15 @@ var MWEditor = function (options) {
         var event = e.originaleEvent ? e.originaleEvent : e;
         var localTarget = event.target;
 
+
             if (e.type === 'keydown' && e.key === "Enter") {
-                scope.document.execCommand('insertLineBreak')
-                e.preventDefault()
+                const focusNode = scope.api.elementNode(scope.getSelection().focusNode);
+                const isLi = mw.tools.firstParentOrCurrentWithTag(focusNode, 'li');
+                if(!isLi || (isLi && event.shiftKey)) {
+                    scope.document.execCommand('insertLineBreak')
+                    e.preventDefault()
+                }
+
             }
 
             if (e.key === "Backspace" || e.key === "Delete") {
@@ -456,14 +462,14 @@ var MWEditor = function (options) {
         let range = sel.getRangeAt(0);
         if(range.collapsed) {
             return;
-        } 
+        }
         var isLink = event.target.nodeName === 'A';
-        
+
         if(isLink) {
             this.api.selectAll(event.target);
             const sel = this.api.getSelection();
             sel.getRangeAt(0).selectNodeContents(event.target.firstChild);
-             
+
             const cnode = document.createTextNode('\u200B');
             event.target.appendChild(cnode);
             this.__$tempNodes.push({node: cnode, rel: 'link'});
@@ -800,7 +806,7 @@ var MWEditor = function (options) {
                 icon.prepend(ctrl.element);
                 mw.element(icon.get(0).querySelector('.mw-editor-group-button-caret')).on('mousedown touchstart', function (e) {
                     const parent = this.parentNode.parentNode;
- 
+
                     scope.document.querySelectorAll('.mw-bar-control-item.active, .mw-editor-controller-component.active').forEach(node => {
                         if(node !== parent) {
                             node.classList.remove('active')
@@ -1066,7 +1072,7 @@ var MWEditor = function (options) {
             if(target && mw.tools.hasAnyOfClassesOnNodeOrParent(target, _smallEditorExceptionClasses)){
                 return
             }
- 
+
 
             if (scope.selection && (target && target.isContentEditable || mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['mw-small-editor', 'mw-editor', 'mw-tooltip'])) && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
 
@@ -1084,7 +1090,7 @@ var MWEditor = function (options) {
                     scope.smallEditor.hide();
                 }
 
-            }            
+            }
         }, 10)
 
     }
@@ -1256,7 +1262,7 @@ var MWEditor = function (options) {
                         scope.api.restoreSelection();
                         var content;
                         var plainTextNodes = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'A', 'EM', 'STRONG', 'SUP', 'B', 'SUB', 'PRE'];
-                             
+
                             var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(scope.api.elementNode(scope.api.getSelection().focusNode), ['safe-mode', 'regular-mode'])
 
                             const allowedTags = 'a,abbr,address,audio,b,bdi,bdo,blockquote,br,button,caption,cite,code,data,dd,del,details,dfn,dl,dt,em,figcaption,figure,h1,h2,h3,h4,h5,h6,hr,i,img,font,ins,kbd,label,legend,li,mark,ol,p,picture,pre,q,rp,rt,ruby,s,samp,small,span,strong,sub,summary,sup,svg,table,tbody,td,tfoot,th,thead,time,tr,u,ul,var,video,wbr';
@@ -1265,9 +1271,9 @@ var MWEditor = function (options) {
 
                             if(plainTextNodes.includes(e.target.nodeName)){
                                 content = ta.textContent;
-                               
+
                             } else if(isSafeMode) {
-                                
+
                                 let all = ta.querySelectorAll(`*:not(${safeModeAllowedTags})`);
                                 while ( all.length ) {
                                     all.forEach(node => node.replaceWith(...node.childNodes));
@@ -1275,7 +1281,7 @@ var MWEditor = function (options) {
                                 }
                                 content = ta.innerHTML;
                             } else {
-                            
+
                                 let all = ta.querySelectorAll(`*:not(${allowedTags})`);
                                 while ( all.length ) {
                                     all.forEach(node => node.replaceWith(...node.childNodes));
@@ -1288,7 +1294,7 @@ var MWEditor = function (options) {
                         mw.element(ta).remove();
                         scope.$editArea._pasting = false;
                     })
- 
+
                 }
 
 
