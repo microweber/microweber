@@ -19,6 +19,15 @@
     <DropdownSmall v-model="backgroundPosition" :options="backgroundPositionOptions" :label="'Background Position'"/>
 
 
+      // checked if backgroundClip == text
+        <label for="backgroundClip">Background Clip</label>
+
+      <input type="radio"  name="backgroundClip" value="text" v-model="backgroundClip">
+      <input type="radio"  name="backgroundClip" value="border-box" v-model="backgroundClip">
+      <input type="radio"  name="backgroundClip" value="content-box" v-model="backgroundClip">
+
+
+
   </div>
 </template>
 
@@ -74,6 +83,7 @@ export default {
       'backgroundRepeat': null,
       'backgroundSize': null,
       'backgroundImageUrl': null,
+      'backgroundClip': null,
     };
   },
 
@@ -85,6 +95,7 @@ export default {
       this.backgroundPosition = null;
       this.backgroundRepeat = null;
       this.backgroundSize = null;
+      this.backgroundClip = null;
     },
 
     populateStyleEditor: function (node) {
@@ -114,6 +125,7 @@ export default {
       this.backgroundPosition = bg.position;
       this.backgroundRepeat = bg.repeat;
       this.backgroundSize = bg.size;
+      this.backgroundClip = bg.clip;
     },
 
     handleBackgroundColorChange: function (color) {
@@ -169,6 +181,18 @@ export default {
     // Background-related property watchers
     backgroundImage: function (newValue, oldValue) {
       this.applyPropertyToActiveNode('backgroundImage', newValue);
+    },
+      backgroundClip: function (newValue, oldValue) {
+        if(newValue == 'text'){
+            this.applyPropertyToActiveNode('backgroundClip', 'text');
+            this.applyPropertyToActiveNode('webkitBackgroundClip', 'text');
+            this.applyPropertyToActiveNode('color', 'rgba(0,0,0,0)');
+        } else {
+            this.applyPropertyToActiveNode('backgroundClip', newValue);
+            this.applyPropertyToActiveNode('webkitBackgroundClip', newValue);
+            this.applyPropertyToActiveNode('color', '');
+
+        }
     },
     backgroundColor: function (newValue, oldValue) {
       this.applyPropertyToActiveNode('backgroundColor', newValue);

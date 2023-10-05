@@ -151,22 +151,20 @@ export default {
             rightSidebarInstance.showElementStyleEditor = false;
 
             if (show == 'template-settings') {
-                if (rightSidebarInstance.buttonIsActive == false) {
-                    rightSidebarInstance.buttonIsActive = true;
-                    rightSidebarInstance.showTemplateSettings = true;
-                    rightSidebarInstance.showElementStyleEditor = false;
+                rightSidebarInstance.buttonIsActive = true;
+                rightSidebarInstance.showTemplateSettings = true;
+                rightSidebarInstance.showElementStyleEditor = false;
 
-                } else {
-                    rightSidebarInstance.buttonIsActive = false;
-                    rightSidebarInstance.showTemplateSettings = false;
-                }
-            }
-
-            if(show == 'style-editor') {
+            } else if(show == 'style-editor') {
 
                 rightSidebarInstance.showTemplateSettings = false;
                 rightSidebarInstance.showElementStyleEditor = true;
                 rightSidebarInstance.showSidebar = true;
+                rightSidebarInstance.buttonIsActive = false;
+            } else {
+                rightSidebarInstance.showTemplateSettings = false;
+                rightSidebarInstance.showElementStyleEditor = false;
+                rightSidebarInstance.showSidebar = false;
                 rightSidebarInstance.buttonIsActive = false;
             }
 
