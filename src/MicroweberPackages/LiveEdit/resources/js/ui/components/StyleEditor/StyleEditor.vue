@@ -1,3 +1,10 @@
+<template>
+    <div>
+iframe here
+    </div>
+</template>
+
+
 <script>
 export default {
     methods: {
@@ -28,10 +35,10 @@ export default {
             });
             var x = mw.top().app.canvas.getWindow().innerWidth - 400;
             var y = mw.top().app.canvas.getWindow().innerHeight - 400;
-            if(x < 0){
+            if (x < 0) {
                 x = 0;
             }
-            if(y < 0){
+            if (y < 0) {
                 y = 0;
             }
             dlg.position(x, y);
@@ -43,10 +50,9 @@ export default {
                 var styleEditorSettings = {
                     fieldSettings: {}
                 };
-                styleEditorSettings.fieldSettings.components = ['elementSelector','typography', 'spacing', 'background', 'border'];
+                styleEditorSettings.fieldSettings.components = ['elementSelector', 'typography', 'spacing', 'background', 'border'];
 
                 mw.top().app.dispatch('cssEditorSettings', styleEditorSettings);
-
 
 
                 var event = new CustomEvent('refreshSelectedElement')
@@ -132,7 +138,7 @@ export default {
                     if (can) {
                         //check if has Id
                         var targetWindow = mw.top().app.canvas.getWindow();
-                        if(activeNode){
+                        if (activeNode) {
                             var id = activeNode.id;
                             if (!id) {
                                 targetWindow.mw.tools.generateSelectorForNode(activeNode);
@@ -147,21 +153,23 @@ export default {
         });
 
 
-      mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
+        mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
 
 
-        mw.app.editor.on('insertLayoutRequest', function (element) {
-          // close open html editor when layout is inserted
-          styleEditorInstance.removeStyleEditor();
+            mw.app.editor.on('insertLayoutRequest', function (element) {
+                // close open html editor when layout is inserted
+                styleEditorInstance.removeStyleEditor();
+            });
+            mw.app.editor.on('insertModuleRequest', function (element) {
+                // close open html editor when module is inserted
+                styleEditorInstance.removeStyleEditor();
+            });
         });
-        mw.app.editor.on('insertModuleRequest', function (element) {
-          // close open html editor when module is inserted
-          styleEditorInstance.removeStyleEditor();
-        });
-      });
 
 
     }
 
 }
+</script>
+<script setup>
 </script>

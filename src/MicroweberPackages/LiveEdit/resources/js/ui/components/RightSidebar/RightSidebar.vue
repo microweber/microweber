@@ -10,7 +10,11 @@
 
                         </span>
                 </div>
-                Loading showElementStyleEditor
+
+
+
+
+                <StyleEditor></StyleEditor>
             </div>
 
             <div v-show="showTemplateSettings">
