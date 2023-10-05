@@ -36,6 +36,7 @@ import ElementStyleEditorBackground from './ElementStyleEditorBackground.vue';
 import ElementStyleEditorBorder from './ElementStyleEditorBorder.vue';
 import ElementStyleEditorElementSelector from './ElementStyleEditorElementSelector.vue';
 import ElementStyleEditorContainer from './ElementStyleEditorContainer.vue';
+import ElementStyleEditorAnimations from './ElementStyleEditorAnimations.vue';
 
 export default {
     components: {
@@ -45,6 +46,7 @@ export default {
         ElementStyleEditorBackground,
         ElementStyleEditorBorder,
         ElementStyleEditorContainer,
+        ElementStyleEditorAnimations,
     },
 
     data() {
@@ -55,6 +57,7 @@ export default {
             showBackground: false,
             showBorder: false,
             showContainer: false,
+            showAnimations: false,
         }
     },
 
