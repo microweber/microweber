@@ -1,5 +1,13 @@
 <div>
 
+    <script>
+        window.addEventListener('livewire:load', function () {
+            mw.top().app.on('layoutsListCategoryFilter', function (category) {
+                alert(category);
+            });
+        });
+    </script>
+
     <style>
         .masonry-container {
             display: flex;
@@ -14,7 +22,7 @@
         .aadee:hover {
             box-shadow: 0 0 0 3px #000;
         }
-    </style> 
+    </style>
 
     <div class="masonry-container">
         @foreach($layouts as $layout)
