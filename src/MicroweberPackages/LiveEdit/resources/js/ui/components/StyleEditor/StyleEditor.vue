@@ -30,6 +30,7 @@ export default {
                 'spacing',
                 'container',
                 'background',
+                'animations',
                 'border'
             ];
 

@@ -101,8 +101,6 @@
 
 
 
-
-
     mw.top().app.on('mw.elementStyleEditor.applyCssPropertyToNode', function (data) {
        output(data.prop, data.val, data.node);
     });
