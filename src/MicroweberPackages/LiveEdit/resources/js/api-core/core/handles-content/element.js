@@ -320,14 +320,65 @@ export class ElementHandleContent {
                 onTarget: function (target, selfBtn) {
                     var selfVisible = true;
 
+                    // todo: safe mode for css editor
                     const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
                     if (isCloneable) {
-                        selfVisible = false;
+                        selfVisible = true;
                     }
 
                     if (target.classList.contains('spacer')) {
                         selfVisible = false;
                     }
+                    selfBtn.style.display = selfVisible ? '' : 'none';
+                }
+            },
+            {
+                title: 'Background color',
+                text: '',
+                icon: handleIcons.icon('color'),
+                className: 'mw-handle-insert-color-button',
+
+                action: function (el) {
+                    var dlg = mw.top().dialog({
+                        width: 280,
+                        closeButtonAction: 'hide',
+                        disableTextSelection: true,
+                        title: mw.lang('Choose color'),
+                        overlayClose: true,
+                        closeOnEscape: false, 
+                    });
+         
+             
+ 
+                    
+        
+                    var _pauseSetValue = false;
+        
+ 
+        
+                   var picker = mw.colorPicker({
+                        // element: tip.get(0),
+                        element: dlg.container,
+                         
+                        method: 'inline',
+                        showHEX: false,
+                        onchange: function (color) {
+                            mw.top().app.liveEdit.handles.get('element').getTarget().style.backgroundColor = color;
+        
+                        },
+        
+                    });
+
+                },
+                onTarget: function (target, selfBtn) {
+                    var selfVisible = false;
+
+                     
+                    if (target.classList.contains('background-color-element') ) {
+                        selfVisible = true;
+                    }
+
+                    
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 }
             },
