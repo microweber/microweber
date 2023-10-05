@@ -85,6 +85,7 @@ mw.CSSParser = function(el){
             image:css.backgroundImage,
             color:css.backgroundColor,
             position:css.backgroundPosition,
+            clip:css.backgroundClip,
             repeat:css.backgroundRepeat
         }
     }
