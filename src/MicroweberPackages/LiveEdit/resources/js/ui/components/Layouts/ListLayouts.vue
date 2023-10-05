@@ -258,6 +258,7 @@ export default {
             this.getLayoutsListFromService().then(function (data) {
                 instance.layoutsList = data;
                 instance.layoutsListLoaded = true;
+                instance.filterLayouts();
             });
             mw.app.editor.on('insertLayoutRequestOnTop',function(element){
                 instance.showModal = true;
