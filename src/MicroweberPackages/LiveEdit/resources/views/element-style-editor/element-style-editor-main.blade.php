@@ -96,9 +96,9 @@
         if (ActiveNode) {
             if (!specialCases(property, value)) {
                 let prop = property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-                if(prop.indexOf('webkit') === 0) {
-                    prop = `-${prop}`;
-                }
+                // if(prop.indexOf('webkit') === 0) {
+                //     prop = `-${prop}`;
+                // }
                 if(ActiveSelector){
                     mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, prop, value)
                 }
