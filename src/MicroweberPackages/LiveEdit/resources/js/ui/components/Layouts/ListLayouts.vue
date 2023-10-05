@@ -279,9 +279,9 @@ export default {
             });
         });
 
-        this.emitter.on("live-edit-ui-show", show => {
-            alert(show);
-        });
+        // this.emitter.on("live-edit-ui-show", show => {
+        //
+        // });
 
         // Close on Escape
         document.addEventListener('keyup', function (evt) {
