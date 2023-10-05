@@ -52,7 +52,11 @@ export default {
         this.populateSelectedNode(node);
         this.populateDomTree(node);
 
-        this.isReady = true;
+
+
+          setTimeout(() => {
+              this.isReady = true;
+          }, 100);
       }
     },
 

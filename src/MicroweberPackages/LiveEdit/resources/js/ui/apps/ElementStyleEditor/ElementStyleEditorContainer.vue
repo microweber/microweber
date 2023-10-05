@@ -1,5 +1,27 @@
 <template>
-container
+    <div v-if="hasContainer">
+
+
+        <div class="s-field" id="field-conatiner-type">
+            <label>Container type</label>
+            <div class="s-field-content">
+
+                <label class="mw-ui-check">
+                    <input type="radio" name="containerType" value="container"
+                           v-model="containerType"> <span></span> <span>Container</span>
+                </label>
+                <label class="mw-ui-check">
+                    <input type="radio" name="containerType" value="container-fluid"
+                           v-model="containerType"> <span></span> <span>Container Fluid</span>
+                </label>
+
+
+            </div>
+        </div>
+
+
+    </div>
+
 </template>
 
 
@@ -15,6 +37,7 @@ export default {
             'activeContainerNode': null,
             'isReady': false,
             'hasContainer': false,
+            'containerType': null,
 
         };
     },
@@ -22,24 +45,21 @@ export default {
     methods: {
         resetAllProperties: function () {
             this.hasContainer = null;
+            this.containerType = null;
 
         },
 
         populateStyleEditor: function (node) {
             if (node && node && node.nodeType === 1) {
-
-                var containerNode = mw.tools.firstParentOrCurrentWithAnyOfClasses(node, ['container', 'container-fluid']);
-
-console.log(containerNode);
-
-                var css = mw.CSSParser(node);
                 this.isReady = false;
                 this.resetAllProperties();
-                this.activeContainerNode = node;
+                var containerNode = mw.tools.firstParentOrCurrentWithAnyOfClasses(node, ['container', 'container-fluid']);
 
-
-                this.populateCssContainerForNode(node);
-
+                if (containerNode) {
+                    this.hasContainer = true;
+                    this.activeContainerNode = containerNode;
+                    this.populateCssContainerForNode(containerNode);
+                }
 
                 this.isReady = true;
             }
@@ -47,9 +67,12 @@ console.log(containerNode);
 
         populateCssContainerForNode: function (node) {
 
+            if (node.classList && node.classList.contains('container-fluid')) {
+                this.containerType = 'container-fluid';
+            } else {
+                this.containerType = 'container';
+            }
         },
-
-
 
 
         applyPropertyToActiveContainerNode: function (prop, val) {
@@ -74,8 +97,8 @@ console.log(containerNode);
     },
 
     watch: {
-        fontFamily: function (newValue, oldValue) {
-            this.applyPropertyToActiveContainerNode('fontFamily', newValue);
+        containerType: function (newValue, oldValue) {
+         //   this.applyPropertyToActiveContainerNode('fontFamily', newValue);
         },
 
     },

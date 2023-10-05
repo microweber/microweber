@@ -149,7 +149,10 @@ export default {
 
         this.populateCssPadding(css);
         this.populateCssMargin(css);
-        this.isReady = true;
+
+          setTimeout(() => {
+              this.isReady = true;
+          }, 100);
       }
     },
 

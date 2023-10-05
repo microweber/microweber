@@ -106,7 +106,11 @@ export default {
         this.activeNode = node;
 
         this.populateCssBackground(css);
-        this.isReady = true;
+
+
+          setTimeout(() => {
+              this.isReady = true;
+          }, 100);
       }
     },
     populateCssBackground: function (css) {
@@ -185,11 +189,11 @@ export default {
       backgroundClip: function (newValue, oldValue) {
         if(newValue == 'text'){
             this.applyPropertyToActiveNode('backgroundClip', 'text');
-            this.applyPropertyToActiveNode('webkitBackgroundClip', 'text');
+            this.applyPropertyToActiveNode('-webkitBackgroundClip', 'text');
             this.applyPropertyToActiveNode('color', 'rgba(0,0,0,0)');
         } else {
             this.applyPropertyToActiveNode('backgroundClip', newValue);
-            this.applyPropertyToActiveNode('webkitBackgroundClip', newValue);
+            this.applyPropertyToActiveNode('-webkitBackgroundClip', newValue);
             this.applyPropertyToActiveNode('color', '');
 
         }

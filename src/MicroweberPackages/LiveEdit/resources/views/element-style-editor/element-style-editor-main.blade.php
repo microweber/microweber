@@ -56,12 +56,10 @@
         mw.top().app.on('cssEditorSelectElementBySelector', function (selector) {
             var canvasDocument = mw.top().app.canvas.getDocument();
 
-
             if (selector) {
                 ActiveNode = canvasDocument.querySelector(selector);
                 if (!ActiveNode) {
 
-//mw.log( $.jseldom(selector).html('dummy element').appendTo('body',canvasDocument))
                     var newEl =    $.jseldom(selector);
 
                     var holder = canvasDocument.querySelector('#mw-non-existing-temp-element-holder');
@@ -78,7 +76,7 @@
                     ActiveNode = canvasDocument.querySelector(selector);
 
                 }
-                ActiveSelector= selector;
+                ActiveSelector = selector;
                 selectNodeInElementStyleEditorApp(ActiveNode);
 
             }
@@ -92,16 +90,19 @@
 
 
     var output = function (property, value,ActiveNode) {
-        var mwTarget = targetMw;
 
+
+        var mwTarget = targetMw;
         if (ActiveNode) {
             if (!specialCases(property, value)) {
+                let prop = property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+                // if(prop.indexOf('webkit') === 0) {
+                //     prop = `-${prop}`;
+                // }
                 if(ActiveSelector){
-                    // global
-                    mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), value)
+                    mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, prop, value)
                 }
-                mw.top().app.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value)
-               // ActiveNode.setAttribute('staticdesign', true);
+                mw.top().app.cssEditor.temp(ActiveNode, prop, value)
             }
             mw.top().app.registerChange(ActiveNode);
 
