@@ -145,6 +145,7 @@ export default {
     data() {
         return {
             isOpened: false,
+            hasBeenOpenedBeforeUnload: false,
             cssEditorIframe: null,
             cssEditorDialog: null
         }
@@ -168,6 +169,9 @@ export default {
 
         mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
             if (styleEditorInstance) {
+                if(styleEditorInstance.hasBeenOpenedBeforeUnload){
+                    styleEditorInstance.isOpened = true;
+                }
                 // remove editor if the frame is changed
              //   styleEditorInstance.removeStyleEditor();
                // styleEditorInstance.isOpened = true;
@@ -175,6 +179,9 @@ export default {
         });
         mw.app.canvas.on('liveEditCanvasBeforeUnload', function (frame) {
             if (styleEditorInstance) {
+                if(styleEditorInstance.isOpened) {
+                    styleEditorInstance.hasBeenOpenedBeforeUnload = true;
+                }
                 // remove editor if the frame is changed
                 styleEditorInstance.removeStyleEditor();
             }
