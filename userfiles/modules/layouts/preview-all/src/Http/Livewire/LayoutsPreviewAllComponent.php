@@ -1,12 +1,16 @@
 <?php
 namespace MicroweberPackages\Modules\Layouts\PreviewAll\Http\Livewire;
 
+use Illuminate\Pagination\Paginator;
+use Livewire\WithPagination;
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 
 class LayoutsPreviewAllComponent extends ModuleSettingsComponent
 {
+    use WithPagination;
+
     public $layoutCategory = 'Gallery';
-    public $layouts = [];
+    public $filteredLayouts = [];
 
     public function renderLayouts()
     {
@@ -21,7 +25,7 @@ class LayoutsPreviewAllComponent extends ModuleSettingsComponent
         }
 
         if (isset($layoutCategories[$this->layoutCategory])) {
-            $this->layouts = $layoutCategories[$this->layoutCategory];
+            $this->filteredLayouts = $layoutCategories[$this->layoutCategory];
         }
 
     }
@@ -33,6 +37,19 @@ class LayoutsPreviewAllComponent extends ModuleSettingsComponent
 
     public function render()
     {
-       return view('microweber-module-layouts-preview-all::livewire.preview-all');
+
+        $perPage = 5;
+
+        $collection = collect($this->filteredLayouts);
+
+        $offset = max(0, ($this->page - 1) * $perPage);
+        $items = $collection->slice($offset, $perPage + 1);
+        $paginator = new Paginator($items, $perPage, $this->page);
+
+       return view('microweber-module-layouts-preview-all::livewire.preview-all', [
+           'paginator'=>$paginator,
+            'layouts'=>$items
+       ]);
+
     }
 }
