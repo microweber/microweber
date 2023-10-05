@@ -14,6 +14,10 @@
         <div v-show="showSpacing">
             <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
         </div>
+
+        <div v-show="showContainer">
+            <ElementStyleEditorContainer></ElementStyleEditorContainer>
+        </div>
         <div v-show="showBackground">
             <ElementStyleEditorBackground></ElementStyleEditorBackground>
         </div>
@@ -31,6 +35,7 @@ import ElementStyleEditorSpacing from './ElementStyleEditorSpacing.vue';
 import ElementStyleEditorBackground from './ElementStyleEditorBackground.vue';
 import ElementStyleEditorBorder from './ElementStyleEditorBorder.vue';
 import ElementStyleEditorElementSelector from './ElementStyleEditorElementSelector.vue';
+import ElementStyleEditorContainer from './ElementStyleEditorContainer.vue';
 
 export default {
     components: {
@@ -39,6 +44,7 @@ export default {
         ElementStyleEditorSpacing,
         ElementStyleEditorBackground,
         ElementStyleEditorBorder,
+        ElementStyleEditorContainer,
     },
 
     data() {
@@ -48,6 +54,7 @@ export default {
             showSpacing: false,
             showBackground: false,
             showBorder: false,
+            showContainer: false,
         }
     },
 
@@ -63,6 +70,7 @@ export default {
                 this.showBackground = false;
                 this.showBorder = false;
                 this.showElementSelector = false;
+                this.showContainer = false;
 
                 if (settings.fieldSettings.components.includes('elementSelector')) {
                     this.showElementSelector = true;
@@ -78,6 +86,9 @@ export default {
                 }
                 if (settings.fieldSettings.components.includes('border')) {
                     this.showBorder = true;
+                }
+                if (settings.fieldSettings.components.includes('container')) {
+                    this.showContainer = true;
                 }
             }
         });

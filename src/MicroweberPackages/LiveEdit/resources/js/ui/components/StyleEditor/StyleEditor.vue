@@ -24,7 +24,14 @@ export default {
             var styleEditorSettings = {
                 fieldSettings: {}
             };
-            styleEditorSettings.fieldSettings.components = ['elementSelector', 'typography', 'spacing', 'background', 'border'];
+            styleEditorSettings.fieldSettings.components = [
+                'elementSelector',
+                'typography',
+                'spacing',
+                'container',
+                'background',
+                'border'
+            ];
 
             mw.top().app.dispatch('cssEditorSettings', styleEditorSettings);
 
