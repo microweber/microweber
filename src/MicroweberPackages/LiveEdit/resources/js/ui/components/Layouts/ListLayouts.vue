@@ -117,7 +117,7 @@
 
                     <div v-if="layoutsListLoaded && (layoutsListTypePreview == 'list')">
                         <div>
-                            <iframe style="width:100%;height:100vh;" :src="[mw.settings.site_url + 'preview-layout?&no_editmode=y&category=' + filterCategory]"></iframe>
+                            <iframe style="width:100%;height:100vh;" :src="[siteUrl + 'preview-layout?&no_editmode=y&category=' + filterCategory]"></iframe>
                         </div>
                     </div>
 
@@ -280,6 +280,9 @@ export default {
         const instance = this;
 
         mw.app.on('ready', () => {
+
+            this.siteUrl = mw.settings.site_url;
+
             this.getLayoutsListFromService().then(function (data) {
                 instance.layoutsList = data;
                 instance.layoutsListLoaded = true;
@@ -338,6 +341,7 @@ export default {
             showModal: false,
             isInserting: false,
             target: undefined,
+            siteUrl: ''
         }
     }
 }
