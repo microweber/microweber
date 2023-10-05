@@ -24,6 +24,10 @@
         <div v-show="showBorder">
             <ElementStyleEditorBorder></ElementStyleEditorBorder>
         </div>
+
+        <div v-show="showAnimations">
+            <ElementStyleEditorAnimations></ElementStyleEditorAnimations>
+        </div>
     </div>
 
 </template>
@@ -74,6 +78,7 @@ export default {
                 this.showBorder = false;
                 this.showElementSelector = false;
                 this.showContainer = false;
+                this.showAnimations = false;
 
                 if (settings.fieldSettings.components.includes('elementSelector')) {
                     this.showElementSelector = true;
@@ -92,6 +97,10 @@ export default {
                 }
                 if (settings.fieldSettings.components.includes('container')) {
                     this.showContainer = true;
+                }
+
+                if (settings.fieldSettings.components.includes('animations')) {
+                    this.showAnimations = true;
                 }
             }
         });

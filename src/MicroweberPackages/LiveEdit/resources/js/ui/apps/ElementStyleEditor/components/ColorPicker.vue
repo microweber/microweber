@@ -7,7 +7,7 @@
 
           <span class="mw-field-color-indicator">
             <span
-
+ref="colorPickerElement"
                 class="mw-field-color-indicator-display"
                 :style="{ backgroundColor: selectedColor }"
             ></span>
@@ -64,8 +64,6 @@ export default {
       const newColor = event.target.value;
       this.selectedColor = newColor;
 
-
-      console.log(typeof newColor)
       this.$emit('change', newColor);
     },
     resetColor() {
@@ -74,6 +72,11 @@ export default {
     },
     togglePicker() {
 
+
+      let el = this.$refs.colorPickerElement;
+
+      console.log('togglePickertogglePickertogglePicker')
+      console.log(el)
 
       let colorPicker = mw.app.colorPicker.openColorPicker(this.selectedColor, color => {
         this.$props.color = color;
