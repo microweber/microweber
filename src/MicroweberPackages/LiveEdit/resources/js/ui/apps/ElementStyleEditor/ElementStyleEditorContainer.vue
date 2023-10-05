@@ -12,7 +12,7 @@
                 </label>
                 <label class="mw-ui-check">
                     <input type="radio" name="containerType" value="container-fluid"
-                           v-model="containerType"> <span></span> <span>Container Fluid</span>
+                           v-model="containerType"> <span></span> <span>Fluid</span>
                 </label>
 
 
@@ -55,13 +55,19 @@ export default {
                 this.resetAllProperties();
                 var containerNode = mw.tools.firstParentOrCurrentWithAnyOfClasses(node, ['container', 'container-fluid']);
 
-                if (containerNode) {
-                    this.hasContainer = true;
-                    this.activeContainerNode = containerNode;
-                    this.populateCssContainerForNode(containerNode);
+                if (containerNode && mw.tools.isEditable(containerNode)) {
+                    if (containerNode) {
+                        this.hasContainer = true;
+                        this.activeContainerNode = containerNode;
+                        this.populateCssContainerForNode(containerNode);
+                    }
                 }
 
-                this.isReady = true;
+
+
+                setTimeout(() => {
+                    this.isReady = true;
+                }, 100);
             }
         },
 
@@ -75,16 +81,34 @@ export default {
         },
 
 
-        applyPropertyToActiveContainerNode: function (prop, val) {
+        applyClassToActiveContainerNode: function (val) {
             if (!this.isReady) {
                 return;
             }
             if (this.activeContainerNode) {
-                mw.top().app.dispatch('mw.elementStyleEditor.applyCssPropertyToNode', {
-                    node: this.activeContainerNode,
-                    prop: prop,
-                    val: val
-                });
+
+
+
+                if (val === 'container-fluid') {
+                    mw.top().app.dispatch('mw.elementStyleEditor.removeClassFromNode', {
+                        node: this.activeContainerNode,
+                        class: 'container'
+                    });
+                    mw.top().app.dispatch('mw.elementStyleEditor.addClassToNode', {
+                        node: this.activeContainerNode,
+                        class: 'container-fluid'
+                    });
+                } else {
+                    mw.top().app.dispatch('mw.elementStyleEditor.removeClassFromNode', {
+                        node: this.activeContainerNode,
+                        class: 'container-fluid'
+                    });
+                    mw.top().app.dispatch('mw.elementStyleEditor.addClassToNode', {
+                        node: this.activeContainerNode,
+                        class: 'container'
+                    });
+                }
+
             }
         },
 
@@ -98,7 +122,8 @@ export default {
 
     watch: {
         containerType: function (newValue, oldValue) {
-         //   this.applyPropertyToActiveContainerNode('fontFamily', newValue);
+            this.applyClassToActiveContainerNode(newValue);
+
         },
 
     },

@@ -84,6 +84,25 @@
     });
 
 
+    mw.top().app.on('mw.elementStyleEditor.addClassToNode', function (data) {
+        // (data.class, data.node);
+        if (data.node) {
+            data.node.classList.add(data.class);
+            mw.top().app.registerChange(data.node);
+        }
+    });
+
+    mw.top().app.on('mw.elementStyleEditor.removeClassFromNode', function (data) {
+        if (data.node) {
+            data.node.classList.remove(data.class);
+            mw.top().app.registerChange(data.node);
+        }
+    });
+
+
+
+
+
     mw.top().app.on('mw.elementStyleEditor.applyCssPropertyToNode', function (data) {
        output(data.prop, data.val, data.node);
     });
