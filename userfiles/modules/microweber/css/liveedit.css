@@ -5078,7 +5078,7 @@ body.dragStart picture img{
     background: #ffffff38;
     color: inherit;
     opacity: .57;
-    white-space: nowrap;
+    white-space: normal;
 
 }
 
@@ -5261,6 +5261,10 @@ section.section {
 
 .no-select{
     pointer-events: none !important;
+}
+
+.no-select .module{
+    pointer-events: initial !important;
 }
 
 .allow-select{
