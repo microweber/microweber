@@ -25,18 +25,15 @@
                                 <svg fill="none" xmlns="http://www.w3.org/2000/svg" class="icon" width="32" height="32" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
                             </span>
 
-                        <input
-                            v-model="filterKeyword"
-                            v-on:keydown="filterLayouts()"
-                            type="text" placeholder="Type to Search..." class="modules-list-search-field form-control rounded-0">
+                        <input v-model="filterKeyword" type="text" placeholder="Type to Search..." class="modules-list-search-field form-control rounded-0">
                     </div>
 
                     <ul class="modules-list-categories py-5">
 
-<!--                        <li v-on:click="filterCategorySubmit('')"-->
-<!--                            :class="['' == filterCategory ? 'active animate__animated animate__pulse': '']">-->
-<!--                            All categories-->
-<!--                        </li>-->
+                        <li v-on:click="filterCategorySubmit('')"
+                            :class="['' == filterCategory ? 'active animate__animated animate__pulse': '']">
+                            All categories
+                        </li>
 
                         <li v-for="categoryName in layoutsList.categories"
                             v-on:click="filterCategorySubmit(categoryName)">
@@ -65,22 +62,19 @@
                                 <svg fill="none" xmlns="http://www.w3.org/2000/svg" class="icon" width="32" height="32" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
                             </span>
 
-                            <input
-                                v-model="filterKeyword"
-                                v-on:keydown="filterLayouts()"
-                                type="text" placeholder="Type to Search..." class="modules-list-search-field form-control rounded-0">
+                            <input v-model="filterKeyword" type="text" placeholder="Type to Search..." class="modules-list-search-field form-control rounded-0">
                         </div>
                     </div>
 
                     <div class="me-5 pe-3 my-3 py-0 col-xl-2 col-md-3 col-12 ms-auto text-end justify-content-end">
                         <div class="btn-group d-flex justify-content-end pe-4 layout-list-buttons">
-                            <button
+<!--                            <button
                                 type="button"
                                 v-on:click="switchLayoutsListTypePreview('masonry')"
                                 :class="['btn btn-sm border-0 px-0', layoutsListTypePreview == 'masonry'? 'btn-dark': 'btn-outline-dark']"
                             >
                                 <MasonryIcon style="max-width:23px;max-height:23px;" />
-                            </button>
+                            </button>-->
 
                             <button
                                 type="button"
@@ -151,7 +145,19 @@
 
                     <div v-if="layoutsListFiltered.length == 0" class="modules-list-block">
                         <div class="modules-list-block-no-results">
-                            Nothing found...
+
+                            <div v-if="filterCategory.length > 0 && filterKeyword.length >0">
+                                Nothing found in <b>{{filterCategory}}</b> with keyword <i>"{{filterKeyword}}"</i>.
+                                <br />
+                                <br />
+                                <button v-on:click="searchInAll()" type="button" class="btn btn-outline-dark btn-sm">
+                                    Search in all
+                                </button>
+                            </div>
+                            <div v-else >
+                                Nothing found.
+                            </div>
+
                         </div>
                     </div>
 
@@ -182,6 +188,7 @@ export default {
         LazyList,
         ListIcon
     },
+
     methods: {
         switchLayoutsListTypePreview(type) {
             this.layoutsListTypePreview = type;
@@ -194,9 +201,7 @@ export default {
                 target = this.$data.target
             }
 
-
            this.showModal = false;
-
 
             mw.app.editor.insertLayout({'template':template}, this.layoutInsertLocation, target);
 
@@ -205,19 +210,17 @@ export default {
                 this.isInserting = false;
             }, 300);
         },
+
         getLayoutsListFromService() {
             return mw.app.layouts.list();
+        },
+        searchInAll() {
+            this.filterCategory = '';
+            this.filterLayouts();
         },
         filterCategorySubmit(category) {
             this.filterCategory = category;
             this.filterLayouts();
-        },
-        refreshLayouts() {
-            this.layoutsListLoaded = false;
-            setTimeout(() => {
-                this.layoutsListLoaded = true;
-                this.layoutsListFiltered = this.layoutsList.layouts;
-            },100);
         },
         filterLayouts() {
 
@@ -225,11 +228,12 @@ export default {
             let layoutsFiltered = this.layoutsList.layouts;
 
             if (this.filterKeyword != '' && this.filterKeyword) {
-                this.filterCategory = '';
+                let filterKeyword = this.filterKeyword.toUpperCase();
+                filterKeyword = filterKeyword.trim();
                 layoutsFiltered = layoutsFiltered.filter((item) => {
                     return item.title
                         .toUpperCase()
-                        .includes(this.filterKeyword.toUpperCase())
+                        .includes(filterKeyword)
                 });
             }
 
@@ -254,56 +258,29 @@ export default {
             this.getLayoutsListFromService().then(function (data) {
                 instance.layoutsList = data;
                 instance.layoutsListLoaded = true;
-
-                if (!instance.filterCategory) {
-                    instance.filterCategorySubmit(data.categories[0]);
-                }
             });
             mw.app.editor.on('insertLayoutRequestOnTop',function(element){
-
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'top';
-                setTimeout(function() {
-                    instance.refreshLayouts();
-                }, 500);
                 mw.app.registerChangedState(element);
             });
+
             mw.app.editor.on('appendLayoutRequestOnBottom',function(element){
                 instance.target = element;
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'append';
-
-
-
-                setTimeout(function() {
-                    instance.refreshLayouts();
-                }, 500);
                 mw.app.registerChangedState(element);
 
             })
             mw.app.editor.on('insertLayoutRequestOnBottom',function(element){
-
                 instance.showModal = true;
                 instance.layoutInsertLocation = 'bottom';
-                setTimeout(function() {
-                    instance.refreshLayouts();
-                }, 500);
                 mw.app.registerChangedState(element);
-
             });
         });
 
         this.emitter.on("live-edit-ui-show", show => {
-            if (show == 'show-layouts') {
-                if (instance.showModal == false) {
-                    instance.showModal = true;
-                    setTimeout(function() {
-                        instance.refreshLayouts();
-                    }, 500);
-                } else {
-                    instance.showModal = false;
-                }
-            }
+            alert(show);
         });
 
         // Close on Escape
@@ -313,15 +290,21 @@ export default {
             }
         });
     },
+    watch: {
+        filterKeyword: function (newValue, oldValue) {
+            console.log("filter keyword:" + newValue);
+            this.filterLayouts();
+        },
+        filterCategory: function (newValue, oldValue) {
+            console.log("filter category:" + newValue);
+            this.filterLayouts();
+        }
+    },
     data() {
         return {
-            items: [
-                { title: 'First', description: 'The first item.' },
-                { title: 'Second', description: 'The second item.'},
-            ],
             filterKeyword: '',
             filterCategory: '',
-            layoutsListTypePreview: 'masonry',
+            layoutsListTypePreview: 'list',
             layoutsList: [],
             layoutsListFiltered: [],
             layoutsListLoaded: false,
