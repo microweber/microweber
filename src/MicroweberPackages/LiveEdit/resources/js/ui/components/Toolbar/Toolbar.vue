@@ -67,7 +67,7 @@ html.preview .back-to-edit{
                 <div class="d-flex align-items-center">
                     <ResolutionSwitch></ResolutionSwitch>
                     <SettingsCustomize></SettingsCustomize>
-                    <StyleEditor></StyleEditor>
+
                     <HtmlEditor></HtmlEditor>
 
                     <span class="back-to-edit" @click="pagePreviewToggle()" title="Back to edit">
@@ -131,7 +131,7 @@ export default {
     components: {
         AddContentButton,
         HtmlEditor,
-        StyleEditor, SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav, SettingsCustomize},
+        SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav, SettingsCustomize},
     methods: {
         pagePreviewToggle: () => {
            api.pagePreviewToggle()
@@ -210,13 +210,13 @@ export default {
             setTimeout(() =>  {
                 if(mw.app.isPreview()) {
                     api.previewMode();
-                    
+
                 } else {
                     api.liveEditMode();
                 }
             }, 10);
- 
- 
+
+
 
             var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
 

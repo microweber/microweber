@@ -108,7 +108,7 @@ export default {
                     }
 
                 } else {
-
+                    // open style editor
                     this.emitter.emit('live-edit-ui-show', 'style-editor');
 
                 }

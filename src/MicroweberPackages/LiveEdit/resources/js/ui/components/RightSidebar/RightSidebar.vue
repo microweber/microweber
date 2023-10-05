@@ -4,7 +4,13 @@
         <div id="general-theme-settings" :class="[showSidebar == true ? 'active' : '']">
 
             <div v-show="showElementStyleEditor" class="px-3 pt-4 pb-0">
-                <ElementStyleEditorApp />
+                <div v-if="showElementStyleEditor" class="mb-2">
+                        <span v-on:click="closeSidebar" class="cursor-pointer">
+                           <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg>
+
+                        </span>
+                </div>
+                Loading showElementStyleEditor
             </div>
 
             <div v-show="showTemplateSettings">
@@ -74,25 +80,29 @@
 import TemplateSettings from "./TemplateSettings/TemplateSettings.vue";
 import Editor from "../Toolbar/Editor.vue";
 import ToolsButtons from  "./ToolsButtons.vue";
+import StyleEditor from "../StyleEditor/StyleEditor.vue";
 
 import  CSSGUIService from "../../../api-core/services/services/css-gui.service.js";
-import ElementStyleEditorApp from "../../apps/ElementStyleEditor/ElementStyleEditorApp.vue";
 
 export default {
     components: {
-        ElementStyleEditorApp,
+
+        StyleEditor,
         Editor,
         ToolsButtons,
         TemplateSettings,
     },
     methods: {
         show: function (name) {
+            this.showSidebar = true;
             CSSGUIService.show();
         },
         closeSidebar() {
+            this.showSidebar = false;
             CSSGUIService.hide();
         },
         openSidebar() {
+            this.showSidebar = true;
             CSSGUIService.show();
         },
         buildIframeUrlTemplateSettings: function (url) {
@@ -117,9 +127,9 @@ export default {
 
         const rightSidebarInstance = this;
 
-        mw.top().app.on('cssEditorSettings', (settings) => {
-            this.emitter.emit('live-edit-ui-show', 'element-style-editor');
-        });
+        // mw.top().app.on('cssEditorSettings', (settings) => {
+        //     this.emitter.emit('live-edit-ui-show', 'element-style-editor');
+        // });
 
         mw.app.canvas.on('liveEditCanvasLoaded', function () {
             rightSidebarInstance.showTemplateSettings = true;
@@ -144,9 +154,11 @@ export default {
                 }
             }
 
-            if(show == 'element-style-editor') {
+            if(show == 'style-editor') {
+
                 rightSidebarInstance.showTemplateSettings = false;
                 rightSidebarInstance.showElementStyleEditor = true;
+                rightSidebarInstance.showSidebar = true;
             }
 
         });
