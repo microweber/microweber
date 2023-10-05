@@ -85,6 +85,10 @@ export const liveEditComponent = () => {
                 return mw.app.registerChange(edit.parentElement);
             }
         }
+        if(mw.app.liveEdit) {
+
+            mw.app.liveEdit.handles.reposition();
+        }
     };
     mw.app.registerAskUserToStay = function (toStay = true) {
         var liveEditIframe = (mw.app.canvas.getWindow());
@@ -97,6 +101,10 @@ export const liveEditComponent = () => {
         mw.app.registerChange(element);
         mw.app.registerUndoState(element);
         mw.app.registerAskUserToStay(true);
+        if(mw.app.liveEdit) {
+            mw.app.liveEdit.handles.reposition();
+        }
+
     };
 
 

@@ -1,8 +1,49 @@
+<template>
+    <div v-if="isOpened">
+        <h3>Style editor</h3>
+        <span v-on:click="closeStyleEditor" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
+
+
+
+            <iframe @load="load" ref="styleEditorIframe" :src="buildIframeUrlStyleEditor()" style="width:100%;height:100vh;"
+                    frameborder="0"
+                    allowfullscreen></iframe>
+
+
+    </div>
+</template>
+
+
 <script>
 export default {
     methods: {
-        showStyleEditor: function () {
-            //var moduleType = 'microweber/toolbar/editor_tools/rte_css_editor2';
+        load: function(){
+            let iframe = this.$refs.styleEditorIframe;
+
+
+            var styleEditorSettings = {
+                fieldSettings: {}
+            };
+            styleEditorSettings.fieldSettings.components = ['elementSelector', 'typography', 'spacing', 'background', 'border'];
+
+            mw.top().app.dispatch('cssEditorSettings', styleEditorSettings);
+
+
+            var event = new CustomEvent('refreshSelectedElement')
+            iframe.contentWindow.document.dispatchEvent(event);
+
+            this.cssEditorIframe = iframe;
+
+
+
+        },
+        closeStyleEditor: function () {
+            this.removeStyleEditor();
+            this.emitter.emit("live-edit-ui-show", 'template-settings')
+        },
+
+        buildIframeUrlStyleEditor: function (url) {
+
             var moduleType = 'microweber/toolbar/editor_tools/rte_css_editor2/rte_editor_vue';
             var attrsForSettings = {};
 
@@ -16,6 +57,14 @@ export default {
 
             var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
+            return src;
+
+        },
+        showStyleEditorModal: function () {
+
+
+            var src =  this.buildIframeUrlStyleEditor();
+
 
             var dlg = mw.top().dialogIframe({
                 url: src,
@@ -28,10 +77,10 @@ export default {
             });
             var x = mw.top().app.canvas.getWindow().innerWidth - 400;
             var y = mw.top().app.canvas.getWindow().innerHeight - 400;
-            if(x < 0){
+            if (x < 0) {
                 x = 0;
             }
-            if(y < 0){
+            if (y < 0) {
                 y = 0;
             }
             dlg.position(x, y);
@@ -43,10 +92,9 @@ export default {
                 var styleEditorSettings = {
                     fieldSettings: {}
                 };
-                styleEditorSettings.fieldSettings.components = ['elementSelector','typography', 'spacing', 'background', 'border'];
+                styleEditorSettings.fieldSettings.components = ['elementSelector', 'typography', 'spacing', 'background', 'border'];
 
                 mw.top().app.dispatch('cssEditorSettings', styleEditorSettings);
-
 
 
                 var event = new CustomEvent('refreshSelectedElement')
@@ -75,8 +123,9 @@ export default {
 
                 this.cssEditorDialog.remove();
                 $('#mw_global_rte_css_editor2_editor').remove();
-                this.markAsRemoved();
+
             }
+            this.markAsRemoved();
         },
         markAsRemoved: function () {
             this.cssEditorDialog = null;
@@ -98,7 +147,7 @@ export default {
         this.emitter.on("live-edit-ui-show", show => {
             if (show == 'style-editor') {
                 if (!this.isOpened) {
-                    this.showStyleEditor();
+                //    this.showStyleEditorModal();
                     this.isOpened = true;
                 }
             } else {
@@ -113,7 +162,8 @@ export default {
         mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
             if (styleEditorInstance) {
                 // remove editor if the frame is changed
-                styleEditorInstance.removeStyleEditor();
+             //   styleEditorInstance.removeStyleEditor();
+                styleEditorInstance.isOpened = true;
             }
         });
         mw.app.canvas.on('liveEditCanvasBeforeUnload', function (frame) {
@@ -132,14 +182,16 @@ export default {
                     if (can) {
                         //check if has Id
                         var targetWindow = mw.top().app.canvas.getWindow();
-                        if(activeNode){
+                        if (activeNode) {
                             var id = activeNode.id;
                             if (!id) {
                                 targetWindow.mw.tools.generateSelectorForNode(activeNode);
                                 //  activeNode.id = id;
                             }
                             var event = new CustomEvent('refreshSelectedElement')
-                            styleEditorInstance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
+                            if(styleEditorInstance.cssEditorIframe.contentWindow) {
+                                styleEditorInstance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
+                            }
                         }
                     }
                 }
@@ -147,21 +199,23 @@ export default {
         });
 
 
-      mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
+        mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
 
 
-        mw.app.editor.on('insertLayoutRequest', function (element) {
-          // close open html editor when layout is inserted
-          styleEditorInstance.removeStyleEditor();
+            mw.app.editor.on('insertLayoutRequest', function (element) {
+                // close open html editor when layout is inserted
+             //   styleEditorInstance.removeStyleEditor();
+            });
+            mw.app.editor.on('insertModuleRequest', function (element) {
+                // close open html editor when module is inserted
+            //    styleEditorInstance.removeStyleEditor();
+            });
         });
-        mw.app.editor.on('insertModuleRequest', function (element) {
-          // close open html editor when module is inserted
-          styleEditorInstance.removeStyleEditor();
-        });
-      });
 
 
     }
 
 }
+</script>
+<script setup>
 </script>

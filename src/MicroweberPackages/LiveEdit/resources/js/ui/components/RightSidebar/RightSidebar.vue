@@ -1,54 +1,68 @@
 <template>
     <div>
 
+
+
+
         <div id="general-theme-settings" :class="[showSidebar == true ? 'active' : '']">
 
 
-            <div class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0 position-relative">
-                <span v-on:click="show('template-settings')" :class="[buttonIsActive?'live-edit-right-sidebar-active':'']" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
-                <div id="rightSidebarTabStyleEditorNav" role="tablist">
-                    <a class="mw-admin-action-links mw-adm-liveedit-tabs active me-3" data-bs-toggle="tab"
-                       data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab">
-                        Template Styles
-                    </a>
+
+            <div v-show="showElementStyleEditor">
 
 
-                    <a class="mw-admin-action-links mw-adm-liveedit-tabs" data-bs-toggle="tab"
-                       data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab">
-                        Tools
-                    </a>
-                </div>
 
-                <div v-if="showSidebar" class="mb-2">
-                    <span v-on:click="closeSidebar" class="cursor-pointer">
-                       <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg>
-
-                    </span>
-                </div>
+                <StyleEditor></StyleEditor>
             </div>
 
-            <div class="tab-content">
-                <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
-                     role="tabpanel">
-                    <div v-if="showTemplateSettings" >
 
-                    <iframe :src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
-                            frameborder="0"
-                            allowfullscreen></iframe>
+
+
+            <div v-show="showTemplateSettings">
+                <div class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0 position-relative">
+                    <span v-on:click="closeSidebar" :class="[buttonIsActive?'live-edit-right-sidebar-active':'']" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
+                    <div id="rightSidebarTabStyleEditorNav" role="tablist">
+                        <a class="mw-admin-action-links mw-adm-liveedit-tabs active me-3" data-bs-toggle="tab"
+                           data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab">
+                            Template Styles
+                        </a>
+
+                        <a class="mw-admin-action-links mw-adm-liveedit-tabs" data-bs-toggle="tab"
+                           data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab">
+                            Tools
+                        </a>
+
+
 
                     </div>
 
 
                 </div>
-                <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"
-                     role="tabpanel">
 
-                    <ToolsButtons></ToolsButtons>
+                <div class="tab-content">
+                    <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
+                         role="tabpanel">
+                        <div v-if="showTemplateSettings" >
 
+                        <iframe :src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
+                                frameborder="0"
+                                allowfullscreen></iframe>
+
+                        </div>
+
+
+                    </div>
+                    <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"
+                         role="tabpanel">
+
+                        <ToolsButtons></ToolsButtons>
+
+
+                    </div>
 
                 </div>
-
             </div>
+
         </div>
 
     </div>
@@ -69,30 +83,36 @@
 import TemplateSettings from "./TemplateSettings/TemplateSettings.vue";
 import Editor from "../Toolbar/Editor.vue";
 import ToolsButtons from  "./ToolsButtons.vue";
+import StyleEditor from "../StyleEditor/StyleEditor.vue";
 
 import  CSSGUIService from "../../../api-core/services/services/css-gui.service.js";
 
 export default {
     components: {
+
+        StyleEditor,
         Editor,
         ToolsButtons,
         TemplateSettings,
     },
     methods: {
         show: function (name) {
-            this.emitter.emit('live-edit-ui-show', name);
-
-            console.log(CSSGUIService)
-            CSSGUIService.toggle()
-            // this.emitter.emit('live-edit-ui-show', name);
+            this.showSidebar = true;
+            CSSGUIService.show();
         },
         closeSidebar() {
-
-            CSSGUIService.show()
+            // swith tab to template settings
+            this.showTemplateSettings = true;
+            this.showSidebar = false;
+            this.showElementStyleEditor = false;
+            CSSGUIService.hide();
         },
-        openSidebar() {
 
-            CSSGUIService.close()
+        openSidebar() {
+            this.showTemplateSettings = true;
+            this.showSidebar = true;
+            this.showElementStyleEditor = false;
+            CSSGUIService.show();
         },
         buildIframeUrlTemplateSettings: function (url) {
 
@@ -106,7 +126,6 @@ export default {
             attrsForSettings.iframe = true;
             attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
 
-
             var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
             return src;
@@ -114,40 +133,41 @@ export default {
         }
     },
     mounted() {
+
         const rightSidebarInstance = this;
 
-     //   rightSidebarInstance.showTemplateSettings = true;
 
         mw.app.canvas.on('liveEditCanvasLoaded', function () {
             rightSidebarInstance.showTemplateSettings = true;
-
         });
 
         mw.app.canvas.on('liveEditCanvasBeforeUnload', function () {
           rightSidebarInstance.showTemplateSettings = false;
         });
 
-
-
-
-        var firstTabEl = document.querySelector('#rightSidebarTabStyleEditorNav li:first-child a')
-        if(firstTabEl !== null){
-            var firstTab = new bootstrap.Tab(firstTabEl)
-            firstTab.show()
-            rightSidebarInstance.showTemplateSettings = true;
-            rightSidebarInstance.buttonIsActive = true;
-        }
-
         this.emitter.on("live-edit-ui-show", show => {
+
+            rightSidebarInstance.showTemplateSettings = false;
+            rightSidebarInstance.showElementStyleEditor = false;
+
             if (show == 'template-settings') {
-                if (rightSidebarInstance.buttonIsActive == false) {
-                    rightSidebarInstance.buttonIsActive = true;
-                    rightSidebarInstance.showTemplateSettings = true;
-                } else {
-                    rightSidebarInstance.buttonIsActive = false;
-                    rightSidebarInstance.showTemplateSettings = false;
-                }
+                rightSidebarInstance.buttonIsActive = true;
+                rightSidebarInstance.showTemplateSettings = true;
+                rightSidebarInstance.showElementStyleEditor = false;
+
+            } else if(show == 'style-editor') {
+
+                rightSidebarInstance.showTemplateSettings = false;
+                rightSidebarInstance.showElementStyleEditor = true;
+                rightSidebarInstance.showSidebar = true;
+                rightSidebarInstance.buttonIsActive = false;
+            } else {
+                rightSidebarInstance.showTemplateSettings = false;
+                rightSidebarInstance.showElementStyleEditor = false;
+                rightSidebarInstance.showSidebar = false;
+                rightSidebarInstance.buttonIsActive = false;
             }
+
         });
 
     },
@@ -155,8 +175,8 @@ export default {
         return {
             showSidebar: false,
             showTemplateSettings: false,
-            buttonIsActive: false
-
+            buttonIsActive: false,
+            showElementStyleEditor: false
         }
     }
 }

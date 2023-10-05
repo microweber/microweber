@@ -68,11 +68,15 @@ export const CSSParser = function(el) {
     f.position = function(){
         return css.position;
     }
+    f.textTransform  = function(){
+        return css.textTransform ;
+    }
     f.background = function(){
         return {
             image:css.backgroundImage,
             color:css.backgroundColor,
             position:css.backgroundPosition,
+            clip:css.backgroundClip,
             repeat:css.backgroundRepeat
         }
     }

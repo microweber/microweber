@@ -8,10 +8,31 @@ $randId = time() . rand(111,999);
 }"
      x-init="
       () => {
+
       if (mw.top().app && mw.top().app.fontManager) {
-            mw.top().app.fontManager.subscribe(function(fonts) {
-                availableFonts = fonts;
-                console.log(fonts);
+
+            mw.top().app.fontManager.subscribe((fonts) => {
+              availableFonts = fonts;
+
+              inputFontElement = document.getElementById('input-font-{{$randId}}');
+              inputFontElement.dispatchEvent(new Event('loaded'));
+
+                inputFontElement.addEventListener('input', function () {
+                    selectedFont = inputFontElement.value;
+                });
+
+            });
+
+            mw.top().app.fontManager.subscribeToSelectedFont((selectedFontEvent) => {
+
+                if (selectedFontEvent.applyToSelectedElement == '#{{$randId}}') {
+                    selectedFont = selectedFontEvent.fontFamily;
+                    openOptions = false;
+                    inputFontElement = document.getElementById('input-font-{{$randId}}');
+                    inputFontElement.value = selectedFont;
+                    inputFontElement.dispatchEvent(new Event('input'));
+                }
+
             });
         }
       }"
@@ -22,7 +43,7 @@ $randId = time() . rand(111,999);
             x-on:click="openOptions = !openOptions" x-html="selectedFont">
     </button>
 
-    <input type="text" id="input-font-{{$randId}}" {!! $attributes->merge([]) !!} />
+    <input type="hidden" id="input-font-{{$randId}}" {!! $attributes->merge([]) !!} />
 
     <div style="height:400px;overflow:scroll;" class="dropdown-menu form-control-live-edit-input ps-0" :class="[openOptions ? 'show':'']">
 
@@ -47,7 +68,7 @@ $randId = time() . rand(111,999);
                     });
                 }"
                 class="dropdown-item tblr-body-color">
-            Add more fonts
+            {{_e('Add more fonts')}}
         </button>
 
     </div>

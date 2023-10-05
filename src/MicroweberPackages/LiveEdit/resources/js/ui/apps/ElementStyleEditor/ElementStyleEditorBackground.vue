@@ -2,52 +2,48 @@
   <div>
     <br>
 
-    <div class="d-flex justify-content-between">
-      <div class="mr-4">Background Color</div>
-      <div>
-        <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Background Color'"
-                     @change="handleBackgroundColorChange"/>
-      </div>
-    </div>
+
+    <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Background Color'"
+                 @change="handleBackgroundColorChange"/>
 
 
-    <div class="d-flex justify-content-between">
-      <div class="mr-4">Background Image</div>
-      <div>
-        <input type="hidden" v-model="backgroundImage" placeholder="Background Image">
+    <ImagePicker label="Background Image" v-model="backgroundImage" v-bind:file="backgroundImageUrl"
+                 @change="handleBackgroundImageChange"/>
 
-        <FilePicker v-model="backgroundImage" v-bind:file=backgroundImageUrl :label="'Background Image'"
-                    @change="handleBackgroundImageChange"/>
-      </div>
-    </div>
+    <DropdownSmall v-model="backgroundSize" :options="backgroundSizeOptions" :label="'Background Size'"/>
 
 
-    <div>
-      <Dropdown v-model="backgroundSize" :options="backgroundSizeOptions" :label="'Background Size'"/>
-    </div>
+    <DropdownSmall v-model="backgroundRepeat" :options="backgroundRepeatOptions" :label="'Background Repeat'"/>
 
-    <div>
-      <Dropdown v-model="backgroundRepeat" :options="backgroundRepeatOptions" :label="'Background Repeat'"/>
-    </div>
 
-    <div>
-      <Dropdown v-model="backgroundPosition" :options="backgroundPositionOptions" :label="'Background Position'"/>
-    </div>
+    <DropdownSmall v-model="backgroundPosition" :options="backgroundPositionOptions" :label="'Background Position'"/>
+
+
+      // checked if backgroundClip == text
+        <label for="backgroundClip">Background Clip</label>
+
+      <input type="radio"  name="backgroundClip" value="text" v-model="backgroundClip">
+      <input type="radio"  name="backgroundClip" value="border-box" v-model="backgroundClip">
+      <input type="radio"  name="backgroundClip" value="content-box" v-model="backgroundClip">
+
+
 
   </div>
 </template>
 
 <script>
 import Input from '../../components/Form/Input.vue';
+import ImagePicker from './components/ImagePicker.vue';
 import Dropdown from '../../components/Form/Dropdown.vue';
-import FontPicker from "../../components/Form/FontPicker.vue";
-import ColorPicker from "../../components/Editor/Colors/ColorPicker.vue";
+import FontPicker from "./components/FontPicker.vue";
+import ColorPicker from "./components/ColorPicker.vue";
+import DropdownSmall from "./components/DropdownSmall.vue";
 import Slider from '@vueform/slider';
 import FilePicker from "../../components/Form/FilePicker.vue";
 
 export default {
 
-  components: {ColorPicker, FontPicker, Dropdown, Input, Slider, FilePicker},
+  components: {ColorPicker, FontPicker, Dropdown, Input, Slider, FilePicker, ImagePicker, DropdownSmall},
 
   data() {
     return {
@@ -87,6 +83,7 @@ export default {
       'backgroundRepeat': null,
       'backgroundSize': null,
       'backgroundImageUrl': null,
+      'backgroundClip': null,
     };
   },
 
@@ -98,6 +95,7 @@ export default {
       this.backgroundPosition = null;
       this.backgroundRepeat = null;
       this.backgroundSize = null;
+      this.backgroundClip = null;
     },
 
     populateStyleEditor: function (node) {
@@ -127,9 +125,14 @@ export default {
       this.backgroundPosition = bg.position;
       this.backgroundRepeat = bg.repeat;
       this.backgroundSize = bg.size;
+      this.backgroundClip = bg.clip;
     },
 
     handleBackgroundColorChange: function (color) {
+
+      if (typeof (color) != 'string') {
+        return;
+      }
       this.backgroundColor = color
     },
     handleBackgroundImageChange: function (url) {
@@ -143,7 +146,7 @@ export default {
       } else {
         this.backgroundImageUrl = '';
       }
-      if(urlVal == null){
+      if (urlVal == null) {
         urlVal = 'none';
       }
       this.backgroundImage = urlVal;
@@ -178,6 +181,18 @@ export default {
     // Background-related property watchers
     backgroundImage: function (newValue, oldValue) {
       this.applyPropertyToActiveNode('backgroundImage', newValue);
+    },
+      backgroundClip: function (newValue, oldValue) {
+        if(newValue == 'text'){
+            this.applyPropertyToActiveNode('backgroundClip', 'text');
+            this.applyPropertyToActiveNode('webkitBackgroundClip', 'text');
+            this.applyPropertyToActiveNode('color', 'rgba(0,0,0,0)');
+        } else {
+            this.applyPropertyToActiveNode('backgroundClip', newValue);
+            this.applyPropertyToActiveNode('webkitBackgroundClip', newValue);
+            this.applyPropertyToActiveNode('color', '');
+
+        }
     },
     backgroundColor: function (newValue, oldValue) {
       this.applyPropertyToActiveNode('backgroundColor', newValue);

@@ -41,13 +41,13 @@ export const Handle = function (options) {
     };
     this.hide = function () {
         _visible = false;
-       
-   
+
+
         this.wrapper.addClass('mw-handle-item-hidden');
         this.wrapper.removeClass('mw-handle-active');
     };
 
-    
+
     let _content = null;
     this.setContent = function (content) {
         if(_content){
@@ -63,7 +63,7 @@ export const Handle = function (options) {
 
 
     this.initDraggable = function () {
- 
+
 
       this.draggable = new Draggable({
           handle: this.settings.handle,
@@ -77,9 +77,9 @@ export const Handle = function (options) {
 
       }, options);
 
-      
+
         this.draggable.on('dragStart', function () {
-          
+
             scope.wrapper
             .addClass('mw-handle-item-dragging')
             .get(0)
@@ -88,7 +88,7 @@ export const Handle = function (options) {
 
         })
         this.draggable.on('dragEnd', function () {
-             
+
             scope.wrapper.removeClass('mw-handle-item-dragging');
             scope.position(scope.getTarget())
         });
@@ -111,7 +111,7 @@ export const Handle = function (options) {
     this.reposition = function(target) {
         this.set(this.getTarget())
     }
-    
+
     this.position = function(target) {
         if(!target){
             return
@@ -121,12 +121,12 @@ export const Handle = function (options) {
         const menu = this.wrapper.get(0).querySelector('.mw-handle-item-menus-holder');
 
 
- 
- 
 
 
 
- 
+
+
+
 
         if(menu) {
 
@@ -136,9 +136,9 @@ export const Handle = function (options) {
                 transform = this.settings.offsetMenuTransform(scroll, off, menu);
             }
 
-            
 
-            
+
+
 
             menu.style.transition = `none`;
             menu.style.transform = transform ? `translateY(${transform}px)` : '';
@@ -146,11 +146,11 @@ export const Handle = function (options) {
             if(typeof this.settings.onPosition === 'function') {
                 this.settings.onPosition(menu, transform, off)
             }
-            
-    
-            
-    
-            setTimeout(() => menu.style.transition = ``, 10)
+
+
+
+
+            setTimeout(() => menu.style.transition = ``, 100)
         }
 
 
@@ -160,12 +160,12 @@ export const Handle = function (options) {
         }
 
          this.wrapper.css({
-            top:  off.top, 
+            top:  off.top,
             left:  off.left,
-            width: off.width,   
+            width: off.width,
             height
         });
-        
+
     }
 
 
@@ -187,9 +187,9 @@ export const Handle = function (options) {
     }
 
     this.set = function (target, forced) {
- 
 
-        
+
+
         if (!target) {
             _currentTarget = null;
             this.setDraggable(false)
@@ -226,7 +226,7 @@ export const Handle = function (options) {
                 tag: 'div',
                 props: {
                     className: 'mw-handle-item-draggable-self',
- 
+
                 }
             });
 
@@ -270,7 +270,7 @@ export const Handle = function (options) {
             });
             this.wrapper.append(this.handle);
         }
-        
+
     }
 
     var _resizableMaxWidth = this.settings.document.defaultView.innerWidth;
@@ -294,31 +294,31 @@ export const Handle = function (options) {
         let closestElements = [];
         let currentElement = element;
         let distance = 0;
-   
-      
+
+
         while (currentElement !== document) {
           const elements = currentElement.parentNode.querySelectorAll('.element,.module');
-          
+
           if (elements.length > 0) {
             closestElements = [...elements].filter(el => {
               const elDistance = Math.abs(element.getBoundingClientRect().top - el.getBoundingClientRect().top);
               return elDistance <= maxDistance;
             });
-            
+
             if (closestElements.length > 0) {
               break;
             }
           }
-      
+
           currentElement = currentElement.parentNode;
           distance++;
-      
+
           if (distance > maxDistance / 10) {
             // Break out of the loop if we've exceeded the maximum distance threshold
             break;
           }
         }
-      
+
         return closestElements;
       }
 
@@ -326,7 +326,7 @@ export const Handle = function (options) {
       function calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
 
         var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
-    
+
         return { width: srcWidth*ratio, height: srcHeight*ratio };
      }
 
@@ -334,7 +334,7 @@ export const Handle = function (options) {
 
 
      var _resizerEnabled = this.settings.resizable === true;
-      
+
 
      this.resizerEnabled = function(state) {
         if (!this.settings.resizable) {
@@ -344,21 +344,21 @@ export const Handle = function (options) {
         if(typeof state === 'boolean') {
             _resizerEnabled = state;
         }
- 
+
         this.resizer.element.classList[_resizerEnabled ? 'remove' : 'add']('mw-le-resizable-disabled');
-         
+
         return _resizerEnabled
 
      }
 
- 
+
 
     this.resizable = function() {
         if(!this.settings.resizable) {
             return;
         }
 
-        
+
 
        this.resizer = new Resizable({
             element: this.wrapper.get(0),
@@ -375,10 +375,10 @@ export const Handle = function (options) {
              if(isCol) {
                 const row = DomService.firstParentOrCurrentWithClass(target, 'mw-row');
                 if(row) {
-                    Array.from(row.children).forEach(col => col.style.width = ((100/row.offsetWidth) * col.offsetWidth) + '%'); 
+                    Array.from(row.children).forEach(col => col.style.width = ((100/row.offsetWidth) * col.offsetWidth) + '%');
                 }
              }
-          
+
             mw.app.registerChange(target);
         });
 
@@ -393,12 +393,12 @@ export const Handle = function (options) {
                 data = calculateAspectRatioFit(target.offsetWidth, target.offsetHeight, data.width, data.height)
                 target.style.height = data.height + 'px';
                 target.style.width = data.width + 'px';
-                
+
             } else {
                 target.style.minHeight = data.height + 'px';
                 target.style.width = data.width + 'px';
             }
-             
+
             var isCol = target.classList.contains('mw-col');
             if(isCol) {
                 const next = target.nextElementSibling;
@@ -435,7 +435,7 @@ export const Handle = function (options) {
                 contentEditable: false
             }
         });
- 
+
 
         this.wrapper.on('mousedown', function () {
             this.classList.remove('mw-handle-item-mouse-down')
@@ -447,7 +447,7 @@ export const Handle = function (options) {
 
         this.settings.document.body.appendChild(this.wrapper.get(0));
 
- 
+
     };
 
     this.createWrapper();

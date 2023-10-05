@@ -1,36 +1,29 @@
 {
-  "_@core-6735b5fe.js": {
-    "file": "assets/@core-6735b5fe.js"
+  "_@core-cab3b474.js": {
+    "file": "assets/@core-cab3b474.js"
   },
-  "_mitt-87aefc4c.js": {
-    "css": [
-      "assets/mitt-ad32c48a.css"
-    ],
-    "file": "assets/mitt-87aefc4c.js"
-  },
-  "mitt.css": {
-    "file": "assets/mitt-ad32c48a.css",
-    "src": "mitt.css"
+  "_mitt-9658640b.js": {
+    "file": "assets/mitt-9658640b.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js": {
-    "file": "assets/admin-app-109db900.js",
+    "file": "assets/admin-app-dd01ab86.js",
     "imports": [
-      "_@core-6735b5fe.js"
+      "_@core-cab3b474.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.css": {
-    "file": "assets/element-style-editor-app-20b4eac2.css",
+    "file": "assets/element-style-editor-app-3c747ee4.css",
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.js": {
     "css": [
-      "assets/element-style-editor-app-20b4eac2.css"
+      "assets/element-style-editor-app-3c747ee4.css"
     ],
-    "file": "assets/element-style-editor-app-cc76db60.js",
+    "file": "assets/element-style-editor-app-d4658e8b.js",
     "imports": [
-      "_mitt-87aefc4c.js"
+      "_mitt-9658640b.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.js"
@@ -43,10 +36,10 @@
     "css": [
       "assets/live-edit-app-d7db43f2.css"
     ],
-    "file": "assets/live-edit-app-e4290504.js",
+    "file": "assets/live-edit-app-65bda74d.js",
     "imports": [
-      "_@core-6735b5fe.js",
-      "_mitt-87aefc4c.js"
+      "_@core-cab3b474.js",
+      "_mitt-9658640b.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js"

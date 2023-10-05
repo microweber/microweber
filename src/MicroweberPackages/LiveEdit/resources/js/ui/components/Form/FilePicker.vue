@@ -1,6 +1,10 @@
 <template>
 
 
+
+
+
+
 <div class="d-inline-flex">
 
   <input type="hidden" ref="filepickerinput" v-model="selectedFile" @input="triggerChangeSelectedFile"/>
@@ -125,10 +129,10 @@ export default {
         this.$emit('change', this.$props.file);
       });
 
-       
 
 
- 
+
+
 
       this.showPicker = !this.showPicker;
     }

@@ -1,5 +1,8 @@
 <template>
 
+
+
+
     <div>
         <div v-show="showElementSelector">
             <ElementStyleEditorElementSelector></ElementStyleEditorElementSelector>
@@ -20,7 +23,7 @@
     </div>
 
 </template>
-<style src="@vueform/slider/themes/default.css"></style>
+<style src="./ElementStyleEditor.css"></style>
 
 <script>
 import ElementStyleEditorTypography from './ElementStyleEditorTypography.vue';
