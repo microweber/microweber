@@ -1,25 +1,26 @@
 <template>
     <div>
 
+
+
+
         <div id="general-theme-settings" :class="[showSidebar == true ? 'active' : '']">
 
-            <div v-show="showElementStyleEditor" class="px-3 pt-4 pb-0">
-                <div v-if="showElementStyleEditor" class="mb-2">
-                        <span v-on:click="closeSidebar" class="cursor-pointer">
-                           <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg>
 
-                        </span>
-                </div>
 
+            <div v-show="showElementStyleEditor">
 
 
 
                 <StyleEditor></StyleEditor>
             </div>
 
+
+
+
             <div v-show="showTemplateSettings">
                 <div class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0 position-relative">
-                    <span v-on:click="show('template-settings')" :class="[buttonIsActive?'live-edit-right-sidebar-active':'']" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
+                    <span v-on:click="closeSidebar" :class="[buttonIsActive?'live-edit-right-sidebar-active':'']" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
                     <div id="rightSidebarTabStyleEditorNav" role="tablist">
                         <a class="mw-admin-action-links mw-adm-liveedit-tabs active me-3" data-bs-toggle="tab"
                            data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab">
@@ -30,14 +31,12 @@
                            data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab">
                             Tools
                         </a>
+
+
+
                     </div>
 
-                    <div v-if="showSidebar" class="mb-2">
-                        <span v-on:click="closeSidebar" class="cursor-pointer">
-                           <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg>
 
-                        </span>
-                    </div>
                 </div>
 
                 <div class="tab-content">
@@ -102,11 +101,17 @@ export default {
             CSSGUIService.show();
         },
         closeSidebar() {
+            // swith tab to template settings
+            this.showTemplateSettings = true;
             this.showSidebar = false;
+            this.showElementStyleEditor = false;
             CSSGUIService.hide();
         },
+
         openSidebar() {
+            this.showTemplateSettings = true;
             this.showSidebar = true;
+            this.showElementStyleEditor = false;
             CSSGUIService.show();
         },
         buildIframeUrlTemplateSettings: function (url) {
@@ -131,9 +136,6 @@ export default {
 
         const rightSidebarInstance = this;
 
-        // mw.top().app.on('cssEditorSettings', (settings) => {
-        //     this.emitter.emit('live-edit-ui-show', 'element-style-editor');
-        // });
 
         mw.app.canvas.on('liveEditCanvasLoaded', function () {
             rightSidebarInstance.showTemplateSettings = true;
@@ -152,6 +154,8 @@ export default {
                 if (rightSidebarInstance.buttonIsActive == false) {
                     rightSidebarInstance.buttonIsActive = true;
                     rightSidebarInstance.showTemplateSettings = true;
+                    rightSidebarInstance.showElementStyleEditor = false;
+
                 } else {
                     rightSidebarInstance.buttonIsActive = false;
                     rightSidebarInstance.showTemplateSettings = false;
@@ -163,6 +167,7 @@ export default {
                 rightSidebarInstance.showTemplateSettings = false;
                 rightSidebarInstance.showElementStyleEditor = true;
                 rightSidebarInstance.showSidebar = true;
+                rightSidebarInstance.buttonIsActive = false;
             }
 
         });
