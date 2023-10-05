@@ -106,7 +106,11 @@ export default {
         this.activeNode = node;
 
         this.populateCssBackground(css);
-        this.isReady = true;
+
+
+          setTimeout(() => {
+              this.isReady = true;
+          }, 100);
       }
     },
     populateCssBackground: function (css) {

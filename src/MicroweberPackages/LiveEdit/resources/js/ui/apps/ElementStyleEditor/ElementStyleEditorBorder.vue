@@ -189,7 +189,11 @@ export default {
 
         this.populateCssBorder(css);
         this.populateCssBorderRadius(css);
-        this.isReady = true;
+
+
+          setTimeout(() => {
+              this.isReady = true;
+          }, 100);
       }
     },
     populateCssBorder: function (css) {

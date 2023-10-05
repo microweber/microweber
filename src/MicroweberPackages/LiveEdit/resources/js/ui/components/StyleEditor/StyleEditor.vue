@@ -170,7 +170,7 @@ export default {
             if (styleEditorInstance) {
                 // remove editor if the frame is changed
              //   styleEditorInstance.removeStyleEditor();
-                styleEditorInstance.isOpened = true;
+               // styleEditorInstance.isOpened = true;
             }
         });
         mw.app.canvas.on('liveEditCanvasBeforeUnload', function (frame) {

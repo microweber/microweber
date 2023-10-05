@@ -18,11 +18,20 @@ export default {
   },
   watch: {
     modelValue(newValue) {
-      this.selectedOption = newValue;
+        if (this.selectedOption !== newValue) {
+            this.selectedOption = newValue;
+        }
     },
   },
 
-  methods: {},
+  methods: {
+      handleInput() {
+          // Emit the event only if selectedOption is different from modelValue
+          if (this.selectedOption !== this.modelValue) {
+              this.$emit('update:modelValue', this.selectedOption);
+          }
+      },
+  },
 };
 </script>
 

@@ -6,25 +6,23 @@
         </div>
 
 
-        <Align :textAlign="textAlign" @update:textAlign="setTextAlignment" />
+        <Align :textAlign="textAlign" @update:textAlign="setTextAlignment"/>
 
 
-      <ColorPicker v-model="color" v-bind:color=color :label="'Font Color'" @change="handleFontColorChange"/>
+        <ColorPicker v-model="color" v-bind:color=color :label="'Font Color'" @change="handleFontColorChange"/>
 
-      <SliderSmall
-          label="Font Size"
-          v-model="fontSize"
-          :min="0"
-          :max="100"
-          :step="5"
-      ></SliderSmall>
+        <SliderSmall
+            label="Font Size"
+            v-model="fontSize"
+            :min="0"
+            :max="100"
+            :step="5"
+        ></SliderSmall>
 
 
-
-       <DropdownSmall v-model="fontWeight" :options="fontWeightOptions" :label="'Font Weight'"/>
-       <DropdownSmall v-model="textTransform" :options="textTransformOptions" :label="'Text Transform'"/>
-       <DropdownSmall v-model="fontStyle" :options="fontStylesOptions" :label="'Font Style'"/>
-
+        <DropdownSmall v-model="fontWeight" :options="fontWeightOptions" :label="'Font Weight'"/>
+        <DropdownSmall v-model="textTransform" :options="textTransformOptions" :label="'Text Transform'"/>
+        <DropdownSmall v-model="fontStyle" :options="fontStylesOptions" :label="'Font Style'"/>
 
 
         <SliderSmall
@@ -34,8 +32,6 @@
             :max="100"
             :step="5"
         ></SliderSmall>
-
-
 
 
     </div>
@@ -53,7 +49,7 @@ import SliderSmall from "./components/SliderSmall.vue";
 import Slider from '@vueform/slider';
 
 export default {
-    components: {ColorPicker, FontPicker, Dropdown, Input, Slider,Align,DropdownSmall,SliderSmall},
+    components: {ColorPicker, FontPicker, Dropdown, Input, Slider, Align, DropdownSmall, SliderSmall},
     data() {
         return {
             'activeNode': null,
@@ -129,7 +125,11 @@ export default {
                 this.populateCssFont(css);
                 this.populateCssTextTransform(css);
 
-                this.isReady = true;
+
+
+                setTimeout(() => {
+                    this.isReady = true;
+                }, 100);
             }
         },
 
@@ -159,11 +159,11 @@ export default {
         },
 
         handleFontColorChange: function (color) {
-          if(typeof(color) != 'string'){
-            return;
-          }
+            if (typeof (color) != 'string') {
+                return;
+            }
 
-          this.color = color;
+            this.color = color;
         },
 
         populateCssFont: function (css) {
@@ -185,17 +185,18 @@ export default {
             this.lineHeight = font.lineHeight;
             this.fontFamily = font.family;
             this.color = font.color;
-         },
-      populateCssTextTransform: function (css) {
-        if (!css || !css.get) return;
-        var textTransform = css.get.textTransform();
-        this.textTransform = textTransform;
-      },
+        },
+        populateCssTextTransform: function (css) {
+            if (!css || !css.get) return;
+            var textTransform = css.get.textTransform();
+            this.textTransform = textTransform;
+        },
 
         applyPropertyToActiveNode: function (prop, val) {
             if (!this.isReady) {
                 return;
             }
+
             if (this.activeNode) {
                 mw.top().app.dispatch('mw.elementStyleEditor.applyCssPropertyToNode', {
                     node: this.activeNode,
