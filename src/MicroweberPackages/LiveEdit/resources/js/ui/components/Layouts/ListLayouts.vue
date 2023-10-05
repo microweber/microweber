@@ -117,7 +117,7 @@
 
                     <div v-if="layoutsListLoaded && (layoutsListTypePreview == 'list')">
                         <div>
-                            <iframe style="width:100%;height:100vh;" :src="[siteUrl + 'preview-layout?&no_editmode=y&category=' + filterCategory]"></iframe>
+                            <iframe style="width:100%;height:100vh;" :src="[siteUrl + 'preview-layouts?&no_editmode=y&category=' + filterCategory]"></iframe>
                         </div>
                     </div>
 
