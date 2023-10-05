@@ -115,9 +115,14 @@
                         </MasonryWall>
                     </div>
 
+                    <div v-if="layoutsListLoaded && (layoutsListTypePreview == 'list')">
+                        <div>
+                            <iframe style="width:100%;height:100vh" :src="['/preview-layout?category=' + filterCategory]"></iframe>
+                        </div>
+                    </div>
 
                     <LazyList
-                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'list' || layoutsListTypePreview == 'full') && layoutsListFiltered.length > 0"
+                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'list2' || layoutsListTypePreview == 'full2') && layoutsListFiltered.length > 0"
                         :data="layoutsListFiltered"
                         :itemsPerRender="18"
                         :containerClasses="'modules-list-block modules-list-block-' + layoutsListTypePreview"
@@ -131,7 +136,6 @@
 
                                 <div class="modules-list-block-item-picture"
                                      :style="'background-image: url('+item.screenshot+');background-size: cover;background-position: center center;'">
-
                                 </div>
 
                                 <div class="modules-list-block-item-title">{{item.title}}</div>
@@ -171,6 +175,27 @@
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-dialog-close active"></div>
 
 </template>
+
+<style>
+.wrap-iframe
+{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+    background: red;
+}
+
+.iframe-inside
+{
+    width: 1200px;
+    height: 900px;
+    border: 0;
+    transform: scale(.37);
+    transform-origin: 0 0;
+}
+
+</style>
 
 <script>
 import GridIcon from "../Icons/GridIcon.vue";
