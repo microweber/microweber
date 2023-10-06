@@ -9,6 +9,7 @@ export class TemplateSettings extends MicroweberBaseClass {
 
 
     }
+
     helperClasses = {
         external_grids_col_classes: [
             'col-1',
@@ -73,6 +74,9 @@ export class TemplateSettings extends MicroweberBaseClass {
             'col-xs-12',
             'row'
         ],
+        mw_grids_col_classes: [
+            'mw-ui-col',
+        ],
         external_css_no_element_classes: [
             'container',
             'navbar',
@@ -110,21 +114,22 @@ export class TemplateSettings extends MicroweberBaseClass {
             'mw-layout-container',
         ]
     }
+
     reloadStylesheet(source_file, option_group) {
 
-        axios.get(mw.settings.api_url + "template/delete_compiled_css?path="+source_file+"&option_group=" + option_group)
-            .then(function (response){
+        axios.get(mw.settings.api_url + "template/delete_compiled_css?path=" + source_file + "&option_group=" + option_group)
+            .then(function (response) {
 
-            mw.top().notification.success("Reloading styles", 7000);
+                mw.top().notification.success("Reloading styles", 7000);
 
-            var canvasWindow = mw.app.canvas.getWindow();
-            var stylesheet = canvasWindow.document.getElementById('theme-style');
+                var canvasWindow = mw.app.canvas.getWindow();
+                var stylesheet = canvasWindow.document.getElementById('theme-style');
 
-            if (stylesheet) {
-                stylesheet.setAttribute('href', response.data.new_file + '&t=' + mw.random());
-            }
+                if (stylesheet) {
+                    stylesheet.setAttribute('href', response.data.new_file + '&t=' + mw.random());
+                }
 
-        });
+            });
     }
 
 };

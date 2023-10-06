@@ -1,12 +1,11 @@
-@props(['selectedRange'=>null, 'label'=> 'Range', 'labelUnit'=>'', 'min'=>0, 'max'=>100])
+@props(['selectedRange'=>null, 'label'=> 'Range', 'labelUnit'=>'', 'step'=>1, 'min'=>0, 'max'=>100])
 
 <div wire:ignore>
     @php
     $rand = md5(time().rand(111111111,99999999));
     $min = $min ?? 0;
-    $min = intval($min);
     $max = $max ?? 100;
-    $max = intval($max);
+    $step = $step ?? 1;
     @endphp
     <div class="form-control-live-edit-label-wrapper">
 
@@ -40,31 +39,33 @@
 
             customRangeValueField{{$rand}}.dispatchEvent(new Event('loaded'));
 
-            noUiSlider.create(slider{{$rand}}, {
-                start: customRangeValueField{{$rand}}.value,
-                step:1,
-                connect: [true, false],
-                range: {
-                    'min': {{$min}},
-                    'max': {{$max}}
-                }
-            });
+            setTimeout(() => {
+                noUiSlider.create(slider{{$rand}}, {
+                    start: customRangeValueField{{$rand}}.value,
+                    step: {{$step}},
+                    connect: [true, false],
+                    range: {
+                        'min': {{$min}},
+                        'max': {{$max}}
+                    }
+                });
 
-            slider{{$rand}}.noUiSlider.on('change', function(values, handle) {
-                let customRangeValueField = document.getElementById('js-custom-range-value-{{$rand}}');
-                customRangeValueField.value = parseFloat(values[handle]).toFixed();
-                customRangeValueField.dispatchEvent(new Event('input'));
-            });
+                slider{{$rand}}.noUiSlider.on('change', function(values, handle) {
+                    let customRangeValueField = document.getElementById('js-custom-range-value-{{$rand}}');
+                    customRangeValueField.value = parseFloat(values[handle]).toString();
+                    customRangeValueField.dispatchEvent(new Event('input'));
+                });
 
-            slider{{$rand}}.noUiSlider.on('slide', function(values, handle) {
-                let customRangeValueField = document.getElementById('js-custom-range-value-{{$rand}}');
-                customRangeValueField.value = parseFloat(values[handle]).toFixed();
-                customRangeValueField.dispatchEvent(new Event('slide'));
-            });
+                slider{{$rand}}.noUiSlider.on('slide', function(values, handle) {
+                    let customRangeValueField = document.getElementById('js-custom-range-value-{{$rand}}');
+                    customRangeValueField.value = parseFloat(values[handle]).toString();
+                    customRangeValueField.dispatchEvent(new Event('slide'));
+                });
 
-            customRangeValueField{{$rand}}.addEventListener('change', function() {
-                slider{{$rand}}.noUiSlider.set(parseFloat(this.value).toFixed());
-            });
+                customRangeValueField{{$rand}}.addEventListener('change', function() {
+                    slider{{$rand}}.noUiSlider.set(parseFloat(this.value).toString());
+                });
+            }, 100);
         }
     </script>
     </div>

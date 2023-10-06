@@ -72,7 +72,7 @@
            <h1 class="mb-3">Choose a template to start with</h1>
            <h5 class="lh-1_4">Each of our premium templates contains 450+ layouts in 20 different categories. <br> By buying a premium template you are saving time and money to create any type of website.</h5>
        </div>
-        <div class="row justify-content-center py-3">
+        <div class="d-flex justify-content-center py-3">
             <span class="btn btn-sm btn-primary rounded-0 js-btn-all js-btn-filter"  onclick="showTemplatesFilter('all')">ALL</span>
             <span class="btn btn-sm btn-outlineprimary rounded-0 js-btn-free js-btn-filter" onclick="showTemplatesFilter('free')">FREE</span>
             <span class="btn btn-sm btn-outlineprimary rounded-0 js-btn-paid js-btn-filter" onclick="showTemplatesFilter('paid')">PREMIUM</span>

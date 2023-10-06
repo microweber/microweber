@@ -1,4 +1,4 @@
- 
+
 
 <div>
 
@@ -13,20 +13,20 @@
     <div class="bg-tab">
 
         <div id="bg--image-picker">
-            
-        </div>
-        
 
- 
+        </div>
+
+
+
 
 
     </div>
     <div class="bg-tab">
-        
+
     <div id="bg--video-picker">
-            
+
             </div>
- 
+
     </div>
     <div class="bg-tab">
         <div id="color-picker" class="card card-body"></div>
@@ -48,8 +48,17 @@
     <script>
 
 
-  
-        
+
+        $(document).ready(function () {
+            mw.top().app.on('onModuleReloaded', function (moduleId) {
+                handleReady();
+            });
+
+        });
+
+
+
+
         const getTargets = () => {
             const target = mw.top().app.liveEdit.handles.get('layout').getTarget();
             let bg, bgOverlay, bgNode;
@@ -58,7 +67,7 @@
 
                 bg = target.querySelector('.mw-layout-background-block');
                 if (bg) {
-    
+
                     bgNode = bg.querySelector('.mw-layout-background-node')
                     bgOverlay = bg.querySelector('.mw-layout-background-overlay')
                 }
@@ -71,12 +80,12 @@
                 }
             }
                 return {bg, bgOverlay, bgNode, target}
-            
+
         }
 
 
 
-       
+
 
         let picker, videoPicker;
         const handleReady = () => {
@@ -104,7 +113,7 @@
                     mw.top().app.layoutBackground.setBackgroundImage(bgNode, picker.file);
                 })
 
-            
+
 
                 videoPicker.on('change', () => {
                     const {bg, bgOverlay, bgNode, target} = getTargets();
@@ -113,34 +122,34 @@
                 })
             }
 
-            
+
         }
 
 
         const handleLayoutTargetChange = function() {
             handleReady();
-            
+
         }
 
 
         mw.top().app.liveEdit.handles.get('layout').on('targetChange', handleLayoutTargetChange);
 
-       
+
 
         addEventListener('load', () => {
-            
+
 
             handleReady();
- 
-             
+
+
             mw.top().$(mw.top().dialog.get(this.frameElement)).on('Remove', function() {
                 mw.top().app.liveEdit.handles.get('layout').off('targetChange', handleLayoutTargetChange);
-                 
+
             })
-            
+
         })
 
-    
+
         document.addEventListener("DOMContentLoaded", function () {
             let {bg, bgOverlay, bgNode, target} = getTargets();
             mw.tabs({
@@ -194,7 +203,7 @@
             }
 
 
- 
+
 
             document.querySelector('#overlay-color-picker-remove-color').addEventListener('click', function () {
                 let {bg, bgOverlay, bgNode, target} = getTargets();
@@ -207,7 +216,7 @@
 
 
         function showHideRemoveBackgroundsButtons(){
- 
+
             let {bg, bgOverlay, bgNode, target} = getTargets();
 
             var hasBgColor = mw.top().app.layoutBackground.getBackgroundColor(bgOverlay)

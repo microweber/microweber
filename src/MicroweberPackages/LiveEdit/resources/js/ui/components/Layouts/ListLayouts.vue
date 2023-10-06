@@ -115,14 +115,14 @@
                         </MasonryWall>
                     </div>
 
-                    <div v-if="layoutsListLoaded && (layoutsListTypePreview == 'list')">
+<!--                    <div v-if="layoutsListLoaded && (layoutsListTypePreview == 'list')">
                         <div>
                             <iframe style="width:100%;height:100vh;" :src="[siteUrl + 'preview-layouts?&no_editmode=y&category=' + filterCategory]"></iframe>
                         </div>
-                    </div>
+                    </div>-->
 
                     <LazyList
-                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'list2' || layoutsListTypePreview == 'full2') && layoutsListFiltered.length > 0"
+                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'list' || layoutsListTypePreview == 'full') && layoutsListFiltered.length > 0"
                         :data="layoutsListFiltered"
                         :itemsPerRender="18"
                         :containerClasses="'modules-list-block modules-list-block-' + layoutsListTypePreview"

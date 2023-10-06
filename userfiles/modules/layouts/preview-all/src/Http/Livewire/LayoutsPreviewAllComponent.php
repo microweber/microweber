@@ -9,7 +9,11 @@ class LayoutsPreviewAllComponent extends ModuleSettingsComponent
 {
     use WithPagination;
 
-    public $layoutCategory = 'Gallery';
+    public $listeners = [
+      'layoutsPreviewAllFilter'=>'$refresh'
+    ];
+
+    public $layoutCategory = 'Animated Backgrounds';
     public $filteredLayouts = [];
 
     public function renderLayouts()

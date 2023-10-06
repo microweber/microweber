@@ -3,6 +3,13 @@
 
     <DropdownSmall v-model="selectedAnimation" :options="animations" :label="'Animation'"/>
 
+    <div v-if="selectedAnimation">
+      <DropdownSmall v-model="selectedAnimationWhenAppear" :options="animationsAppear" :label="'When'"/>
+
+      <SliderSmall v-model="selectedAnimationSpeed" :label="'Speed'" :min="0.1" :max="5" :step="0.1" :unit="'s'"/>
+
+
+    </div>
 
   </div>
 </template>
@@ -10,16 +17,27 @@
 <script>
 
 import DropdownSmall from "./components/DropdownSmall.vue";
+import SliderSmall from "./components/SliderSmall.vue";
+import ElementStyleAnimationsApplier from "./ElementStyleAnimationsApplier";
 
 export default {
-  components: {DropdownSmall},
+  components: {DropdownSmall, SliderSmall},
 
   data() {
     return {
       'activeNode': null,
       'isReady': false,
       'selectedAnimation': false,
+      'selectedAnimationSpeed': false,
+      'selectedAnimationWhenAppear': false,
       'supportsAnimations': false,
+
+      'animationsAppear': [
+        {"key": "none", "value": "None"},
+        {"key": "onAppear", "value": "When element appears on screen"},
+        {"key": "onHover", "value": "When mouse is over"},
+        {"key": "onClick", "value": "When element is clicked"},
+      ],
 
       'animations': [
         {"key": "none", "value": "None"},
@@ -83,10 +101,48 @@ export default {
   methods: {
     resetAllProperties: function () {
       this.selectedAnimation = null;
+      this.selectedAnimationSpeed = 1;
+      this.selectedAnimationWhenAppear = null;
     },
 
     populateActiveAnimation: function (node) {
+      var animationData = ElementStyleAnimationsApplier.getAnimation(node);
+      if (!animationData) {
+        this.resetAllProperties();
+        return;
+      }
 
+      if (animationData.animation) {
+        this.selectedAnimation = animationData.animation;
+      } else {
+        this.selectedAnimation = null;
+      }
+      if (animationData.speed) {
+        this.selectedAnimationSpeed = animationData.speed;
+      } else {
+        this.selectedAnimationSpeed = null;
+      }
+      if (animationData.when) {
+        this.selectedAnimationWhenAppear = animationData.when;
+      } else {
+        this.selectedAnimationWhenAppear = null;
+      }
+    },
+    setAnimation: function () {
+      if (this.activeNode) {
+
+        var speed = this.selectedAnimationSpeed ? this.selectedAnimationSpeed : 1;
+        var when = this.selectedAnimationWhenAppear ? this.selectedAnimationWhenAppear : 'onAppear';
+        var animation = {
+          animation: this.selectedAnimation,
+          speed: speed,
+          when: when,
+        }
+
+        mw.log(animation)
+        ElementStyleAnimationsApplier.setAnimation(this.activeNode, animation);
+
+      }
     },
 
     populateStyleEditor: function (node) {
@@ -95,6 +151,7 @@ export default {
 
         this.resetAllProperties();
         this.activeNode = node;
+        this.supportsAnimations = ElementStyleAnimationsApplier.supportsAnimations(node);
         this.populateActiveAnimation(node);
 
         setTimeout(() => {
@@ -113,6 +170,29 @@ export default {
       this.populateStyleEditor(element)
     });
   },
+
+
+  watch: {
+    selectedAnimation: function (val) {
+      if (!this.isReady) {
+        return;
+      }
+      this.setAnimation()
+    },
+
+    selectedAnimationSpeed: function (val) {
+      if (!this.isReady) {
+        return;
+      }
+      this.setAnimation()
+    },
+    selectedAnimationWhenAppear: function (val) {
+      if (!this.isReady) {
+        return;
+      }
+      this.setAnimation()
+    }
+  }
 
 
 }
