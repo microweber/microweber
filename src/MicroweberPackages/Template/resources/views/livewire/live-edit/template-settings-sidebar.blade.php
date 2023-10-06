@@ -154,7 +154,7 @@
                     @endif
 
 
-                    class="mt-2">
+                    class="my-3">
 
                     <div
                         x-show="showStyleSettings == '/'"
@@ -226,7 +226,7 @@
                 <b x-show="styleEditorData.title" x-html="styleEditorData.title"></b>
                 <p x-show="styleEditorData.description" x-html="styleEditorData.description"></p>
 
-                <div class="mt-2">
+                <div class="my-3">
                     <div id="iframe-holder"></div>
                 </div>
             </div>
@@ -254,7 +254,7 @@
                                         </button>
                                     </div>
 
-                                    <div x-show="showStyleSettings == '/'" class="mt-2">
+                                    <div x-show="showStyleSettings == '/'" class="my-3">
                                         <a x-on:click="showStyleSettings = 'setting-values-key-{{md5($settingName)}}'" class="mw-admin-action-links">
                                             <b>{{$settingName}}</b>
                                         </a>
