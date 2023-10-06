@@ -59,14 +59,14 @@ export default {
 
   data() {
     return {
-      showElementSelector: false,
-      showTypography: false,
-      showSpacing: false,
-      showBackground: false,
-      showBorder: false,
-      showContainer: false,
-      showGrid: false,
-      showAnimations: false,
+      showElementSelector: true,
+      showTypography: true,
+      showSpacing: true,
+      showBackground: true,
+      showBorder: true,
+      showContainer: true,
+      showGrid: true,
+      showAnimations: true,
     }
   },
 
