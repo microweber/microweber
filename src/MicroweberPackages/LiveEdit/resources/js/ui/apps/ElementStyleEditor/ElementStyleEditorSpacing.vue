@@ -85,7 +85,16 @@
 
 <template>
 
-<div class="mw-element-spacing-editor">
+    <div>
+        <b v-on:click="toggleSpacing">
+            Spacing
+        </b>
+    </div>
+
+    <div v-if="showSpacing">
+
+
+    <div class="mw-element-spacing-editor">
     <span class="mw-ese-label">Margin</span>
     <div class="mw-ese-holder mw-ese-margin">
         <span class="input mw-ese-top"><input type="text" v-model="marginTop"></span>
@@ -101,6 +110,7 @@
         </div>
     </div>
 </div>
+</div>
 
 </template>
 
@@ -111,6 +121,7 @@ export default {
 
   data() {
     return {
+        'showSpacing': false,
       'activeNode': null,
       'isReady': false,
 
@@ -128,6 +139,9 @@ export default {
   },
 
   methods: {
+      toggleSpacing: function () {
+        this.showSpacing = !this.showSpacing;
+    },
     resetAllProperties: function () {
       this.marginTop = null;
       this.marginRight = null;

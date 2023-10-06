@@ -1,5 +1,12 @@
 <template>
-    <div class="d-flex flex-column gap-3">
+
+    <div>
+        <b v-on:click="toggleTypography">
+            Typography
+        </b>
+    </div>
+    <div v-if="showTypography">
+     <div class="d-flex flex-column gap-3">
 
         <div>
             <FontPicker v-model="fontFamily" v-bind:value=fontFamily @change="handleFontChange" :label="'Font Family'"/>
@@ -35,6 +42,8 @@
 
 
     </div>
+    </div>
+
 </template>
 
 
@@ -52,6 +61,7 @@ export default {
     components: {ColorPicker, FontPicker, Dropdown, Input, Slider, Align, DropdownSmall, SliderSmall},
     data() {
         return {
+            'showTypography': false,
             'activeNode': null,
             'isReady': false,
             'textTransformOptions': [
@@ -96,6 +106,10 @@ export default {
     },
 
     methods: {
+        toggleTypography() {
+            this.showTypography = !this.showTypography;
+
+        },
         resetAllProperties: function () {
             this.fontSize = null;
             this.fontWeight = null;
