@@ -108,7 +108,7 @@ export default {
     methods: {
         toggleTypography() {
             this.showTypography = !this.showTypography;
-
+            this.emitter.emit('element-style-editor-show', 'typography');
         },
         resetAllProperties: function () {
             this.fontSize = null;
@@ -223,6 +223,13 @@ export default {
     },
 
     mounted() {
+
+        this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+            if (elementStyleEditorShow !== 'typography') {
+                this.showTypography = false;
+            }
+        });
+
         mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
             this.populateStyleEditor(element)
         });

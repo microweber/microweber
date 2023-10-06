@@ -162,6 +162,7 @@ export default {
   methods: {
     toggleBorder: function () {
       this.showBorder = !this.showBorder;
+        this.emitter.emit('element-style-editor-show', 'border');
     },
     handleBorderColorChange(color) {
       if (typeof (color) != 'string') {
@@ -258,6 +259,12 @@ export default {
 
   },
   mounted() {
+
+      this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+          if (elementStyleEditorShow !== 'border') {
+              this.showBorder = false;
+          }
+      });
 
     mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
 

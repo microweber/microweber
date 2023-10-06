@@ -97,6 +97,7 @@ export default {
     methods: {
         toggleBackground: function () {
             this.showBackground = !this.showBackground;
+            this.emitter.emit('element-style-editor-show', 'background');
         },
 
         resetAllProperties: function () {
@@ -183,6 +184,12 @@ export default {
 
     },
     mounted() {
+
+        this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+            if (elementStyleEditorShow !== 'background') {
+                this.showBackground = false;
+            }
+        });
 
         mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
 

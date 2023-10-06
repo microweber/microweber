@@ -141,6 +141,7 @@ export default {
   methods: {
       toggleSpacing: function () {
         this.showSpacing = !this.showSpacing;
+          this.emitter.emit('element-style-editor-show', 'spacing');
     },
     resetAllProperties: function () {
       this.marginTop = null;
@@ -205,6 +206,12 @@ export default {
 
   },
   mounted() {
+
+      this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+          if (elementStyleEditorShow !== 'spacing') {
+              this.showSpacing = false;
+          }
+      });
 
     mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
       this.populateStyleEditor(element)
