@@ -29,6 +29,7 @@ export default {
                 'typography',
                 'spacing',
                 'container',
+                'grid',
                 'background',
                 'animations',
                 'border'
