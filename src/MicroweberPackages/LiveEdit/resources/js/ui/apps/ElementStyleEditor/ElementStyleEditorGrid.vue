@@ -6,7 +6,7 @@
           <label>Desktop</label>
           <i class="mdi mdi-monitor"></i>
           <DropdownSmall
-              :options="colOptions"
+              :options="colOptionsDesktop"
               v-model="selectedColDesktop"
           ></DropdownSmall>
         </div>
@@ -14,7 +14,7 @@
           <label>Tablet</label>
           <i class="mdi mdi-tablet"></i>
           <DropdownSmall
-              :options="colOptions"
+              :options="colOptionsTablet"
               v-model="selectedColTablet"
           ></DropdownSmall>
         </div>
@@ -22,7 +22,7 @@
           <label>Mobile</label>
           <i class="mdi mdi-cellphone"></i>
           <DropdownSmall
-              :options="colOptions"
+              :options="colOptionsMobile"
               v-model="selectedColMobile"
           ></DropdownSmall>
         </div>
@@ -42,72 +42,78 @@ export default {
       isReady: false,
       hasGrid: false,
 
-      colOptions: [],
+      colOptionsDesktop: [
+        { key: 'col-1', value: 'col-1' },
+        { key: 'col-2', value: 'col-2' },
+        { key: 'col-3', value: 'col-3' },
+        { key: 'col-4', value: 'col-4' },
+        { key: 'col-5', value: 'col-5' },
+        { key: 'col-6', value: 'col-6' },
+        { key: 'col-7', value: 'col-7' },
+        { key: 'col-8', value: 'col-8' },
+        { key: 'col-9', value: 'col-9' },
+        { key: 'col-10', value: 'col-10' },
+        { key: 'col-11', value: 'col-11' },
+        { key: 'col-12', value: 'col-12' },
+        { key: 'col-lg-1', value: 'col-lg-1' },
+        { key: 'col-lg-2', value: 'col-lg-2' },
+        { key: 'col-lg-3', value: 'col-lg-3' },
+        { key: 'col-lg-4', value: 'col-lg-4' },
+        { key: 'col-lg-5', value: 'col-lg-5' },
+        { key: 'col-lg-6', value: 'col-lg-6' },
+        { key: 'col-lg-7', value: 'col-lg-7' },
+        { key: 'col-lg-8', value: 'col-lg-8' },
+        { key: 'col-lg-9', value: 'col-lg-9' },
+        { key: 'col-lg-10', value: 'col-lg-10' },
+        { key: 'col-lg-11', value: 'col-lg-11' },
+        { key: 'col-lg-12', value: 'col-lg-12' },
+      ],
+
+      colOptionsTablet: [
+        { key: 'col-md-1', value: 'col-md-1' },
+        { key: 'col-md-2', value: 'col-md-2' },
+        { key: 'col-md-3', value: 'col-md-3' },
+        { key: 'col-md-4', value: 'col-md-4' },
+        { key: 'col-md-5', value: 'col-md-5' },
+        { key: 'col-md-6', value: 'col-md-6' },
+        { key: 'col-md-7', value: 'col-md-7' },
+        { key: 'col-md-8', value: 'col-md-8' },
+        { key: 'col-md-9', value: 'col-md-9' },
+        { key: 'col-md-10', value: 'col-md-10' },
+        { key: 'col-md-11', value: 'col-md-11' },
+        { key: 'col-md-12', value: 'col-md-12' },
+        { key: 'col-sm-1', value: 'col-sm-1' },
+        { key: 'col-sm-2', value: 'col-sm-2' },
+        { key: 'col-sm-3', value: 'col-sm-3' },
+        { key: 'col-sm-4', value: 'col-sm-4' },
+        { key: 'col-sm-5', value: 'col-sm-5' },
+        { key: 'col-sm-6', value: 'col-sm-6' },
+        { key: 'col-sm-7', value: 'col-sm-7' },
+        { key: 'col-sm-8', value: 'col-sm-8' },
+        { key: 'col-sm-9', value: 'col-sm-9' },
+        { key: 'col-sm-10', value: 'col-sm-10' },
+        { key: 'col-sm-11', value: 'col-sm-11' },
+        { key: 'col-sm-12', value: 'col-sm-12' },
+      ],
+
+      colOptionsMobile: [
+        { key: 'col-xs-1', value: 'col-xs-1' },
+        { key: 'col-xs-2', value: 'col-xs-2' },
+        { key: 'col-xs-3', value: 'col-xs-3' },
+        { key: 'col-xs-4', value: 'col-xs-4' },
+        { key: 'col-xs-5', value: 'col-xs-5' },
+        { key: 'col-xs-6', value: 'col-xs-6' },
+        { key: 'col-xs-7', value: 'col-xs-7' },
+        { key: 'col-xs-8', value: 'col-xs-8' },
+        { key: 'col-xs-9', value: 'col-xs-9' },
+        { key: 'col-xs-10', value: 'col-xs-10' },
+        { key: 'col-xs-11', value: 'col-xs-11' },
+        { key: 'col-xs-12', value: 'col-xs-12' },
+      ],
+
       selectedColDesktop: '',
       selectedColTablet: '',
       selectedColMobile: '',
-      external_grids_col_classes: [
-        'col-1',
-        'col-2',
-        'col-3',
-        'col-4',
-        'col-5',
-        'col-6',
-        'col-7',
-        'col-8',
-        'col-9',
-        'col-10',
-        'col-11',
-        'col-12',
-        'col-lg-1',
-        'col-lg-2',
-        'col-lg-3',
-        'col-lg-4',
-        'col-lg-5',
-        'col-lg-6',
-        'col-lg-7',
-        'col-lg-8',
-        'col-lg-9',
-        'col-lg-10',
-        'col-lg-11',
-        'col-lg-12',
-        'col-md-1',
-        'col-md-2',
-        'col-md-3',
-        'col-md-4',
-        'col-md-5',
-        'col-md-6',
-        'col-md-7',
-        'col-md-8',
-        'col-md-9',
-        'col-md-10',
-        'col-md-11',
-        'col-md-12',
-        'col-sm-1',
-        'col-sm-2',
-        'col-sm-3',
-        'col-sm-4',
-        'col-sm-5',
-        'col-sm-6',
-        'col-sm-7',
-        'col-sm-8',
-        'col-sm-9',
-        'col-sm-10',
-        'col-sm-11',
-        'col-sm-12',
-        'col-xs-1',
-        'col-xs-2',
-        'col-xs-3',
-        'col-xs-4',
-        'col-xs-5',
-        'col-xs-6',
-        'col-xs-7',
-        'col-xs-8',
-        'col-xs-9',
-        'col-xs-10',
-        'col-xs-11',
-        'col-xs-12',
-      ],
     };
   },
 
@@ -122,15 +128,30 @@ export default {
         this.resetAllProperties();
 
         // Check for grid classes in the active node
-        for (const gridClass of this.external_grids_col_classes) {
-          if (node.classList.contains(gridClass)) {
+        for (const gridOption of this.colOptionsDesktop) {
+          if (node.classList.contains(gridOption.key)) {
             this.hasGrid = true;
             this.activeGridNode = node;
-            // Extract the number from the class and set it for all breakpoints
-            const colNumber = parseInt(gridClass.split('-').pop());
-            this.selectedColDesktop = colNumber.toString();
-            this.selectedColTablet = colNumber.toString();
-            this.selectedColMobile = colNumber.toString();
+            // Set the selected class name for Desktop breakpoint
+            this.selectedColDesktop = gridOption.key;
+            break;
+          }
+        }
+        for (const gridOption of this.colOptionsTablet) {
+          if (node.classList.contains(gridOption.key)) {
+            this.hasGrid = true;
+            this.activeGridNode = node;
+            // Set the selected class name for Tablet breakpoint
+            this.selectedColTablet = gridOption.key;
+            break;
+          }
+        }
+        for (const gridOption of this.colOptionsMobile) {
+          if (node.classList.contains(gridOption.key)) {
+            this.hasGrid = true;
+            this.activeGridNode = node;
+            // Set the selected class name for Mobile breakpoint
+            this.selectedColMobile = gridOption.key;
             break;
           }
         }
@@ -147,13 +168,25 @@ export default {
       }
       if (this.activeGridNode) {
         // Remove any existing grid classes from the node
-        for (const gridClass of this.external_grids_col_classes) {
-          this.activeGridNode.classList.remove(gridClass);
+        for (const gridOption of this.colOptionsDesktop) {
+          this.activeGridNode.classList.remove(gridOption.key);
+        }
+        for (const gridOption of this.colOptionsTablet) {
+          this.activeGridNode.classList.remove(gridOption.key);
+        }
+        for (const gridOption of this.colOptionsMobile) {
+          this.activeGridNode.classList.remove(gridOption.key);
         }
 
-        // Apply the selected grid classes for all breakpoints
-        const selectedGridClass = `col-${val}`;
-        this.activeGridNode.classList.add(selectedGridClass);
+        // Apply the selected grid class for the corresponding breakpoint
+        const selectedGridOption = [...this.colOptionsDesktop, ...this.colOptionsTablet, ...this.colOptionsMobile].find(option => option.key === val);
+        if (selectedGridOption) {
+          this.activeGridNode.classList.add(selectedGridOption.key);
+        }
+
+        if(mw.top().app){
+          mw.top().app.registerChangedState(this.activeGridNode);
+        }
       }
     },
   },

@@ -40,7 +40,7 @@ export default {
 
   <div class="s-field">
 
-    <label v-html="label"></label>
+    <label v-if="label" v-html="label"></label>
     <div class="s-field-content">
       <div class="mw-multiple-fields">
         <div class="mw-field mw-field-flat" data-size="medium">
