@@ -1,17 +1,17 @@
-import { DomService } from "./classes/dom";
+import {DomService} from "./classes/dom";
 
 export default {
 
     targetIsImageElement: target => {
-        if(!target) {
+        if (!target) {
             return false;
         }
-        if(!target.classList) {
+        if (!target.classList) {
             return false;
         }
-        if(target.nodeName === 'IMG') {
+        if (target.nodeName === 'IMG') {
             //has class .element
-            if(target.classList.contains('element')) {
+            if (target.classList.contains('element')) {
                 return true;
             }
 
@@ -20,19 +20,19 @@ export default {
 
     targetIsIcon: target => {
 
-        if(!target) {
+        if (!target) {
             return false;
         }
 
-        if(!target.classList) {
+        if (!target.classList) {
             return false;
         }
 
-        if(!target.className) {
+        if (!target.className) {
             return false;
         }
 
-        if(!target.className.includes) { // is svg
+        if (!target.className.includes) { // is svg
             return false;
         }
 
@@ -40,7 +40,7 @@ export default {
         const iconClasses = ['icon', 'mw-icon', 'material-icons', 'mdi'];
         var isIcon = target.className.includes('mw-micon-');
 
-        if(!isIcon) {
+        if (!isIcon) {
             for (let i = 0; i < iconClasses.length; i++) {
                 if (target.classList.contains(iconClasses[i])) {
                     isIcon = true;
@@ -49,7 +49,7 @@ export default {
             }
         }
 
-        if(isIcon) {
+        if (isIcon) {
             isIcon = DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target, ['edit', 'module']);
         }
 
@@ -60,8 +60,8 @@ export default {
         // check if module is inaccesible and move the handle to the parent if its layout
         var isInaccesibleFirstChild = false;
         var isInaccesible = DomService.hasAnyOfClassesOnNodeOrParent(target, ['no-settings', 'inaccessibleModule']);
-        if(target.firstChild){
-              isInaccesibleFirstChild = DomService.hasAnyOfClassesOnNodeOrParent(target.firstChild, ['no-settings', 'inaccessibleModule']);
+        if (target.firstChild) {
+            isInaccesibleFirstChild = DomService.hasAnyOfClassesOnNodeOrParent(target.firstChild, ['no-settings', 'inaccessibleModule']);
         }
         if (isInaccesible || isInaccesibleFirstChild) {
             return true;
@@ -88,7 +88,7 @@ export default {
     targetIsDisabledWriteInEditField: element => {
         if (element.classList.contains('edit')) {
             var isInContainer = element.hasAttribute('data-layout-container');
-            if (isInContainer ){
+            if (isInContainer) {
                 return false;
             }
             if (element.classList.contains('no-typing')) {
@@ -104,10 +104,10 @@ export default {
         if (typeof target === 'string') {
             return !items.test(target);
         }
-        if(!DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target, ['allow-drop', 'nodrop'])){
+        if (!DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target, ['allow-drop', 'nodrop'])) {
             return false;
         }
-        if(DomService.hasAnyOfClasses(target, ['plain-text'])){
+        if (DomService.hasAnyOfClasses(target, ['plain-text'])) {
             return false;
         }
         var x = items.test(target.nodeName);
@@ -124,6 +124,27 @@ export default {
             return false;
         }
         return true;
+    },
+
+
+    targetGetFirstRowElement: target => {
+        var row = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['mw-row', 'row']);
+        if (row) {
+            return row;
+        }
+        return false;
+    },
+    targetGetFirstColElement: target => {
+        if (mw.top().app && mw.top().app.templateSettings) {
+            var col_classes_bs = mw.top().app.templateSettings.helperClasses.external_grids_col_classes;
+            var col_classes_mw = mw.top().app.templateSettings.helperClasses.mw_grids_col_classes;
+            var col_classes = col_classes_bs.concat(col_classes_mw);
+            var col = DomService.firstParentOrCurrentWithAnyOfClasses(target, col_classes);
+            if (col) {
+                return col;
+            }
+            return false;
+        }
     }
 
 
