@@ -80,7 +80,6 @@
             @endif
 
             @if ($setting['fieldType'] == 'rangeSlider')
-                @dump($setting)
                 <x-microweber-ui::range-slider
                 x-on:loaded="(e) => {
                     let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
@@ -91,7 +90,7 @@
                     let currentPropertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
                     currentPropertyValue = currentPropertyValue.replace('{{$setting['fieldSettings']['unit']}}', '');
                     if (currentPropertyValue == event.target.value) {
-                        return; 
+                        return;
                     }
                     if (mw.top().app.cssEditor) {
                         mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value + '{{$setting['fieldSettings']['unit']}}');
