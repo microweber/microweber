@@ -6,7 +6,7 @@
     <div v-if="selectedAnimation">
       <DropdownSmall v-model="selectedAnimationWhenAppear" :options="animationsAppear" :label="'When'"/>
 
-<SliderSmall v-model="selectedAnimationSpeed" :label="'Speed'" :min="0.1" :max="5" :step="0.1" :unit="'s'"/>
+      <SliderSmall v-model="selectedAnimationSpeed" :label="'Speed'" :min="0.1" :max="5" :step="0.1" :unit="'s'"/>
 
 
     </div>
@@ -17,10 +17,11 @@
 <script>
 
 import DropdownSmall from "./components/DropdownSmall.vue";
+import SliderSmall from "./components/SliderSmall.vue";
 import ElementStyleAnimationsApplier from "./ElementStyleAnimationsApplier";
 
 export default {
-  components: {DropdownSmall},
+  components: {DropdownSmall, SliderSmall},
 
   data() {
     return {
@@ -100,7 +101,7 @@ export default {
   methods: {
     resetAllProperties: function () {
       this.selectedAnimation = null;
-      this.selectedAnimationSpeed = null;
+      this.selectedAnimationSpeed = 1;
       this.selectedAnimationWhenAppear = null;
     },
 
@@ -110,8 +111,7 @@ export default {
         this.resetAllProperties();
         return;
       }
-console.log(111111111)
-console.log(animationData)
+
       if (animationData.animation) {
         this.selectedAnimation = animationData.animation;
       } else {
@@ -130,6 +130,7 @@ console.log(animationData)
     },
     setAnimation: function () {
       if (this.activeNode) {
+
         var speed = this.selectedAnimationSpeed ? this.selectedAnimationSpeed : 1;
         var when = this.selectedAnimationWhenAppear ? this.selectedAnimationWhenAppear : 'onAppear';
         var animation = {
@@ -137,6 +138,8 @@ console.log(animationData)
           speed: speed,
           when: when,
         }
+
+        mw.log(animation)
         ElementStyleAnimationsApplier.setAnimation(this.activeNode, animation);
 
       }
