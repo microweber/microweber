@@ -1,7 +1,7 @@
 <template>
 
 
-  <div>
+  <div class="d-flex flex-column gap-2">
     <div v-show="showElementSelector">
       <ElementStyleEditorElementSelector></ElementStyleEditorElementSelector>
     </div>

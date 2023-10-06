@@ -66,17 +66,21 @@
 
 <template>
 
+    <div>
+        <b class="mw-admin-action-links" v-on:click="toggleBorder">
+            Border
+        </b>
+    </div>
 
-
-  <BorderRadius v-model="borderRadius"></BorderRadius>
-
-
-
+    <div v-if="showBorder">
 
   <div class="d-flex flex-column gap-3">
 
+      <BorderRadius v-model="borderRadius"></BorderRadius>
 
-    <DropdownSmall v-model="borderPosition" :options="borderPositionOptions" label="Border Position"/>
+
+
+      <DropdownSmall v-model="borderPosition" :options="borderPositionOptions" label="Border Position"/>
 
 
     <SliderSmall label="Border Size" v-model="borderSize" :min="0" :max="120" :step="5"></SliderSmall>
@@ -91,6 +95,7 @@
     </div>
 
   </div>
+    </div>
 
 </template>
 
@@ -111,6 +116,7 @@ export default {
 
   data() {
     return {
+        'showBorder': false,
       'activeNode': null,
       'isReady': false,
 
@@ -154,7 +160,9 @@ export default {
   },
 
   methods: {
-
+    toggleBorder: function () {
+      this.showBorder = !this.showBorder;
+    },
     handleBorderColorChange(color) {
       if (typeof (color) != 'string') {
         return;

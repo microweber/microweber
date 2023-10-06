@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <b v-on:click="toggleTypography">
+        <b class="mw-admin-action-links" v-on:click="toggleTypography">
             Typography
         </b>
     </div>

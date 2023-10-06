@@ -86,7 +86,7 @@
 <template>
 
     <div>
-        <b v-on:click="toggleSpacing">
+        <b class="mw-admin-action-links" v-on:click="toggleSpacing">
             Spacing
         </b>
     </div>

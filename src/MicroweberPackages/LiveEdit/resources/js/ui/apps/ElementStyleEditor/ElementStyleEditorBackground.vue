@@ -1,7 +1,12 @@
 <template>
-    <div>
-        <br>
 
+    <div>
+        <b class="mw-admin-action-links" v-on:click="toggleBackground">
+            Spacing
+        </b>
+    </div>
+
+    <div v-if="showBackground">
 
         <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Background Color'"
                      @change="handleBackgroundColorChange"/>
@@ -44,7 +49,7 @@ export default {
 
     data() {
         return {
-
+            'showBackground': false,
             'backgroundPositionOptions': [
                 {key: "none", value: "None"},
                 {key: "0% 0%", value: "Left Top"},
@@ -90,6 +95,10 @@ export default {
     },
 
     methods: {
+        toggleBackground: function () {
+            this.showBackground = !this.showBackground;
+        },
+
         resetAllProperties: function () {
             this.backgroundImage = null;
             this.backgroundImageUrl = null;
