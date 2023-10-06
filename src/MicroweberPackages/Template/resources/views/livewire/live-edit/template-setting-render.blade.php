@@ -80,23 +80,24 @@
             @endif
 
             @if ($setting['fieldType'] == 'rangeSlider')
+                @dump($setting)
                 <x-microweber-ui::range-slider
                 x-on:loaded="(e) => {
                     let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
-                    propertyValue = propertyValue.replace('px', '');
+                    propertyValue = propertyValue.replace('{{$setting['fieldSettings']['unit']}}', '');
                     e.target.value = propertyValue;
                 }"
                 x-on:slide="(e) => {
                     let currentPropertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
-                    currentPropertyValue = currentPropertyValue.replace('px', '');
+                    currentPropertyValue = currentPropertyValue.replace('{{$setting['fieldSettings']['unit']}}', '');
                     if (currentPropertyValue == event.target.value) {
-                        return;
+                        return; 
                     }
                     if (mw.top().app.cssEditor) {
-                        mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value + 'px');
+                        mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value + '{{$setting['fieldSettings']['unit']}}');
                     }
                 }"
-               label="{{$setting['title']}}" min="0" max="100" labelUnit="" />
+               label="{{$setting['title']}}" min="{{$setting['fieldSettings']['min']}}" max="{{$setting['fieldSettings']['max']}}" step="{{$setting['fieldSettings']['step']}}" labelUnit="{{$setting['fieldSettings']['unit']}}" />
             @endif
 
             @if ($setting['fieldType'] == 'styleEditor')
