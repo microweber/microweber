@@ -75,14 +75,13 @@ export default {
 
       let el = this.$refs.colorPickerElement;
 
-      console.log('togglePickertogglePickertogglePicker')
-      console.log(el)
+
 
       let colorPicker = mw.app.colorPicker.openColorPicker(this.selectedColor, color => {
         this.$props.color = color;
         this.selectedColor = color;
         this.$emit('change', this.$props.color);
-      });
+      }, el);
 
 
 

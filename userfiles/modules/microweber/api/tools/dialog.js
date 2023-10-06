@@ -641,17 +641,27 @@
         }
 
         this.positionToElement = function(targetElementSelector) {
-            var element = $(targetElementSelector)[0];
-
-            if (this.iframe) {
-                this.iframe.addEventListener('load', () => {
-                    setTimeout(() => {
-                        this.calculateDialogPositionXY(element);
-                    }, 100);
-                });
-            } else {
-                this.calculateDialogPositionXY(element);
+            if(!targetElementSelector){
+                return;
             }
+
+
+            var node = $(targetElementSelector)[0];
+            var nodeWindow = node.ownerDocument.defaultView;
+
+            let off = mw.element(node).offset();
+            if(nodeWindow.frameElement) {
+                var winframe = mw.top().element(nodeWindow.frameElement).offset();
+                off.offsetTop += winframe.offsetTop
+                off.offsetLeft += winframe.offsetLeft
+            }
+            this.position(off.offsetLeft, off.offsetTop + off.height);
+            setTimeout( ()=> {
+                const colorPickerDialogOff = mw.element(this.dialogHolder).offset()
+                if(colorPickerDialogOff.offsetTop + colorPickerDialogOff.height > mw.top().win.innerHeight) {
+                    this.position(off.offsetLeft - colorPickerDialogOff.width, mw.top().win.innerHeight - colorPickerDialogOff.height);
+                }
+            }, 10);
 
         }
 

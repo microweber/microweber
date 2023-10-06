@@ -11,7 +11,7 @@ export class ColorPicker extends MicroweberBaseClass {
     setPositionToElement(element) {
         this.positionToElement = element;
     }
-    openColorPicker(value, callback = false, node) {
+    openColorPicker(value, callback = false, node=false) {
 
         if (this.colorPickerInstances.length > 0) {
             for (let i = 0; i < this.colorPickerInstances.length; i++) {
@@ -30,19 +30,7 @@ export class ColorPicker extends MicroweberBaseClass {
         });
 
         if(node) {
-            let off = mw.element(node).offset();
-            if(window.frameElement) {
-                var winframe = mw.top().element(frameElement).offset();
-                off.offsetTop += winframe.offsetTop
-                off.offsetLeft += winframe.offsetLeft
-            }
-            colorPickerDialog.position(off.offsetLeft, off.offsetTop + off.height);
-            setTimeout(function (){
-                const colorPickerDialogOff = mw.element(colorPickerDialog.dialogHolder).offset()
-                if(colorPickerDialogOff.offsetTop + colorPickerDialogOff.height > mw.top().win.innerHeight) {
-                    colorPickerDialog.position(off.offsetLeft - colorPickerDialogOff.width, mw.top().win.innerHeight - colorPickerDialogOff.height);
-                }
-            }, 10)
+            colorPickerDialog.positionToElement(node);
         }
 
         if (colorPickerDialog.dialogContainer) {
