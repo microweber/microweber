@@ -30,6 +30,13 @@
     <div v-show="showAnimations">
       <ElementStyleEditorAnimations></ElementStyleEditorAnimations>
     </div>
+
+
+    <div v-show="showClassApplier">
+      <ElementStyleEditorClassApplier></ElementStyleEditorClassApplier>
+    </div>
+
+
   </div>
 
 </template>
@@ -44,6 +51,7 @@ import ElementStyleEditorElementSelector from './ElementStyleEditorElementSelect
 import ElementStyleEditorContainer from './ElementStyleEditorContainer.vue';
 import ElementStyleEditorAnimations from './ElementStyleEditorAnimations.vue';
 import ElementStyleEditorGrid from './ElementStyleEditorGrid.vue';
+import ElementStyleEditorClassApplier from './ElementStyleEditorClassApplier.vue';
 
 export default {
   components: {
@@ -55,6 +63,7 @@ export default {
     ElementStyleEditorContainer,
     ElementStyleEditorGrid,
     ElementStyleEditorAnimations,
+    ElementStyleEditorClassApplier,
   },
 
   data() {
@@ -67,6 +76,7 @@ export default {
       showContainer: true,
       showGrid: true,
       showAnimations: true,
+      showClassApplier: true,
     }
   },
 
@@ -84,6 +94,7 @@ export default {
         this.showElementSelector = false;
         this.showContainer = false;
         this.showAnimations = false;
+        this.showClassApplier = false;
 
         if (settings.fieldSettings.components.includes('elementSelector')) {
           this.showElementSelector = true;
@@ -109,6 +120,10 @@ export default {
 
         if (settings.fieldSettings.components.includes('animations')) {
           this.showAnimations = true;
+        }
+
+        if (settings.fieldSettings.components.includes('classes')) {
+          this.showClassApplier = true;
         }
       }
     });

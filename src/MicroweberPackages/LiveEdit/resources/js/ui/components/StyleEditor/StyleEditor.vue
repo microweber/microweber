@@ -32,6 +32,7 @@ export default {
                 'grid',
                 'background',
                 'animations',
+                'classes',
                 'border'
             ];
 
