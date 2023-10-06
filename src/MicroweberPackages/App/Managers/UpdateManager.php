@@ -58,7 +58,11 @@ class UpdateManager
 
         $t = site_templates();
         $data['templates'] = $t;
-        $t = $this->app->module_manager->get('ui=any&no_limit=true');
+
+        $t = [];
+        if (mw_is_installed()) {
+            $t = $this->app->module_manager->get('ui=any&no_limit=true');
+        }
         $modules = array();
         $data['module_templates'] = array();
         if (is_array($t)) {
