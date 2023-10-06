@@ -239,15 +239,7 @@ export default {
                     }
 
 
-                    // var targetChange = DomService.firstParentOrCurrentWithClass(element, 'edit');
-                    var targetChange = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['edit', 'allow-drop']);
 
-
-                    if (targetChange && targetChange.classList && !targetChange.classList.contains('safe-mode')) {
-                        element = targetChange;
-
-                        mw.app.liveEdit.handles.get('element').set(element);
-                    }
 
 
                     setTimeout(() => {

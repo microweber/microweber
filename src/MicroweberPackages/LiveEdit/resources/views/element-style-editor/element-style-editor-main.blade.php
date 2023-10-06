@@ -106,7 +106,7 @@
     });
 
 
-    var output = function (property, value,ActiveNode) {
+    var output = function (property, value, ActiveNode) {
 
 
         var mwTarget = targetMw;

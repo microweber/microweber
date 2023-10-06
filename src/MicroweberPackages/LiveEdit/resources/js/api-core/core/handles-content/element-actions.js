@@ -37,6 +37,10 @@ export class ElementActions extends MicroweberBaseClass {
 
     deleteElement(el) {
 
+        if(el.nodeName === 'img') {
+            mw.tools.setTag(el, 'mw-img-placeholder')
+        }
+
         if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
             el = el.parentNode;
         }
