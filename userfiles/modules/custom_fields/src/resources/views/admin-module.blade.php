@@ -2,7 +2,7 @@
 
     <?php
     $relType = 'content';
-    $relId = false;
+    $relId = 0;
     if (isset($params['content-id'])) {
         $relId = $params['content-id'];
     }

@@ -7,7 +7,7 @@ use MicroweberPackages\CustomField\Models\CustomField;
 
 class CustomFieldsListComponent extends AdminComponent
 {
-    public $relId;
+    public $relId = 0;
     public $relType = 'content';
 
     public $listeners = [
