@@ -84,6 +84,15 @@ export class LiveEditSpacer extends BaseComponent {
             }, 300);
         });
 
+        mw.app.canvas.on('liveEditCanvasLoaded', event =>{
+            setTimeout(function () {
+                LiveEditSpacerInstance.init();
+            }, 1300);
+        });
+
+
+
+
         mw.app.canvas.on('canvasDocumentClick',event => {
             //is in resizer
             if(event.target && event.target.classList && event.target.classList.contains('mw-resizer')){
