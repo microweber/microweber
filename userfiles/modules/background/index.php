@@ -37,7 +37,7 @@ if(isset($params['data-background-video'])){
 }
 $background_video_option = get_option('background_video', $params['id']);
 if($background_video_option){
-    $video_url = $background_video_option;
+    $video_url = $background_video_option; 
 }
 
 
@@ -52,7 +52,13 @@ if($style_attributes) {
     $style_attr_items = implode('; ', $style_attributes);
     $style_attr = 'style="' . $style_attr_items . '"';
 }
+
 $style_attr_overlay = '';
+if($background_color != '' || $background_image != ''){
+    $style_attr_overlay = 'style="background-color: rgba(0,0,0,0.5);"';
+
+}
+
 if($style_attributes_overlay) {
     $style_attributes_overlay_items = implode('; ', $style_attributes_overlay);
     $style_attr_overlay = 'style="' . $style_attributes_overlay_items . '"';
