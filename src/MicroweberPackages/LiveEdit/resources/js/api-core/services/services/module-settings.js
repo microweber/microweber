@@ -22,14 +22,16 @@ export class ModuleSettings extends MicroweberBaseClass {
             if (el !== null) {
                 mw.app.registerChangedState(el);
                 mw.app.canvas.getWindow().mw.reload_module('#' + $data.moduleId,function () {
-                    mw.app.dispatch('onModuleReloaded', $data.moduleId);
+                 //  onModuleReloaded is moved to api.js
+                    //   mw.app.dispatch('onModuleReloaded', $data.moduleId);
                 });
             }
 
             if (el2 !== null && el2 !== undefined) {
                 mw.app.registerChangedState(el2);
                 mw.app.canvas.getWindow().mw.reload_module('[data-module-id-from-preset="' + $data.moduleId + '"]',function () {
-                    mw.app.dispatch('onModuleReloaded', $data.moduleId);
+                 //    onModuleReloaded is moved to api.js
+                    //   mw.app.dispatch('onModuleReloaded', $data.moduleId);
                 });
             }
 

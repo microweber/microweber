@@ -149,7 +149,7 @@ mw.askusertostay = false;
   mw.module = {
     insert: function(target, module, config, pos, stateManager) {
 
-        
+
 
 
         return new Promise(function (resolve) {
@@ -207,7 +207,7 @@ mw.askusertostay = false;
             action = 'prepend'
         }
 
-   
+
 
         mw.$(target)[action](el);
         mw.load_module(module, '#' + id, function () {
@@ -535,7 +535,7 @@ mw.requireAsync = (url, key) => {
         if(this.mw && this.mw.reload_module){
 
             this.mw.reload_module(module, function(){
- 
+
                 if(typeof eachCallback === 'function'){
                     eachCallback.call(this);
                 }
@@ -555,16 +555,20 @@ mw.requireAsync = (url, key) => {
               callback.call();
             }
             $( this ).trigger('ModuleReload')
+
           });
         }
         return false;
     }
+    var currId = false;
+    var doc = false;
+
     var done = callback || function(){};
     if (typeof module !== 'undefined') {
       if (typeof module === 'object') {
 
           if(mw.top().app && mw.top().app.liveEdit && mw.top().app.liveEdit.handles.get('module')) {
-              var curr = mw.top().app.liveEdit.handles.get('module').getTarget(), currId, doc;
+              var curr = mw.top().app.liveEdit.handles.get('module').getTarget();
               if (curr && curr === module) {
                   currId = curr.id;
                   doc = curr.ownerDocument;
@@ -604,6 +608,8 @@ mw.requireAsync = (url, key) => {
                 try { m = $(module); }  catch(e) {};
             }
 
+
+
             if( !m.length && typeof callback === 'function'){
                 callback.call();
             }
@@ -622,13 +628,21 @@ mw.requireAsync = (url, key) => {
               })(callback)
 
 
-
           }
         }
       }
     } else {
         if( typeof callback === 'function'){
             callback.call();
+        }
+    }
+    if(self !== top && !!top.mw) {
+        if (!currId && module && module.id) {
+            currId = module.id;
+        }
+
+        if (currId) {
+            mw.top().app.dispatch('onModuleReloaded', currId);
         }
     }
   }
