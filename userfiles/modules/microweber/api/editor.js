@@ -1254,10 +1254,20 @@ var MWEditor = function (options) {
                     const edoc = e.target.ownerDocument;
                     const ta = edoc.createElement('div');
                     ta.contentEditable = true;
-                    mw.element(ta).css('position', 'absolute').css(mw.element(e.target).offset())
+                     
+                    const off = scope.api.getSelection().getRangeAt(0).getClientRects()[0];
+ 
+
+                    // preventScroll not working on chrome 117
+                    edoc.defaultView.mw.element(ta).css({
+                        top: off.top + edoc.defaultView.pageYOffset,
+                        left: off.left+ edoc.defaultView.pageXOffset,
+                        opacity: 0,
+                        position: 'absolute',
+                    });
                     edoc.body.appendChild(ta);
                     scope.api.saveSelection();
-                    ta.focus({preventScroll: true});
+                    ta.focus({preventScroll: true, focusVisible: false});
                     setTimeout(() => {
                         scope.api.restoreSelection();
                         var content;

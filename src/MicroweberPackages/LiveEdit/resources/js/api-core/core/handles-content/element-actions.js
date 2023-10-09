@@ -3,6 +3,8 @@ import {Confirm} from "../classes/dialog";
 import {ElementManager} from "../classes/element";
 import {LinkPicker} from "../../services/services/link-picker";
 import {DomService} from "../classes/dom";
+import {HandleIcons} from "../handle-icons";
+import { func } from "prop-types";
 
 export class ElementActions extends MicroweberBaseClass {
     proto = null;
@@ -11,7 +13,7 @@ export class ElementActions extends MicroweberBaseClass {
         super();
         this.proto = proto;
 
-
+        this.handleIcons = new HandleIcons();
 
     }
     editElement(el) {
@@ -37,8 +39,74 @@ export class ElementActions extends MicroweberBaseClass {
 
     deleteElement(el) {
 
-        if(el.nodeName === 'img') {
-            mw.tools.setTag(el, 'mw-img-placeholder')
+
+        if(el.nodeName === 'IMG') {
+            const $el = mw.element(el)
+            const off = $el.offset()
+            const display = $el.css('display')
+            const newNode = mw.tools.setTag(el, 'div');
+            newNode.innerHTML = `<span class="mw-img-placeholder-description">${mw.lang(`Click to set image`)}</span>`;
+            newNode.style.display = display !== 'inline' ? display : 'inline-block';
+            newNode.style.width = off.width + 'px';
+            newNode.style.height = off.height + 'px';
+            newNode.className = 'no-element mw-img-placeholder';
+            const handle = function (e){
+                e.preventDefault();
+                e.stopPropagation();
+                mw.filePickerDialog( (url) => {
+                    if(url) {
+                        $(newNode).replaceWith(`<img src="${url}">`);
+                    }
+
+                });
+            }
+
+
+            function handleDrop(e) {
+ 
+                e.preventDefault();
+                e.stopPropagation();
+                let file;
+              
+                if (e.dataTransfer.items) {
+                    file = [...e.dataTransfer.items].find((item, i) => {
+                        if (item.kind === "file") {
+                            return item.getAsFile();
+                        }
+                    });
+                  
+                } else {
+                  file = [...e.dataTransfer.files][0];
+                }
+
+                if(file) {
+                    mw.spinner({element: newNode, decorate: true});
+                    mw.uploader().uploadFile(file, function(res){
+                        console.log(res)
+                        $(newNode).replaceWith(`<img src="${res.url}">`);
+                        
+                    })
+                }
+              }
+
+            const del = document.createElement('span');
+            del.className = 'mw-img-placeholder-delete';
+            del.innerHTML = this.handleIcons.icon('delete');
+            newNode.append(del);
+
+            const handleDelete = e => {
+                e.stopPropagation();
+                newNode.remove();
+            }
+
+            del.addEventListener('touchstart', handleDelete);
+            del.addEventListener('mousedown', handleDelete);
+
+
+            newNode.addEventListener('touchstart', handle);
+            newNode.addEventListener('mousedown', handle);
+            newNode.addEventListener('drop', handleDrop)
+            return;
         }
 
         if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
