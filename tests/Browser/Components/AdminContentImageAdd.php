@@ -42,8 +42,16 @@ class AdminContentImageAdd extends BaseComponent
     {
         $browser->pause(1000);
         $browser->scrollTo('.mw-uploader-input');
-        $browser->attach('.mw-filepicker-desktop-type-big input.mw-uploader-input', $image);
-        $browser->waitForText('Pictures settings are saved',30);
+
+        $browser->click('.admin-thumb-item-uploader-holder');
+
+        $browser->attach('input.mw-uploader-input', $image);
+     //   $browser->attach('.mw-filepicker-desktop-type-big input.mw-uploader-input', $image);
+       // $browser->waitForText('Pictures settings are saved',30);
+        $browser->waitFor('.admin-thumb-item', 30);
+
+
+
         $browser->pause(3000);
 
 

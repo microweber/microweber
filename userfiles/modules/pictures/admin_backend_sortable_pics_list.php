@@ -191,7 +191,7 @@ $rand = 'pic-sorter-' . uniqid();
             <div class="dropzone mw-dropzone" id="post-file-picker-small" onclick="addImagesToPost()">
                 <div class="dz-message">
                     <h3 class="dropzone-msg-title"><?php _e("Add file"); ?></h3>
-                    <span class="dropzone-msg-desc"><?php _e("or drop files to upload"); ?></span>
+                    <span class="dropzone-msg-desc"><?php _e("Click to upload file"); ?></span>
                 </div>
             </div>
         </div>
@@ -200,7 +200,7 @@ $rand = 'pic-sorter-' . uniqid();
             <div class="dropzone mw-dropzone" id="post-file-picker" onclick="addImagesToPost()">
                 <div class="dz-message">
                     <h3 class="dropzone-msg-title"><?php _e("Add file"); ?></h3>
-                    <span class="dropzone-msg-desc"><?php _e("or drop files to upload"); ?></span>
+                    <span class="dropzone-msg-desc"><?php _e("Click to upload file"); ?></span>
                 </div>
             </div>
         </div>
