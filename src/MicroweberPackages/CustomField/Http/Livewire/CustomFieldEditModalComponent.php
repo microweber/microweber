@@ -116,6 +116,9 @@ class CustomFieldEditModalComponent extends AdminModalComponent
 
     public function save($showSave = true)
     {
+        $data = $this->state;
+        $data['session_id'] = mw()->user_manager->session_id();
+
         mw()->fields_manager->save($this->state);
 
         $this->showSettings($this->state['type']);

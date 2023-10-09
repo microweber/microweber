@@ -35,15 +35,13 @@ class AdminJsCategoryTree
 
     public function getCategoriesDatabase()
     {
-        $getCategoriesQuery = Category::query();
-        $getCategoriesQuery->orderBy('position', 'ASC');
-        $getCategoriesQuery->where('is_active', 1);
-        $getCategoriesQuery->where('is_deleted', 0);
+        $categories = get_categories('no_limit=true&is_deleted=0&is_hidden=0&orderby=position asc');
 
-        $getCategories = $getCategoriesQuery->get();
-        if ($getCategories) {
-            $this->categories = $getCategories->toArray();
+        if ($categories) {
+            $this->categories = $categories;
         }
+
+
     }
 
     public function get()
@@ -67,7 +65,8 @@ class AdminJsCategoryTree
         return $this->output;
     }
 
-    public function buildPages() {
+    public function buildPages()
+    {
 
         $filterByPageId = false;
         $filterByShop = false;
@@ -132,6 +131,7 @@ class AdminJsCategoryTree
                 }
 
                 if (isset($page['parent']) && $page['parent'] > 0) {
+
                     $getAndAppendPageChildren = $this->getAndAppendPageChildren($page['parent']);
                     if (!empty($getAndAppendPageChildren)) {
                         continue;
@@ -146,6 +146,7 @@ class AdminJsCategoryTree
                     }
                     $this->appendPage($page);
                 } else {
+
                     $this->appendPage($page);
                     $this->getCategoryByRelId($page['id']);
                 }
@@ -161,8 +162,13 @@ class AdminJsCategoryTree
         }
 
         $foundedCategories = [];
+
         foreach ($this->categories as $category) {
-            if ($category['rel_type'] == 'content' && $category['rel_id'] == $parentId) {
+
+            if (isset($category['rel_type'])
+                and trim($category['rel_type']) == 'content'
+                and $category['rel_id'] == $parentId) {
+
                 $this->appendCategory($category);
                 $getAndAppendCategoryChildren = $this->getAndAppendCategoryChildren($category['id']);
                 $foundedCategories[] = $category;
@@ -171,7 +177,8 @@ class AdminJsCategoryTree
         return $foundedCategories;
     }
 
-    public function getAndAppendPageChildren($pageId) {
+    public function getAndAppendPageChildren($pageId)
+    {
 
         $children = [];
         foreach ($this->pages as $page) {
@@ -201,9 +208,9 @@ class AdminJsCategoryTree
         $appendPage['url'] = $page['url'];
         $appendPage['is_active'] = $page['is_active'];
         $appendPage['subtype'] = $page['subtype'];
-        $appendPage['position'] = (int) $page['position'];
-;       $appendPage['is_shop'] = (int) $page['is_shop'];
-;       $appendPage['parent_id'] = (int) $page['parent'];
+        $appendPage['position'] = (int)$page['position'];;
+        $appendPage['is_shop'] = (int)$page['is_shop'];;
+        $appendPage['parent_id'] = (int)$page['parent'];
 
         $appendPage['icon'] = 'page';
 
@@ -222,7 +229,8 @@ class AdminJsCategoryTree
         $this->output[] = $appendPage;
     }
 
-    public function buildCategories() {
+    public function buildCategories()
+    {
 
         if (!empty($this->categories)) {
             foreach ($this->categories as $category) {
@@ -247,7 +255,8 @@ class AdminJsCategoryTree
         }
     }
 
-    public function appendCategory($category) {
+    public function appendCategory($category)
+    {
 
         $appendCategory = [];
         $appendCategory['id'] = $category['id'];
@@ -266,10 +275,10 @@ class AdminJsCategoryTree
         $appendCategory['is_active'] = 1;
 
 
-        if(isset($category['is_hidden']) and $category['is_hidden'] == 1){
+        if (isset($category['is_hidden']) and $category['is_hidden'] == 1) {
             $appendCategory['is_active'] = 0;
         }
-        if(isset($category['is_deleted']) and $category['is_deleted'] == 1){
+        if (isset($category['is_deleted']) and $category['is_deleted'] == 1) {
             $appendCategory['is_deleted'] = 0;
         }
 
@@ -281,19 +290,20 @@ class AdminJsCategoryTree
 
 
                 $parent_page = get_content_by_id($category['rel_id']);
-                if($parent_page){
-                    $parent_page = array_filter($parent_page, function($key) {
+                if ($parent_page) {
+                    $parent_page = array_filter($parent_page, function ($key) {
                         return in_array($key, ['id', 'title', 'url', 'content_type', 'subtype', 'is_shop', 'is_home']);
                     }, ARRAY_FILTER_USE_KEY);
                     $appendCategory['parent_page'] = $parent_page;
                 }
-             }
+            }
         }
 
         $this->output[] = $appendCategory;
     }
 
-    public function getAndAppendCategoryChildren($categoryId) {
+    public function getAndAppendCategoryChildren($categoryId)
+    {
 
         $children = [];
         foreach ($this->categories as $category) {

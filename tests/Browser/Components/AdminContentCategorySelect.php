@@ -46,9 +46,9 @@ class AdminContentCategorySelect extends BaseComponent
         $browser->script("document.querySelector('#show-categories-tree-wrapper').scrollIntoView({block: 'end', inline: 'nearest',behavior :'auto'});");
         $browser->pause(1000);
 
-        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#show-categories-tree'))->isDisplayed()) {
-            $browser->click('button.js-show-categories-tree-btn');
-        }
+//        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#show-categories-tree'))->isDisplayed()) {
+//            $browser->click('button.js-show-categories-tree-btn');
+//        }
 
 
          $browser->pause(1000);
@@ -58,6 +58,12 @@ class AdminContentCategorySelect extends BaseComponent
                 $("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().click();
             }
         ';
+
+        $browser->pause(100);
+        $script = '
+                 $("#show-categories-tree .mw-tree-toggler").click();
+                 $("#show-categories-tree .mw-tree-item-title:contains(\''.$category.'\')").parent().click();
+         ';
 
         $browser->script($script);
 

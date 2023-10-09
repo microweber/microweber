@@ -6,7 +6,7 @@ trait TestHelpers {
     {
         $exists = get_category_by_url($url);
         if($exists){
-            return $exists['id'];
+            $url = $url . uniqid();
         }
 
         $params = array(
