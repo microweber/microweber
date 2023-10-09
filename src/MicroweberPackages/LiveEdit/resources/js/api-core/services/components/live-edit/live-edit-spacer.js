@@ -89,7 +89,11 @@ export class LiveEditSpacer extends BaseComponent {
                 LiveEditSpacerInstance.init();
             }, 300);
         });
-
+        mw.app.on('onModuleReloaded', moduleId => {
+            setTimeout(function () {
+                LiveEditSpacerInstance.init();
+            }, 300);
+        });
 
 
 
