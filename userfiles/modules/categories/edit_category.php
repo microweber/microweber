@@ -520,7 +520,6 @@ if ($creteCategoryIn == 'shop') {
                                     <div class="form-group">
                                         <label class="form-label font-weight-bold" for="description"><?php _e("Description"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Type description of your category in the field"); ?></small>
-                                        <!--  <textarea class="form-control" id="description" name="description" rows="3" spellcheck="false"><?php /*echo $data['description']; */?></textarea>-->
 
                                         <?php
                                         $descriptionValue = '';
