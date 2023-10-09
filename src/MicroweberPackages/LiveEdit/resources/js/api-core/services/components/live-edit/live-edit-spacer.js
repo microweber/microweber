@@ -87,7 +87,7 @@ export class LiveEditSpacer extends BaseComponent {
         mw.app.canvas.on('liveEditCanvasLoaded', event =>{
             setTimeout(function () {
                 LiveEditSpacerInstance.init();
-            }, 1300);
+            }, 300);
         });
 
 
