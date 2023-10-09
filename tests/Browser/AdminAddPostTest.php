@@ -22,12 +22,13 @@ class AdminAddPostTest extends DuskTestCase
     public function testAddPost()
     {
 
-        $pageId = $this->_generatePage('shop', 'Shop');
+        $title='Blog '.uniqid();
+        $pageId = $this->_generatePage($title, $title);
         $this->_generateCategory('clothes', 'Clothes', $pageId);
         $this->_generateCategory('t-shirts', 'T-shirts', $pageId);
         $this->_generateCategory('decor', 'Decor', $pageId);
 
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($title) {
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
@@ -51,7 +52,7 @@ class AdminAddPostTest extends DuskTestCase
 
             $browser->pause(1000);
 
-            $category4 = 'Shop';
+            $category4 = $title;
             $category4_1 = 'Clothes';
             $category4_2 = 'T-shirts';
             $category4_3 = 'Decor';
@@ -62,6 +63,8 @@ class AdminAddPostTest extends DuskTestCase
                 $browser->selectSubCategory($category4, $category4_2);
                 $browser->selectSubCategory($category4, $category4_3);
             });
+            $browser->pause(300);
+
 
             $tag1 = 'Tagdusk-' . time() . rand(100, 200);
             $tag2 = 'Tagdusk-' . time() . rand(200, 300);
@@ -116,6 +119,7 @@ class AdminAddPostTest extends DuskTestCase
 
             $findedCustomFields = [];
             $customFields = content_custom_fields($findPost->id);
+
             foreach ($customFields as $customField) {
                 $findedCustomFields[] = $customField['name'];
             }

@@ -329,7 +329,11 @@ class CategoryRepository extends AbstractRepository
     public function save($data)
     {
         app()->category_manager->useCache = false;
-
+        cache_clear('options');
+        cache_clear('content');
+        cache_clear('repositories');
+        cache_clear('pages');
+        cache_clear('categories');
 
         if (isset($data['parent']) and !isset($data['parent_id'])) {
             $data['parent_id'] = $data['parent'];
@@ -348,7 +352,6 @@ class CategoryRepository extends AbstractRepository
                 unset($data['parent_id']);
             }
         }
-
 
         return parent::save($data);
     }

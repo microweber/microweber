@@ -218,7 +218,9 @@ trait CacheableRepository
 
         $this->eventFlushCache = false;
        self::$disableCache = true; //disabling repository cache
-      // return self::getCacheInstance()->tags($this->generateCacheTags())->flush();
+   //     \Config::set('microweber.disable_model_cache', 1);
+
+        // return self::getCacheInstance()->tags($this->generateCacheTags())->flush();
     }
 
     /**
