@@ -43,7 +43,7 @@ description: default
                     <img src="<?php echo modules_url() ?>layout_content/templates/default-image.png" />
                 <?php } ?>
                 <div class="mt-2">
-                    <h3><?php echo $contentTitle; ?></h3>
+                    <h5><?php echo $contentTitle; ?></h5>
                     <p style="text-align: justify; text-justify: inter-word;"><?php echo substr($contentDescription, 0, 145) . "..."; ?></p>
                 </div>
                 <?php if (!empty($contentButtonText)) : ?>
