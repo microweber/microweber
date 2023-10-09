@@ -5271,3 +5271,38 @@ section.section {
     pointer-events: all !important;
 }
 
+
+.mw-img-placeholder-delete:hover{
+    background-color: #c4c4c4;
+}
+.mw-img-placeholder-delete{
+    display: inline-block;
+    position: absolute;
+    padding: 3px 5px;
+    border-radius: 3px;
+    background-color: #c4c4c473;
+    top: 50%;
+    transform: translate(-50%, 25px);
+    left: 50%;
+    cursor: pointer;
+    pointer-events: all;
+    transition: background-color .3s;
+}
+.mw-img-placeholder-delete svg{
+    width: 20px;
+    fill: currentColor;
+}
+.mw-img-placeholder .mw-img-placeholder-description{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee;
+    font-size: 15px;
+    cursor: pointer;
+    color: #0000008f;
+}
+.mw-img-placeholder{
+    position: relative;
+}
