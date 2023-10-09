@@ -28,6 +28,7 @@ class AdminAddPageTest extends DuskTestCase
             $pageTitle = 'This is the page title'.time();
 
             $browser->visit(route('admin.page.create'));
+            $browser->click('.create-page-clean');
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();

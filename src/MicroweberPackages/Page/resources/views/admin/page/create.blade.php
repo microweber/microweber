@@ -39,7 +39,7 @@
 
                 <h2 class="mt-3 mb-2 font-weight-bold">{{_e("Clean Page")}} </h2>
 
-                <a href="{{route('admin.page.create')}}?layout=clean{{$parent_page_param}}" class="card card-link card-link-pop mw-create-page-admin-wrapper">
+                <a href="{{route('admin.page.create')}}?layout=clean.php{{$parent_page_param}}" class="card card-link card-link-pop mw-create-page-admin-wrapper">
                     <div id="mw-create-page-card-overlay"></div>
 
                     <div class="card-body" style="padding: 13px; height: calc(50vh - 80px);">
