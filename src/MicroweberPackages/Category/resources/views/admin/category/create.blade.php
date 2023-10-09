@@ -102,7 +102,7 @@
 
             @if($hasDynamicPages)
             <div class="col-md-4 col-12">
-                <a href="{{ $createRouteBlog }}" class="card card-link card-link-pop py-6">
+                <a href="{{ $createRouteBlog }}" id="category-create-in-blog-link" class="card card-link card-link-pop py-6">
 
                     <div class="card-body">
                         <div class="d-flex flex-column text-center justify-content-center align-items-center h-100">
@@ -122,7 +122,7 @@
             @if($showShop and $hasShopPages)
 
             <div class="col-md-4 col-12">
-                <a href="{{ $createRouteShop }}" class="card card-link card-link-pop py-6">
+                <a href="{{ $createRouteShop }}" id="category-create-in-shop-link" class="card card-link card-link-pop py-6">
 
                     <div class="card-body">
                         <div class="d-flex flex-column text-center justify-content-center align-items-center h-100">

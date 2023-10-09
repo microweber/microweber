@@ -47,8 +47,13 @@ class AdminAddCategoryTest extends DuskTestCase
                 $browser->validate();
             });
 
+
+            $browser->click('#category-create-in-blog-link');
+
+
+
             $browser->pause(1000);
-            $browser->waitForText('Category name');
+            $browser->waitForText('Category name',30);
 
             $browser->type('#content-title-field', $categoryTitle);
 

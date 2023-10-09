@@ -3,11 +3,10 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          stopOnFailure="true"
+         stopOnError="true"
          colors="true"
 >
     <testsuites>
-
-
         <testsuite name="MicroweberCoreTests">
             <directory suffix="Test.php">./tests/Browser</directory>
             <exclude>./tests/Browser/Multilanguage</exclude>

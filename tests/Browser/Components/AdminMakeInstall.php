@@ -82,8 +82,9 @@ class AdminMakeInstall extends BaseComponent
 
             $browser->pause(300);
             $browser->click('#install-button');
+            $browser->waitUntilMissing('.installholder',120);
 
-            $browser->pause(20000);
+            $browser->pause(2000);
 
             Artisan::call('config:cache');
             Artisan::call('config:clear');
@@ -95,7 +96,12 @@ class AdminMakeInstall extends BaseComponent
 
 
             clearcache();
+        } else {
+            Config::set('microweber.is_installed', 1);
         }
+
+
+
 
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Components;
 
+use Composer\Config;
 use Facebook\WebDriver\WebDriverBy;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
@@ -50,9 +51,22 @@ class AdminLogin extends BaseComponent
                 $browser->makeInstallation();
             });
             $user = User::where('username', 1)->first();
+
+            if(!$user){
+                $user = new User();
+                $user->username = 1;
+                $user->password = 1;
+                $user->email = 'bobi@microweber.com';
+                $user->is_admin = 1;
+                $user->save();
+            }
              Auth::login($user);
 
         }
+
+
+
+
 
         if (mw_is_installed()) {
             $data = [];
@@ -63,6 +77,8 @@ class AdminLogin extends BaseComponent
 
             $browser->visit(route('admin.login'));
             $browser->pause(1500);
+
+
 
             if (count($browser->driver->findElements(WebDriverBy::xpath('//*[@id="password"]'))) > 0) {
 
@@ -80,6 +96,7 @@ class AdminLogin extends BaseComponent
                 // Wait for redirect after login
                 $browser->waitForLocation('/admin/', 120);
                 $browser->pause(100);
+
             }
         }
 
