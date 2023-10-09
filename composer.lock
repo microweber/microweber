@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b77d9d184cb176a06e8d0b5f18c1160",
+    "content-hash": "4b784a0ba26885af9f08d59b13b7ffb6",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -4498,21 +4498,22 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "dev-master",
+            "version": "v7.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "eec62bdb8a0e15a306f68bc2f8a2287bbda517a9"
+                "reference": "076865d1057a4951f796342aa6a8f97a317e7638"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/eec62bdb8a0e15a306f68bc2f8a2287bbda517a9",
-                "reference": "eec62bdb8a0e15a306f68bc2f8a2287bbda517a9",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/076865d1057a4951f796342aa6a8f97a317e7638",
+                "reference": "076865d1057a4951f796342aa6a8f97a317e7638",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-zip": "*",
+                "guzzlehttp/guzzle": "^7.2",
                 "illuminate/console": "^9.0|^10.0",
                 "illuminate/support": "^9.0|^10.0",
                 "nesbot/carbon": "^2.0",
@@ -4536,7 +4537,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "8.x-dev"
+                    "dev-master": "7.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -4567,9 +4568,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/dusk/issues",
-                "source": "https://github.com/laravel/dusk/tree/master"
+                "source": "https://github.com/laravel/dusk/tree/v7.11.1"
             },
-            "time": "2023-07-19T19:31:26+00:00"
+            "time": "2023-09-26T13:23:43+00:00"
         },
         {
             "name": "laravel/fortify",
@@ -18682,5 +18683,5 @@
         "ext-zip": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

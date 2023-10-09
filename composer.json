@@ -53,7 +53,7 @@
         "knplabs/knp-menu": "^3.2@dev",
         "laracasts/presenter": "dev-master",
         "laravel/cashier": "15.x-dev",
-        "laravel/dusk": "*",
+        "laravel/dusk": "v7.11.1",
         "laravel/fortify": "*",
         "laravel/framework": "v10.21.*",
         "laravel/passport": "*",
