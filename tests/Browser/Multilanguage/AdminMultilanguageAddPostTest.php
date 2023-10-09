@@ -4,6 +4,7 @@ namespace Tests\Browser\Multilanguage;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Multilanguage\MultilanguageApi;
 use MicroweberPackages\Post\Models\Post;
 use Tests\Browser\Components\AdminContentCategorySelect;
@@ -18,9 +19,19 @@ use Tests\DuskTestCaseMultilanguage;
 
 class AdminMultilanguageAddPostTest extends DuskTestCaseMultilanguage
 {
+    use TestHelpers;
+
     public function testAddPost()
     {
-        $this->browse(function (Browser $browser) {
+
+        $title='Blog '.uniqid();
+        $pageId = $this->_generatePage($title, $title);
+        $this->_generateCategory('clothes', 'Clothes', $pageId);
+        $this->_generateCategory('t-shirts', 'T-shirts', $pageId);
+        $this->_generateCategory('decor', 'Decor', $pageId);
+
+
+        $this->browse(function (Browser $browser) use ($title) {
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
@@ -59,7 +70,7 @@ class AdminMultilanguageAddPostTest extends DuskTestCaseMultilanguage
 
             $browser->pause(1000);
 
-            $category4 = 'Shop';
+            $category4 =$title;
             $category4_1 = 'Clothes';
             $category4_2 = 'T-shirts';
             $category4_3 = 'Decor';
@@ -99,10 +110,14 @@ class AdminMultilanguageAddPostTest extends DuskTestCaseMultilanguage
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
             $browser->pause(5000);
-            $browser->waitForText('Editing post');
 
             $findPost = Post::where('title', $enTitle)->first();
+
+
+
             $browser->waitForLocation(route('admin.post.edit', $findPost->id));
+
+            $browser->waitForText($enTitle, 20);
 
             $this->assertEquals($findPost->content_type, 'post');
             $this->assertEquals($findPost->subtype, 'post');

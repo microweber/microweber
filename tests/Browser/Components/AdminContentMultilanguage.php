@@ -5,6 +5,7 @@ namespace Tests\Browser\Components;
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use PHPUnit\Framework\Assert as PHPUnit;
 
 class AdminContentMultilanguage extends BaseComponent
@@ -54,8 +55,12 @@ class AdminContentMultilanguage extends BaseComponent
             $mustAddNewLang = false;
         }
 
+        if(!MultilanguageHelpers::multilanguageIsEnabled()){
+            $mustActivateMultilanguage = true;
+        }
 
-        if (!$browser->element('.module-multilanguage')) {
+
+       /* if (!$browser->element('.module-multilanguage')) {
             $mustActivateMultilanguage = true;
 
             $output = $browser->script("
@@ -69,7 +74,7 @@ class AdminContentMultilanguage extends BaseComponent
            if ($output[0]) {
                $mustActivateMultilanguage = false;
            }
-        }
+        }*/
 
 
         if ($goToMultilanguagePage) {
@@ -78,20 +83,21 @@ class AdminContentMultilanguage extends BaseComponent
 
         if ($mustActivateMultilanguage) {
 
-            $browser->waitForText('Multilanguage is active');
+            $browser->waitForText('Multilanguage is active?', 20);
             // $browser->script('$(".module-switch-active-form .custom-control-label").click();');
-            $browser->click('.module-switch-active-form .custom-control-label');
+          //  $browser->click('.module-switch-active-form .custom-control-label');
+            $browser->click('#is_active_quick');
             $browser->waitForReload();
 
         }
-
+        $browser->pause(1000);
         if ($mustAddNewLang) {
             $browser->waitForText('Add new language', 20);
             $browser->select('.js-dropdown-text-language', $locale);
             $browser->pause(3000);
             $browser->click('.js-add-language');
-            $browser->pause(8000);
-            $browser->waitForText($locale, 15);
+            //$browser->pause(8000);
+            $browser->waitForText($locale, 60);
         }
 
     }
