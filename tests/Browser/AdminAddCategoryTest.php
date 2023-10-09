@@ -38,8 +38,8 @@ class AdminAddCategoryTest extends DuskTestCase
                 $browser->validate();
             });
 
-            $categoryTitle = 'This is the category title'.time();
-            $categoryDescription = 'This is the category description'.time();
+            $categoryTitle = 'this is the category title' . time();
+            $categoryDescription = 'this is the category description' . time();
 
             $browser->visit(route('admin.category.create'));
 
@@ -51,9 +51,8 @@ class AdminAddCategoryTest extends DuskTestCase
             $browser->click('#category-create-in-blog-link');
 
 
-
             $browser->pause(1000);
-            $browser->waitForText('Category name',30);
+            $browser->waitForText('Category name', 30);
 
             $browser->type('#content-title-field', $categoryTitle);
 
@@ -63,8 +62,8 @@ class AdminAddCategoryTest extends DuskTestCase
             $category = 'Blog';
 
             $script = '
-            if ($(".category-parent-selector .mw-tree-item-title:contains(\''.$category.'\')").parent().parent().parent().hasClass(\'selected\') == false) {
-                $(".category-parent-selector .mw-tree-item-title:contains(\''.$category.'\')").parent().click();
+            if ($(".category-parent-selector .mw-tree-item-title:contains(\'' . $category . '\')").parent().parent().parent().hasClass(\'selected\') == false) {
+                $(".category-parent-selector .mw-tree-item-title:contains(\'' . $category . '\')").parent().click();
             }';
 
             $browser->script($script);
@@ -90,13 +89,15 @@ class AdminAddCategoryTest extends DuskTestCase
 
             $findCategory = Category::where('title', $categoryTitle)->first();
 
-            $this->assertEquals($categoryDescription,$findCategory->description);
+
+            $this->assertEquals($categoryDescription, $findCategory->description);
 
             $browser->waitForLocation(route('admin.category.edit', $findCategory->id));
             $browser->pause(1000);
 
-            $browser->waitForText('Edit category');
-            $browser->assertSee('Edit category');
+            $browser->assertSee($categoryTitle);
+            $browser->waitForText('Category name');
+            $browser->assertSee('Save');
 
         });
 
