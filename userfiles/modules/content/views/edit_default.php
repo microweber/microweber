@@ -397,7 +397,7 @@ if (isset($params['quick_edit'])) {
 
                         <a href="#" x-on:click="showEditTab = 'customFields'"
                            :class="{ 'active': showEditTab == 'customFields' }"
-                           class="btn btn-link text-decoration-none mw-admin-action-links">
+                           class="btn btn-link text-decoration-none mw-admin-action-links js-custom-fields-card-tab">
                             <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20"
                                  viewBox="0 -960 960 960" width="20">
                                 <path
@@ -772,9 +772,10 @@ if (isset($params['quick_edit'])) {
                     </div>
 
                     <div x-show="showEditTab=='customFields'">
-                        <?php
+                         <?php
                         include_once __DIR__.'/custom_fields.php';
                         ?>
+
                     </div>
 
                     <div x-show="showEditTab=='seo'">

@@ -25,7 +25,7 @@ class AdminAddPageTest extends DuskTestCase
             });
 
 
-            $pageTitle = 'This is the page title'.time();
+            $pageTitle = 'This is the page title' . time();
 
             $browser->visit(route('admin.page.create'));
             $browser->click('.create-page-clean');
@@ -49,9 +49,10 @@ class AdminAddPageTest extends DuskTestCase
 
 
             $browser->within(new AdminContentCustomFieldAdd, function ($browser) {
-                $browser->addCustomField('dropdown','Dropdown');
-                $browser->addCustomField('text','Text Field');
+                $browser->addCustomField('dropdown', 'Dropdown');
+                $browser->addCustomField('text', 'Text Field');
             });
+
 
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
@@ -59,8 +60,8 @@ class AdminAddPageTest extends DuskTestCase
 
             $findPage = Page::where('title', $pageTitle)->first();
 
-            $this->assertEquals('page',$findPage->content_type);
-            $this->assertEquals('static',$findPage->subtype);
+            $this->assertEquals('page', $findPage->content_type);
+            $this->assertEquals('static', $findPage->subtype);
 
 
             $findedCustomFields = [];
@@ -68,8 +69,8 @@ class AdminAddPageTest extends DuskTestCase
             foreach ($customFields as $customField) {
                 $findedCustomFields[] = $customField['name'];
             }
-            $this->assertTrue(in_array('Dropdown',$findedCustomFields));
-            $this->assertTrue(in_array('Text Field',$findedCustomFields));
+            $this->assertTrue(in_array('Dropdown', $findedCustomFields));
+            $this->assertTrue(in_array('Text Field', $findedCustomFields));
 
             $getPictures = get_pictures($findPage->id);
             $this->assertEquals(3, count($getPictures));

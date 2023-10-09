@@ -14,7 +14,7 @@
        @foreach(mw()->ui->custom_fields() as $fieldType=>$fieldName)
         <div class="col-xl-3 col-md-4 col-6 hover-bg-light text-center py-4">
             <button wire:click="add('{{$fieldType}}','{{$fieldName}}')" type="button"
-                    class="d-flex flex-column btn btn-link mx-auto text-decoration-none mw-custom-field-existing-item-btn">
+                    class="js-add-custom-field-{{$fieldType}} d-flex flex-column btn btn-link mx-auto text-decoration-none mw-custom-field-existing-item-btn">
                 <span class="mw-custom-field-icon-text mw-custom-field-icon-{{$fieldType}}"></span>
                 <span class="mw-custom-field-title small" title="{{ $fieldName }}">
                     {{ $fieldName }}
