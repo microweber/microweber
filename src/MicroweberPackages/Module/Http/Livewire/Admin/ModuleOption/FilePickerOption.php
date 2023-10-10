@@ -6,6 +6,7 @@ class FilePickerOption extends OptionElement
 {
 
     public $label = '';
+    public $allowedType = 'media';
 
     public string $view = 'module::admin.option.file-picker';
 

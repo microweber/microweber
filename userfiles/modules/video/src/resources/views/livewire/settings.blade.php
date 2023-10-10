@@ -58,7 +58,7 @@ showMainEditTab: 'video'
 
         <div class="mt-3">
             <label class="live-edit-label">{{__('Upload Video')}} </label>
-            <livewire:microweber-option::file-picker optionKey="upload" :optionGroup="$moduleId" :module="$moduleType"  />
+            <livewire:microweber-option::file-picker allowedType="video" optionKey="upload" :optionGroup="$moduleId" :module="$moduleType"  />
         </div>
 
 
