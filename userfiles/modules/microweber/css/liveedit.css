@@ -5073,7 +5073,7 @@ body.dragStart picture img{
     opacity: .8;
 }
 
-.mw-live-edit .element:not(img):empty {
+.mw-live-edit .element:not(img,.mw-icon,.mdi,.icon,.icn):empty {
     cursor: pointer;
     background: #ffffff38;
     color: inherit;
@@ -5272,26 +5272,8 @@ section.section {
 }
 
 
-.mw-img-placeholder-delete:hover{
-    background-color: #c4c4c4;
-}
-.mw-img-placeholder-delete{
-    display: inline-block;
-    position: absolute;
-    padding: 3px 5px;
-    border-radius: 3px;
-    background-color: #c4c4c473;
-    top: 50%;
-    transform: translate(-50%, 25px);
-    left: 50%;
-    cursor: pointer;
-    pointer-events: all;
-    transition: background-color .3s;
-}
-.mw-img-placeholder-delete svg{
-    width: 20px;
-    fill: currentColor;
-}
+ 
+ 
 .mw-img-placeholder .mw-img-placeholder-description{
     position: absolute;
     inset: 0;
@@ -5305,4 +5287,9 @@ section.section {
 }
 .mw-img-placeholder{
     position: relative;
+    pointer-events: all;
+}
+
+.mw-drag-over{
+    outline: 2px dashed #ccc;
 }

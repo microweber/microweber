@@ -178,6 +178,29 @@ export default {
                     const icon = await iconPicker.promise();
 
 
+                } else if (element.classList.contains('mw-img-placeholder')) {
+
+                    var dialog = imagePicker(function (res) {
+
+                        mw.top().app.registerUndoState(element);
+                        var url = res.src ? res.src : res;
+                        if (!url) return;
+                        url = url.toString();
+                        
+                       
+                        var id = mw.id('element');
+                        var parent = element.parentNode;
+
+                        $(element).replaceWith(`<img class="element" id="${id}" src="${url}" alt="${res.name || ''}">`);
+                       
+
+                        mw.app.liveEdit.play();
+                        dialog.remove();
+
+                        mw.top().app.registerChangedState(parent);
+                    })
+
+
                 } else if (element.nodeName === 'IMG') {
 
                     var dialog = imagePicker(function (res) {
@@ -195,7 +218,7 @@ export default {
                     })
 
 
-                } else if (element.style && element.style.backgroundImage) {
+                }  else if (element.style && element.style.backgroundImage) {
                     var bg = element.style.backgroundImage.trim().split('url(')[1];
 
                     if (bg) {

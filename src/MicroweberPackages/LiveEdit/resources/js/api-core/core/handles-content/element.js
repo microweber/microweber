@@ -6,6 +6,9 @@ import {DomService} from "../classes/dom";
 import {ElementSettingsTarget} from "./element-settings-target";
 
 
+const isPlaceholder = target => target.classList.contains('mw-img-placeholder');
+
+
 export class ElementHandleContent {
     constructor(rootScope) {
 
@@ -55,7 +58,9 @@ export class ElementHandleContent {
                 className: 'mw-handle-clone-button',
                 onTarget: function (target, selfNode) {
 
-                    if (target.classList.contains('cloneable') || target.classList.contains('mw-col')) {
+                    const isVisible = !isPlaceholder(target) && (target.classList.contains('cloneable') || target.classList.contains('mw-col'))
+
+                    if (isVisible) {
                         selfNode.classList.remove('mw-le-handle-menu-button-hidden');
                     } else {
                         selfNode.classList.add('mw-le-handle-menu-button-hidden');
@@ -78,8 +83,9 @@ export class ElementHandleContent {
                     const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
                     const prev = target.previousElementSibling;
 
+                    const isVisible = !isPlaceholder(target) && isCloneable && prev
 
-                    if (isCloneable && prev) {
+                    if (isVisible) {
                         selfNode.classList.remove('mw-le-handle-menu-button-hidden');
                     } else {
                         selfNode.classList.add('mw-le-handle-menu-button-hidden');
@@ -99,8 +105,9 @@ export class ElementHandleContent {
                     const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
                     const next = target.nextElementSibling;
 
+                    const isVisible = !isPlaceholder(target) && isCloneable && next;
 
-                    if (isCloneable && next) {
+                    if (isVisible) {
                         selfNode.classList.remove('mw-le-handle-menu-button-hidden');
                     } else {
                         selfNode.classList.add('mw-le-handle-menu-button-hidden');
@@ -125,7 +132,7 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = false;
 
-                    const isImage = target.nodeName === 'IMG';
+                    const isImage = target.nodeName === 'IMG' && !isPlaceholder(target)  ;
                     if (isImage) {
                         selfVisible = !target.parentNode.classList.contains('img-as-background');
                     }
@@ -152,8 +159,10 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = false;
 
-                    const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A';
-                    if (isImageOrLink) {
+
+                    
+                    const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A' ;
+                    if (isImageOrLink && !isPlaceholder(target)) {
 
                         selfVisible = true;
 
@@ -177,7 +186,7 @@ export class ElementHandleContent {
                     var selfVisible = false;
 
                     const isLinkOrParentWithLink = target.nodeName === 'A' || target.parentNode && target.parentNode.nodeName === 'A';
-                    if (isLinkOrParentWithLink) {
+                    if (isLinkOrParentWithLink && !isPlaceholder(target)) {
                         selfVisible = true;
                     }
                     selfBtn.style.display = selfVisible ? '' : 'none';
@@ -216,6 +225,8 @@ export class ElementHandleContent {
                     if(DomService.hasAnyOfClassesOnNodeOrParent(target, ['img-as-background'])) {
                         selfVisible = false;
                     }
+
+ 
 
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
@@ -274,6 +285,7 @@ export class ElementHandleContent {
                     // if(isCloneableWithImageAsFirstChildAsBg){
                     //     selfVisible = true;
                     // }
+ 
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
@@ -329,6 +341,13 @@ export class ElementHandleContent {
                     if (target.classList.contains('spacer')) {
                         selfVisible = false;
                     }
+
+
+                    if(isPlaceholder(target)) {
+                        selfVisible = false;
+                    }
+
+
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 }
             },
