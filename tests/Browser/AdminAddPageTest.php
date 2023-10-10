@@ -29,6 +29,8 @@ class AdminAddPageTest extends DuskTestCase
 
             $browser->visit(route('admin.page.create'));
             $browser->click('.create-page-clean');
+            $browser->waitUntilMissing('.mw-create-page-templates-select-window',60);
+
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();

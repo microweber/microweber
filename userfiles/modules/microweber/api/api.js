@@ -636,7 +636,7 @@ mw.requireAsync = (url, key) => {
             callback.call();
         }
     }
-    if(self !== top && !!top.mw) {
+    if(self !== top && top && top.mw) {
         if (!currId && module && module.id) {
             currId = module.id;
         }
