@@ -43,7 +43,7 @@
 
                <div class="col-12">
                    <div class="d-flex justify-content-center gap-2">
-                       <button type="button" class="btn @if($category == 'microweber-template') btn-dark @else btn-outline-dark @endif" wire:click="filterCategory('microweber-template')">
+                       <button type="button" id="js-packages-tab-template" class="btn @if($category == 'microweber-template') btn-dark @else btn-outline-dark @endif" wire:click="filterCategory('microweber-template')">
                            <div wire:loading wire:target="filterCategory('microweber-template')" class="spinner-border spinner-border-sm" role="status">
                                <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
                            </div>
@@ -53,7 +53,7 @@
                            <?php _e("Templates"); ?>
                        </button>
 
-                       <button type="button" class="btn @if($category == 'microweber-module') btn-dark @else btn-outline-dark @endif" wire:click="filterCategory('microweber-module')">
+                       <button type="button" id="js-packages-tab-module" class="btn @if($category == 'microweber-module') btn-dark @else btn-outline-dark @endif" wire:click="filterCategory('microweber-module')">
                            <div wire:loading wire:target="filterCategory('microweber-module')" class="spinner-border spinner-border-sm" role="status">
                                <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
                            </div>
@@ -74,7 +74,7 @@
                                    <div class="card my-1 mx-1 card-sm card-link card-stacked">
 
                                        @if(isset($marketItem['extra']['_meta']['screenshot']))
-                                           <button type="button" class="border-0 d-block" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
+                                           <button id="js-install-package-<?php echo $marketItem['target-dir']; ?>" type="button" class="border-0 d-block" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
                                                @if($marketItem['type'] == 'microweber-module')
                                                    <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 180px;background-repeat:no-repeat;background-size: contain;background-position: center;" class="card-img-top">
                                                    </div>
@@ -84,7 +84,7 @@
                                                @endif
                                            </button>
                                        @else
-                                           <button type="button" class="border-0 d-block" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
+                                           <button id="js-install-package-<?php echo $marketItem['target-dir']; ?>" type="button" class="border-0 d-block" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
                                                <div class="card-img-top text-center">
                                                    <i class="mdi mdi-view-grid-plus text-muted"
                                                       style="opacity:0.5;font-size:126px;margin-left: 15px;"></i>
@@ -111,7 +111,7 @@
                                                    </span>
                                                @endif
                                                @if($marketItem['current_install'])
-                                                   <span class="badge bg-lime-lt">
+                                                   <span class="badge bg-lime-lt js-install-package-is-installed-badge-<?php echo $marketItem['target-dir']; ?>"   >
                                                        {{_e('Installed')}}
                                                    </span>
                                                @endif
