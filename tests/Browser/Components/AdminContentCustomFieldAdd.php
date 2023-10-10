@@ -71,7 +71,7 @@ class AdminContentCustomFieldAdd extends BaseComponent
 
         $browser->script("document.querySelector('.mw-modal-header .btn-close').click()");
 
-//        $browser->whenAvailable($cfKey, function ($b) use ($cfKey) { // Wait
+        //        $browser->whenAvailable($cfKey, function ($b) use ($cfKey) { // Wait
 //            $b->script("document.querySelector('".$cfKey."').scrollIntoView({block: 'center', inline: 'nearest',behavior :'auto'});");
 //            $b->pause(300);
 //

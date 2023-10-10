@@ -74,6 +74,7 @@
                 @endif
                 @if($showColumns['price'])
                     <td>
+                        <div class="mw-product-price-column">
                         @php
                             if ($content->hasSpecialPrice()) {
                                 $price = '<span class="h6" style="text-decoration: line-through;">'.currency_format($content->price).'</span>';
@@ -84,6 +85,7 @@
                         @endphp
 
                         {!! $price !!}
+                        </div>
                     </td>
                 @endif
                 @if($showColumns['stock'])

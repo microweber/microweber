@@ -47,4 +47,16 @@ trait TestHelpers {
         );
         return save_content($params);
     }
+    private function _generateShopPage($url, $title)
+    {
+
+        $params = array(
+            'title' => $title,
+            'url' => $url,
+            'content_type' => 'page',
+            'is_shop' => 1,
+            'is_active' => 1,
+        );
+        return save_content($params);
+    }
 }
