@@ -9,7 +9,7 @@
         canSelectFolder: true,
         selectable: true,
         multiselect: true,
-        stickyHeader: 68,
+        stickyHeader: false,
         options: true,
         selectableRow: false,
     });

@@ -37,75 +37,95 @@ export class ElementActions extends MicroweberBaseClass {
         mw.app.editor.dispatch('editNodeRequest', el);
     }
 
+    imagePlaceholder(newNode, css) {
+        
+        if(!newNode) {
+            newNode = document.createElement('p');
+        }
+
+ 
+
+
+       
+
+        newNode.innerHTML = `<span class="mw-img-placeholder-description">${mw.lang(`Click to set image`)}</span>`;
+        newNode.dataset.type = mw.lang('Picture');
+
+        mw.element(newNode).css(css)
+
+        newNode.className = 'element mw-img-placeholder';
+ 
+
+        const getFile = (e) => {
+            let file;
+            if (e.dataTransfer.items) {
+                file = [...e.dataTransfer.items].find((item, i) => {
+                    if (item.kind === "file") {
+                        return true;
+                    }
+                });
+              
+            } else {
+              file = [...e.dataTransfer.files][0];
+            }
+            return file;
+        }
+
+        
+
+
+        function handleDragover(e) {
+            
+            let file = getFile(e);
+
+            if(file) {
+                newNode.classList.add('mw-drag-over')
+              
+
+                e.preventDefault();                    
+            }
+
+
+              
+        }
+        }
+ 
+
     deleteElement(el) {
 
 
         if(el.nodeName === 'IMG') {
-            const $el = mw.element(el)
-            const off = $el.offset()
-            const display = $el.css('display')
-            const newNode = mw.tools.setTag(el, 'div');
-            newNode.innerHTML = `<span class="mw-img-placeholder-description">${mw.lang(`Click to set image`)}</span>`;
-            newNode.style.display = display !== 'inline' ? display : 'inline-block';
-            newNode.style.width = off.width + 'px';
-            newNode.style.height = off.height + 'px';
-            newNode.className = 'no-element mw-img-placeholder';
-            const handle = function (e){
-                e.preventDefault();
-                e.stopPropagation();
-                mw.filePickerDialog( (url) => {
-                    if(url) {
-                        $(newNode).replaceWith(`<img src="${url}">`);
-                    }
 
-                });
+            var edit = DomService.firstParentWithAnyOfClasses(el, ['edit'])
+            
+            mw.app.state.record({
+                target: edit,
+                value: edit.innerHTML
+            });
+
+            const $el = mw.element(el);
+            const off = $el.offset();
+            const display = $el.css('display');
+
+
+            const newNode = mw.tools.setTag(el, 'p');
+
+            var css = {
+                display: display !== 'inline' ? display : 'inline-block',
+                width: off.width,
+                height: off.height,
+               
             }
 
+            this.imagePlaceholder(newNode, css);
 
-            function handleDrop(e) {
- 
-                e.preventDefault();
-                e.stopPropagation();
-                let file;
-              
-                if (e.dataTransfer.items) {
-                    file = [...e.dataTransfer.items].find((item, i) => {
-                        if (item.kind === "file") {
-                            return item.getAsFile();
-                        }
-                    });
-                  
-                } else {
-                  file = [...e.dataTransfer.files][0];
-                }
-
-                if(file) {
-                    mw.spinner({element: newNode, decorate: true});
-                    mw.uploader().uploadFile(file, function(res){
-                        console.log(res)
-                        $(newNode).replaceWith(`<img src="${res.url}">`);
-                        
-                    })
-                }
-              }
-
-            const del = document.createElement('span');
-            del.className = 'mw-img-placeholder-delete';
-            del.innerHTML = this.handleIcons.icon('delete');
-            newNode.append(del);
-
-            const handleDelete = e => {
-                e.stopPropagation();
-                newNode.remove();
-            }
-
-            del.addEventListener('touchstart', handleDelete);
-            del.addEventListener('mousedown', handleDelete);
-
-
-            newNode.addEventListener('touchstart', handle);
-            newNode.addEventListener('mousedown', handle);
-            newNode.addEventListener('drop', handleDrop)
+         
+            
+            mw.app.state.record({
+                target: edit,
+                value: edit.innerHTML
+            });
+  
             return;
         }
 

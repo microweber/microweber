@@ -141,12 +141,53 @@ export const Draggable = function (options, rootSettings) {
     this.dropPosition = DropPosition;
 
     this.draggable = function () {
+
+
+ 
+
+        const getFile = (e) => {
+            let file;
+            if (e.dataTransfer.items) {
+                file = [...e.dataTransfer.items].find((item, i) => {
+                    if (item.kind === "file") {
+                        return true;
+                    }
+                });
+              
+            } else {
+              file = [...e.dataTransfer.files][0];
+            }
+            return file;
+        }
+
+
+
          ElementManager(this.settings.target).on('dragleave', function (e) {
             if(scope.dropIndicator) scope.dropIndicator.hide();
-         })
-         ElementManager(this.settings.target).on('dragover', function (e) {
+         });
+         const dtarget = ElementManager(this.settings.target).get(0);
+
+         if(dtarget.__draggableReady) {
+            return;
+         }
+         dtarget.__draggableReady = true;
+         
+
+          
+
+         dtarget.addEventListener('dragover', function (e) {
              scope.target = null;
              scope.action = null;
+             const file = getFile(e);
+             e.preventDefault();
+             
+
+             let canDrag = true;
+
+             if(!canDrag) {
+                return;
+             }
+              
              if(e.target !== scope.element || !scope.element.contains(e.target)) {
                  var targetAction = scope.dropableService.getTarget(e.target, scope.element);
 
@@ -168,16 +209,98 @@ export const Draggable = function (options, rootSettings) {
                      scope.dispatch('dragOver', {element: scope.element, event: e});
                      e.preventDefault();
                  }
+             } else {
+                if(scope.dropIndicator) scope.dropIndicator.hide();
+
              }
-        }).on('drop', function (e) {
+        });
+        dtarget.addEventListener('drop', function (e) {
+        
+            const handleFileDrag = (file, e) => {
+
+                if(!scope.target || !scope.action) {
+                    return;
+                }
+ 
+                
+                file = file.getAsFile();
+
+                const images = ['image/apng','image/avif','image/gif','image/jpeg','image/png', 'image/svg+xml','image/webp'];
+                const videos = ['video/webm', 'video/ogg', 'application/ogg', 'video/mp4'];
+                
+                const isImage = images.indexOf(file.type) !== -1;
+                const isVideo = videos.indexOf(file.type) !== -1;
+
+                const canUpload = isImage || isVideo;
+           
+                if(!canUpload) {
+                    return;
+                }
+
+                mw.spinner({element: document.body, decorate: true});
+             
+                mw.uploader().uploadFile(file, function(res){
+
+                    var edit = DomService.firstParentWithAnyOfClasses(scope.target, ['edit'])
+            
+                    mw.app.state.record({
+                        target: edit,
+                        value: edit.innerHTML
+                    });
+                    if(isVideo) {
+                        var id = mw.id('dropped-video');
+
+                        
+                        // ElementManager(scope.target)[scope.action](`<div id="${id}" class="module module-video" data-type="video" url="${res.src}">`);
+                        ElementManager(scope.target)[scope.action](`<video id="${id}" class="module module-video" autoplay controls playsinline style="width:100%" data-type="video" src="${res.src}" url="${res.src}">`);
+                        setTimeout(() => {
+                            // mw.reload_module_everywhere('#' + id);
+                        }, 100)
+
+                    } else if(isImage) {
+                        ElementManager(scope.target)[scope.action](`<img src="${res.src}" alt="${res.name || ''}">`);
+                    }
+                    
+                    var edit = DomService.firstParentWithAnyOfClasses(scope.target, ['edit'])
+                    
+                    mw.app.state.record({
+                        target: edit,
+                        value: edit.innerHTML
+                    });
+                    mw.spinner({element: document.body, decorate: true}).remove();
+                })
+
+                
+            }
+          
             if (scope.isDragging) {
+           
                 e.preventDefault();
-                if (scope.target && scope.action) {
+                const file = getFile(e);
+          
+                if(file) {
+                    handleFileDrag(file, e);
+                    e.stopPropagation();
+                    e.preventDefault();
+                } else if (scope.target && scope.action) {
                     ElementManager(scope.target)[scope.action](scope.element);
+                    e.stopPropagation();
+                    e.preventDefault();
                 }
                 if(scope.dropIndicator) scope.dropIndicator.hide();
                 scope.dispatch('drop', {element: scope.element, event: e});
+            } else {
+          
+                const file = getFile(e);
+                
+                if(file) {
+                    e.stopPropagation();
+                    e.preventDefault();
+       
+                    handleFileDrag(file, e)
+                }
             }
+ 
             if(scope.dropIndicator) scope.dropIndicator.hide();
         });
 
