@@ -5073,7 +5073,7 @@ body.dragStart picture img{
     opacity: .8;
 }
 
-.mw-live-edit .element:not(img,.mw-icon,.mdi,.icon,.icn):empty {
+.mw-live-edit [data-mwplaceholder]:empty {
     cursor: pointer;
     background: #ffffff38;
     color: inherit;
