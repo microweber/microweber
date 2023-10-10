@@ -14,7 +14,7 @@ class FrontendSwitchLanguage extends BaseComponent
      */
     public function selector()
     {
-        return '.module-multilanguage';
+        return '';
     }
 
     /**
@@ -40,10 +40,32 @@ class FrontendSwitchLanguage extends BaseComponent
 
     public function switchLanguage(Browser $browser, $locale)
     {
+
+        //
+        if (!$browser->element('#switch_language_ul')) {
+            if ($browser->element('#header-layout')) {
+                // must enable multilang in header-layout first
+                $option = array();
+                $option['option_value'] = '1';
+                $option['option_key'] = 'header_top_menu';
+                $option['option_group'] = 'header-layout';
+                save_option($option);
+
+                $option = array();
+                $option['option_value'] = '1';
+                $option['option_key'] = 'multilanguage';
+                $option['option_group'] = 'header-layout';
+                save_option($option);
+                $browser->script('location.reload();');
+
+            }
+        }
+
+
         $browser->pause(300);
-        $browser->click('.mw-dropdown-default');
+        $browser->click('.module-multilanguage .mw-dropdown-default');
         $browser->pause(400);
-        $browser->script('$(\'li[data-value="'.$locale.'"]\').click()');
+        $browser->script('$(\'li[data-value="'.$locale.'"]\', ".module-multilanguage").click()');
         $browser->waitForReload(false, 6000);
 
     }

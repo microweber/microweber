@@ -230,4 +230,5 @@ class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
         });
 
     }
+
 }
