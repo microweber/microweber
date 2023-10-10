@@ -60,12 +60,13 @@ class AdminContentImageAdd extends BaseComponent
             $browser->click('#post-file-picker-small');
 
         }
-        $browser->pause(300);
+        $browser->pause(1000);
         $browser->attach('input.mw-uploader-input', $image);
      //   $browser->attach('.mw-filepicker-desktop-type-big input.mw-uploader-input', $image);
        // $browser->waitForText('Pictures settings are saved',30);
-   //     $browser->waitFor('.admin-thumb-item', 30);
-
+        if (!$browser->element('.admin-thumb-item')) {
+            $browser->waitFor('.admin-thumb-item', 30);
+        }
 
 
         $browser->pause(3000);

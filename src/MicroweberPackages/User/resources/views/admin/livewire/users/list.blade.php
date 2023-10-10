@@ -38,13 +38,23 @@
                    </div>
 
                     <div class="col-lg-8 col-12 text-lg-end">
+
+                        @php
+                            $editUserLink = route('admin.users.edit', user_id());
+                        @endphp
+                        <a href="{{ $editUserLink }}"
+                           class="btn btn-outline-secondary mx-1 btn-sm" id="add-edit-user-btn">
+                            <?php _e("Edit profile"); ?>
+                        </a>
+
                         <button type="button" class="btn btn-outline-primary mx-1 btn-sm" @click="showFilters = ! showFilters">
                             <?php _e("Show Filters"); ?>
                         </button>
                         <a href="{{route('admin.users.create')}}"
                            class="btn btn-primary mx-1 btn-sm" id="add-new-user-btn">
-                            <?php _e("Add user"); ?>
+                            <?php _e("Add new user"); ?>
                         </a>
+
                     </div>
                 </div>
                 <div x-show="showFilters">

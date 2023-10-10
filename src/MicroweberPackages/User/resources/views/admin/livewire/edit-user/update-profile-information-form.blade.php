@@ -61,35 +61,35 @@
             <!-- Username -->
             <div class="live-edit-label">
                 <x-microweber-ui::label for="username" value="Username" />
-                <x-microweber-ui::input id="username" type="text" class="mt-1 block w-full" wire:model.defer="state.username" autocomplete="username" />
+                <x-microweber-ui::input id="username" type="text" class="mt-1 block w-full" wire:model.defer="state.username" autocomplete="username" name="username" />
                 <x-microweber-ui::input-error for="username" class="mt-2" />
             </div>
 
             <!-- First Name -->
             <div class="live-edit-label">
                 <x-microweber-ui::label for="first_name" value="First Name" />
-                <x-microweber-ui::input id="first_name" type="text" class="mt-1 block w-full" wire:model.defer="state.first_name" autocomplete="first_name" />
+                <x-microweber-ui::input id="first_name" type="text" class="mt-1 block w-full" wire:model.defer="state.first_name" autocomplete="first_name"  name="first_name" />
                 <x-microweber-ui::input-error for="first_name" class="mt-2" />
             </div>
 
             <!-- Last Name -->
             <div class="live-edit-label">
                 <x-microweber-ui::label for="last_name" value="Last Name" />
-                <x-microweber-ui::input id="last_name" type="text" class="mt-1 block w-full" wire:model.defer="state.last_name" autocomplete="last_name" />
+                <x-microweber-ui::input id="last_name" type="text" class="mt-1 block w-full" wire:model.defer="state.last_name" autocomplete="last_name"  name="last_name" />
                 <x-microweber-ui::input-error for="last_name" class="mt-2" />
             </div>
 
             <!-- Email -->
             <div class="live-edit-label">
                 <x-microweber-ui::label for="email" value="Email" />
-                <x-microweber-ui::input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
+                <x-microweber-ui::input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email"  name="email" />
                 <x-microweber-ui::input-error for="email" class="mt-2" />
             </div>
 
             <!-- Phone -->
             <div class="live-edit-label">
                 <x-microweber-ui::label for="phone" value="Phone" />
-                <x-microweber-ui::input id="phone" type="text" class="mt-1 block w-full" wire:model.defer="state.phone" />
+                <x-microweber-ui::input id="phone" type="text" class="mt-1 block w-full" wire:model.defer="state.phone" name="phone" />
                 <x-microweber-ui::input-error for="phone" class="mt-2" />
             </div>
 
@@ -115,7 +115,7 @@
                 {{ _e('Saved') }}.
             </x-microweber-ui::action-message>
 
-            <x-microweber-ui::button>
+            <x-microweber-ui::button id="user-save-button">
                 {{ _e('Save') }}
             </x-microweber-ui::button>
         </x-slot>

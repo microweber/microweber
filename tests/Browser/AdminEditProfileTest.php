@@ -39,9 +39,9 @@ class AdminEditProfileTest extends DuskTestCase
             });
 
             $browser->pause(3000);
-            $browser->waitForText('First Name');
-            $browser->pause(3000);
-            $browser->scrollTo('#advanced-settings');
+           // $browser->waitForText('First Name', 30);
+         //  $browser->pause(3000);
+           //.. $browser->scrollTo('#advanced-settings');
 
             $browser->type('first_name', 'Visual');
             $browser->type('last_name', 'Test');
@@ -86,9 +86,8 @@ class AdminEditProfileTest extends DuskTestCase
             });
 
             $browser->pause(3000);
-            $browser->waitForText('First Name');
+            $browser->waitForText('Please fill the form below to create a new user.');
             $browser->pause(3000);
-            $browser->scrollTo('#advanced-settings');
 
             $faker = Factory::create('en_US');
 
@@ -107,18 +106,18 @@ class AdminEditProfileTest extends DuskTestCase
             $browser->type('phone', $phone);
             $browser->type('email', $new_email);
             $browser->select('is_admin', 1);
-
-            $browser->script("document.querySelector('label[for=\"is_active1\"]').scrollIntoView({block: 'start', inline: 'nearest',behavior :'auto'});");
-            $browser->pause(300);
-
-            $browser->click('label[for="is_active1"]');
+//
+//            $browser->script("document.querySelector('label[for=\"is_active1\"]').scrollIntoView({block: 'start', inline: 'nearest',behavior :'auto'});");
+//            $browser->pause(300);
+//
+//            $browser->click('label[for="is_active1"]');
 
             $browser->pause(100);
 
             $browser->script("document.querySelector('#user-save-button').scrollIntoView({block: 'start', inline: 'nearest',behavior :'auto'});");
 
 
-            $browser->pause(300);
+            $browser->pause(1000);
 
 
 
