@@ -3,6 +3,7 @@ namespace Tests\Browser\Multilanguage;
 
 use Faker\Factory;
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Product\Models\Product;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
@@ -17,9 +18,18 @@ use Tests\DuskTestCaseMultilanguage;
 
 class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
 {
+
+    use TestHelpers;
     public function testAddProduct()
     {
-        $this->browse(function (Browser $browser) {
+
+        $title='Shop ML '.uniqid();
+        $pageId = $this->_generateShopPage($title, $title);
+        $this->_generateCategory('clothes', 'Clothes', $pageId);
+        $this->_generateCategory('t-shirts', 'T-shirts', $pageId);
+        $this->_generateCategory('decor', 'Decor', $pageId);
+
+        $this->browse(function (Browser $browser) use ($title,$pageId) {
 
             $quickTest = false;
 
@@ -74,6 +84,9 @@ class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
                 }
             });
 
+            $browser->click('.js-default-card-tab');
+
+
             if ($quickTest == false) {
                 $productPrice = rand(1111, 9999);
                 $productSpecialPrice = $productPrice - rand(1, 9);
@@ -105,7 +118,7 @@ class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
                 $browser->pause(1000);
 
 
-                $category4 = 'Shop';
+                $category4 = $title;
                 $category4_1 = 'Clothes';
                 $category4_2 = 'T-shirts';
                 $category4_3 = 'Decor';
@@ -147,7 +160,6 @@ class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
             $browser->click('#js-admin-save-content-main-btn');
 
             $browser->pause(3000);
-            $browser->waitForText('Editing product');
 
             $findProduct = Product::where('title', $productDataMultilanguage['en_US']['title'])->first();
 

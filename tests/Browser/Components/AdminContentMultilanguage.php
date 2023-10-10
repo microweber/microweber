@@ -138,12 +138,12 @@ class AdminContentMultilanguage extends BaseComponent
 
 
         $browser->pause(1000);
-        $browser->script("document.querySelector('.js-card-search-engine').scrollIntoView({block: 'end', inline: 'nearest',behavior :'auto'});");
+        $browser->script("document.querySelector('.js-seo-card-tab').scrollIntoView({block: 'end', inline: 'nearest',behavior :'auto'});");
         $browser->pause(1000);
 
         if (!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
             $browser->pause(1000);
-            $browser->click('.btn[data-bs-target="#seo-settings"]');
+            $browser->click('.js-seo-card-tab');
         }
 
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($title, $locale) {
@@ -157,7 +157,7 @@ class AdminContentMultilanguage extends BaseComponent
         $browser->scrollTo('.js-card-search-engine');
         if (!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
             //  $browser->script('$(".js-card-search-engine a.btn").click();');
-            $browser->click('.js-card-search-engine a.btn"');
+            $browser->click('.js-seo-card-tab');
 
             $browser->pause(1000);
         }
@@ -172,7 +172,7 @@ class AdminContentMultilanguage extends BaseComponent
         $browser->scrollTo('.js-card-search-engine');
         if (!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
             //$browser->script('$(".js-card-search-engine a.btn").click();');
-            $browser->click('.js-card-search-engine a.btn"');
+            $browser->click('.js-seo-card-tab');
             $browser->pause(1000);
         }
 

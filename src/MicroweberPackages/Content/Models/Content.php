@@ -44,7 +44,7 @@ class Content extends Model
     protected $content_type = 'content';
     public $additionalData = [];
 
-    public $cacheTagsToClear = ['repositories', 'content', 'content_fields_drafts', 'menu', 'content_fields', 'categories'];
+    public $cacheTagsToClear = ['repositories', 'content', 'content_fields_drafts', 'menu', 'content_fields', 'categories','custom_fields','custom_fields_values'];
 
     public $translatable = ['title','url','description','content','content_body','content_meta_title','content_meta_keywords'];
 

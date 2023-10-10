@@ -386,7 +386,7 @@ if (isset($params['quick_edit'])) {
                 <div class="d-flex js-collapse-inner-page-menu justify-content-between align-items-center mb-4">
                     <div class="d-flex flex-wrap gap-md-4 gap-3">
                         <a href="#" x-on:click="showEditTab = 'details'" :class="{ 'active': showEditTab == 'details' }"
-                           class="btn btn-link text-decoration-none mw-admin-action-links">
+                           class="btn btn-link text-decoration-none mw-admin-action-links js-default-card-tab">
                             <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20"
                                  viewBox="0 -960 960 960" width="20">
                                 <path
@@ -407,7 +407,7 @@ if (isset($params['quick_edit'])) {
                         </a>
 
                         <a href="#" x-on:click="showEditTab = 'seo'" :class="{ 'active': showEditTab == 'seo' }"
-                           class="btn btn-link text-decoration-none mw-admin-action-links">
+                           class="btn btn-link text-decoration-none mw-admin-action-links js-seo-card-tab">
                             <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20"
                                  viewBox="0 -960 960 960" width="20">
                                 <path
@@ -419,7 +419,7 @@ if (isset($params['quick_edit'])) {
 
                         <a href="#" x-on:click="showEditTab = 'advanced'"
                            :class="{ 'active': showEditTab == 'advanced' }"
-                           class="btn btn-link text-decoration-none link mw-admin-action-links">
+                           class="btn btn-link text-decoration-none link mw-admin-action-links js-advanced-card-tab">
                             <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20"
                                  viewBox="0 -960 960 960" width="20">
                                 <path

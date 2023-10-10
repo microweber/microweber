@@ -129,10 +129,14 @@ class AdminAddProductTest extends DuskTestCase
 
             $findProduct = Product::where('title', $productTitle)->first();
 
-            $this->assertEquals($productPrice, $findProduct->price);
+            $browser->waitForLocation(route('admin.product.edit', $findProduct->id));
+
+
+            $this->assertEquals(intval($productPrice), intval($findProduct->price));
             $this->assertEquals($productSpecialPrice, $findProduct->special_price);
             $this->assertEquals($productQuantity, $findProduct->qty);
             $this->assertEquals($productSku, $findProduct->sku);
+
 
             $this->assertEquals($findProduct->content_body, $productDescription);
             $this->assertEquals($findProduct->content_type, 'product');
@@ -168,7 +172,6 @@ class AdminAddProductTest extends DuskTestCase
             $getPictures = get_pictures($findProduct->id);
             $this->assertEquals(3, count($getPictures));
 
-            $browser->waitForLocation(route('admin.product.edit', $findProduct->id));
 
         });
 

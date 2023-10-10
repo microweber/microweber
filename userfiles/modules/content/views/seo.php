@@ -1,4 +1,4 @@
-<div class="card mb-5">
+<div class="card mb-5" id="seo-settings">
     <div class="card-body">
         <div class="row">
 

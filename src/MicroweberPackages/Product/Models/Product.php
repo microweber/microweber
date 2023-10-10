@@ -160,7 +160,8 @@ class Product extends Content
     public function getPriceAttribute()
     {
         $price = $this->fetchSingleAttributeByType('price');
-        if (is_numeric($price)) {
+
+        if ($price) {
             return $price;
         }
 
