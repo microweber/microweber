@@ -153,6 +153,13 @@ if($save_as == false){
 
 $module_template = get_option('data-template', $params['id']);
 
+
+$default_fields = 'name,email,message';
+
+if(isset($params['default-fields']) and $params['default-fields'] != ''){
+    $default_fields = $params['default-fields'];
+}
+
 if($module_template != false and $module_template != 'none'){
 	$template_file = module_templates( $config['module'], $module_template);
 } else {

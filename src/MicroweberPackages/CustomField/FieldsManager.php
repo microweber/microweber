@@ -2,7 +2,26 @@
 
 namespace MicroweberPackages\CustomField;
 
+use MicroweberPackages\CustomField\Fields\Breakline;
+use MicroweberPackages\CustomField\Fields\Button;
+use MicroweberPackages\CustomField\Fields\Checkbox;
+use MicroweberPackages\CustomField\Fields\Color;
+use MicroweberPackages\CustomField\Fields\Country;
+use MicroweberPackages\CustomField\Fields\Date;
+use MicroweberPackages\CustomField\Fields\DefaultField;
+use MicroweberPackages\CustomField\Fields\Dropdown;
+use MicroweberPackages\CustomField\Fields\Email;
+use MicroweberPackages\CustomField\Fields\Hidden;
+use MicroweberPackages\CustomField\Fields\Number;
+use MicroweberPackages\CustomField\Fields\Password;
+use MicroweberPackages\CustomField\Fields\Phone;
+use MicroweberPackages\CustomField\Fields\Price;
+use MicroweberPackages\CustomField\Fields\Property;
+use MicroweberPackages\CustomField\Fields\Radio;
+use MicroweberPackages\CustomField\Fields\Site;
 use MicroweberPackages\CustomField\Fields\Text;
+use MicroweberPackages\CustomField\Fields\TextArea;
+use MicroweberPackages\CustomField\Fields\Time;
 use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Helper\XSSSecurity;
 use function Matrix\trace;
@@ -263,7 +282,7 @@ class FieldsManager
                         $make_field['name'] = ucfirst($field_name);
                         $make_field['show_label'] = $show_label;
                         $make_field['required'] = $required;
-                        if($values){
+                        if ($values) {
                             $make_field['value'] = $values;
                         }
 
@@ -326,8 +345,8 @@ class FieldsManager
 
                 $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $fieldData['copy_of'])->get();
                 if ($getCustomFieldValues) {
-                    foreach ($getCustomFieldValues as $customFieldValue){
-                        $fieldData['value'][]  = $customFieldValue->value;
+                    foreach ($getCustomFieldValues as $customFieldValue) {
+                        $fieldData['value'][] = $customFieldValue->value;
                     }
                 }
 
@@ -350,8 +369,8 @@ class FieldsManager
                     ->count();
 
                 if ($countDuplicates > 0) {
-                    $fieldData['name'] = $fieldData['name'] . ' ('.($countDuplicates+1).')';
-                    $fieldData['name_key'] = $fieldData['name_key'] . '-'.($countDuplicates+1);
+                    $fieldData['name'] = $fieldData['name'] . ' (' . ($countDuplicates + 1) . ')';
+                    $fieldData['name_key'] = $fieldData['name_key'] . '-' . ($countDuplicates + 1);
                 }
 
                 return $this->save($fieldData);
@@ -386,11 +405,11 @@ class FieldsManager
 
         if ($customField == null) {
 
-            if(!isset($fieldData['rel_type']) and isset($fieldData['content_id'])){
-                 $fieldData['rel_type'] = 'content';
+            if (!isset($fieldData['rel_type']) and isset($fieldData['content_id'])) {
+                $fieldData['rel_type'] = 'content';
             }
 
-            if(!isset($fieldData['rel_id']) and isset($fieldData['content_id'])){
+            if (!isset($fieldData['rel_id']) and isset($fieldData['content_id'])) {
                 $fieldData['rel_id'] = $fieldData['content_id'];
             }
 
@@ -408,7 +427,7 @@ class FieldsManager
                 ->count();
 
             if ($countDuplicates > 0) {
-                $customField->name = $customField->name . ' ('.($countDuplicates+1).')';
+                $customField->name = $customField->name . ' (' . ($countDuplicates + 1) . ')';
             }
         }
 
@@ -580,7 +599,7 @@ class FieldsManager
         foreach ($data as $item) {
             if (isset($item['name']) and
                 ((strtolower($item['name']) == strtolower($field_name))
-                  /*  or (strtolower($item['type']) == strtolower($item['type'])) issue https://github.com/microweber/microweber/issues/975*/
+                    /*  or (strtolower($item['type']) == strtolower($item['type'])) issue https://github.com/microweber/microweber/issues/975*/
                 )
             ) {
                 $val = $item['value'];
@@ -763,8 +782,37 @@ class FieldsManager
 
     public function instanceField($type)
     {
-        $fieldClass = 'MicroweberPackages\\CustomField\\Fields\\' . ucfirst($type);
+
+
+        $typeToClassMap = [
+            'address' =>  Address::class,
+            'text' =>  Text::class,
+            'button' =>  Button::class,
+            'breakline' =>  Breakline::class,
+            'checkbox' =>  Checkbox::class,
+            'color' => Color::class,
+            'country' => Country::class,
+            'date' => Date::class,
+            'defaultfield' => DefaultField::class,
+            'dropdown' => Dropdown::class,
+            'email' => Email::class,
+            'hidden' => Hidden::class,
+            'number' => Number::class,
+            'password' => Password::class,
+            'phone' => Phone::class,
+            'price' => Price::class,
+            'property' => Property::class,
+            'radio' => Radio::class,
+            'site' => Site::class,
+            'textarea' => TextArea::class,
+            'time' => Time::class,
+            'upload' => Time::class,
+        ];
+
+        $fieldClass = $typeToClassMap[$type] ?? 'MicroweberPackages\\CustomField\\Fields\\' . ucfirst($type);
+
         if (class_exists($fieldClass, true)) {
+
             $field = new $fieldClass ();
         } else {
             $field = new Text();

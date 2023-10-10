@@ -14,7 +14,7 @@ export default {
             placeholder: "Search content",
             ajaxConfig: {
                 method: 'get',
-                url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&is_active=1&is_deleted=0&keyword=${val}'
+                url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&order_by=updated_at desc&is_active=1&is_deleted=0&keyword=${val}'
             },
             map: {
                 value: 'id',
