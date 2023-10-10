@@ -2062,7 +2062,7 @@ class ImageLib
         if ($this->fileExtension and strtolower($this->fileExtension) == '.webp' and function_exists('imagecreatefromwebp')) {
             $img = @imagecreatefromwebp($file);
         } else {
-            $info = getimagesize($file);
+            $info = @getimagesize($file);
             if(!is_array($info)){
                 return false;
             }

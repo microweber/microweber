@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Post\Models\Post;
 use PHPUnit\Framework\Assert as PHPUnit;
 use Tests\Browser\Components\AdminContentImageAdd;
@@ -16,13 +17,18 @@ use Tests\DuskTestCase;
 class AdminAddCategoryTest extends DuskTestCase
 {
 
+    use TestHelpers;
+
     public function testAddCategory()
     {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
         $environment = app()->environment();
 
-        $this->browse(function (Browser $browser) use ($environment) {
+        $title='Blog for cat '.uniqid();
+        $pageId = $this->_generatePage($title, $title);
+
+        $this->browse(function (Browser $browser) use ($environment,$title) {
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
@@ -50,7 +56,6 @@ class AdminAddCategoryTest extends DuskTestCase
 
             $browser->click('#category-create-in-blog-link');
 
-
             $browser->pause(1000);
             $browser->waitForText('Category name', 30);
 
@@ -59,7 +64,7 @@ class AdminAddCategoryTest extends DuskTestCase
             $browser->click('#category-dropdown-holder');
             $browser->pause(300);
 
-            $category = 'Blog';
+            $category = $title;
 
             $script = '
             if ($(".category-parent-selector .mw-tree-item-title:contains(\'' . $category . '\')").parent().parent().parent().hasClass(\'selected\') == false) {
@@ -78,6 +83,7 @@ class AdminAddCategoryTest extends DuskTestCase
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img3.jpg');
             });
 
+
             $browser->scrollTo('#content-title-field');
             $browser->pause(1000);
 
@@ -87,8 +93,8 @@ class AdminAddCategoryTest extends DuskTestCase
             $browser->click('@category-save');
             $browser->pause(4000);
 
-            $findCategory = Category::where('title', $categoryTitle)->first();
 
+            $findCategory = Category::where('title', $categoryTitle)->first();
 
             $this->assertEquals($categoryDescription, $findCategory->description);
 

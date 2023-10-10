@@ -31,9 +31,15 @@ $allBlogs = app()->content_repository->getAllBlogPages();
 $allShops = app()->content_repository->getAllShopPages();
 if($allBlogs){
     $firstBlogId = $allBlogs[0]['id'];
+
+    //limit to 3
+    $allBlogs = array_slice($allBlogs, 0, 3);
 }
 if($allShops){
     $firstShopId = $allShops[0]['id'];
+
+    //limit to 3
+    $allShops = array_slice($allShops, 0, 3);
 }
 
 
