@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Product\Models\Product;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
@@ -14,9 +15,20 @@ use Tests\DuskTestCase;
 
 class AdminAddProductTest extends DuskTestCase
 {
+
+    use TestHelpers;
+
     public function testAddProduct()
     {
-        $this->browse(function (Browser $browser) {
+
+        $title='Shop '.uniqid();
+        $pageId = $this->_generateShopPage($title, $title);
+        $this->_generateCategory('clothes', 'Clothes', $pageId);
+        $this->_generateCategory('t-shirts', 'T-shirts', $pageId);
+        $this->_generateCategory('decor', 'Decor', $pageId);
+
+
+        $this->browse(function (Browser $browser) use ($title) {
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
@@ -68,7 +80,7 @@ class AdminAddProductTest extends DuskTestCase
             $browser->pause(1000);
 
 
-            $category4 = 'Shop';
+            $category4 = $title;
             $category4_1 = 'Clothes';
             $category4_2 = 'T-shirts';
             $category4_3 = 'Decor';
@@ -105,9 +117,15 @@ class AdminAddProductTest extends DuskTestCase
                 $browser->addCustomField('text','Text Field');
             });
 
+            $browser->script("$('html, body').animate({ scrollTop: $('#js-admin-save-content-main-btn').offset().top - 30 }, 0);");
+
             $browser->pause(1000);
+
             $browser->click('#js-admin-save-content-main-btn');
-            $browser->pause(10000);
+            $browser->pause(1000);
+
+
+
 
             $findProduct = Product::where('title', $productTitle)->first();
 

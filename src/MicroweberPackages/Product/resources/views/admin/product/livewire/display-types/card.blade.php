@@ -30,6 +30,24 @@
                 </div>
                 @endif
 
+
+                @if($showColumns['price'])
+                    <div class="col-auto  mw-product-price-column">
+
+                        @php
+                            if ($content->hasSpecialPrice()) {
+                                $price = '<span class="h6" style="text-decoration: line-through;">'.currency_format($content->price).'</span>';
+                                $price .= '<br /><span class="h5">'.currency_format($content->specialPrice).'</span>';
+                            } else {
+                                $price = '<span class="h5">'.currency_format($content->price).'</span>';
+                            }
+                        @endphp
+
+                        {!! $price !!}
+
+                    </div>
+                @endif
+
                 <div class="col-auto d-flex flex-wrap my-xl-0 my-3">
                     <div class="col-auto d-flex align-items-center justify-content-end flex-wrap display-types-content-icons">
                         <a class="tblr-body-color" href="{{$content->editLink()}}" data-bs-toggle="tooltip" aria-label="Live edit" data-bs-original-title="Edit">
