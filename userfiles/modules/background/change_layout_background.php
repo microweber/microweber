@@ -71,12 +71,16 @@
                     bgNode = bg.querySelector('.mw-layout-background-node')
                     bgOverlay = bg.querySelector('.mw-layout-background-overlay')
                 }
+                var tabLink = document.querySelector('#change-background-tab-link');
 
                 if (target && bg) {
-                    var tabLink = document.querySelector('#change-background-tab-link');
+                    if(tabLink){
                     tabLink.style.display = '';
+                    }
                 } else {
-                    tabLink.style.display = 'none';
+                    if(tabLink) {
+                        tabLink.style.display = 'none';
+                    }
                 }
             }
                 return {bg, bgOverlay, bgNode, target}
