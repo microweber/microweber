@@ -914,10 +914,11 @@ body.loaded #bubble-nav span {
     width: 300px;
     transition: var(--toolbar-height-animation-speed);
     overflow: auto;
-    background-color: var(--tblr-body-bg);
+    background-color: var(--tblr-bg-surface);
     border-left: var(--tblr-body-color);
     padding: 11px;
     z-index: 1;
+    box-shadow: -10px 0px 10px -2px #eee;
 }
 
 

@@ -492,7 +492,7 @@ p {
 }
 
 body.mw-iframe-admin {
-    background-color: var(--tblr-bg-surface);
+    background-color: var(--tblr-bg-surface) !important;
     max-width: 100%;
     overflow-x: hidden;
 }
