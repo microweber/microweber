@@ -12,98 +12,67 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
         this.dragElementTargetForUndo = null;
 
         mw.app.state.on('change', (data) => {
-
             this.handleUndoRedo(data);
         });
 
-        mw.app.liveEdit.handles.get('element').draggable.on('dragStart', data => {
-            this.recordStartDragElementForUndo(data);
-        });
 
-        mw.app.liveEdit.handles.get('element').draggable.on('dragEnd', data => {
-            this.recordEndDragElementForUndo(data);
-        });
-        mw.app.liveEdit.handles.get('element').draggable.on('beforeDragEnd', data => {
-            this.recordBeforeEndDragEndElementForUndo(data);
-        });
 
-        mw.app.liveEdit.handles.get('module').draggable.on('dragStart', data => {
-            this.recordStartDragElementForUndo(data);
-        });
+        this.startTarget = null;
+        this.endTarget = null;
 
-        mw.app.liveEdit.handles.get('module').draggable.on('dragEnd', data => {
-            this.recordEndDragElementForUndo(data);
-        });
 
-        mw.app.liveEdit.handles.get('element').draggable.on('beforeDragEnd', data => {
-            this.recordBeforeEndDragEndElementForUndo(data);
-        });
+        this.handleDragAndDropUndoRedo();
+ 
     }
 
-    recordBeforeEndDragEndElementForUndo = (data) => {
-        var originalTarget = data.target;
-        var editOriginal = false;
-        var editTarget = false;
 
-        if (originalTarget) {
-            var editOriginal = DomService.firstParentOrCurrentWithClass(originalTarget, 'edit');
-            if (editOriginal) {
-                this.dragElementOriginalHtmlForUndo = editOriginal.innerHTML;
-                this.dragElementTargetForUndo = editOriginal;
+    handleDragAndDropUndoRedo () {
+        const handles = ['element', 'module'];
 
-            }
-        }
+        handles.forEach(hndl => {
+            
+            mw.app.liveEdit.handles.get(hndl)
+            .draggable
+            .on('dragStart', data => {
+                this.startTarget = DomService.firstParentOrCurrentWithClass(data.element, 'edit');
+                this.startTarget.__html = this.startTarget.innerHTML;
+            })
+            .on('beforeDrop', data => {
+                this.endTarget =  DomService.firstParentOrCurrentWithClass(data.event.target, 'edit');
+                this.endTarget.__html = this.endTarget.innerHTML;
+            })
+            .on('drop', data => {
+               
+                const rec1 = {
+                    target:  this.endTarget,
+                    value:  this.endTarget.__html,
+                    originalEditField: this.startTarget,
+                    originalEditFieldInnerHTML: this.startTarget.__html,
+                };
 
-        var newTarget = data.element;
-        if (newTarget) {
-            var editTarget = DomService.firstParentOrCurrentWithClass(newTarget, 'edit');
-            if (editTarget) {
-                this.dragElementTargetHtmlForUndo = editTarget.innerHTML;
-            }
-        }
-
-        if (editOriginal && editTarget) {
-            if (editOriginal === editTarget) {
-                this.dragElementTargetHtmlForUndo = editOriginal.innerHTML;
-                this.dragElementTargetForUndo = editOriginal;
-            } else {
-                var findFirstCommonAncestor = DomService.findFirstCommonAncestor(editTarget, editOriginal);
-                if (findFirstCommonAncestor) {
-                    this.dragElementTargetHtmlForUndo = findFirstCommonAncestor.innerHTML;
-                    this.dragElementTargetForUndo = findFirstCommonAncestor;
+                const rec2 = {
+                    target:  this.endTarget,
+                    value:  this.endTarget.innerHTML,
+                    originalEditField: this.startTarget,
+                    originalEditFieldInnerHTML: this.startTarget.innerHTML,
                 }
-            }
-        }
 
-    }
-    recordStartDragElementForUndo = (data) => {
+                mw.app.state.record(rec1);
+                mw.app.state.record(rec2);
 
-        var edit = DomService.firstParentOrCurrentWithClass(data.element, 'edit');
-        if (edit) {
-            data.originalEditField = edit;
-            data.originalEditFieldInnerHTML = edit.innerHTML;
-        }
-
-
-        this.dragElementStart = data;
-    }
-    recordEndDragElementForUndo = (data) => {
-        this.dragElementEnd = data;
-
-        var editOriginalInnerHTML = this.dragElementOriginalHtmlForUndo;
-        var editTargetInnerHTML = this.dragElementTargetHtmlForUndo;
-        var dragElementTargetForUndo = this.dragElementTargetForUndo;
-
-        if (editTargetInnerHTML && editOriginalInnerHTML) {
-            var targetForUndo = dragElementTargetForUndo;
-            var htmlforUndo = editTargetInnerHTML;
-            mw.app.state.record({
-                target: targetForUndo,
-                value: htmlforUndo
+                this.startTarget = null;
+                this.endTarget = null;
             });
-        }
-
+        })
     }
+
+
+    afterUndoRed() {
+        mw.app.canvas.getDocument().querySelectorAll('.mw-element-is-dragged').forEach(node => {
+            node.classList.remove('mw-element-is-dragged')
+        })
+    } 
+
     handleUndoRedo = (data) => {
 
         if (data.active) {
@@ -126,9 +95,43 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
             }
 
             if (data.active.action) {
-                data.active.action();
+                data.active.action(data);
             } else if (doc.body.contains(target)) {
-                mw.element(target).html(data.active.value);
+                const getTarget = function(target) {
+                    if(!target.parentNode || !target.ownerDocument) {
+                        var selector;
+                        if(target.id) {
+                            selector = '#' + target.id;
+                        } else if(target.classList.contains('edit')) {
+                            var field = node.getAttribute('field');
+                            var rel = node.getAttribute('rel');
+                            if(field && rel){
+                                selector = '.edit[field="'+field+'"][rel="'+rel+'"]';
+                            }
+                        }  
+                        if (selector) {
+                            target = doc.querySelector(selector)
+                        }
+                        
+                    }
+                    return target;
+                }
+
+                var originalEditField;
+
+                if(data.active.originalEditField && data.active.originalEditField !== target) {
+                    originalEditField = getTarget(data.active.originalEditField);
+                }
+
+                target = getTarget(target);
+                
+                if(target) {
+                    mw.element(target).html(data.active.value);
+                }
+                if(originalEditField) {
+                    mw.element(originalEditField).html(data.active.originalEditFieldInnerHTML);
+                }
+                
             } else {
                 if (target.id) {
                     mw.element(doc.getElementById(target.id)).html(data.active.value);
@@ -138,6 +141,7 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
                 mw.$(data.active.prev).html(data.active.prevValue);
             }
         }
+        this.afterUndoRed()
     }
 
 

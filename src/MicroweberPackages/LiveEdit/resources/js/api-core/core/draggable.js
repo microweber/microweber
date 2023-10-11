@@ -17,8 +17,8 @@ export const Draggable = function (options, rootSettings) {
 
     var _e = {};
 
-    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
-    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]); return this; };
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; return this; };
 
     var stop = true;
 
@@ -283,6 +283,8 @@ export const Draggable = function (options, rootSettings) {
                     e.stopPropagation();
                     e.preventDefault();
                 } else if (scope.target && scope.action) {
+ 
+                    scope.dispatch('beforeDrop', {element: scope.element, event: e});
                     ElementManager(scope.target)[scope.action](scope.element);
                     e.stopPropagation();
                     e.preventDefault();
