@@ -23,7 +23,6 @@ class AdminEditProfileTest extends DuskTestCase
 
             $browser->visit(admin_url());
 
-            $browser->waitForText('Users');
             $browser->clickLink('Users');
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
@@ -52,6 +51,7 @@ class AdminEditProfileTest extends DuskTestCase
             $browser->pause(3000);
 
             $browser->clickLink('Users');
+            $browser->waitForText('Manage Users');
             $findUser = User::where('email', 'visualtest@microweber.com')->first();
 
             $this->assertEquals('Visual', $findUser->first_name);
