@@ -27,13 +27,14 @@ runs:
 #    - name: zstd act workaround
 #      run: sudo apt install zstd
 #      shell: bash
-#    - name: google-chrome install
-#      run: |
-#        sleep 3
+    - name: google-chrome install
+      run: |
+        sleep 3
 #        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-#        sudo apt-get install -f
-#        sudo dpkg -i google-chrome*.deb
-#      shell: bash
+        wget http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_118.0.5993.70-1_amd64.deb
+        sudo apt-get install -f
+        sudo dpkg -i google-chrome*.deb
+      shell: bash
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
