@@ -44,8 +44,23 @@ class LiveEditModuleAdd extends BaseComponent
     public function addModule(Browser $browser, $name)
     {
         $browser->pause(2000);
+        if($browser->driver->findElement(WebDriverBy::cssSelector('#mw-insert-module-editor-button'))->isDisplayed()) {
 
-        if(!$browser->driver->findElement(WebDriverBy::cssSelector('#mw-sidebar-modules-list'))->isDisplayed()) {
+            $browser->script("$('#mw-insert-module-editor-button').click()");
+         //   $browser->click('#mw-insert-module-editor-button');
+        } else {
+            $browser->script("$('.mw-le-handle-menu-button.mw-handle-add-button').click()");
+            //$browser->click('.mw-le-handle-menu-button.mw-handle-add-button');
+        }
+
+    }
+
+
+  /*  // deprecated
+    public function addModuleOld(Browser $browser, $name)
+    {
+        $browser->pause(2000);
+
             $browser->script("$('.mw-lsmodules-tab').trigger('mousedown').trigger('mouseup').click()");
             $browser->pause(500);
         }
@@ -68,5 +83,5 @@ class LiveEditModuleAdd extends BaseComponent
         $browser->click('.'.$randClassSearchedModule);
         $browser->pause(4000);
 
-    }
+    }*/
 }

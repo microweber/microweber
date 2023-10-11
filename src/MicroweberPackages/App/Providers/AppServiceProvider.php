@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Jenssegers\Agent\Agent;
-use Laravel\Dusk\DuskServiceProvider;
+
 use MicroweberPackages\Admin\Providers\AdminRouteServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
 use MicroweberPackages\App\Console\Commands\ServeTestCommand;
@@ -42,6 +42,7 @@ use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
 use MicroweberPackages\Database\DatabaseManagerServiceProvider;
+use MicroweberPackages\Dusk\DuskServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\FileManager\FileManagerServiceProvider;
 use MicroweberPackages\Form\Providers\FormServiceProvider;
@@ -350,9 +351,10 @@ class AppServiceProvider extends ServiceProvider
         } else {
             \Barryvdh\Debugbar\Facades\Debugbar::disable();
         }
-
-        if (is_cli()) {
-            $this->app->register(DuskServiceProvider::class);
+        if ($this->app->environment('local', 'testing')) {
+            if (is_cli()) {
+                $this->app->register(DuskServiceProvider::class);
+            }
         }
         $is_installed = mw_is_installed();
         if ($is_installed) {
