@@ -9,7 +9,7 @@
   description: Dark theme for your website
 
   icon: dark.png
-  
+
   version: 0.2
 
 */
@@ -28,8 +28,8 @@
         </div>
         <form class="mw_form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post">
 
-            <module type="custom_fields" for-id="<?php print $params['id'] ?>" data-for="module" default-fields="name,email,message"/>
-        
+            <module type="custom_fields" for-id="<?php print $params['id'] ?>" data-for="module" default-fields="<?php print $default_fields; ?>"/>
+
         <?php if (get_option('disable_captcha', $params['id']) != 'y'): ?>
             <div class="control-group form-group">
                 <label><?php _e("Security code"); ?></label>
@@ -40,9 +40,9 @@
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <module type="btn" button_action="submit" button_style="btn btn-default" button_text="<?php _e("Submit"); ?>"  />
-        
+
         </form>
     </div>
     <div class="message-sent" id="msg<?php print $form_id ?>">

@@ -24,6 +24,25 @@ class ContactFormTest extends DuskTestCase
     {
         $siteUrl = $this->siteUrl;
 
+        $moduleIdRand = 'testcontactus'.time().rand(1, 1000);
+
+        $fields = 'Your Name[type=text,field_size=6,show_placeholder=true],E-mail Address[type=email,field_size=6,show_placeholder=true],Phone[type=phone, field_size=6,show_placeholder=true],Company[type=number,field_size=6,show_placeholder=true],Message[type=textarea,field_size=12,show_placeholder=true],Send message[type=button]';
+
+        $params = array(
+            'title' => 'My new contact form '.time(),
+            'content_type' => 'page',
+            'subtype' => 'static',
+            'content'=> '<div class="container">
+<h1>Contact Us</h1>
+<module type="contact_form" id="'.$moduleIdRand.'" template="default" default-fields="'.$fields.'" /></div>',
+
+            'is_active' => 1,);
+
+
+        $saved_id = save_content($params);
+
+        $siteUrl = content_link($saved_id);
+
         // Disable captcha
         save_option(array(
             'option_group' => 'contact_form_default',
@@ -32,7 +51,7 @@ class ContactFormTest extends DuskTestCase
             'option_value' => 'y'
         ));
 
-        $this->browse(function (Browser $browser) use ($siteUrl) {
+        $this->browse(function (Browser $browser) use ($siteUrl,$moduleIdRand) {
 
             $uniqueId = time();
 
@@ -49,7 +68,7 @@ class ContactFormTest extends DuskTestCase
             });
 
             $browser->pause('2000');
-            $browser->scrollTo('#contactform');
+            $browser->scrollTo($moduleIdRand);
             $browser->pause('3000');
 
             $browser->assertSee('Your Name');

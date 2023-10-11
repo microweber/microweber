@@ -18,14 +18,13 @@
 <script>
     mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css");
 </script>
-
 <div class="contact-form-container contact-form-template-dream">
     <div class="contact-form">
         <div class="edit" data-field="contact_form_title" rel="contact_form_module" data-id="<?php print $params['id'] ?>">
             <h3 class="element contact-form-title"><?php _e("Leave a Message"); ?></h3>
         </div>
         <form class="mw_form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post">
-            <module type="custom_fields" for-id="<?php print $params['id'] ?>" data-for="module" default-fields="name,email,message"/>
+            <module type="custom_fields" for-id="<?php print $params['id'] ?>" data-for="module" default-fields="<?php print $default_fields; ?>"/>
 
             <?php if ($show_newsletter_subscription == 'y' && !$newsletter_subscribed): ?>
                 <div class="mw-flex-row">
