@@ -15,6 +15,9 @@ runs:
     - name: apt update
       run: sudo apt-get update -y
       shell: bash
+    - name: Setup Chrome Action
+      uses: browser-actions/setup-chrome@v1
+      run: chrome --version
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
       env:
@@ -71,9 +74,6 @@ runs:
 #    - name: Dusk update
 #      run: php artisan dusk:chrome-driver
 #      shell: bash
-    - name: Setup Chrome
-      uses: browser-actions/setup-chrome@v1
-      run: chrome --version
     - name: Download specific ChromeDriver version 118
       run: |
         CHROMIUM_BIN=$(which chrome)
