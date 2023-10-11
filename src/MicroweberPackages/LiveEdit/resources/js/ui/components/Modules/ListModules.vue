@@ -24,7 +24,7 @@
                     <input type="text"
                            v-model="filterKeyword"
                            placeholder="Type to Search..."
-                           class="form-control mw-modules-list-search-block rounded-0">
+                           class="js-modules-list-search-input form-control mw-modules-list-search-block rounded-0">
                 </div>
 
                 <div class="modules-list-block">
@@ -73,7 +73,7 @@ export default {
                 options.as_element = true;
             }
 
-             
+
             mw.app.editor.insertModule(module, options);
             this.showModal = false;
         },

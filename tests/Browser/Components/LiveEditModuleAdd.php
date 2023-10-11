@@ -43,16 +43,19 @@ class LiveEditModuleAdd extends BaseComponent
 
     public function addModule(Browser $browser, $name)
     {
-        $browser->pause(2000);
+        $browser->pause(500);
         if($browser->driver->findElement(WebDriverBy::cssSelector('#mw-insert-module-editor-button'))->isDisplayed()) {
 
-            $browser->script("$('#mw-insert-module-editor-button').click()");
-         //   $browser->click('#mw-insert-module-editor-button');
+         //   $browser->script("$('#mw-insert-module-editor-button').click()");
+            $browser->click('#mw-insert-module-editor-button');
         } else {
-            $browser->script("$('.mw-le-handle-menu-button.mw-handle-add-button').click()");
-            //$browser->click('.mw-le-handle-menu-button.mw-handle-add-button');
+          //  $browser->script("$('.mw-le-handle-menu-button.mw-handle-add-button').click()");
+             $browser->click('.mw-handle-add-button');
         }
-
+        $browser->pause(500);
+        $browser->script("$('.js-modules-list-search-input').val('')");
+        $browser->keys('.js-modules-list-search-input', $name);
+          $browser->pause(500);
     }
 
 

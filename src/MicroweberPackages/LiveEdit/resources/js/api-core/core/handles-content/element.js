@@ -160,7 +160,7 @@ export class ElementHandleContent {
                     var selfVisible = false;
 
 
-                    
+
                     const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A' ;
                     if (isImageOrLink && !isPlaceholder(target)) {
 
@@ -226,7 +226,7 @@ export class ElementHandleContent {
                         selfVisible = false;
                     }
 
- 
+
 
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
@@ -239,7 +239,7 @@ export class ElementHandleContent {
                 text: '',
                 icon: handleIcons.icon('edit'),
 
-                className: 'mw-handle-add-button',
+                className: 'mw-handle-edit-button',
 
                 action: function (el) {
 
@@ -248,12 +248,12 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = true;
 
- 
+
                     var isCloneable = (target.classList.contains('cloneable') && target.nodeName !== 'IMG');
                     if (isCloneable || target.classList.contains('mw-col')) {
                         selfVisible = false;
                     }
- 
+
                     var newTarget = this.settingsTarget.getSettingsTarget(target);
                     if(newTarget !== target) {
                         selfVisible = true;
@@ -285,7 +285,7 @@ export class ElementHandleContent {
                     // if(isCloneableWithImageAsFirstChildAsBg){
                     //     selfVisible = true;
                     // }
- 
+
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
@@ -364,43 +364,43 @@ export class ElementHandleContent {
                         disableTextSelection: true,
                         title: mw.lang('Choose color'),
                         overlayClose: true,
-                        closeOnEscape: false, 
+                        closeOnEscape: false,
                     });
-         
-             
- 
-                    
-        
+
+
+
+
+
                     var _pauseSetValue = false;
-        
- 
-        
+
+
+
                    var picker = mw.colorPicker({
                         // element: tip.get(0),
                         element: dlg.container,
-                         
+
                         method: 'inline',
                         showHEX: false,
                         onchange: function (color) {
                             mw.top().app.liveEdit.handles.get('element').getTarget().style.backgroundColor = color;
                             selfBtn.querySelector('.mw-le--handle-icon--color-color').style.backgroundColor = color;
-        
+
                         },
-        
+
                     });
 
                 },
                 onTarget: function (target, selfBtn) {
                     var selfVisible = false;
 
-                     
+
                     if (target.classList.contains('background-color-element') ) {
                         selfVisible = true;
                     }
 
                     selfBtn.querySelector('.mw-le--handle-icon--color-color').style.backgroundColor = getComputedStyle(target).backgroundColor;
 
-                    
+
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 }
             },
@@ -476,7 +476,7 @@ export class ElementHandleContent {
                 {
                     name: 'dynamic',
                     nodes: []
-                }, 
+                },
                 {
                     name: 'cloneAbleMenu',
                     nodes: cloneAbleMenu
@@ -486,7 +486,7 @@ export class ElementHandleContent {
                     nodes: elementImageMenu
 
                 },
-                
+
                 {
                     name: 'tail',
                     nodes: tail
@@ -495,7 +495,7 @@ export class ElementHandleContent {
                     name: 'tailMenuQuickSettings',
                     nodes: tailMenuQuickSettings
                 },*/
-                
+
             ],
 
         });
