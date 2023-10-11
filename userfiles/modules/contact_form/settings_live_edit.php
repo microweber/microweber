@@ -406,6 +406,19 @@ $for_module_id = $mod_id;
 
                     <hr class="thin"/>
 
+
+                    <div class="form-group">
+                        <label class="form-label"><?php _e("Button text"); ?></label>
+                        <small
+                            class="text-muted d-block mb-2"><?php _e("Send message"); ?></small>
+                        <input name="button_text" option-group="<?php print $mod_id ?>"
+                               value="<?php print get_option('button_text', $mod_id); ?>"
+                               class="mw_option_field form-control" type="text"/>
+                    </div>
+
+
+                    <hr class="thin"/>
+
                     <div class="form-group">
                         <label class="form-label"><?php _e("Newsletter") ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Show the newsletter subscription checkbox?") ?></small>

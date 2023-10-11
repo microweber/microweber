@@ -19,6 +19,19 @@ use MicroweberPackages\Role\Http\Controllers\RoleController;
 
 class RoleServiceProvider extends ServiceProvider
 {
+
+    protected function mergeConfigFrom($path, $key)
+    {
+        $config = $this->app['config']->get($key, []);
+        $this->app['config']->set($key, array_merge( $config,require $path,));
+    }
+
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__.'/config/permission.php', 'permission');
+
+    }
+
     /**
      * Bootstrap the application services.
      *

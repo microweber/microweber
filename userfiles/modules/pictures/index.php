@@ -113,18 +113,30 @@ if (isset($params['rel_id']) == true) {
             $path = modules_path() . 'pictures' . DS . 'default-images' . DS;
             $default_images = scandir($path);
             $default_images_filenames = array_diff($default_images, array('.', '..'));
+
+            $allowedExtensions = array('jpg', 'png');
+
             foreach ($default_images_filenames as $filename) {
-                $default_image_url = $path . '/' . $filename;
-                save_media([
-                    'for' => 'modules',
-                    'for_id' => $params['id'],
-                    'media_type' => 'picture',
-                    'src' => $default_image_url,
-                ]);
-                $data = get_pictures('rel_id=' . $params['rel_id'] . '&for=' . $for);
-                save_option('default_settings_is_applied', true, $params['id']);
+                $fileInfo = pathinfo($filename);
+                $extension = strtolower($fileInfo['extension']);
+
+                if (in_array($extension, $allowedExtensions)) {
+                    $default_image_url = $path . DS . $filename;
+                    save_media([
+                        'for' => 'modules',
+                        'for_id' => $params['id'],
+                        'media_type' => 'picture',
+                        'src' => $default_image_url,
+                    ]);
+                    save_option('default_settings_is_applied', true, $params['id']);
+                }
             }
+            $data = get_pictures('rel_id=' . $params['rel_id'] . '&for=' . $for);
+
+
         }
+
+
     }
 
     if (!is_array($data)) {

@@ -130,19 +130,36 @@ if ($screenshots) {
         <?php $default_item_names = array(); ?>
 
 
-
-        <label class="form-group d-block">
-            <label class="form-label font-weight-bold"><?php _e("Current Skin / Template"); ?></label>
+        <div x-data="{showSkinDropdown: false}" class="form-group d-block">
+            <div class="form-label font-weight-bold"><?php _e("Current Skin / Template"); ?></div>
             <small class="text-muted d-block mb-2"><?php _e('Select different design'); ?></small>
-            <select data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw_option_field form-select" data-width="100%" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>" data-size="5">
-                <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>
+
+            <div x-on:click="showSkinDropdown != showSkinDropdown" data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw_option_field form-select" data-width="100%" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>" data-size="5">
+                Default
+            </div>
+
+            <div x-show="showSkinDropdown" style="background:#f2f2f2; max-height:500px;overflow:scroll;border-radius: 8px;padding: 9px;margin-top: 6px;">
+
+                <div value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>
                     <?php _e("Default"); ?>
-                </option>
+                </div>
 
                 <?php foreach ($templates as $item): ?>
                     <?php if ((strtolower($item['name']) != 'default')): ?>
                         <?php $default_item_names[] = $item['name']; ?>
-                        <option <?php if (($item['layout_file'] == $cur_template)): ?>   selected="selected" <?php endif; ?> value="<?php print $item['layout_file'] ?>" title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
+                        <div style="background:#f7f7f7;border-radius:8px;padding: 8px;" class="d-flex align-items-center gap-2 mt-4" <?php if (($item['layout_file'] == $cur_template)): ?>selected="selected" <?php endif; ?>value="<?php print $item['layout_file'] ?>" title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>">
+
+                           <?php if (isset($item['screenshot'])): ?>
+                           <div>
+                               <img style="width:150px" src="<?php print $item['screenshot'] ?>" />
+                           </div>
+                           <?php endif; ?>
+
+                           <div>
+                               <?php print $item['name'] ?>
+                           </div>
+
+                        </div>
                     <?php endif; ?>
                 <?php endforeach; ?>
 
@@ -175,16 +192,16 @@ if ($screenshots) {
                                         }
                                         ?>
                                         <?php if (is_array($has_items)): ?>
-                                            <optgroup label="<?php print $site_template['name']; ?>">
+                                            <div label="<?php print $site_template['name']; ?>">
                                                 <?php foreach ($templates as $item): ?>
                                                     <?php if ((strtolower($item['name']) != 'default')): ?>
                                                         <?php $opt_val = $site_template['dir_name'] . '/' . 'modules/' . $mod_name . $item['layout_file']; ?>
                                                         <?php if (!in_array($item['name'], $default_item_names)): ?>
-                                                            <option <?php if (($opt_val == $cur_template)): ?>   selected="selected"  <?php endif; ?> value="<?php print $opt_val; ?>"><?php print $item['name'] ?></option>
+                                                            <div <?php if (($opt_val == $cur_template)): ?>   selected="selected"  <?php endif; ?> value="<?php print $opt_val; ?>"><?php print $item['name'] ?></div>
                                                         <?php endif; ?>
                                                     <?php endif; ?>
                                                 <?php endforeach; ?>
-                                            </optgroup>
+                                            </div>
                                         <?php endif; ?>
                                     <?php } ?>
                                 <?php endif; ?>
@@ -192,8 +209,8 @@ if ($screenshots) {
                         <?php endif; ?>
                     <?php endforeach; ?>
                 <?php endif; ?>
-            </select>
-        </label>
+            </div>
+        </div>
 
         <?php if (isset($current_template)): ?>
             <!-- Current template - Start -->

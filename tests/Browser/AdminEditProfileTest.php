@@ -23,7 +23,6 @@ class AdminEditProfileTest extends DuskTestCase
 
             $browser->visit(admin_url());
 
-            $browser->waitForText('Users');
             $browser->clickLink('Users');
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
@@ -43,20 +42,27 @@ class AdminEditProfileTest extends DuskTestCase
          //  $browser->pause(3000);
            //.. $browser->scrollTo('#advanced-settings');
 
-            $browser->type('first_name', 'Visual');
-            $browser->type('last_name', 'Test');
-            $browser->type('phone', '08812345678');
-            $browser->type('email', 'visualtest@microweber.com');
+            $phone = rand(1000000000, 9999999999);
+            $email = 'visualtest+'.$phone.'@microweber.com';
+            $first_name = 'Visual'.uniqid();
+            $last_name = 'Test'.uniqid();
+
+
+            $browser->type('first_name', $first_name);
+            $browser->type('last_name', $last_name);
+            $browser->type('phone', $phone);
+            $browser->type('email', $email);
 
             $browser->press('Save');
             $browser->pause(3000);
 
             $browser->clickLink('Users');
-            $findUser = User::where('email', 'visualtest@microweber.com')->first();
+            $browser->waitForText('Manage Users');
+            $findUser = User::where('email', $email)->first();
 
-            $this->assertEquals('Visual', $findUser->first_name);
-            $this->assertEquals('Test', $findUser->last_name);
-            $this->assertEquals('08812345678', $findUser->phone);
+            $this->assertEquals($first_name, $findUser->first_name);
+            $this->assertEquals($last_name, $findUser->last_name);
+            $this->assertEquals($phone, $findUser->phone);
 
         });
     }

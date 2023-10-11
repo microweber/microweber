@@ -29,7 +29,8 @@ if(typeof  processContactForm !== 'object'){
                      window.location.href = data2.redirect;
                 }
                 else {
-                    processContactForm.done(form, msgselector, spinner);
+
+                     processContactForm.done(form, msgselector, spinner);
                 }
          	}, true, function () {
 
@@ -156,9 +157,20 @@ $module_template = get_option('data-template', $params['id']);
 
 $default_fields = 'name,email,message';
 
+$button_text = _e("Send Message",true);
+
 if(isset($params['default-fields']) and $params['default-fields'] != ''){
     $default_fields = $params['default-fields'];
 }
+
+if(isset($params['button-text']) and $params['button-text'] != ''){
+    $button_text = $params['button-text'];
+}
+$button_text_option = get_option('button_text', $params['id']);
+if($button_text_option){
+    $button_text = $button_text_option;
+}
+
 
 if($module_template != false and $module_template != 'none'){
 	$template_file = module_templates( $config['module'], $module_template);
@@ -224,4 +236,3 @@ if(isset($template_file) and is_file($template_file) != false){
 } else {
 	print _e('No template for contact form is found');
 }
-?>

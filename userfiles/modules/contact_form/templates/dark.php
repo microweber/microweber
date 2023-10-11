@@ -23,7 +23,7 @@
 
 <div class="contact-form-container contact-form-template-dark">
     <div class="contact-form">
-        <div class="edit" data-field="contact_form_title" rel="newsletter_module" data-id="<?php print $params['id'] ?>">
+        <div class="edit" field="contact_form_title" rel="newsletter_module" data-id="<?php print $params['id'] ?>">
             <h3 class="element contact-form-title"><?php _e("Leave a Message"); ?></h3>
         </div>
         <form class="mw_form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post">
@@ -41,7 +41,7 @@
             </div>
         <?php endif; ?>
 
-        <module type="btn" button_action="submit" button_style="btn btn-default" button_text="<?php _e("Submit"); ?>"  />
+        <module type="btn" button_action="submit" button_style="btn btn-default" button_text="<?php print $button_text; ?>"  />
 
         </form>
     </div>
