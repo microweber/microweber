@@ -171,6 +171,13 @@ if ($screenshots) {
                 <div x-show="showSkinDropdown" class="skin-dropdown-options-wrapper">
 
                     <?php foreach ($templates as $item): ?>
+
+                        <?php
+                        if (!isset($item['screenshot'])) {
+                            $item['screenshot'] = '';
+                        }
+                        ?>
+
                         <?php if ((strtolower($item['name']) != 'default')): ?>
                             <?php $default_item_names[] = $item['name']; ?>
                             <div x-on:click="() => {
