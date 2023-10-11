@@ -960,6 +960,9 @@ class Format
         if (defined('MW_BACKEND') and MW_BACKEND != false) {
             return false;
         }
+        if (defined('NO_EDITMODDE') and NO_EDITMODDE != false) {
+            return false;
+        }
         if (defined('IN_EDIT') and IN_EDIT != false) {
             $editmode_sess = true;
         }

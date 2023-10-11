@@ -199,6 +199,12 @@ class FrontendController extends Controller
                 }
             }
 
+            if($is_no_editmode){
+                if (!defined('NO_EDITMODDE')) {
+                    define('NO_EDITMODDE', true);
+                }
+            }
+
             if (mw()->user_manager->session_id() and $is_editmode and $is_no_editmode == false) {
                 if ($is_editmode == 'n') {
                     $is_editmode = false;
