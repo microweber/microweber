@@ -1,6 +1,8 @@
 @props(['options'=>[]])
 
 @php
+    $md5InputElement = md5(time().rand(1111,9999));
+
     $preformatedOptions = [];
     $selectedOption = [];
     if (isset($options) && !empty($options)) {
@@ -15,12 +17,22 @@
 @endphp
 
 
-<div class="form-control-live-edit-label-wrapper" x-data="{selectedOption: {{json_encode($selectedOption)}}, openOptions:false}">
+<div class="form-control-live-edit-label-wrapper"
+     x-data="{selectedOption: {{json_encode($selectedOption)}}, openOptions:false}"
+     x-init="() => {
+        $watch('selectedOption', value => {
+           let inputElement = document.getElementById('{{$md5InputElement}}');
+           inputElement.value = value.key;
+           inputElement.dispatchEvent(new Event('input'));
+        });
+     }"
+>
+
+    <input type="hidden" id="{{$md5InputElement}}" {!! $attributes->merge() !!} />
 
     <button type="button" class="form-select form-control-live-edit-input"
             x-on:click="openOptions = !openOptions" x-html="selectedOption.value">
     </button>
-
 
     <div class="dropdown-menu form-control-live-edit-input ps-0" :class="[openOptions ? 'show':'']">
 

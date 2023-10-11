@@ -43,15 +43,13 @@
     <div class="mw-module-select-template"
          @if(!$showSkinsDropdown) style="display:none" @endif >
 
-
-
         <div class="mt-4 mb-3">
             <label class="live-edit-label"><?php _ejs("Skin"); ?></label>
             @php
                 $selectModernOptions = [];
                 foreach ($moduleTemplates as $item) {
                     $optionHtml = '<div>';
-                    
+
                     if (isset($item['screenshot'])) {
                         $optionHtml .= '<div><img style="max-height:160px;" src="'.$item['screenshot'].'" /></div>';
                     } else {
