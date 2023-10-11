@@ -17,7 +17,6 @@ runs:
       shell: bash
     - name: Setup Chrome Action
       uses: browser-actions/setup-chrome@v1
-      run: chrome --version
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
       env:
@@ -76,6 +75,7 @@ runs:
 #      shell: bash
     - name: Download specific ChromeDriver version 118
       run: |
+        chrome --version
         CHROMIUM_BIN=$(which chrome)
         wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/118.0.5993.70/linux64/chromedriver-linux64.zip
         unzip chromedriver-linux64.zip
