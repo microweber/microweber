@@ -27,12 +27,12 @@ runs:
 #    - name: zstd act workaround
 #      run: sudo apt install zstd
 #      shell: bash
-    - name: google-chrome install
-      run: |
-        sleep 3
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo apt-get install -f
-        sudo dpkg -i google-chrome*.deb
+#    - name: google-chrome install
+#      run: |
+#        sleep 3
+#        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#        sudo apt-get install -f
+#        sudo dpkg -i google-chrome*.deb
       shell: bash
     - name: Get composer cache directory
       id: composer-cache
@@ -52,20 +52,20 @@ runs:
     - name: Install Chrome Driver
       run: php artisan dusk:install
       shell: bash
-    - name: Dusk updater install
-      run: |
-        composer require --dev staudenmeir/dusk-updater
-        php artisan package:discover --ansi
-      shell: bash
+#    - name: Dusk updater install
+#      run: |
+#        composer require --dev staudenmeir/dusk-updater
+#        php artisan package:discover --ansi
+#      shell: bash
     - name: Dusk update
-      run: php artisan dusk:update
+      run: php artisan dusk:chrome-driver
       shell: bash
-    - name: Download specific ChromeDriver version 116.0.5845.96
-      run: |
-        wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/116.0.5845.96/linux64/chromedriver-linux64.zip
-        unzip chromedriver-linux64.zip
-        sudo cp chromedriver-linux64/chromedriver vendor/laravel/dusk/bin/chromedriver-linux
-      shell: bash
+#    - name: Download specific ChromeDriver version 116.0.5845.96
+#      run: |
+#        wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/116.0.5845.96/linux64/chromedriver-linux64.zip
+#        unzip chromedriver-linux64.zip
+#        sudo cp chromedriver-linux64/chromedriver vendor/laravel/dusk/bin/chromedriver-linux
+#      shell: bash
     - name: Copy env
       run: |
         cp --force /home/runner/work/microweber/microweber/.env.testing /home/runner/work/microweber/microweber/.env
