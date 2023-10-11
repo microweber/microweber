@@ -242,10 +242,10 @@ if ($screenshots) {
                     <?php endif; ?>
                 </div>
             </div>
-<!--            <div x-show="selectedSkin.screenshot">
+            <div x-show="selectedSkin.screenshot">
                 <img :src="selectedSkin.screenshot" />
-            </div>-->
-        </div>
+            </div>
+        </div> 
 
         <?php if (isset($current_template)): ?>
             <!-- Current template - Start -->
