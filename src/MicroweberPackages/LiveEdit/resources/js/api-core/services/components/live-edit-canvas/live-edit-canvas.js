@@ -83,6 +83,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
         liveEditIframe.frameBorder = 0;
         liveEditIframe.id="live-editor-frame";
+        liveEditIframe.name="live-editor-frame";
         liveEditIframe.referrerPolicy = "no-referrer";
         liveEditIframe.loading = "lazy";
 

@@ -11,7 +11,6 @@ use Tests\DuskTestCase;
 
 class LiveEditTest extends DuskTestCase
 {
-    public $siteUrl = 'http://127.0.0.1:8000/';
 
 //    public function testLiveEditAllModulesDragAndDrop()
 //    {
@@ -112,13 +111,25 @@ class LiveEditTest extends DuskTestCase
     public function testLiveEditNewPageSave()
     {
 
-        $siteUrl = $this->siteUrl;
+        $siteUrl = site_url();
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
+
+            $params = array(
+                'title' => 'My new page '.time(),
+                'content_type' => 'page',
+                'content' => '<h1 id="h1-test-element">My new page</h1>',
+                'subtype' => 'static',
+                'is_active' => 1,);
+
+
+            $saved_id = save_content($params);
+
+            $siteUrl = content_link($saved_id);
 
             $browser->visit($siteUrl . '?editmode=y');
             $browser->pause(4000);
@@ -127,16 +138,26 @@ class LiveEditTest extends DuskTestCase
                  $browser->validate();
             });
 
-            $browser->visit($siteUrl . 'rand-page-'.time());
-            $browser->pause(1000);
+             $browser->pause(1000);
             $currentUrl = $browser->driver->getCurrentURL();
             $browser->pause(5000);
 
             $randClassForDagAndDrop = 'rand-class-'.time();
-            $browser->script("$('.edit .container').addClass('$randClassForDagAndDrop')");
-            $browser->pause(1000);
-            $browser->click('.'.$randClassForDagAndDrop);
+         //
+          //  $browser->script("$('.edit').addClass('$randClassForDagAndDrop')");
+           //  $browser->click('.'.$randClassForDagAndDrop);
 
+            $browser->waitFor('#live-editor-frame',30)
+                ->withinFrame('#live-editor-frame', function($browser){
+
+                    $browser->pause(1000);
+                });
+            $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
+
+            $browser->switchFrame($iframeElement);
+            $browser->click('#h1-test-element');
+            $browser->click('#h1-test-element');
+            //$browser->script("$('#h1-test-element').trigger('mouseenter').click()");
             $browser->within(new LiveEditModuleAdd(), function ($browser) {
                 $browser->addModule('Title');
             });
@@ -157,7 +178,7 @@ class LiveEditTest extends DuskTestCase
     public function testLiveEditProductSave()
     {
 
-        $siteUrl = $this->siteUrl;
+        $siteUrl = site_url();
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
 
@@ -212,7 +233,7 @@ class LiveEditTest extends DuskTestCase
     public function testLiveEditSearchinSidebarForModules()
     {
 
-        $siteUrl = $this->siteUrl;
+        $siteUrl = site_url();
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
 
@@ -269,7 +290,7 @@ class LiveEditTest extends DuskTestCase
     public function testLiveEditSearchinSidebarForLayouts()
     {
 
-        $siteUrl = $this->siteUrl;
+        $siteUrl = site_url();
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
 

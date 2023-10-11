@@ -169,6 +169,7 @@ MWEditor.controllers = {
             var scope = this;
             var el = MWEditor.core.button({
                 props: {
+                    id: 'mw-insert-module-editor-button',
                     tooltip: rootScope.lang('Insert Module'),
                     innerHTML: plusIconSVG
                 }
@@ -179,13 +180,13 @@ MWEditor.controllers = {
                 if(mw.top().app && mw.top().app.canvas) {
                     isInLiveEdit = mw.top().app.canvas.getWindow();
                 }
- 
+
                 if (this.target) {
                     mw.app.editor.dispatch('insertModuleRequest', this.target);
 
                     mw.top().win.mw.app.liveEdit.handles.get('element').set(this.target)
                     setTimeout(() => {
-                         
+
                         mw.top().app.liveEdit.handles.hide();
                         mw.top().app.liveEdit.pause();
                     })
