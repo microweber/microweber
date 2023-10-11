@@ -27,14 +27,14 @@ runs:
 #    - name: zstd act workaround
 #      run: sudo apt install zstd
 #      shell: bash
-    - name: google-chrome install
-      run: |
-        sleep 3
-#        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        wget http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_118.0.5993.70-1_amd64.deb
-        sudo apt-get install -f
-        sudo dpkg -i google-chrome*.deb
-      shell: bash
+#    - name: google-chrome install
+#      run: |
+#        sleep 3
+##        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#        wget http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_118.0.5993.70-1_amd64.deb
+#        sudo apt-get install -f
+#        sudo dpkg -i google-chrome*.deb
+#      shell: bash
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -71,8 +71,11 @@ runs:
 #    - name: Dusk update
 #      run: php artisan dusk:chrome-driver
 #      shell: bash
+    - uses: browser-actions/setup-chrome@v1
+    - run: chrome --version
     - name: Download specific ChromeDriver version 118
       run: |
+        CHROMIUM_BIN=$(which chrome)
         wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/118.0.5993.70/linux64/chromedriver-linux64.zip
         unzip chromedriver-linux64.zip
         sudo cp chromedriver-linux64/chromedriver vendor/laravel/dusk/bin/chromedriver-linux
