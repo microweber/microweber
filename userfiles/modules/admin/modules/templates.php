@@ -245,7 +245,7 @@ if ($screenshots) {
             <div x-show="selectedSkin.screenshot">
                 <img :src="selectedSkin.screenshot" />
             </div>
-        </div> 
+        </div>
 
         <?php if (isset($current_template)): ?>
             <!-- Current template - Start -->
