@@ -498,3 +498,29 @@ html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
         pointer-events: all;
     }
 }
+
+
+.mw-le--handle-icon--color{
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    border: 2px solid #111;
+    overflow: hidden;
+     
+ 
+
+
+ 
+        background-image: repeating-conic-gradient(silver 0 25%, transparent 0 50%), linear-gradient(0deg, rgba(0,0,0,0.2805497198879552) 0%, rgba(255,255,255,0) 100%);
+        background-size:9px 9px, 100% 100%;
+
+        .mw-le--handle-icon--color-color{
+            position: absolute;
+            inset: 0;
+        }
+
+
+}
