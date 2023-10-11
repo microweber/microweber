@@ -57,25 +57,25 @@ runs:
 #        composer require --dev staudenmeir/dusk-updater
 #        php artisan package:discover --ansi
 #      shell: bash
-    - name: Install Chrome Driver From Actions
-      uses: nanasess/setup-chromedriver@v2
-      with:
-        # Optional: do not specify to match Chrome's version
-        chromedriver-version: '118'
-    - run: |
-        export DISPLAY=:99
-        chromedriver --url-base=/wd/hub &
-        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
-      shell: bash
+#    - name: Install Chrome Driver From Actions
+#      uses: nanasess/setup-chromedriver@v2
+#      with:
+#        # Optional: do not specify to match Chrome's version
+#        chromedriver-version: '118'
+#    - run: |
+#        export DISPLAY=:99
+#        chromedriver --url-base=/wd/hub &
+#        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+#      shell: bash
 #    - name: Dusk update
 #      run: php artisan dusk:chrome-driver
 #      shell: bash
-#    - name: Download specific ChromeDriver version 116.0.5845.96
-#      run: |
-#        wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/116.0.5845.96/linux64/chromedriver-linux64.zip
-#        unzip chromedriver-linux64.zip
-#        sudo cp chromedriver-linux64/chromedriver vendor/laravel/dusk/bin/chromedriver-linux
-#      shell: bash
+    - name: Download specific ChromeDriver version 118
+      run: |
+        wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/118.0.5993.70/linux64/chrome-linux64.zip
+        unzip chromedriver-linux64.zip
+        sudo cp chromedriver-linux64/chromedriver vendor/laravel/dusk/bin/chromedriver-linux
+      shell: bash
     - name: Copy env
       run: |
         cp --force /home/runner/work/microweber/microweber/.env.testing /home/runner/work/microweber/microweber/.env
