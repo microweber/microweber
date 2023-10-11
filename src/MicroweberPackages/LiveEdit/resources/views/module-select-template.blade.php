@@ -51,12 +51,14 @@
                 $selectModernOptions = [];
                 foreach ($moduleTemplates as $item) {
                     $optionHtml = '
-
+                       <div>
                     <div>'.$item['name'].'</div> ';
 
                     if (isset($item['screenshot'])) {
                         $optionHtml .= '<div><img style="height:160px;" src="'.$item['screenshot'].'" /></div>';
                     }
+
+                    $optionHtml .= '</div>';
 
                     $selectModernOptions[$item['layout_file']] = $optionHtml;
                 }
