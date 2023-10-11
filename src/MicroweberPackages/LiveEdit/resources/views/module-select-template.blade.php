@@ -50,12 +50,12 @@
             @php
                 $selectModernOptions = [];
                 foreach ($moduleTemplates as $item) {
-                    $optionHtml = '
-                       <div>
-                    <div>'.$item['name'].'</div> ';
-
+                    $optionHtml = '<div>';
+                    
                     if (isset($item['screenshot'])) {
-                        $optionHtml .= '<div><img style="height:160px;" src="'.$item['screenshot'].'" /></div>';
+                        $optionHtml .= '<div><img style="max-height:160px;" src="'.$item['screenshot'].'" /></div>';
+                    } else {
+                        $optionHtml .=  '<div>'.$item['name'].'</div>';
                     }
 
                     $optionHtml .= '</div>';
