@@ -43,27 +43,27 @@
     <div class="mw-module-select-template"
          @if(!$showSkinsDropdown) style="display:none" @endif >
 
-
-        <div>
+        <div class="mt-4 mb-3">
             <label class="live-edit-label"><?php _ejs("Skin"); ?></label>
+            @php
+                $selectModernOptions = [];
+                foreach ($moduleTemplates as $item) {
+                    $optionHtml = '<div>';
 
-            <div class="form-control-live-edit-label-wrapper">
+                    if (isset($item['screenshot'])) {
+                        $optionHtml .= '<div><img style="max-height:160px;" src="'.$item['screenshot'].'" /></div>';
+                    } else {
+                        $optionHtml .=  '<div>'.$item['name'].'</div>';
+                    }
 
-                <select wire:model="settings.template" class="form-select form-control-live-edit-input">
-                    <option value="default">
-                        <?php _e("Default"); ?>
-                    </option>
+                    $optionHtml .= '</div>';
 
-                    <?php foreach ($moduleTemplates as $item): ?>
-                        <?php if ((strtolower($item['name']) != 'default')): ?>
-                    <option value="<?php print $item['layout_file'] ?>"
-                            title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
-                    <?php endif; ?>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
+                    $selectModernOptions[$item['layout_file']] = $optionHtml;
+                }
+            @endphp
+            <x-microweber-ui::select-modern wire:model="settings.template" :options="$selectModernOptions" />
         </div>
+
 
         <div class="mw-module-skin-setting-holder">
 

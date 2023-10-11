@@ -357,7 +357,7 @@ export class ElementHandleContent {
                 icon: handleIcons.icon('color'),
                 className: 'mw-handle-insert-color-button',
 
-                action: function (el) {
+                action: function (el, selfBtn) {
                     var dlg = mw.top().dialog({
                         width: 280,
                         closeButtonAction: 'hide',
@@ -383,6 +383,7 @@ export class ElementHandleContent {
                         showHEX: false,
                         onchange: function (color) {
                             mw.top().app.liveEdit.handles.get('element').getTarget().style.backgroundColor = color;
+                            selfBtn.querySelector('.mw-le--handle-icon--color-color').style.backgroundColor = color;
         
                         },
         
@@ -396,6 +397,8 @@ export class ElementHandleContent {
                     if (target.classList.contains('background-color-element') ) {
                         selfVisible = true;
                     }
+
+                    selfBtn.querySelector('.mw-le--handle-icon--color-color').style.backgroundColor = getComputedStyle(target).backgroundColor;
 
                     
                     selfBtn.style.display = selfVisible ? '' : 'none';

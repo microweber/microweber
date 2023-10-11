@@ -168,8 +168,6 @@ export class StylesheetEditor extends MicroweberBaseClass {
                         value: getComputedStyle(mw.app.canvas.getDocument().querySelector(sel))[prop]
                     }
                 })
-
-
             }
         }
 
@@ -184,17 +182,18 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
         this._temp.children[sel].attributes[prop] = val;
 
-        if (val === '' || val === '!important') {
+        if (val === '' || val === '!important' || val === undefined || val === null) {
             const prop_val = '';
             this._temp.children[sel].attributes[prop] = prop_val;
+            delete this._temp.children[sel].attributes[prop];
+            delete this.json.children[sel].attributes[prop];
             this.removeSheetRuleProperty(sel, prop);
         }
 
+       
         this._cssTemp(this._temp);
 
         if(record) {
-
-
             mw.top().app.state.record({
                 target: '$liveEditCSS',
                 value: {
@@ -204,10 +203,6 @@ export class StylesheetEditor extends MicroweberBaseClass {
                 }
             })
         }
-
-
-
-
         mw.top().app.dispatch('setPropertyForSelector', {
             selector: sel,
             property: prop,
@@ -246,21 +241,21 @@ export class StylesheetEditor extends MicroweberBaseClass {
         return obj;
     }
 
-    save() {
+    save(merge = true) {
+ 
+       var toSave;
+       
+        if(merge) {
+            toSave = $.extend(true, {}, this.json, this._temp);
+        } else {
+            toSave = this._temp;
+        }
 
-
-        var orig = this.json;
-       // var orig_css = CSSJSON.toCSS(orig).replace(/\.\./g, '.').replace(/\.\./g, '.');
-
-
-        var assigned =this._cleanCSSJSON($.extend(true, {}, this.json, this._temp));
-      //  var assigned2 = this.deepMerge({},  this._temp,orig);
+        var assigned = this._cleanCSSJSON(toSave);
+ 
         this.json = this._cleanCSSJSON(assigned);
-
-       // var new_css = CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.')
-    //    this._css = orig_css + "\n" + new_css;
+ 
         this._css =  CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.')
-
 
         mw.top().trigger('mw.liveeditCSSEditor.save');
     }
@@ -272,6 +267,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     publish(callback) {
         return new Promise(resolve => {
+            
             const css = {
                 css_file_content: this.getValue()
                 //css_file_content: this.getValue()
@@ -310,6 +306,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
     }
 
     publishIfChanged(callback) {
+   
         return new Promise(async resolve => {
             if (this.changed) {
                 await this.publish(callback);

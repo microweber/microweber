@@ -135,7 +135,7 @@
 
 <style>
     body {
-        background: #f6f8fb !important;
+        background: #fff !important;
     }
 </style>
 

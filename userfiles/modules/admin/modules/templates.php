@@ -129,71 +129,123 @@ if ($screenshots) {
     <div class="mw-mod-template-settings-holder">
         <?php $default_item_names = array(); ?>
 
+        <style>
+            .skin-dorpdown-select {
+                cursor:pointer;
+            }
+            .skin-dropdown-options-wrapper {
+                background:#f2f2f2;
+                max-height:500px;
+                overflow:scroll;
+                border-radius: 8px;
+                padding: 9px;
+                margin-top: 6px;
+            }
+            .skin-dropdown-option {
+                margin-top:8px;
+                background:#fff;
+                border-radius:8px;
+                padding: 8px;
+                border: 3px solid transparent;
+                cursor:pointer;
+                line-height: 30px;
+                text-align: center;
+            }
+            .skin-dropdown-option img {
+                width:160px;
+            }
+            .skin-dropdown-option:hover {
+                border-color:#0000001c;
+            }
+        </style>
+
+        <div x-data="{showSkinDropdown: false, selectedSkin: {'screenshot':false, 'name': 'Default', 'file': 'default.php' } }">
+            <div class="form-group d-block">
+                <div class="form-label font-weight-bold"><?php _e("Current Skin / Template"); ?></div>
+                <small class="text-muted d-block mb-2"><?php _e('Select different design'); ?></small>
+
+                <div x-html="selectedSkin.name" x-on:click="showSkinDropdown = ! showSkinDropdown" class="skin-dorpdown-select mw_option_field form-select" option_group="<?php print $params['parent-module-id'] ?>">
+                    Default
+                </div>
+
+                <div x-show="showSkinDropdown" class="skin-dropdown-options-wrapper">
+
+                    <?php foreach ($templates as $item): ?>
+                        <?php if ((strtolower($item['name']) != 'default')): ?>
+                            <?php $default_item_names[] = $item['name']; ?>
+                            <div x-on:click="() => {
+                                        showSkinDropdown = false;
+                                        selectedSkin = {'screenshot': '<?php print $item['screenshot'] ?>', 'name': '<?php print $item['name'] ?>', 'file': '<?php print $item['layout_file'] ?>' };
+                                }"
+                                class="skin-dropdown-option" <?php if (($item['layout_file'] == $cur_template)): ?>selected="selected" <?php endif; ?>value="<?php print $item['layout_file'] ?>" title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>">
+
+                                <div>
+                                    <?php print $item['name'] ?>
+                                </div>
+
+                               <?php if (isset($item['screenshot'])): ?>
+                               <div>
+                                   <img src="<?php print $item['screenshot'] ?>" />
+                               </div>
+                               <?php endif; ?>
 
 
-        <label class="form-group d-block">
-            <label class="form-label font-weight-bold"><?php _e("Current Skin / Template"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e('Select different design'); ?></small>
-            <select data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw_option_field form-select" data-width="100%" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>" data-size="5">
-                <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>
-                    <?php _e("Default"); ?>
-                </option>
-
-                <?php foreach ($templates as $item): ?>
-                    <?php if ((strtolower($item['name']) != 'default')): ?>
-                        <?php $default_item_names[] = $item['name']; ?>
-                        <option <?php if (($item['layout_file'] == $cur_template)): ?>   selected="selected" <?php endif; ?> value="<?php print $item['layout_file'] ?>" title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-
-                <?php if (is_array($site_templates)): ?>
-                    <?php foreach ($site_templates as $site_template): ?>
-                        <?php if (isset($site_template['dir_name'])): ?>
-                            <?php
-                            $template_dir = templates_dir() . $site_template['dir_name'];
-                            $possible_dir = $template_dir . DS . 'modules' . DS . $mod_name . DS;
-                            $possible_dir = normalize_path($possible_dir, false)
-                            ?>
-                            <?php if (is_dir($possible_dir)): ?>
-                                <?php
-                                $options = array();
-
-                                $options['for_modules'] = 1;
-                                $options['path'] = $possible_dir;
-                                $templates = mw()->layouts_manager->get_all($options);
-                                ?>
-
-                                <?php if (is_array($templates)): ?>
-                                    <?php if ($site_template['dir_name'] == template_name()) { ?>
-                                        <?php
-                                        $has_items = false;
-
-                                        foreach ($templates as $item) {
-                                            if (!in_array($item['name'], $default_item_names)) {
-                                                $has_items = true;
-                                            }
-                                        }
-                                        ?>
-                                        <?php if (is_array($has_items)): ?>
-                                            <optgroup label="<?php print $site_template['name']; ?>">
-                                                <?php foreach ($templates as $item): ?>
-                                                    <?php if ((strtolower($item['name']) != 'default')): ?>
-                                                        <?php $opt_val = $site_template['dir_name'] . '/' . 'modules/' . $mod_name . $item['layout_file']; ?>
-                                                        <?php if (!in_array($item['name'], $default_item_names)): ?>
-                                                            <option <?php if (($opt_val == $cur_template)): ?>   selected="selected"  <?php endif; ?> value="<?php print $opt_val; ?>"><?php print $item['name'] ?></option>
-                                                        <?php endif; ?>
-                                                    <?php endif; ?>
-                                                <?php endforeach; ?>
-                                            </optgroup>
-                                        <?php endif; ?>
-                                    <?php } ?>
-                                <?php endif; ?>
-                            <?php endif; ?>
+                            </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
-                <?php endif; ?>
-            </select>
-        </label>
+
+                    <?php if (is_array($site_templates)): ?>
+                        <?php foreach ($site_templates as $site_template): ?>
+                            <?php if (isset($site_template['dir_name'])): ?>
+                                <?php
+                                $template_dir = templates_dir() . $site_template['dir_name'];
+                                $possible_dir = $template_dir . DS . 'modules' . DS . $mod_name . DS;
+                                $possible_dir = normalize_path($possible_dir, false)
+                                ?>
+                                <?php if (is_dir($possible_dir)): ?>
+                                    <?php
+                                    $options = array();
+
+                                    $options['for_modules'] = 1;
+                                    $options['path'] = $possible_dir;
+                                    $templates = mw()->layouts_manager->get_all($options);
+                                    ?>
+
+                                    <?php if (is_array($templates)): ?>
+                                        <?php if ($site_template['dir_name'] == template_name()) { ?>
+                                            <?php
+                                            $has_items = false;
+
+                                            foreach ($templates as $item) {
+                                                if (!in_array($item['name'], $default_item_names)) {
+                                                    $has_items = true;
+                                                }
+                                            }
+                                            ?>
+                                            <?php if (is_array($has_items)): ?>
+                                                <div label="<?php print $site_template['name']; ?>">
+                                                    <?php foreach ($templates as $item): ?>
+                                                        <?php if ((strtolower($item['name']) != 'default')): ?>
+                                                            <?php $opt_val = $site_template['dir_name'] . '/' . 'modules/' . $mod_name . $item['layout_file']; ?>
+                                                            <?php if (!in_array($item['name'], $default_item_names)): ?>
+                                                                <div <?php if (($opt_val == $cur_template)): ?>   selected="selected"  <?php endif; ?> value="<?php print $opt_val; ?>"><?php print $item['name'] ?></div>
+                                                            <?php endif; ?>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        <?php } ?>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div x-show="selectedSkin.screenshot">
+                <img :src="selectedSkin.screenshot" />
+            </div>
+        </div>
 
         <?php if (isset($current_template)): ?>
             <!-- Current template - Start -->

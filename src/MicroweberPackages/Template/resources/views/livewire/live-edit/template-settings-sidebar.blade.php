@@ -10,7 +10,6 @@
 <div wire:ignore>
     <style>
         body {
-            background: #f6f8fb !important;
             padding-left:15px;
             padding-top: 10px;
         }
