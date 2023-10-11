@@ -14,7 +14,7 @@ export default {
                 mw.notification.error('Something went wrong with saving the page.',7500);
                 return;
             }
-            var saved =canvasWindow.mw.drag.save()
+            var saved = canvasWindow.mw.drag.save()
 
             if (saved) {
                 saved.success(function () {

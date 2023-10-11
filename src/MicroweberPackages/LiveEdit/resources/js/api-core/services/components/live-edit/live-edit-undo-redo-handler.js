@@ -70,7 +70,10 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
     afterUndoRed() {
         mw.app.canvas.getDocument().querySelectorAll('.mw-element-is-dragged').forEach(node => {
             node.classList.remove('mw-element-is-dragged')
-        })
+        });
+        if(mw.app.liveEdit) {
+            mw.app.liveEdit.handles.reposition();
+        }
     } 
 
     handleUndoRedo = (data) => {
