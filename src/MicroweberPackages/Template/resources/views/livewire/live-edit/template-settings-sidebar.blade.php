@@ -12,7 +12,7 @@
         body {
             background: #f6f8fb !important;
             padding-left:15px;
-            padding-top:10px;
+            padding-top: 10px;
         }
     </style>
 
@@ -137,10 +137,10 @@
         }"
         >
 
-            <div>
+            <div class="mt-5">
             <span
                 x-show="showStyleSettings == '/'"
-                class="fs-2 mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
+                class="fs-2 font-weight-bold settings-main-group">
                Styles
             </span>
 
@@ -167,7 +167,7 @@
 
                     </div>
 
-                    <div class="mt-3" x-show="showStyleSettings == '{{$styleSetting['url']}}'">
+                    <div x-show="showStyleSettings == '{{$styleSetting['url']}}'">
 
                         <div>
                             <button x-on:click="showStyleSettings = '{{$styleSetting['backUrl']}}'" class="d-flex gap-2 btn btn-link mw-live-edit-toolbar-link mw-live-edit-toolbar-link&#45;&#45;arrowed text-start text-start" type="button">
@@ -235,8 +235,8 @@
                 @foreach($settingsGroups as $settingGroupName=>$settingGroup)
                     <div wire:key="setting-group-key-{{md5($settingGroupName)}}" class="mt-3">
 
-                        <div x-show="showStyleSettings == '/'">
-                            <a class="fs-2 mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
+                        <div class="  mt-5" x-show="showStyleSettings == '/'">
+                            <a class="fs-2 font-weight-bold tblr-body-color text-decoration-none settings-main-group">
                                 {{$settingGroupName}}
                             </a>
                         </div>
