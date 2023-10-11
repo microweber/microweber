@@ -14,5 +14,10 @@ class DuskServiceProvider extends \Laravel\Dusk\DuskServiceProvider
             $this->driver->switchTo()->defaultContent()->switchTo()->frame($frame);
             return $this;
         });
+
+        Browser::macro('switchFrameDefault', function () {
+            $this->driver->switchTo()->defaultContent()->switchTo()->defaultContent();
+            return $this;
+        });
     }
 }

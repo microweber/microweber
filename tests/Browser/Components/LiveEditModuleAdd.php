@@ -53,9 +53,12 @@ class LiveEditModuleAdd extends BaseComponent
              $browser->click('.mw-handle-add-button');
         }
         $browser->pause(500);
+
+        $browser->switchFrameDefault();
         $browser->script("$('.js-modules-list-search-input').val('')");
         $browser->keys('.js-modules-list-search-input', $name);
-          $browser->pause(500);
+        $browser->click('[aria-label="'.$name.'"]');
+        $browser->pause(500);
     }
 
 

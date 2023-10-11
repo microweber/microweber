@@ -120,7 +120,7 @@ class LiveEditTest extends DuskTestCase
             });
 
             $params = array(
-                'title' => 'My new page '.time(),
+                'title' => 'My new page ' . time(),
                 'content_type' => 'page',
                 'content' => '<h1 id="h1-test-element">My new page</h1>',
                 'subtype' => 'static',
@@ -135,50 +135,57 @@ class LiveEditTest extends DuskTestCase
             $browser->pause(4000);
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-                 $browser->validate();
+                $browser->validate();
             });
 
-             $browser->pause(1000);
+            $browser->pause(1000);
             $currentUrl = $browser->driver->getCurrentURL();
             $browser->pause(5000);
 
-            $randClassForDagAndDrop = 'rand-class-'.time();
-         //
-          //  $browser->script("$('.edit').addClass('$randClassForDagAndDrop')");
-           //  $browser->click('.'.$randClassForDagAndDrop);
+            $randClassForDagAndDrop = 'rand-class-' . time();
+            //
+            //  $browser->script("$('.edit').addClass('$randClassForDagAndDrop')");
+            //  $browser->click('.'.$randClassForDagAndDrop);
 
-            $browser->waitFor('#live-editor-frame',30)
-                ->withinFrame('#live-editor-frame', function($browser){
+            $browser->waitFor('#live-editor-frame', 30)
+                ->withinFrame('#live-editor-frame', function ($browser) {
 
                     $browser->pause(1000);
                 });
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
 
             $browser->switchFrame($iframeElement);
-           // $browser->mouseover('#h1-test-element');
+            // $browser->mouseover('#h1-test-element');
             $browser->click('#h1-test-element');
-           // $browser->click('#h1-test-element');
+            // $browser->click('#h1-test-element');
             $browser->pause(1000);
 
 //            $browser->clickAndHold(".mw-handle-add-button")
 //                ->pause(1000)
 //                ->releaseMouse();
-            
+
             //$browser->script("$('#h1-test-element').trigger('mouseenter').click()");
             $browser->within(new LiveEditModuleAdd(), function ($browser) {
                 $browser->addModule('Title');
             });
-            $browser->waitForText('This is my title');
+
+            $browser->switchFrame($iframeElement);
             $browser->assertSee('This is my title');
 
-            $browser->click('#main-save-btn');
-            $browser->pause(5000);
+            $browser->switchFrameDefault();
+            $browser->click('#save-button');
 
-            $browser->visit($currentUrl);
+
             $browser->pause(3000);
 
-            $browser->waitForText('This is my title');
+            $browser->visit($currentUrl);
+
+            $browser->pause(3000);
+            $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
+            $browser->switchFrame($iframeElement);
             $browser->assertSee('This is my title');
+
+
         });
     }
 
@@ -200,7 +207,7 @@ class LiveEditTest extends DuskTestCase
                 $browser->validate();
             });
 
-            $productDescription =  'Product description live edit save ' . time().rand(1111,9999);
+            $productDescription = 'Product description live edit save ' . time() . rand(1111, 9999);
 
             $browser->seeLink('Shop');
             $browser->clickLink('Shop');
@@ -214,7 +221,7 @@ class LiveEditTest extends DuskTestCase
             $browser->waitForText('Sound Systems');
             $browser->pause(9000);
 
-            $randClass = 'js-rand-description-'.time().rand(1111,9999);
+            $randClass = 'js-rand-description-' . time() . rand(1111, 9999);
             $browser->script("$('.description').find('.edit').addClass('$randClass')");
             $browser->pause(2000);
             $browser->click('.' . $randClass);
@@ -256,7 +263,7 @@ class LiveEditTest extends DuskTestCase
             });
 
 
-            if(!$browser->driver->findElement(WebDriverBy::cssSelector('#mw-sidebar-modules-list'))->isDisplayed()) {
+            if (!$browser->driver->findElement(WebDriverBy::cssSelector('#mw-sidebar-modules-list'))->isDisplayed()) {
                 $browser->script("$('.mw-lsmodules-tab').trigger('mousedown').trigger('mouseup').click()");
                 $browser->pause(500);
             }
@@ -313,7 +320,7 @@ class LiveEditTest extends DuskTestCase
             });
 
 
-            if(!$browser->driver->findElement(WebDriverBy::cssSelector('#mw-sidebar-layouts-list'))->isDisplayed()) {
+            if (!$browser->driver->findElement(WebDriverBy::cssSelector('#mw-sidebar-layouts-list'))->isDisplayed()) {
                 $browser->script("$('.mw-lslayout-tab').trigger('mousedown').trigger('mouseup').click()");
                 $browser->pause(500);
             }
