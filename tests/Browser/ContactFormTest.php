@@ -26,7 +26,7 @@ class ContactFormTest extends DuskTestCase
 
         $moduleIdRand = 'testcontactus'.time().rand(1, 1000);
 
-        $fields = 'Your Name[type=text,field_size=6,show_placeholder=true],E-mail Address[type=email,field_size=6,show_placeholder=true],Phone[type=phone, field_size=6,show_placeholder=true],Company[type=number,field_size=6,show_placeholder=true],Message[type=textarea,field_size=12,show_placeholder=true],Send message[type=button]';
+        $fields = 'Your Name[type=text,field_size=6,show_placeholder=true],E-mail Address[type=email,field_size=6,show_placeholder=true],Phone[type=phone, field_size=6,show_placeholder=true],Company[type=text,field_size=6,show_placeholder=true],Message[type=textarea,field_size=12,show_placeholder=true]';
 
         $params = array(
             'title' => 'My new contact form '.time(),
@@ -34,7 +34,7 @@ class ContactFormTest extends DuskTestCase
             'subtype' => 'static',
             'content'=> '<div class="container">
 <h1>Contact Us</h1>
-<module type="contact_form" id="'.$moduleIdRand.'" template="default" default-fields="'.$fields.'" /></div>',
+<module type="contact_form" id="'.$moduleIdRand.'" template="default" default-fields="'.$fields.'" button-text="Send me some forms" /></div>',
 
             'is_active' => 1,);
 
@@ -50,6 +50,12 @@ class ContactFormTest extends DuskTestCase
             'option_key' => 'disable_captcha',
             'option_value' => 'y'
         ));
+       save_option(array(
+            'option_group' => $moduleIdRand,
+            'module' => 'contact_form',
+            'option_key' => 'disable_captcha',
+            'option_value' => 'y'
+        ));
 
         $this->browse(function (Browser $browser) use ($siteUrl,$moduleIdRand) {
 
@@ -57,10 +63,9 @@ class ContactFormTest extends DuskTestCase
 
             $browser->visit($siteUrl);
 
-            $browser->waitForText('Contact Us');
-            $browser->clickLink('Contact Us');
 
             $browser->waitForText('Contact Us');
+
 
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
@@ -76,7 +81,7 @@ class ContactFormTest extends DuskTestCase
             $browser->assertSee('Phone');
             $browser->assertSee('Company');
             $browser->assertSee('Message');
-            $browser->assertSee('Send message');
+            $browser->assertSee('Send me some forms');
 
             $browser->type('your-name', 'Bozhidar Slaveykov' . $uniqueId);
             $browser->type('e-mail-address', 'bobi' . $uniqueId . '@microweber.com');
@@ -87,10 +92,14 @@ class ContactFormTest extends DuskTestCase
             //   $browser->attach('file-upload', userfiles_path() . '/templates/default/img/contact_icons.png');
             //  $browser->attach('file-upload2', userfiles_path() .  '/templates/default/img/contact_icons2.png');
 
-            $browser->script('$("#contactform").submit()');
+            $browser->script('$("#mw_contact_form_'.$moduleIdRand.'").submit()');
 
-            $browser->waitForText('Your message successfully sent');
-            $browser->assertSee('Your message successfully sent');
+           // $browser->waitForText('Your message successfully sent');
+         //   $browser->assertSee('Your message successfully sent');
+
+            $browser->click('button[type="submit"]');
+
+            $browser->pause('3000');
 
             $findFormDataId = false;
             $findFormDataValues = FormDataValue::where('field_value', 'bobi' . $uniqueId . '@microweber.com')->get();

@@ -17,7 +17,7 @@ description: Basic contact form
 </script>
 
 <div class="contact-form-container contact-form-template-basic">
-    <div class="edit" data-field="contact_form_title" rel="newsletter_module" data-id="<?php print $params['id'] ?>">
+    <div class="edit" field="contact_form_title" rel="newsletter_module" data-id="<?php print $params['id'] ?>">
         <h3><?php _e("Write us a letter"); ?></h3>
         <hr>
     </div>
@@ -37,7 +37,7 @@ description: Basic contact form
             </div>
         <?php endif; ?>
 
-        <module type="btn" button_action="submit" button_style="btn btn-default" button_text="<?php _e("Submit"); ?>"  />
+        <module type="btn" button_action="submit" button_style="btn btn-default" button_text="<?php print $button_text; ?>"  />
 
     </form>
 
