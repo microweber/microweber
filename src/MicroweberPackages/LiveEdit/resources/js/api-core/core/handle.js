@@ -389,11 +389,16 @@ export const Handle = function (options) {
             if (this.settings.automaticMaxWidth) {
                 target.style.maxWidth = '100%';
             }
+       
             if(target.nodeName === 'IMG') {
                 target.style.objectFit = 'cover';
-            } 
-            target.style.minHeight = data.height + 'px';
+                target.style.height = data.height + 'px';
+            }  else {
+                target.style.minHeight = data.height + 'px';
+            }
+            
             target.style.width = data.width + 'px';
+            
              
 
             var isCol = target.classList.contains('mw-col');
