@@ -201,6 +201,7 @@ class TranslateManager
                         }
 
                         if ($providerInstance->getRelType() == 'content_fields') {
+
                             $saveData['__value'] = $saveData['value'];
                             unset($saveData['value']);
                             return $saveData;

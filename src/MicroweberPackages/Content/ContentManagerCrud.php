@@ -327,6 +327,9 @@ class ContentManagerCrud extends Crud
             if (isset($get['url'])) {
                 if (!$do_not_replace_site_url) {
                     $get['full_url'] = $this->app->url_manager->site($get['url']);
+                    if (\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()) {
+                        $get['url'] =content_link($get['id']);
+                    }
                 }
             }
 
@@ -339,6 +342,9 @@ class ContentManagerCrud extends Crud
                 if (isset($item['url'])) {
                     if (!$do_not_replace_site_url) {
                         $item['url'] = $this->app->url_manager->site($item['url']);
+                        if (\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()) {
+                            $item['url'] =content_link($item['id']);
+                        }
                     }
                 }
                 if ($extra_data) {

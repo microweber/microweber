@@ -1,4 +1,9 @@
 <?php
+
+if (!\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()) {
+    return;
+}
+
 $supported_languages = get_supported_languages(true);
 
 $current_language = array();

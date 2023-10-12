@@ -745,7 +745,7 @@ abstract class AbstractRepository implements RepositoryContract
         return $this->getMessageBag()->has('error');
     }
 
- 
+
 
 
 

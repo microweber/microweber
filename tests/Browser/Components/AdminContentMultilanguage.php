@@ -86,8 +86,11 @@ class AdminContentMultilanguage extends BaseComponent
             $browser->waitForText('Multilanguage is active?', 20);
             // $browser->script('$(".module-switch-active-form .custom-control-label").click();');
           //  $browser->click('.module-switch-active-form .custom-control-label');
-            $browser->click('#is_active_quick');
-            $browser->waitForReload();
+            if (!$browser->attribute('#is_active_quick', 'checked')) {
+
+                $browser->click('#is_active_quick');
+                $browser->waitForReload();
+            }
 
         }
         $browser->pause(1000);
