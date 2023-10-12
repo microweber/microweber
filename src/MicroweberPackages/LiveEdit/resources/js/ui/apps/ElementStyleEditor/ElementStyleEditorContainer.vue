@@ -128,6 +128,11 @@ export default {
     },
 
     mounted() {
+        this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+            if (elementStyleEditorShow !== 'container') {
+                this.showContainer = false;
+            }
+        });
         mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
             this.populateStyleEditor(element)
         });

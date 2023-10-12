@@ -3,7 +3,7 @@
 
       <div>
           <b class="mw-admin-action-links" v-on:click="toggleClasses">
-              Classes 
+              Classes
           </b>
       </div>
 
@@ -145,6 +145,11 @@ export default {
 
   },
   mounted() {
+      this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+          if (elementStyleEditorShow !== 'classes') {
+              this.showClasses = false;
+          }
+      });
     mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
       this.populateStyleEditor(element);
     });

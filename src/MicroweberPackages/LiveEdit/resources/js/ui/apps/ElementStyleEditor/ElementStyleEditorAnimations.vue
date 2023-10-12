@@ -176,6 +176,13 @@ export default {
   },
 
   mounted() {
+
+      this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+          if (elementStyleEditorShow !== 'animations') {
+              this.showAnimations = false;
+          }
+      });
+
     mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
       var document = element.ownerDocument;
       var documentWindow = element.ownerDocument.defaultView;
