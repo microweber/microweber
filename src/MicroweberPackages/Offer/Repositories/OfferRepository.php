@@ -79,6 +79,7 @@ class OfferRepository extends AbstractRepository
                 ->leftJoin('custom_fields', 'offers.price_id', '=', 'custom_fields.id')
                 ->leftJoin('custom_fields_values', 'custom_fields.id', '=', 'custom_fields_values.custom_field_id')
                 ->leftJoin('content', 'offers.product_id', '=', 'content.id')
+                ->orderBy('offers.id', 'desc')
                 ->get()
                 ->toArray();
 

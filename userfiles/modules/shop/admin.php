@@ -6,7 +6,10 @@
 
 <script>
     setTimeout(function() {
-        mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
+        if(mw.top() && mw.top().dialog && mw.top().dialog.get('.mw_modal_live_edit_settings')) {
+
+            mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
+        }
     },300);
 </script>
 
