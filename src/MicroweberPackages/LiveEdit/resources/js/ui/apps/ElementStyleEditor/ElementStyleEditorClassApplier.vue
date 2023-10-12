@@ -1,7 +1,13 @@
 <template>
   <div>
 
-    <label>Classes:</label>
+      <div>
+          <b class="mw-admin-action-links" v-on:click="toggleClasses">
+              Classes
+          </b>
+      </div>
+
+      <div v-if="showClasses">
 
     <input type="hidden" v-model="classesToKeepInput" @input="updateClassesToKeep"/>
 
@@ -11,6 +17,8 @@
 
                      @on-tags-changed="handleChangeClasses"
     />
+
+     </div>
 
   </div>
 </template>
@@ -24,6 +32,7 @@ export default {
   },
   data() {
     return {
+    showClasses: false,
       activeNode: null,
       isReady: false,
       classesToKeepInput: '',
@@ -46,6 +55,10 @@ export default {
     };
   },
   methods: {
+      toggleClasses: function () { 
+          this.showClasses = !this.showClasses;
+          this.emitter.emit('element-style-editor-show', 'classes');
+      },
     customValidateClasses(value) {
       // Use regex to validate input classes
       const regex = /^[a-zA-Z\s,]*$/;
