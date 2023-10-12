@@ -42,7 +42,7 @@ class AdminEditProfileTest extends DuskTestCase
          //  $browser->pause(3000);
            //.. $browser->scrollTo('#advanced-settings');
 
-            $phone = rand(1000000000, 9999999999);
+            $phone = rand(10000, 9999999);
             $email = 'visualtest+'.$phone.'@microweber.com';
             $first_name = 'Visual'.uniqid();
             $last_name = 'Test'.uniqid();
@@ -50,10 +50,17 @@ class AdminEditProfileTest extends DuskTestCase
 
             $browser->type('first_name', $first_name);
             $browser->type('last_name', $last_name);
-            $browser->type('phone', $phone);
+
             $browser->type('email', $email);
+            $browser->type('phone', $phone);
+
+            $browser->pause(300);
+
 
             $browser->press('Save');
+
+            $browser->waitForText('Saved');
+
             $browser->pause(3000);
 
             $browser->clickLink('Users');
