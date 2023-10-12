@@ -125,9 +125,10 @@ if (isset($params['is_shop']) and $params['is_shop'] == '1') {
     resizeModal = function (w, h) {
 
 
+        if(mw.top() && mw.top().dialog && mw.top().dialog.get('.mw_modal_live_edit_settings')) {
 
-        mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
-
+            mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
+        }
         // if (thismodal) {
         //     thismodal.resize(w, h);
         //     thismodal.center();

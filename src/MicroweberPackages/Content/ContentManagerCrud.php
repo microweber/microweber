@@ -322,12 +322,12 @@ class ContentManagerCrud extends Crud
        }*/
 
        //  echo '<pre>' . print_r([$params], true) .'</pre>';
-
+$multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled();
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
                 if (!$do_not_replace_site_url) {
                     $get['full_url'] = $this->app->url_manager->site($get['url']);
-                    if (\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()) {
+                    if ($multilangIsEnabled) {
                         $get['url'] =content_link($get['id']);
                     }
                 }
@@ -342,7 +342,7 @@ class ContentManagerCrud extends Crud
                 if (isset($item['url'])) {
                     if (!$do_not_replace_site_url) {
                         $item['url'] = $this->app->url_manager->site($item['url']);
-                        if (\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()) {
+                        if ($multilangIsEnabled) {
                             $item['url'] =content_link($item['id']);
                         }
                     }
