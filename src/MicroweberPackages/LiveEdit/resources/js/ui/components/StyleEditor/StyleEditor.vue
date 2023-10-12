@@ -1,6 +1,6 @@
 <template>
     <div v-if="isOpened">
-        <h3>Style editor</h3>
+        <h3>Element Style Editor</h3>
         <span v-on:click="closeStyleEditor" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
 
 

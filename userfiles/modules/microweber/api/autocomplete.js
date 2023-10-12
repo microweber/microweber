@@ -200,8 +200,11 @@ mw.autoComplete = function(options){
         if(config.url){
             config.url = config.url.replace('${val}',val);
         }
+        mw.spinner({element: this.element, decorate: true, size: 22});
+        this.element.classList.add('mw-autocomplete-loading')
         var xhr = $.ajax(config);
         xhr.done(function(data){
+           
             if(data.data){
                 scope.data = data.data;
             }
@@ -213,6 +216,8 @@ mw.autoComplete = function(options){
         })
         .always(function(){
             scope.searching = false;
+            mw.spinner({element: scope.element}).remove()
+            scope.element.classList.remove('mw-autocomplete-loading')
         });
     };
 
@@ -271,6 +276,11 @@ mw.autoComplete = function(options){
                 scope.listHolder.style.display = 'none';
             }
         });
+        if(mw.top().app && mw.top().app.canvas) {
+            mw.top().app.canvas.on('canvasDocumentClick', function () {
+                scope.listHolder.style.display = 'none';
+            })
+        }
     };
 
 

@@ -2,7 +2,7 @@
 
     <div>
         <b class="mw-admin-action-links" v-on:click="toggleBackground">
-            Spacing
+            Background
         </b>
     </div>
 

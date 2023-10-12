@@ -807,6 +807,39 @@ html[dir="rtl"] {
 }
 
 
+.mw-icon-selector-form-control-range{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  z-index: 7;
+  background: #d3d3d3;
+  --thumb-size: 12px;
+  accent-color: #0078ff;
+  outline: none;
+}
+
+
+ 
+
+.mw-icon-selector-form-control-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--thumb-size);
+  height:  var(--thumb-size);
+  background: #0078ff;
+  cursor: pointer;
+  border-radius:50px;
+}
+
+.mw-icon-selector-form-control-range::-moz-range-thumb {
+  width:  var(--thumb-size);
+  height:  var(--thumb-size);
+  background: #0078ff;
+  cursor: pointer;  
+  border-radius:50px;
+}
 
 
 

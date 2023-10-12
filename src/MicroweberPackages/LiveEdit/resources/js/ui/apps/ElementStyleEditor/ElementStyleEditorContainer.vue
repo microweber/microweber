@@ -1,6 +1,13 @@
 <template>
     <div v-if="hasContainer">
 
+        <div>
+            <b class="mw-admin-action-links" v-on:click="toggleContainer">
+                Container
+            </b>
+        </div>
+
+        <div v-if="showContainer">
 
         <div class="s-field" id="field-conatiner-type">
             <label>Container type</label>
@@ -19,6 +26,7 @@
             </div>
         </div>
 
+        </div>
 
     </div>
 
@@ -34,6 +42,7 @@ export default {
     components: {DropdownSmall},
     data() {
         return {
+            'showContainer': false,
             'activeContainerNode': null,
             'isReady': false,
             'hasContainer': false,
@@ -43,6 +52,10 @@ export default {
     },
 
     methods: {
+        toggleContainer: function () {
+            this.showContainer = !this.showContainer;
+            this.emitter.emit('element-style-editor-show', 'container');
+        },
         resetAllProperties: function () {
             this.hasContainer = null;
             this.containerType = null;
@@ -115,6 +128,11 @@ export default {
     },
 
     mounted() {
+        this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+            if (elementStyleEditorShow !== 'container') {
+                this.showContainer = false;
+            }
+        });
         mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
             this.populateStyleEditor(element)
         });

@@ -937,3 +937,11 @@ body.loaded #bubble-nav span {
     background-color: var(--tblr-body-bg);
 
 }
+#mw-live-edit-search-content .mw-spinner{
+    z-index: 10;
+    right: 0;
+    left: auto;
+    background: #eee;
+    pointer-events: none;
+    
+}

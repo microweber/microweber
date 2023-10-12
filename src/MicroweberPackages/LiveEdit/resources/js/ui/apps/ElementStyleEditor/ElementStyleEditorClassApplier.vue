@@ -1,16 +1,27 @@
 <template>
   <div>
 
-    <label>Classes:</label>
+      <div>
+          <b class="mw-admin-action-links" v-on:click="toggleClasses">
+              Classes
+          </b>
+      </div>
 
-    <input type="hidden" v-model="classesToKeepInput" @input="updateClassesToKeep"/>
+      <div v-if="showClasses">
 
-    <vue3-tags-input :tags="classes"
-                     placeholder="Enter classes separated by commas"
-                     :validate="customValidateClasses"
+          <div>
+              <input type="hidden" v-model="classesToKeepInput" @input="updateClassesToKeep"/>
 
-                     @on-tags-changed="handleChangeClasses"
-    />
+              <vue3-tags-input :tags="classes"
+                               placeholder="Enter classes separated by commas"
+                               :validate="customValidateClasses"
+
+                               @on-tags-changed="handleChangeClasses"
+              />
+          </div>
+
+
+     </div>
 
   </div>
 </template>
@@ -24,6 +35,7 @@ export default {
   },
   data() {
     return {
+    showClasses: false,
       activeNode: null,
       isReady: false,
       classesToKeepInput: '',
@@ -46,6 +58,10 @@ export default {
     };
   },
   methods: {
+      toggleClasses: function () {
+          this.showClasses = !this.showClasses;
+          this.emitter.emit('element-style-editor-show', 'classes');
+      },
     customValidateClasses(value) {
       // Use regex to validate input classes
       const regex = /^[a-zA-Z\s,]*$/;
@@ -129,6 +145,11 @@ export default {
 
   },
   mounted() {
+      this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+          if (elementStyleEditorShow !== 'classes') {
+              this.showClasses = false;
+          }
+      });
     mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
       this.populateStyleEditor(element);
     });

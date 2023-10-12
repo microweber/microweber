@@ -3,6 +3,7 @@
     z-index:10;
     display:flex;
     padding: 5px;
+ 
     .mw-ui-btn{
         margin: 5px;
         .mw-icon-close{
@@ -39,8 +40,8 @@
             width: 100%;
         }
         .mw-autocomplete-value + input.mw-autocomplete-field{
-            width: -webkit-calc(100% - 30px);
-            width: calc(100% - 30px);
+          
+            width: 100%;
         }
     }
 }
