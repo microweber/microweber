@@ -45,14 +45,12 @@ $site_templates = site_templates();
 //$module_templates = module_templates($params['parent-module']);
 $templates = $module_templates = module_templates($mod_name);
 
-
 $screenshots = false;
 if (isset($params['data-screenshots'])) {
     $screenshots = $params['data-screenshots'];
 }
 
-$cur_template = get_option('template', $for_module_id);
-
+$cur_template = get_option('data-template', $for_module_id);
 
 if ($cur_template == false) {
 
