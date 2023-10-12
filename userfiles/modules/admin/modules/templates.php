@@ -27,9 +27,11 @@ if (!isset($params['parent-module-id'])) {
     error('parent-module-id is required');
 
 }
-
-if (!isset($params['for-module-id'])) {
-    $params['for-module-id'] = '';
+$for_module_id = $params['parent-module-id'];
+if (isset($params['for-module-id'])) {
+    $for_module_id = $params['for-module-id'];
+} else {
+    $params['for-module-id'] = $for_module_id;
 }
 
 
@@ -49,7 +51,7 @@ if (isset($params['data-screenshots'])) {
     $screenshots = $params['data-screenshots'];
 }
 
-$cur_template = get_option('template', $params['parent-module-id']);
+$cur_template = get_option('template', $for_module_id);
 
 
 if ($cur_template == false) {
@@ -163,7 +165,32 @@ if ($screenshots) {
             }
         </style>
 
-        <div x-data="{showSkinDropdown: false, selectedSkin: {'screenshot':false, 'name': 'Default', 'file': 'default.php' } }">
+        <?php
+        $currentSkinData = [
+            'screenshot' => false,
+            'name' => 'Default',
+            'file' => $cur_template
+        ];
+
+        foreach ($templates as $item) {
+            if ($item['layout_file'] == $cur_template) {
+                $currentSkinData['name'] = $item['name'];
+                if (isset($item['screenshot'])) {
+                    $currentSkinData['screenshot'] = $item['screenshot'];
+                }
+            }
+        }
+
+        ?>
+        <div x-data="{
+            showSkinDropdown: false,
+            selectedSkin: {
+                'name': '<?php echo $currentSkinData['name']; ?>',
+                'screenshot': '<?php echo $currentSkinData['screenshot']; ?>',
+                'file': '<?php echo $currentSkinData['file']; ?>'
+            }
+         }">
+
             <div class="form-group d-block">
                 <div class="form-label font-weight-bold"><?php _e("Current Skin / Template"); ?></div>
                 <small class="text-muted d-block mb-2"><?php _e('Select different design'); ?></small>
