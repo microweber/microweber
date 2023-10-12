@@ -284,9 +284,10 @@ class MicroweberTemplate
                     }
                 } else {
                     $content = $page;
-                    $this->pageId = intval($content['id']);
-                    $this->contentId = intval($content['id']);
-
+                    if (isset($content['id'])) {
+                        $this->pageId = intval($content['id']);
+                        $this->contentId = intval($content['id']);
+                    }
                     if (isset($page['content_type']) and $content['content_type'] == 'page' && isset($content['id'])) {
                         $this->pageId = intval($content['id']);
                         $this->contentId = intval($content['id']);
