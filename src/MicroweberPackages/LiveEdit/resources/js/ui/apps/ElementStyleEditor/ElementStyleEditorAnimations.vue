@@ -1,7 +1,15 @@
 <template>
   <div v-if="supportsAnimations">
 
-    <DropdownSmall v-model="selectedAnimation" :options="animations" :label="'Animation'"/>
+      <div>
+          <b class="mw-admin-action-links" v-on:click="toggleAnimations">
+              Animations
+          </b>
+      </div>
+
+      <div v-if="showAnimations">
+
+      <DropdownSmall v-model="selectedAnimation" :options="animations" :label="'Animation'"/>
 
     <div v-if="selectedAnimation">
       <DropdownSmall v-model="selectedAnimationWhenAppear" :options="animationsAppear" :label="'When'"/>
@@ -9,6 +17,7 @@
       <SliderSmall v-model="selectedAnimationSpeed" :label="'Speed'" :min="0.1" :max="5" :step="0.1" :unit="'s'"/>
 
 
+    </div>
     </div>
 
   </div>
@@ -25,6 +34,7 @@ export default {
 
   data() {
     return {
+        'showAnimations': false,
       'activeNode': null,
       'isReady': false,
       'selectedAnimation': false,
@@ -99,6 +109,10 @@ export default {
     }
   },
   methods: {
+      toggleAnimations: function () {
+          this.showAnimations = !this.showAnimations;
+          this.emitter.emit('element-style-editor-show', 'animations');
+      },
     resetAllProperties: function () {
       this.selectedAnimation = null;
       this.selectedAnimationSpeed = 1;
@@ -162,6 +176,13 @@ export default {
   },
 
   mounted() {
+
+      this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+          if (elementStyleEditorShow !== 'animations') {
+              this.showAnimations = false;
+          }
+      });
+
     mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
       var document = element.ownerDocument;
       var documentWindow = element.ownerDocument.defaultView;

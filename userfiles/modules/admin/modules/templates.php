@@ -27,6 +27,12 @@ if (!isset($params['parent-module-id'])) {
     error('parent-module-id is required');
 
 }
+$for_module_id = $params['parent-module-id'];
+if (isset($params['for-module-id'])) {
+    $for_module_id = $params['for-module-id'];
+} else {
+    $params['for-module-id'] = $for_module_id;
+}
 
 
 $mod_name = $params['parent-module'];
@@ -39,14 +45,12 @@ $site_templates = site_templates();
 //$module_templates = module_templates($params['parent-module']);
 $templates = $module_templates = module_templates($mod_name);
 
-
 $screenshots = false;
 if (isset($params['data-screenshots'])) {
     $screenshots = $params['data-screenshots'];
 }
 
-$cur_template = get_option('template', $params['parent-module-id']);
-
+$cur_template = get_option('data-template', $for_module_id);
 
 if ($cur_template == false) {
 
@@ -159,12 +163,37 @@ if ($screenshots) {
             }
         </style>
 
-        <div x-data="{showSkinDropdown: false, selectedSkin: {'screenshot':false, 'name': 'Default', 'file': 'default.php' } }">
+        <?php
+        $currentSkinData = [
+            'screenshot' => false,
+            'name' => 'Default',
+            'file' => $cur_template
+        ];
+
+        foreach ($templates as $item) {
+            if ($item['layout_file'] == $cur_template) {
+                $currentSkinData['name'] = $item['name'];
+                if (isset($item['screenshot'])) {
+                    $currentSkinData['screenshot'] = $item['screenshot'];
+                }
+            }
+        }
+
+        ?>
+        <div x-data="{
+            showSkinDropdown: false,
+            selectedSkin: {
+                'name': '<?php echo $currentSkinData['name']; ?>',
+                'screenshot': '<?php echo $currentSkinData['screenshot']; ?>',
+                'file': '<?php echo $currentSkinData['file']; ?>'
+            }
+         }">
+
             <div class="form-group d-block">
                 <div class="form-label font-weight-bold"><?php _e("Current Skin / Template"); ?></div>
                 <small class="text-muted d-block mb-2"><?php _e('Select different design'); ?></small>
 
-                <div x-html="selectedSkin.name" x-on:click="showSkinDropdown = ! showSkinDropdown" class="skin-dorpdown-select mw_option_field form-select" option_group="<?php print $params['parent-module-id'] ?>">
+                <div x-html="selectedSkin.name" x-on:click="showSkinDropdown = ! showSkinDropdown" class="skin-dorpdown-select mw_option_field form-select">
                     Default
                 </div>
 
@@ -181,8 +210,14 @@ if ($screenshots) {
                         <?php if ((strtolower($item['name']) != 'default')): ?>
                             <?php $default_item_names[] = $item['name']; ?>
                             <div x-on:click="() => {
-                                        showSkinDropdown = false;
-                                        selectedSkin = {'screenshot': '<?php print $item['screenshot'] ?>', 'name': '<?php print $item['name'] ?>', 'file': '<?php print $item['layout_file'] ?>' };
+                                    mw.options.saveOption({
+                                        group: '<?php print $params['for-module-id'] ?>',
+                                        key: 'data-template',
+                                        value: '<?php print $item['layout_file'] ?>'
+                                    });
+                                    mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '<?php print $params['for-module-id'] ?>'} || {}));
+                                    showSkinDropdown = false;
+                                    selectedSkin = {'screenshot': '<?php print $item['screenshot'] ?>', 'name': '<?php print $item['name'] ?>', 'file': '<?php print $item['layout_file'] ?>' };
                                 }"
                                 class="skin-dropdown-option" <?php if (($item['layout_file'] == $cur_template)): ?>selected="selected" <?php endif; ?>value="<?php print $item['layout_file'] ?>" title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>">
 
