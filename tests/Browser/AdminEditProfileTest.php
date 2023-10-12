@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use App\Models\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
@@ -38,14 +39,14 @@ class AdminEditProfileTest extends DuskTestCase
             });
 
             $browser->pause(3000);
-           // $browser->waitForText('First Name', 30);
-         //  $browser->pause(3000);
-           //.. $browser->scrollTo('#advanced-settings');
+            // $browser->waitForText('First Name', 30);
+            //  $browser->pause(3000);
+            //.. $browser->scrollTo('#advanced-settings');
 
             $phone = rand(10000, 9999999);
-            $email = 'visualtest+'.$phone.'@microweber.com';
-            $first_name = 'Visual'.uniqid();
-            $last_name = 'Test'.uniqid();
+            $email = 'visualtest+' . $phone . '@microweber.com';
+            $first_name = 'Visual' . uniqid();
+            $last_name = 'Test' . uniqid();
 
 
             $browser->type('first_name', $first_name);
@@ -69,6 +70,53 @@ class AdminEditProfileTest extends DuskTestCase
 
             $this->assertEquals($first_name, $findUser->first_name);
             $this->assertEquals($last_name, $findUser->last_name);
+            $this->assertEquals($phone, $findUser->phone);
+
+        });
+    }
+
+    public function testEditProfileOnlyPhoneChange()
+    {
+
+        $this->browse(function (Browser $browser) {
+
+            $browser->within(new AdminLogin, function ($browser) {
+                $browser->fillForm();
+            });
+            $user = \MicroweberPackages\User\Models\User::where('username', 1)->first();
+            Auth::login($user);
+            $browser->visit(admin_url());
+
+            $browser->clickLink('Users');
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
+            $browser->pause(2000);
+            $browser->waitForText('Edit profile');
+            $browser->clickLink('Edit profile');
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+            $userId = user_id();
+
+            $browser->pause(3000);
+
+            $phone = '+0000' . rand(9999999, 999999999);
+
+            $browser->type('phone', $phone);
+
+            $browser->pause(300);
+            $browser->press('Save');
+            $browser->waitForText('Saved');
+            $browser->pause(3000);
+
+            $browser->clickLink('Users');
+            $browser->waitForText('Manage Users');
+
+            $findUser = User::where('id', $userId)->first();
             $this->assertEquals($phone, $findUser->phone);
 
         });
@@ -110,13 +158,13 @@ class AdminEditProfileTest extends DuskTestCase
             $new_password = $faker->password;
             $first_name = $faker->firstName;
             $last_name = $faker->lastName;
-            $phone   = $faker->phoneNumber;
+            $phone = $faker->phoneNumber;
 
 
             $browser->type('username', $new_username);
             $browser->type('password', $new_password);
             $browser->type('first_name', $first_name);
-             $browser->type('last_name', $last_name);
+            $browser->type('last_name', $last_name);
             $browser->type('phone', $phone);
             $browser->type('email', $new_email);
             $browser->select('is_admin', 1);
@@ -134,10 +182,9 @@ class AdminEditProfileTest extends DuskTestCase
             $browser->pause(1000);
 
 
-
             $browser->click('button[id="user-save-button"]');
 
-           // $browser->click('#user-save-button');
+            // $browser->click('#user-save-button');
 
             $browser->pause(3000);
 
