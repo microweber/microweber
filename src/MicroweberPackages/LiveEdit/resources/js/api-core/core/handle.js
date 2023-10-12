@@ -390,14 +390,11 @@ export const Handle = function (options) {
                 target.style.maxWidth = '100%';
             }
             if(target.nodeName === 'IMG') {
-                data = calculateAspectRatioFit(target.offsetWidth, target.offsetHeight, data.width, data.height)
-                target.style.height = data.height + 'px';
-                target.style.width = data.width + 'px';
-
-            } else {
-                target.style.minHeight = data.height + 'px';
-                target.style.width = data.width + 'px';
-            }
+                target.style.objectFit = 'cover';
+            } 
+            target.style.minHeight = data.height + 'px';
+            target.style.width = data.width + 'px';
+             
 
             var isCol = target.classList.contains('mw-col');
             if(isCol) {

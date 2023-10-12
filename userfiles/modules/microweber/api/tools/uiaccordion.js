@@ -166,7 +166,7 @@ mw.tabAccordion = function (options, accordion) {
         var size = (this.options.tabsSize ? ' mw-ui-btn-' + this.options.tabsSize : '');
         var color = (this.options.tabsColor ? ' mw-ui-btn-' + this.options.tabsColor : '');
         var active = (index === 0 ? (' ' + this.options.activeClass) : '');
-        btn.className = (active + 'btn btn-link mw-admin-action-links mw-adm-liveedit-tabs mx-1');
+        btn.className = (active + ' btn btn-link mw-admin-action-links mw-adm-liveedit-tabs mx-1');
         btn.innerHTML = content;
         btn.onclick = function () {
             scope.buttons.removeClass(scope.options.activeClass).eq(index).addClass(scope.options.activeClass);

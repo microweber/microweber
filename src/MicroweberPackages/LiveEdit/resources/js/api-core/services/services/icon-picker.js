@@ -26,10 +26,13 @@ export class IconPicker extends MicroweberBaseClass {
                 reset: true,
             }
         };
-        const settings = Object.assign({}, defaults, options);
         var target = $(targetElementSelector)[0];
+        const settings = Object.assign({}, defaults, options, {target});
+        
         mw.iconLoader().init();
         var picker = mw.iconPicker(settings);
+
+        console.log(picker)
 
         const promise = () => new Promise(resolve => {
             picker.target = target;
