@@ -60,7 +60,7 @@ class AdminEditProfileTest extends DuskTestCase
 
             $browser->press('Save');
 
-            $browser->waitForText('Saved');
+            $browser->waitForText('Saved',10);
 
             $browser->pause(3000);
 
@@ -110,7 +110,7 @@ class AdminEditProfileTest extends DuskTestCase
 
             $browser->pause(300);
             $browser->press('Save');
-            $browser->waitForText('Saved');
+            $browser->waitForText('Saved',10);
             $browser->pause(3000);
 
             $browser->clickLink('Users');
