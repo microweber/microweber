@@ -616,8 +616,9 @@ class DatabaseManager extends DbUtils
 
         $table_assoc_name = $this->assoc_table_name($table);
 
-        $criteria_orig = $data;
-        $criteria = $this->map_array_to_table($table, $data);
+        $criteria = $criteria_orig = $data;
+       // $criteria_orig = $data;
+       // $criteria = $this->map_array_to_table($table, $data);
         if ($allow_html == false) {
             $criteria = $this->app->format->clean_html($criteria);
         } else {
@@ -643,13 +644,12 @@ class DatabaseManager extends DbUtils
         }
         $criteria['id'] = intval($criteria['id']);
 
-        $criteria = $criteria_overwrite = $this->app->event_manager->response('mw.database.' . $table . '.save.params', $criteria);
+        $criteria = $criteria_overwrite = $this->app->event_manager->response('mw.database.' . $table . '.save.params', $criteria_orig);
         $criteria = $this->map_array_to_table($table, $criteria);
 
         if(!$criteria){
             return;
         }
-
 //        $auto_fields = ['created_by','edited_by','created_at','updated_at','created_by','session_id','id'];
 
 
@@ -721,6 +721,7 @@ class DatabaseManager extends DbUtils
         }
 
         $criteria_overwrite['id'] = $id_to_return;
+
         $this->app->event_manager->trigger('mw.database.' . $table . '.save.after', $criteria_overwrite);
         $this->app->event_manager->trigger('mw.database.' . $table . '.save.after.data', $data);
 

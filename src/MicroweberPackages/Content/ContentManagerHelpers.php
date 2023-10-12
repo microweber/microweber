@@ -780,6 +780,14 @@ class ContentManagerHelpers extends ContentManagerCrud
                     $is_module = 1;
                     $save_page = false;
                 }
+                $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
+//                if($multilanguageIsActive){
+//                      $lang_from_url = detect_lang_from_url($ref_page_url);
+//                        if(isset($lang_from_url['target_url'])){
+//                            $ref_page_url = $lang_from_url['target_url'];
+//                        }
+//                }
+
 
                 if ($is_admin == true and is_array($pd) and $is_module == false) {
                     $save_page = $pd;
@@ -848,10 +856,11 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 } else {
                                     $should_redirect_to_new_url = true;
 
-                                    $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
+
                                     if ($multilanguageIsActive) {
                                         if (function_exists('detect_lang_from_url')) {
                                             $lang_from_url = detect_lang_from_url($save_page['url']);
+
                                             if (isset($lang_from_url['target_url'])) {
 
                                                 $save_page['url'] = $lang_from_url['target_url'];
@@ -1141,6 +1150,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                                         $cont_table_save = array();
                                         $cont_table_save[$field]=$html_to_save;
                                     }
+
+
                                 }
 
 
@@ -1160,12 +1171,18 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 if ($is_no_save != true and $is_draft == false) {
                                     $to_save2 = $to_save;
                                     //   $to_save2['rel_type'] = 'content';
-                                    $to_save2['rel_type'] = $rel_ch;
-                                    $to_save2['rel_id'] = $content_id_for_con_field;
-                                    $to_save2['field'] = $field;
-                                    $json_print[] = $to_save2;
-                                    $history_draft = $to_save2;
-                                    $cont_field_revision = $this->app->content_manager->save_content_field($history_draft);
+                                    if(isset($cont_table_save)  and $cont_table_save){
+                                        $json_print[] = $to_save2;
+                                    } else {
+                                        $to_save2['rel_type'] = $rel_ch;
+                                        $to_save2['rel_id'] = $content_id_for_con_field;
+                                        $to_save2['field'] = $field;
+                                        $json_print[] = $to_save2;
+                                        $history_draft = $to_save2;
+
+                                        $cont_field_revision = $this->app->content_manager->save_content_field($to_save2);
+                                    }
+
 
                                     $saved = $this->app->content_manager->save_content_admin($to_save);
 
@@ -1228,6 +1245,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                             if ($is_draft != false) {
                                 $cont_field['is_draft'] = 1;
                                 $cont_field['url'] = $this->app->url_manager->string(true);
+
                                 $cont_field_new = $this->app->content_manager->save_content_field($cont_field);
 
                                 $json_print[] = $cont_field;

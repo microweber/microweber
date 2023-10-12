@@ -41,6 +41,7 @@ class PermalinkManager
         }
 
         $structureMap = $this->getStructuresReadMap();
+
         foreach ($structureMap as $structureMapIndex => $structureMapItem) {
             if (strpos($structureMapItem, $type) !== false) {
                 if (isset($linkSegments[$structureMapIndex])) {

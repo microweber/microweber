@@ -249,8 +249,8 @@ class MicroweberTemplate
         }
 
         if (is_array($page)) {
-            if (isset($page['content_type'])) {
-                if ($page['content_type'] != 'page') {
+            if (!empty($page)) {
+                if (isset($page['content_type']) and $page['content_type'] != 'page') {
                     if (isset($page['id']) && $page['id'] != 0) {
                         $content = $page;
                         $this->contentId = intval($content['id']);
@@ -285,10 +285,12 @@ class MicroweberTemplate
                 } else {
                     $content = $page;
                     $this->pageId = intval($content['id']);
-                    if ($content['content_type'] == 'page' && isset($content['id'])) {
+                    $this->contentId = intval($content['id']);
+
+                    if (isset($page['content_type']) and $content['content_type'] == 'page' && isset($content['id'])) {
                         $this->pageId = intval($content['id']);
                         $this->contentId = intval($content['id']);
-                    } elseif ($content['content_type'] != 'page' && isset($content['id'])) {
+                    } elseif (isset($page['content_type']) and $content['content_type'] != 'page' && isset($content['id'])) {
                         if (isset($content['parent']) && $content['parent']) {
                             $this->pageId = intval($content['parent']);
                         }
@@ -298,7 +300,6 @@ class MicroweberTemplate
                         if ($content['content_type'] == 'product') {
                             $this->productId = intval($content['id']);
                         }
-                        $this->contentId = intval($content['id']);
                     }
                 }
 
