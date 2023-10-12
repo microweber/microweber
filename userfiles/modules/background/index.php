@@ -33,11 +33,11 @@ if($background_color != ''){
 }
 $video_url = '';
 if(isset($params['data-background-video'])){
-    $background_color = $params['data-background-video'];
+    $video_url = $params['data-background-video'];
 }
 $background_video_option = get_option('background_video', $params['id']);
 if($background_video_option){
-    $video_url = $background_video_option; 
+    $video_url = $background_video_option;
 }
 
 
