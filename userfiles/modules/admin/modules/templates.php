@@ -28,6 +28,10 @@ if (!isset($params['parent-module-id'])) {
 
 }
 
+if (!isset($params['for-module-id'])) {
+    $params['for-module-id'] = '';
+}
+
 
 $mod_name = $params['parent-module'];
 $mod_name = str_replace('/admin', '', $mod_name);
@@ -164,7 +168,7 @@ if ($screenshots) {
                 <div class="form-label font-weight-bold"><?php _e("Current Skin / Template"); ?></div>
                 <small class="text-muted d-block mb-2"><?php _e('Select different design'); ?></small>
 
-                <div x-html="selectedSkin.name" x-on:click="showSkinDropdown = ! showSkinDropdown" class="skin-dorpdown-select mw_option_field form-select" option_group="<?php print $params['parent-module-id'] ?>">
+                <div x-html="selectedSkin.name" x-on:click="showSkinDropdown = ! showSkinDropdown" class="skin-dorpdown-select mw_option_field form-select">
                     Default
                 </div>
 
@@ -181,8 +185,14 @@ if ($screenshots) {
                         <?php if ((strtolower($item['name']) != 'default')): ?>
                             <?php $default_item_names[] = $item['name']; ?>
                             <div x-on:click="() => {
-                                        showSkinDropdown = false;
-                                        selectedSkin = {'screenshot': '<?php print $item['screenshot'] ?>', 'name': '<?php print $item['name'] ?>', 'file': '<?php print $item['layout_file'] ?>' };
+                                    mw.options.saveOption({
+                                        group: '<?php print $params['for-module-id'] ?>',
+                                        key: 'data-template',
+                                        value: '<?php print $item['layout_file'] ?>'
+                                    });
+                                    mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '<?php print $params['for-module-id'] ?>'} || {}));
+                                    showSkinDropdown = false;
+                                    selectedSkin = {'screenshot': '<?php print $item['screenshot'] ?>', 'name': '<?php print $item['name'] ?>', 'file': '<?php print $item['layout_file'] ?>' };
                                 }"
                                 class="skin-dropdown-option" <?php if (($item['layout_file'] == $cur_template)): ?>selected="selected" <?php endif; ?>value="<?php print $item['layout_file'] ?>" title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>">
 
