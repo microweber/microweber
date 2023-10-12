@@ -4,6 +4,8 @@ namespace Tests\Browser\Multilanguage;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Content\Models\Content;
+use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use Tests\Browser\Components\AdminContentMultilanguage;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
@@ -123,6 +125,28 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
             $browser->assertSee('Текст написан на български, това е българска страница');
 
 
+
+            // check the database
+            $translationMustBeInOriginal = MultilanguageTranslations::where('rel_type', 'content')
+                ->where('rel_id', $saved_id)
+                ->where('field_name', 'content')
+                ->where('locale', 'en_US')
+                ->first();
+
+            $this->assertEmpty($translationMustBeInOriginal);
+            $content = Content::find($saved_id);
+
+            $this->assertEquals('<h1 id="h1-test-element" class="element">This is my text on english language</h1>', $content->content);
+
+            $translationMustBeSaved = MultilanguageTranslations::where('rel_type', 'content')
+                ->where('rel_id', $saved_id)
+                ->where('field_name', 'content')
+                ->where('locale', 'bg_BG')
+                ->first();
+
+            $this->assertNotEmpty($translationMustBeSaved);
+
+            $this->assertEquals($translationMustBeSaved->field_value, '<h1 id="h1-test-element" class="element">Текст написан на български, това е българска страница</h1>');
 
         });
 

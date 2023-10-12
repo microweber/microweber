@@ -16,8 +16,9 @@ abstract class DuskTestCaseMultilanguage extends DuskTestCase
         \DB::table('options')
             ->where('option_group', 'multilanguage_settings')
             ->delete();
-
-        parent::assertPostConditions();
+        change_language_by_locale('en_US');
+        save_option('language', 'en_US', 'website');
+         parent::assertPostConditions();
     }
 
     protected function assertPreConditions(): void
