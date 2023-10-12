@@ -3,20 +3,23 @@
 
       <div>
           <b class="mw-admin-action-links" v-on:click="toggleClasses">
-              Classes
+              Classes 
           </b>
       </div>
 
       <div v-if="showClasses">
 
-    <input type="hidden" v-model="classesToKeepInput" @input="updateClassesToKeep"/>
+          <div>
+              <input type="hidden" v-model="classesToKeepInput" @input="updateClassesToKeep"/>
 
-    <vue3-tags-input :tags="classes"
-                     placeholder="Enter classes separated by commas"
-                     :validate="customValidateClasses"
+              <vue3-tags-input :tags="classes"
+                               placeholder="Enter classes separated by commas"
+                               :validate="customValidateClasses"
 
-                     @on-tags-changed="handleChangeClasses"
-    />
+                               @on-tags-changed="handleChangeClasses"
+              />
+          </div>
+
 
      </div>
 
@@ -55,7 +58,7 @@ export default {
     };
   },
   methods: {
-      toggleClasses: function () { 
+      toggleClasses: function () {
           this.showClasses = !this.showClasses;
           this.emitter.emit('element-style-editor-show', 'classes');
       },
