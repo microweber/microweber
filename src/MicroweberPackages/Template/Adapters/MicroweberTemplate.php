@@ -548,6 +548,7 @@ class MicroweberTemplate
                 $get_layout_from_parent['layout_file'] = str_replace('___', DS, $get_layout_from_parent['layout_file']);
                 $get_layout_from_parent['layout_file'] = sanitize_path($get_layout_from_parent['layout_file']);
                 $render_file_temp = templates_dir() . $get_layout_from_parent['active_site_template'] . DS . $get_layout_from_parent['layout_file'];
+                $render_file_temp2 = templates_dir() .$get_layout_from_parent['active_site_template'] . DS. 'layouts'.DS . $get_layout_from_parent['layout_file'];
                 $render_use_default = templates_dir() . $get_layout_from_parent['active_site_template'] . DS . 'use_default_layouts.php';
                 $render_file_temp = normalize_path($render_file_temp, false);
                 $render_use_default = normalize_path($render_use_default, false);
@@ -555,9 +556,12 @@ class MicroweberTemplate
                 $render_file_module_temp = modules_path() . DS . $get_layout_from_parent['layout_file'];
                 $render_file_module_temp = normalize_path($render_file_module_temp, false);
 
+
                 //if (!isset($page['content_type']) or $page['content_type'] == 'page') {
                 if (is_file($render_file_temp)) {
                     $render_file = $render_file_temp;
+                } else if (is_file($render_file_temp2)) {
+                    $render_file = $render_file_temp2;
                 } elseif (is_file($render_use_default)) {
                     $render_file_temp = $this->getFallbackTemplateDir() . $get_layout_from_parent['layout_file'];
                     if (is_file($render_file_temp)) {
@@ -567,7 +571,8 @@ class MicroweberTemplate
                     $render_file = $render_file_module_temp;
                 }
             }
-        }
+
+         }
 
         if ($render_file == false and !isset($page['active_site_template']) and isset($page['layout_file'])) {
             $test_file = str_replace('___', DS, $page['layout_file']);
@@ -637,7 +642,8 @@ class MicroweberTemplate
             }
         }
 
-        if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and (!isset($page['layout_file']) or (isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) or $page['layout_file'] == false)) {
+        if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and
+            (!isset($page['layout_file']) or (isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) or $page['layout_file'] == false)) {
 
 
             $inherit_from = app()->content_manager->get_parents($page['id']);
@@ -711,7 +717,6 @@ class MicroweberTemplate
                 }
             }
         }
-
         if ($render_file != false and (isset($page['content_type']) and ($page['content_type']) != 'page')) {
             $f1 = $render_file;
             $f2 = $render_file;
@@ -766,6 +771,7 @@ class MicroweberTemplate
                                 $render_file = $f3;
                             }
                         }
+
                         if ($found_subtype_layout == false) {
                             $in_file = $check_inner . DS . 'inner.php';
                             $in_file = normalize_path($in_file, false);

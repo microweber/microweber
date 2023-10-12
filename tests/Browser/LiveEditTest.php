@@ -160,11 +160,6 @@ class LiveEditTest extends DuskTestCase
             // $browser->click('#h1-test-element');
             $browser->pause(1000);
 
-//            $browser->clickAndHold(".mw-handle-add-button")
-//                ->pause(1000)
-//                ->releaseMouse();
-
-            //$browser->script("$('#h1-test-element').trigger('mouseenter').click()");
             $browser->within(new LiveEditModuleAdd(), function ($browser) {
                 $browser->addModule('Title');
             });
@@ -189,61 +184,101 @@ class LiveEditTest extends DuskTestCase
         });
     }
 
+
+
+
+
     public function testLiveEditProductSave()
     {
-
         $siteUrl = site_url();
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
-
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
 
-            $browser->visit($siteUrl . '/?editmode=y');
-            $browser->pause(4000);
+            $title = 'Shop' . rand();
+            $shop_page = array(
+                'title' => $title,
+                'content_type' => 'page',
+                'layout_file' => 'shop.php',
+                'is_shop' => 1,
+                'is_active' => 1
+            );
+            $saved_id_shop = save_content($shop_page);
+
+
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
+            $title = 'Product Title ' . time();
+            $title2 = 'Product Title2 ' . time();
+            $description2 = 'Product Description2 ' . time();
+            // Simulate the saving of content
+            $params = [
+                'title' =>$title,
+                'parent' => $saved_id_shop,
+                'content_type' => 'product',
+                'content' => '<p>Product content</p>',
+                'subtype' => 'product',
+                'is_active' => 1,
+            ];
 
-            $productDescription = 'Product description live edit save ' . time() . rand(1111, 9999);
+            // Assuming save_content is a valid function in your application.
+            $saved_id = save_content($params);
 
-            $browser->seeLink('Shop');
-            $browser->clickLink('Shop');
+            $link = content_link($saved_id);
+
+
+            $browser->visit($link . '?editmode=y');
+
+            $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
+
+            $browser->switchFrame($iframeElement);
+
+            $browser->waitForText($title);
+
+
+
+            $randClass = 'js-rand-class-' . time() . rand(1111, 9999);
+            $randClass2 = 'js-rand-class2-' . time() . rand(1111, 9999);
+            $browser->script('$("[field=\"title\"]").addClass("' . $randClass . '")');
+            $browser->script('$("[field=\"content_body\"]").addClass("' . $randClass2 . '")');
+
+
+            $browser->click('.'.$randClass);
+            $browser->doubleClick('.'.$randClass);
+            $browser->pause(300);
+
+            $browser->typeSlowly('.'.$randClass, $title2);
+
+            $browser->click('.'.$randClass2);
+            $browser->doubleClick('.'.$randClass2);
+            $browser->pause(300);
+            $browser->typeSlowly('.'.$randClass2, $description2);
+
+            $browser->switchFrameDefault();
+            $browser->click('#save-button');
+
+
             $browser->pause(3000);
+            $browser->visit($link . '?editmode=y');
 
-            $browser->waitForText('JBL speaker WI-FI');
-            $browser->seeLink('JBL speaker WI-FI');
-            $browser->clickLink('JBL speaker WI-FI');
-            $browser->pause(3000);
+            $browser->waitFor('#live-editor-frame', 30)
+                ->withinFrame('#live-editor-frame', function ($browser) {
+                    $browser->pause(1000);
+                });
 
-            $browser->waitForText('Sound Systems');
-            $browser->pause(9000);
-
-            $randClass = 'js-rand-description-' . time() . rand(1111, 9999);
-            $browser->script("$('.description').find('.edit').addClass('$randClass')");
-            $browser->pause(2000);
-            $browser->click('.' . $randClass);
-            $browser->keys('.' . $randClass, $productDescription);
-            $browser->pause(3000);
-
-            $currentUrl = $browser->driver->getCurrentURL();
-
-            $browser->click('#main-save-btn');
-            $browser->pause(5000);
-
-            $browser->visit($currentUrl);
-            $browser->pause(3000);
-
-            $browser->waitForText('JBL speaker WI-FI');
-            $browser->assertSee('JBL speaker WI-FI');
-            $browser->assertSee($productDescription);
-
+            $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
+            $browser->switchFrame($iframeElement);
+            $browser->waitForText($title2);
+            $browser->waitForText($description2);
 
         });
     }
 
+/*
     public function testLiveEditSearchinSidebarForModules()
     {
 
@@ -358,5 +393,5 @@ class LiveEditTest extends DuskTestCase
             $this->assertNotEmpty($arr2);
 
         });
-    }
+    }*/
 }

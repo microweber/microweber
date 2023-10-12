@@ -45,7 +45,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             $pt_opts = array();
                             $pt_opts['link'] = "{title}";
                             $pt_opts['list_tag'] = " ";
-                            $pt_opts['is_shop'] = "y";
+                            $pt_opts['is_shop'] = 1;
                             $pt_opts['list_item_tag'] = "option";
                             $pt_opts['active_ids'] = $selected_page;
                             $pt_opts['active_code_tag'] = '   selected="selected"  ';

@@ -113,7 +113,7 @@ if (!isset($params['global']) and $posts_parent_page != false and $posts_parent_
 
 }
 
-if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
+if (isset($params['is_shop']) and $params['is_shop'] == '1') {
     $add_post_q .= ' content_type="product"   ';
 } else {
     $add_post_q .= '  ';
