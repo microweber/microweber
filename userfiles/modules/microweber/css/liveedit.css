@@ -5069,7 +5069,7 @@ body.dragStart picture img{
 
 [data-mwplaceholder]:empty:after {
     content: attr(data-mwplaceholder);
-    color: #ccc;
+    color: #000;
     opacity: .8;
 }
 
@@ -5272,8 +5272,8 @@ section.section {
 }
 
 
- 
- 
+
+
 .mw-img-placeholder .mw-img-placeholder-description{
     position: absolute;
     inset: 0;
