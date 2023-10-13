@@ -255,7 +255,11 @@ class LiveEditTest extends DuskTestCase
 
             $browser->click('.'.$randClass2);
             $browser->doubleClick('.'.$randClass2);
+            $browser->doubleClick('.'.$randClass2);
             $browser->pause(300);
+
+            $browser->pause(3000);
+
             $browser->typeSlowly('.'.$randClass2, $description2);
 
             $browser->switchFrameDefault();
