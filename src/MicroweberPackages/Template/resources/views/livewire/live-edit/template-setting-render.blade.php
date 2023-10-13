@@ -15,21 +15,26 @@
         @if(isset($setting['fieldType']))
 
             @if ($setting['fieldType'] == 'clearAll')
-                <div class="mt-2">
+                <div class="mt-2" style="background:#f7f7f7;border-radius:8px;padding: 12px;">
                    <div>
                        <b>{{$setting['title']}}</b>
                    </div>
                     <div class="mt-1">
-                        <p>{{$setting['description']}}</p>
+                        <small>{{$setting['description']}}</small>
                     </div>
                     <button
                         x-on:click="(e) => {
-                            @foreach($setting['fieldSettings']['properties'] as $property)
-                                 mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$property}}', '');
-                            @endforeach
+
+                            mw.confirm('Are you sure you want to clear styles?',
+                                function () {
+                                    @foreach($setting['fieldSettings']['properties'] as $property)
+                                    mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$property}}', '');
+                                    @endforeach
+                                });
+
                             }"
-                        class="btn btn-outline-dark" style="width:100%;">
-                        {{$setting['title']}}
+                        class="btn btn-outline-dark" style="width:100%;margin-top:15px">
+                        <i class="fa fa-trash"></i> &nbsp; {{$setting['title']}}
                     </button>
                 </div>
             @endif
@@ -116,8 +121,8 @@
                     <div>
                         <b>{{$setting['title']}}</b>
                     </div>
-                    <div class="mt-1">
-                      <p>{{$setting['description']}}</p>
+                    <div class="mb-2">
+                      <small>{{$setting['description']}}</small>
                   </div>
               </div>
             @endif
