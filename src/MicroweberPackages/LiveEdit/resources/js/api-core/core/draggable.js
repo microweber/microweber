@@ -120,9 +120,16 @@ export const Draggable = function (options, rootSettings) {
             let {pageX, pageY} = this.getDragCoords(e);
 
             scope._helper.style.top = (pageY -  scope.$data._calcMinus.y) + 'px';
-           // scope._helper.style.top = pageY + 'px';
+            
            scope._helper.style.left = ( pageX -  scope.$data._calcMinus.x) + 'px';
-            // scope._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX - 40) + 'px';
+
+           // todo: firefox returns wrong pageX pageY
+
+           const isFireforx = navigator.userAgent.match(/firefox|fxios/i);
+           if(isFireforx) {
+            scope._helper.style.display = 'none';
+           }
+            
             scope.settings.document.documentElement.classList.add('le-dragging')
         }
 

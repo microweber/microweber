@@ -26,6 +26,22 @@ mw.lib.require('rangy');
             getSelection: function () {
                 return scope.getSelection();
             },
+            isPlaintext: function() {
+                // in case one element is plain text all the elements in the selection are treated as plain text
+                const sel = scope.getSelection();
+                const anchorNode = scope.api.elementNode(el.anchorNode);
+                const focusNode = scope.api.elementNode(el.focusNode);
+
+                const isNativePlainText = mw.tools.firstParentOrCurrent(anchorNode, '[contenteditable="plaintext-only"]') || mw.tools.firstParentOrCurrentWithClass(focusNode, '[contenteditable="plaintext-only"]');
+                const isPlainClass = mw.tools.firstParentOrCurrentWithClass(anchorNode, 'plain-text') || mw.tools.firstParentOrCurrentWithClass(focusNode, 'plain-text');
+
+                if(isPlainClass) {
+                    return true;
+                }
+                
+                return anchorNode.isContentEditable && focusNode.isContentEditable
+
+            },
             setCursorAtStart: function(target){
                 var sel = scope.getSelection();
                 if(!target) {

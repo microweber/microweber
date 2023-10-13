@@ -196,8 +196,8 @@ export class LiveEdit {
             //mw.app.domTreeSelect(target)
 
 
-            const exceptions = ['edit', 'col', 'row', 'cloneable'];
-            const classNameNamespaces = ['col-'];
+            const exceptions = ['edit', 'col', 'row', 'cloneable' ];
+            const classNameNamespaces = ['col-', 'w-', 'h-'];
 
 
             const resizerEnabled = !Array.from(target.classList).find(cls => !!classNameNamespaces.find(c => cls.includes(c))) && !DomService.hasAnyOfClasses(target, exceptions) && !DomService.hasParentsWithClass(target, 'img-as-background');
