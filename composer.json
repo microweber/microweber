@@ -72,7 +72,7 @@
         "microweber-packages/composer-client": "2.0",
         "microweber-packages/microweber-class-alias": "dev-master",
         "microweber-templates/bootstrap5": "^1.5",
-        "microweber-templates/new-world": "6.1",
+        "microweber-templates/new-world": "6.2",
         "microweber-templates/shopmag": "4.3",
         "mtrajano/laravel-swagger": "0.6.4",
         "omnipay/authorizenet": "*",

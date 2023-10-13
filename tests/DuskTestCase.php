@@ -77,6 +77,19 @@ abstract class DuskTestCase extends BaseTestCase
       //  $arguments[] = '--headless';
         //addArguments(`user-data-dir=${CURRENT_CHROMIUM_TMP_DIR}`);
 
+        // chrome_options.add_experimental_option(
+        //"prefs", {"credentials_enable_service": False, "profile.password_manager_enabled": False})
+
+        $arguments[] = '--disable-extensions';
+        $arguments[] = '--disable-infobars';
+        $arguments[] = '--disable-notifications';
+        $arguments[] = '--disable-default-apps';
+        $arguments[] = '--disable-translate';
+        $arguments[] = '--disable-save-password-bubble';
+        $arguments[] = '--metrics-recording-only';
+        $arguments[] = '--ash-no-nudges';
+
+
         $options = (new ChromeOptions)->addArguments(collect($arguments)
             ->unless($this->hasHeadlessDisabled(), function ($items) use ($arguments) {
                 if (getenv('GITHUB_RUN_NUMBER')) {
@@ -86,6 +99,12 @@ abstract class DuskTestCase extends BaseTestCase
 
             })->all());
 
+        $options->setExperimentalOption('prefs', [
+            'download.default_directory' => storage_path('temp'),
+            'credentials_enable_service' => 0,
+            'profile.password_manager_enabled' => 0,
+            'profile.default_content_settings.popups' => 0,
+        ]);
 
 
 

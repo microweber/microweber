@@ -142,6 +142,9 @@ class CheckoutCartTest extends DuskTestCase
             $browser->radio('payment_gw', 'shop/payments/gateways/paypal');
             $browser->pause(1000);
 
+
+            $this->markTestSkipped('Paypal test is not available at the moment');
+
             try {
                 $browser->script("$('html, body').animate({ scrollTop: $('.js-finish-your-order').first().offset().top - 10 }, 0);");
 
