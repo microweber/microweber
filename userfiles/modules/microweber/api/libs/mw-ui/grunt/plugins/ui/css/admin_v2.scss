@@ -159,6 +159,16 @@ body.theme-dark {
             fill: var(--tblr-bg-surface) !important;
             color: var(--tblr-bg-surface) !important;
         }
+
+        img {
+            filter: invert(1);
+        }
+    }
+
+    .mw-list-group-accordion-buttons {
+        &:after {
+            filter: invert(1);
+        }
     }
 
     .btn.live-edit-toolbar-buttons {
