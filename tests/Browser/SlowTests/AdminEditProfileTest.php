@@ -1,10 +1,9 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\SlowTests;
 
 use App\Models\User;
 use Faker\Factory;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;

@@ -16,6 +16,8 @@
         <testsuite name="MicroweberShopTests">
             <directory suffix="Test.php">./tests/Browser/ShopTests</directory>
         </testsuite>
+
+
         <testsuite name="MicroweberMultilanguageTests">
             <directory suffix="Test.php">./tests/Browser/Multilanguage</directory>
         </testsuite>
