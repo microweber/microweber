@@ -172,6 +172,20 @@ if($button_text_option){
 }
 
 
+
+
+$thank_you_message = _e("Thank you for your message!",true);
+if(isset($params['thank_you_message']) and $params['thank_you_message'] != ''){
+    $thank_you_message = $params['thank_you_message'];
+}
+
+$thank_you_message_option = get_option('thank_you_message', $params['id']);
+if($thank_you_message_option){
+    $thank_you_message = $thank_you_message_option;
+}
+
+
+
 if($module_template != false and $module_template != 'none'){
 	$template_file = module_templates( $config['module'], $module_template);
 } else {
