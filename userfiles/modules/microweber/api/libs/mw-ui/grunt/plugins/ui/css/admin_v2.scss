@@ -185,6 +185,15 @@ body.theme-dark {
     }
 
     .modules-list-block-item-picture {
+        background-color: var(--tblr-body-bg2) !important;
+    }
+
+    .mw-le-layouts-dialog .modules-list-block-item-title, .modules-list-block-item-masonry-title {
+        background-color: var(--tblr-body-bg) !important;
+
+    }
+
+    .mw-le-dialog-close {
         filter: invert(1);
     }
 
@@ -2221,6 +2230,18 @@ svg.text-danger {
     margin-top: 7px;
 }
 
+.mw-le-layouts-dialog-col:first-child {
+    background-color: var(--tblr-body-bg2) !important;
+}
+
+.mw-le-layouts-dialog-col {
+    background-color: var(--tblr-body-bg) !important;
+}
+
+.form-check-input:checked {
+    background-color: var(--tblr-body-bg2) !important;
+}
+
 .form-control-live-edit-label-wrapper {
     cursor: inherit;
     display: block;
@@ -2251,11 +2272,12 @@ svg.text-danger {
         min-height: var(--mw-forms-min-height);
         width: 100%;
         outline: none;
-        background-color: #f5f5f5;
+        background-color: var(--tblr-body-bg2);
         padding-inline-start: 10px;
 
         &:disabled {
-            background-color: #d3d3d3;
+            background-color: var(--tblr-body-bg2);
+            opacity: .7;
         }
 
 

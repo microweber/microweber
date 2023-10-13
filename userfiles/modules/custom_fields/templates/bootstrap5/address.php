@@ -8,7 +8,7 @@
         <?php endif; ?>
         <?php if ($key == 'address')  : ?>
             <?php if ($data['countries']) { ?>
-                <div class="mw-text-start mb-3">
+                <div class="mw-text-start">
                     <select class="form-control">
                         <option><?php _e('Choose address') ?></option>
                         <option><?php foreach ($data['countries'] as $country): ?>
@@ -21,7 +21,7 @@
             <?php } ?>
 
         <?php else: ?>
-            <div class="mw-text-start mb-3">
+            <div class="mw-text-start">
                 <input type="text" class="form-control" name="<?php echo $data['name'] ?>[<?php echo ($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?> data-custom-field-id="<?php echo $data["id"]; ?>" placeholder="" id="inputDefault">
             </div>
         <?php endif; ?>

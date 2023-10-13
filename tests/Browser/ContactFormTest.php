@@ -92,14 +92,15 @@ class ContactFormTest extends DuskTestCase
             //   $browser->attach('file-upload', userfiles_path() . '/templates/default/img/contact_icons.png');
             //  $browser->attach('file-upload2', userfiles_path() .  '/templates/default/img/contact_icons2.png');
 
-            $browser->script('$("#mw_contact_form_'.$moduleIdRand.'").submit()');
+            //$browser->script('$("#mw_contact_form_'.$moduleIdRand.'").submit()');
 
            // $browser->waitForText('Your message successfully sent');
          //   $browser->assertSee('Your message successfully sent');
+            $browser->scrollTo('#'.$moduleIdRand.' button[type="submit"]');
+            $browser->pause(300);
+            $browser->click('#'.$moduleIdRand.' button[type="submit"]');
 
-            $browser->click('button[type="submit"]');
-
-            $browser->pause('3000');
+            $browser->pause(3000);
 
             $findFormDataId = false;
             $findFormDataValues = FormDataValue::where('field_value', 'bobi' . $uniqueId . '@microweber.com')->get();

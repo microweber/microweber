@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use Facebook\WebDriver\WebDriverBy;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\tests\TestHelpers;
@@ -22,7 +23,7 @@ class AdminAddPostTest extends DuskTestCase
     public function testAddPost()
     {
 
-        $title='Blog '.uniqid();
+        $title = 'Blog ' . uniqid();
         $pageId = $this->_generatePage($title, $title);
         $this->_generateCategory('clothes', 'Clothes', $pageId);
         $this->_generateCategory('t-shirts', 'T-shirts', $pageId);
@@ -39,6 +40,26 @@ class AdminAddPostTest extends DuskTestCase
             $postDescription = 'This is the post description' . time();
 
             $browser->visit(route('admin.post.create'));
+
+            $browser->pause(1000);
+            if (count($browser->driver->findElements(WebDriverBy::cssSelector('.js-choose-post-design'))) > 0) {
+
+
+                $browser->waitFor('.preview_frame_small');
+                $browser->mouseover('.preview_frame_small');
+                $browser->pause(1000);
+
+                $browser->click('.mw-create-page-admin-create-btn a.btn-primary');
+                $browser->pause(1000);
+            }
+
+
+            // .
+
+
+            //.js-choose-post-design
+            // $browser->clickLink('Posts');
+
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
