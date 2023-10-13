@@ -1,13 +1,26 @@
 @extends('admin::layouts.app')
 
+
+
 @section('content')
 
     @if($post_design)
+        @section('topbar2-links-right')
+            @include('content::admin.content.topbar-parts.links-right')
+        @endsection
+
+
     <module type="content/edit" content_id="{{$content_id}}" content_type="post"
             parent="{{$recommended_content_id}}" id="main-content-edit-admin"
             category="{{$recommended_category_id}}"   />
     @else
-    <div class="px-5 mx-5">
+
+
+
+
+
+
+    <div class="px-5 mx-5 js-choose-post-design">
         <h3 class="main-pages-title ms-1">{{ _e("Choose Post Design") }}</h3>
         <small class="text-muted ms-1">{{ _e("Choose the right design for your article. You can use the predefined suggestions and replace the information with your own content") }}</small>
 
@@ -21,11 +34,7 @@
                         <div id="mw-create-page-card-overlay"></div>
 
 
-{{--                        200%--}}
-{{--                        0.50--}}
 
-{{--                        181--}}
-{{--                        0.56--}}
 
                         @include('page::admin.page.iframe', [
                          'iframeWidth'=>'181%',
