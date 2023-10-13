@@ -263,16 +263,28 @@ export default {
 
 
 
+                    
 
 
                     setTimeout(() => {
-                        element.contentEditable = true;
+
+                        let editTarget = element;
+
+                        var isSafeMode = DomService.parentsOrCurrentOrderMatchOrOnlyFirst(editTarget, ['safe-mode', 'regular-mode']);
+
+                        if(!isSafeMode) {
+                            editTarget = DomService.firstParentOrCurrentWithClass(editTarget, 'edit')
+                        }
+
+
+                        editTarget.contentEditable = true;
+
                         element.focus();
 
-                        element.contentEditable = true;
+                        editTarget.contentEditable = true;
                         mw.app.liveEdit.pause()
-                        mw.app.richTextEditor.smallEditorInteract(element);
-                        mw.app.richTextEditor.positionSmallEditor(element);
+                        mw.app.richTextEditor.smallEditorInteract(editTarget);
+                        mw.app.richTextEditor.positionSmallEditor(editTarget);
 
 
                         element.querySelectorAll('.element[contenteditable], .allow-drop[contenteditable]').forEach(node => {

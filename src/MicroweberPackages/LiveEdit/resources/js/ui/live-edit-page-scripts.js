@@ -14,11 +14,14 @@ setInterval(function(){
     }
 }, 500) */
 
+
+mw.require('liveedit.css');
+
 if(window.self !== window.top) {
 
 
     //mw.require('options.js');
-    mw.require('liveedit.css');
+    
 
 
     mw.liveEditSaveService = {

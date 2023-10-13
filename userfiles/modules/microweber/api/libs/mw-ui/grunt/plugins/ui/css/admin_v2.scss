@@ -2609,6 +2609,14 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 }
 
 @media (max-width: 1201px) {
+    #pages-tree-wrapper{
+        top: 0;
+        box-shadow: 5px 0 5px rgba(0,0,0,.02);
+    }
+
+    .mw-admin-toggle-tree-navigation{
+        left: 0 !important;
+    }
     #pages-tree-container,
     #admin-sidebar {
         width: 240px!important;
