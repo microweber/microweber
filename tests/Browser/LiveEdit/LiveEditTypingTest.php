@@ -1,12 +1,11 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\LiveEdit;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
-use Tests\Browser\Components\LiveEditModuleAdd;
 use Tests\DuskTestCase;
 
 class LiveEditTypingTest extends DuskTestCase

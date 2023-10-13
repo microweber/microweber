@@ -1,14 +1,12 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Admin;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\User\Models\PasswordReset;
 use MicroweberPackages\User\Models\User;
-use MicroweberPackages\User\UserManager;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;

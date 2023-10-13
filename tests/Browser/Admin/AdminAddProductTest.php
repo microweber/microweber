@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Admin;
 
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\tests\TestHelpers;
