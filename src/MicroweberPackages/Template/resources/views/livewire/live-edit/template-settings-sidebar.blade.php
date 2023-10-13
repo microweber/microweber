@@ -2,10 +2,7 @@
 
 @section('content')
 
-
 @include('admin::layouts.partials.loads-user-custom-fonts')
-
-
 
 <div wire:ignore>
     <style>
@@ -16,6 +13,18 @@
     </style>
 
     <script>
+        function resetTemplateSettings() {
+            mw.tools.confirm_reset_module_by_id('{{$optionGroup}}', function () {
+                // Reset template settings
+            });
+        }
+
+        function resetStylesheetSettings() {
+            mw.tools.confirm_reset_module_by_id('{{$optionGroupLess}}', function () {
+                // Reset template settings
+            });
+        }
+
         document.addEventListener('mw-option-saved', function() {
 
 
@@ -136,6 +145,7 @@
         }"
         >
 
+            <?php if (!empty($styleSettings)): ?>
             <div class="mt-5">
             <span
                 x-show="showStyleSettings == '/'"
@@ -206,7 +216,9 @@
             @endforeach
 
             </div>
+            <?php endif; ?>
 
+            <?php if (!empty($settingsGroups)): ?>
             <div
 
                 x-show="showStyleSettings == 'styleEditor'"
@@ -229,15 +241,27 @@
                     <div id="iframe-holder"></div>
                 </div>
             </div>
-
-
                 @foreach($settingsGroups as $settingGroupName=>$settingGroup)
+
                     <div wire:key="setting-group-key-{{md5($settingGroupName)}}" class="mt-3">
 
-                        <div class="  mt-5" x-show="showStyleSettings == '/'">
+                        <div class="mt-5" x-show="showStyleSettings == '/'">
                             <a class="fs-2 font-weight-bold tblr-body-color text-decoration-none settings-main-group">
                                 {{$settingGroupName}}
                             </a>
+                            <button type="button" x-on:click="()=> {
+
+                                    @if($settingGroup['type'] == 'stylesheet')
+                                resetStylesheetSettings();
+                                    @endif
+
+                                     @if($settingGroup['type'] == 'template')
+                                            resetTemplateSettings();
+                                      @endif
+
+                                    }">
+                                Reset
+                            </button>
                         </div>
 
                         <div>
@@ -316,8 +340,9 @@
 
                     </div>
                 @endforeach
+              </div>
+             <?php endif; ?>
 
-        </div>
     @endif
 
 </div>
