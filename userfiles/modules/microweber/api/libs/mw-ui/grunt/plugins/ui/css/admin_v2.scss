@@ -184,6 +184,15 @@ body.theme-dark {
         }
     }
 
+    .modules-list-block-item-picture {
+        background-color: var(--tblr-body-bg2) !important;
+    }
+
+    .mw-le-layouts-dialog .modules-list-block-item-title, .modules-list-block-item-masonry-title {
+        background-color: var(--tblr-body-bg) !important;
+
+    }
+
     .mw-le-dialog-close {
         filter: invert(1);
     }
