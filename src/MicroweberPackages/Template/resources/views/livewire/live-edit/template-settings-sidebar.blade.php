@@ -34,7 +34,7 @@
             mw.tools.confirm_reset_module_by_id('{{$optionGroupLess}}', function () {
                 // Reset template settings
                 mw.top().app.templateSettings.reloadStylesheet('{{$styleSheetSourceFile}}', '{{$optionGroupLess}}');
-                window.location.reload(); 
+                mw.top().win.location.reload(); 
             }, askForConfirmText);
 
         }
