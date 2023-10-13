@@ -1,5 +1,5 @@
 <div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
-    <div class="mw-text-start mb-3">
+    <div class="mw-text-start">
 
         <?php if($settings['show_label']): ?>
             <label class="form-label my-3">
@@ -10,7 +10,7 @@
             </label>
         <?php endif; ?>
 
-            <div class="mw-text-start mb-3">
+            <div class="mw-text-start">
                 <select class="form-control">
                     <option><?php _e($data['placeholder']) ?></option>
                     <option><?php foreach ($data['values'] as $country): ?>

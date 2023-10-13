@@ -9,8 +9,15 @@
 }
 
 @font-face {
+    font-family: 'Jost';
+    src: url('./Jost/Jost-VariableFont_wght.ttf') format("ttf"), url('./Jost/Jost-VariableFont_wght.ttf') format("ttf"), url('./Jost/Jost-VariableFont_wght.ttf') format("truetype");
+    font-display: swap;
+}
+
+@font-face {
     font-family: 'Microweber';
     src: url('font.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
+
