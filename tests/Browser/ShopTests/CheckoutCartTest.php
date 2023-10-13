@@ -83,7 +83,7 @@ class CheckoutCartTest extends DuskTestCase
 
     public function testCheckoutWithPaypal()
     {
-
+        $this->markTestSkipped('Paypal test is not available at the moment');
         $siteUrl = $this->siteUrl;
 
         // enable paypal
@@ -153,7 +153,7 @@ class CheckoutCartTest extends DuskTestCase
 
                 $this->markTestSkipped('Paypal is not available');
                 return;
-            }catch (\Facebook\WebDriver\Exception\TimeoutException $e) {
+            } catch (\Facebook\WebDriver\Exception\TimeoutException $e) {
 
                 $this->markTestSkipped('Paypal is not available with timeout');
                 return;
@@ -184,24 +184,64 @@ class CheckoutCartTest extends DuskTestCase
 
     private function _browserToShopAndAddTocart($browser)
     {
+        $shop_page = app()->content_repository->getFirstShopPage();
+        if (!$shop_page) {
+            $title = 'Shop';
+            $shop_page = array(
+                'title' => $title,
+                'content_type' => 'page',
+                'layout_file' => 'shop.php',
+                'is_shop' => 1,
+                'is_active' => 1
+            );
+            $saved_id_shop = save_content($shop_page);
+        } else {
+            $saved_id_shop = $shop_page['id'];
+        }
 
-        $browser->waitForText('Shop');
-        $browser->clickLink('Shop');
+        $title = 'Product Title ' . time();
 
-        $browser->waitForText('Shop');
+         $params = [
+            'title' =>$title,
+            'parent' => $saved_id_shop,
+            'content_type' => 'product',
+            'content' => '<p>Product content</p>',
+            'subtype' => 'product',
+             'custom_fields_advanced' => array(
+                 array('type'=>'dropdown','name'=>'Color', 'value' => array('Purple','Blue')),
+                 array('type'=>'price','name'=>'Price', 'value' => '9.99'),
+
+             ),
+            'is_active' => 1,
+        ];
+        app()->database_manager->extended_save_set_permission(true);
+
+         $saved_id = save_content($params);
+
+        $link = content_link($saved_id);
+
+        $browser->visit($link );
+
+
+//        $browser->waitForText('Shop');
+//        $browser->clickLink('Shop');
+//
+ $browser->waitForText($title);
 
         $browser->within(new ChekForJavascriptErrors(), function ($browser) {
             $browser->validate();
         });
 
 
-        $browser->script('$(".name-of-product-shop").first().click()');
-        $browser->pause(5000);
+    //    $browser->script('$(".name-of-product-shop").first().click()');
+   //
 
-        $browser->waitForText('Proceed to Checkout');
-        $browser->assertSee('Proceed to Checkout');
-
-        $browser->seeLink('Proceed to Checkout');
+        $browser->click('.price button');
+        $browser->pause(500);
+        $browser->waitForText('Continue shopping',30);
+        //   $browser->assertSee('Proceed to Checkout');
+//
+    //    $browser->seeLink('Proceed to Checkout');
         $browser->clickLink('Proceed to Checkout');
         $browser->pause(3000);
 

@@ -9,8 +9,9 @@
         $styleOptions = [
             'btn-primary' => 'Primary',
             'btn-secondary' => 'Secondary',
+            'btn-outline' => 'Outline',
         ];
-    @endphp 
+    @endphp
 
 
     <div>

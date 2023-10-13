@@ -215,8 +215,7 @@ class LiveEditTest extends DuskTestCase
             $title = 'Product Title ' . time();
             $title2 = 'Product Title2 ' . time();
             $description2 = 'Product Description2 ' . time();
-            // Simulate the saving of content
-            $params = [
+             $params = [
                 'title' =>$title,
                 'parent' => $saved_id_shop,
                 'content_type' => 'product',
@@ -224,9 +223,9 @@ class LiveEditTest extends DuskTestCase
                 'subtype' => 'product',
                 'is_active' => 1,
             ];
+            app()->database_manager->extended_save_set_permission(true);
 
-            // Assuming save_content is a valid function in your application.
-            $saved_id = save_content($params);
+             $saved_id = save_content($params);
 
             $link = content_link($saved_id);
 
@@ -281,6 +280,10 @@ class LiveEditTest extends DuskTestCase
 
         });
     }
+
+
+
+
 
 /*
     public function testLiveEditSearchinSidebarForModules()
