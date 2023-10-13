@@ -530,7 +530,6 @@ body.loaded #bubble-nav span {
     top: 0;
     position: absolute;
     height: 100%;
-    background-color: #FFFFFF;
 }
 
 .mw-le-layouts-dialog-col:last-child {
@@ -943,5 +942,5 @@ body.loaded #bubble-nav span {
     left: auto;
     background: #eee;
     pointer-events: none;
-    
+
 }
