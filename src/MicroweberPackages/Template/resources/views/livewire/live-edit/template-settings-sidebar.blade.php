@@ -16,9 +16,7 @@
         function resetTemplateSettings() {
             var askForConfirmText = '<div class="">' +
                 '<h4 class="">' +  mw.lang('Are you sure you want to reset template settings ?') +  '</h4>' +
-                '<div class="">' +
-                '<br>' + mw.lang('You will delete all template settings.') +
-                '</div>' +
+
                 '</div>';
 
             mw.tools.confirm_reset_module_by_id('{{$optionGroup}}', function () {
@@ -30,9 +28,7 @@
         function resetStylesheetSettings() {
             var askForConfirmText = '<div class="">' +
                 '<h4 class="">' +  mw.lang('Are you sure you want to reset stylesheet settings ?') +  '</h4>' +
-                '<div class="">' +
-                '<br>' + mw.lang('You will delete all stylesheet settings.') +
-                '</div>' +
+
                 '</div>';
 
             mw.tools.confirm_reset_module_by_id('{{$optionGroupLess}}', function () {
