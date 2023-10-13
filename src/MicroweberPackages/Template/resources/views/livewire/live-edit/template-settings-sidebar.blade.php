@@ -22,6 +22,7 @@
         function resetStylesheetSettings() {
             mw.tools.confirm_reset_module_by_id('{{$optionGroupLess}}', function () {
                 // Reset template settings
+                mw.top().app.templateSettings.reloadStylesheet('{{$styleSheetSourceFile}}', '{{$optionGroupLess}}');
             });
         }
 
@@ -252,7 +253,7 @@
                             <button type="button" x-on:click="()=> {
 
                                     @if($settingGroup['type'] == 'stylesheet')
-                                resetStylesheetSettings();
+                                        resetStylesheetSettings();
                                     @endif
 
                                      @if($settingGroup['type'] == 'template')
