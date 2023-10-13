@@ -323,7 +323,7 @@ export class ElementHandleContent {
                 title: 'Settings',
                 text: '',
                 icon: handleIcons.icon('settings'),
-                className: 'mw-handle-insert-button',
+                className: 'mw-handle-settings-button',
 
                 action: function (el) {
                     mw.app.editor.dispatch('elementSettingsRequest', el);
