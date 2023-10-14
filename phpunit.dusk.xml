@@ -25,7 +25,7 @@
         </testsuite>
 
         <testsuite name="MicroweberLiveEditTest">
-            <directory suffix="Test.php">./tests/Browser/LiveEditTest</directory>
+            <directory suffix="Test.php">./tests/Browser/LiveEdit</directory>
         </testsuite>
         <testsuite name="MicroweberAdminTest">
             <directory suffix="Test.php">./tests/Browser/Admin</directory>
