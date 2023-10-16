@@ -20,7 +20,7 @@ class AdminShopOffersTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
-            $title = 'offer-test-' . uniqid();
+            $title = 'offer-' . uniqid();
             $newProduct = new Product();
             $newProduct->title = $title;
             $newProduct->setCustomField(
@@ -64,9 +64,9 @@ class AdminShopOffersTest extends DuskTestCase
 
             $browser->typeSlowly('offer_price', $offerRand);
             $browser->click('.mw-autocomplete-list > li:first-child');
-            $browser->pause(300);
+            $browser->pause(1300);
             $browser->click('.js-save-offer');
-            $browser->pause(1000);
+            $browser->pause(3000);
 
             $browser->visit($siteUrl . 'admin/settings?group=shop/offers/admin_block');
             $browser->pause(1000);
