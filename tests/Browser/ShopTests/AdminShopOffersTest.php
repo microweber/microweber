@@ -68,6 +68,8 @@ class AdminShopOffersTest extends DuskTestCase
             $browser->pause(1000);
 
             $browser->typeSlowly('offer_price', $offerRand);
+            $browser->pause(3000);
+
             $browser->click('.mw-autocomplete-list > li:first-child');
             $browser->pause(3000);
             $browser->click('.js-save-offer');

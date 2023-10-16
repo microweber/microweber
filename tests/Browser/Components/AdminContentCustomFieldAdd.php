@@ -60,7 +60,7 @@ class AdminContentCustomFieldAdd extends BaseComponent
         $browser->pause(300);
 
         $browser->click('.js-add-custom-field');
-        $browser->pause(1000);
+        $browser->pause(3000);
         $browser->waitForText('Fields');
 
         $browser->pause(1000);
