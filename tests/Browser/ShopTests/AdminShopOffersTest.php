@@ -44,6 +44,7 @@ class AdminShopOffersTest extends DuskTestCase
             $browser->assertSee('Add new offer');
             $browser->pause(1000);
             $browser->click('.js-add-new-offer');
+            $browser->pause(2000);
 
             $browser->waitForText('Add new offer', 30);
             $browser->waitForText('Offer status');
@@ -57,7 +58,6 @@ class AdminShopOffersTest extends DuskTestCase
             $browser->assertSee('Offer expiration date');
 
             $browser->click('#mw-admin-search-for-products');
-            $browser->pause(300);
 
             $browser->typeSlowly('#mw-admin-search-for-products input.mw-ui-invisible-field', $title);
             $browser->pause(1000);

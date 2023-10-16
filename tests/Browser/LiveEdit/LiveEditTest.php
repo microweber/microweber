@@ -171,11 +171,19 @@ class LiveEditTest extends DuskTestCase
             $browser->click('#save-button');
 
 
-            $browser->pause(3000);
+            $browser->pause(5000);
 
             $browser->visit($currentUrl);
 
             $browser->pause(3000);
+
+
+            $browser->waitFor('#live-editor-frame', 30)
+                ->withinFrame('#live-editor-frame', function ($browser) {
+
+                    $browser->pause(1000);
+                });
+
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
             $browser->switchFrame($iframeElement);
             $browser->assertSee('This is my title');
