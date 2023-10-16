@@ -103,7 +103,7 @@
                             :gap="12">
                             <template #default="{ item, index }">
                                 <div
-                                    v-on:click="insertLayout(item.template)"
+                                    v-on:click="insertLayout(item)"
                                     :class="['modules-list-block-item-masonry', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
 
                                     <img :src="item.screenshot" :alt="item.title" />
@@ -131,7 +131,7 @@
                         <template
                             v-slot="{item}">
                             <div
-                                  v-on:click="insertLayout(item.template)"
+                                  v-on:click="insertLayout(item)"
                                   :class="['modules-list-block-style-' + layoutsListTypePreview, 'modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
 
                                 <div class="modules-list-block-item-picture"
@@ -218,12 +218,43 @@ export default {
         switchLayoutsListTypePreview(type) {
             this.layoutsListTypePreview = type;
         },
-        insertLayout(template, target) {
+        insertLayout(layout, target) {
             if(this.isInserting) {
               return;
             }
+            let template = false;
+            if (layout.template) {
+                template = layout.template;
+            }
             if(!target) {
                 target = this.$data.target
+            }
+
+            if (layout.locked) {
+
+                var moduleType = 'unlock_premium_layout';
+
+                var attrsForSettings = {};
+                attrsForSettings.live_edit = true;
+                attrsForSettings.module_settings = true;
+                attrsForSettings.id = 'mw_admin_lock_template_modal_module';
+                attrsForSettings.type = moduleType;
+                attrsForSettings.iframe = true;
+                attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
+
+                var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+
+                var dlg = mw.top().dialogIframe({
+                    url: src,
+                    title: mw.lang('Premium Layout'),
+                    footer: false,
+                    width: 900,
+                    height: 'auto',
+                    autoHeight: true,
+                    overlay: false,
+
+                });
+                return;
             }
 
            this.showModal = false;

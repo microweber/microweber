@@ -142,11 +142,9 @@ export default {
                 var cont_id = liveEditIframeData.content.id;
             }
 
-
             if (typeof (cont_id) === 'undefined') {
                 return;
             }
-
 
             var moduleType = 'editor/content_revisions/list_for_content';
             var attrsForSettings = {};
@@ -171,11 +169,6 @@ export default {
             } else {
                 attrsForSettings.from_url_string = mw.app.canvas.getWindow().location.href;
             }
-
-
-
-
-
 
             attrsForSettings.content_id = cont_id;
 
