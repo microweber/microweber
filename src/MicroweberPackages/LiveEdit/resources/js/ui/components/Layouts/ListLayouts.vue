@@ -271,9 +271,13 @@ export default {
                     mw.notification.warning('Invalid license key');
                 } else {
                     mw.notification.success('License key saved');
-                    this.showLicenseModal = false; 
+                    this.closeLicenseModal();
                 }
             }
+        },
+        closeLicenseModal() {
+            this.showLicenseModal = false;
+            mw.top().dialog.get(this.$refs.unlockPremiumLayout).remove();
         },
         switchLayoutsListTypePreview(type) {
             this.layoutsListTypePreview = type;
