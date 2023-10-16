@@ -317,12 +317,14 @@ var MWEditor = function (options) {
             if (e.type === 'keydown' && e.key === "Enter") {
                 const focusNode = scope.api.elementNode(scope.getSelection().focusNode);
                 const isLi = mw.tools.firstParentOrCurrentWithTag(focusNode, 'li');
-                if(!isLi || (isLi && event.shiftKey)) {
-                    scope.document.execCommand('insertLineBreak')
-                    e.preventDefault()
+ 
+ 
+                if (!isLi || (isLi && event.shiftKey)) {
+                    scope.document.execCommand('insertLineBreak');
+                    e.preventDefault();
+                    return;
                 }
-
-            }
+             }
 
             if (e.key === "Backspace" || e.key === "Delete") {
 
@@ -360,7 +362,7 @@ var MWEditor = function (options) {
             if(!shouldCloseSelects) {
                 var smallEditor = !!scope.smallEditor && scope.smallEditor.get(0);
                 if(smallEditor) {
-                    shouldCloseSelects = !smallEditor.contains(e.target)
+                    shouldCloseSelects = !smallEditor.contains(e.target);
                 }
                 if(!shouldCloseSelects) {
 
@@ -375,7 +377,7 @@ var MWEditor = function (options) {
                     if(node !== parent) {
                         node.classList.remove('active')
                     }
-                })
+                });
             }
         }
         var time = new Date().getTime();
@@ -402,6 +404,8 @@ var MWEditor = function (options) {
                 rangeInEditor = true;
             }
 
+            const isPlainText = scope.api.isPlainText(scope.selection)
+
             var iterData = {
                 selection: scope.selection,
                 lastRange: scope.lastRange,
@@ -416,6 +420,7 @@ var MWEditor = function (options) {
                 scope: scope,
                 isEditable: scope.api.isSelectionEditable(),
                 eventIsActionLike: eventIsActionLike,
+                isPlainText
             };
 
             if(notEditableSelectors) {
@@ -442,8 +447,10 @@ var MWEditor = function (options) {
                         cssNative: css.css,
                         api: api,
                         eventIsActionLike: eventIsActionLike,
+                        isPlainText: eventIsActionLike,
                         scope: scope,
-                        isEditable: scope.api.isSelectionEditable()
+                        isEditable: scope.api.isSelectionEditable(),
+                        isPlainText
                     });
                 }
             });

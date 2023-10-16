@@ -174,7 +174,8 @@
 
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-dialog-close active"></div>
 
-    <div ref="unlockPremiumLayout">
+
+    <div v-if="showLicenseModal" ref="unlockPremiumLayout">
         <div class="row">
             <div class="col-md-8 mt-4">
 
@@ -284,7 +285,8 @@ export default {
             }
 
             if (layout.locked) {
-                mw.top().dialog({
+                this.showLicenseModal = true;
+                let licenseDialogInstance = mw.top().dialog({
                     content: this.$refs.unlockPremiumLayout,
                     title: '',
                     footer: false,
@@ -399,6 +401,7 @@ export default {
     data() {
         return {
             licenseKey: '',
+            showLicenseModal: false,
             filterKeyword: '',
             filterCategory: '',
             layoutsListTypePreview: 'list',

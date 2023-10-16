@@ -5293,3 +5293,9 @@ section.section {
 .mw-drag-over{
     outline: 2px dashed #ccc;
 }
+
+
+td.mw-editor-td-focus{
+    outline: 2px solid #016ce6;
+    outline-offset: -1px;
+}

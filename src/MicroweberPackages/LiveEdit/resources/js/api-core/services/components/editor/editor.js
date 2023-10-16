@@ -86,6 +86,8 @@ export const EditorComponent = function () {
                     controls: ['textBackgroundColor']
                 }
             },
+            'table',
+ 
             'removeFormat'
 
         ]
@@ -109,7 +111,7 @@ export const EditorComponent = function () {
         smallEditorPositionX: 'left',
         smallEditorSkin: 'lite',
 
-        interactionControls: [],
+        interactionControls: ['tableManager'],
 
         id: 'live-edit-wysiwyg-editor',
 
