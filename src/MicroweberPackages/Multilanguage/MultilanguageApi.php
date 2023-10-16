@@ -17,6 +17,7 @@ class MultilanguageApi
 {
     public function activateLanguage($params)
     {
+
         if (isset($params['active'])) {
             if ($params['active'] == 'true') {
                 $defaultLang = mw()->lang_helper->default_lang();

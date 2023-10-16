@@ -11,7 +11,6 @@ abstract class DuskTestCaseMultilanguage extends DuskTestCase
 {
     protected function assertPostConditions(): void
     {
-        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
         \DB::table('options')
             ->where('option_group', 'multilanguage_settings')
@@ -24,7 +23,9 @@ abstract class DuskTestCaseMultilanguage extends DuskTestCase
         $option['option_key'] = 'is_active';
         $option['option_group'] = 'multilanguage_settings';
         save_option($option);
-         parent::assertPostConditions();
+        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(true);
+
+        parent::assertPostConditions();
     }
 
     protected function assertPreConditions(): void
