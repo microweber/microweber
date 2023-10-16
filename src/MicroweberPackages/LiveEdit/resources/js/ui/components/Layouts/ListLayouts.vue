@@ -263,6 +263,10 @@ export default {
     },
 
     methods: {
+        saveLicense(licenseKey) {
+            mw.app.license.save(licenseKey);
+
+        },
         switchLayoutsListTypePreview(type) {
             this.layoutsListTypePreview = type;
         },
