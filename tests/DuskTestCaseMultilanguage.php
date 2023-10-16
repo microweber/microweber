@@ -12,7 +12,7 @@ abstract class DuskTestCaseMultilanguage extends DuskTestCase
     protected function assertPostConditions(): void
     {
 
-        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
+     //   \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
 
         parent::assertPostConditions();
