@@ -174,6 +174,34 @@
 
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-dialog-close active"></div>
 
+    <div ref="unlockPremiumLayout">
+        <div class="row">
+            <div class="col-md-9 mt-4"><h1>Unlock the power of Microweber</h1><h4>Get all premium layouts of BIG
+                template and make awesome websites!</h4>
+                <div class="d-flex justify-content-between mt-3">
+                    <button type="button" class="btn btn-outline-dark">Cancel</button>
+                    <button type="button" class="btn btn-primary">Unlock</button>
+                </div>
+            </div>
+            <div class="col-md-3"><h4>Include with the premium license</h4>
+                <ul>
+                    <li>+30 Headers</li>
+                    <li>+30 Galleries</li>
+                    <li>+30 Call to actions</li>
+                    <li>+15 Contact forms</li>
+                    <li>+10 Footers</li>
+                    <li>+10 Blogs</li>
+                    <li>+10 Portfolios</li>
+                    <li>+10 Team members</li>
+                    <li>+10 Testimonials</li>
+                    <li>+10 Pricing tables</li>
+                    <li>+10 Services</li>
+                    <li>+10 Features</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
 </template>
 
 <style>
@@ -231,29 +259,12 @@ export default {
             }
 
             if (layout.locked) {
-
-                var moduleType = 'unlock_premium_layout';
-
-                var attrsForSettings = {};
-                attrsForSettings.live_edit = true;
-                attrsForSettings.module_settings = true;
-                attrsForSettings.id = 'mw_admin_lock_template_modal_module';
-                attrsForSettings.type = moduleType;
-                attrsForSettings.iframe = true;
-                attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
-
-                var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
-
-                var dlg = mw.top().dialogIframe({
-                    url: src,
-                    title: mw.lang('Premium Layout'),
+                mw.top().dialog({
+                    content: this.$refs.unlockPremiumLayout,
+                    title: mw.lang('Unlock premium layouts'),
                     footer: false,
-                    width: 900,
-                    height: 'auto',
-                    autoHeight: true,
-                    overlay: false,
-
-                });
+                    width: 600
+                })
                 return;
             }
 
