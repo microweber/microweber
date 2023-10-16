@@ -492,39 +492,6 @@ function mw_set_updates_queue($params)
     return $update_api->set_updates_queue($params);
 }
 
-
-api_expose_admin('mw_delete_license');
-function mw_delete_license($params)
-{
-    $update_api = mw('update');
-
-    return $update_api->delete_license($params);
-}
-
-api_expose_admin('mw_save_license');
-function mw_save_license($params)
-{
-    $update_api = mw('update');
-
-    return $update_api->save_license($params);
-}
-
-api_expose_admin('mw_validate_licenses');
-function mw_validate_licenses($params)
-{
-    $update_api = mw('update');
-
-    return $update_api->validate_license($params);
-}
-
-api_expose_admin('mw_consume_license');
-function mw_consume_license($params)
-{
-    $update_api = mw('update');
-
-    return $update_api->consume_license($params);
-}
-
 function mw_updates_count()
 {
     $count = 0;

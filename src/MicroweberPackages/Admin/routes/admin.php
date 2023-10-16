@@ -10,8 +10,6 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
     Route::any('/' . $admin_url, 'AdminController@dashboard')->name('admin.home');
     Route::any($admin_url, array('as' => 'admin', 'uses' => 'AdminController@dashboard'))->name('admin.index');
 
-
-
     Route::any('/editor_tools', 'AdminEditorToolsController@index');
     Route::any('editor_tools/{all}', array('as' => 'editor_tools', 'uses' => 'AdminEditorToolsController@index'))->where('all', '.*');
 

@@ -10,10 +10,9 @@ export const License = {
             rel_type:"",
             activate_on_save: 1,
             local_key: licenseKey
-        })
-            .then((response) => {
-                console.log(response);
-            });
+        }).then((response) => {
+           return response;
+        });
 
         return {
             error: true,

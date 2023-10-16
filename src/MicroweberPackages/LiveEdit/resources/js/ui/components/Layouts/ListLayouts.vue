@@ -265,9 +265,15 @@ export default {
 
     methods: {
         saveLicense() {
-
-            mw.app.license.save(this.licenseKey);
-
+            let saveLicense = mw.app.license.save(this.licenseKey);
+            if (saveLicense) {
+                if (saveLicense.is_invalid) {
+                    mw.notification.warning('Invalid license key');
+                } else {
+                    mw.notification.success('License key saved');
+                    this.showLicenseModal = false; 
+                }
+            }
         },
         switchLayoutsListTypePreview(type) {
             this.layoutsListTypePreview = type;
