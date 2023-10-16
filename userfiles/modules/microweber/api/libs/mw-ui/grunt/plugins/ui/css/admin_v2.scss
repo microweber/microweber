@@ -207,6 +207,10 @@ body.theme-dark {
         filter: invert(1);
     }
 
+    .form-check-input:checked {
+        background-color: var(--tblr-body-bg2) !important;
+    }
+
     //END LIVE EDIT FOR DARK THEME
 }
 
@@ -2248,9 +2252,7 @@ svg.text-danger {
     background-color: var(--tblr-body-bg) !important;
 }
 
-.form-check-input:checked {
-    background-color: var(--tblr-body-bg2) !important;
-}
+
 
 .form-control-live-edit-label-wrapper {
     cursor: inherit;
