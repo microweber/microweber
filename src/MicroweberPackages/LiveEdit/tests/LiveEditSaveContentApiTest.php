@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\LiveEdit\tests;
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
@@ -9,7 +9,7 @@ use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
 
 
-class LiveEditTest extends TestCase
+class LiveEditSaveContentApiTest extends TestCase
 {
 
     public function testIndex()
