@@ -178,7 +178,7 @@
         <div class="row">
             <div class="col-md-8 mt-4">
 
-                <h1>Unlock the power of Microweber</h1>
+                <h1>Unlock the power of BIG Template</h1>
                 <h4>Get all premium layouts of BIG template and make awesome websites!</h4>
 
                 <div>
