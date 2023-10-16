@@ -16,13 +16,15 @@ class AdminShopOffersTest extends DuskTestCase
     {
         $siteUrl = site_url();
 
-        Offer::truncate();
+
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
+
+            Offer::truncate();
             $title = 'offer-' . uniqid();
             $newProduct = new Product();
             $newProduct->title = $title;
