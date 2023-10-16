@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Multilanguage;
 
+use Facebook\WebDriver\WebDriverBy;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\tests\TestHelpers;
@@ -43,7 +44,19 @@ class AdminMultilanguageAddPostTest extends DuskTestCaseMultilanguage
                 $browser->addLanguage('ar_SA');
             });
 
+
             $browser->visit(route('admin.post.create'));
+
+            $browser->pause(1000);
+            if (count($browser->driver->findElements(WebDriverBy::cssSelector('.js-choose-post-design'))) > 0) {
+
+                $browser->waitFor('.preview_frame_small');
+                $browser->mouseover('.preview_frame_small');
+                $browser->pause(1000);
+
+                $browser->click('.mw-create-page-admin-create-btn a.btn-primary');
+                $browser->pause(1000);
+            }
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();

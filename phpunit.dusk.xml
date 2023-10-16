@@ -9,13 +9,29 @@
     <testsuites>
         <testsuite name="MicroweberCoreTests">
             <directory suffix="Test.php">./tests/Browser</directory>
+            <exclude>./tests/Browser/Admin</exclude>
+            <exclude>./tests/Browser/Example</exclude>
             <exclude>./tests/Browser/Multilanguage</exclude>
+            <exclude>./tests/Browser/LiveEdit</exclude>
+            <exclude>./tests/Browser/Pages</exclude>
             <exclude>./tests/Browser/ShopTests</exclude>
             <exclude>./tests/Browser/SlowTests</exclude>
         </testsuite>
         <testsuite name="MicroweberShopTests">
             <directory suffix="Test.php">./tests/Browser/ShopTests</directory>
         </testsuite>
+        <testsuite name="MicroweberPagesTests">
+            <directory suffix="Test.php">./tests/Browser/Pages</directory>
+        </testsuite>
+
+        <testsuite name="MicroweberLiveEditTest">
+            <directory suffix="Test.php">./tests/Browser/LiveEdit</directory>
+        </testsuite>
+        <testsuite name="MicroweberAdminTest">
+            <directory suffix="Test.php">./tests/Browser/Admin</directory>
+        </testsuite>
+
+
         <testsuite name="MicroweberMultilanguageTests">
             <directory suffix="Test.php">./tests/Browser/Multilanguage</directory>
         </testsuite>

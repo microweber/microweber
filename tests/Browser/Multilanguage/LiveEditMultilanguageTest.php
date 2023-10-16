@@ -11,6 +11,7 @@ use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\Browser\Components\LiveEditModuleAdd;
+use Tests\Browser\Components\LiveEditSaveButton;
 use Tests\Browser\Components\LiveEditSwitchLanguage;
 use Tests\DuskTestCase;
 use Tests\DuskTestCaseMultilanguage;
@@ -75,8 +76,10 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
             $browser->pause(1000);
             $browser->typeSlowly('#h1-test-element' , 'This is my text on english language');
 
+            $browser->within(new LiveEditSaveButton(), function ($browser) {
+                $browser->clickSaveButton($browser);
+            });
             $browser->switchFrameDefault();
-            $browser->click('#save-button');
 
             // Switch to Bulgarian
             $browser->pause(3000);
@@ -101,9 +104,10 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
 
             $browser->typeSlowly('#h1-test-element', 'Текст написан на български, това е българска страница');
 
+            $browser->within(new LiveEditSaveButton(), function ($browser) {
+                $browser->clickSaveButton($browser);
+            });
             $browser->switchFrameDefault();
-            $browser->click('#save-button');
-            $browser->pause(3000);
 
 
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));

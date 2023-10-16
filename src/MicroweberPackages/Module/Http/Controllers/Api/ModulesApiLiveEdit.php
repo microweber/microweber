@@ -9,6 +9,12 @@ class ModulesApiLiveEdit extends Controller
 {
     public function index(Request $request)
     {
+
+        $lockedLayouts = true;
+        if (have_license('modules/white_label')) {
+            $lockedLayouts = false;
+        }
+
         $modules_by_categories = array();
         $show_grouped_by_cats = false;
         $is_elements = false;
@@ -259,10 +265,11 @@ class ModulesApiLiveEdit extends Controller
                 if (isset($dynamic_layout['template_dir']) and isset($dynamic_layout['layout_file'])) {
 
                     $dynamic_layout['locked'] = false;
+
                     if (isset($template_composer['extra']['premium_layouts'])) {
                         if (in_array('layouts/templates/' . $dynamic_layout['layout_file'], $template_composer['extra']['premium_layouts'])) {
                             $dynamic_layout['icon'] = 'fa fa-lock';
-                            $dynamic_layout['locked'] = true;
+                            $dynamic_layout['locked'] = $lockedLayouts;
                         }
                     }
 
@@ -375,7 +382,7 @@ class ModulesApiLiveEdit extends Controller
                         if (isset($template_composer['extra']['premium_layouts'])) {
                             if (in_array('layouts/templates/' . $dynamic_layout['layout_file'], $template_composer['extra']['premium_layouts'])) {
                                 $dynamic_layout['icon'] = 'fa fa-lock';
-                                $dynamic_layout['locked'] = true;
+                                $dynamic_layout['locked'] = $lockedLayouts;
                             }
                         }
 

@@ -2,10 +2,7 @@
 
 @section('content')
 
-
 @include('admin::layouts.partials.loads-user-custom-fonts')
-
-
 
 <div wire:ignore>
     <style>
@@ -16,6 +13,35 @@
     </style>
 
     <script>
+        function resetTemplateSettings() {
+            var askForConfirmText = '<div class="">' +
+                '<h4 class="">' +  mw.lang('Are you sure you want to reset template settings ?') +  '</h4>' +
+
+                '</div>';
+
+            mw.tools.confirm_reset_module_by_id('{{$optionGroup}}', function () {
+                // Reset template settings
+            }, askForConfirmText);
+
+        }
+
+        function resetStylesheetSettings() {
+            var askForConfirmText = '<div class="">' +
+                '<h4 class="">' +  mw.lang('Are you sure you want to reset stylesheet settings ?') +  '</h4>' +
+
+                '</div>';
+
+            mw.tools.confirm_reset_module_by_id('{{$optionGroupLess}}', function () {
+                // Reset template settings
+                mw.top().app.templateSettings.reloadStylesheet('{{$styleSheetSourceFile}}', '{{$optionGroupLess}}');
+                setTimeout(function() {
+                    mw.top().win.location.reload();
+                },3000)
+
+            }, askForConfirmText);
+
+        }
+
         document.addEventListener('mw-option-saved', function() {
 
 
@@ -136,11 +162,19 @@
         }"
         >
 
+            <?php if (!empty($styleSettings)): ?>
             <div class="mt-5">
             <span
                 x-show="showStyleSettings == '/'"
                 class="fs-2 font-weight-bold settings-main-group">
                Styles
+
+                <button type="button" x-on:click="()=> {
+                        resetStylesheetSettings();
+                    }">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg>
+
+                            </button>
             </span>
 
             @foreach($styleSettings as $styleSetting)
@@ -206,7 +240,9 @@
             @endforeach
 
             </div>
+            <?php endif; ?>
 
+            <?php if (!empty($settingsGroups)): ?>
             <div
 
                 x-show="showStyleSettings == 'styleEditor'"
@@ -229,15 +265,28 @@
                     <div id="iframe-holder"></div>
                 </div>
             </div>
-
-
                 @foreach($settingsGroups as $settingGroupName=>$settingGroup)
+
                     <div wire:key="setting-group-key-{{md5($settingGroupName)}}" class="mt-3">
 
-                        <div class="  mt-5" x-show="showStyleSettings == '/'">
+                        <div class="mt-5" x-show="showStyleSettings == '/'">
                             <a class="fs-2 font-weight-bold tblr-body-color text-decoration-none settings-main-group">
                                 {{$settingGroupName}}
                             </a>
+                            <button type="button" x-on:click="()=> {
+
+                                    @if($settingGroup['type'] == 'stylesheet')
+                                        resetStylesheetSettings();
+                                    @endif
+
+                                     @if($settingGroup['type'] == 'template')
+                                            resetTemplateSettings();
+                                      @endif
+
+                                    }">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg>
+
+                            </button>
                         </div>
 
                         <div>
@@ -316,8 +365,9 @@
 
                     </div>
                 @endforeach
+              </div>
+             <?php endif; ?>
 
-        </div>
     @endif
 
 </div>

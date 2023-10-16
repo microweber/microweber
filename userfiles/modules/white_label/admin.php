@@ -324,7 +324,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </div>
 
       <div class="d-flex align-items-center flex-wrap mb-2 gap-2">
-          <a href="<?php print admin_url() ?>module/view?type=white_label__admin_colors"  class="btn btn-primary" ><?php _e("Color schemes") ?></a>
+
+<?php
+/*
+          <a href="<?php print admin_url() ?>module/view?type=white_label__admin_colors"  class="btn btn-primary" ><?php _e("Color schemes") ?></a> */
+?>
 
           <a href="javascript:;" id="white_label-whmcs-admin-module-link" class="btn btn-outline-secondary" onclick="mw.show_white_label_whmcs_settings();"><?php _e("WHMCS settings") ?></a>
           <script>

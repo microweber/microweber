@@ -77,6 +77,19 @@ abstract class DuskTestCase extends BaseTestCase
       //  $arguments[] = '--headless';
         //addArguments(`user-data-dir=${CURRENT_CHROMIUM_TMP_DIR}`);
 
+        // chrome_options.add_experimental_option(
+        //"prefs", {"credentials_enable_service": False, "profile.password_manager_enabled": False})
+
+        $arguments[] = '--disable-extensions';
+        $arguments[] = '--disable-infobars';
+        $arguments[] = '--disable-notifications';
+        $arguments[] = '--disable-default-apps';
+        $arguments[] = '--disable-translate';
+        $arguments[] = '--disable-save-password-bubble';
+        $arguments[] = '--metrics-recording-only';
+        $arguments[] = '--ash-no-nudges';
+
+
         $options = (new ChromeOptions)->addArguments(collect($arguments)
             ->unless($this->hasHeadlessDisabled(), function ($items) use ($arguments) {
                 if (getenv('GITHUB_RUN_NUMBER')) {
@@ -86,6 +99,15 @@ abstract class DuskTestCase extends BaseTestCase
 
             })->all());
 
+        $options->setExperimentalOption('prefs', [
+            'download.default_directory' => storage_path('temp'),
+            'credentials_enable_service' => 0,
+            'profile.password_manager_enabled' => 0,
+            'profile.default_content_settings.popups' => 0,
+        ]);
+        $options->setExperimentalOption('excludeSwitches', [
+            'enable-logging',
+        ]);
 
 
 
@@ -123,6 +145,9 @@ abstract class DuskTestCase extends BaseTestCase
 
             save_option('dusk_test', 1, 'dusk');
 
+
+            //
+
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
             \DB::table('options')
@@ -131,6 +156,17 @@ abstract class DuskTestCase extends BaseTestCase
 
             \DB::table('multilanguage_translations')->truncate();
             \DB::table('multilanguage_supported_locales')->truncate();
+
+
+            $option = array();
+            $option['option_value'] = 'n';
+            $option['option_key'] = 'is_active';
+            $option['option_group'] = 'multilanguage_settings';
+            save_option($option);
+
+            change_language_by_locale('en_US');
+            save_option('language', 'en_US', 'website');
+
 
             app()->multilanguage_repository->clearCache();
             app()->option_repository->clearCache();

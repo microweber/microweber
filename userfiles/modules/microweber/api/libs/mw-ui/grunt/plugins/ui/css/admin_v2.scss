@@ -159,6 +159,16 @@ body.theme-dark {
             fill: var(--tblr-bg-surface) !important;
             color: var(--tblr-bg-surface) !important;
         }
+
+        img {
+            filter: invert(1);
+        }
+    }
+
+    .mw-list-group-accordion-buttons {
+        &:after {
+            filter: invert(1);
+        }
     }
 
     .btn.live-edit-toolbar-buttons {
@@ -195,6 +205,10 @@ body.theme-dark {
 
     .mw-le-dialog-close {
         filter: invert(1);
+    }
+
+    .form-check-input:checked {
+        background-color: var(--tblr-body-bg2) !important;
     }
 
     //END LIVE EDIT FOR DARK THEME
@@ -2238,9 +2252,7 @@ svg.text-danger {
     background-color: var(--tblr-body-bg) !important;
 }
 
-.form-check-input:checked {
-    background-color: var(--tblr-body-bg2) !important;
-}
+
 
 .form-control-live-edit-label-wrapper {
     cursor: inherit;
@@ -2845,3 +2857,4 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
         z-index: 1;
     }
 }
+

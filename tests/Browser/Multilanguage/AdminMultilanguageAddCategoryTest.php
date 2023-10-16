@@ -55,9 +55,9 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
-
+            $browser->click('#category-create-in-blog-link');
             $browser->pause(400);
-            $browser->waitForText('Add category');
+            $browser->waitForText('Category name');
 
             $browser->within(new AdminCategoryMultilanguage, function ($browser) use ($categoryDataMultilanguage) {
                 foreach($categoryDataMultilanguage as $locale=>$categoryData) {
@@ -80,6 +80,22 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
             $browser->pause(600);
 
 
+            $browser->scrollTo('.js-edit-category-show-more');
+
+            $browser->pause(1300);
+            $browser->click('.js-edit-category-show-more');
+            $browser->pause(1300);
+
+            $browser->within(new AdminCategoryMultilanguage, function ($browser) use ($categoryDataMultilanguage) {
+                foreach($categoryDataMultilanguage as $locale=>$categoryData) {
+                    $browser->fillUrl($categoryData['url'], $locale);
+                }
+            });
+            $browser->pause(200);
+
+
+
+            $browser->scrollTo('.admin-thumbs-holder');
             // add images to gallery
             $browser->within(new AdminContentImageAdd, function ($browser) {
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img1.jpg');
@@ -87,22 +103,16 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img3.jpg');
             });
 
-            $browser->scrollTo('.js-edit-category-show-more');
-            $browser->pause(300);
-            $browser->click('.js-edit-category-show-more');
-            $browser->pause(300);
-
-            $browser->within(new AdminCategoryMultilanguage, function ($browser) use ($categoryDataMultilanguage) {
-                foreach($categoryDataMultilanguage as $locale=>$categoryData) {
-                    $browser->fillUrl($categoryData['url'], $locale);
-                }
-            });
 
 
-            $browser->click('@category-save');
+            $browser->scrollTo('.js-category-save');
+            $browser->pause(500);
+            $browser->click('.js-category-save');
             $browser->pause(3500);
 
+
             $findCategory = Category::where('title', $categoryDataMultilanguage['en_US']['title'])->first();
+            $browser->visit(route('admin.category.edit', $findCategory->id));
 
             $this->assertEquals($categoryDataMultilanguage['en_US']['description'], $findCategory->description);
 
@@ -115,12 +125,11 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
             $browser->waitForLocation(route('admin.category.edit', $findCategory->id));
             $browser->pause(1000);
 
-            $browser->waitForText('Edit category');
-            $browser->assertSee('Edit category');
+            $browser->waitForText('Category name');
 
             $browser->visit(category_link($findCategory->id));
 
-            foreach($categoryDataMultilanguage as $locale=>$categoryData) {
+             foreach($categoryDataMultilanguage as $locale=>$categoryData) {
 
                 $browser->within(new FrontendSwitchLanguage, function ($browser) use($locale) {
                     $browser->switchLanguage($locale);

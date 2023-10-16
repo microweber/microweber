@@ -1,12 +1,7 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Admin;
 
-use Arcanedev\SeoHelper\Entities\Analytics;
-use Arcanedev\SeoHelper\Entities\OpenGraph\Graph;
-use Arcanedev\SeoHelper\Entities\Twitter\Card;
-use Arcanedev\SeoHelper\Entities\Webmasters;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;

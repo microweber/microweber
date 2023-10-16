@@ -38,23 +38,24 @@ jobs:
       - name: Run Dusk Tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
-          php artisan dusk --testsuite MicroweberCoreTests
-      - name: Run Dusk Shop Tests
-        run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
-          php artisan dusk --testsuite MicroweberShopTests
-      - name: Run Dusk Multilanguage Tests
-        run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
-          php artisan dusk --testsuite MicroweberMultilanguageTests
-      - name: Run Dusk Template Tests
-        run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
-          php artisan dusk --testsuite MicroweberTemplatesTests
-      - name: Run Dusk Slow Tests
-        run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
-          php artisan dusk --testsuite MicroweberSlowTests
+          php artisan dusk
+#          php artisan dusk --testsuite MicroweberCoreTests
+#      - name: Run Dusk Shop Tests
+#        run: |
+#          chmod -R 0755 vendor/laravel/dusk/bin/
+#          php artisan dusk --testsuite MicroweberShopTests
+#      - name: Run Dusk Multilanguage Tests
+#        run: |
+#          chmod -R 0755 vendor/laravel/dusk/bin/
+#          php artisan dusk --testsuite MicroweberMultilanguageTests
+#      - name: Run Dusk Template Tests
+#        run: |
+#          chmod -R 0755 vendor/laravel/dusk/bin/
+#          php artisan dusk --testsuite MicroweberTemplatesTests
+#      - name: Run Dusk Slow Tests
+#        run: |
+#          chmod -R 0755 vendor/laravel/dusk/bin/
+#          php artisan dusk --testsuite MicroweberSlowTests
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v2

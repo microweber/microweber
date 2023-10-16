@@ -37,6 +37,7 @@ export const EditorComponent = function () {
     const editorControls = [
         [
 
+            'backToElementSettings',
             'plus',
             'ai',
             {

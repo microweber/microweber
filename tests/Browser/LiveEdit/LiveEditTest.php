@@ -1,12 +1,13 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\LiveEdit;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\LiveEditModuleAdd;
+use Tests\Browser\Components\LiveEditSaveButton;
 use Tests\DuskTestCase;
 
 class LiveEditTest extends DuskTestCase
@@ -167,15 +168,26 @@ class LiveEditTest extends DuskTestCase
             $browser->switchFrame($iframeElement);
             $browser->assertSee('This is my title');
 
+
+            $browser->within(new LiveEditSaveButton(), function ($browser) {
+                $browser->clickSaveButton($browser);
+            });
+
             $browser->switchFrameDefault();
-            $browser->click('#save-button');
 
-
-            $browser->pause(3000);
+            $browser->pause(5000);
 
             $browser->visit($currentUrl);
 
             $browser->pause(3000);
+
+
+            $browser->waitFor('#live-editor-frame', 30)
+                ->withinFrame('#live-editor-frame', function ($browser) {
+
+                    $browser->pause(1000);
+                });
+
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
             $browser->switchFrame($iframeElement);
             $browser->assertSee('This is my title');
@@ -215,8 +227,7 @@ class LiveEditTest extends DuskTestCase
             $title = 'Product Title ' . time();
             $title2 = 'Product Title2 ' . time();
             $description2 = 'Product Description2 ' . time();
-            // Simulate the saving of content
-            $params = [
+             $params = [
                 'title' =>$title,
                 'parent' => $saved_id_shop,
                 'content_type' => 'product',
@@ -224,9 +235,9 @@ class LiveEditTest extends DuskTestCase
                 'subtype' => 'product',
                 'is_active' => 1,
             ];
+            app()->database_manager->extended_save_set_permission(true);
 
-            // Assuming save_content is a valid function in your application.
-            $saved_id = save_content($params);
+             $saved_id = save_content($params);
 
             $link = content_link($saved_id);
 
@@ -255,12 +266,18 @@ class LiveEditTest extends DuskTestCase
 
             $browser->click('.'.$randClass2);
             $browser->doubleClick('.'.$randClass2);
+            $browser->doubleClick('.'.$randClass2);
             $browser->pause(300);
+
+            $browser->pause(3000);
+
             $browser->typeSlowly('.'.$randClass2, $description2);
 
-            $browser->switchFrameDefault();
-            $browser->click('#save-button');
+            $browser->within(new LiveEditSaveButton(), function ($browser) {
+                $browser->clickSaveButton($browser);
+            });
 
+            $browser->switchFrameDefault();
 
             $browser->pause(3000);
             $browser->visit($link . '?editmode=y');
@@ -277,6 +294,10 @@ class LiveEditTest extends DuskTestCase
 
         });
     }
+
+
+
+
 
 /*
     public function testLiveEditSearchinSidebarForModules()

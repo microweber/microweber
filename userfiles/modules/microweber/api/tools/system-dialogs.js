@@ -1,13 +1,11 @@
 mw.tools.alert = function (text) {
+
     var html = ''
-        + '<table class="mw_alert" width="100%" cellpadding="0" cellspacing="0">'
-        + '<tr>'
-        + '<td align="center" valign="middle"><div class="mw-alert-holder">' + text + '</div></td>'
-        + '</tr>'
-        + '<tr>'
-        + '<td align="center" height="25"><span class="btn btn-primary mb-2" onclick="mw.dialog.remove(this);"><b>' + mw.msg.ok + '</b></span></td>'
-        + '</tr>'
-        + '</table>';
+        + '<div class="mw_alert">'
+        + '<div class="mw-alert-holder">' + text + '</div>'
+        + '<div><span class="btn btn-primary mb-2" onclick="mw.dialog.remove(this);"><b>' + mw.msg.ok + '</b></span></div>'
+        + '</div>';
+
     if (mw.$("#mw_alert").length === 0) {
         return mw.dialog({
             html: html,
@@ -82,11 +80,9 @@ mw.tools.confirm = function (question, callback, onCancel) {
     }
     question = question || 'Are you sure?';
         var html = ''
-            + '<table class="mw_alert" width="100%" height="140" cellpadding="0" cellspacing="0">'
-            + '<tr>'
-            + '<td valign="middle"><div class="mw-alert-holder">' + question + '</div></td>'
-            + '</tr>'
-            + '</table>';
+            + '<div class="mw_alert">'
+            + '<div class="mw-alert-holder">' + question + '</div>'
+            + '</div>';
 
         var ok = mw.top().$('<span tabindex="99999" class="btn btn-primary mb-3">' + mw.msg.ok + '</span>');
         var cancel = mw.top().$('<span class="btn btn-link ">' + mw.msg.cancel + '</span>');

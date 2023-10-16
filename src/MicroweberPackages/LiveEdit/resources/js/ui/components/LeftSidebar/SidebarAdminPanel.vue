@@ -48,17 +48,12 @@ export default {
     },
     mounted() {
         this.emitter.on("live-edit-ui-show", show => {
+
             if (show == 'sidebar-admin-panel-toggle') {
-                if (!this.showSidebarAdminPanel) {
-                    this.showAdminSidebar();
-                } else {
-                    this.closeAdminSidebar();
-                }
+                this.showAdminSidebar();
             } else if (show == 'sidebar-admin-panel') {
-                if (!this.showSidebarAdminPanel) {
-                    this.showAdminSidebar();
-                }
-            } else {
+                this.showAdminSidebar();
+            }  else {
                 this.closeAdminSidebar();
             }
         });

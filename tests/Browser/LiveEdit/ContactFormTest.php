@@ -1,18 +1,13 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\LiveEdit;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
 use Laravel\Dusk\Browser;
-use MicroweberPackages\Form\Models\Form;
 use MicroweberPackages\Form\Models\FormData;
 use MicroweberPackages\Form\Models\FormDataValue;
-use MicroweberPackages\Form\Notifications\NewFormEntryToMail;
-use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
-use MicroweberPackages\Utils\Mail\MailSender;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 

@@ -1,18 +1,23 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\SlowTests;
 
 use App\Models\User;
 use Faker\Factory;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class AdminEditProfileTest extends DuskTestCase
 {
+    /**
+     * @runInSeparateProcess
+     */
     public function testEditProfile()
     {
 
@@ -22,7 +27,7 @@ class AdminEditProfileTest extends DuskTestCase
                 $browser->fillForm();
             });
 
-            $browser->visit(admin_url());
+            $browser->visit($this->siteUrl.'admin');
 
             $browser->clickLink('Users');
 
@@ -85,7 +90,7 @@ class AdminEditProfileTest extends DuskTestCase
             });
             $user = \MicroweberPackages\User\Models\User::where('username', 1)->first();
             Auth::login($user);
-            $browser->visit(admin_url());
+            $browser->visit($this->siteUrl.'admin');
 
             $browser->clickLink('Users');
 

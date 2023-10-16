@@ -64,12 +64,22 @@ if($style_attributes_overlay) {
     $style_attr_overlay = 'style="' . $style_attributes_overlay_items . '"';
 }
 
-?>
-<div class="mw-layout-background-block no-settings inaccessibleModule">
-    <div class="mw-layout-background-node" <?php print $video_attr_parent; ?>  <?php print $style_attr; ?>>
-        <?php print $video_html; ?>
-    </div>
-    <div class="mw-layout-background-overlay" <?php print $style_attr_overlay; ?>>
 
-    </div>
-</div>
+$module_template = get_option('data-template', $params['id']);
+if ($module_template == false and isset($params['template'])) {
+    $module_template = $params['template'];
+}
+if ($module_template != false) {
+    $template_file = module_templates($config['module'], $module_template);
+} else {
+    $template_file = module_templates($config['module'], 'default');
+}
+
+
+if (is_file($template_file) != false) {
+    include($template_file);
+} else {
+    print lnotif("No template found. Please choose template.");
+}
+
+?>
