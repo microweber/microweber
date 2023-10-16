@@ -9,7 +9,7 @@
         <?php if ($key == 'address')  : ?>
             <?php if ($data['countries']) { ?>
                 <div class="mw-text-start">
-                    <select class="form-control">
+                    <select class="form-select">
                         <option><?php _e('Choose address') ?></option>
                         <option><?php foreach ($data['countries'] as $country): ?>
                         <option value="<?php echo $country ?>"><?php echo $country ?></option>

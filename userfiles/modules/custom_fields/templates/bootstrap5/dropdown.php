@@ -21,7 +21,7 @@
         </label>
         <?php endif; ?>
 
-        <select <?php if ($settings['multiple']): ?>multiple="multiple"<?php endif; ?> class="form-control js-mw-select-<?php echo $data['id']; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name_key']; ?>"/>
+        <select <?php if ($settings['multiple']): ?>multiple="multiple"<?php endif; ?> class="form-select js-mw-select-<?php echo $data['id']; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name_key']; ?>"/>
 
         <?php if (!empty($data['placeholder'])): ?>
             <option disabled selected value><?php echo $data['placeholder']; ?></option>
