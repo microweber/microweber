@@ -175,8 +175,8 @@
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-dialog-close active"></div>
 
 
-    <div v-if="showLicenseModal" ref="unlockPremiumLayout">
-        <div class="row">
+    <div ref="unlockPremiumLayout">
+        <div v-if="showLicenseModal" class="row">
             <div class="col-md-8 mt-4">
 
                 <h1>Unlock the power of BIG Template</h1>
@@ -265,9 +265,19 @@ export default {
 
     methods: {
         saveLicense() {
-
-            mw.app.license.save(this.licenseKey);
-
+            let saveLicense = mw.app.license.save(this.licenseKey);
+            if (saveLicense) {
+                if (saveLicense.is_invalid) {
+                    mw.notification.warning('Invalid license key');
+                } else {
+                    mw.notification.success('License key saved');
+                    this.closeLicenseModal();
+                }
+            }
+        },
+        closeLicenseModal() {
+            this.showLicenseModal = false;
+            mw.top().dialog.get(this.$refs.unlockPremiumLayout).remove();
         },
         switchLayoutsListTypePreview(type) {
             this.layoutsListTypePreview = type;
@@ -286,12 +296,14 @@ export default {
 
             if (layout.locked) {
                 this.showLicenseModal = true;
-                let licenseDialogInstance = mw.top().dialog({
-                    content: this.$refs.unlockPremiumLayout,
-                    title: '',
-                    footer: false,
-                    width: 800
-                })
+                setTimeout(() => {
+                    let licenseDialogInstance = mw.top().dialog({
+                        content: this.$refs.unlockPremiumLayout,
+                        title: '',
+                        footer: false,
+                        width: 800
+                    })
+                }, 400);
                 return;
             }
 

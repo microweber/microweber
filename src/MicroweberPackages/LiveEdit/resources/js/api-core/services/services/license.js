@@ -6,14 +6,13 @@ export const License = {
 
     save: async function (licenseKey) {
 
-        await axios.post(route('api.module.list') + '/mw_save_license',{
+        await axios.post(mw.settings.api_url + 'mw_save_license',{
             rel_type:"",
             activate_on_save: 1,
             local_key: licenseKey
-        })
-            .then((response) => {
-                console.log(response);
-            });
+        }).then((response) => {
+           return response;
+        });
 
         return {
             error: true,
