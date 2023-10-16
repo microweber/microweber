@@ -507,7 +507,39 @@
 .mw-editor-table-manager{
     position: absolute;
     z-index: 9;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: white;
+    padding: 0;
+    color: #2b2b2b;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
+    .mw-editor-group-button-caret {
+        svg {
+            height: 17px;
+            width: auto;
+        }
+    }
+    .mw-bar-row{
+        border-bottom-width: 0px; 
+        background-color: transparent; 
+        padding: 0px;
+    }
+    .mw-editor-controller-component-select-values-holder{
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        
+    }
+    .mw-editor-dropdown-option{
+        padding: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        &:hover{
+            background-color: #efecec;
+        }
+    }
+    .mw-editor-select-display-value-content,
+    .mw-editor-dropdown-option{
+        font-size: 14px;
+    }
 }
 
 
@@ -608,7 +640,7 @@
         min-width: 100%;
         overflow: auto;
         max-height: calc(100vh - 200px);
-        min-height: 100px;
+ 
         &::-webkit-scrollbar {
             width: 7px;
         }

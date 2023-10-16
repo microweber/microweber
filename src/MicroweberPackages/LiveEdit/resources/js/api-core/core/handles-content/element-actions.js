@@ -94,7 +94,10 @@ export class ElementActions extends MicroweberBaseClass {
     deleteElement(el) {
 
 
-        if(el.nodeName === 'IMG') {
+        // todo: placeholder improvements
+        const deletedImagePlaceholder = false;
+
+        if(deletedImagePlaceholder && el.nodeName === 'IMG') {
 
             var edit = DomService.firstParentWithAnyOfClasses(el, ['edit'])
             

@@ -26,20 +26,23 @@ mw.lib.require('rangy');
             getSelection: function () {
                 return scope.getSelection();
             },
-            isPlaintext: function() {
+            isPlainText: function(sel) {
                 // in case one element is plain text all the elements in the selection are treated as plain text
-                const sel = scope.getSelection();
-                const anchorNode = scope.api.elementNode(el.anchorNode);
-                const focusNode = scope.api.elementNode(el.focusNode);
+                if(!sel) {
+                    sel = scope.getSelection();
+                }
+                
+                const anchorNode = scope.api.elementNode(sel.anchorNode);
+                const focusNode = scope.api.elementNode(sel.focusNode);
 
-                const isNativePlainText = mw.tools.firstParentOrCurrent(anchorNode, '[contenteditable="plaintext-only"]') || mw.tools.firstParentOrCurrentWithClass(focusNode, '[contenteditable="plaintext-only"]');
-                const isPlainClass = mw.tools.firstParentOrCurrentWithClass(anchorNode, 'plain-text') || mw.tools.firstParentOrCurrentWithClass(focusNode, 'plain-text');
+                const isNativePlainText = mw.tools.firstMatchesOnNodeOrParent(anchorNode, '[contenteditable="plaintext-only"]') || mw.tools.firstParentOrCurrentWithClass(focusNode, '[contenteditable="plaintext-only"]');
+                const isPlainClass = mw.tools.firstMatchesOnNodeOrParent(anchorNode, 'plain-text') || mw.tools.firstParentOrCurrentWithClass(focusNode, 'plain-text');
 
-                if(isPlainClass) {
+                if(isNativePlainText || isPlainClass) {
                     return true;
                 }
                 
-                return anchorNode.isContentEditable && focusNode.isContentEditable
+                return false;
 
             },
             setCursorAtStart: function(target){
@@ -385,7 +388,8 @@ mw.lib.require('rangy');
                 }
             },
             targetSupportsFormatting: function (target) {
-                return !!target && !!target.classList && !target.classList.contains('edit');
+                
+                return !!target && !!target.classList && !target.classList.contains('edit') && !target.querySelector('table,tr,td,div,p,section,h1,h2,h3,h4,h5,h6,article,aside,figcaption,figure,footer,header,hgroup,main,nav');
             },
             isSelectionEditable: function (sel) {
                 try {

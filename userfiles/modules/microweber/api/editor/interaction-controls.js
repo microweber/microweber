@@ -168,15 +168,25 @@ MWEditor.interactionControls = {
     },
     tableManager: function(rootScope){
         var lscope = this;
+        lscope.__tableManagerTimeout = null;
         this.interact = function (data) {
             if (!data.eventIsActionLike) { return; }
             var td = mw.tools.firstParentOrCurrentWithTag(data.localTarget, 'td');
+            rootScope.document.querySelectorAll('.mw-editor-td-focus').forEach(td => td.classList.remove('mw-editor-td-focus'));
             if (td) {
-                var $target = $(td);
-                this.$target = $target;
-                var css = $target.offset();
-                css.top -= lscope.element.node.offsetHeight;
-                this.element.$node.css(css).show();
+                clearTimeout(lscope.__tableManagerTimeout);
+                lscope.__tableManagerTimeout = setTimeout(() => {
+                    td.classList.add('mw-editor-td-focus')
+                    var space = 5;
+                    var $target = $(td);
+                    this.$target = $target;
+                    var css = $target.offset();
+                    css.top -= (lscope.element.node.offsetHeight + space);
+                    css.left += $target.outerWidth();
+                    css.left -= (lscope.element.node.offsetWidth + space);
+                    this.element.$node.css(css).show();
+                }, 100)
+
             } else {
                 this.element.$node.hide();
             }

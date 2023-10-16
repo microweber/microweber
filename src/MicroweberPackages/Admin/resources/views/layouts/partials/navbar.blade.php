@@ -97,7 +97,7 @@
                 $('#pages-tree-container, .mw-admin-toggle-tree-navigation').css('transition', '')
                 
                 if(init) {
-                    $("#admin-sidebar").width(size)
+                    $("#admin-sidebar").width(size) 
                 } else {
                     mw.storage.set('mw-admin-sidebar-size', size);
                 }

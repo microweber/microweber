@@ -375,7 +375,9 @@ MWEditor.controllers = {
             } else {
                 rootScope.controllerActive(opt.controller.element.get(0), false);
             }
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
+            
+          
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -417,7 +419,7 @@ MWEditor.controllers = {
             } else {
                 rootScope.controllerActive(opt.controller.element.get(0), false);
             }
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -460,6 +462,7 @@ MWEditor.controllers = {
             } else {
                 rootScope.controllerActive(opt.controller.element.get(0), false);
             }
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText );
         };
         this.element = this.render();
     },
@@ -502,6 +505,7 @@ MWEditor.controllers = {
             } else {
                 rootScope.controllerActive(opt.controller.element.get(0), false);
             }
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText );
         };
         this.element = this.render();
     },
@@ -560,7 +564,8 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+            
+            rootScope.disabled(opt.controller.element.get(0),  opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
         };
         this.element = this.render();
     },
@@ -619,7 +624,8 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+           
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
             rootScope.controllerActive(opt.controller.element.get(0), !!mw.tools.firstParentOrCurrentWithTag(api.elementNode(api.getSelection().focusNode), 'a'));
 
         };
@@ -634,7 +640,7 @@ MWEditor.controllers = {
             opt.controller.element.displayValue(size);
             opt.controller.element.find('.mw-editor-dropdown-option.active').removeClass('active');
             opt.controller.element.find('.mw-editor-dropdown-option.active').removeClass('active');
-            rootScope.disabled(opt.controller.element, !opt.api.isSelectionEditable()|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)))
+            rootScope.disabled(opt.controller.element, opt.isPlainText || !opt.api.isSelectionEditable() || !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)))
         };
         this.render = function () {
 
@@ -685,7 +691,7 @@ MWEditor.controllers = {
             var val = Math.round((parseFloat(font.height) / parseFloat(font.size)) * 10) / 10;
 
             opt.controller.element.displayValue(val);
-            rootScope.disabled(opt.controller.element, !opt.api.isSelectionEditable() || !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+            rootScope.disabled(opt.controller.element, opt.isPlainText || !opt.api.isSelectionEditable() || !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
@@ -754,7 +760,15 @@ MWEditor.controllers = {
             var el = opt.api.elementNode(opt.selection.focusNode);
             var parentEl = mw.tools.firstParentOrCurrentWithTag(el, this.availableTags());
             opt.controller.element.displayValue(parentEl ? this.getTagDisplayName(parentEl.nodeName) : '');
-            rootScope.disabled(opt.controller.element, !opt.api.isSelectionEditable() || !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)))
+            const element = opt.api.elementNode(opt.api.getSelection().focusNode);
+
+            const unsuportedElements = ['table','tr','td','th','tbody','thead','section','article','aside','figcaption','figure','footer','header','hgroup','main','nav'];
+            
+            const elementSupports = unsuportedElements.indexOf(element.nodeName.toLowerCase()) === -1;
+
+       
+
+            rootScope.disabled(opt.controller.element, !elementSupports || opt.isPlainText || !opt.api.isSelectionEditable() || !opt.api.targetSupportsFormatting(element));
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
@@ -799,7 +813,7 @@ MWEditor.controllers = {
                 }
                 fam = fam.replace(/['"]+/g, '');
                 opt.controller.element.displayValue(fam);
-            rootScope.disabled(opt.controller.element, !opt.api.isSelectionEditable()|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)))
+            rootScope.disabled(opt.controller.element, opt.isPlainText || !opt.api.isSelectionEditable()|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)))
 
         };
         this.render = function () {
@@ -966,7 +980,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
 
 
         };
@@ -1007,7 +1021,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
         };
         this.element = this.render();
     },
@@ -1025,7 +1039,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -1043,7 +1057,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -1110,7 +1124,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -1146,7 +1160,7 @@ MWEditor.controllers = {
         this.checkSelection = function (opt) {
             var sel = api.getSelection();
             var isLink =  mw.tools.firstParentWithTag(sel.focusNode, 'a');
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection) || !isLink|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection) || !isLink|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
          };
         this.element = this.render();
     },
@@ -1256,7 +1270,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
         };
         this.element = this.render();
     },
@@ -1285,7 +1299,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
         };
         this.element = this.render();
     },
@@ -1300,17 +1314,33 @@ MWEditor.controllers = {
             });
             el.on('mousedown touchstart', function (e) {
                 if((e.which || e.button) === 1) {
-                    var table = '<table id="test" class="mw-ui-table" style="width: 100%" border="1" width="100%"><tr><td></td><td></td></tr><tr><td></td><td></td></tr></table>';
+                    var table = `
+                    <div class="element">
+                        <table class="mw-ui-table" border="1" width="100%">
+                            <tr>
+                                <td data-mwplaceholder="This is sample text for your page"></td>
+                                <td data-mwplaceholder="This is sample text for your page"></td>
+                            </tr>
+                            <tr>
+                                <td data-mwplaceholder="This is sample text for your page"></td>
+                                <td data-mwplaceholder="This is sample text for your page"></td>
+                            </tr>
+                        </table>
+                    </div>   
+                    `;
                     api.insertHTML(table);
                 }
             });
             return el;
         };
         this.checkSelection = function (opt) {
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
         };
         this.element = this.render();
     },
+
+
+ 
     wordPaste: function (scope, api, rootScope) {
         this.render = function () {
             var el = MWEditor.core.button({
@@ -1370,7 +1400,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },

@@ -817,12 +817,13 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            if(opt.css.is().bold) {
+            if( opt.css.is().bold) {
                 rootScope.controllerActive(opt.controller.element.node, true);
             } else {
                 rootScope.controllerActive(opt.controller.element.node, false);
             }
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            console.log(opt)
+            opt.controller.element.node.disabled = opt.isPlaintext || !opt.api.isSelectionEditable(opt.selection);
         };
         this.element = this.render();
     },
@@ -1416,7 +1417,20 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                api.insertHTML('<table class="mw-ui-table" border="1" width="100%"><tr><td></td><td></td></tr><tr><td></td><td></td></tr></table>');
+                api.insertHTML(`
+                <div class="element">
+                    <table class="mw-ui-table" border="1" width="100%">
+                        <tr>
+                            <td data-mwplaceholder="This is sample text for your page"></td>
+                            <td data-mwplaceholder="This is sample text for your page"></td>
+                        </tr>
+                        <tr>
+                            <td data-mwplaceholder="This is sample text for your page"></td>
+                            <td data-mwplaceholder="This is sample text for your page"></td>
+                        </tr>
+                    </table>
+                </div>   
+                `);
             });
             return el;
         };

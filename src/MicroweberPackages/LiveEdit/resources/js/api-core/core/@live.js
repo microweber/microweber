@@ -389,13 +389,14 @@ export class LiveEdit {
         }
 
  
-
-
+    
+console.log(1)
 
         if (this.handles.targetIsOrInsideHandle(target ) || this.handles.targetIsSelected(target, this.interactionHandle) ) {
 
             return
         }
+        console.log(2)
 
         if( target.isContentEditable ) {
             if(target.nodeName === 'IMG') {
@@ -407,7 +408,7 @@ export class LiveEdit {
         }
 
 
-        
+        console.log(3)
 
 
         this.activeNode = target;
@@ -447,7 +448,7 @@ export class LiveEdit {
             return
         }
 
-
+        console.log(4)
          
 
 
@@ -469,7 +470,7 @@ export class LiveEdit {
 
         }
 
-
+        console.log(5)
 
         this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
         this.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);
@@ -617,6 +618,7 @@ export class LiveEdit {
 
 
 
+ 
 
             var target = e.target ? e.target : e;
 
