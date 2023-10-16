@@ -175,8 +175,8 @@
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-dialog-close active"></div>
 
 
-    <div v-if="showLicenseModal" ref="unlockPremiumLayout">
-        <div class="row">
+    <div ref="unlockPremiumLayout">
+        <div v-if="showLicenseModal" class="row">
             <div class="col-md-8 mt-4">
 
                 <h1>Unlock the power of BIG Template</h1>
@@ -286,12 +286,14 @@ export default {
 
             if (layout.locked) {
                 this.showLicenseModal = true;
-                let licenseDialogInstance = mw.top().dialog({
-                    content: this.$refs.unlockPremiumLayout,
-                    title: '',
-                    footer: false,
-                    width: 800
-                })
+                setTimeout(() => {
+                    let licenseDialogInstance = mw.top().dialog({
+                        content: this.$refs.unlockPremiumLayout,
+                        title: '',
+                        footer: false,
+                        width: 800
+                    })
+                }, 400);
                 return;
             }
 
