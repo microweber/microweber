@@ -18,6 +18,12 @@ abstract class DuskTestCaseMultilanguage extends DuskTestCase
             ->delete();
         change_language_by_locale('en_US');
         save_option('language', 'en_US', 'website');
+
+        $option = array();
+        $option['option_value'] = 'y';
+        $option['option_key'] = 'is_active';
+        $option['option_group'] = 'multilanguage_settings';
+        save_option($option);
          parent::assertPostConditions();
     }
 
@@ -35,11 +41,11 @@ abstract class DuskTestCaseMultilanguage extends DuskTestCase
                 return new MultilanguagePermalinkManager();
             });
 
-            $option = array();
-            $option['option_value'] = 'y';
-            $option['option_key'] = 'is_active';
-            $option['option_group'] = 'multilanguage_settings';
-            save_option($option);
+//            $option = array();
+//            $option['option_value'] = 'y';
+//            $option['option_key'] = 'is_active';
+//            $option['option_group'] = 'multilanguage_settings';
+//            save_option($option);
         }
     }
 }
