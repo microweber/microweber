@@ -79,8 +79,15 @@ $address = strip_tags($address);
 
 $width = '100%';
 $height = '100%';
-$optionWidth =  get_option('data-width', $params['id']);
-$optionHeight =  get_option('data-height', $params['id']);
+$optionWidth = get_option('data-width', $params['id']);
+$optionHeight = get_option('data-height', $params['id']);
+if (empty($optionWidth) && isset($params['data-width'])) {
+    $optionWidth = $params['data-width'];
+}
+if (empty($optionHeight) && isset($params['data-height'])) {
+    $optionHeight = $params['data-height'];
+}
+
 if ($optionWidth > 0) {
     $width = $optionWidth;
 }
@@ -110,7 +117,7 @@ $map_style_param = '';
 
 <div class="relative mw-prevent-interaction">
     <iframe width="<?php echo $width;?>" height="<?php echo $height;?>" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-            src="https://maps.google.com/maps?f=q&amp;hl=en&amp;<?php if($pinEncoded): ?>center=<?php echo $pinEncoded;?>&amp;<?php endif; ?>geocode=&amp;time=&amp;date=&amp;ttype=&amp;q=<?php print urlencode($address); ?>&amp;ie=UTF8&amp;om=1&amp;s=AARTsJpG68j7ib5XkPnE95ZRHLMVsa8OWg&amp;spn=0.011588,0.023174&amp;z=<?php print intval($zoom); ?>&amp;style=<?php print $map_style_param ?>$maptype=<?php print $maptype ?>&amp;output=embed">
+            src="https://maps.google.com/maps?f=q&amp;hl=en&amp;<?php if($pinEncoded): ?>center=<?php echo $pinEncoded;?>&amp;<?php endif; ?>geocode=&amp;time=&amp;date=&amp;ttype=&amp;q=<?php print urlencode($address); ?>&amp;ie=UTF8&amp;om=1&amp;s=AARTsJpG68j7ib5XkPnE95ZRHLMVsa8OWg&amp;spn=0.011588,0.023174&amp;z=<?php print intval($zoom); ?>&amp;style=<?php print $map_style_param ?>$maptype=<?php print $maptype ?>&amp;output=embed" style="min-height: 400px;">
     </iframe>
 
     <div contentEditable="false" class="iframe_fix" <?php if(  mw()->user_manager->session_get('editmode') == true ) { ?>style="display: block;"<?php } ?>></div>

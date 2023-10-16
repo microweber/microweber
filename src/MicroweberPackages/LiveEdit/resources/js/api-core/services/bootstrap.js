@@ -6,6 +6,7 @@ import {MWUniversalContainer} from "./containers/container.js";
 import {Commands} from "./services/commands.js";
 import {Modules} from "./services/modules.js";
 import {Layouts} from "./services/layouts.js";
+import {License} from "./services/license.js";
 import {KeyboardEvents} from  "./services/keyboard-events.js";
 import {IconPicker} from "./services/icon-picker";
 import {LinkPicker} from "./services/link-picker";
@@ -28,6 +29,7 @@ mw.app.register('canvas', canvas);
     mw.app.register('modules', Modules);
 
     mw.app.register('layouts', Layouts);
+    mw.app.register('license', License);
     mw.app.register('keyboard', KeyboardEvents);
     mw.app.register('iconPicker', IconPicker);
     mw.app.register('linkPicker', LinkPicker);
