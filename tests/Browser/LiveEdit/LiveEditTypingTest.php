@@ -63,7 +63,7 @@ class LiveEditTypingTest extends DuskTestCase
             $browser->within(new LiveEditSaveButton(), function ($browser) {
                 $browser->clickSaveButton($browser);
             });
-
+            $browser->switchFrameDefault();
 
             $browser->visit($link );
             $browser->waitForText('New text in safe mode element', 30);
@@ -126,7 +126,7 @@ class LiveEditTypingTest extends DuskTestCase
             $browser->within(new LiveEditSaveButton(), function ($browser) {
                 $browser->clickSaveButton($browser);
             });
-
+            $browser->switchFrameDefault();
 
             $browser->visit($link );
             $browser->assertNotPresent('#test-element-not-safe-mode');

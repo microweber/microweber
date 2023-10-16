@@ -43,6 +43,10 @@ class AdminContentMultilanguage extends BaseComponent
 
     public function addLanguage(Browser $browser, $locale)
     {
+
+
+
+
         $mustAddNewLang = true;
         $goToMultilanguagePage = true;
         $mustActivateMultilanguage = false;
@@ -52,7 +56,7 @@ class AdminContentMultilanguage extends BaseComponent
         }
 
         if (is_lang_supported($locale)) {
-            $mustAddNewLang = false;
+          //  $mustAddNewLang = false;
         }
 
         if(!MultilanguageHelpers::multilanguageIsEnabled()){
@@ -100,7 +104,7 @@ class AdminContentMultilanguage extends BaseComponent
             $browser->pause(3000);
             $browser->click('.js-add-language');
             //$browser->pause(8000);
-            $browser->waitForText($locale, 60);
+            $browser->waitForText($locale, 30);
         }
 
     }

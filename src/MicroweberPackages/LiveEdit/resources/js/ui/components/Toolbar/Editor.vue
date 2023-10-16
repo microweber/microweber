@@ -282,7 +282,7 @@ export default {
                         element.focus();
 
                         editTarget.contentEditable = true;
-                        mw.app.liveEdit.pause()
+                        mw.app.liveEdit.pause();
                         mw.app.richTextEditor.smallEditorInteract(editTarget);
                         mw.app.richTextEditor.positionSmallEditor(editTarget);
 
