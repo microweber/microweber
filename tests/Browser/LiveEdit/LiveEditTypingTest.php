@@ -6,6 +6,7 @@ use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Components\LiveEditSaveButton;
 use Tests\DuskTestCase;
 
 class LiveEditTypingTest extends DuskTestCase
@@ -59,9 +60,10 @@ class LiveEditTypingTest extends DuskTestCase
             }
 
             $browser->typeSlowly('#test-element-in-safe-mode', 'New text in safe mode element');
-            $browser->switchFrameDefault();
-            $browser->click('#save-button');
-            $browser->pause(3000);
+            $browser->within(new LiveEditSaveButton(), function ($browser) {
+                $browser->clickSaveButton($browser);
+            });
+
 
             $browser->visit($link );
             $browser->waitForText('New text in safe mode element', 30);
@@ -121,9 +123,10 @@ class LiveEditTypingTest extends DuskTestCase
                 }
             }
 
-            $browser->switchFrameDefault();
-            $browser->click('#save-button');
-            $browser->pause(3000);
+            $browser->within(new LiveEditSaveButton(), function ($browser) {
+                $browser->clickSaveButton($browser);
+            });
+
 
             $browser->visit($link );
             $browser->assertNotPresent('#test-element-not-safe-mode');

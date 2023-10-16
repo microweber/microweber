@@ -14,7 +14,7 @@ use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
-use Tests\Browser\Components\InputFieldsXssTest;
+use Tests\Browser\Components\InputFieldsXssType;
 use Tests\DuskTestCase;
 
 
@@ -41,7 +41,7 @@ class AdminXssTest extends DuskTestCase
                 // Test xss create product page
                 $browser->visit($route);
                 //  $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
-                $browser->within(new InputFieldsXssTest(), function ($browser) {
+                $browser->within(new InputFieldsXssType(), function ($browser) {
                     $browser->fill();
                 });
                 $browser->within(new ChekForJavascriptErrors(), function ($browser) {
@@ -146,7 +146,7 @@ class AdminXssTest extends DuskTestCase
                     echo 'about to visit page url: ' . $visitPage . PHP_EOL;
                     $browser->visit($visitPage);
 
-                    $browser->within(new InputFieldsXssTest(), function ($browser) {
+                    $browser->within(new InputFieldsXssType(), function ($browser) {
                         $browser->fill();
                     });
 

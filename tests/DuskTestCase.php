@@ -105,6 +105,9 @@ abstract class DuskTestCase extends BaseTestCase
             'profile.password_manager_enabled' => 0,
             'profile.default_content_settings.popups' => 0,
         ]);
+        $options->setExperimentalOption('excludeSwitches', [
+            'enable-logging',
+        ]);
 
 
 
