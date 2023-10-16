@@ -1172,10 +1172,12 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $to_save2 = $to_save;
                                     //   $to_save2['rel_type'] = 'content';
                                     if(isset($cont_table_save)  and $cont_table_save){
-                                        $json_print[] = $to_save2;
-                                        $json_print['table'] = 'content';
-                                        $json_print['rel_type'] = 'content';
-                                        $json_print['field'] = $field;
+                                        $to_save2_print = $to_save2;
+                                        $to_save2_print['table'] = 'content';
+                                        $to_save2_print['rel_type'] = 'content';
+                                        $to_save2_print['field'] = $field;
+                                        $json_print[] = $to_save2_print;
+
 
                                     } else {
                                         $to_save2['rel_type'] = $rel_ch;
