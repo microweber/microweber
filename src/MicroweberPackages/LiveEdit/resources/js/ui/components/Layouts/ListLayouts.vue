@@ -281,7 +281,7 @@ export default {
             if (layout.locked) {
                 mw.top().dialog({
                     content: this.$refs.unlockPremiumLayout,
-                    title: mw.lang('Unlock premium layouts'),
+                    title: '',
                     footer: false,
                     width: 800
                 })
