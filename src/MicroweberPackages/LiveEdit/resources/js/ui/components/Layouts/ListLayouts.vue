@@ -189,9 +189,9 @@
                 </div>
 
                 <div class="d-flex align-items-center">
-                    <input type="text" autocomplete="on" autofocus="true" class="form-control my-3" placeholder="License key">
+                    <input type="text" v-model="licenseKey" autocomplete="on" autofocus="true" class="form-control my-3" placeholder="License key">
                     <div class="ms-md-3">
-                        <button type="submit" class="btn btn-success">Unlock</button>
+                        <button v-on:click="saveLicense" type="button" class="btn btn-success">Unlock</button>
                     </div>
                 </div>
                 <div>
@@ -263,8 +263,9 @@ export default {
     },
 
     methods: {
-        saveLicense(licenseKey) {
-            mw.app.license.save(licenseKey);
+        saveLicense() {
+
+            mw.app.license.save(this.licenseKey);
 
         },
         switchLayoutsListTypePreview(type) {
@@ -397,6 +398,7 @@ export default {
     },
     data() {
         return {
+            licenseKey: '',
             filterKeyword: '',
             filterCategory: '',
             layoutsListTypePreview: 'list',
