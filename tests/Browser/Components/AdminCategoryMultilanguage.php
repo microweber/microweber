@@ -43,6 +43,8 @@ class AdminCategoryMultilanguage extends BaseComponent
     public function fillTitle(Browser $browser, $title, $locale)
     {
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($title, $locale) {
+            $browser->scrollTo('[name="title"]');
+
             $browser->fillInput('title', $title, $locale);
         });
     }
@@ -50,6 +52,7 @@ class AdminCategoryMultilanguage extends BaseComponent
     public function fillUrl(Browser $browser, $url, $locale)
     {
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($url, $locale) {
+            $browser->scrollTo('[name="url"]');
             $browser->fillInput('url', $url, $locale);
         });
     }
@@ -57,6 +60,7 @@ class AdminCategoryMultilanguage extends BaseComponent
     public function fillDescription(Browser $browser, $content, $locale)
     {
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($content, $locale) {
+            $browser->scrollTo('[name="description"]');
             $browser->fillTextarea('description', $content, $locale);
         });
     }
