@@ -7,6 +7,7 @@ use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\LiveEditModuleAdd;
+use Tests\Browser\Components\LiveEditSaveButton;
 use Tests\DuskTestCase;
 
 class LiveEditTest extends DuskTestCase
@@ -167,8 +168,10 @@ class LiveEditTest extends DuskTestCase
             $browser->switchFrame($iframeElement);
             $browser->assertSee('This is my title');
 
-            $browser->switchFrameDefault();
-            $browser->click('#save-button');
+
+            $browser->within(new LiveEditSaveButton(), function ($browser) {
+                $browser->clickSaveButton($browser);
+            });
 
 
             $browser->pause(5000);
@@ -269,8 +272,10 @@ class LiveEditTest extends DuskTestCase
 
             $browser->typeSlowly('.'.$randClass2, $description2);
 
-            $browser->switchFrameDefault();
-            $browser->click('#save-button');
+            $browser->within(new LiveEditSaveButton(), function ($browser) {
+                $browser->clickSaveButton($browser);
+            });
+
 
 
             $browser->pause(3000);

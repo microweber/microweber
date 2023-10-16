@@ -69,6 +69,7 @@ class AdminShopOffersTest extends DuskTestCase
             $browser->pause(3000);
 
             $browser->visit($siteUrl . 'admin/settings?group=shop/offers/admin_block');
+            $browser->waitForLocation($siteUrl . 'admin/settings?group=shop/offers/admin_block', 30);
             $browser->pause(1000);
             $browser->assertSee($title);
 
