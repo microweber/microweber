@@ -40,7 +40,7 @@ only_admin_access();
                 $isl = 1;
                 foreach ($supportedLanguages as $language):
                     ?>
-                    <tr class="js-browser-redirect-tr-<?php echo $language['locale']; ?> show-on-hover-root">
+                    <tr class="js-lang-tr-<?php echo $language['locale']; ?> show-on-hover-root">
 <!--                        <td class="text-center px-0" style="vertical-align: middle;"><span class="mdi mdi-cursor-move mdi-20px show-on-hover text-opacity-5"></span></td>-->
 
                         <td class="text-center px-0" style="vertical-align: middle; width: 25px;">

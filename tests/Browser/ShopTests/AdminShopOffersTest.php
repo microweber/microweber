@@ -3,6 +3,7 @@
 namespace Tests\Browser\ShopTests;
 
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Offer\Models\Offer;
 use MicroweberPackages\Product\Models\Product;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
@@ -14,6 +15,8 @@ class AdminShopOffersTest extends DuskTestCase
     public function testAddAddOffer()
     {
         $siteUrl = site_url();
+
+        Offer::truncate();
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
 
@@ -64,7 +67,7 @@ class AdminShopOffersTest extends DuskTestCase
 
             $browser->typeSlowly('offer_price', $offerRand);
             $browser->click('.mw-autocomplete-list > li:first-child');
-            $browser->pause(1300);
+            $browser->pause(3000);
             $browser->click('.js-save-offer');
             $browser->pause(3000);
 
