@@ -79,7 +79,7 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
             $browser->within(new LiveEditSaveButton(), function ($browser) {
                 $browser->clickSaveButton($browser);
             });
-
+            $browser->switchFrameDefault();
 
             // Switch to Bulgarian
             $browser->pause(3000);
@@ -107,7 +107,7 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
             $browser->within(new LiveEditSaveButton(), function ($browser) {
                 $browser->clickSaveButton($browser);
             });
-
+            $browser->switchFrameDefault();
 
 
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));

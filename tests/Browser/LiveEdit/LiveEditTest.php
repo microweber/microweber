@@ -173,6 +173,7 @@ class LiveEditTest extends DuskTestCase
                 $browser->clickSaveButton($browser);
             });
 
+            $browser->switchFrameDefault();
 
             $browser->pause(5000);
 
@@ -276,7 +277,7 @@ class LiveEditTest extends DuskTestCase
                 $browser->clickSaveButton($browser);
             });
 
-
+            $browser->switchFrameDefault();
 
             $browser->pause(3000);
             $browser->visit($link . '?editmode=y');

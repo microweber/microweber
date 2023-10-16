@@ -157,6 +157,17 @@ abstract class DuskTestCase extends BaseTestCase
             \DB::table('multilanguage_translations')->truncate();
             \DB::table('multilanguage_supported_locales')->truncate();
 
+
+            $option = array();
+            $option['option_value'] = 'n';
+            $option['option_key'] = 'is_active';
+            $option['option_group'] = 'multilanguage_settings';
+            save_option($option);
+
+            change_language_by_locale('en_US');
+            save_option('language', 'en_US', 'website');
+
+
             app()->multilanguage_repository->clearCache();
             app()->option_repository->clearCache();
             clearcache();
