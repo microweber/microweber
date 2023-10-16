@@ -174,7 +174,8 @@
 
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-dialog-close active"></div>
 
-    <div ref="unlockPremiumLayout">
+
+    <template ref="unlockPremiumLayout">
         <div class="row">
             <div class="col-md-8 mt-4">
 
@@ -220,7 +221,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </template>
 
 </template>
 

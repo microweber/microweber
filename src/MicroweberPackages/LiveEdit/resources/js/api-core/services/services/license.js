@@ -4,7 +4,7 @@ export const License = {
 
     licenses: null,
 
-    saveLicense: async function (licenseKey) {
+    save: async function (licenseKey) {
 
         await axios.post(route('api.module.list') + '/mw_save_license',{
             rel_type:"",
