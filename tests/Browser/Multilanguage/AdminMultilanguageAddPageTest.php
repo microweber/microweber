@@ -35,6 +35,10 @@ class AdminMultilanguageAddPageTest extends DuskTestCaseMultilanguage
 
             $browser->visit(route('admin.page.create'));
 
+            $browser->pause(3000);
+            $browser->click('.create-page-clean');
+            $browser->waitUntilMissing('.mw-create-page-templates-select-window',60);
+
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
@@ -64,11 +68,15 @@ class AdminMultilanguageAddPageTest extends DuskTestCaseMultilanguage
 
             $browser->pause(1000);
             $browser->click('#js-admin-save-content-main-btn');
-            $browser->pause(5000);
-            $browser->waitForText('Editing page');
+            $browser->pause(3000);
+
 
             $findPage = Page::where('title', $enTitle)->first();
+            $this->assertNotEmpty($findPage);
+        $browser->visit(route('admin.page.edit', $findPage->id));
             $browser->waitForLocation(route('admin.page.edit', $findPage->id));
+            $browser->pause(1000);
+            $browser->waitForText($enTitle);
 
 
             $this->assertEquals($findPage->content_type, 'page');

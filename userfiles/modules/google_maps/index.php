@@ -79,8 +79,15 @@ $address = strip_tags($address);
 
 $width = '100%';
 $height = '100%';
-$optionWidth =  get_option('data-width', $params['id']);
-$optionHeight =  get_option('data-height', $params['id']);
+$optionWidth = get_option('data-width', $params['id']);
+$optionHeight = get_option('data-height', $params['id']);
+if (empty($optionWidth) && isset($params['data-width'])) {
+    $optionWidth = $params['data-width'];
+}
+if (empty($optionHeight) && isset($params['data-height'])) {
+    $optionHeight = $params['data-height'];
+}
+
 if ($optionWidth > 0) {
     $width = $optionWidth;
 }

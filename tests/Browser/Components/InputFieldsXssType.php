@@ -8,7 +8,7 @@ use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
 use PHPUnit\Framework\Assert as PHPUnit;
 
-class InputFieldsXssTest extends BaseComponent
+class InputFieldsXssType extends BaseComponent
 {
     /**
      * Get the root selector for the component.
