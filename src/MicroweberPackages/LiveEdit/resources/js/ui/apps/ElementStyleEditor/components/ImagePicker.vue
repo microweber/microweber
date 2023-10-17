@@ -1,6 +1,6 @@
 <template>
-    <div class="s-field">
-        <label>{{ label }}</label>
+  <div class="my-4 pb-4">
+        <label class="live-edit-label">{{ label }}</label>
         <div class="s-field-content">
             <div class="mw-ui-btn-nav background-image-nav">
         <span

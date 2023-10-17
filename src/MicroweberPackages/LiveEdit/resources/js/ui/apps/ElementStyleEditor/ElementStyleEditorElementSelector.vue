@@ -14,7 +14,7 @@
 
 
       <div class="d-flex align-items-center justify-content-between gap-2">
-            <p class="mb-0">Selected element:</p>
+            <label class="live-edit-label mb-0">Selected element:</label>
             <button type="button"  :class="{'btn-dark': displayDomTree, 'btn-outline-dark': !displayDomTree }" class="btn btn-sm " @click="toggleDomTree">{{ displayNodeInfo }}</button>
       </div>
     </div>

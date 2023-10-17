@@ -9,7 +9,7 @@
         --tblr-body-font-family: 'Inter';
         --tblr-body-bg2: #f0f0f0;
         --mw-forms-min-height: 45px;
-
+        --tblr-body-color: #000000;
 
     body:not(.theme-dark) {
         --tblr-bg-surface-tertiary: #e1edf9;
@@ -31,6 +31,7 @@ body:not(.theme-dark, .is_admin) {
 
 body.theme-dark {
     --tblr-body-bg2: #0b0b0c;
+    --tblr-body-color: #ffffff;
 
     .form-check-input:not(:checked), .form-control, .form-file-text, .form-select, .form-selectgroup-check {
         background-color: var(--tblr-body-bg);
@@ -2870,3 +2871,15 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
         opacity: 1;
     }
 }
+
+.mw-field-color-indicator {
+    background-repeat: repeat;
+}
+
+.mw-field-flat {
+
+    input.colorField.mw-color-picker-field {
+        border-bottom: none;
+    }
+}
+
