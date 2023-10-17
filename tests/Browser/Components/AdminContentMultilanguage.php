@@ -100,9 +100,8 @@ class AdminContentMultilanguage extends BaseComponent
             }
 
         }
-
-        if($browser->driver->findElement(WebDriverBy::cssSelector('.js-lang-tr-'.$locale))->isDisplayed()) {
-            // already have language
+        if (count($browser->driver->findElements(WebDriverBy::cssSelector('.js-lang-tr-'.$locale))) > 0) {
+             // already have language
             return;
         }
 
