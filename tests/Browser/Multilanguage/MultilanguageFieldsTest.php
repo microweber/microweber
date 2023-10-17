@@ -24,7 +24,7 @@ class MultilanguageFieldsTest extends DuskTestCaseMultilanguage
             });
 
             $browser->pause(1000);
-            $browser->visit($siteUrl.'admin/module/view?type=multilanguage?dusk=1');
+            $browser->visit($siteUrl.'admin/module/view?type=multilanguage&dusk=1');
             $browser->pause(1000);
 
             // Test bulgarian switch
