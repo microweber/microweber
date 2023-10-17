@@ -1,8 +1,10 @@
 <template>
     <div v-if="isOpened">
-        <h3>Element Style Editor</h3>
-        <span v-on:click="closeStyleEditor" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
+        <div class="d-flex align-items-center justify-content-between mt-5 mb-3">
+            <h3>Element Style Editor</h3>
+            <span v-on:click="closeStyleEditor" class="mdi mdi-close x-close-modal-link" style="top: 36px;"></span>
 
+        </div>
 
 
             <iframe @load="load" ref="styleEditorIframe" :src="buildIframeUrlStyleEditor()" style="width:100%;height:100vh;"
