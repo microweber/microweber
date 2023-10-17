@@ -38,15 +38,15 @@ export class ElementActions extends MicroweberBaseClass {
     }
 
     imagePlaceholder(newNode, css) {
-        
+
         if(!newNode) {
             newNode = document.createElement('p');
         }
 
- 
 
 
-       
+
+
 
         newNode.innerHTML = `<span class="mw-img-placeholder-description">${mw.lang(`Click to set image`)}</span>`;
         newNode.dataset.type = mw.lang('Picture');
@@ -54,7 +54,7 @@ export class ElementActions extends MicroweberBaseClass {
         mw.element(newNode).css(css)
 
         newNode.className = 'element mw-img-placeholder';
- 
+
 
         const getFile = (e) => {
             let file;
@@ -64,32 +64,32 @@ export class ElementActions extends MicroweberBaseClass {
                         return true;
                     }
                 });
-              
+
             } else {
               file = [...e.dataTransfer.files][0];
             }
             return file;
         }
 
-        
+
 
 
         function handleDragover(e) {
-            
+
             let file = getFile(e);
 
             if(file) {
                 newNode.classList.add('mw-drag-over')
-              
 
-                e.preventDefault();                    
+
+                e.preventDefault();
             }
 
 
-              
+
         }
         }
- 
+
 
     deleteElement(el) {
 
@@ -100,7 +100,7 @@ export class ElementActions extends MicroweberBaseClass {
         if(deletedImagePlaceholder && el.nodeName === 'IMG') {
 
             var edit = DomService.firstParentWithAnyOfClasses(el, ['edit'])
-            
+
             mw.app.state.record({
                 target: edit,
                 value: edit.innerHTML
@@ -117,18 +117,18 @@ export class ElementActions extends MicroweberBaseClass {
                 display: display !== 'inline' ? display : 'inline-block',
                 width: off.width,
                 height: off.height,
-               
+
             }
 
             this.imagePlaceholder(newNode, css);
 
-         
-            
+
+
             mw.app.state.record({
                 target: edit,
                 value: edit.innerHTML
             });
-  
+
             return;
         }
 
@@ -280,6 +280,8 @@ export class ElementActions extends MicroweberBaseClass {
         mw.app.registerUndoState(el);
         el.style.width = '';
         el.style.height = '';
+        //remove class mw-resized
+        el.classList.remove('mw-resized');
         mw.app.registerChangedState(el);
         this.proto.elementHandle.set(el);
     }
