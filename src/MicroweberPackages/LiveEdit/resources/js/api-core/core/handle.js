@@ -378,7 +378,9 @@ export const Handle = function (options) {
                     Array.from(row.children).forEach(col => col.style.width = ((100/row.offsetWidth) * col.offsetWidth) + '%');
                 }
              }
-
+            if(target) {
+                target.classList.add('mw-resized');
+            }
             mw.app.registerChange(target);
         });
 

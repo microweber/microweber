@@ -132,9 +132,15 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = false;
 
-                    const isImage = target.nodeName === 'IMG' && !isPlaceholder(target)  ;
-                    if (isImage) {
-                        selfVisible = !target.parentNode.classList.contains('img-as-background');
+
+
+                    //has class mw-resized
+                    if(target && target.classList && target.classList.contains('mw-resized')) {
+                        const isImage = target.nodeName === 'IMG' && !isPlaceholder(target)  ;
+                        if (isImage) {
+                            selfVisible = !target.parentNode.classList.contains('img-as-background');
+                        }
+                       // selfVisible = true;
                     }
 
                     selfBtn.classList[selfVisible ? 'remove' : 'add']('mw-le-handle-menu-button-hidden');
