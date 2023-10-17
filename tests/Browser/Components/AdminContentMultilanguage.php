@@ -45,8 +45,6 @@ class AdminContentMultilanguage extends BaseComponent
     {
 
 
-
-
         $mustAddNewLang = true;
         $goToMultilanguagePage = true;
         $mustActivateMultilanguage = false;
@@ -54,6 +52,11 @@ class AdminContentMultilanguage extends BaseComponent
         if ($browser->driver->getCurrentURL() == route('admin.multilanguage.index')) {
             $goToMultilanguagePage = false;
         }
+
+
+
+
+
 
         if (is_lang_supported($locale)) {
           //  $mustAddNewLang = false;
@@ -97,6 +100,13 @@ class AdminContentMultilanguage extends BaseComponent
             }
 
         }
+
+        if($browser->driver->findElement(WebDriverBy::cssSelector('.js-lang-tr-'.$locale))->isDisplayed()) {
+            // already have language
+            return;
+        }
+
+
         $browser->pause(1000);
         if ($mustAddNewLang) {
             //$browser->waitForText('Add new language', 20);
