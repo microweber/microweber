@@ -50,6 +50,9 @@ mw.DomTree = function (options) {
         } else if (node.nodeName === 'IMG') {
             title = "Image";
             icon = '<span class="mdi mdi-file-image-outline mdi-18px"></span>';
+        }  else if (['SPAN', 'I'].includes(node.nodeName) && (mw.tools.hasAnyOfClasses(node, ['icon', 'mw-icon', 'mw-micon', 'mdi', 'material-icons']) || node.className.includes('mw-micon-') || node.className.includes('icon-'))) {
+            title = "Icon";
+            icon = '<span class="mdi mdi-emoticon-wink-outline mdi-18px"></span>';
         }
         var data = {};
         data.icon = icon;

@@ -827,6 +827,8 @@ MWEditor.controllers = {
        
 
             rootScope.disabled(opt.controller.element, !elementSupports || opt.isPlainText || !opt.api.isSelectionEditable() || !opt.api.targetSupportsFormatting(element));
+
+            
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
@@ -1018,15 +1020,29 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
+                const parentLi = mw.tools.firstParentOrCurrentWithTag(node, 'li');
+                const isInLi = node.nodeName !== 'LI' && !!parentLi;
+
+                if(isInLi) {
+                    api.setCursorAtStart(parentLi)
+                }
 
                 var paragraph = mw.tools.firstParentOrCurrentWithTag(node, 'p');
-                if(paragraph) {
+                if(paragraph && !isInLi) {
                     node = mw.tools.setTag(paragraph, 'div');
                 }
 
                 var isSafeMode = api.isSafeMode(node);
                 if(isSafeMode) {
-                    node.parentNode.parentNode.contentEditable = true;
+                    if(parentLi) {
+                        const parentList = mw.tools.firstParentOrCurrentWithTag(node, ['ol', 'ul']);
+                        if(parentList) {
+                            parentList.parentNode.contentEditable = true;
+                        }
+                    } else {
+                        node.parentNode.parentNode.contentEditable = true;
+                    }
+                    
                 }
                 api.setCursorAtStart(node)
                 api.execCommand('insertUnorderedList');
@@ -1039,7 +1055,7 @@ MWEditor.controllers = {
         };
         this.checkSelection = function (opt) {
             rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
-
+            rootScope.controllerActive(opt.controller.element.get(0),  mw.tools.firstParentOrCurrentWithTag(opt.controller.element.get(0), 'ul'));
 
         };
         this.element = this.render();
@@ -1058,14 +1074,29 @@ MWEditor.controllers = {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
 
+                const parentLi = mw.tools.firstParentOrCurrentWithTag(node, 'li');
+                const isInLi = node.nodeName !== 'LI' && !!parentLi;
+
+                if(isInLi) {
+                    api.setCursorAtStart(parentLi)
+                }
+
                 var paragraph = mw.tools.firstParentOrCurrentWithTag(node, 'p');
-                if(paragraph) {
+                if(paragraph && !isInLi) {
                     node = mw.tools.setTag(paragraph, 'div');
                 }
 
                 var isSafeMode = api.isSafeMode(node);
                 if(isSafeMode) {
-                    node.parentNode.parentNode.contentEditable = true;
+                    if(parentLi) {
+                        const parentList = mw.tools.firstParentOrCurrentWithTag(node, ['ol', 'ul']);
+                        if(parentList) {
+                            parentList.parentNode.contentEditable = true;
+                        }
+                    } else {
+                        node.parentNode.parentNode.contentEditable = true;
+                    }
+                    
                 }
                 api.setCursorAtStart(node)
                 api.execCommand('insertOrderedList');
@@ -1080,6 +1111,7 @@ MWEditor.controllers = {
         };
         this.checkSelection = function (opt) {
             rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+            rootScope.controllerActive(opt.controller.element.get(0),  mw.tools.firstParentOrCurrentWithTag(opt.controller.element.get(0), 'ol'));
         };
         this.element = this.render();
     },

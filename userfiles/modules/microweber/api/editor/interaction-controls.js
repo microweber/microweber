@@ -175,17 +175,35 @@ MWEditor.interactionControls = {
             rootScope.document.querySelectorAll('.mw-editor-td-focus').forEach(td => td.classList.remove('mw-editor-td-focus'));
             if (td) {
                 clearTimeout(lscope.__tableManagerTimeout);
+                console.log(td)
                 lscope.__tableManagerTimeout = setTimeout(() => {
                     td.classList.add('mw-editor-td-focus')
                     var space = 5;
                     var $target = $(td);
                     this.$target = $target;
                     var css = $target.offset();
-                    css.top -= (lscope.element.node.offsetHeight + space);
-                    css.left += $target.outerWidth();
-                    css.left -= (lscope.element.node.offsetWidth + space);
-                    this.element.$node.css(css).show();
-                }, 100)
+                    this.element.$node.show();
+
+                    
+                   
+                    // top right
+                    // css.left += $target.outerWidth();
+                    // css.top -= (lscope.element.node.offsetHeight);
+                     
+
+
+                    css.left -= (lscope.element.node.offsetWidth)
+                    
+                    css.left -= ( space);
+
+
+
+
+                    this.element.$node.css(css)
+                    
+                
+                    
+                })
 
             } else {
                 this.element.$node.hide();
@@ -217,7 +235,8 @@ MWEditor.interactionControls = {
                     { label: 'Column on the left', value: {action: 'insertColumn', type: 'left'} },
                     { label: 'Column on the right', value: {action: 'insertColumn', type: 'right'} },
                 ],
-                placeholder: 'Insert'
+                tooltip: mw.lang('Insert'),
+                placeholder: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M18,14H20V17H23V19H20V22H18V19H15V17H18V14M4,3H18A2,2 0 0,1 20,5V12.08C18.45,11.82 16.92,12.18 15.68,13H12V17H13.08C12.97,17.68 12.97,18.35 13.08,19H4A2,2 0 0,1 2,17V5A2,2 0 0,1 4,3M4,7V11H10V7H4M12,7V11H18V7H12M4,13V17H10V13H4Z" /></svg>'
             });
 
             insertDD.select.on('change', function (e, data, node) {
@@ -233,7 +252,9 @@ MWEditor.interactionControls = {
                     { label: 'Row', value: {action: 'deleteRow'} },
                     { label: 'Column', value: {action: 'deleteColumn'} },
                 ],
-                placeholder: 'Delete'
+                tooltip: mw.lang('Delete'),
+                placeholder: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M12.35 20H10V17H12.09C12.21 16.28 12.46 15.61 12.81 15H10V12H14V13.54C14.58 13 15.25 12.61 16 12.35V12H20V12.35C20.75 12.61 21.42 13 22 13.54V5C22 3.9 21.1 3 20 3H4C2.9 3 2 3.9 2 5V20C2 21.1 2.9 22 4 22H13.54C13 21.42 12.61 20.75 12.35 20M16 7H20V10H16V7M10 7H14V10H10V7M8 20H4V17H8V20M8 15H4V12H8V15M8 10H4V7H8V10M14.46 15.88L15.88 14.46L18 16.59L20.12 14.46L21.54 15.88L19.41 18L21.54 20.12L20.12 21.54L18 19.41L15.88 21.54L14.46 20.12L16.59 18L14.46 15.88" /></svg>'
+
             });
 
             deletetDD.select.on('change', function (e, data, node) {

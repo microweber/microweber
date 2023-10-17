@@ -173,9 +173,18 @@ export default {
                         element.style.color = ``;
                         element.style.fontSize = ``;
                         mw.top().app.registerChange(element);
+
                     });
+                     
 
                     const icon = await iconPicker.promise();
+                     
+                    setTimeout(function(){
+                        mw.app.liveEdit.play();
+                        const target = mw.top().app.liveEdit.handles.get('element').getTarget();
+                        mw.top().app.liveEdit.handles.get('element').set(null);
+                        mw.top().app.liveEdit.handles.get('element').set(target);
+                    }, 70)
 
 
                 } else if (element.classList.contains('mw-img-placeholder')) {
@@ -283,8 +292,10 @@ export default {
 
                         editTarget.contentEditable = true;
                         mw.app.liveEdit.pause();
-                        mw.app.richTextEditor.smallEditorInteract(editTarget);
-                        mw.app.richTextEditor.positionSmallEditor(editTarget);
+                        console.log(editTarget)
+                        console.log(element)
+                        mw.app.richTextEditor.smallEditorInteract(element);
+                        mw.app.richTextEditor.positionSmallEditor(element);
 
 
                         element.querySelectorAll('.element[contenteditable], .allow-drop[contenteditable]').forEach(node => {

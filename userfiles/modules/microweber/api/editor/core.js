@@ -291,11 +291,12 @@
                 displayValNode.append(displayValObj.frame);
 
             } else {
+                var placeholder = (options.placeholder || '');
                 displayValNode = MWEditor.core.button({
                     props: {
                         className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + ' mw-editor-select-display-value',
                         innerHTML: '<span class="mw-editor-select-display-value-content">' + (options.placeholder || '') + '</span>',
-                        tooltip: options.placeholder || null
+                        tooltip: options.tooltip || (!placeholder.includes('<') ? placeholder : '') || null
                     }
                 });
             }
