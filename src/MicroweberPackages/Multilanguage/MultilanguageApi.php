@@ -76,7 +76,9 @@ class MultilanguageApi
     }
 
     public function addLanguage($params) {
-
+        if (isset($params['new_locale']) && !isset($params['locale'])) {
+            $params['locale'] = $params['new_locale'];
+        }
         if (isset($params['locale']) && isset($params['language'])) {
 
             $locale = $params['locale'];

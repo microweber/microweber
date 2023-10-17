@@ -39,6 +39,7 @@ class LiveEditTypingTest extends DuskTestCase
                 ->withinFrame('#live-editor-frame', function ($browser) {
                     $browser->pause(1000);
                 });
+
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
 
             $browser->switchFrame($iframeElement);
@@ -65,7 +66,8 @@ class LiveEditTypingTest extends DuskTestCase
             });
             $browser->switchFrameDefault();
 
-            $browser->visit($link );
+            $browser->visit($link.'?editmode=n' );
+            $browser->pause(1000);
             $browser->waitForText('New text in safe mode element', 30);
         });
     }
@@ -127,9 +129,9 @@ class LiveEditTypingTest extends DuskTestCase
                 $browser->clickSaveButton($browser);
             });
             $browser->switchFrameDefault();
-
-            $browser->visit($link );
-            $browser->assertNotPresent('#test-element-not-safe-mode');
+            $browser->visit($link.'?editmode=n' );
+            $browser->pause(1000);
+             $browser->assertNotPresent('#test-element-not-safe-mode');
         });
     }
 }

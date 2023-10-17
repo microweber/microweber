@@ -63,6 +63,8 @@ class CheckoutCartXssTest extends DuskTestCase
 
     public function testCheckoutWithPaypal()
     {
+        $this->markTestSkipped('Paypal test is not available at the moment');
+
 
         $siteUrl = $this->siteUrl;
 

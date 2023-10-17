@@ -21,7 +21,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
                 return;
             }
 
-            $.post(mw.settings.api_url + "multilanguage/add_language", {locale: add_language_key, language: add_language_value}).done(function (data) {
+            $.post(mw.settings.api_url + "multilanguage/add_language", {new_locale: add_language_key, language: add_language_value}).done(function (data) {
 
                 $('.js-add-language').html('<?php _ejs('Add'); ?>');
 
