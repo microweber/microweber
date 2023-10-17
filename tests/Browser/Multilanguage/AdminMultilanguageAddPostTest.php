@@ -17,7 +17,9 @@ use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 use Tests\DuskTestCaseMultilanguage;
-
+/**
+ * @runTestsInSeparateProcesses
+ */
 class AdminMultilanguageAddPostTest extends DuskTestCaseMultilanguage
 {
     use TestHelpers;
