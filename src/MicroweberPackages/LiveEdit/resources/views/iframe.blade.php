@@ -14,11 +14,12 @@
     <script>
 
 
+
         mw.lib.require('jqueryui');
         mw.lib.require('nouislider');
         mw.require('components.css')
         mw.require('liveedit_widgets.js')
-
+        mw.require('admin_package_manager.js');
         mw.require('icon_selector.js');
         mw.iconLoader()
 
@@ -56,22 +57,46 @@
             if(e.target === scrollContainer) {
                 e.preventDefault();
                 const win = mw.top().app.canvas.getWindow();
-                win.scrollTo(0, (win.scrollY + e.deltaY) + (e.deltaY < 0 ? -10 : 10));                
+                win.scrollTo(0, (win.scrollY + e.deltaY) + (e.deltaY < 0 ? -10 : 10));
             }
 
         });
     });
 
+   <?php
+
+
+
+
+
+   /*
+
     @php
-        $templateColors = get_template_colors_settings();
+            $templateColors = [];
+            $getTemplateConfig = mw()->template->get_config();
+            if($getTemplateConfig){
+            $templateColors = get_template_colors_settings();
+            }
+            if(empty($templateColors)){
+            $templateColors =[['value' => '#000000']];
+            }
+
     @endphp
     @if(!empty($templateColors))
-    mw.tools.colorPickerColors = [
-        @foreach($templateColors as $color)
-        '{{ $color['value'] }}',
-        @endforeach
-    ];
+        mw.tools.colorPickerColors = mw.tools.colorPickerColors || [];
+        mw.tools.colorPickerColors = [
+            @foreach($templateColors as $color)
+            '{{ $color['value'] }}',
+            @endforeach
+        ];
     @endif
+
+    * */
+
+
+
+
+   ?>
 </script>
 
 <div id="live-edit-app">

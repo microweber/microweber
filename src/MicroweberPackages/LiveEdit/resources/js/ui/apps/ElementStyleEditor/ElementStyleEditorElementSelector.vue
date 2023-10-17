@@ -10,8 +10,12 @@
 
       </div>
     </div>
-      <div class="d-grid gap-2">
-    <button type="button" class="btn btn-outline-primary btn-sm w-100" @click="toggleDomTree">{{ displayNodeInfo }}</button>
+
+
+
+      <div class="d-flex align-items-center justify-content-between gap-2">
+            <p class="mb-0">Selected element:</p>
+            <button type="button"  :class="{'btn-dark': displayDomTree, 'btn-outline-dark': !displayDomTree }" class="btn btn-sm " @click="toggleDomTree">{{ displayNodeInfo }}</button>
       </div>
     </div>
   </div>
@@ -63,7 +67,7 @@ export default {
     populateSelectedNode: function (node) {
       this.nodeTagName = node.tagName;
       if (node.id) {
-        this.displayNodeInfo = '#' + node.id;
+          this.displayNodeInfo = node.tagName;
       } else {
         this.displayNodeInfo = node.tagName;
       }

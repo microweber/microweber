@@ -30,10 +30,21 @@
     min-height: -webkit-calc(100% - 30px);
 }
 .mw-domtree li.selectable-true.hover > span{
-    background-color: #d1d1d1;
+    background-color: #000;
+    color: #fff;
 }
 
-.mw-domtree li.selected > span{background-color: #0e80e5; color: #fff}
+.mw-domtree li.selectable-true.hover > span:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.mw-domtree li.selectable-true.hover > span:hover svg , .mw-domtree li.selectable-true.hover > span:hover .mw_module_settings_sidebar_icon{
+    filter: invert(1);
+}
+
+
+.mw-domtree li.selected > span{background-color: #000; padding-inline-start: 5px; color: #fff}
 
 .mw-domtree li.selectable-true{
     cursor:pointer;
@@ -65,7 +76,7 @@
     background-repeat: no-repeat;
     background-size: contain;
     position: relative;
-    margin: 0 5px 0 0;
+    margin: 0 5px 0 5px;
     display: inline-block;
     vertical-align: middle;
 }
@@ -77,6 +88,12 @@
     width: calc(100% - 20px);
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-inline-start: 5px;
+}
+
+.mw-domtree-item-label.hover, .mw-domtree-item-label:hover{
+    background-color: #000;
+    color: #fff;
 }
 
 .mw-domtree{

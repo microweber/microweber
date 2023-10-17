@@ -6,18 +6,12 @@ export const License = {
 
     save: async function (licenseKey) {
 
-        await axios.post(mw.settings.api_url + 'mw_save_license',{
+        return await axios.post(mw.settings.api_url + 'mw_save_license',{
             rel_type:"",
             activate_on_save: 1,
             local_key: licenseKey
-        }).then((response) => {
-           return response;
         });
 
-        return {
-            error: true,
-            message: 'License is not valid'
-        };
     },
 
 }

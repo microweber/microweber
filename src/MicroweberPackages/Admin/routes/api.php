@@ -7,7 +7,7 @@
     ->middleware(['api', 'admin', 'xss'])
     ->group(function () {
 
-        \Route::post('mw_delete_license', function ()  {
+        \Route::get('mw_delete_license', function ()  {
             $update_api = mw('update');
             $params = request()->all();
 

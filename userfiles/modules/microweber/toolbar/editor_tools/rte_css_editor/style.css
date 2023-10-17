@@ -421,7 +421,7 @@ html[dir="rtl"] .reset-field{
     background-repeat: no-repeat;
     background-size: contain;
     position: relative;
-    margin: 0 5px 0 0;
+    margin: 0 5px 0 5px;
     display: inline-block;
     vertical-align: middle;
 }

@@ -66,8 +66,12 @@
 
 <template>
 
-    <div>
-        <b class="mw-admin-action-links" v-on:click="toggleBorder">
+    <div class="d-flex">
+        <svg fill="currentColor" height="24" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+            <path d="M15,21h2v-2h-2 M19,21h2v-2h-2 M7,21h2v-2H7 M11,21h2v-2h-2 M19,17h2v-2h-2 M19,13h2v-2h-2 M3,3v18h2V5h16V3 M19,9h2V7h-2"></path>
+        </svg>
+
+        <b class="mw-admin-action-links ms-3" v-on:click="toggleBorder">
             Border
         </b>
     </div>

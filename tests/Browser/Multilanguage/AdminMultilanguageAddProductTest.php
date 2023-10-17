@@ -15,7 +15,9 @@ use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\DuskTestCase;
 use Tests\DuskTestCaseMultilanguage;
-
+/**
+ * @runTestsInSeparateProcesses
+ */
 class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
 {
 
