@@ -29,22 +29,16 @@
     min-height: calc(100% - 30px);
     min-height: -webkit-calc(100% - 30px);
 }
-.mw-domtree li.selectable-true.hover > span{
+.mw-domtree li.selectable-true.hover > span {
     background-color: #000;
     color: #fff;
 }
 
-.mw-domtree li.selectable-true.hover > span:hover {
+.mw-domtree li.selected > span {
     background-color: #000;
-    color: #fff;
+    padding-inline-start: 5px;
+    color: #fff
 }
-
-.mw-domtree li.selectable-true.hover > span:hover svg , .mw-domtree li.selectable-true.hover > span:hover .mw_module_settings_sidebar_icon{
-    filter: invert(1);
-}
-
-
-.mw-domtree li.selected > span{background-color: #000; padding-inline-start: 5px; color: #fff}
 
 .mw-domtree li.selectable-true{
     cursor:pointer;
@@ -88,12 +82,6 @@
     width: calc(100% - 20px);
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-inline-start: 5px;
-}
-
-.mw-domtree-item-label.hover, .mw-domtree-item-label:hover{
-    background-color: #000;
-    color: #fff;
 }
 
 .mw-domtree{
