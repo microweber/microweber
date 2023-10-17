@@ -34,6 +34,11 @@ $use_thumbnail = (!empty(trim($thumb))? true : false);
 $show_video_settings_btn = false;
 
 $autoplay = get_option('autoplay', $params['id']);
+if(!$autoplay){
+    if (isset($params['autoplay'])) {
+        $autoplay = $params['autoplay'];
+    }
+}
 
 $w = get_option('width', $params['id']);
 $h = get_option('height', $params['id']);
