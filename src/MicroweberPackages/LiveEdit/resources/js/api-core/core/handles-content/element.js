@@ -118,7 +118,7 @@ export class ElementHandleContent {
                 }
             },
         ];
-        const elementImageMenu = [
+        const elementResetImageSizeMenu = [
             {
                 title: 'Reset Image Size',
                 text: '',
@@ -431,7 +431,7 @@ export class ElementHandleContent {
                     {
                         name: 'Image settings',
                         nodes:
-                        elementImageMenu
+                        elementResetImageSizeMenu
 
                     },
                 ]
@@ -489,7 +489,7 @@ export class ElementHandleContent {
                 },
                 {
                     name: 'Image settings',
-                    nodes: elementImageMenu
+                    nodes: elementResetImageSizeMenu
 
                 },
 
