@@ -264,14 +264,14 @@ export default {
     },
 
     methods: {
-        saveLicense() {
-            let saveLicense = mw.app.license.save(this.licenseKey);
+        async saveLicense() {
+            let saveLicense = await mw.app.license.save(this.licenseKey);
             if (saveLicense) {
-                if (saveLicense.is_invalid) {
-                    mw.notification.warning('Invalid license key');
-                } else {
+                if (saveLicense.success) {
                     mw.notification.success('License key saved');
-                    this.closeLicenseModal();
+                    mw.admin.admin_package_manager.install_composer_package_by_package_name('microweber-templates/big-free', 'latest');
+                } else {
+                    mw.notification.warning('Invalid license key');
                 }
             }
         },

@@ -14,11 +14,12 @@
     <script>
 
 
+
         mw.lib.require('jqueryui');
         mw.lib.require('nouislider');
         mw.require('components.css')
         mw.require('liveedit_widgets.js')
-
+        mw.require('admin_package_manager.js');
         mw.require('icon_selector.js');
         mw.iconLoader()
 
@@ -56,7 +57,7 @@
             if(e.target === scrollContainer) {
                 e.preventDefault();
                 const win = mw.top().app.canvas.getWindow();
-                win.scrollTo(0, (win.scrollY + e.deltaY) + (e.deltaY < 0 ? -10 : 10));                
+                win.scrollTo(0, (win.scrollY + e.deltaY) + (e.deltaY < 0 ? -10 : 10));
             }
 
         });
