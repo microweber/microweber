@@ -67,21 +67,21 @@ class AdminContentMultilanguage extends BaseComponent
         }
 
 
-       /* if (!$browser->element('.module-multilanguage')) {
+      if (!$browser->element('#is_active_quick[checked]')) {
             $mustActivateMultilanguage = true;
-
-            $output = $browser->script("
-            var moduleElement = $('input[id=is_active_quick][checked]');
-            if (moduleElement.length > 0) {
-              return true;
-            }
-            return false;
-            ");
-
-           if ($output[0]) {
-               $mustActivateMultilanguage = false;
-           }
-        }*/
+//
+//            $output = $browser->script("
+//            var moduleElement = $('input[id=is_active_quick][checked]');
+//            if (moduleElement.length > 0) {
+//              return true;
+//            }
+//            return false;
+//            ");
+//
+//           if ($output[0]) {
+//               $mustActivateMultilanguage = false;
+//           }
+        }
 
 
         if ($goToMultilanguagePage) {
@@ -90,7 +90,7 @@ class AdminContentMultilanguage extends BaseComponent
 
         if ($mustActivateMultilanguage) {
 
-            $browser->waitForText('Multilanguage is active?', 20);
+       //     $browser->waitForText('Multilanguage is active?', 20);
             // $browser->script('$(".module-switch-active-form .custom-control-label").click();');
           //  $browser->click('.module-switch-active-form .custom-control-label');
             if (!$browser->attribute('#is_active_quick', 'checked')) {

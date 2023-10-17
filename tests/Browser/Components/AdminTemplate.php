@@ -52,8 +52,14 @@ class AdminTemplate extends BaseComponent
         $browser->pause(2000);
         $browser->click('.mw-action-change-template');
 
-        $browser->waitForText('Template settings are saved');
-        $browser->assertSee('Template settings are saved');
+        $browser->pause(2000);
+        $browser->assertVisible('#js-template-import-type-delete');
+        $browser->click('#js-template-import-type-full');
+        $browser->pause(1000);
+        $browser->click('.js-button-change-template');
+
+        $browser->waitForText('Template has been changed.',30);
+     //   $browser->assertSee('Template settings are saved');
 
     }
 }

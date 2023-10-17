@@ -390,13 +390,13 @@ export class LiveEdit {
 
  
     
-console.log(1)
+ 
 
         if (this.handles.targetIsOrInsideHandle(target ) || this.handles.targetIsSelected(target, this.interactionHandle) ) {
 
             return
         }
-        console.log(2)
+         
 
         if( target.isContentEditable ) {
             if(target.nodeName === 'IMG') {
@@ -408,7 +408,7 @@ console.log(1)
         }
 
 
-        console.log(3)
+      
 
 
         this.activeNode = target;

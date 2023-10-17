@@ -258,14 +258,16 @@ export const Draggable = function (options, rootSettings) {
                         var id = mw.id('dropped-video');
 
                         
-                        // ElementManager(scope.target)[scope.action](`<div id="${id}" class="module module-video" data-type="video" url="${res.src}">`);
-                        ElementManager(scope.target)[scope.action](`<video id="${id}" class="module module-video" autoplay controls playsinline style="width:100%" data-type="video" src="${res.src}" url="${res.src}">`);
+                        ElementManager(scope.target)[scope.action](`<div id="${id}" class="module module-video" data-type="video" autoplay="true" url="${res.src}" data-url="${res.src}">`);
+                        // ElementManager(scope.target)[scope.action](`<video id="${id}" class="module module-video" autoplay="true" controls playsinline style="width:100%" data-type="video" src="${res.src}" url="${res.src}" data-url="${res.src}">`);
                         setTimeout(() => {
-                            // mw.reload_module_everywhere('#' + id);
+                             mw.reload_module_everywhere('#' + id);
                         }, 100)
+                        mw.app.registerChange(edit);
 
                     } else if(isImage) {
                         ElementManager(scope.target)[scope.action](`<img src="${res.src}" alt="${res.name || ''}">`);
+                        mw.app.registerChange(edit);
                     }
                     
                     var edit = DomService.firstParentWithAnyOfClasses(scope.target, ['edit'])

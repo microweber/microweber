@@ -508,12 +508,32 @@ $editorSpacing: 5px;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
+
+    .mw-editor-controller-component[data-tooltip]:after{
+        top: -20px !important;
+    }
+
+    .mw-bar-control-item{
+        display: block;
+        position: relative;
+    }
+
+    .mw-bar-row .mw-bar-control-item + .mw-bar-control-item{
+        margin-inline: 0;
+    }
+
     .mw-editor-group-button-caret {
         svg {
             height: 17px;
             width: auto;
         }
     }
+    .mw-editor-select-display-value-content{
+        svg{
+            width: 24px;
+        }
+    }
+
     .mw-bar-row{
         border-bottom-width: 0px; 
         background-color: transparent; 
@@ -681,6 +701,7 @@ $editorSpacing: 5px;
 
 .mw-editor-controller-component{
     display: inline-block;
+    position: relative;
 }
 
 .a-color-picker-circle, .a-color-picker-palette-color{
