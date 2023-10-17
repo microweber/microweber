@@ -33,6 +33,7 @@ export default {
                 'background',
                 'animations',
                 'classes',
+                'roundedCorners',
                 'border'
             ];
 

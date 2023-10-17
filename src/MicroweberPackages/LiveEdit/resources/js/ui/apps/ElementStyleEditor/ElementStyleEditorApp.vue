@@ -27,6 +27,10 @@
       <ElementStyleEditorBorder></ElementStyleEditorBorder>
     </div>
 
+      <div v-show="showRoundedCorners">
+      <ElementStyleEditorRoundedCorners></ElementStyleEditorRoundedCorners>
+    </div>
+
     <div v-show="showAnimations">
       <ElementStyleEditorAnimations></ElementStyleEditorAnimations>
     </div>
@@ -52,9 +56,11 @@ import ElementStyleEditorContainer from './ElementStyleEditorContainer.vue';
 import ElementStyleEditorAnimations from './ElementStyleEditorAnimations.vue';
 import ElementStyleEditorGrid from './ElementStyleEditorGrid.vue';
 import ElementStyleEditorClassApplier from './ElementStyleEditorClassApplier.vue';
+import ElementStyleEditorRoundedCorners from "./ElementStyleEditorRoundedCorners.vue";
 
 export default {
   components: {
+      ElementStyleEditorRoundedCorners,
     ElementStyleEditorElementSelector,
     ElementStyleEditorTypography,
     ElementStyleEditorSpacing,
@@ -69,14 +75,15 @@ export default {
   data() {
     return {
       showElementSelector: true,
-      showTypography: true,
-      showSpacing: true,
-      showBackground: true,
-      showBorder: true,
-      showContainer: true,
-      showGrid: true,
-      showAnimations: true,
-      showClassApplier: true,
+        showTypography: true,
+        showSpacing: true,
+        showBackground: true,
+        showBorder: true,
+        showContainer: true,
+        showGrid: true,
+        showAnimations: true,
+        showClassApplier: true,
+        showRoundedCorners: true,
     }
   },
 
@@ -120,6 +127,10 @@ export default {
 
         if (settings.fieldSettings.components.includes('animations')) {
           this.showAnimations = true;
+        }
+
+        if (settings.fieldSettings.components.includes('roundedCorners')) {
+          this.showRoundedCorners = true;
         }
 
         if (settings.fieldSettings.components.includes('classes')) {
