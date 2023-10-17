@@ -10,8 +10,12 @@
 
       </div>
     </div>
-      <div class="d-grid gap-2">
-    <button type="button" class="btn btn-outline-dark btn-sm w-100" @click="toggleDomTree">{{ displayNodeInfo }}</button>
+
+
+
+      <div class="d-flex align-items-center justify-content-between gap-2">
+            <p class="mb-0">Selected element:</p>
+            <button type="button"  :class="{'btn-dark': displayDomTree, 'btn-outline-dark': !displayDomTree }" class="btn btn-sm " style="text-transform: lowercase;" @click="toggleDomTree">{{ displayNodeInfo }}</button>
       </div>
     </div>
   </div>
