@@ -38,9 +38,9 @@ export default {
 
 <template>
 
-  <div class="s-field">
+<div class="my-4 pb-4">
 
-    <label v-if="label" v-html="label"></label>
+    <label class="live-edit-label" v-if="label" v-html="label"></label>
     <div class="s-field-content">
       <div class="mw-multiple-fields">
         <div class="mw-field mw-field-flat" data-size="medium">
