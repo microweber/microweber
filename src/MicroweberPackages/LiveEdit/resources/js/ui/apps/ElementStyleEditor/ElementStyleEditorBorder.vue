@@ -71,7 +71,7 @@
             <path d="M15,21h2v-2h-2 M19,21h2v-2h-2 M7,21h2v-2H7 M11,21h2v-2h-2 M19,17h2v-2h-2 M19,13h2v-2h-2 M3,3v18h2V5h16V3 M19,9h2V7h-2"></path>
         </svg>
 
-        <b class="mw-admin-action-links ms-3" v-on:click="toggleBorder">
+        <b class="mw-admin-action-links ms-3" :class="{'active': showBorder }" v-on:click="toggleBorder">
             Border
         </b>
     </div>

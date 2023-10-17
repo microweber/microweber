@@ -6,7 +6,7 @@
             <path d="M19,19h2v2h-2V19 M19,17h2v-2h-2V17 M3,13h2v-2H3V13 M3,17h2v-2H3V17 M3,9h2V7H3V9 M3,5h2V3H3V5 M7,5h2V3H7V5 M15,21h2v-2  h-2V21 M11,21h2v-2h-2V21 M15,21h2v-2h-2V21 M7,21h2v-2H7V21 M3,21h2v-2H3V21 M21,8c0-2.8-2.2-5-5-5h-5v2h5c1.7,0,3,1.3,3,3v5h2V8z"></path>
         </svg>
 
-        <b class="mw-admin-action-links ms-3" v-on:click="toggleRoundedCorners">
+        <b class="mw-admin-action-links ms-3" :class="{'active': showRoundedCorners }" v-on:click="toggleRoundedCorners">
             Rounded corners
         </b>
     </div>
