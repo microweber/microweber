@@ -101,8 +101,7 @@ export default {
             CSSGUIService.show();
         },
         closeSidebar() {
-            // swith tab to template settings
-            this.showTemplateSettings = true;
+            this.showTemplateSettings = false;
             this.showSidebar = false;
             this.showElementStyleEditor = false;
             CSSGUIService.hide();
@@ -138,7 +137,9 @@ export default {
 
 
         mw.app.canvas.on('liveEditCanvasLoaded', function () {
-            rightSidebarInstance.showTemplateSettings = true;
+            if(rightSidebarInstance.buttonIsActive) {
+                rightSidebarInstance.showTemplateSettings = true;
+            }
         });
 
         mw.app.canvas.on('liveEditCanvasBeforeUnload', function () {

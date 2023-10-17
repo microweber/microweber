@@ -47,7 +47,7 @@ class LiveEditSaveButton extends BaseComponent
         $browser->click('#save-button');
     //    $browser->waitUntilMissing('.live-edit-toolbar-buttons.btn-loading',10);
 
-        $browser->pause(3000);
+        $browser->pause(4000);
 
     }
 

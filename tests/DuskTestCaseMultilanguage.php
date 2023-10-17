@@ -14,7 +14,8 @@ abstract class DuskTestCaseMultilanguage extends DuskTestCase
 
      //   \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
-
+        change_language_by_locale('en_US');
+        save_option('language', 'en_US', 'website');
         parent::assertPostConditions();
     }
 
