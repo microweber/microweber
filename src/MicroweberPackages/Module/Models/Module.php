@@ -47,6 +47,8 @@ class Module extends Model
     public function getIconInline()
     {
         $icon = str_replace('{SITE_URL}', '', $this->icon);
+        $icon = url2dir($icon);
+        
         if (file_exists($icon)) {
             if (get_file_extension($icon) == 'svg') {
                 $content = file_get_contents($icon);
