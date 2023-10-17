@@ -269,7 +269,7 @@ export default {
             if (saveLicense) {
                 if (saveLicense.data.success) {
                     mw.notification.success('License key saved');
-                    mw.admin.admin_package_manager.install_composer_package_by_package_name('microweber-templates/big-free', 'latest');
+                    mw.admin.admin_package_manager.install_composer_package_by_package_name('microweber-templates/big', 'latest');
                 } else {
                     mw.notification.warning('Invalid license key');
                 }
