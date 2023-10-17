@@ -20,7 +20,7 @@ use Tests\DuskTestCaseMultilanguage;
 class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
 {
 
-    public function testAddCategory()
+    public function testMultilanguageAddCategory()
     {
         $this->browse(function (Browser $browser) {
 
