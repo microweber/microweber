@@ -32,6 +32,9 @@ abstract class DuskTestCase extends BaseTestCase
 
         $_ENV['APP_ENV'] = 'testing';
         putenv('APP_ENV=testing');
+        if (!defined('MW_SITE_URL')) {
+            define('MW_SITE_URL', $this->siteUrl);
+        }
         parent::setUp();
     }
 
