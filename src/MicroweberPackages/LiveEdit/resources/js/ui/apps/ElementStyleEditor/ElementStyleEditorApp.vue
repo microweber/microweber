@@ -6,6 +6,9 @@
       <ElementStyleEditorElementSelector></ElementStyleEditorElementSelector>
     </div>
 
+      <div v-show="showBackground">
+          <ElementStyleEditorBackground></ElementStyleEditorBackground>
+      </div>
     <div v-show="showTypography">
       <ElementStyleEditorTypography></ElementStyleEditorTypography>
     </div>
@@ -20,9 +23,7 @@
     <div v-show="showGrid">
       <ElementStyleEditorGrid></ElementStyleEditorGrid>
     </div>
-    <div v-show="showBackground">
-      <ElementStyleEditorBackground></ElementStyleEditorBackground>
-    </div>
+
     <div v-show="showBorder">
       <ElementStyleEditorBorder></ElementStyleEditorBorder>
     </div>
@@ -60,11 +61,11 @@ import ElementStyleEditorRoundedCorners from "./ElementStyleEditorRoundedCorners
 
 export default {
   components: {
+      ElementStyleEditorBackground,
       ElementStyleEditorRoundedCorners,
     ElementStyleEditorElementSelector,
     ElementStyleEditorTypography,
     ElementStyleEditorSpacing,
-    ElementStyleEditorBackground,
     ElementStyleEditorBorder,
     ElementStyleEditorContainer,
     ElementStyleEditorGrid,
@@ -75,9 +76,9 @@ export default {
   data() {
     return {
       showElementSelector: true,
+        showBackground: true,
         showTypography: true,
         showSpacing: true,
-        showBackground: true,
         showBorder: true,
         showContainer: true,
         showGrid: true,
@@ -94,15 +95,18 @@ export default {
 
       if (settings.fieldSettings.components) {
 
+        this.showBackground = false;
         this.showTypography = false;
         this.showSpacing = false;
-        this.showBackground = false;
         this.showBorder = false;
         this.showElementSelector = false;
         this.showContainer = false;
         this.showAnimations = false;
         this.showClassApplier = false;
 
+          if (settings.fieldSettings.components.includes('background')) {
+              this.showBackground = true;
+          }
         if (settings.fieldSettings.components.includes('elementSelector')) {
           this.showElementSelector = true;
         }
@@ -112,9 +116,7 @@ export default {
         if (settings.fieldSettings.components.includes('spacing')) {
           this.showSpacing = true;
         }
-        if (settings.fieldSettings.components.includes('background')) {
-          this.showBackground = true;
-        }
+
         if (settings.fieldSettings.components.includes('border')) {
           this.showBorder = true;
         }
