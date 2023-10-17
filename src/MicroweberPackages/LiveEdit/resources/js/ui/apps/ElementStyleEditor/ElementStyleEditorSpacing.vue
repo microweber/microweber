@@ -85,8 +85,12 @@
 
 <template>
 
-    <div>
-        <b class="mw-admin-action-links" v-on:click="toggleSpacing">
+    <div class="d-flex">
+        <svg fill="currentColor" height="24" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+            <path d="M10.6,12l4-4H11V6h7v7h-2V9.4l-4,4V16h8V4H8v8H10.6 M22,2v16H12v4H2V12h4V2H22 M10,14H4v6h6V14z"></path>
+        </svg>
+
+        <b class="mw-admin-action-links ms-3" v-on:click="toggleSpacing">
             Spacing
         </b>
     </div>

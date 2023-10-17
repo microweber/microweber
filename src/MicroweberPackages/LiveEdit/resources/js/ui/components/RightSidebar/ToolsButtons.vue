@@ -3,6 +3,17 @@
         <label class="font-weight-bold fs-2 mt-2 mb-2">Tools</label>
         <ul class="d-grid gap-2 list-unstyled">
             <li class="py-2">
+                <a class="live-edit-tools" v-on:click="show('style-editor')">
+                    <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="25"
+                         viewBox="0 -960 960 960" width="25">
+                        <path
+                            d="M414-360q-15 0-24.5-9.5T380-394v-46h48v32h104v-53H414q-14 0-24-10t-10-24v-71q0-15 9.5-24.5T414-600h132q15 0 24.5 9.5T580-566v46h-48v-32H428v53h118q14 0 24 10t10 24v71q0 15-9.5 24.5T546-360H414Zm260 0q-15 0-24.5-9.5T640-394v-46h48v32h104v-53H674q-14 0-24-10t-10-24v-71q0-15 9.5-24.5T674-600h132q15 0 24.5 9.5T840-566v46h-48v-32H688v53h118q14 0 24 10t10 24v71q0 15-9.5 24.5T806-360H674Zm-520 0q-15 0-24.5-9.5T120-394v-172q0-15 9.5-24.5T154-600h132q15 0 24.5 9.5T320-566v46h-48v-32H168v144h104v-32h48v46q0 15-9.5 24.5T286-360H154Z"/>
+                    </svg>
+                    Element Style Editor
+                </a>
+            </li>
+
+            <li class="pb-2">
                 <a class="live-edit-tools" v-on:click="show('html-editor')">
 
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
@@ -11,17 +22,6 @@
                             d="M320-242 80-482l242-242 43 43-199 199 197 197-43 43Zm318 2-43-43 199-199-197-197 43-43 240 240-242 242Z"/>
                     </svg>
                     Open Code Editor
-                </a>
-            </li>
-
-            <li class="pb-2">
-                <a class="live-edit-tools" v-on:click="show('style-editor')">
-                    <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="25"
-                         viewBox="0 -960 960 960" width="25">
-                        <path
-                            d="M414-360q-15 0-24.5-9.5T380-394v-46h48v32h104v-53H414q-14 0-24-10t-10-24v-71q0-15 9.5-24.5T414-600h132q15 0 24.5 9.5T580-566v46h-48v-32H428v53h118q14 0 24 10t10 24v71q0 15-9.5 24.5T546-360H414Zm260 0q-15 0-24.5-9.5T640-394v-46h48v32h104v-53H674q-14 0-24-10t-10-24v-71q0-15 9.5-24.5T674-600h132q15 0 24.5 9.5T840-566v46h-48v-32H688v53h118q14 0 24 10t10 24v71q0 15-9.5 24.5T806-360H674Zm-520 0q-15 0-24.5-9.5T120-394v-172q0-15 9.5-24.5T154-600h132q15 0 24.5 9.5T320-566v46h-48v-32H168v144h104v-32h48v46q0 15-9.5 24.5T286-360H154Z"/>
-                    </svg>
-                    Element Style Editor
                 </a>
             </li>
 
