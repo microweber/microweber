@@ -69,8 +69,10 @@
                    <div class="row row-cards px-0 mt-4">
 
                        @if($marketplacePagination->count() > 0)
+
+
                            @foreach($marketplacePagination as $marketItem)
-                               <div class="col-sm-6 col-lg-4">
+                               <div class="col-sm-6 col-lg-4" id="mw-market-item-<?php print crc32(json_encode($marketItem)) ?>">
                                    <div class="card my-1 mx-1 card-sm card-link card-stacked">
 
                                        @if(isset($marketItem['extra']['_meta']['screenshot']))
@@ -128,6 +130,8 @@
                            <div class="d-flex justify-content-center mt-4">
                                {!! $marketplacePagination->links('livewire-tables::specific.bootstrap-4.pagination') !!}
                            </div>
+
+
                        @else
                            <div class="col-12 text-center mt-7">
                                   <h2>
