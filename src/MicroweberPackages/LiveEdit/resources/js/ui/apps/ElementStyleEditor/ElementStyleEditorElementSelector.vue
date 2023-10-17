@@ -63,7 +63,7 @@ export default {
     populateSelectedNode: function (node) {
       this.nodeTagName = node.tagName;
       if (node.id) {
-        this.displayNodeInfo = '#' + node.id;
+          this.displayNodeInfo = node.tagName;
       } else {
         this.displayNodeInfo = node.tagName;
       }
