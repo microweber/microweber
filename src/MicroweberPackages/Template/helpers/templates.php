@@ -4,6 +4,7 @@ function template_option_group()
 {
     return 'mw-template-' . mw()->template->folder_name();
 }
+
 //
 //api_expose('template_stylesheet_reset_and_get_link' , function (){
 //
@@ -20,7 +21,7 @@ function template_stylesheet_url()
     $template_settings = mw()->template->get_config();
 
     $stylesheet_settings = false;
-    if (isset($template_settings['stylesheet_compiler']) AND isset($template_settings['stylesheet_compiler']['settings'])) {
+    if (isset($template_settings['stylesheet_compiler']) and isset($template_settings['stylesheet_compiler']['settings'])) {
         $stylesheet_settings = $template_settings['stylesheet_compiler']['settings'];
     }
 
@@ -28,11 +29,11 @@ function template_stylesheet_url()
 //        return;
 //    }
 
-    if(!isset($template_settings['stylesheet_compiler']['source_file'])){
+    if (!isset($template_settings['stylesheet_compiler']['source_file'])) {
         return;
     }
 
-    if(!isset($template_settings['stylesheet_compiler']['css_file'])){
+    if (!isset($template_settings['stylesheet_compiler']['css_file'])) {
         return;
     }
 
@@ -52,7 +53,7 @@ function template_default_css()
 {
     $template_settings = mw()->template->get_config();
 
-    if (isset($template_settings['stylesheet_compiler']) AND isset($template_settings['stylesheet_compiler']['css_file'])) {
+    if (isset($template_settings['stylesheet_compiler']) and isset($template_settings['stylesheet_compiler']['css_file'])) {
         return '<link href="' . template_url() . $template_settings['stylesheet_compiler']['css_file'] . '" id="theme-style" rel="stylesheet" type="text/css" media="all"/>';
     } else {
         return;
@@ -132,7 +133,7 @@ function template_input_field_class()
         return 'mw-ui-field';
     }
 
-    if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4'|| $css_framework == 'bootstrap5') {
+    if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4' || $css_framework == 'bootstrap5') {
         return 'form-control';
     }
 }
@@ -246,6 +247,13 @@ function get_template_option_group()
 function get_template_colors_settings()
 {
     $getTemplateConfig = mw()->template->get_config();
+
+    if (!isset($getTemplateConfig)) {
+        throw new \MicroweberPackages\Template\Exceptions\MissingTemplateException('Template is not selected. Please do to admin panel and select a template.');
+
+    } else if (!isset($getTemplateConfig['dir_name'])) {
+        throw new \MicroweberPackages\Template\Exceptions\MissingTemplateException('Template dir_name is not set');
+    }
 
     $optionGroupLess = 'mw-template-' . $getTemplateConfig['dir_name'];
 

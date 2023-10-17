@@ -63,16 +63,40 @@
         });
     });
 
+   <?php
+
+
+
+
+
+   /*
+
     @php
-        $templateColors = get_template_colors_settings();
+            $templateColors = [];
+            $getTemplateConfig = mw()->template->get_config();
+            if($getTemplateConfig){
+            $templateColors = get_template_colors_settings();
+            }
+            if(empty($templateColors)){
+            $templateColors =[['value' => '#000000']];
+            }
+
     @endphp
     @if(!empty($templateColors))
-    mw.tools.colorPickerColors = [
-        @foreach($templateColors as $color)
-        '{{ $color['value'] }}',
-        @endforeach
-    ];
+        mw.tools.colorPickerColors = mw.tools.colorPickerColors || [];
+        mw.tools.colorPickerColors = [
+            @foreach($templateColors as $color)
+            '{{ $color['value'] }}',
+            @endforeach
+        ];
     @endif
+
+    * */
+
+
+
+
+   ?>
 </script>
 
 <div id="live-edit-app">
