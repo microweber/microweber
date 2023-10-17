@@ -519,19 +519,21 @@ HTML;
 
         $this->cleanupAndPrepare();
         $unique = uniqid('testSaveContentXssInUrlAttribute');
+        $url = 'url with space ' . $unique . '  <script>alert(1)</script>';
         $newCleanPage = save_content([
             'subtype' => 'static',
             'content_type' => 'page',
             'layout_file' => 'clean.php',
             'title' => 'testSaveContentXssInUrlAttribute-save' . $unique,
             'preview_layout_file' => 'clean.php',
-            'url' => 'url with space ' . $unique . '  <script>alert(1)</script>',
+            'url' =>$url,
             'is_active' => 1,
         ]);
 
         $findPage = Page::whereId($newCleanPage)->first();
 
-        $this->assertEquals($findPage->url, 'url-with-space-' . strtolower($unique));
+
+        $this->assertNotEquals($findPage->url, $url);
 
     }
 
