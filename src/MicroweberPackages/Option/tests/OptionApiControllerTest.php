@@ -53,6 +53,24 @@ class OptionApiControllerTest extends TestCase
         $savedOption = get_option('website_footer','website');
         $this->assertEquals($savedOption, '<h1>test</h1><script>alert(2)</script>');
 
+        //remove the tag
+
+        $response = $this->call(
+            'POST',
+            route('api.option.save'),
+            [
+                'option_key' => 'website_footer',
+                'option_group' => 'website',
+                'option_value' => '',
+            ],
+            [],//params
+            $_COOKIE,//cookie
+            [],//files
+            $_SERVER //server
+        );
+        $savedOption = get_option('website_footer','website');
+        $this->assertEquals($savedOption, null);
+
     }
 
     public function testSaveOptionWithModuleHtml()

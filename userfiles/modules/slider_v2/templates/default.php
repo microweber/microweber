@@ -14,6 +14,8 @@ description: skin 1
 <div id="js-slider-<?php echo $params['id']; ?>" class="slider_v2-default swiper">
     <div class="swiper-wrapper">
 
+        <?php if($slides): ?>
+
         <?php foreach($slides as $i => $slide): ?>
 
             <?php print getCssForSlide($slide); ?>
@@ -48,6 +50,8 @@ description: skin 1
 
             </div>
         <?php endforeach; ?>
+
+        <?php endif; ?>
     </div>
 
     <div id="js-slide-pagination-<?php echo $params['id']; ?>" class="swiper-pagination"></div>
