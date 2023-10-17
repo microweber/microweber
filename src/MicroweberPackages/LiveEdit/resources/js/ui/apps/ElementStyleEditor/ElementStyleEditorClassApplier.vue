@@ -1,8 +1,12 @@
 <template>
   <div>
 
-      <div>
-          <b class="mw-admin-action-links" v-on:click="toggleClasses">
+      <div class="d-flex">
+          <svg fill="currentColor" height="24" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                <path d="M12.9,3l2,0.4L11.1,21l-2-0.4L12.9,3 M19.6,12L16,8.4V5.6l6.4,6.4L16,18.4v-2.8L19.6,12 M1.6,12L8,5.6v2.8L4.4,12L8,15.6  v2.8L1.6,12z"></path>
+          </svg>
+
+          <b class="mw-admin-action-links ms-3" v-on:click="toggleClasses">
               Classes
           </b>
       </div>

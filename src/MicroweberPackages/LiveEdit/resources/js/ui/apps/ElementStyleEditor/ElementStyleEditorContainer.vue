@@ -1,8 +1,12 @@
 <template>
     <div v-if="hasContainer">
 
-        <div>
-            <b class="mw-admin-action-links" v-on:click="toggleContainer">
+        <div class="mb-4 d-flex">
+            <svg fill="currentColor" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M19,17H5V7H19M19,5H5A2,2 0 0,0 3,7V17A2,2 0 0,0 5,19H19A2,2 0 0,0 21,17V7C21,5.89 20.1,5 19,5Z"></path>
+            </svg>
+
+            <b class="mw-admin-action-links ms-3" v-on:click="toggleContainer">
                 Container
             </b>
         </div>

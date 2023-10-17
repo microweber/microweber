@@ -9,6 +9,9 @@ use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\LiveEditSaveButton;
 use Tests\DuskTestCase;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class LiveEditTypingTest extends DuskTestCase
 {
     public function testLiveEditTypingOnSafeModeText()
@@ -65,8 +68,9 @@ class LiveEditTypingTest extends DuskTestCase
                 $browser->clickSaveButton($browser);
             });
             $browser->switchFrameDefault();
+            $browser->pause(1000);
 
-            $browser->visit($link.'?editmode=n' );
+            $browser->visit($link.'?editmode=n');
             $browser->pause(1000);
             $browser->waitForText('New text in safe mode element', 30);
         });

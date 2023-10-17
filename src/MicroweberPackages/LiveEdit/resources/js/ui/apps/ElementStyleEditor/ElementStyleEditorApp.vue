@@ -1,18 +1,16 @@
 <template>
-
-
-  <div class="d-flex flex-column gap-2">
-    <div v-show="showElementSelector">
+  <div class="d-flex flex-column">
+    <div class="mb-4" v-show="showElementSelector">
       <ElementStyleEditorElementSelector></ElementStyleEditorElementSelector>
     </div>
 
-      <div v-show="showBackground">
+      <div class="mb-4" v-show="showBackground">
           <ElementStyleEditorBackground></ElementStyleEditorBackground>
       </div>
-    <div v-show="showTypography">
+    <div class="mb-4" v-show="showTypography">
       <ElementStyleEditorTypography></ElementStyleEditorTypography>
     </div>
-    <div v-show="showSpacing">
+    <div class="mb-4" v-show="showSpacing">
       <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
     </div>
 
@@ -24,11 +22,11 @@
       <ElementStyleEditorGrid></ElementStyleEditorGrid>
     </div>
 
-    <div v-show="showBorder">
+    <div class="mb-4" v-show="showBorder">
       <ElementStyleEditorBorder></ElementStyleEditorBorder>
     </div>
 
-      <div v-show="showRoundedCorners">
+      <div class="mb-4" v-show="showRoundedCorners">
       <ElementStyleEditorRoundedCorners></ElementStyleEditorRoundedCorners>
     </div>
 
@@ -36,12 +34,9 @@
       <ElementStyleEditorAnimations></ElementStyleEditorAnimations>
     </div>
 
-
-    <div v-show="showClassApplier">
+    <div class="mb-4" v-show="showClassApplier">
       <ElementStyleEditorClassApplier></ElementStyleEditorClassApplier>
     </div>
-
-
   </div>
 
 </template>

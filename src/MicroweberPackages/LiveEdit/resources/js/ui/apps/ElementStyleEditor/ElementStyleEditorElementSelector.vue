@@ -11,7 +11,7 @@
       </div>
     </div>
       <div class="d-grid gap-2">
-    <button type="button" class="btn btn-outline-primary btn-sm w-100" @click="toggleDomTree">{{ displayNodeInfo }}</button>
+    <button type="button" class="btn btn-outline-dark btn-sm w-100" @click="toggleDomTree">{{ displayNodeInfo }}</button>
       </div>
     </div>
   </div>
