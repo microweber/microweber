@@ -76,7 +76,7 @@
 
   <div class="d-flex flex-column gap-3">
 
-      <BorderRadius v-model="borderRadius"></BorderRadius>
+<!--      <BorderRadius v-model="borderRadius"></BorderRadius>-->
 
 
 
