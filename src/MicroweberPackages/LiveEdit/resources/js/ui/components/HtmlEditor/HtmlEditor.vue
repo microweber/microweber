@@ -17,24 +17,20 @@ export default {
 
             var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
+            
+            var id = mw.id('iframe-editor');
 
-            var dlg = mw.top().dialogIframe({
-               // url: mw.settings.site_url + 'api/module?id=mw_global_html_editor&live_edit=true&module_settings=true&type=editor/code_editor&autosize=true',
-                url: src,
-                title: mw.lang('Edit Code'),
-                footer: false,
-                width: 400,
-              //  height: 600,
-                height: 'auto',
-                autoHeight: true,
-                overlay: false
-            });
-            dlg.iframe.addEventListener('load', () => {
-                var selected = mw.app.liveEdit.elementHandle.getTarget();
-                //  dlg.iframe.contentWindow.selectNode(selected)
-            })
-            this.htmlEditorDialog = dlg;
-            this.htmlEditorIframe = dlg.iframe;
+
+                var dlg = new mw.controlBox({
+                    content: '<div style="overflow: auto" id="' + id + '"></div>',
+                    position:  'bottom',
+                    id: 'live_edit_side_holder',
+                    closeButton: true
+                });
+            
+             
+           
+
             var htmlEditorDialoginstance = this;
             $(this.htmlEditorDialog).on('Remove', function () {
                 htmlEditorDialoginstance.markAsRemoved();
@@ -45,14 +41,45 @@ export default {
                 htmlEditorDialoginstance.markAsRemoved();
             })
 
+            var frame = document.createElement('iframe');
+            frame.src = src;
+            frame.style.width = '100%';
+            frame.style.maxHeight = '300px';
+
+ 
+
+            this.htmlEditorDialog = dlg;
+            this.htmlEditorIframe = frame;
+
+           
 
 
-            // new mw.controlBox({
-            //     content: '<div style="overflow: auto"><iframe style="max-height:300px ; width: 100%" src="'+ src + '" /> </div>',
-            //     position:  'bottom',
-            //     id: 'live_edit_side_holder',
-            //     closeButton: true
-            // });
+            frame.addEventListener('load', () => {
+                var selected = mw.app.liveEdit.elementHandle.getTarget();
+
+
+                var css = `
+                     html,body{
+                        overflow: hidden;
+                     }
+                
+                `;
+
+                try{
+                    if(frame.contentWindow && frame.contentWindow.document) {
+                        var style = frame.contentWindow.document.createElement('style');
+                        style.textContent = css;
+                        frame.contentWindow.document.body.appendChild(style);
+
+                    }
+                } catch (err) {}
+                 
+            })
+
+
+          
+
+              document.getElementById(id).appendChild(frame);
 
 
 
