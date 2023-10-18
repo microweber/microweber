@@ -96,6 +96,12 @@ class ImportTest extends TestCase
         $sample = userfiles_path() . '/templates/new-world/mw_default_content.zip';
         $sample = normalize_path($sample, false);
 
+
+        if(!is_file($sample)){
+            $this->markTestSkipped('File not found for new-world template test: ' . $sample);
+        }
+
+
         $sessionId = SessionStepper::generateSessionId(1);
 
         $manager = new Import();

@@ -49,7 +49,7 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
            'title' => 'LiveEditMultilanguagePage'.$unique,
            'url' => 'liveeditmultilanguagepage'.$unique,
            'preview_layout_file' => 'clean.php',
-           'active_site_template'=> 'new-world',
+
            'is_active' => 1,
         ]);
 
