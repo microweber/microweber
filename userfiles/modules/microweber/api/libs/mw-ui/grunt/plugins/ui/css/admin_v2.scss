@@ -2884,7 +2884,7 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 }
 
 .mw-action-buttons-background-circle-on-hover {
-    padding: 8px 10px;
+    padding: 6px 8px;
     border-radius: 50%;
     background-color: transparent;
     cursor: pointer;
@@ -2899,5 +2899,14 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
     &:hover, &:focus, &:active {
 
         border-color: var(--tblr-body-color);
+    }
+}
+
+.mw-multiple-fields {
+    .mw-field.mw-field-flat {
+        select {
+
+        }
+
     }
 }
