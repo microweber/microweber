@@ -9,7 +9,6 @@
         --tblr-body-font-family: 'Inter';
         --tblr-body-bg2: #f0f0f0;
         --mw-forms-min-height: 45px;
-        --tblr-body-color: #000000;
 
     body:not(.theme-dark) {
         --tblr-bg-surface-tertiary: #e1edf9;
@@ -262,7 +261,7 @@ body, .is_admin {
     color: var(--tblr-body-color) !important;
 }
 
-.tblr-body-bg, .mw-ese-holder, .mw-field select, .mw-field input, input.regular, select.regular {
+.tblr-body-bg, .mw-field select, .mw-field input, input.regular, select.regular {
     background-color: var(--tblr-bg-surface) !important;
 }
 
@@ -2933,4 +2932,24 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
         }
 
     }
+}
+
+.v-slider.v-input--horizontal .v-slider-track__background {
+    height: 2px !important;
+}
+
+.v-slider-track__background, .v-slider-track__fill {
+    height: 3px !important;
+}
+
+.v-input__details {
+    display: none !important;
+}
+
+.mw-element-spacing-editor .input input {
+    background-color: var(--tblr-bg-surface);
+}
+
+.mw-ese-holder {
+    background-color: var(--tblr-body-bg2);
 }
