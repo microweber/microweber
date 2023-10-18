@@ -38,7 +38,7 @@ export default {
 
 <template>
     <div class="form-control-live-edit-label-wrapper my-4 d-flex align-items-center flex-wrap gap-2">
-        <label class="live-edit-label px-0 col" v-if="label" v-html="label"></label>
+        <label class="live-edit-label px-0 col-4" v-if="label" v-html="label"></label>
           <select v-model="selectedOption" class="form-control-live-edit-input form-select" @input="$emit('update:modelValue', $event.target.value)">
                 <option v-if="selectedOption" :value="selectedOption">{{ selectedOption }}</option>
                 <option v-for="option in options" :selected="selectedOption === option.key" :value="option.key">
