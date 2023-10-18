@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9d36f1419bfa3c85428043a35ab8bf5",
+    "content-hash": "392cf1fc3d2fcc4c2911d1b442f3f18b",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -547,12 +547,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/blade-ui-kit/blade-icons.git",
-                "reference": "1520ec7563a515677d0e8d50ec65c5fc83709a2d"
+                "reference": "69358ea386f2c5467c174c18bdfe7e65bf34ba9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blade-ui-kit/blade-icons/zipball/1520ec7563a515677d0e8d50ec65c5fc83709a2d",
-                "reference": "1520ec7563a515677d0e8d50ec65c5fc83709a2d",
+                "url": "https://api.github.com/repos/blade-ui-kit/blade-icons/zipball/69358ea386f2c5467c174c18bdfe7e65bf34ba9c",
+                "reference": "69358ea386f2c5467c174c18bdfe7e65bf34ba9c",
                 "shasum": ""
             },
             "require": {
@@ -621,7 +621,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2023-10-10T09:02:27+00:00"
+            "time": "2023-10-18T10:51:08+00:00"
         },
         {
             "name": "blade-ui-kit/blade-ui-kit",
@@ -7230,7 +7230,7 @@
                 "type": "zip",
                 "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-6.5-8e625e.zip",
                 "reference": "8f3ae3ae20c244269f713f591870555b708ecc81",
-                "shasum": "2daf7944a40a942c98919a1c4b8e1d8abde72a03"
+                "shasum": "d5a165c5686e49272027d76446ef5709d372845e"
             },
             "type": "microweber-template",
             "extra": {
@@ -12137,20 +12137,20 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "7.0.x-dev",
+            "version": "v6.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
-                "reference": "b729ade9dfb26c1945e72b2515509d45adc08a5f"
+                "reference": "883d961421ab1709877c10ac99451632a3d6fa57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/css-selector/zipball/b729ade9dfb26c1945e72b2515509d45adc08a5f",
-                "reference": "b729ade9dfb26c1945e72b2515509d45adc08a5f",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/883d961421ab1709877c10ac99451632a3d6fa57",
+                "reference": "883d961421ab1709877c10ac99451632a3d6fa57",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.2"
+                "php": ">=8.1"
             },
             "type": "library",
             "autoload": {
@@ -12182,7 +12182,7 @@
             "description": "Converts CSS selectors to XPath expressions",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/css-selector/tree/7.0"
+                "source": "https://github.com/symfony/css-selector/tree/v6.3.2"
             },
             "funding": [
                 {
@@ -12198,7 +12198,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-07-30T09:45:37+00:00"
+            "time": "2023-07-12T16:00:22+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -12710,12 +12710,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "7abe5ee53c6a63a1f68d38358318bcecead0837c"
+                "reference": "19f15ec4343b1fe727f8e781095152acebdee4e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/7abe5ee53c6a63a1f68d38358318bcecead0837c",
-                "reference": "7abe5ee53c6a63a1f68d38358318bcecead0837c",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/19f15ec4343b1fe727f8e781095152acebdee4e0",
+                "reference": "19f15ec4343b1fe727f8e781095152acebdee4e0",
                 "shasum": ""
             },
             "require": {
@@ -12815,7 +12815,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-17T20:15:01+00:00"
+            "time": "2023-10-18T07:58:39+00:00"
         },
         {
             "name": "symfony/intl",
@@ -14210,12 +14210,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "164d253a801ab494e98cab49324d4142c8deff29"
+                "reference": "f57950a147b373c0e24b94ca5522fd88311adcd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/164d253a801ab494e98cab49324d4142c8deff29",
-                "reference": "164d253a801ab494e98cab49324d4142c8deff29",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/f57950a147b373c0e24b94ca5522fd88311adcd9",
+                "reference": "f57950a147b373c0e24b94ca5522fd88311adcd9",
                 "shasum": ""
             },
             "require": {
@@ -14297,7 +14297,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-17T11:35:46+00:00"
+            "time": "2023-10-18T11:40:39+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -18994,7 +18994,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1",
+        "php": ">=8.1",
         "ext-bcmath": "*",
         "ext-gd": "*",
         "ext-intl": "*",
