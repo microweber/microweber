@@ -26,17 +26,6 @@ runs:
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, bcmath, intl, sodium
         ini-values: post_max_size=2560M, max_execution_time=1800, memory_limit=2560M,
         tools: phpunit:10.1.3, composer
-#    - name: zstd act workaround
-#      run: sudo apt install zstd
-#      shell: bash
-#    - name: google-chrome install
-#      run: |
-#        sleep 3
-##        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-#        wget http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_118.0.5993.70-1_amd64.deb
-#        sudo apt-get install -f
-#        sudo dpkg -i google-chrome*.deb
-#      shell: bash
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -55,32 +44,9 @@ runs:
     - name: Install Chrome Driver
       run: php artisan dusk:install
       shell: bash
-#    - name: Dusk updater install
-#      run: |
-#        composer require --dev staudenmeir/dusk-updater
-#        php artisan package:discover --ansi
-#      shell: bash
-#    - name: Install Chrome Driver From Actions
-#      uses: nanasess/setup-chromedriver@v2
-#      with:
-#        # Optional: do not specify to match Chrome's version
-#        chromedriver-version: '118'
-#    - run: |
-#        export DISPLAY=:99
-#        chromedriver --url-base=/wd/hub &
-#        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
-#      shell: bash
     - name: Dusk update
       run: php artisan dusk:chrome-driver 117
       shell: bash
-#    - name: Download specific ChromeDriver version 118
-#      run: |
-#        chrome --version
-#        CHROMIUM_BIN=$(which chrome)
-#        wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/118.0.5993.70/linux64/chromedriver-linux64.zip
-#        unzip chromedriver-linux64.zip
-#        sudo cp chromedriver-linux64/chromedriver vendor/laravel/dusk/bin/chromedriver-linux
-#      shell: bash
     - name: Copy env
       run: |
         cp --force /home/runner/work/microweber/microweber/.env.testing /home/runner/work/microweber/microweber/.env

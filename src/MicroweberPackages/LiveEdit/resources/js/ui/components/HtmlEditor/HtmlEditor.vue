@@ -3,7 +3,7 @@ export default {
     methods: {
         showHtmlEditor: function () {
 
-
+ 
             var moduleType = 'editor/code_editor';
             var attrsForSettings = {};
 
@@ -21,42 +21,55 @@ export default {
             var id = mw.id('iframe-editor');
 
 
-                var dlg = new mw.controlBox({
-                    content: '<div style="overflow: auto" id="' + id + '"></div>',
-                    position:  'bottom',
-                    id: 'live_edit_side_holder',
-                    closeButton: true
-                });
-            
+            var dlg = new mw.controlBox({
+                content: '<div id="' + id + '"></div>',
+                content: '',
+                position:  'bottom',
+                id: 'live_edit_side_holder',
+                closeButton: true
+            });
+        
+
+            dlg.closeButton.onclick = function(){
+                dlg.remove();
+                document.documentElement.style.setProperty('--iframe-height-minus',  0 + 'px');
+            };
              
            
 
             var htmlEditorDialoginstance = this;
             $(this.htmlEditorDialog).on('Remove', function () {
                 htmlEditorDialoginstance.markAsRemoved();
-            })
+            });
 
 
             $(this.cssEditorDialog).on('Hide', function () {
                 htmlEditorDialoginstance.markAsRemoved();
-            })
+            });
 
             var frame = document.createElement('iframe');
             frame.src = src;
+            frame.style.top = '0';
+            frame.style.left = '0';
             frame.style.width = '100%';
-            frame.style.maxHeight = '300px';
+            frame.style.height = '100%';
+            frame.style.position = 'absolute';
+            frame.dataset.autoHeight = 'false';
 
  
 
             this.htmlEditorDialog = dlg;
             this.htmlEditorIframe = frame;
 
-           
+            mw.top().win.document.documentElement.style.setProperty('--iframe-height-minus',  300 + 'px');
 
+            mw.spinner({element: dlg.boxContent, decorate: true})
+
+        
 
             frame.addEventListener('load', () => {
                 var selected = mw.app.liveEdit.elementHandle.getTarget();
-
+                mw.spinner({element: dlg.boxContent, decorate: true}).remove()
 
                 var css = `
                      html,body{
@@ -74,12 +87,42 @@ export default {
                     }
                 } catch (err) {}
                  
-            })
+            });
 
 
           
 
-              document.getElementById(id).appendChild(frame);
+           /* var holder = document.getElementById(id);
+            holder.appendChild(frame);
+
+            holder.style.height = '300px';*/
+
+            const leFrame = mw.top().app.canvas.getFrame();
+            const leFrameParent = leFrame.parentElement;
+
+            $(dlg.boxContent)
+            .css('minHeight', 100)
+            .css('height', 300)
+            .append(frame)
+            .resizable({
+                handles: "n",
+                start: function( event, ui ) {
+                    frame.style.pointerEvents = 'none';
+                    leFrame.style.pointerEvents = 'none';
+                    leFrame.style.transition = 'none';
+                    leFrameParent.style.transition = 'none';
+                },
+                stop: function( event, ui ) {
+                    frame.style.pointerEvents = 'all';
+                    leFrame.style.pointerEvents = 'all';
+                    leFrame.style.transition = '';
+                    leFrameParent.style.transition = '';
+                }
+            })
+            .on('resize', function(event, ui){
+                const height = ui.size.height;
+                document.documentElement.style.setProperty('--iframe-height-minus',  height + 'px');
+            });
 
 
 
@@ -112,32 +155,24 @@ export default {
     },
     mounted() {
         this.emitter.on("live-edit-ui-hide", hide => {
+            
             if (hide == 'html-editor') {
                 this.removeHtmlEditor();
                 this.isOpened = false;
             }
         });
         this.emitter.on("live-edit-ui-show", show => {
+           
             if (show == 'html-editor') {
                 if (!this.isOpened) {
                     this.showHtmlEditor();
-                    this.isOpened = true;
+                    // this.isOpened = true;
                 }
-            } else {
-                // this.removeHtmlEditor();
-                //  this.isOpened = false;
-            }
+            }  
         });
 
         var htmlEditorInstance = this;
-        // mw.app.canvas.on('canvasDocumentClick', function () {
-        //     if (instance.isOpened) {
-        //         var selected = mw.app.liveEdit.elementHandle.getTarget();
-        //         if (selected && instance.htmlEditorIframe && instance.htmlEditorIframe.contentWindow && instance.htmlEditorIframe.contentWindow.selectNode) {
-        //             instance.htmlEditorIframe.contentWindow.selectNode(selected)
-        //         }
-        //     }
-        // });
+ 
 
         mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
             if (htmlEditorInstance) {

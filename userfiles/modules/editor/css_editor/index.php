@@ -6,11 +6,12 @@
         width: 100% !important;
     }
     #code-editor-settings .CodeMirror-code{
-        min-height: 80vh;
+        height: calc(100vh - 100px);
      }
 
     #settings-container{
         padding: 0;
+        min-height: 0;
     }
 
     .mw-css-editor-c2a-nav > * + *{
@@ -20,22 +21,19 @@
         position: sticky;
         bottom: 0;
         display: flex;
-        padding: 10px;
+        padding: 0 10px;
         background: #eeefef;
         z-index: 4;
         justify-content: flex-end;
+        align-items: center;
+        height: 80px;
     }
     #custom_html_code_mirror_save {
 
     }
 
 
-    #custom_html_code_mirror_container{
-       min-heignt:600px;
-    }
-    #select_edit_field_container{
-
-    }
+ 
 
 </style>
 
@@ -189,23 +187,25 @@ if ($file and is_file($file)) {
 }
 ?>
 
-<div>
-    <ul class="nav nav-pills nav-justified" id="codeEditorTabStyleEditorCssEditorNav" role="tablist">
+<div class="d-flex">
+<div class="navbar navbar-expand-md navbar-transparent ">
+    <ul class="navbar-nav flex-column" id="codeEditorTabStyleEditorCssEditorNav" role="tablist" >
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" data-bs-toggle="tab"
+            <a class="mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab"
                     data-bs-target="#style-edit-global-template-css-editor-holder" type="button" role="tab">
-                <?php _e("Custom CSS"); ?>
-            </button>
+                <span class="nav-link-title"><?php _e("Custom CSS"); ?></span>
+            </a>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" data-bs-toggle="tab"
+            <a class="mw-admin-action-links mw-adm-liveedit-tabs  " data-bs-toggle="tab"
                     data-bs-target="#style-edit-global-template-css-editor-holder-live-edit-css" type="button" role="tab">
-                <?php _e("Live edit CSS"); ?>
-            </button>
+                    <span class="nav-link-title"><?php _e("Live edit CSS"); ?></span>
+            </a>
         </li>
     </ul>
+</div>
 
-    <div class="tab-content">
+    <div class="tab-content" style="flex: 1">
         <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-css-editor-holder"
              role="tabpanel">
 
@@ -214,7 +214,7 @@ if ($file and is_file($file)) {
           option-group="template" placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $custom_css ?></textarea>
             <div class="mw-css-editor-c2a-nav" id="csssave">
 
-                <button onclick="savecss();"  class="btn btn-primary" type="button"><?php _e('Save'); ?></button>
+                <span onclick="savecss();"  class="btn btn-dark" type="button"><?php _e('Save'); ?></span>
 
 
 
@@ -241,7 +241,7 @@ if ($file and is_file($file)) {
                 <module type="content/views/layout_selector_custom_css" template="<?php print $template; ?>"/>
 
 
-                <button onclick="live_edit_savecss();" class="btn btn-primary" type="button" ><?php _e('Save'); ?></button>
+                <span onclick="live_edit_savecss();" class="btn btn-dark" type="button" ><?php _e('Save'); ?></span>
 
 
 

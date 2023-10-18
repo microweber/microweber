@@ -39,6 +39,9 @@ mw.tools.iframeAutoHeight = function(frame, opt){
     frame = mw.$(frame)[0];
     if(!frame) return;
 
+ 
+    if(frame.dataset.autoHeight === 'false') return;
+
     var _detector = document.createElement('div');
     _detector.className = 'mw-iframe-auto-height-detector';
     _detector.id = mw.id();
