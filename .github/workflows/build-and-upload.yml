@@ -28,56 +28,56 @@ jobs:
     runs-on: ubuntu-latest
     needs: microweber-test-before-build
     steps:
-    - uses: actions/checkout@v3
-      with:
-        repository: ${{ github.repository }}
-    - uses: ./.github/actions/setup-php
-      with:
-        php_version: "8.2"
-    - name: Npm install
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'npm'
-        cache-dependency-path: ./package-lock.json
-    - run: npm install
-    - run: npm run build
+      - uses: actions/checkout@v3
+        with:
+          repository: ${{ github.repository }}
+      - uses: ./.github/actions/setup-php
+        with:
+          php_version: "8.2"
+      - name: Npm install
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: ./package-lock.json
+      - run: npm install
+      - run: npm run build
 
-    - name: Install Dependencies
-      run: composer install
+      - name: Install Dependencies
+        run: composer install
 
-    - name: Dump autoload dependecies
-      run: composer dump-autoload
+      - name: Dump autoload dependecies
+        run: composer dump-autoload
 
-    - name: Inject slug/short variables
-      uses: rlespinasse/github-slug-action@v3.x
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
 
-    - name: Zip the files
-      run: |
-        rm -rf .git
-        rm -rf .github
-        rm -rf .nmp
-        rm -rf node_modules
-        rm -rf .phpunit.cache
-        find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
-        zip -r microweber-${{ env.GITHUB_REF_SLUG }}.zip `ls -A`
-    - name: Upload zip
-      run: |
-        echo insecure >> ~/.curlrc
-        curl -T microweber-${{ env.GITHUB_REF_SLUG }}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }} --no-epsv
-        cp microweber-${{ env.GITHUB_REF_SLUG }}.zip microweber.zip
-        curl -T microweber.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
-    - name: Upload composer.json
-      run: |
-        cp -r composer.json microweber-${{ env.GITHUB_REF_SLUG }}.composer.json
-        curl -T microweber-${{ env.GITHUB_REF_SLUG }}.composer.json ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
-        curl -T composer.json ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
-        curl -T composer.lock ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
-    - name: Upload version.txt
-      run: |
-        cp -r version.txt microweber-${{ env.GITHUB_REF_SLUG }}.version.txt
-        curl -T microweber-${{ env.GITHUB_REF_SLUG }}.version.txt ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }} --no-epsv
-        curl -T version.txt ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
-        curl -T CHANGELOG.md ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
-        curl -T README.md ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
+      - name: Zip the files
+        run: |
+          rm -rf .git
+          rm -rf .github
+          rm -rf .nmp
+          rm -rf node_modules
+          rm -rf .phpunit.cache
+          find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
+          zip -r microweber-${{ env.GITHUB_REF_SLUG }}.zip `ls -A`
+      - name: Upload zip
+        run: |
+          echo insecure >> ~/.curlrc
+          curl -T microweber-${{ env.GITHUB_REF_SLUG }}.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }} --no-epsv
+          cp microweber-${{ env.GITHUB_REF_SLUG }}.zip microweber.zip
+          curl -T microweber.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
+      - name: Upload composer.json
+        run: |
+          cp -r composer.json microweber-${{ env.GITHUB_REF_SLUG }}.composer.json
+          curl -T microweber-${{ env.GITHUB_REF_SLUG }}.composer.json ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}
+          curl -T composer.json ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
+          curl -T composer.lock ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
+      - name: Upload version.txt
+        run: |
+          cp -r version.txt microweber-${{ env.GITHUB_REF_SLUG }}.version.txt
+          curl -T microweber-${{ env.GITHUB_REF_SLUG }}.version.txt ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }} --no-epsv
+          curl -T version.txt ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
+          curl -T CHANGELOG.md ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
+          curl -T README.md ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
 
