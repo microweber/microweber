@@ -13,10 +13,18 @@ jobs:
       fail-fast: true
       max-parallel: 1
       matrix:
-        php-versions: ['8.1']
+        php-versions: ['8.2']
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Npm install
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+        cache-dependency-path: ./package-lock.json
+    - run: npm install
+    - run: npm run build
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
       with:
