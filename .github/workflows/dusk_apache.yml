@@ -39,35 +39,38 @@ jobs:
           site-directory: /home/runner/work/microweber/microweber/
           # Defaults to 8888
           http-port: 8000
-      - name: Run Dusk Tests
+      - name: Run Dusk Tests Core Tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
-          php artisan dusk
-#          php artisan dusk --testsuite MicroweberCoreTests
-#      - name: Run Dusk Shop Tests
-#        run: |
-#          chmod -R 0755 vendor/laravel/dusk/bin/
-#          php artisan dusk --testsuite MicroweberShopTests
-#      - name: Run Dusk Multilanguage Tests
-#        run: |
-#          chmod -R 0755 vendor/laravel/dusk/bin/
-#          php artisan dusk --testsuite MicroweberMultilanguageTests
-#      - name: Run Dusk Admin Tests
-#        run: |
-#          chmod -R 0755 vendor/laravel/dusk/bin/
-#          php artisan dusk --testsuite MicroweberAdminTest
-#      - name: Run Dusk LiveEdit Tests
-#        run: |
-#          chmod -R 0755 vendor/laravel/dusk/bin/
-#          php artisan dusk --testsuite MicroweberLiveEditTest
-#      - name: Run Dusk Template Tests
-#        run: |
-#          chmod -R 0755 vendor/laravel/dusk/bin/
-#          php artisan dusk --testsuite MicroweberTemplatesTests
-#      - name: Run Dusk Slow Tests
-#        run: |
-#          chmod -R 0755 vendor/laravel/dusk/bin/
-#          php artisan dusk --testsuite MicroweberSlowTests
+          php artisan dusk --testsuite MicroweberCoreTests
+      - name: Run Dusk Shop Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberShopTests
+      - name: Run Dusk Microweber Pages Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberPagesTests
+      - name: Run Dusk Multilanguage Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberMultilanguageTests
+      - name: Run Dusk Admin Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberAdminTest
+      - name: Run Dusk LiveEdit Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberLiveEditTest
+      - name: Run Dusk Template Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberTemplatesTests
+      - name: Run Dusk Slow Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberSlowTests
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v2
