@@ -11,25 +11,25 @@
 
     <div v-if="showBackground">
 
-        <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Background Color'"
+        <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Color'"
                      @change="handleBackgroundColorChange"/>
 
 
-        <ImagePicker label="Background Image" v-model="backgroundImage" v-bind:file="backgroundImageUrl"
+        <ImagePicker label="Image" v-model="backgroundImage" v-bind:file="backgroundImageUrl"
                      @change="handleBackgroundImageChange"/>
 
-        <DropdownSmall v-model="backgroundSize" :options="backgroundSizeOptions" :label="'Background Size'"/>
+        <DropdownSmall v-model="backgroundSize" :options="backgroundSizeOptions" :label="'Size'"/>
 
 
-        <DropdownSmall v-model="backgroundRepeat" :options="backgroundRepeatOptions" :label="'Background Repeat'"/>
+        <DropdownSmall v-model="backgroundRepeat" :options="backgroundRepeatOptions" :label="'Repeat'"/>
 
 
         <DropdownSmall v-model="backgroundPosition" :options="backgroundPositionOptions"
-                       :label="'Background Position'"/>
+                       :label="'Position'"/>
 
 
         <DropdownSmall v-model="backgroundClip" :options="backgroundClipOptions"
-                       :label="'Background Clip'"/>
+                       :label="'Clip'"/>
 
 
 
