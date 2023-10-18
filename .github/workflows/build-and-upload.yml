@@ -11,7 +11,7 @@ jobs:
   microweber-test-before-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-php
         with:
           php_version: '8.1'
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: microweber-test-before-build
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           repository: ${{ github.repository }}
       - uses: ./.github/actions/setup-php
