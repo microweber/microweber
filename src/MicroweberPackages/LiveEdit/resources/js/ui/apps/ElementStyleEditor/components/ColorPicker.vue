@@ -11,7 +11,7 @@
         ></span>
       </span>
 
-      <input
+      <input readonly
           @click="togglePicker"
           type="text"
           class="colorField unit ready mw-color-picker-field"

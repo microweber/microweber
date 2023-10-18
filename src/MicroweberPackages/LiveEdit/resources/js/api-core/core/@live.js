@@ -180,6 +180,7 @@ export class LiveEdit {
 
          elementHandle.on('targetChange', target => {
             this.elementHandleContent.menu.setTarget(target);
+            
 
             if (target.className.includes('col-')) {
                 elementHandle.resizer.disable()

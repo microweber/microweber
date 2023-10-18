@@ -10,20 +10,20 @@
         </b>
     </div>
     <div v-if="showTypography">
-     <div class="d-flex flex-column gap-3">
+     <div>
 
-        <div>
-            <FontPicker v-model="fontFamily" v-bind:value=fontFamily @change="handleFontChange" :label="'Font Family'"/>
+        <div class="my-4 pt-2">
+            <FontPicker v-model="fontFamily" v-bind:value=fontFamily @change="handleFontChange" :label="'Family'"/>
         </div>
 
 
         <Align :textAlign="textAlign" @update:textAlign="setTextAlignment"/>
 
 
-        <ColorPicker v-model="color" v-bind:color=color :label="'Font Color'" @change="handleFontColorChange"/>
+        <ColorPicker v-model="color" v-bind:color=color :label="'Color'" @change="handleFontColorChange"/>
 
         <SliderSmall
-            label="Font Size"
+            label="Size"
             v-model="fontSize"
             :min="0"
             :max="100"
@@ -31,13 +31,13 @@
         ></SliderSmall>
 
 
-        <DropdownSmall v-model="fontWeight" :options="fontWeightOptions" :label="'Font Weight'"/>
-        <DropdownSmall v-model="textTransform" :options="textTransformOptions" :label="'Text Transform'"/>
-        <DropdownSmall v-model="fontStyle" :options="fontStylesOptions" :label="'Font Style'"/>
+        <DropdownSmall v-model="fontWeight" :options="fontWeightOptions" :label="'Weight'"/>
+        <DropdownSmall v-model="textTransform" :options="textTransformOptions" :label="'Transform'"/>
+        <DropdownSmall v-model="fontStyle" :options="fontStylesOptions" :label="'Style'"/>
 
 
         <SliderSmall
-            label="Line Height"
+            label="Height"
             v-model="lineHeight"
             :min="0"
             :max="100"

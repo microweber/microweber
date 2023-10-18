@@ -86,7 +86,7 @@
                 var node = document.createElement('span');
                 node.innerHTML = options.title;
                 var upload = mw.upload({
-                    multiple: false,
+                    multiple: true,
                     element: node,
                     on: {
                         fileAdded: function () {
