@@ -15,15 +15,14 @@ jobs:
       - uses: ./.github/actions/setup-php
         with:
           php_version: "8.2"
-
-      - name: Install Dependencies
-        run: composer install
-
-      - name: Dump autoload dependecies
-        run: composer dump-autoload
-
-      - name: Run PHPUnit
-        run: php artisan test
+      - name: Npm install
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: ./package-lock.json
+      - run: npm install
+      - run: npm run build
 
   microweber-build-and-upload:
     runs-on: ubuntu-latest
@@ -32,6 +31,9 @@ jobs:
     - uses: actions/checkout@v3
       with:
         repository: ${{ github.repository }}
+    - uses: ./.github/actions/setup-php
+      with:
+        php_version: "8.2"
     - name: Npm install
       uses: actions/setup-node@v3
       with:
