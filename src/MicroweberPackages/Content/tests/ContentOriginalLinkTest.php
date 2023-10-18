@@ -18,7 +18,7 @@ class ContentOriginalLinkTest extends TestCase
         mw()->database_manager->extended_save_set_permission(true);
 
         $params = array(
-            'title' => 'My test page testContentOriginalLinkRedirect' . uniqid(),
+            'title' => 'My test page testContentOriginalLinkParentRedirect' . uniqid(),
             'content_type' => 'page',
             'layout_file' => 'layouts/blog.php',
             'subtype' => 'dynamic',
@@ -52,7 +52,7 @@ class ContentOriginalLinkTest extends TestCase
         $this->assertEquals($redirectResponse->getTargetUrl(), $original_link);
 
         $params = array(
-            'id' => $title,
+            'id' => $save_post_id,
             'original_link' => '',
         );
         $save_post_id = save_content($params);
