@@ -11,7 +11,7 @@ use function get_option;
 use function save_option;
 use function Tests\Browser\str_contains;
 
-class CheckoutCartXssTest extends DuskTestCase
+class CheckoutCartXssTest extends ShopDuskTestCase
 {
 
     public function testSubmit()
@@ -68,13 +68,6 @@ class CheckoutCartXssTest extends DuskTestCase
 
         $siteUrl = $this->siteUrl;
 
-        // enable paypal
-        $option = array();
-        $option['option_value'] = 1;
-        $option['option_key'] = 'payment_gw_shop/payments/gateways/paypal';
-        $option['option_group'] = 'payments';
-        $option['module'] = 'shop/payments';
-        save_option($option);
 
         $payments = get_option('payment_gw_shop/payments/gateways/paypal', 'payments') == '1';
         $this->assertTrue($payments);
@@ -89,19 +82,6 @@ class CheckoutCartXssTest extends DuskTestCase
 
         $this->assertTrue($foundpaypal);
 
-
-        $option = array();
-        $option['option_value'] = 'y';
-        $option['option_key'] = 'paypalexpress_testmode';
-        $option['option_group'] = 'payments';
-        save_option($option);
-
-
-        $option = array();
-        $option['option_value'] = 'info@microweber.com';
-        $option['option_key'] = 'paypalexpress_username';
-        $option['option_group'] = 'payments';
-        save_option($option);
 
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
@@ -162,71 +142,6 @@ class CheckoutCartXssTest extends DuskTestCase
     }
 
 
-    private function _browserToShopAndAddTocart($browser)
-    {
 
-        $browser->waitForText('Shop');
-        $browser->clickLink('Shop');
-
-        $browser->waitForText('Shop');
-
-        $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-            $browser->validate();
-        });
-
-
-        $browser->script('$(".name-of-product-shop").first().click()');
-        $browser->pause(5000);
-
-        $browser->waitForText('Proceed to Checkout');
-        $browser->assertSee('Proceed to Checkout');
-
-        $browser->seeLink('Proceed to Checkout');
-        $browser->clickLink('Proceed to Checkout');
-        $browser->pause(3000);
-
-    }
-
-
-    private function _browserToCheckoutAndFillShippingInfo($browser, $uniqueId)
-    {
-
-        $xss = '"><img src=x onerror=confirm(document.domain)>';
-
-        $browser->waitForText('First Name');
-        $browser->type('first_name', 'Bozhidar' . $uniqueId . $xss);
-        $browser->type('last_name', 'Slaveykov' . $uniqueId. $xss);
-        $browser->type('email', 'bobi' . $uniqueId . '@microweber.com');
-        $browser->type('phone', $uniqueId. $xss);
-        $browser->click('.js-checkout-continue');
-
-
-        $browser->pause(2000);
-        $browser->waitForText('Shipping method');
-
-        $browser->radio('shipping_gw', 'shop/shipping/gateways/country');
-
-        $browser->pause(7000);
-        $browser->waitForText('Address for delivery');
-        $browser->assertSee('Address for delivery');
-
-        $browser->select('country', 'Bulgaria');
-        $browser->type('Address[city]', 'Sofia' . $uniqueId. $xss);
-        $browser->type('Address[zip]', '1000' . $uniqueId. $xss);
-        $browser->type('Address[state]', 'Sofia' . $uniqueId. $xss);
-        $browser->type('Address[address]', 'Vitosha 143' . $uniqueId. $xss);
-        $browser->type('other_info', 'I want my order soon as posible.' . $uniqueId. $xss);
-
-        $browser->scrollTo('.js-checkout-continue');
-
-        $browser->pause(1000);
-
-        $browser->click('.js-checkout-continue');
-
-        $browser->waitForText('Payment method');
-        $browser->assertSee('Payment method');
-        $browser->pause(1000);
-
-    }
 
 }

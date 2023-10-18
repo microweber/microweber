@@ -123,7 +123,10 @@ if (isset($_COOKIE['mw_exp'])) {
     </script>
 
 
-    <script>
+<?php
+
+
+    /*    <script>
         $(document).ready(function () {
 
             mw.tools.dropdown();
@@ -138,7 +141,9 @@ if (isset($_COOKIE['mw_exp'])) {
         if (typeof(mw.wysiwyg) != 'undefined') {
             mw.wysiwyg.initExtendedFontFamilies("<?php print $enabled_custom_fonts?>");
         }
-    </script>
+    </script>*/
+
+    ?>
     <?php
     $back_url = admin_url() . 'view:content';
     if (defined('CONTENT_ID')) {

@@ -2249,12 +2249,12 @@ svg.text-danger {
     margin-top: 7px;
 }
 
-.mw-le-layouts-dialog-col:first-child {
-    background-color: var(--tblr-body-bg2) !important;
+.mw-le-layouts-dialog-col:first-child, .modules-list-search-field {
+    background-color: var(--tblr-bg-surface) !important;
 }
 
 .mw-le-layouts-dialog-col {
-    background-color: var(--tblr-body-bg) !important;
+    background-color: var(--tblr-body-bg2) !important;
 }
 
 
@@ -2884,12 +2884,17 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 }
 
 .mw-action-buttons-background-circle-on-hover {
-    padding: 10px;
     border-radius: 50%;
     background-color: transparent;
+    cursor: pointer;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 30px !important;
+    height: 30px;
 
     &:hover {
-        background-color: var(--tblr-bg-surface);
+        background-color: #f5f5f5;
     }
 }
 
@@ -2905,4 +2910,24 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 }
 #live_edit_side_holder .mw-control-boxcontent{
     top: 0 !important;
+}
+
+.mw-field select {
+    &:hover, &:focus, &:active {
+
+        border-color: var(--tblr-body-color);
+    }
+}
+
+.mw-multiple-fields {
+    .mw-field.mw-field-flat {
+        select {
+
+        }
+
+    }
+}
+
+.a-color-picker-hsl>input, .a-color-picker-rgb>input, .a-color-picker-single-input>input, .a-color-picker-hsl>label, .a-color-picker-rgb>label, .a-color-picker-single-input>label {
+    color: var(--tblr-bg-surface) !important;
 }

@@ -16,7 +16,7 @@ jobs:
         php-versions: ['8.2']
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Npm install
       uses: actions/setup-node@v3
       with:

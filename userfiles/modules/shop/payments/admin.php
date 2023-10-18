@@ -148,7 +148,7 @@ $payment_modules = get_modules('type=payment_gateway');
                               $module_info['id'] = 0;
                           }
 
-                          $isEnabled = get_option('payment_gw_' . $payment_module['module'], 'payments') == 'y';
+                          $isEnabled = get_option('payment_gw_' . $payment_module['module'], 'payments') == '1';
                           ?>
 
                           <div class="dragable-item align-items-center shadow-sm bg-light mb-3 <?php if ($isEnabled): ?>bg-primary-opacity-1<?php endif; ?>" id="module-db-id-<?php print $module_info['id'] ?>">
@@ -162,7 +162,7 @@ $payment_modules = get_modules('type=payment_gateway');
                                   <div class="col pl-0 js-change-method-status" style="max-width: 60px;">
 
                                       <div class="form-check form-check-single form-switch p-0">
-                                          <input onchange="setActiveProvider('#module-db-id-<?php print $module_info['id'] ?>', this);" type="checkbox" class="mw_option_field form-check-input" id="ccheckbox-payment_gw_<?php print $payment_module['module'] ?>" name="payment_gw_<?php print $payment_module['module'] ?>" data-option-group="payments" data-id="shipping_gw_shop/shipping/gateways/country"<?php if ($isEnabled): ?> checked="checked" <?php endif; ?> value="y">
+                                          <input onchange="setActiveProvider('#module-db-id-<?php print $module_info['id'] ?>', this);" type="checkbox" class="mw_option_field form-check-input" id="ccheckbox-payment_gw_<?php print $payment_module['module'] ?>" name="payment_gw_<?php print $payment_module['module'] ?>" data-option-group="payments" data-id="shipping_gw_shop/shipping/gateways/country"<?php if ($isEnabled): ?> checked="checked" <?php endif; ?> value="1">
                                           <label class="custom-control-label" for="ccheckbox-payment_gw_<?php print $payment_module['module'] ?>"></label>
                                       </div>
 

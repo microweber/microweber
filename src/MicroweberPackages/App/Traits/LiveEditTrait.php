@@ -13,9 +13,11 @@ trait LiveEditTrait
      * @param $html
      * @return mixed|string|string[]
      * @throws \Exception
+     * @deprecated This method is deprecated and should not be used anymore.
      */
     public function appendLiveEdit($html)
     {
+        return $html;
         if (is_admin()) {
             if (is_live_edit()) {
                 if (!defined('IN_EDIT')) {

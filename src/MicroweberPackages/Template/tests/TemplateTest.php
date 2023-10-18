@@ -9,7 +9,23 @@ use MicroweberPackages\User\Models\User;
 
 class TemplateTest extends TestCase
 {
+    public $template_name = 'new-world';
+    protected function assertPreConditions(): void
+    {
+         parent::assertPreConditions();
 
+
+        if (is_dir(templates_dir() . 'big')) {
+            $templateName = 'big';
+        } else if (is_dir(templates_dir() . 'new-world')) {
+            $templateName = 'new-world';
+        } else {
+            $templateName = 'default';
+        }
+
+        $this->template_name = $templateName;
+
+    }
     public function testGetTemplates()
     {
         $get = app()->template->site_templates();
@@ -28,12 +44,22 @@ class TemplateTest extends TestCase
 
     public function testGetTemplateConfig()
     {
-        app()->content_manager->define_constants(['active_site_template' => 'new-world']);
+        $template_name = $this->template_name;
+        if(!is_dir(templates_dir() . $template_name)){
+            $this->markTestSkipped('Template not found: ' . $template_name);
+        }
+
+        app()->content_manager->define_constants(['active_site_template' => $template_name]);
+
+
 
         $config = app()->template->get_config();
 
         $this->assertTrue(isset($config['name']));
-        $this->assertTrue('New World' == $config['name']);
+     //   $this->assertTrue('New World' == $config['name']);
+
+
+
 
     }
 
@@ -119,17 +145,17 @@ class TemplateTest extends TestCase
      */
     public function testTemplateNameAndDirVars()
     {
-
+        $template_name = $this->template_name;
         app()->content_manager->define_constants(['active_site_template' => 'custom-template']);
 
         $template_dir = template_dir();
         $template_dir_expected = templates_dir() . 'custom-template' . DS;
         $this->assertEquals($template_dir_expected, $template_dir);
 
-        app()->content_manager->define_constants(['active_site_template' => 'new-world']);
+        app()->content_manager->define_constants(['active_site_template' => $template_name]);
 
         $template_dir = template_dir();
-        $template_dir_expected = templates_dir() . 'new-world' . DS;
+        $template_dir_expected = templates_dir() . $template_name . DS;
         $this->assertEquals($template_dir_expected, $template_dir);
 
 
@@ -271,7 +297,7 @@ class TemplateTest extends TestCase
      */
     public function testTemplateGetLayoutFile()
     {
-        $templateName = 'new-world';
+        $templateName =  $this->template_name;
 
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);

@@ -396,7 +396,6 @@ class ContentTest extends TestCase
 
         $params = array(
             'title' => 'My test page testContentOriginalLinkRedirect',
-            'active_site_template' => 'new-world',
             'content_type' => 'page',
             'layout_file' => 'layouts/blog.php',
             'subtype' => 'dynamic',

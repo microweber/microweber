@@ -37,21 +37,13 @@ export default {
 
 
 <template>
-
-<div class="my-4 pb-4">
-
-    <label class="live-edit-label" v-if="label" v-html="label"></label>
-    <div class="s-field-content">
-      <div class="mw-multiple-fields">
-        <div class="mw-field mw-field-flat" data-size="medium">
-          <select v-model="selectedOption" class="regular" @input="$emit('update:modelValue', $event.target.value)">
-            <option v-if="selectedOption" :value="selectedOption">{{ selectedOption }}</option>
-            <option v-for="option in options" :selected="selectedOption === option.key" :value="option.key">
-              {{ option.value }}
-            </option>
+    <div class="form-control-live-edit-label-wrapper my-4 d-flex align-items-center flex-wrap gap-2">
+        <label class="live-edit-label px-0 col-4" v-if="label" v-html="label"></label>
+          <select v-model="selectedOption" class="form-control-live-edit-input form-select" @input="$emit('update:modelValue', $event.target.value)">
+                <option v-if="selectedOption" :value="selectedOption">{{ selectedOption }}</option>
+                <option v-for="option in options" :selected="selectedOption === option.key" :value="option.key">
+                  {{ option.value }}
+                </option>
           </select>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
