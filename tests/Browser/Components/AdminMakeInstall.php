@@ -25,7 +25,7 @@ class AdminMakeInstall extends BaseComponent
     /**
      * Assert that the browser page contains the component.
      *
-     * @param  Browser  $browser
+     * @param Browser $browser
      * @return void
      */
     public function assert(Browser $browser)
@@ -77,12 +77,22 @@ class AdminMakeInstall extends BaseComponent
             $browser->type('admin_email', 'bobi@microweber.com');
 
             $browser->pause(300);
-            $browser->select('#default_template', 'new-world');
+
+            if (is_dir(templates_dir() . 'big')) {
+                $templateName = 'big';
+            } else if (is_dir(templates_dir() . 'new-world')) {
+                $templateName = 'new-world';
+            } else {
+                $templateName = 'default';
+            }
+
+
+            $browser->select('#default_template', $templateName);
             $browser->script("$('html, body').animate({ scrollTop: $('#install-button').first().offset().top }, 0);");
 
             $browser->pause(300);
             $browser->click('#install-button');
-            $browser->waitUntilMissing('#installprogressbar',120);
+            $browser->waitUntilMissing('#installprogressbar', 120);
 
             $browser->pause(2000);
 
@@ -99,8 +109,6 @@ class AdminMakeInstall extends BaseComponent
         } else {
             Config::set('microweber.is_installed', 1);
         }
-
-
 
 
     }
