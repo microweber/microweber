@@ -11,9 +11,10 @@ jobs:
   microweber-build-and-upload-unstable:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions/setup-php
       with:
-        repository: ${{ github.repository }}
+        php_version: "8.2"
     - name: Npm install
       uses: actions/setup-node@v3
       with:
