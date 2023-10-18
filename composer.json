@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.2",
         "ext-bcmath": "*",
         "ext-gd": "*",
         "ext-intl": "*",
@@ -28,7 +28,7 @@
         "ext-zip": "*",
         "akaunting/laravel-money": "*",
         "barryvdh/laravel-debugbar": "*",
-        "barryvdh/laravel-dompdf": "*",
+        "barryvdh/laravel-dompdf": "v2.0.1",
         "blade-ui-kit/blade-heroicons": "*",
         "blade-ui-kit/blade-icons": "*",
         "blade-ui-kit/blade-ui-kit": "*",
