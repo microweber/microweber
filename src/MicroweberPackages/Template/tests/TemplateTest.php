@@ -28,12 +28,22 @@ class TemplateTest extends TestCase
 
     public function testGetTemplateConfig()
     {
+
+        if(!is_dir(templates_dir() . 'new-world')){
+            $this->markTestSkipped('Template not found: new-world');
+        }
+
         app()->content_manager->define_constants(['active_site_template' => 'new-world']);
+
+
 
         $config = app()->template->get_config();
 
         $this->assertTrue(isset($config['name']));
         $this->assertTrue('New World' == $config['name']);
+
+
+
 
     }
 

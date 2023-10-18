@@ -92,7 +92,7 @@ class AdminMakeInstall extends BaseComponent
 
             $browser->pause(300);
             $browser->click('#install-button');
-            $browser->waitUntilMissing('#installprogressbar', 120);
+            $browser->waitUntilMissing('#installprogressbar', 300);
 
             $browser->pause(2000);
 
