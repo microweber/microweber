@@ -185,8 +185,14 @@ export class StylesheetEditor extends MicroweberBaseClass {
         if (val === '' || val === '!important' || val === undefined || val === null) {
             const prop_val = '';
             this._temp.children[sel].attributes[prop] = prop_val;
-            delete this._temp.children[sel].attributes[prop];
-            delete this.json.children[sel].attributes[prop];
+            if(this._temp.children[sel]) {
+                delete this._temp.children[sel].attributes[prop];
+            }
+            if(this.json.children[sel]) {
+                delete this.json.children[sel].attributes[prop];
+            }
+            
+            
             this.removeSheetRuleProperty(sel, prop);
         }
 

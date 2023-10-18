@@ -4,6 +4,8 @@ html {
     --toolbar-static-height: 70px;
     --toolbar-height: 60px;
     --toolbar-height-animation-speed: .4s;
+
+    --iframe-height-minus: 0px;
 }
 
 *, *:before, *:after {
@@ -30,8 +32,8 @@ a {
     top: var(--toolbar-height);
     left: 0;
     right: 0;
-    height: calc(100% - var(--toolbar-height));
-    bottom: 0;
+    height: calc(100% - var(--toolbar-height) - var(--iframe-height-minus));
+    bottom: calc(0px - var(--iframe-height-minus));
     transition: var(--toolbar-height-animation-speed);
     display: flex;
     align-items: flex-start;
