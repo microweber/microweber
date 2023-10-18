@@ -2892,3 +2892,17 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
         background-color: var(--tblr-bg-surface);
     }
 }
+
+
+#live_edit_side_holder .mw-control-boxcontent .ui-resizable-handle.ui-resizable-n:before{
+    display: block;
+    content: "...";
+    text-align: center;
+    font-size: 20px;
+    font-family: Arial, ui-sans-serif;
+    line-height: 17px;
+    color: #999;
+}
+#live_edit_side_holder .mw-control-boxcontent{
+    top: 0 !important;
+}
