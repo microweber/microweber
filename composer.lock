@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1fdbacfe6459f7a19fa35b6f13c1b720",
+    "content-hash": "77c43449ffcdf837c2e37da63d902d06",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -975,16 +975,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.6.4",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "d75d17c16a863438027d1d96401cddcd6aa5bb60"
+                "reference": "c827c93b62186488dbffdf4b614413ae7a785607"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/d75d17c16a863438027d1d96401cddcd6aa5bb60",
-                "reference": "d75d17c16a863438027d1d96401cddcd6aa5bb60",
+                "url": "https://api.github.com/repos/composer/composer/zipball/c827c93b62186488dbffdf4b614413ae7a785607",
+                "reference": "c827c93b62186488dbffdf4b614413ae7a785607",
                 "shasum": ""
             },
             "require": {
@@ -1023,6 +1023,7 @@
                 "ext-zip": "Enabling the zip extension allows you to unzip archives",
                 "ext-zlib": "Allow gzip compression of HTTP requests"
             },
+            "default-branch": true,
             "bin": [
                 "bin/composer"
             ],
@@ -1069,7 +1070,7 @@
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
                 "security": "https://github.com/composer/composer/security/policy",
-                "source": "https://github.com/composer/composer/tree/2.6.4"
+                "source": "https://github.com/composer/composer/tree/main"
             },
             "funding": [
                 {
@@ -1085,7 +1086,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-09-29T08:54:47+00:00"
+            "time": "2023-10-11T12:19:31+00:00"
         },
         {
             "name": "composer/installers",
@@ -12498,20 +12499,20 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "7.0.x-dev",
+            "version": "v6.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "7da8ea2362a283771478c5f7729cfcb43a76b8b7"
+                "reference": "edd36776956f2a6fcf577edb5b05eb0e3bdc52ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/7da8ea2362a283771478c5f7729cfcb43a76b8b7",
-                "reference": "7da8ea2362a283771478c5f7729cfcb43a76b8b7",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/edd36776956f2a6fcf577edb5b05eb0e3bdc52ae",
+                "reference": "edd36776956f2a6fcf577edb5b05eb0e3bdc52ae",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.2",
+                "php": ">=8.1",
                 "symfony/polyfill-ctype": "~1.8",
                 "symfony/polyfill-mbstring": "~1.8"
             },
@@ -12541,7 +12542,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/7.0"
+                "source": "https://github.com/symfony/filesystem/tree/v6.3.1"
             },
             "funding": [
                 {
@@ -12557,7 +12558,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-07-27T06:33:22+00:00"
+            "time": "2023-06-01T08:30:39+00:00"
         },
         {
             "name": "symfony/finder",
