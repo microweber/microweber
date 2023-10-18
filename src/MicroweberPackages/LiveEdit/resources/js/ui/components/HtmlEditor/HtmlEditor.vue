@@ -3,7 +3,7 @@ export default {
     methods: {
         showHtmlEditor: function () {
 
-
+ 
             var moduleType = 'editor/code_editor';
             var attrsForSettings = {};
 
@@ -32,6 +32,7 @@ export default {
 
             dlg.closeButton.onclick = function(){
                 dlg.remove();
+                document.documentElement.style.setProperty('--iframe-height-minus',  0 + 'px');
             };
              
            
@@ -60,11 +61,15 @@ export default {
             this.htmlEditorDialog = dlg;
             this.htmlEditorIframe = frame;
 
+            mw.top().win.document.documentElement.style.setProperty('--iframe-height-minus',  300 + 'px');
+
+            mw.spinner({element: dlg.boxContent, decorate: true})
+
         
 
             frame.addEventListener('load', () => {
                 var selected = mw.app.liveEdit.elementHandle.getTarget();
-
+                mw.spinner({element: dlg.boxContent, decorate: true}).remove()
 
                 var css = `
                      html,body{
@@ -150,32 +155,24 @@ export default {
     },
     mounted() {
         this.emitter.on("live-edit-ui-hide", hide => {
+            
             if (hide == 'html-editor') {
                 this.removeHtmlEditor();
                 this.isOpened = false;
             }
         });
         this.emitter.on("live-edit-ui-show", show => {
+           
             if (show == 'html-editor') {
                 if (!this.isOpened) {
                     this.showHtmlEditor();
-                    this.isOpened = true;
+                    // this.isOpened = true;
                 }
-            } else {
-                // this.removeHtmlEditor();
-                //  this.isOpened = false;
-            }
+            }  
         });
 
         var htmlEditorInstance = this;
-        // mw.app.canvas.on('canvasDocumentClick', function () {
-        //     if (instance.isOpened) {
-        //         var selected = mw.app.liveEdit.elementHandle.getTarget();
-        //         if (selected && instance.htmlEditorIframe && instance.htmlEditorIframe.contentWindow && instance.htmlEditorIframe.contentWindow.selectNode) {
-        //             instance.htmlEditorIframe.contentWindow.selectNode(selected)
-        //         }
-        //     }
-        // });
+ 
 
         mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
             if (htmlEditorInstance) {
