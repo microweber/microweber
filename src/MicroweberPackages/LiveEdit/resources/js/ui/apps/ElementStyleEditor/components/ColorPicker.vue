@@ -23,7 +23,7 @@ ref="colorPickerElement"
               placeholder="#ffffff"
           />
           <span
-              class="reset-field tip"
+              class="reset-field tip mw-action-buttons-background-circle-on-hover"
               data-tipposition="top-right"
               data-tip="Restore default value"
               @click="resetColor"
