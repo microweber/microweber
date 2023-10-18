@@ -214,7 +214,7 @@ if ($file and is_file($file)) {
           option-group="template" placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $custom_css ?></textarea>
             <div class="mw-css-editor-c2a-nav" id="csssave">
 
-                <button onclick="savecss();"  class="btn btn-primary" type="button"><?php _e('Save'); ?></button>
+                <span onclick="savecss();"  class="btn btn-dark" type="button"><?php _e('Save'); ?></span>
 
 
 
@@ -241,7 +241,7 @@ if ($file and is_file($file)) {
                 <module type="content/views/layout_selector_custom_css" template="<?php print $template; ?>"/>
 
 
-                <button onclick="live_edit_savecss();" class="btn btn-primary" type="button" ><?php _e('Save'); ?></button>
+                <span onclick="live_edit_savecss();" class="btn btn-dark" type="button" ><?php _e('Save'); ?></span>
 
 
 

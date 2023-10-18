@@ -98,7 +98,7 @@
     <div v-if="showSpacing">
 
 
-    <div class="mw-element-spacing-editor">
+    <div class="mw-element-spacing-editor mt-4">
     <span class="mw-ese-label">Margin</span>
     <div class="mw-ese-holder mw-ese-margin">
         <span class="input mw-ese-top"><input type="text" v-model="marginTop"></span>

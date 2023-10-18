@@ -1,7 +1,7 @@
 <template>
     <div class="form-control-live-edit-label-wrapper d-flex align-items-center">
         <label class="live-edit-label px-0 col-4">Align</label>
-        <div class="s-field-content">
+        <div class="s-field-content ms-3">
             <div class="text-align">
         <span
             class="ta-left"

@@ -200,6 +200,6 @@
 
 <?php /*        <button onclick="format_code2();"  class="btn btn-outline-primary" type="button"><?php _e('Format code'); ?></button>
 */ ?>
-        <button onclick="applyHtmlEdit2();" class="btn btn-primary" type="button"><?php _e('Update'); ?></button>
+        <span onclick="applyHtmlEdit2();" class="btn btn-dark" type="button"><?php _e('Update'); ?></span>
     </div>
 </div>
