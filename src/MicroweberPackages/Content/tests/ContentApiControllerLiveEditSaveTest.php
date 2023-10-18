@@ -23,7 +23,7 @@ class ContentApiControllerLiveEditSaveTest extends TestCase
             'title' => 'pagecontent222' . $unique,
             'url' => 'pagecontent222' . $unique,
             'preview_layout_file' => 'clean.php',
-            'active_site_template' => 'new-world',
+
             'is_active' => 1,
         ]);
 
