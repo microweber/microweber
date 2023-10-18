@@ -1,6 +1,6 @@
 <template>
-    <div class="s-field">
-        <label>Text align</label>
+    <div class="form-control-live-edit-label-wrapper d-flex align-items-center">
+        <label class="live-edit-label px-0 col-4">Align</label>
         <div class="s-field-content">
             <div class="text-align">
         <span

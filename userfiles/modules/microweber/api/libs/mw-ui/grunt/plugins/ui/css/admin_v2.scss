@@ -2931,3 +2931,19 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 .a-color-picker-hsl>input, .a-color-picker-rgb>input, .a-color-picker-single-input>input, .a-color-picker-hsl>label, .a-color-picker-rgb>label, .a-color-picker-single-input>label {
     color: var(--tblr-bg-surface) !important;
 }
+
+.form-control-live-edit-label-wrapper {
+
+    .text-align  {
+        border: 1px solid var(--tblr-body-color);
+        .active {
+            background-color: var(--tblr-body-color) !important;
+            border: 1px solid var(--tblr-body-color) !important;
+        }
+
+        .mdi:before {
+            padding-top: 2px;
+        }
+
+    }
+}

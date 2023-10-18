@@ -1,8 +1,9 @@
 <template>
-  <div class="d-flex gap-2">
-    <div class="dropdown">
+  <div class="form-control-live-edit-label-wrapper my-4 d-flex align-items-center flex-wrap gap-2">
+
+    <label class="live-edit-label px-0 col-4">Font</label>
       <button
-          class="btn btn-outline btn-sm dropdown-toggle"
+          class="form-control-live-edit-input form-select"
           type="button"
           ref="dropdownButton"
           id="fontDropdown"
@@ -17,7 +18,7 @@
         </div>
         <div v-show="!fontFamily">
           <span class="font-picker-selected-font">
-            Select Font
+            Select
           </span>
         </div>
       </button>
@@ -31,11 +32,10 @@
           </a>
         </li>
       </ul>
-    </div>
-    <button type="button" class="btn btn-outline-dark btn-sm" v-on:click="loadMoreFonts()">
-      Load more
-    </button>
+        <small class="cursor-pointer ms-auto" v-on:click="loadMoreFonts()">Load more fonts </small>
+
   </div>
+
 </template>
 
 <script>
