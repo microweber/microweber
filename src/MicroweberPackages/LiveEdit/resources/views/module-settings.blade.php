@@ -182,7 +182,8 @@
     <script>
 
         window.createAutoHeight = function () {
-            if (window.thismodal && thismodal.iframe) {
+            const inFrame = window.thismodal && thismodal.iframe
+            if (inFrame) {
                 mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
             }
             else if (mw.top().win.frameElement && mw.top().win.frameElement.contentWindow === window) {

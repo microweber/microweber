@@ -7286,8 +7286,7 @@ html[dir="rtl"] .mw-select .mw-select-value:after {
   width: 100%;
 }
 .mw-autocomplete.mw-autocomplete-multiple-false .mw-autocomplete-value + input.mw-autocomplete-field {
-  width: -webkit-calc(70%);
-  width: calc(100% - 30px);
+  width: 100% ;
 }
 .mw-ui-btn-nav-tabs {
   float: left;
@@ -8594,7 +8593,49 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-editor-table-manager {
   position: absolute;
   z-index: 9;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  background-color: white;
+  padding: 0;
+  color: #2b2b2b;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
+}
+.mw-editor-table-manager .mw-editor-controller-component[data-tooltip]:after {
+  top: -20px !important;
+}
+.mw-editor-table-manager .mw-bar-control-item {
+  display: block;
+  position: relative;
+}
+.mw-editor-table-manager .mw-bar-row .mw-bar-control-item + .mw-bar-control-item {
+  margin-inline: 0;
+}
+.mw-editor-table-manager .mw-editor-group-button-caret svg {
+  height: 17px;
+  width: auto;
+}
+.mw-editor-table-manager .mw-editor-select-display-value-content svg {
+  width: 24px;
+}
+.mw-editor-table-manager .mw-bar-row {
+  border-bottom-width: 0px;
+  background-color: transparent;
+  padding: 0px;
+}
+.mw-editor-table-manager .mw-editor-controller-component-select-values-holder {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+.mw-editor-table-manager .mw-editor-dropdown-option {
+  padding: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.mw-editor-table-manager .mw-editor-dropdown-option:hover {
+  background-color: #efecec;
+}
+.mw-editor-table-manager .mw-editor-select-display-value-content,
+.mw-editor-table-manager .mw-editor-dropdown-option {
+  font-size: 14px;
 }
 .mw-editor-controller-button {
   display: inline-flex;
@@ -8669,6 +8710,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   position: absolute;
   top: 100%;
   left: 0;
+  background-color: #fff;
   opacity: 0;
   visibility: hidden;
   transition: 0.3s;
@@ -8677,8 +8719,6 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   min-width: 100%;
   overflow: auto;
   max-height: calc(100vh - 200px);
-  min-height: 100px;
-  background: #fff;
 }
 .mw-editor-controller-component-select .mw-editor-controller-component-select-values-holder::-webkit-scrollbar {
   width: 7px;
@@ -8701,6 +8741,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   flex-wrap: wrap;
   width: 200px;
   padding: 10px;
+  background-color: #fff;
 }
 .mw-editor-font-size-selector .mw-editor-controller-component-select-values-holder .mw-editor-dropdown-option {
   width: 33.333%;
@@ -8718,6 +8759,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-editor-controller-component {
   display: inline-block;
+  position: relative;
 }
 .a-color-picker-circle,
 .a-color-picker-palette-color {
@@ -8725,6 +8767,11 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-editor-controller-component-format mw-editor-option {
   white-space: nowrap;
+}
+.color-picker-palette-color-reset {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2M18 11H13L14.81 9.19A3.94 3.94 0 0 0 12 8A4 4 0 1 0 15.86 13H17.91A6 6 0 1 1 12 6A5.91 5.91 0 0 1 16.22 7.78L18 6Z' /%3E%3C/svg%3E");
 }
 .mw-social-icons-layout-list [class*='mw-icon-'] {
   font-size: 24px;
@@ -9011,25 +9058,22 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-static-element.mw-features-boxes .text h4 {
   text-align: left;
 }
-
-
-
-.mw-layout-container{
+.mw-layout-container {
   position: relative;
   z-index: 1;
 }
-.mw-layout-background-node{
+.mw-layout-background-node {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
 }
-.mw-layout-background-block video{
+.mw-layout-background-block video {
   object-fit: cover;
 }
 .mw-layout-background-block video,
-.mw-layout-background-block, 
-.mw-layout-background-node, 
-.mw-layout-background-overlay{
+.mw-layout-background-block,
+.mw-layout-background-node,
+.mw-layout-background-overlay {
   position: absolute !important;
   top: 0;
   left: 0;
@@ -9037,4 +9081,8 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   height: 100%;
   pointer-events: none;
   z-index: 0;
+}
+.edit,
+.allow-drop {
+  min-height: 20px;
 }

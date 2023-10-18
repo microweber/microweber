@@ -20,22 +20,36 @@
         })
     </script>
 
+    <style>
 
-    <div s >
-        <ul class="nav nav-pills nav-justified" id="codeEditorTabStyleEditorNav" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" data-bs-toggle="tab"
+#codeEditorTabStyleEditorCssEditorNav{
+    gap: 8px;
+    padding: 0 20px;
+}
+        #codeEditorTabStyleEditorNav {
+            gap: 20px;
+            padding: 0 20px;
+        }
+    </style>
+
+
+    <div>
+    <div class="navbar navbar-expand-md navbar-transparent" >
+        <ul class="navbar-nav" id="codeEditorTabStyleEditorNav" role="tablist">
+            <li class="nav-item  " role="presentation">
+                <a class="mw-admin-action-links mw-adm-liveedit-tabs  active " data-bs-toggle="tab"
                         data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab">
-                    HTML Editor
-                </button>
+                    <span class="nav-link-title">HTML Editor</span>
+                </a>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" data-bs-toggle="tab"
+                <a class="mw-admin-action-links mw-adm-liveedit-tabs  " data-bs-toggle="tab"
                         data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab">
-                    CSS Editor
-                </button>
+                        <span class="nav-link-title">CSS Editor</span>
+                </a>
             </li>
         </ul>
+    </div>
 
         <div class="tab-content">
             <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
