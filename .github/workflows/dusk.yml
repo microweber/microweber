@@ -15,7 +15,7 @@ jobs:
         php-versions: [ '8.2' ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         env:
           DEBUG: true
           APP_ENV: "testing"
