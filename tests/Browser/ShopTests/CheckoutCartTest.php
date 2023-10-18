@@ -14,10 +14,10 @@ use function Tests\Browser\str_contains;
 class CheckoutCartTest extends DuskTestCase
 {
 
-    public function testSubmit()
+    protected function assertPreConditions(): void
     {
-        $siteUrl = $this->siteUrl;
 
+        parent::assertPreConditions();
 
         $save = array(
             'option_key' => 'shipping_gw_shop/shipping/gateways/country',
@@ -26,6 +26,48 @@ class CheckoutCartTest extends DuskTestCase
         );
 
         save_option($save);
+
+
+        // enable paypal
+        $option = array();
+        $option['option_value'] = '1';
+        $option['option_key'] = 'payment_gw_shop/payments/gateways/paypal';
+        $option['option_group'] = 'payments';
+        $option['module'] = 'shop/payments';
+        save_option($option);
+
+      // enable bank_transfer
+        $option = array();
+        $option['option_value'] = '1';
+        $option['option_key'] = 'payment_gw_shop/payments/gateways/bank_transfer';
+        $option['option_group'] = 'payments';
+        $option['module'] = 'shop/payments';
+        save_option($option);
+
+
+        $option = array();
+        $option['option_value'] = 'y';
+        $option['option_key'] = 'paypalexpress_testmode';
+        $option['option_group'] = 'payments';
+        save_option($option);
+
+
+        $option = array();
+        $option['option_value'] = 'info@microweber.com';
+        $option['option_key'] = 'paypalexpress_username';
+        $option['option_group'] = 'payments';
+        save_option($option);
+
+
+
+
+    }
+    public function testSubmit()
+    {
+        $siteUrl = $this->siteUrl;
+
+
+
 
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
@@ -86,13 +128,6 @@ class CheckoutCartTest extends DuskTestCase
         $this->markTestSkipped('Paypal test is not available at the moment');
         $siteUrl = $this->siteUrl;
 
-        // enable paypal
-        $option = array();
-        $option['option_value'] = 1;
-        $option['option_key'] = 'payment_gw_shop/payments/gateways/paypal';
-        $option['option_group'] = 'payments';
-        $option['module'] = 'shop/payments';
-        save_option($option);
 
         $payments = get_option('payment_gw_shop/payments/gateways/paypal', 'payments') == '1';
         $this->assertTrue($payments);
@@ -108,18 +143,6 @@ class CheckoutCartTest extends DuskTestCase
         $this->assertTrue($foundpaypal);
 
 
-        $option = array();
-        $option['option_value'] = 'y';
-        $option['option_key'] = 'paypalexpress_testmode';
-        $option['option_group'] = 'payments';
-        save_option($option);
-
-
-        $option = array();
-        $option['option_value'] = 'info@microweber.com';
-        $option['option_key'] = 'paypalexpress_username';
-        $option['option_group'] = 'payments';
-        save_option($option);
 
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
@@ -190,7 +213,7 @@ class CheckoutCartTest extends DuskTestCase
             $shop_page = array(
                 'title' => $title,
                 'content_type' => 'page',
-                'layout_file' => 'shop.php',
+                'layout_file' => 'layouts/shop.php',
                 'is_shop' => 1,
                 'is_active' => 1
             );
