@@ -65,14 +65,14 @@ var layout_selector_custom_css_clear_custom_style = function($template){
 if(mw()->layouts_manager->template_check_for_custom_css($template) != false): ?>
 
 <span
-    class="mw-ui-btn layout_selector_custom_css_clear_custom_style tip"
+    class="btn btn-outline layout_selector_custom_css_clear_custom_style tip"
     data-tip="<?php _e("This template has custom styles, applied from the 'design' tool in live edit. Click here to clean them and return this template to its defalt design."); ?>"
     data-tipposition="top-center"
     onclick="layout_selector_custom_css_clear_custom_style('<?php print $template ?>')"><?php _e("Clear custom style"); ?></span>
 
 <?php elseif(mw()->layouts_manager->template_check_for_custom_css($template,true) != false): ?>
 <span
-    class="mw-ui-btn layout_selector_custom_css_clear_custom_style tip"
+    class="btn btn-outlin layout_selector_custom_css_clear_custom_style tip"
     data-tip="<?php _e("You hae removed the custom styles. Click here to return them."); ?>"
     data-tipposition="top-center"
     onclick="layout_selector_custom_css_return_custom_style('<?php print $template ?>')"><?php _e("Return custom style"); ?></span>
