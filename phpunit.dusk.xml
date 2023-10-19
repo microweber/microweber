@@ -42,6 +42,10 @@
         <testsuite name="MicroweberSlowTests">
             <directory>./tests/Browser/SlowTests</directory>
         </testsuite>
+
+        <testsuite name="MicroweberFlakyTests">
+            <directory>./tests/Browser/FlakyTests</directory>
+        </testsuite>
     </testsuites>
 
     <source>
