@@ -15,7 +15,9 @@ use Tests\Browser\Components\LiveEditSaveButton;
 use Tests\Browser\Components\LiveEditSwitchLanguage;
 use Tests\DuskTestCase;
 use Tests\DuskTestCaseMultilanguage;
-
+/**
+ * @runTestsInSeparateProcesses
+ */
 class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
 {
 
