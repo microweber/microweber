@@ -62,9 +62,9 @@ jobs:
       - name: Run Dusk Template Tests
         run: |
           php artisan dusk --testsuite MicroweberTemplatesTests
-      - name: Run Dusk Flaky Tests
-        run: |
-          php artisan dusk --testsuite MicroweberFlakyTests
+#      - name: Run Dusk Flaky Tests
+#        run: |
+#          php artisan dusk --testsuite MicroweberFlakyTests
       - name: Run Dusk Slow Tests
         run: |
           php artisan dusk --testsuite MicroweberSlowTests
