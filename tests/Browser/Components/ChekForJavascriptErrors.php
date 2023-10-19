@@ -178,6 +178,7 @@ class ChekForJavascriptErrors extends BaseComponent
             'https://fonts.cdnfonts.com',
             'https://fonts.cdnfonts.com',
             'Failed to load resource: net::ERR_CONTENT_LENGTH_MISMATCH',
+            "Blocked attempt to show a 'beforeunload'",
             'log.txt - Failed to load resource: the server responded with a status of 404 (Not Found)',
             'Cannot read properties of undefined (reading \'done\')',
             'chromewebdata',
