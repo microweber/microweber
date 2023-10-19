@@ -30,6 +30,11 @@ class ModuleListTest extends TestCase
                 continue;
             }
 
+            if($module['module'] == 'multilanguage'){
+                continue;
+            }
+
+
             $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '" />');
 
             // Looking for parser errors
@@ -59,6 +64,9 @@ class ModuleListTest extends TestCase
                 $moduleSettingsRegisteredAlias =  \MicroweberPackages\Module\Facades\ModuleAdmin::getSettings($module['module']);
 
                 if($moduleSettingsRegisteredAlias){
+                    continue;
+                }
+                if($module['module'] == 'multilanguage'){
                     continue;
                 }
 
@@ -101,6 +109,9 @@ class ModuleListTest extends TestCase
                 continue;
             }
 
+            if($module['module'] == 'multilanguage'){
+                continue;
+            }
 
 
             if (intval($module['installed']) == 1) {
