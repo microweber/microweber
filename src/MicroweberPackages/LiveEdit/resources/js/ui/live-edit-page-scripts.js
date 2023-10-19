@@ -1,19 +1,4 @@
 
-//todo: remove
-/*
-setInterval(function(){
-
-    
-    var fn = getSelection().focusNode;
-    if(fn && window.$ && window.$.fn) {
-        fn = $(fn.parentElement);
-        if(fn.hasClass('edit')) {
-            fn.addClass('changed')
-        }
-        fn.parents('.edit').addClass('changed')
-    }
-}, 500) */
-
 
 mw.require('liveedit.css');
 
@@ -21,7 +6,7 @@ if(window.self !== window.top) {
 
 
     //mw.require('options.js');
-    
+
 
 
     mw.liveEditSaveService = {
@@ -432,9 +417,6 @@ if(window.self !== window.top) {
         mw.top().app.canvas.dispatch('liveEditCanvasBeforeUnload');
         _beforeUnload = event;
 
-        console.log(event)
-
-
         // prevent user from leaving if there are unsaved changes
         var liveEditIframe = (mw.top().app.canvas.getWindow());
         if (liveEditIframe
@@ -447,7 +429,7 @@ if(window.self !== window.top) {
                     liveEditIframe.mw.isNavigating = false;
                 }
             }, 300);
-            
+
 
             return true;
         } else {
