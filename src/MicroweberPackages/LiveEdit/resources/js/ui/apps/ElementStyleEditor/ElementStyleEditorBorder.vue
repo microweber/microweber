@@ -82,15 +82,15 @@
 
 <!--      <BorderRadius v-model="borderRadius"></BorderRadius>-->
 
-    <DropdownSmall v-model="borderPosition" :options="borderPositionOptions" label="Border Position"/>
+    <DropdownSmall v-model="borderPosition" :options="borderPositionOptions" label="Position"/>
 
-    <SliderSmall label="Border Size" v-model="borderSize" :min="0" :max="120" :step="5"></SliderSmall>
+    <SliderSmall label="Size" v-model="borderSize" :min="0" :max="120" :step="5"></SliderSmall>
 
-    <ColorPicker v-model="borderColor" v-bind:color=borderColor :label="'Border Color'"
+    <ColorPicker v-model="borderColor" v-bind:color=borderColor :label="'Color'"
                  @change="handleBorderColorChange"/>
 
     <div>
-      <DropdownSmall v-model="borderStyle" :options="borderStylesOptions" label="Border Style"/>
+      <DropdownSmall v-model="borderStyle" :options="borderStylesOptions" label="Style"/>
     </div>
 
   </div>

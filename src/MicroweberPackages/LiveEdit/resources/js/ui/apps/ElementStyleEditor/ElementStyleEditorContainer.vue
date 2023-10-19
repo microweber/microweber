@@ -13,17 +13,17 @@
 
         <div v-if="showContainer">
 
-        <div class="s-field" id="field-conatiner-type">
-            <label>Container type</label>
+        <div class="form-control-live-edit-label-wrapper my-4 d-flex align-items-center flex-wrap gap-2" id="field-conatiner-type">
+            <label class="live-edit-label px-0 col-4">Container</label>
             <div class="s-field-content">
 
-                <label class="mw-ui-check">
-                    <input type="radio" name="containerType" value="container"
-                           v-model="containerType"> <span></span> <span>Container</span>
+                <label class="form-check">
+                    <input class="form-check-input" type="radio" name="containerType" value="container" v-model="containerType">
+                    <span class="form-check-label">Container</span>
                 </label>
-                <label class="mw-ui-check">
-                    <input type="radio" name="containerType" value="container-fluid"
-                           v-model="containerType"> <span></span> <span>Fluid</span>
+                <label class="form-check">
+                    <input class="form-check-input" type="radio" name="containerType" value="container-fluid" v-model="containerType">
+                    <span class="form-check-label">Fluid</span>
                 </label>
 
 
