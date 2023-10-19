@@ -4,9 +4,9 @@ namespace MicroweberPackages\Modules\Shop\Products\Providers;
 
 use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
+use MicroweberPackages\Modules\Shop\Products\Http\Livewire\ProductsSettingsComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use MicroweberPackages\Modules\Posts\Http\Livewire\ProductsSettingsComponent;
 
 class ProductsServiceProvider extends PackageServiceProvider
 {
