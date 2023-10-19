@@ -63,7 +63,7 @@ class AdminEditProfileTest extends DuskTestCase
             $browser->pause(300);
 
 
-            $browser->press('Save');
+            $browser->click('#user-save-button');
 
             $browser->waitForText('Saved',10);
 

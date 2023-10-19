@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-content-center align-items-center">
-    <div class="rounded-corners">
+    <div class="rounded-corners my-5">
 
       <div class="s-field-content">
         <div class="mw-field mw-field-flat">
@@ -8,7 +8,7 @@
             <div class="mw-field mw-field-flat">
               <input
                   type="number"
-                  class="regular order-1"
+                  class="regular order-1 text-center"
                   name="borderTopLeftRadius"
                   autocomplete="off"
                   v-model="selectedBorderRadius.borderTopLeftRadius"
@@ -23,7 +23,7 @@
                 <i class="angle angle-top-right"></i>
               </span>
               <input
-                  class="regular"
+                  class="regular text-center"
                   type="number"
                   name="borderTopRightRadius"
                   autocomplete="off"
@@ -37,7 +37,7 @@
           <div class="mw-multiple-fields">
             <div class="mw-field mw-field-flat">
               <input
-                  class="regular order-1"
+                  class="regular order-1 text-center"
                   type="number"
                   name="borderBottomLeftRadius"
                   autocomplete="off"
@@ -53,7 +53,7 @@
                 <i class="angle angle-bottom-right"></i>
               </span>
               <input
-                  class="regular"
+                  class="regular text-center"
                   type="number"
                   name="borderBottomRightRadius"
                   autocomplete="off"

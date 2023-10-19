@@ -11,32 +11,37 @@
     </div>
 
     <div v-if="showGridSettings">
-      <div class="s-field">
-        <div class="s-field-content">
-          <div class="mw-field mw-field-flat" data-size="medium">
-            <label>Desktop</label>
-            <i class="mdi mdi-monitor"></i>
+
+      <div class="form-control-live-edit-label-wrapper d-flex align-items-center gap-2">
+        <label class="live-edit-label px-0 col-4">Desktop</label>
+        <i class="mdi mdi-monitor col-2" style="font-size: 24px;"></i>
+        <div class="col-6">
             <DropdownSmall
                 :options="colOptionsDesktop"
                 v-model="selectedColDesktop"
             ></DropdownSmall>
-          </div>
-          <div class="mw-field mw-field-flat" data-size="medium">
-            <label>Tablet</label>
-            <i class="mdi mdi-tablet"></i>
+        </div>
+      </div>
+
+      <div class="form-control-live-edit-label-wrapper d-flex align-items-center gap-2">
+        <label class="live-edit-label px-0 col-4">Tablet</label>
+        <i class="mdi mdi-tablet col-2" style="font-size: 24px;"></i>
+        <div class="col-6">
             <DropdownSmall
                 :options="colOptionsTablet"
                 v-model="selectedColTablet"
             ></DropdownSmall>
-          </div>
-          <div class="mw-field mw-field-flat" data-size="medium">
-            <label>Mobile</label>
-            <i class="mdi mdi-cellphone"></i>
+        </div>
+      </div>
+
+      <div class="form-control-live-edit-label-wrapper d-flex align-items-center gap-2">
+        <label class="live-edit-label px-0 col-4">Mobile</label>
+        <i class="mdi mdi-cellphone col-2" style="font-size: 24px;"></i>
+        <div class="col-6">
             <DropdownSmall
                 :options="colOptionsMobile"
                 v-model="selectedColMobile"
             ></DropdownSmall>
-          </div>
         </div>
       </div>
     </div>

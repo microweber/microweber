@@ -2977,6 +2977,33 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
     background-color: var(--tblr-body-bg2);
 }
 
+.mw-ese-padding .mw-ese-label {
+    color: var(--tblr-body-color);
+}
+
+.v3ti  {
+
+    margin-top: 15px;
+    .v3ti-tag {
+        background-color: var(--tblr-body-color) !important;
+
+        color: var(--tblr-bg-surface) !important;
+
+    }
+}
+
+.rounded-corners {
+
+    .angle-top-right, .angle-top-left, .angle-bottom-right, .angle-bottom-left {
+        border-width: 2px !important;
+
+    }
+
+    .angle {
+        width: 24px !important;
+        height: 24px !important;
+    }
+}
 
 .mw-admin-post-slug > .mdi{
     margin-inline-end: 7px;
@@ -2999,3 +3026,4 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 .mw-iframe-admin #sidebar-toggle, .admin-toolbar-buttons{
     display: none !important;
 }
+
