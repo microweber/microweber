@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-content-center align-items-center">
-    <div class="rounded-corners">
+    <div class="rounded-corners my-5">
 
       <div class="s-field-content">
         <div class="mw-field mw-field-flat">
