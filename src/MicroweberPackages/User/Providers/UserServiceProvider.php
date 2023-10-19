@@ -58,7 +58,7 @@ class UserServiceProvider extends AuthServiceProvider
 
         Livewire::component('admin::users-list', UsersList::class);
         Livewire::component('admin::users.create-profile-information-form', CreateProfileInformationForm::class);
-        Livewire::component('admin::edit-user.update-profile-information-form', UpdateProfileInformationForm::class);
+        Livewire::component('admin::edit-user.update-profile-form', UpdateProfileInformationForm::class);
         Livewire::component('admin::edit-user.update-status-and-role-form', UpdateStatusAndRoleForm::class);
         Livewire::component('admin::edit-user.update-password-form', UpdatePasswordForm::class);
         Livewire::component('admin::edit-user.update-password-without-confirm-form-modal', UpdatePasswordWithoutConfirmFormModal::class);
