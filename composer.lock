@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77c43449ffcdf837c2e37da63d902d06",
+    "content-hash": "efad5d3654bc25da5119029a3f4813c1",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -7220,24 +7220,23 @@
         },
         {
             "name": "microweber-templates/big-free",
-            "version": "6.5",
+            "version": "6.5.1",
             "target-dir": "big",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/big-free",
-                "reference": "8f3ae3ae20c244269f713f591870555b708ecc81"
+                "reference": "b2fbd76d5b8c40dd9ddf142d27c42919fd031c10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-6.5-8e625e.zip",
-                "reference": "8f3ae3ae20c244269f713f591870555b708ecc81",
-                "shasum": "d5a165c5686e49272027d76446ef5709d372845e"
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-6.5.1-809ab5.zip",
+                "reference": "b2fbd76d5b8c40dd9ddf142d27c42919fd031c10",
+                "shasum": "5f61a318dc3e468d202d9952559664ef04e8087c"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/big/",
                 "premium_layouts": [
-                    "layouts/templates/animation-bg/skin-1.php",
                     "layouts/templates/animation-bg/skin-2.php",
                     "layouts/templates/animation-bg/skin-3.php",
                     "layouts/templates/animation-bg/skin-4.php",
@@ -7275,7 +7274,6 @@
                     "layouts/templates/call-to-action/skin-3.php",
                     "layouts/templates/call-to-action/skin-4.php",
                     "layouts/templates/call-to-action/skin-5.php",
-                    "layouts/templates/contacts/skin-1.php",
                     "layouts/templates/contacts/skin-10.php",
                     "layouts/templates/contacts/skin-14.php",
                     "layouts/templates/contacts/skin-15.php",
@@ -7331,7 +7329,6 @@
                     "layouts/templates/ecommerce/skin-7.php",
                     "layouts/templates/ecommerce/skin-8.php",
                     "layouts/templates/ecommerce/skin-9.php",
-                    "layouts/templates/features/skin-1.php",
                     "layouts/templates/features/skin-15.php",
                     "layouts/templates/features/skin-20.php",
                     "layouts/templates/features/skin-22.php",
@@ -7355,7 +7352,6 @@
                     "layouts/templates/features/skin-7.php",
                     "layouts/templates/features/skin-8.php",
                     "layouts/templates/features/skin-9.php",
-                    "layouts/templates/footers/skin-1.php",
                     "layouts/templates/footers/skin-11.php",
                     "layouts/templates/footers/skin-12.php",
                     "layouts/templates/footers/skin-13.php",
@@ -7414,25 +7410,6 @@
                     "layouts/templates/header/skin-7.php",
                     "layouts/templates/header/skin-8.php",
                     "layouts/templates/header/skin-9.php",
-                    "layouts/templates/menus/settings_default.php",
-                    "layouts/templates/menus/settings_is_contact_us_link.php",
-                    "layouts/templates/menus/settings_is_contact_us_link_front.php",
-                    "layouts/templates/menus/settings_is_header_socials.php",
-                    "layouts/templates/menus/settings_is_header_socials_front.php",
-                    "layouts/templates/menus/settings_is_multilanguage.php",
-                    "layouts/templates/menus/settings_is_multilanguage_front.php",
-                    "layouts/templates/menus/settings_is_phone.php",
-                    "layouts/templates/menus/settings_is_phone_front.php",
-                    "layouts/templates/menus/settings_is_profile_link.php",
-                    "layouts/templates/menus/settings_is_profile_link_front.php",
-                    "layouts/templates/menus/settings_is_search_bar.php",
-                    "layouts/templates/menus/settings_is_search_bar_front.php",
-                    "layouts/templates/menus/settings_is_shopping_cart.php",
-                    "layouts/templates/menus/settings_is_shopping_cart_front.php",
-                    "layouts/templates/menus/settings_is_sticky_nav.php",
-                    "layouts/templates/menus/settings_is_sticky_nav_front.php",
-                    "layouts/templates/menus/skin-1.jpg",
-                    "layouts/templates/menus/skin-1.php",
                     "layouts/templates/menus/skin-10.php",
                     "layouts/templates/menus/skin-10.png",
                     "layouts/templates/menus/skin-10_settings.php",
@@ -7448,7 +7425,6 @@
                     "layouts/templates/menus/skin-14.php",
                     "layouts/templates/menus/skin-14.png",
                     "layouts/templates/menus/skin-14_settings.php",
-                    "layouts/templates/menus/skin-1_settings.php",
                     "layouts/templates/menus/skin-2.jpg",
                     "layouts/templates/menus/skin-2.php",
                     "layouts/templates/menus/skin-2_settings.php",
@@ -7474,7 +7450,6 @@
                     "layouts/templates/menus/skin-9.png",
                     "layouts/templates/menus/skin-9_settings.php",
                     "layouts/templates/misc/skin-1.php",
-                    "layouts/templates/misc/skin-11.php",
                     "layouts/templates/misc/skin-2.php",
                     "layouts/templates/misc/skin-3.php",
                     "layouts/templates/misc/skin-5.php",
@@ -7496,7 +7471,6 @@
                     "layouts/templates/team/skin-6.php",
                     "layouts/templates/team/skin-7.php",
                     "layouts/templates/team/skin-9.php",
-                    "layouts/templates/testimonials/skin-1.php",
                     "layouts/templates/testimonials/skin-10.php",
                     "layouts/templates/testimonials/skin-11.php",
                     "layouts/templates/testimonials/skin-12.php",
@@ -7531,9 +7505,9 @@
                     "layouts/templates/videos/skin-8.php"
                 ],
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/65/readme.md",
-                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/65/screenshot.jpg",
-                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/65/screenshot_large.jpg"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/651/readme.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/651/screenshot.jpg",
+                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/651/screenshot_large.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7559,7 +7533,7 @@
                 "forum": "https://microweber.org/community",
                 "docs": "http://docs.microweber.org"
             },
-            "time": "2023-10-17T14:48:27+00:00"
+            "time": "2023-10-18T14:25:48+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
