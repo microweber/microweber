@@ -77,24 +77,19 @@
     </div>
 
     <div v-if="showBorder">
+    <DropdownSmall v-model="borderStyle" :options="borderStylesOptions" label="Style"/>
 
-  <div class="d-flex flex-column gap-3">
-
-<!--      <BorderRadius v-model="borderRadius"></BorderRadius>-->
+    <!--      <BorderRadius v-model="borderRadius"></BorderRadius>-->
 
     <DropdownSmall v-model="borderPosition" :options="borderPositionOptions" label="Position"/>
 
-    <SliderSmall label="Size" v-model="borderSize" :min="0" :max="120" :step="5"></SliderSmall>
+    <SliderSmall label="Size" v-model="borderSize" :min="0" :max="30" :step="1"></SliderSmall>
 
     <ColorPicker v-model="borderColor" v-bind:color=borderColor :label="'Color'"
                  @change="handleBorderColorChange"/>
 
-    <div>
-      <DropdownSmall v-model="borderStyle" :options="borderStylesOptions" label="Style"/>
-    </div>
 
-  </div>
-    </div>
+</div>
 
 </template>
 
