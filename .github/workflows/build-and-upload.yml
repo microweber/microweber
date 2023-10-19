@@ -11,10 +11,16 @@ jobs:
   microweber-test-before-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-php
         with:
-          php_version: '8.1'
+          php_version: "8.1"
+
+      - name: Install Dependencies
+        run: composer install
+
+      - name: Dump autoload dependecies
+        run: composer dump-autoload
       - name: Npm install
         uses: actions/setup-node@v3
         with:
@@ -23,6 +29,11 @@ jobs:
           cache-dependency-path: ./package-lock.json
       - run: npm install
       - run: npm run build
+
+
+      - name: Run PHPUnit
+        run: php artisan test
+
 
   microweber-build-and-upload:
     runs-on: ubuntu-latest
@@ -33,7 +44,7 @@ jobs:
           repository: ${{ github.repository }}
       - uses: ./.github/actions/setup-php
         with:
-          php_version: '8.1'
+          php_version: "8.2"
       - name: Npm install
         uses: actions/setup-node@v3
         with:
@@ -80,4 +91,5 @@ jobs:
           curl -T version.txt ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
           curl -T CHANGELOG.md ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
           curl -T README.md ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
+
 
