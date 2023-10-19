@@ -449,7 +449,7 @@ export class LiveEdit {
             return
         }
 
-        console.log(4)
+         
          
 
 
@@ -471,7 +471,7 @@ export class LiveEdit {
 
         }
 
-        console.log(5)
+        
 
         this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
         this.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);

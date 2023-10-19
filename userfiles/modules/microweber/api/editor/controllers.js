@@ -622,8 +622,15 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
+
+            const node = opt.api.elementNode(opt.api.getSelection().focusNode);
+
+           //  const byTag = mw.tools.firstParentOrCurrentWithTag(node, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p']);
+
+            let isDisabled = opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(node);
+
             
-            rootScope.disabled(opt.controller.element.get(0),  opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+            rootScope.disabled(opt.controller.element.get(0),  isDisabled);
         };
         this.element = this.render();
     },

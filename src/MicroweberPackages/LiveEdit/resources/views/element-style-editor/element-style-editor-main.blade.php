@@ -109,8 +109,12 @@
     var output = function (property, value, ActiveNode) {
 
 
+        
+        
+        
         var mwTarget = targetMw;
         if (ActiveNode) {
+
             if (!specialCases(property, value)) {
                 let prop = property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
                 // if(prop.indexOf('webkit') === 0) {

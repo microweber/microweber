@@ -17,16 +17,23 @@
     .mw-css-editor-c2a-nav > * + *{
         margin-inline-start: 10px;
     }
+    .mw-css-editor-c2a-nav,
+    .mw-css-editor-c2a-nav .module-content-views-layout-selector-custom-css{
+        white-space: nowrap;
+    }
     .mw-css-editor-c2a-nav{
-        position: sticky;
-        bottom: 0;
-        display: flex;
-        padding: 0 10px;
-        background: #eeefef;
-        z-index: 4;
-        justify-content: flex-end;
-        align-items: center;
-        height: 80px;
+        position: fixed;
+        right: 15px;
+        bottom: 15px;
+        background: none;
+        z-index: 6;
+        
+ 
+  
+    }
+
+    .mw-css-editor-c2a-nav .module-content-views-layout-selector-custom-css{
+        display: inline-block;
     }
     #custom_html_code_mirror_save {
 

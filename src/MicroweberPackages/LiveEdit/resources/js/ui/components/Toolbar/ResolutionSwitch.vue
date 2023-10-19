@@ -26,7 +26,8 @@ export default {
                     width = width + 'px'
                 }
                 mw.app.canvas.getFrame().style.width = width;
-                mw.app.liveEdit.handles.hide()
+                mw.app.liveEdit.handles.hide();
+                mw.top().app.resolutionMode = key;
 
             };
             responsiveEmulatorSet(mode)

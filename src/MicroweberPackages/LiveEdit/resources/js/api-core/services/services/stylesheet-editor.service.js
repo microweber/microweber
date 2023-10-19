@@ -156,6 +156,90 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     setPropertyForSelector(sel, prop, val, record = true) {
 
+        let media = 'screen, print';
+
+        if(mw.top().app.resolutionMode === 'phone') {
+            media = '(max-width: 460px)';
+        }
+
+        media = `@media ${media}`;
+
+        if(record) {
+            var state = mw.top().app.state.state();
+            var prev = state[state.length - 1];
+            if(prev && (prev.target !== '$liveEditCSS' || (prev.target === '$liveEditCSS' && prev.value.selector !== sel)) ) {
+                mw.top().app.state.record({
+                    target: '$liveEditCSS',
+                    value: {
+                        selector: sel,
+                        property: prop,
+                        value: getComputedStyle(mw.app.canvas.getDocument().querySelector(sel))[prop]
+                    }
+                })
+            }
+        }
+
+        this.changed = true;
+
+
+        
+
+        if (!this._temp.children[media]) {
+            this._temp.children[media] = {
+                attributes: {},
+                children: {},
+            };
+        }
+
+        if (!this._temp.children[media].children[sel]) {
+            this._temp.children[media].children[sel] = {};
+        }
+
+        if (!this._temp.children[media].children[sel].attributes) {
+            this._temp.children[media].children[sel].attributes = {};
+        }
+
+        this._temp.children[media].children[sel].attributes[prop] = val;
+
+        if (val === '' || val === '!important' || val === undefined || val === null) {
+            const prop_val = '';
+            this._temp.children[media].children[sel].attributes[prop] = prop_val;
+            if(this._temp.children[media].children[sel]) {
+                delete this._temp.children[media].children[sel].attributes[prop];
+            }
+            if(this.json.children[media].children[sel]) {
+                delete this.json.children[media].children[sel].attributes[prop];
+            }
+            
+            
+            this.removeSheetRuleProperty(sel, prop);
+        }
+
+       
+ 
+        this._cssTemp(this._temp);
+
+        if(record) {
+            mw.top().app.state.record({
+                target: '$liveEditCSS',
+                value: {
+                    selector: sel,
+                    property: prop,
+                    value: val
+                }
+            })
+        }
+        mw.top().app.dispatch('setPropertyForSelector', {
+            selector: sel,
+            property: prop,
+            value: val
+        });
+    }
+
+    setPropertyForSelector_v1(sel, prop, val, record = true) {
+
+        
+
         if(record) {
             var state = mw.top().app.state.state();
             var prev = state[state.length - 1];

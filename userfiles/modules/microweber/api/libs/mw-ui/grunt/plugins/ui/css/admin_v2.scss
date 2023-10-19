@@ -1719,6 +1719,16 @@ svg.text-danger {
     }
 }
 
+#content-title-field{
+    font-size: 26px;
+    font-weight: 500;
+    border-width: 0 0 1px 0;
+    border-radius: 0;
+    padding-inline: 0;
+    outline: none !important;
+    box-shadow: none;
+}
+
 .manage-post-item-title {
     word-break: break-all;
 }
@@ -2965,4 +2975,27 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 
 .mw-ese-holder {
     background-color: var(--tblr-body-bg2);
+}
+
+
+.mw-admin-post-slug > .mdi{
+    margin-inline-end: 7px;
+}
+.mw-admin-post-slug > *{
+    vertical-align: middle;
+}
+.mw-admin-post-slug{
+    font-size: 0;
+}
+.mw-admin-post-slug-text > *{
+    font-size: 14px;
+}
+.js-slug-base-url{
+    font-weight: 600;
+}
+
+
+
+.mw-iframe-admin #sidebar-toggle, .admin-toolbar-buttons{
+    display: none !important;
 }

@@ -216,6 +216,7 @@ export default {
             }
 
             if (this.activeNode) {
+                 
                 mw.top().app.dispatch('mw.elementStyleEditor.applyCssPropertyToNode', {
                     node: this.activeNode,
                     prop: prop,

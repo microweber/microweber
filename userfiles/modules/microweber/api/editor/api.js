@@ -715,7 +715,7 @@ mw.lib.require('rangy');
             },
             insertImage: function (url) {
                 var id = mw.id('mw-image-');
-                var img = '<img id="'+id+'" alt="'+url+'" src="' + url + '" />';
+                var img = '<div class="element"><img id="'+id+'" alt="'+url+'" src="' + url + '" /></div>';
                 scope.api.insertHTML(img);
                 setTimeout(function (){
                     img = scope.actionWindow.document.querySelector('#' + id);
