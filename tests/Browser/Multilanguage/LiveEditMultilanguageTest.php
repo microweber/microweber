@@ -19,7 +19,7 @@ use Tests\DuskTestCaseMultilanguage;
 class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
 {
 
-    public function testLiveEditNewPageSave()
+    public function testLiveEditNewPageSaveMiltilanguage()
     {
         $siteUrl = $this->siteUrl;
 
@@ -76,10 +76,16 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
             $browser->pause(1000);
             $browser->typeSlowly('#h1-test-element' , 'This is my text on english language');
 
+            $browser->switchFrameDefault();
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
             $browser->within(new LiveEditSaveButton(), function ($browser) {
                 $browser->clickSaveButton($browser);
             });
-            $browser->switchFrameDefault();
+
 
             // Switch to Bulgarian
             $browser->pause(3000);
@@ -92,6 +98,7 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
             $browser->within(new FrontendSwitchLanguage(), function ($browser) {
                 $browser->switchLanguage('bg_BG');
             });
+            $browser->waitFor('#h1-test-element',30  );
 
             $browser->pause(3000);
 

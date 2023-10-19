@@ -187,7 +187,7 @@ class LiveEditTest extends DuskTestCase
 
                     $browser->pause(1000);
                 });
-
+            $browser->pause(3000);
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
             $browser->switchFrame($iframeElement);
             $browser->assertSee('This is my title');
