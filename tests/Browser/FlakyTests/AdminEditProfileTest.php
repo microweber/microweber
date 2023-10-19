@@ -10,14 +10,10 @@ use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
-/**
- * @runTestsInSeparateProcesses
- */
+
 class AdminEditProfileTest extends DuskTestCase
 {
-    /**
-     * @runInSeparateProcess
-     */
+
     public function testEditProfile()
     {
 

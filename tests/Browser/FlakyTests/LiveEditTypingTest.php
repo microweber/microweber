@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\LiveEdit;
+namespace Tests\Browser\FlakyTests;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
@@ -9,14 +9,11 @@ use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\LiveEditSaveButton;
 use Tests\DuskTestCase;
 
-/**
- * @runTestsInSeparateProcesses
- */
 class LiveEditTypingTest extends DuskTestCase
 {
     public function testLiveEditTypingOnSafeModeText()
     {
-        $siteUrl = site_url();
+        $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
             $browser->within(new AdminLogin, function ($browser) {
