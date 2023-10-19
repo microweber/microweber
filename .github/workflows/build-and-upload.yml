@@ -21,9 +21,6 @@ jobs:
 
       - name: Dump autoload dependecies
         run: composer dump-autoload
-
-      - name: Run PHPUnit
-        run: php artisan test
       - name: Npm install
         uses: actions/setup-node@v3
         with:
@@ -32,6 +29,11 @@ jobs:
           cache-dependency-path: ./package-lock.json
       - run: npm install
       - run: npm run build
+
+
+      - name: Run PHPUnit
+        run: php artisan test
+
 
   microweber-build-and-upload:
     runs-on: ubuntu-latest
