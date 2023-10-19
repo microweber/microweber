@@ -15,7 +15,7 @@
 @section('content')
     <div class="mx-sm-5 mx-1">
 
-        @livewire('admin::edit-user.update-profile-information-form')
+        @livewire('admin::edit-user.update-profile-form')
         <x-microweber-ui::section-border/>
 
         @livewire('admin::edit-user.update-status-and-role-form')

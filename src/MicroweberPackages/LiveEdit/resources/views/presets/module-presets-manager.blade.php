@@ -96,7 +96,9 @@
                 var have_orig_attr = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs");
                 //
                 if(!have_orig_attr) {
-                    var orig_attrs_encoded = window.btoa(JSON.stringify(obj));
+                    var attrsEl = mw.top().tools.getAttrs(el);
+                 //   var orig_attrs_encoded = window.btoa(JSON.stringify(obj));
+                    var orig_attrs_encoded = window.btoa(JSON.stringify(attrsEl));
                     if (orig_attrs_encoded) {
                         mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs", orig_attrs_encoded);
                     }
