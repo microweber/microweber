@@ -1,4 +1,5 @@
 <?php
+return;
 only_admin_access();
 
 // legacy file, please do not use it

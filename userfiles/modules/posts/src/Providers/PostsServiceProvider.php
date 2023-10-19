@@ -9,7 +9,7 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class PostsServiceProvider extends PackageServiceProvider
-{
+{ 
     public function configurePackage(Package $package): void
     {
         $package->name('microweber-module-posts');
