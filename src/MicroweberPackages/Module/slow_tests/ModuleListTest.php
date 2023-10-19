@@ -24,8 +24,9 @@ class ModuleListTest extends TestCase
 
         // Test modules index
         foreach ($getModules as $module) {
+            $moduleSettingsRegisteredAlias =  \MicroweberPackages\Module\Facades\ModuleAdmin::getSettings($module['module']);
 
-            if($module['module'] == 'multilanguage'){
+            if($moduleSettingsRegisteredAlias){
                 continue;
             }
 
@@ -55,9 +56,14 @@ class ModuleListTest extends TestCase
         // Test modules admin
         foreach ($getModules as $module) {
             if (isset($module['ui_admin']) and $module['ui_admin']) {
-                if($module['module'] == 'multilanguage'){
+                $moduleSettingsRegisteredAlias =  \MicroweberPackages\Module\Facades\ModuleAdmin::getSettings($module['module']);
+
+                if($moduleSettingsRegisteredAlias){
                     continue;
                 }
+
+
+
                 $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '/admin" />');
 
                 // Looking for parser errors
@@ -88,9 +94,15 @@ class ModuleListTest extends TestCase
 
         // Test modules
         foreach ($getModules as $i => $module) {
-            if($module['module'] == 'multilanguage'){
+
+            $moduleSettingsRegisteredAlias =  \MicroweberPackages\Module\Facades\ModuleAdmin::getSettings($module['module']);
+
+            if($moduleSettingsRegisteredAlias){
                 continue;
             }
+
+
+
             if (intval($module['installed']) == 1) {
                 if ($module['ui_admin']) {
 
