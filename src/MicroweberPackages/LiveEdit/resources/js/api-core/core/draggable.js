@@ -70,7 +70,7 @@ export const Draggable = function (options, rootSettings) {
         let {pageX, pageY} = event;
         const handleNodeWin = event.target.ownerDocument.defaultView;
 
-        // todo: pageY in firefox is wrong 
+        // todo: pageY in firefox is wrong
         if(handleNodeWin.__$$dragoverCoords) {
             //pageX = handleNodeWin.__$$dragoverCoords.pageX;
             //pageY = handleNodeWin.__$$dragoverCoords.pageY;
@@ -120,7 +120,7 @@ export const Draggable = function (options, rootSettings) {
             let {pageX, pageY} = this.getDragCoords(e);
 
             scope._helper.style.top = (pageY -  scope.$data._calcMinus.y) + 'px';
-            
+
            scope._helper.style.left = ( pageX -  scope.$data._calcMinus.x) + 'px';
 
            // todo: firefox returns wrong pageX pageY
@@ -129,7 +129,7 @@ export const Draggable = function (options, rootSettings) {
            if(isFireforx) {
             scope._helper.style.display = 'none';
            }
-            
+
             scope.settings.document.documentElement.classList.add('le-dragging')
         }
 
@@ -150,7 +150,7 @@ export const Draggable = function (options, rootSettings) {
     this.draggable = function () {
 
 
- 
+
 
         const getFile = (e) => {
             let file;
@@ -160,7 +160,7 @@ export const Draggable = function (options, rootSettings) {
                         return true;
                     }
                 });
-              
+
             } else {
               file = [...e.dataTransfer.files][0];
             }
@@ -178,23 +178,23 @@ export const Draggable = function (options, rootSettings) {
             return;
          }
          dtarget.__draggableReady = true;
-         
 
-          
+
+
 
          dtarget.addEventListener('dragover', function (e) {
              scope.target = null;
              scope.action = null;
              const file = getFile(e);
              e.preventDefault();
-             
+
 
              let canDrag = true;
 
              if(!canDrag) {
                 return;
              }
-              
+
              if(e.target !== scope.element || !scope.element.contains(e.target)) {
                  var targetAction = scope.dropableService.getTarget(e.target, scope.element);
 
@@ -222,34 +222,34 @@ export const Draggable = function (options, rootSettings) {
              }
         });
         dtarget.addEventListener('drop', function (e) {
-        
+
             const handleFileDrag = (file, e) => {
 
                 if(!scope.target || !scope.action) {
                     return;
                 }
- 
-                
+
+
                 file = file.getAsFile();
 
                 const images = ['image/apng','image/avif','image/gif','image/jpeg','image/png', 'image/svg+xml','image/webp'];
                 const videos = ['video/webm', 'video/ogg', 'application/ogg', 'video/mp4'];
-                
+
                 const isImage = images.indexOf(file.type) !== -1;
                 const isVideo = videos.indexOf(file.type) !== -1;
 
                 const canUpload = isImage || isVideo;
-           
+
                 if(!canUpload) {
                     return;
                 }
 
                 mw.spinner({element: document.body, decorate: true});
-             
+
                 mw.uploader().uploadFile(file, function(res){
 
                     var edit = DomService.firstParentWithAnyOfClasses(scope.target, ['edit'])
-            
+
                     mw.app.state.record({
                         target: edit,
                         value: edit.innerHTML
@@ -257,7 +257,7 @@ export const Draggable = function (options, rootSettings) {
                     if(isVideo) {
                         var id = mw.id('dropped-video');
 
-                        
+
                         ElementManager(scope.target)[scope.action](`<div id="${id}" class="module module-video" data-type="video" autoplay="true" url="${res.src}" data-url="${res.src}">`);
                         // ElementManager(scope.target)[scope.action](`<video id="${id}" class="module module-video" autoplay="true" controls playsinline style="width:100%" data-type="video" src="${res.src}" url="${res.src}" data-url="${res.src}">`);
                         setTimeout(() => {
@@ -269,9 +269,9 @@ export const Draggable = function (options, rootSettings) {
                         ElementManager(scope.target)[scope.action](`<img src="${res.src}" alt="${res.name || ''}">`);
                         mw.app.registerChange(edit);
                     }
-                    
+
                     var edit = DomService.firstParentWithAnyOfClasses(scope.target, ['edit'])
-                    
+
                     mw.app.state.record({
                         target: edit,
                         value: edit.innerHTML
@@ -279,20 +279,20 @@ export const Draggable = function (options, rootSettings) {
                     mw.spinner({element: document.body, decorate: true}).remove();
                 })
 
-                
+
             }
-          
+
             if (scope.isDragging) {
-           
+
                 e.preventDefault();
                 const file = getFile(e);
-          
+
                 if(file) {
                     handleFileDrag(file, e);
                     e.stopPropagation();
                     e.preventDefault();
                 } else if (scope.target && scope.action) {
- 
+
                     scope.dispatch('beforeDrop', {element: scope.element, event: e});
                     ElementManager(scope.target)[scope.action](scope.element);
                     e.stopPropagation();
@@ -301,17 +301,17 @@ export const Draggable = function (options, rootSettings) {
                 if(scope.dropIndicator) scope.dropIndicator.hide();
                 scope.dispatch('drop', {element: scope.element, event: e});
             } else {
-          
+
                 const file = getFile(e);
-                
+
                 if(file) {
                     e.stopPropagation();
                     e.preventDefault();
-       
+
                     handleFileDrag(file, e)
                 }
             }
- 
+
             if(scope.dropIndicator) scope.dropIndicator.hide();
         });
 
@@ -365,6 +365,10 @@ export const Draggable = function (options, rootSettings) {
 
             var handleNode = this.handle.get(0);
 
+            if(!handleNode || !handleNode.ownerDocument){
+             return;
+            }
+
             var handleNodeWin = handleNode.ownerDocument.defaultView;
 
             if(!handleNodeWin.__$$dragoverCoords) { // firefox returns wrong pageY on drag
@@ -373,8 +377,9 @@ export const Draggable = function (options, rootSettings) {
 
             handleNode.ownerDocument.addEventListener('dragover',  (e) => {
 
-                handleNodeWin.__$$dragoverCoords.pageY = e.pageY
-                handleNodeWin.__$$dragoverCoords.pageX = e.pageX
+                    handleNodeWin.__$$dragoverCoords.pageY = e.pageY
+                    handleNodeWin.__$$dragoverCoords.pageX = e.pageX
+
             })
 
             handleNode.addEventListener('drag',  (e) => {
@@ -399,7 +404,7 @@ export const Draggable = function (options, rootSettings) {
 
                 e.dataTransfer.effectAllowed = "move";
 
-                 
+
 
 
                 let img = new Image();
