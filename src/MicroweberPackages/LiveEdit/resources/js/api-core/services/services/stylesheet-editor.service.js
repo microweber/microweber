@@ -182,7 +182,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
         this.changed = true;
 
 
-        
+
 
         if (!this._temp.children[media]) {
             this._temp.children[media] = {
@@ -204,19 +204,19 @@ export class StylesheetEditor extends MicroweberBaseClass {
         if (val === '' || val === '!important' || val === undefined || val === null) {
             const prop_val = '';
             this._temp.children[media].children[sel].attributes[prop] = prop_val;
-            if(this._temp.children[media].children[sel]) {
+            if(this._temp.children && this._temp.children[media].children[sel]) {
                 delete this._temp.children[media].children[sel].attributes[prop];
             }
-            if(this.json.children[media].children[sel]) {
+            if(this.json && this.json.children && this.json.children[media].children[sel]) {
                 delete this.json.children[media].children[sel].attributes[prop];
             }
-            
-            
+
+
             this.removeSheetRuleProperty(sel, prop);
         }
 
-       
- 
+
+
         this._cssTemp(this._temp);
 
         if(record) {
@@ -238,7 +238,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     setPropertyForSelector_v1(sel, prop, val, record = true) {
 
-        
+
 
         if(record) {
             var state = mw.top().app.state.state();
@@ -275,12 +275,12 @@ export class StylesheetEditor extends MicroweberBaseClass {
             if(this.json.children[sel]) {
                 delete this.json.children[sel].attributes[prop];
             }
-            
-            
+
+
             this.removeSheetRuleProperty(sel, prop);
         }
 
-       
+
         this._cssTemp(this._temp);
 
         if(record) {
@@ -332,9 +332,9 @@ export class StylesheetEditor extends MicroweberBaseClass {
     }
 
     save(merge = true) {
- 
+
        var toSave;
-       
+
         if(merge) {
             toSave = $.extend(true, {}, this.json, this._temp);
         } else {
@@ -342,9 +342,9 @@ export class StylesheetEditor extends MicroweberBaseClass {
         }
 
         var assigned = this._cleanCSSJSON(toSave);
- 
+
         this.json = this._cleanCSSJSON(assigned);
- 
+
         this._css =  CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.')
 
         mw.top().trigger('mw.liveeditCSSEditor.save');
@@ -357,7 +357,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     publish(callback) {
         return new Promise(resolve => {
-            
+
             const css = {
                 css_file_content: this.getValue()
                 //css_file_content: this.getValue()
@@ -396,7 +396,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
     }
 
     publishIfChanged(callback) {
-   
+
         return new Promise(async resolve => {
             if (this.changed) {
                 await this.publish(callback);

@@ -13,14 +13,17 @@
 
       <input readonly
           @click="togglePicker"
-          type="text"
+          type="hidden"
           class="colorField unit ready mw-color-picker-field"
           :value="selectedColor"
           @input="handleColorChange"
           autocomplete="off"
           placeholder="#ffffff"
-          style="opacity: 0;"
+
       />
+        <input style="margin-left: 25px;" readonly  class="colorField unit ready mw-color-picker-field"  @click="togglePicker"  ref="colorHex" :value="selectedColorHex" />
+
+
       <span
           class="reset-field tip mw-action-buttons-background-circle-on-hover"
           data-tipposition="top-right"
@@ -47,20 +50,31 @@ export default {
     },
   },
   data() {
-    return {
+      var colorHex = mw.top().color.rgbOrRgbaToHex(this.color)
+
+      return {
       selectedColor: this.color,
+      selectedColorHex: colorHex,
     };
   },
   watch: {
     color(newColor) {
       this.selectedColor = newColor;
+
+        var colorHex = mw.top().color.rgbOrRgbaToHex(newColor)
+        this.selectedColorHex = colorHex;
     },
   },
   methods: {
     handleColorChange(event) {
       const newColor = event.target.value;
       this.selectedColor = newColor;
- 
+
+        var colorHex = mw.top().color.rgbOrRgbaToHex(newColor)
+        this.selectedColorHex = colorHex;
+
+
+
 
       this.$emit('change', newColor);
     },
