@@ -2,7 +2,7 @@
     @foreach ($contents as $content)
 
         <div class="card card-product-holder mb-2 post-has-image-true manage-post-item mb-3">
-            <div class="card-body py-4 d-flex flex-wrap align-items-center flex-lg-box">
+            <div class="card-body py-4 row align-items-center flex-lg-box">
                 <div class="col-auto text-center d-flex align-items-center" style="max-width: 40px;">
                      <span class="cursor-move-holder me-2 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()" style="max-width: 80px;">
                           <span href="javascript:;" class="btn btn-link text-blue-lt">
