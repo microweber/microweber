@@ -1,11 +1,11 @@
 <?php
-namespace MicroweberPackages\Post\Http\Livewire;
+namespace MicroweberPackages\Posts\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 
 class PostsSettingsComponent extends ModuleSettingsComponent
 {
-    public $viewPath = 'post::livewire.settings';
+    public $viewPath = 'microweber-module-posts::livewire.settings';
     public $postListFilters = [];
 
     protected $listeners = [
