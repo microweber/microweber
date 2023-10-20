@@ -1,6 +1,6 @@
 
 
-mw.require('liveedit.css');
+
 
 if(window.self !== window.top) {
 

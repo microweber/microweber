@@ -266,7 +266,7 @@ class AdminJsCategoryTree
         $appendCategory['title'] = $category['title'];
         $appendCategory['subtype'] = 'category';
         $appendCategory['position'] = $category['position'];
-        $appendCategory['url'] = $category['url'];
+        $appendCategory['url'] = category_link($category['id']);
 
         if (is_admin()) {
             $appendCategory['admin_edit_url'] = get_category_edit_link($category['id']);

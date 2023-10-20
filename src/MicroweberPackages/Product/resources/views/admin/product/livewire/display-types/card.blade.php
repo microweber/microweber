@@ -92,6 +92,13 @@
                     </div>
                 </div>
 
+                @if($content->is_deleted == 1)
+                    <div class="col-auto ms-3">
+                        @include('content::admin.content.livewire.components.trash-buttons-dropdown', ['content'=>$content])
+                    </div>
+
+                @endif
+
                 <div class="col-md-1 col-auto text-end item-author manage-post-item-col-4">
                     @include('content::admin.content.livewire.components.manage-links', ['content'=>$content])
                 </div>

@@ -2288,6 +2288,10 @@ svg.text-danger {
         }
     }
 
+    .form-control-live-edit-input.form-select{
+        text-transform: capitalize;
+    }
+
     .form-control-live-edit-input, .form-control-live-edit-input.form-select {
         border: none;
         flex: 1 1 0%;
@@ -3026,7 +3030,7 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 
 
 
-.mw-iframe-admin #sidebar-toggle, .admin-toolbar-buttons{
+.mw-iframe-admin #sidebar-toggle, .mw-iframe-admin .admin-toolbar-buttons{
     display: none !important;
 }
 

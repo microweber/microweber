@@ -137,7 +137,12 @@
 
                 <td style="text-align: center">
                     @include('content::admin.content.livewire.components.manage-links', ['content'=>$content])
+                    @if($content->is_deleted == 1)
+                        <div class="row">
+                            @include('content::admin.content.livewire.components.trash-buttons-dropdown', ['content'=>$content])
+                        </div>
 
+                    @endif
                 </td>
 
             </tr>
