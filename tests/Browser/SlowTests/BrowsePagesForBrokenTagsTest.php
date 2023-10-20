@@ -11,6 +11,9 @@ use Tests\DuskTestCase;
 
 class BrowsePagesForBrokenTagsTest extends DuskTestCase
 {
+
+
+
     public function testHomepageScreenshot()
     {
         $siteUrl = $this->siteUrl;
@@ -18,6 +21,8 @@ class BrowsePagesForBrokenTagsTest extends DuskTestCase
         $this->browse(function (Browser $browser) use($siteUrl) {
 
             $browser->visit($siteUrl);
+
+
 
             $browser->with(new TakeFullpageScreenshot(), function ($browser) {
                 $browser->generateScreenshot('homepage-screenshot');
