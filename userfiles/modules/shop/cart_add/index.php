@@ -51,6 +51,10 @@ if ($module_template == false and isset($params['template'])) {
 if ($module_template != false and $module_template != 'none') {
     $template_file = module_templates($config['module'], $module_template);
 
+    if(!is_file($template_file)) {
+        $template_file = module_templates($config['module'], 'default');
+    }
+
 } else {
     $template_file = module_templates($config['module'], 'default');
 
@@ -170,8 +174,6 @@ $taxes_enabled = get_option('enable_taxes', 'shop');
 //        }
 //    }
 //}
-
-
 
 
 ?>

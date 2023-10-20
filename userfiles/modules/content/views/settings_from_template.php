@@ -204,7 +204,12 @@ if (!empty($template_config)) {
 <div class="card-body mb-3 fields">
     <div class="card-header no-border">
         <label class="form-label"><?php _e("Template Edit Fields"); ?></label>
-        <a href="javascript:;" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#template-edit-fields"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('Template Edit Fields') ?></a>
+        <button  type="button" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#template-edit-fields"><span class="collapse-action-label">
+
+                <?php _e('Show Template Edit Fields') ?>
+
+
+        </button>
     </div>
     <div class="card-body pb-4">
         <div class="collapse" id="template-edit-fields">
