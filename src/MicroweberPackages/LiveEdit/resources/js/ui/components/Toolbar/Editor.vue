@@ -175,13 +175,16 @@ export default {
                         mw.top().app.registerChange(element);
 
                     });
-                     
+
 
                     const icon = await iconPicker.promise();
-                     
+
                     setTimeout(function(){
                         mw.app.liveEdit.play();
-                        const target = mw.top().app.liveEdit.handles.get('element').getTarget();
+                        var target = mw.top().app.liveEdit.handles.get('element').getTarget();
+                        if(!target){
+                            return;
+                        }
                         mw.top().app.liveEdit.handles.get('element').set(null);
                         mw.top().app.liveEdit.handles.get('element').set(target);
                     }, 70)
@@ -195,13 +198,13 @@ export default {
                         var url = res.src ? res.src : res;
                         if (!url) return;
                         url = url.toString();
-                        
-                       
+
+
                         var id = mw.id('element');
                         var parent = element.parentNode;
 
                         $(element).replaceWith(`<img class="element" id="${id}" src="${url}" alt="${res.name || ''}">`);
-                       
+
 
                         mw.app.liveEdit.play();
                         dialog.remove();
@@ -272,10 +275,11 @@ export default {
 
 
 
-                    
+
 
 
                     setTimeout(() => {
+
 
                         let editTarget = element;
 
@@ -285,7 +289,11 @@ export default {
                             editTarget = DomService.firstParentOrCurrentWithClass(editTarget, 'edit')
                         }
 
-                         
+                        if(!editTarget) {
+                            return;
+                        }
+
+
 
 
                         editTarget.contentEditable = true;
@@ -294,7 +302,7 @@ export default {
 
                         editTarget.contentEditable = true;
                         mw.app.liveEdit.pause();
- 
+
                         mw.app.richTextEditor.smallEditorInteract(element);
                         mw.app.richTextEditor.positionSmallEditor(element);
 
