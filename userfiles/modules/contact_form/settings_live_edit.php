@@ -449,7 +449,7 @@ $for_module_id = $mod_id;
                         </div>
 
                         <div class="form-group">
-                            <div class="custom-control custom-checkbox">
+                            <div class="custom-control custom-checkbox my-2">
                                 <input type="checkbox" name="disable_captcha" id="disable_captcha" value="y" option-group="<?php print $for_module_id ?>" class="mw_option_field form-check-input" <?php if (get_option('disable_captcha', $for_module_id) == 'y'): ?>checked <?php endif; ?>/>
                                 <label class="custom-control-label" for="disable_captcha"><?php _e("Disable Code Verification ex"); ?>.: <img src="<?php print mw_includes_url(); ?>img/code_verification_example.jpg" alt="" style="margin-top: -8px;"/></label>
                             </div>

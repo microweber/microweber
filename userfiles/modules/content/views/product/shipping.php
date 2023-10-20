@@ -9,7 +9,7 @@
             <div class="row py-0">
                 <div class="col-md-12 ps-md-0">
                     <div class="form-group">
-                        <div class="custom-control custom-checkbox">
+                        <div class="custom-control custom-checkbox my-2">
                             <input x-model="physicalProduct" type="checkbox" class="form-check-input" id="customCheck4"
                                    name="content_data[physical_product]" value="1">
                             <label class="custom-control-label" for="customCheck4"><?php _e("This is a physical product"); ?></label>
@@ -106,7 +106,7 @@
                     <div class="row p-0">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <div class="custom-control custom-checkbox">
+                                <div class="custom-control custom-checkbox my-2">
                                     <input type="checkbox" class="form-check-input" id="show-params-checkout-page" name="content_data[params_in_checkout]" value="1" <?php if ($contentData['params_in_checkout']==1):?>checked="checked"<?php endif; ?> />
                                     <label class="custom-control-label" for="show-params-checkout-page"><?php _e("Show parameters in checkout page"); ?></label>
                                 </div>

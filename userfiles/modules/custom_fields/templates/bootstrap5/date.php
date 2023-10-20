@@ -2,7 +2,7 @@
 $rand = uniqid();
 ?>
 <div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
-    <div class="mw-text-start">
+    <div class="mw-text-start my-2">
 
         <?php if($settings['show_label']): ?>
         <label class="form-label my-3">

@@ -221,7 +221,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
                     <div class="form-group">
-                        <div class="custom-control custom-checkbox">
+                        <div class="custom-control custom-checkbox my-2">
                             <input type="checkbox" class="form-check-input" id="size_auto" value="pending" checked="">
                             <label class="custom-control-label" for="size_auto"><?php _lang('Auto', "modules/image_rollover"); ?></label>
                         </div>

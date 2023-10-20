@@ -63,7 +63,7 @@ if (isset($params['simple']) AND $params['simple'] == 'true') {
                                 </div>
 
                                 <div class="form-group mb-4">
-                                    <div class="custom-control custom-checkbox">
+                                    <div class="custom-control custom-checkbox my-2">
                                         <input type="checkbox" class="mw_option_field form-check-input" id="skip_saving_emails_<?php echo $params['id']; ?>" parent-reload="true" name="skip_saving_emails" value="y" data-value-unchecked="n" data-value-checked="y" option-group="<?php print $mod_id ?>" <?php if (get_option('skip_saving_emails', $mod_id) == 'y'): ?>checked<?php endif; ?> />
                                         <label class="custom-control-label" for="skip_saving_emails_<?php echo $params['id']; ?>"><?php _e("Skip saving emails in my website database."); ?></label>
                                     </div>

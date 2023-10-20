@@ -119,7 +119,7 @@
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-checkbox">
+                                            <div class="custom-control custom-checkbox my-2">
                                                 <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Skip saving emails in my website database.</label>
                                             </div>
@@ -188,7 +188,7 @@
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-checkbox">
+                                            <div class="custom-control custom-checkbox my-2">
                                                 <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Skip saving emails in my website database.</label>
                                             </div>
@@ -256,7 +256,7 @@
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-checkbox">
+                                            <div class="custom-control custom-checkbox my-2">
                                                 <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Skip saving emails in my website database.</label>
                                             </div>

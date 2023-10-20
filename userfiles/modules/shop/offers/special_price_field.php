@@ -48,7 +48,7 @@ if (!isset($offer['price']['offer_price'])) {
 <div class="col-md-12 px-0">
 
 <div class="form-group">
-    <div class="custom-control custom-checkbox">
+    <div class="custom-control custom-checkbox my-2">
         <input autocomplete="off" type="checkbox" name="content_data[has_special_price]" class="form-check-input js-toggle-offer-price-button"  id="customCheck322" data-value-checked="1" data-value-unchecked="0" onchange="toggleOfferPrice()" value="1"  />
         <label class="custom-control-label" for="customCheck322"><?php _e('Make offer price for product'); ?></label>
     </div>
