@@ -76,7 +76,7 @@
         "microweber-deps/seo-helper": "dev-master",
         "microweber-deps/ziggy": "*",
         "microweber-dev/omnipay-przelewy24": "0.2",
-        "microweber-modules/standalone-updater": "^5.3.4",
+        "microweber-modules/standalone-updater": "^5.3.5",
         "microweber-packages/composer-client": "2.0",
         "microweber-packages/microweber-class-alias": "dev-master",
         "microweber-templates/big-free": "6.5.1",
