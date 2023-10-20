@@ -21,7 +21,7 @@
         </div>
     @endif
 
-    <div class="d-flex align-items-center gap-2">
+    <div>
         @if($content->categories->count() > 0)
             <span class="manage-post-item-cats-inline-list">
             @php

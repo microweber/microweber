@@ -305,9 +305,11 @@ export class ElementHandleContent {
                 className: 'mw-handle-add-button',
 
                 onTarget: (target, selfBtn) => {
-                    var selfVisible = true; 
+                    var selfVisible = true;
 
-                    var canDrop = this.settingsTarget.canDropInTarget(target); 
+
+                    var canDrop = this.settingsTarget.canDropInTarget(target);
+
                     if (!canDrop) {
                         selfVisible = false;
                     }
@@ -342,12 +344,12 @@ export class ElementHandleContent {
                         selfVisible = true;
                     }
 
+                    if (target.classList.contains('spacer')) {
+                        selfVisible = false;
+                    }
 
-                    if(target.classList.contains('mw-col')) {
-                        selfVisible = false;
-                    } else if (target.classList.contains('spacer')) {
-                        selfVisible = false;
-                    } else if(isPlaceholder(target)) {
+
+                    if(isPlaceholder(target)) {
                         selfVisible = false;
                     }
 
