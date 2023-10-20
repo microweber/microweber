@@ -204,10 +204,17 @@ export class StylesheetEditor extends MicroweberBaseClass {
         if (val === '' || val === '!important' || val === undefined || val === null) {
             const prop_val = '';
             this._temp.children[media].children[sel].attributes[prop] = prop_val;
-            if(this._temp.children && this._temp.children[media].children[sel]) {
+            if(this._temp.children
+                && this._temp.children[media]
+                && this._temp.children[media].children[sel]
+            ) {
                 delete this._temp.children[media].children[sel].attributes[prop];
             }
-            if(this.json && this.json.children && this.json.children[media].children[sel]) {
+            if(this.json
+                && this.json.children
+                && this.json.children[media]
+                && this.json.children[media].children[sel]
+            ) {
                 delete this.json.children[media].children[sel].attributes[prop];
             }
 
