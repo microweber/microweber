@@ -16,6 +16,7 @@
             <exclude>./tests/Browser/Pages</exclude>
             <exclude>./tests/Browser/ShopTests</exclude>
             <exclude>./tests/Browser/SlowTests</exclude>
+            <exclude>./tests/Browser/FlakyTests</exclude>
         </testsuite>
         <testsuite name="MicroweberShopTests">
             <directory suffix="Test.php">./tests/Browser/ShopTests</directory>
@@ -41,6 +42,10 @@
         </testsuite>
         <testsuite name="MicroweberSlowTests">
             <directory>./tests/Browser/SlowTests</directory>
+        </testsuite>
+
+        <testsuite name="MicroweberFlakyTests">
+            <directory>./tests/Browser/FlakyTests</directory>
         </testsuite>
     </testsuites>
 

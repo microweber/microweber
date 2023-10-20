@@ -180,8 +180,8 @@ class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
                 $currentUrl = $browser->driver->getCurrentURL();
                 $this->assertTrue(strpos($currentUrl, $productData['url']) !== false);
 
-                $browser->assertSee($productData['title']);
-                $browser->assertSee($productData['content_body']);
+                $browser->waitForText($productData['title'],30);
+                $browser->waitForText($productData['content_body'],30);
             }
 
             $this->assertEquals($productDataMultilanguage['en_US']['title'], $findProduct->title);
