@@ -55,8 +55,10 @@
         pointer-events: all;
     }
 
+    .mw-le-resizer.mw-le-resizer-b:before,
+    .mw-le-resizer.mw-le-resizer-b:after,
     .mw-le-resizer.mw-le-resizer-r:after,
-    .mw-le-resizer:not(.mw-le-resizer-r) {
+    .mw-le-resizer:not(.mw-le-resizer-r, .mw-le-resizer-b) {
         display: none;
           
     }

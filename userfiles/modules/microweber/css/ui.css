@@ -224,7 +224,7 @@ html[dir="rtl"] .mw-ui-col:last-child > .mw-col-container {
   padding-inline-end: 0;
 }
 .mw-col img {
-  height: auto !important;
+  height: auto ;
   max-width: 100%;
 }
 .free-element {
