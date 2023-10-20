@@ -3,6 +3,13 @@ must_have_access();
 ?>
 
 <div>
+    <script>
+        $(document).ready(function () {
+            if(mw.top() && mw.top().dialog && mw.top().dialog.get('.mw_modal_live_edit_settings')) {
+                mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
+            }
+        });
+    </script>
 
     <script>
         function reloadParentModule() {
