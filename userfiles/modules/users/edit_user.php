@@ -321,7 +321,7 @@ $saveRoute = route('api.user.store');
                             </div>
 
                             <div class="form-group mt-4 mb-4">
-                                <div class="custom-control custom-checkbox">
+                                <div class="custom-control custom-checkbox my-2">
                                     <input type="checkbox" class="form-check-input" id="send_new_user_email" checked="">
                                     <label class="custom-control-label" for="send_new_user_email"><?php _e("Send the new user an email about their account"); ?>. <br/>
                                     </label>

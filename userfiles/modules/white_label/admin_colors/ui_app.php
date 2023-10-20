@@ -1139,25 +1139,25 @@ foreach ($files as $file) {
                                 <fieldset>
                                     <legend>Custom forms</legend>
                                     <div class="form-group">
-                                        <div class="custom-control custom-radio">
+                                        <div class="custom-control custom-radio my-2">
                                             <input type="radio" id="customRadio1" name="customRadio" class="form-check-input" checked>
                                             <label class="custom-control-label" for="customRadio1">Toggle this custom radio</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
+                                        <div class="custom-control custom-radio my-2">
                                             <input type="radio" id="customRadio2" name="customRadio" class="form-check-input">
                                             <label class="custom-control-label" for="customRadio2">Or toggle this other custom radio</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
+                                        <div class="custom-control custom-radio my-2">
                                             <input type="radio" id="customRadio3" name="customRadio" class="form-check-input" disabled>
                                             <label class="custom-control-label" for="customRadio3">Disabled custom radio</label>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="custom-control custom-checkbox">
+                                        <div class="custom-control custom-checkbox my-2">
                                             <input type="checkbox" class="form-check-input" id="customCheck1" checked>
                                             <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
                                         </div>
-                                        <div class="custom-control custom-checkbox">
+                                        <div class="custom-control custom-checkbox my-2">
                                             <input type="checkbox" class="form-check-input" id="customCheck2" disabled>
                                             <label class="custom-control-label" for="customCheck2">Disabled custom checkbox</label>
                                         </div>
@@ -2710,14 +2710,14 @@ foreach ($files as $file) {
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <div class="custom-control custom-checkbox">
+                                <div class="custom-control custom-checkbox my-2">
                                     <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                     <label class="custom-control-label" for="customCheck1">Allow multiple choices</label>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <div class="custom-control custom-checkbox">
+                                <div class="custom-control custom-checkbox my-2">
                                     <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                     <label class="custom-control-label" for="customCheck1">Is it required field? </label>
                                 </div>
@@ -2738,7 +2738,7 @@ foreach ($files as $file) {
                             </div>
 
                             <div class="form-group">
-                                <div class="custom-control custom-checkbox">
+                                <div class="custom-control custom-checkbox my-2">
                                     <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                     <label class="custom-control-label" for="customCheck1">Show label</label>
                                 </div>

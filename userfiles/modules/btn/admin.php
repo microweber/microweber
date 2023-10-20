@@ -262,7 +262,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         </div>
                         <div class="form-group my-3">
-                            <div class="custom-control custom-checkbox">
+                            <div class="custom-control custom-checkbox my-2">
                                 <input type="checkbox" name="url_blank" value="y" class="mw_option_field form-check-input" <?php if ($url_blank == 'y'): ?>checked<?php endif; ?> id="url_blank">
                                 <label class="custom-control-label" for="url_blank"><?php _e("Open in new window"); ?></label>
                             </div>

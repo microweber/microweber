@@ -585,7 +585,7 @@ if (!empty($recomended_layouts)) {
                                         if(isset($params['show_allow_multiple_template']) && $params['show_allow_multiple_template'] == 'true'):
                                         ?>
                                         <div class="form-group mb-5">
-                                            <div class="custom-control custom-checkbox">
+                                            <div class="custom-control custom-checkbox my-2">
                                                 <input type="checkbox" class="mw_option_field form-check-input" id="allow_multiple_templates"
                                                        parent-reload="true" name="allow_multiple_templates" value="y" data-value-unchecked="n" data-value-checked="y" option-group="system"
                                                        <?php if (get_option('allow_multiple_templates', 'system') == 'y'): ?>checked<?php endif; ?> />

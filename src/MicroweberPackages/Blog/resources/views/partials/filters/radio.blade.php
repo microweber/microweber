@@ -13,7 +13,7 @@ $randomId = uniqid();
     <div class="card-body px-1 filter-max-scroll">
         <div class="mb-3 js-slimscroll">
             @foreach($filter->options as $options)
-                <div class="custom-control custom-radio">
+                <div class="custom-control custom-radio my-2">
                     @php
                         $randIdForCheck = uniqid();
                     @endphp

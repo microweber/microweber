@@ -308,13 +308,13 @@
                                                                </script>
 
 
-                                                               <div class="custom-control custom-checkbox">
+                                                               <div class="custom-control custom-checkbox my-2">
                                                                    <input type="checkbox" <?php if ('1' == get_option('filtering_show_picked_first', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" name="filtering_show_picked_first" value="1" id="filtering_show_picked_first">
                                                                    <label class="custom-control-label" for="filtering_show_picked_first"><?php _e("Show picked filters first"); ?></label>
                                                                </div>
                                                            </div>
 
-                                                           {{--   <div class="custom-control custom-checkbox">
+                                                           {{--   <div class="custom-control custom-checkbox my-2">
                                                                   <input type="checkbox" <?php if ('1' == get_option('filtering_by_template_fields', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" name="filtering_by_template_fields" value="1" id="filter_by_template_fields">
                                                                   <label class="custom-control-label" for="filter_by_template_fields"><?php _e("Template fields"); ?></label>
                                                               </div>--}}

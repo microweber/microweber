@@ -30,7 +30,7 @@
                 <div class="mw-flex-row">
                     <div class="mw-flex-col-md-12 mw-flex-col-sm-12 mw-flex-col-xs-12">
                         <div class="form-group">
-                            <div class="custom-control custom-checkbox">
+                            <div class="custom-control custom-checkbox my-2">
                                 <label class="mw-ui-check" style="padding-top:0">
                                     <input type="checkbox" name="newsletter_subscribe" value="1" autocomplete="off"/> <span></span>
                                     <span><?php _e("Please email me your monthly news and special offers"); ?></span>

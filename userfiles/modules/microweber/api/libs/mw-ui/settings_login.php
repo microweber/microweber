@@ -90,28 +90,28 @@
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-checkbox">
+                                            <div class="custom-control custom-checkbox my-2">
                                                 <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Show first name field?</label>
                                             </div>
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-checkbox">
+                                            <div class="custom-control custom-checkbox my-2">
                                                 <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Show first name field?</label>
                                             </div>
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-checkbox">
+                                            <div class="custom-control custom-checkbox my-2">
                                                 <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Show password confirmation field?</label>
                                             </div>
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-checkbox">
+                                            <div class="custom-control custom-checkbox my-2">
                                                 <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Show newsletter subscription field?</label>
                                             </div>
@@ -126,7 +126,7 @@
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-checkbox">
+                                            <div class="custom-control custom-checkbox my-2">
                                                 <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Disable Captcha?</label>
                                             </div>
@@ -138,7 +138,7 @@
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-checkbox">
+                                            <div class="custom-control custom-checkbox my-2">
                                                 <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Disable registration with temporary email?</label>
                                             </div>
@@ -173,7 +173,7 @@
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-checkbox">
+                                            <div class="custom-control custom-checkbox my-2">
                                                 <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Require Captcha to Login?</label>
                                             </div>
