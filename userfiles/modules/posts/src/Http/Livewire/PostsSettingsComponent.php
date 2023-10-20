@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Modules\Posts\Http\Livewire;
+namespace MicroweberPackages\Modules\Posts\Http\Livewire; 
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 
