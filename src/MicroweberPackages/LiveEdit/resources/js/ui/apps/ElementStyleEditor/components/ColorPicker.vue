@@ -19,6 +19,7 @@
           @input="handleColorChange"
           autocomplete="off"
           placeholder="#ffffff"
+          style="opacity: 0;"
       />
       <span
           class="reset-field tip mw-action-buttons-background-circle-on-hover"
@@ -59,6 +60,7 @@ export default {
     handleColorChange(event) {
       const newColor = event.target.value;
       this.selectedColor = newColor;
+ 
 
       this.$emit('change', newColor);
     },
