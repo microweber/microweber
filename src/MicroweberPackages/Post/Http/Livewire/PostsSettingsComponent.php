@@ -5,6 +5,7 @@ use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 
 class PostsSettingsComponent extends ModuleSettingsComponent
 {
+    public $viewPath = 'post::livewire.settings';
     public $postListFilters = [];
 
     protected $listeners = [
@@ -44,6 +45,6 @@ class PostsSettingsComponent extends ModuleSettingsComponent
             $this->postListFilters['tags'] = $tags;
         }
 
-       return view('post::livewire.settings');
+       return view($this->viewPath);
     }
 }
