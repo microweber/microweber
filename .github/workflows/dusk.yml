@@ -61,11 +61,12 @@ jobs:
           php artisan dusk --testsuite MicroweberLiveEditTest
       - name: Run Dusk Template Tests
         run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
           php artisan dusk --testsuite MicroweberTemplatesTests
+#      - name: Run Dusk Flaky Tests
+#        run: |
+#          php artisan dusk --testsuite MicroweberFlakyTests
       - name: Run Dusk Slow Tests
         run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
           php artisan dusk --testsuite MicroweberSlowTests
       - name: Upload Screenshots
         if: failure()

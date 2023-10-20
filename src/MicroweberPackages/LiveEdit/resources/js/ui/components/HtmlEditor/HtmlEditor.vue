@@ -15,6 +15,10 @@ export default {
             attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
 
 
+            const leFrame = mw.top().app.canvas.getFrame();
+            const leFrameParent = leFrame.parentElement;
+
+
             var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
             
@@ -32,7 +36,11 @@ export default {
 
             dlg.closeButton.onclick = function(){
                 dlg.remove();
+                leFrame.style.transition = 'none';
+                leFrameParent.style.transition = 'none';
                 document.documentElement.style.setProperty('--iframe-height-minus',  0 + 'px');
+                leFrame.style.transition = '';
+                leFrameParent.style.transition = '';
             };
              
            
@@ -91,14 +99,9 @@ export default {
 
 
           
+ 
 
-           /* var holder = document.getElementById(id);
-            holder.appendChild(frame);
-
-            holder.style.height = '300px';*/
-
-            const leFrame = mw.top().app.canvas.getFrame();
-            const leFrameParent = leFrame.parentElement;
+            
 
             $(dlg.boxContent)
             .css('minHeight', 100)

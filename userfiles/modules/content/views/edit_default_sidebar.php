@@ -62,9 +62,30 @@
                     var tags = mw.element();
                     var tree = mw.element();
 
-                    mw.element('.post-category-tags').empty().append(tags)
-                    mw.element('#quick-parent-selector-tree').empty().append(tree)
+                    mw.element('.post-category-tags').empty().append(tags);
 
+                    mw.element('#quick-parent-selector-tree').empty()
+
+
+                    if(tdata.length > 10) {
+                        var ocTpl = `
+                            <div class="btn-group mb-3">
+                                <span class="btn btn-sm" data-action="openAll">Open all</span>
+                                <span class="btn btn-sm" data-action="closeAll">Close all</span>
+                            </div>
+                        `;
+                        mw.element('#quick-parent-selector-tree').append(ocTpl);
+
+                        mw.element('#quick-parent-selector-tree [data-action]').on('click', function(){
+                            if(categorySelector.tree[this.dataset.action]) {
+                                categorySelector.tree[this.dataset.action]()
+                            }
+                        })
+
+                    }
+
+
+                    mw.element('#quick-parent-selector-tree').append(tree);
 
 
                     window.categorySelector = new mw.treeTags({
@@ -106,6 +127,8 @@
                             }
                         }
                     });
+
+                     
 
                     $(categorySelector.tree).on('ready', function () {
                         if (window.pagesTree && pagesTree.selectedData.length) {

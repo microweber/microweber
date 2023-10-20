@@ -285,6 +285,8 @@ export default {
                             editTarget = DomService.firstParentOrCurrentWithClass(editTarget, 'edit')
                         }
 
+                         
+
 
                         editTarget.contentEditable = true;
 
@@ -292,15 +294,16 @@ export default {
 
                         editTarget.contentEditable = true;
                         mw.app.liveEdit.pause();
-                        console.log(editTarget)
-                        console.log(element)
+ 
                         mw.app.richTextEditor.smallEditorInteract(element);
                         mw.app.richTextEditor.positionSmallEditor(element);
 
 
                         element.querySelectorAll('.element[contenteditable], .allow-drop[contenteditable]').forEach(node => {
                             node.contentEditable = 'inherit';
-
+                        })
+                        editTarget.querySelectorAll('.element[contenteditable], .allow-drop[contenteditable]').forEach(node => {
+                            node.contentEditable = 'inherit';
                         })
                     }, 100);
 

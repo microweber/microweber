@@ -201,7 +201,7 @@ export class LiveEdit {
             const classNameNamespaces = ['col-', 'w-', 'h-'];
 
 
-            const resizerEnabled = !Array.from(target.classList).find(cls => !!classNameNamespaces.find(c => cls.includes(c))) && !DomService.hasAnyOfClasses(target, exceptions) && !DomService.hasParentsWithClass(target, 'img-as-background');
+            const resizerEnabled = !Array.from(target.classList).find(cls => !!classNameNamespaces.find(c => cls.indexOf(c) === 0)) && !DomService.hasAnyOfClasses(target, exceptions) && !DomService.hasParentsWithClass(target, 'img-as-background');
 
             elementHandle.resizerEnabled(resizerEnabled)
         });
@@ -449,7 +449,7 @@ export class LiveEdit {
             return
         }
 
-        console.log(4)
+         
          
 
 
@@ -471,7 +471,7 @@ export class LiveEdit {
 
         }
 
-        console.log(5)
+        
 
         this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
         this.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);

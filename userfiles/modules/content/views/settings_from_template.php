@@ -133,7 +133,7 @@ if (!empty($template_config)) {
                                                             controls: ['ul', 'ol']
                                                         }
                                                     },
-                                                    '|', 'link', 'unlink', 'wordPaste',  'removeFormat', 'editSource'
+                                                    '|', 'link', 'unlink', 'wordPaste',  'removeFormat'/*, 'editSource'*/
                                                 ],
                                             ]
                                         });

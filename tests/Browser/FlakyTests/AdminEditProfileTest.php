@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\SlowTests;
+namespace Tests\Browser\FlakyTests;
 
 use App\Models\User;
 use Faker\Factory;
@@ -10,14 +10,10 @@ use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
-/**
- * @runTestsInSeparateProcesses
- */
+
 class AdminEditProfileTest extends DuskTestCase
 {
-    /**
-     * @runInSeparateProcess
-     */
+
     public function testEditProfile()
     {
 
@@ -54,11 +50,11 @@ class AdminEditProfileTest extends DuskTestCase
             $last_name = 'Test' . uniqid();
 
 
-            $browser->type('first_name', $first_name);
-            $browser->type('last_name', $last_name);
+            $browser->typeSlowly('first_name', $first_name);
+            $browser->typeSlowly('last_name', $last_name);
 
-            $browser->type('email', $email);
-            $browser->type('phone', $phone);
+            $browser->typeSlowly('email', $email);
+            $browser->typeSlowly('phone', $phone);
 
             $browser->pause(300);
 
@@ -111,7 +107,7 @@ class AdminEditProfileTest extends DuskTestCase
 
             $phone = '+0000' . rand(9999999, 999999999);
 
-            $browser->type('phone', $phone);
+            $browser->typeSlowly('phone', $phone);
 
             $browser->pause(300);
             $browser->press('Save');
@@ -166,12 +162,12 @@ class AdminEditProfileTest extends DuskTestCase
             $phone = $faker->phoneNumber;
 
 
-            $browser->type('username', $new_username);
-            $browser->type('password', $new_password);
-            $browser->type('first_name', $first_name);
-            $browser->type('last_name', $last_name);
-            $browser->type('phone', $phone);
-            $browser->type('email', $new_email);
+            $browser->typeSlowly('username', $new_username);
+            $browser->typeSlowly('password', $new_password);
+            $browser->typeSlowly('first_name', $first_name);
+            $browser->typeSlowly('last_name', $last_name);
+            $browser->typeSlowly('phone', $phone);
+            $browser->typeSlowly('email', $new_email);
             $browser->select('is_admin', 1);
 //
 //            $browser->script("document.querySelector('label[for=\"is_active1\"]').scrollIntoView({block: 'start', inline: 'nearest',behavior :'auto'});");

@@ -68,8 +68,8 @@
 .mw-control-box-default .mw-control-boxclose {
     position: absolute;
     z-index: 10;
-    width: 35px;
-    height: 35px;
+    width: 56px;
+    height: 56px;
     text-align: center;
     top: 0;
     right: 0;
@@ -77,6 +77,8 @@
     align-items: center;
     justify-content: center;
     background: #fff;
+    border-left: 1px solid #eee;
+    border-bottom: 1px solid #eee;
     cursor: pointer;
     svg{
         width: 25px;

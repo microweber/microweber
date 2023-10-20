@@ -260,10 +260,12 @@ if (isset($params['quick_edit'])) {
 
         }
 
-        slugEdited = !(mw.url.windowHashParam('action') || '').includes('new:');
+        slugEdited = !location.pathname.includes('/create');
         slugFromTitle = function (el) {
 
             var val = $('#content-title-field').val();
+
+            
 
 
             if (slugEdited === false) {
@@ -272,13 +274,7 @@ if (isset($params['quick_edit'])) {
                 $('.js-slug-base-url').text(slug);
             }
         }
-        titlePreviewChange = function (el) {
-            if (typeof el === 'undefined') {
-                return
-            }
-            var val = $(el).val();
-            $('#js-edit-content-dynamic-title-display').text(val);
-        }
+ 
 
     </script>
 
@@ -491,8 +487,9 @@ if (isset($params['quick_edit'])) {
                                                             ->setModel($contentModel)
                                                             //  ->xModel('title')
                                                             ->value($title_for_input)
+                                                            ->placeholder(e('Enter '. e($type) .' title'))
                                                             ->id('content-title-field')
-                                                            ->onkeyup('slugFromTitle(this);titlePreviewChange(this);')
+                                                            ->onkeyup('slugFromTitle(this); ')
                                                             ->autocomplete(false);
                                                         ?>
 
@@ -500,7 +497,7 @@ if (isset($params['quick_edit'])) {
                                                         if (!\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):
                                                             ?>
                                                             <div class="mw-admin-post-slug">
-                                                                <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left"
+                                                                <i class="mdi mdi-content-copy mdi-20px lh-1_3 mr-1 text-silver float-left"
                                                                    title="Copy link" onclick="copy_url_of_page();"
                                                                    style="cursor: copy"></i>
                                                                 <span class="mw-admin-post-slug-text">

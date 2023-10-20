@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Multilanguage;
+namespace Tests\Browser\FlakyTests;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
@@ -10,11 +10,9 @@ use Tests\Browser\Components\AdminContentMultilanguage;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
-use Tests\Browser\Components\LiveEditModuleAdd;
 use Tests\Browser\Components\LiveEditSaveButton;
-use Tests\Browser\Components\LiveEditSwitchLanguage;
-use Tests\DuskTestCase;
 use Tests\DuskTestCaseMultilanguage;
+
 /**
  * @runTestsInSeparateProcesses
  */

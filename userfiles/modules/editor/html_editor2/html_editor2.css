@@ -1,12 +1,10 @@
 
 .CodeMirror, #select_edit_field_wrap {
-    height: calc(100vh - 140px) !important;
+    height: calc(100vh - 55px) !important;
 }
 
-
-
 .tab-content .tab-content .CodeMirror, #select_edit_field_wrap {
-    height: calc(100vh - 140px) !important;
+    height: calc(100vh - 55px) !important;
 }
 
 .htmleditliframe {

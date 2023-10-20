@@ -388,8 +388,9 @@ export class ElementHandleContent {
                         method: 'inline',
                         showHEX: false,
                         onchange: function (color) {
-                            mw.top().app.liveEdit.handles.get('element').getTarget().style.backgroundColor = color;
+                            // mw.top().app.liveEdit.handles.get('element').getTarget().style.backgroundColor = color;
                             selfBtn.querySelector('.mw-le--handle-icon--color-color').style.backgroundColor = color;
+                            mw.top().app.cssEditor.temp(mw.top().app.liveEdit.handles.get('element').getTarget(), 'background-color', color)
 
                         },
 
