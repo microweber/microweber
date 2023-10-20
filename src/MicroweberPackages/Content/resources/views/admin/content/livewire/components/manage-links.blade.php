@@ -33,7 +33,11 @@
         @endif
     </div>
 </div>
-
+<?php
+/*<div class="col-6">
 @if($isInTrashed)
     @include('content::admin.content.livewire.components.trash-buttons')
 @endif
+</div>*/
+
+?>
