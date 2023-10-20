@@ -27,10 +27,20 @@ $template_config = mw()->template->get_config();
 $data_fields_conf = false;
 $data_fields_values = false;
 
+
+$content_type_for_data_fields = false;
+if(isset($params['content_type'])){
+    $content_type_for_data_fields = $params['content_type'];
+}else if(isset($params['content-type'])){
+    $content_type_for_data_fields = $params['content-type'];
+} else if(isset($data['content_type'])){
+    $content_type_for_data_fields = $data['content_type'];
+}
+
 if (!empty($template_config)) {
-    if (isset($params['content-type'])) {
-        if (isset($template_config['data-fields-' . $params['content-type']]) and is_array($template_config['data-fields-' . $params['content-type']])) {
-            $data_fields_conf = $template_config['data-fields-' . $params['content-type']];
+    if (isset($content_type_for_data_fields) and $content_type_for_data_fields) {
+        if (isset($template_config['data-fields-' . $content_type_for_data_fields]) and is_array($template_config['data-fields-' . $content_type_for_data_fields])) {
+            $data_fields_conf = $template_config['data-fields-' . $content_type_for_data_fields];
             if (isset($params['content-id'])) {
                 $data_fields_values = content_data($params['content-id']);
             }
@@ -154,8 +164,10 @@ if (isset($data['created_by']) and $data['created_by']) {
 
 <?php event_trigger('mw.admin.content.edit.advanced_settings', $data); ?>
 
-<?php if (isset($params['content-type']) and isset($params['content-id'])): ?>
-    <module type="content/views/settings_from_template" content-type="<?php print $params['content-type'] ?>" content-id="<?php print $params['content-id'] ?>"/>
+<?php if (isset($content_type_for_data_fields)  and $content_type_for_data_fields and isset($params['content-id'])): ?>
+
+
+    <module type="content/views/settings_from_template" content-type="<?php print $content_type_for_data_fields ?>" content-id="<?php print $params['content-id'] ?>"/>
 <?php endif; ?>
 
    <?php
