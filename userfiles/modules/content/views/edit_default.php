@@ -462,11 +462,7 @@ if (isset($params['quick_edit'])) {
                                     <div class="card-body" id="content-title-field-row">
 
                                         <div class="row">
-                                            <div class="d-flex justify-content-between">
-                                                <h1 class="main-pages-title"><strong id="js-edit-content-dynamic-title-display"
-                                                                                     x-text="title"><?php _e($action_text); ?></strong>
-                                                </h1>
-                                            </div>
+                                           
 
 
                                             <?php if (isset($edit_page_info['title'])): ?>

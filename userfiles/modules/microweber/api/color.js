@@ -34,6 +34,9 @@ mw.color = {
         }
     },
     rgbOrRgbaToHex: function (color) {
+        if(color.indexOf('#') !== -1) {
+          return color
+        }
         if(color.indexOf('rgb(') === 0) {
             return this.rgbToHex(color)
         } else {
