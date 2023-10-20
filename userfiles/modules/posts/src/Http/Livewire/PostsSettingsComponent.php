@@ -1,10 +1,11 @@
 <?php
-namespace MicroweberPackages\Post\Http\Livewire;
+namespace MicroweberPackages\Modules\Posts\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 
 class PostsSettingsComponent extends ModuleSettingsComponent
 {
+    public $viewPath = 'microweber-module-posts::livewire.settings';
     public $postListFilters = [];
 
     protected $listeners = [
@@ -44,6 +45,6 @@ class PostsSettingsComponent extends ModuleSettingsComponent
             $this->postListFilters['tags'] = $tags;
         }
 
-       return view('post::livewire.settings');
+       return view($this->viewPath);
     }
 }

@@ -4,12 +4,12 @@ namespace MicroweberPackages\Modules\Posts\Providers;
 
 use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
-use MicroweberPackages\Post\Http\Livewire\PostsSettingsComponent;
+use MicroweberPackages\Posts\Http\Livewire\PostsSettingsComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class PostsServiceProvider extends PackageServiceProvider
-{ 
+{
     public function configurePackage(Package $package): void
     {
         $package->name('microweber-module-posts');

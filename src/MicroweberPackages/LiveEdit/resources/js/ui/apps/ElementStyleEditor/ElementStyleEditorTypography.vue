@@ -23,7 +23,7 @@
         <ColorPicker v-model="color" v-bind:color=color :label="'Color'" @change="handleFontColorChange"/>
 
         <SliderSmall
-            label="Size"
+            label="Font Size"
             v-model="fontSize"
             :min="0"
             :max="100"
@@ -37,7 +37,7 @@
 
 
         <SliderSmall
-            label="Height"
+            label="Line Height"
             v-model="lineHeight"
             :min="0"
             :max="100"
@@ -216,7 +216,7 @@ export default {
             }
 
             if (this.activeNode) {
-                 
+
                 mw.top().app.dispatch('mw.elementStyleEditor.applyCssPropertyToNode', {
                     node: this.activeNode,
                     prop: prop,
