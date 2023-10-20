@@ -221,14 +221,14 @@ if ($screenshots) {
                                 }"
                                 class="skin-dropdown-option" <?php if (($item['layout_file'] == $cur_template)): ?>selected="selected" <?php endif; ?>value="<?php print $item['layout_file'] ?>" title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>">
 
-                                <div>
-                                    <?php print $item['name'] ?>
-                                </div>
 
-                               <?php if (isset($item['screenshot'])): ?>
-                               <div>
-                                   <img src="<?php print $item['screenshot'] ?>" />
+                               <?php if (isset($item['screenshot']) && !empty($item['screenshot'])): ?>
+                               <div style="background: url('<?php print $item['screenshot'] ?>');width:100%;height:120px;background-size: contain;background-repeat: no-repeat;">
                                </div>
+                               <?php else: ?>
+                                   <div>
+                                       <?php print $item['name'] ?>
+                                   </div>
                                <?php endif; ?>
 
 
