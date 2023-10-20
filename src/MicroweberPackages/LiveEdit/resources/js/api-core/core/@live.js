@@ -201,7 +201,7 @@ export class LiveEdit {
             const classNameNamespaces = ['col-', 'w-', 'h-'];
 
 
-            const resizerEnabled = !Array.from(target.classList).find(cls => !!classNameNamespaces.find(c => cls.includes(c))) && !DomService.hasAnyOfClasses(target, exceptions) && !DomService.hasParentsWithClass(target, 'img-as-background');
+            const resizerEnabled = !Array.from(target.classList).find(cls => !!classNameNamespaces.find(c => cls.indexOf(c) === 0)) && !DomService.hasAnyOfClasses(target, exceptions) && !DomService.hasParentsWithClass(target, 'img-as-background');
 
             elementHandle.resizerEnabled(resizerEnabled)
         });
