@@ -1,5 +1,5 @@
 <div>
-    <div class="card manage-content-card mt-4 p-5 w-full">
+    <div class="mt-4 p-5 w-full">
         <div>
             <div class="d-flex justify-content-between mb-3">
                 <div>
