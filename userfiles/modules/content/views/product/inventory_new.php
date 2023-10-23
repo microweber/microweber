@@ -91,14 +91,14 @@
 
             <div class="col-md-12">
                 <div class="form-group">
-                    <div class="custom-control custom-checkbox">
+                    <div class="custom-control custom-checkbox my-2">
                         <input type="checkbox" name="content_data[track_quantity]" class="form-check-input js-track-quantity-check" value="1" <?php if ($contentData['track_quantity'] == 1) : ?>checked="checked" <?php endif; ?> id="customCheck2">
                         <label class="custom-control-label" for="customCheck2">Track quantity</label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <div class="custom-control custom-checkbox">
+                    <div class="custom-control custom-checkbox my-2">
                         <input type="checkbox" class="form-check-input js-invertory-sell-oos" id="customCheck3" name="content_data[sell_oos]" value="1" <?php if ($contentData['sell_oos'] == 1) : ?>checked="checked" <?php endif; ?>>
                         <label class="custom-control-label" for="customCheck3">Continue selling when out of stock</label>
                     </div>

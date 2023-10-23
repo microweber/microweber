@@ -146,7 +146,7 @@
 
             <div>
                 <div class="form-group">
-                    <label class="custom-control custom-radio">
+                    <label class="custom-control custom-radio my-2">
                         <input type="radio" name="customRadio" value="picker" class="form-check-input">
                         <span class="custom-control-label"><?php _e('Picker'); ?></span>
                         <div class="custom-radio-checked-content">
@@ -161,7 +161,7 @@
                         </div>
                     </label>
 
-                    <label class="custom-control custom-radio">
+                    <label class="custom-control custom-radio my-2">
                         <input type="radio" name="customRadio" value="palette" class="form-check-input">
                         <span class="custom-control-label"><?php _e('Palette'); ?></span>
                         <div class="custom-radio-checked-content">
@@ -177,7 +177,7 @@
                         </div>
                     </label>
 
-                    <label class="custom-control custom-radio">
+                    <label class="custom-control custom-radio my-2">
                         <input type="radio" name="customRadio" value="image" class="form-check-input">
                         <span class="custom-control-label"><?php _e('Image'); ?></span>
                         <div class="custom-radio-checked-content">

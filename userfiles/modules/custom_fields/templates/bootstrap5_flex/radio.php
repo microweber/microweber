@@ -15,10 +15,10 @@
         foreach ($data['values'] as $key => $value):
             $i++;
             ?>
-            <div class="custom-control custom-radio">
+            <div class="custom-control custom-radio my-2">
                 <input type="radio" id="custom-radio-<?php echo $data['id'] . '-' . $key; ?>" class="form-check-input" <?php if ($settings['required'] && $i == 1): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" value="<?php echo $value; ?>"
                        name="<?php echo $data['name_key']; ?>">
-                <label class="custom-control-label my-3" for="custom-radio-<?php echo $data['id'] . '-' . $key; ?>"><?php echo $value; ?></label>
+                <label class="custom-control-label ms-2" for="custom-radio-<?php echo $data['id'] . '-' . $key; ?>"><?php echo $value; ?></label>
             </div>
         <?php endforeach; ?>
 

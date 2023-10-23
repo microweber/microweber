@@ -210,7 +210,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="form-group">
                         <small class="d-block text-muted mb-2"><?php _e('The video will start automaticly if you check the option'); ?></small>
 
-                        <div class="custom-control custom-checkbox">
+                        <div class="custom-control custom-checkbox my-2">
                             <input id="chk_autoplay" name="autoplay" class="mw_option_field form-check-input" type="checkbox" data-mod-name="<?php print $params['data-type'] ?>" value="y" <?php if (get_option('autoplay', $params['id']) == 'y') { ?>checked<?php } ?>/>
                             <label class="custom-control-label" for="chk_autoplay"><?php _e("Autoplay"); ?></label>
                         </div>
@@ -251,7 +251,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <label class="form-label font-weight-bold"><?php _e("Video Lazy Loading for SEO"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Optional setting for use with embedded YouTube videos to defer the downloading of video scripts. Thumbnail image required, see Thumbnail Upload section"); ?></small>
 
-                        <div class="custom-control custom-checkbox">
+                        <div class="custom-control custom-checkbox my-2">
                             <input id="chk_lazyload" name="lazyload" class="mw_option_field form-check-input" type="checkbox" data-mod-name="<?php print $params['data-type'] ?>" value="y" <?php if (get_option('lazyload', $params['id']) == 'y') { ?>checked<?php } ?>/>
                             <label class="custom-control-label" for="chk_lazyload"><?php _e("Lazy load"); ?></label>
                         </div>

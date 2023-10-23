@@ -3,12 +3,12 @@
 export default {
     methods: {
 
-        save: async () => {
-            const btn = document.getElementById('save-button');
+        save: () => {
+            var btn = document.getElementById('save-button');
             btn.classList.add('btn-loading');
             btn.disabled = true;
             var canvasWindow = mw.app.canvas.getWindow();
-            if(canvasWindow.mw && typeof(canvasWindow.mw.drag) === undefined){
+            if(canvasWindow.mw && typeof canvasWindow.mw.drag === 'undefined'){
                 btn.classList.remove('btn-loading');
                 btn.disabled = false;
                 mw.notification.error('Something went wrong with saving the page.',7500);

@@ -23,13 +23,14 @@ if (isset($params['content-id'])) {
 ?>
 
 <br class="mw-add-to-cart-spacer"/>
+
 <module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price" id="cart_fields_<?php print $params['id'] ?>"/>
 <?php if (is_array($data)): ?>
     <div class="price">
         <?php $i = 1;
 
         foreach ($data as $key => $v): ?>
-            <div class="mw-price-item font-weight-bold uppercase">
+            <div class="mw-price-item d-flex align-items-center justify-content-between ">
 
 
                 <?php
@@ -41,19 +42,11 @@ if (isset($params['content-id'])) {
 
                 ?>
 
-                <?php if (is_string($key) and trim(strtolower($key)) == 'price'): ?>
 
-                    <span class="mw-price-item-key mw-price-item-key-<?php print ($keyslug_class); ?>">
-                    <?php _e($key); ?>
-                </span>
-                <?php else: ?>
-                    <span class="mw-price-item-key mw-price-item-key-<?php print ($keyslug_class); ?>">
-                    <?php print $key; ?>
-                </span>
-                <?php endif; ?>:
+                <div class="price-holder">
 
-
-                <span class="mw-price-item-value"><?php print currency_format($v); ?></span>
+                    <h5 class="mb-0 price"><?php print currency_format($v); ?></h5>
+                </div>
 
 
                 <?php if (!isset($in_stock) or $in_stock == false) : ?>

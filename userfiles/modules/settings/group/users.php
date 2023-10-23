@@ -171,28 +171,28 @@ if ($registration_approval_required == false) {
                                     </div>
 
                                     <div class="form-group mb-5">
-                                        <div class="custom-control custom-checkbox">
+                                        <div class="custom-control custom-checkbox my-2">
                                             <input type="checkbox" value="y" <?php if ($form_show_first_name == 'y'): ?> checked <?php endif; ?> name="form_show_first_name" id="form_show_first_name" class="mw_option_field form-check-input" option-group="users">
                                             <label class="custom-control-label" for="form_show_first_name"><?php _e("Show first name field?"); ?></label>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-5">
-                                        <div class="custom-control custom-checkbox">
+                                        <div class="custom-control custom-checkbox my-2">
                                             <input type="checkbox" value="y" <?php if ($form_show_last_name == 'y'): ?> checked <?php endif; ?> name="form_show_last_name" id="form_show_last_name" class="mw_option_field form-check-input" option-group="users">
                                             <label class="custom-control-label" for="form_show_last_name"><?php _e("Show last name field?"); ?></label>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-5">
-                                        <div class="custom-control custom-checkbox">
+                                        <div class="custom-control custom-checkbox my-2">
                                             <input type="checkbox" value="y" <?php if ($form_show_password_confirmation == 'y'): ?> checked <?php endif; ?> name="form_show_password_confirmation" id="form_show_password_confirmation" class="mw_option_field form-check-input" option-group="users">
                                             <label class="custom-control-label" for="form_show_password_confirmation"><?php _e("Show password confirmation field?"); ?></label>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-5">
-                                        <div class="custom-control custom-checkbox">
+                                        <div class="custom-control custom-checkbox my-2">
                                             <input type="checkbox" value="y" <?php if ($form_show_newsletter_subscription == 'y'): ?> checked <?php endif; ?> name="form_show_newsletter_subscription" id="form_show_newsletter_subscription" class="mw_option_field form-check-input" option-group="users">
                                             <label class="custom-control-label" for="form_show_newsletter_subscription"><?php _e("Show newsletter subscription checkbox?"); ?></label>
                                         </div>

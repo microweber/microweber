@@ -128,7 +128,7 @@
                         }
                     });
 
-                     
+
 
                     $(categorySelector.tree).on('ready', function () {
                         if (window.pagesTree && pagesTree.selectedData.length) {
@@ -222,7 +222,7 @@
                             <input type="radio" id="is_active_1"  name="is_active" class="form-check-input mt-1" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
                             <label class="custom-control-label ms-1 fs-4 mw-admin-edit-post-publish " style="cursor:pointer" for="is_active_1"><?php _e("Published"); ?></label>
                         </div>
-                        <div class="custom-control custom-radio">
+                        <div class="custom-control custom-radio my-2">
                             <input type="radio" id="is_active_0" name="is_active" class="form-check-input mt-1" value="0" <?php if (!$data['is_active']): ?>checked<?php endif; ?>>
                             <label class="custom-control-label ms-1 fs-4 mw-admin-edit-post-unpublish " style="cursor:pointer" for="is_active_0"><?php _e("Unpublished"); ?></label>
                         </div>

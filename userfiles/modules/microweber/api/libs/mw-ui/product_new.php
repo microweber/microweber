@@ -99,7 +99,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="custom-control custom-checkbox">
+                                    <div class="custom-control custom-checkbox my-2">
                                         <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                         <label class="custom-control-label" for="customCheck1">Charge tax on this product</label>
                                     </div>
@@ -134,14 +134,14 @@
 
                            <div class="col-md-12">
                                <div class="form-group">
-                                   <div class="custom-control custom-checkbox">
+                                   <div class="custom-control custom-checkbox my-2">
                                        <input type="checkbox" class="form-check-input" id="customCheck2" checked="">
                                        <label class="custom-control-label" for="customCheck2">Track quantity</label>
                                    </div>
                                </div>
 
                                <div class="form-group">
-                                   <div class="custom-control custom-checkbox">
+                                   <div class="custom-control custom-checkbox my-2">
                                        <input type="checkbox" class="form-check-input" id="customCheck3">
                                        <label class="custom-control-label" for="customCheck3">Continue selling when out of stock</label>
                                    </div>
@@ -201,7 +201,7 @@
                        <div class="row">
                            <div class="col-md-12">
                                <div class="form-group">
-                                   <div class="custom-control custom-checkbox">
+                                   <div class="custom-control custom-checkbox my-2">
                                        <input type="checkbox" class="form-check-input" id="customCheck4" checked="">
                                        <label class="custom-control-label" for="customCheck4">This is a physical product</label>
                                    </div>
@@ -308,7 +308,7 @@
                            <div class="row">
                                <div class="col-md-12">
                                    <div class="form-group">
-                                       <div class="custom-control custom-checkbox">
+                                       <div class="custom-control custom-checkbox my-2">
                                            <input type="checkbox" class="form-check-input" id="customCheck4" />
                                            <label class="custom-control-label" for="customCheck4">Show parameters in checkout page</label>
                                        </div>
