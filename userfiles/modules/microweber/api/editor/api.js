@@ -702,7 +702,14 @@ mw.lib.require('rangy');
                     elements.shift();
                 }
 
-                Array.prototype.slice.call(this._cleaner.querySelectorAll('[style]')).forEach(node => node.removeAttribute('style'))
+                Array.prototype.slice.call(this._cleaner.querySelectorAll('[style]')).forEach(node => {
+                    const keys = Array.from(node.style);
+                    keys.forEach(key => {
+                        if(node.style[key].includes('var(')) {
+                            node.style[key] = '';
+                        }
+                    });
+                });
                 
  
                 return _filterXSS(this._cleaner.innerHTML) || '';

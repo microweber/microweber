@@ -383,6 +383,7 @@ export class LiveEdit {
         return this.activeNode;
     }
     selectNode(target, event) {
+     
 
         if(target.nodeName === 'BODY') {
 
@@ -390,14 +391,14 @@ export class LiveEdit {
         }
 
  
-    
+ 
  
 
         if (this.handles.targetIsOrInsideHandle(target ) || this.handles.targetIsSelected(target, this.interactionHandle) ) {
 
             return
         }
-         
+ 
 
         if( target.isContentEditable ) {
             if(target.nodeName === 'IMG') {
@@ -410,7 +411,7 @@ export class LiveEdit {
 
 
       
-
+ 
 
         this.activeNode = target;
 
@@ -441,7 +442,7 @@ export class LiveEdit {
         }
 
          
-
+         
 
         var elementTarget =  this.handles.get('element').getTarget()
 
@@ -450,7 +451,7 @@ export class LiveEdit {
         }
 
          
-         
+        
 
 
         first = target;
@@ -473,7 +474,10 @@ export class LiveEdit {
 
         
 
-        this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
+        this.document.querySelectorAll('[contenteditable]').forEach(node => {
+             
+            node.contentEditable = false
+        });
         this.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);
 
          this.handles.get('element').set(null)
@@ -481,7 +485,7 @@ export class LiveEdit {
         this.handles.hide();
 
 
-
+       
 
 
 
@@ -840,12 +844,13 @@ export class LiveEdit {
         let _dblclicktarget
 
         ElementManager(this.root).on('dblclick', (e) => {
+             
 
             if(mw.app.isPreview()) {
                 return;
             }
 
-
+           
 
             if(mw.app.canvas) {
                 var liveEditIframeWindow =  mw.app.canvas.getWindow()
@@ -856,7 +861,7 @@ export class LiveEdit {
             }
 
 
-
+             
 
 
             var selected = mw.app.liveEdit.elementHandle.getTarget();
@@ -874,6 +879,7 @@ export class LiveEdit {
                 return false
             }
 
+           
 
             if(module && !selected && (module.contains(e.target) || e.target.id === 'mw-handle-item-module-root') ) {
 
@@ -883,20 +889,23 @@ export class LiveEdit {
                 return false
             }
 
+        
+
 
             var newTarget = mw.app.liveEdit.elementHandleContent.settingsTarget.getSettingsTarget(selected);
             if (selected !== newTarget) {
                 var selected = newTarget;
             }
+ 
 
             if (selected && !selected.contains(_dblclicktarget) ) {
-
+                
                 mw.app.editor.dispatch('editNodeRequest', selected);
             } else if (selected &&  selected === _dblclicktarget) {
-
+               
                 mw.app.editor.dispatch('editNodeRequest', selected);
             } else if (!selected && e.target.classList.contains('edit') && e.target.style.backgroundImage) {
-
+             
                 mw.app.editor.dispatch('editNodeRequest', e.target);
             }
 
