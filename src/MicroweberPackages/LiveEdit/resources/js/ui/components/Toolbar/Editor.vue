@@ -307,13 +307,13 @@ export default {
                         mw.app.richTextEditor.positionSmallEditor(element);
 
 
-                        element.querySelectorAll('.element[contenteditable], .allow-drop[contenteditable]').forEach(node => {
+                        element.querySelectorAll('[contenteditable], .allow-drop[contenteditable]').forEach(node => {
                             node.contentEditable = 'inherit';
                         })
-                        editTarget.querySelectorAll('.element[contenteditable], .allow-drop[contenteditable]').forEach(node => {
+                        editTarget.querySelectorAll('[contenteditable], .allow-drop[contenteditable]').forEach(node => {
                             node.contentEditable = 'inherit';
                         })
-                    }, 100);
+                    }, 300);
 
                 }
 
