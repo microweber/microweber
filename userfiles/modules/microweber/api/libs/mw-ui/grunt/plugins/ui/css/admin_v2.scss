@@ -9,6 +9,7 @@
         --tblr-body-font-family: 'Inter';
         --tblr-body-bg2: #f0f0f0;
         --mw-forms-min-height: 45px;
+        --mw-admin-gray-color: #f5f5f5;
 
     body:not(.theme-dark) {
         --tblr-bg-surface-tertiary: #e1edf9;
@@ -31,6 +32,7 @@ body:not(.theme-dark, .is_admin) {
 body.theme-dark {
     --tblr-body-bg2: #0b0b0c;
     --tblr-body-color: #ffffff;
+    --mw-admin-gray-color: #4a4a4a;
 
     .form-check-input:not(:checked), .form-control, .form-file-text, .form-select, .form-selectgroup-check {
         background-color: var(--tblr-body-bg);
@@ -144,6 +146,20 @@ body.theme-dark {
         background-color: var(--tblr-body-bg) !important;
     }
 
+    .v3ti {
+        .v3ti-tag {
+            background-color: var(--tblr-body-bg) !important;
+            color: var(--tblr-body-color) !important;
+        }
+    }
+
+    .mw-domtree-item-label {
+        color: var(--tblr-body-color) !important;
+    }
+
+    .mw-domtree-item-label .mw_module_settings_sidebar_icon {
+        filter: invert(1);
+    }
 
     .live-edit-toolbar-buttons {
         &:hover, &.live-edit-resolution-active, &.live-edit-right-sidebar-active , &:focus, &:active, &.active  {
@@ -162,6 +178,12 @@ body.theme-dark {
 
         img {
             filter: invert(1);
+        }
+    }
+
+    .modal-add-new-buttons-img, .mw-liveedit-button-actions-component {
+        svg:not(.text-danger) {
+          filter: invert(1);
         }
     }
 
@@ -815,6 +837,7 @@ small.text-muted {
         text-align: center;
         border-radius: 3px;
         box-shadow: var(--tblr-shadow-button-inset);
+
     }
 
     &:hover {
@@ -2290,6 +2313,25 @@ svg.text-danger {
 
     .form-control-live-edit-input.form-select{
         text-transform: capitalize;
+
+        option {
+            color: #000;
+        }
+    }
+
+    .v-slider-thumb__surface.elevation-2 {
+        color: var(--tblr-body-bg2);
+    }
+
+    .form-control-live-edit-label-wrapper {
+
+        .text-align  {
+
+            .active {
+                background-color: var(--tblr-body-bg2) !important;
+                border-color: var(--tblr-body-bg2) !important;
+            }
+        }
     }
 
     .form-control-live-edit-input, .form-control-live-edit-input.form-select {
@@ -2330,7 +2372,7 @@ svg.text-danger {
             min-height: unset;
 
             &:focus, &:focus-visible {
-                background-color: #f5f5f5;
+                background-color: var(--mw-admin-gray-color);
             }
         }
     }
@@ -2506,7 +2548,7 @@ svg.text-danger {
         height: 675px;
 
         .mw-ac-editor-nav {
-            background-color: #f5f5f5;
+            background-color: var(--mw-admin-gray-color);
             padding: 25px;
         }
 
@@ -2907,7 +2949,7 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
     height: 30px;
 
     &:hover {
-        background-color: #f5f5f5;
+        background-color: var(--mw-admin-gray-color);
     }
 }
 
@@ -2978,7 +3020,7 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 }
 
 .mw-ese-holder {
-    background-color: var(--tblr-body-bg2);
+    background-color: var(--tblr-body-bg2) !important;
 }
 
 .mw-ese-padding .mw-ese-label {
@@ -2990,12 +3032,19 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
     margin-top: 15px;
     margin-left: 5px;
     margin-right: 5px;
+    border-color: var(--tblr-body-bg);
 
-    .v3ti-tag {
+    .v3ti-tag{
         background-color: var(--tblr-body-color) !important;
+        color: var(--tblr-body-bg) !important;
 
-        color: var(--tblr-bg-surface) !important;
-
+        &.v3ti-tag-content {
+            color: var(--tblr-body-color) !important;
+        }
+    }
+    .v3ti-content {
+        background-color: var(--tblr-body-bg) !important;
+        border: none;
     }
 }
 
@@ -3003,7 +3052,7 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 
     .angle-top-right, .angle-top-left, .angle-bottom-right, .angle-bottom-left {
         border-width: 2px !important;
-
+        border-color: var(--tblr-body-color);
     }
 
     .angle {
@@ -3033,4 +3082,13 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 .mw-iframe-admin #sidebar-toggle, .mw-iframe-admin .admin-toolbar-buttons{
     display: none !important;
 }
+
+.mw-le-layouts-dialog .modules-list-categories {
+   li {
+       &:hover, &.active {
+            color: var(--tblr-body-color) !important;
+       }
+   }
+}
+
 

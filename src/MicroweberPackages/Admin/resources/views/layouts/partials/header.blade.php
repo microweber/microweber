@@ -119,7 +119,7 @@
     </script>
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
-    <?php event_trigger('mw.admin.header');; ?>
+    <?php event_trigger('mw.admin.header'); ?>
 
 
     <?php if (config('app.debug') and is_logged()) { ?>

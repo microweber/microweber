@@ -641,13 +641,6 @@ body.loaded #bubble-nav span {
     overflow: auto;
 }
 
-.mw-le-layouts-dialog .modules-list-categories li:hover {
-    color: #000000;
-}
-
-.mw-le-layouts-dialog .modules-list-categories li.active {
-    color: #000000;
-}
 
 .mw-le-layouts-dialog .modules-list-categories li {
     display: block;

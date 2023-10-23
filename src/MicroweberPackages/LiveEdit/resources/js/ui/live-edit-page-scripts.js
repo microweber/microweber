@@ -511,11 +511,14 @@ if (self === top) {
                     border-radius: 5px;
                     border-top-left-radius: 0;
                     border-top-right-radius: 0;
+                    font-family: Arial, sans-serif;
                 }
- 
+
                 #back-to-live-sticky-button.sticky {
                     top: 0;
                 }
+
+
             `;
 
             document.head.appendChild(style);
