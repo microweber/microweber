@@ -933,11 +933,11 @@ MWEditor.controllers = {
                             newDefaultData.push({ label: fontFamily, value: fontFamily });
                         });
                     }
-                    if (newDefaultData.length > 0) {
+                     
                         newDefaultData.push({ label:'More...', value: '$more' });
-                        defaultData = newDefaultData;
+                        defaultData = newDefaultData || [];
                         dropdown.setData(defaultData);
-                    }
+                    
                 });
             }
 
