@@ -265,11 +265,13 @@ class ModulesApiLiveEdit extends Controller
                 if (isset($dynamic_layout['template_dir']) and isset($dynamic_layout['layout_file'])) {
 
                     $dynamic_layout['locked'] = false;
-
-                    if (isset($template_composer['extra']['premium_layouts'])) {
-                        if (in_array('layouts/templates/' . $dynamic_layout['layout_file'], $template_composer['extra']['premium_layouts'])) {
-                            $dynamic_layout['icon'] = 'fa fa-lock';
-                            $dynamic_layout['locked'] = $lockedLayouts;
+                    if (isset($template_composer['extra']['premium_layouts'])
+                        && !empty($template_composer['extra']['premium_layouts'])) {
+                        foreach ($template_composer['extra']['premium_layouts'] as $composerPremiumLayout) {
+                            if (strpos($composerPremiumLayout, $dynamic_layout['layout_file']) !== false) {
+                                $dynamic_layout['icon'] = 'fa fa-lock';
+                                $dynamic_layout['locked'] = $lockedLayouts;
+                            }
                         }
                     }
 
@@ -379,10 +381,13 @@ class ModulesApiLiveEdit extends Controller
 
                         $dynamic_layout['locked'] = false;
 
-                        if (isset($template_composer['extra']['premium_layouts'])) {
-                            if (in_array('layouts/templates/' . $dynamic_layout['layout_file'], $template_composer['extra']['premium_layouts'])) {
-                                $dynamic_layout['icon'] = 'fa fa-lock';
-                                $dynamic_layout['locked'] = $lockedLayouts;
+                        if (isset($template_composer['extra']['premium_layouts'])
+                            && !empty($template_composer['extra']['premium_layouts'])) {
+                            foreach ($template_composer['extra']['premium_layouts'] as $composerPremiumLayout) {
+                                if (strpos($composerPremiumLayout, $dynamic_layout['layout_file']) !== false) {
+                                    $dynamic_layout['icon'] = 'fa fa-lock';
+//                                  $dynamic_layout['locked'] = $lockedLayouts;
+                                }
                             }
                         }
 
