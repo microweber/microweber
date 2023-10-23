@@ -386,7 +386,7 @@ class ModulesApiLiveEdit extends Controller
                             foreach ($template_composer['extra']['premium_layouts'] as $composerPremiumLayout) {
                                 if (strpos($composerPremiumLayout, $dynamic_layout['layout_file']) !== false) {
                                     $dynamic_layout['icon'] = 'fa fa-lock';
-//                                  $dynamic_layout['locked'] = $lockedLayouts;
+                                    $dynamic_layout['locked'] = $lockedLayouts;
                                 }
                             }
                         }
