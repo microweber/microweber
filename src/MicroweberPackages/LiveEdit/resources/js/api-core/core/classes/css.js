@@ -37,6 +37,22 @@ export const CSSParser = function(el) {
             color:css.color
         };
     }
+
+    f.getLetterSpacing  = function(){
+        if(!!css){
+            return css.letterSpacing || '';
+        }
+    }
+
+    f.getWordSpacing = function() {
+        if (!!css) {
+            return css.wordSpacing || '';
+        }
+    }
+
+
+
+
     f.alignNormalize = function(){
         if(!!css){
             var a = css.textAlign;
