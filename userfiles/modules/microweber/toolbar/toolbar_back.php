@@ -8,6 +8,12 @@
         transform: translateX(-50%);
         left: 50%;
         z-index: 999;
+        background-color: #eeefef !important;
+        color: #0a0a0a  !important;
+    }
+    #mw-site-preview-navigation, #mw-site-preview-navigation a {
+        font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+        color: #0a0a0a  !important;
     }
 </style>
 
@@ -21,16 +27,16 @@
 <div class="mw-ui-btn-nav" id="mw-site-preview-navigation">
 
 
-    <a href="<?php echo route('admin.content.index'); ?>" id="back_to_admin" class="btn btn-link"> <span class="d-none d-sm-block mdi mdi-arrow-left"></span> <?php _e("Admin"); ?></a>
+    <a href="<?php echo route('admin.content.index'); ?>" id="mw_back_to_admin" class="mw-ui-btn">  <?php _e("Admin"); ?></a>
 
 
 
-    <a href="<?php
+    <a id="mw_back_to_live_edit" href="<?php
   if(defined('CONTENT_ID') and CONTENT_ID != 0){
 	  $u  = app()->content_manager->link(CONTENT_ID);
   } else {
 	  $u  =mw()->url_manager->current(1,1);
   }
- print $u ?>?editmode=y"  class="btn btn-primary"><span class="d-none d-sm-block mdi mdi-eye-outline"></span> &nbsp;<?php _e("Live Edit"); ?></a>
+ print $u ?>?editmode=y"  class="mw-ui-btn" >  &nbsp;<?php _e("Live Edit"); ?></a>
 </div>
 
