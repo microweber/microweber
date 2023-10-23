@@ -419,7 +419,7 @@ $current_template = false;
                                 $(document).ready(function () {
                                     mw.$('#module-skins-search').bind('keyup paste', function () {
                                         var search_kw = $(this).val();
-                                        var items = document.querySelectorAll('.module-layouts-viewer > .js-apply-template');
+                                        var items = document.querySelectorAll('.js-apply-template');
                                         var el = this;
                                         var foundlen = 0;
                                         mw.tools.search(search_kw, items, function (found) {
