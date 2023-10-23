@@ -12,7 +12,6 @@ if ($template != false) {
 
 <script>
     $(document).ready(function() {
-
         document.getElementById('js-unlock-package-save-license-<?php echo $params['id'];?>').addEventListener('click', function() {
             var licenseKey = document.getElementById('js-unlock-package-license-key-<?php echo $params['id'];?>').value;
             mw.top().app.license.save(licenseKey).then(function (response) {
