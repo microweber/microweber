@@ -237,14 +237,13 @@ export default {
             if (layout.locked) {
 
                 var attrsForSettings = {};
-
                 attrsForSettings.live_edit = true;
                 attrsForSettings.module_settings = true;
                 attrsForSettings.id = 'mw_unlock_package_modal';
-                attrsForSettings.type = 'unlock-package'; 
+                attrsForSettings.type = 'unlock-package';
                 attrsForSettings.iframe = true;
                 attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
-
+// 
                 var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
                 var dialog = mw.top().dialogIframe({
