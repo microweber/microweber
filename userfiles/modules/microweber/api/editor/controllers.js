@@ -266,7 +266,8 @@ MWEditor.controllers = {
                 var elementNode = api.elementNode(focusNode)
                 if (elementNode && mw.top().app.liveEdit) {
                     elementNode = mw.tools.firstParentOrCurrentWithAnyOfClasses(elementNode, ['edit', 'element']);
-                    allowed = !!elementNode;
+                    allowed = !!elementNode && mw.top().app.liveEdit.elementHandleContent.settingsTarget.canDropInTarget(elementNode);
+                    
                 }
             }
             if (!allowed) {
@@ -911,7 +912,9 @@ MWEditor.controllers = {
                 placeholder: rootScope.lang('Font'),
                 eachOption: function (obj, node){
                  
-                    mw.top().app.cssEditor.temp(node, 'font-family', obj.value)
+                    // mw.top().app.cssEditor.temp(node, 'font-family', obj.value)
+                    
+                    node.style.fontFamily = obj.value
                 }
             });
 
