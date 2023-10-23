@@ -256,32 +256,32 @@ export default {
 
                 } else {
 
-                     
+
 
                     var isInaccessibleEdit = mw.top().app.liveEdit.liveEditHelpers.targetIsDisabledWriteInEditField(element);
                     if (isInaccessibleEdit) {
                         return;
                     }
 
-                     
+
 
 
                     if (element.isContentEditable) {
                         return
                     }
 
-                  
+
 
                     if (DomService.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['noedit', 'edit'])) {
                         return;
                     }
-                   
+
                     if (!DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(element, ['allow-edit', 'no-edit'])) {
                         return;
                     }
 
 
-        
+
 
 
 
@@ -303,7 +303,7 @@ export default {
                         }
 
 
- console.log(221)
+
 
                         editTarget.contentEditable = true;
 
@@ -348,6 +348,29 @@ export default {
                 }
 
             })
+
+
+
+
+          mw.app.canvas.on('reloadCustomCss', (event) => {
+
+              mw.tools.eachWindow(function (win) {
+
+                var customFontsStylesheet = win.document.getElementById("mw-custom-user-css");
+
+                if (customFontsStylesheet != null) {
+                  var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
+                  customFontsStylesheet.href = customFontsStylesheetRestyle;
+                }
+
+                var customFontsStylesheetFonts = win.document.getElementById("mw-custom-user-fonts");
+                if (customFontsStylesheetFonts != null) {
+                  var customFontsStylesheetFontsRestyle = mw.settings.api_url + 'template/print_custom_css_fonts?time=' + Math.random(0, 10000);
+                  customFontsStylesheetFonts.href = customFontsStylesheetFontsRestyle;
+                }
+              });
+          })
+
 
         });
 

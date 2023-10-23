@@ -145,6 +145,10 @@
                     loadFontFamily(e.detail.fonts[i]['family']);
                 }
             }
+
+            if(self !== top){
+                mw.top().app.canvas.dispatch('reloadCustomCss');
+            }
         });
 
 
