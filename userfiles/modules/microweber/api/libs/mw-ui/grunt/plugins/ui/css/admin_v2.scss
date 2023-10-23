@@ -146,10 +146,21 @@ body.theme-dark {
         background-color: var(--tblr-body-bg) !important;
     }
 
+    .v3ti {
+        .v3ti-tag {
+            background-color: var(--tblr-body-bg) !important;
+            color: var(--tblr-body-color) !important;
+        }
+    }
 
     .mw-domtree-item-label {
         color: var(--tblr-body-color) !important;
     }
+
+    .mw-domtree-item-label .mw_module_settings_sidebar_icon {
+        filter: invert(1);
+    }
+
     .live-edit-toolbar-buttons {
         &:hover, &.live-edit-resolution-active, &.live-edit-right-sidebar-active , &:focus, &:active, &.active  {
             background-color: var(--tblr-bg-surface) !important;
@@ -3024,8 +3035,8 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
     border-color: var(--tblr-body-bg);
 
     .v3ti-tag{
-        background-color: var(--tblr-body-bg) !important;
-        color: var(--tblr-body-color) !important;
+        background-color: var(--tblr-body-color) !important;
+        color: var(--tblr-body-bg) !important;
 
         &.v3ti-tag-content {
             color: var(--tblr-body-color) !important;
