@@ -1,0 +1,285 @@
+{
+    "header": {
+        "top_menu": {
+            "mobile-number": "+91 9876543210",
+            "email": "example@info.com"
+        },
+        "logo": {
+            "url": "/images/logo.png",
+            "alt": "Logo"
+        },
+        "menu": [
+            {
+                "title": "Home",
+                "url": "/"
+            },
+            {
+                "title": "About Us",
+                "url": "/about-us"
+            },
+            {
+                "title": "Contact Us",
+                "url": "/contact-us"
+            }
+        ]
+    },
+    "pages": [
+        {
+            "slug": "/",
+            "title": "Home",
+            "sections": [
+                {
+                    "layout": "hero-skin-1",
+                    "title": "Here is my awesome title",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                    "button": {
+                        "title": "Get Started",
+                        "url": "/get-started"
+                    },
+                    "backgroundImage": {
+                        "url": "/images/hero.png",
+                        "alt": "Hero Image"
+                    }
+                },
+                {
+                    "layout": "features-skin-1",
+                    "title": "Features",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                    "features": [
+                        {
+                            "title": "Feature 1",
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                            "icon": {
+                                "name": "icon-1",
+                                "url": "/images/icon-1.png",
+                                "alt": "Icon 1"
+                            },
+                            "button": {
+                                "title": "Read More",
+                                "url": "/read-more"
+                            }
+                        },
+                        {
+                            "title": "Feature 2",
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                            "icon": {
+                                "name": "icon-2",
+                                "url": "/images/icon-2.png",
+                                "alt": "Icon 2"
+                            },
+                            "button": {
+                                "title": "Read More",
+                                "url": "/read-more"
+                            }
+                        },
+                        {
+                            "title": "Feature 3",
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                            "icon": {
+                                "name": "icon-3",
+                                "url": "/images/icon-3.png",
+                                "alt": "Icon 3"
+                            },
+                            "button": {
+                                "title": "Read More",
+                                "url": "/read-more"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "layout": "team-skin-1",
+                    "title": "Team",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                    "team": [
+                        {
+                            "name": "John Doe",
+                            "designation": "CEO",
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                            "image": {
+                                "url": "/images/team-1.png",
+                                "alt": "Team 1"
+                            }
+                        },
+                        {
+                            "name": "John Doe",
+                            "designation": "CEO",
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                            "image": {
+                                "url": "/images/team-2.png",
+                                "alt": "Team 2"
+                            }
+                        },
+                        {
+                            "name": "John Doe",
+                            "designation": "CEO",
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                            "image": {
+                                "url": "/images/team-3.png",
+                                "alt": "Team 3"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "layout": "testimonials-skin-1",
+                    "title": "Testimonials",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                    "testimonials": [
+                        {
+                            "name": "John Doe",
+                            "designation": "CEO",
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam.."
+                        },
+                        {
+                            "name": "John Doe",
+                            "designation": "CEO",
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam.."
+                        },
+                        {
+                            "name": "John Doe",
+                            "designation": "CEO",
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam.."
+                        }
+                    ]
+                },
+                {
+                    "layout": "pricing-skin-1",
+                    "title": "Pricing",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                    "pricing": [
+                        {
+                            "name": "Basic",
+                            "price": "$10",
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                            "features": [
+                                "Feature 1",
+                                "Feature 2",
+                                "Feature 3"
+                            ],
+                            "button": {
+                                "title": "Buy Now",
+                                "url": "/buy-now"
+                            },
+                            "popular": false,
+                            "recommended": false
+                        },
+                        {
+                            "name": "Medium",
+                            "price": "$20",
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                            "features": [
+                                "Feature 1",
+                                "Feature 2",
+                                "Feature 3"
+                            ],
+                            "button": {
+                                "title": "Buy Now",
+                                "url": "/buy-now"
+                            },
+                            "popular": false,
+                            "recommended": false
+                        },
+                        {
+                            "name": "PRO",
+                            "price": "$50",
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                            "features": [
+                                "Feature 1",
+                                "Feature 2",
+                                "Feature 3"
+                            ],
+                            "button": {
+                                "title": "Buy Now",
+                                "url": "/buy-now"
+                            },
+                            "popular": false,
+                            "recommended": false
+                        }
+                    ]
+                },
+                {
+                    "layout": "faq-skin-1",
+                    "title": "FAQs",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                    "faqs": [
+                        {
+                            "question": "Question 1",
+                            "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                        },
+                        {
+                            "question": "Question 2",
+                            "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                        },
+                        {
+                            "question": "Question 3",
+                            "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam..",
+                        }
+                    ]
+                },
+                {
+                    "layout": "contact-us-skin-1",
+                    "title": "Contact Us",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam.."
+                }
+            ]
+        },
+        {
+            "slug": "contact-us",
+            "title": "Contact Us",
+            "sections": [
+                {
+                    "layout": "contact-us-skin-1",
+                    "title": "Contact Us",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam.."
+                },
+                {
+                    "layout": "google-map-skin-2",
+                    "title": "Google Map",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, ligula a pretium elementum, magna diam.."
+                }
+            ]
+        }
+    ],
+    "footer": {
+        "layout": "footer-skin-1",
+        "logo": {
+            "url": "/images/logo.png",
+            "alt": "Logo"
+        },
+        "social_links": [
+            {
+                "name": "facebook",
+                "url": "https://www.facebook.com/"
+            },
+            {
+                "name": "twitter",
+                "url": "https://twitter.com/"
+            },
+            {
+                "name": "linkedin",
+                "url": "https://www.linkedin.com/"
+            },
+            {
+                "name": "instagram",
+                "url": "https://www.instagram.com/"
+            }
+        ],
+        "menus": {
+            "menu-1": [
+                {
+                    "title": "Home",
+                    "url": "/"
+                },
+                {
+                    "title": "About Us",
+                    "url": "/about-us"
+                },
+                {
+                    "title": "Contact Us",
+                    "url": "/contact-us"
+                }
+            ]
+        }
+    }
+}
