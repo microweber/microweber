@@ -38,7 +38,17 @@ export class ElementSettingsTarget extends MicroweberBaseClass {
 
 
     canDropInTarget(target) {
+
+        if(target.classList.contains('edit')) {
+            const noBlocksInThese = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'];
+            if(noBlocksInThese.indexOf(target.nodeName.toLowerCase()) !== -1) {
+                return false;
+            }
+            
+        }
+
         var can = DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['allow-drop', 'nodrop']);
+         
         if(!can) {
             if(target.classList.contains('mw-col')) {
                 if(target.firstElementChild && target.firstElementChild.classList.contains('mw-col-container')) {
