@@ -361,7 +361,8 @@ mw.lib.require('rangy');
                 if (range.collapsed) {
                     var el = scope.api.elementNode(range.commonAncestorContainer);
                     scope.api.action(mw.tools.firstBlockLevel(el), function () {
-                        el.style.fontFamily = (font_name)
+                      
+                        mw.top().app.cssEditor.temp(el, 'font-family', font_name)
                     });
 
                 }
