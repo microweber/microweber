@@ -14,7 +14,8 @@ MWEditor.controllers = {
                 var node = api.elementNode(sel.focusNode);
                 var actionTarget = mw.tools.firstBlockLevel(node);
                 api.action(actionTarget.parentNode, function () {
-                    actionTarget.style.textAlign = 'left';
+                    
+                    mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'left')
                 });
             });
             return el;
@@ -41,7 +42,7 @@ MWEditor.controllers = {
                 var node = api.elementNode(sel.focusNode);
                 var actionTarget = mw.tools.firstBlockLevel(node);
                 api.action(actionTarget.parentNode, function () {
-                    actionTarget.style.textAlign = 'center';
+                    mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'center')
                 });
             });
             return el;
@@ -70,7 +71,8 @@ MWEditor.controllers = {
                 var node = api.elementNode(sel.focusNode);
                 var actionTarget = mw.tools.firstBlockLevel(node);
                 api.action(actionTarget.parentNode, function () {
-                    actionTarget.style.textAlign = 'right';
+                     
+                    mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'right')
                 });
             });
             return el;
@@ -99,7 +101,8 @@ MWEditor.controllers = {
                 var node = api.elementNode(sel.focusNode);
                 var actionTarget = mw.tools.firstBlockLevel(node);
                 api.action(actionTarget.parentNode, function () {
-                    actionTarget.style.textAlign = 'justify';
+                     
+                    mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'justify')
                 });
             });
             return el;
@@ -141,7 +144,8 @@ MWEditor.controllers = {
                     var node = api.elementNode(sel.focusNode);
                     var actionTarget = mw.tools.firstBlockLevel(node);
                     api.action(actionTarget.parentNode, function () {
-                        actionTarget.style.textAlign = item.action;
+                        
+                        mw.top().app.cssEditor.temp(actionTarget, 'text-align',  item.action)
                     });
                 });
                 scope.root.append(el);
@@ -262,7 +266,8 @@ MWEditor.controllers = {
                 var elementNode = api.elementNode(focusNode)
                 if (elementNode && mw.top().app.liveEdit) {
                     elementNode = mw.tools.firstParentOrCurrentWithAnyOfClasses(elementNode, ['edit', 'element']);
-                    allowed = !!elementNode;
+                    allowed = !!elementNode && mw.top().app.liveEdit.elementHandleContent.settingsTarget.canDropInTarget(elementNode);
+                    
                 }
             }
             if (!allowed) {
@@ -414,11 +419,13 @@ MWEditor.controllers = {
                     var actionTarget = mw.tools.firstBlockLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isBold = Number(rootScope.actionWindow.getComputedStyle(actionTarget).fontWeight) > 400;
+                        let weight;
                         if(isBold) {
-                            actionTarget.style.fontWeight = 400;
+                            weight = '400';
                         } else {
-                            actionTarget.style.fontWeight = 700;
+                            weight = '700';
                         }
+                        mw.top().app.cssEditor.temp(actionTarget, 'font-weight', weight)
                     });
                 } else {
                     api.execCommand('bold');
@@ -459,12 +466,13 @@ MWEditor.controllers = {
                     var actionTarget = mw.tools.firstBlockLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isStrike =  (rootScope.actionWindow.getComputedStyle(actionTarget).textDecoration).includes('line-through');
-
+                        let textDecoration;
                         if(isStrike) {
-                            actionTarget.style.textDecoration = 'none';
+                             textDecoration = 'none';
                         } else {
-                            actionTarget.style.textDecoration = 'line-through';
+                             textDecoration = 'line-through';
                         }
+                        mw.top().app.cssEditor.temp(actionTarget, 'text-decoration', textDecoration)
                     });
                 } else {
                     api.execCommand('strikeThrough');
@@ -502,11 +510,13 @@ MWEditor.controllers = {
                     var actionTarget = mw.tools.firstBlockLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isItalic = rootScope.actionWindow.getComputedStyle(actionTarget).fontStyle !== 'normal';
+                        var fontStyle
                         if(isItalic) {
-                            actionTarget.style.fontStyle = 'normal';
+                            fontStyle = 'normal';
                         } else {
-                            actionTarget.style.fontStyle = 'italic';
+                            fontStyle = 'italic';
                         }
+                        mw.top().app.cssEditor.temp(actionTarget, 'font-style', fontStyle)
                     });
                 } else {
                     api.execCommand('italic');
@@ -544,11 +554,14 @@ MWEditor.controllers = {
                     var actionTarget = mw.tools.firstBlockLevel(node)
                     api.action(actionTarget.parentNode, function () {
                         var isUnderline = rootScope.actionWindow.getComputedStyle(actionTarget).textDecoration.indexOf('underline') === 0;
+                        var textDecoration
                         if(isUnderline) {
-                            actionTarget.style.textDecoration = 'none';
+                            textDecoration = 'none';
                         } else {
-                            actionTarget.style.textDecoration = 'underline';
+                             textDecoration = 'underline';
                         }
+                        mw.top().app.cssEditor.temp(actionTarget, 'text-decoration', textDecoration)
+                   
                     });
                 } else {
                     api.execCommand('underline');
@@ -898,6 +911,9 @@ MWEditor.controllers = {
                 data: defaultData,
                 placeholder: rootScope.lang('Font'),
                 eachOption: function (obj, node){
+                 
+                    // mw.top().app.cssEditor.temp(node, 'font-family', obj.value)
+                    
                     node.style.fontFamily = obj.value
                 }
             });
@@ -1358,7 +1374,8 @@ MWEditor.controllers = {
                 if(sel.isCollapsed) {
                     var el = scope.api.elementNode(sel.focusNode);
                     scope.api.action(mw.tools.firstBlockLevel(el.parentNode), function () {
-                        el.style.color = val
+                         
+                        mw.top().app.cssEditor.temp(el, 'color', val)
                     }, true);
                 } else {
                     api.execCommand('foreColor', false, val, true);
@@ -1387,7 +1404,8 @@ MWEditor.controllers = {
                 if(sel.isCollapsed) {
                     var el = scope.api.elementNode(sel.focusNode);
                     scope.api.action(mw.tools.firstBlockLevel(el.parentNode), function () {
-                        el.style.backgroundColor = val
+                 
+                        mw.top().app.cssEditor.temp(el, 'background-color', val)
                     }, true);
                 } else {
                     api.execCommand('backcolor', false, val, true);

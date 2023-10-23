@@ -500,20 +500,19 @@ if (self === top) {
             var style = document.createElement('style');
             style.textContent = `
                 #back-to-live-sticky-button {
-                    position: absolute;
+                    position: fixed;
                     left: 50%;
                     transform: translateX(-50%);
                     z-index: 999;
                     transition: top 0.3s;
                     background: #000;
-                    padding: 10px 20px;
+                    color:#fff !important;
+                    padding: 5px 20px;
                     border-radius: 5px;
                     border-top-left-radius: 0;
                     border-top-right-radius: 0;
                 }
-                 a#back-to-live-sticky-button {
-                 color: #fff;
-                 }
+ 
                 #back-to-live-sticky-button.sticky {
                     top: 0;
                 }

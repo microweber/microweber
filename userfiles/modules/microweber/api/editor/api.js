@@ -361,7 +361,8 @@ mw.lib.require('rangy');
                 if (range.collapsed) {
                     var el = scope.api.elementNode(range.commonAncestorContainer);
                     scope.api.action(mw.tools.firstBlockLevel(el), function () {
-                        el.style.fontFamily = (font_name)
+                      
+                        mw.top().app.cssEditor.temp(el, 'font-family', font_name)
                     });
 
                 }
@@ -702,7 +703,14 @@ mw.lib.require('rangy');
                     elements.shift();
                 }
 
-                Array.prototype.slice.call(this._cleaner.querySelectorAll('[style]')).forEach(node => node.removeAttribute('style'))
+                Array.prototype.slice.call(this._cleaner.querySelectorAll('[style]')).forEach(node => {
+                    const keys = Array.from(node.style);
+                    keys.forEach(key => {
+                        if(node.style[key].includes('var(')) {
+                            node.style[key] = '';
+                        }
+                    });
+                });
                 
  
                 return _filterXSS(this._cleaner.innerHTML) || '';

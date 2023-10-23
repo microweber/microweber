@@ -47,6 +47,19 @@ mw.CSSParser = function(el){
         color:css.color
       };
     }
+
+    f.letterSpacing  = function(){
+        if(!!css){
+            return css.letterSpacing || '';
+        }
+    }
+
+    f.wordSpacing = function() {
+        if (!!css) {
+            return css.wordSpacing || '';
+        }
+    }
+
     f.alignNormalize = function(){
         if(!!css){
         return css.textAlign.contains('left')?'left':css.textAlign.contains('center')?'center':css.textAlign.contains('justify')?'justify':css.textAlign.contains('right')?'right':'left';

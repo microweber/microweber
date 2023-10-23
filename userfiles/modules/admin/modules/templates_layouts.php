@@ -350,7 +350,12 @@ $current_template = false;
                                 <?php endif; ?>
                             </select>
 
-                            <?php if (isset($current_template)): ?>
+                            <?php
+
+
+
+
+                            if (isset($current_template) and is_array($current_template)): ?>
                                 <!-- Current template - Start -->
 
                                 <div class="current-template card">
@@ -419,7 +424,7 @@ $current_template = false;
                                 $(document).ready(function () {
                                     mw.$('#module-skins-search').bind('keyup paste', function () {
                                         var search_kw = $(this).val();
-                                        var items = document.querySelectorAll('.module-layouts-viewer > .js-apply-template');
+                                        var items = document.querySelectorAll('.js-apply-template');
                                         var el = this;
                                         var foundlen = 0;
                                         mw.tools.search(search_kw, items, function (found) {
@@ -493,7 +498,7 @@ $current_template = false;
 
                                 $module_templates_ready = [];
                                 $module_templates_ready_end = [];
-                                if (!empty($module_templates_categories)) {
+                                if (!empty($module_templates_categories) and $current_template) {
                                     foreach ($module_templates as $item) {
                                         if (!isset($item['categories'])) {
                                             $item['categories'] = 'Other';

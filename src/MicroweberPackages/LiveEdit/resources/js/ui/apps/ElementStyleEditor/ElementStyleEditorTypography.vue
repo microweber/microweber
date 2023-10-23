@@ -45,6 +45,25 @@
         ></SliderSmall>
 
 
+
+         <SliderSmall
+             label="Letter Spacing"
+             v-model="letterSpacing"
+             :min="1"
+             :max="100"
+             :step="1"
+         ></SliderSmall>
+
+
+         <SliderSmall
+             label="Word Spacing"
+             v-model="wordSpacing"
+             :min="1"
+             :max="100"
+             :step="1"
+         ></SliderSmall>
+
+
     </div>
     </div>
 
@@ -100,6 +119,9 @@ export default {
             'fontStyle': null,
             'lineHeight': null,
             'fontFamily': null,
+            'letterSpacing': null,
+            'wordSpacing': null,
+
             'color': null,
             'textTransform': 'none',
             'textDecorationIsBold': null,
@@ -126,6 +148,8 @@ export default {
             this.textDecorationIsItalic = null;
             this.textDecorationIsUnderline = null;
             this.textDecorationIsStrikethrough = null;
+            this.letterSpacing = null;
+            this.wordSpacing = null;
         },
 
         populateStyleEditor: function (node) {
@@ -142,6 +166,8 @@ export default {
                 this.populateCssTextDecoration(css);
                 this.populateCssFont(css);
                 this.populateCssTextTransform(css);
+                this.populateLetterSpacing(css);
+                this.populateWordSpacing(css);
 
 
 
@@ -149,6 +175,20 @@ export default {
                     this.isReady = true;
                 }, 100);
             }
+        },
+
+        populateLetterSpacing: function (css) {
+            if (!css || !css.get) return;
+
+            var letterSpacing = css.get.letterSpacing();
+            this.letterSpacing = letterSpacing;
+        },
+
+        populateWordSpacing: function (css) {
+            if (!css || !css.get) return;
+
+            var letterSpacing = css.get.wordSpacing();
+            this.wordSpacing = letterSpacing;
         },
 
 
@@ -275,6 +315,15 @@ export default {
         },
         textTransform: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('textTransform', newValue);
+        },
+
+
+        letterSpacing: function (newValue, oldValue) {
+            this.applyPropertyToActiveNode('letterSpacing', newValue + 'px');
+        },
+
+        wordSpacing: function (newValue, oldValue) {
+            this.applyPropertyToActiveNode( 'wordSpacing', newValue + 'px');
         },
     },
 

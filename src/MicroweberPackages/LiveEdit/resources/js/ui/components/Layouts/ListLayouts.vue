@@ -190,7 +190,7 @@
                 </div>
 
                 <div class="d-flex align-items-center">
-                    <input type="text" v-model="licenseKey" autocomplete="on" autofocus="true" class="form-control my-3" placeholder="License key">
+                    <input type="text" v-model="licenseKey" name="local_key" autocomplete="on" autofocus="true" class="form-control my-3" placeholder="License key">
                     <div class="ms-md-3">
                         <button v-on:click="saveLicense" type="button" class="btn btn-success">Unlock</button>
                     </div>

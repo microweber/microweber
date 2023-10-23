@@ -531,10 +531,17 @@ MWEditor.api = function (scope) {
                 elements[0].remove();
                 elements.shift();
             }
+            Array.prototype.slice.call(this._cleaner.querySelectorAll('[style]')).forEach(node => {
+                const keys = Array.from(node.style);
+                keys.forEach(key => {
+                    if(node.style[key].includes('var(')) {
+                        node.style[key] = '';
+                    }
+                });
+            });
             return this._cleaner.innerHTML;
         },
         insertHTML: function(html) {
-          
             return scope.api.execCommand('insertHTML', false, this.cleanHTML(html));
         },
         insertImage: function (url) {

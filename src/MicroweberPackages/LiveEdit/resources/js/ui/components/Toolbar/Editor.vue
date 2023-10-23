@@ -256,24 +256,32 @@ export default {
 
                 } else {
 
+                     
+
                     var isInaccessibleEdit = mw.top().app.liveEdit.liveEditHelpers.targetIsDisabledWriteInEditField(element);
                     if (isInaccessibleEdit) {
                         return;
                     }
+
+                     
 
 
                     if (element.isContentEditable) {
                         return
                     }
 
+                  
+
                     if (DomService.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['noedit', 'edit'])) {
                         return;
                     }
-                    if (DomService.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['no-edit', 'edit'])) {
+                   
+                    if (!DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(element, ['allow-edit', 'no-edit'])) {
                         return;
                     }
 
 
+        
 
 
 
@@ -289,12 +297,13 @@ export default {
                             editTarget = DomService.firstParentOrCurrentWithClass(editTarget, 'edit')
                         }
 
+
                         if(!editTarget) {
                             return;
                         }
 
 
-
+ console.log(221)
 
                         editTarget.contentEditable = true;
 
