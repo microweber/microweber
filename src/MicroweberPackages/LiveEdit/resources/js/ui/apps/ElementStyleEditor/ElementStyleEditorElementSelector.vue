@@ -15,7 +15,7 @@
 
       <div class="d-flex align-items-center justify-content-between gap-2">
             <label class="live-edit-label mb-0">Selected element:</label>
-            <button type="button"  :class="{'btn-dark': displayDomTree, 'btn-outline-dark': !displayDomTree }" class="btn btn-sm " @click="toggleDomTree">{{ displayNodeInfo }}</button>
+            <button type="button"  :class="{'btn-dark': displayDomTree, 'btn-outline-dark': !displayDomTree }" class="btn btn-sm " @click="toggleDomTree" v-html="displayNodeInfo"></button>
       </div>
     </div>
   </div>
@@ -35,6 +35,7 @@ export default {
       'activeNode': null,
       'domTree': null,
       'isReady': false,
+      'currentCanvasDocument': false,
     };
   },
 
@@ -51,7 +52,8 @@ export default {
 
         this.isReady = false;
         this.displayNodeInfo = false;
-        this.domTree = false;
+        
+ 
         this.activeNode = node;
         this.populateSelectedNode(node);
         this.populateDomTree(node);
@@ -66,11 +68,18 @@ export default {
 
     populateSelectedNode: function (node) {
       this.nodeTagName = node.tagName;
-      if (node.id) {
-          this.displayNodeInfo = node.tagName;
+      if(this.domTree) {
+        const info = this.domTree.getNodeIconAndTitle(node);
+        this.displayNodeInfo = info.icon + info.title;
+ 
       } else {
-        this.displayNodeInfo = node.tagName;
+        if (node.id) {
+          this.displayNodeInfo = node.tagName;
+        } else {
+          this.displayNodeInfo = node.tagName;
+        }
       }
+
 
     },
 
@@ -79,8 +88,9 @@ export default {
         return;
       }
 
-
-      this.domTree = new mw.DomTree({
+      if(!this.domTree || !this.currentCanvasDocument || this.currentCanvasDocument !== mw.top().app.canvas.getDocument()){
+        this.currentCanvasDocument = mw.top().app.canvas.getDocument();
+        this.domTree = new mw.DomTree({
         element: '#domtree',
         resizable: true,
         // compactTreeView: true,
@@ -115,6 +125,9 @@ export default {
 
         }
       });
+      }
+
+
 
 
       this.domTree.select(element)
