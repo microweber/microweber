@@ -25,11 +25,13 @@ description: Default
                 </small>
             </div>
 
-            <div class="d-flex align-items-center">
-                <input type="text" id="js-unlock-package-license-key-<?php echo $params['id'];?>" name="local_key" autocomplete="on" autofocus="true" class="form-control my-3" placeholder="License key">
-                <div class="ms-md-3">
-                    <button id="js-unlock-package-save-license-<?php echo $params['id'];?>" type="button" class="btn btn-success">Unlock</button>
-                </div>
+            <div>
+                <form class="d-flex align-items-center">
+                    <input type="text" id="js-unlock-package-license-key-<?php echo $params['id'];?>" name="local_key" autocomplete="on" autofocus="true" class="form-control my-3" placeholder="License key">
+                    <div class="ms-md-3">
+                        <button id="js-unlock-package-save-license-<?php echo $params['id'];?>" type="button" class="btn btn-success">Unlock</button>
+                    </div>
+                </form>
             </div>
             <div>
                 <small>Have a problem with your White Label license key?
