@@ -101,15 +101,15 @@
     <div class="mw-element-spacing-editor mt-4">
     <span class="mw-ese-label">Margin</span>
     <div class="mw-ese-holder mw-ese-margin">
-        <span class="input mw-ese-top"><input type="text" v-model="marginTop"></span>
-        <span class="input mw-ese-right"><input type="text" v-model="marginRight"></span>
-        <span class="input mw-ese-bottom"><input type="text" v-model="marginBottom"></span>
-        <span class="input mw-ese-left"><input type="text" v-model="marginLeft"></span>
+        <span class="input mw-ese-top"><input type="number" v-model="marginTop"></span>
+        <span class="input mw-ese-right"><input type="number" v-model="marginRight"></span>
+        <span class="input mw-ese-bottom"><input type="number" v-model="marginBottom"></span>
+        <span class="input mw-ese-left"><input type="number" v-model="marginLeft"></span>
         <div class="mw-ese-holder mw-ese-padding">
-            <span class="input mw-ese-top"><input type="text" min="0" v-model="paddingTop"></span>
-            <span class="input mw-ese-right"><input type="text" min="0" v-model="paddingRight"></span>
-            <span class="input mw-ese-bottom"><input type="text" min="0" v-model="paddingBottom"></span>
-            <span class="input mw-ese-left"><input type="text" min="0" v-model="paddingLeft"></span>
+            <span class="input mw-ese-top"><input type="number" min="0" v-model="paddingTop"></span>
+            <span class="input mw-ese-right"><input type="number" min="0" v-model="paddingRight"></span>
+            <span class="input mw-ese-bottom"><input type="number" min="0" v-model="paddingBottom"></span>
+            <span class="input mw-ese-left"><input type="number" min="0" v-model="paddingLeft"></span>
             <span class="mw-ese-label">Padding</span>
         </div>
     </div>
