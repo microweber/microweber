@@ -82,7 +82,7 @@ description: Default
            <h4>only for $59 per year or $169 lifetime license</h4>
 
            <br><br>
-           <a class="btn btn-primary get-license-btn" target="_blank" href="https://microweber.org/go/market?prefix=modules/white_label">Get License</a>
+           <a class="btn btn-primary get-license-btn" target="_blank" href="https://whitelabel.microweber.com/big">Get License</a>
 
            <br> <br>
                <form class="d-flex align-items-center">
