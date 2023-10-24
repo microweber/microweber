@@ -41,6 +41,10 @@ export default {
         <label class="live-edit-label px-0 col-4" v-if="label" v-html="label"></label>
           <select v-model="selectedOption" class="form-control-live-edit-input form-select" @input="$emit('update:modelValue', $event.target.value)">
 
+              <option v-if="selectedOption === null" disabled="disabled">
+                  None
+              </option>
+
                 <option v-for="option in options" :selected="selectedOption === option.key" :value="option.key">
                   {{ option.value }}
                 </option>
