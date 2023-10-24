@@ -25,7 +25,7 @@ if (isset($disableTopBar)) {
        <div class="@if(isset($options['iframe'])) page-body-iframe @else page-body @endif"  >
            @yield('content')
        </div>
-        @if(!isset($options['disableNavBar']))
+        @if(!isset($options['disableNavBar']) or !$options['disableNavBar'])
             @include('admin::layouts.partials.copyright')
         @endif
     </main>

@@ -26,6 +26,18 @@ export default {
     },
 
     mounted() {
+
+      mw.top().app.on('mw.open-template-settings', () => {
+        // close the hamburger
+        if(document.getElementById('user-menu-wrapper')) {
+          document.getElementById('user-menu-wrapper').classList.remove('active');
+        }
+
+
+        this.show('template-settings')
+      });
+
+
         let instance = this;
         this.emitter.on("live-edit-ui-show", show => {
             var isActiveButton = false

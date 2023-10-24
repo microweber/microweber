@@ -248,9 +248,9 @@ export default {
 
                 var dialog = mw.top().dialogIframe({
                     url: src,
-                    height: 400,
+                    height: 'auto',
                     width: 800,
-                    skin: 'square_clean',
+                    className: 'mw-unlock-package-modal',
                 });
                 dialog.dialogHeader.style.display = 'none';
                 dialog.iframe.addEventListener('load', () => {

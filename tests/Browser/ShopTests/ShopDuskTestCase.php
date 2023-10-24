@@ -58,6 +58,11 @@ class ShopDuskTestCase extends DuskTestCase
         save_option($option);
 
 
+        $option = array();
+        $option['option_value'] = 'n';
+        $option['option_key'] = 'is_active';
+        $option['option_group'] = 'multilanguage_settings';
+        save_option($option);
     }
 
 
@@ -96,7 +101,7 @@ class ShopDuskTestCase extends DuskTestCase
         app()->database_manager->extended_save_set_permission(true);
 
         $saved_id = save_content($params);
-
+        $browser->pause(500);
         $link = content_link($saved_id);
 
         $browser->visit($link );

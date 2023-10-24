@@ -3098,3 +3098,9 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 }
 
 
+.mw-unlock-package-modal {
+    .mw-dialog-container {
+        padding: 0;
+        max-height: 100% !important;
+    }
+}

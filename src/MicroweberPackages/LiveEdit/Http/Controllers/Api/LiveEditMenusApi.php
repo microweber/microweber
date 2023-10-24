@@ -40,11 +40,22 @@ class LiveEditMenusApi extends Controller
                 }
                 $icon = $menuItem->getAttribute('icon');
 
-                $menus[] = [
+                $item = [
                     'title' => $menuItem->getName(),
                     'href'=> $href,
                     'icon_html'=>$icon
                 ];
+
+                $ref = $menuItem->getAttribute('ref');
+                if ($ref) {
+                    $item['ref'] = $ref;
+                }
+                $id = $menuItem->getAttribute('id');
+                if ($id) {
+                    $item['id'] = $id;
+                }
+
+                $menus[] = $item;
             }
         }
 

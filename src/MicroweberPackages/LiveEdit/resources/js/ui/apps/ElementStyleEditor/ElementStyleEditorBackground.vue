@@ -79,7 +79,6 @@ export default {
                 {key: "text", value: "Text"}
             ],
             'backgroundSizeOptions': [
-                {key: null, value: "None"},
                 {key: "auto", value: "Auto"},
                 {key: "contain", value: "Fit"},
                 {key: "cover", value: "Cover"},
@@ -87,12 +86,12 @@ export default {
             ],
 
             'activeNode': null,
-            'isReady': false, 
+            'isReady': false,
             'backgroundImage': null,
             'backgroundColor': null,
             'backgroundPosition': null,
             'backgroundRepeat': null,
-            'backgroundSize': null,
+            'backgroundSize': 'auto',
             'backgroundImageUrl': null,
             'backgroundClip': null,
         };
@@ -110,7 +109,7 @@ export default {
             this.backgroundColor = null;
             this.backgroundPosition = null;
             this.backgroundRepeat = null;
-            this.backgroundSize = null;
+            this.backgroundSize = 'auto';
             this.backgroundClip = null;
         },
 
@@ -140,11 +139,17 @@ export default {
                     this.backgroundImageUrl = this.backgroundImageUrl.replace(/\"/g, "");
                 }
             }
+
+            if (bg.size) {
+                this.backgroundSize = bg.size;
+            } else {
+                this.backgroundSize = 'auto';
+            }
+
             this.backgroundImage = bg.image;
             this.backgroundColor = bg.color;
             this.backgroundPosition = bg.position;
             this.backgroundRepeat = bg.repeat;
-            this.backgroundSize = bg.size;
             this.backgroundClip = bg.clip;
         },
 

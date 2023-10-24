@@ -126,6 +126,17 @@ Install Microweber with `composer` command:
 composer create-project microweber/microweber my_site dev-master  
 ```
 
+Install NPM dependencies:
+
+```bash
+npm install
+```
+Build NPM dependencies:
+
+```bash
+npm run build
+```
+
 This command will install Microweber in a folder named `my_site`. Alternatively, you can clone the repository and then run `composer install` in the base directory.
 
 #### File Permissions
