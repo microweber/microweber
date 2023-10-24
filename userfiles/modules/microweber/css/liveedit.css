@@ -5301,3 +5301,12 @@ td.mw-editor-td-focus{
     outline: 2px solid #016ce6;
     outline-offset: -1px;
 }
+
+.mw-editor-select-display-value-content,
+.mw-le-handle-menu-button-text,
+.mw-small-editor-skin-lite, 
+.mw-small-editor-skin-lite *{
+    line-height: normal;
+    font-size: 14px;
+    font-family: Inter, sans-serif;
+}

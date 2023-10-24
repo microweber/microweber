@@ -213,6 +213,8 @@ div.form-control {
 .main > aside > #mw-admin-main-navigation{
     position: sticky;
     top: 80px;
+    
+
 }
 .main .tree {
     border: 0 !important;

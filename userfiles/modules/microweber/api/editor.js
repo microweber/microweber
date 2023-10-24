@@ -1296,6 +1296,7 @@ var MWEditor = function (options) {
                                     all.forEach(node => node.replaceWith(...node.childNodes));
                                     all = ta.querySelectorAll(`*:not(${safeModeAllowedTags})`);
                                 }
+                                ta.querySelectorAll('[style]').forEach(node => node.removeAttribute('style'))
                                 content = ta.innerHTML;
                             } else {
 
@@ -1304,12 +1305,17 @@ var MWEditor = function (options) {
                                     all.forEach(node => node.replaceWith(...node.childNodes));
                                     all = ta.querySelectorAll(`*:not(${allowedTags})`);
                                 }
+                                ta.querySelectorAll('[style]').forEach(node => node.removeAttribute('style'))
                                 content = ta.innerHTML;
                             }
+
+                        
 
                         scope.api.insertHTML(content);
                         mw.element(ta).remove();
                         scope.$editArea._pasting = false;
+ 
+                         
                     })
 
                 }

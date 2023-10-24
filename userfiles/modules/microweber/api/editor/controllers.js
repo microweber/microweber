@@ -847,8 +847,7 @@ MWEditor.controllers = {
 
 
 
-            console.log( !elementSupports , opt.isPlainText , !opt.api.isSelectionEditable(), !opt.api.targetSupportsFormatting(element), element);
-            rootScope.disabled(opt.controller.element, !elementSupports || opt.isPlainText || !opt.api.isSelectionEditable() || !opt.api.targetSupportsFormatting(element));
+             rootScope.disabled(opt.controller.element, !elementSupports || opt.isPlainText || !opt.api.isSelectionEditable() || !opt.api.targetSupportsFormatting(element));
 
 
         };

@@ -664,7 +664,7 @@ MWEditor.core = {
         input.on('input', function (){
             clearTimeout(time);
             time = setTimeout(function (el, node){
-                console.log(node.value)
+                
                 el.trigger('change', node.value);
             }, 210, el, this);
         });
@@ -843,7 +843,7 @@ MWEditor.controllers = {
             } else {
                 rootScope.controllerActive(opt.controller.element.node, false);
             }
-            console.log(opt)
+           
             opt.controller.element.node.disabled = opt.isPlaintext || !opt.api.isSelectionEditable(opt.selection);
         };
         this.element = this.render();
@@ -1402,7 +1402,7 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
-                console.log(val)
+              
                 api.execCommand('foreColor', false, val);
             });
             return el;
@@ -1420,7 +1420,7 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
-                console.log(e, val)
+                 
                 api.execCommand('backcolor', false, val);
             });
             return el;
