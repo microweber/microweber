@@ -178,9 +178,12 @@ abstract class DuskTestCase extends BaseTestCase
             $this->app->bind('permalink_manager', function () {
                 return new PermalinkManager();
             });
+
         }
 
     }
+
+
 
 
 }
