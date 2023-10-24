@@ -61,6 +61,7 @@ export default {
       hasGrid: false,
 
       colOptionsDesktop: [
+        {key: null, value: 'None'},
         {key: 'col-1', value: 'col-1'},
         {key: 'col-2', value: 'col-2'},
         {key: 'col-3', value: 'col-3'},
@@ -88,6 +89,7 @@ export default {
       ],
 
       colOptionsTablet: [
+      {key: null, value: 'None'},
         {key: 'col-md-1', value: 'col-md-1'},
         {key: 'col-md-2', value: 'col-md-2'},
         {key: 'col-md-3', value: 'col-md-3'},
@@ -115,6 +117,7 @@ export default {
       ],
 
       colOptionsMobile: [
+      {key: null, value: 'None'},
         {key: 'col-xs-1', value: 'col-xs-1'},
         {key: 'col-xs-2', value: 'col-xs-2'},
         {key: 'col-xs-3', value: 'col-xs-3'},

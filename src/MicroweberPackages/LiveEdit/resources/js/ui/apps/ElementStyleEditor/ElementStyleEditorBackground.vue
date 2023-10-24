@@ -54,7 +54,7 @@ export default {
         return {
             'showBackground': false,
             'backgroundPositionOptions': [
-                {key: "none", value: "None"},
+                {key: null, value: "None"},
                 {key: "0% 0%", value: "Left Top"},
                 {key: "50% 0%", value: "Center Top"},
                 {key: "100% 0%", value: "Right Top"},
@@ -66,20 +66,20 @@ export default {
                 {key: "100% 100%", value: "Right Bottom"}
             ],
             'backgroundRepeatOptions': [
-                {key: "none", value: "None"},
+                {key: null, value: "None"},
                 {key: "repeat", value: "Repeat"},
                 {key: "no-repeat", value: "No Repeat"},
                 {key: "repeat-x", value: "Repeat Horizontally"},
                 {key: "repeat-y", value: "Repeat Vertically"}
             ],
             'backgroundClipOptions': [
-                {key: "none", value: "None"},
+                {key: null, value: "None"},
                 {key: "border-box", value: "Border Box"},
                 {key: "content-box", value: "Content Box"},
                 {key: "text", value: "Text"}
             ],
             'backgroundSizeOptions': [
-                {key: "none", value: "None"},
+                {key: null, value: "None"},
                 {key: "auto", value: "Auto"},
                 {key: "contain", value: "Fit"},
                 {key: "cover", value: "Cover"},
@@ -87,7 +87,7 @@ export default {
             ],
 
             'activeNode': null,
-            'isReady': false,
+            'isReady': false, 
             'backgroundImage': null,
             'backgroundColor': null,
             'backgroundPosition': null,

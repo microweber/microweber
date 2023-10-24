@@ -88,13 +88,13 @@ export default {
             'activeNode': null,
             'isReady': false,
             'textTransformOptions': [
-                {"key": "none", "value": "None"},
+                {"key": null, "value": "Normal"},
                 {"key": "capitalize", "value": "Capitalize"},
                 {"key": "uppercase", "value": "Uppercase"},
                 {"key": "lowercase", "value": "Lowercase"}
             ],
             'fontWeightOptions': [
-                {"key": "normal", "value": "Normal"},
+                {"key": null, "value": "Normal"},
                 {"key": "bold", "value": "Bold"},
                 {"key": "bolder", "value": "Bolder"},
                 {"key": "lighter", "value": "Lighter"},
@@ -109,6 +109,7 @@ export default {
                 {"key": "900", "value": "900"}
             ],
             "fontStylesOptions": [
+                {"key": null, "value": "None"},
                 {"key": "normal", "value": "Normal"},
                 {"key": "italic", "value": "Italic"},
                 {"key": "oblique", "value": "Oblique"}
@@ -142,8 +143,8 @@ export default {
             this.fontStyle = null;
             this.lineHeight = null;
             this.fontFamily = null;
-            this.color = null;
-            this.textTransform = 'none';
+            this.color = null; 
+            this.textTransform = null;
             this.textDecorationIsBold = null;
             this.textDecorationIsItalic = null;
             this.textDecorationIsUnderline = null;
