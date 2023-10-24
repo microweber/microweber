@@ -18,10 +18,10 @@
 
 </script>
 
-<div class="mw-ui-btn-nav" id="mw-site-preview-navigation">
+<div class="mw-ui-btn-nav d-flex align-items-center gap-2 mt-4" id="mw-site-preview-navigation">
 
 
-    <a href="<?php echo route('admin.content.index'); ?>" id="back_to_admin" class="btn btn-link"> <span class="d-none d-sm-block mdi mdi-arrow-left"></span> <?php _e("Admin"); ?></a>
+    <a href="<?php echo route('admin.content.index'); ?>" id="back_to_admin" class="btn btn-link d-flex align-items-center gap-1"> <span class="d-none d-sm-block mdi mdi-arrow-left"></span> <?php _e("Admin"); ?></a>
 
 
 
@@ -31,6 +31,7 @@
   } else {
 	  $u  =mw()->url_manager->current(1,1);
   }
- print $u ?>?editmode=y"  class="btn btn-primary"><span class="d-none d-sm-block mdi mdi-eye-outline"></span> &nbsp;<?php _e("Live Edit"); ?></a>
+ print $u ?>?editmode=y"  class="btn btn-primary d-flex align-items-center gap-1">
+        <span class="d-none d-sm-block mdi mdi-eye-outline "></span> &nbsp;<?php _e("Live Edit"); ?></a>
 </div>
 
