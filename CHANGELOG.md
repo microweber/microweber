@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [2.0.0] - 2023-10-24
+- Big milestone release
+- Overhaul of the admin panel and live edit
+- New live edit experience
+- New admin panel design
+- New live edit element style editor
+- Refactored modules on Livewire components
+- [see all changes....](https://github.com/microweber/microweber/compare/1.3.4...2.0.0 "")
+
+
+
 ## [1.3.4] - 2023-03-24
 - Added artisan command for update `php artisan microweber:update`
 - Security fixes
