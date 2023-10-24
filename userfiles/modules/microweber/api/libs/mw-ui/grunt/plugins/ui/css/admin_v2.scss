@@ -2289,6 +2289,12 @@ svg.text-danger {
     background-color: var(--tblr-body-bg2) !important;
 }
 
+#mw-admin-main-navigation{
+        
+    max-height: calc(100vh - 280px);
+    overflow: auto;
+}
+
 
 
 .form-control-live-edit-label-wrapper {
