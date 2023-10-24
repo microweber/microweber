@@ -5,7 +5,7 @@
     <div class="well">
 
     <div v-show="displayDomTree">
-      <div id="domtree">
+      <div id="domtree" style="margin-block-end: 15px;">
 
 
       </div>
@@ -15,7 +15,12 @@
 
       <div class="d-flex align-items-center justify-content-between gap-2">
             <label class="live-edit-label mb-0">Selected element:</label>
-            <button type="button"  :class="{'btn-dark': displayDomTree, 'btn-outline-dark': !displayDomTree }" class="btn btn-sm " @click="toggleDomTree" v-html="displayNodeInfo"></button>
+            <button 
+                type="button"  
+                :class="{'btn-dark': displayDomTree, 'btn-outline-dark': !displayDomTree }" 
+                class="btn btn-sm " 
+                @click="toggleDomTree" 
+                v-html="displayNodeInfo"></button>
       </div>
     </div>
   </div>

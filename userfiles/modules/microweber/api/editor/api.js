@@ -602,6 +602,19 @@ mw.lib.require('rangy');
                 }
 
             },
+            afterExecCommand: function ( parent) {
+                scope.api.cleanNesting(parent);
+                Array.prototype.slice.call(parent.querySelectorAll('[style]')).forEach(node => {
+                    const keys = Array.from(node.style);
+                    keys.forEach(key => {
+                        if(node.style[key].includes('var(')) {
+                            node.style[key] = '';
+                        }
+                    });
+                });
+                mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
+                mw.$(scope).trigger('execCommand');
+            },
             execCommand: function (cmd, def, val, recordTimeout) {
 
 
@@ -622,9 +635,8 @@ mw.lib.require('rangy');
 
                             scope.api.action(parent, function () {
                                 scope.actionWindow.document.execCommand(cmd, def, val);
-                                scope.api.cleanNesting(parent);
-                                mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
-                                mw.$(scope).trigger('execCommand');
+                                scope.api.afterExecCommand(parent);
+                                
                             }, recordTimeout);
                         }
                     }

@@ -414,26 +414,33 @@ if(window.self !== window.top) {
 
 
     self.onbeforeunload = function (event) {
-        mw.top().app.canvas.dispatch('liveEditCanvasBeforeUnload');
         _beforeUnload = event;
+console.log('onbeforeunload 1111111111111')
+
 
         // prevent user from leaving if there are unsaved changes
-        var liveEditIframe = (mw.top().app.canvas.getWindow());
+    //    var liveEditIframe = window;
+
+        var liveEditIframe = mw.top().app.canvas.getWindow();
+
+        liveEditIframe.mw.isNavigating = true;
+
+        mw.top().app.canvas.dispatch('liveEditCanvasBeforeUnload');
+
+
+        setTimeout(function (liveEditIframe) {
+                if(liveEditIframe) {
+                    if (liveEditIframe && liveEditIframe.mw) {
+                        liveEditIframe.mw.isNavigating = false;
+                    }
+                }
+        }, 1500,liveEditIframe);
+
+
         if (liveEditIframe
             && liveEditIframe.mw && liveEditIframe.mw.askusertostay) {
-
-            liveEditIframe.mw.isNavigating = true;
-
-            setTimeout(function (liveEditIframe) {
-                if(liveEditIframe && liveEditIframe.mw) {
-                    liveEditIframe.mw.isNavigating = false;
-                }
-            }, 300);
-
-
             return true;
         } else {
-            liveEditIframe.mw.isNavigating = true;
             mw.top().spinner({element: mw.top().app.canvas.getFrame().parentElement, decorate: true, size: 52}).show()
         }
     };
