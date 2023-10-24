@@ -843,8 +843,12 @@ export class LiveEdit {
         })
         let _dblclicktarget
 
+        ElementManager(this.root).on('click', (e) => {
+            if(e && e.detail > 1){
+                e.preventDefault();
+            }
+        })
         ElementManager(this.root).on('dblclick', (e) => {
-
 
             if(mw.app.isPreview()) {
                 return;
@@ -855,6 +859,8 @@ export class LiveEdit {
                 var liveEditIframeWindow = (mw.top().app.canvas.getWindow());
                 if (liveEditIframeWindow && liveEditIframeWindow.mw && liveEditIframeWindow.mw.isNavigating) {
                     //do nothing if navigation is started
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
                     return;
                 }
             }
