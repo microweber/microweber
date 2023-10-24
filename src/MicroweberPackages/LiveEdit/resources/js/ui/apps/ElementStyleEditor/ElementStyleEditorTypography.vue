@@ -86,15 +86,15 @@ export default {
         return {
             'showTypography': false,
             'activeNode': null,
-            'isReady': false,
+            'isReady': false, 
             'textTransformOptions': [
-                {"key": null, "value": "Normal"},
+                {"key": 'none', "value": "None"},
                 {"key": "capitalize", "value": "Capitalize"},
                 {"key": "uppercase", "value": "Uppercase"},
                 {"key": "lowercase", "value": "Lowercase"}
             ],
             'fontWeightOptions': [
-                {"key": null, "value": "Normal"},
+                {"key": "normal", "value": "Normal"},
                 {"key": "bold", "value": "Bold"},
                 {"key": "bolder", "value": "Bolder"},
                 {"key": "lighter", "value": "Lighter"},
@@ -109,22 +109,21 @@ export default {
                 {"key": "900", "value": "900"}
             ],
             "fontStylesOptions": [
-                {"key": null, "value": "None"},
                 {"key": "normal", "value": "Normal"},
                 {"key": "italic", "value": "Italic"},
                 {"key": "oblique", "value": "Oblique"}
             ],
             'textAlign': null,
             'fontSize': null,
-            'fontWeight': null, 
-            'fontStyle': null,
+            'fontWeight': 'normal',
+            'fontStyle': 'normal',
             'lineHeight': null,
             'fontFamily': null,
             'letterSpacing': null,
             'wordSpacing': null,
 
             'color': null,
-            'textTransform': null,
+            'textTransform': 'none',
             'textDecorationIsBold': null,
             'textDecorationIsItalic': null,
             'textDecorationIsUnderline': null,
@@ -139,12 +138,12 @@ export default {
         },
         resetAllProperties: function () {
             this.fontSize = null;
-            this.fontWeight = null;
-            this.fontStyle = null;
+            this.fontWeight = 'normal';
+            this.fontStyle = 'normal';
             this.lineHeight = null;
             this.fontFamily = null;
             this.color = null;
-            this.textTransform = null;
+            this.textTransform = 'none';
             this.textDecorationIsBold = null;
             this.textDecorationIsItalic = null;
             this.textDecorationIsUnderline = null;
@@ -237,8 +236,10 @@ export default {
             if (font.lineHeight) {
                 font.lineHeight = font.lineHeight.replace('px', '');
             }
-            this.fontSize = font.size;
 
+            console.log('font', font);
+
+            this.fontSize = font.size;
             this.fontWeight = font.weight;
             this.fontStyle = font.style;
             this.lineHeight = font.lineHeight;
@@ -248,6 +249,8 @@ export default {
         populateCssTextTransform: function (css) {
             if (!css || !css.get) return;
             var textTransform = css.get.textTransform();
+
+            console.log('textTransform', textTransform);
             this.textTransform = textTransform;
         },
 
