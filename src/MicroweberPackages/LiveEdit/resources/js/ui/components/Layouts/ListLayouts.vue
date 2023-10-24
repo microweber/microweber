@@ -248,7 +248,7 @@ export default {
 
                 var dialog = mw.top().dialogIframe({
                     url: src,
-                    autoHeight: true,
+                    height: 400,
                     width: 800,
                     skin: 'square_clean',
                 });
