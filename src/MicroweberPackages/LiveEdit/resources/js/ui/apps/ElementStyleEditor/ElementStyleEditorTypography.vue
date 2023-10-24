@@ -116,7 +116,7 @@ export default {
             ],
             'textAlign': null,
             'fontSize': null,
-            'fontWeight': null,
+            'fontWeight': null, 
             'fontStyle': null,
             'lineHeight': null,
             'fontFamily': null,
@@ -124,7 +124,7 @@ export default {
             'wordSpacing': null,
 
             'color': null,
-            'textTransform': 'none',
+            'textTransform': null,
             'textDecorationIsBold': null,
             'textDecorationIsItalic': null,
             'textDecorationIsUnderline': null,
@@ -143,7 +143,7 @@ export default {
             this.fontStyle = null;
             this.lineHeight = null;
             this.fontFamily = null;
-            this.color = null; 
+            this.color = null;
             this.textTransform = null;
             this.textDecorationIsBold = null;
             this.textDecorationIsItalic = null;
