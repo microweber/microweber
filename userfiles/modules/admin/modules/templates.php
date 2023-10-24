@@ -224,6 +224,9 @@ if ($screenshots) {
 
                                <?php if (isset($item['screenshot']) && !empty($item['screenshot'])): ?>
                                <div style="background: url('<?php print $item['screenshot'] ?>');width:100%;height:120px;background-size: contain;background-repeat: no-repeat;">
+                                   <h4>
+                                       <?php print $item['name'] ?>
+                                   </h4>
                                </div>
                                <?php else: ?>
                                    <div>

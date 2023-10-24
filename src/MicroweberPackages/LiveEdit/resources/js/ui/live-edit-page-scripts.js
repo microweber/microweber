@@ -415,8 +415,6 @@ if(window.self !== window.top) {
 
     self.onbeforeunload = function (event) {
         _beforeUnload = event;
-console.log('onbeforeunload 1111111111111')
-
 
         // prevent user from leaving if there are unsaved changes
     //    var liveEditIframe = window;

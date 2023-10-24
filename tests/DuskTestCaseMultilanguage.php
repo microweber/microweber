@@ -42,6 +42,19 @@ abstract class DuskTestCaseMultilanguage extends DuskTestCase
            // \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(true);
 
 
+            $option = array();
+            $option['option_value'] = '1';
+            $option['option_key'] = 'header_top_menu';
+            $option['option_group'] = 'header-layout';
+            save_option($option);
+
+            $option = array();
+            $option['option_value'] = '1';
+            $option['option_key'] = 'multilanguage';
+            $option['option_group'] = 'header-layout';
+            save_option($option);
+
+
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(true);
 
             app()->bind('permalink_manager', function () {
