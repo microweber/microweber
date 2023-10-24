@@ -115,7 +115,6 @@ export default {
       'isReady': false,
 
       'borderPositionOptions': [
-          {key: null, value: 'None'},
         {"key": "all", "value": "All"},
         {"key": "top", "value": "Top"},
         {"key": "right", "value": "Right"},
@@ -124,7 +123,7 @@ export default {
       ],
 
       'borderStylesOptions': [
-          {key: null, value: 'None'},
+        {"key": "none", "value": 'None'},
         {"key": "solid", "value": "Solid"},
         {"key": "dotted", "value": "Dotted"},
         {"key": "dashed", "value": "Dashed"},
@@ -141,7 +140,7 @@ export default {
       'borderImage': null,
       'borderImageUrl': null,
       'borderStyle': null,
-      'borderRadius': {
+      'borderRadius': { 
         borderTopLeftRadius: '',
         borderTopRightRadius: '',
         borderBottomLeftRadius: '',
@@ -215,6 +214,10 @@ export default {
       var color = frst.color || 'rgba(0,0,0,1)';
       var style = frst.style || 'none';
 
+
+      console.log('borderSize', size);
+        console.log('borderColor', color);
+        console.log('borderStyle', style);
 
       this.borderSize = size;
       this.borderColor = color;
