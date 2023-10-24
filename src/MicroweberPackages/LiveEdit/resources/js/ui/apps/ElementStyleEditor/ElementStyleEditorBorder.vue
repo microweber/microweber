@@ -115,6 +115,7 @@ export default {
       'isReady': false,
 
       'borderPositionOptions': [
+          {key: null, value: 'None'},
         {"key": "all", "value": "All"},
         {"key": "top", "value": "Top"},
         {"key": "right", "value": "Right"},
@@ -123,7 +124,7 @@ export default {
       ],
 
       'borderStylesOptions': [
-        {"key": "none", "value": "None"},
+          {key: null, value: 'None'},
         {"key": "solid", "value": "Solid"},
         {"key": "dotted", "value": "Dotted"},
         {"key": "dashed", "value": "Dashed"},

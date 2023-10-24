@@ -48,14 +48,14 @@ export default {
       'supportsAnimations': false,
 
       'animationsAppear': [
-        {"key": "none", "value": "None"},
+          {key: null, value: 'None'},
         {"key": "onAppear", "value": "When element appears on screen"},
         {"key": "onHover", "value": "When mouse is over"},
         {"key": "onClick", "value": "When element is clicked"},
       ],
 
       'animations': [
-        {"key": "none", "value": "None"},
+          {key: null, value: 'None'},
         {"key": "bounce", "value": "Bounce"},
         {"key": "flash", "value": "Flash"},
         {"key": "pulse", "value": "Pulse"},

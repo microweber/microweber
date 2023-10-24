@@ -88,12 +88,13 @@ export default {
             'activeNode': null,
             'isReady': false,
             'textTransformOptions': [
-                {"key": "none", "value": "None"},
+                {"key": null, "value": "None"},
                 {"key": "capitalize", "value": "Capitalize"},
                 {"key": "uppercase", "value": "Uppercase"},
                 {"key": "lowercase", "value": "Lowercase"}
             ],
             'fontWeightOptions': [
+                {"key": null, "value": "None"},
                 {"key": "normal", "value": "Normal"},
                 {"key": "bold", "value": "Bold"},
                 {"key": "bolder", "value": "Bolder"},
@@ -109,6 +110,7 @@ export default {
                 {"key": "900", "value": "900"}
             ],
             "fontStylesOptions": [
+                {"key": null, "value": "None"},
                 {"key": "normal", "value": "Normal"},
                 {"key": "italic", "value": "Italic"},
                 {"key": "oblique", "value": "Oblique"}
