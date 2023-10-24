@@ -86,7 +86,7 @@ export default {
         return {
             'showTypography': false,
             'activeNode': null,
-            'isReady': false, 
+            'isReady': false,
             'textTransformOptions': [
                 {"key": 'none', "value": "None"},
                 {"key": "capitalize", "value": "Capitalize"},
