@@ -2,12 +2,31 @@
 
 @section('content')
 
+    <script>
+         mw_delete_shop_order  = function(pid, iscart, e){
+            if(e)e.preventDefault();
+            var iscart = iscart || false;
+
+            var r = confirm("<?php _ejs("Are you sure you want to delete this order"); ?>?");
+            if (r == true) {
+                $('.cart-sid-'+pid).fadeOut();
+                $.post("<?php print api_url('delete_order') ?>", { id: pid,is_cart:iscart}, function(data) {
+                    mw.reload_module('shop/orders');
+                    mw.reload_module('shop/orders/admin');
+                });
+
+                return true;
+
+            }
+        }
+    </script>
+
 <div class="col-xxl-10 col-lg-11 col-12 mx-auto px-lg-0 px-3">
     <div class="card">
         <div class="card-body">
             <div class="row p-0">
                 <div class="table-responsive">
-                    <table class="table card-table table-vcenter abandoned-cart mb-5" id="abandoned-cart-table<?php print $order['id'] ?>" cellpadding="0" cellspacing="0">
+                    <table class="table card-table table-vcenter abandoned-cart mb-5 cart-sid-<?php print ($order['session_id']) ?>" id="abandoned-cart-table<?php print $order['id'] ?>" cellpadding="0" cellspacing="0">
                         <script>
                             $(document).ready(function () {
                                 $("#abandoned-cart-table<?php print $order['id'] ?> .mw-order-item-image").bind("mouseenter mouseleave", function (e) {
@@ -37,7 +56,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="mw-order-item-<?php print $order['id'] ?> no-hover">
+                        <tr class="mw-order-item-<?php print $order['id'] ?> no-hover"  >
                             <td class="px-0 py-3 border-0">
                                 <?php
                                 $recart_base = site_url();

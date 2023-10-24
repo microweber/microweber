@@ -32,8 +32,21 @@
 
 </script>
 
-<div class="mw-ui-btn-nav" id="mw-site-preview-navigation">
+<div class="mw-ui-btn-nav d-flex align-items-center gap-2 mt-4" id="mw-site-preview-navigation">
 
+    
+    <a href="<?php echo route('admin.content.index'); ?>" id="back_to_admin" class="btn btn-link d-flex align-items-center gap-1"> <span class="d-none d-sm-block mdi mdi-arrow-left"></span> <?php _e("Admin"); ?></a>
+
+
+
+    <a href="<?php
+  if(defined('CONTENT_ID') and CONTENT_ID != 0){
+	  $u  = app()->content_manager->link(CONTENT_ID);
+  } else {
+	  $u  =mw()->url_manager->current(1,1);
+  }
+ print $u ?>?editmode=y"  class="btn btn-primary d-flex align-items-center gap-1">
+        <span class="d-none d-sm-block mdi mdi-eye-outline "></span> &nbsp;<?php _e("Live Edit"); ?></a>
 
     <a href="<?php echo route('admin.content.index'); ?>" id="mw_back_to_admin" class="mw-ui-btn">
         <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M480.078 729.333q72.255 0 122.755-50.578 50.5-50.579 50.5-122.833 0-72.255-50.578-122.755-50.579-50.5-122.833-50.5-72.255 0-122.755 50.578-50.5 50.579-50.5 122.833 0 72.255 50.578 122.755 50.579 50.5 122.833 50.5Zm-.235-62.666q-46.176 0-78.343-32.324-32.167-32.323-32.167-78.5 0-46.176 32.324-78.343 32.323-32.167 78.5-32.167 46.176 0 78.343 32.324 32.167 32.323 32.167 78.5 0 46.176-32.324 78.343-32.323 32.167-78.5 32.167ZM480 856q-146 0-264.667-82.5Q96.667 691 40 556q56.667-135 175.333-217.5Q334 256 480 256q146 0 264.667 82.5Q863.333 421 920 556q-56.667 135-175.333 217.5Q626 856 480 856Zm0-300Zm-.112 233.334q118.445 0 217.612-63.5Q796.667 662.333 848.667 556q-52-106.333-151.054-169.834-99.055-63.5-217.501-63.5-118.445 0-217.612 63.5Q163.333 449.667 110.666 556q52.667 106.333 151.721 169.834 99.055 63.5 217.501 63.5Z"/></svg>
@@ -67,5 +80,6 @@
 </span>
 
     </a>
+
 </div>
 
