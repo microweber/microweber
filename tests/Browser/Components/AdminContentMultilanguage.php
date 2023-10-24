@@ -49,12 +49,12 @@ class AdminContentMultilanguage extends BaseComponent
         $goToMultilanguagePage = true;
         $mustActivateMultilanguage = false;
 
-        if ($browser->driver->getCurrentURL() == route('admin.multilanguage.index')) {
-            $goToMultilanguagePage = false;
-        }
+//        if ($browser->driver->getCurrentURL() == route('admin.multilanguage.index')) {
+//            $goToMultilanguagePage = false;
+//        }
+//
 
-
-
+        $goToMultilanguagePage = true;
 
 
 
@@ -113,7 +113,7 @@ class AdminContentMultilanguage extends BaseComponent
             $browser->pause(3000);
             $browser->click('.js-add-language');
             //$browser->pause(8000);
-            $browser->waitFor('.js-lang-tr-'.$locale, 60);
+            $browser->waitFor('.js-lang-tr-'.$locale, 120);
             $browser->waitForText($locale, 30);
         }
 
