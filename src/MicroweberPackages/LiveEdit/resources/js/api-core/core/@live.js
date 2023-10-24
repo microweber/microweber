@@ -180,7 +180,7 @@ export class LiveEdit {
 
          elementHandle.on('targetChange', target => {
             this.elementHandleContent.menu.setTarget(target);
-            
+
 
             if (target.className.includes('col-')) {
                 elementHandle.resizer.disable()
@@ -383,35 +383,35 @@ export class LiveEdit {
         return this.activeNode;
     }
     selectNode(target, event) {
-     
+
 
         if(target.nodeName === 'BODY') {
 
             return
         }
 
- 
- 
- 
+
+
+
 
         if (this.handles.targetIsOrInsideHandle(target ) || this.handles.targetIsSelected(target, this.interactionHandle) ) {
 
             return
         }
- 
+
 
         if( target.isContentEditable ) {
             if(target.nodeName === 'IMG') {
                 this.stopTyping()
                 mw.top().win.mw.app.liveEdit.handles.get('element').set(target);
-                 
+
             }
             return;
         }
 
 
-      
- 
+
+
 
         this.activeNode = target;
 
@@ -429,20 +429,20 @@ export class LiveEdit {
             elements.push(DomService.firstBlockLevel(target));
         }
 
-        
+
         let first = elements[0];
 
         if(!isIcon) {
             target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit']);
         }
-         
+
 
         if (first.nodeName !== 'IMG' && !isIcon) {
             first = DomService.firstBlockLevel(elements[0]);
         }
 
-         
-         
+
+
 
         var elementTarget =  this.handles.get('element').getTarget()
 
@@ -450,8 +450,8 @@ export class LiveEdit {
             return
         }
 
-         
-        
+
+
 
 
         first = target;
@@ -472,10 +472,10 @@ export class LiveEdit {
 
         }
 
-        
+
 
         this.document.querySelectorAll('[contenteditable]').forEach(node => {
-             
+
             node.contentEditable = false
         });
         this.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);
@@ -485,7 +485,7 @@ export class LiveEdit {
         this.handles.hide();
 
 
-       
+
 
 
 
@@ -542,7 +542,7 @@ export class LiveEdit {
                 }
             }
 
- 
+
 
 
 
@@ -600,7 +600,7 @@ export class LiveEdit {
             }
         }
 
-        
+
 
         return target
     }
@@ -623,7 +623,7 @@ export class LiveEdit {
 
 
 
- 
+
 
             var target = e.target ? e.target : e;
 
@@ -844,24 +844,23 @@ export class LiveEdit {
         let _dblclicktarget
 
         ElementManager(this.root).on('dblclick', (e) => {
-             
+
 
             if(mw.app.isPreview()) {
                 return;
             }
 
-           
 
-            if(mw.app.canvas) {
-                var liveEditIframeWindow =  mw.app.canvas.getWindow()
-                if(liveEditIframeWindow && liveEditIframeWindow.mw && liveEditIframeWindow.mw.isNavigating){
+            if (mw.app.canvas) {
+                var liveEditIframeWindow = (mw.top().app.canvas.getWindow());
+                if (liveEditIframeWindow && liveEditIframeWindow.mw && liveEditIframeWindow.mw.isNavigating) {
                     //do nothing if navigation is started
                     return;
                 }
             }
 
 
-             
+
 
 
             var selected = mw.app.liveEdit.elementHandle.getTarget();
@@ -879,7 +878,7 @@ export class LiveEdit {
                 return false
             }
 
-           
+
 
             if(module && !selected && (module.contains(e.target) || e.target.id === 'mw-handle-item-module-root') ) {
 
@@ -889,23 +888,23 @@ export class LiveEdit {
                 return false
             }
 
-        
+
 
 
             var newTarget = mw.app.liveEdit.elementHandleContent.settingsTarget.getSettingsTarget(selected);
             if (selected !== newTarget) {
                 var selected = newTarget;
             }
- 
+
 
             if (selected && !selected.contains(_dblclicktarget) ) {
-                
+
                 mw.app.editor.dispatch('editNodeRequest', selected);
             } else if (selected &&  selected === _dblclicktarget) {
-               
+
                 mw.app.editor.dispatch('editNodeRequest', selected);
             } else if (!selected && e.target.classList.contains('edit') && e.target.style.backgroundImage) {
-             
+
                 mw.app.editor.dispatch('editNodeRequest', e.target);
             }
 
@@ -928,10 +927,10 @@ export class LiveEdit {
 
 
         ElementManager(this.root).on(events, (e) => {
-            
+
             if(e.which === 1) {
             _dblclicktarget = e.target;
-           
+
 
             let _canSelectDuringPause = true;
 
@@ -946,16 +945,16 @@ export class LiveEdit {
                 var target = e.target;
 
                 _eventsHandle(e);
-                 
+
             } else {
-                 
+
 
                 if (this.handles.targetIsOrInsideHandle(e.target ) ) {
                     return;
                 }
 
                 if ( this.handles.targetIsSelected(e.target, this.interactionHandle )) {
-                      
+
                     return
                 }
 

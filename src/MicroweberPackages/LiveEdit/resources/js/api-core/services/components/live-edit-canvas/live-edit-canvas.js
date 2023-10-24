@@ -96,6 +96,8 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw
            && liveEditIframe.contentWindow.mw.askusertostay){
                // prevent user from leaving the page
+
+
                return true;
            }
          };
