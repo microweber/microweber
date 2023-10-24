@@ -48,13 +48,13 @@
             @php
                 $selectModernOptions = [];
                 foreach ($moduleTemplates as $item) {
-                    $optionHtml = '<div>';
+                    $optionHtml = '<div class="d-flex">';
 
                     if (isset($item['screenshot'])) {
-                        $optionHtml .= '<div><img style="max-height:160px;" src="'.$item['screenshot'].'" /></div>';
+                        $optionHtml .= '<div  style="width:100px; height:100px; background-image: url(' . $item['screenshot'] . '); background-size: contain; background-position: top center; background-repeat: no-repeat;"></div>';
                     } else {
-                        $optionHtml .=  '<div>'.$item['name'].'</div>';
                     }
+                        $optionHtml .=  '<div  style="width:100px; padding-left:20px;"><h4>'.$item['name'].'</h4></div>';
 
                     $optionHtml .= '</div>';
 
