@@ -40,6 +40,8 @@
     ?>
 
     @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js')
+
+     <?php event_trigger('mw.live_edit.header'); ?>
 </head>
 <body class="{{ $bodyDarkClass }} mw-admin-live-edit-page">
 
@@ -108,6 +110,6 @@
 </div>
 
 <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
-
+<?php event_trigger('mw.live_edit.footer'); ?>
 </body>
 </html>
