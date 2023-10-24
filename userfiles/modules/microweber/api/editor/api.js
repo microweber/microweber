@@ -481,9 +481,7 @@ mw.lib.require('rangy');
                 var all = scope.actionWindow.document.querySelectorAll('.' + clstemp),
                     l = all.length,
                     i = 0;
-                    console.log(all)
-                    console.log(classApplier)
-                    console.log(styles)
+ 
                 for ( ; i < l; i++ ) {
                     all[i].setAttribute('style', styles);
                      mw.tools.removeClass(all[i], clstemp);
@@ -724,8 +722,8 @@ mw.lib.require('rangy');
                     });
                 });
                 
- 
-                return _filterXSS(this._cleaner.innerHTML) || '';
+                
+                return /*_filterXSS*/ (this._cleaner.innerHTML) || '';
             },
             insertHTML: function(html) {
                 
