@@ -635,7 +635,7 @@ mw.lib.require('rangy');
 
                             scope.api.action(parent, function () {
                                 scope.actionWindow.document.execCommand(cmd, def, val);
-                                scope.afterExecCommand(parent);
+                                scope.api.afterExecCommand(parent);
                                 
                             }, recordTimeout);
                         }
