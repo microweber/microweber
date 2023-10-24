@@ -53,11 +53,17 @@ if (isset($_COOKIE['admin_theme_dark'])) {
         <img src="{{user_picture(user_id(),165,165)}}" alt="" class="rounded-circle profile-img" >
         @else
         <div class="mw-admin-sidebar-profile">
-            <span class="mb-0 text-uppercase" style="font-size: 14px;"><?php print get_username_short() ?></span>
+            <span class="mb-0 text-uppercase" style="font-size: 14px; text-overflow: ellipsis;">
+
+                <?php print get_username_short() ?>
+            </span>
         </div>
         @endif
 
-            <?php print user_name(); ?>
+            <span style="text-overflow: ellipsis; overflow: hidden; display: block; white-space:nowrap; max-width: 150px;">
+               <?php print user_name(); ?>
+            </span>
+
         </a>
     </li>
 </ul>
