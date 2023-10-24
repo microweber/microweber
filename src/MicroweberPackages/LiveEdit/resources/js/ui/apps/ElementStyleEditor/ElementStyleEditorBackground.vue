@@ -67,12 +67,13 @@ export default {
             ],
             'backgroundRepeatOptions': [
                 {key: "none", value: "None"},
-                {key: "repeat", value: "repeat"},
-                {key: "no-repeat", value: "no-repeat"},
-                {key: "repeat-x", value: "repeat horizontally"},
-                {key: "repeat-y", value: "repeat vertically"}
+                {key: "repeat", value: "Repeat"},
+                {key: "no-repeat", value: "No Repeat"},
+                {key: "repeat-x", value: "Repeat Horizontally"},
+                {key: "repeat-y", value: "Repeat Vertically"}
             ],
             'backgroundClipOptions': [
+                {key: "none", value: "None"},
                 {key: "border-box", value: "Border Box"},
                 {key: "content-box", value: "Content Box"},
                 {key: "text", value: "Text"}
