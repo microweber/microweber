@@ -414,8 +414,8 @@ if(window.self !== window.top) {
 
 
     self.onbeforeunload = function (event) {
-        mw.top().app.canvas.dispatch('liveEditCanvasBeforeUnload');
         _beforeUnload = event;
+console.log('onbeforeunload 1111111111111')
 
 
         // prevent user from leaving if there are unsaved changes
@@ -424,13 +424,17 @@ if(window.self !== window.top) {
         var liveEditIframe = mw.top().app.canvas.getWindow();
 
         liveEditIframe.mw.isNavigating = true;
+
+        mw.top().app.canvas.dispatch('liveEditCanvasBeforeUnload');
+
+
         setTimeout(function (liveEditIframe) {
                 if(liveEditIframe) {
                     if (liveEditIframe && liveEditIframe.mw) {
                         liveEditIframe.mw.isNavigating = false;
                     }
                 }
-        }, 1000,liveEditIframe);
+        }, 1500,liveEditIframe);
 
 
         if (liveEditIframe
