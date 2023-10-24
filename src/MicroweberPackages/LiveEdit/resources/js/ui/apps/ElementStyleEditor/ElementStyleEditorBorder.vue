@@ -140,7 +140,7 @@ export default {
       'borderImage': null,
       'borderImageUrl': null,
       'borderStyle': null,
-      'borderRadius': { 
+      'borderRadius': {
         borderTopLeftRadius: '',
         borderTopRightRadius: '',
         borderBottomLeftRadius: '',
