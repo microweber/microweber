@@ -42,7 +42,6 @@ class RequestRoute extends Request
         $createRequest->headers->set('accept', 'application/json');
 
         $response = app()->handle($createRequest);
-//dump($response->getContent());
         return self::formatFrontendResponse($response);
     }
 
@@ -55,9 +54,11 @@ class RequestRoute extends Request
             return $response;
         }
 
+
         $messages = json_decode($response->getContent(), true);
-
-
+        if (empty($messages)) {
+            return $response->getContent();
+        }
 
         $errors = [];
         if (!isset($messages['success'])) {

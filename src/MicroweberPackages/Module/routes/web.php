@@ -6,3 +6,9 @@
  * Time: 2:17 PM
  */
 
+Route::get('website-builder-from-json', function() {
+
+    $websiteBuilderFromJson = new \MicroweberPackages\Module\WebsiteBuilderFromJson();
+    $websiteBuilderFromJson->run();
+
+});

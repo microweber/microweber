@@ -211,7 +211,7 @@ Route::group([
         \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class
     ],
 ], function () {
-    Route::any('/module/', '\MicroweberPackages\App\Http\Controllers\ApiController@module');
+    Route::any('/module/', '\MicroweberPackages\App\Http\Controllers\ApiController@module')->name('api.module.render');
     Route::any('module/{all}', array('as' => 'module', 'uses' => '\MicroweberPackages\App\Http\Controllers\ApiController@module'))->where('all', '.*');
 });
 
