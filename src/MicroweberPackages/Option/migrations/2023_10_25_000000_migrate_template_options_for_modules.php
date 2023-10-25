@@ -29,9 +29,6 @@ class MigrateTemplateOptionsForModules extends Migration
                 ->whereNull('is_system')
                 ->whereNotIn('option_group', $notInOptionGroups)
                 ->update(['option_key' => 'data-template']);
+        }
     }
-
-
-
-
 }
