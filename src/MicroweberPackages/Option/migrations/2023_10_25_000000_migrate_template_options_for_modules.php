@@ -14,12 +14,21 @@ class MigrateTemplateOptionsForModules extends Migration
     public function up()
     {
         if (Schema::hasTable('options')) {
+            $notInOptionGroups = [
+                'template',
+                'website',
+                'comments',
+                'shipping',
+                'payments'
+            ];
+
             \DB::table('options')
                 ->where('option_key', 'template')
                 ->whereNotNull('option_value')
                 ->whereNotNull('module')
+                ->whereNull('is_system')
+                ->whereNotIn('option_group', $notInOptionGroups)
                 ->update(['option_key' => 'data-template']);
-        }
     }
 
 
