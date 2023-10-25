@@ -350,22 +350,24 @@ $current_template = false;
                                 <?php endif; ?>
                             </select>
 
-                            <?php
-
-
-
-
-                            if (isset($current_template) and is_array($current_template)): ?>
+                            <?php if (isset($current_template) and is_array($current_template) and !empty($current_template)): ?>
                                 <!-- Current template - Start -->
 
                                 <div class="current-template card">
+
+                                    <?php if (isset($current_template['layout_file']) and $current_template['layout_file']): ?>
+
                                     <label class="live-edit-label" title="<?php print $current_template['layout_file']; ?>"><?php _e('Current layout'); ?></label>
+                                    <?php endif; ?>
+                                    <?php if (isset($current_template['screenshot']) and $current_template['screenshot']): ?>
+
                                     <div class="screenshot">
                                         <div class="holder">
                                             <img data-url="<?php echo thumbnail($current_template['screenshot'], 800, 400); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
                                             <div class="live-edit-label text-decoration-none"><?php print $current_template['name']; ?></div>
                                         </div>
                                     </div>
+                                    <?php endif; ?>
                                 </div>
 
                                 <div class="current-template-modules">
