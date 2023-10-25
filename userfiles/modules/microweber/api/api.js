@@ -1147,6 +1147,13 @@ mw.required.push("<?php print mw_includes_url(); ?>api/fonts.js");
 
 <?php  include __DIR__.DS."fonts.js"; ?>
 
+<?php   
+
+
+// used in templates
+include __DIR__.DS."hamburger.js"; ?>
+
+
 <?php  //include __DIR__.DS."content.js"; ?>
 
 
