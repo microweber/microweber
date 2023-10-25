@@ -157,6 +157,13 @@ export const liveEditComponent = () => {
         });
 
 
+        mw.app.canvas.getDocument().querySelectorAll('[data-layout-container]').forEach(node => {
+            liveEdit.layoutHandleContent.layoutActions.afterLayoutChange(node)
+        })
+        
+        
+
+
      mw.app.dispatch('onLiveEditReady');
 
     }

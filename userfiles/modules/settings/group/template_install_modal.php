@@ -24,12 +24,18 @@
 
                 $('.js-button-change-template').html('Change Template');
                 $('.js-button-change-template').removeAttr('disabled');
+                $('.mw-backup-restore-options').css({
+                    
+                    opacity: 0.5;
+                    pointerEvents: 'none'
+
+                });
 
                 if (json.data['done']) {
                     mw.notification.success('Template has been changed.');
                     changeTemplateDialog.remove();
                 }
-                console.log(json.data['done']);
+                 
             }
         });
     }

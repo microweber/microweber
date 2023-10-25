@@ -156,6 +156,8 @@ export class LayoutHandleContent {
 
         const layoutActions = new LayoutActions(this.rootScope);
 
+        this.layoutActions = layoutActions;
+
 
         const editNavigation = [
             {
