@@ -124,7 +124,12 @@ class MWSiteMobileMenuService {
     ]; 
    
 
+   var  curr = document.getElementById('mw-vhmbgr--style');
+   if(curr) {
+    curr.remove()
+   }
    var  css = document.createElement('style');
+   css.id = `mw-vhmbgr--style`;
    css.textContent = `
 
 
