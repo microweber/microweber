@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 
-class CreateCommentsTable2 extends Migration
+class CreateCommentsTable2Fallback extends Migration
 {
     /**
      * Run the migrations.
