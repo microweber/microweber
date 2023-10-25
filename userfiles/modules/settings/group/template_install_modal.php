@@ -8,7 +8,7 @@
 
         $('.js-button-change-template').attr('disabled','disabled');
         $('.js-button-change-template').html('Loading..');
- 
+
         setTimeout(function () {
             $('.js-button-change-template').html('This can take some time..');
         }, 5000);
@@ -25,8 +25,8 @@
                 $('.js-button-change-template').html('Change Template');
                 $('.js-button-change-template').removeAttr('disabled');
                 $('.mw-backup-restore-options').css({
-                    
-                    opacity: 0.5;
+
+                    opacity: 0.5,
                     pointerEvents: 'none'
 
                 });
@@ -35,7 +35,7 @@
                     mw.notification.success('Template has been changed.');
                     changeTemplateDialog.remove();
                 }
-                 
+
             }
         });
     }
