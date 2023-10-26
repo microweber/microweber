@@ -8,7 +8,6 @@
         transform: translateX(-50%);
         left: 50%;
         z-index: 999;
-        background-color: #eeefef !important;
         color: #0a0a0a  !important;
     }
     #mw-site-preview-navigation, #mw-site-preview-navigation a {
