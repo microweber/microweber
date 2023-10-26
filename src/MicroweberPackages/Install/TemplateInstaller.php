@@ -4,11 +4,10 @@ namespace MicroweberPackages\Install;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Backup\BackupManager;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Import;
-use MicroweberPackages\Menu\Menu;
+use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\Option\Models\Option;
 
 class TemplateInstaller

@@ -4,14 +4,13 @@ namespace MicroweberPackages\Content;
 
 
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Category\Models\CategoryItem;
+use MicroweberPackages\Content\Models\ContentRelated;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\Helper\XSSClean;
-use MicroweberPackages\Menu\Menu;
-use MicroweberPackages\App\Http\Controllers\FrontendController;
+use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-
-use MicroweberPackages\Content\Models\ContentRelated;
 
 
 class ContentManagerHelpers extends ContentManagerCrud

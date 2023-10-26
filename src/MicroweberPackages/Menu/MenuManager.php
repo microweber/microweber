@@ -122,11 +122,11 @@ class MenuManager
 
         $saveMenu = null;
         if (isset($data_to_save['id']) && $data_to_save['id'] > 0) {
-            $saveMenu = \MicroweberPackages\Menu\Menu::where('id', $data_to_save['id'])->first();
+            $saveMenu = Models\Menu::where('id', $data_to_save['id'])->first();
         }
 
         if ($saveMenu == null) {
-            $saveMenu = new \MicroweberPackages\Menu\Menu();
+            $saveMenu = new Models\Menu();
         }
         foreach ($data_to_save as $key => $value){
             $saveMenu->$key = $value;
