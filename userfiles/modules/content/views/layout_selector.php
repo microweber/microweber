@@ -498,7 +498,7 @@ if (!empty($recomended_layouts)) {
 
     <div class="layouts_box_holder">
         <div class="content-title-field-row card  <?php if ($show_save_changes_buttons): ?>bg-none mb-5<?php else: ?> mb-3<?php endif; ?>">
-            <div class="pt-6 pb-0 px-6">
+            <div class="pt-3">
                 <?php if (!$showAllowSelectTemplate): ?>
                     <h5 class="font-weight-bold settings-title-inside"><?php _e('Current template'); ?></h5> <?php echo $templateName ?>
                     <?php else: ?>
@@ -537,7 +537,7 @@ if (!empty($recomended_layouts)) {
                     <?php endif; ?>
 
                     <div class="<?php if ($show_save_changes_buttons): ?>col-md-8<?php else: ?>col-md-12<?php endif; ?>">
-                        <div class="card bg-azure-lt ">
+                        <div class="card bg-azure-lte">
                             <div class="card-body pt-4 pb-5">
                                 <div class="row">
 
