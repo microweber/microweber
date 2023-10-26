@@ -109,9 +109,9 @@
     var output = function (property, value, ActiveNode) {
 
 
-        
-        
-        
+
+
+
         var mwTarget = targetMw;
         if (ActiveNode) {
 
@@ -123,11 +123,16 @@
                 if(ActiveSelector){
                     mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, prop, value)
                 }
+
+                if(ActiveNode.style && ActiveNode.style[prop]) {
+                    ActiveNode.style[prop] = '';
+                }
                 mw.top().app.cssEditor.temp(ActiveNode, prop, value)
             }
             mw.top().app.registerChange(ActiveNode);
 
             if(mw.top().app.liveEdit) {
+                mw.top().app.liveEdit.handles.get('interactionHandle').hide()
 
                 mw.top().app.liveEdit.handles.reposition();
             }
