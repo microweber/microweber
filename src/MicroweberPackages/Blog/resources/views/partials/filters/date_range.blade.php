@@ -2,14 +2,10 @@
 $randomId = uniqid();
 ?>
 
-<div class="card-header   px-1">
-    <div data-bs-toggle="collapse" data-bs-target="#collapse_{{$randomId}}"  aria-expanded="true" class="d-flex">
-        <h6>{{$filter->controlName}}</h6>
-        <i class="mdi mdi-plus ms-auto align-self-center"></i>
-    </div>
-</div>
 
-<div class="collapse show" id="collapse_{{$randomId}}">
+        <h6>{{$filter->controlName}}</h6>
+
+
     <div class="card-body px-1 filter-max-scroll w-100">
 
         <div id="js-filter-option-datepicker{{$randomId}}"></div>
@@ -31,4 +27,4 @@ $randomId = uniqid();
         </script>
 
     </div>
-</div>
+
