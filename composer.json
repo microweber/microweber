@@ -79,7 +79,7 @@
         "microweber-modules/standalone-updater": "^5.3.5",
         "microweber-packages/composer-client": "2.0",
         "microweber-packages/microweber-class-alias": "dev-master",
-        "microweber-templates/big-free": "7.3",
+        "microweber-templates/big-free": "7.4",
         "mtrajano/laravel-swagger": "0.6.4",
         "omnipay/authorizenet": "*",
         "omnipay/mollie": "*",
