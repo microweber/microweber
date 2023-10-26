@@ -23,7 +23,7 @@
                 <div class="col-xl-6 col-lg-5 col-lg-7 col-lg-2 col-lg-5 py-lg-0 py-4">
                     <p> <?php _e("Displaying"); ?> {{$posts->count()}} <?php _e("of"); ?> {{ $posts->total() }}  <?php _e("result(s)"); ?>.</p>
                 </div>
-                <div class="col-xl-6 col-lg-7 col-lg-5 d-block d-sm-flex justify-content-end ms-auto">
+                <div class="col-xl-6 col-lg-7 d-block d-sm-flex justify-content-end ms-auto">
                     <div class="col-md-6 col-12 col-sm px-1 ms-auto">{!! $posts->limit(); !!}</div>
                     <div class="col-md-6 col-12 col-sm px-1 ms-auto">{!! $posts->sort(); !!}</div>
                 </div>
@@ -31,7 +31,7 @@
             <div class="row">
             @foreach($posts->results() as $post)
                 <div class="col-md-6 mb-5">
-                    <a href="{{content_link($post->id)}}">
+                    <a class="text-decoration-none" href="{{content_link($post->id)}}">
 
                         <?php
                         /*<img src="{{$post->thumbnail(800,500, true)}}" alt="">*/
