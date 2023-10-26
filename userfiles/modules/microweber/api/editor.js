@@ -317,8 +317,8 @@ var MWEditor = function (options) {
             if (e.type === 'keydown' && e.key === "Enter") {
                 const focusNode = scope.api.elementNode(scope.getSelection().focusNode);
                 const isLi = mw.tools.firstParentOrCurrentWithTag(focusNode, 'li');
- 
- 
+
+
                 if (!isLi || (isLi && event.shiftKey)) {
                     scope.document.execCommand('insertLineBreak');
                     e.preventDefault();
@@ -1261,62 +1261,68 @@ var MWEditor = function (options) {
                     const edoc = e.target.ownerDocument;
                     const ta = edoc.createElement('div');
                     ta.contentEditable = true;
-                     
+
                     const off = scope.api.getSelection().getRangeAt(0).getClientRects()[0];
- 
 
-                    // preventScroll not working on chrome 117
-                    edoc.defaultView.mw.element(ta).css({
-                        top: off.top + edoc.defaultView.pageYOffset,
-                        left: off.left+ edoc.defaultView.pageXOffset,
-                        opacity: 0,
-                        position: 'absolute',
-                    });
-                    edoc.body.appendChild(ta);
-                    scope.api.saveSelection();
-                    ta.focus({preventScroll: true, focusVisible: false});
-                    setTimeout(() => {
-                        scope.api.restoreSelection();
-                        var content;
-                        var plainTextNodes = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'A', 'EM', 'STRONG', 'SUP', 'B', 'SUB', 'PRE'];
+                    if(!!off) {
+                        // preventScroll not working on chrome 117
+                        edoc.defaultView.mw.element(ta).css({
+                            top: off.top + edoc.defaultView.pageYOffset,
+                            left: off.left+ edoc.defaultView.pageXOffset,
+                            opacity: 0,
+                            position: 'absolute',
+                        });
+                        edoc.body.appendChild(ta);
+                        scope.api.saveSelection();
+                        ta.focus({preventScroll: true, focusVisible: false});
+                        setTimeout(() => {
+                            scope.api.restoreSelection();
+                            var content;
+                            var plainTextNodes = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'A', 'EM', 'STRONG', 'SUP', 'B', 'SUB', 'PRE'];
 
-                            var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(scope.api.elementNode(scope.api.getSelection().focusNode), ['safe-mode', 'regular-mode'])
+                                var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(scope.api.elementNode(scope.api.getSelection().focusNode), ['safe-mode', 'regular-mode'])
 
-                            const allowedTags = 'a,abbr,address,audio,b,bdi,bdo,blockquote,br,button,caption,cite,code,data,dd,del,details,dfn,dl,dt,em,figcaption,figure,h1,h2,h3,h4,h5,h6,hr,i,img,font,ins,kbd,label,legend,li,mark,ol,p,picture,pre,q,rp,rt,ruby,s,samp,small,span,strong,sub,summary,sup,svg,table,tbody,td,tfoot,th,thead,time,tr,u,ul,var,video,wbr';
-                            const safeModeAllowedTags = 'a,b,br,del,em,i,font,s,samp,small,span,strong,sub,summary,sup,time,u,var,wbr';
-                            const noBlocksInThese = 'p,h1,h2,h3,h4,h5,h6';
+                                const allowedTags = 'a,abbr,address,audio,b,bdi,bdo,blockquote,br,button,caption,cite,code,data,dd,del,details,dfn,dl,dt,em,figcaption,figure,h1,h2,h3,h4,h5,h6,hr,i,img,font,ins,kbd,label,legend,li,mark,ol,p,picture,pre,q,rp,rt,ruby,s,samp,small,span,strong,sub,summary,sup,svg,table,tbody,td,tfoot,th,thead,time,tr,u,ul,var,video,wbr';
+                                const safeModeAllowedTags = 'a,b,br,del,em,i,font,s,samp,small,span,strong,sub,summary,sup,time,u,var,wbr';
+                                const noBlocksInThese = 'p,h1,h2,h3,h4,h5,h6';
 
-                            if(plainTextNodes.includes(e.target.nodeName)){
-                                content = ta.textContent;
+                                if(plainTextNodes.includes(e.target.nodeName)){
+                                    content = ta.textContent;
 
-                            } else if(isSafeMode) {
+                                } else if(isSafeMode) {
 
-                                let all = ta.querySelectorAll(`*:not(${safeModeAllowedTags})`);
-                                while ( all.length ) {
-                                    all.forEach(node => node.replaceWith(...node.childNodes));
-                                    all = ta.querySelectorAll(`*:not(${safeModeAllowedTags})`);
+                                    let all = ta.querySelectorAll(`*:not(${safeModeAllowedTags})`);
+                                    while ( all.length ) {
+                                        all.forEach(node => node.replaceWith(...node.childNodes));
+                                        all = ta.querySelectorAll(`*:not(${safeModeAllowedTags})`);
+                                    }
+                                    ta.querySelectorAll('[style]').forEach(node => node.removeAttribute('style'))
+                                    content = ta.innerHTML;
+                                } else {
+
+                                    let all = ta.querySelectorAll(`*:not(${allowedTags})`);
+                                    while ( all.length ) {
+                                        all.forEach(node => node.replaceWith(...node.childNodes));
+                                        all = ta.querySelectorAll(`*:not(${allowedTags})`);
+                                    }
+                                    ta.querySelectorAll('[style]').forEach(node => node.removeAttribute('style'))
+                                    content = ta.innerHTML;
                                 }
-                                ta.querySelectorAll('[style]').forEach(node => node.removeAttribute('style'))
-                                content = ta.innerHTML;
-                            } else {
 
-                                let all = ta.querySelectorAll(`*:not(${allowedTags})`);
-                                while ( all.length ) {
-                                    all.forEach(node => node.replaceWith(...node.childNodes));
-                                    all = ta.querySelectorAll(`*:not(${allowedTags})`);
-                                }
-                                ta.querySelectorAll('[style]').forEach(node => node.removeAttribute('style'))
-                                content = ta.innerHTML;
-                            }
 
-                        
 
-                        scope.api.insertHTML(content);
-                        mw.element(ta).remove();
-                        scope.$editArea._pasting = false;
- 
-                         
-                    })
+                            scope.api.insertHTML(content);
+                            mw.element(ta).remove();
+                            scope.$editArea._pasting = false;
+
+
+                        })
+                    } else {
+                        console.warn('Selection is not present.')
+                    }
+
+
+
 
                 }
 
