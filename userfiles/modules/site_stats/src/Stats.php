@@ -649,17 +649,16 @@ class Stats
                     $log = new Sessions();
                     $log = $log->select(DB::raw($date_period_q . ', count(session_id) as date_value'));
 
-                 //   $log->where('updated_at', '>=', date('Y-m-d H:i:s', strtotime('-1 year')));
+                    //   $log->where('updated_at', '>=', date('Y-m-d H:i:s', strtotime('-1 year')));
 
 
                     $log = $log->groupBy($group_by_key);
                 } else {
                     $log = $log->select(DB::raw($date_period_q . ', sum(view_count) as date_value'));
-                   // $log->where('updated_at', '>=', date('Y-m-d H:i:s', strtotime('-1 year')));
+                    // $log->where('updated_at', '>=', date('Y-m-d H:i:s', strtotime('-1 year')));
 
                     $log = $log->groupBy($group_by_key);
                 }
-
 
 
                 if ($period == 'daily') {
@@ -722,10 +721,13 @@ class Stats
 
                 break;
             case 'comments_count':
-                $log = new Comments();
-                $log = $log->period($period);
-                $return = $log->count();
-                return $return;
+
+                if (is_module_installed('comments')) {
+                    $log = new Comments();
+                    $log = $log->period($period);
+                    $return = $log->count();
+                    return $return;
+                }
                 break;
 
 
