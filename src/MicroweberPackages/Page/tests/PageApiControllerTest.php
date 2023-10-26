@@ -2,11 +2,11 @@
 
 namespace MicroweberPackages\Page\tests;
 
+use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Menu\Menu;
+use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\User\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class PageApiControllerTest extends TestCase
 {

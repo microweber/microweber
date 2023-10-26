@@ -12,8 +12,8 @@
 namespace MicroweberPackages\Menu\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\Menu\MenuManager;
+use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Menu\TranslateTables\TranslateMenu;
 use MicroweberPackages\Multilanguage\TranslateTablesRegistrator;
