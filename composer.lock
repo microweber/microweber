@@ -7231,7 +7231,7 @@
                 "type": "zip",
                 "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-7.3-06cd41.zip",
                 "reference": "69a9f6573e2630fa9615d3499184a5084aaeef00",
-                "shasum": "28a0dd410228df4e61502602e0027c4e85e3f8e5"
+                "shasum": "0622f634c1cf138ca952d1c94e4cb61146dfc1ec"
             },
             "type": "microweber-template",
             "extra": {
