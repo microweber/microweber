@@ -3,12 +3,12 @@
 namespace MicroweberPackages\Menu\Repositories;
 
 use MicroweberPackages\Core\Repositories\BaseRepository;
-use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\Menu\Events\MenuIsCreating;
 use MicroweberPackages\Menu\Events\MenuIsUpdating;
 use MicroweberPackages\Menu\Events\MenuWasCreated;
 use MicroweberPackages\Menu\Events\MenuWasDeleted;
 use MicroweberPackages\Menu\Events\MenuWasUpdated;
+use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\Menu\Models\Page;
 
 class MenuApiRepository extends BaseRepository

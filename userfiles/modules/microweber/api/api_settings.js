@@ -363,13 +363,7 @@
         apexcharts: [
             'apexcharts.min.js',
             'apexcharts.css'
-        ],
-        echarts: [
-            function () {
-                mw.require(mw.settings.libs_url + 'echarts' + '/echarts.min.js', true);
-                mw.require(mw.settings.libs_url + 'echarts' + '/theme/cool.js', true);
-            }
-        ],
+        ] ,
         easymde: [
             function () {
                 mw.require(mw.settings.libs_url + 'easymde' + '/easymde.min.js', true);

@@ -8,6 +8,8 @@
 
 namespace MicroweberPackages\Menu\Traits;
 
+use MicroweberPackages\Menu\Models\Menu;
+
 trait HasMenuItem
 {
     public static $addContentToMenu = [];
@@ -48,6 +50,16 @@ trait HasMenuItem
             }
 
         });
+
+        static::deleting(function($model)
+        {
+            $model->menuItems()->delete();
+        });
+    }
+
+    public function menuItems()
+    {
+        return $this->hasMany( Menu::class, 'content_id');
     }
 
 }

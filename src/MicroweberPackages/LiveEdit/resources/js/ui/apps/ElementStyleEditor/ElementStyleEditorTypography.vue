@@ -250,7 +250,6 @@ export default {
             if (!css || !css.get) return;
             var textTransform = css.get.textTransform();
 
-            console.log('textTransform', textTransform);
             this.textTransform = textTransform;
         },
 

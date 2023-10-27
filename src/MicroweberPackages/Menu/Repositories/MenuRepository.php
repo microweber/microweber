@@ -2,8 +2,7 @@
 
 namespace MicroweberPackages\Menu\Repositories;
 
-use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Menu\Menu;
+use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\Repository\MicroweberQuery;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 

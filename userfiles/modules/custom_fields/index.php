@@ -39,22 +39,22 @@ if (isset($params['content-id'])) {
 }
 
 if (isset($params['default-fields']) and isset($params['parent-module-id'])) {
-    $is_cf_created  = get_option('data-default-custom-fields-are-created', $params['id']);
-    if (!$is_cf_created) {
+//    $is_cf_created  = get_option('data-default-custom-fields-are-created', $params['id']);
+//    if (!$is_cf_created) {
         $data = mw()->fields_manager->get(['rel_type' => $for, 'rel_id' => $for_id, 'return_full' => true]);
 
         if (empty($data)) {
             mw()->fields_manager->makeDefault($for, $for_id, $params['default-fields']);
         }
 
-        if (is_admin()) {
-            $option = array();
-            $option['option_value'] = '1';
-            $option['option_key'] = 'data-default-custom-fields-are-created';
-            $option['option_group'] = $params['id'];
-            save_option($option);
-        }
-    }
+//        if (is_admin()) {
+//            $option = array();
+//            $option['option_value'] = '1';
+//            $option['option_key'] = 'data-default-custom-fields-are-created';
+//            $option['option_group'] = $params['id'];
+//            save_option($option);
+//        }
+ //   }
 }
 
 $data = mw()->fields_manager->get(['rel_type'=>$for,'rel_id'=>$for_id, 'return_full'=>true]);

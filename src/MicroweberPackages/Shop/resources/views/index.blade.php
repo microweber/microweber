@@ -12,10 +12,10 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
 
 </style>
 
-<section class="section container-fluid mw-shop-module-wrapper">
-    <div class="row">
+<section class="section mw-shop-module-wrapper shop-products">
+    <div class="row product">
         <div class="col-xl-3 mb-xl-0 mb-3">
-            <div class="card border-0     ">
+            <div class="card border-0">
 
                 {!! $products->filtersActive() !!}
 
@@ -53,9 +53,9 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
                 <div class="col-xl-6 col-lg-5 col-lg-7 col-lg-2 col-lg-5 py-lg-0 py-4">
                     <p> <?php _e("Displaying"); ?> {{$products->count()}} <?php _e("of"); ?> {{ $products->total() }}  <?php _e("result(s)"); ?>.</p>
                 </div>
-                <div class="col-xl-6 col-lg-7 col-lg-5 d-block d-sm-flex justify-content-end ms-auto">
-                    <div class="col-md-6 col-sm px-1 ms-auto">{!! $products->limit(); !!}</div>
-                    <div class="col-md-6 col-sm px-1 ms-auto">{!! $products->sort(); !!}</div>
+                <div class="col-xl-6 col-lg-7 d-block d-sm-flex justify-content-end ms-auto">
+                    <div class="col-lg-3 col-md-6 col-sm px-1 ">{!! $products->limit(); !!}</div>
+                    <div class="col-lg-3 col-md-6 col-sm px-1 ">{!! $products->sort(); !!}</div>
                 </div>
             </div>
             <div class="row">
@@ -66,7 +66,7 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
 
                         ?>
                     <div class="col-xl-4 col-lg-6 col-sm-12 mb-5">
-                        <a href="{{content_link($product->id)}}">
+                        <a class="text-decoration-none" href="{{content_link($product->id)}}">
                             <div class="img-as-background square-75 h-350 position-relative">
 
                                 <div @if($product->getContentDataByFieldName('label-color'))
@@ -101,17 +101,16 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
 
 
 
-                        <div class="d-flex">
-                            <p class="col-6 mb-0">
-                                @if($product->hasSpecialPrice())
-                                    <span class="price-old"><?php print currency_format($product->price); ?></span>
-                                    <span class="money"><?php print currency_format($product->specialPrice); ?></span>
-                                @else
-                                    <span class="money"><?php print currency_format($product->price); ?></span>
-                                @endif
-                            </p>
+                        <div class="d-flex align-items-center price-holder">
 
-                            <a class="col-6 text-end text-right align-self-center" href="{{content_link($product->id)}}"> View</a>
+                                @if($product->hasSpecialPrice())
+                                    <h6 class="price-old mb-0"><?php print currency_format($product->price); ?></h6>
+                                    <h6 class="price mb-0"><?php print currency_format($product->specialPrice); ?></h6>
+                                @else
+                                    <h6 class="price mb-0"><?php print currency_format($product->price); ?></h6>
+                                @endif
+
+
                         </div>
 
                         {{--@foreach($product->tags as $tag)--}}

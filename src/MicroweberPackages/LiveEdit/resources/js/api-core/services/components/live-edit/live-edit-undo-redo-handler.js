@@ -22,7 +22,7 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
 
 
         this.handleDragAndDropUndoRedo();
- 
+
     }
 
 
@@ -30,7 +30,7 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
         const handles = ['element', 'module'];
 
         handles.forEach(hndl => {
-            
+
             mw.app.liveEdit.handles.get(hndl)
             .draggable
             .on('dragStart', data => {
@@ -42,12 +42,21 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
                 this.endTarget.__html = this.endTarget.innerHTML;
             })
             .on('drop', data => {
-               
+
+                var endTargethtml = '';
+                var startTargethtml = '';
+                if(this.endTarget && this.endTarget.__html) {
+                    endTargethtml = this.endTarget.__html;
+                }
+                if(this.startTarget && this.startTarget.__html) {
+                    startTargethtml = this.startTarget.__html;
+                }
+
                 const rec1 = {
                     target:  this.endTarget,
-                    value:  this.endTarget.__html,
+                    value:  endTargethtml,
                     originalEditField: this.startTarget,
-                    originalEditFieldInnerHTML: this.startTarget.__html,
+                    originalEditFieldInnerHTML: startTargethtml,
                 };
 
                 const rec2 = {
@@ -74,7 +83,7 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
         if(mw.app.liveEdit) {
             mw.app.liveEdit.handles.reposition();
         }
-    } 
+    }
 
     handleUndoRedo = (data) => {
 
@@ -111,11 +120,11 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
                             if(field && rel){
                                 selector = '.edit[field="'+field+'"][rel="'+rel+'"]';
                             }
-                        }  
+                        }
                         if (selector) {
                             target = doc.querySelector(selector)
                         }
-                        
+
                     }
                     return target;
                 }
@@ -127,14 +136,14 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
                 }
 
                 target = getTarget(target);
-                
+
                 if(target) {
                     mw.element(target).html(data.active.value);
                 }
                 if(originalEditField) {
                     mw.element(originalEditField).html(data.active.originalEditFieldInnerHTML);
                 }
-                
+
             } else {
                 if (target.id) {
                     mw.element(doc.getElementById(target.id)).html(data.active.value);
