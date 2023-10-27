@@ -71,6 +71,7 @@ jobs:
           rm -rf .nmp
           rm -rf node_modules
           rm -rf .phpunit.cache
+          rm -rf vendor/composer/tmp-*.zip
           find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
           zip -r microweber-${{ env.GITHUB_REF_SLUG }}.zip `ls -A`
       - name: Upload zip
