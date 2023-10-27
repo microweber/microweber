@@ -23,7 +23,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
 
 
     canAcceptByClass (node) {
-        return this.tools.hasAnyOfClasses(node, this.dropableElements());
+        return this.tools.hasAnyOfClasses(node, this.dropableElements()) || node.className.indexOf('col-') !== -1;
     }
 
     canAcceptByTag (node) {
@@ -41,6 +41,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
 
     canAccept (target) {
         // whether or not "target" can accept elements
+
         return !!(
             this.canAcceptByClass(target) &&
             this.isEditOrInEdit(target) &&
@@ -61,13 +62,16 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
             this.settings.elementClass,
             this.settings.editClass,
             this.settings.moduleClass,
-            'allow-drop'
+            'allow-drop',
+            'col',
         ]);
     }
 
     getTarget (node, draggedElement) {
 
         const target = this.getIteractionTarget(node);
+
+
 
 
 
@@ -93,28 +97,39 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
 
 
         if(isStrictCase) {
+
             return null;
         }
 
         if (target.classList.contains('allow-drop')) {
+
             res.canInsert = true;
         } else if (this.isEdit(target)) {
+
             res.canInsert = !draggedElementIsLayoutRestricted;
         } else if ( this.isElement(target) && !draggedElementIsLayoutRestricted  ) {
+
             if (this.canAcceptByTag(target)) {
                 res.canInsert = !draggedElementIsLayoutRestricted;
             }
             res.beforeAfter = true;
-        } else if(  this.isModule(target) && !draggedElementIsLayoutRestricted) {
+        } else if( this.isModule(target) && !draggedElementIsLayoutRestricted )  {
+
             if(this.canInsertBeforeOrAfter(target)) {
+
+
                 res.beforeAfter = true;
             } else {
+
                 return null;
             }
         } else if(this.isLayout(target)) {
+
             if(this.canInsertBeforeOrAfter(target)) {
+
               res.beforeAfter = true;
             } else {
+
                 return null;
             }
         }

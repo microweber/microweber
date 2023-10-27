@@ -276,9 +276,9 @@ $current_template = false;
             <?php $default_item_names = array(); ?>
 
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
+                <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs active" style="display:none" id="change-background-tab-link" data-bs-toggle="tab" href="#change-background">   <?php _e('Background'); ?></a>
+                <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  " data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
                 <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#change-layout">   <?php _e('Change Layout'); ?></a>
-                <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " style="display:none" id="change-background-tab-link" data-bs-toggle="tab" href="#change-background">   <?php _e('Background'); ?></a>
             </nav>
 
             <div class="tab-content py-3">
