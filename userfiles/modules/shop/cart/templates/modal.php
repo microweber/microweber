@@ -36,7 +36,7 @@ $total = cart_total();
     <div class="products">
         <?php if (is_array($data) and $data) : ?>
             <?php foreach ($data as $item) :?>
-                <div class="row checkout-modal-product-list-item align-items-center py-lg-4 ps-lg-4 mb-3">
+                <div class="row checkout-modal-product-list-item align-items-center pb-3 ps-lg-4">
                     <div class="col-12">
                         <h4 class="mb-2"><?php _e($item['title']) ?></h4>
                         <small class="text-muted mw-order-custom-fields">
