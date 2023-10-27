@@ -33,20 +33,18 @@ export const Draggable = function (options, rootSettings) {
         if(!this.settings.target) {
             this.settings.target = this.settings.document.body;
         }
+
         this.setElement(this.settings.element);
         this.dropIndicator = this.settings.dropIndicator;
     };
 
     this.setElement = function (node) {
 
-        var imgAsBg = DomService.firstParentOrCurrentWithClass(node, 'img-as-background');
-        if(imgAsBg) {
-            // node = imgAsBg;
-        }
+
+
+
 
         this.element = ElementManager(node)/*.prop('draggable', true)*/.get(0);
-
-
 
         this.handleInit()
     };
@@ -224,7 +222,11 @@ export const Draggable = function (options, rootSettings) {
         });
         dtarget.addEventListener('drop', function (e) {
 
+
             const handleFileDrag = (file, e) => {
+
+
+
 
                 if(!scope.target || !scope.action) {
                     return;
@@ -237,9 +239,11 @@ export const Draggable = function (options, rootSettings) {
                 const videos = ['video/webm', 'video/ogg', 'application/ogg', 'video/mp4'];
 
                 const isImage = images.indexOf(file.type) !== -1;
-                const isVideo = !videos.indexOf(file.type) !== -1;
+                const isVideo = videos.indexOf(file.type) !== -1;
 
                 const canUpload = isImage || isVideo;
+
+
 
                 if(!canUpload) {
                     return;
@@ -280,11 +284,10 @@ export const Draggable = function (options, rootSettings) {
                     });
                     mw.spinner({element: document.body, decorate: true}).remove();
                 })
-
-
             }
 
-            if (scope.isDragging) {
+
+            if (scope.isDragging || !scope.isDragging) {
 
                 e.preventDefault();
                 const file = getFile(e);
@@ -293,10 +296,31 @@ export const Draggable = function (options, rootSettings) {
                     handleFileDrag(file, e);
                     e.stopPropagation();
                     e.preventDefault();
-                } else if (scope.target && scope.action) {
+                } else if ((mw.top()._dragTarget || scope.target) && scope.action) {
+
+                    let _hndl;
+                    if(scope.settings.handle == ".mw-handle-drag-button-module") {
+                        _hndl = 'module';
+                    } else {
+                        _hndl = 'element';
+                    }
+
 
                     scope.dispatch('beforeDrop', {element: scope.element, event: e});
-                    ElementManager(scope.target)[scope.action](scope.element);
+
+
+
+                      // ElementManager(scope.target)[scope.action](scope.element);
+                    // todo
+
+
+
+
+                         ElementManager(scope.target)[scope.action](mw.top()._dragTarget);
+
+
+
+
                     e.stopPropagation();
                     e.preventDefault();
                 }
@@ -417,7 +441,7 @@ export const Draggable = function (options, rootSettings) {
                 scope.helper('create', e);
             })
             .on('drag', function (e) {
-
+                scope.isDragging = true;
             })
             .on('dragend', function (e) {
                 scope.element.classList.remove('mw-element-is-dragged');

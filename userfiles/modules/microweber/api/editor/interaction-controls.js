@@ -113,6 +113,10 @@ MWEditor.interactionControls = {
                         url = url.toString();
                         scope.$target.attr('src', url);
                         dialog.remove();
+
+                        rootScope.api.afterExecCommand();
+                        rootScope._syncTextArea();
+
                     }
                 });
                 dialog = mw.top().dialog({
@@ -184,25 +188,25 @@ MWEditor.interactionControls = {
                     var css = $target.offset();
                     this.element.$node.show();
 
-                    
-                   
+
+
                     // top right
                     // css.left += $target.outerWidth();
                     // css.top -= (lscope.element.node.offsetHeight);
-                     
+
 
 
                     css.left -= (lscope.element.node.offsetWidth)
-                    
+
                     css.left -= ( space);
 
 
 
 
                     this.element.$node.css(css)
-                    
-                
-                    
+
+
+
                 })
 
             } else {
