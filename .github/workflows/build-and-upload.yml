@@ -72,6 +72,8 @@ jobs:
           rm -rf node_modules
           rm -rf .phpunit.cache
           rm -rf vendor/composer/tmp-*.zip
+          rm -rf userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/tabler-ui/demo
+          rm -rf userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/tabler-ui/src/static
           find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
           zip -r microweber-${{ env.GITHUB_REF_SLUG }}.zip `ls -A`
       - name: Upload zip
