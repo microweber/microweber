@@ -91,6 +91,8 @@ export const Handle = function (options) {
             .ownerDocument.querySelectorAll('.mw-le-handle-menu-button.sub-menu-active')
             .forEach(el => el.classList.remove('sub-menu-active'));
 
+            mw.app.registerChange(mw.top()._dragTarget);
+
         })
         this.draggable.on('dragEnd', function () {
 
