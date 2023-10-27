@@ -87,7 +87,7 @@ export const liveEditComponent = () => {
         }
         if(mw.app.liveEdit) {
 
-            mw.app.liveEdit.handles.reposition();
+            // mw.app.liveEdit.handles.reposition();
         }
     };
     mw.app.registerAskUserToStay = function (toStay = true) {
@@ -160,8 +160,8 @@ export const liveEditComponent = () => {
         mw.app.canvas.getDocument().querySelectorAll('[data-layout-container]').forEach(node => {
             liveEdit.layoutHandleContent.layoutActions.afterLayoutChange(node)
         })
-        
-        
+
+
 
 
      mw.app.dispatch('onLiveEditReady');

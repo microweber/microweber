@@ -125,6 +125,7 @@ export const Handles = function (handles) {
             handle.draggable.on('dragStart', ()=>{
                 scope.dragging = true;
                 scope.hideAllBut(name)
+
             })
             handle.draggable.on('dragEnd', function (){
                 scope.dragging = false;
