@@ -251,6 +251,9 @@ export default {
                     height: 'auto',
                     width: 800,
                     className: 'mw-unlock-package-modal',
+                    closeOnEscape: true,
+                    overlay: true,
+                    overlayClose: true
                 });
                 dialog.dialogHeader.style.display = 'none';
                 dialog.iframe.addEventListener('load', () => {
