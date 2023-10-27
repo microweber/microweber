@@ -73,14 +73,15 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
 
 
 
-
-
-
-        if(!target || !this.isEditOrInEdit(node) || !this.allowDrop(node)) {
-            return null;
+        if(!target) {
+            return;
         }
 
 
+
+        if( !this.isEditOrInEdit(target) || !this.allowDrop(target)) {
+            return null;
+        }
 
 
 
@@ -93,6 +94,8 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
 
         var draggedElementIsLayoutRestricted = this.settings.strictLayouts && this.isLayout(draggedElement);
         var isStrictCase = this.settings.strict && !this.isLayout(draggedElement) && !this.isInLayout(target);
+
+
 
 
 

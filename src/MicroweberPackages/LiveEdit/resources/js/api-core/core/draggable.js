@@ -193,12 +193,15 @@ export const Draggable = function (options, rootSettings) {
                 return;
              }
 
+
+
              if(e.target !== scope.element || !scope.element.contains(e.target)) {
                  var targetAction = scope.dropableService.getTarget(e.target, scope.element);
 
 
                   if (targetAction && targetAction !== scope.element) {
                      const pos = scope.dropPosition(e, targetAction);
+
                       if(pos) {
                          scope.target = targetAction.target;
                          scope.action = pos.action;
@@ -216,6 +219,7 @@ export const Draggable = function (options, rootSettings) {
                      e.preventDefault();
                  }
              } else {
+
                 if(scope.dropIndicator) scope.dropIndicator.hide();
 
              }
@@ -241,7 +245,7 @@ export const Draggable = function (options, rootSettings) {
                 const isImage = images.indexOf(file.type) !== -1;
                 const isVideo = videos.indexOf(file.type) !== -1;
 
-                const canUpload = isImage || isVideo;
+                const canUpload = false// isImage || isVideo;
 
 
 
