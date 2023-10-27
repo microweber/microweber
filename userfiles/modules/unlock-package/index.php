@@ -1,12 +1,9 @@
 <?php
-$template = get_option('data-template', $params['id']);
-if ($template == false and isset($params['template'])) {
-    $template = $params['template'];
-}
-if ($template != false) {
-    $template_file = module_templates($config['module'], $template);
-} else {
-    $template_file = module_templates($config['module'], 'default');
+$template_file_from_theme = template_dir() . 'modules/unlock-package/templates/default.php';
+
+$template_file = module_templates($config['module'], 'default');
+if (is_file($template_file_from_theme)) {
+    $template_file = $template_file_from_theme;
 }
 ?>
 
