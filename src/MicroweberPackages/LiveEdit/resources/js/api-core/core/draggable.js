@@ -198,6 +198,7 @@ export const Draggable = function (options, rootSettings) {
              if(e.target !== scope.element || !scope.element.contains(e.target)) {
                  var targetAction = scope.dropableService.getTarget(e.target, scope.element);
 
+
                   if (targetAction && targetAction !== scope.element) {
                      const pos = scope.dropPosition(e, targetAction);
                       if(pos) {
@@ -236,7 +237,7 @@ export const Draggable = function (options, rootSettings) {
                 const videos = ['video/webm', 'video/ogg', 'application/ogg', 'video/mp4'];
 
                 const isImage = images.indexOf(file.type) !== -1;
-                const isVideo = videos.indexOf(file.type) !== -1;
+                const isVideo = !videos.indexOf(file.type) !== -1;
 
                 const canUpload = isImage || isVideo;
 
@@ -259,9 +260,10 @@ export const Draggable = function (options, rootSettings) {
 
 
                         // ElementManager(scope.target)[scope.action](`<div id="${id}" class="module module-video" data-type="video" autoplay="true" url="${res.src}" data-url="${res.src}">`);
-                        ElementManager(scope.target)[scope.action](`<video id="${id}" class="module module-video" autoplay="true" controls playsinline style="width:100%" data-type="video" src="${res.src}" url="${res.src}" data-url="${res.src}">`);
+                        // ElementManager(scope.target)[scope.action](`<video id="${id}" class="module module-video" autoplay="true" controls playsinline style="width:100%" data-type="video" src="${res.src}" url="${res.src}" data-url="${res.src}">`);
+                        ElementManager(scope.target)[scope.action](`<video id="${id}" class="element" autoplay="false" controls playsinline style="width:100%" data-type="video" src="${res.src}" url="${res.src}" data-url="${res.src}">`);
                         setTimeout(() => {
-                             mw.reload_module_everywhere('#' + id);
+                             // mw.reload_module_everywhere('#' + id);
                         }, 100)
                         mw.app.registerChange(edit);
 
