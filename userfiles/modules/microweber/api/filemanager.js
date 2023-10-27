@@ -396,12 +396,12 @@
 
                 if(scope.areNoneSelected()) {
                     scope.root.addClass('mw-fm-none-selected');
-    
+
                 }  else {
                     scope.root.addClass('mw-fm-part-selected');
-                    
+
                 }
- 
+
                 return;
             }
             if(scope.areAllSelected()) {
@@ -730,7 +730,7 @@
 
 
         this.acceptMatches = function(item) {
-            console.log(this.settings.accept)
+
             if(item.type === 'folder' || !this.settings.accept  || this.settings.accept === '*') {
                 return true;
             }

@@ -2290,7 +2290,7 @@ svg.text-danger {
 }
 
 #mw-admin-main-navigation{
-        
+
     max-height: calc(100vh - 280px);
     overflow: auto;
 }
@@ -3103,4 +3103,20 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
         padding: 0;
         max-height: 100% !important;
     }
+}
+
+
+[data-mwplaceholder]:empty:after {
+    content: attr(data-mwplaceholder);
+    color: #000;
+    opacity: .8;
+}
+
+.mw-live-edit [data-mwplaceholder]:empty {
+    cursor: pointer;
+    background: #ffffff38;
+    color: inherit;
+    opacity: .57;
+    white-space: normal;
+
 }

@@ -208,6 +208,7 @@ export class LiveEdit {
 
         this.moduleHandle = new Handle({
             ...this.settings,
+            name: '$moduleHandle',
             dropIndicator: this.dropIndicator,
             content: this.moduleHandleContent.root,
             // handle: moduleHandleContent.menu.title,

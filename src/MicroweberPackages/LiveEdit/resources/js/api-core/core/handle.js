@@ -19,6 +19,9 @@ export const Handle = function (options) {
 
     this.settings = ObjectService.extend({}, defaults, options);
 
+
+
+
     const _e = {};
     this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
     this.off = (e, f) => { _e[e] && _e[e].indexOf(f) !== -1 ?_e[e].splice(_e[e].indexOf(f), 1) :  '' };
@@ -79,6 +82,8 @@ export const Handle = function (options) {
 
 
         this.draggable.on('dragStart', function () {
+
+            mw.top()._dragTarget = scope.getTarget();
 
             scope.wrapper
             .addClass('mw-handle-item-dragging')
@@ -199,6 +204,7 @@ export const Handle = function (options) {
         this.position(target);
         this.setDraggable(target)
         this.show();
+
 
         this.draggable.setElement(target);
         if(_currentTarget !== target || forced) {

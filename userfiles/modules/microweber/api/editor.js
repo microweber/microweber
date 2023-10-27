@@ -662,9 +662,10 @@ var MWEditor = function (options) {
 
     var _clean = document.createElement('div');
     var clean = function (val){
-        _clean.innerHTML = val;
+    _clean.innerHTML = val;
 
         $('[contenteditable]', _clean).removeAttr('contenteditable');
+
 
         return _clean.innerHTML;
     }
@@ -701,10 +702,16 @@ var MWEditor = function (options) {
                 style: {
                     direction: scope.settings.direction,
                     textAlign: scope.settings.direction === 'ltr' ? 'left' : 'right',
-                }
+                },
+
             },
 
         });
+        setTimeout(()=>{
+            if (this.area.html() === '') {
+                this.area.html('<p class="element" data-mwplaceholder="This is sample text for your page"></p>');
+            }
+        }, 100);
         this.area.get(0).contentEditable = true;
 
         this.wrapper.appendChild(this.area.node);

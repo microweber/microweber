@@ -554,6 +554,19 @@ MWEditor.api = function (scope) {
             return this._cleaner.innerHTML;
         },
         insertHTML: function(html) {
+            let edit = scope.apoi.elementNode(scope.api.getSelection().focusNode);
+            if(edit) {
+                edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(edit, ['edit'])
+            }
+
+            if(edit) {
+                const curr = edit.contentEditable;
+                edit.contentEditable = true;
+
+                setTimeout(() => {
+                    edit.contentEditable = curr;
+                }, 10)
+            }
             return scope.api.execCommand('insertHTML', false, this.cleanHTML(html));
         },
         insertImage: function (url) {
@@ -664,7 +677,7 @@ MWEditor.core = {
         input.on('input', function (){
             clearTimeout(time);
             time = setTimeout(function (el, node){
-                
+
                 el.trigger('change', node.value);
             }, 210, el, this);
         });
@@ -704,7 +717,7 @@ MWEditor.core = {
         var lscope = this;
         this.root = MWEditor.core.element();
         var placeholder = (options.placeholder || '');
-   
+
         this.select = MWEditor.core.element({
             props: {
                 className: 'mw-editor-controller-component mw-editor-controller-component-select',
@@ -714,7 +727,7 @@ MWEditor.core = {
         var displayValNode = MWEditor.core.button({
             props: {
                 className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
-                innerHTML: placeholder 
+                innerHTML: placeholder
             }
         });
 
@@ -843,7 +856,7 @@ MWEditor.controllers = {
             } else {
                 rootScope.controllerActive(opt.controller.element.node, false);
             }
-           
+
             opt.controller.element.node.disabled = opt.isPlaintext || !opt.api.isSelectionEditable(opt.selection);
         };
         this.element = this.render();
@@ -941,6 +954,7 @@ MWEditor.controllers = {
                         url = url.toString();
                         api.insertImage(url);
                         dialog.remove();
+
                     }
                 });
                 dialog = mw.top().dialog({
@@ -1402,7 +1416,7 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
-              
+
                 api.execCommand('foreColor', false, val);
             });
             return el;
@@ -1420,7 +1434,7 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
-                 
+
                 api.execCommand('backcolor', false, val);
             });
             return el;
@@ -1450,7 +1464,7 @@ MWEditor.controllers = {
                             <td data-mwplaceholder="This is sample text for your page"></td>
                         </tr>
                     </table>
-                </div>   
+                </div>
                 `);
             });
             return el;
@@ -1758,6 +1772,10 @@ MWEditor.interactionControls = {
                         url = url.toString();
                         scope.$target.attr('src', url);
                         dialog.remove();
+
+                        rootScope.api.afterExecCommand();
+                        rootScope._syncTextArea();
+
                     }
                 });
                 dialog = mw.top().dialog({
@@ -1831,6 +1849,7 @@ MWEditor.interactionControls = {
                 target: rootScope.$editArea[0],
                 value: rootScope.$editArea[0].innerHTML
             });
+            api.afterExecCommand();
         };
 
         this.render = function () {
