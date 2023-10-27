@@ -325,7 +325,8 @@ export const Draggable = function (options, rootSettings) {
                     e.preventDefault();
                 }
                 if(scope.dropIndicator) scope.dropIndicator.hide();
-                scope.dispatch('drop', {element: scope.element, event: e});
+                // scope.dispatch('drop', {element: scope.element, event: e});
+                scope.dispatch('drop', {element: mw.top()._dragTarget, event: e});
             } else {
 
                 const file = getFile(e);
