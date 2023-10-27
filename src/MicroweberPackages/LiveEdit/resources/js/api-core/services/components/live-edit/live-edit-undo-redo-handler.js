@@ -61,9 +61,9 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
 
                 const rec2 = {
                     target:  this.endTarget,
-                    value:  this.endTarget.innerHTML,
+                    value: startTargethtml,
                     originalEditField: this.startTarget,
-                    originalEditFieldInnerHTML: this.startTarget.innerHTML,
+                    originalEditFieldInnerHTML: endTargethtml,
                 }
 
                 mw.app.state.record(rec1);
