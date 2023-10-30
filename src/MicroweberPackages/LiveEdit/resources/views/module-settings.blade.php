@@ -69,13 +69,13 @@
                     'moduleId' => $moduleId,
                     'moduleType' => $moduleFolder,
                     'moduleParams' => $params,
-                ])
+                ], key('module-settings-'.$moduleId))
         @elseif(livewire_component_exists($livewireComponentDashed))
                 @livewire($livewireComponentDashed, [
                     'moduleId' => $moduleId,
                     'moduleType' => $moduleFolder,
                     'moduleParams' => $params,
-                ])
+                ], key('module-settings-'.$moduleId))
         @else
 
 
