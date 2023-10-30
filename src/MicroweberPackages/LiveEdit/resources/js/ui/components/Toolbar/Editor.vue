@@ -222,7 +222,7 @@ export default {
                         if (!url) return;
                         url = url.toString();
                         element.src = url;
-                        element.style.objectFit = 'none';
+                       element.style.objectFit = '';
                         element.style.width = 'auto';
                         element.style.height = 'auto';
 
