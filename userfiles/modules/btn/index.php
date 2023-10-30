@@ -40,14 +40,14 @@ $shadow = get_module_option('shadow', $params['id']);
 $hoverbackgroundColor = get_module_option('hoverbackgroundColor', $params['id']);
 $hovercolor = get_module_option('hovercolor', $params['id']);
 $hoverborderColor = get_module_option('hoverborderColor', $params['id']);
-
+ 
 
 $style = $btn_options['button_style'];
 $size = $btn_options['button_size'];
 $action = $btn_options['button_action'];
 $action_content = $btn_options['popupcontent'];
 $url = $btn_options['url'];
-$blank = $btn_options['url_blank'] == 'y';
+$blank = $btn_options['url_blank'] == '1';
 $text = $btn_options['text'];
 if ($btn_options['icon']) {
     $icon = $btn_options['icon'];
