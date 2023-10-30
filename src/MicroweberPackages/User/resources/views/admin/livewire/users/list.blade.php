@@ -31,8 +31,7 @@
                            <input type="search" wire:model.debounce.500ms="keyword" class="form-control" aria-label="Search" placeholder="{{ _e("Search for users") }}">
 
                            <span class="input-icon-addon">
-                          <!-- Download SVG icon from http://tabler-icons.io/i/search -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                           <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
                         </span>
                        </div>
                    </div>
@@ -40,8 +39,8 @@
                     <div class="col-lg-8 col-12 text-lg-end">
 
                         @php
-                            $editUserLink = route('admin.users.edit', user_id());
-                        @endphp
+                            $editUserLink = route('admin.profile.show');
+                         @endphp
                         <a href="{{ $editUserLink }}"
                            class="btn btn-outline-secondary mx-1 btn-sm" id="add-edit-user-btn">
                             <?php _e("Edit profile"); ?>
@@ -153,7 +152,7 @@
                                         @php
                                             $editUserLink = route('admin.users.edit', $user->id);
                                             if (user_id() == $user->id) {
-                                                $editUserLink = admin_url('user/profile');
+                                               $editUserLink = route('admin.profile.show');
                                             }
                                         @endphp
                                         <a href="{{$editUserLink}}"><?php _e('Edit');?></a>
