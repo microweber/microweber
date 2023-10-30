@@ -97,6 +97,9 @@ class UpdateProfileInformationForm extends AdminComponent
         if (isset($this->photo) && !empty($this->photo)) {
             if (method_exists($this->photo, 'guessExtension')) {
                 $photoExt = $this->photo->guessExtension();
+
+
+
                 $photoContent = $this->photo->get();
                 $photoFile = media_base_path() . 'users/' . $user->id . '-avatar.' . $photoExt;
                 if (!is_dir(dirname($photoFile))) {

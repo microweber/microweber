@@ -40,7 +40,7 @@ $shadow = get_module_option('shadow', $params['id']);
 $hoverbackgroundColor = get_module_option('hoverbackgroundColor', $params['id']);
 $hovercolor = get_module_option('hovercolor', $params['id']);
 $hoverborderColor = get_module_option('hoverborderColor', $params['id']);
- 
+
 
 $style = $btn_options['button_style'];
 $size = $btn_options['button_size'];
