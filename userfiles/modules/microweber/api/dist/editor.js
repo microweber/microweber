@@ -443,6 +443,7 @@ MWEditor.api = function (scope) {
         _execCommandCustom: {
             removeFormat: function (cmd, def, val) {
                 scope.actionWindow.document.execCommand(cmd, def, val);
+
                 var sel = scope.getSelection();
                 var r = sel.getRangeAt(0);
                 var common = r.commonAncestorContainer;
@@ -1383,6 +1384,8 @@ MWEditor.controllers = {
             });
             el.on('mousedown touchstart', function (e) {
                 api.execCommand('removeFormat');
+
+
             });
             return el;
         };
