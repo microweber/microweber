@@ -34,25 +34,41 @@
 
                 <!-- Current Profile Photo -->
 
-                @if($state['thumbnail'])
-                <div class="mt-2" id="profile-upload-image">
-                    <img src="{{$state['thumbnail']}}?time={{time()}}" class="rounded-circle"  height="60px" width="60px">
-                </div>
-                @else
-                    <div id="profile-upload-image" class="mt-2 rounded-circle admin-users-no-user-img-wrapper bg-light d-flex align-items-center justify-content-center mx-auto" style="width:60px;height:60px">
-                        <img src="{{modules_url()}}microweber/api/libs/mw-ui/assets/img/no-user.svg">
+                <div>
+                    @if($state['thumbnail'])
+                    <div class="mt-2" id="profile-upload-image">
+                        <img src="{{$state['thumbnail']}}?time={{time()}}" class="rounded-circle"  height="60px" width="60px">
                     </div>
-                @endif
 
-                @if ($state['thumbnail'])
-                    <x-microweber-ui::link-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
-                        <div wire:loading wire:target="deleteProfilePhoto" class="spinner-border spinner-border-sm" role="status">
-                            <span class="visually-hidden">{{ _e('Loading') }}...</span>
+                    <div class="mt-2" wire:ignore>
+                        <button id="profile-upload-image" class="btn btn-outline-primary btn-sm" type="button">
+                            Change photo
+                        </button>
+                    </div>
+                    @else
+                        <div class="mt-2 rounded-circle admin-users-no-user-img-wrapper bg-light d-flex align-items-center justify-content-center mx-auto" style="width:60px;height:60px">
+                            <img src="{{modules_url()}}microweber/api/libs/mw-ui/assets/img/no-user.svg">
                         </div>
 
-                        {{ _e('Remove photo') }}
-                    </x-microweber-ui::link-button>
-                @endif
+                        <div class="mt-2" wire:ignore>
+                            <button id="profile-upload-image"  class="btn btn-outline-primary btn-sm" type="button">
+                                Add photo
+                            </button>
+                        </div>
+
+                    @endif
+
+
+                    @if ($state['thumbnail'])
+                        <x-microweber-ui::link-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
+                            <div wire:loading wire:target="deleteProfilePhoto" class="spinner-border spinner-border-sm" role="status">
+                                <span class="visually-hidden">{{ _e('Loading') }}...</span>
+                            </div>
+
+                            {{ _e('Remove photo') }}
+                        </x-microweber-ui::link-button>
+                    @endif
+                </div>
 
             </div>
 
