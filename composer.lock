@@ -7231,7 +7231,7 @@
                 "type": "zip",
                 "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-7.8-7457ac.zip",
                 "reference": "8abddcbd2b9daf92abbc8c33ba6c6c08ef764e45",
-                "shasum": "759945a9bf6014b74ae567e439b1b652d9e0d95b"
+                "shasum": "8ab33726de6dfb632f1937b9578120e9d3a18847"
             },
             "type": "microweber-template",
             "extra": {
@@ -7499,7 +7499,11 @@
                     "/layouts/templates/menus/settings_is_header_socials_front.php",
                     "/layouts/templates/menus/settings_is_phone_front.php"
                 ],
-                "_meta": [],
+                "_meta": {
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/78/README.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/78/screenshot.jpg",
+                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/78/screenshot_large.jpg"
+                },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
                 }
