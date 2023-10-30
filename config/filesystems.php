@@ -48,6 +48,12 @@ return [
 			'root'   => storage_path().'/app',
 		],
 
+
+        'tmp-for-tests' => [
+            'driver' => 'local',
+            'root' => storage_path('storage/cache/livewire-tmp'),
+        ],
+
 		's3' => [
 			'driver' => 's3',
 			'key'    => 'your-key',
@@ -65,5 +71,7 @@ return [
 		],
 
 	],
+
+
 
 ];
