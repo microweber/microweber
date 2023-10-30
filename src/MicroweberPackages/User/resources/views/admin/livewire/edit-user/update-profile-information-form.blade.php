@@ -14,34 +14,37 @@
             <div class="form-label mb-3 text-center" x-data="{}">
                 <!-- Profile Photo File Input -->
 
+                <script>
+                    mw.require("files.js");
+                </script>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        uploader = mw.files.uploader({
+                            filetypes: "images",
+                            element: mw.$("#profile-upload-image")
+                        });
+
+                        $(uploader).on("FileUploaded", function (a, data) {;
+                            Livewire.emit('updateProfilePhoto', data.src);
+                        });
+                    });
+                </script>
+
                 <x-microweber-ui::label for="photo"  value="{{ _e('Profile image') }}" />
 
                 <!-- Current Profile Photo -->
 
-                @if($photo && method_exists($photo, 'temporaryUrl'))
-                <div class="mt-2">
-                     <img src="{{$photo->temporaryUrl()}}" class="rounded-circle" height="60px" width="60px" >
-                </div>
-                @elseif($photoUrl)
-                <div class="mt-2">
-                    <img src="{{$photoUrl}}?time={{time()}}" class="rounded-circle"  height="60px" width="60px">
+                @if(true)
+                <div class="mt-2" id="profile-upload-image">
+                    <img src="?time={{time()}}" class="rounded-circle"  height="60px" width="60px">
                 </div>
                 @else
-                    <div class="mt-2 rounded-circle admin-users-no-user-img-wrapper bg-light d-flex align-items-center justify-content-center mx-auto" style="width:60px;height:60px">
+                    <div id="profile-upload-image" class="mt-2 rounded-circle admin-users-no-user-img-wrapper bg-light d-flex align-items-center justify-content-center mx-auto" style="width:60px;height:60px">
                         <img src="{{modules_url()}}microweber/api/libs/mw-ui/assets/img/no-user.svg">
                     </div>
                 @endif
 
-                <x-microweber-ui::link-button class=" mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
-                    <div wire:loading="photo">
-                        {{ _e('Uploading...') }}
-                    </div>
-                    <div wire:loading.remove wire:target="photo">
-                        {{ _e('Upload photo') }}
-                    </div>
-                </x-microweber-ui::link-button>
-
-                @if ($this->photo || $photoUrl)
+                @if (true)
                     <x-microweber-ui::link-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
                         <div wire:loading wire:target="deleteProfilePhoto" class="spinner-border spinner-border-sm" role="status">
                             <span class="visually-hidden">{{ _e('Loading') }}...</span>
@@ -51,7 +54,6 @@
                     </x-microweber-ui::link-button>
                 @endif
 
-                <x-microweber-ui::input-error for="photo" class="mt-2" />
             </div>
 
             <!-- Username -->
