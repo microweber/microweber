@@ -13,10 +13,6 @@
             <!-- Profile Photo -->
             <div class="form-label mb-3 text-center" x-data="{}">
                 <!-- Profile Photo File Input -->
-                <input type="file" hidden
-                       wire:model="photo"
-                       x-ref="photo"
-                />
 
                 <x-microweber-ui::label for="photo"  value="{{ _e('Profile image') }}" />
 
