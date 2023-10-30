@@ -23,7 +23,6 @@
                             filetypes: "images",
                             element: mw.$("#profile-upload-image")
                         });
-
                         $(uploader).on("FileUploaded", function (a, data) {;
                             Livewire.emit('updateProfilePhoto', data.src);
                         });
@@ -36,7 +35,7 @@
 
                 <div>
                     @if($state['thumbnail'])
-                    <div class="mt-2" id="profile-upload-image">
+                    <div class="mt-2">
                         <img src="{{$state['thumbnail']}}?time={{time()}}" class="rounded-circle"  height="60px" width="60px">
                     </div>
 
@@ -55,7 +54,6 @@
                                 Add photo
                             </button>
                         </div>
-
                     @endif
 
 
