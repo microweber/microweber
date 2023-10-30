@@ -14,20 +14,7 @@
         </x-user::action-message>
 
         <!-- Profile Photo -->
-        @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-            <div class="mb-3" x-data="{photoName: null, photoPreview: null}">
-                <!-- Profile Photo File Input -->
-                <input type="file" hidden
-                       wire:model="photo"
-                       x-ref="photo"
-                       x-on:change="
-                                    photoName = $refs.photo.files[0].name;
-                                    const reader = new FileReader();
-                                    reader.onload = (e) => {
-                                        photoPreview = e.target.result;
-                                    };
-                                    reader.readAsDataURL($refs.photo.files[0]);
-                            " />
+        <div class="mb-3" x-data="{photoName: null, photoPreview: null}">
 
                 <x-user::label for="photo" value="{{ __('Photo') }}" />
 
@@ -57,7 +44,6 @@
 
                 <x-user::input-error for="photo" class="mt-2" />
             </div>
-        @endif
 
         <div class="w-md-75">
             <!-- Name -->

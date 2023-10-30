@@ -5,13 +5,11 @@ namespace MicroweberPackages\User\Http\Livewire\Admin;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Livewire\WithFileUploads;
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\User\Models\User;
 
 class CreateProfileInformationForm extends AdminComponent
 {
-    use WithFileUploads;
 
     /**
      * The component's state.
@@ -30,8 +28,8 @@ class CreateProfileInformationForm extends AdminComponent
             'username' => ['nullable', 'string', 'max:255', Rule::unique(User::class)],
             'email' => ['required', 'email', 'max:255', Rule::unique(User::class)],
             'phone' => ['nullable', 'string', 'max:255'],
-            'password' => ['required', 'string', 'min:4'],
-           // 'avatar' => ['nullable', 'image', 'max:1024'],
+            'password' => ['required', 'string', 'min:4']
+
         ])->validateWithBag('createProfileInformation');
 
         $user = new User();
