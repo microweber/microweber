@@ -377,16 +377,23 @@ export const Handle = function (options) {
 
         this.resizer.mount();
 
-        this.resizer.on('resizeStop',  () => {
+        this.resizer.on('resizeStop', () => {
             const target = this.getTarget();
-             var isCol = target.classList.contains('mw-col');
-             if(isCol) {
+            if (!target) {
+                return;
+            }
+
+            var isCol = false;
+            if (target.classList) {
+                var isCol = target.classList.contains('mw-col');
+            }
+            if (isCol) {
                 const row = DomService.firstParentOrCurrentWithClass(target, 'mw-row');
-                if(row) {
-                    Array.from(row.children).forEach(col => col.style.width = ((100/row.offsetWidth) * col.offsetWidth) + '%');
+                if (row) {
+                    Array.from(row.children).forEach(col => col.style.width = ((100 / row.offsetWidth) * col.offsetWidth) + '%');
                 }
-             }
-            if(target) {
+            }
+            if (target) {
                 target.classList.add('mw-resized');
             }
             mw.app.registerChange(target);

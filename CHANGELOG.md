@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [2.0.1] - 2023-10-27
+- Small maintenance release
+- Fixed drop problems in columns
+- Fixed drop problems when you mouse over other modules
+- [see all changes....](https://github.com/microweber/microweber/compare/2.0.0...2.0.1 "")
+
+
+
 ## [2.0.0] - 2023-10-24
 - Big milestone release
 - Overhaul of the admin panel and live edit

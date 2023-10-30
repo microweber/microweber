@@ -102,7 +102,7 @@ export const liveEditComponent = () => {
         mw.app.registerUndoState(element);
         mw.app.registerAskUserToStay(true);
         if(mw.app.liveEdit) {
-            mw.app.liveEdit.handles.reposition();
+      //      mw.app.liveEdit.handles.reposition();
         }
 
     };
