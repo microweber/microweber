@@ -413,7 +413,7 @@ mw.options = {
                                 mw.top().app.dispatch('moduleReloaded');
                             });
                         });
-                        
+
                     }
 
 
@@ -428,7 +428,7 @@ mw.options = {
                         setTimeout(function () {
                         mw.top().app.dispatch('moduleReloaded');
                     }, 300);
-                      
+
                     }
                 }, 300);
                 //
@@ -536,7 +536,8 @@ mw.options.form = function ($selector, callback, beforepost) {
 
 
     var numOfbindigs = 0;
-    var force_rebind = true;
+ //   var force_rebind = true;
+    var force_rebind = false;
 
     var $root = mw.$($selector);
     var root = $root[0];
