@@ -14,7 +14,7 @@ MWEditor.controllers = {
                 var node = api.elementNode(sel.focusNode);
                 var actionTarget = mw.tools.firstBlockLevel(node);
                 api.action(actionTarget.parentNode, function () {
-                    
+
                     mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'left')
                 });
             });
@@ -71,7 +71,7 @@ MWEditor.controllers = {
                 var node = api.elementNode(sel.focusNode);
                 var actionTarget = mw.tools.firstBlockLevel(node);
                 api.action(actionTarget.parentNode, function () {
-                     
+
                     mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'right')
                 });
             });
@@ -101,7 +101,7 @@ MWEditor.controllers = {
                 var node = api.elementNode(sel.focusNode);
                 var actionTarget = mw.tools.firstBlockLevel(node);
                 api.action(actionTarget.parentNode, function () {
-                     
+
                     mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'justify')
                 });
             });
@@ -144,7 +144,7 @@ MWEditor.controllers = {
                     var node = api.elementNode(sel.focusNode);
                     var actionTarget = mw.tools.firstBlockLevel(node);
                     api.action(actionTarget.parentNode, function () {
-                        
+
                         mw.top().app.cssEditor.temp(actionTarget, 'text-align',  item.action)
                     });
                 });
@@ -267,7 +267,7 @@ MWEditor.controllers = {
                 if (elementNode && mw.top().app.liveEdit) {
                     elementNode = mw.tools.firstParentOrCurrentWithAnyOfClasses(elementNode, ['edit', 'element']);
                     allowed = !!elementNode && mw.top().app.liveEdit.elementHandleContent.settingsTarget.canDropInTarget(elementNode);
-                    
+
                 }
             }
             if (!allowed) {
@@ -561,7 +561,7 @@ MWEditor.controllers = {
                              textDecoration = 'underline';
                         }
                         mw.top().app.cssEditor.temp(actionTarget, 'text-decoration', textDecoration)
-                   
+
                     });
                 } else {
                     api.execCommand('underline');
@@ -643,7 +643,7 @@ MWEditor.controllers = {
 
             let isDisabled = opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(node);
 
-            
+
             rootScope.disabled(opt.controller.element.get(0),  isDisabled);
         };
         this.element = this.render();
@@ -911,9 +911,9 @@ MWEditor.controllers = {
                 data: defaultData,
                 placeholder: rootScope.lang('Font'),
                 eachOption: function (obj, node){
-                 
+
                     // mw.top().app.cssEditor.temp(node, 'font-family', obj.value)
-                    
+
                     node.style.fontFamily = obj.value
                 }
             });
@@ -933,11 +933,11 @@ MWEditor.controllers = {
                             newDefaultData.push({ label: fontFamily, value: fontFamily });
                         });
                     }
-                     
+
                         newDefaultData.push({ label:'More...', value: '$more' });
                         defaultData = newDefaultData || [];
                         dropdown.setData(defaultData);
-                    
+
                 });
             }
 
@@ -1234,6 +1234,17 @@ MWEditor.controllers = {
 
 
                 api.execCommand('removeFormat');
+
+
+                sel = scope.getSelection();
+                var range = sel.getRangeAt(0);
+                const commonAncestorContainer = api.elementNode(sel.commonAncestorContainer);
+                commonAncestorContainer.querySelectorAll('[style]').forEach(node => {
+                    if(range.intersectsNode(node)) {
+                        node.removeAttribute('style')
+                    }
+                })
+
             });
             return el;
         };
@@ -1374,7 +1385,7 @@ MWEditor.controllers = {
                 if(sel.isCollapsed) {
                     var el = scope.api.elementNode(sel.focusNode);
                     scope.api.action(mw.tools.firstBlockLevel(el.parentNode), function () {
-                         
+
                         mw.top().app.cssEditor.temp(el, 'color', val)
                     }, true);
                 } else {
@@ -1404,7 +1415,7 @@ MWEditor.controllers = {
                 if(sel.isCollapsed) {
                     var el = scope.api.elementNode(sel.focusNode);
                     scope.api.action(mw.tools.firstBlockLevel(el.parentNode), function () {
-                 
+
                         mw.top().app.cssEditor.temp(el, 'background-color', val)
                     }, true);
                 } else {

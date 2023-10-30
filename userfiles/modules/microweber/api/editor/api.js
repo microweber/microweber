@@ -31,7 +31,7 @@ mw.lib.require('rangy');
                 if(!sel) {
                     sel = scope.getSelection();
                 }
-                
+
                 const anchorNode = scope.api.elementNode(sel.anchorNode);
                 const focusNode = scope.api.elementNode(sel.focusNode);
 
@@ -41,7 +41,7 @@ mw.lib.require('rangy');
                 if(isNativePlainText || isPlainClass) {
                     return true;
                 }
-                
+
                 return false;
 
             },
@@ -361,7 +361,7 @@ mw.lib.require('rangy');
                 if (range.collapsed) {
                     var el = scope.api.elementNode(range.commonAncestorContainer);
                     scope.api.action(mw.tools.firstBlockLevel(el), function () {
-                      
+
                         mw.top().app.cssEditor.temp(el, 'font-family', font_name)
                     });
 
@@ -389,7 +389,7 @@ mw.lib.require('rangy');
                 }
             },
             targetSupportsFormatting: function (target) {
-                
+
                 return !!target && !!target.classList && !target.classList.contains('edit') && !target.querySelector('table,tr,td,div,p,section,h1,h2,h3,h4,h5,h6,article,aside,figcaption,figure,footer,header,hgroup,main,nav');
             },
             isSelectionEditable: function (sel) {
@@ -481,7 +481,7 @@ mw.lib.require('rangy');
                 var all = scope.actionWindow.document.querySelectorAll('.' + clstemp),
                     l = all.length,
                     i = 0;
- 
+
                 for ( ; i < l; i++ ) {
                     all[i].setAttribute('style', styles);
                      mw.tools.removeClass(all[i], clstemp);
@@ -527,6 +527,7 @@ mw.lib.require('rangy');
                 removeFormat: function (cmd, def, val) {
                     scope.actionWindow.document.execCommand(cmd, def, val);
                     var sel = scope.getSelection();
+
                     var r = sel.getRangeAt(0);
                     var common = r.commonAncestorContainer;
                     var all = common.querySelectorAll('*'), l = all.length, i = 0;
@@ -546,7 +547,7 @@ mw.lib.require('rangy');
 
                         if (sel.rangeCount > 0) {
                             var node = scope.api.elementNode(sel.focusNode);
-                           
+
                             scope.api.action(mw.tools.firstBlockLevel(node), function () {
                                 scope.api[method].call(scope.api, options);
                                 mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
@@ -629,12 +630,12 @@ mw.lib.require('rangy');
                             if(area) {
                                 parent = area;
                             }
-                            
+
 
                             scope.api.action(parent, function () {
                                 scope.actionWindow.document.execCommand(cmd, def, val);
                                 scope.api.afterExecCommand(parent);
-                                
+
                             }, recordTimeout);
                         }
                     }
@@ -659,7 +660,7 @@ mw.lib.require('rangy');
 
             },
             fontSize: function (size) {
-                 
+
                 var unit = 'px';
                 if(typeof size === 'string') {
                     var units =  ['px', '%', 'in', 'cm', 'mm', 'rem', 'em', 'ex', 'pt', 'pc','ex','ch','rem','lh','rlh','vw','vh','vmin','vmax','vb','vi','svw', 'svh','lvw', 'lvh','dvw', 'dvh']
@@ -675,13 +676,13 @@ mw.lib.require('rangy');
                     scope.api.action(node.parentNode, function () {
                         node.style.fontSize = size + unit;
                     });
-                    
+
                     return;
                 }
                 var range = sel.getRangeAt(0),
                     common = scope.api.elementNode(range.commonAncestorContainer);
                 var nodrop_state = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(common, ['allow-drop', 'nodrop']);
-  
+
                 if (scope.api.isSelectionEditable()/* && nodrop_state */) {
                     scope.api._fontSize(size, unit);
                 }
@@ -721,12 +722,12 @@ mw.lib.require('rangy');
                         }
                     });
                 });
-                
-                
+
+
                 return /*_filterXSS*/ (this._cleaner.innerHTML) || '';
             },
             insertHTML: function(html) {
-                
+
 
 
                 return scope.api.execCommand('insertHTML', false, this.cleanHTML(html));
@@ -772,7 +773,7 @@ mw.lib.require('rangy');
                 }
                 else {
                     var link = mw.tools.firstParentOrCurrentWithTag(this.elementNode(sel.focusNode), 'a');
-                  
+
                     if (!!link) {
                         this.selectElement(link);
                         this.execCommand('unlink', null, null);
