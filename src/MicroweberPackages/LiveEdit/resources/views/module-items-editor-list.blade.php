@@ -100,6 +100,7 @@ showEditTab: 'main'
 
     window.livewire.on('showConfirmDeleteItemById' , (itemId) => {
         Livewire.emit('onShowConfirmDeleteItemById',  itemId);
+
         var event = new Event('moduleSettings.showConfirmDeleteItemById',  { detail: itemId });
     })
 }">
@@ -122,7 +123,10 @@ showEditTab: 'main'
                                                 <?php print $addButtonText ?>
                                         </x-microweber-ui::button-animation>
                                     </div>
+
+                                    <div>
                                     @include('microweber-live-edit::module-items-editor-list-items')
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -171,11 +175,14 @@ showEditTab: 'main'
 
                                 <div>
 
-                                    <livewire:microweber-live-edit::module-items-editor-edit-item :moduleId="$moduleId"
-                                                                                                  :moduleType="$moduleType"
-                                                                                                  wire:key="item-edit-{{ $itemId }}"
-                                                                                                  :itemId="$itemId"
-                                                                                                  :editorSettings="$editorSettings"/>
+
+                                    @livewire('microweber-live-edit::module-items-editor-edit-item', [
+                                    'moduleId' => $moduleId,
+                                    'moduleType' => $moduleType,
+                                    'editorSettings' => $editorSettings,
+                                    'itemId' => $itemId,
+                                    ], key('module-settings-list-item-edit'.$moduleId.time().uniqid().$itemId))
+
 
                                 </div>
 

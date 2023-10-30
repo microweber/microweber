@@ -22,19 +22,15 @@ class UpdateProfileInformationForm extends AdminComponent
     public $state = [];
 
     /**
-     * The new avatar for the user.
+     * The component's user id.
      *
-     * @var mixed
+     * @var int
      */
-    public $photo;
-
-    /**
-     * @var string
-     */
-    public $photoUrl;
-
-
     public $userId = false;
+
+    public $listeners = [
+        'updateProfilePhoto' => 'updateProfilePhoto',
+    ];
 
     /**
      * Prepare the component.
@@ -49,9 +45,21 @@ class UpdateProfileInformationForm extends AdminComponent
         } else {
             $this->state = Auth::user()->withoutRelations()->toArray();
         }
+    }
 
-        if (!empty($this->state['thumbnail'])) {
-            $this->photoUrl = user_picture($this->state['id'], 165,165);
+    public function updateProfilePhoto($photo)
+    {
+        $findUser = Auth::user();
+        if ($findUser) {
+            $checkFileExt = get_file_extension($photo);
+            if (!in_array($checkFileExt, ['jpg', 'jpeg', 'png', 'gif'])) {
+                return;
+            }
+            $findUser->thumbnail = $photo;
+            $findUser->save();
+
+            $this->state = $findUser->toArray();
+            $this->emit('$refresh');
         }
     }
 
@@ -72,8 +80,8 @@ class UpdateProfileInformationForm extends AdminComponent
         $user->thumbnail = null;
         $user->save();
 
-        $this->photo = null;
-        $this->photoUrl = null;
+        $this->state = $user->toArray();
+        $this->emit('$refresh');
     }
 
     /**
@@ -91,23 +99,6 @@ class UpdateProfileInformationForm extends AdminComponent
         }
 
         $input = $this->state;
-
-        if (isset($this->photo) && !empty($this->photo)) {
-            if (method_exists($this->photo, 'guessExtension')) {
-                $photoExt = $this->photo->guessExtension();
-
-
-
-                $photoContent = $this->photo->get();
-                $photoFile = media_base_path() . 'users/' . $user->id . '-avatar.' . $photoExt;
-                if (!is_dir(dirname($photoFile))) {
-                    mkdir_recursive(dirname($photoFile));
-                }
-                file_put_contents($photoFile, $photoContent);
-                $user->thumbnail = media_base_url() . 'users/' . $user->id . '-avatar.' . $photoExt;
-                $user->save();
-            }
-        }
 
         Validator::make($input, [
             'first_name' => ['required', 'string', 'max:255'],

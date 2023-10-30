@@ -3,7 +3,10 @@
 <div class="form-control-live-edit-label-wrapper">
 
     @php
-        $randId = rand(111,999).time();
+
+        $attrs = $attributes->merge([]);
+        $randId = 'mwfilepickeritem'.md5(rand(111,999).time().uniqid().json_encode($attrs));
+
     @endphp
     <div>
 
@@ -133,9 +136,9 @@
                         mediaPickerFileField.dispatchEvent(new Event('input'));
                     }
                 });
-
-                generatePreview{{$randId}}(mediaPickerFileField.value);
-
+                if(mediaPickerFileField && mediaPickerFileField.value) {
+                    generatePreview{{$randId}}(mediaPickerFileField.value);
+                }
                 $('.js-remove-file-{{$randId}}').click(function() {
 
                     mediaPickerFileField.value = '';

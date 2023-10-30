@@ -1,6 +1,9 @@
 <div>
 
     <?php
+
+
+
     if (!isset($editorSettings['config'])) {
         $editorSettings['config'] = [];
     }
@@ -79,13 +82,13 @@
             $additionalButtonsView = $editorSettings['config']['additionalButtonsView'];
         }
     }
-
+    $rand = md5($moduleId.rand().time())
     ?>
 
 
                 @if (isset($editorSettings['schema']) and isset($items) and is_array($items) and !empty($items))
-                    <div x-data="{}" class="list-group list-group-flush list-group-hoverable"
-                         id="js-sortable-items-holder-{{md5($moduleId)}}">
+                    <div  class="list-group list-group-flush list-group-hoverable"
+                         id="js-sortable-items-holder-{{ $rand }}" wire:key="js-sortable-items-holder-{{ $rand }}">
 
                         @foreach ($items as $item)
                             @php
@@ -104,10 +107,11 @@
                             @endif
 
                             <div class="list-group-item js-sortable-item p-2" sort-key="{{ $itemId }}"
+                                 wire:key="item-list-edit-{{ $itemId  }}"
                                  wire:mouseover="$emit('mouseoverItemId', '{{ $itemId }}')"
                                  wire:mouseout="$emit('mouseoutItemId', '{{ $itemId }}')"
                                  id="item-list-id-{{ $itemId }}">
-                                <div class="row align-items-center">
+                                <div class="row align-items-center"  id="item-list-row-{{ $itemId }}">
                                     <div class="col-auto">
                                         <div class="sortHandle">
                                             <div>
@@ -123,8 +127,7 @@
                                     </div>
                                     @if (isset($editorSettings['config']) && isset($editorSettings['config']['listColumns']))
                                         <div class="col text-truncate"
-                                             wire:click="$emit('editItemById', '{{ $itemId }}')"
-                                        >
+                                             wire:click="$emit('editItemById', '{{ $itemId }}')" >
                                             <div class="d-flex align-items-center gap-2">
                                             @foreach ($editorSettings['config']['listColumns'] as $columnKey => $columnLabel)
                                                 @if (isset($item[$columnKey]))
@@ -146,12 +149,13 @@
 
                                     <div class="col-auto d-flex align-items-center">
 
-                                        <x-microweber-ui::button-action type="button" :tooltip="$deleteButtonText"
-                                                                         wire:click="$emit('showConfirmDeleteItemById', '{{ $itemId }}')">
+
+                                        <x-microweber-ui::button-action  wire:key="item-list-delete-btn-{{ $itemId  }}" type="button" :tooltip="$deleteButtonText"
+                                                                         wire:click="$emit('onShowConfirmDeleteItemById', '{{ $itemId }}')">
                                                 <?php print $deleteButtonIconSvg ?>
                                         </x-microweber-ui::button-action>
 
-                                        <x-microweber-ui::button-action type="button" wire:click="$emit('editItemById', '{{ $itemId }}')">
+                                        <x-microweber-ui::button-action wire:key="item-list-edit-btn-{{ $itemId  }}" type="button" wire:click="$emit('editItemById', '{{ $itemId }}')">
                                                 <?php print $editButtonIconSvg ?>
                                         </x-microweber-ui::button-action>
 
