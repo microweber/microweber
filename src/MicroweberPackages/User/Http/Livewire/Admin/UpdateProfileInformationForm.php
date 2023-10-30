@@ -57,6 +57,9 @@ class UpdateProfileInformationForm extends AdminComponent
             }
             $findUser->thumbnail = $photo;
             $findUser->save();
+
+            $this->state = $findUser->toArray();
+            $this->emit('$refresh');
         }
     }
 
@@ -77,6 +80,8 @@ class UpdateProfileInformationForm extends AdminComponent
         $user->thumbnail = null;
         $user->save();
 
+        $this->state = $user->toArray();
+        $this->emit('$refresh');
     }
 
     /**

@@ -34,9 +34,9 @@
 
                 <!-- Current Profile Photo -->
 
-                @if(true)
+                @if($state['thumbnail'])
                 <div class="mt-2" id="profile-upload-image">
-                    <img src="?time={{time()}}" class="rounded-circle"  height="60px" width="60px">
+                    <img src="{{$state['thumbnail']}}?time={{time()}}" class="rounded-circle"  height="60px" width="60px">
                 </div>
                 @else
                     <div id="profile-upload-image" class="mt-2 rounded-circle admin-users-no-user-img-wrapper bg-light d-flex align-items-center justify-content-center mx-auto" style="width:60px;height:60px">
@@ -44,7 +44,7 @@
                     </div>
                 @endif
 
-                @if (true)
+                @if ($state['thumbnail'])
                     <x-microweber-ui::link-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
                         <div wire:loading wire:target="deleteProfilePhoto" class="spinner-border spinner-border-sm" role="status">
                             <span class="visually-hidden">{{ _e('Loading') }}...</span>
