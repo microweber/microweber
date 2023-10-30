@@ -412,7 +412,7 @@ export const Handle = function (options) {
             }
 
             if(target.nodeName === 'IMG') {
-                target.style.objectFit = 'cover';
+                target.style.objectFit = 'contain';
                 target.style.height = data.height + 'px';
             }  else {
                 target.style.minHeight = data.height + 'px';
