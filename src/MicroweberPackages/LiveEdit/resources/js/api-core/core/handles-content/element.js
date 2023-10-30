@@ -147,6 +147,64 @@ export class ElementHandleContent {
                 },
 
             },
+            {
+                title: 'Fit Image',
+                text: '',
+                icon: handleIcons.icon('image-fit'),
+
+                className: 'mw-handle-fit-image-button',
+
+                action: function (el) {
+                    el.style.objectFit = 'contain';
+                    el.dataset.objectFit = 'contain';
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = false;
+
+
+
+                    //has class mw-resized
+                    if(target && target.classList && target.classList.contains('mw-resized')) {
+                        const isImage = target.nodeName === 'IMG' && !isPlaceholder(target)  ;
+                        if (isImage) {
+                            selfVisible = !target.parentNode.classList.contains('img-as-background');
+                        }
+                       // selfVisible = true;
+                    }
+
+                    selfBtn.classList[selfVisible ? 'remove' : 'add']('mw-le-handle-menu-button-hidden');
+                },
+
+            },
+            {
+                title: 'Fill Image',
+                text: '',
+                icon: handleIcons.icon('image-fill'),
+
+                className: 'mw-handle-fill-image-button',
+
+                action: function (el) {
+                    el.style.objectFit = 'cover';
+                    el.dataset.objectFit = 'cover';
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = false;
+
+
+
+                    //has class mw-resized
+                    if(target && target.classList && target.classList.contains('mw-resized')) {
+                        const isImage = target.nodeName === 'IMG' && !isPlaceholder(target)  ;
+                        if (isImage) {
+                            selfVisible = !target.parentNode.classList.contains('img-as-background');
+                        }
+                       // selfVisible = true;
+                    }
+
+                    selfBtn.classList[selfVisible ? 'remove' : 'add']('mw-le-handle-menu-button-hidden');
+                },
+
+            },
 
         ];
 

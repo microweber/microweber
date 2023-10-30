@@ -280,6 +280,8 @@ export class ElementActions extends MicroweberBaseClass {
         mw.app.registerUndoState(el);
         el.style.width = '';
         el.style.height = '';
+        el.style.objectFit = '';
+        el.dataset.objectFit = '';
         //remove class mw-resized
         el.classList.remove('mw-resized');
         mw.app.registerChangedState(el);
