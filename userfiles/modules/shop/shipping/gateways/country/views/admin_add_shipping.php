@@ -119,7 +119,7 @@
         }
         mw.form.post($(form), '<?php print $config['module_api']; ?>/shipping_to_country/save', function () {
                 if (dataType == 'new') {
-                    alert(1);
+
                     mw.reload_module('<?php print $config['the_module']; ?>', function () {
                         mw.notification.success("<?php _ejs("Shipping changes are saved"); ?>");
                     });

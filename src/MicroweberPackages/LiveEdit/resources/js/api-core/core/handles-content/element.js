@@ -282,17 +282,6 @@ export class ElementHandleContent {
 
 
 
-                    // var isCloneableWithImageAsFirstChild = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
-                    // var isCloneableWithImageAsFirstChildAsBg = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.classList && firstChild.classList.contains('img-as-background');
-                    //
-                    // if(isCloneableWithImageAsFirstChild){
-                    //     selfVisible = true;
-                    // }
-                    // if(isCloneableWithImageAsFirstChildAsBg){
-                    //     selfVisible = true;
-                    // }
-
-
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
 
@@ -305,9 +294,9 @@ export class ElementHandleContent {
                 className: 'mw-handle-add-button',
 
                 onTarget: (target, selfBtn) => {
-                    var selfVisible = true; 
+                    var selfVisible = true;
 
-                    var canDrop = this.settingsTarget.canDropInTarget(target); 
+                    var canDrop = this.settingsTarget.canDropInTarget(target);
                     if (!canDrop) {
                         selfVisible = false;
                     }

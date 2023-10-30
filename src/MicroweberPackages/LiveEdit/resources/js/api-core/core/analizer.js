@@ -42,10 +42,13 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
     canAccept (target) {
         // whether or not "target" can accept elements
 
+
+
         return !!(
             this.canAcceptByClass(target) &&
             this.isEditOrInEdit(target) &&
-            this.allowDrop(target));
+            this.allowDrop(target) &&
+            target.dataset.layoutContainer === undefined);
 
     }
 
@@ -71,20 +74,13 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
 
         const target = this.getIteractionTarget(node);
 
-
-
         if(!target) {
             return;
         }
 
-
-
         if( !this.isEditOrInEdit(target) || !this.allowDrop(target)) {
             return null;
         }
-
-
-
 
         const res = {
             target,
@@ -96,30 +92,32 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
         var isStrictCase = this.settings.strict && !this.isLayout(draggedElement) && !this.isInLayout(target);
 
 
-
-
-
         if(isStrictCase) {
 
             return null;
         }
+
 
         if (target.classList.contains('allow-drop')) {
 
             res.canInsert = true;
         } else if (this.isEdit(target)) {
 
+
             res.canInsert = !draggedElementIsLayoutRestricted;
         } else if ( this.isElement(target) && !draggedElementIsLayoutRestricted  ) {
 
+
+
+
             if (this.canAcceptByTag(target)) {
+
                 res.canInsert = !draggedElementIsLayoutRestricted;
             }
             res.beforeAfter = true;
         } else if( this.isModule(target) && !draggedElementIsLayoutRestricted )  {
 
             if(this.canInsertBeforeOrAfter(target)) {
-
 
                 res.beforeAfter = true;
             } else {

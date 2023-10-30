@@ -222,6 +222,9 @@ export default {
                         if (!url) return;
                         url = url.toString();
                         element.src = url;
+                        element.style.objectFit = 'none';
+                        element.style.width = 'auto';
+                        element.style.height = 'auto';
 
                         mw.app.liveEdit.play();
                         dialog.remove();

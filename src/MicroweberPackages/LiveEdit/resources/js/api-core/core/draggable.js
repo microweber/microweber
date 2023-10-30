@@ -89,6 +89,7 @@ export const Draggable = function (options, rootSettings) {
 
             scope.settings.document.body.appendChild(scope._helper);
         }
+        var css;
         if (e === 'create') {
             var off = ElementManager( scope.element ).offset();
 
@@ -98,6 +99,11 @@ export const Draggable = function (options, rootSettings) {
                 y: (pageY - off.offsetTop),
                 x: (pageX - off.offsetLeft),
             }
+            css = getComputedStyle(scope.element);
+            scope._helper.style.color = css.color;
+            scope._helper.style.textAlign = css.textAlign;
+            scope._helper.style.fontSize = css.fontSize;
+            scope._helper.style.letterSpacing = css.letterSpacing;
             scope._helper.style.top = pageY + 'px';
             scope._helper.style.left = pageX + 'px';
             scope._helper.style.width = scope.element.offsetWidth + 'px';
@@ -134,6 +140,13 @@ export const Draggable = function (options, rootSettings) {
         if(scope._helper.$$element !== scope.element) {
             scope._helper.$$element = scope.element;
             scope._helper.innerHTML =  scope.element.outerHTML;
+            if(css && scope._helper.firstElementChild) {
+
+                scope._helper.firstElementChild.style.color = css.color;
+                scope._helper.firstElementChild.style.textAlign = css.textAlign;
+                scope._helper.firstElementChild.style.fontSize = css.fontSize;
+                scope._helper.firstElementChild.style.letterSpacing = css.letterSpacing;
+            }
         }
 
 
@@ -195,7 +208,7 @@ export const Draggable = function (options, rootSettings) {
 
 
 
-             if(e.target !== scope.element || !scope.element.contains(e.target)) {
+             if(e.target !== mw.top()._dragTarget || !mw.top()._dragTarget.contains(e.target)) {
                  var targetAction = scope.dropableService.getTarget(e.target, scope.element);
 
 
