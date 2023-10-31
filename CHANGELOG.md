@@ -3,12 +3,15 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [2.0.2] - 2023-10-30
+## [2.0.2] - 2023-10-31
 - Small maintenance release
 - Fixed problem with image resizing
 - Fixed problem with editing testimonials module
-- Fixed problem user image upload
+- Fixed problem with user image upload
+- Fixed problem with reordering testimonials
+- Fixed problem with removing format from text 
 - [see all changes....](https://github.com/microweber/microweber/compare/2.0.1...2.0.2 "")
+
 
 
 ## [2.0.1] - 2023-10-27
