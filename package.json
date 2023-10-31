@@ -7,27 +7,7 @@
         "admincss": "gulp admin-css",
         "admincssdev": "gulp admin-css-dev"
     },
-    "devDependencies": {
-        "@nextapps-be/livewire-sortablejs": "^0.2.0",
-        "autoprefixer": "^10.4.13",
-        "axios": "^1.1.2",
-        "concurrently": "^8.0.1",
-        "gulp": "^4.0.2",
-        "gulp-clean-css": "^4.3.0",
-        "gulp-concat": "^2.6.1",
-        "gulp-css-url-fix": "0.0.1",
-        "gulp-cssmin": "^0.2.0",
-        "gulp-dart-sass": "^1.0.2",
-        "gulp-less": "^4.0.1",
-        "gulp-rename": "^2.0.0",
-        "gulp-sourcemaps": "^3.0.0",
-        "gulp-uglify": "^3.0.2",
-        "gulp-watch": "^5.0.1",
-        "laravel-vite-plugin": "^0.7.2",
-        "tippy.js": "^6.3.7",
-        "postcss": ">=8.4.31",
-        "vite": "^4.2.1"
-    },
+
     "dependencies": {
         "@alpinejs/focus": "^3.12.0",
         "@heroicons/vue": "^1.0.6",
@@ -52,6 +32,28 @@
         "vue-loader": "^17.0.1",
         "vue3-click-away": "^1.2.4",
         "vue3-tags-input": "^1.0.12",
+        "postcss": ">=8.4.31",
         "vuetify": "^3.3.19"
+    },
+    "devDependencies": {
+        "@nextapps-be/livewire-sortablejs": "^0.2.0",
+        "autoprefixer": "^10.4.13",
+        "axios": "^1.1.2",
+        "concurrently": "^8.0.1",
+        "gulp": "^4.0.2",
+        "gulp-clean-css": "^4.3.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-css-url-fix": "0.0.1",
+        "gulp-cssmin": "^0.2.0",
+        "gulp-dart-sass": "^1.0.2",
+        "gulp-less": "^4.0.1",
+        "gulp-rename": "^2.0.0",
+        "gulp-sourcemaps": "^3.0.0",
+        "gulp-uglify": "^3.0.2",
+        "gulp-watch": "^5.0.1",
+        "laravel-vite-plugin": "^0.7.2",
+        "tippy.js": "^6.3.7",
+        "postcss": ">=8.4.31",
+        "vite": "^4.2.1"
     }
 }
