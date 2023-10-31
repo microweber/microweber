@@ -1238,7 +1238,7 @@ MWEditor.controllers = {
 
                 sel = scope.getSelection();
                 var range = sel.getRangeAt(0);
-                const commonAncestorContainer = api.elementNode(sel.commonAncestorContainer);
+                const commonAncestorContainer = api.elementNode(range.commonAncestorContainer);
                 commonAncestorContainer.querySelectorAll('[style]').forEach(node => {
                     if(range.intersectsNode(node)) {
                         node.removeAttribute('style')
