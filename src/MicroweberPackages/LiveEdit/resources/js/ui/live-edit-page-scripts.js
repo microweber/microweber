@@ -477,6 +477,23 @@ if(window.self !== window.top) {
 
 
 
+    document.documentElement.addEventListener('click', function (event) {
+
+        var target = event.target;
+        var link = mw.tools.firstParentOrCurrentWithTag(target, 'a');
+
+        if(link) {
+            const tmp = document.createElement('a');
+            tmp.href = link.href;
+            if(tmp.host !== location.host && (!link.target || link.target === '_self')) {
+                event.preventDefault();
+                open(link.href);
+            }
+        }
+
+
+
+    })
     document.addEventListener('keydown', function (event) {
         if (event.ctrlKey && event.key === 's') {
             return mw.top().app.editor.dispatch('Ctrl+S', event);
