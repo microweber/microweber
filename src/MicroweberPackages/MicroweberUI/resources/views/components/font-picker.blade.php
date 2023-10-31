@@ -3,8 +3,6 @@ $randId = time() . rand(111,999);
 
 @endphp
 
-
-
 <div x-data="{
     selectedFont: 'Inter', openOptions:false,
     availableFonts: {{json_encode(app()->template->getFonts())}},
@@ -12,18 +10,18 @@ $randId = time() . rand(111,999);
      x-init="
       () => {
 
+     setTimeout(function() {
+            inputFontElement = document.getElementById('input-font-{{$randId}}');
+            inputFontElement.dispatchEvent(new Event('loaded'));
+            inputFontElement.addEventListener('input', function () {
+                selectedFont = inputFontElement.value;
+            });
+        }, 300);
+
       if (mw.top().app && mw.top().app.fontManager) {
 
             mw.top().app.fontManager.subscribe((fonts) => {
               availableFonts = fonts;
-
-              inputFontElement = document.getElementById('input-font-{{$randId}}');
-              inputFontElement.dispatchEvent(new Event('loaded'));
-
-                inputFontElement.addEventListener('input', function () {
-                    selectedFont = inputFontElement.value;
-                });
-
             });
 
             mw.top().app.fontManager.subscribeToSelectedFont((selectedFontEvent) => {
