@@ -312,6 +312,10 @@ class Template
     {
         return $this->fontsAdapter->getFontsStylesheetCss();
     }
+   public function getFonts()
+    {
+        return $this->fontsAdapter->getFonts();
+    }
 
     public function get_custom_fonts_css_url()
     {

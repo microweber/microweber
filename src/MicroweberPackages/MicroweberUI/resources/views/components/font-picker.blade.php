@@ -1,10 +1,13 @@
 @php
 $randId = time() . rand(111,999);
+
 @endphp
+
+
 
 <div x-data="{
     selectedFont: 'Inter', openOptions:false,
-    availableFonts: {{json_encode(\MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts())}},
+    availableFonts: {{json_encode(app()->template->getFonts())}},
 }"
      x-init="
       () => {

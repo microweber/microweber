@@ -4,6 +4,30 @@ namespace MicroweberPackages\Template\Adapters;
 
 class TemplateFonts
 {
+    public function getFonts() : array
+    {
+        // Initialize with default system fonts and additional default fonts
+        $defaultFonts = [
+            'Arial, Helvetica, sans-serif',
+            'Georgia, serif',
+            'Times New Roman, serif',
+            'Courier New, monospace',
+            'Verdana, sans-serif',
+            'Tahoma, sans-serif',
+            'Trebuchet MS, sans-serif',
+            'Impact, Charcoal, sans-serif',
+            // Add more default fonts here
+        ];
+
+        $enabledCustomFonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
+
+        if (!empty($enabledCustomFonts)) {
+            return array_unique(array_merge($defaultFonts, $enabledCustomFonts));
+        }
+
+        return $defaultFonts;
+    }
+
     public function getFontsStylesheetCss() : string
     {
         $google_font_domain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
