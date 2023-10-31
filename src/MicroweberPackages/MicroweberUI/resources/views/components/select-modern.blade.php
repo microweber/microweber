@@ -21,6 +21,9 @@
      x-data="{selectedOption: {{json_encode($selectedOption)}}, openOptions:false}"
      x-init="() => {
         $watch('selectedOption', value => {
+            if(!value){
+                return;
+             }
            let inputElement = document.getElementById('{{$md5InputElement}}');
            inputElement.value = value.key;
            inputElement.dispatchEvent(new Event('input'));

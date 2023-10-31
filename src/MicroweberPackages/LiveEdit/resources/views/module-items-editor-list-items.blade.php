@@ -177,9 +177,9 @@
 
     <div wire:ignore>
         <script>
-            window.mw.items_editor_sort{{md5($moduleId)}} = function () {
-                if (!mw.$("#js-sortable-items-holder-{{md5($moduleId)}}").hasClass("ui-sortable")) {
-                    mw.$("#js-sortable-items-holder-{{md5($moduleId)}}").sortable({
+            window.mw.items_editor_sort{{ $rand }} = function () {
+                if (!mw.$("#js-sortable-items-holder-{{ $rand }}").hasClass("ui-sortable")) {
+                    mw.$("#js-sortable-items-holder-{{ $rand  }}").sortable({
                         items: '.list-group-item',
                         axis: 'y',
                         handle: '.sortHandle',
@@ -187,16 +187,16 @@
 
                             setTimeout(function () {
                                 var obj = {itemIds: []};
-                                var sortableItems = document.querySelectorAll('#js-sortable-items-holder-{{md5($moduleId)}} .js-sortable-item');
+                                var sortableItems = document.querySelectorAll('#js-sortable-items-holder-{{$rand}} .js-sortable-item');
 
                                 sortableItems.forEach(function (item) {
                                     var id = item.getAttribute('sort-key');
                                     obj.itemIds.push(id);
                                 });
+                                window.mw.notification.success('Reordering items...');
 
-
-                                Livewire.emit('onReorderListItems', obj);
-                            }, 300);
+                                window.Livewire.emit('onReorderListItems', obj);
+                            }, 500);
 
 
                         },
@@ -206,11 +206,11 @@
                 }
             }
             $(document).ready(function () {
-                window.mw.items_editor_sort{{md5($moduleId)}}();
+                window.mw.items_editor_sort{{$rand}}();
             });
 
             window.addEventListener('livewire:load', function () {
-                window.mw.items_editor_sort{{md5($moduleId)}}();
+                window.mw.items_editor_sort{{$rand}}();
             });
         </script>
 

@@ -77,6 +77,7 @@ showEditTab: 'main'
         window.dispatchEvent(event);
     })
      window.livewire.on('onItemChanged' , (item) => {
+        mw.notification.success('Changes are saved');
         var event = new Event('moduleSettings.onItemChanged', { detail: item });
         window.dispatchEvent(event);
      });
