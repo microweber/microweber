@@ -164,7 +164,7 @@ export class ElementHandleContent {
 
 
                     //has class mw-resized
-                    if(target && target.classList && target.classList.contains('mw-resized')) {
+                    if(target && target.classList) {
                         const isImage = target.nodeName === 'IMG' && !isPlaceholder(target)  ;
                         if (isImage) {
                             selfVisible = !target.parentNode.classList.contains('img-as-background');
@@ -193,7 +193,7 @@ export class ElementHandleContent {
 
 
                     //has class mw-resized
-                    if(target && target.classList && target.classList.contains('mw-resized')) {
+                    if(target && target.classList) {
                         const isImage = target.nodeName === 'IMG' && !isPlaceholder(target)  ;
                         if (isImage) {
                             selfVisible = !target.parentNode.classList.contains('img-as-background');
