@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "576b52203b355fd239b01a53cce939b9",
+    "content-hash": "4c7e89fc555c65076620f9a6580ab641",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -7220,18 +7220,18 @@
         },
         {
             "name": "microweber-templates/big-free",
-            "version": "7.8",
+            "version": "7.9",
             "target-dir": "big",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/big-free",
-                "reference": "8abddcbd2b9daf92abbc8c33ba6c6c08ef764e45"
+                "reference": "9a66c1efdfa38cfc758b957ba835e4f7e69012b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-7.8-7457ac.zip",
-                "reference": "8abddcbd2b9daf92abbc8c33ba6c6c08ef764e45",
-                "shasum": "8ab33726de6dfb632f1937b9578120e9d3a18847"
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-7.9-3a6532.zip",
+                "reference": "9a66c1efdfa38cfc758b957ba835e4f7e69012b3",
+                "shasum": "587d8525b1f2f3f9318b8670197c62bcf2e8c9a9"
             },
             "type": "microweber-template",
             "extra": {
@@ -7500,9 +7500,9 @@
                     "/layouts/templates/menus/settings_is_phone_front.php"
                 ],
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/78/README.md",
-                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/78/screenshot.jpg",
-                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/78/screenshot_large.jpg"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/79/README.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/79/screenshot.jpg",
+                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/79/screenshot_large.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7528,7 +7528,7 @@
                 "forum": "https://microweber.org/community",
                 "docs": "http://docs.microweber.org"
             },
-            "time": "2023-10-30T15:05:01+00:00"
+            "time": "2023-10-31T14:06:40+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
