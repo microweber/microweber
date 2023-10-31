@@ -54,6 +54,8 @@ class CreateUserTable extends Migration
                 'website_url' => 'string',
                 'password_reset_hash' => 'string',
                 'email_verified_at' => 'dateTime',
+                'two_factor_recovery_codes' => 'text',
+                'two_factor_secret' => 'text',
                  '$index' => ['username', 'email'],
             ],
 
