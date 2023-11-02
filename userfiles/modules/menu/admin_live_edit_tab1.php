@@ -14,7 +14,10 @@
     });
 
     var addMenuItem = function () {
-        var mwt = mw.top()
+        var mwt = mw;
+        if(self !== top){
+            var mwt = mw.top()
+        }
         var linkEditor = new mwt.LinkEditor({
             mode: 'dialog',
             controllers: [
