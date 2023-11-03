@@ -28,6 +28,7 @@ class UserWasRegisteredListener
         $newStatsEvent->utm_campaign = 'register';
         $newStatsEvent->utm_term = 'register';
         $newStatsEvent->utm_content = 'register';
+        $newStatsEvent->event_data = json_encode($event);
         $newStatsEvent->event_timestamp = date('Y-m-d H:i:s');
         $newStatsEvent->save();
 

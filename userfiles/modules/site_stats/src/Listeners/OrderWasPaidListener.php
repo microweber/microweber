@@ -28,6 +28,7 @@ class OrderWasPaidListener
         $newStatsEvent->utm_campaign = 'paid';
         $newStatsEvent->utm_term = 'paid';
         $newStatsEvent->utm_content = 'paid';
+        $newStatsEvent->event_data = json_encode($event);
         $newStatsEvent->event_timestamp = date('Y-m-d H:i:s');
         $newStatsEvent->save();
 

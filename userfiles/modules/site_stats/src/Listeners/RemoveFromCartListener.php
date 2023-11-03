@@ -28,6 +28,7 @@ class RemoveFromCartListener
         $newStatsEvent->utm_campaign = 'add';
         $newStatsEvent->utm_term = 'add';
         $newStatsEvent->utm_content = 'add';
+        $newStatsEvent->event_data = json_encode($event);
         $newStatsEvent->event_timestamp = date('Y-m-d H:i:s');
         $newStatsEvent->save();
 

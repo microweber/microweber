@@ -28,6 +28,7 @@ class UserWasLoggedListener
         $newStatsEvent->utm_campaign = 'logged';
         $newStatsEvent->utm_term = 'logged';
         $newStatsEvent->utm_content = 'logged';
+        $newStatsEvent->event_data = json_encode($event);
         $newStatsEvent->event_timestamp = date('Y-m-d H:i:s');
         $newStatsEvent->save();
 
