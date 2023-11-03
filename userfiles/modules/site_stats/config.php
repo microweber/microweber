@@ -146,6 +146,8 @@ $google_analytics_events = [
     'utm_term' => 'string',
     'utm_content' => 'string',
     'event_timestamp' => 'dateTime',
+    'created_at' => 'dateTime',
+    'updated_at' => 'dateTime',
 ];
 $config['tables']['stats_events'] = $google_analytics_events;
 

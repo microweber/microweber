@@ -6,6 +6,10 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use Livewire\Livewire;
+use MicroweberPackages\Cart\Events\AddToCartEvent;
+use MicroweberPackages\Cart\Events\RemoveFromCartEvent;
+use MicroweberPackages\Modules\SiteStats\Listeners\AddToCartListener;
+use MicroweberPackages\Modules\SiteStats\Listeners\RemoveFromCartListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\UserWasLogged;
 use MicroweberPackages\Modules\SiteStats\Listeners\UserWasRegistered;
 use Spatie\LaravelPackageTools\Package;
@@ -22,6 +26,12 @@ class SiteStatsEventsServiceProvider extends EventServiceProvider
         Registered::class => [
             UserWasRegistered::class,
         ],
+        AddToCartEvent::class => [
+            AddToCartListener::class
+        ],
+        RemoveFromCartEvent::class => [
+            RemoveFromCartListener::class
+        ]
     ];
 
 
