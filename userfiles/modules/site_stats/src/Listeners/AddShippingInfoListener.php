@@ -20,7 +20,7 @@ class AddShippingInfoListener
     {
         $newStatsEvent = new StatsEvent();
         $newStatsEvent->event_category = 'shipping';
-        $newStatsEvent->event_action = 'add';
+        $newStatsEvent->event_action = 'add_shipping_info';
         $newStatsEvent->event_label = 'Shipping added';
         $newStatsEvent->event_value = 1;
         $newStatsEvent->utm_source = 'shipping';

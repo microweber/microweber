@@ -20,7 +20,7 @@ class AddPaymentInfoListener
     {
         $newStatsEvent = new StatsEvent();
         $newStatsEvent->event_category = 'payment';
-        $newStatsEvent->event_action = 'info';
+        $newStatsEvent->event_action = 'add_payment_info';
         $newStatsEvent->event_label = 'Payment info';
         $newStatsEvent->event_value = 1;
         $newStatsEvent->utm_source = 'payment';

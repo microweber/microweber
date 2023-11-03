@@ -11,6 +11,7 @@ use MicroweberPackages\Cart\Events\RemoveFromCartEvent;
 use MicroweberPackages\Checkout\Events\AddPaymentInfoEvent;
 use MicroweberPackages\Checkout\Events\AddShippingInfoEvent;
 use MicroweberPackages\Checkout\Events\BeginCheckoutEvent;
+use MicroweberPackages\Modules\SiteStats\Listeners\AddPaymentInfoListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\AddShippingInfoListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\AddToCartListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\BeginCheckoutListener;
