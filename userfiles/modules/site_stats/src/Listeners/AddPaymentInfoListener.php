@@ -28,6 +28,7 @@ class AddPaymentInfoListener
         $newStatsEvent->utm_campaign = 'info';
         $newStatsEvent->utm_term = 'info';
         $newStatsEvent->utm_content = 'info';
+        $newStatsEvent->session_id = app()->user_manager->session_id();
         $newStatsEvent->event_data = json_encode($event);
         $newStatsEvent->event_timestamp = date('Y-m-d H:i:s');
         $newStatsEvent->save();

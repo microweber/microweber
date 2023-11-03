@@ -28,6 +28,7 @@ class BeginCheckoutListener
         $newStatsEvent->utm_campaign = 'start';
         $newStatsEvent->utm_term = 'start';
         $newStatsEvent->utm_content = 'start';
+        $newStatsEvent->session_id = app()->user_manager->session_id();
         $newStatsEvent->event_data = json_encode($event);
         $newStatsEvent->event_timestamp = date('Y-m-d H:i:s');
         $newStatsEvent->save();

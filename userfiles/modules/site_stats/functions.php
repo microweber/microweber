@@ -160,6 +160,7 @@ event_bind('mw.pageview', function ($params = false) {
 //});
 
 api_expose('pingstats', function ($params = false) {
+
     $to_track = false;
     if (get_option('stats_disabled', 'site_stats') == 1) {
         return;
@@ -184,6 +185,13 @@ api_expose('pingstats', function ($params = false) {
         $tracker->track_buffered();
     } else {
         $tracker->track();
+    }
+
+    if (isset($_COOKIE['_ga'])) {
+        $serverSideTracking = new \MicroweberPackages\SiteStats\DispatchServerSideTracking();
+        $serverSideTracking->setVisitorId($_COOKIE['_ga']);
+        $serverSideTracking->setSessionId(app()->user_manager->session_id());
+        $serverSideTracking->dispatch();
     }
 
     $response = response('var mwpingstats={}');
