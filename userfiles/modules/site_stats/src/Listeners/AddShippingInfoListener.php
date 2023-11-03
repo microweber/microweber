@@ -19,7 +19,15 @@ class AddShippingInfoListener
     public function handle($event): void
     {
         $newStatsEvent = new StatsEvent();
-
+        $newStatsEvent->event_category = 'shipping';
+        $newStatsEvent->event_action = 'add';
+        $newStatsEvent->event_label = 'Shipping added';
+        $newStatsEvent->event_value = 1;
+        $newStatsEvent->utm_source = 'shipping';
+        $newStatsEvent->utm_medium = 'add';
+        $newStatsEvent->utm_campaign = 'add';
+        $newStatsEvent->utm_term = 'add';
+        $newStatsEvent->utm_content = 'add';
         $newStatsEvent->event_timestamp = date('Y-m-d H:i:s');
         $newStatsEvent->save();
 
