@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c7e89fc555c65076620f9a6580ab641",
+    "content-hash": "36270a5a45f1032b9a6eaaa019f94e01",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -14635,6 +14635,58 @@
             "time": "2023-10-29T09:51:40+00:00"
         },
         {
+            "name": "theiconic/php-ga-measurement-protocol",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/theiconic/php-ga-measurement-protocol.git",
+                "reference": "7aff52b385de3f4da20fa449851fa49f89ae7e7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/theiconic/php-ga-measurement-protocol/zipball/7aff52b385de3f4da20fa449851fa49f89ae7e7e",
+                "reference": "7aff52b385de3f4da20fa449851fa49f89ae7e7e",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0 || ^7.0",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.7.*",
+                "satooshi/php-coveralls": "1.0.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TheIconic\\Tracking\\GoogleAnalytics\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "THE ICONIC ENGINEERING TEAM",
+                    "email": "engineering@theiconic.com.au"
+                }
+            ],
+            "description": "Send data to Google Analytics from the server using PHP. This library fully implements GA measurement protocol.",
+            "support": {
+                "issues": "https://github.com/theiconic/php-ga-measurement-protocol/issues",
+                "source": "https://github.com/theiconic/php-ga-measurement-protocol/tree/master"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/jorgeborges",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-05T03:52:12+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "dev-master",
             "source": {
@@ -19031,5 +19083,5 @@
         "ext-zip": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
