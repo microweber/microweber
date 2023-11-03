@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "36270a5a45f1032b9a6eaaa019f94e01",
+    "content-hash": "fd954592ef587f1a2bf20a77827c9f73",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -75,6 +75,69 @@
                 "source": "https://github.com/akaunting/laravel-money/tree/master"
             },
             "time": "2023-08-21T06:15:34+00:00"
+        },
+        {
+            "name": "alexwestergaard/php-ga4",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aawnu/php-ga4.git",
+                "reference": "6b766a2e4ec92c9bc568fea1fc56b476c73674f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aawnu/php-ga4/zipball/6b766a2e4ec92c9bc568fea1fc56b476c73674f5",
+                "reference": "6b766a2e4ec92c9bc568fea1fc56b476c73674f5",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.0",
+                "php": ">=8.0,<8.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5|^10.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AlexWestergaard\\PhpGa4\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Ahlgreen Westergaard",
+                    "homepage": "https://aaw.nu",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Wrapper for Google Analytics 4 with Server Side Tracking",
+            "homepage": "https://github.com/aawnu/php-ga4",
+            "keywords": [
+                "analytics",
+                "analytics 4",
+                "ga4",
+                "gdpr",
+                "google analytics",
+                "google analytics 4",
+                "php",
+                "php8",
+                "php80",
+                "php81",
+                "php82",
+                "server side tracking",
+                "sst",
+                "tracking"
+            ],
+            "support": {
+                "issues": "https://github.com/aawnu/php-ga4/issues",
+                "source": "https://github.com/aawnu/php-ga4/releases/latest"
+            },
+            "time": "2023-07-18T16:27:24+00:00"
         },
         {
             "name": "arcanedev/php-html",
@@ -14633,58 +14696,6 @@
                 }
             ],
             "time": "2023-10-29T09:51:40+00:00"
-        },
-        {
-            "name": "theiconic/php-ga-measurement-protocol",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/theiconic/php-ga-measurement-protocol.git",
-                "reference": "7aff52b385de3f4da20fa449851fa49f89ae7e7e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/theiconic/php-ga-measurement-protocol/zipball/7aff52b385de3f4da20fa449851fa49f89ae7e7e",
-                "reference": "7aff52b385de3f4da20fa449851fa49f89ae7e7e",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^6.0 || ^7.0",
-                "php": ">=5.5"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.7.*",
-                "satooshi/php-coveralls": "1.0.1"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "TheIconic\\Tracking\\GoogleAnalytics\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "THE ICONIC ENGINEERING TEAM",
-                    "email": "engineering@theiconic.com.au"
-                }
-            ],
-            "description": "Send data to Google Analytics from the server using PHP. This library fully implements GA measurement protocol.",
-            "support": {
-                "issues": "https://github.com/theiconic/php-ga-measurement-protocol/issues",
-                "source": "https://github.com/theiconic/php-ga-measurement-protocol/tree/master"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/jorgeborges",
-                    "type": "github"
-                }
-            ],
-            "time": "2021-08-05T03:52:12+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

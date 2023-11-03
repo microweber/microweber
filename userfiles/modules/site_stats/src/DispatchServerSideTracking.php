@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\SiteStats;
 
+use AlexWestergaard\PhpGa4\Analytics;
+use AlexWestergaard\PhpGa4\Event\PageView;
 use MicroweberPackages\SiteStats\Models\StatsEvent;
 
 class DispatchServerSideTracking
@@ -22,31 +24,34 @@ class DispatchServerSideTracking
     public function dispatch()
     {
 
-        $analytics = new Analytics();
-
-        $analytics->setProtocolVersion('1')
-            ->setTrackingId(get_option('google-analytics-id', 'website'))
-            ->setClientId($this->visitorId);
-
-
-        $sendPageView = $analytics->setEventCategory('PageView')
-            ->setEventAction('PageView')
-            ->setEventLabel('PageView')
-            ->setEventValue(1)
-            ->sendEvent();
-
-        dd($sendPageView);
-
-        $getStatsEvents = StatsEvent::where('session_id', $this->session_id)->get();
-        if ($getStatsEvents->count() > 0) {
-            foreach ($getStatsEvents as $getStatsEvent) {
-
-
-                dd($getStatsEvent);
-
-              //  $getStatsEvent->delete();
-            }
-
-        }
+//        $measurementId = 'G-6PQTXHRLKN';
+//        $apiSecret = 'Y10pugKMRo2KKAhJfUJPwg';
+//
+//        $analytics = Analytics::new(
+//            $measurementId, $apiSecret
+//        );
+//        $analytics->setClientId($this->visitorId);
+//
+//        $event = PageView::new()
+//            ->setPageTitle('OIT PECA' . rand(111,999))
+//            ->setPageLocation(site_url() . '/123' . rand(111,999))
+//            ->setPageReferrer('https://google.com')
+//            ->setLanguage('en-us')
+//            ->setScreenResolution(1920, 1080);
+//
+//        $analytics->addEvent($event);
+//        $send = $analytics->post();
+//
+//        $getStatsEvents = StatsEvent::where('session_id', $this->session_id)->get();
+//        if ($getStatsEvents->count() > 0) {
+//            foreach ($getStatsEvents as $getStatsEvent) {
+//
+//
+//                dd($getStatsEvent);
+//
+//              //  $getStatsEvent->delete();
+//            }
+//
+//        }
     }
 }
