@@ -192,7 +192,7 @@ class OrderManager
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
                   //  $this->app->shop_manager->update_quantities($ord);
 
-                  //  event($event = new OrderWasPaid(Order::find($ord), $place_order));
+                    event($event = new OrderWasPaid(Order::find($ord), $place_order));
                 }
 
                 if($should_mark_as_paid){
@@ -202,6 +202,7 @@ class OrderManager
                 $this->app->checkout_manager->after_checkout($ord);
             }
         });
+
         event($event = new OrderWasCreated($orderModel, $place_order));
         mw()->user_manager->session_set('order_id', $ord);
 
