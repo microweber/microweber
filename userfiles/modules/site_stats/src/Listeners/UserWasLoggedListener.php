@@ -3,7 +3,7 @@ namespace MicroweberPackages\Modules\SiteStats\Listeners;
 
 use MicroweberPackages\SiteStats\Models\StatsEvent;
 
-class UserWasLogged
+class UserWasLoggedListener
 {
     /**
      * Create the event listener.

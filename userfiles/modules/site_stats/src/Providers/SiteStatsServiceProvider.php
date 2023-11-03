@@ -5,7 +5,7 @@ namespace MicroweberPackages\Modules\SiteStats\Providers;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Livewire\Livewire;
-use MicroweberPackages\Modules\SiteStats\Listeners\UserWasRegistered;
+use MicroweberPackages\Modules\SiteStats\Listeners\UserWasRegisteredListener;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
