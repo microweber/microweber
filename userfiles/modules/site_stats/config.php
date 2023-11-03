@@ -171,6 +171,15 @@ $config['tables']['stats_events'] = $google_analytics_events;
 
 
 
+$config['settings'] = [];
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\Modules\SiteStats'
+    ],
+];
 
-
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\SiteStats\Providers\SiteStatsServiceProvider::class
+];
 
