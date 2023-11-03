@@ -180,6 +180,7 @@ $config['settings']['autoload_namespace'] = [
 ];
 
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Modules\SiteStats\Providers\SiteStatsServiceProvider::class
+    \MicroweberPackages\Modules\SiteStats\Providers\SiteStatsServiceProvider::class,
+    \MicroweberPackages\Modules\SiteStats\Providers\SiteStatsEventsServiceProvider::class
 ];
 

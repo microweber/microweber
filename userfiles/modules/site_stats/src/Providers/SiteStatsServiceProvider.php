@@ -13,15 +13,6 @@ use MicroweberPackages\Modules\SiteStats\Http\Livewire\SiteStatsSettingsComponen
 
 class SiteStatsServiceProvider extends PackageServiceProvider
 {
-    protected $listen = [
-        Login::class => [
-
-        ],
-        Registered::class => [
-            UserWasRegistered::class,
-        ],
-    ];
-
     public function configurePackage(Package $package): void
     {
         $package->name('microweber-module-sitestats');
@@ -31,6 +22,7 @@ class SiteStatsServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
+
         Livewire::component('microweber-module-sitestats::settings', SiteStatsSettingsComponent::class);
         ModuleAdmin::registerSettings('sitestats', 'microweber-module-sitestats::settings');
 

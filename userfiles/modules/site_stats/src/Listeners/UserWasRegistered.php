@@ -16,7 +16,6 @@ class UserWasRegistered
      */
     public function handle($event): void
     {
-        echo 2222;
-        dd($event);
+        
     }
 }

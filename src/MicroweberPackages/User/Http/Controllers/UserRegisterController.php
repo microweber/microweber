@@ -102,6 +102,7 @@ class UserRegisterController extends Controller
             Session::flash('old_sid', Session::getId());
 
             event(new Registered($created));
+
             if ($should_login) {
                 app()->user_manager->make_logged($created->id);
             }
