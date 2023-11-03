@@ -3,6 +3,7 @@ namespace MicroweberPackages\Checkout\Http\Controllers\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use MicroweberPackages\Checkout\Events\BeginCheckoutEvent;
 
 trait ContactInformationTrait {
 
@@ -30,6 +31,8 @@ trait ContactInformationTrait {
         }
 
         session_del('errors');
+
+        event(new BeginCheckoutEvent());
 
         return $this->_renderView('checkout::contact_information',$data);
     }

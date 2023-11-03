@@ -3,6 +3,8 @@ namespace MicroweberPackages\Checkout\Http\Controllers\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use MicroweberPackages\Checkout\Events\AddPaymentInfoEvent;
+use MicroweberPackages\Checkout\Events\AddShippingInfoEvent;
 
 trait PaymentTrait {
 
@@ -34,9 +36,15 @@ trait PaymentTrait {
     }
 
     public function paymentMethodChange(Request $request) {
+
         session_append_array('checkout_v2', [
             'payment_gw'=> $request->get('payment_gw')
         ]);
+
+        event(new AddPaymentInfoEvent([
+            'paymentGateway'=> $request->get('payment_gw')
+        ]));
+
         return ['success'=>true];
     }
 
