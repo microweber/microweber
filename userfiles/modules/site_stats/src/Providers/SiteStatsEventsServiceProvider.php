@@ -6,6 +6,7 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use Livewire\Livewire;
+use MicroweberPackages\Modules\SiteStats\Listeners\UserWasLogged;
 use MicroweberPackages\Modules\SiteStats\Listeners\UserWasRegistered;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -16,7 +17,7 @@ class SiteStatsEventsServiceProvider extends EventServiceProvider
 {
     protected $listen = [
         Login::class => [
-
+            UserWasLogged::class
         ],
         Registered::class => [
             UserWasRegistered::class,

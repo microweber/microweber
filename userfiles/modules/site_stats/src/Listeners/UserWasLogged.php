@@ -3,7 +3,7 @@ namespace MicroweberPackages\Modules\SiteStats\Listeners;
 
 use MicroweberPackages\SiteStats\Models\StatsEvent;
 
-class UserWasRegistered
+class UserWasLogged
 {
     /**
      * Create the event listener.
@@ -20,14 +20,14 @@ class UserWasRegistered
     {
         $newStatsEvent = new StatsEvent();
         $newStatsEvent->event_category = 'user';
-        $newStatsEvent->event_action = 'register';
-        $newStatsEvent->event_label = 'User registered';
+        $newStatsEvent->event_action = 'logged';
+        $newStatsEvent->event_label = 'User logged';
         $newStatsEvent->event_value = 1;
         $newStatsEvent->utm_source = 'user';
-        $newStatsEvent->utm_medium = 'register';
-        $newStatsEvent->utm_campaign = 'register';
-        $newStatsEvent->utm_term = 'register';
-        $newStatsEvent->utm_content = 'register';
+        $newStatsEvent->utm_medium = 'logged';
+        $newStatsEvent->utm_campaign = 'logged';
+        $newStatsEvent->utm_term = 'logged';
+        $newStatsEvent->utm_content = 'logged';
         $newStatsEvent->event_timestamp = date('Y-m-d H:i:s');
         $newStatsEvent->save();
 
