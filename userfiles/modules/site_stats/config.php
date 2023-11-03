@@ -135,6 +135,19 @@ $fields_to_add['updated_at'] = 'dateTime';
 //$fields_to_add['created_at'] = 'dateTime';
 $config['tables']['stats_geoip'] = $fields_to_add;
 
+$google_analytics_events = [
+    'event_category' => 'string',
+    'event_action' => 'string',
+    'event_label' => 'string',
+    'event_value' => 'integer',
+    'utm_source' => 'string',
+    'utm_medium' => 'string',
+    'utm_campaign' => 'string',
+    'utm_term' => 'string',
+    'utm_content' => 'string',
+    'event_timestamp' => 'dateTime',
+];
+$config['tables']['stats_events'] = $google_analytics_events;
 
 
 
