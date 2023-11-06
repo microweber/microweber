@@ -16,6 +16,7 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
+use MicroweberPackages\Database\Traits\ParentCannotBeSelfTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Menu\Traits\HasMenuItem;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
@@ -39,6 +40,7 @@ class Content extends Model
     use HasEvents;
     use HasMultilanguageTrait;
     use MaxPositionTrait;
+    use ParentCannotBeSelfTrait;
 
     protected $table = 'content';
     protected $content_type = 'content';
