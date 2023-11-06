@@ -14,7 +14,7 @@
         min="{{$min}}"
         max="{{$max}}"
         :selectedRange="$selectedRange"
-        wire:model.debounce.100ms="state.settings.{{ $this->optionKey }}"
+        wire:model.debounce.500ms="state.settings.{{ $this->optionKey }}"
 
     />
 

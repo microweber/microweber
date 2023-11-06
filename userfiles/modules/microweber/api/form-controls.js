@@ -361,15 +361,18 @@ mw.emitter = {
             UIFormControllers._title(this.settings, root)
 
             var layoutsData = [];
-            var layouts = mw.top().app.canvas.getWindow().$('.module[data-type="layouts"]');
 
-            layouts.each(function () {
-                layoutsData.push({
-                    name: (this.getAttribute('template') || this.dataset.template || '').split('.')[0],
-                    element: this,
-                    id: this.id
+            if(self !== top) {
+                var layouts = mw.top().app.canvas.getWindow().$('.module[data-type="layouts"]');
+
+                layouts.each(function () {
+                    layoutsData.push({
+                        name: (this.getAttribute('template') || this.dataset.template || '').split('.')[0],
+                        element: this,
+                        id: this.id
+                    });
                 });
-            });
+            }
             var list = $('<div />');
             this.link = '';
             var radioName = mw.id();

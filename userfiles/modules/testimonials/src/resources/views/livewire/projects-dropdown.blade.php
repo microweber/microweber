@@ -5,8 +5,13 @@
 >
 
     <div class="w-full px-2">
-        <button type="button" class="form-select form-control-live-edit-input" x-on:click="openProjects = !openProjects">
-            {{$state['settings'][$this->optionKey]}}
+        <button type="button" class="form-select form-control-live-edit-input"
+                x-on:click="openProjects = !openProjects">
+            @if(empty($state['settings'][$this->optionKey]))
+                Default
+            @else
+                {{$state['settings'][$this->optionKey]}}
+            @endif
         </button>
     </div>
 

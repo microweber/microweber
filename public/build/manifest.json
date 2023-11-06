@@ -2,8 +2,8 @@
   "_@core-481bf48f.js": {
     "file": "assets/@core-481bf48f.js"
   },
-  "_mitt-706898fc.js": {
-    "file": "assets/mitt-706898fc.js"
+  "_mitt-c026d180.js": {
+    "file": "assets/mitt-c026d180.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js": {
     "file": "assets/admin-app-53615c11.js",
@@ -21,9 +21,9 @@
     "css": [
       "assets/element-style-editor-app-67fbff11.css"
     ],
-    "file": "assets/element-style-editor-app-a1d42ee6.js",
+    "file": "assets/element-style-editor-app-5e5d2180.js",
     "imports": [
-      "_mitt-706898fc.js"
+      "_mitt-c026d180.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.js"
@@ -36,16 +36,16 @@
     "css": [
       "assets/live-edit-app-8123051f.css"
     ],
-    "file": "assets/live-edit-app-a0b6e1c3.js",
+    "file": "assets/live-edit-app-9d36d7e6.js",
     "imports": [
       "_@core-481bf48f.js",
-      "_mitt-706898fc.js"
+      "_mitt-c026d180.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js": {
-    "file": "assets/live-edit-page-scripts-0e34b291.js",
+    "file": "assets/live-edit-page-scripts-d4e9d86d.js",
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js"
   }

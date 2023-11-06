@@ -50,7 +50,7 @@
         </div>
 
 
-        <div id="js-dropzone-image-{{$randId}}" class="dropzone mw-dropzone js-select-file-{{$randId}}" style="display:none">
+        <div id="js-dropzone-image-{{$randId}}" class="dropzone mw-dropzone js-select-file-{{$randId}}" >
             <div class="d-flex flex-column align-items-center gap-3">
                 <div class="d-flex align-items-center justify-content-center" style="background:rgba(0,0,0,0.11);color:#000;width:40px;height:40px; border-radius:100%; font-size:28px;">
                     <i class="mdi mdi-plus"></i>

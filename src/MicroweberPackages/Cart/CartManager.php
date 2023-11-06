@@ -11,6 +11,8 @@
 
 namespace MicroweberPackages\Cart;
 
+use MicroweberPackages\Cart\Events\AddToCartEvent;
+use MicroweberPackages\Cart\Events\RemoveFromCartEvent;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Database\Crud;
 
@@ -419,8 +421,10 @@ class CartManager extends Crud
 
         if ($checkCart != false and is_array($checkCart)) {
 
+            $cartData = [];
             $findCart = Cart::where('id', $cart['id'])->first();
             if ($findCart) {
+                $cartData = $findCart->toArray();
                 $findCart->delete();
             }
 
@@ -430,6 +434,8 @@ class CartManager extends Crud
 
             $cart_sum = $this->sum(true);
             $cart_qty = $this->sum(false);
+
+            event(new RemoveFromCartEvent($cartData));
 
             return array('success' => _e('Item was removed from cart', true), 'product' => $checkCart, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
         } else {
@@ -893,6 +899,8 @@ class CartManager extends Crud
 
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');
+
+            event(new AddToCartEvent($cart));
 
             return array('success' => 'Item added to cart', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
         } else {

@@ -74,8 +74,8 @@ export default {
                 options.as_element = true;
             }
 
-
-            mw.app.editor.insertModule(module, options);
+            var insertLocation = 'bottom';
+            mw.app.editor.insertModule(module, options,insertLocation);
             this.showModal = false;
         },
         filterModules() {
@@ -83,7 +83,6 @@ export default {
             let filterKeyword = this.filterKeyword.trim();
             let modulesFiltered = this.modulesList;
 
-            console.log(filterKeyword);
 
             if (filterKeyword != '' && filterKeyword) {
                 modulesFiltered = modulesFiltered.filter((item) => {

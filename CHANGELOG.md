@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.3] - 2023-11-02
+- Small maintenance release
+- Fixed problem with adding items to menu in admin panel
+- Modules are now inserted on bottom of other modules instead of top
+- [see all changes....](https://github.com/microweber/microweber/compare/2.0.3...2.0.3 "")
+
 
 ## [2.0.2] - 2023-10-31
 - Small maintenance release

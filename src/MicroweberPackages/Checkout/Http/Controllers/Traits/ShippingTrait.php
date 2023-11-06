@@ -3,6 +3,7 @@ namespace MicroweberPackages\Checkout\Http\Controllers\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use MicroweberPackages\Checkout\Events\AddShippingInfoEvent;
 
 trait ShippingTrait {
 
@@ -26,11 +27,17 @@ trait ShippingTrait {
 
     public function shippingMethodChange(Request $request) {
 
+
         app()->shipping_manager->setDefaultDriver($request->get('shipping_gw'));
 
         session_append_array('checkout_v2', [
             'shipping_gw'=> $request->get('shipping_gw')
         ]);
+
+        event(new AddShippingInfoEvent([
+            'shippingGateway'=> $request->get('shipping_gw')
+        ]));
+
         return ['success'=>true];
     }
 

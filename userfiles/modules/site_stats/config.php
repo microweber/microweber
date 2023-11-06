@@ -135,6 +135,23 @@ $fields_to_add['updated_at'] = 'dateTime';
 //$fields_to_add['created_at'] = 'dateTime';
 $config['tables']['stats_geoip'] = $fields_to_add;
 
+$google_analytics_events = [
+    'event_category' => 'string',
+    'event_action' => 'string',
+    'event_label' => 'string',
+    'event_value' => 'integer',
+    'utm_source' => 'string',
+    'utm_medium' => 'string',
+    'utm_campaign' => 'string',
+    'utm_term' => 'string',
+    'utm_content' => 'string',
+    'event_data'=> 'text',
+    'event_timestamp' => 'dateTime',
+    'session_id' => 'string',
+    'created_at' => 'dateTime',
+    'updated_at' => 'dateTime',
+];
+$config['tables']['stats_events'] = $google_analytics_events;
 
 
 
@@ -158,6 +175,16 @@ $config['tables']['stats_geoip'] = $fields_to_add;
 
 
 
+$config['settings'] = [];
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\Modules\SiteStats'
+    ],
+];
 
-
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\SiteStats\Providers\SiteStatsServiceProvider::class,
+    \MicroweberPackages\Modules\SiteStats\Providers\SiteStatsEventsServiceProvider::class
+];
 
