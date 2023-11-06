@@ -186,8 +186,6 @@ api_expose('pingstats', function ($params = false) {
         $tracker->track();
     }
 
-    dd($_COOKIE);
-
     if (isset($_COOKIE['_ga'])) {
         $serverSideTracking = new \MicroweberPackages\SiteStats\DispatchServerSideTracking();
         $serverSideTracking->setVisitorId($_COOKIE['_ga']);

@@ -3,7 +3,9 @@
 namespace MicroweberPackages\SiteStats;
 
 use AlexWestergaard\PhpGa4\Analytics;
+use AlexWestergaard\PhpGa4\Event\AddToCart;
 use AlexWestergaard\PhpGa4\Event\PageView;
+use AlexWestergaard\PhpGa4\Item;
 use MicroweberPackages\SiteStats\Models\StatsEvent;
 
 class DispatchServerSideTracking
@@ -23,34 +25,53 @@ class DispatchServerSideTracking
 
     public function dispatch()
     {
-
         $measurementId = get_option('google-measurement-id', 'website');
         $apiSecret = get_option('google-measurement-api-secret', 'website');
 
-        dd($apiSecret);
 
         $analytics = Analytics::new(
             $measurementId, $apiSecret
         );
+
         $analytics->setClientId($this->visitorId);
-
-        $event = PageView::new()
-            ->setPageTitle('OIT ->' . rand(111,999))
-            ->setPageLocation(site_url() . '/123' . rand(111,999))
-            ->setPageReferrer('https://google.com')
-            ->setLanguage('en-us')
-            ->setScreenResolution(1920, 1080);
-
-        $analytics->addEvent($event);
-        $send = $analytics->post();
 
         $getStatsEvents = StatsEvent::where('session_id', $this->session_id)->get();
         if ($getStatsEvents->count() > 0) {
             foreach ($getStatsEvents as $getStatsEvent) {
 
-                dump($getStatsEvent);
+                $eventData = json_decode($getStatsEvent->event_data, true);
 
-              //  $getStatsEvent->delete();
+                $event = false;
+                if ($getStatsEvent->event_action == 'Add to Cart') {
+
+                    $event = AddToCart::new()
+                        ->setCurrency(get_currency_code())
+                        ->setValue($getStatsEvent->event_value);
+
+                    if (!empty($eventData)) {
+                        foreach ($eventData as $product) {
+                            if (isset($product['price'])) {
+
+                                $newProductItem = new Item();
+                                $newProductItem->setItemId($product['rel_id']);
+                                $newProductItem->setItemName($product['title']);
+                                $newProductItem->setPrice($product['price']);
+                                $newProductItem->setQuantity($product['qty']);
+
+                                $event->addItem($newProductItem);
+                            }
+                        }
+                    }
+                }
+
+                if ($event) {
+                    $analytics->addEvent($event);
+                    $send = $analytics->post();
+                    if ($send) {
+                        $getStatsEvent->delete();
+                    }
+                }
+
             }
 
         }
