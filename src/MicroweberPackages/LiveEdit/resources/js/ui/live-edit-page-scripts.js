@@ -482,7 +482,7 @@ if(window.self !== window.top) {
         var target = event.target;
         var link = mw.tools.firstParentOrCurrentWithTag(target, 'a');
 
-        if(link) {
+        if(link && link.href.indexOf('javascript:') !== 0) {
             const tmp = document.createElement('a');
             tmp.href = link.href;
             if(tmp.host !== location.host && (!link.target || link.target === '_self')) {
