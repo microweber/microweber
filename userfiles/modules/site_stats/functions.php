@@ -162,10 +162,9 @@ event_bind('mw.pageview', function ($params = false) {
 api_expose('pingstats', function ($params = false) {
 
     $to_track = false;
-    if (get_option('stats_disabled', 'site_stats') == 1) {
-        return;
-    }
-
+//    if (get_option('stats_disabled', 'site_stats') == 1) {
+//        return;
+//    }
 
     if (isset($_SERVER['HTTP_REFERER'])) {
         $ref_page = $_SERVER['HTTP_REFERER'];
@@ -186,6 +185,8 @@ api_expose('pingstats', function ($params = false) {
     } else {
         $tracker->track();
     }
+
+    dd($_COOKIE);
 
     if (isset($_COOKIE['_ga'])) {
         $serverSideTracking = new \MicroweberPackages\SiteStats\DispatchServerSideTracking();
