@@ -498,15 +498,15 @@ if (!empty($recomended_layouts)) {
 
     <div class="layouts_box_holder">
         <div class="content-title-field-row card  <?php if ($show_save_changes_buttons): ?>bg-none mb-5<?php else: ?> mb-3<?php endif; ?>">
-            <div class="pt-3">
-                <?php if (!$showAllowSelectTemplate): ?>
-                    <h5 class="font-weight-bold settings-title-inside"><?php _e('Current template'); ?></h5> <?php echo $templateName ?>
-                    <?php else: ?>
-                    <h5 class="font-weight-bold settings-title-inside"><?php _e('Templates'); ?></h5>
-                <?php endif; ?>
-            </div>
+
             <div class="card-body p-3">
                 <div class="row pt-2">
+
+                    <?php if (!$showAllowSelectTemplate): ?>
+                        <h5 class="font-weight-bold settings-title-inside"><?php _e('Current template'); ?></h5> <?php echo $templateName ?>
+                    <?php else: ?>
+                        <h5 class="font-weight-bold settings-title-inside"><?php _e('Templates'); ?></h5>
+                    <?php endif; ?>
                     <?php if ($show_save_changes_buttons): ?>
                         <div class="col-md-4 mt-3">
                             <h5 class="font-weight-bold settings-title-inside"><?php _e("Settings"); ?></h5>
