@@ -20,7 +20,7 @@ class AddToCartListener
     {
         $newStatsEvent = new StatsEvent();
         $newStatsEvent->event_category = 'Cart Actions';
-        $newStatsEvent->event_action = 'Add to Cart';
+        $newStatsEvent->event_action = 'add_to_cart';
         $newStatsEvent->event_label = $event->product['title'];
         $newStatsEvent->event_value = $event->product['qty'];
         $newStatsEvent->utm_source = 'cart';
