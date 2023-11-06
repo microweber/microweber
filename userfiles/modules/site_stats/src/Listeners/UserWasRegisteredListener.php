@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Modules\SiteStats\Listeners;
 
 use MicroweberPackages\SiteStats\Models\StatsEvent;
+use MicroweberPackages\SiteStats\UtmVisitorData;
 
 class UserWasRegisteredListener
 {
@@ -18,6 +19,8 @@ class UserWasRegisteredListener
      */
     public function handle($event): void
     {
+        $visitorData = UtmVisitorData::getVisitorData();
+
         $newStatsEvent = new StatsEvent();
         $newStatsEvent->event_category = 'user';
         $newStatsEvent->event_action = 'register';
@@ -29,6 +32,15 @@ class UserWasRegisteredListener
         $newStatsEvent->utm_term = 'register';
         $newStatsEvent->utm_content = 'register';
         $newStatsEvent->session_id = app()->user_manager->session_id();
+
+        if (isset($visitorData['utm_visitor_id'])) {
+            $newStatsEvent->utm_visitor_id = $visitorData['utm_visitor_id'];
+        }
+
+        if (isset($visitorData['utm_source'])) {
+            $newStatsEvent->utm_source = $visitorData['utm_source'];
+        }
+
         $newStatsEvent->event_data = json_encode($event);
         $newStatsEvent->event_timestamp = date('Y-m-d H:i:s');
         $newStatsEvent->save();

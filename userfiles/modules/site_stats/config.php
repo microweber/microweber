@@ -145,6 +145,7 @@ $google_analytics_events = [
     'utm_campaign' => 'string',
     'utm_term' => 'string',
     'utm_content' => 'string',
+    'utm_visitor_id' => 'string',
     'event_data'=> 'text',
     'event_timestamp' => 'dateTime',
     'session_id' => 'string',
