@@ -548,6 +548,15 @@ var domHelp = {
         }
         return false;
     },
+    firstBlockLikeLevel: function (el) {
+        var blockLikes = ['TD', 'DIV', 'LI', 'DD', 'DT'];
+        while(el && el.classList) {
+            if(mw.tools.isBlockLevel(el) || blockLikes.indexOf(el.nodeName) !== -1 ) {
+                return el;
+            }
+            el = el.parentNode;
+        }
+    },
     firstBlockLevel: function (el) {
         while(el && el.classList) {
             if(mw.tools.isBlockLevel(el)) {

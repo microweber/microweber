@@ -10,7 +10,10 @@ class AdminJsCategoryTree
     public $output = [];
     public $outputPageIds = [];
     public $pages;
+    public $pagesAppended = [];
     public $categories;
+    public $categoriesAppended = [];
+
     public $filters = [];
 
     public function filters($filters)
@@ -179,6 +182,11 @@ class AdminJsCategoryTree
 
     public function getAndAppendPageChildren($pageId)
     {
+        if(!in_array($pageId, $this->pagesAppended)){
+            $this->pagesAppended[] = $pageId;
+        } else {
+            return [];
+        }
 
         $children = [];
         foreach ($this->pages as $page) {
@@ -198,7 +206,12 @@ class AdminJsCategoryTree
 
     public function appendPage($page)
     {
+        if(isset($page['id'])) {
 
+            if(isset($page['parent']) and $page['parent'] == $page['id']){
+                $page['parent'] = 0;
+            }
+        }
         $appendPage = [];
         $appendPage['id'] = $page['id'];
         $appendPage['type'] = 'page';

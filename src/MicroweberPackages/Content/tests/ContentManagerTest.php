@@ -507,4 +507,47 @@ class ContentManagerTest extends TestCase
 
     }
 
+    public function testContentSaveItselfAsParent()
+    {
+        $title = 'New ' . uniqid('testContentSaveItselfAsParent');
+        app()->database_manager->extended_save_set_permission(true);
+        $params = array(
+            'title' => $title,
+            'content_type' => 'page',
+
+            'is_active' => 1
+        );
+
+        $saved_id = save_content($params);
+
+        $content = get_content_by_id($saved_id);
+        $this->assertNull($content['parent']);
+
+
+        $params2 = array(
+            'id' => $saved_id,
+            'parent' => $saved_id,
+
+        );
+
+        $saved_id2 = save_content($params2);
+
+        $content2 = get_content_by_id($saved_id2);
+        $this->assertEquals(0, $content2['parent']);
+
+
+        // test the models
+
+        $content = Content::find($saved_id);
+        $this->assertEquals(0, $content->parent);
+
+        //try to save with wrong parent
+        $content->parent = $saved_id;
+        $content->save();
+        $this->assertEquals(0, $content->parent);
+
+        $content2 = get_content_by_id($saved_id2);
+        $this->assertEquals(0, $content2['parent']);
+    }
+
 }

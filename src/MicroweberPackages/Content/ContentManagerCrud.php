@@ -835,12 +835,19 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
         }
 
         $par_page = false;
+        if (isset($data_to_save['parent']) and intval($data_to_save['parent']) > 0) {
+            if (isset($data_to_save['id']) && $data_to_save['parent'] == $data_to_save['id']) {
+                $data_to_save['parent'] = 0;
+                $par_page = false;
+            }
+        }
         if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'post') {
             if (isset($data_to_save['parent']) and intval($data_to_save['parent']) > 0) {
                 $par_page = $this->get_by_id($data_to_save['parent']);
             }
 
             if (is_array($par_page)) {
+
                 $change_to_dynamic = true;
                 if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 1) {
                     $change_to_dynamic = false;

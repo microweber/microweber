@@ -179,7 +179,7 @@ MWEditor.interactionControls = {
             rootScope.document.querySelectorAll('.mw-editor-td-focus').forEach(td => td.classList.remove('mw-editor-td-focus'));
             if (td) {
                 clearTimeout(lscope.__tableManagerTimeout);
-                console.log(td)
+
                 lscope.__tableManagerTimeout = setTimeout(() => {
                     td.classList.add('mw-editor-td-focus')
                     var space = 5;
