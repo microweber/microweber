@@ -186,12 +186,14 @@ api_expose('pingstats', function ($params = false) {
         $tracker->track();
     }
 
-    dd($_COOKIE);
-
     if (isset($_COOKIE['_ga'])) {
+
+        \MicroweberPackages\SiteStats\UtmVisitorData::setVisitorData([
+            'utm_source' => 'google',
+            'utm_visitor_id'=>$_COOKIE['_ga']
+        ]);
+
         $serverSideTracking = new \MicroweberPackages\SiteStats\DispatchServerSideTracking();
-        $serverSideTracking->setVisitorId($_COOKIE['_ga']);
-        $serverSideTracking->setSessionId(app()->user_manager->session_id());
         $serverSideTracking->dispatch();
     }
 

@@ -12,9 +12,15 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
-                var actionTarget = mw.tools.firstBlockLevel(node);
-                api.action(actionTarget.parentNode, function () {
+                if(!node) {
+                    return;
+                }
 
+
+                  var actionTarget = mw.tools.firstBlockLikeLevel(node);
+
+
+                api.action(actionTarget.parentNode, function () {
                     mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'left')
                 });
             });
@@ -40,7 +46,7 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
-                var actionTarget = mw.tools.firstBlockLevel(node);
+                var actionTarget = mw.tools.firstBlockLikeLevel(node);
                 api.action(actionTarget.parentNode, function () {
                     mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'center')
                 });
@@ -69,7 +75,7 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
-                var actionTarget = mw.tools.firstBlockLevel(node);
+                var actionTarget = mw.tools.firstBlockLikeLevel(node);
                 api.action(actionTarget.parentNode, function () {
 
                     mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'right')
@@ -99,7 +105,7 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
-                var actionTarget = mw.tools.firstBlockLevel(node);
+                var actionTarget = mw.tools.firstBlockLikeLevel(node);
                 api.action(actionTarget.parentNode, function () {
 
                     mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'justify')
@@ -142,7 +148,7 @@ MWEditor.controllers = {
                 el.on('mousedown touchstart', function (e) {
                     var sel = api.getSelection();
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLevel(node);
+                    var actionTarget = mw.tools.firstBlockLikeLevel(node);
                     api.action(actionTarget.parentNode, function () {
 
                         mw.top().app.cssEditor.temp(actionTarget, 'text-align',  item.action)
@@ -293,7 +299,7 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
-                var actionTarget = mw.tools.firstBlockLevel(node);
+                var actionTarget = mw.tools.firstBlockLikeLevel(node);
 
                 var aiTextGeneratorHtml = '<div class="ai-text-generator-container">' +
                     '' +
@@ -416,7 +422,7 @@ MWEditor.controllers = {
 
                 if(sel.getRangeAt(0).collapsed) {
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLevel(node);
+                    var actionTarget = mw.tools.firstBlockLikeLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isBold = Number(rootScope.actionWindow.getComputedStyle(actionTarget).fontWeight) > 400;
                         let weight;
@@ -463,7 +469,7 @@ MWEditor.controllers = {
 
                 if(sel.getRangeAt(0).collapsed) {
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLevel(node);
+                    var actionTarget = mw.tools.firstBlockLikeLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isStrike =  (rootScope.actionWindow.getComputedStyle(actionTarget).textDecoration).includes('line-through');
                         let textDecoration;
@@ -507,7 +513,7 @@ MWEditor.controllers = {
 
 
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLevel(node);
+                    var actionTarget = mw.tools.firstBlockLikeLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isItalic = rootScope.actionWindow.getComputedStyle(actionTarget).fontStyle !== 'normal';
                         var fontStyle
@@ -551,7 +557,7 @@ MWEditor.controllers = {
 
 
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLevel(node)
+                    var actionTarget = mw.tools.firstBlockLikeLevel(node)
                     api.action(actionTarget.parentNode, function () {
                         var isUnderline = rootScope.actionWindow.getComputedStyle(actionTarget).textDecoration.indexOf('underline') === 0;
                         var textDecoration
@@ -870,7 +876,7 @@ MWEditor.controllers = {
                         api.execCommand('insertOrderedList', false, e.detail.value);
                     }
 
-                    var block = mw.tools.firstBlockLevel(el);
+                    var block = mw.tools.firstBlockLikeLevel(el);
                     scope.api.action(block.parentNode.parentNode, function () {
                         var el = mw.tools.setTag(block, e.detail.value);
                         // el.focus()
@@ -1226,7 +1232,7 @@ MWEditor.controllers = {
                 var sel = scope.getSelection();
                 if(sel.isCollapsed) {
                     var el = scope.api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLevel(el);
+                    var actionTarget = mw.tools.firstBlockLikeLevel(el);
                     if(actionTarget) {
                         removeFormatFromElementIfNotInSelection(actionTarget);
                      }
@@ -1384,7 +1390,7 @@ MWEditor.controllers = {
                 var sel = scope.getSelection();
                 if(sel.isCollapsed) {
                     var el = scope.api.elementNode(sel.focusNode);
-                    scope.api.action(mw.tools.firstBlockLevel(el.parentNode), function () {
+                    scope.api.action(mw.tools.firstBlockLikeLevel(el.parentNode), function () {
 
                         mw.top().app.cssEditor.temp(el, 'color', val)
                     }, true);
@@ -1414,7 +1420,7 @@ MWEditor.controllers = {
                 var sel = scope.getSelection();
                 if(sel.isCollapsed) {
                     var el = scope.api.elementNode(sel.focusNode);
-                    scope.api.action(mw.tools.firstBlockLevel(el.parentNode), function () {
+                    scope.api.action(mw.tools.firstBlockLikeLevel(el.parentNode), function () {
 
                         mw.top().app.cssEditor.temp(el, 'background-color', val)
                     }, true);
