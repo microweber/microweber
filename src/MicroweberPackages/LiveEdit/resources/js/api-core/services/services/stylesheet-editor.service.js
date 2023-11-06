@@ -310,10 +310,11 @@ export class StylesheetEditor extends MicroweberBaseClass {
     temp(node, prop, val) {
         val = (val || '').trim();
 
-
         if (node.length) {
             node = node[0];
         }
+        node.style[prop] = '';
+        node.style.removeProperty(prop);
 
         const sel = mw.tools.generateSelectorForNode(node);
 
