@@ -86,7 +86,7 @@ class DispatchServerSideTracking
                 if ($event) {
                     try {
                         $analytics->addEvent($event);
-                        $send = $analytics->post();
+                        $analytics->post();
                     } catch (\Exception $e) {
                       //  dump($e->getMessage());
                     }
