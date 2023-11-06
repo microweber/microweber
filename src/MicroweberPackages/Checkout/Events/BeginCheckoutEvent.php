@@ -10,12 +10,15 @@ class BeginCheckoutEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $cartData;
+
     /**
      * Create a new event instance.
      */
-    public function __construct() {
+    public function __construct($cartData)
+    {
 
-
+        $this->cartData = $cartData;
 
     }
 

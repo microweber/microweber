@@ -32,7 +32,12 @@ trait ContactInformationTrait {
 
         session_del('errors');
 
-        event(new BeginCheckoutEvent());
+        event(new BeginCheckoutEvent([
+            'cart'=>get_cart(),
+            'total'=>cart_total(),
+            'discount'=>cart_get_discount(),
+            'currency'=>get_currency_code(),
+        ]));
 
         return $this->_renderView('checkout::contact_information',$data);
     }
