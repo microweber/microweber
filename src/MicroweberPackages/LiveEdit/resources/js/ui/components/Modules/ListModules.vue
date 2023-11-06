@@ -22,6 +22,7 @@
                     </span>
 
                     <input type="text"
+                        autofocus
                            v-model="filterKeyword"
                            placeholder="Type to Search..."
                            class="js-modules-list-search-input form-control mw-modules-list-search-block rounded-0">
