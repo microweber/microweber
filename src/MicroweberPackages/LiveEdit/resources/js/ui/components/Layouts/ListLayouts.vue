@@ -25,7 +25,7 @@
                                 <svg fill="none" xmlns="http://www.w3.org/2000/svg" class="icon" width="32" height="32" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
                             </span>
 
-                        <input v-model="filterKeyword" type="text" placeholder="Type to Search..." class="modules-list-search-field form-control rounded-0">
+                        <input v-model="filterKeyword" autofocus type="text" placeholder="Type to Search..." class="modules-list-search-field form-control rounded-0">
                     </div>
 
                     <ul class="modules-list-categories py-5">
@@ -320,6 +320,16 @@ export default {
 
         mw.app.on('ready', () => {
 
+            const showModal = () => {
+                instance.showModal = true;
+                setTimeout(() => {
+                    const searchField = document.querySelector('.mw-le-modules-dialog input.mw-modules-list-search-block');
+                    if(searchField) {
+                        searchField.focus()
+                    }
+                }, 100);
+            }
+
             this.siteUrl = mw.settings.site_url;
 
             this.getLayoutsListFromService().then(function (data) {
@@ -328,20 +338,20 @@ export default {
                 instance.filterLayouts();
             });
             mw.app.editor.on('insertLayoutRequestOnTop',function(element){
-                instance.showModal = true;
+                showModal()
                 instance.layoutInsertLocation = 'top';
                 mw.app.registerChangedState(element);
             });
 
             mw.app.editor.on('appendLayoutRequestOnBottom',function(element){
                 instance.target = element;
-                instance.showModal = true;
+                showModal()
                 instance.layoutInsertLocation = 'append';
                 mw.app.registerChangedState(element);
 
             })
             mw.app.editor.on('insertLayoutRequestOnBottom',function(element){
-                instance.showModal = true;
+                showModal()
                 instance.layoutInsertLocation = 'bottom';
                 mw.app.registerChangedState(element);
             });
