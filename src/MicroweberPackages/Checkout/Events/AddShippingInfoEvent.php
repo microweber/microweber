@@ -10,13 +10,13 @@ class AddShippingInfoEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $shippingDetails;
+    public $cartData;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($shippingDetails) {
-        $this->shippingDetails = $shippingDetails;
+    public function __construct($cartData) {
+        $this->cartData = $cartData;
     }
 
 }

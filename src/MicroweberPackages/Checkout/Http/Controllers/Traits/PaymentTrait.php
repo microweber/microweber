@@ -42,6 +42,10 @@ trait PaymentTrait {
         ]);
 
         event(new AddPaymentInfoEvent([
+            'cart'=>get_cart(),
+            'total'=>cart_total(),
+            'discount'=>cart_get_discount(),
+            'currency'=>get_currency_code(),
             'paymentGateway'=> $request->get('payment_gw')
         ]));
 

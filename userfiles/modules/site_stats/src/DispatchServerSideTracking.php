@@ -3,6 +3,7 @@
 namespace MicroweberPackages\SiteStats;
 
 use AlexWestergaard\PhpGa4\Analytics;
+use AlexWestergaard\PhpGa4\Event\AddPaymentInfo;
 use AlexWestergaard\PhpGa4\Event\AddShippingInfo;
 use AlexWestergaard\PhpGa4\Event\AddToCart;
 use AlexWestergaard\PhpGa4\Event\BeginCheckout;
@@ -59,10 +60,32 @@ class DispatchServerSideTracking
                     $event = Signup::new();
                 }
 
-                if ($getStatsEvent->event_action == 'add_shipping_info') {
+                if ($getStatsEvent->event_action == 'ADD_SHIPPING_INFO') {
+
                     $event = AddShippingInfo::new();
-                    $event->setCurrency(get_currency_code());
-                    $event->setValue($getStatsEvent->event_value);
+                    $event->setCurrency($eventData['currency']);
+                    //$event->setCoupon($eventData['discount']);
+                    $event->setValue($eventData['total']);
+
+                    if (!empty($eventDataItemsObjects)) {
+                        foreach ($eventDataItemsObjects as $eventDataItem) {
+                            $event->addItem($eventDataItem);
+                        }
+                    }
+                }
+
+                if ($getStatsEvent->event_action == 'ADD_PAYMENT_INFO') {
+
+                    $event = AddPaymentInfo::new();
+                    $event->setCurrency($eventData['currency']);
+                    //$event->setCoupon($eventData['discount']);
+                    $event->setValue($eventData['total']);
+
+                    if (!empty($eventDataItemsObjects)) {
+                        foreach ($eventDataItemsObjects as $eventDataItem) {
+                            $event->addItem($eventDataItem);
+                        }
+                    }
                 }
 
                 if ($getStatsEvent->event_action == 'BEGIN_CHECKOUT') {
@@ -101,10 +124,11 @@ class DispatchServerSideTracking
                         $analytics->post();
                     } catch (\Exception $e) {
                         dump($e->getMessage());
+                        dump($event);
                     }
                 }
 
-                $getStatsEvent->delete();
+               // $getStatsEvent->delete();
 
             }
 
