@@ -123,12 +123,12 @@ class DispatchServerSideTracking
                         $analytics->addEvent($event);
                         $analytics->post();
                     } catch (\Exception $e) {
-                        dump($e->getMessage());
-                        dump($event);
+//                        dump($e->getMessage());
+//                        dump($event);
                     }
                 }
 
-               // $getStatsEvent->delete();
+                $getStatsEvent->delete();
 
             }
 
