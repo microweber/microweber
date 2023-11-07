@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\Modules\SiteStats\Listeners;
 
+use MicroweberPackages\Modules\SiteStats\DTO\UtmEventAddToCart;
 use MicroweberPackages\SiteStats\Models\StatsEvent;
 
 class AddToCartListener
@@ -18,20 +19,11 @@ class AddToCartListener
      */
     public function handle($event): void
     {
-        $newStatsEvent = new StatsEvent();
-        $newStatsEvent->event_category = 'Cart Actions';
-        $newStatsEvent->event_action = 'add_to_cart';
-        $newStatsEvent->event_label = $event->product['title'];
-        $newStatsEvent->event_value = $event->product['qty'];
-        $newStatsEvent->utm_source = 'cart';
-        $newStatsEvent->utm_medium = 'add';
-        $newStatsEvent->utm_campaign = 'add';
-        $newStatsEvent->utm_term = 'add';
-        $newStatsEvent->utm_content = 'add';
-        $newStatsEvent->session_id = app()->user_manager->session_id();
-        $newStatsEvent->event_data = json_encode($event);
-        $newStatsEvent->event_timestamp = date('Y-m-d H:i:s');
-        $newStatsEvent->save();
+
+        $utmEvent = new UtmEventAddToCart();
+        $utmEvent->setInternalData($event);
+
+        StatsEvent::saveNewUtm($utmEvent);
 
     }
 }

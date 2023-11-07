@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Modules\SiteStats\DTO;
 
-class UtmEventActionBeginCheckout extends UtmEvent
+class UtmEventBeginCheckout extends UtmEvent
 {
     public $eventCategory = 'ecommerce';
     public $eventAction = 'BEGIN_CHECKOUT';

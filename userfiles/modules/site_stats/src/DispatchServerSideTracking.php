@@ -33,22 +33,29 @@ class DispatchServerSideTracking
 
         $getStatsEvents = StatsEvent::where('utm_visitor_id', $visitorId)->get();
 
-        dd($getStatsEvents);
-
         if ($getStatsEvents->count() > 0) {
             foreach ($getStatsEvents as $getStatsEvent) {
 
-                dump($getStatsEvent);
-
                 $eventData = json_decode($getStatsEvent->event_data, true);
+
+                $eventDataItemsObjects = [];
+                if (isset($eventData['items'])) {
+                    foreach ($eventData['items'] as $eventDataItem) {
+                        $eventDataItemsObjects[] = Item::new()
+                            ->setItemId($eventDataItem['id'])
+                            ->setItemName($eventDataItem['name'])
+                            ->setPrice($eventDataItem['price'])
+                            ->setQuantity($eventDataItem['quantity']);
+                    }
+                }
 
                 $event = false;
 
-                if ($getStatsEvent->event_action == 'logged') {
+                if ($getStatsEvent->event_action == 'LOGIN') {
                     $event = Login::new();
                 }
 
-                if ($getStatsEvent->event_action == 'register') {
+                if ($getStatsEvent->event_action == 'SIGN_UP') {
                     $event = Signup::new();
                 }
 
@@ -58,33 +65,34 @@ class DispatchServerSideTracking
                     $event->setValue($getStatsEvent->event_value);
                 }
 
-                if ($getStatsEvent->event_action == 'begin_checkout') {
-                    $event = BeginCheckout::new();
+                if ($getStatsEvent->event_action == 'BEGIN_CHECKOUT') {
 
-                    dd($eventData);
+                    $event = BeginCheckout::new();
+                    $event->setCurrency($eventData['currency']);
+                   // $event->setCoupon($eventData['discount']);
+                    $event->setValue($eventData['total']);
+
+                    if (!empty($eventDataItemsObjects)) {
+                        foreach ($eventDataItemsObjects as $eventDataItem) {
+                            $event->addItem($eventDataItem);
+                        }
+                    }
 
                 }
 
-                if ($getStatsEvent->event_action == 'add_to_cart') {
+                if ($getStatsEvent->event_action == 'ADD_TO_CART') {
 
-                    $event = AddToCart::new()
-                        ->setCurrency(get_currency_code())
-                        ->setValue($getStatsEvent->event_value);
+                    $event = AddToCart::new();
+                    $event->setCurrency($eventData['currency']);
+                    //$event->setCoupon($eventData['discount']);
+                    $event->setValue($eventData['total']);
 
-                    if (!empty($eventData)) {
-                        foreach ($eventData as $product) {
-                            if (isset($product['price'])) {
-
-                                $newProductItem = new Item();
-                                $newProductItem->setItemId($product['rel_id']);
-                                $newProductItem->setItemName($product['title']);
-                                $newProductItem->setPrice($product['price']);
-                                $newProductItem->setQuantity($product['qty']);
-
-                                $event->addItem($newProductItem);
-                            }
+                    if (!empty($eventDataItemsObjects)) {
+                        foreach ($eventDataItemsObjects as $eventDataItem) {
+                            $event->addItem($eventDataItem);
                         }
                     }
+
                 }
 
                 if ($event) {
@@ -92,11 +100,11 @@ class DispatchServerSideTracking
                         $analytics->addEvent($event);
                         $analytics->post();
                     } catch (\Exception $e) {
-                      //  dump($e->getMessage());
+                        dump($e->getMessage());
                     }
                 }
 
-//                $getStatsEvent->delete();
+                $getStatsEvent->delete();
 
             }
 
