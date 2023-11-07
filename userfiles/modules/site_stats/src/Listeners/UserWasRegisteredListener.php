@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Modules\SiteStats\Listeners;
 
 use MicroweberPackages\Modules\SiteStats\DTO\UtmEvent;
+use MicroweberPackages\Modules\SiteStats\DTO\UtmEventSignUp;
 use MicroweberPackages\SiteStats\Models\StatsEvent;
 use MicroweberPackages\SiteStats\UtmVisitorData;
 
@@ -20,11 +21,8 @@ class UserWasRegisteredListener
      */
     public function handle($event): void
     {
-        $utmEvent = new UtmEvent();
-        $utmEvent->setEventAction(UtmEvent::DTO_EVENT_ACTION_SIGN_UP);
-        $utmEvent->setEventCategory('user');
-        $utmEvent->setEventLabel('User registered');
-        $utmEvent->setEventCategory($event);
+        $utmEvent = new UtmEventSignUp();
+        $utmEvent->setInternalData($event);
 
         StatsEvent::saveNewUtm($utmEvent);
     }

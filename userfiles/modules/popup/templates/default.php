@@ -21,19 +21,19 @@ TODO: add option to show accept button instead of close
         <a id="#popup-link" <?php print $onclick;?> data-bs-toggle="modal" href="#popup-<?php print $params['id']; ?>" data-backdrop="false"><?php print $link_text;?></a>
     <?php endif; ?>
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="popup-<?php print $params['id']; ?>" style="display:none">
+    <template id="popup-<?php print $params['id']; ?>-template">
+        <div class="modal fade" tabindex="-1" role="dialog" id="popup-<?php print $params['id']; ?>" style="display:none">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-					<?php if($source == 'existing_page'):?>
-					<h4 id="modal-title"></h4>
+                <?php if($source == 'existing_page'):?>
+					<h5 id="modal-title"></h5>
 					<?php else: ?>
-                    <h4 class="modal-title edit" rel="module" field="module-popup-title-<?php print $params['id']; ?>">
-                        Modal title</h4>
+                    <h5 class="modal-title edit" rel="module" field="module-popup-title-<?php print $params['id']; ?>">Modal title</h5>
                     <?php endif;?>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?php _e('Close'); ?>"></button>
                 </div>
+
                 <div class="modal-body">
                     <div style="max-height: 50vh; overflow-y: scroll; padding-right:15px">
                         <?php if($source == 'existing_page'): ?>
@@ -47,10 +47,9 @@ TODO: add option to show accept button instead of close
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e("Close"); ?></button>
 
                     <?php if (in_live_edit() && $source != 'existing_page'): ?>
-                        <button type="button" class="btn btn-success" onclick="mw.drag.save();"><?php _e("Save"); ?></button>
+                        <button type="button" disabled class="btn btn-success"><?php _e("Accept"); ?></button>
                     <?php endif; ?>
 
                     <?php if (!in_live_edit() AND $type == 'on_time'): ?>
@@ -61,5 +60,31 @@ TODO: add option to show accept button instead of close
         </div>
     </div>
 
+    </template>
+
+
+
 </div>
+
+<script>
+
+;(function(){
+    function rend() {
+        var current = document.getElementById('popup-<?php print $params['id']; ?>');
+        if(current) {
+            current.remove()
+        }
+        document.body.appendChild(document.createRange().createContextualFragment(document.getElementById('popup-<?php print $params['id']; ?>-template').innerHTML));
+    }
+
+    function init() {
+        setTimeout(rend, 100);
+    }
+
+    init()
+
+
+})();
+
+</script>
 

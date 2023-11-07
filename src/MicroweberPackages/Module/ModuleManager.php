@@ -582,7 +582,7 @@ class ModuleManager
         if (isset($params['id'])) {
             $params['limit'] = 1;
         } else {
-            $params['limit'] = 1000;
+            $params['nolimit'] = true;
         }
         if (isset($params['module'])) {
             $params['module'] = str_replace('/admin', '', $params['module']);

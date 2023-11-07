@@ -9,4 +9,9 @@ class UtmEvent {
     public $eventValue;
     public $eventData = null;
 
+    public function setInternalData($data)
+    {
+        $this->eventData = $data;
+    }
+
 }
