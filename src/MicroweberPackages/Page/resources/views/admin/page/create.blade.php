@@ -79,6 +79,11 @@
                     if(isset($layout_details_for_new_page['is_shop']) and $layout_details_for_new_page['is_shop'] != 0){
                         $isDynamic = false;
                         $isShop = true;
+                        $showShop = is_shop_module_enabled_for_user();
+                        if (!$showShop) {
+                            continue;
+                        }
+
                     }
 
                 @endphp
