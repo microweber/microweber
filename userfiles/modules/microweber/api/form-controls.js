@@ -339,7 +339,7 @@ mw.emitter = {
                 icon: 'd-none',
                 //
                 icon: 'd-none',
-                title: 'Page block'
+                title: 'Page section'
             };
             options =  mw.object.extend(true, {}, defaults, (options || {}));
              this.settings = options;
@@ -374,6 +374,10 @@ mw.emitter = {
                 });
             }
             var list = $('<div />');
+
+            if (layoutsData.length === 0) {
+                list.append('<label class="form-label font-weight-bold mt-2" style="text-align: center;padding: 50px 0;">Current page has no sections in it</label>');
+            }
             this.link = '';
             var radioName = mw.id();
             $.each(layoutsData, function(){
