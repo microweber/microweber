@@ -1,6 +1,6 @@
 <div>
     <label class="live-edit-label">{{__('Upload Audio file')}} </label>
-    <livewire:microweber-option::file-picker optionKey="data-audio-upload" :optionGroup="$moduleId" :module="$moduleType"  />
+    <livewire:microweber-option::file-picker  allowedType="audio"  optionKey="data-audio-upload" :optionGroup="$moduleId" :module="$moduleType"  />
 </div>
 
 <div class="mt-3">
