@@ -33,8 +33,12 @@ class DispatchServerSideTracking
 
         $getStatsEvents = StatsEvent::where('utm_visitor_id', $visitorId)->get();
 
+        dd($getStatsEvents);
+
         if ($getStatsEvents->count() > 0) {
             foreach ($getStatsEvents as $getStatsEvent) {
+
+                dump($getStatsEvent);
 
                 $eventData = json_decode($getStatsEvent->event_data, true);
 
@@ -56,8 +60,8 @@ class DispatchServerSideTracking
 
                 if ($getStatsEvent->event_action == 'begin_checkout') {
                     $event = BeginCheckout::new();
-                    $event->setCurrency(get_currency_code());
-                    $event->setValue($getStatsEvent->event_value);
+
+                    dd($eventData);
 
                 }
 
@@ -86,13 +90,13 @@ class DispatchServerSideTracking
                 if ($event) {
                     try {
                         $analytics->addEvent($event);
-                        $send = $analytics->post();
+                        $analytics->post();
                     } catch (\Exception $e) {
                       //  dump($e->getMessage());
                     }
                 }
 
-                $getStatsEvent->delete();
+//                $getStatsEvent->delete();
 
             }
 
