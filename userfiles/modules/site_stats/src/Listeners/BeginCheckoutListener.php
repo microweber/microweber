@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Modules\SiteStats\Listeners;
 
-use MicroweberPackages\Modules\SiteStats\DTO\UtmEventActionBeginCheckout;
+use MicroweberPackages\Modules\SiteStats\DTO\UtmEventBeginCheckout;
 use MicroweberPackages\SiteStats\Models\StatsEvent;
 
 class BeginCheckoutListener
@@ -19,7 +19,7 @@ class BeginCheckoutListener
      */
     public function handle($event): void
     {
-        $utmEvent = new UtmEventActionBeginCheckout();
+        $utmEvent = new UtmEventBeginCheckout();
         $utmEvent->setInternalData($event);
 
         StatsEvent::saveNewUtm($utmEvent);
