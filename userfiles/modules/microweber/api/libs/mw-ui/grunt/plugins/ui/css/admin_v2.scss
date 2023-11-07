@@ -2576,6 +2576,9 @@ svg.text-danger {
         }
     }
 }
+.tab-content.mw-ui-form-controller-root {
+    max-height: 86%;
+}
 
 .mw-filepicker-component-navigation-header {
 
@@ -3120,3 +3123,4 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
     white-space: normal;
 
 }
+
