@@ -14,6 +14,7 @@ namespace MicroweberPackages\Cart;
 use MicroweberPackages\Cart\Events\AddToCartEvent;
 use MicroweberPackages\Cart\Events\RemoveFromCartEvent;
 use MicroweberPackages\Cart\Models\Cart;
+use MicroweberPackages\Checkout\Events\BeginCheckoutEvent;
 use MicroweberPackages\Database\Crud;
 
 class CartManager extends Crud
@@ -900,7 +901,12 @@ class CartManager extends Crud
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');
 
-            event(new AddToCartEvent($cart));
+            event(new AddToCartEvent([
+                'cart'=>get_cart(),
+                'total'=>cart_total(),
+                'discount'=>cart_get_discount(),
+                'currency'=>get_currency_code(),
+            ]));
 
             return array('success' => 'Item added to cart', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
         } else {

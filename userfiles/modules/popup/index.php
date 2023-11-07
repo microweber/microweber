@@ -123,8 +123,10 @@ if($source == 'existing_page' && !empty($page_id)): ?>
 			url: '<?php print api_url('popup_module_get_content_by_id') . '?page_id=' . $page_id; ?>',
 			type: 'GET',
 			success: function (data) {
+
 				$('#modal-title').html(data.title);
 				$('#modal-content').html(data.content);
+                mw.reload_modules(Array.from(document.querySelectorAll('#modal-content module')))
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
 				console.log(XMLHttpRequest);
@@ -158,8 +160,11 @@ if (is_file($template_file) != false) {
 
 <?php if (in_live_edit()): ?>
     <style>
+        .modal-backdrop{
+            z-index: 999;
+        }
         #popup-<?php print $params['id']; ?> {
-            z-index: 1102 !important;
+            z-index: 1000 !important;
             top: 10%;
         }
     </style>

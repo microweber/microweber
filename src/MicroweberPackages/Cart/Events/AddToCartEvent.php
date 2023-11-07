@@ -10,14 +10,14 @@ class AddToCartEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $product;
+    public $cartData;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($product) {
+    public function __construct($cartData) {
 
-        $this->product = $product;
+        $this->cartData = $cartData;
 
     }
 
