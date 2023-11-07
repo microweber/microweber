@@ -4,7 +4,7 @@ $randId = time() . rand(111,999);
 @endphp
 
 <div x-data="{
-    selectedFont: 'Inter', openOptions:false,
+    selectedFont: '', openOptions:false,
     availableFonts: {{json_encode(app()->template->getFonts())}},
 }"
      x-init="
@@ -41,7 +41,7 @@ $randId = time() . rand(111,999);
 
     <button type="button" class="form-select form-control-live-edit-input"
             :style="{ fontFamily: [selectedFont] }"
-            x-on:click="openOptions = !openOptions" x-html="selectedFont">
+            x-on:click="openOptions = !openOptions" x-html="selectedFont" @click.outside="openOptions = false">
     </button>
 
     <input type="hidden" id="input-font-{{$randId}}" {!! $attributes->merge([]) !!} />
@@ -61,6 +61,18 @@ $randId = time() . rand(111,999);
                 <span style="font-size:16px" x-text="availableFont"></span>
             </button>
         </template>
+
+        <button type="button"
+                x-on:click="()=> {
+                        selectedFont = ''
+                        openOptions = false;
+                        inputFontElement = document.getElementById('input-font-{{$randId}}');
+                        inputFontElement.value = '';
+                        inputFontElement.dispatchEvent(new Event('input'));
+                 }"
+                class="dropdown-item tblr-body-color">
+            {{_e('Reset font')}}
+        </button>
 
         <button type="button"
                 x-on:click="()=> {
