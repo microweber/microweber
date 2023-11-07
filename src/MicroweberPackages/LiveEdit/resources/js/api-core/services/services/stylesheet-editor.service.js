@@ -218,7 +218,6 @@ export class StylesheetEditor extends MicroweberBaseClass {
                 delete this.json.children[media].children[sel].attributes[prop];
             }
 
-
             this.removeSheetRuleProperty(sel, prop);
         }
 

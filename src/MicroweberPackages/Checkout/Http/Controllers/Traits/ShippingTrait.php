@@ -34,7 +34,12 @@ trait ShippingTrait {
             'shipping_gw'=> $request->get('shipping_gw')
         ]);
 
+
         event(new AddShippingInfoEvent([
+            'cart'=>get_cart(),
+            'total'=>cart_total(),
+            'discount'=>cart_get_discount(),
+            'currency'=>get_currency_code(),
             'shippingGateway'=> $request->get('shipping_gw')
         ]));
 

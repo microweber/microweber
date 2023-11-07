@@ -10,13 +10,13 @@ class AddPaymentInfoEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $paymentInfo;
+    public $cartData;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($paymentInfo) {
-        $this->paymentInfo = $paymentInfo;
+    public function __construct($cartData) {
+        $this->cartData = $cartData;
     }
 
 }

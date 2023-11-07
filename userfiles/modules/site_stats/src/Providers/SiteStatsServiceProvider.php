@@ -24,7 +24,7 @@ class SiteStatsServiceProvider extends PackageServiceProvider
         parent::register();
 
         Livewire::component('microweber-module-sitestats::settings', SiteStatsSettingsComponent::class);
-        ModuleAdmin::registerSettings('sitestats', 'microweber-module-sitestats::settings');
+        ModuleAdmin::registerSettings('site_stats', 'microweber-module-sitestats::settings');
 
     }
 
