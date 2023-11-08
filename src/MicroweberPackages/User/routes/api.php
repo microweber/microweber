@@ -88,6 +88,23 @@ Route::post('api/delete_user', function (Request $request) {
     return delete_user($input);
 })->middleware(['api']);
 
+
+Route::name('api.')
+    ->prefix('api')
+    ->middleware([
+        'api.public',
+        //  \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+        \MicroweberPackages\App\Http\Middleware\XSS::class
+    ])
+    ->namespace('\MicroweberPackages\User\Http\Controllers')
+    ->group(function () {
+
+        Route::post('user_login', function () {
+            return user_login(request()->all());
+        })->name('user_login')->middleware(['allowed_ips','throttle:60,1']);
+
+    });
+
 Route::name('api.user.')
     ->prefix('api/user')
     ->middleware([

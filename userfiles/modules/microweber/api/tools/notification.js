@@ -132,12 +132,12 @@ mw.notification = {
         tpl = $(tpl, targetDocument).appendTo(targetDocument.body);
         tpl.css('bottom', btm);
 
-        if (window.top && window.top.bootstrap) {
+        if (self !== top && window.top && window.top.bootstrap && window.top.bootstrap.Toast) {
             var toast = new window.top.bootstrap.Toast(tpl.children().get(0), {
                 delay: timeout
             });
             toast.show();
-        } else if (window.bootstrap) {
+        } else if (window.bootstrap && window.bootstrap.Toast) {
             var toast = new window.bootstrap.Toast(tpl.children().get(0), {
                 delay: timeout
             });

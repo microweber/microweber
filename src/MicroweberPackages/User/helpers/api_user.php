@@ -8,10 +8,7 @@ api_expose('social_login_process');
 
 api_expose('user_reset_password_from_link');
 
-
 api_expose_admin('user_make_logged');
-
-api_expose('user_login');
 
 api_expose('is_logged');
 

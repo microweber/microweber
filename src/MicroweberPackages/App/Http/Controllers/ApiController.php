@@ -145,7 +145,7 @@ class ApiController  extends FrontendController
         $api_exposed = '';
 
         // user functions
-        $api_exposed .= 'user_login user_logout social_login_process';
+        $api_exposed .= 'social_login_process';
 
         // content functions
 
