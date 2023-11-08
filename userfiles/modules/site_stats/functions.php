@@ -186,16 +186,16 @@ api_expose('pingstats', function ($params = false) {
         $tracker->track();
     }
 
-    if (isset($_COOKIE['_ga'])) {
-
-        \MicroweberPackages\SiteStats\UtmVisitorData::setVisitorData([
-            'utm_source' => 'google',
-            'utm_visitor_id'=>$_COOKIE['_ga']
-        ]);
-
-        $serverSideTracking = new \MicroweberPackages\SiteStats\DispatchServerSideTracking();
-        $serverSideTracking->dispatch();
-    }
+//    if (isset($_COOKIE['_ga'])) {
+//
+//        \MicroweberPackages\SiteStats\UtmVisitorData::setVisitorData([
+//            'utm_source' => 'google',
+//            'utm_visitor_id'=>$_COOKIE['_ga']
+//        ]);
+//
+//        $serverSideTracking = new \MicroweberPackages\SiteStats\DispatchServerSideTracking();
+//        $serverSideTracking->dispatch();
+//    }
 
     $response = response('var mwpingstats={}');
 
