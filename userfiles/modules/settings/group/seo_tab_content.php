@@ -15,13 +15,6 @@
     <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" title="google-site-verification" value="<?php print get_option($key_name, 'website'); ?>"/>
 </div>
 
- <div class="form-group">
-    <label class="form-label"><?php _e("Google Analytics ID"); ?></label>
-    <small class="text-muted d-block mb-2"><?php _e("Google Analytics' property ID is the identifier associated with your account and used by Google Analytics to collect the data."); ?> <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank"><?php _e("How to find it read here."); ?></a></small>
-    <?php $key_name = 'google-analytics-id'; ?>
-    <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>" placeholder="UA-12345678-9"/>
-</div>
-
 <?php
 
 $isGoogleMesurementEnabled = get_option('google-measurement-enabled', 'website') == "y";
@@ -41,11 +34,18 @@ $isGoogleMesurementEnabled = get_option('google-measurement-enabled', 'website')
     <div x-show="showGoogleMeasurement">
 
         <div class="form-group">
+            <label class="form-label"><?php _e("Google Analytics ID"); ?></label>
+            <small class="text-muted d-block mb-2"><?php _e("Google Analytics' property ID is the identifier associated with your account and used by Google Analytics to collect the data."); ?> <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank"><?php _e("How to find it read here."); ?></a></small>
+            <?php $key_name = 'google-analytics-id'; ?>
+            <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>" placeholder="UA-12345678-9"/>
+        </div>
+
+<!--        <div class="form-group">
             <label class="form-label"><?php _e("Google Measurement ID"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("Google measurement' property ID is the identifier associated with your account and used by Google Analytics to collect the data."); ?> <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank"><?php _e("How to find it read here."); ?></a></small>
             <?php $key_name = 'google-measurement-id'; ?>
             <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>" placeholder="G-12345678"/>
-        </div>
+        </div>-->
 
         <div class="form-group">
             <label class="form-label"><?php _e("Google Measurement Api Secret"); ?></label>
