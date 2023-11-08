@@ -6,6 +6,8 @@ export class ModuleSettings extends MicroweberBaseClass {
     constructor() {
         super();
 
+        this.moduleSettingsDialogIframeInstance = null;
+
         mw.app.on('onLiveEditReady', event =>{
             this.init();
         });
@@ -167,7 +169,7 @@ export class ModuleSettings extends MicroweberBaseClass {
 
         var attrsForSettings = attributes;
         attrsForSettings.module_type_for_preset = moduleType;
-          attrsForSettings.module_id_for_preset = moduleIdForPreset;
+        attrsForSettings.module_id_for_preset = moduleIdForPreset;
         attrsForSettings.type = presetsModule;
 
 
@@ -197,7 +199,9 @@ export class ModuleSettings extends MicroweberBaseClass {
             height: 'auto',
             draggable: true,
             skin: 'mw_modal_simple mw_modal_live_edit_settings',
-            overlayClose: true,
+            overlayClose: () => {
+                return this.moduleCheckIfLiveweireStillLoading();
+            },
             title: modalTitle,
             id: 'module-quick-setting-dialog-' + moduleId
         };
@@ -214,9 +218,26 @@ export class ModuleSettings extends MicroweberBaseClass {
         if (moduleSettingsDialogIframe.overlay) {
             moduleSettingsDialogIframe.overlay.style.backgroundColor = 'transparent';
         }
-
+        this.moduleSettingsDialogIframeInstance = moduleSettingsDialogIframe;
         return moduleSettingsDialogIframe;
     }
+
+    moduleCheckIfLiveweireStillLoading() {
+        if (this.moduleSettingsDialogIframeInstance) {
+            if (this.moduleSettingsDialogIframeInstance.iframe) {
+                if (this.moduleSettingsDialogIframeInstance.iframe.contentWindow) {
+                    var iframe = this.moduleSettingsDialogIframeInstance.iframe;
+                    //check if body has 'livewire-loading' class
+                    var body = iframe.contentWindow.document.body;
+                    if (body.classList.contains('livewire-loading')) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
 }
 
 

@@ -181,6 +181,17 @@
 
     <script>
 
+
+        document.addEventListener("DOMContentLoaded", () => {
+            Livewire.hook('message.sent', (message, component) => {
+                $('body').addClass('livewire-loading')
+            })
+
+            Livewire.hook('message.processed', (message, component) => {
+                $('body').removeClass('livewire-loading')
+            })
+        });
+
         window.createAutoHeight = function () {
             const inFrame = window.thismodal && thismodal.iframe
             if (inFrame) {

@@ -6,6 +6,9 @@ mw.menu_admin.saving = null;
 
 
 mw.menu_admin.save_item = function(selectorOrData){
+
+
+
     mw.tools.loading(document.querySelector('#settings-main'), 90);
     if(mw.menu_admin.saving) return;
     mw.menu_admin.saving = true;
@@ -48,8 +51,11 @@ mw.menu_admin.after_save_item = function(){
         }
 
     }
-    mw.top().reload_module_everywhere('menu');
- 
+
+
+
+    mw.reload_module_everywhere('menu');
+
 };
 mw.menu_admin.delete_item = function($item_id){
 
