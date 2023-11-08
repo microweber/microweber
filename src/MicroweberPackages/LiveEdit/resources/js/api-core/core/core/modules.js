@@ -107,7 +107,7 @@ mw.module = {
     },
     insert: function(target, module, config, pos) {
 
-   
+
         return new Promise(function (resolve) {
             pos = pos || 'bottom';
             var action;
@@ -128,6 +128,8 @@ mw.module = {
             mw.element(target)[action](el);
             mw.load_module(module, '#' + id, function () {
                 resolve(this);
+
+                mw.tools.scrollTo('#' + id)
             }, config);
         });
     }

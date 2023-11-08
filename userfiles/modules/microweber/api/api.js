@@ -147,6 +147,32 @@ mw.askusertostay = false;
   };
 
   mw.module = {
+    inViewport(el) {
+        if(!el || !el.parentNode) {
+            return false;
+        }
+
+        const doc = el.ownerDocument;
+        const win = doc.defaultView;
+
+
+        const bounding = el.getBoundingClientRect();
+        const elHeight = el.offsetHeight;
+        const elWidth = el.offsetWidth;
+
+
+
+        if (bounding.top >= -elHeight
+            && bounding.left >= -elWidth
+            && bounding.right <= (win.innerWidth || doc.documentElement.clientWidth) + elWidth
+            && bounding.bottom <= (win.innerHeight || doc.documentElement.clientHeight) + elHeight) {
+
+            return true;
+        } else {
+
+            return  false
+         }
+    },
     insert: function(target, module, config, pos, stateManager) {
 
 
@@ -217,6 +243,13 @@ mw.askusertostay = false;
                     value: parent.innerHTML
                 });
             }
+
+            if(!mw.module.inViewport(document.querySelector('#' + id))) {
+                mw.tools.scrollTo('#' + id);
+            }
+
+
+
             resolve(this);
         }, config);
     });
@@ -1147,7 +1180,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/fonts.js");
 
 <?php  include __DIR__.DS."fonts.js"; ?>
 
-<?php   
+<?php
 
 
 // used in templates

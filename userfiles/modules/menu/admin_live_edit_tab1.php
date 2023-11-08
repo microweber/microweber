@@ -138,15 +138,26 @@ if (!isset($rand)) {
 
     if (typeof mw.menu_save_new_item !== 'function') {
         mw.menu_save_new_item = function (selector, no_reload) {
+
+
+
+
             var _onReady = function () {
                 mw.$('#<?php print $params['id'] ?>').removeAttr('new-menu-id');
                 if (no_reload === undefined) {
                     mw.reload_module('menu/edit_items');
 
                  }
-                if (self !== parent && typeof parent.mw === 'object') {
-                    mw.parent().reload_module('menu');
-                }
+
+                setTimeout(() => {
+                    if (self !== parent && typeof parent.mw === 'object') {
+                        parent.mw.reload_module_everywhere('menu');
+                    }
+                }, 1000);
+
+                // if (self !== parent && typeof parent.mw === 'object') {
+                //     mw.parent().reload_module('menu');
+                // }
             }
 
             mw.form.post(selector, '<?php print route('api.menu.item.save'); ?>', _onReady, undefined, undefined, undefined, function (postData) {
@@ -157,7 +168,12 @@ if (!isset($rand)) {
                 if (!!data.content_id && data.content_id !== '0') {
                     data.url = '';
                 }
+
+
+
+
                 return data;
+
             });
         }
     }

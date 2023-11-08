@@ -176,6 +176,9 @@ class FrontendController extends Controller
         $is_editmode = app()->url_manager->param('editmode');
         $legacy_edimode_must_redirect = false;
         $is_editmode_iframe = false;
+        if($is_editmode == 'iframe'){
+            $is_editmode_iframe = true;
+        }
 
         $is_no_editmode = app()->url_manager->param('no_editmode');
         $is_quick_edit = app()->url_manager->param('mw_quick_edit');
@@ -1292,6 +1295,7 @@ class FrontendController extends Controller
 
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
                 if ($is_admin == true) {
+
                     if ($is_editmode_iframe) {
 
                         $l = $this->liveEditToolbarIframeData($l,$content);

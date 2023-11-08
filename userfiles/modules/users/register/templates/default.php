@@ -78,11 +78,11 @@ description: Default register template
                 <div class="col-12">
                     <p class="personal-data"><?php _e("Your personal data will be used to support your expirience
                         throughout this website, to manage access to your account
-                        and for other purposes described in our"); ?> <a href="#"><?php _e("privacy policy"); ?></a>.</p>
+                        and for other purposes described in our"); ?><?php _e("privacy policy"); ?>.</p>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-outline-primary btn-lg btn-block my-3 text-center justify-content-center"><?php print $form_btn_title ?></button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block my-3 text-center justify-content-center"><?php print $form_btn_title ?></button>
         </form>
     </div>
 <?php else: ?>

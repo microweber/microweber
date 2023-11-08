@@ -14,7 +14,7 @@ if (isset($disableTopBar)) {
 
 @hasSection('content')
 
-     <main class="module-main-holder page-wrapper" id="admin-side-content">
+     <main class="module-main-holder page-wrapper px-3" id="admin-side-content">
 
          @if ($options['disableTopBar'] == false)
          <div>
