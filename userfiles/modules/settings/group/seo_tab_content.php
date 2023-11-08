@@ -47,7 +47,12 @@ $isGoogleMesurementEnabled = get_option('google-measurement-enabled', 'website')
             <small class="text-muted d-block mb-2">
 
                 <?php _e("Google measurement api secret."); ?>
-                <a href="https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference/?client_type=gtag" target="_blank"><?php _e("How to find it read here."); ?></a>
+
+                <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank"><?php _e("How to find it read here."); ?></a>
+
+
+
+                <a href="https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference/" target="_blank"><?php _e("Protocol reference"); ?></a>
 
                 <?php _e("To create a new secret, navigate in the Google Analytics UI to:"); ?>
                 <i>Admin > Data Streams > choose your stream > Measurement Protocol > Create</i>

@@ -2,14 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.0.4] - 2023-11-02
+## [2.0.4] - 2023-11-08
 - Fixed problem with menu links  
 - Fixed problem when you edit module settings and close the modal while saving
 - Fixed accordeon module can't be opened in live edit
 - Fixed audio module
 - Fixed popup module
  - [see all changes....](https://github.com/microweber/microweber/compare/2.0.3...2.0.4 "")
-
 
 
 ## [2.0.3] - 2023-11-02
