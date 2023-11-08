@@ -1,4 +1,4 @@
- 
+
 import MicroweberBaseClass from "../containers/base-class";
 
 export class SingleFilePickerComponent extends MicroweberBaseClass {
@@ -23,7 +23,7 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
                 }
             },
         }
-        
+
         this.settings = Object.assign({}, defaults, options);
         this.document = this.settings.document;
         this.element = this.settings.element;
@@ -38,12 +38,12 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
     }
 
     templatePrepare() {
-        this.settings.templatePrepare.call(this); 
+        this.settings.templatePrepare.call(this);
         this.makePreview();
         this.root.querySelectorAll('[data-fpc-action="edit"]').forEach(node => {
             node.disabled = !this.#isImage(this.file);
         });
-    
+
     }
 
     template() {
@@ -53,28 +53,28 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
                 <div id="js-preview-image-wrapper-${id}" style="display:none">
                     <div class="d-flex justify-content-between">
                         <div data-fpc-action="preview">
-                             
+
                         </div>
                         <div class="d-flex gap-2 justify-content-between w-100">
                             <div class="form-control-live-edit-label-wrapper d-flex align-items-center">
-                                <button type="button" class="mw-liveedit-button-actions-component btn-sm js-select-file-${id}" data-fpc-action="selectFile">
+                                <button type="button" class="mw-liveedit-button-actions-component btn-sm btn-outline-primarys js-select-file-${id}" data-fpc-action="selectFile">
                                     ${mw.lang('Change')}
                                 </button>
                             </div>
-                            ${this.settings.canEdit ? ` 
+                            ${this.settings.canEdit ? `
                             <div class="form-control-live-edit-label-wrapper d-flex align-items-center">
                                 <button type="button" class="mw-liveedit-button-actions-component"  id="js-edit-image-${id}" title="${mw.lang('Edit')}"  data-fpc-action="edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"> <path d="M22.7 14.3L21.7 15.3L19.7 13.3L20.7 12.3C20.8 12.2 20.9 12.1 21.1 12.1C21.2 12.1 21.4 12.2 21.5 12.3L22.8 13.6C22.9 13.8 22.9 14.1 22.7 14.3M13 19.9V22H15.1L21.2 15.9L19.2 13.9L13 19.9M11.21 15.83L9.25 13.47L6.5 17H13.12L15.66 14.55L13.96 12.29L11.21 15.83M11 19.9V19.05L11.05 19H5V5H19V11.31L21 9.38V5C21 3.9 20.11 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.11 3.9 21 5 21H11V19.9Z"></path></svg>
                                 </button>
                             </div>
                             ` : ''}
-                            ${this.settings.canDelete ? ` 
+                            ${this.settings.canDelete ? `
                                 <div class="form-control-live-edit-label-wrapper d-flex align-items-center">
                                     <button type="button" class="mw-liveedit-button-actions-component js-remove-file-${id}"  data-fpc-action="remove">
                                         <svg class="text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"></path></svg>
                                     </button>
                                 </div>
-                            
+
                             ` : ''}
                         </div>
                     </div>
@@ -86,7 +86,7 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
                         <div class="d-flex align-items-center justify-content-center" style="background:rgba(0,0,0,0.11);color:#000;width:40px;height:40px; border-radius:100%; font-size:28px;">
                             <i class="mdi mdi-plus"></i>
                         </div>
-  
+
                         <div>
                             <span>
                                 <b>20MB Max</b>
@@ -103,7 +103,7 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
 
 
         return this;
-         
+
     }
 
     #isImage(url) {
@@ -153,7 +153,7 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
         } else {
             previewNodes.forEach(node => {
                 const preview = this.generatePreview();
-        
+
                 node.dataset.preview = !!preview;
                 node.innerHTML = preview;
 
@@ -171,7 +171,7 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
         this.file = null;
         this.root.querySelectorAll('[data-fpc-action="preview"]');
         previewNodes.forEach(node => {
-        
+
             node.innerHTML = '';
         });
         this.templatePrepare();
@@ -226,13 +226,13 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
             if (action && this.#eventsHandles[action]) {
                 node.addEventListener('click', e => this.#eventsHandles[action](e, node, this));
             }
-        })    
+        })
     }
 
     launch() {
         this.root = this.document.getElementById(`root-${this.id}`);
         this.handleEvents()
-    }   
+    }
 
 
     init() {
@@ -241,12 +241,12 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
             return;
         }
 
-        
+
         this.template();
         return this;
 
     }
-} 
+}
 
 
 
