@@ -181,6 +181,14 @@ export class ModuleSettings extends MicroweberBaseClass {
 
     openSettingsModal(attrsForSettings, moduleId, modalTitle) {
 
+        // // hide handles
+        // if(mw.top && mw.top().app.liveEdit.handles){
+        //     mw.top().app.liveEdit.handles.get('layout').hide()
+        //  }
+        var canvasDocument = mw.top().app.canvas.getDocument();
+        $(canvasDocument.body).addClass('mw-module-settings-modal-opened')
+
+
 
         attrsForSettings.live_edit = true;
         attrsForSettings.module_settings = true;
@@ -202,6 +210,7 @@ export class ModuleSettings extends MicroweberBaseClass {
             overlayClose: () => {
                 return this.moduleCheckIfLiveweireStillLoading();
             },
+
             title: modalTitle,
             id: 'module-quick-setting-dialog-' + moduleId
         };
@@ -214,6 +223,10 @@ export class ModuleSettings extends MicroweberBaseClass {
         }
 
         let moduleSettingsDialogIframe = mw.dialogIframe(dialogSettings);
+
+        $(moduleSettingsDialogIframe).on('Hide', () => {
+            $(canvasDocument.body).removeClass('mw-module-settings-modal-opened')
+         });
 
         if (moduleSettingsDialogIframe.overlay) {
             moduleSettingsDialogIframe.overlay.style.backgroundColor = 'transparent';

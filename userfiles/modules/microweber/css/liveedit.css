@@ -5304,9 +5304,15 @@ td.mw-editor-td-focus{
 
 .mw-editor-select-display-value-content,
 .mw-le-handle-menu-button-text,
-.mw-small-editor-skin-lite, 
+.mw-small-editor-skin-lite,
 .mw-small-editor-skin-lite *{
     line-height: normal;
     font-size: 14px;
     font-family: Inter, sans-serif;
+}
+
+
+
+body.mw-module-settings-modal-opened .mw-handle-item-menus-holder {
+    display: none !important;
 }
