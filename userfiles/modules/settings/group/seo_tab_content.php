@@ -53,6 +53,7 @@ $isGoogleMesurementEnabled = get_option('google-measurement-enabled', 'website')
             <?php $key_name = 'google-measurement-api-secret'; ?>
             <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>" placeholder="G-12345678"/>
         </div>
+        
     </div>
 
 </div>
