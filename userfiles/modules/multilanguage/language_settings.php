@@ -17,13 +17,14 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
         $('#is_active_quick').on('change', function () {
             var data = {active: $(this).is(':checked')};
-            $.post(mw.settings.api_url + "multilanguage/active_language", data).done(function (data) {
-
-                if(data.active){
+            $.post(mw.settings.api_url + "multilanguage/active_language", data).done(function (respdata) {
+                /* todo:
+                if(respdata.active){
                     mw.notification.success('Multilanguage is activated.',10000);
                 } else {
                     mw.notification.warning('Multilanguage is deactivated.',10000);
                 }
+                */
 
                 window.location = window.location;
             });
@@ -186,7 +187,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
         <div class="col-md-6 col-12 text-md-end">
             <div class="form-group module-switch-active-form">
 
-                <label class="form-label"><?php _e('Multilanguage is active'); ?></label>
+                <label class="form-label"><?php _e('Multilanguage is'); ?> <?php if (get_option('is_active', 'multilanguage_settings') == 'y'): ?><?php _e('active'); ?><?php else:  ?><?php _e('deactivated'); ?><?php endif; ?></label>
 
                 <div class="form-check form-switch d-flex justify-content-md-end">
                     <label class="d-inline-block mr-5" for="is_active_quick"></label>

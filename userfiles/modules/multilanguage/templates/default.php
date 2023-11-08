@@ -69,7 +69,7 @@ description: MW Default
 
     </span>
         <div class="mw-dropdown-content">
-            <ul id="switch_language_ul">
+            <ul id="switch_language_ul" class="text-start">
                 <?php foreach ($supported_languages as $language): ?>
                     <li <?php if ($current_language['locale'] == get_short_abr($language['locale'])): ?> selected="" <?php endif; ?> data-value="<?php print $language['locale'] ?>" style="color:#000;">
 

@@ -11,7 +11,7 @@
             // attr += ' scrolling="no"';
             options.height = 'auto';
         }
-        options.content = '<iframe src="' + mw.external_tool(options.url.trim()) + '" ' + attr + '><iframe>';
+        options.content = '<iframe src="' + mw.external_tool(options.url.trim()) + '" ' + attr + '></iframe>';
         options.className = ('mw-dialog-iframe mw-dialog-iframe-loading ' + (options.className || '')).trim();
         options.className += (options.autoHeight ? ' mw-dialog-iframe-autoheight' : '');
         var dialog = new mw.Dialog(options, cres);
@@ -370,7 +370,12 @@
 
             }
             mw.$(this.overlay).on('click', function () {
-                if (this.$scope.options.overlayClose === true) {
+                if (typeof this.$scope.options.overlayClose === 'function') {
+                    if (this.$scope.options.overlayClose() === true) {
+                        this.$scope._doCloseButton();
+                        $(this.$scope).trigger('closedByUser');
+                    }
+                } else if (this.$scope.options.overlayClose === true) {
                     this.$scope._doCloseButton();
                     $(this.$scope).trigger('closedByUser');
                 }
