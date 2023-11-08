@@ -92,15 +92,12 @@ if (isset($_GET['group'])) {
 <script type="text/javascript">
     //mw.require("options.js");
     mw.require("<?php print $config['url_to_module']; ?>settings.css");
-
-
 </script>
 
 
 <div id="settings_admin_<?php print $rand; ?>" class=" ">
     <?php if ($show_group) { ?>
-sdadaa
-<module type="settings/group/<?php print $show_group ?>"  />
+        <module type="settings/group/<?php print $show_group ?>"  />
     <?php }  ?>
 </div>
 

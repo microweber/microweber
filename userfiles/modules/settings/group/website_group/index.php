@@ -18,6 +18,8 @@ if (isset($_GET['group']) and $_GET['group']) {
         $show_inner = 'updates';
     } elseif ($group == 'email') {
         $show_inner = 'settings/group/email';
+    } elseif ($group == 'seo') {
+        $show_inner = 'settings/group/seo';
     } elseif ($group == 'users') {
         $show_inner = 'settings/group/users';
     } elseif ($group == 'template') {
@@ -95,6 +97,17 @@ if (isset($_GET['group']) and $_GET['group']) {
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Template'); ?></div>
                     <small class="text-muted"><?php _e('Change or manage the theme you use'); ?></small>
+                </div>
+            </a>
+        </div>
+
+
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="<?php echo admin_url();?>settings?group=seo" class=" d-flex js-website-settings-link settings-holder-wrapper">
+                <div class="icon-holder"><i class="mdi mdi-search-web fs-1"></i></div>
+                <div class="info-holder card-title">
+                    <div class="settings-info-holder-title"><?php _e('SEO'); ?></div>
+                    <small class="text-muted"><?php _e('SEO settings'); ?></small>
                 </div>
             </a>
         </div>

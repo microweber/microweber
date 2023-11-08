@@ -68,6 +68,16 @@
 
                 <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
                     <a href="#" class="d-flex settings-holder-wrapper">
+                        <div class="icon-holder"><i class="mdi mdi-globe fs-1"></i></div>
+                        <div class="card-title info-holder">
+                            <span class="text-outline-primary font-weight-bold">SEO</span><br/>
+                            <small class="text-muted">SEO settings</small>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                    <a href="#" class="d-flex settings-holder-wrapper">
                         <div class="icon-holder"><i class="mdi mdi-angularjs fs-1"></i></div>
                         <div class="card-title info-holder">
                             <span class="text-outline-primary font-weight-bold">Advanced</span><br/>
