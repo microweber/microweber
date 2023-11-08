@@ -241,9 +241,11 @@ export class ModuleSettings extends MicroweberBaseClass {
                 if (this.moduleSettingsDialogIframeInstance.iframe.contentWindow) {
                     var iframe = this.moduleSettingsDialogIframeInstance.iframe;
                     //check if body has 'livewire-loading' class
-                    var body = iframe.contentWindow.document.body;
-                    if (body && body.classList.contains('livewire-loading')) {
-                        return false;
+                    if(iframe && iframe.contentWindow && iframe.contentWindow.document && iframe.contentWindow.document.body){
+                        var body = iframe.contentWindow.document.body;
+                        if (body && body.classList.contains('livewire-loading')) {
+                            return false;
+                        }
                     }
                 }
             }
