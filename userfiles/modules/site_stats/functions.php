@@ -193,15 +193,14 @@ api_expose('pingstats', function ($params = false) {
             'utm_visitor_id'=>$_COOKIE['_ga']
         ]);
 
+        // Decode referrer
         $referer = request()->headers->get('referer');
         $referer = str_replace(site_url(), '', $referer);
         parse_str($referer, $refererQuery);
         if (!empty($refererQuery)) {
             foreach($refererQuery as $refererQueryKey=>$refererQueryValue){
                 $refererQueryKey = str_replace('?utm_campaign', 'utm_campaign', $refererQueryKey);
-                setcookie($refererQueryKey, $refererQueryValue, time() + (86400 * 30), "/");
-                $_COOKIE[$refererQueryKey] = $refererQueryValue;
-                \Cookie::queue($refererQueryKey, $refererQueryValue, 86400 * 30);
+                set_cookie($refererQueryKey, $refererQueryValue);
             }
         }
 

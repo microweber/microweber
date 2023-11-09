@@ -13,9 +13,7 @@ class UtmVisitorData
         $visitorData = base64_encode($visitorData);
         $visitorData = \Crypt::encryptString($visitorData);
 
-        setcookie('_mw_stats_visitor_data', $visitorData, time() + (86400 * 30), "/");
-        $_COOKIE['_mw_stats_visitor_data'] = $visitorData;
-        \Cookie::queue('_mw_stats_visitor_data', $visitorData, 86400 * 30);
+        set_cookie('_mw_stats_visitor_data', $visitorData);
 
     }
 
