@@ -34,6 +34,18 @@ if ($cont_id) {
     $content_tags_data = content_tags(MAIN_PAGE_ID, true);
 }
 
+if($tags_url_base){
+    // add end slash if none
+    if (substr($tags_url_base, -1) != '/') {
+        $tags_url_base = $tags_url_base . '/';
+    }
+
+    if($tags_url_base == site_url()){
+        $tags_url_base = $tags_url_base.'?';
+    }
+
+}
+
 $content_tags = []; // ALLWAYS MUST BE ARRAY WITH STRING
 if ($content_tags_data) {
     foreach ($content_tags_data as $content_tag_data_item) {

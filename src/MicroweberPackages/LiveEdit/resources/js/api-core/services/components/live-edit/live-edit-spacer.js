@@ -60,11 +60,12 @@ export class LiveEditSpacer extends BaseComponent {
         mw.on.moduleReload(function () {
             LiveEditSpacerInstance.init();
         });
-        mw.app.canvas.getWindow().mw.on.moduleReload(function () {
 
-            LiveEditSpacerInstance.init();
-
-        });
+        if(mw.top().app.canvas.getWindow() && mw.top().app.canvas.getWindow().mw) {
+            mw.top().app.canvas.getWindow().mw.on.moduleReload(function () {
+                LiveEditSpacerInstance.init();
+            });
+        }
         mw.top().app.on('moduleInserted', function () {
             //LiveEditSpacerInstance.init();
             setTimeout(function () {
@@ -90,7 +91,7 @@ export class LiveEditSpacer extends BaseComponent {
             }, 300);
         });
         mw.top().app.on('onModuleReloaded', moduleId => {
- 
+
             setTimeout(function () {
                 LiveEditSpacerInstance.init();
             }, 300);
