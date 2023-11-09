@@ -4,9 +4,9 @@
             let openedModals = document.querySelectorAll('.js-modal-livewire');
             for (let i = 0; i < openedModals.length; i++) {
                 let openedModalId = openedModals[i].getAttribute('wire:key');
-                Livewire.emit('destroyComponent', openedModalId);
                 let modal = document.getElementById("js-modal-livewire-id-" + openedModalId);
                 modal.style.display = "block";
+                Livewire.emit('destroyComponent', openedModalId);
             }
         });
         Livewire.on('activeModalComponentChanged', (data) => {
