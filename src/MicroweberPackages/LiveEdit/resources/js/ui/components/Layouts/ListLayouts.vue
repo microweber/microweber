@@ -46,7 +46,7 @@
                     </ul>
                 </div>
 
-                <div :class="[layoutsList.categories.length > 0 ? 'mw-le-layouts-dialog-col' : 'mw-le-layouts-dialog-col-full col-xl-10 mx-auto px-xl-0 px-5']">
+                <div :class="[layoutsList && layoutsList.categories && layoutsList.categories.length > 0 ? 'mw-le-layouts-dialog-col' : 'mw-le-layouts-dialog-col-full col-xl-10 mx-auto px-xl-0 px-5']">
 
 <!--                    <div v-if="filterKeyword" class="pl-4 mb-3 mt-3">
                         Looking for {{filterKeyword}}
@@ -55,7 +55,7 @@
                         </span>
                     </div>-->
 
-                    <div v-show="layoutsList.categories.length == 0">
+                    <div v-show="layoutsList && layoutsList.categories && layoutsList.categories.length == 0">
                         <div class="modules-list-search-block input-icon" style="margin-top:25px;">
                           <span class="input-icon-addon ms-3">
 
