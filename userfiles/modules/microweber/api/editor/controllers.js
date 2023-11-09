@@ -1053,6 +1053,7 @@ MWEditor.controllers = {
                 const parentLi = mw.tools.firstParentOrCurrentWithTag(node, 'li');
                 const isInLi = node.nodeName !== 'LI' && !!parentLi;
 
+
                 if(isInLi) {
                     api.setCursorAtStart(parentLi)
                 }
@@ -1062,24 +1063,33 @@ MWEditor.controllers = {
                     node = mw.tools.setTag(paragraph, 'div');
                 }
 
+
                 var isSafeMode = api.isSafeMode(node);
+                var parentList;
                 if(isSafeMode) {
-                    if(parentLi) {
-                        const parentList = mw.tools.firstParentOrCurrentWithTag(node, ['ol', 'ul']);
-                        if(parentList) {
-                            parentList.parentNode.contentEditable = true;
-                        }
-                    } else {
-                        node.parentNode.parentNode.contentEditable = true;
-                    }
+                    parentList = mw.tools.firstBlockLikeLevel(node);
+                    parentList.parentNode.contentEditable = true;
 
                 }
-                api.setCursorAtStart(node)
-                api.execCommand('insertUnorderedList');
-                var li = node.querySelector('li');
-                if(li) {
-                    api.setCursorAtStart(li)
-                }
+                var edit = mw.tools.firstParentOrCurrentWithClass(parentList || node, 'edit');
+
+                api.setCursorAtStart(parentList || node)
+
+                node.ownerDocument.execCommand('insertunorderedList');
+                setTimeout(function(){
+                    if(edit) {
+                        var all = edit.querySelectorAll('[style*="var"]');
+                        all.forEach(node => {
+                            if(node.isContentEditable) {
+                                [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop) )
+                            }
+                        });
+                    }
+                    var li = node.querySelector('li');
+                    if(li) {
+                        api.setCursorAtStart(li)
+                    }
+                }, 10)
             });
             return el;
         };
@@ -1103,9 +1113,9 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
-
                 const parentLi = mw.tools.firstParentOrCurrentWithTag(node, 'li');
                 const isInLi = node.nodeName !== 'LI' && !!parentLi;
+
 
                 if(isInLi) {
                     api.setCursorAtStart(parentLi)
@@ -1116,26 +1126,33 @@ MWEditor.controllers = {
                     node = mw.tools.setTag(paragraph, 'div');
                 }
 
+
                 var isSafeMode = api.isSafeMode(node);
+                var parentList;
                 if(isSafeMode) {
-                    if(parentLi) {
-                        const parentList = mw.tools.firstParentOrCurrentWithTag(node, ['ol', 'ul']);
-                        if(parentList) {
-                            parentList.parentNode.contentEditable = true;
-                        }
-                    } else {
-                        node.parentNode.parentNode.contentEditable = true;
+                    parentList = mw.tools.firstBlockLikeLevel(node);
+                    parentList.parentNode.contentEditable = true;
+
+                }
+                var edit = mw.tools.firstParentOrCurrentWithClass(parentList || node, 'edit');
+
+                api.setCursorAtStart(parentList || node)
+
+                node.ownerDocument.execCommand('insertorderedList');
+                setTimeout(function(){
+                    if(edit) {
+                        var all = edit.querySelectorAll('[style*="var"]');
+                        all.forEach(node => {
+                            if(node.isContentEditable) {
+                                [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop) )
+                            }
+                        });
                     }
-
-                }
-                api.setCursorAtStart(node)
-                api.execCommand('insertOrderedList');
-                var li = node.querySelector('li');
-                if(li) {
-                    api.setCursorAtStart(li)
-                }
-
-
+                    var li = node.querySelector('li');
+                    if(li) {
+                        api.setCursorAtStart(li)
+                    }
+                }, 10)
             });
             return el;
         };
