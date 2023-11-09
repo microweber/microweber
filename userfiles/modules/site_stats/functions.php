@@ -186,18 +186,32 @@ api_expose('pingstats', function ($params = false) {
         $tracker->track();
     }
 
+
+    // Decode referrer and save UTM in cookie
+    $referer = request()->headers->get('referer');
+    $refererParse = parse_url($referer);
+    if (!empty($refererParse)) {
+        $refererQuery = [];
+        if (isset($refererParse['query']) && !empty($refererParse['query'])) {
+            parse_str($refererParse['query'], $refererQuery);
+        }
+        foreach ($refererQuery as $refererQueryKey => $refererQueryValue) {
+            if (\Illuminate\Support\Str::startsWith('utm_', $refererQueryKey)) {
+                set_cookie($refererQueryKey, $refererQueryValue);
+            }
+        }
+    }
+
     if (isset($_COOKIE['_ga'])) {
-
-        \MicroweberPackages\SiteStats\UtmVisitorData::setVisitorData([
-            'utm_source' => 'google',
-            'utm_visitor_id'=>$_COOKIE['_ga']
-        ]);
-
-        $localTracking = new \MicroweberPackages\SiteStats\DispatchLocalTracking();
-        $localTracking->dispatch();
-
-        $serverSideTracking = new \MicroweberPackages\SiteStats\DispatchServerSideTracking();
-        $serverSideTracking->dispatch();
+        $isGoogleMesurementEnabled = get_option('google-measurement-enabled', 'website') == "y";
+        if ($isGoogleMesurementEnabled) {
+            \MicroweberPackages\SiteStats\UtmVisitorData::setVisitorData([
+                'utm_source' => 'google',
+                'utm_visitor_id' => $_COOKIE['_ga']
+            ]);
+            $serverSideTracking = new \MicroweberPackages\SiteStats\DispatchServerSideTracking();
+            $serverSideTracking->dispatch();
+        }
     }
 
     $response = response('var mwpingstats={}');

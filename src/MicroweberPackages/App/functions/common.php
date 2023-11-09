@@ -594,3 +594,15 @@ function multilanguage_route_prefix($prefix) {
 
     return $prefix;
 }
+
+function set_cookie($key, $value, $time = false)
+{
+    if ($time == false) {
+        $time = (86400 * 30);
+    }
+
+    setcookie($key, $value, time() + $time, "/");
+    $_COOKIE[$key] = $value;
+    \Cookie::queue($key, $value, $time);
+
+}
