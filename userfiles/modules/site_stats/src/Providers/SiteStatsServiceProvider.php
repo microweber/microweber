@@ -28,10 +28,10 @@ class SiteStatsServiceProvider extends PackageServiceProvider
 
         $isGoogleMesurementEnabled = get_option('google-measurement-enabled', 'website') == "y";
         if ($isGoogleMesurementEnabled) {
-            $this->register(\MicroweberPackages\Modules\SiteStats\Providers\SiteStatsEventsServiceProvider::class);
+            $this->app->register(\MicroweberPackages\Modules\SiteStats\Providers\SiteStatsEventsServiceProvider::class);
         }
 
-        $this->register(\MicroweberPackages\Modules\SiteStats\Providers\SiteStatsEventsLocalTrackingServiceProvider::class);
+        $this->app->register(\MicroweberPackages\Modules\SiteStats\Providers\SiteStatsEventsLocalTrackingServiceProvider::class);
     }
 
 }

@@ -22,10 +22,8 @@ class UserWasRegisteredLocalListener
      */
     public function handle($event): void
     {
-
-        dd($event);
-
         $localTracking = new DispatchLocalTracking();
+        $localTracking->userId = $event->user->id;
         $localTracking->dispatch();
     }
 }
