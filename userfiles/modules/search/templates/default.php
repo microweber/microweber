@@ -13,22 +13,15 @@ description: Default Search template
 ?>
 <script>mw.moduleCSS("<?php print modules_url(); ?>search/search.css"); </script>
 <div class="mw-search mw-search-default" id="search_box_holder_<?php print $params['id'] ?>">
-    <div class="mw-ui-row">
-        <div class="mw-ui-col">
+    <div class="row">
+        <div class="col">
             <input type="text"
                    id="search_field_<?php print $params['id'] ?>"
-                   class="form-control mw-search-field"
-
-
-                   onkeyup="mw.url.windowHashParam('keyword<?php print $seach_prefix ?>', this.value);"
-
+                   class="form-control"
+                   oninput="mw.url.windowHashParam('keyword<?php print $seach_prefix ?>', this.value);"
                    placeholder="<?php _e("Search"); ?>"/>
         </div>
-        <div class="mw-ui-col mw-search-default-btn-holder">
-            <button class="mw-search-default-btn" onclick="mw.url.windowHashParam('keyword<?php print $seach_prefix ?>', document.getElementById('search_field_<?php print $params['id'] ?>').value);">
 
-            </button>
-        </div>
     </div>
     <div class="mw-search-results" id="search_results_holder_<?php print $params['id'] ?>"></div>
 </div>
