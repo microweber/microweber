@@ -1,55 +1,49 @@
 <div>
     <script>
-        let mwDialogLivewire = false;
-
         Livewire.on('closeModal', (force = false, skipPreviousModals = 0, destroySkipped = false) => {
-            mwDialogLivewire.remove();
+            let openedModals = document.querySelectorAll('.js-modal-livewire');
+            for (let i = 0; i < openedModals.length; i++) {
+                let openedModalId = openedModals[i].getAttribute('wire:key');
+                Livewire.emit('destroyComponent', openedModalId);
+                let modal = document.getElementById("js-modal-livewire-id-" + openedModalId);
+                modal.style.display = "block";
+            }
         });
-
         Livewire.on('activeModalComponentChanged', (data) => {
-
-            let mwDialogLivewireSettings = {
-                content: document.getElementById('js-modal-livewire-ui'),
-                onremove: () => {
-                    Livewire.emit('destroyComponent', data.id);
-                },
-            };
-
-            if (data.modalSettings) {
-                mwDialogLivewireSettings = Object.assign(mwDialogLivewireSettings, data.modalSettings);
-
-                mwDialogLivewireSettings.draggableHandle = mwDialogLivewireSettings.draggableHandleSelector;
-                delete mwDialogLivewireSettings.draggableHandleSelector;
-            }
-
-            mwDialogLivewire = mw.top().dialog(mwDialogLivewireSettings);
-            mwDialogLivewire.dialogHeader.style.display = 'none';
-            mwDialogLivewire.dialogContainer.style.padding = '0px';
-
-            if (mwDialogLivewireSettings.closeHandleSelector) {
-                setTimeout(() => {
-                    let modalLivewireUiClose = false;
-                    if (self != top) {
-                        modalLivewireUiClose = mw.top().$(mwDialogLivewireSettings.closeHandleSelector)[0];
-                    } else {
-                        modalLivewireUiClose = document.querySelector(mwDialogLivewireSettings.closeHandleSelector);
-                    }
-
-                    if (modalLivewireUiClose) {
-                        modalLivewireUiClose.addEventListener('click', function () {
-                            mwDialogLivewire.remove();
-                        });
-                    }
-                }, 500);
-            }
-
+            let modal = document.getElementById("js-modal-livewire-id-" + data.id);
+            modal.style.display = "block";
         });
     </script>
-    <div id="js-modal-livewire-ui">
+    <style>
 
+        .js-modal-livewire {
+            display: none;
+            position: fixed;
+            z-index: 1100;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .js-modal-livewire-content {
+            margin: auto;
+            background-color: #fff;
+            width: 800px;
+            max-height: calc(100% - 100px);
+            overflow: auto;
+        }
+    </style>
+    <div>
         @forelse($components as $id => $component)
-            <div wire:key="{{ $id }}">
-                @livewire($component['name'], $component['attributes'], key($id))
+            <div class="js-modal-livewire" id="js-modal-livewire-id-{{ $id }}" wire:key="{{ $id }}">
+                <div class="js-modal-livewire-content">
+                    @livewire($component['name'], $component['attributes'], key($id))
+                </div>
             </div>
         @empty
         @endforelse
