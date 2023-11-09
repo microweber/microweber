@@ -41,30 +41,19 @@ $isGoogleMesurementEnabled = get_option('google-measurement-enabled', 'website')
 
     <div x-show="showGoogleMeasurement">
 
-
         <div class="form-group">
             <label class="form-label"><?php _e("Google Measurement Api Secret"); ?></label>
             <small class="text-muted d-block mb-2">
-
                 <?php _e("Google measurement api secret."); ?>
-
                 <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank"><?php _e("How to find it read here."); ?></a>
-
-
-
                 <a href="https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference/" target="_blank"><?php _e("Protocol reference"); ?></a>
-
                 <?php _e("To create a new secret, navigate in the Google Analytics UI to:"); ?>
                 <i>Admin > Data Streams > choose your stream > Measurement Protocol > Create</i>
-
-
             </small>
-
             <?php $key_name = 'google-measurement-api-secret'; ?>
             <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>" placeholder="Your Api Secret"/>
         </div>
-
-
+        
          <div class="form-group">
             <label class="form-label"><?php _e("Google Measurement ID"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("Google measurement' property ID is the identifier associated with your account and used by Google Analytics to collect the data."); ?> <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank"><?php _e("How to find it read here."); ?></a></small>
@@ -72,22 +61,11 @@ $isGoogleMesurementEnabled = get_option('google-measurement-enabled', 'website')
             <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>" placeholder="G-12345678"/>
         </div>
 
-
-
-
-
-
     </div>
 
 </div>
 
 <?php event_trigger('mw.admin.settings.seo') ?>
-
-
-
-
-
-
 
 
 <div class="form-group">
