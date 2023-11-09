@@ -181,15 +181,32 @@
 
     <script>
 
-
+        // this is for the loading indicator and prevent the modal to close
+        // if the class mw-livewire-loading is present, it will not close the modal on click
         document.addEventListener("DOMContentLoaded", () => {
+            if(typeof Livewire === 'undefined') {
+                return;
+            }
+
             Livewire.hook('message.sent', (message, component) => {
-                $('body').addClass('livewire-loading')
+                $('body').addClass('mw-livewire-loading')
             })
 
             Livewire.hook('message.processed', (message, component) => {
-                $('body').removeClass('livewire-loading')
+                $('body').removeClass('mw-livewire-loading')
             })
+            Livewire.hook('message.failed', (message, component) => {
+                $('body').removeClass('mw-livewire-loading')
+            })
+            Livewire.hook('element.updated', (message, component) => {
+                $('body').removeClass('mw-livewire-loading')
+            })
+
+            // remove the class after 5 seconds, just in case
+            // if there is an error and the class is not removed
+            setTimeout(function () {
+                $('body').removeClass('mw-livewire-loading')
+            }, 5000);
         });
 
         window.createAutoHeight = function () {
