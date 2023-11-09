@@ -299,7 +299,7 @@ if ($screenshots) {
                     <span class="title"><?php _e('Current layout'); ?></span>
                     <div class="screenshot">
                         <div class="holder">
-                            <img src="<?php echo thumbnail($current_template['screenshot'], 1800, 1200); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
+                            <img src="<?php echo $current_template['screenshot']; ?>" alt="<?php print $current_template['name']; ?>" style="width:100%; object-fit: cover" title="<?php print $current_template['name']; ?>"/>
                             <div class="title"><?php print $current_template['name']; ?></div>
                         </div>
                     </div>
@@ -346,15 +346,15 @@ if ($screenshots) {
                            data-file="<?php print $item['layout_file'] ?>">
                             <div class="screenshot <?php if (($item['layout_file'] == $cur_template)): ?>active<?php endif; ?>">
                                 <?php
-                                $item_screenshot = thumbnail('', 800, 300);
+                                $item_screenshot = pixum( 800, 300);
                                 if (isset($item['screenshot'])) {
-                                    $item_screenshot = thumbnail($item['screenshot'] , 800, 300);
+                                    $item_screenshot = $item['screenshot'] ;
                                 }
                                 ?>
 
                                 <div class="holder">
                                     <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?>"
-                                         style="max-width:100%;" title="<?php print $item['name']; ?>"/>
+                                         style="max-width:100%; object-fit: cover" title="<?php print $item['name']; ?>"/>
                                     <div class="title"><?php print $item['name']; ?></div>
                                 </div>
                             </div>

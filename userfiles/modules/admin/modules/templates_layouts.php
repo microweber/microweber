@@ -363,7 +363,7 @@ $current_template = false;
 
                                     <div class="screenshot">
                                         <div class="holder">
-                                            <img data-url="<?php echo thumbnail($current_template['screenshot'], 800, 400); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
+                                            <img data-url="<?php echo $current_template['screenshot']; ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%; object-fit: cover" title="<?php print $current_template['name']; ?>"/>
                                             <div class="live-edit-label text-decoration-none"><?php print $current_template['name']; ?></div>
                                         </div>
                                     </div>

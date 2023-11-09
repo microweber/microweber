@@ -482,7 +482,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                                         data-module-name-enc="layout_<?php print date("YmdHis") . $i++ ?>"
                                         data-module-name="layouts"
                                         ondrop="true"
-                                     data-module-icon="<?php print thumbnail($dynamic_layout['screenshot'], 340, 340) ?>" />
+                                     data-module-icon="<?php print $dynamic_layout['screenshot'] ?>" />
                             </span>
                         </span>
                         <span class="module_name"
