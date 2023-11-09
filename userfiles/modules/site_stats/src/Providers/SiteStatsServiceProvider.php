@@ -26,6 +26,12 @@ class SiteStatsServiceProvider extends PackageServiceProvider
         Livewire::component('microweber-module-sitestats::settings', SiteStatsSettingsComponent::class);
         ModuleAdmin::registerSettings('site_stats', 'microweber-module-sitestats::settings');
 
+        $isGoogleMesurementEnabled = get_option('google-measurement-enabled', 'website') == "y";
+        if ($isGoogleMesurementEnabled) {
+            $this->register(\MicroweberPackages\Modules\SiteStats\Providers\SiteStatsEventsServiceProvider::class);
+        }
+
+        $this->register(\MicroweberPackages\Modules\SiteStats\Providers\SiteStatsEventsLocalTrackingServiceProvider::class);
     }
 
 }

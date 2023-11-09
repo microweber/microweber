@@ -7,7 +7,7 @@ use MicroweberPackages\SiteStats\DispatchLocalTracking;
 use MicroweberPackages\SiteStats\Models\StatsEvent;
 use MicroweberPackages\SiteStats\UtmVisitorData;
 
-class UserWasRegisteredListener
+class UserWasRegisteredLocalListener
 {
     /**
      * Create the event listener.
@@ -22,9 +22,10 @@ class UserWasRegisteredListener
      */
     public function handle($event): void
     {
-        $utmEvent = new UtmEventSignUp();
-        $utmEvent->setInternalData($event);
 
-        StatsEvent::saveNewUtm($utmEvent);
+        dd($event);
+
+        $localTracking = new DispatchLocalTracking();
+        $localTracking->dispatch();
     }
 }
