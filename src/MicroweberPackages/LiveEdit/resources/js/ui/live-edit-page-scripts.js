@@ -547,6 +547,13 @@ if (self === top) {
 
             document.head.appendChild(style);
         }
+
+        // todo: remove
+        document.querySelectorAll('.no-select [class*="col"]').forEach(function(node){
+            if(Array.from(node.children).filter(c => c.classList.contains('element')).length) {
+                node.classList.add('allow-select')
+            }
+        });
     });
 }
 
