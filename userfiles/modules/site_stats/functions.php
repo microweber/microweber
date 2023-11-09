@@ -195,11 +195,13 @@ api_expose('pingstats', function ($params = false) {
 
         // Decode referrer
         $referer = request()->headers->get('referer');
-        $referer = str_replace(site_url(), '', $referer);
-        parse_str($referer, $refererQuery);
-        if (!empty($refererQuery)) {
+        $refererParse = parse_url($referer);
+        if (!empty($refererParse)) {
+            $refererQuery = [];
+            if (isset($refererParse['query']) && !empty($refererParse['query'])) {
+                parse_str($refererParse['query'], $refererQuery);
+            }
             foreach($refererQuery as $refererQueryKey=>$refererQueryValue){
-                $refererQueryKey = str_replace('?utm_campaign', 'utm_campaign', $refererQueryKey);
                 set_cookie($refererQueryKey, $refererQueryValue);
             }
         }
