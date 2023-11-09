@@ -437,7 +437,7 @@
                 optionsHolder = tabs.items[1].content;
                 root.append(tabs.root)
             } else {
-                iconsBlockHolder = mw.element();
+                iconsBlockHolder = mw.element().addClass('px-3');
                 root.append(iconsBlockHolder);
             }
             iconsHolder = mw.element().addClass('mw-icon-picker-icons-holder');
@@ -470,7 +470,7 @@
                     `);
 
                     var currentSize = 20;
-                    
+
                     if(scope.settings.target) {
                         currentSize = parseFloat(getComputedStyle(scope.settings.target).fontSize)
                     }
@@ -490,7 +490,7 @@
                     });
 
                     holder.append(label);
-                    
+
                     sizeel.prepend(sizeinput2);
                     sizeel.prepend(sizeinput);
                     holder.append(sizeel);
@@ -511,7 +511,7 @@
                             onchange: function (color) {
                                 scope.dispatch('colorChange', color);
                             },
-                             
+
                         };
                         if(scope.settings.target) {
                             cpOptions.value = getComputedStyle(scope.settings.target).color

@@ -9,8 +9,11 @@ class DispatchLocalTracking
     public function dispatch()
     {
         if (is_logged()) {
-            if (isset($_COOKIE['_ga'])) {
-                UserAttribute::saveAttribute('_ga', $_COOKIE['_ga']);
+            if (isset($_COOKIE['utm_id'])) {
+                UserAttribute::saveAttribute('utm_id', $_COOKIE['utm_id']);
+            }
+            if (isset($_COOKIE['utm_term'])) {
+                UserAttribute::saveAttribute('utm_term', $_COOKIE['utm_term']);
             }
             if (isset($_COOKIE['utm_campaign'])) {
                 UserAttribute::saveAttribute('utm_campaign', $_COOKIE['utm_campaign']);
