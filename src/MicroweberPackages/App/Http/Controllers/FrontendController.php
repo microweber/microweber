@@ -1018,24 +1018,25 @@ class FrontendController extends Controller
 
                 $is_admin = app()->user_manager->is_admin();
                 if ($is_admin == true and isset($isolated_el) != false) {
-                    $tb = mw_includes_path() . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'index.php';
-
-                    //$layout_toolbar = file_get_contents($filename);
-                    $layout_toolbar = new View($tb);
-                    $layout_toolbar = $layout_toolbar->__toString();
-                    if ($layout_toolbar != '') {
-                        if (strstr($layout_toolbar, '{head}')) {
-                            if ($isolated_head != false) {
-                                $layout_toolbar = str_replace('{head}', $isolated_head, $layout_toolbar);
-                            }
-                        }
-
-                        if (strpos($layout_toolbar, '{content}')) {
-                            $l = str_replace('{content}', $l, $layout_toolbar);
-                        }
-
-                        //$layout_toolbar = mw()->parser->process($layout_toolbar, $options = array('no_apc' => 1));
-                    }
+// depricated
+//                    $tb = mw_includes_path() . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'index.php';
+//
+//                    //$layout_toolbar = file_get_contents($filename);
+//                    $layout_toolbar = new View($tb);
+//                    $layout_toolbar = $layout_toolbar->__toString();
+//                    if ($layout_toolbar != '') {
+//                        if (strstr($layout_toolbar, '{head}')) {
+//                            if ($isolated_head != false) {
+//                                $layout_toolbar = str_replace('{head}', $isolated_head, $layout_toolbar);
+//                            }
+//                        }
+//
+//                        if (strpos($layout_toolbar, '{content}')) {
+//                            $l = str_replace('{content}', $l, $layout_toolbar);
+//                        }
+//
+//                        //$layout_toolbar = mw()->parser->process($layout_toolbar, $options = array('no_apc' => 1));
+//                    }
                 }
             }
             $modify_content = event_trigger('on_load', $content);
@@ -1311,7 +1312,7 @@ class FrontendController extends Controller
             } elseif ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
                 if (!isset($request_params['isolate_content_field']) and !isset($request_params['content_id'])) {
                     if (!isset($_REQUEST['preview_layout'])) {
-                        if ($back_to_editmode == true) {
+                        if (!$is_editmode_iframe and $back_to_editmode == true) {
                             $l = $this->liveEditToolbarBack($l);
                         }
 
