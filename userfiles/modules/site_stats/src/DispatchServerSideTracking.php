@@ -122,14 +122,17 @@ class DispatchServerSideTracking
                     if ($event) {
                         try {
                             $analytics->addEvent($event);
-                            $analytics->post();
+                            $postStatus = $analytics->post();
+
+//                            dump($event);
+//                            dump($postStatus);
                         } catch (\Exception $e) {
-                //                        dump($e->getMessage());
-                //                        dump($event);
+//                                        dump($e->getMessage());
+//                                        dump($event);
                         }
                     }
                 } catch (\TypeError $e) {
-
+                  //  dump($e);
                 }
 
                 $getStatsEvent->delete();
