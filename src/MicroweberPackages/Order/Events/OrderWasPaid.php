@@ -2,9 +2,18 @@
 
 namespace MicroweberPackages\Order\Events;
 
-use MicroweberPackages\Core\Events\AbstractResourceWasUpdated;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
-class OrderWasPaid extends AbstractResourceWasUpdated
+class OrderWasPaid
 {
+
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public function __construct($model)
+    {
+        $this->model = $model;
+    }
 
 }
