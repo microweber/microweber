@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.0.4] - 2023-11-08
+
+## [2.0.4] - 2023-11-09
 - Fixed problem with menu links  
 - Fixed problem when you edit module settings and close the modal while saving
 - Fixed accordeon module can't be opened in live edit

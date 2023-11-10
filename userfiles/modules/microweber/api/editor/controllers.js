@@ -1053,6 +1053,7 @@ MWEditor.controllers = {
                 const parentLi = mw.tools.firstParentOrCurrentWithTag(node, 'li');
                 const isInLi = node.nodeName !== 'LI' && !!parentLi;
 
+
                 if(isInLi) {
                     api.setCursorAtStart(parentLi)
                 }
@@ -1062,24 +1063,39 @@ MWEditor.controllers = {
                     node = mw.tools.setTag(paragraph, 'div');
                 }
 
+
                 var isSafeMode = api.isSafeMode(node);
+                var parentList;
                 if(isSafeMode) {
-                    if(parentLi) {
-                        const parentList = mw.tools.firstParentOrCurrentWithTag(node, ['ol', 'ul']);
-                        if(parentList) {
-                            parentList.parentNode.contentEditable = true;
-                        }
-                    } else {
-                        node.parentNode.parentNode.contentEditable = true;
-                    }
+                    parentList = mw.tools.firstBlockLikeLevel(node);
+                    parentList.parentNode.contentEditable = true;
+                    parentList.contentEditable = 'inherit';
 
                 }
-                api.setCursorAtStart(node)
-                api.execCommand('insertUnorderedList');
-                var li = node.querySelector('li');
-                if(li) {
-                    api.setCursorAtStart(li)
-                }
+                var edit = mw.tools.firstParentOrCurrentWithClass(parentList || node, 'edit');
+
+                api.setCursorAtStart(parentList || node)
+
+                node.ownerDocument.execCommand('insertunorderedList');
+                setTimeout(function(){
+                    if(edit) {
+                        var all = edit.querySelectorAll('[style*="var"]');
+                        var allp = edit.querySelectorAll('h1 ul, h2 ul, h3 ul, h4 ul, h5 ul, h6 ul, p ul, h1 ol,h2 ol,h3 ol,h4 ol,h5 ol, h6 ol, p ol');
+                        all.forEach(node => {
+                            if(node.isContentEditable) {
+                                [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop) )
+                            }
+                        });
+                        allp.forEach(node => {
+                            var pp = mw.tools.firstParentOrCurrentWithTag(node, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p']);
+                            mw.tools.setTag(pp, 'div');
+                        });
+                    }
+                    var li = node.querySelector('li');
+                    if(li) {
+                        api.setCursorAtStart(li)
+                    }
+                }, 10)
             });
             return el;
         };
@@ -1103,9 +1119,9 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
-
                 const parentLi = mw.tools.firstParentOrCurrentWithTag(node, 'li');
                 const isInLi = node.nodeName !== 'LI' && !!parentLi;
+
 
                 if(isInLi) {
                     api.setCursorAtStart(parentLi)
@@ -1116,26 +1132,38 @@ MWEditor.controllers = {
                     node = mw.tools.setTag(paragraph, 'div');
                 }
 
+
                 var isSafeMode = api.isSafeMode(node);
+                var parentList;
                 if(isSafeMode) {
-                    if(parentLi) {
-                        const parentList = mw.tools.firstParentOrCurrentWithTag(node, ['ol', 'ul']);
-                        if(parentList) {
-                            parentList.parentNode.contentEditable = true;
-                        }
-                    } else {
-                        node.parentNode.parentNode.contentEditable = true;
+                    parentList = mw.tools.firstBlockLikeLevel(node);
+                    parentList.parentNode.contentEditable = true;
+
+                }
+                var edit = mw.tools.firstParentOrCurrentWithClass(parentList || node, 'edit');
+
+                api.setCursorAtStart(parentList || node)
+
+                node.ownerDocument.execCommand('insertorderedList');
+                setTimeout(function(){
+                    if(edit) {
+                        var all = edit.querySelectorAll('[style*="var"]');
+                        var allp = edit.querySelectorAll('h1 ul, h2 ul, h3 ul, h4 ul, h5 ul, h6 ul, p ul, h1 ol,h2 ol,h3 ol,h4 ol,h5 ol, h6 ol, p ol');
+                        all.forEach(node => {
+                            if(node.isContentEditable) {
+                                [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop) )
+                            }
+                        });
+                        allp.forEach(node => {
+                            var pp = mw.tools.firstParentOrCurrentWithTag(node, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p']);
+                            mw.tools.setTag(pp, 'div');
+                        });
                     }
-
-                }
-                api.setCursorAtStart(node)
-                api.execCommand('insertOrderedList');
-                var li = node.querySelector('li');
-                if(li) {
-                    api.setCursorAtStart(li)
-                }
-
-
+                    var li = node.querySelector('li');
+                    if(li) {
+                        api.setCursorAtStart(li)
+                    }
+                }, 10)
             });
             return el;
         };
@@ -1194,62 +1222,20 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
 
 
-                var  removeFormatFromElementIfNotInSelection = function(element) {
-                    if (!element) {
-                        return;
-                    }
-
-                    // Remove any formatting attributes from the element
-                    element.removeAttribute('style');
-                    element.removeAttribute('class');
-                    var tagsToUnwrap = ['B', 'I', 'U','FONT','S','STRIKE','EM','STRONG'];
-                    // Recursively remove formatting from child elements
-                    for (var i = 0; i < element.children.length; i++) {
-                        removeFormatFromElementIfNotInSelection(element.children[i]);
-                    }
-
-                    function unwrapTagsOfElement(node) {
-                        if (tagsToUnwrap.includes(node.nodeName.toUpperCase())) {
-                            var parent = node.parentNode;
-                            while (node.firstChild) {
-                                parent.insertBefore(node.firstChild, node);
-                            }
-                            parent.removeChild(node);
-                        }
-                    }
-
-                    // Iterate through child nodes and unwrap specified tags
-                    var childNodes = element.childNodes;
-                    for (var i = 0; i < childNodes.length; i++) {
-                        var childNode = childNodes[i];
-                        if (childNode.nodeType === Node.ELEMENT_NODE) {
-                            unwrapTagsOfElement(childNode);
-                            removeFormatFromElementIfNotInSelection(childNode, tagsToUnwrap);
-                        }
-                    }
-                }
-
-                var sel = scope.getSelection();
-                if(sel.isCollapsed) {
-                    var el = scope.api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLikeLevel(el);
-                    if(actionTarget) {
-                        removeFormatFromElementIfNotInSelection(actionTarget);
-                     }
-                }
-
-
                 api.execCommand('removeFormat');
 
-
                 sel = scope.getSelection();
+
                 var range = sel.getRangeAt(0);
+
                 const commonAncestorContainer = api.elementNode(range.commonAncestorContainer);
+
                 commonAncestorContainer.querySelectorAll('[style]').forEach(node => {
                     if(range.intersectsNode(node)) {
                         node.removeAttribute('style')
                     }
                 })
+
 
             });
             return el;
