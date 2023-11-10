@@ -8,12 +8,15 @@ use Illuminate\Queue\SerializesModels;
 
 class OrderWasPaid
 {
-
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct($model)
+    public $order;
+    public $utmData;
+
+    public function __construct($order, $utmData = null)
     {
-        $this->model = $model;
+        $this->order = $order;
+        $this->utmData = $utmData;
     }
 
 }

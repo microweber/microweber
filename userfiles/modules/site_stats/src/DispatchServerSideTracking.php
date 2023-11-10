@@ -9,6 +9,7 @@ use AlexWestergaard\PhpGa4\Event\AddToCart;
 use AlexWestergaard\PhpGa4\Event\BeginCheckout;
 use AlexWestergaard\PhpGa4\Event\Login;
 use AlexWestergaard\PhpGa4\Event\PageView;
+use AlexWestergaard\PhpGa4\Event\Purchase;
 use AlexWestergaard\PhpGa4\Event\Signup;
 use AlexWestergaard\PhpGa4\Item;
 use MicroweberPackages\SiteStats\Models\StatsEvent;
@@ -87,6 +88,22 @@ class DispatchServerSideTracking
                                 $event->addItem($eventDataItem);
                             }
                         }
+                    }
+
+                    if ($getStatsEvent->event_action == 'PURCHASE') {
+
+                        $event = Purchase::new();
+                        $event->setCurrency($eventData['currency']);
+                        // $event->setCoupon($eventData['discount']);
+                        $event->setValue($eventData['total']);
+                        $event->setTransactionId($eventData['transaction_id']);
+
+                        if (!empty($eventDataItemsObjects)) {
+                            foreach ($eventDataItemsObjects as $eventDataItem) {
+                                $event->addItem($eventDataItem);
+                            }
+                        }
+
                     }
 
                     if ($getStatsEvent->event_action == 'BEGIN_CHECKOUT') {
