@@ -239,7 +239,7 @@ $microweber_login = get_option('enable_user_microweber_registration', 'users') =
 
            <div class="card-body pt-0 border-0">
 
-               <div class="col-sm-12 d-md-flex align-items-center justify-content-between">
+               <div class="col-sm-12 d-flex align-items-center justify-content-sm-between gap-2 flex-wrap justify-content-center">
                    <a href="<?php print site_url() ?>" class="btn btn-link"><i class="mdi mdi-arrow-left"></i> <?php _e("Back to My WebSite"); ?></a>
 
                    <a href="javascript:;" dusk="forgot-password-link" onClick="mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="btn btn-link"><?php _e("Forgot my password"); ?>?</a>
