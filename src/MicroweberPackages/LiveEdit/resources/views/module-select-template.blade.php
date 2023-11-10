@@ -1,8 +1,5 @@
 <div>
 
-
-
-
     @php
 
     $showSkinsDropdown = true;
@@ -20,8 +17,6 @@
         if($moduleSkinSettingsRegisteredAlias){
             $componentNameForModuleSkin = $moduleSkinSettingsRegisteredAlias;
         }
-
-
 
         $hasSkinSettingsComponent= livewire_component_exists($componentNameForModuleSkin) === true;
 
@@ -47,14 +42,15 @@
             <label class="live-edit-label"><?php _ejs("Skin"); ?></label>
             @php
                 $selectModernOptions = [];
+                $selectModernOptions['default'] = '<div style="width:100%;height:100px;background:#fff;display:flex;justify-content:center;align-items:center;">Default Skin</div>';
                 foreach ($moduleTemplates as $item) {
-                    $optionHtml = '<div class="d-flex">';
+                    $optionHtml = '<div  style="width:100%;">';
 
+                   $optionHtml .=  '<div><h4>'.$item['name'].'</h4></div>';
                     if (isset($item['screenshot'])) {
-                        $optionHtml .= '<div  style="width:100px; height:100px; background-image: url(' . $item['screenshot'] . '); background-size: contain; background-position: top center; background-repeat: no-repeat;"></div>';
+                        $optionHtml .= '<div style="width:100%; height:100px; background-image: url(' . $item['screenshot'] . '); background-size: contain; background-position: top center; background-repeat: no-repeat;"></div>';
                     } else {
                     }
-                        $optionHtml .=  '<div  style="width:100px; padding-left:20px;"><h4>'.$item['name'].'</h4></div>';
 
                     $optionHtml .= '</div>';
 
