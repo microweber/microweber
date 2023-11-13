@@ -417,7 +417,22 @@ MWEditor.controllers = {
                         '</svg>'
                 }
             });
-            el.on('mousedown touchstart', function (e) {
+            el.on('mousedown touchstart',  async function (e) {
+                if (mw.top().app && mw.top().app.canvas) {
+                    var liveEditIframe = (mw.app.canvas.getWindow());
+
+                    if (liveEditIframe && liveEditIframe.tinyMCE) {
+                        // set by tinyMCE
+                        var editor = liveEditIframe.tinyMCE.activeEditor;
+                        if (editor) {
+                            // Execute the bold command
+                            editor.execCommand('Bold');
+                        }
+                        return;
+                    }
+
+                }
+
                 var sel = api.getSelection();
 
                 if(sel.getRangeAt(0).collapsed) {
