@@ -4,12 +4,15 @@
       <ElementStyleEditorElementSelector></ElementStyleEditorElementSelector>
     </div>
 
-      <div class="mb-4" v-show="showBackground">
-          <ElementStyleEditorBackground></ElementStyleEditorBackground>
-      </div>
+
     <div class="mb-4" v-show="showTypography">
       <ElementStyleEditorTypography></ElementStyleEditorTypography>
     </div>
+
+      <div class="mb-4" v-show="showBackground">
+          <ElementStyleEditorBackground></ElementStyleEditorBackground>
+      </div>
+
     <div class="mb-4" v-show="showSpacing">
       <ElementStyleEditorSpacing></ElementStyleEditorSpacing>
     </div>
