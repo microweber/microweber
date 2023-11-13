@@ -35,7 +35,16 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         Blade::directive('mwFooterScripts', function () {
-           $footer = mw()->template->foot(true);
+            $footer = mw()->template->foot(true);
+            $template_footer_src_callback = mw()->template->foot_callback();
+            if (is_array($template_footer_src_callback) and !empty($template_footer_src_callback)) {
+                foreach ($template_footer_src_callback as $template_footer_src_callback_str) {
+                    if (is_string($template_footer_src_callback_str)) {
+                        $footer = $footer . "\n" . $template_footer_src_callback_str;
+                    }
+                }
+            }
+
             return $footer;
 
         });
