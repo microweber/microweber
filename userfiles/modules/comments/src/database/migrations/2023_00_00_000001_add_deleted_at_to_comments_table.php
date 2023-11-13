@@ -14,8 +14,11 @@ class AddDeletedAtToCommentsTable extends Migration
     public function up()
     {
         Schema::table('comments', function (Blueprint $table) {
-            $table->timestamp('deleted_at')->nullable();
-        });
+            // check if column exists
+            if (!Schema::hasColumn('comments', 'deleted_at')) {
+                $table->timestamp('deleted_at')->nullable();
+            }
+         });
 
     }
 
