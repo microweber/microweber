@@ -85,8 +85,10 @@
             pc: function (options) {
                 var node = document.createElement('span');
                 node.innerHTML = options.title;
+
                 var upload = mw.upload({
                     multiple: true,
+                    accept: scope.settings.type,
                     element: node,
                     on: {
                         fileAdded: function () {
@@ -103,6 +105,9 @@
                         }
                     }
                 });
+
+
+
                 scope.on('pathChanged', function (path) {
                     upload.urlParam('path', path);
                 });
