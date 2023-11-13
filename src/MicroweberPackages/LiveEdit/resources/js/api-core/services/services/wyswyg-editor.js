@@ -44,6 +44,13 @@ export class WyswygEditor extends MicroweberBaseClass {
                 inline: true,
 
                 setup: (editor) => {
+                    // editor.on('blur change cut copy keyup paste', function(e){
+                    //     var tinyMceData = tinyMCE.activeEditor.getContent({ format: 'raw' });
+                    //     if(tinyMceData.indexOf('<br data-mce-bogus="1">') >= 0) {
+                    //         tinyMceData = "";
+                    //         tinyMCE.activeEditor.setContent('', { format: 'raw' });
+                    //     }
+                    // });
                     editor.on('init', () => {
                         setTimeout(() => {
                             this.setCursorPos(editor, this.savedCursorPosition);

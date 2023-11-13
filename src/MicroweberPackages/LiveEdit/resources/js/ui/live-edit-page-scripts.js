@@ -79,6 +79,8 @@ if(window.self !== window.top) {
             mw.$('.mw-webkit-drag-hover-binded', doc).removeClass('mw-webkit-drag-hover-binded');
             mw.$('.module-cat-toggle-Modules', doc).removeClass('module-cat-toggle-Modules');
             mw.$('.mw-module-drag-clone', doc).removeClass('mw-module-drag-clone');
+            mw.$('[data-mce-style]', doc).removeAttr('data-mce-style');
+            mw.$('[data-mce-selected]', doc).removeAttr('data-mce-selected');
             mw.$('-module', doc).removeClass('-module');
             mw.$('.empty-element', doc).remove();
             mw.$('.empty-element', doc).remove();
