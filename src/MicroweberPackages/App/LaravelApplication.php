@@ -14,7 +14,7 @@ class LaravelApplication extends Application
 {
 
     //remember to change also in version.txt
-    const APP_VERSION = '2.0.4';
+    const APP_VERSION = '2.0.4-dev1';
 
 
     private $base_path_local;
