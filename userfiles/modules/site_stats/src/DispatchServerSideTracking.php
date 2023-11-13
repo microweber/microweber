@@ -104,7 +104,6 @@ class DispatchServerSideTracking
                             }
                         }
 
-                       // dd($event);
                     }
 
                     if ($getStatsEvent->event_action == 'BEGIN_CHECKOUT') {
@@ -141,7 +140,7 @@ class DispatchServerSideTracking
                         try {
                             $analytics->addEvent($event);
                             $postStatus = $analytics->post();
-
+//
 //                            dump($event);
 //                            dump($postStatus);
                         } catch (\Exception $e) {
@@ -150,7 +149,7 @@ class DispatchServerSideTracking
                         }
                     }
                 } catch (\TypeError $e) {
-                  //  dump($e);
+                   // dump($e);
                 }
 
                 $getStatsEvent->delete();
