@@ -71,22 +71,25 @@ export default {
 
             // mw.app.editImageDialog = editImageDialog;
 
-            mw.app.editor.on('elementSettingsRequest', async (element) => {
+            mw.app.editor.on('elementSettingsRequest', (element) => {
                 if (element.nodeName === 'IMG') {
-                    var imgData = await mw.app.editImageDialog.editImageUrl(element.src);
 
-                    if (imgData) {
+                    mw.app.editImageDialog.editImage(element.src, (imgData) => {
+                        if (typeof imgData !==  'undefined' && imgData.src) {
 
-                        element.src = imgData.src
+                            element.src = imgData.src
 
-                        if (imgData.sizeChanged) {
-                           // reset width and height
-                         //   element.style.width = '';
-                            element.style.height = 'auto';
+                            if (imgData.sizeChanged) {
+                                // reset width and height
+                                //   element.style.width = '';
+                                element.style.height = 'auto';
+                            }
                         }
-                    }
-                    mw.top().app.registerChange(element);
-                    mw.app.liveEdit.play();
+                        mw.top().app.registerChange(element);
+                        mw.app.liveEdit.play();
+                    });
+
+
 
                 } else if (element.style.backgroundImage) {
                     var bg = element.style.backgroundImage.trim().split('url(')[1];
@@ -96,14 +99,18 @@ export default {
                             .trim()
                             .split('"')
                             .join('');
-                        var imData = await mw.app.editImageDialog.editImageUrl(bg);
+                        //var imData = await mw.app.editImageDialog.editImageUrl(bg);
 
-                        if (imData) {
+                        mw.app.editImageDialog.editImage(bg, (imgData) => {
+                            if (typeof imgData !==  'undefined' && imgData.src) {
 
-                            element.style.backgroundImage = `url(${imData.src})`
-                        }
-                        mw.top().app.registerChange(element);
-                        mw.app.liveEdit.play();
+                                element.style.backgroundImage = `url("${imgData.src}")`;
+                            }
+                            mw.top().app.registerChange(element);
+                            mw.app.liveEdit.play();
+                        });
+
+
 
                     }
 
@@ -113,6 +120,13 @@ export default {
 
                 }
             })
+
+            mw.app.editor.on('editNodeStyleRequest', async (element) => {
+                this.emitter.emit('live-edit-ui-show', 'style-editor');
+            });
+
+
+
             mw.app.editor.on('editNodeRequest', async (element) => {
 
 

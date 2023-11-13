@@ -270,6 +270,36 @@ export class ElementHandleContent {
         ];
 
 
+        const elementEditStyleMenu = [
+            {
+                title: 'Style Editor',
+                text: '',
+                icon: handleIcons.icon('style-editor'),
+
+                className: 'mw-handle-element-open-style-editor-button',
+
+                action: function (el) {
+                    elementActions.openElementStyleEditor(el);
+                },
+                onTarget: (target, selfBtn) => {
+                    // var selfVisible = false;
+                    //
+                    //
+                    //
+                    // const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A' ;
+                    // if (isImageOrLink && !isPlaceholder(target)) {
+                    //
+                    //     selfVisible = true;
+                    //
+                    // }
+                    // selfBtn.style.display = selfVisible ? '' : 'none';
+                },
+
+            }
+
+        ];
+
+
         const primaryMenu = [
             {
                 title: 'Drag',
@@ -369,6 +399,7 @@ export class ElementHandleContent {
                 }
             },
             ...elementLinkMenu,
+            ...elementEditStyleMenu,
             // ...elementLinkMenuGroup,
             {
                 title: 'Settings',
