@@ -104,6 +104,7 @@ class DispatchServerSideTracking
                             }
                         }
 
+                       // dd($event);
                     }
 
                     if ($getStatsEvent->event_action == 'BEGIN_CHECKOUT') {
