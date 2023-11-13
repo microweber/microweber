@@ -33,9 +33,19 @@
         .js-modal-livewire-content {
             margin: auto;
             background-color: #fff;
-            width: 800px;
+            width: 96%;
             max-height: calc(100% - 100px);
             overflow: auto;
+        }
+        @media only screen and (min-width: 600px) {
+            .js-modal-livewire-content {
+                width: 500px; 
+            }
+        }
+        @media only screen and (min-width: 768px) {
+            .js-modal-livewire-content {
+                width: 800px;
+            }
         }
     </style>
     <div>
