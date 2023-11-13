@@ -298,7 +298,13 @@ var MWEditor = function (options) {
                 var all = edit.querySelectorAll('span[style*="var"]');
                 all.forEach(node => {
                     if(node.isContentEditable) {
-                        [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop) )
+                        Object.keys(node.style).forEach(prop => {
+                            if (node.style[prop] && node.style[prop].includes('var(')) {
+                                node.style.removeProperty(prop);
+                            }
+                        });
+
+
                     }
                 });
             }

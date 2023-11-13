@@ -1124,9 +1124,12 @@ MWEditor.controllers = {
                         var all = edit.querySelectorAll('[style*="var"]');
                         var allp = edit.querySelectorAll('h1 ul, h2 ul, h3 ul, h4 ul, h5 ul, h6 ul, p ul, h1 ol,h2 ol,h3 ol,h4 ol,h5 ol, h6 ol, p ol');
                         all.forEach(node => {
-                            if(node.isContentEditable) {
-                                [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop) )
-                            }
+                            if(node.isContentEditable && node.style) {
+                                Object.keys(node.style).forEach(prop => {
+                                    if (node.style[prop] && node.style[prop].includes('var(')) {
+                                        node.style.removeProperty(prop);
+                                    }
+                                });                            }
                         });
                         allp.forEach(node => {
                             var pp = mw.tools.firstParentOrCurrentWithTag(node, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p']);
