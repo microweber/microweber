@@ -7,7 +7,7 @@ if(window.self !== window.top) {
 
     //mw.require('options.js');
 
-
+    mw.lib.require('tinymce');
 
     mw.liveEditSaveService = {
         grammarlyFix: function (data) {
@@ -506,7 +506,7 @@ if (self === top) {
             // Create the <a> element (button)
             var stickyButton = document.createElement('a');
             stickyButton.id = 'back-to-live-sticky-button';
-            stickyButton.textContent = 'Live Edit';
+            stickyButton.textContent = 'Go Live Edit';
             stickyButton.href = window.mwLiveEditIframeBackUrl;
             stickyButton.classList.add('sticky');
 
@@ -521,24 +521,32 @@ if (self === top) {
             // Create and apply the CSS style dynamically
             var style = document.createElement('style');
             style.textContent = `
-                #back-to-live-sticky-button {
-                    position: fixed;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    z-index: 999;
-                    transition: top 0.3s;
-                    background: #000;
-                    color:#fff !important;
-                    padding: 5px 20px;
-                    border-radius: 5px;
-                    border-top-left-radius: 0;
-                    border-top-right-radius: 0;
-                    font-family: Arial, sans-serif;
-                }
+                    #back-to-live-sticky-button {
+                        position: fixed;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        z-index: 999;
+                        transition: top 0.3s;
+                        background: #3498db;
+                        color: #fff !important;
+                        padding: 10px 20px;
+                        border-radius: 5px;
+                        border-top-left-radius: 0;
+                        border-top-right-radius: 0;
+                        font-family: Arial, sans-serif;
+                        border: none;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        cursor: pointer;
+                    }
 
-                #back-to-live-sticky-button.sticky {
-                    top: 0;
-                }
+                    #back-to-live-sticky-button:hover {
+                        background: #2980b9;
+                    }
+
+
+                    #back-to-live-sticky-button.sticky {
+                        top: 0;
+                    }
 
 
 

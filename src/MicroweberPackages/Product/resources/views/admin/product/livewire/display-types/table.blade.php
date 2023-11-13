@@ -64,6 +64,7 @@
                 @endif
                 @if($showColumns['image'])
                     <td>
+
                         @include('content::admin.content.livewire.components.picture', ['content'=>$content])
                     </td>
                 @endif

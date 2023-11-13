@@ -388,6 +388,13 @@
                 mw.require(mw.settings.libs_url + 'nouislider' + '/nouislider.js');
             }
         ],
+
+        tinymce: [
+            function () {
+                mw.require(mw.settings.libs_url + 'tinymce' + '/tinymce.min.js');
+            }
+        ],
+
         xss: [
             function () {
                 mw.require(mw.settings.libs_url + "xss/xss.min.js");
