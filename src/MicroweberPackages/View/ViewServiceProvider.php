@@ -18,7 +18,6 @@ class ViewServiceProvider extends ServiceProvider
 
         Blade::directive('mwHeaderScripts', function () {
 
-
             $header = mw()->template->head(true);
 
             $template_headers_src_callback = mw()->template->head_callback();
@@ -28,6 +27,11 @@ class ViewServiceProvider extends ServiceProvider
                         $header = $header . "\n" . $template_headers_src_callback_str;
                     }
                 }
+            }
+
+            $getWebsiteHeadOption = get_option('website_head', 'website');
+            if ($getWebsiteHeadOption != false) {
+                $header = $header . "\n" . $getWebsiteHeadOption;
             }
 
             return $header;
@@ -43,6 +47,11 @@ class ViewServiceProvider extends ServiceProvider
                         $footer = $footer . "\n" . $template_footer_src_callback_str;
                     }
                 }
+            }
+
+            $getWebsiteFooterOption = get_option('website_footer', 'website');
+            if ($getWebsiteFooterOption != false) {
+                $footer = $footer . "\n" . $getWebsiteFooterOption;
             }
 
             return $footer;
