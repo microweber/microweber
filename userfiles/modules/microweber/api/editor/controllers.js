@@ -418,20 +418,24 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart',  async function (e) {
-                if (mw.top().app && mw.top().app.canvas) {
-                    var liveEditIframe = (mw.app.canvas.getWindow());
+                // if (mw.top().app && mw.top().app.canvas) {
+                //     var liveEditIframe = (mw.app.canvas.getWindow());
+                //
+                //     if (liveEditIframe && liveEditIframe.tinyMCE) {
+                //         // set by tinyMCE
+                //         var editor = liveEditIframe.tinyMCE.activeEditor;
+                //         if (editor) {
+                //             // Execute the bold command
+                //             editor.execCommand('Bold');
+                //         }
+                //         return;
+                //     }
+                //
+                // }
 
-                    if (liveEditIframe && liveEditIframe.tinyMCE) {
-                        // set by tinyMCE
-                        var editor = liveEditIframe.tinyMCE.activeEditor;
-                        if (editor) {
-                            // Execute the bold command
-                            editor.execCommand('Bold');
-                        }
-                        return;
-                    }
+                api.execCommand('bold');
 
-                }
+                return;
 
                 var sel = api.getSelection();
 
@@ -480,6 +484,12 @@ MWEditor.controllers = {
 
             el.on('mousedown touchstart', function (e) {
 
+                api.execCommand('strikeThrough');
+
+                return;
+
+
+
                 var sel = api.getSelection();
 
                 if(sel.getRangeAt(0).collapsed) {
@@ -524,6 +534,12 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
 
+                api.execCommand('italic');
+
+                return;
+
+
+
                 if(sel.getRangeAt(0).collapsed) {
 
 
@@ -567,6 +583,13 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
+
+                api.execCommand('underline');
+
+                return;
+
+
+
                 var sel = api.getSelection();
                 if(sel.getRangeAt(0).collapsed) {
 
@@ -892,11 +915,14 @@ MWEditor.controllers = {
                     }
 
                     var block = mw.tools.firstBlockLikeLevel(el);
-                    scope.api.action(block.parentNode.parentNode, function () {
-                        var el = mw.tools.setTag(block, e.detail.value);
-                        // el.focus()
-                        scope.api.setCursorAtStart(el)
-                    });
+                    // block.parentNode sometimes is null
+                    if(block && block.parentNode) {
+                        scope.api.action(block.parentNode.parentNode, function () {
+                            var el = mw.tools.setTag(block, e.detail.value);
+                            // el.focus()
+                            scope.api.setCursorAtStart(el)
+                        });
+                    }
                 }
             });
             return dropdown.root;
@@ -1090,6 +1116,7 @@ MWEditor.controllers = {
                 var edit = mw.tools.firstParentOrCurrentWithClass(parentList || node, 'edit');
 
                 api.setCursorAtStart(parentList || node)
+
 
                 node.ownerDocument.execCommand('insertunorderedList');
                 setTimeout(function(){

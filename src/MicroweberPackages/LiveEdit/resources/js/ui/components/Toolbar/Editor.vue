@@ -319,6 +319,10 @@ export default {
                             return;
                         }
 
+                        if(!editTarget.id){
+                            editTarget.id = mw.id('mw-editable-region-');
+                        }
+
 
 
 
@@ -329,19 +333,24 @@ export default {
                         editTarget.contentEditable = true;
                         mw.app.liveEdit.pause();
 
-                   //     mw.app.richTextEditor.smallEditorInteract(element);
-                   //     mw.app.richTextEditor.positionSmallEditor(element);
+                       mw.app.richTextEditor.smallEditorInteract(element);
+                       mw.app.richTextEditor.positionSmallEditor(element);
 
 
-                        mw.app.wyswygEditor.showEditorOnElement(element);
 
 
-                        // element.querySelectorAll('[contenteditable], .allow-drop[contenteditable]').forEach(node => {
-                        //     node.contentEditable = 'inherit';
-                        // })
-                        // editTarget.querySelectorAll('[contenteditable], .allow-drop[contenteditable]').forEach(node => {
-                        //     node.contentEditable = 'inherit';
-                        // })
+                        element.querySelectorAll('[contenteditable], .allow-drop[contenteditable]').forEach(node => {
+                            node.contentEditable = 'inherit';
+                        })
+                        editTarget.querySelectorAll('[contenteditable], .allow-drop[contenteditable]').forEach(node => {
+                            node.contentEditable = 'inherit';
+                        })
+
+                    mw.app.wyswygEditor.initEditor(element);
+
+
+
+
                     }, 300);
 
                 }
