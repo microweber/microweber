@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Cookie;
+
 function template_option_group()
 {
     return 'mw-template-' . mw()->template->folder_name();
@@ -279,5 +281,12 @@ function get_template_colors_settings()
         }
     }
     return $colors;
+
+}
+
+function get_template_meta_tags_render()
+{
+    $in = new \MicroweberPackages\Template\Adapters\RenderHelpers\TemplateMetaTagsRenderer();
+    return $in->get_template_meta_tags_render();
 
 }
