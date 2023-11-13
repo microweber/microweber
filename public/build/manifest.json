@@ -21,7 +21,7 @@
     "css": [
       "assets/element-style-editor-app-67fbff11.css"
     ],
-    "file": "assets/element-style-editor-app-5e5d2180.js",
+    "file": "assets/element-style-editor-app-d538e383.js",
     "imports": [
       "_mitt-c026d180.js"
     ],
@@ -36,7 +36,7 @@
     "css": [
       "assets/live-edit-app-8123051f.css"
     ],
-    "file": "assets/live-edit-app-fef3d5ee.js",
+    "file": "assets/live-edit-app-f7644780.js",
     "imports": [
       "_@core-1550f3a7.js",
       "_mitt-c026d180.js"
