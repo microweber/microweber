@@ -36,7 +36,7 @@ class UtmEventPurchase extends UtmEvent
             }
             $this->eventData['total'] = $data->order->amount;
             $this->eventData['currency'] = $data->order->currency;
-            $this->eventData['transaction_id'] = $data->order->id;
+            $this->eventData['transaction_id'] = $data->order->transaction_id;
 
         }
 
