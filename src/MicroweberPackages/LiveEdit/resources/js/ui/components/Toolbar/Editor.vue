@@ -333,6 +333,9 @@ export default {
                         mw.app.richTextEditor.positionSmallEditor(element);
 
 
+                        //mw.app.wyswygEditor.showEditorOnElement(element);
+
+
                         element.querySelectorAll('[contenteditable], .allow-drop[contenteditable]').forEach(node => {
                             node.contentEditable = 'inherit';
                         })

@@ -4,6 +4,7 @@ import {DomService} from '../../../core/classes/dom.js';
 import liveeditCssDist from '../../../core/css/scss/liveedit.scss';
 import {ModuleSettings} from "../../services/module-settings";
 import {TemplateSettings} from "../../services/template-settings";
+import {WyswygEditor} from "../../services/wyswyg-editor";
 import {LiveEditSpacer} from "./live-edit-spacer";
 import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler";
 import LiveEditImageDialog from "./live-edit-image-dialog";
@@ -61,6 +62,7 @@ export const liveEditComponent = () => {
   //  mw.app.state =mw.liveEditState;
     mw.app.editImageDialog =  new LiveEditImageDialog();
     mw.app.layoutBackground =  new LiveEditLayoutBackground();
+    mw.app.wyswygEditor =  new WyswygEditor();
 
     mw.app.fontManager =  new LiveEditFontManager();
 
