@@ -8,7 +8,7 @@ $show_testimonials_per_project = get_option('show_testimonials_per_project', $pa
 
 
 if ($limit == false or $limit == '') {
-    $limit = 250;
+    $limit = 500;
 }
 
 $interval = get_option('interval', 'fourtestimonials');
