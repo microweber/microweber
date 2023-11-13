@@ -773,8 +773,10 @@ class CartManager extends Crud
         }
         if ($found_price == false) {
             $found_price = 0;
+            if (isset($data['price'])) {
+                $found_price = $data['price'];
+            }
         }
-
 
         if (is_array($prices)) {
             ksort($add);
@@ -796,6 +798,11 @@ class CartManager extends Crud
             $cart['allow_html'] = 1;
             $cart['price'] = doubleval($found_price);
             $cart['limit'] = 1;
+
+            if (isset($data['qty'])) {
+                $cart['qty'] = $data['qty'];
+            }
+
             if(!isset($data['title']) or $data['title'] == false){
                 $data['title'] = 'Product '.$cart['rel_id'];
             }
