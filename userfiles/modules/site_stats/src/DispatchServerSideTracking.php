@@ -9,6 +9,7 @@ use AlexWestergaard\PhpGa4\Event\AddToCart;
 use AlexWestergaard\PhpGa4\Event\BeginCheckout;
 use AlexWestergaard\PhpGa4\Event\Login;
 use AlexWestergaard\PhpGa4\Event\PageView;
+use AlexWestergaard\PhpGa4\Event\Purchase;
 use AlexWestergaard\PhpGa4\Event\Signup;
 use AlexWestergaard\PhpGa4\Item;
 use MicroweberPackages\SiteStats\Models\StatsEvent;
@@ -37,101 +38,123 @@ class DispatchServerSideTracking
         if ($getStatsEvents->count() > 0) {
             foreach ($getStatsEvents as $getStatsEvent) {
 
-                $eventData = json_decode($getStatsEvent->event_data, true);
+                try {
+                    $eventData = json_decode($getStatsEvent->event_data, true);
 
-                $eventDataItemsObjects = [];
-                if (isset($eventData['items'])) {
-                    foreach ($eventData['items'] as $eventDataItem) {
-                        $eventDataItemsObjects[] = Item::new()
-                            ->setItemId($eventDataItem['id'])
-                            ->setItemName($eventDataItem['name'])
-                            ->setPrice($eventDataItem['price'])
-                            ->setQuantity($eventDataItem['quantity']);
-                    }
-                }
-
-                $event = false;
-
-                if ($getStatsEvent->event_action == 'LOGIN') {
-                    $event = Login::new();
-                }
-
-                if ($getStatsEvent->event_action == 'SIGN_UP') {
-                    $event = Signup::new();
-                }
-
-                if ($getStatsEvent->event_action == 'ADD_SHIPPING_INFO') {
-
-                    $event = AddShippingInfo::new();
-                    $event->setCurrency($eventData['currency']);
-                    //$event->setCoupon($eventData['discount']);
-                    $event->setValue($eventData['total']);
-
-                    if (!empty($eventDataItemsObjects)) {
-                        foreach ($eventDataItemsObjects as $eventDataItem) {
-                            $event->addItem($eventDataItem);
-                        }
-                    }
-                }
-
-                if ($getStatsEvent->event_action == 'ADD_PAYMENT_INFO') {
-
-                    $event = AddPaymentInfo::new();
-                    $event->setCurrency($eventData['currency']);
-                    //$event->setCoupon($eventData['discount']);
-                    $event->setValue($eventData['total']);
-
-                    if (!empty($eventDataItemsObjects)) {
-                        foreach ($eventDataItemsObjects as $eventDataItem) {
-                            $event->addItem($eventDataItem);
-                        }
-                    }
-                }
-
-                if ($getStatsEvent->event_action == 'BEGIN_CHECKOUT') {
-
-                    $event = BeginCheckout::new();
-                    $event->setCurrency($eventData['currency']);
-                   // $event->setCoupon($eventData['discount']);
-                    $event->setValue($eventData['total']);
-
-                    if (!empty($eventDataItemsObjects)) {
-                        foreach ($eventDataItemsObjects as $eventDataItem) {
-                            $event->addItem($eventDataItem);
+                    $eventDataItemsObjects = [];
+                    if (isset($eventData['items'])) {
+                        foreach ($eventData['items'] as $eventDataItem) {
+                            $eventDataItemsObjects[] = Item::new()
+                                ->setItemId($eventDataItem['id'])
+                                ->setItemName($eventDataItem['name'])
+                                ->setPrice($eventDataItem['price'])
+                                ->setQuantity($eventDataItem['quantity']);
                         }
                     }
 
-                }
+                    $event = false;
 
-                if ($getStatsEvent->event_action == 'ADD_TO_CART') {
+                    if ($getStatsEvent->event_action == 'LOGIN') {
+                        $event = Login::new();
+                    }
 
-                    $event = AddToCart::new();
-                    $event->setCurrency($eventData['currency']);
-                    //$event->setCoupon($eventData['discount']);
-                    $event->setValue($eventData['total']);
+                    if ($getStatsEvent->event_action == 'SIGN_UP') {
+                        $event = Signup::new();
+                    }
 
-                    if (!empty($eventDataItemsObjects)) {
-                        foreach ($eventDataItemsObjects as $eventDataItem) {
-                            $event->addItem($eventDataItem);
+                    if ($getStatsEvent->event_action == 'ADD_SHIPPING_INFO') {
+
+                        $event = AddShippingInfo::new();
+                        $event->setCurrency($eventData['currency']);
+                        //$event->setCoupon($eventData['discount']);
+                        $event->setValue($eventData['total']);
+
+                        if (!empty($eventDataItemsObjects)) {
+                            foreach ($eventDataItemsObjects as $eventDataItem) {
+                                $event->addItem($eventDataItem);
+                            }
                         }
                     }
 
-                }
+                    if ($getStatsEvent->event_action == 'ADD_PAYMENT_INFO') {
 
-                if ($event) {
-                    try {
-                        $analytics->addEvent($event);
-                        $analytics->post();
-                    } catch (\Exception $e) {
-//                        dump($e->getMessage());
-//                        dump($event);
+                        $event = AddPaymentInfo::new();
+                        $event->setCurrency($eventData['currency']);
+                        //$event->setCoupon($eventData['discount']);
+                        $event->setValue($eventData['total']);
+
+                        if (!empty($eventDataItemsObjects)) {
+                            foreach ($eventDataItemsObjects as $eventDataItem) {
+                                $event->addItem($eventDataItem);
+                            }
+                        }
                     }
+
+                    if ($getStatsEvent->event_action == 'PURCHASE') {
+
+                        $event = Purchase::new();
+                        $event->setCurrency($eventData['currency']);
+                        // $event->setCoupon($eventData['discount']);
+                        $event->setValue($eventData['total']);
+                        $event->setTransactionId($eventData['transaction_id']);
+
+                        if (!empty($eventDataItemsObjects)) {
+                            foreach ($eventDataItemsObjects as $eventDataItem) {
+                                $event->addItem($eventDataItem);
+                            }
+                        }
+
+                    }
+
+                    if ($getStatsEvent->event_action == 'BEGIN_CHECKOUT') {
+
+                        $event = BeginCheckout::new();
+                        $event->setCurrency($eventData['currency']);
+                        // $event->setCoupon($eventData['discount']);
+                        $event->setValue($eventData['total']);
+
+                        if (!empty($eventDataItemsObjects)) {
+                            foreach ($eventDataItemsObjects as $eventDataItem) {
+                                $event->addItem($eventDataItem);
+                            }
+                        }
+
+                    }
+
+                    if ($getStatsEvent->event_action == 'ADD_TO_CART') {
+
+                        $event = AddToCart::new();
+                        $event->setCurrency($eventData['currency']);
+                        //$event->setCoupon($eventData['discount']);
+                        $event->setValue($eventData['total']);
+
+                        if (!empty($eventDataItemsObjects)) {
+                            foreach ($eventDataItemsObjects as $eventDataItem) {
+                                $event->addItem($eventDataItem);
+                            }
+                        }
+
+                    }
+
+                    if ($event) {
+                        try {
+                            $analytics->addEvent($event);
+                            $postStatus = $analytics->post();
+
+//                            dump($event);
+//                            dump($postStatus);
+                        } catch (\Exception $e) {
+//                                        dump($e->getMessage());
+//                                        dump($event);
+                        }
+                    }
+                } catch (\TypeError $e) {
+                  //  dump($e);
                 }
 
                 $getStatsEvent->delete();
-
             }
-
         }
+
     }
 }

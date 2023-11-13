@@ -185,8 +185,7 @@ api_expose('pingstats', function ($params = false) {
     } else {
         $tracker->track();
     }
-
-
+    
     // Decode referrer and save UTM in cookie
     $referer = request()->headers->get('referer');
     $refererParse = parse_url($referer);
@@ -195,9 +194,12 @@ api_expose('pingstats', function ($params = false) {
         if (isset($refererParse['query']) && !empty($refererParse['query'])) {
             parse_str($refererParse['query'], $refererQuery);
         }
-        foreach ($refererQuery as $refererQueryKey => $refererQueryValue) {
-            if (\Illuminate\Support\Str::startsWith('utm_', $refererQueryKey)) {
-                set_cookie($refererQueryKey, $refererQueryValue);
+
+        if (!empty($refererQuery)) {
+            foreach ($refererQuery as $refererQueryKey => $refererQueryValue) {
+                if (in_array($refererQueryKey, ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'])) {
+                    set_cookie($refererQueryKey, $refererQueryValue);
+                }
             }
         }
     }

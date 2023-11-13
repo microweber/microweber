@@ -7,6 +7,23 @@ class UserAttribute extends Model
 {
     protected $table = 'attributes';
 
+    public static function getUtmDetails($userId)
+    {
+        $attributes = [];
+        if ($userId) {
+            $getAttributes = UserAttribute::where('rel_id', $userId)
+                ->where('rel_type', 'user')
+                ->get();
+            if ($getAttributes->count() > 0) {
+                foreach ($getAttributes as $attribute) {
+                    $attributes[$attribute->attribute_name] = $attribute->attribute_value;
+                }
+            }
+        }
+
+        return $attributes;
+    }
+
     public static function saveAttribute($userId, $attributeName,$attributeValue)
     {
         if ($userId) {
