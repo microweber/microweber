@@ -10,3 +10,16 @@ $config['categories'] = "navigation";
 $config['version'] = 0.1;
 $config['is_system'] = true;
 
+
+
+$config['settings'] = [];
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\Modules\Categories'
+    ],
+];
+
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\Categories\Providers\CategoryServiceProvider::class
+];
