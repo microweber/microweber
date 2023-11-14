@@ -135,6 +135,8 @@ export default {
 
       var result = css.get.boxShadow();
 
+      console.log('populateCssBoxShadow', result)
+
       if (result.color) {
         this.boxShadowOptions.shadowColor = result.color;
       }
