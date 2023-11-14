@@ -251,14 +251,18 @@ MWEditor.controllers = {
                 }
 
                 if (this.target) {
+
+
                     mw.app.editor.dispatch('insertModuleRequest', this.target);
+                    mw.top().app.liveEdit.stopTyping();
+                    // setTimeout(() => {
+                    //   mw.top().app.liveEdit.handles.hide();
+                    //
+                    //     mw.top().app.liveEdit.pause();
+                    // },100);
 
                     mw.top().win.mw.app.liveEdit.handles.get('element').set(this.target)
-                    setTimeout(() => {
 
-                        mw.top().app.liveEdit.handles.hide();
-                        mw.top().app.liveEdit.pause();
-                    })
                 }
             });
 
