@@ -545,10 +545,6 @@ html[dir="rtl"]{
 
             cursor: auto;
 
-            svg {
-                margin-right: 10px;
-                margin-left: 10px;
-            }
         }
 
     }
@@ -556,7 +552,7 @@ html[dir="rtl"]{
         font-size: 0;
         cursor: pointer;
         display: inline-flex;
-        
+
         align-items: center;
         justify-content: center;
         width: 24px;

@@ -15,11 +15,11 @@ description: Autocomplete Search template
 
 <script>mw.moduleCSS("<?php print modules_url(); ?>search/search.css"); </script>
 <?php $rand = uniqid(); ?>
-<div class="mw-search mw-search-autocomplete" id="search_box_holder_<?php print $params['id'] . $rand ?>">
-    <div class="mw-search-autocomplete-field-holder">
+<div class="mw-search mw-search-autocomplete w-100 mb-4" id="search_box_holder_<?php print $params['id'] . $rand ?>">
+    <div class="mw-search-autocomplete-field-holder w-100">
         <input type="text"
                id="search_field_<?php print $params['id'] . $rand ?>"
-               class="form-select  w100"
+               class="form-control  w-100"
                placeholder="<?php _e("Search"); ?>"
                onkeyup="mw.autocompleteSearch(document.getElementById('search_box_holder_<?php print $params['id'] . $rand ?>'), this, event, 'search_results_holder_<?php print $params['id'] . $rand ?>');"
                onpaste="mw.autocompleteSearch(document.getElementById('search_box_holder_<?php print $params['id'] . $rand ?>'), this, event, 'search_results_holder_<?php print $params['id'] . $rand ?>');"

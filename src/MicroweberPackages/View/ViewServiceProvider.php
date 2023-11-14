@@ -16,47 +16,6 @@ class ViewServiceProvider extends ServiceProvider
 
         Blade::directive('module', [MicroweberBladeDirectives::class, 'module']);
 
-        Blade::directive('mwHeaderScripts', function () {
-
-            $header = mw()->template->head(true);
-
-            $template_headers_src_callback = mw()->template->head_callback();
-            if (is_array($template_headers_src_callback) and !empty($template_headers_src_callback)) {
-                foreach ($template_headers_src_callback as $template_headers_src_callback_str) {
-                    if (is_string($template_headers_src_callback_str)) {
-                        $header = $header . "\n" . $template_headers_src_callback_str;
-                    }
-                }
-            }
-
-            $getWebsiteHeadOption = get_option('website_head', 'website');
-            if ($getWebsiteHeadOption != false) {
-                $header = $header . "\n" . $getWebsiteHeadOption;
-            }
-
-            return $header;
-
-        });
-
-        Blade::directive('mwFooterScripts', function () {
-            $footer = mw()->template->foot(true);
-            $template_footer_src_callback = mw()->template->foot_callback();
-            if (is_array($template_footer_src_callback) and !empty($template_footer_src_callback)) {
-                foreach ($template_footer_src_callback as $template_footer_src_callback_str) {
-                    if (is_string($template_footer_src_callback_str)) {
-                        $footer = $footer . "\n" . $template_footer_src_callback_str;
-                    }
-                }
-            }
-
-            $getWebsiteFooterOption = get_option('website_footer', 'website');
-            if ($getWebsiteFooterOption != false) {
-                $footer = $footer . "\n" . $getWebsiteFooterOption;
-            }
-
-            return $footer;
-
-        });
     }
 
     protected function registerTagCompiler()
