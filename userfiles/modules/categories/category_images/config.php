@@ -10,7 +10,6 @@ $config['is_system'] = true;
 $config['position'] = 51;
 $config['categories'] = "miscellaneous";
 
-
 $config['settings'] = [];
 $config['settings']['autoload_namespace'] = [
     [
@@ -20,5 +19,5 @@ $config['settings']['autoload_namespace'] = [
 ];
 
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Modules\Categories\CategoryImages\Providers\CategoryServiceProvider::class
+    \MicroweberPackages\Modules\Categories\CategoryImages\Providers\CategoryImagesServiceProvider::class
 ];

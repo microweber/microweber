@@ -17,15 +17,153 @@
         </div>
 
         <div x-show="showEditTab=='content'">
-            <div>
-                <label class="live-edit-label">{{__('Title')}} </label>
-                <livewire:microweber-option::text optionKey="title" :optionGroup="$moduleId" :module="$moduleType"  />
-            </div>
 
-             <div>
-                  <label class="live-edit-label">{{__('Description')}} </label>
-                  <livewire:microweber-option::textarea optionKey="description" :optionGroup="$moduleId" :module="$moduleType"  />
-              </div>
+
+            <?php
+            $selected_category = get_option('fromcategory', $moduleId);
+            $selected_page = get_option('frompage', $moduleId);
+            $show_category_header = get_option('show_category_header', $moduleId);
+            $show_only_for_parent = get_option('single-only', $moduleId);
+            $show_subcats = get_option('show-subcats', $moduleId);
+            $hide_pages = get_option('hide-pages', $moduleId);
+            $my_tree_id = ''
+            ?>
+            <style  scoped="scoped">
+                #parentcat .depth-1 {
+                    padding-left: 10px;
+                }
+                #parentcat .depth-2 {
+                    padding-left: 20px;
+                }
+                #parentcat .depth-3 {
+                    padding-left: 30px;
+                }
+                #parentcat .depth-4 {
+                    padding-left: 40px;
+                }
+            </style>
+
+            <script type="text/javascript">
+                mw.require('tree.js')
+            </script>
+
+            <style>
+                .module-categories-image-settings .level-1:not(.has-children):not(.type-category) {
+                    display: none;
+                }
+            </style>
+
+            <script type="text/javascript">
+                var selectedData = [];
+
+                <?php if($selected_category){ ?>
+                <?php $selected_category_explode = explode(',', $selected_category); ?>
+                <?php foreach ($selected_category_explode as $sel){ ?>
+                selectedData.push({
+                    id: <?php print $sel; ?>,
+                    type: 'category'
+                })
+                <?php } ?>
+                <?php } ?>
+
+                <?php if($selected_page){ ?>
+                <?php $selected_page_explode = explode(',', $selected_page); ?>
+                <?php foreach ($selected_page_explode as $sel){ ?>
+                selectedData.push({
+                    id: <?php print $sel; ?>,
+                    type: 'page'
+                })
+                <?php } ?>
+                <?php } ?>
+
+                $(document).ready(function () {
+                    $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function (data) {
+
+                        if (!Array.isArray(data)) {
+                            var data = [];
+                        }
+
+                        data.unshift({
+                            id: 0,
+                            type: 'category',
+                            title: 'None',
+                            "parent_id": 0,
+                            "parent_type": "category"
+                        });
+
+                        var categoryParentSelector = new mw.tree({
+                            element: "#category-parent-selector",
+                            selectable: true,
+                            selectedData: selectedData,
+                            data: data,
+                            searchInput: '#tree-search'
+                        })
+
+                        $(categoryParentSelector).on("selectionChange", function (e, selected) {
+
+                            var pages = [];
+                            var cats = [];
+
+                            $.each(selected, function (key, value) {
+                                var parent = value;
+                                if (parent.type) {
+                                    if (parent.type == 'page') {
+                                        pages.push(parent.id)
+                                    }
+                                    if (parent.type == 'category') {
+                                        cats.push(parent.id)
+                                    }
+                                }
+                            });
+
+                            $('#parentpage').val(pages.join(',')).trigger('change');
+                            $('#parentcat').val(cats.join(',')).trigger('change');
+
+                        })
+                    });
+                });
+            </script>
+
+                <div class="p-2">
+
+                    <div class="module-live-edit-settings module-categories-image-settings">
+                        <input type="hidden" name="settings" id="settingsfield" value="" class="mw_option_field"/>
+
+                        <input type="hidden" name="fromcategory" id="parentcat" value="<?php print $selected_category; ?>"
+                               class="mw_option_field"/>
+                        <input type="hidden" name="frompage" id="parentpage" value="<?php print $selected_page; ?>"
+                               class="mw_option_field"/>
+
+                        <label class="mw-ui-label"><?php _e('Select parent category'); ?></label>
+                        <div class="mw-ui-field-holder">
+
+                            <input type="text" style="min-width: 200px"  class="mw-ui-searchfield" placeholder="Search categories" id="tree-search" />
+                        </div>
+
+                        <div id="category-parent-selector" dir="ltr"></div>
+
+                    </div>
+                </div>
+
+                <div class="mt-1">
+                    <label class="live-edit-label">{{__('Show only parent category')}} </label>
+                    <livewire:microweber-option::toggle optionKey="single-only" :optionGroup="$moduleId" :module="$moduleType"  />
+                </div>
+
+                <div class="mt-1">
+                    <label class="live-edit-label">{{__('Show sub categories')}} </label>
+                    <livewire:microweber-option::toggle optionKey="show-subcats" :optionGroup="$moduleId" :module="$moduleType"  />
+                </div>
+
+                <div class="mt-1">
+                    <label class="live-edit-label">{{__('Hide pages')}} </label>
+                    <livewire:microweber-option::toggle optionKey="hide-pages" :optionGroup="$moduleId" :module="$moduleType"  />
+                </div>
+
+                <div class="mt-1">
+                    <label class="live-edit-label">{{__('Show only products in stock')}} </label>
+                    <livewire:microweber-option::toggle optionKey="filter-only-in-stock" :optionGroup="$moduleId" :module="$moduleType"  />
+                </div>
 
         </div>
         <div x-show="showEditTab=='settings'">
