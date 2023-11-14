@@ -282,17 +282,17 @@ export class ElementHandleContent {
                     elementActions.openElementStyleEditor(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    // var selfVisible = false;
-                    //
-                    //
-                    //
-                    // const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A' ;
-                    // if (isImageOrLink && !isPlaceholder(target)) {
-                    //
-                    //     selfVisible = true;
-                    //
-                    // }
-                    // selfBtn.style.display = selfVisible ? '' : 'none';
+                    var selfVisible = true;
+
+
+
+                    const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A' ;
+                    if (isImageOrLink && !isPlaceholder(target)) {
+
+                        selfVisible = false;
+
+                    }
+                    selfBtn.style.display = selfVisible ? '' : 'none';
                 },
 
             }

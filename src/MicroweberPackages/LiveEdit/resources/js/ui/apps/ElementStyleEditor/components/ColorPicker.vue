@@ -53,9 +53,13 @@ export default {
         },
     },
     data() {
-      var colorHex = this.getHexColorDisplayValueText(this.color)
         //this.setHexColorDisplay(this.color);
-        return {
+
+      var colorHex = this.getHexColorDisplayValueText(this.color)
+
+
+
+      return {
             selectedColor: this.color,
           //  selectedColorHex: '',
             selectedColorHex: colorHex,
@@ -70,6 +74,9 @@ export default {
     methods: {
         getHexColorDisplayValueText(newColor) {
             if (newColor == 'revert-layer') {
+                return '';
+            }  
+            if (newColor == 'none') {
                 return '';
             }
             if (newColor == 'rgb(0 0 0 / 0%)') {
