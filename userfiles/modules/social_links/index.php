@@ -137,6 +137,9 @@ if (isset($params['show-icons'])) {
 $instagram_url = $social_links_options['instagram_url'];
 if ($instagram_url == false) {
     $instagram_url = $website_social_links_options['instagram_url'];
+    if (strpos($instagram_url, 'instagram.com') !== false) {
+        $instagram_url = 'https://instagram.com/' . $instagram_url;
+    }
 }
 
 
@@ -144,12 +147,18 @@ $facebook_url = $social_links_options['facebook_url'];
 
 if ($facebook_url == false) {
     $facebook_url = $website_social_links_options['facebook_url'];
+    if (strpos($facebook_url, 'facebook.com') !== false) {
+        $facebook_url = 'https://facebook.com/' . $facebook_url;
+    }
 }
 
 $twitter_url = $social_links_options['twitter_url'];
 
 if ($twitter_url == false) {
     $twitter_url = $website_social_links_options['twitter_url'];
+    if (strpos($twitter_url, 'twitter.com') !== false) {
+        $twitter_url = 'https://twitter.com/' . $twitter_url;
+    }
 }
 
 
@@ -157,6 +166,9 @@ $googleplus_url = $social_links_options['googleplus_url'];
 
 if ($googleplus_url == false) {
     $googleplus_url = $website_social_links_options['googleplus_url'];
+    if (strpos($googleplus_url, 'plus.google.com') !== false) {
+        $googleplus_url = 'https://plus.google.com/' . $googleplus_url;
+    }
 }
 
 
@@ -165,6 +177,9 @@ $pinterest_url = $social_links_options['pinterest_url'];
 
 if ($pinterest_url == false) {
     $pinterest_url = $website_social_links_options['pinterest_url'];
+    if (strpos($pinterest_url, 'pinterest.com') !== false) {
+        $pinterest_url = 'https://pinterest.com/' . $pinterest_url;
+    }
 }
 
 
@@ -172,6 +187,9 @@ $youtube_url = $social_links_options['youtube_url'];
 
 if ($youtube_url == false) {
     $youtube_url = $website_social_links_options['youtube_url'];
+    if (strpos($youtube_url, 'youtube.com') !== false) {
+        $youtube_url = 'https://youtube.com/user/' . $youtube_url;
+    }
 }
 
 
@@ -179,30 +197,45 @@ $linkedin_url = $social_links_options['linkedin_url'];
 
 if ($linkedin_url == false) {
     $linkedin_url = $website_social_links_options['linkedin_url'];
+    if (strpos($linkedin_url, 'linkedin.com') !== false) {
+        $linkedin_url = 'https://linkedin.com/in/' . $linkedin_url;
+    }
 }
 
 $github_url = $social_links_options['github_url'];
 
 if ($github_url == false) {
     $github_url = $website_social_links_options['github_url'];
+    if (strpos($github_url, 'github.com') !== false) {
+        $github_url = 'https://github.com/' . $github_url;
+    }
 }
 
 $soundcloud_url = $social_links_options['soundcloud_url'];
 
 if ($soundcloud_url == false) {
     $soundcloud_url = $website_social_links_options['soundcloud_url'];
+    if (strpos($soundcloud_url, 'soundcloud.com') !== false) {
+        $soundcloud_url = 'https://soundcloud.com/' . $soundcloud_url;
+    }
 }
 
 $mixcloud_url = $social_links_options['mixcloud_url'];
 
 if ($mixcloud_url == false) {
     $mixcloud_url = $website_social_links_options['mixcloud_url'];
+    if (strpos($mixcloud_url, 'mixcloud.com') !== false) {
+        $mixcloud_url = 'https://mixcloud.com/' . $mixcloud_url;
+    }
 }
 
 $medium_url = $social_links_options['medium_url'];
 
 if ($medium_url == false) {
     $medium_url = $website_social_links_options['medium_url'];
+    if (strpos($medium_url, 'medium.com') !== false) {
+        $medium_url = 'https://medium.com/' . $medium_url;
+    }
 }
 
 
@@ -210,6 +243,9 @@ $discord_url = $social_links_options['discord_url'];
 
 if ($discord_url == false) {
     $discord_url = $website_social_links_options['discord_url'];
+    if (strpos($discord_url, 'discord.gg') !== false) {
+        $discord_url = 'https://discord.gg/' . $discord_url;
+    }
 }
 
 $skype_url = $social_links_options['skype_url'];
