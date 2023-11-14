@@ -135,18 +135,16 @@ export default {
 
       var result = css.get.boxShadow();
 
-      console.log( 'boxShadowOptions');
-      console.log( result);
       if (result.color) {
         this.boxShadowOptions.shadowColor = result.color;
       }
-      if (result.left) {
+      if (result.offsetX) {
         // Remove "px" from the size
-        this.boxShadowOptions.horizontalLength = result.left.replace('px', '');
+        this.boxShadowOptions.horizontalLength = result.offsetX.replace('px', '');
       }
-      if (result.top) {
+      if (result.offsetY) {
         // Remove "px" from the size
-        this.boxShadowOptions.verticalLength = result.top.replace('px', '');
+        this.boxShadowOptions.verticalLength = result.offsetY.replace('px', '');
       }
       if (result.blurRadius) {
         // Remove "px" from the size
