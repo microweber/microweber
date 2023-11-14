@@ -922,7 +922,6 @@ MWEditor.controllers = {
                     if(block && block.parentNode) {
                         scope.api.action(block.parentNode.parentNode, function () {
                             var el = mw.tools.setTag(block, e.detail.value);
-                            // el.focus()
                             scope.api.setCursorAtStart(el)
                         });
                     }
