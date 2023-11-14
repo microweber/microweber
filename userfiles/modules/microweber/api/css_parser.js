@@ -244,7 +244,9 @@ mw.CSSParser = function(el){
         const parse = str => str.split(VALUES_REG).map(s => s.trim()).map(parseValue)
         const stringify = arr => arr.map(stringifyValue).join(', ');
 
-        return parseValue(str);
+        const shadow = (css['boxShadow'] || css['WebkitBoxShadow']).replace(/, /g, ",").split(" ");
+
+        return parseValue(shadow);
     }
     f.shadow = function(){
       var shadow =  mw.JSPrefix('boxShadow');
