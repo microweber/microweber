@@ -38,7 +38,7 @@ if(!isset($tn[1])){
                     <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
                       <div class="col-auto module-posts-template-search-image-holder">
                         <a href="<?php print $item['link'] ?>" class="module-posts-template-search-image">
-                          <img src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="" width="50"  />
+                          <img src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="" width="50" height="50"/>
                         </a>
                       </div>
                     <?php endif; ?>
