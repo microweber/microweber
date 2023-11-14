@@ -1,4 +1,5 @@
 import MicroweberBaseClass from "../containers/base-class.js";
+import CursorPosition from "../../core/libs/cursor-position.js";
 
 export class WyswygEditor extends MicroweberBaseClass {
     constructor() {
@@ -47,7 +48,9 @@ export class WyswygEditor extends MicroweberBaseClass {
                 //         this.setCursorPos(editor, this.savedCursorPosition);
                 //      }, 1010);
                 // });
-
+                // editor.on('init', () => {
+                //    console.log('mce on init');
+                // });
                 editor.on('paste_preprocess', (e) => {
                     // Remove style tags
                     e.content = e.content.replace(/<\s*style[\s\S]*?<\s*\/\s*style\s*>/gi, '');
@@ -88,11 +91,11 @@ export class WyswygEditor extends MicroweberBaseClass {
 
         if (liveEditIframeDocument && liveEditIframe && liveEditIframe.tinyMCE) {
             const mwTinymceEditor = liveEditIframe.tinyMCE;
-
             // Initialize the new editor directly on the existing contenteditable element
             mwTinymceEditor.init(this.config).then((initializedEditor) => {
                 this.editor = initializedEditor;
-            //    mwTinymceEditor.activeEditor.focus();
+                 this.setCursorPos(this.savedCursorPosition,element);
+              // mwTinymceEditor.activeEditor.focus();
             }).catch((error) => {
                 console.error('Error initializing TinyMCE:', error);
             });
@@ -100,26 +103,13 @@ export class WyswygEditor extends MicroweberBaseClass {
     }
 
     getCursorPos(element) {
-        const liveEditIframeWindow = mw.app.canvas.getWindow();
-        const sel = liveEditIframeWindow.getSelection();
-        const range = document.createRange(); // Use document.createRange() to create a new range
+        let offset = CursorPosition.getCurrentCursorPosition(element);
 
-        if (sel.rangeCount > 0) {
-            range.setStart(sel.anchorNode, sel.anchorOffset);
-            range.setEnd(sel.focusNode, sel.focusOffset);
-        }
-
-        return range;
+        return offset;
     }
 
-    setCursorPos(editor, cursorPosition) {
-        if (editor && cursorPosition) {
-            var liveEditIframe = (mw.app.canvas.getWindow());
+    setCursorPos(offset,element ) {
+        CursorPosition.setCurrentCursorPosition(offset,element);
 
-            if (liveEditIframe && liveEditIframe.tinyMCE && liveEditIframe.tinyMCE.activeEditor) {
-                // Use TinyMCE API to set cursor position
-                liveEditIframe.tinyMCE.activeEditor.selection.setRng(cursorPosition);
-            }
-        }
     }
 }

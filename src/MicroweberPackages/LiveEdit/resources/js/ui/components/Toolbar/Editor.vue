@@ -306,7 +306,7 @@ export default {
 
                   let timeoutIdEditor;
 
-                  timeoutIdEditor = setTimeout(() => {
+                  //timeoutIdEditor = setTimeout(() => {
 
 
                         let editTarget = element;
@@ -354,7 +354,7 @@ export default {
 
 
 
-                    }, 300);
+                  //  }, 300);
 
                 }
 
