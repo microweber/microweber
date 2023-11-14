@@ -10,7 +10,7 @@
         <div v-if="showModal"
 
              class="mw-le-dialog-block mw-le-modules-dialog active"
-             style="inset:35%; top:20%; transform:none; animation-duration: .3s;"
+             style="animation-duration: .3s;"
         >
 
             <div class="modules-list modules-list-defaultModules py-3">
@@ -124,7 +124,10 @@ export default {
 
             mw.app.editor.on('insertModuleRequest', function (el) {
                 instance.showModal = true;
-                mw.app.registerChangedState(el)
+                mw.app.registerChangedState(el);
+                setTimeout(() => {
+                    $('.mw-modules-list-search-block').focus()
+                }, 78)
             });
 
         });
