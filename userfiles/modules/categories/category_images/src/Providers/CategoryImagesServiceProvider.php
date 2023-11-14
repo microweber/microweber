@@ -6,7 +6,7 @@ use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
-use MicroweberPackages\Modules\Categories\CategoryImages\Http\Livewire\CategoryImagesSettingsComponent;
+use MicroweberPackages\Modules\Categories\CategoryImages\Http\Livewire\CategorySettingsComponent;
 
 class CategoryImagesServiceProvider extends PackageServiceProvider
 {
@@ -20,7 +20,7 @@ class CategoryImagesServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-        Livewire::component('microweber-module-category-images::settings', CategoryImagesSettingsComponent::class);
+        Livewire::component('microweber-module-category-images::settings', CategorySettingsComponent::class);
         ModuleAdmin::registerSettings('category-images', 'microweber-module-category-images::settings');
 
     }

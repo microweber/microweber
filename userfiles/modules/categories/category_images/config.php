@@ -20,5 +20,5 @@ $config['settings']['autoload_namespace'] = [
 ];
 
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Modules\Categories\CategoryImages\Providers\CategoryImagesServiceProvider::class
+    \MicroweberPackages\Modules\Categories\CategoryImages\Providers\CategoryServiceProvider::class
 ];
