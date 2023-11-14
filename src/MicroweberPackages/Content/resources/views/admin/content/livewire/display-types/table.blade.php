@@ -6,7 +6,7 @@
                 @include('content::admin.content.livewire.table-includes.select-all-checkbox')
             </th>
             @if($showColumns['id'])
-                @include('content::admin.content.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
+                @include('content::admin.content.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters, 'width' => '30px'])
             @endif
             @if($showColumns['image'])
                 <th style="width: 130px" scope="col">{{'Image'}}</th>

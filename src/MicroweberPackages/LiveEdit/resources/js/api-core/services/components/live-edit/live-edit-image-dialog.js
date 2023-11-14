@@ -87,6 +87,16 @@ export class LiveEditImageDialog extends BaseComponent {
 
 
     }
+    editImage(url, callback) {
+
+        setTimeout(() => {
+            // Simulating an asynchronous operation with setTimeout
+            this.editImageUrl(url).then(result => {
+                callback(result);
+            });
+        }, 300);
+
+    }
 
     async editImageUrl(url) {
         return new Promise(resolve => {

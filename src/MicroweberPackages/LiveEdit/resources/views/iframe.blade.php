@@ -50,7 +50,9 @@
     mw.layoutQuickSettings = [];
 
     window.addEventListener('load', function () {
-        mw.top().app.fontManager.addFonts({!! json_encode(\MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts()) !!});
+        if(mw.top() && mw.top().app && mw.top().app.liveEdit && mw.top().app.fontManager){
+            mw.top().app.fontManager.addFonts({!! json_encode(\MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts()) !!});
+        }
 
         const scrollContainer = document.querySelector("#live-edit-frame-holder");
         const frame = scrollContainer.querySelector("iframe");

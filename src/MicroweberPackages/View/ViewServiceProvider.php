@@ -15,6 +15,7 @@ class ViewServiceProvider extends ServiceProvider
         $this->registerTagCompiler();
 
         Blade::directive('module', [MicroweberBladeDirectives::class, 'module']);
+
     }
 
     protected function registerTagCompiler()

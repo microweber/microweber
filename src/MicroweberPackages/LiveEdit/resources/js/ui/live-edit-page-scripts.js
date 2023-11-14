@@ -7,7 +7,7 @@ if(window.self !== window.top) {
 
     //mw.require('options.js');
 
-
+    mw.lib.require('tinymce');
 
     mw.liveEditSaveService = {
         grammarlyFix: function (data) {
@@ -79,11 +79,22 @@ if(window.self !== window.top) {
             mw.$('.mw-webkit-drag-hover-binded', doc).removeClass('mw-webkit-drag-hover-binded');
             mw.$('.module-cat-toggle-Modules', doc).removeClass('module-cat-toggle-Modules');
             mw.$('.mw-module-drag-clone', doc).removeClass('mw-module-drag-clone');
+            mw.$('.mce-edit-focus', doc).removeClass('mce-edit-focus');
+            mw.$('.mce-edit-body', doc).removeClass('mce-edit-body');
+            mw.$('[data-mce-style]', doc).removeAttr('data-mce-style');
+            mw.$('[mce-content-body]', doc).removeAttr('mce-content-body');
+            mw.$('[data-mce-style]', doc).removeAttr('data-mce-style');
+            mw.$('[data-mce-selected]', doc).removeAttr('data-mce-selected');
+            mw.$('[data-mce-href]', doc).removeAttr('data-mce-href');
             mw.$('-module', doc).removeClass('-module');
             mw.$('.empty-element', doc).remove();
             mw.$('.empty-element', doc).remove();
+            mw.$('[data-mce-bogus]', doc).remove();
             mw.$('.edit .ui-resizable-handle', doc).remove();
             mw.$('script', doc).remove();
+
+
+
 
             //var doc = mw.$(doc).find('script').remove();
 
@@ -506,7 +517,7 @@ if (self === top) {
             // Create the <a> element (button)
             var stickyButton = document.createElement('a');
             stickyButton.id = 'back-to-live-sticky-button';
-            stickyButton.textContent = 'Live Edit';
+            stickyButton.textContent = 'Go Live Edit';
             stickyButton.href = window.mwLiveEditIframeBackUrl;
             stickyButton.classList.add('sticky');
 
@@ -521,24 +532,32 @@ if (self === top) {
             // Create and apply the CSS style dynamically
             var style = document.createElement('style');
             style.textContent = `
-                #back-to-live-sticky-button {
-                    position: fixed;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    z-index: 999;
-                    transition: top 0.3s;
-                    background: #000;
-                    color:#fff !important;
-                    padding: 5px 20px;
-                    border-radius: 5px;
-                    border-top-left-radius: 0;
-                    border-top-right-radius: 0;
-                    font-family: Arial, sans-serif;
-                }
+                    #back-to-live-sticky-button {
+                        position: fixed;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        z-index: 999;
+                        transition: top 0.3s;
+                        background: #3498db;
+                        color: #fff !important;
+                        padding: 10px 20px;
+                        border-radius: 5px;
+                        border-top-left-radius: 0;
+                        border-top-right-radius: 0;
+                        font-family: Arial, sans-serif;
+                        border: none;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        cursor: pointer;
+                    }
 
-                #back-to-live-sticky-button.sticky {
-                    top: 0;
-                }
+                    #back-to-live-sticky-button:hover {
+                        background: #2980b9;
+                    }
+
+
+                    #back-to-live-sticky-button.sticky {
+                        top: 0;
+                    }
 
 
 

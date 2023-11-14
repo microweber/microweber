@@ -132,7 +132,6 @@ export const EditorComponent = function () {
     });
 
 
-
     holder.innerHTML = '';
     holder.appendChild(liveEditor.wrapper);
 

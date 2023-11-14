@@ -253,6 +253,10 @@ export class ElementActions extends MicroweberBaseClass {
 
     }
 
+    openElementStyleEditor(el) {
+        mw.app.editor.dispatch('editNodeStyleRequest', el);
+    }
+
     moveBackward(el) {
         const prev = el.previousElementSibling;
         if (prev) {

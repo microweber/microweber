@@ -177,6 +177,8 @@ showEditTab: 'main'
                                 <div>
 
 
+
+
                                     @livewire('microweber-live-edit::module-items-editor-edit-item', [
                                     'moduleId' => $moduleId,
                                     'moduleType' => $moduleType,

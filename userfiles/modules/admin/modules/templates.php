@@ -199,7 +199,13 @@ if ($screenshots) {
 
                 <div x-show="showSkinDropdown" class="skin-dropdown-options-wrapper">
 
-                    <?php foreach ($templates as $item): ?>
+                    <?php
+                    $newOrderTemplates = [];
+                    $newOrderTemplates[] = array('name' => 'Default', 'layout_file' => 'default.php');
+                    $newOrderTemplates = array_merge($newOrderTemplates, $templates);
+                    ?>
+
+                    <?php foreach ($newOrderTemplates as $item): ?>
 
                         <?php
                         if (!isset($item['screenshot'])) {
@@ -207,8 +213,8 @@ if ($screenshots) {
                         }
                         ?>
 
-                        <?php if ((strtolower($item['name']) != 'default')): ?>
                             <?php $default_item_names[] = $item['name']; ?>
+
                             <div x-on:click="() => {
                                     mw.options.saveOption({
                                         group: '<?php print $params['for-module-id'] ?>',
@@ -223,20 +229,26 @@ if ($screenshots) {
 
 
                                <?php if (isset($item['screenshot']) && !empty($item['screenshot'])): ?>
-                               <div style="background: url('<?php print $item['screenshot'] ?>');width:100%;height:120px;background-size: contain;background-repeat: no-repeat;">
-                                   <h4>
-                                       <?php print $item['name'] ?>
-                                   </h4>
+
+                               <div>
+                                   <div>
+                                       <h4>
+                                           <?php print $item['name'] ?>
+                                       </h4>
+                                   </div>
+                                   <div style="background: url('<?php print $item['screenshot'] ?>');margin:0 auto;width:300px;height:120px;background-size: contain;background-repeat: no-repeat;">
+                               </div>
                                </div>
                                <?php else: ?>
                                    <div>
-                                       <?php print $item['name'] ?>
+                                       <h4>
+                                           <?php print $item['name'] ?>
+                                       </h4>
                                    </div>
                                <?php endif; ?>
 
-
                             </div>
-                        <?php endif; ?>
+
                     <?php endforeach; ?>
 
                     <?php if (is_array($site_templates)): ?>

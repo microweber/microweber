@@ -20,7 +20,6 @@
             display: none;
             position: fixed;
             z-index: 1100;
-            padding-top: 100px;
             left: 0;
             top: 0;
             width: 100%;
@@ -33,9 +32,27 @@
         .js-modal-livewire-content {
             margin: auto;
             background-color: #fff;
-            width: 800px;
-            max-height: calc(100% - 100px);
+            width: 100%;
+            height: 100%;
             overflow: auto;
+        }
+        @media only screen and (min-width: 600px) {
+            .js-modal-livewire {
+                padding-top: 100px;
+            }
+            .js-modal-livewire-content {
+                width: 500px;
+                max-height: calc(100% - 100px);
+            }
+        }
+        @media only screen and (min-width: 768px) {
+            .js-modal-livewire {
+                padding-top: 100px;
+            }
+            .js-modal-livewire-content {
+                width: 800px;
+                max-height: calc(100% - 100px);
+            }
         }
     </style>
     <div>

@@ -251,14 +251,17 @@ MWEditor.controllers = {
                 }
 
                 if (this.target) {
+
+
                     mw.app.editor.dispatch('insertModuleRequest', this.target);
-
+                    mw.top().app.liveEdit.stopTyping();
+                    // setTimeout(() => {
+                    //   mw.top().app.liveEdit.handles.hide();
+                    //
+                    //     mw.top().app.liveEdit.pause();
+                    // },100);
                     mw.top().win.mw.app.liveEdit.handles.get('element').set(this.target)
-                    setTimeout(() => {
 
-                        mw.top().app.liveEdit.handles.hide();
-                        mw.top().app.liveEdit.pause();
-                    })
                 }
             });
 
@@ -417,7 +420,26 @@ MWEditor.controllers = {
                         '</svg>'
                 }
             });
-            el.on('mousedown touchstart', function (e) {
+            el.on('mousedown touchstart',  async function (e) {
+                // if (mw.top().app && mw.top().app.canvas) {
+                //     var liveEditIframe = (mw.app.canvas.getWindow());
+                //
+                //     if (liveEditIframe && liveEditIframe.tinyMCE) {
+                //         // set by tinyMCE
+                //         var editor = liveEditIframe.tinyMCE.activeEditor;
+                //         if (editor) {
+                //             // Execute the bold command
+                //             editor.execCommand('Bold');
+                //         }
+                //         return;
+                //     }
+                //
+                // }
+
+                api.execCommand('bold');
+
+                return;
+
                 var sel = api.getSelection();
 
                 if(sel.getRangeAt(0).collapsed) {
@@ -465,6 +487,12 @@ MWEditor.controllers = {
 
             el.on('mousedown touchstart', function (e) {
 
+                api.execCommand('strikeThrough');
+
+                return;
+
+
+
                 var sel = api.getSelection();
 
                 if(sel.getRangeAt(0).collapsed) {
@@ -509,6 +537,12 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
 
+                api.execCommand('italic');
+
+                return;
+
+
+
                 if(sel.getRangeAt(0).collapsed) {
 
 
@@ -552,6 +586,13 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
+
+                api.execCommand('underline');
+
+                return;
+
+
+
                 var sel = api.getSelection();
                 if(sel.getRangeAt(0).collapsed) {
 
@@ -877,11 +918,13 @@ MWEditor.controllers = {
                     }
 
                     var block = mw.tools.firstBlockLikeLevel(el);
-                    scope.api.action(block.parentNode.parentNode, function () {
-                        var el = mw.tools.setTag(block, e.detail.value);
-                        // el.focus()
-                        scope.api.setCursorAtStart(el)
-                    });
+                    // block.parentNode sometimes is null
+                    if(block && block.parentNode) {
+                        scope.api.action(block.parentNode.parentNode, function () {
+                            var el = mw.tools.setTag(block, e.detail.value);
+                            scope.api.setCursorAtStart(el)
+                        });
+                    }
                 }
             });
             return dropdown.root;
@@ -1068,22 +1111,30 @@ MWEditor.controllers = {
                 var parentList;
                 if(isSafeMode) {
                     parentList = mw.tools.firstBlockLikeLevel(node);
-                    parentList.parentNode.contentEditable = true;
-                    parentList.contentEditable = 'inherit';
+                   parentList.parentNode.contentEditable = true;
+                   parentList.contentEditable = 'inherit';
 
                 }
                 var edit = mw.tools.firstParentOrCurrentWithClass(parentList || node, 'edit');
 
                 api.setCursorAtStart(parentList || node)
 
-                node.ownerDocument.execCommand('insertunorderedList');
-                setTimeout(function(){
+                var isInList = mw.tools.firstParentOrCurrentWithTag(node, ['ul', 'ol']);
+                if(isInList) {
+                    api.execCommand('RemoveList');
+                }
+
+                 node.ownerDocument.execCommand('insertunorderedList');
+              //  api.execCommand('insertunorderedList');
+                 setTimeout(function(){
                     if(edit) {
-                        var all = edit.querySelectorAll('[style*="var"]');
+                        var all = edit.querySelectorAll('*[style*="var"]');
                         var allp = edit.querySelectorAll('h1 ul, h2 ul, h3 ul, h4 ul, h5 ul, h6 ul, p ul, h1 ol,h2 ol,h3 ol,h4 ol,h5 ol, h6 ol, p ol');
                         all.forEach(node => {
-                            if(node.isContentEditable) {
-                                [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop) )
+                            if (node.style) {
+                                if (node.isContentEditable) {
+                                    [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
+                                }
                             }
                         });
                         allp.forEach(node => {
@@ -1143,6 +1194,11 @@ MWEditor.controllers = {
                 var edit = mw.tools.firstParentOrCurrentWithClass(parentList || node, 'edit');
 
                 api.setCursorAtStart(parentList || node)
+
+                var isInList = mw.tools.firstParentOrCurrentWithTag(node, ['ul', 'ol']);
+                if(isInList) {
+                    api.execCommand('RemoveList');
+                }
 
                 node.ownerDocument.execCommand('insertorderedList');
                 setTimeout(function(){

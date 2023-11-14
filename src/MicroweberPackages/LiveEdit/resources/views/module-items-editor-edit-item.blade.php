@@ -17,6 +17,8 @@
                 {!!$backButtonIconSvg!!}
             </x-microweber-ui::button-back>
 
+            <x-microweber-ui::button-animation type="submit">@lang('Save')</x-microweber-ui::button-animation>
+
         </div>
 
 

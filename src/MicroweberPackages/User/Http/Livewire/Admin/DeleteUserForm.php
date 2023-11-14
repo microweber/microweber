@@ -51,11 +51,11 @@ class DeleteUserForm extends AdminComponent
     {
         $this->resetErrorBag();
 
-        if (! Hash::check($this->password, Auth::user()->password)) {
-            throw ValidationException::withMessages([
-                'password' => [__('This password does not match our records.')],
-            ]);
-        }
+//        if (! Hash::check($this->password, Auth::user()->password)) {
+//            throw ValidationException::withMessages([
+//                'password' => [__('This password does not match our records.')],
+//            ]);
+//        }
 
         if ($this->userId) {
             $user = User::where('id', $this->userId)->first();
