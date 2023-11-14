@@ -1109,27 +1109,31 @@ MWEditor.controllers = {
                 var parentList;
                 if(isSafeMode) {
                     parentList = mw.tools.firstBlockLikeLevel(node);
-                    parentList.parentNode.contentEditable = true;
-                    parentList.contentEditable = 'inherit';
+                   parentList.parentNode.contentEditable = true;
+                   parentList.contentEditable = 'inherit';
 
                 }
                 var edit = mw.tools.firstParentOrCurrentWithClass(parentList || node, 'edit');
 
                 api.setCursorAtStart(parentList || node)
 
+                var isInList = mw.tools.firstParentOrCurrentWithTag(node, ['ul', 'ol']);
+                if(isInList) {
+                    api.execCommand('RemoveList');
+                }
 
-                node.ownerDocument.execCommand('insertunorderedList');
-                setTimeout(function(){
+                 node.ownerDocument.execCommand('insertunorderedList');
+              //  api.execCommand('insertunorderedList');
+                 setTimeout(function(){
                     if(edit) {
-                        var all = edit.querySelectorAll('[style*="var"]');
+                        var all = edit.querySelectorAll('*[style*="var"]');
                         var allp = edit.querySelectorAll('h1 ul, h2 ul, h3 ul, h4 ul, h5 ul, h6 ul, p ul, h1 ol,h2 ol,h3 ol,h4 ol,h5 ol, h6 ol, p ol');
                         all.forEach(node => {
-                            if(node.isContentEditable && node.style) {
-                                Object.keys(node.style).forEach(prop => {
-                                    if (node.style[prop] && node.style[prop].includes('var(')) {
-                                        node.style.removeProperty(prop);
-                                    }
-                                });                            }
+                            if (node.style) {
+                                if (node.isContentEditable) {
+                                    [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
+                                }
+                            }
                         });
                         allp.forEach(node => {
                             var pp = mw.tools.firstParentOrCurrentWithTag(node, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p']);
@@ -1188,6 +1192,11 @@ MWEditor.controllers = {
                 var edit = mw.tools.firstParentOrCurrentWithClass(parentList || node, 'edit');
 
                 api.setCursorAtStart(parentList || node)
+
+                var isInList = mw.tools.firstParentOrCurrentWithTag(node, ['ul', 'ol']);
+                if(isInList) {
+                    api.execCommand('RemoveList');
+                }
 
                 node.ownerDocument.execCommand('insertorderedList');
                 setTimeout(function(){

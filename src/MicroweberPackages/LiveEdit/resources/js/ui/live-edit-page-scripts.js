@@ -79,13 +79,22 @@ if(window.self !== window.top) {
             mw.$('.mw-webkit-drag-hover-binded', doc).removeClass('mw-webkit-drag-hover-binded');
             mw.$('.module-cat-toggle-Modules', doc).removeClass('module-cat-toggle-Modules');
             mw.$('.mw-module-drag-clone', doc).removeClass('mw-module-drag-clone');
+            mw.$('.mce-edit-focus', doc).removeClass('mce-edit-focus');
+            mw.$('.mce-edit-body', doc).removeClass('mce-edit-body');
+            mw.$('[data-mce-style]', doc).removeAttr('data-mce-style');
+            mw.$('[mce-content-body]', doc).removeAttr('mce-content-body');
             mw.$('[data-mce-style]', doc).removeAttr('data-mce-style');
             mw.$('[data-mce-selected]', doc).removeAttr('data-mce-selected');
+            mw.$('[data-mce-href]', doc).removeAttr('data-mce-href');
             mw.$('-module', doc).removeClass('-module');
             mw.$('.empty-element', doc).remove();
             mw.$('.empty-element', doc).remove();
+            mw.$('[data-mce-bogus]', doc).remove();
             mw.$('.edit .ui-resizable-handle', doc).remove();
             mw.$('script', doc).remove();
+
+
+
 
             //var doc = mw.$(doc).find('script').remove();
 

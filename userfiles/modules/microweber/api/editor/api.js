@@ -625,6 +625,7 @@ mw.lib.require('rangy');
                         // set by tinyMCE
                         var editor = liveEditIframe.tinyMCE.activeEditor;
                         if (editor) {
+                            console.log('execCommand', cmd, def, val);
                             // Execute the command
                             editor.execCommand(cmd, def, val);
                         }

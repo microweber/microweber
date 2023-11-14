@@ -303,7 +303,10 @@ export default {
 
 
 
-                    setTimeout(() => {
+
+                  let timeoutIdEditor;
+
+                  timeoutIdEditor = setTimeout(() => {
 
 
                         let editTarget = element;
@@ -330,7 +333,7 @@ export default {
 
                         element.focus();
 
-                        editTarget.contentEditable = true;
+                       // editTarget.contentEditable = true;
                         mw.app.liveEdit.pause();
 
                        mw.app.richTextEditor.smallEditorInteract(element);

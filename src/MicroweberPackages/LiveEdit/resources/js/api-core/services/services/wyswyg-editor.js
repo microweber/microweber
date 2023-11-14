@@ -5,9 +5,79 @@ export class WyswygEditor extends MicroweberBaseClass {
         super();
         this.editor = null;
         this.savedCursorPosition = null;
+
+        this.config = {
+            selector: '[contenteditable="true"]',
+            skin: 'noskin',
+            editable_root: false,
+            //forced_root_block: '', deprecateds
+            object_resizing: false,
+            resize: false,
+            media_live_embeds: false,
+            paste_as_text: false,
+            paste_auto_cleanup_on_paste: true,
+            paste_convert_headers_to_strong: false,
+            toolbar: false,
+            keep_styles: true,
+            promotion: false,
+            statusbar: false,
+            menubar: false,
+            default_link_target: "_blank",
+            link_assume_external_targets: true,
+            powerpaste_word_import: 'clean',
+            powerpaste_html_import: 'clean',
+            verify_html: false,
+            inline_styles : false,
+            auto_focus : false,
+            typeahead_urls: false,
+            resize_img_proportional: false,
+            allow_unsafe_link_target: true,
+            format_empty_lines: false,
+
+
+            cleanup: false,
+            valid_elements: '*[*],script[*],style[*]',
+            valid_children: '*[*],script[*],style[*]',
+            extended_valid_elements: '*[*],script[*],style[*],a[*]',
+            inline: true,
+
+            setup: (editor) => {
+                // editor.on('init', () => {
+                //     setTimeout(() => {
+                //         this.setCursorPos(editor, this.savedCursorPosition);
+                //      }, 1010);
+                // });
+
+                editor.on('paste_preprocess', (e) => {
+                    // Remove style tags
+                    e.content = e.content.replace(/<\s*style[\s\S]*?<\s*\/\s*style\s*>/gi, '');
+
+                    // Remove inline style attributes
+                    e.content = e.content.replace(/ style=".*?"/gi, '');
+                });
+                editor.on('NodeChange', (e) => {
+                    // Clear inline styles after formatting
+                  //  if (e.element.nodeName === 'STRONG' || e.element.nodeName === 'SPAN') {
+                  //      editor.dom.remove(e.element, true);
+                  //  }
+                });
+                editor.on('keydown', (e) => {
+                    if (e.key === 'Backspace' || e.key === 'Delete') {
+                        const cursorNode = editor.selection.getNode();
+                        if (cursorNode && (cursorNode.classList.contains('safe-mode') || cursorNode.closest('.safe-mode'))) {
+                            if (!cursorNode.innerText.trim()) {
+                                e.preventDefault();
+                            }
+                        }
+                    }
+                });
+            },
+        };
     }
 
     initEditor(element) {
+
+
         this.savedCursorPosition = this.getCursorPos(element);
 
         const liveEditIframe = mw.app.canvas.getWindow();
@@ -16,97 +86,37 @@ export class WyswygEditor extends MicroweberBaseClass {
         if (liveEditIframeDocument && liveEditIframe && liveEditIframe.tinyMCE) {
             const mwTinymceEditor = liveEditIframe.tinyMCE;
 
-            const config = {
-                selector: '[contenteditable="true"]',
-                skin: 'noskin',
-                editable_root: false,
-                object_resizing: false,
-                resize: false,
-                media_live_embeds: false,
-                paste_as_text: false,
-                paste_auto_cleanup_on_paste: true,
-                paste_convert_headers_to_strong: false,
-                toolbar: false,
-                keep_styles: true,
-                promotion: false,
-                statusbar: false,
-                menubar: false,
-              //  forced_root_block: false,
-                default_link_target: "_blank",
-                link_assume_external_targets: true,
-                powerpaste_word_import: 'clean',
-                powerpaste_html_import: 'clean',
-                verify_html: false,
-                cleanup: false,
-                valid_elements: '*[*],script[*],style[*]',
-                valid_children: '*[*],script[*],style[*]',
-                extended_valid_elements: '*[*],script[*],style[*],a[*]',
-                inline: true,
-
-                setup: (editor) => {
-                    // editor.on('blur change cut copy keyup paste', function(e){
-                    //     var tinyMceData = tinyMCE.activeEditor.getContent({ format: 'raw' });
-                    //     if(tinyMceData.indexOf('<br data-mce-bogus="1">') >= 0) {
-                    //         tinyMceData = "";
-                    //         tinyMCE.activeEditor.setContent('', { format: 'raw' });
-                    //     }
-                    // });
-                    editor.on('init', () => {
-                        setTimeout(() => {
-                            this.setCursorPos(editor, this.savedCursorPosition);
-                        }, 110);
-                    });
-
-                    editor.on('paste_preprocess', (e) => {
-                        // Remove style tags
-                        e.content = e.content.replace(/<\s*style[\s\S]*?<\s*\/\s*style\s*>/gi, '');
-
-                        // Remove inline style attributes
-                        e.content = e.content.replace(/ style=".*?"/gi, '');
-                    });
-
-                    editor.on('keydown', (e) => {
-                        if (e.key === 'Backspace' || e.key === 'Delete') {
-                            const cursorNode = editor.selection.getNode();
-                            if (cursorNode && (cursorNode.classList.contains('safe-mode') || cursorNode.closest('.safe-mode'))) {
-                                if (!cursorNode.innerText.trim()) {
-                                    e.preventDefault();
-                                }
-                            }
-                        }
-                    });
-                },
-            };
-
             // Initialize the new editor directly on the existing contenteditable element
-            mwTinymceEditor.init(config).then((initializedEditor) => {
+            mwTinymceEditor.init(this.config).then((initializedEditor) => {
                 this.editor = initializedEditor;
+            //    mwTinymceEditor.activeEditor.focus();
             }).catch((error) => {
                 console.error('Error initializing TinyMCE:', error);
             });
         }
     }
+
     getCursorPos(element) {
         const liveEditIframeWindow = mw.app.canvas.getWindow();
         const sel = liveEditIframeWindow.getSelection();
-        const range = sel.rangeCount > 0 ? sel.getRangeAt(0) : null;
+        const range = document.createRange(); // Use document.createRange() to create a new range
 
-        if (range) {
-            const node = range.startContainer.nodeType === Node.TEXT_NODE ? range.startContainer : range.startContainer.childNodes[range.startOffset];
-            const offset = range.startContainer.nodeType === Node.TEXT_NODE ? range.startOffset : 0;
-
-            return { node, offset };
+        if (sel.rangeCount > 0) {
+            range.setStart(sel.anchorNode, sel.anchorOffset);
+            range.setEnd(sel.focusNode, sel.focusOffset);
         }
 
-        return null;
+        return range;
     }
 
     setCursorPos(editor, cursorPosition) {
-        if (editor && editor.selection && cursorPosition) {
-            const range = editor.selection.getRng().cloneRange();
-            range.setStart(cursorPosition.node, cursorPosition.offset);
-            range.collapse(true);
-            editor.selection.setRng(range);
+        if (editor && cursorPosition) {
+            var liveEditIframe = (mw.app.canvas.getWindow());
+
+            if (liveEditIframe && liveEditIframe.tinyMCE && liveEditIframe.tinyMCE.activeEditor) {
+                // Use TinyMCE API to set cursor position
+                liveEditIframe.tinyMCE.activeEditor.selection.setRng(cursorPosition);
+            }
         }
     }
 }
