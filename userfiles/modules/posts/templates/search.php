@@ -8,7 +8,7 @@ name: Search
 
 description: Search
 
-visible: no 
+visible: no
 
 */
 ?>
@@ -33,29 +33,41 @@ if(!isset($tn[1])){
   <ul>
   <?php foreach ($data as $item): ?>
             <li>
-                <div class="mw-ui-row">
+                <div class="row ">
 
                     <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
-                      <div class="mw-ui-col module-posts-template-search-image-holder">
+                      <div class="col-auto module-posts-template-search-image-holder">
                         <a href="<?php print $item['link'] ?>" class="module-posts-template-search-image">
-                          <img src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="" width="70"  />
+                          <img src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="" width="50"  />
                         </a>
                       </div>
                     <?php endif; ?>
-                    <div class="mw-ui-col">
+                    <div class="col">
                         <div class="module-posts-template-search-body">
                          <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
-                              <h5><a class="link media-heading" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h5>
-                         <?php endif; ?>
-                         <?php if(!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
-                              <p><?php print $item['description'] ?></p>
+                              <h6>
+                                  <a class="link media-heading text-decoration-none" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a>
+                              </h6>
                          <?php endif; ?>
                          </div>
                      </div>
+
+                    <div class="col-auto">
+                        <?php if ($show_fields == false or in_array('price', $show_fields)): ?>
+                            <div class=" price">
+                                <?php if (isset($item['prices']) and is_array($item['prices'])) : ?>
+                                    <?php
+                                    $vals2 = array_values($item['prices']);
+                                    $val1 = array_shift($vals2); ?>
+                                    <span><?php print currency_format($val1); ?></span>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                </div>
             </li>
   <?php endforeach; ?>
-   </ul> 
+   </ul>
   <?php endif; ?>
 
 
