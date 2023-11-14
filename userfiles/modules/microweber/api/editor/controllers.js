@@ -260,7 +260,6 @@ MWEditor.controllers = {
                     //
                     //     mw.top().app.liveEdit.pause();
                     // },100);
-
                     mw.top().win.mw.app.liveEdit.handles.get('element').set(this.target)
 
                 }
