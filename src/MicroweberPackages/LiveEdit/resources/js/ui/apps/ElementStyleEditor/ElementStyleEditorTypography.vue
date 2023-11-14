@@ -237,7 +237,6 @@ export default {
                 font.lineHeight = font.lineHeight.replace('px', '');
             }
 
-            console.log('font', font);
 
             this.fontSize = font.size;
             this.fontWeight = font.weight;

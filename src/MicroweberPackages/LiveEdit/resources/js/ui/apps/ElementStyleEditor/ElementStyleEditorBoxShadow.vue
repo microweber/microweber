@@ -1,109 +1,191 @@
 <template>
-    <div>
-        <div class="box-shadow-options">
-            <div class="form-group">
-                <label for="horizontalLength">Horizontal Shadow Length</label>
-                <input
-                    type="text"
-                    id="horizontalLength"
-                    v-model="boxShadowOptions.horizontalLength"
-                    @input="applyBoxShadow"
-                />
-            </div>
-            <div class="form-group">
-                <label for="verticalLength">Vertical Shadow Length</label>
-                <input
-                    type="text"
-                    id="verticalLength"
-                    v-model="boxShadowOptions.verticalLength"
-                    @input="applyBoxShadow"
-                />
-            </div>
-            <div class="form-group">
-                <label for="blurRadius">Blur Radius</label>
-                <input
-                    type="text"
-                    id="blurRadius"
-                    v-model="boxShadowOptions.blurRadius"
-                    @input="applyBoxShadow"
-                />
-            </div>
-            <div class="form-group">
-                <label for="spreadRadius">Spread Radius</label>
-                <input
-                    type="text"
-                    id="spreadRadius"
-                    v-model="boxShadowOptions.spreadRadius"
-                    @input="applyBoxShadow"
-                />
-            </div>
-            <div class="form-group">
-                <label for="shadowColor">Shadow Color</label>
-                <input
-                    type="color"
-                    id="shadowColor"
-                    v-model="boxShadowOptions.shadowColor"
-                    @input="applyBoxShadow"
-                />
-            </div>
-            <div class="form-group">
-                <label for="shadowOpacity">Shadow Color Opacity</label>
-                <input
-                    type="range"
-                    id="shadowOpacity"
-                    v-model="boxShadowOptions.shadowOpacity"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    @input="applyBoxShadow"
-                />
-            </div>
-            <div class="form-group">
-                <label for="inset">Inset</label>
-                <input
-                    type="checkbox"
-                    id="inset"
-                    v-model="boxShadowOptions.inset"
-                    @change="applyBoxShadow"
-                />
-            </div>
-        </div>
+  <div>
+    <div class="box-shadow-options">
+
+
+
+      <div class="form-group">
+
+
+        <SliderSmall label="Horizontal Shadow Length" v-model="boxShadowOptions.horizontalLength" :min="0" :max="30" :step="1"></SliderSmall>
+        <SliderSmall label="Vertical Shadow Length" v-model="boxShadowOptions.verticalLength" :min="0" :max="30" :step="1"></SliderSmall>
+        <SliderSmall label="Blur Radius" v-model="boxShadowOptions.blurRadius" :min="0" :max="30" :step="1"></SliderSmall>
+        <SliderSmall label="Spread Radius" v-model="boxShadowOptions.spreadRadius" :min="0" :max="30" :step="1"></SliderSmall>
+
+
+        <ColorPicker v-model="boxShadowOptions.shadowColor" v-bind:color=boxShadowOptions.shadowColor :label="'Box shadow color'"
+                     @change="handleBoxShadowColorChange"/>
+
+      </div>
+
+      <div class="form-group">
+        <label for="inset">Inset</label>
+        <input
+            type="checkbox"
+            id="inset"
+            v-model="boxShadowOptions.inset"
+            @change="applyBoxShadow"
+        />
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
+
+import ColorPicker from "./components/ColorPicker.vue";
+
+import SliderSmall from "./components/SliderSmall.vue";
+
 export default {
-    data() {
-        return {
-            boxShadowOptions: {
-                horizontalLength: '2px',
-                verticalLength: '4px',
-                blurRadius: '13px',
-                spreadRadius: '-47px',
-                shadowColor: 'rgb(0,0,0)',
-                shadowOpacity: 0.61,
-                inset: false,
-            },
-        };
-    },
-    methods: {
-        applyBoxShadow() {
-            const {
-                horizontalLength,
-                verticalLength,
-                blurRadius,
-                spreadRadius,
-                shadowColor,
-                shadowOpacity,
-                inset,
-            } = this.boxShadowOptions;
+  components: {  ColorPicker,  SliderSmall},
 
-            const boxShadowValue = `${inset ? 'inset ' : ''}${horizontalLength} ${verticalLength} ${blurRadius} ${spreadRadius} ${shadowColor} / ${shadowOpacity}`;
+  data() {
+    return {
+      'activeNode': null,
+      'isReady': false,
+      boxShadowOptions: {
+        horizontalLength: '',
+        verticalLength: '',
+        blurRadius: '',
+        spreadRadius: '',
+        shadowColor: '',
+        inset: '',
+      },
+    };
+  },
 
-            // You can emit this value or perform other actions based on your requirements
-            console.log(boxShadowValue);
-        },
+  mounted() {
+
+    this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+      if (elementStyleEditorShow !== 'boxShadowOptions') {
+        this.showBoxShadowOptions = false;
+      }
+    });
+
+    mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
+      this.populateStyleEditor(element)
+    });
+  },
+  watch: {
+    boxShadowOptions: {
+      handler: function (newVal, oldVal) {
+        this.applyBoxShadow();
+      },
+      deep: true,
     },
+  },
+  methods: {
+    applyPropertyToActiveNode: function (prop, val) {
+      if (!this.isReady) {
+        return;
+      }
+
+      if (this.activeNode) {
+        mw.top().app.dispatch('mw.elementStyleEditor.applyCssPropertyToNode', {
+          node: this.activeNode,
+          prop: prop,
+          val: val
+        });
+      }
+    },
+
+    handleBoxShadowColorChange(color) {
+      if (typeof (color) != 'string') {
+        return;
+      }
+      this.boxShadowOptions.shadowColor = color;
+    },
+
+    toggleBoxShadow: function () {
+      this.showBoxShadowOptions = !this.showBoxShadowOptions;
+      this.emitter.emit('element-style-editor-show', 'boxShadowOptions');
+    },
+
+    resetAllProperties: function () {
+
+      this.boxShadowOptions = {
+        horizontalLength: '',
+        verticalLength: '',
+        blurRadius: '',
+        spreadRadius: '',
+        shadowColor: '',
+        inset: '',
+      }
+
+    },
+
+    populateStyleEditor: function (node) {
+      if (node && node && node.nodeType === 1) {
+        var css = mw.CSSParser(node);
+        this.isReady = false;
+        this.resetAllProperties();
+        this.activeNode = node;
+
+        this.populateCssBoxShadow(css);
+
+
+        setTimeout(() => {
+          this.isReady = true;
+        }, 100);
+      }
+    },
+    populateCssBoxShadow: function (css) {
+      if (!css || !css.get) return;
+
+      var result = css.get.boxShadow();
+
+      console.log( 'boxShadowOptions');
+      console.log( result);
+      if (result.color) {
+        this.boxShadowOptions.shadowColor = result.color;
+      }
+      if (result.left) {
+        // Remove "px" from the size
+        this.boxShadowOptions.horizontalLength = result.left.replace('px', '');
+      }
+      if (result.top) {
+        // Remove "px" from the size
+        this.boxShadowOptions.verticalLength = result.top.replace('px', '');
+      }
+      if (result.blurRadius) {
+        // Remove "px" from the size
+        this.boxShadowOptions.blurRadius = result.blurRadius.replace('px', '');
+      }
+      if (result.spreadRadius) {
+        // Remove "px" from the size
+        this.boxShadowOptions.spreadRadius = result.spreadRadius.replace('px', '');
+      }
+      if (result.inset) {
+        this.boxShadowOptions.inset = result.inset;
+      }
+
+    },
+
+    applyBoxShadow() {
+
+      if(!this.isReady) {
+        return;
+      }
+
+      const {
+        horizontalLength,
+        verticalLength,
+        blurRadius,
+        spreadRadius,
+        shadowColor,
+        inset,
+      } = this.boxShadowOptions;
+
+
+    //  const boxShadowValue = `${inset ? 'inset ' : ''}${horizontalLength} ${verticalLength} ${blurRadius} ${spreadRadius} ${shadowColor}`;
+      const boxShadowValue = `${inset ? 'inset ' : ''}${horizontalLength}px ${verticalLength}px ${blurRadius}px ${spreadRadius}px ${shadowColor}`;
+
+      // You can emit this value or perform other actions based on your requirements
+      console.log(boxShadowValue);
+      this.applyPropertyToActiveNode('boxShadow', boxShadowValue);
+    },
+  },
 };
 </script>
 

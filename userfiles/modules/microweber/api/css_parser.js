@@ -183,7 +183,26 @@ mw.CSSParser = function(el){
        return transform;
      }
     }
+    f.boxShadow = function(){
+        var shadow = css['box-shadow'].replace(/, /g, ",").split(" ");
 
+        var result = {};
+
+        if (shadow[0]) result.color = shadow[0];
+        if (shadow[1]) result.left = shadow[1];
+        if (shadow[2]) result.top = shadow[2];
+         if (shadow[3]) result.strength = shadow[3];
+        if (shadow[4]) result.blurRadius = shadow[4];
+        if (shadow[5]) result.spreadRadius = shadow[5];
+        if (shadow[6]) result.inset = shadow[6];
+
+        // Check if any properties were added to the result object
+        if (Object.keys(result).length === 0) {
+            return null; // Return null or handle the case where no valid properties were found
+        }
+
+        return result;
+    }
     f.shadow = function(){
       var shadow =  mw.JSPrefix('boxShadow');
       var shadow = css[shadow].replace(/, /g, ",").split(" ");
