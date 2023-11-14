@@ -1294,7 +1294,7 @@ class FrontendController extends Controller
 
 
 
-            if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
+            if ($is_editmode == true and $is_editmode_iframe and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
                 if ($is_admin == true) {
 
                     if ($is_editmode_iframe) {
@@ -1340,7 +1340,6 @@ class FrontendController extends Controller
             if (isset($template_config['settings']) and isset($template_config['settings']['enable_blade']) and $template_config['settings']['enable_blade'] == true) {
                 $l = app(StringBlade::class)->render($l, ['data' => $page]);
             }
-
 
             // $l = mw()->template->add_csrf_token_meta_tags($l);
 

@@ -80,6 +80,9 @@ export class WyswygEditor extends MicroweberBaseClass {
 
         this.savedCursorPosition = this.getCursorPos(element);
 
+
+
+
         const liveEditIframe = mw.app.canvas.getWindow();
         const liveEditIframeDocument = mw.app.canvas.getDocument();
 
