@@ -32,6 +32,6 @@
             This is the settings tab
         </div>
 
-    </div>
+    </div> 
 
 </div>
