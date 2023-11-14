@@ -45,9 +45,7 @@ if(!isset($tn[1])){
                     <div class="col">
                         <div class="module-posts-template-search-body">
                          <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
-                              <h6>
-                                  <a class="link media-heading text-decoration-none" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a>
-                              </h6>
+                              <a class="link media-heading text-decoration-none" style="font-size: 14px;" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a>
                          <?php endif; ?>
                          </div>
                      </div>
