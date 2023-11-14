@@ -719,12 +719,13 @@ body.loaded #bubble-nav span {
 .mw-le-modules-dialog {
     position: fixed;
     top: 50%;
-
-    transform: translateY(-50%) scale(0.5);
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
     max-width: calc(100vw - 60px);
     height: calc(100vh - 60px);
-    left: -440px;
-    width: 400px;
+
+    width: 500px;
+    max-width: 95%;
     max-height: 400px;
     background-color: var(--tblr-bg-surface);
     z-index: 5;
@@ -732,8 +733,8 @@ body.loaded #bubble-nav span {
 }
 
 .mw-le-modules-dialog.active {
-    left: 20px;
-    transform: translateY(-50%) scale(1);
+
+    transform: translate(-50%, -50%) scale(1);
 }
 
 .mw-le-modules-dialog .modules-list-defaultModules {
