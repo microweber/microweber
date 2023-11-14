@@ -66,14 +66,15 @@ export class WyswygEditor extends MicroweberBaseClass {
                   //  }
                 });
                 editor.on('keydown', (e) => {
-                    if (e.key === 'Backspace' || e.key === 'Delete') {
-                        const cursorNode = editor.selection.getNode();
-                        if (cursorNode && (cursorNode.classList.contains('safe-mode') || cursorNode.closest('.safe-mode'))) {
-                            if (!cursorNode.innerText.trim()) {
-                                e.preventDefault();
-                            }
-                        }
-                    }
+                    // if (e.key === 'Backspace' || e.key === 'Delete') {
+                    //     const cursorNode = editor.selection.getNode();
+                    //     if (cursorNode && (cursorNode.classList.contains('safe-mode') || cursorNode.closest('.safe-mode'))) {
+                    //         if (!cursorNode.innerText.trim()) {
+                    // does not work on enter on empty lines
+                    //             e.preventDefault();
+                    //         }
+                    //     }
+                    // }
                 });
             },
         };
