@@ -983,9 +983,7 @@ export class LiveEdit {
     };
 
 
-    canBeElement = function (target) {
-
-        var el = target;
+    getNoElementClasses = function () {
         var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container','container', 'img-holder','module'];
         var noelements_le = ['mw-le-spacer','background-image-holder','mw-layout-overlay-container','mw-le-resizer','mw-layout-overlay-container','mw-layout-overlay','mw-layout-overlay-background','mw-layout-overlay-background-image','mw-layout-overlay-wrapper'];
 
@@ -1002,6 +1000,14 @@ export class LiveEdit {
         noelements = noelements.concat(noelements_drag);
         noelements = noelements.concat(section_selectors);
         noelements = noelements.concat(icon_selectors);
+        return noelements;
+    }
+    canBeElement = function (target) {
+
+        var el = target;
+
+
+        var noelements = this.getNoElementClasses();
 
         const exceptions = ['cloneable'];
 
@@ -1010,10 +1016,6 @@ export class LiveEdit {
         if(!can) {
             can = DomService.hasAnyOfClasses(el, exceptions);
         }
-
-
-
-
 
 
         return can;

@@ -29,11 +29,12 @@ export class WyswygEditor extends MicroweberBaseClass {
             powerpaste_html_import: 'clean',
             verify_html: false,
             inline_styles : false,
-            auto_focus : false,
+
             typeahead_urls: false,
             resize_img_proportional: false,
             allow_unsafe_link_target: true,
             format_empty_lines: false,
+            plugins: 'mwtinymce',
 
 
             cleanup: false,

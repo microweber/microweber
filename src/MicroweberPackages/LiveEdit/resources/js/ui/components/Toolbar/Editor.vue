@@ -323,7 +323,7 @@ export default {
                         }
 
                         if(!editTarget.id){
-                            editTarget.id = mw.id('mw-editable-region-');
+                            editTarget.id = mw.id('mw-element-');
                         }
 
 
