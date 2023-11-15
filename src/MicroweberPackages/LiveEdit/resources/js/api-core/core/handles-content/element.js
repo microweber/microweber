@@ -4,6 +4,7 @@ import {HandleIcons} from "../handle-icons";
 import {ElementActions} from "./element-actions";
 import {DomService} from "../classes/dom";
 import {ElementSettingsTarget} from "./element-settings-target";
+import {ElementHandleButtonsVisibility} from "./element-handle-buttons-visibility";
 
 
 const isPlaceholder = target => target.classList.contains('mw-img-placeholder');
@@ -48,6 +49,7 @@ export class ElementHandleContent {
 
         const handleIcons = new HandleIcons();
         const elementActions = new ElementActions(this.rootScope);
+        const elementHandleButtonsVisibility = new ElementHandleButtonsVisibility(this.rootScope);
 
 
         const cloneAbleMenu = [
@@ -58,7 +60,7 @@ export class ElementHandleContent {
                 className: 'mw-handle-clone-button',
                 onTarget: function (target, selfNode) {
 
-                    const isVisible = !isPlaceholder(target) && (target.classList.contains('cloneable') || target.classList.contains('mw-col'))
+                    const isVisible = elementHandleButtonsVisibility.shouldShowCloneButton(target);
 
                     if (isVisible) {
                         selfNode.classList.remove('mw-le-handle-menu-button-hidden');
@@ -80,10 +82,8 @@ export class ElementHandleContent {
                 icon: handleIcons.icon('move-backward'),
                 className: 'mw-handle-move-back-button',
                 onTarget: function (target, selfNode) {
-                    const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
-                    const prev = target.previousElementSibling;
 
-                    const isVisible = !isPlaceholder(target) && isCloneable && prev
+                    const isVisible = elementHandleButtonsVisibility.shouldShowMoveBackwardButton(target);
 
                     if (isVisible) {
                         selfNode.classList.remove('mw-le-handle-menu-button-hidden');
@@ -102,10 +102,8 @@ export class ElementHandleContent {
 
                 className: 'mw-handle-move-back-button',
                 onTarget: function (target, selfNode) {
-                    const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
-                    const next = target.nextElementSibling;
 
-                    const isVisible = !isPlaceholder(target) && isCloneable && next;
+                    const isVisible =  elementHandleButtonsVisibility.shouldShowMoveForwardButton(target);
 
                     if (isVisible) {
                         selfNode.classList.remove('mw-le-handle-menu-button-hidden');
@@ -130,18 +128,7 @@ export class ElementHandleContent {
                     elementActions.resetImageSize(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible = false;
-
-
-
-                    //has class mw-resized
-                    if(target && target.classList && target.classList.contains('mw-resized')) {
-                        const isImage = target.nodeName === 'IMG' && !isPlaceholder(target)  ;
-                        if (isImage) {
-                            selfVisible = !target.parentNode.classList.contains('img-as-background');
-                        }
-                       // selfVisible = true;
-                    }
+                    var selfVisible =  elementHandleButtonsVisibility.shouldShowResetImageSizeButton(target);
 
                     selfBtn.classList[selfVisible ? 'remove' : 'add']('mw-le-handle-menu-button-hidden');
                 },
@@ -159,18 +146,7 @@ export class ElementHandleContent {
                     el.dataset.objectFit = 'contain';
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible = false;
-
-
-
-                    //has class mw-resized
-                    if(target && target.classList) {
-                        const isImage = target.nodeName === 'IMG' && !isPlaceholder(target)  ;
-                        if (isImage) {
-                            selfVisible = !target.parentNode.classList.contains('img-as-background');
-                        }
-                       // selfVisible = true;
-                    }
+                    var selfVisible =  elementHandleButtonsVisibility.shouldShowFitImageButton(target);
 
                     selfBtn.classList[selfVisible ? 'remove' : 'add']('mw-le-handle-menu-button-hidden');
                 },
@@ -188,18 +164,7 @@ export class ElementHandleContent {
                     el.dataset.objectFit = 'cover';
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible = false;
-
-
-
-                    //has class mw-resized
-                    if(target && target.classList) {
-                        const isImage = target.nodeName === 'IMG' && !isPlaceholder(target)  ;
-                        if (isImage) {
-                            selfVisible = !target.parentNode.classList.contains('img-as-background');
-                        }
-                       // selfVisible = true;
-                    }
+                    var selfVisible = elementHandleButtonsVisibility.shouldShowFitImageButton(target);;
 
                     selfBtn.classList[selfVisible ? 'remove' : 'add']('mw-le-handle-menu-button-hidden');
                 },
@@ -221,16 +186,8 @@ export class ElementHandleContent {
                     elementActions.editLink(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible = false;
+                    var selfVisible =   elementHandleButtonsVisibility.shouldShowLinkButton(target);
 
-
-
-                    const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A' ;
-                    if (isImageOrLink && !isPlaceholder(target)) {
-
-                        selfVisible = true;
-
-                    }
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
 
@@ -247,12 +204,7 @@ export class ElementHandleContent {
                     elementActions.removeLink(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible = false;
-
-                    const isLinkOrParentWithLink = target.nodeName === 'A' || target.parentNode && target.parentNode.nodeName === 'A';
-                    if (isLinkOrParentWithLink && !isPlaceholder(target)) {
-                        selfVisible = true;
-                    }
+                    var selfVisible =  elementHandleButtonsVisibility.shouldShowUnlinkButton(target);
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
 
@@ -282,16 +234,7 @@ export class ElementHandleContent {
                     elementActions.openElementStyleEditor(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible = true;
-
-
-
-                    const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A' ;
-                    if (isImageOrLink && !isPlaceholder(target)) {
-
-                        selfVisible = false;
-
-                    }
+                    var selfVisible = elementHandleButtonsVisibility.shouldShowStyleEditorButton(target);
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
 
@@ -309,20 +252,7 @@ export class ElementHandleContent {
                 action: () => {
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible = true;
-                    const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
-                    const isEdit = target.classList.contains('edit')  ;
-                    if (isCloneable || isEdit) {
-                        selfVisible = false;
-                    }
-
-                    if(DomService.hasAnyOfClassesOnNodeOrParent(target, ['img-as-background'])) {
-                        selfVisible = false;
-                    }
-
-
-
-
+                    var selfVisible =  elementHandleButtonsVisibility.shouldShowDragButton(target);
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
 
@@ -340,34 +270,7 @@ export class ElementHandleContent {
                     elementActions.editElement(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible = true;
-
-
-                    var isCloneable = (target.classList.contains('cloneable') && target.nodeName !== 'IMG');
-                    if (isCloneable || target.classList.contains('mw-col')) {
-                        selfVisible = false;
-                    }
-
-                    var newTarget = this.settingsTarget.getSettingsTarget(target);
-                    if(newTarget !== target) {
-                        selfVisible = true;
-                    }
-
-
-                    if (target.classList.contains('edit')) {
-                        if(!!target.innerHTML.trim()) {
-                            if((target.getAttribute('field') !== 'title' || target.getAttribute('rel') !== 'title') && !target.classList.contains('plain-text')) {
-                                selfVisible = false;
-                            }
-                        }
-                        if(target.querySelector('.module')) {
-                            selfVisible = false;
-                        }
-                    }
-                    if (target.classList.contains('spacer')) {
-                        selfVisible = false;
-                    }
-
+                    var selfVisible =  elementHandleButtonsVisibility.shouldShowEditButton(target);
 
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
@@ -382,12 +285,8 @@ export class ElementHandleContent {
                 className: 'mw-handle-add-button',
 
                 onTarget: (target, selfBtn) => {
-                    var selfVisible = true;
+                    var selfVisible =  elementHandleButtonsVisibility.shouldShowInsertModuleButton(target);
 
-                    var canDrop = this.settingsTarget.canDropInTarget(target);
-                    if (!canDrop) {
-                        selfVisible = false;
-                    }
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
@@ -412,22 +311,7 @@ export class ElementHandleContent {
 
                 },
                 onTarget: function (target, selfBtn) {
-                    var selfVisible = true;
-
-                    // todo: safe mode for css editor
-                    const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
-                    if (isCloneable) {
-                        selfVisible = true;
-                    }
-
-
-                    if(target.classList.contains('mw-col')) {
-                        selfVisible = false;
-                    } else if (target.classList.contains('spacer')) {
-                        selfVisible = false;
-                    } else if(isPlaceholder(target)) {
-                        selfVisible = false;
-                    }
+                    var selfVisible =  elementHandleButtonsVisibility.shouldShowSettingsButton(target);
 
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
@@ -440,49 +324,14 @@ export class ElementHandleContent {
                 className: 'mw-handle-insert-color-button',
 
                 action: function (el, selfBtn) {
-                    var dlg = mw.top().dialog({
-                        width: 280,
-                        closeButtonAction: 'hide',
-                        disableTextSelection: true,
-                        title: mw.lang('Choose color'),
-                        overlayClose: true,
-                        closeOnEscape: false,
-                    });
-
-
-
-
-
-                    var _pauseSetValue = false;
-
-
-
-                   var picker = mw.colorPicker({
-                        // element: tip.get(0),
-                        element: dlg.container,
-
-                        method: 'inline',
-                        showHEX: false,
-                        onchange: function (color) {
-                            // mw.top().app.liveEdit.handles.get('element').getTarget().style.backgroundColor = color;
-                            selfBtn.querySelector('.mw-le--handle-icon--color-color').style.backgroundColor = color;
-                            mw.top().app.cssEditor.temp(mw.top().app.liveEdit.handles.get('element').getTarget(), 'background-color', color)
-
-                        },
-
-                    });
+                    elementActions.editBackgroundColor(el, selfBtn);
 
                 },
                 onTarget: function (target, selfBtn) {
-                    var selfVisible = false;
-
-
-                    if (target.classList.contains('background-color-element') ) {
-                        selfVisible = true;
+                    var selfVisible =  elementHandleButtonsVisibility.shouldShowEditBackgroundColorButton(target);
+                    if(selfVisible) {
+                        selfBtn.querySelector('.mw-le--handle-icon--color-color').style.backgroundColor = getComputedStyle(target).backgroundColor;
                     }
-
-                    selfBtn.querySelector('.mw-le--handle-icon--color-color').style.backgroundColor = getComputedStyle(target).backgroundColor;
-
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 }
@@ -526,15 +375,7 @@ export class ElementHandleContent {
                     elementActions.deleteElement(el);
                 },
                 onTarget: function(target, selfBtn) {
-                    let selfVisible = true;
-                    if(target.classList.contains('edit')) {
-                        selfVisible = false;
-                    }
-
-                    if(!DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
-                        selfVisible = false;
-                    }
-
+                    let selfVisible =  elementHandleButtonsVisibility.shouldShowDeleteElementButton(target);
 
                     if(selfVisible) {
 
