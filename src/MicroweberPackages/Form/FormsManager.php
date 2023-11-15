@@ -601,6 +601,16 @@ class FormsManager
                         continue;
                     }
 
+                    if ($files_utils->is_dangerous_file($file['full_path'])) {
+                        return array(
+                            'form_errors' => array(
+                                $fieldName => 'This file is not allowed to be uploaded'
+                            ),
+                            'error' => 'This file is not allowed to be uploaded'
+                        );
+                        break;
+                    }
+
                     $targetFileName = $target_path_name . '/' . $file['name'];
 
                     if (is_file($target_path . '/' . $file['name'])) {
