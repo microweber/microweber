@@ -174,8 +174,11 @@
                 </div>
 
         </div>
+
         <div x-show="showEditTab=='settings'">
-            This is the settings tab
+
+            <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType" />
+            
         </div>
 
     </div>
