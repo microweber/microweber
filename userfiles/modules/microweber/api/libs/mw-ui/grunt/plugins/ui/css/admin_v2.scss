@@ -3122,3 +3122,11 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 
 }
 
+.mw-skin-templates-bg-image {
+    margin: 0 auto !important;
+    width: 100% !important;
+    height: 300px !important;
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+}

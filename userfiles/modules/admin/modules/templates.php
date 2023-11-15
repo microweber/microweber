@@ -236,7 +236,7 @@ if ($screenshots) {
                                            <?php print $item['name'] ?>
                                        </h4>
                                    </div>
-                                   <div style="background: url('<?php print $item['screenshot'] ?>');margin:0 auto;width:300px;height:120px;background-size: contain;background-repeat: no-repeat;">
+                                   <div class="mw-skin-templates-bg-image" style="background: url('<?php print $item['screenshot'] ?>');">
                                </div>
                                </div>
                                <?php else: ?>

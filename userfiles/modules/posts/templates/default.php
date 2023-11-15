@@ -6,104 +6,127 @@ type: layout
 
 name: Default
 
-description: Default
+description: Grid Columns
 
 */
 ?>
 
 <?php
-
-
-$tn = $tn_size;
-if (!isset($tn[0]) or ($tn[0]) == 150) {
-    $tn[0] = 220;
+$columns = get_option('columns', $params['id']);
+if ($columns) {
+    $columns = $columns;
+} elseif (isset($params['data-columns'])) {
+    $columns = $params['data-columns'];
+} else {
+    $columns = 'col-md-6 col-lg-4';
 }
-if (!isset($tn[1])) {
-    $tn[1] = $tn[0];
-}
 
 
-?>
-<?php
-$only_tn = false;
-
-
-$search_keys = array('title', 'created_at', 'description', 'read_more');
-
-if (isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
-    $only_tn = true;
-    foreach ($search_keys as $search_key) {
-        foreach ($show_fields as $show_field) {
-            if ($search_key == $show_field) {
-                $only_tn = false;
-            }
-        }
+$columns_xl = get_option('columns-lg', $params['id']);
+$thumb_quality = '1920';
+if ($columns_xl != null OR $columns_xl != false OR $columns_xl != '') {
+    if ($columns_xl == 'col-lg-12') {
+        $thumbs_columns = 1;
+    } else if ($columns_xl == 'col-lg-6') {
+        $thumbs_columns = 2;
+    } else if ($columns_xl == 'col-lg-4') {
+        $thumbs_columns = 3;
+    } else if ($columns_xl == 'col-lg-3') {
+        $thumbs_columns = 4;
+    } else if ($columns_xl == 'col-lg-2') {
+        $thumbs_columns = 6;
     }
 
-
+    $thumb_quality = 1920 / $thumbs_columns;
 }
-
 ?>
 
-<script>mw.moduleCSS("<?php print modules_url(); ?>posts/css/style.css"); </script>
+<style>
+    #posts-<?php print $params['id']; ?> .big-news .post-holder .thumbnail{
+        height: 250px;
+        margin: -20px -20px 0 -20px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+    #posts-<?php print $params['id']; ?> .big-news .post-holder h3 a{
+        text-decoration: none;
+    }
+    #posts-<?php print $params['id']; ?> .big-news .post-holder {
+        padding: 25px;
+        background: var(--background);
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        margin: 20px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+</style>
 
-<div class="post-list post-list-template-default">
-    <?php if (!empty($data)): ?>
-        <?php foreach ($data as $item): ?>
-            <div class="well clearfix post-single" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
-                <div class="mw-ui-row">
-                    <?php if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
-                        <?php if ($only_tn == false): ?>
-                            <div class="mw-ui-col post-list-image">
-                                <div class="mw-ui-col-container">
-                                    <a href="<?php print $item['link'] ?>" itemprop="url"><img itemprop="image"
-                                                                                               src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>"
 
-                                                                                               alt=""></a>
+<div class="row" id="posts-<?php print $params['id']; ?>">
+    <div class="col-lg-12 mx-auto">
+        <div class="row big-news">
+            <?php if (!empty($data)): ?>
+                <?php foreach ($data as $key => $item): ?>
+                    <?php
+                    $itemData = content_data($item['id']);
+                    $itemTags = content_tags($item['id']);
+                    ?>
+
+                    <div class="<?php print $columns; ?>" data-aos="fade-up" data-aos-delay="<?php echo $key; ?>00" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
+                        <div class="post-holder">
+                            <a href="<?php print $item['link'] ?>" itemprop="url">
+                                <div class="thumbnail-holder">
+                                    <?php if ($itemTags): ?>
+                                        <div class="tags">
+                                            <?php foreach ($itemTags as $tag): ?>
+                                                <?php if ($key < 3): ?>
+                                                    <span class="badge badge-primary"><?php echo $tag; ?></span>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <?php if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
+                                        <div class="thumbnail" style="background: url('<?php print thumbnail($item['image'], 535, 285, true); ?>')">
+                                            <!--<img src="<?php print thumbnail($item['image'], 535, 285, true); ?>"/>-->
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
-                            </div>
-
-                        <?php else: ?>
-                            <div class="mw-ui-col">
-                                <a href="<?php print $item['link'] ?>" itemprop="url"><img itemprop="image"
-                                                                                           src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>"
-
-                                                                                           alt=""></a>
-                            </div>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                    <?php if ($only_tn == false): ?>
-
-
-                        <div class="mw-ui-col">
-
+                            </a>
+                            <br>
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
-                                <div class="post-single-title-date">
-                                    <h2 class="lead" itemprop="name"><a
-                                                href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h2>
-                                </div>
+                                <h6 class="m-0"><a href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h6>
                             <?php endif; ?>
+
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields)): ?>
-                                <small class="muted"><?php _e("Date"); ?>: <span
-                                            itemprop="dateCreated"><?php print $item['created_at'] ?></span></small>
+                                <small class="text-muted"><?php echo date_system_format($item['created_at']) ; ?></small>
                             <?php endif; ?>
+
+
 
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
-                                <p class="description" itemprop="description"><?php print $item['description'] ?></p>
+                                <p class="mt-3"><?php print $item['description'] ?></p>
                             <?php endif; ?>
 
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
-                                <a href="<?php print $item['link'] ?>" class="  btn btn-primary">
-                                    <?php $read_more_text ? print $read_more_text : _e("Continue Reading"); ?>
-                                </a>
+                                <a href="<?php print $item['link'] ?>" itemprop="url" class="button-8 m-t-20"><span><?php
+                                        if($read_more_text){
+                                            print $read_more_text;
+                                        } else {
+                                            print 'Read more';
+                                        }
+                                        ?></span></a>
                             <?php endif; ?>
                         </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
 </div>
+
 <?php if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
-    <?php print paging("num={$pages_count}&paging_param={$paging_param}&current_page={$current_page}") ?>
+    <module type="pagination" pages_count="<?php echo $pages_count; ?>" paging_param="<?php echo $paging_param; ?>"/>
 <?php endif; ?>
