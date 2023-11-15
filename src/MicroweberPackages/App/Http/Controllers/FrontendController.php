@@ -233,15 +233,18 @@ class FrontendController extends Controller
                         }
 
                         if ($editmode_sess == false) {
+
                             app()->user_manager->session_set('editmode', true);
                             app()->user_manager->session_set('back_to_editmode', false);
                             if ($is_editmode == 'iframe') {
                                 app()->user_manager->session_set('editmode_iframe', true);
                             }
-                            $is_editmode = false;
+                        //    $is_editmode = false;
+                           // dd($page_url);
                         }
+                        return redirect(app()->url_manager->site_url($page_url));
 
-                        return app()->url_manager->redirect(app()->url_manager->site_url($page_url));
+                     //   return app()->url_manager->redirect(app()->url_manager->site_url($page_url));
                     } else {
 
                         $is_editmode = false;
