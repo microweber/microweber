@@ -27,6 +27,7 @@ use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\ColorPickerOption
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\DropdownOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\FilePickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\FontPickerOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\HiddenOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\IconPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\LinkPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\MediaPickerOption;
@@ -97,6 +98,7 @@ class ModuleServiceProvider extends ServiceProvider
         });
 
         Livewire::component('microweber-option::text', TextOption::class);
+        Livewire::component('microweber-option::hidden', HiddenOption::class);
         Livewire::component('microweber-option::numeric', NumericOption::class);
         Livewire::component('microweber-option::textarea', TextareaOption::class);
         Livewire::component('microweber-option::simple-text-editor', SimpleTextEditorOption::class);

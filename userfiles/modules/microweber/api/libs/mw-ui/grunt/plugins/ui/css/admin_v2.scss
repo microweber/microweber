@@ -2563,6 +2563,15 @@ svg.text-danger {
             padding-inline-start: 25px;
             padding-inline-end: 25px;
             background-color: var(--tblr-bg-surface);
+            .mw-ui-form-controller--radio-list{
+                padding-top: 10px;
+                .form-check{
+                    padding-block: 4px;
+                    .form-check-input{
+                        margin-inline-end: 10px;
+                    }
+                }
+            }
 
         }
 

@@ -71,8 +71,13 @@ export default {
 
             // mw.app.editImageDialog = editImageDialog;
 
+
+
             mw.app.editor.on('elementSettingsRequest', (element) => {
                 if (element.nodeName === 'IMG') {
+
+                    mw.app.liveEdit.elementHandleContent.elementActions.editImage(element);
+/*
 
                     mw.app.editImageDialog.editImage(element.src, (imgData) => {
                         if (typeof imgData !==  'undefined' && imgData.src) {
@@ -88,6 +93,7 @@ export default {
                         mw.top().app.registerChange(element);
                         mw.app.liveEdit.play();
                     });
+*/
 
 
 
@@ -303,7 +309,10 @@ export default {
 
 
 
-                    setTimeout(() => {
+
+                  let timeoutIdEditor;
+
+                   timeoutIdEditor = setTimeout(() => {
 
 
                         let editTarget = element;
@@ -319,6 +328,10 @@ export default {
                             return;
                         }
 
+                        if(!editTarget.id){
+                            editTarget.id = mw.id('mw-element-');
+                        }
+
 
 
 
@@ -329,11 +342,10 @@ export default {
                         editTarget.contentEditable = true;
                         mw.app.liveEdit.pause();
 
-                        mw.app.richTextEditor.smallEditorInteract(element);
-                        mw.app.richTextEditor.positionSmallEditor(element);
+                       mw.app.richTextEditor.smallEditorInteract(element);
+                       mw.app.richTextEditor.positionSmallEditor(element);
 
 
-                        //mw.app.wyswygEditor.showEditorOnElement(element);
 
 
                         element.querySelectorAll('[contenteditable], .allow-drop[contenteditable]').forEach(node => {
@@ -342,7 +354,13 @@ export default {
                         editTarget.querySelectorAll('[contenteditable], .allow-drop[contenteditable]').forEach(node => {
                             node.contentEditable = 'inherit';
                         })
-                    }, 300);
+
+                    mw.app.wyswygEditor.initEditor(element);
+
+
+
+
+                  }, 300);
 
                 }
 

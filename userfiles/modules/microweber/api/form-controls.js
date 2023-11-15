@@ -110,11 +110,18 @@ mw.controlFields = {
         var value =  (' value="' + conf.value + '" ');
         var name = conf.name ? ('name="' + conf.name + '"') : '';
         var required = conf.required ? ('required') : '';
-        return  this._wrap(
+        /*return  this._wrap(
             '<label class="mw-ui-check">' +
             '<input type="radio" ' + id + ' ' + name + ' ' + required + ' ' + value + '>' +
                 '<span></span><span>' + (conf.label || conf.content || '') + '</span>' +
-            '</label>');
+            '</label>');*/
+
+            return this._wrap(`
+            <label class="form-check">
+                <input class="form-check-input" type="radio" ${id} ${name} ${value}>
+                <span class="form-check-label">${(conf.label || conf.content || '')}</span>
+            </label>
+            `);
     },
     select: function (conf) {
         conf = conf || {};
@@ -373,7 +380,7 @@ mw.emitter = {
                     });
                 });
             }
-            var list = $('<div />');
+            var list = $('<div class="mw-ui-form-controller--radio-list" />');
 
             if (layoutsData.length === 0) {
                 list.append('<label class="form-label font-weight-bold mt-2" style="text-align: center;padding: 50px 0;">Current page has no sections in it</label>');
@@ -640,7 +647,7 @@ mw.emitter = {
                     label: mw.lang('Search for content')
                 },
                 icon: 'd-none',
-                title: mw.lang('Post/category'),
+                title: mw.lang('Posts and Products'),
                 dataUrl: function () {
                     try {
                         return mw.settings.site_url + "api/get_content_admin";
@@ -656,6 +663,7 @@ mw.emitter = {
 
             var root = document.createElement('div');
             root.className = 'mw-ui-form-controller-root';
+            root.style = 'min-height: 400px;';
             var _linkText = '', _linkUrl = '', _target = '';
             UIFormControllers._title(this.settings, root);
             var treeEl = document.createElement('input');

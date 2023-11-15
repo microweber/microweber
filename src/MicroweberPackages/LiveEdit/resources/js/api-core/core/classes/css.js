@@ -176,6 +176,154 @@ export const CSSParser = function(el) {
             return transform;
         }
     }
+    f.boxShadow = function(){
+        const VALUES_REG = /,(?![^\(]*\))/
+        const PARTS_REG = /\s(?![^(]*\))/
+        const LENGTH_REG = /^[0-9]+[a-zA-Z%]+?$/
+
+
+        const isColor = (strColor) => {
+            const s = new Option().style;
+            s.color = strColor;
+            return s.color !== '';
+        }
+
+        const parseValue = str => {
+            let parts = str.split(PARTS_REG)
+            const inset = parts.includes('inset')
+            parts = parts.filter(f => f.indexOf('inset') === -1);
+
+            if(isColor(parts[0])) {
+                parts.push(parts.shift())
+            }
+            const last = parts.slice(-1)[0]
+            const color = !isLength(last) ? last : undefined
+
+            const nums = parts
+                .filter(n => n !== 'inset')
+                .filter(n => n !== color)
+                .map(toNum)
+            const [ offsetX, offsetY, blurRadius, spreadRadius ] = nums
+
+            const res = {
+                inset,
+                offsetX,
+                offsetY,
+                blurRadius,
+                spreadRadius,
+                color
+            }
+
+
+
+
+
+            return res;
+        }
+
+        const stringifyValue = obj => {
+            const {
+                inset,
+                offsetX = 0,
+                offsetY = 0,
+                blurRadius = 0,
+                spreadRadius,
+                color
+            } = obj || {}
+
+            return [
+                (inset ? 'inset' : null),
+                offsetX,
+                offsetY,
+                blurRadius ,
+                spreadRadius,
+                color
+            ].filter(v => v !== null && v !== undefined)
+                .map(toPx)
+                .map(s => ('' + s).trim())
+                .join(' ')
+        }
+
+        const isLength = v => v === '0' || LENGTH_REG.test(v)
+        const toNum = v => {
+            if (!/px$/.test(v) && v !== '0') return v
+            const n = parseFloat(v)
+            return !isNaN(n) ? n : v
+        }
+        const toPx = n => typeof n === 'number' && n !== 0 ? (n + 'px') : n
+
+        const parse = str => str.split(VALUES_REG).map(s => s.trim()).map(parseValue)
+        const stringify = arr => arr.map(stringifyValue).join(', ');
+
+        const shadow = (css['boxShadow'] || css['WebkitBoxShadow']).replace(/, /g, ",");
+
+        return parseValue(shadow);
+    }
+
+    f.textShadow = function () {
+        const VALUES_REG = /,(?![^\(]*\))/
+        const PARTS_REG = /\s(?![^(]*\))/
+        const LENGTH_REG = /^[0-9]+[a-zA-Z%]+?$/
+
+        const isColor = (strColor) => {
+            const s = new Option().style;
+            s.color = strColor;
+            return s.color !== '';
+        }
+
+        const parseValue = str => {
+            const values = str.split(/\s+/);
+            const colorIndex = values.findIndex(value => isColor(value));
+
+            const color = colorIndex !== -1 ? values.splice(colorIndex, 1)[0] : undefined;
+
+            const [offsetX, offsetY, blurRadius] = values.map(toNum);
+
+            return {
+                offsetX,
+                offsetY,
+                blurRadius,
+                color,
+            };
+        };
+
+
+        const stringifyValue = obj => {
+            const {
+                offsetX = 0,
+                offsetY = 0,
+                blurRadius = 0,
+                color
+            } = obj || {}
+
+            return [
+                offsetX,
+                offsetY,
+                blurRadius,
+                color
+            ].filter(v => v !== null && v !== undefined)
+                .map(toPx)
+                .map(s => ('' + s).trim())
+                .join(' ')
+        }
+
+        const isLength = v => v === '0' || LENGTH_REG.test(v)
+        const toNum = v => {
+            if (!/px$/.test(v) && v !== '0') return v
+            const n = parseFloat(v)
+            return !isNaN(n) ? n : v
+        }
+        const toPx = n => typeof n === 'number' && n !== 0 ? (n + 'px') : n
+
+        const parse = str => str.split(VALUES_REG).map(s => s.trim()).map(parseValue)
+        const stringify = arr => arr.map(stringifyValue).join(', ');
+
+        // Assuming that the text shadow is a property in the CSS object
+        const shadow = (css['textShadow'] || css['WebkitTextShadow']).replace(/, /g, ",");
+
+        return parseValue(shadow);
+    }
+
 
     f.shadow = function(){
          const shadow = (css['boxShadow'] || css['WebkitBoxShadow']).replace(/, /g, ",").split(" ");

@@ -295,10 +295,12 @@ var MWEditor = function (options) {
         if(e.target) {
             var edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit');
             if(edit) {
-                var all = edit.querySelectorAll('span[style*="var"]');
+                var all = edit.querySelectorAll('*[style*="var"]');
                 all.forEach(node => {
-                    if(node.isContentEditable) {
-                        [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop) )
+                    if (node.style) {
+                        if (node.isContentEditable) {
+                            [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
+                        }
                     }
                 });
             }

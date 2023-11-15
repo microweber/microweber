@@ -233,15 +233,18 @@ class FrontendController extends Controller
                         }
 
                         if ($editmode_sess == false) {
+
                             app()->user_manager->session_set('editmode', true);
                             app()->user_manager->session_set('back_to_editmode', false);
                             if ($is_editmode == 'iframe') {
                                 app()->user_manager->session_set('editmode_iframe', true);
                             }
-                            $is_editmode = false;
+                        //    $is_editmode = false;
+                           // dd($page_url);
                         }
+                        return redirect(app()->url_manager->site_url($page_url));
 
-                        return app()->url_manager->redirect(app()->url_manager->site_url($page_url));
+                     //   return app()->url_manager->redirect(app()->url_manager->site_url($page_url));
                     } else {
 
                         $is_editmode = false;
@@ -1294,7 +1297,7 @@ class FrontendController extends Controller
 
 
 
-            if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
+            if ($is_editmode == true and $is_editmode_iframe and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
                 if ($is_admin == true) {
 
                     if ($is_editmode_iframe) {
@@ -1340,7 +1343,6 @@ class FrontendController extends Controller
             if (isset($template_config['settings']) and isset($template_config['settings']['enable_blade']) and $template_config['settings']['enable_blade'] == true) {
                 $l = app(StringBlade::class)->render($l, ['data' => $page]);
             }
-
 
             // $l = mw()->template->add_csrf_token_meta_tags($l);
 

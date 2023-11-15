@@ -393,7 +393,13 @@
                                 if (hasParamquickAdd) {
                                     urlToGo = urlToGo + '&quickContentAdd=true';
                                 }
-                                window.location.href = urlToGo;
+
+                                if(go_live_edit && data.live_edit_url){
+                                    window.top.location.href = data.live_edit_url;
+
+                                } else {
+                                    window.location.href = urlToGo;
+                                }
                                 // if(hasParamquickAdd && data.live_edit_url){
                                 //     top.location.href = data.live_edit_url;
                                 //

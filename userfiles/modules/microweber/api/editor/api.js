@@ -617,6 +617,34 @@ mw.lib.require('rangy');
             execCommand: function (cmd, def, val, recordTimeout) {
 
 
+
+                // if (mw && mw.top && mw.top().app && mw.top().app.canvas) {
+                //     var liveEditIframe = (mw.app.canvas.getWindow());
+                //
+                //     if (liveEditIframe && liveEditIframe.tinyMCE && liveEditIframe.tinyMCE.activeEditor) {
+                //         // set by tinyMCE
+                //         var editor = liveEditIframe.tinyMCE.activeEditor;
+                //         if (editor) {
+                //
+                //             console.log('execCommand', cmd, def, val);
+                //
+                //             if(cmd === 'insertHTML') {
+                //                 editor.selection.setContent(val);
+                //
+                //                 //editor.execCommand('mceInsertRawHTML', false, val);
+                //                 return;
+                //             }
+                //             // Execute the command
+                //             editor.execCommand(cmd, def, val);
+                //         }
+                //         return;
+                //     }
+                //
+                // }
+
+
+
+
                 scope.actionWindow.document.execCommand('styleWithCss', 'false', false);
                 var sel = scope.getSelection();
                 try {  // 0x80004005
@@ -633,7 +661,36 @@ mw.lib.require('rangy');
 
 
                             scope.api.action(parent, function () {
-                                scope.actionWindow.document.execCommand(cmd, def, val);
+
+
+                                if (mw && mw.top && mw.top().app && mw.top().app.canvas) {
+                                    var liveEditIframe = (mw.app.canvas.getWindow());
+
+                                    if (liveEditIframe && liveEditIframe.tinyMCE && liveEditIframe.tinyMCE.activeEditor) {
+                                        // set by tinyMCE
+                                        var editor = liveEditIframe.tinyMCE.activeEditor;
+                                        if (editor) {
+
+                                            console.log('execCommand', cmd, def, val);
+                                             if(cmd === 'insertHTML') {
+                                                //editor.selection.setContent(val);
+                                                scope.actionWindow.document.execCommand(cmd, def, val);
+                                               //  editor.execCommand('mceInsertRawHTML', false, val);
+                                                return;
+                                            }
+                                            // Execute the command
+                                            editor.execCommand(cmd, def, val);
+                                        }
+
+                                    }
+
+                                } else {
+                                    scope.actionWindow.document.execCommand(cmd, def, val);
+
+                                }
+
+
+
                                 scope.api.afterExecCommand(parent);
 
                             }, recordTimeout);

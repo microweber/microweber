@@ -37,6 +37,10 @@
       <ElementStyleEditorAnimations></ElementStyleEditorAnimations>
     </div>
 
+      <div class="mb-4" v-show="showClassApplier">
+          <ElementStyleEditorShadow></ElementStyleEditorShadow>
+      </div>
+
     <div class="mb-4" v-show="showClassApplier">
       <ElementStyleEditorClassApplier></ElementStyleEditorClassApplier>
     </div>
@@ -56,6 +60,7 @@ import ElementStyleEditorAnimations from './ElementStyleEditorAnimations.vue';
 import ElementStyleEditorGrid from './ElementStyleEditorGrid.vue';
 import ElementStyleEditorClassApplier from './ElementStyleEditorClassApplier.vue';
 import ElementStyleEditorRoundedCorners from "./ElementStyleEditorRoundedCorners.vue";
+import ElementStyleEditorShadow from "./ElementStyleEditorShadow.vue";
 
 export default {
   components: {
@@ -68,6 +73,7 @@ export default {
     ElementStyleEditorContainer,
     ElementStyleEditorGrid,
     ElementStyleEditorAnimations,
+      ElementStyleEditorShadow,
     ElementStyleEditorClassApplier,
   },
 
