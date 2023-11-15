@@ -322,4 +322,22 @@ export class ElementActions extends MicroweberBaseClass {
 
 
     }
+
+    editImage(element) {
+        mw.app.editImageDialog.editImage(element.src, (imgData) => {
+            if (typeof imgData !==  'undefined' && imgData.src) {
+
+                element.src = imgData.src
+
+                if (imgData.sizeChanged) {
+                    // reset width and height
+                    //   element.style.width = '';
+                    element.style.height = 'auto';
+                }
+            }
+            mw.top().app.registerChange(element);
+            mw.app.liveEdit.play();
+        });
+
+    }
 }

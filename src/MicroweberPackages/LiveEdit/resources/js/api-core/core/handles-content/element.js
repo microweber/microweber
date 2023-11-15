@@ -7,7 +7,6 @@ import {ElementSettingsTarget} from "./element-settings-target";
 import {ElementHandleButtonsVisibility} from "./element-handle-buttons-visibility";
 
 
-const isPlaceholder = target => target.classList.contains('mw-img-placeholder');
 
 
 export class ElementHandleContent {
@@ -23,7 +22,9 @@ export class ElementHandleContent {
         this.tools = DomService;
         this.rootScope = rootScope;
         this.settingsTarget = new ElementSettingsTarget(this.rootScope);
-
+        this.handleIcons = new HandleIcons();
+        this.elementActions = new ElementActions(this.rootScope);
+        this.elementHandleButtonsVisibility = new ElementHandleButtonsVisibility(this.rootScope);
 
         this.initMenu();
 
@@ -47,20 +48,17 @@ export class ElementHandleContent {
 
     initMenu() {
 
-        const handleIcons = new HandleIcons();
-        const elementActions = new ElementActions(this.rootScope);
-        const elementHandleButtonsVisibility = new ElementHandleButtonsVisibility(this.rootScope);
 
 
         const cloneAbleMenu = [
             {
                 title: 'Duplicate',
                 text: '',
-                icon: handleIcons.icon('duplicate'),
+                icon: this.handleIcons.icon('duplicate'),
                 className: 'mw-handle-clone-button',
-                onTarget: function (target, selfNode) {
+                onTarget: (target, selfNode) => {
 
-                    const isVisible = elementHandleButtonsVisibility.shouldShowCloneButton(target);
+                    const isVisible = this.elementHandleButtonsVisibility.shouldShowCloneButton(target);
 
                     if (isVisible) {
                         selfNode.classList.remove('mw-le-handle-menu-button-hidden');
@@ -70,20 +68,20 @@ export class ElementHandleContent {
                 },
 
 
-                action: function (el) {
+                action: (el) => {
 
-                    elementActions.cloneElement(el);
+                    this.elementActions.cloneElement(el);
 
                 }
             },
             {
                 title: 'Move backward',
                 text: '',
-                icon: handleIcons.icon('move-backward'),
+                icon: this.handleIcons.icon('move-backward'),
                 className: 'mw-handle-move-back-button',
-                onTarget: function (target, selfNode) {
+                onTarget: (target, selfNode) => {
 
-                    const isVisible = elementHandleButtonsVisibility.shouldShowMoveBackwardButton(target);
+                    const isVisible = this.elementHandleButtonsVisibility.shouldShowMoveBackwardButton(target);
 
                     if (isVisible) {
                         selfNode.classList.remove('mw-le-handle-menu-button-hidden');
@@ -91,19 +89,19 @@ export class ElementHandleContent {
                         selfNode.classList.add('mw-le-handle-menu-button-hidden');
                     }
                 },
-                action: function (el) {
-                    elementActions.moveBackward(el);
+                action: (el) => {
+                    this.elementActions.moveBackward(el);
                 }
             },
             {
                 title: 'Move forward',
                 text: '',
-                icon: handleIcons.icon('move-forward'),
+                icon: this.handleIcons.icon('move-forward'),
 
                 className: 'mw-handle-move-back-button',
-                onTarget: function (target, selfNode) {
+                onTarget: (target, selfNode) => {
 
-                    const isVisible =  elementHandleButtonsVisibility.shouldShowMoveForwardButton(target);
+                    const isVisible =  this.elementHandleButtonsVisibility.shouldShowMoveForwardButton(target);
 
                     if (isVisible) {
                         selfNode.classList.remove('mw-le-handle-menu-button-hidden');
@@ -111,8 +109,8 @@ export class ElementHandleContent {
                         selfNode.classList.add('mw-le-handle-menu-button-hidden');
                     }
                 },
-                action: function (el) {
-                    elementActions.moveForward(el);
+                action: (el) => {
+                    this.elementActions.moveForward(el);
                 }
             },
         ];
@@ -120,15 +118,15 @@ export class ElementHandleContent {
             {
                 title: 'Reset Image Size',
                 text: '',
-                icon: handleIcons.icon('reset-image-size'),
+                icon: this.handleIcons.icon('reset-image-size'),
 
                 className: 'mw-handle-reset-image-button',
 
-                action: function (el) {
-                    elementActions.resetImageSize(el);
+                action: (el) => {
+                    this.elementActions.resetImageSize(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =  elementHandleButtonsVisibility.shouldShowResetImageSizeButton(target);
+                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowResetImageSizeButton(target);
 
                     selfBtn.classList[selfVisible ? 'remove' : 'add']('mw-le-handle-menu-button-hidden');
                 },
@@ -137,16 +135,16 @@ export class ElementHandleContent {
             {
                 title: 'Fit Image',
                 text: '',
-                icon: handleIcons.icon('image-fit'),
+                icon: this.handleIcons.icon('image-fit'),
 
                 className: 'mw-handle-fit-image-button',
 
-                action: function (el) {
+                action: (el) => {
                     el.style.objectFit = 'contain';
                     el.dataset.objectFit = 'contain';
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =  elementHandleButtonsVisibility.shouldShowFitImageButton(target);
+                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowFitImageButton(target);
 
                     selfBtn.classList[selfVisible ? 'remove' : 'add']('mw-le-handle-menu-button-hidden');
                 },
@@ -155,16 +153,16 @@ export class ElementHandleContent {
             {
                 title: 'Fill Image',
                 text: '',
-                icon: handleIcons.icon('image-fill'),
+                icon: this.handleIcons.icon('image-fill'),
 
                 className: 'mw-handle-fill-image-button',
 
-                action: function (el) {
+                action: (el) => {
                     el.style.objectFit = 'cover';
                     el.dataset.objectFit = 'cover';
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible = elementHandleButtonsVisibility.shouldShowFitImageButton(target);;
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowFitImageButton(target);
 
                     selfBtn.classList[selfVisible ? 'remove' : 'add']('mw-le-handle-menu-button-hidden');
                 },
@@ -178,15 +176,15 @@ export class ElementHandleContent {
             {
                 title: 'Link',
                 text: '',
-                icon: handleIcons.icon('link'),
+                icon: this.handleIcons.icon('link'),
 
                 className: 'mw-handle-element-link-button',
 
-                action: function (el) {
-                    elementActions.editLink(el);
+                action: (el) => {
+                    this.elementActions.editLink(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =   elementHandleButtonsVisibility.shouldShowLinkButton(target);
+                    var selfVisible =   this.elementHandleButtonsVisibility.shouldShowLinkButton(target);
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
@@ -196,15 +194,15 @@ export class ElementHandleContent {
             {
                 title: 'Unlink',
                 text: '',
-                icon: handleIcons.icon('unlink'),
+                icon: this.handleIcons.icon('unlink'),
 
                 className: 'mw-handle-element-unlink-button',
 
-                action: function (el) {
-                    elementActions.removeLink(el);
+                action: (el) => {
+                    this.elementActions.removeLink(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =  elementHandleButtonsVisibility.shouldShowUnlinkButton(target);
+                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowUnlinkButton(target);
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
 
@@ -215,7 +213,7 @@ export class ElementHandleContent {
         const elementLinkMenuGroup = [
             {
                 title: 'Link',
-                icon: handleIcons.icon('link'),
+                icon: this.handleIcons.icon('link'),
                 menu: elementLinkMenu
 
             },
@@ -226,15 +224,15 @@ export class ElementHandleContent {
             {
                 title: 'Style Editor',
                 text: '',
-                icon: handleIcons.icon('style-editor'),
+                icon: this.handleIcons.icon('style-editor'),
 
                 className: 'mw-handle-element-open-style-editor-button',
 
-                action: function (el) {
-                    elementActions.openElementStyleEditor(el);
+                action: (el) => {
+                    this.elementActions.openElementStyleEditor(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible = elementHandleButtonsVisibility.shouldShowStyleEditorButton(target);
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowStyleEditorButton(target);
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
 
@@ -247,12 +245,12 @@ export class ElementHandleContent {
             {
                 title: 'Drag',
                 text: '',
-                icon: handleIcons.icon('drag'),
+                icon: this.handleIcons.icon('drag'),
                 className: 'mw-handle-drag-button mw-handle-drag-button-element',
                 action: () => {
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =  elementHandleButtonsVisibility.shouldShowDragButton(target);
+                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowDragButton(target);
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
 
@@ -261,16 +259,16 @@ export class ElementHandleContent {
             {
                 title: 'Edit',
                 text: '',
-                icon: handleIcons.icon('edit'),
+                icon: this.handleIcons.icon('edit'),
 
                 className: 'mw-handle-edit-button',
 
-                action: function (el) {
+                action: (el) => {
 
-                    elementActions.editElement(el);
+                    this.elementActions.editElement(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =  elementHandleButtonsVisibility.shouldShowEditButton(target);
+                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowEditButton(target);
 
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
@@ -281,17 +279,17 @@ export class ElementHandleContent {
             {
                 title: 'Insert module',
                 text: '',
-                icon: handleIcons.icon('plus'),
+                icon: this.handleIcons.icon('plus'),
                 className: 'mw-handle-add-button',
 
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =  elementHandleButtonsVisibility.shouldShowInsertModuleButton(target);
+                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowInsertModuleButton(target);
 
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
                 },
 
-                action: function (el) {
+                action: (el) => {
 
                     mw.app.editor.dispatch('insertModuleRequest', el);
 
@@ -303,15 +301,15 @@ export class ElementHandleContent {
             {
                 title: 'Settings',
                 text: '',
-                icon: handleIcons.icon('settings'),
+                icon: this.handleIcons.icon('settings'),
                 className: 'mw-handle-settings-button',
 
-                action: function (el) {
+                action: (el) => {
                     mw.app.editor.dispatch('elementSettingsRequest', el);
 
                 },
-                onTarget: function (target, selfBtn) {
-                    var selfVisible =  elementHandleButtonsVisibility.shouldShowSettingsButton(target);
+                onTarget: (target, selfBtn) => {
+                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowSettingsButton(target);
 
 
                     selfBtn.style.display = selfVisible ? '' : 'none';
@@ -320,15 +318,15 @@ export class ElementHandleContent {
             {
                 title: 'Background color',
                 text: '',
-                icon: handleIcons.icon('color'),
+                icon: this.handleIcons.icon('color'),
                 className: 'mw-handle-insert-color-button',
 
                 action: function (el, selfBtn) {
-                    elementActions.editBackgroundColor(el, selfBtn);
+                    this.elementActions.editBackgroundColor(el, selfBtn);
 
                 },
-                onTarget: function (target, selfBtn) {
-                    var selfVisible =  elementHandleButtonsVisibility.shouldShowEditBackgroundColorButton(target);
+                onTarget: (target, selfBtn) => {
+                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowEditBackgroundColorButton(target);
                     if(selfVisible) {
                         selfBtn.querySelector('.mw-le--handle-icon--color-color').style.backgroundColor = getComputedStyle(target).backgroundColor;
                     }
@@ -346,7 +344,7 @@ export class ElementHandleContent {
         const tailMenuQuickSettings = [
             {
                 title: 'Quick Settings',
-                icon: handleIcons.icon('more'),
+                icon: this.handleIcons.icon('more'),
                 menu: [
                     {
                         name: 'Cloneable',
@@ -369,13 +367,13 @@ export class ElementHandleContent {
             {
                 title: this.rootScope.lang('Delete'),
                 text: '',
-                icon: handleIcons.icon('delete'),
+                icon: this.handleIcons.icon('delete'),
                 className: 'mw-handle-delete-button',
-                action: function (el) {
-                    elementActions.deleteElement(el);
+                action: (el) => {
+                    this.elementActions.deleteElement(el);
                 },
-                onTarget: function(target, selfBtn) {
-                    let selfVisible =  elementHandleButtonsVisibility.shouldShowDeleteElementButton(target);
+                onTarget: (target, selfBtn) => {
+                    let selfVisible =  this.elementHandleButtonsVisibility.shouldShowDeleteElementButton(target);
 
                     if(selfVisible) {
 
