@@ -116,8 +116,22 @@
                                 }
                             });
 
-                            $('#parentpage').val(pages.join(',')).trigger('change');
-                            $('#parentcat').val(cats.join(',')).trigger('change');
+                            let parentPageContent = pages.join(',');
+                            let parentCatContent = cats.join(',');
+
+                            mw.options.saveOption({
+                                option_group: '<?php print $moduleId; ?>',
+                                module: '<?php print $moduleType; ?>',
+                                option_key: 'fromcategory',
+                                option_value: parentCatContent
+                            });
+
+                            mw.options.saveOption({
+                                option_group: '<?php print $moduleId; ?>',
+                                module: '<?php print $moduleType; ?>',
+                                option_key: 'frompage',
+                                option_value: parentPageContent,
+                            });
 
                         })
                     });
@@ -127,12 +141,6 @@
                 <div class="p-2">
 
                     <div class="module-live-edit-settings module-categories-image-settings">
-                        <input type="hidden" name="settings" id="settingsfield" value="" class="mw_option_field"/>
-
-                        <input type="hidden" name="fromcategory" id="parentcat" value="<?php print $selected_category; ?>"
-                               class="mw_option_field"/>
-                        <input type="hidden" name="frompage" id="parentpage" value="<?php print $selected_page; ?>"
-                               class="mw_option_field"/>
 
                         <label class="mw-ui-label"><?php _e('Select parent category'); ?></label>
                         <div class="mw-ui-field-holder">
