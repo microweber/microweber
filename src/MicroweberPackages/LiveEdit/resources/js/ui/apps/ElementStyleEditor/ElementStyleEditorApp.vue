@@ -37,9 +37,9 @@
       <ElementStyleEditorAnimations></ElementStyleEditorAnimations>
     </div>
 
-<!--      <div class="mb-4" v-show="showClassApplier">
+      <div class="mb-4" v-show="showClassApplier">
           <ElementStyleEditorShadow></ElementStyleEditorShadow>
-      </div>-->
+      </div>
 
     <div class="mb-4" v-show="showClassApplier">
       <ElementStyleEditorClassApplier></ElementStyleEditorClassApplier>
