@@ -266,6 +266,75 @@ mw.CSSParser = function(el){
 
         return parseValue(shadow);
     }
+
+    f.textShadow = function () {
+        const VALUES_REG = /,(?![^\(]*\))/
+        const PARTS_REG = /\s(?![^(]*\))/
+        const LENGTH_REG = /^[0-9]+[a-zA-Z%]+?$/
+
+        const isColor = (strColor) => {
+            const s = new Option().style;
+            s.color = strColor;
+            return s.color !== '';
+        }
+
+        const parseValue = str => {
+            let parts = str.split(PARTS_REG)
+            const last = parts.slice(-1)[0]
+            const color = !isLength(last) ? last : undefined
+
+            const nums = parts
+                .filter(n => n !== color)
+                .map(toNum)
+            const [offsetX, offsetY, blurRadius] = nums
+
+            const res = {
+                offsetX,
+                offsetY,
+                blurRadius,
+                color
+            }
+
+            return res;
+        }
+
+        const stringifyValue = obj => {
+            const {
+                offsetX = 0,
+                offsetY = 0,
+                blurRadius = 0,
+                color
+            } = obj || {}
+
+            return [
+                offsetX,
+                offsetY,
+                blurRadius,
+                color
+            ].filter(v => v !== null && v !== undefined)
+                .map(toPx)
+                .map(s => ('' + s).trim())
+                .join(' ')
+        }
+
+        const isLength = v => v === '0' || LENGTH_REG.test(v)
+        const toNum = v => {
+            if (!/px$/.test(v) && v !== '0') return v
+            const n = parseFloat(v)
+            return !isNaN(n) ? n : v
+        }
+        const toPx = n => typeof n === 'number' && n !== 0 ? (n + 'px') : n
+
+        const parse = str => str.split(VALUES_REG).map(s => s.trim()).map(parseValue)
+        const stringify = arr => arr.map(stringifyValue).join(', ');
+
+        // Assuming that the text shadow is a property in the CSS object
+        const shadow = (css['textShadow'] || css['WebkitTextShadow']).replace(/, /g, ",");
+
+        return parseValue(shadow);
+    }
+
+
     f.shadow = function(){
       var shadow =  mw.JSPrefix('boxShadow');
       var shadow = css[shadow].replace(/, /g, ",").split(" ");
