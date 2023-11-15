@@ -71,8 +71,13 @@ export default {
 
             // mw.app.editImageDialog = editImageDialog;
 
+
+
             mw.app.editor.on('elementSettingsRequest', (element) => {
                 if (element.nodeName === 'IMG') {
+
+                    mw.app.liveEdit.elementHandleContent.elementActions.editImage(element);
+/*
 
                     mw.app.editImageDialog.editImage(element.src, (imgData) => {
                         if (typeof imgData !==  'undefined' && imgData.src) {
@@ -88,6 +93,7 @@ export default {
                         mw.top().app.registerChange(element);
                         mw.app.liveEdit.play();
                     });
+*/
 
 
 

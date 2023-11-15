@@ -16,12 +16,13 @@ export class ElementActions extends MicroweberBaseClass {
         this.handleIcons = new HandleIcons();
 
     }
+
     editElement(el) {
-        if(el.firstElementChild) {
+        if (el.firstElementChild) {
             var firstChild = el.firstElementChild;
 
             var isCloneableWithImageAsFirstChild = el.classList && el.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
-            var isCloneableWithImageAsFirstChildAsBg = el.classList && el.classList.contains('cloneable') && firstChild && firstChild.classList && firstChild.classList.contains('img-as-background') &&firstChild.firstElementChild && firstChild.firstElementChild.nodeName === 'IMG'
+            var isCloneableWithImageAsFirstChildAsBg = el.classList && el.classList.contains('cloneable') && firstChild && firstChild.classList && firstChild.classList.contains('img-as-background') && firstChild.firstElementChild && firstChild.firstElementChild.nodeName === 'IMG'
 
             if (isCloneableWithImageAsFirstChild) {
                 // move the element to the image for edit
@@ -39,13 +40,9 @@ export class ElementActions extends MicroweberBaseClass {
 
     imagePlaceholder(newNode, css) {
 
-        if(!newNode) {
+        if (!newNode) {
             newNode = document.createElement('p');
         }
-
-
-
-
 
 
         newNode.innerHTML = `<span class="mw-img-placeholder-description">${mw.lang(`Click to set image`)}</span>`;
@@ -66,19 +63,17 @@ export class ElementActions extends MicroweberBaseClass {
                 });
 
             } else {
-              file = [...e.dataTransfer.files][0];
+                file = [...e.dataTransfer.files][0];
             }
             return file;
         }
-
-
 
 
         function handleDragover(e) {
 
             let file = getFile(e);
 
-            if(file) {
+            if (file) {
                 newNode.classList.add('mw-drag-over')
 
 
@@ -86,9 +81,8 @@ export class ElementActions extends MicroweberBaseClass {
             }
 
 
-
         }
-        }
+    }
 
 
     deleteElement(el) {
@@ -97,7 +91,7 @@ export class ElementActions extends MicroweberBaseClass {
         // todo: placeholder improvements
         const deletedImagePlaceholder = false;
 
-        if(deletedImagePlaceholder && el.nodeName === 'IMG') {
+        if (deletedImagePlaceholder && el.nodeName === 'IMG') {
 
             var edit = DomService.firstParentWithAnyOfClasses(el, ['edit'])
 
@@ -121,7 +115,6 @@ export class ElementActions extends MicroweberBaseClass {
             }
 
             this.imagePlaceholder(newNode, css);
-
 
 
             mw.app.state.record({
@@ -184,7 +177,7 @@ export class ElementActions extends MicroweberBaseClass {
         //get the link
 
         var closestLink = DomService.firstParentOrCurrentWithTag(el, 'a');
-        if(closestLink){
+        if (closestLink) {
             var elementForUndo = closestLink.parentNode || closestLink;
             mw.app.registerUndoState(elementForUndo)
 
@@ -193,9 +186,9 @@ export class ElementActions extends MicroweberBaseClass {
             el.removeAttribute('href');
             el.removeAttribute('target');
 
-            var  shouldUnWrap = true;
-            if(shouldUnWrap){
-                 //unwrap the link
+            var shouldUnWrap = true;
+            if (shouldUnWrap) {
+                //unwrap the link
                 var parent = el.parentNode;
                 while (el.firstChild) {
                     parent.insertBefore(el.firstChild, el);
@@ -205,7 +198,6 @@ export class ElementActions extends MicroweberBaseClass {
             this.proto.refreshElementHandle(el);
             mw.app.registerChangedState(elementForUndo);
         }
-
 
 
     }
@@ -264,7 +256,7 @@ export class ElementActions extends MicroweberBaseClass {
             this.proto.elementHandle.set(el);
             mw.app.registerChangedState(el);
             mw.app.liveEdit.handles.get('element').set(null);
-        mw.app.liveEdit.handles.get('element').set(el);
+            mw.app.liveEdit.handles.get('element').set(el);
         }
     }
 
@@ -292,5 +284,60 @@ export class ElementActions extends MicroweberBaseClass {
         this.proto.elementHandle.set(el);
     }
 
+    editBackgroundColor(el, selfBtn) {
 
+        var dlg = mw.top().dialog({
+            width: 280,
+            closeButtonAction: 'hide',
+            disableTextSelection: true,
+            title: mw.lang('Choose color'),
+            overlayClose: true,
+            closeOnEscape: false,
+        });
+
+
+
+
+
+        var _pauseSetValue = false;
+
+
+
+        var picker = mw.colorPicker({
+            // element: tip.get(0),
+            element: dlg.container,
+
+            method: 'inline',
+            showHEX: false,
+            onchange: function (color) {
+                // mw.top().app.liveEdit.handles.get('element').getTarget().style.backgroundColor = color;
+                if(selfBtn) {
+                    selfBtn.querySelector('.mw-le--handle-icon--color-color').style.backgroundColor = color;
+                }
+                mw.top().app.cssEditor.temp(mw.top().app.liveEdit.handles.get('element').getTarget(), 'background-color', color)
+
+            },
+
+        });
+
+
+    }
+
+    editImage(element) {
+        mw.app.editImageDialog.editImage(element.src, (imgData) => {
+            if (typeof imgData !==  'undefined' && imgData.src) {
+
+                element.src = imgData.src
+
+                if (imgData.sizeChanged) {
+                    // reset width and height
+                    //   element.style.width = '';
+                    element.style.height = 'auto';
+                }
+            }
+            mw.top().app.registerChange(element);
+            mw.app.liveEdit.play();
+        });
+
+    }
 }

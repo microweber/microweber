@@ -43,15 +43,17 @@
             .js-modal-livewire-content {
                 width: 500px;
                 max-height: calc(100% - 100px);
+                min-height:300px;
             }
         }
         @media only screen and (min-width: 768px) {
             .js-modal-livewire {
-                padding-top: 100px;
+                padding-top: 8%;
             }
             .js-modal-livewire-content {
                 width: 800px;
                 max-height: calc(100% - 100px);
+                min-height:300px;
             }
         }
     </style>

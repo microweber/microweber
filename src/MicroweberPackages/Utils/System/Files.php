@@ -1150,7 +1150,7 @@ class Files
             case 'image':
             case 'images':
             case 'media':
-                $are_allowed .= ',png,gif,jpg,jpeg,tiff,bmp,svg,webp,ico';
+                $are_allowed .= ',png,gif,jpg,jpeg,tiff,bmp,webp,ico';
                 break;
             case 'audio':
             case 'audios':

@@ -2,14 +2,14 @@
     <div class="mw-modal">
         <div class="mw-modal-dialog" role="document">
             <div class="mw-modal-content">
-                <div class="mw-modal-header">
+                <div class="mw-modal-header" style="position: sticky; z-index: 100; padding-bottom:15px; padding-top:20px; top:0px; background-color: var(--tblr-bg-surface)">
                     <h5 class="mw-modal-title">
                         {{_e('Settings')}}
                     </h5>
                     <button type="button" class="btn-close" wire:click="$emit('closeModal')"
                             aria-label="Close"></button>
                 </div>
-                <div class="mw-modal-body">
+                <div class="mw-modal-body" >
 
                     <div class="d-flex align-items-center mt-3">
                         <div class="w-full">
@@ -136,7 +136,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-3 d-flex justify-content-end">
+                    <div class="mt-3 d-flex justify-content-end"  style="position: sticky; z-index: 100; padding-bottom:15px; padding-top:20px; bottom:0px; background-color: var(--tblr-bg-surface)">
                         <x-microweber-ui::button wire:click="save">
                             <span wire:loading wire:target="save">
                                 <span class="spinner-border spinner-border-sm text-white" role="status"></span>

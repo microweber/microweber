@@ -640,7 +640,7 @@ mw.emitter = {
                     label: mw.lang('Search for content')
                 },
                 icon: 'd-none',
-                title: mw.lang('Post/category'),
+                title: mw.lang('Posts and Products'),
                 dataUrl: function () {
                     try {
                         return mw.settings.site_url + "api/get_content_admin";
@@ -656,6 +656,7 @@ mw.emitter = {
 
             var root = document.createElement('div');
             root.className = 'mw-ui-form-controller-root';
+            root.style = 'min-height: 400px;';
             var _linkText = '', _linkUrl = '', _target = '';
             UIFormControllers._title(this.settings, root);
             var treeEl = document.createElement('input');

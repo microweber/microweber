@@ -1,9 +1,18 @@
 @props(['quickContentAdd' => false])
 
 
+<?php
+$style = '';
+if (isset($isIframe) and $isIframe) {
+    $style = 'position:  fixed; z-index: 100; margin-top:0px;  top:0px; width:100%; background-color: var(--tblr-bg-surface)';
+}
 
+?>
+<?php if (isset($isIframe) and $isIframe) { ?>
+    <div style="height: 60px; "></div>
+<?php } ?>
 
-    <div class="page-header d-print-none">
+    <div class="page-header d-print-none" style="<?php print $style; ?>">
         <div class="row g-2 align-items-center  @if(!$quickContentAdd) px-5 @endif mw-100">
             @if(!$quickContentAdd)
 
@@ -16,8 +25,12 @@
 
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
+
+
                 <?php
-                event_trigger('mw.admin.header.toolbar'); ?>
+
+
+                    event_trigger('mw.admin.header.toolbar'); ?>
 
                 <ul class="nav d-flex gap-2">
                     @yield('topbar2-links-right', \View::make('admin::layouts.partials.topbar2-links-right-default', ['quickContentAdd' => $quickContentAdd]))
