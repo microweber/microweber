@@ -53,8 +53,7 @@ export default {
 
         this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
 
-            console.log(1111111111)
-            console.log(elementStyleEditorShow)
+
 
             if
             (
