@@ -1,0 +1,17 @@
+{
+  "name": "microweber-modules/newsletter",
+  "description": "Newsletter",
+  "license": "MIT",
+  "homepage": "https://github.com/microweber-modules/newsletter",
+  "authors": [
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "keywords": [
+    "newsletter"
+  ],
+  "type": "microweber-module",
+  "target-dir": "newsletter"
+}

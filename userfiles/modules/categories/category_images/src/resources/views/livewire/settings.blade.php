@@ -178,7 +178,7 @@
         <div x-show="showEditTab=='settings'">
 
             <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType" />
-            
+
         </div>
 
     </div>

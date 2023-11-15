@@ -17,13 +17,6 @@
         </div>
 
         <div x-show="showEditTab=='content'">
-
-
-
-
-
-
-
             <div>
                 <label class="live-edit-label">{{__('Title')}} </label>
                 <livewire:microweber-option::text optionKey="title" :optionGroup="$moduleId" :module="$moduleType"  />
@@ -36,8 +29,7 @@
 
         </div>
         <div x-show="showEditTab=='settings'">
-            <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType" />
-
+            This is the settings tab
         </div>
 
     </div>

@@ -68,7 +68,6 @@ userfiles/.DS_Store
 .phpunit.result.cache
 /userfiles/modules/vouchers
 userfiles/modules/dynamic_text/
-userfiles/modules/newsletter/
 userfiles/modules/remote_rss_feed/
 userfiles/modules/fullpage_cache/index.php
 userfiles/modules/fullpage_cache/functions.php
