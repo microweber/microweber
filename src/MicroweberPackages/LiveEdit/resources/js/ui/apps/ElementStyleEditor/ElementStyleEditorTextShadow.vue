@@ -36,7 +36,7 @@ export default {
                 verticalLength: "",
                 blurRadius: "",
                 shadowColor: "",
-                inset: false,
+
             },
         };
     },
@@ -44,8 +44,10 @@ export default {
     mounted() {
 
         this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
-            if (elementStyleEditorShow !== 'textShadowOptions') {
+            if (elementStyleEditorShow !== 'showTextShadowOptions') {
                 this.showTextShadowOptions = false;
+            } else {
+                this.showTextShadowOptions = true;
             }
         });
 
@@ -126,6 +128,9 @@ export default {
                 }
             }
 
+            console.log('populateCssTextShadow')
+            console.log(result)
+
             if (result.color) {
                 this.textShadowOptions.shadowColor = result.color;
             }
@@ -145,9 +150,7 @@ export default {
                 // Remove "px" from the size
                 this.textShadowOptions.spreadRadius = result.spreadRadius.replace("px", "");
             }
-            if (result.inset) {
-                this.textShadowOptions.inset = result.inset;
-            }
+
         },
 
 

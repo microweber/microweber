@@ -63,8 +63,10 @@ export default {
   mounted() {
 
     this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
-      if (elementStyleEditorShow !== 'boxShadowOptions') {
+      if (elementStyleEditorShow !== 'showBoxShadowOptions') {
         this.showBoxShadowOptions = false;
+      } else {
+          this.showBoxShadowOptions = true;
       }
     });
 

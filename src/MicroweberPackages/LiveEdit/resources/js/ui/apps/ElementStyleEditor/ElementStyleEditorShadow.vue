@@ -12,8 +12,24 @@
     </div>
 
     <div v-if="showShadow">
-        <ElementStyleEditorBoxShadow></ElementStyleEditorBoxShadow>
-        <ElementStyleEditorTextShadow></ElementStyleEditorTextShadow>
+        <a class="mw-admin-action-links ms-3" :class="{'active': showTextShadowOptions }" v-on:click="toggleTextShadow">
+            Text shadow
+        </a>
+         <a class="mw-admin-action-links ms-3"  :class="{'active': showBoxShadowOptions }" v-on:click="toggleBoxShadow">
+            Box shadow
+         </a>
+
+     <hr>
+
+
+        <div v-if="showBoxShadowOptions">
+            <ElementStyleEditorBoxShadow></ElementStyleEditorBoxShadow>
+        </div>
+        <div v-if="showTextShadowOptions">
+            <ElementStyleEditorTextShadow></ElementStyleEditorTextShadow>
+        </div>
+
+
     </div>
 </template>
 
@@ -29,13 +45,55 @@ export default {
     data() {
         return {
             'showShadow': false,
+            'showBoxShadowOptions': false,
+            'showTextShadowOptions': false,
         };
+    },
+    mounted() {
+
+        this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+
+            console.log(1111111111)
+            console.log(elementStyleEditorShow)
+
+            if
+            (
+                elementStyleEditorShow === 'showShadow' ||
+                elementStyleEditorShow === 'showBoxShadowOptions' ||
+                elementStyleEditorShow === 'showTextShadowOptions'
+            ) {
+                this.showShadow = true;
+
+                if (elementStyleEditorShow === 'showTextShadowOptions') {
+                    this.showTextShadowOptions = true;
+                    this.showBoxShadowOptions = false;
+                } else if (elementStyleEditorShow === 'showBoxShadowOptions') {
+                    this.showTextShadowOptions = false;
+                    this.showBoxShadowOptions = true;
+                } else {
+                    this.showTextShadowOptions = false;
+                    this.showBoxShadowOptions = false;
+                }
+
+            } else {
+                this.showShadow = false;
+            }
+        });
     },
     methods: {
 
         toggleShadow: function () {
-            this.showShadow = !this.showShadow;
-            this.emitter.emit('element-style-editor-show', 'shadow');
+
+            this.emitter.emit('element-style-editor-show', 'showShadow');
+        },
+
+        toggleTextShadow: function () {
+
+            this.emitter.emit('element-style-editor-show', 'showTextShadowOptions');
+        },
+        toggleBoxShadow: function () {
+
+            this.emitter.emit('element-style-editor-show', 'showBoxShadowOptions');
         },
     }
 }
