@@ -36,7 +36,7 @@ mw.lib.require('xss');
         this.setValue = function (data, controller) {
             data = this.cleanData(data);
             controller = controller || 'auto';
- 
+
 
             if(controller === 'auto') {
                 this.controllers.forEach(function (item){
@@ -52,7 +52,7 @@ mw.lib.require('xss');
         };
 
         this.settings =  mw.object.extend({}, defaults, options || {});
-        
+
 
 
         var _filterXSS = function (html){
@@ -78,7 +78,14 @@ mw.lib.require('xss');
 
 
         var handleSelect = function (__for, target) {
-            [].forEach.call(scope.nav.querySelectorAll('li a'), function (item){item.classList.remove('active');});
+            [].forEach.call(scope.nav.querySelectorAll('li a'), function (item){
+                if(item.__for === __for) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+
+            });
             scope.controllers.forEach(function (item){item.controller.root.classList.remove('active');});
             if(target && target.classList) {
                 target.classList.add('active');
@@ -106,7 +113,7 @@ mw.lib.require('xss');
                 var nav = scope.controllers;
                 var dropdown = [];
 
-                
+
 
 
 
@@ -219,6 +226,7 @@ mw.lib.require('xss');
                     width: 860,
                     skin: 'default mw_modal_live_edit_link_editor_settings',
                     height: 'auto',
+                    minHeight: 400,
                     title: this.settings.title,
                     overflowMode: 'visible',
                     shadow: false,

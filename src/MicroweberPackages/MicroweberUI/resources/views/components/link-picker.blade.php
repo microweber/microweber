@@ -70,7 +70,9 @@ $rand = time().rand(1111,9999);
             });
 
             if(currentLinkPickerValue.type === 'category' || currentLinkPickerValue.type === 'page') {
+
                 linkEditor.selectController('page')
+
             }
             linkEditor
             .setValue(currentLinkPickerValue)
