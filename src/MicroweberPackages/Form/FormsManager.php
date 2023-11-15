@@ -611,8 +611,8 @@ class FormsManager
                         break;
                     }
 
+                    $target_path_name = md5($file['name'].time()) . $target_path_name;
                     $targetFileName = $target_path_name . '/' . $file['name'];
-
                     if (is_file($target_path . '/' . $file['name'])) {
                         $targetFileName = $target_path_name . '/' . date('Ymd-His') . $file['name'];
                     }
