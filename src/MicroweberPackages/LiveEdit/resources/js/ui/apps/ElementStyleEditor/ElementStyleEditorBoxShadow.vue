@@ -7,8 +7,10 @@
       <div class="form-group">
 
 
-        <SliderSmall label="Horizontal Shadow Length" v-model="boxShadowOptions.horizontalLength" :min="0" :max="30" :step="1"></SliderSmall>
-        <SliderSmall label="Vertical Shadow Length" v-model="boxShadowOptions.verticalLength" :min="0" :max="30" :step="1"></SliderSmall>
+        <SliderSmall label="Horizontal Shadow Length" v-model="boxShadowOptions.horizontalLength" :min="-500"
+                     :max="500" :step="1"></SliderSmall>
+        <SliderSmall label="Vertical Shadow Length" v-model="boxShadowOptions.verticalLength" :min="-500"
+                     :max="500" :step="1"></SliderSmall>
         <SliderSmall label="Blur Radius" v-model="boxShadowOptions.blurRadius" :min="0" :max="30" :step="1"></SliderSmall>
         <SliderSmall label="Spread Radius" v-model="boxShadowOptions.spreadRadius" :min="0" :max="30" :step="1"></SliderSmall>
 
@@ -67,6 +69,9 @@ export default {
         this.showBoxShadowOptions = false;
       } else {
           this.showBoxShadowOptions = true;
+          if(this.activeNode) {
+              this.populateStyleEditor(this.activeNode);
+          }
       }
     });
 

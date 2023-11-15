@@ -3,10 +3,10 @@
 
         <div class="text-shadow-options">
             <div class="form-group">
-                <SliderSmall label="Horizontal Shadow Length" v-model="textShadowOptions.horizontalLength" :min="0"
-                             :max="30" :step="1"></SliderSmall>
-                <SliderSmall label="Vertical Shadow Length" v-model="textShadowOptions.verticalLength" :min="0"
-                             :max="30" :step="1"></SliderSmall>
+                <SliderSmall label="Horizontal Shadow Length" v-model="textShadowOptions.horizontalLength" :min="-500"
+                             :max="500" :step="1"></SliderSmall>
+                <SliderSmall label="Vertical Shadow Length" v-model="textShadowOptions.verticalLength" :min="-500"
+                             :max="500" :step="1"></SliderSmall>
                 <SliderSmall label="Blur Radius" v-model="textShadowOptions.blurRadius" :min="0" :max="30"
                              :step="1"></SliderSmall>
 
@@ -30,13 +30,11 @@ export default {
             activeNode: null,
             isReady: false,
             showTextShadowOptions: false,
-
             textShadowOptions: {
                 horizontalLength: "",
                 verticalLength: "",
                 blurRadius: "",
                 shadowColor: "",
-
             },
         };
     },
@@ -48,6 +46,9 @@ export default {
                 this.showTextShadowOptions = false;
             } else {
                 this.showTextShadowOptions = true;
+                if (this.activeNode) {
+                    this.populateStyleEditor(this.activeNode);
+                }
             }
         });
 
@@ -128,26 +129,19 @@ export default {
                 }
             }
 
-            console.log('populateCssTextShadow')
-            console.log(result)
-
             if (result.color) {
                 this.textShadowOptions.shadowColor = result.color;
             }
             if (result.offsetX) {
-                // Remove "px" from the size
                 this.textShadowOptions.horizontalLength = result.offsetX.replace("px", "");
             }
             if (result.offsetY) {
-                // Remove "px" from the size
                 this.textShadowOptions.verticalLength = result.offsetY.replace("px", "");
             }
             if (result.blurRadius) {
-                // Remove "px" from the size
                 this.textShadowOptions.blurRadius = result.blurRadius.replace("px", "");
             }
             if (result.spreadRadius) {
-                // Remove "px" from the size
                 this.textShadowOptions.spreadRadius = result.spreadRadius.replace("px", "");
             }
 
@@ -168,7 +162,6 @@ export default {
             } = this.textShadowOptions;
 
             const textShadowValue = `${horizontalLength}px ${verticalLength}px ${blurRadius}px ${shadowColor}`;
-            console.log(textShadowValue)
             this.applyPropertyToActiveNode("textShadow", textShadowValue);
         },
     },
