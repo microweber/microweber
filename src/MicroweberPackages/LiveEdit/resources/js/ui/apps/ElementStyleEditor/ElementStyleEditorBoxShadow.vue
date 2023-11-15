@@ -13,20 +13,25 @@
         <SliderSmall label="Spread Radius" v-model="boxShadowOptions.spreadRadius" :min="0" :max="30" :step="1"></SliderSmall>
 
 
-        <ColorPicker v-model="boxShadowOptions.shadowColor" v-bind:color=boxShadowOptions.shadowColor :label="'Box shadow color'"
+        <ColorPicker v-model="boxShadowOptions.shadowColor" v-bind:color=boxShadowOptions.shadowColor :label="'Color'"
                      @change="handleBoxShadowColorChange"/>
 
       </div>
-
       <div class="form-group">
-        <label for="inset">Inset</label>
-        <input
-            type="checkbox"
-            id="inset"
-            v-model="boxShadowOptions.inset"
-            @change="applyBoxShadow"
-        />
-      </div>
+        <div class="form-check">
+            <label for="inset"> Inset</label>
+            <input style="margin-inline: -15px 8px;"
+                    type="checkbox"
+                    id="inset"
+                    class="form-check-input"
+                    v-model="boxShadowOptions.inset"
+                    @change="applyBoxShadow"
+                />
+
+        </div>
+    </div>
+
+
     </div>
   </div>
 </template>
@@ -134,6 +139,12 @@ export default {
       if (!css || !css.get) return;
 
       var result = css.get.boxShadow();
+
+      for(let i in result) {
+        if(typeof result[i] === 'number') {
+            result[i] = `${result[i]}`;
+        }
+      }
 
       console.log('populateCssBoxShadow', result)
 

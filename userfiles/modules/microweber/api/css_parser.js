@@ -188,9 +188,21 @@ mw.CSSParser = function(el){
         const PARTS_REG = /\s(?![^(]*\))/
         const LENGTH_REG = /^[0-9]+[a-zA-Z%]+?$/
 
+
+        const isColor = (strColor) => {
+            const s = new Option().style;
+            s.color = strColor;
+            return s.color !== '';
+          }
+
         const parseValue = str => {
-        const parts = str.split(PARTS_REG)
+        let parts = str.split(PARTS_REG)
         const inset = parts.includes('inset')
+        parts = parts.filter(f => f.indexOf('inset') === -1);
+
+        if(isColor(parts[0])) {
+            parts.push(parts.shift())
+        }
         const last = parts.slice(-1)[0]
         const color = !isLength(last) ? last : undefined
 
@@ -200,14 +212,20 @@ mw.CSSParser = function(el){
             .map(toNum)
         const [ offsetX, offsetY, blurRadius, spreadRadius ] = nums
 
-            return {
-                inset,
-                offsetX,
-                offsetY,
-                blurRadius,
-                spreadRadius,
-                color
-            }
+        const res = {
+            inset,
+            offsetX,
+            offsetY,
+            blurRadius,
+            spreadRadius,
+            color
+        }
+
+
+
+
+
+            return res;
         }
 
         const stringifyValue = obj => {
