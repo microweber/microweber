@@ -21,7 +21,7 @@ class CategoryServiceProvider extends PackageServiceProvider
         parent::register();
 
         Livewire::component('microweber-module-category::settings', CategorySettingsComponent::class);
-        ModuleAdmin::registerSettings('categories', 'microweber-module-category::settings');
+        //ModuleAdmin::registerSettings('categories', 'microweber-module-category::settings');
 
     }
 
