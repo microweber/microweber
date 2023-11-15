@@ -272,24 +272,21 @@ export const CSSParser = function(el) {
         }
 
         const parseValue = str => {
-            let parts = str.split(PARTS_REG)
-            const last = parts.slice(-1)[0]
-            const color = !isLength(last) ? last : undefined
+            const values = str.split(/\s+/);
+            const colorIndex = values.findIndex(value => isColor(value));
 
-            const nums = parts
-                .filter(n => n !== color)
-                .map(toNum)
-            const [offsetX, offsetY, blurRadius] = nums
+            const color = colorIndex !== -1 ? values.splice(colorIndex, 1)[0] : undefined;
 
-            const res = {
+            const [offsetX, offsetY, blurRadius] = values.map(toNum);
+
+            return {
                 offsetX,
                 offsetY,
                 blurRadius,
-                color
-            }
+                color,
+            };
+        };
 
-            return res;
-        }
 
         const stringifyValue = obj => {
             const {
