@@ -1,5 +1,10 @@
 <template>
-  <div class="d-flex flex-column">
+
+    <ElementStyleEditorActiveNode></ElementStyleEditorActiveNode>
+
+
+    <div class="d-flex flex-column">
+
     <div class="mb-4" v-show="showElementSelector">
       <ElementStyleEditorElementSelector></ElementStyleEditorElementSelector>
     </div>
@@ -50,6 +55,7 @@
 <style src="./ElementStyleEditor.css"></style>
 
 <script>
+import ElementStyleEditorActiveNode from './ElementStyleEditorActiveNode.vue';
 import ElementStyleEditorTypography from './ElementStyleEditorTypography.vue';
 import ElementStyleEditorSpacing from './ElementStyleEditorSpacing.vue';
 import ElementStyleEditorBackground from './ElementStyleEditorBackground.vue';
@@ -64,6 +70,7 @@ import ElementStyleEditorShadow from "./ElementStyleEditorShadow.vue";
 
 export default {
   components: {
+      ElementStyleEditorActiveNode,
       ElementStyleEditorBackground,
       ElementStyleEditorRoundedCorners,
     ElementStyleEditorElementSelector,
@@ -79,6 +86,7 @@ export default {
 
   data() {
     return {
+        selectedElement: null,
       showElementSelector: true,
         showBackground: true,
         showTypography: true,

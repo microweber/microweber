@@ -647,7 +647,7 @@ mw.emitter = {
                     label: mw.lang('Search for content')
                 },
                 icon: 'd-none',
-                title: mw.lang('Posts and Products'),
+                title: mw.lang('All content'),
                 dataUrl: function () {
                     try {
                         return mw.settings.site_url + "api/get_content_admin";
@@ -712,6 +712,7 @@ mw.emitter = {
                     controlInput: '<input>',
                     mode: 'single',
                     closeAfterSelect: true,
+                    preload: true,
                     options: idata,
                     // fetch remote data
                     onChange : function(query, callback) {
@@ -942,7 +943,7 @@ mw.emitter = {
                     label: mw.lang('Open the link in a new window')
                 },
                  icon: 'd-none',
-                title: 'My website',
+                title: 'Pages ',
                 dataUrl: function () {
                     try {
                         return mw.top().settings.api_url + 'content/get_admin_js_tree_json';

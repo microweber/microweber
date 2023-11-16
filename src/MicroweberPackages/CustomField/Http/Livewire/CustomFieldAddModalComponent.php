@@ -14,7 +14,6 @@ class CustomFieldAddModalComponent extends AdminMwTopDialogIframeComponent
 
     public function addExisting($customFieldId)
     {
-
         $findExisting = CustomField::where('id', $customFieldId)->first();
 
         $newCustomFieldId = mw()->fields_manager->save([
@@ -25,9 +24,9 @@ class CustomFieldAddModalComponent extends AdminMwTopDialogIframeComponent
         ]);
 
         $this->closeModal();
-        $this->emit('customFieldAdded');
+        $this->dispatchGlobalBrowserEvent('customFieldAdded');
 
-        $showEditModal = false;
+        $showEditModal = true;
         if ($findExisting->type == 'address') {
             $showEditModal = false;
         }
@@ -66,7 +65,7 @@ class CustomFieldAddModalComponent extends AdminMwTopDialogIframeComponent
         }
 
         $this->closeModal();
-        $this->emit('customFieldAdded');
+        $this->dispatchGlobalBrowserEvent('customFieldAdded');
 
         if ($showEditModal) {
             $this->emit('openMwTopDialogIframe', 'custom-field-edit-modal', [

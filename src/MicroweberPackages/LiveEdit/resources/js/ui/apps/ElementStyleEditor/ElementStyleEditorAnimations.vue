@@ -185,20 +185,36 @@ export default {
       this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
           if (elementStyleEditorShow !== 'animations') {
               this.showAnimations = false;
+          } else {
+              this.showBackground = true;
+              if (this.$root.selectedElement) {
+                  this.populateStyleEditor(this.$root.selectedElement);
+              }
           }
       });
 
-    mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
-      var document = element.ownerDocument;
-      var documentWindow = element.ownerDocument.defaultView;
-
-
-      this.populateStyleEditor(element)
-    });
+    // mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
+    //   var document = element.ownerDocument;
+    //   var documentWindow = element.ownerDocument.defaultView;
+    //
+    //
+    //   this.populateStyleEditor(element)
+    // });
   },
 
 
   watch: {
+
+      '$root.selectedElement': {
+          handler: function (element) {
+              if(element) {
+                  this.populateStyleEditor(element);
+              }
+          },
+          deep: true
+      },
+
+
     selectedAnimation: function (val) {
       if (!this.isReady) {
         return;

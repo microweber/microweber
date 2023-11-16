@@ -270,19 +270,31 @@ export default {
     },
 
     mounted() {
-
+        this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+            if (this.$root.selectedElement) {
+                this.populateStyleEditor(this.$root.selectedElement);
+            }
+        });
         this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
             if (elementStyleEditorShow !== 'typography') {
                 this.showTypography = false;
             }
         });
 
-        mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
-            this.populateStyleEditor(element)
-        });
+        // mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
+        //     this.populateStyleEditor(element)
+        // });
     },
 
     watch: {
+        '$root.selectedElement': {
+            handler: function (element) {
+                if(element) {
+                    this.populateStyleEditor(element);
+                }
+            },
+            deep: true
+        },
         fontFamily: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('fontFamily', newValue);
         },
