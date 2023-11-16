@@ -2,11 +2,11 @@
 
 namespace MicroweberPackages\CustomField\Http\Livewire;
 
-use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
-class CustomFieldEditModalComponent extends AdminModalComponent
+class CustomFieldEditModalComponent extends AdminComponent
 {
 
     public $modalSettings = [

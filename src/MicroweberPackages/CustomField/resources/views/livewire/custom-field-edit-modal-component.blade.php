@@ -6,8 +6,7 @@
                     <h5 class="mw-modal-title">
                         {{_e('Settings')}}
                     </h5>
-                    <button type="button" class="btn-close" wire:click="$emit('closeModal')"
-                            aria-label="Close"></button>
+                    <button type="button" class="btn-close" wire:click="$emit('closeMwTopDialogIframe')" aria-label="Close"></button>
                 </div>
                 <div class="mw-modal-body" >
 

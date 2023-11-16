@@ -1,15 +1,15 @@
 <div>
     <script>
 
-        Livewire.on('openMwTopDialogIframe', (componentName, jsonParams) => {
-
-            console.log(componentName);
-            console.log(jsonParams);
-
+        Livewire.on('closeMwTopDialogIframe', () => {
+            let dialog = mw.top().dialog.get();
+            if (dialog) {
+                dialog.remove();
+            }
         });
 
-        // mw native modal
-        function openLivewireComponentInDialogIframe(componentName, jsonParams) {
+        Livewire.on('openMwTopDialogIframe', (componentName, jsonParams) => {
+
             let params = [];
             if (jsonParams) {
                 jsonParams.componentName = componentName;
@@ -20,12 +20,14 @@
                 width: 900,
                 height: 900,
                 id: 'mw-livewire-component-iframe',
+                skin: 'square_clean',
                 center: false,
                 resize: true,
                 overlayClose: true,
                 draggable: true
             });
-        }
+            mwNativeModal.dialogHeader.style.display = 'none';
+        });
 
         // simple modal
         Livewire.on('closeModal', (force = false, skipPreviousModals = 0, destroySkipped = false) => {
