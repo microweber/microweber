@@ -1,20 +1,20 @@
 <div>
     <script>
         // mw native modal
-        function openLivewireComponentInModal(componentName, jsonParams) {
+        function openLivewireComponentInDialogIframe(componentName, jsonParams) {
             let params = [];
             if (jsonParams) {
                 jsonParams.componentName = componentName;
                 params = new URLSearchParams(jsonParams).toString();
             }
-            let modal = mw.top().dialogIframe({
+            let mwNativeModal = mw.top().dialogIframe({
                 url: "{{ route('admin.livewire.components.render-component') }}?" + params,
                 width: 900,
                 height: 900,
                 id: 'mw-livewire-component-iframe',
-                template: 'default',
                 center: false,
                 resize: true,
+                overlayClose: true,
                 draggable: true
             });
         }
