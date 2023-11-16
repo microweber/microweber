@@ -9,6 +9,8 @@ class AdminComponent extends Component
 {
     use AuthorizesRequests;
 
+    public $globalListeners = [];
+
     public function __construct($id = null)
     {
         try {
@@ -20,4 +22,13 @@ class AdminComponent extends Component
         parent::__construct($id);
 
     }
+
+    public function dispatchGlobalBrowserEvent($event, $data = null)
+    {
+        $this->dispatchBrowserEvent('dispatch-global-browser-event', [
+            'event' => $event,
+            'data' => $data
+        ]);
+    }
+
 }

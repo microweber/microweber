@@ -25,7 +25,6 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
     public $showErrorTextSettings = false;
     public $showOptionsSettings = false;
 
-
     public $listeners = [
         'customFieldUpdated' => '$refresh',
         'onReorderCustomFieldValuesList' => 'onReorderCustomFieldValuesList'
@@ -92,7 +91,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
             }
 
             unset($this->inputs[$id]);
-            $this->emit('customFieldUpdated');
+            $this->dispatchGlobalBrowserEvent('customFieldUpdated');
         }
     }
 
@@ -119,7 +118,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         mw()->fields_manager->save($this->state);
 
         $this->showSettings($this->state['type']);
-        $this->dispatchBrowserEvent('customFieldUpdated');
+        $this->dispatchGlobalBrowserEvent('customFieldUpdated');
     }
 
     public function showSettings($type)
