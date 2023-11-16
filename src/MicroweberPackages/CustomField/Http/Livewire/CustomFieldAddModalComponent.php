@@ -26,7 +26,7 @@ class CustomFieldAddModalComponent extends AdminMwTopDialogIframeComponent
         $this->closeModal();
         $this->dispatchGlobalBrowserEvent('customFieldAdded');
 
-        $showEditModal = false;
+        $showEditModal = true;
         if ($findExisting->type == 'address') {
             $showEditModal = false;
         }
