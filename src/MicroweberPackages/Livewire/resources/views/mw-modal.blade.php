@@ -2,7 +2,7 @@
     <script>
 
         Livewire.on('closeMwTopDialogIframe', () => {
-            let dialog = mw.top().dialog.get();
+            let dialog = mw.top().dialog.get('#mw-livewire-component-iframe');
             if (dialog) {
                 dialog.remove();
             }
