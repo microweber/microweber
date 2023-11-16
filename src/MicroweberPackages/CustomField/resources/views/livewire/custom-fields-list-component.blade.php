@@ -150,6 +150,10 @@
                     window.mw.items_editor_sort();
                 });
 
+                mw.top().app.editor.on('customFieldUpdated', function (a, b) {
+                    Livewire.emit('customFieldUpdated');
+                }); 
+
                 window.addEventListener('livewire:load', function () {
                     window.mw.items_editor_sort();
                 });

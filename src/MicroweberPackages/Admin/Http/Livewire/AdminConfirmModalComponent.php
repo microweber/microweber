@@ -12,7 +12,7 @@ class AdminConfirmModalComponent extends AdminModalComponent
     public $modalSettings = [
         'overlay' => true,
         'overlayClose' => true,
-        'width' => '400px',
+        'width' => '500px',
     ];
 
     public $listeners = [

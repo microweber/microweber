@@ -98,7 +98,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
 
     public function updatedState()
     {
-        $this->save(false);
+        $this->save();
     }
 
     public function updatedInputs()
@@ -114,19 +114,12 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         }
     }
 
-    public function save($showSave = true)
+    public function save()
     {
-        $data = $this->state;
-        $data['session_id'] = mw()->user_manager->session_id();
-
         mw()->fields_manager->save($this->state);
 
         $this->showSettings($this->state['type']);
-        $this->emit('customFieldUpdated');
-
-        if ($showSave) {
-            $this->dispatchBrowserEvent('customFieldUpdated');
-        }
+        $this->dispatchBrowserEvent('customFieldUpdated');
     }
 
     public function showSettings($type)

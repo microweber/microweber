@@ -152,6 +152,7 @@
         <script>
             document.addEventListener('customFieldUpdated', function () {
                 mw.notification.success('Custom field saved!');
+                mw.top().app.editor.dispatch('customFieldUpdated', {});
             });
         </script>
     </div>
