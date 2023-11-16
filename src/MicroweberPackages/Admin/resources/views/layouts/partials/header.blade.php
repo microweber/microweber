@@ -195,6 +195,10 @@ $bodyClassesStr = $bodyClasses ? implode(' ', $bodyClasses) : '';
 
 <body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?> <?php print $additionalBodyClassesStr; ?>">
 
+<div>
+    @dispatchGlobalBrowserEvents
+</div>
+
 <?php if ($enableLivewireScripts) { ?>
 <div>
     <div>

@@ -119,7 +119,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         mw()->fields_manager->save($this->state);
 
         $this->showSettings($this->state['type']);
-        $this->dispatchBrowserEvent('customFieldUpdated');
+        $this->dispatchGlobalBrowserEvent('customFieldUpdated');
     }
 
     public function showSettings($type)

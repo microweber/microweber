@@ -20,8 +20,6 @@ if(isset($_GET['iframeMode']) and $_GET['iframeMode']){
 @include('admin::layouts.partials.header',$options)
 
 
-
-
 @hasSection('content')
     <main class="module-main-holder col-lg-12">
         @yield('content' )

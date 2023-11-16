@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Admin\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -40,6 +41,22 @@ class AdminServiceProvider extends ServiceProvider
 //        \App::bind(AdminManager::class,function() {
 //            return new AdminManager();
 //        });
+
+        Blade::directive('dispatchGlobalBrowserEvents', function () {
+            return "<script>
+           window.addEventListener('dispatch-global-browser-event', event => {
+                mw.top().app.dispatch('dispatch-global-browser-event', {
+                    'event': event.detail.event,
+                    'data': event.detail.data
+                });
+            });
+           setTimeout(function() {
+               mw.top().app.on('dispatch-global-browser-event', eventData => {
+                   window.Livewire.emit(eventData.event, eventData.data);
+               });
+           }, 300);
+</script>";
+        });
 
     }
 
