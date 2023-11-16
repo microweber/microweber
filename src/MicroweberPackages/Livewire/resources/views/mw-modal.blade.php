@@ -35,7 +35,7 @@
             for (let i = 0; i < openedModals.length; i++) {
                 let openedModalId = openedModals[i].getAttribute('wire:key');
                 let modal = document.getElementById("js-modal-livewire-id-" + openedModalId);
-                modal.style.display = "block";
+                modal.style.display = "none";
                 Livewire.emit('destroyComponent', openedModalId);
             }
         });
@@ -43,6 +43,9 @@
         Livewire.on('activeModalComponentChanged', (data) => {
             let modal = document.getElementById("js-modal-livewire-id-" + data.id);
             modal.style.display = "block";
+            if (data.modalSettings) {
+                modal.querySelector('.js-modal-livewire-content').style.width = data.modalSettings.width;
+            }
         });
     </script>
     <style>
@@ -64,7 +67,6 @@
             margin: auto;
             background-color: #fff;
             width: 100%;
-            height: 100%;
             overflow: auto;
         }
         @media only screen and (min-width: 600px) {
