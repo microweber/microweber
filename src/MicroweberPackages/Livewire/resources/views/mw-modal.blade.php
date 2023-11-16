@@ -1,5 +1,13 @@
 <div>
     <script>
+
+        Livewire.on('openMwTopDialogIframe', (componentName, jsonParams) => {
+
+            console.log(componentName);
+            console.log(jsonParams);
+
+        });
+
         // mw native modal
         function openLivewireComponentInDialogIframe(componentName, jsonParams) {
             let params = [];
