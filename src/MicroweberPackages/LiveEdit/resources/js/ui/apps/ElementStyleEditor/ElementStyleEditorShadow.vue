@@ -12,23 +12,28 @@
     </div>
 
     <div v-if="showShadow">
-        <a class="mw-admin-action-links ms-3" :class="{'active': showTextShadowOptions }" v-on:click="toggleTextShadow">
+        <a class="mw-admin-action-links ms-3" :class="{'active': showTextShadowOptions }"
+
+           v-on:click="toggleTextShadow">
             Text shadow
         </a>
-         <a class="mw-admin-action-links ms-3"  :class="{'active': showBoxShadowOptions }" v-on:click="toggleBoxShadow">
+        <a class="mw-admin-action-links ms-3" :class="{'active': showBoxShadowOptions }"
+           v-on:click="toggleBoxShadow">
             Box shadow
-         </a>
+        </a>
 
-     <hr>
+        <br>
 
 
-        <div v-if="showBoxShadowOptions">
-            <ElementStyleEditorBoxShadow></ElementStyleEditorBoxShadow>
-        </div>
-        <div v-if="showTextShadowOptions">
+        <div :class="{'d-none': !showTextShadowOptions }">
+
             <ElementStyleEditorTextShadow></ElementStyleEditorTextShadow>
-        </div>
 
+        </div>
+        <div :class="{'d-none': !showBoxShadowOptions }">
+            <ElementStyleEditorBoxShadow></ElementStyleEditorBoxShadow>
+
+        </div>
 
     </div>
 </template>
@@ -52,7 +57,6 @@ export default {
     mounted() {
 
         this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
-
 
 
             if
@@ -91,8 +95,7 @@ export default {
             this.emitter.emit('element-style-editor-show', 'showTextShadowOptions');
         },
         toggleBoxShadow: function () {
-
-            this.emitter.emit('element-style-editor-show', 'showBoxShadowOptions');
+             this.emitter.emit('element-style-editor-show', 'showBoxShadowOptions');
         },
     }
 }
