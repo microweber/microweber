@@ -9,6 +9,11 @@ class AdminConfirmModalComponent extends AdminModalComponent
     public $button_text = 'Confirm';
     public $data = [];
 
+    public $modalSettings = [
+        'overlay' => true,
+        'overlayClose' => true,
+    ];
+
     public $listeners = [
         'closeAdminConfirmModal' => 'closeModal',
     ];

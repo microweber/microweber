@@ -39,6 +39,7 @@
                 Livewire.emit('destroyComponent', openedModalId);
             }
         });
+        
         Livewire.on('activeModalComponentChanged', (data) => {
             let modal = document.getElementById("js-modal-livewire-id-" + data.id);
             modal.style.display = "block";
