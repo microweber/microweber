@@ -11,7 +11,7 @@
                 </small>
                 </div>
                 <div class="d-flex align-items-center">
-                    <button type="button" onclick="Livewire.emit('openModal', 'custom-field-add-modal', {{ json_encode(['relId'=>$relId,'relType'=>$relType]) }})" class="d-flex align-items-center btn btn-outline-dark js-add-custom-field">
+                    <button type="button" onclick="Livewire.emit('openMwTopDialogIframe', 'custom-field-add-modal', {{ json_encode(['relId'=>$relId,'relType'=>$relType]) }})" class="d-flex align-items-center btn btn-outline-dark js-add-custom-field">
                         <svg fill="currentColor" class="me-2" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M446.667 856V609.333H200v-66.666h246.667V296h66.666v246.667H760v66.666H513.333V856h-66.666Z"></path></svg><span>Add new field</span>
                     </button>
                 </div>

@@ -2,12 +2,12 @@
 
 namespace MicroweberPackages\CustomField\Http\Livewire;
 
-use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
+use MicroweberPackages\Admin\Http\Livewire\AdminMwTopDialogIframeComponent;
 use MicroweberPackages\CustomField\CustomFieldsHelper;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
-class CustomFieldAddModalComponent extends AdminComponent
+class CustomFieldAddModalComponent extends AdminMwTopDialogIframeComponent
 {
     public $relId;
     public $relType = 'content';
@@ -27,14 +27,13 @@ class CustomFieldAddModalComponent extends AdminComponent
         $this->closeModal();
         $this->emit('customFieldAdded');
 
-        $showEditModal = true;
         $showEditModal = false;
         if ($findExisting->type == 'address') {
             $showEditModal = false;
         }
 
         if ($showEditModal) {
-            $this->emit('openModal', 'custom-field-edit-modal', [
+            $this->emit('openMwTopDialogIframe', 'custom-field-edit-modal', [
                 'customFieldId' => $newCustomFieldId
             ]);
         }
@@ -70,7 +69,7 @@ class CustomFieldAddModalComponent extends AdminComponent
         $this->emit('customFieldAdded');
 
         if ($showEditModal) {
-            $this->emit('openModal', 'custom-field-edit-modal', [
+            $this->emit('openMwTopDialogIframe', 'custom-field-edit-modal', [
                 'customFieldId' => $newCustomField->id
             ]);
         }
