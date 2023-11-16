@@ -54,6 +54,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
         include_once __DIR__ . '/Helpers/helpers.php';
 
         $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
+        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
 
         View::addNamespace('livewire', __DIR__ . '/resources/views');
 

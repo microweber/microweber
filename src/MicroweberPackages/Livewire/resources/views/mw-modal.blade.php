@@ -1,5 +1,25 @@
 <div>
     <script>
+        // mw native modal
+        function openLivewireComponentInModal(componentName, jsonParams) {
+            let params = [];
+            if (jsonParams) {
+                jsonParams.componentName = componentName;
+                params = new URLSearchParams(jsonParams).toString();
+            }
+            let modal = mw.top().dialogIframe({
+                url: "{{ route('admin.livewire.components.render-component') }}?" + params,
+                width: 900,
+                height: 900,
+                id: 'mw-livewire-component-iframe',
+                template: 'default',
+                center: false,
+                resize: true,
+                draggable: true
+            });
+        }
+
+        // simple modal
         Livewire.on('closeModal', (force = false, skipPreviousModals = 0, destroySkipped = false) => {
             let openedModals = document.querySelectorAll('.js-modal-livewire');
             for (let i = 0; i < openedModals.length; i++) {
