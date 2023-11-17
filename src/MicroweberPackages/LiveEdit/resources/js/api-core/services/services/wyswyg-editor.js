@@ -9,7 +9,7 @@ export class WyswygEditor extends MicroweberBaseClass {
 
         this.config = {
             selector: '[contenteditable="true"]',
-            editor_deselector : /(NoEditor|NoRichText|module)/,
+        //   editor_deselector : /(NoEditor|NoRichText|module)/,
             noneditable_class: 'module',
             skin: 'noskin',
             editable_root: false,
