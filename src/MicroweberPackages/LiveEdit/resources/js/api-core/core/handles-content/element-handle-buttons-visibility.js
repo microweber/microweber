@@ -13,9 +13,16 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
 
     }
 
+
+
     shouldShowCloneButton(target) {
         const isVisible = this.isPlaceholder(target) && (target.classList.contains('cloneable') || target.classList.contains('mw-col'));
-
+        if (!isVisible) {
+            const hasCloneable = DomService.hasAnyOfClasses(target, ['cloneable']);
+            if (hasCloneable) {
+                return true;
+            }
+        }
         return isVisible;
     }
 

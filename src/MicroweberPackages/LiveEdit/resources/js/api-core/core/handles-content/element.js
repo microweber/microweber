@@ -381,32 +381,50 @@ export class ElementHandleContent {
 
         ]
 
-        const tailMenuQuickSettings = [
-            {
-                title: 'Quick Settings',
-                icon: this.handleIcons.icon('more'),
-                menu: [
-                    {
-                        name: 'Cloneable',
+        var tailMenuQuickSettings = [];
 
-                        nodes: cloneAbleMenu,
+        var shouldShowMoreMenu = false;
+        if(cloneAbleMenu.length > 0) {
+            shouldShowMoreMenu = true;
+        }
+        if(elementResetImageSizeMenu.length > 0) {
+            shouldShowMoreMenu = true;
+        }
+        if(elementBackgroundImageMenuOnMoreButton.length > 0) {
+            shouldShowMoreMenu = true;
+        }
 
-                    },
-                    {
-                        name: 'Image settings',
-                        nodes:
-                        elementResetImageSizeMenu
+        if(shouldShowMoreMenu) {
+             tailMenuQuickSettings = [
+                {
+                    title: 'Quick Settings',
+                    icon: this.handleIcons.icon('more'),
+                    menu: [
+                        {
+                            name: 'Cloneable',
 
-                    },
-                    {
-                        name: 'Image Background',
-                        nodes:
-                        elementBackgroundImageMenuOnMoreButton
+                            nodes: cloneAbleMenu,
 
-                    },
-                ]
-            },
-        ];
+                        },
+                        {
+                            name: 'Image settings',
+                            nodes:
+                            elementResetImageSizeMenu
+
+                        },
+                        {
+                            name: 'Image Background',
+                            nodes:
+                            elementBackgroundImageMenuOnMoreButton
+
+                        },
+                    ]
+                },
+            ];
+        }
+
+
+
 
 
         const tail = [
@@ -431,40 +449,44 @@ export class ElementHandleContent {
             }
         ]
 
+        var menuItems = [
+            {
+                name: 'primary',
+                nodes: primaryMenu
+            },
+            {
+                name: 'dynamic',
+                nodes: []
+            },
+            {
+                name: 'cloneAbleMenu',
+                nodes: cloneAbleMenu
+            },
+            {
+                name: 'Image settings',
+                nodes: elementResetImageSizeMenu
+
+            },
+
+            {
+                name: 'tail',
+                nodes: tail
+            },
+            ];
+
+        if(tailMenuQuickSettings.length > 0) {
+            menuItems.push({
+                name: 'tailMenuQuickSettings',
+                nodes: tailMenuQuickSettings
+            });
+        }
+
         this.menu = new HandleMenu({
             id: 'mw-handle-item-element-menu',
             title: 'Element',
             handleScope: this,
+            menus:menuItems,
 
-            menus: [
-                {
-                    name: 'primary',
-                    nodes: primaryMenu
-                },
-                {
-                    name: 'dynamic',
-                    nodes: []
-                },
-                {
-                    name: 'cloneAbleMenu',
-                    nodes: cloneAbleMenu
-                },
-                {
-                    name: 'Image settings',
-                    nodes: elementResetImageSizeMenu
-
-                },
-
-                {
-                    name: 'tail',
-                    nodes: tail
-                },
-                {
-                    name: 'tailMenuQuickSettings',
-                    nodes: tailMenuQuickSettings
-                },
-
-            ],
 
         });
         // Rest of your initMenu code here
