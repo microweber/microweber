@@ -199,15 +199,23 @@ export default {
                         if (activeNode) {
                             var id = activeNode.id;
                             if (!id) {
-                                console.log(1111111111)
-                                console.log(activeNode)
-                                targetWindow.mw.tools.generateSelectorForNode(activeNode);
-                                //  activeNode.id = id;
+                                // try
+                                var id = targetWindow.mw.tools.generateSelectorForNode(activeNode);
+
+
+                                try {
+
+                                } catch (e) {
+                                   // console.log(e);
+                                }
+
+                              //   activeNode.id = id;
                             }
-                            var event = new CustomEvent('refreshSelectedElement')
-                            if(styleEditorInstance.cssEditorIframe.contentWindow) {
-                                styleEditorInstance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
-                            }
+
+                        }
+                        var event = new CustomEvent('refreshSelectedElement')
+                        if(styleEditorInstance.cssEditorIframe.contentWindow) {
+                            styleEditorInstance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
                         }
                     }
                 }

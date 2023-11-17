@@ -239,7 +239,46 @@ export class ElementHandleContent {
             }
 
         ];
+        const elementBackgroundImageMenu = [
+            {
+                title: 'Background Image',
+                text: '',
+                icon: this.handleIcons.icon('background-image'),
 
+                className: 'mw-handle-element-open-background-image-editor-button',
+
+                action: (el) => {
+
+                    this.elementActions.editBackgroundImage(el);
+
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowBackroundImageEditorButton(target);
+                    selfBtn.style.display = selfVisible ? '' : 'none';
+                },
+            }
+        ];
+        const elementBackgroundImageMenuOnMoreButton = [
+            {
+                title: 'Background Image',
+                text: '',
+                icon: this.handleIcons.icon('background-image'),
+
+                className: 'mw-handle-element-open-background-image-editor-button',
+
+                action: (el) => {
+
+                    this.elementActions.editBackgroundImage(el);
+
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowBackroundImageEditorButtonOnTheMoreButton(target);
+                    selfBtn.style.display = selfVisible ? '' : 'none';
+                },
+            }
+        ];
 
         const primaryMenu = [
             {
@@ -297,6 +336,7 @@ export class ElementHandleContent {
             },
             ...elementLinkMenu,
             ...elementEditStyleMenu,
+            ...elementBackgroundImageMenu,
             // ...elementLinkMenuGroup,
             {
                 title: 'Settings',
@@ -358,6 +398,12 @@ export class ElementHandleContent {
                         elementResetImageSizeMenu
 
                     },
+                    {
+                        name: 'Image Background',
+                        nodes:
+                        elementBackgroundImageMenuOnMoreButton
+
+                    },
                 ]
             },
         ];
@@ -413,10 +459,10 @@ export class ElementHandleContent {
                     name: 'tail',
                     nodes: tail
                 },
-                /*{
+                {
                     name: 'tailMenuQuickSettings',
                     nodes: tailMenuQuickSettings
-                },*/
+                },
 
             ],
 

@@ -84,6 +84,27 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
         return selfVisible;
     }
 
+    shouldShowBackroundImageEditorButtonOnTheMoreButton(target) {
+        var selfVisible = false;
+        // element to parent with background image
+        const hasBg = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['background-image-holder', 'img-holder']);
+        if(hasBg) {
+            selfVisible = true;
+        }
+        return selfVisible;
+    }
+    shouldShowBackroundImageEditorButton(target) {
+
+        var selfVisible = false;
+        // element to parent with background image
+        const hasBg = DomService.hasAnyOfClasses(target, ['background-image-holder', 'img-holder']);
+        if(hasBg) {
+            selfVisible = true;
+        }
+
+        return selfVisible;
+    }
+
     shouldShowDragButton(target) {
         var selfVisible = true;
         const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');

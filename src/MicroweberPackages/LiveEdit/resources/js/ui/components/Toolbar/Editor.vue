@@ -98,27 +98,32 @@ export default {
 
 
                 } else if (element.style.backgroundImage) {
-                    var bg = element.style.backgroundImage.trim().split('url(')[1];
 
-                    if (bg) {
-                        bg = bg.split(')')[0]
-                            .trim()
-                            .split('"')
-                            .join('');
-                        //var imData = await mw.app.editImageDialog.editImageUrl(bg);
-
-                        mw.app.editImageDialog.editImage(bg, (imgData) => {
-                            if (typeof imgData !==  'undefined' && imgData.src) {
-
-                                element.style.backgroundImage = `url("${imgData.src}")`;
-                            }
-                            mw.top().app.registerChange(element);
-                            mw.app.liveEdit.play();
-                        });
+                    mw.app.liveEdit.elementHandleContent.elementActions.editBackgroundImage(element);
 
 
-
-                    }
+                    //
+                    // var bg = element.style.backgroundImage.trim().split('url(')[1];
+                    //
+                    // if (bg) {
+                    //     bg = bg.split(')')[0]
+                    //         .trim()
+                    //         .split('"')
+                    //         .join('');
+                    //     //var imData = await mw.app.editImageDialog.editImageUrl(bg);
+                    //
+                    //     mw.app.editImageDialog.editImage(bg, (imgData) => {
+                    //         if (typeof imgData !==  'undefined' && imgData.src) {
+                    //
+                    //             element.style.backgroundImage = `url("${imgData.src}")`;
+                    //         }
+                    //         mw.top().app.registerChange(element);
+                    //         mw.app.liveEdit.play();
+                    //     });
+                    //
+                    //
+                    //
+                    // }
 
                 } else {
                     // open style editor
@@ -140,36 +145,7 @@ export default {
 
 
                 function imagePicker(onResult) {
-                    var dialog;
-                    var picker = new mw.filePicker({
-                        type: 'images',
-                        label: false,
-                        autoSelect: false,
-                        footer: true,
-                        _frameMaxHeight: true,
-                        onResult: onResult
-                    });
-                    dialog = mw.top().dialog({
-                        content: picker.root,
-                        title: mw.lang('Select image'),
-                        footer: false,
-                        width: 860,
-
-
-                    });
-                    picker.$cancel.on('click', function () {
-                        dialog.remove()
-                    })
-
-
-                    $(dialog).on('Remove', () => {
-
-                        mw.app.liveEdit.play();
-                        const target = mw.top().app.liveEdit.handles.get('element').getTarget();
-                        mw.top().app.liveEdit.handles.get('element').set(null);
-                        mw.top().app.liveEdit.handles.get('element').set(target);
-                    })
-                    return dialog;
+                    return mw.app.liveEdit.elementHandleContent.elementActions.imagePicker(onResult);
                 }
 
                 if (liveEditHelpers.targetIsIcon(element)) {
