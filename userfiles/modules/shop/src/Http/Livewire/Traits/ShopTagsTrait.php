@@ -16,6 +16,8 @@ trait ShopTagsTrait {
         $currentTags[] = $tagSlug;
         $currentTags = array_unique($currentTags);
         $this->tags = implode(',', $currentTags);
+
+        $this->setPage(1);
     }
 
     public function getTags()
@@ -32,6 +34,8 @@ trait ShopTagsTrait {
     public function filterClearTags()
     {
         $this->tags = '';
+
+        $this->setPage(1);
     }
 
     public function filterRemoveTag($tagSlug)
@@ -39,6 +43,8 @@ trait ShopTagsTrait {
         $tags = $this->getTags();
         $tags = array_diff($tags, [$tagSlug]);
         $this->tags = implode(',', $tags);
+
+        $this->setPage(1);
     }
 
 }

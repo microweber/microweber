@@ -28,21 +28,30 @@ class ShopComponent extends ModuleSettingsComponent
         'priceTo',
     ];
 
+    public function keywordsUpdated()
+    {
+        $this->setPage(1);
+    }
+
     public function filterLimit($limit)
     {
         $this->limit = $limit;
+
+        $this->setPage(1);
     }
 
     public function filterSort($field,$direction)
     {
         $this->sort = $field;
         $this->direction = $direction;
+
+        $this->setPage(1);
     }
 
     public function render()
     {
         $productsQuery = Product::query();
-        $productsQuery->where('is_active', 1);
+      //  $productsQuery->where('is_active', 1);
 
         $filters = [];
         if (!empty($this->keywords)) {
@@ -52,8 +61,7 @@ class ShopComponent extends ModuleSettingsComponent
             $filters['tags'] = $this->tags;
         }
         if (!empty($this->sort) && !empty($this->direction)) {
-            $filters['sort'] = $this->sort;
-            $filters['direction'] = $this->direction;
+            $filters['orderBy'] = $this->sort . ',' . $this->direction;
         }
 
         if (!empty($filters)) {

@@ -12,8 +12,8 @@
                 <label>Sort</label>
                 <div>
                     <select class="form-control">
-                        <option wire:click="filterSort('createdBy', 'asc')">Newest</option>
-                        <option wire:click="filterSort('createdBy', 'desc')">Oldest</option>
+                        <option wire:click="filterSort('created_by', 'asc')">Newest</option>
+                        <option wire:click="filterSort('created_by', 'desc')">Oldest</option>
                         <option wire:click="filterSort('title', 'asc')">Title: A-Z</option>
                         <option wire:click="filterSort('title', 'desc')">Title: Z-A</option>
                         <option wire:click="filterSort('price', 'asc')">Price: Low to High</option>
