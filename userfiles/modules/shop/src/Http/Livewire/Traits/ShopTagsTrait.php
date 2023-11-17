@@ -5,14 +5,7 @@ trait ShopTagsTrait {
 
     public $tags = '';
 
-    public function queryString()
-    {
-        return [
-            'tags' => ['except' => ''],
-        ];
-    }
-
-    public function appendTag($tagSlug)
+    public function filterTag($tagSlug)
     {
         if (!empty($this->tags)) {
             $currentTags = explode(',', $this->tags);
@@ -36,12 +29,12 @@ trait ShopTagsTrait {
         return $currentTags;
     }
 
-    public function clearTags()
+    public function filterClearTags()
     {
         $this->tags = '';
     }
 
-    public function removeTag($tagSlug)
+    public function filterRemoveTag($tagSlug)
     {
         $tags = $this->getTags();
         $tags = array_diff($tags, [$tagSlug]);
