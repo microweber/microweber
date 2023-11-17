@@ -681,8 +681,11 @@ var domHelp = {
                 && item !== 'mw-bg-mask'
                 && item !== 'element-current';
         };
-        var _final = node.className.trim() ? '.' + node.className.trim().split(' ').filter(filter).join('.') : node.nodeName.toLocaleLowerCase();
-
+        if(node.className) {
+            var _final = node.className.trim() ? '.' + node.className.trim().split(' ').filter(filter).join('.') : node.nodeName.toLocaleLowerCase();
+        } else {
+            var _final = node.nodeName.toLocaleLowerCase();
+        }
 
         _final = _final.replace(/\.\./g, '.');
         mw.tools.foreachParents(node, function (loop) {
