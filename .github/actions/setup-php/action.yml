@@ -41,11 +41,23 @@ runs:
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
       shell: bash
-    - name: Install Chrome Driver
-      run: php artisan dusk:install
+#    - name: Install Chrome Driver
+#      run: php artisan dusk:install
+#      shell: bash
+#    - name: Dusk update
+#      run: php artisan dusk:chrome-driver 117
+#      shell: bash
+    - name: Install Dusk
+      run: |
+        composer update "laravel/dusk" --prefer-dist --no-interaction --no-progress -W
+        php artisan dusk:install
+        php artisan dusk:chrome-driver
       shell: bash
-    - name: Dusk update
-      run: php artisan dusk:chrome-driver 117
+    - name: Update Chrome Driver
+      run: |
+        composer require --dev staudenmeir/dusk-updater
+        php artisan package:discover --ansi
+        php artisan dusk:update --detect
       shell: bash
     - name: Copy env
       run: |
