@@ -783,6 +783,7 @@ mw.emitter = {
                         }
                     },
                 });
+                console.log
 
 
 
@@ -795,9 +796,22 @@ mw.emitter = {
                 content: options.url.label
             });
 
-            setTimeout(function (){
+            setTimeout(async () => {
                 mw.element(treeEl).before(label);
-                initAutoComplete()
+                await initAutoComplete();
+                var dialog = mw.dialog.get(treeEl);
+
+                scope.autoComplete.focus_node.addEventListener('click', e => {
+                    e.stopPropagation()
+                })
+
+                if(dialog) {
+                     dialog.dialogContainer.addEventListener('click', function(e){
+                        if(!mw.tools.hasParentsWithClass(e.target, 'ts-wrapper')) {
+                            scope.autoComplete.close()
+                        }
+                     })
+                }
             }, 10)
 
             if (options.target) {
