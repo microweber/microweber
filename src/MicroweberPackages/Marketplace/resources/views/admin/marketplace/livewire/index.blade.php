@@ -103,20 +103,31 @@
                                                </div>
                                            </div>
                                            <div class="mt-2">
-                                               @if($marketItem['is_paid'])
-                                                   <span class="badge bg-orange-lt">
-                                                       {{_e('Premium')}}
+
+                                               @if($marketItem['available_for_install'])
+                                                   <span class="badge bg-lime-lt">
+                                                       {{_e('Available for install')}}
                                                    </span>
                                                @else
-                                                   <span class="badge bg-lime-lt">
-                                                       {{_e('Free')}}
-                                                   </span>
-                                               @endif
-                                               @if($marketItem['current_install'])
-                                                   <span class="badge bg-lime-lt js-install-package-is-installed-badge-<?php echo $marketItem['target-dir']; ?>"   >
+
+                                                   @if($marketItem['current_install'])
+                                                       <span class="badge bg-lime-lt js-install-package-is-installed-badge-<?php echo $marketItem['target-dir']; ?>"   >
                                                        {{_e('Installed')}}
                                                    </span>
+                                                   @endif
+
+                                                   @if($marketItem['is_paid'])
+                                                       <span class="badge bg-orange-lt">
+                                                       {{_e('Premium')}}
+                                                   </span>
+                                                   @else
+                                                       <span class="badge bg-lime-lt">
+                                                       {{_e('Free')}}
+                                                   </span>
+                                                   @endif
+
                                                @endif
+
                                                    @if($marketItem['has_update'])
                                                        <a href="#" class="badge bg-yellow-lt" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
                                                            {{_e('Update Available')}}
