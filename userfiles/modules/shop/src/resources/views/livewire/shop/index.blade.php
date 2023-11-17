@@ -2,12 +2,58 @@
 
     <h1>Shop</h1>
 
-    <div>
+    <div class="d-flex justify-content-between">
         <div>
             <label>Search</label>
             <input type="text" class="form-control" wire:model="keywords" placeholder="Type to search...">
         </div>
+        <div class="d-flex gap-2">
+            <div>
+                <label>Sort</label>
+                <div>
+                    <select class="form-control">
+                        <option wire:click="filterSort('createdBy', 'asc')">Newest</option>
+                        <option wire:click="filterSort('createdBy', 'desc')">Oldest</option>
+                        <option wire:click="filterSort('title', 'asc')">Title: A-Z</option>
+                        <option wire:click="filterSort('title', 'desc')">Title: Z-A</option>
+                        <option wire:click="filterSort('price', 'asc')">Price: Low to High</option>
+                        <option wire:click="filterSort('price', 'desc')">Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label>Limit</label>
+                <div>
+                    <select class="form-control">
+                        <option wire:click="filterLimit(1)">1</option>
+                        <option wire:click="filterLimit(12)">12</option>
+                        <option wire:click="filterLimit(24)">24</option>
+                        <option wire:click="filterLimit(48)">48</option>
+                        <option wire:click="filterLimit(96)">96</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
+
+    @if(!empty($availableTags))
+        <div class="mt-2">
+            <label>Tags</label>
+            @foreach($availableTags as $tagSlug=>$tagName)
+                <button type="button" class="btn btn-outline-primary btn-sm">
+                     <span wire:click="filterTag('{{$tagSlug}}')"> {{$tagName}}</span>
+                    @if(in_array($tagSlug, $filteredTags))
+                        <span wire:click="filterRemoveTag('{{$tagSlug}}')">
+                            X
+                        </span>
+                    @endif
+                </button>
+            @endforeach
+            <button type="button" wire:click="filterClearTags()" class="btn btn-outline-danger btn-sm">
+                Clear All
+            </button>
+        </div>
+    @endif
 
     <div class="row mt-4">
         @foreach($products as $product)
