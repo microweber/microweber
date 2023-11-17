@@ -584,10 +584,10 @@ export class ElementHandleContent {
 
             },
 
-            {
-                name: 'tail',
-                nodes: tail
-            },
+            // {
+            //     name: 'tail',
+            //     nodes: tail
+            // },
             ];
 
         if(tailMenuQuickSettings.length > 0) {
@@ -596,6 +596,11 @@ export class ElementHandleContent {
                 nodes: tailMenuQuickSettings
             });
         }
+
+        menuItems.push({
+            name: 'tail',
+            nodes: tail
+        });
 
         this.menu = new HandleMenu({
             id: 'mw-handle-item-element-menu',
