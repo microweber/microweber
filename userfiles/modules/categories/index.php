@@ -30,7 +30,7 @@ if (isset($params['from-page']) and trim($params['from-page']) != 'false') {
 
 
 if (!isset($params['ul_class'])) {
-    $params['ul_class'] = 'nav nav-list';
+    $params['ul_class'] = 'nav-list';
 }
 $params['rel_type'] = 'content';
 $category_tree_parent_page = get_option('data-content-id', $params['id']);

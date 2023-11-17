@@ -3,9 +3,9 @@
     list-style: none
 }
 
-.module-categories-template-default li li a{ padding-left: 30px; }
-.module-categories-template-default li li li a{ padding-left: 45px; }
-.module-categories-template-default li li li li a{ padding-left: 60px; }
+.module-categories-template-default li li a{ padding-left: 15px; }
+.module-categories-template-default li li li a{ padding-left: 30px; }
+.module-categories-template-default li li li li a{ padding-left: 40px; }
 
 /* Categories - Template - Horizontal List 1 */
 .module-categories-template-horizontal-list-1 ul.mw-cats-menu {
