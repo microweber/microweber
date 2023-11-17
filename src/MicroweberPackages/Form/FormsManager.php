@@ -218,7 +218,7 @@ class FormsManager
             }
         }
         if (isset($params['g-recaptcha-response'])) {
-            $params['captcha']  = $params['g-recaptcha-response'];
+            $params['captcha'] = $params['g-recaptcha-response'];
         }
 
         if (isset($params['captcha'])) {
@@ -608,10 +608,37 @@ class FormsManager
                             ),
                             'error' => 'This file is not allowed to be uploaded'
                         );
-                        break;
+
+                    }
+                    $filePath = $file['tmp_name'];
+                    $ext = get_file_extension($file['name']);
+                    if ($ext === 'svg') {
+                        $valid = false;
+                        if (is_file($filePath)) {
+                            $sanitizer = new \enshrined\svgSanitize\Sanitizer();
+                            // Load the dirty svg
+                            $dirtySVG = file_get_contents($filePath);
+                            // Pass it to the sanitizer and get it back clean
+                            $valid = $files_utils->check_if_svg_is_valid($dirtySVG);
+
+                            if (!$valid) {
+                                @unlink($filePath);
+
+                                return array(
+                                    'form_errors' => array(
+                                        $fieldName => 'This file is not because it contains invalid SVG code'
+                                    ),
+                                    'error' => 'This file is not allowed because it contains invalid SVG code'
+                                );
+
+                            }
+
+                        }
+
                     }
 
-                    $target_path_name = md5($file['name'].time()) . $target_path_name;
+
+                    $target_path_name = md5($file['name'] . time()) . $target_path_name;
                     $targetFileName = $target_path_name . '/' . $file['name'];
                     if (is_file($target_path . '/' . $file['name'])) {
                         $targetFileName = $target_path_name . '/' . date('Ymd-His') . $file['name'];
@@ -757,7 +784,6 @@ class FormsManager
                 }
 
                 if (!empty($userEmails)) {
-
 
 
                     if (empty(!$sendFormDataToReceivers) and isset($formModel)) {
