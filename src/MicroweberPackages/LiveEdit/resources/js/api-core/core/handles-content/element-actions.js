@@ -141,7 +141,8 @@ export class ElementActions extends MicroweberBaseClass {
             mw.app.registerChangedState(el);
             el.remove()
             if (parentEditField) {
-                mw.app.registerUndoState(parentEditField)
+                mw.app.registerUndoState(parentEditField);
+                mw.app.liveEdit.handles.get('element').set(null);
             }
         })
     }

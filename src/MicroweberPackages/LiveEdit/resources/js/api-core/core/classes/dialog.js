@@ -12,8 +12,8 @@ const dialogFooter = (okLabel, cancelLabel) => {
     });
 
 
-    const ok = ElementManager(`<span class="mw-admin-action-links mw-adm-liveedit-tabs text-danger ms-2" tabindex="0">${(okLabel || 'REMOVE')}</span>`);
-    const cancel = ElementManager(`<span class="mw-admin-action-links mw-adm-liveedit-tabs me-2" tabindex="1">${(cancelLabel || 'CANCEL')}</span>`);
+    const ok = ElementManager(`<span class="mw-admin-action-links mw-adm-liveedit-tabs text-danger ms-2" tabindex="9999">${(okLabel || 'REMOVE')}</span>`);
+    const cancel = ElementManager(`<span class="mw-admin-action-links mw-adm-liveedit-tabs me-2" tabindex="99991">${(cancelLabel || 'CANCEL')}</span>`);
 
 
     footer.append(cancel);
@@ -48,7 +48,7 @@ export class Dialog {
     #_e = {};
 
     #removeListener(e) {
-        if (e.key === 'Escape' || e.keyCode === 27) {
+        if (e.key === 'Escape') {
             this.remove();
         }
     }
@@ -146,7 +146,7 @@ export const Confirm = function (content, c) {
     });
 
     footer.ok.on('keypress', function (e){
-        if(e.keyCode === 13 || e.keyCode === 27) {
+        if(e.keyCode === 13 || e.keyCode === 32) {
             if(c){
                 c.call();
             }
@@ -155,7 +155,7 @@ export const Confirm = function (content, c) {
     });
 
     footer.cancel.on('keypress', function (e){
-        if(e.keyCode === 13 || e.keyCode === 27) {
+        if(e.keyCode === 13 || e.keyCode === 32) {
             dialog.remove()
         }
     });
