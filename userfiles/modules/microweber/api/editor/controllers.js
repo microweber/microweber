@@ -442,9 +442,9 @@ MWEditor.controllers = {
                 //
                 // }
 
-                api.execCommand('bold');
-
-                return;
+                // api.execCommand('bold');
+                //
+                // return;
 
                 var sel = api.getSelection();
 
@@ -492,10 +492,10 @@ MWEditor.controllers = {
             });
 
             el.on('mousedown touchstart', function (e) {
-
-                api.execCommand('strikeThrough');
-
-                return;
+                //
+                // api.execCommand('strikeThrough');
+                //
+                // return;
 
 
 
@@ -543,9 +543,9 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 var sel = api.getSelection();
 
-                api.execCommand('italic');
-
-                return;
+                // api.execCommand('italic');
+                //
+                // return;
 
 
 
@@ -593,9 +593,9 @@ MWEditor.controllers = {
             });
             el.on('mousedown touchstart', function (e) {
 
-                api.execCommand('underline');
-
-                return;
+                // api.execCommand('underline');
+                //
+                // return;
 
 
 

@@ -283,7 +283,7 @@ export default {
 
                         element.focus();
 
-                        editTarget.contentEditable = true;
+                     //   editTarget.contentEditable = true;
                         mw.app.liveEdit.pause();
 
                        mw.app.richTextEditor.smallEditorInteract(element);
@@ -299,9 +299,13 @@ export default {
                             node.contentEditable = 'inherit';
                         })
 
-                    mw.app.wyswygEditor.initEditor(element);
+                 //   mw.app.wyswygEditor.initEditor(element);
 
-
+                       // try {
+                       //     mw.app.wyswygEditor.initEditor(element);
+                       // } catch (e) {
+                       //     console.warn(e);
+                       // }
 
 
                   }, 300);

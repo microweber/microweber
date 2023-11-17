@@ -71,6 +71,26 @@ export class ElementHandleContent {
 
                 }
             },
+            // {
+            //     title: 'Duplicate',
+            //     text: '',
+            //     icon: this.handleIcons.icon('duplicate'),
+            //     className: 'mw-handle-clone-button',
+            //     onTarget: (target, selfBtn) => {
+            //
+            //         const selfVisible = this.elementHandleButtonsVisibility.shouldShowCloneButtonInMoreButton(target);
+            //
+            //         this.setMenuVisible(selfVisible, selfBtn);
+            //
+            //     },
+            //
+            //
+            //     action: (el) => {
+            //
+            //         this.elementActions.cloneElementFirstClonableParent(el);
+            //
+            //     }
+            // },
             {
                 title: 'Move backward',
                 text: '',
@@ -103,6 +123,61 @@ export class ElementHandleContent {
                     this.elementActions.moveForward(el);
                 }
             },
+        ];
+        const cloneAbleMenuInMoreMenu = [
+            {
+                title: 'Duplicate',
+                text: '',
+                icon: this.handleIcons.icon('duplicate'),
+                className: 'mw-handle-clone-button',
+                onTarget: (target, selfBtn) => {
+
+                    const selfVisible = this.elementHandleButtonsVisibility.shouldShowCloneButtonInMoreButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+
+                },
+
+
+                action: (el) => {
+
+                    this.elementActions.cloneElementFirstClonableParent(el);
+
+                }
+            },
+            {
+                title: 'Move backward',
+                text: '',
+                icon: this.handleIcons.icon('move-backward'),
+                className: 'mw-handle-move-back-button',
+                onTarget: (target, selfBtn) => {
+
+                    const selfVisible = this.elementHandleButtonsVisibility.shouldShowMoveBackwardInMoreButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+
+                },
+                action: (el) => {
+                    this.elementActions.moveBackwardFirstClonableParent(el);
+                }
+            },
+            {
+                title: 'Move forward',
+                text: '',
+                icon: this.handleIcons.icon('move-forward'),
+
+                className: 'mw-handle-move-back-button',
+                onTarget: (target, selfBtn) => {
+
+                    const selfVisible =  this.elementHandleButtonsVisibility.shouldShowMoveForwardInMoreButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+                },
+                action: (el) => {
+                    this.elementActions.moveForwardFirstClonableParent(el);
+                }
+            },
+
         ];
         const elementResetImageSizeMenu = [
             {
@@ -425,7 +500,7 @@ export class ElementHandleContent {
         var tailMenuQuickSettings = [];
 
         var shouldShowMoreMenu = false;
-        if(cloneAbleMenu.length > 0) {
+        if(cloneAbleMenuInMoreMenu.length > 0) {
             shouldShowMoreMenu = true;
         }
         if(elementResetImageSizeMenu.length > 0) {
@@ -444,7 +519,7 @@ export class ElementHandleContent {
                         {
                             name: 'Cloneable',
 
-                            nodes: cloneAbleMenu,
+                            nodes: cloneAbleMenuInMoreMenu,
 
                         },
                         {

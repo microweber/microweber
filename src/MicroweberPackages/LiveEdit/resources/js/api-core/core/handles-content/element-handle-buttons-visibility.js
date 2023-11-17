@@ -14,7 +14,25 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
     }
 
 
+    shouldShowCloneButtonInMoreButton(target) {
+        const isVisible = this.isPlaceholder(target) && (target.classList.contains('cloneable') || target.classList.contains('mw-col'));
+        if (!isVisible) {
+            var hasCloneable = DomService.hasAnyOfClasses(target, ['cloneable']);
+            if (hasCloneable) {
+                return true;
+            }
+            var hasCloneableClassOnParents = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable', 'mw-col']);
+            if (hasCloneableClassOnParents) {
+                return true;
+            }
+            // if(this.shouldShowCloneButton(target)) {
+            //     return true;
+            // }
 
+        }
+        return isVisible;
+
+    }
     shouldShowCloneButton(target) {
         const isVisible = this.isPlaceholder(target) && (target.classList.contains('cloneable') || target.classList.contains('mw-col'));
         if (!isVisible) {
@@ -22,8 +40,18 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
             if (hasCloneable) {
                 return true;
             }
+
         }
         return isVisible;
+    }
+
+    shouldShowMoveBackwardInMoreButton(target) {
+        const hasCloneable = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable', 'mw-col']);
+        if (hasCloneable) {
+            return true;
+        }
+
+        return false;
     }
 
     shouldShowMoveBackwardButton(target) {
@@ -33,6 +61,14 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
         const isVisible = this.isPlaceholder(target) && isCloneable && prev;
 
         return isVisible;
+    }
+    shouldShowMoveForwardInMoreButton(target) {
+        const hasCloneable = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable', 'mw-col']);
+        if (hasCloneable) {
+            return true;
+        }
+
+        return false;
     }
 
     shouldShowMoveForwardButton(target) {

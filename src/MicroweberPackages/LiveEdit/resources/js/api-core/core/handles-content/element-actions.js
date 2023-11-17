@@ -146,9 +146,19 @@ export class ElementActions extends MicroweberBaseClass {
             }
         })
     }
+    cloneElementFirstClonableParent(target) {
+
+        var hasCloneableClassOnParents = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable']);
+
+        if (hasCloneableClassOnParents) {
+            return  this.cloneElement(hasCloneableClassOnParents);
+        }
+    }
 
     cloneElement(el) {
-        //check if is IMG and cloneable is in A tag, then delete A tag
+        mw.top().app.liveEdit.stopTyping();
+
+        //check if is IMG and cloneable if its in A tag, then delete A tag
         if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
             el = el.parentNode;
         }
@@ -250,6 +260,13 @@ export class ElementActions extends MicroweberBaseClass {
         mw.app.editor.dispatch('editNodeStyleRequest', el);
     }
 
+    moveBackwardFirstClonableParent(target) {
+        const hasCloneable = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable', 'mw-col']);
+        if (hasCloneable) {
+            this.moveBackward(hasCloneable);
+        }
+    }
+
     moveBackward(el) {
         const prev = el.previousElementSibling;
         if (prev) {
@@ -260,7 +277,12 @@ export class ElementActions extends MicroweberBaseClass {
             mw.app.liveEdit.handles.get('element').set(el);
         }
     }
-
+    moveForwardFirstClonableParent(target) {
+        const hasCloneable = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable', 'mw-col']);
+        if (hasCloneable) {
+            this.moveForward(hasCloneable);
+        }
+    }
     moveForward(el) {
         const next = el.nextElementSibling;
 

@@ -681,7 +681,7 @@ var domHelp = {
                 && item !== 'mw-bg-mask'
                 && item !== 'element-current';
         };
-        if(node.className) {
+        if(node.className && typeof node.className.trim === 'function') {
             var _final = node.className.trim() ? '.' + node.className.trim().split(' ').filter(filter).join('.') : node.nodeName.toLocaleLowerCase();
         } else {
             var _final = node.nodeName.toLocaleLowerCase();
