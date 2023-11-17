@@ -7,8 +7,13 @@ import {ObjectService} from "./object.service.js";
 
         this.isMWElement = true;
 
+        this.focus = function () {
+            this._active().focus();
+            return this;
+        }
         this.toggle = function () {
             this.css('display', this.css('display') === 'none' ? 'block' : 'none');
+            return this;
         };
 
         this._active = function () {

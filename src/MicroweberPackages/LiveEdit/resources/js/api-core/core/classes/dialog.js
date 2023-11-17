@@ -11,19 +11,10 @@ const dialogFooter = (okLabel, cancelLabel) => {
         }
     });
 
-    const ok = ElementManager({
-        props: {
-            className: 'mw-admin-action-links mw-adm-liveedit-tabs text-danger ms-2',
-            innerHTML: okLabel || 'REMOVE'
-        }
-    });
 
-    const cancel = ElementManager({
-        props: {
-            className: 'mw-admin-action-links mw-adm-liveedit-tabs me-2',
-            innerHTML: cancelLabel || 'CANCEL'
-        }
-    });
+    const ok = ElementManager(`<span class="mw-admin-action-links mw-adm-liveedit-tabs text-danger ms-2" tabindex="0">${(okLabel || 'REMOVE')}</span>`);
+    const cancel = ElementManager(`<span class="mw-admin-action-links mw-adm-liveedit-tabs me-2" tabindex="1">${(cancelLabel || 'CANCEL')}</span>`);
+
 
     footer.append(cancel);
     footer.append(ok);
@@ -153,12 +144,32 @@ export const Confirm = function (content, c) {
     footer.cancel.on('click', function (){
         dialog.remove();
     });
+
+    footer.ok.on('keypress', function (e){
+        if(e.keyCode === 13 || e.keyCode === 27) {
+            if(c){
+                c.call();
+            }
+            dialog.remove()
+        }
+    });
+
+    footer.cancel.on('keypress', function (e){
+        if(e.keyCode === 13 || e.keyCode === 27) {
+            dialog.remove()
+        }
+    });
+
     footer.ok.on('click', function (){
         if(c){
             c.call();
         }
         dialog.remove()
     });
+    setTimeout(() => {
+        console.log(footer.ok);
+        footer.ok.focus();
+    }, 100)
     return dialog
 }
 
