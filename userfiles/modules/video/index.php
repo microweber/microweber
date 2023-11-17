@@ -68,6 +68,19 @@ $video = new \Microweber\Modules\Video\VideoEmbed();
 $video->setId($params['id']);
 $video->setAutoplay($autoplay);
 
+$getLoop = get_option('loop', $params['id']);
+if ($getLoop == 1) {
+    $video->setLoop(true);
+}
+$getHideControls = get_option('hide_controls', $params['id']);
+if ($getHideControls == 1) {
+    $video->setHideControls(true);
+}
+$getMuted = get_option('muted', $params['id']);
+if ($getMuted == 1) {
+    $video->setMuted(true);
+}
+
 $thumbnailApplied = false;
 if (!empty($thumb)) {
     $filesUtils = new \MicroweberPackages\Utils\System\Files();
