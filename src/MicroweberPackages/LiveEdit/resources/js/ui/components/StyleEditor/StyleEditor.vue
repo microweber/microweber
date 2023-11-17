@@ -170,23 +170,22 @@ export default {
 
         mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
             if (styleEditorInstance) {
+              styleEditorInstance.isOpened = false;
                 if(styleEditorInstance.hasBeenOpenedBeforeUnload){
                     styleEditorInstance.isOpened = true;
                 }
-                // remove editor if the frame is changed
-             //   styleEditorInstance.removeStyleEditor();
-               // styleEditorInstance.isOpened = true;
-            }
+              styleEditorInstance.isOpened = true;
+             }
         });
-        mw.app.canvas.on('liveEditCanvasBeforeUnload', function (frame) {
-            if (styleEditorInstance) {
-                if(styleEditorInstance.isOpened) {
-                    styleEditorInstance.hasBeenOpenedBeforeUnload = true;
-                }
-                // remove editor if the frame is changed
-                styleEditorInstance.removeStyleEditor();
-            }
-        });
+        // mw.app.canvas.on('liveEditCanvasBeforeUnload', function (frame) {
+        //     if (styleEditorInstance) {
+        //         if(styleEditorInstance.isOpened) {
+        //             styleEditorInstance.hasBeenOpenedBeforeUnload = true;
+        //         }
+        //         // remove editor if the frame is changed
+        //         styleEditorInstance.removeStyleEditor();
+        //     }
+        // });
 
         mw.top().app.canvas.on('canvasDocumentClick', function () {
             if (styleEditorInstance.isOpened) {

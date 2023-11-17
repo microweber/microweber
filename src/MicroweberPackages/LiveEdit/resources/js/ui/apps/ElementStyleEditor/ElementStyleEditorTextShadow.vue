@@ -3,10 +3,10 @@
 
         <div class="text-shadow-options">
             <div class="form-group">
-                <SliderSmall label="Horizontal Shadow Length" v-model="textShadowOptions.horizontalLength" :min="-500"
-                             :max="500" :step="1"></SliderSmall>
-                <SliderSmall label="Vertical Shadow Length" v-model="textShadowOptions.verticalLength" :min="-500"
-                             :max="500" :step="1"></SliderSmall>
+                <SliderSmall label="Horizontal Shadow Length" v-model="textShadowOptions.horizontalLength" :min="-300"
+                             :max="300" :step="1"></SliderSmall>
+                <SliderSmall label="Vertical Shadow Length" v-model="textShadowOptions.verticalLength" :min="-300"
+                             :max="300" :step="1"></SliderSmall>
                 <SliderSmall label="Blur Radius" v-model="textShadowOptions.blurRadius" :min="0" :max="30"
                              :step="1"></SliderSmall>
 
@@ -40,24 +40,34 @@ export default {
     },
 
     mounted() {
+        this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+            if (this.$root.selectedElement) {
+                this.populateStyleEditor(this.$root.selectedElement);
+            }
+        });
 
         this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
             if (elementStyleEditorShow !== 'showTextShadowOptions') {
                 this.showTextShadowOptions = false;
             } else {
                 this.showTextShadowOptions = true;
-                if (this.activeNode) {
-                    this.populateStyleEditor(this.activeNode);
-                }
+
             }
         });
 
-        mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
-            this.populateStyleEditor(element)
-        });
     },
 
     watch: {
+
+        '$root.selectedElement': {
+            handler: function (element) {
+                if(element) {
+                    this.populateStyleEditor(element);
+                }
+            },
+            deep: true
+        },
+
 
         textShadowOptions: {
             handler: function (newVal, oldVal) {

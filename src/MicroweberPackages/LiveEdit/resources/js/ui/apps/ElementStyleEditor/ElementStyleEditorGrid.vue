@@ -217,9 +217,15 @@ export default {
   },
 
   mounted() {
-    mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
-      this.populateStyleEditor(element);
-    });
+    // mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
+    //   this.populateStyleEditor(element);
+    // });
+
+      this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+          if (this.$root.selectedElement) {
+              this.populateStyleEditor(this.$root.selectedElement);
+          }
+      });
 
     this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
       if (elementStyleEditorShow !== 'grid') {
@@ -229,7 +235,19 @@ export default {
   },
 
   watch: {
-    selectedColDesktop: function (newValue, oldValue) {
+
+      '$root.selectedElement': {
+          handler: function (element) {
+              if(element) {
+                  this.populateStyleEditor(element);
+              }
+          },
+          deep: true
+      },
+
+
+
+      selectedColDesktop: function (newValue, oldValue) {
       this.applyClassToActiveGridNode(newValue);
     },
 

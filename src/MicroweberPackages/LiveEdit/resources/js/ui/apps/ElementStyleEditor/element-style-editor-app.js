@@ -1,5 +1,6 @@
-
 import {createApp} from 'vue';
+import {reactive} from 'vue';
+
 import App from './ElementStyleEditorApp.vue';
 
 import VueClickAway from "vue3-click-away";
@@ -10,6 +11,8 @@ const emitter = mitt();
 
 const app = createApp(App);
 app.config.globalProperties.emitter = emitter;
+
+
 
 app.directive("tooltip", {
     mounted: (el, binding) => {

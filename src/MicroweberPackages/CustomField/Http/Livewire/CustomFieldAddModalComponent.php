@@ -2,19 +2,18 @@
 
 namespace MicroweberPackages\CustomField\Http\Livewire;
 
-use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
+use MicroweberPackages\Admin\Http\Livewire\AdminMwTopDialogIframeComponent;
 use MicroweberPackages\CustomField\CustomFieldsHelper;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
-class CustomFieldAddModalComponent extends AdminModalComponent
+class CustomFieldAddModalComponent extends AdminMwTopDialogIframeComponent
 {
     public $relId;
     public $relType = 'content';
 
     public function addExisting($customFieldId)
     {
-
         $findExisting = CustomField::where('id', $customFieldId)->first();
 
         $newCustomFieldId = mw()->fields_manager->save([
@@ -25,16 +24,15 @@ class CustomFieldAddModalComponent extends AdminModalComponent
         ]);
 
         $this->closeModal();
-        $this->emit('customFieldAdded');
+        $this->dispatchGlobalBrowserEvent('customFieldAdded');
 
         $showEditModal = true;
-        $showEditModal = false;
         if ($findExisting->type == 'address') {
             $showEditModal = false;
         }
 
         if ($showEditModal) {
-            $this->emit('openModal', 'custom-field-edit-modal', [
+            $this->emit('openMwTopDialogIframe', 'custom-field-edit-modal', [
                 'customFieldId' => $newCustomFieldId
             ]);
         }
@@ -67,10 +65,10 @@ class CustomFieldAddModalComponent extends AdminModalComponent
         }
 
         $this->closeModal();
-        $this->emit('customFieldAdded');
+        $this->dispatchGlobalBrowserEvent('customFieldAdded');
 
         if ($showEditModal) {
-            $this->emit('openModal', 'custom-field-edit-modal', [
+            $this->emit('openMwTopDialogIframe', 'custom-field-edit-modal', [
                 'customFieldId' => $newCustomField->id
             ]);
         }

@@ -2,11 +2,11 @@
 
 namespace MicroweberPackages\CustomField\Http\Livewire;
 
-use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
+use MicroweberPackages\Admin\Http\Livewire\AdminMwTopDialogIframeComponent;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
-class CustomFieldEditModalComponent extends AdminModalComponent
+class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
 {
 
     public $modalSettings = [
@@ -24,7 +24,6 @@ class CustomFieldEditModalComponent extends AdminModalComponent
     public $showPlaceholderSettings = false;
     public $showErrorTextSettings = false;
     public $showOptionsSettings = false;
-
 
     public $listeners = [
         'customFieldUpdated' => '$refresh',
@@ -92,13 +91,13 @@ class CustomFieldEditModalComponent extends AdminModalComponent
             }
 
             unset($this->inputs[$id]);
-            $this->emit('customFieldUpdated');
+            $this->dispatchGlobalBrowserEvent('customFieldUpdated');
         }
     }
 
     public function updatedState()
     {
-        $this->save(false);
+        $this->save();
     }
 
     public function updatedInputs()
@@ -114,19 +113,12 @@ class CustomFieldEditModalComponent extends AdminModalComponent
         }
     }
 
-    public function save($showSave = true)
+    public function save()
     {
-        $data = $this->state;
-        $data['session_id'] = mw()->user_manager->session_id();
-
         mw()->fields_manager->save($this->state);
 
         $this->showSettings($this->state['type']);
-        $this->emit('customFieldUpdated');
-
-        if ($showSave) {
-            $this->dispatchBrowserEvent('customFieldUpdated');
-        }
+        $this->dispatchGlobalBrowserEvent('customFieldUpdated');
     }
 
     public function showSettings($type)

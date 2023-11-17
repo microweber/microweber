@@ -3,13 +3,10 @@
 namespace MicroweberPackages\Admin\Http\Livewire;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Livewire\Component;
 
-class AdminComponent extends Component
+class AdminMwTopDialogIframeComponent extends AdminComponent
 {
     use AuthorizesRequests;
-
-    public $globalListeners = [];
 
     public function __construct($id = null)
     {
@@ -23,12 +20,8 @@ class AdminComponent extends Component
 
     }
 
-    public function dispatchGlobalBrowserEvent($event, $data = null)
+    public function closeModal()
     {
-        $this->dispatchBrowserEvent('dispatch-global-browser-event', [
-            'event' => $event,
-            'data' => $data
-        ]);
+        $this->emit('closeMwTopDialogIframe');
     }
-
 }
