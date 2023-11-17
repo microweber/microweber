@@ -158,7 +158,7 @@ export default {
           when: when,
         }
 
-        mw.log(animation)
+
         ElementStyleAnimationsApplier.setAnimation(this.activeNode, animation);
 
       }

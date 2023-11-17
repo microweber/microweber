@@ -214,11 +214,6 @@ export default {
       var color = frst.color || 'rgba(0,0,0,1)';
       var style = frst.style || 'none';
 
-
-      console.log('borderSize', size);
-        console.log('borderColor', color);
-        console.log('borderStyle', style);
-
       this.borderSize = size;
       this.borderColor = color;
       this.borderStyle = style;
