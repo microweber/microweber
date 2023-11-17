@@ -54,8 +54,8 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
                     <p> <?php _e("Displaying"); ?> {{$products->count()}} <?php _e("of"); ?> {{ $products->total() }}  <?php _e("result(s)"); ?>.</p>
                 </div>
                 <div class="col-xl-6 col-lg-7 d-block d-sm-flex justify-content-end ms-auto">
-                    <div class="col-lg-3 col-md-6 col-sm px-1 ">{!! $products->limit(); !!}</div>
-                    <div class="col-lg-3 col-md-6 col-sm px-1 ">{!! $products->sort(); !!}</div>
+                    <div class="col-lg-auto col-md-6 col-sm px-1 ">{!! $products->limit(); !!}</div>
+                    <div class="col-lg-auto col-md-6 col-sm px-1 ">{!! $products->sort(); !!}</div>
                 </div>
             </div>
             <div class="row">
