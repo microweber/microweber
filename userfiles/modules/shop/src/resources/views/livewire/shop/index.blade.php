@@ -13,19 +13,18 @@
         <div class="mt-2">
             <label>Tags</label>
             @foreach($availableTags as $tagSlug=>$tagName)
-                <button type="button"
-                        class="btn btn-outline-primary btn-sm">
-
+                <button type="button" class="btn btn-outline-primary btn-sm">
                      <span wire:click="appendTag('{{$tagSlug}}')"> {{$tagName}}</span>
-
-                    @if(in_array($tagSlug, $filterTags))
+                    @if(in_array($tagSlug, $filteredTags))
                         <span wire:click="removeTag('{{$tagSlug}}')">
                             X
                         </span>
                     @endif
                 </button>
-
             @endforeach
+            <button type="button" wire:click="clearTags()" class="btn btn-outline-danger btn-sm">
+                Clear All
+            </button>
         </div>
     @endif
 

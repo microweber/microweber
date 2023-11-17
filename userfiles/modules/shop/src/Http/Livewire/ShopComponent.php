@@ -3,50 +3,19 @@ namespace MicroweberPackages\Modules\Shop\Http\Livewire;
 
 use Livewire\WithPagination;
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
+use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopTagsTrait;
 use MicroweberPackages\Product\Models\Product;
 
 class ShopComponent extends ModuleSettingsComponent
 {
     use WithPagination;
+    use ShopTagsTrait;
 
-    public $tags = '';
     public $keywords;
 
     public $queryString = [
-        'keywords',
-        'tags'
+        'keywords'
     ];
-
-    public function appendTag($tagSlug)
-    {
-        if (!empty($this->tags)) {
-            $currentTags = explode(',', $this->tags);
-        } else {
-            $currentTags = [];
-        }
-
-        $currentTags[] = $tagSlug;
-        $currentTags = array_unique($currentTags);
-        $this->tags = implode(',', $currentTags);
-    }
-
-    public function getTags()
-    {
-        if (!empty($this->tags)) {
-            $currentTags = explode(',', $this->tags);
-        } else {
-            $currentTags = [];
-        }
-
-        return $currentTags;
-    }
-
-    public function removeTag($tagSlug)
-    {
-        $tags = $this->getTags();
-        $tags = array_diff($tags, [$tagSlug]);
-        $this->tags = implode(',', $tags);
-    }
 
     public function render()
     {
@@ -83,7 +52,7 @@ class ShopComponent extends ModuleSettingsComponent
        return view('microweber-module-shop::livewire.shop.index', [
             'products' => $products,
             'availableTags' => $availableTags,
-            'filterTags' => $this->getTags(),
+            'filteredTags' => $this->getTags(),
        ]);
     }
 }
