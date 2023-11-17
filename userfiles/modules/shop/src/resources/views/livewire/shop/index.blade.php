@@ -9,6 +9,26 @@
         </div>
     </div>
 
+    @if(!empty($availableTags))
+        <div class="mt-2">
+            <label>Tags</label>
+            @foreach($availableTags as $tagSlug=>$tagName)
+                <button type="button"
+                        class="btn btn-outline-primary btn-sm">
+
+                     <span wire:click="appendTag('{{$tagSlug}}')"> {{$tagName}}</span>
+
+                    @if(in_array($tagSlug, $filterTags))
+                        <span wire:click="removeTag('{{$tagSlug}}')">
+                            X
+                        </span>
+                    @endif
+                </button>
+
+            @endforeach
+        </div>
+    @endif
+
     <div class="row mt-4">
         @foreach($products as $product)
 
