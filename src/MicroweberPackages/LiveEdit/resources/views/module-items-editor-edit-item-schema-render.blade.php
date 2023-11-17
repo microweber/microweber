@@ -86,6 +86,16 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                     <x-microweber-ui::select  :options="$fieldOptions" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
+            @elseif($field['type'] == 'toggle' )
+
+                <label class="live-edit-label" for="{{ $field['name'] }}">{{ $field['label'] }}</label>
+
+                @if ($realtimeEditing)
+                    <x-microweber-ui::toggle wire:model.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                @else
+                    <x-microweber-ui::toggle wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                @endif
+
             @elseif($field['type'] == 'checkbox' )
 
                 <label class="live-edit-label" for="{{ $field['name'] }}">{{ $field['label'] }}</label>

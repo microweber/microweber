@@ -17,6 +17,9 @@ class VideoEmbed
     public $thumbnail = false;
     public $lazyLoad = false;
     public $autoplay = false;
+    public $loop = false;
+    public $muted = false;
+    public $hideControls = false;
     public $uploadedVideoUrl = false;
     public $embedCode = false;
     public $playUploadedVideo = false;
@@ -140,6 +143,54 @@ class VideoEmbed
     public function setAutoplay($autoplay)
     {
         $this->autoplay = $autoplay;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLoop()
+    {
+        return $this->loop;
+    }
+
+    /**
+     * @param bool $loop
+     */
+    public function setLoop($loop)
+    {
+        $this->loop = $loop;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHideControls()
+    {
+        return $this->hideControls;
+    }
+
+    /**
+     * @param bool $hideControls
+     */
+    public function setHideControls($hideControls)
+    {
+        $this->hideControls = $hideControls;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMuted()
+    {
+        return $this->muted;
+    }
+
+    /**
+     * @param bool $muted
+     */
+    public function setMuted($muted)
+    {
+        $this->muted = $muted;
     }
 
     /**
@@ -429,7 +480,19 @@ class VideoEmbed
     protected function _getHtmlVideoPlayer()
     {
         $attributes = array();
-        $attributes[] = 'controls="1"';
+
+        if (!$this->isHideControls()) {
+            $attributes[] = 'controls="1"';
+        }
+
+        if ($this->isLoop()) {
+            $attributes[] = 'loop="1"';
+        }
+
+        if ($this->isMuted()) {
+            $attributes[] = 'muted="1"';
+        }
+
         $attributes[] = 'width="' . $this->getWidth() . '"';
         $attributes[] = 'height="' . $this->getHeight() . '"';
 
