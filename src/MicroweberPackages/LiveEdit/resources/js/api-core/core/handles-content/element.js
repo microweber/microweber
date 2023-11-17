@@ -354,7 +354,7 @@ export class ElementHandleContent {
                 icon: this.handleIcons.icon('color'),
                 className: 'mw-handle-insert-color-button',
 
-                action: function (el, selfBtn) {
+                action: (el, selfBtn) =>  {
                     this.elementActions.editBackgroundColor(el, selfBtn);
 
                 },
