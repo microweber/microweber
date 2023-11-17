@@ -11,7 +11,7 @@ $controller->registerModule();
 
 echo $controller->index($request);
 
-//
+// THE NEW SHOP
 //echo view('microweber-module-shop::render-livewire-shop', [
 //    'moduleId' => $params['id'],
 //    'moduleType' => 'shop',
