@@ -3,6 +3,25 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [2.0.5] - 2023-11-17
+- Fixed problem with menu links
+- Fixed problem when you edit module settings and close the modal while saving
+- Fixed accordeon module can't be opened in live edit
+- UI fixes for add content modal
+- Fixed issues with cloneable controls
+- Fixed issues with elements style editor when you change element 
+- Fixed issues with font manager
+- Fixed issues with module item editor 
+- Fixed some issues with categories module
+- Fixed some issues with modal windows for module settings
+- Fixed confirm dialog to work with escape key and enter key 
+- Fixed security issue with svg upload
+- Added newsletter module
+- Added Laravel events for some cart and checkout actions
+- Added box shadow and text shadow settings in element style editor
+- [see all changes....](https://github.com/microweber/microweber/compare/2.0.4...2.0.5 "")
+
+
 ## [2.0.4] - 2023-11-09
 - Fixed problem with menu links  
 - Fixed problem when you edit module settings and close the modal while saving
