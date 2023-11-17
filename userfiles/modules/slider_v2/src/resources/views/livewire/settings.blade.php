@@ -49,7 +49,11 @@ showMainEditTab: 'mainSettings'
                 'placeholder' => 'Slide Description',
                 'help' => 'Slide Description',
             ],
-
+            [
+                'type' => 'toggle',
+                'label' => 'Show button',
+                'name' => 'showButton',
+            ],
             [
                 'type' => 'text',
                 'label' => 'Button text',
@@ -68,7 +72,7 @@ showMainEditTab: 'mainSettings'
                 'labelUnit' => 'px',
             ],
             [
-                'type' => 'url',
+                'type' => 'link-picker',
                 'label' => 'Button url',
                 'name' => 'url',
                 'placeholder' => 'Button url',

@@ -92,6 +92,16 @@ showMainEditTab: 'video'
             </div>
 
             <div>
+                <label class="live-edit-label">{{__('Loop')}} </label>
+                <livewire:microweber-option::toggle optionKey="loop" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+
+            <div>
+                <label class="live-edit-label">{{__('Hide Controls')}} </label>
+                <livewire:microweber-option::toggle optionKey="hideControls" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+
+            <div>
                 <label class="live-edit-label">{{__('Lazy load')}} </label>
                 <livewire:microweber-option::toggle optionKey="lazyload" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>

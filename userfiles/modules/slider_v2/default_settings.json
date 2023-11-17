@@ -3,6 +3,7 @@
     "settings": [
         {
             "url": "#",
+            "showButton": true,
             "buttonText": "Button",
             "title": "Your Title Slide 1",
             "description": "A short description of this slide here.",
@@ -22,6 +23,7 @@
         },
         {
             "url": "#",
+            "showButton": true,
             "buttonText": "Button",
             "title": "Your Title Slide 2",
             "description": "A short description of this slide here.",
@@ -41,6 +43,7 @@
         },
         {
             "url": "#",
+            "showButton": true,
             "buttonText": "Button",
             "title": "Your Title Slide 3",
             "description": "A short description of this slide here.",
