@@ -130,7 +130,21 @@ export class LiveEditLayoutBackground extends BaseComponent {
         mw.top().app.registerChangedState(node);
 
     }
+    getBackgroundPosition(node){
+        if(node && node.style){
+            var bg = node.style.backgroundPosition;
+            if (bg) {
+                return bg;
+            }
+        }
+    }
+    setBackgroundPosition(node,position) {
+        mw.app.registerUndoState(node);
+        mw.app.registerAskUserToStay(true);
+        node.style.backgroundPosition = position;
+        mw.top().app.registerChangedState(node);
 
+    }
     getBackgroundColor(node){
         if(node && node.style){
             var bg = node.style.backgroundColor;
