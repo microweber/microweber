@@ -325,6 +325,25 @@ export class ElementActions extends MicroweberBaseClass {
     }
 
     editImage(element) {
+        var dialog = this.imagePicker(function (res) {
+
+            mw.top().app.registerUndoState(element);
+            var url = res.src ? res.src : res;
+            if (!url) return;
+            url = url.toString();
+            element.src = url;
+            element.style.objectFit = '';
+            element.style.width = 'auto';
+            element.style.height = 'auto';
+
+            mw.app.liveEdit.play();
+            dialog.remove();
+
+            mw.top().app.registerChangedState(element);
+        });
+    }
+
+    editImageWithEditor(element) {
         mw.app.editImageDialog.editImage(element.src, (imgData) => {
             if (typeof imgData !==  'undefined' && imgData.src) {
 

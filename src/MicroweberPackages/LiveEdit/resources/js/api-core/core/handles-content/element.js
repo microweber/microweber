@@ -228,6 +228,52 @@ export class ElementHandleContent {
             }
 
         ];
+        const elementEditImageUploadMenu = [
+            {
+                title: 'Change Image',
+                text: '',
+                icon: this.handleIcons.icon('image-change'),
+
+                className: 'mw-handle-element-open-upload-image-editor-button',
+
+                action: (el) => {
+
+                    this.elementActions.editImage(el);
+
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowEditImageButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+                    },
+            }
+        ];
+
+
+        const elementEditImageInEditorMenu = [
+            {
+                title: 'Edit Image',
+                text: '',
+                icon: this.handleIcons.icon('fine-tune'),
+
+                className: 'mw-handle-element-open-image-editor-fine-tune-button',
+
+                action: (el) => {
+
+                    this.elementActions.editImageWithEditor(el);
+
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowEditImageButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+                    },
+            }
+        ];
+
+
         const elementBackgroundImageMenu = [
             {
                 title: 'Background Image',
@@ -329,6 +375,8 @@ export class ElementHandleContent {
             },
             ...elementLinkMenu,
             ...elementEditStyleMenu,
+            ...elementEditImageUploadMenu,
+            ...elementEditImageInEditorMenu,
             ...elementBackgroundImageMenu,
             // ...elementLinkMenuGroup,
             {

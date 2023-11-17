@@ -86,8 +86,8 @@ export default {
     methods: {
 
         toggleShadow: function () {
-
-            this.emitter.emit('element-style-editor-show', 'showShadow');
+            this.showShadow = !this.showShadow;
+         //   this.emitter.emit('element-style-editor-show', 'showShadow');
         },
 
         toggleTextShadow: function () {
