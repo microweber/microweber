@@ -1,14 +1,14 @@
 {
-  "_@core-1550f3a7.js": {
-    "file": "assets/@core-1550f3a7.js"
+  "_@core-53c4d884.js": {
+    "file": "assets/@core-53c4d884.js"
   },
-  "_mitt-c026d180.js": {
-    "file": "assets/mitt-c026d180.js"
+  "_mitt-b6586181.js": {
+    "file": "assets/mitt-b6586181.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js": {
-    "file": "assets/admin-app-105f8921.js",
+    "file": "assets/admin-app-fda8fce9.js",
     "imports": [
-      "_@core-1550f3a7.js"
+      "_@core-53c4d884.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js"
@@ -21,31 +21,31 @@
     "css": [
       "assets/element-style-editor-app-67fbff11.css"
     ],
-    "file": "assets/element-style-editor-app-d538e383.js",
+    "file": "assets/element-style-editor-app-6fae36ef.js",
     "imports": [
-      "_mitt-c026d180.js"
+      "_mitt-b6586181.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css": {
-    "file": "assets/live-edit-app-8123051f.css",
+    "file": "assets/live-edit-app-33f30b2b.css",
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js": {
     "css": [
-      "assets/live-edit-app-8123051f.css"
+      "assets/live-edit-app-33f30b2b.css"
     ],
-    "file": "assets/live-edit-app-f7644780.js",
+    "file": "assets/live-edit-app-ac8af8e6.js",
     "imports": [
-      "_@core-1550f3a7.js",
-      "_mitt-c026d180.js"
+      "_@core-53c4d884.js",
+      "_mitt-b6586181.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js": {
-    "file": "assets/live-edit-page-scripts-b816d4ee.js",
+    "file": "assets/live-edit-page-scripts-aaf12c9f.js",
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js"
   }
