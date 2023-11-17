@@ -100,7 +100,7 @@ export default {
     methods: {
         toggleBackground: function () {
             this.showBackground = !this.showBackground;
-            this.emitter.emit('element-style-editor-show', 'background');
+       //     this.emitter.emit('element-style-editor-show', 'background');
         },
 
         resetAllProperties: function () {
