@@ -269,7 +269,7 @@ export class ElementHandleContent {
 
                 action: (el) => {
 
-                    this.elementActions.editBackgroundImage(el);
+                    this.elementActions.editBackgroundImageOnParent(el);
 
 
                 },

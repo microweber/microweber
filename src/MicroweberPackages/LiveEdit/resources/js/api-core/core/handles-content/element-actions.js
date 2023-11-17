@@ -340,7 +340,26 @@ export class ElementActions extends MicroweberBaseClass {
         });
 
     }
+    editBackgroundImageOnParent(element) {
 
+        const hasBgOnParent = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['background-image-holder', 'img-holder']);
+        if (hasBgOnParent) {
+            element = hasBgOnParent;
+
+            var dialog = this.imagePicker(function (res) {
+                mw.top().app.registerChange(element);
+                var url = res.src ? res.src : res;
+                if (!url) return;
+                url = url.toString();
+                element.style.backgroundImage = `url(${url})`
+
+                mw.app.liveEdit.play();
+                dialog.remove();
+
+                mw.top().app.registerChangedState(element);
+            });
+        }
+    }
     editBackgroundImage(element) {
 
         const hasBgOnParent = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['background-image-holder', 'img-holder']);
@@ -348,22 +367,20 @@ export class ElementActions extends MicroweberBaseClass {
             element = hasBgOnParent;
         }
 
+        mw.top().app.registerUndoState(element);
 
-
+/*
         if(element.style.backgroundImage) {
-
-
         var bg = element.style.backgroundImage.trim().split('url(')[1];
-
         if (bg) {
-            mw.top().app.registerUndoState(element);
+
             bg = bg.split(')')[0]
                 .trim()
                 .split('"')
                 .join('');
 
-        }
-        }
+            }
+        }*/
 
         var dialog = this.imagePicker(function (res) {
             mw.top().app.registerChange(element);
