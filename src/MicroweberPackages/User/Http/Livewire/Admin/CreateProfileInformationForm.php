@@ -28,7 +28,7 @@ class CreateProfileInformationForm extends AdminComponent
             'username' => ['nullable', 'string', 'max:255', Rule::unique(User::class)],
             'email' => ['required', 'email', 'max:255', Rule::unique(User::class)],
             'phone' => ['nullable', 'string', 'max:255'],
-            'password' => ['required', 'string', 'min:4']
+            'password' => ['required', 'string', 'min:1']
 
         ])->validateWithBag('createProfileInformation');
 
