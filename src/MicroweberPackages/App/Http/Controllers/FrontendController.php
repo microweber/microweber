@@ -212,9 +212,9 @@ class FrontendController extends Controller
                 if ($is_editmode == 'n') {
                     $is_editmode = false;
                     $page_url = app()->url_manager->param_unset('editmode', $page_url);
-                    app()->user_manager->session_set('back_to_editmode', true);
-                    app()->user_manager->session_set('editmode', false);
-                    app()->user_manager->session_set('editmode_iframe', false);
+                   // app()->user_manager->session_set('back_to_editmode', true);
+                    //app()->user_manager->session_set('editmode', false);
+                    //app()->user_manager->session_set('editmode_iframe', false);
 
                     return app()->url_manager->redirect(app()->url_manager->site_url($page_url));
                 } else {
@@ -227,8 +227,8 @@ class FrontendController extends Controller
                             $legacy_edimode_must_redirect = true;
                             $liveEditUrl = admin_url() . 'live-edit';
                             $liveEditUrl = $liveEditUrl .= '?url=' . site_url($page_url);
-
-                            return app()->url_manager->redirect($liveEditUrl);
+                            redirect($liveEditUrl);
+                        //    return app()->url_manager->redirect($liveEditUrl);
 
                         }
 
@@ -1297,20 +1297,20 @@ class FrontendController extends Controller
 
 
 
-            if ($is_editmode == true and $is_editmode_iframe and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
+            if ($is_editmode_iframe and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
                 if ($is_admin == true) {
-
-                    if ($is_editmode_iframe) {
-
-                        $l = $this->liveEditToolbarIframeData($l,$content);
-                        $l = $this->liveEditToolbarIframe($l,$content);
-
-
-                        // $l = $this->liveEditToolbarBack($l);
-                    } else {
-                        // old live edit is disabled
-                       // $l = $this->liveEditToolbar($l);
-                    }
+                    $l = $this->liveEditToolbarIframeData($l,$content);
+                    $l = $this->liveEditToolbarIframe($l,$content);
+//                    if ($is_editmode_iframe) {
+//
+//
+//
+//
+//                        // $l = $this->liveEditToolbarBack($l);
+//                    } else {
+//                        // old live edit is disabled
+//                       // $l = $this->liveEditToolbar($l);
+//                    }
                 }
             } elseif ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
                 if (!isset($request_params['isolate_content_field']) and !isset($request_params['content_id'])) {

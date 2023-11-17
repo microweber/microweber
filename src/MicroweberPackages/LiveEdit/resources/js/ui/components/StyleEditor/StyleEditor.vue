@@ -199,6 +199,8 @@ export default {
                         if (activeNode) {
                             var id = activeNode.id;
                             if (!id) {
+                                console.log(1111111111)
+                                console.log(activeNode)
                                 targetWindow.mw.tools.generateSelectorForNode(activeNode);
                                 //  activeNode.id = id;
                             }
