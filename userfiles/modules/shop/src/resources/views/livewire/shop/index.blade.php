@@ -2,7 +2,14 @@
 
     <h1>Shop</h1>
 
-    <div class="row">
+    <div>
+        <div>
+            <label>Search</label>
+            <input type="text" class="form-control" wire:model="keywords" placeholder="Type to search...">
+        </div>
+    </div>
+
+    <div class="row mt-4">
         @foreach($products as $product)
 
             <div class="col-xl-4 col-lg-6 col-sm-12 mb-5">
@@ -58,6 +65,10 @@
                 @endforeach
             </div>
         @endforeach
+    </div>
+
+    <div class="d-flex justify-content-center mb-3">
+        {{ $products->links("livewire-tables::specific.bootstrap-4.pagination") }}
     </div>
 
 </div>

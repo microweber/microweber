@@ -170,7 +170,7 @@ export default {
                 }
             }
 
-            console.log('populateCssBoxShadow', result)
+
 
             if (result.color) {
                 this.boxShadowOptions.shadowColor = result.color;
@@ -217,8 +217,7 @@ export default {
             const boxShadowValue = `${inset ? 'inset ' : ''}${horizontalLength}px ${verticalLength}px ${blurRadius}px ${spreadRadius}px ${shadowColor}`;
 
             // You can emit this value or perform other actions based on your requirements
-            console.log(boxShadowValue);
-            this.applyPropertyToActiveNode('boxShadow', boxShadowValue);
+             this.applyPropertyToActiveNode('boxShadow', boxShadowValue);
         },
     },
 };
