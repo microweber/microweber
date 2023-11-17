@@ -15,6 +15,15 @@ $config['permissions'] = [
     'destroy' => 'module.admin.shop.destroy'
 ];
 
-$config['settings']['service_provider'] = [
-    \MicroweberPackages\Shop\ShopServiceProvider::class
+$config['settings'] = [];
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\Modules\Shop'
+    ],
 ];
+
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\Shop\Providers\ShopServiceProvider::class
+];
+
