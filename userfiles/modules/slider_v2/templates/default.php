@@ -41,7 +41,7 @@ description: skin 1
                     </div>
 
 
-                    <?php if(!empty($slide['buttonText']) && $slide['showButton'] == true): ?>
+                    <?php if(!empty($slide['buttonText']) && isset($slide['showButton']) && $slide['showButton'] == true): ?>
                     <div>
                         <button class="btn btn-primary js-slide-button-<?php echo $slide['itemId']; ?>">
                             <?php echo $slide['buttonText'];?>
