@@ -4,18 +4,20 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [2.0.5] - 2023-11-17
-- Fixed problem with menu links
-- Fixed problem when you edit module settings and close the modal while saving
-- Fixed accordeon module can't be opened in live edit
-- UI fixes for add content modal
+- Maintenance release
 - Fixed issues with cloneable controls
 - Fixed issues with elements style editor when you change element 
 - Fixed issues with font manager
 - Fixed issues with module item editor 
+- Fixed categories images module
+- Fixed handles for clonable element not being shown
 - Fixed some issues with categories module
 - Fixed some issues with modal windows for module settings
+- Fixed buttons in add content modal window not being sticky
 - Fixed confirm dialog to work with escape key and enter key 
 - Fixed security issue with svg upload
+- Added options to loop and must video for video module
+- Added option for site stats module to send server side evens to google analytics
 - Added newsletter module
 - Added Laravel events for some cart and checkout actions
 - Added box shadow and text shadow settings in element style editor
