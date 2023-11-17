@@ -37,9 +37,13 @@ class MicroweberComposerPackage
         }
 
         $version['is_paid'] = false;
-        if (isset($version['extra']['whmcs']['buy_link'])) {
+        $version['available_for_install'] = true;
+        if (isset($version['dist']['type']) && $version['dist']['type'] == 'license_key') {
             $version['is_paid'] = true;
-            $version['buy_link'] = $version['extra']['whmcs']['buy_link'];
+            $version['available_for_install'] = false;
+            if (isset($version['extra']['whmcs']['buy_link'])) {
+                $version['buy_link'] = $version['extra']['whmcs']['buy_link'];
+            }
         }
 
         $version['is_symlink'] = false;

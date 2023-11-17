@@ -23,7 +23,16 @@
         </div>
       </button>
       <ul class="dropdown-menu" aria-labelledby="fontDropdown">
-        <li
+
+
+          <li>
+              <a class="dropdown-item" @click="selectFont('')">
+                  Default
+              </a>
+
+          </li>
+
+          <li
             v-for="(fontFamilyItem, index) in supportedFonts"
             :key="index"
             :class="{ 'active': fontFamilyItem === fontFamily }">

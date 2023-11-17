@@ -27,9 +27,9 @@
         bottom: 15px;
         background: none;
         z-index: 6;
-        
- 
-  
+
+
+
     }
 
     .mw-css-editor-c2a-nav .module-content-views-layout-selector-custom-css{
@@ -40,7 +40,7 @@
     }
 
 
- 
+
 
 </style>
 
@@ -143,11 +143,11 @@
                 }
             }
 
-            if (err_text != '') {
-                err_text = 'You have syntax error on code: ' + err_text;
-                mw.notification.warning(err_text,9000)
-                return;
-            }
+            // if (err_text != '') {
+            //     err_text = 'You have syntax error on code: ' + err_text;
+            //     mw.notification.warning(err_text,9000)
+            //     return;
+            // }
 
             mw.options.saveOption({
                     group: 'template',
@@ -305,11 +305,11 @@ if ($file and is_file($file)) {
                 err_text += "\n" + message.message;
             }
         }
-
-        if (err_text != '') {
-            mw.notification.warning(err_text)
-            return;
-        }
+        // skip for now
+        // if (err_text != '') {
+        //     mw.notification.warning(err_text)
+        //     return;
+        // }
 
 
 

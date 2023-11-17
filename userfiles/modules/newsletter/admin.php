@@ -1,6 +1,7 @@
 <?php must_have_access(); ?>
 
 <?php
+
 $from_live_edit = false;
 if (isset($params["live_edit"]) and $params["live_edit"]) {
     $from_live_edit = $params["live_edit"];
@@ -8,7 +9,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 ?>
 
 <?php if (isset($params['backend'])): ?>
-    <module type="admin/modules/info"/>
+    <module type="admin/modules/info" />
 <?php endif; ?>
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
@@ -33,7 +34,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         }
         ?>
 
-        <?php if (isset($params['backend'])): ?>
+        <?php if ($from_live_edit == false): ?>
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
                 <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#subscribers"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e('Subscribers'); ?></a>
                 <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#list"><i class="mdi mdi-clipboard-text-outline mr-1"></i> <?php _e('Lists'); ?></a>

@@ -10,8 +10,8 @@ $randomId = uniqid();
     @foreach($categories as $category)
 
         <ul class="js-filter-category-tree list-unstyled">
-            <li class="mw-shop-attributes-li title pb-1">
-                <a href="{{$category->link()}}" data-category-id="{{$category->id}}" class="js-filter-category-link @if($request->get('category', false) == $category->id) active @endif ">{{$category->title}}</a>
+            <li class="mw-shop-attributes-li title d-flex align-items-center justify-content-between">
+                <a href="{{$category->link()}}" data-category-id="{{$category->id}}" class="js-filter-category-link mw-admin-action-links @if($request->get('category', false) == $category->id) active @endif ">{{$category->title}}</a>
                 @if(in_array($category->id, $categoriesActiveIds))
                     <button type="button" data-key="category" data-value="{{$category->id}}" class="btn btn-link js-filter-picked">
                         <i class="mdi mdi-close ml-2"></i>

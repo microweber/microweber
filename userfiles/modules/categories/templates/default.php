@@ -13,8 +13,8 @@ description: List Navigation
 ?>
 
 <?php
-    $params['ul_class'] = 'nav nav-list';
-	$params['ul_class_deep'] = 'nav nav-list';
+    $params['ul_class'] = 'nav-list';
+	$params['ul_class_deep'] = 'nav-list';
 
 ?>
 
