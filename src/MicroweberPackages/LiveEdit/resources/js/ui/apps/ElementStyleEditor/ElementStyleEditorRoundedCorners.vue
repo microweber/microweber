@@ -15,10 +15,10 @@
   </div>
 
   <div v-if="showRoundedCorners">
-    <div class="d-flex flex-column gap-3">
+    <div class="form-control-live-edit-label-wrapper my-4 d-flex align-items-center flex-wrap gap-2">
 
-      <label for="borderRadiusSelect">Select predefined border radius:</label>
-      <select class="form-control" id="borderRadiusSelect" v-model="selectedBorderRadius"
+      <label class="live-edit-label" for="borderRadiusSelect">Select predefined border radius:</label>
+      <select class="form-control-live-edit-input form-select" id="borderRadiusSelect" v-model="selectedBorderRadius"
               @change="applyPredefinedRadius">
         <option v-for="(radius, key) in predefinedBorderRadiusValues" :key="key" :value="radius.value">{{
             radius.label
