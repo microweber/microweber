@@ -159,7 +159,39 @@ $current_template = false;
             }
         }
         ?>
+        <?php
+        $module_templates_categories = [
+            'Other' => true
+        ];
+        foreach ($module_templates as $item) {
+            if (isset($item['categories'])) {
+                $module_templates_categories[$item['categories']] = true;
+            }
+        }
 
+        $module_templates_ready = [];
+        $module_templates_ready_end = [];
+        if (!empty($module_templates_categories) and $current_template) {
+            foreach ($module_templates as $item) {
+                if (!isset($item['categories'])) {
+                    $item['categories'] = 'Other';
+                }
+                $item['categories'] = strtolower(trim($item['categories']));
+                $current_template['categories'] = strtolower(trim($current_template['categories']));
+                if ($item['categories'] == $current_template['categories']) {
+                    $module_templates_ready[] = $item;
+                } else {
+                    $module_templates_ready_end[] = $item;
+                }
+            }
+            //    $module_templates_ready = array_merge($module_templates_ready, $module_templates_ready_end);
+
+        }
+
+
+
+
+        ?>
 
         <?php  if($current_template and isset($current_template['name'])):  ?>
 
@@ -272,6 +304,8 @@ $current_template = false;
 
         <?php endif; ?>
 
+
+
         <?php if (is_array($templates)): ?>
             <?php $default_item_names = array(); ?>
 
@@ -283,16 +317,29 @@ $current_template = false;
 
             <div class="tab-content py-3">
                 <div class="tab-pane fade" id="settings">
+
+
+
                     <?php if(!$from_live_edit): ?>
                         NO SETTINGS
                     <?php endif; ?>
+                 <?php
 
+                  //  dump($templates)
+                    ?>
                     <!-- Settings Content -->
                     <div class="module-live-edit-settings module-layouts-settings">
                         <div class="mw-mod-template-settings-holder">
+
+                            <?php $selectHiddenCLass = 'hidden';
+                            if(empty($module_templates_ready)){
+                                $selectHiddenCLass = '';
+                            }
+                            ?>
+
                             <select id="mw-module-skin-select-dropdown" data-also-reload="#mw-module-skin-settings-module"
                                     module="layouts"
-                                    name="data-template" class="form-select  mw_option_field  w100 hidden" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>">
+                                    name="data-template" class="form-select  mw_option_field  w100 <?php print $selectHiddenCLass ?>" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>">
                                 <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>
 
                                 <?php foreach ($templates as $item): ?>
@@ -488,35 +535,7 @@ $current_template = false;
                                 </script>
 
 
-                                <?php
-                                $module_templates_categories = [
-                                    'Other' => true
-                                ];
-                                foreach ($module_templates as $item) {
-                                    if (isset($item['categories'])) {
-                                        $module_templates_categories[$item['categories']] = true;
-                                    }
-                                }
 
-                                $module_templates_ready = [];
-                                $module_templates_ready_end = [];
-                                if (!empty($module_templates_categories) and $current_template) {
-                                    foreach ($module_templates as $item) {
-                                        if (!isset($item['categories'])) {
-                                            $item['categories'] = 'Other';
-                                        }
-                                        $item['categories'] = strtolower(trim($item['categories']));
-                                        $current_template['categories'] = strtolower(trim($current_template['categories']));
-                                        if ($item['categories'] == $current_template['categories']) {
-                                            $module_templates_ready[] = $item;
-                                        } else {
-                                            $module_templates_ready_end[] = $item;
-                                        }
-                                    }
-                                //    $module_templates_ready = array_merge($module_templates_ready, $module_templates_ready_end);
-
-                                }
-                                ?>
 
                                 <?php
                                 foreach ($module_templates_ready as $item):
