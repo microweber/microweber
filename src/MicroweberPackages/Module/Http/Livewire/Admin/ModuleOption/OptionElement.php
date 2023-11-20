@@ -4,6 +4,7 @@ namespace MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 class OptionElement extends AdminComponent
 {
@@ -36,10 +37,10 @@ class OptionElement extends AdminComponent
     public array $currentLanguageData = [];
     public string $fieldName = '';
 
-    public function boot()
-    {
-        $this->newModelInstance();
-    }
+//    public function boot()
+//    {
+//        $this->newModelInstance();
+//    }
 
     private function newModelInstance()
     {
@@ -134,6 +135,7 @@ class OptionElement extends AdminComponent
 
     public function saveOptionData($option)
     {
+        AbstractRepository::disableCache();
         $this->newModelInstance();
 
         if (isset($option['option_value'])) {
@@ -152,8 +154,31 @@ class OptionElement extends AdminComponent
         if (isset($option['multilanguage']) and !empty($option['multilanguage'])) {
             $this->model['multilanguage'] = $option['multilanguage'];
         }
+// we will use save_option() instead
+//dump($this->model->toArray());
+      //$modelSave = $this->model->save();
+      // dd($modelSave);
+        $data = [];
 
-        $modelSave = $this->model->save();
+        if (isset($this->model->option_value)) {
+            $data['option_value'] = $this->model->option_value;
+        }
+
+        if (isset($this->model->option_group)) {
+            $data['option_group'] = $this->model->option_group;
+        }
+        if (isset($this->model->option_key)) {
+            $data['option_key'] = $this->model->option_key;
+        }
+        if (isset($this->model->module)) {
+            $data['module'] = $this->model->module;
+        }
+        if (isset($this->model->multilanguage)) {
+            $data['multilanguage'] = $this->model->multilanguage;
+        }
+        $modelSave = save_option($data);
+
+
 
         $this->dispatchBrowserEvent('mw-option-saved', [
             'optionGroup' => $this->optionGroup,
