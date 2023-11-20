@@ -1569,7 +1569,11 @@ svg.text-danger {
     text-decoration: none !important;
     color: var(--tblr-body-color);
     font-weight: 500;
+    outline: none;
 
+    &:focus{
+        outline: none;
+    }
     &:disabled{
         opacity: .3;
         pointer-events: none;
