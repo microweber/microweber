@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Shop\Http\Livewire;
 use Livewire\WithPagination;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
+use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCategoriesTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopTagsTrait;
 use MicroweberPackages\Product\Models\Product;
 
@@ -11,6 +12,7 @@ class ShopComponent extends ModuleSettingsComponent
 {
     use WithPagination;
     use ShopTagsTrait;
+    use ShopCategoriesTrait;
 
     public $keywords;
     public $sort = '';
@@ -21,6 +23,7 @@ class ShopComponent extends ModuleSettingsComponent
 
     public $queryString = [
         'keywords',
+        'category',
         'tags',
         'limit',
         'sort',
@@ -87,6 +90,7 @@ class ShopComponent extends ModuleSettingsComponent
        return view('microweber-module-shop::livewire.shop.index', [
             'products' => $products,
             'filteredTags' => $this->getTags(),
+            'filteredCategory' => $this->getCategory(),
             'availableTags' => $availableTags,
             'availableCategories' => $this->getAvailableCategories(),
        ]);

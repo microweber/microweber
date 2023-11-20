@@ -1,10 +1,8 @@
 <div class="mt-4 text-left">
     <div>Categories</div>
-    <ul class="mt-2">
+    <ul class="mt-2 list-group list-group-flush">
         @foreach($availableCategories as $category)
-            <li wire:click="filterCategory({{$category->id}})">
-                {{$category->title}}
-            </li>
+            @include('microweber-module-shop::livewire.shop.filters.categories.category-child', ['category' => $category])
         @endforeach
     </ul>
 </div>
