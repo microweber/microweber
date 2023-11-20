@@ -67,6 +67,9 @@ class ShopComponent extends ModuleSettingsComponent
         if (!empty($this->sort) && !empty($this->direction)) {
             $filters['orderBy'] = $this->sort . ',' . $this->direction;
         }
+        if (!empty($this->category)) {
+            $filters['category'] = $this->category;
+        }
 
         if (!empty($filters)) {
             $productsQuery->filter($filters);
