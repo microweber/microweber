@@ -75,16 +75,49 @@ class ShopComponent extends ModuleSettingsComponent
             $productsQuery->filter($filters);
         }
 
-        $availableTags = [];
         $productsQueryAll = Product::query();
         $productsQueryAll->where('is_active', 1);
         $allProducts = $productsQueryAll->get();
+
+        $availableTags = [];
+        $availableCustomFieldsParents = [];
+        $availableCustomFieldsValues = [];
+
         foreach ($allProducts as $product) {
+
+            if (!empty($product->customField)) {
+                foreach ($product->customField as $productCustomField) {
+                    if ($productCustomField->name_key == 'price') {
+                        continue;
+                    }
+
+                    $availableCustomFieldsParents[$productCustomField->id] = $productCustomField;
+
+                    if (!empty($productCustomField->fieldValue)) {
+                        foreach ($productCustomField->fieldValue as $fieldValue) {
+                            $availableCustomFieldsValues[$fieldValue->custom_field_id][] = $fieldValue;
+                        }
+                    }
+                }
+            }
+
             $getTags = $product->tags;
             if (!empty($getTags)) {
                 foreach ($getTags as $tag) {
                     $availableTags[$tag->tag_name] = $tag->tag_slug;
                 }
+            }
+        }
+
+        $availableCustomFields = [];
+        if (!empty($availableCustomFieldsParents)) {
+            foreach ($availableCustomFieldsParents as $customFieldId => $customField) {
+                $customFieldObject = new \stdClass();
+                $customFieldObject->id = $customFieldId;
+                $customFieldObject->name = $customField->name;
+                $customFieldObject->name_key = $customField->name_key;
+                $customFieldObject->values = $availableCustomFieldsValues[$customFieldId];
+                $availableCustomFields[] = $customFieldObject;
             }
         }
 
@@ -94,6 +127,7 @@ class ShopComponent extends ModuleSettingsComponent
             'products' => $products,
             'filteredTags' => $this->getTags(),
             'filteredCategory' => $this->getCategory(),
+            'availableCustomFields'=>$availableCustomFields,
             'availableTags' => $availableTags,
             'availableCategories' => $this->getAvailableCategories(),
        ]);

@@ -77,6 +77,10 @@
                 </div>
 
                 <div class="mt-3">
+                    <livewire:microweber-option::color-picker label="Logo text color" optionKey="text_color" :optionGroup="$moduleId" :module="$moduleType"  />
+                </div>
+
+                <div class="mt-3">
                     <livewire:microweber-option::range-slider labelUnit="px" min="16" max="500" label="Logo Text - Size" optionKey="font_size" :optionGroup="$moduleId" :module="$moduleType"  />
                 </div>
             </div>

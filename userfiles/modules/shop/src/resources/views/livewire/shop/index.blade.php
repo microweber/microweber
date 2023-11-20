@@ -15,6 +15,10 @@
                 @include('microweber-module-shop::livewire.shop.filters.tags.index')
             @endif
 
+            @if(!empty($availableCustomFields))
+                @include('microweber-module-shop::livewire.shop.filters.custom_fields.index')
+            @endif
+
         </div>
         <div class="col-md-9">
 
