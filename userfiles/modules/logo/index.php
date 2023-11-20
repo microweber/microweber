@@ -26,6 +26,7 @@ $logo_options['logotype'] = '';
 $logo_options['logoimage'] = '';
 $logo_options['logoimage_inverse'] = '';
 $logo_options['text'] = '';
+$logo_options['text_color'] = '#000';
 $logo_options['font_family'] = '';
 $logo_options['font_size'] = '';
 $logo_options['size'] = '';
@@ -42,6 +43,7 @@ $logotype = $logo_options['logotype'];
 $logoimage = $logo_options['logoimage'];
 $logoimage_inverse = $logo_options['logoimage_inverse'];
 $text = $logo_options['text'];
+$text_color = $logo_options['text_color'];
 $font_family = $logo_options['font_family'];
 $font_size = $logo_options['font_size'];
 

@@ -21,6 +21,9 @@ must_have_access();
                 overflow: hidden;
             }
 
+            #media-results li {
+                min-height: 270px;
+            }
             #media-results li .image-item-thumbnail {
                 width: 100% !important;
                 height: 171px !important;
@@ -84,6 +87,7 @@ must_have_access();
             .image-item-author {
                 width: 100%;
                 margin-bottom: 10px;
+                padding: 8px 0 0;
             }
 
             .image-item-is-downloaded {

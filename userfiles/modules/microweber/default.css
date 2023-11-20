@@ -9,6 +9,10 @@
     min-height: 100px;
 }
 
+.col > div, [class*="col-"] > div {
+    max-width: 100%;
+}
+
 .mw-bg-mask{
     background-clip: text;
     -webkit-background-clip: text;
