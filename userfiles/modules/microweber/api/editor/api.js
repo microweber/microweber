@@ -618,6 +618,7 @@ mw.lib.require('rangy');
 
 
 
+                // timy mce is breaking html
                 // if (mw && mw.top && mw.top().app && mw.top().app.canvas) {
                 //     var liveEditIframe = (mw.app.canvas.getWindow());
                 //
@@ -682,6 +683,8 @@ mw.lib.require('rangy');
                                             editor.execCommand(cmd, def, val);
                                         }
 
+                                    } else {
+                                        scope.actionWindow.document.execCommand(cmd, def, val);
                                     }
 
                                 } else {

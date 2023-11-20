@@ -120,17 +120,17 @@ class Files
      *
      *  Get an array that represents directory and files
      *
-     * @category    files module api
+     * @param array $params = array()     the params
+     * @param string $params ['directory']       The directory
+     * @param string $params ['keyword']       If set it will seach the dir and subdirs
+     * @return mixed Array with files
      *
      * @version 1.0
      *
      * @since 0.320
      *
-     * @return mixed Array with files
+     * @category    files module api
      *
-     * @param array $params = array()     the params
-     * @param string $params ['directory']       The directory
-     * @param string $params ['keyword']       If set it will seach the dir and subdirs
      */
     public function get($params)
     {
@@ -186,10 +186,9 @@ class Files
             $myDirectory = opendir($directory . DS);
 
 
-
             while ($entryName = readdir($myDirectory)) {
 
-                if(!empty($hide_files) && in_array($entryName,$hide_files)){
+                if (!empty($hide_files) && in_array($entryName, $hide_files)) {
                     continue;
                 }
 
@@ -209,8 +208,8 @@ class Files
             $arrayItems_d = array();
             foreach ($arrayItems_search as $file) {
                 if ($from_search == 0) {
-                    if(str_ends_with( $directory,'\\') or str_ends_with( $directory,'/',) or str_ends_with( $directory,'\/')){
-                        $file = $directory .  $file;
+                    if (str_ends_with($directory, '\\') or str_ends_with($directory, '/',) or str_ends_with($directory, '\/')) {
+                        $file = $directory . $file;
                     } else {
                         $file = $directory . DS . $file;
                     }
@@ -293,10 +292,6 @@ class Files
     /**
      * Recursive glob().
      *
-     * @category Files
-     *
-     * @uses is_array()
-     *
      * @param int|string $pattern
      *                            the pattern passed to glob()
      * @param int $flags
@@ -306,6 +301,10 @@ class Files
      *
      * @return mixed
      *               an array of files in the given path matching the pattern.
+     * @category Files
+     *
+     * @uses is_array()
+     *
      */
     public function rglob($pattern = '*', $flags = 0, $path = '')
     {
@@ -1125,7 +1124,7 @@ class Files
         $allowedDocuments = $this->get_allowed_files_extensions_for_upload('documents', true);
         $allowedArchives = $this->get_allowed_files_extensions_for_upload('archives', true);
 
-        $allowed = array_merge_recursive($allowedImages,$allowedVideos,$allowedAudios,$allowedFiles,$allowedDocuments,$allowedArchives);
+        $allowed = array_merge_recursive($allowedImages, $allowedVideos, $allowedAudios, $allowedFiles, $allowedDocuments, $allowedArchives);
 
 
         $isExt = get_file_extension($fileName);
@@ -1138,7 +1137,43 @@ class Files
         return false;
     }
 
+    function check_if_svg_is_valid($dirtySVG)
+    {
+        $sanitizer = new \enshrined\svgSanitize\Sanitizer();
+        $valid = true;
 
+        try {
+
+            $cleanSVG = $sanitizer->sanitize($dirtySVG);
+            $cleanSVG = str_ireplace('<?xml version="1.0" encoding="utf-8"?>', '', $cleanSVG);
+            $dirtySVG = str_ireplace('<?xml version="1.0" encoding="utf-8"?>', '', $dirtySVG);
+
+            $valid = true;
+            $replaces = [
+                "\r",
+                "\n",
+                "\t",
+                '"',
+                "'",
+                " ",
+                "<path>",
+                "</path>",
+                "/",
+                ">",
+                "<",
+            ];
+
+            $compare1 = strtolower(trim(str_replace($replaces, '', $cleanSVG)));
+            $compare2 = strtolower(trim(str_replace($replaces, '', $dirtySVG)));
+            if (md5($compare1) != md5($compare2)) {
+                 $valid = false;
+            }
+        } catch (\Exception $e) {
+            $valid = false;
+        }
+
+        return $valid;
+    }
 
     function get_allowed_files_extensions_for_upload($fileTypes = 'images', $returnAsArray = false)
     {
@@ -1150,7 +1185,7 @@ class Files
             case 'image':
             case 'images':
             case 'media':
-                $are_allowed .= ',png,gif,jpg,jpeg,tiff,bmp,webp,ico';
+                $are_allowed .= ',png,gif,jpg,jpeg,tiff,bmp,webp,ico,svg';
                 break;
             case 'audio':
             case 'audios':
@@ -1183,8 +1218,8 @@ class Files
                 $are_allowed .= ',' . $fileTypes;
         }
 
-        if($are_allowed){
-            $are_allowed = explode(',',$are_allowed);
+        if ($are_allowed) {
+            $are_allowed = explode(',', $are_allowed);
             array_unique($are_allowed);
             $are_allowed = array_filter($are_allowed);
 

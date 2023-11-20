@@ -1,6 +1,7 @@
 import MicroweberBaseClass from "../containers/base-class.js";
 import CursorPosition from "../../core/libs/cursor-position.js";
 
+// deprecated
 export class WyswygEditor extends MicroweberBaseClass {
     constructor() {
         super();
@@ -50,7 +51,7 @@ export class WyswygEditor extends MicroweberBaseClass {
             fix_list_elements : false,
 
 
-            init_content_sync: 'true',
+        //    init_content_sync: 'true',
             model: 'dom',
 
             plugins: 'mwtinymce',
@@ -58,10 +59,23 @@ export class WyswygEditor extends MicroweberBaseClass {
 
 
             cleanup: false,
-            valid_elements: '*[*],script[*],style[*]',
-            valid_children: '*[*],script[*],style[*]',
-            custom_elements: '*[*],script[*],style[*]',
+            // valid_elements: '*[*],script[*],style[*]',
+            // valid_children: '*[*],script[*],style[*]',
+            // custom_elements: '*[*],script[*],style[*]',
+            // extended_valid_elements: '*[*],script[*],style[*],a[*]',
+
+            valid_elements: '*[*],script[*],style[*],+*[*]',
+         valid_children: '*[*],script[*],style[*]',
+      //    valid_children: '*[*],script[*],style[*],+*[*], +*[*], -*[*]',
+
+            // all html elements are valid
+       //     custom_elements: 'style,script,a,button,select,option,textarea,input,form,fieldset,legend,iframe,object,embed,video,source,track,audio,canvas,svg,math,del,ins,article,section,nav,aside,hgroup,header,footer,address,main,p,h1,h2,h3,h4,h5,h6,hr,pre,blockquote,ol,ul,li,dl,dt,dd,figure,figcaption,div,table,caption,thead,tbody,tfoot,tr,th,td,em,strong,s,cite,q,dfn,abbr,data,time,var,kbd,samp,sub,sup,i,b,u,mark,ruby,rt,rp,bdi,bdo,span,br,wbr,small,big,tt,object,param,map,area,script,style,link,meta,title,base,basefont,head,html,body,frameset,frame,noembed,noframes,font,ins,del,strike,center,acronym,applet,isindex,dir,menu,xmp,listing,plaintext,button,textarea,select,option,optgroup,label,keygen,output,datalist,progress,meter,details,summary,command,menuitem,legend,fieldset,figure,figcaption,abbr,acronym,address,applet,area,article,aside,audio,b,base,basefont,bdi,bdo,bgsound,big,blink,blockquote,body,br,button,canvas,caption,center,cite,code,col,colgroup,command,comment,dd,del,details,dfn,dir,div,dl,dt,em,embed,fieldset,figcaption,figure,font,footer,form,frame,frameset,h1,h2,h3,h4,h5,h6,head,header,hr,html,i,iframe,img,input,ins,kbd,keygen,label,legend,li,link,listing,map,mark,marquee,menu,meta,meter,nav,nobr,noembed,noframes,noscript,object,ol,optgroup,option,output,p,param,plaintext,pre,progress,q,rp,rt,ruby,s,samp,script,section,select,small,source,spacer,span,strike,strong,style,sub,summary,sup,table,tbody,td,textarea,tfoot,th,thead,time,title,tr,tt,u,ul,var,video,wbr,xmp',
+         //   custom_elements: 'script,style',
+        //    custom_elements: '*,*[*],script[*],style[*]',
+            custom_elements: '*',
+          //  custom_elements: '+*[*], +*[*], -*[*]',
             extended_valid_elements: '*[*],script[*],style[*],a[*]',
+
             invalid_elements: 'none',
 
             inline: true,
@@ -116,14 +130,31 @@ export class WyswygEditor extends MicroweberBaseClass {
 
         if (liveEditIframeDocument && liveEditIframe && liveEditIframe.tinyMCE) {
             const mwTinymceEditor = liveEditIframe.tinyMCE;
-            // Initialize the new editor directly on the existing contenteditable element
-            mwTinymceEditor.init(this.config).then((initializedEditor) => {
-                this.editor = initializedEditor;
-                 this.setCursorPos(this.savedCursorPosition,element);
-              // mwTinymceEditor.activeEditor.focus();
-            }).catch((error) => {
-                console.error('Error initializing TinyMCE:', error);
-            });
+
+            // remove all active editors
+      //      mwTinymceEditor.remove();
+
+            try {
+                // Initialize the new editor directly on the existing contenteditable element
+                mwTinymceEditor.init(this.config).then((initializedEditor) => {
+                    this.editor = initializedEditor;
+                    this.setCursorPos(this.savedCursorPosition,element);
+                    // mwTinymceEditor.activeEditor.focus();
+                }).catch((error) => {
+                    if(console && console.log) {
+                        console.log('Error initializing TinyMCE:', error);
+                    }
+                });
+            } catch (e) {
+                if(console && console.log) {
+                    console.log('Error initializing TinyMCE promise:', error);
+                }
+            }
+
+
+
+
+
         }
     }
 

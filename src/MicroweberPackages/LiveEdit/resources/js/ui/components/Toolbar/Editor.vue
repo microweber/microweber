@@ -76,7 +76,7 @@ export default {
             mw.app.editor.on('elementSettingsRequest', (element) => {
                 if (element.nodeName === 'IMG') {
 
-                    mw.app.liveEdit.elementHandleContent.elementActions.editImage(element);
+                    mw.app.liveEdit.elementHandleContent.elementActions.editImageWithEditor(element);
 /*
 
                     mw.app.editImageDialog.editImage(element.src, (imgData) => {
@@ -211,46 +211,14 @@ export default {
 
                 } else if (element.nodeName === 'IMG') {
 
-                    var dialog = imagePicker(function (res) {
-
-                        mw.top().app.registerUndoState(element);
-                        var url = res.src ? res.src : res;
-                        if (!url) return;
-                        url = url.toString();
-                        element.src = url;
-                       element.style.objectFit = '';
-                        element.style.width = 'auto';
-                        element.style.height = 'auto';
-
-                        mw.app.liveEdit.play();
-                        dialog.remove();
-
-                        mw.top().app.registerChangedState(element);
-                    })
+                    mw.app.liveEdit.elementHandleContent.elementActions.editImage(element);
 
 
                 }  else if (element.style && element.style.backgroundImage) {
                     var bg = element.style.backgroundImage.trim().split('url(')[1];
 
                     if (bg) {
-                        mw.top().app.registerUndoState(element);
-                        bg = bg.split(')')[0]
-                            .trim()
-                            .split('"')
-                            .join('');
-                        var dialog = imagePicker(function (res) {
-                            mw.top().app.registerChange(element);
-                            var url = res.src ? res.src : res;
-                            if (!url) return;
-                            url = url.toString();
-                            element.style.backgroundImage = `url(${url})`
-
-                            mw.app.liveEdit.play();
-                            dialog.remove();
-
-                            mw.top().app.registerChangedState(element);
-                        })
-
+                        mw.app.liveEdit.elementHandleContent.elementActions.editBackgroundImage(element)
                     }
 
                 } else {
@@ -315,7 +283,7 @@ export default {
 
                         element.focus();
 
-                        editTarget.contentEditable = true;
+                     //   editTarget.contentEditable = true;
                         mw.app.liveEdit.pause();
 
                        mw.app.richTextEditor.smallEditorInteract(element);
@@ -331,9 +299,13 @@ export default {
                             node.contentEditable = 'inherit';
                         })
 
-                    mw.app.wyswygEditor.initEditor(element);
+                 //   mw.app.wyswygEditor.initEditor(element);
 
-
+                       // try {
+                       //     mw.app.wyswygEditor.initEditor(element);
+                       // } catch (e) {
+                       //     console.warn(e);
+                       // }
 
 
                   }, 300);

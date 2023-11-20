@@ -96,9 +96,11 @@ trait LiveEditTrait
 
 
         $viteScript = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js');
+
         if ($viteScript) {
+
             $viteScriptSrc = '<script src="' . $viteScript . '"></script>';
-            $viteScriptSrc .= '<script>window.mwLiveEditIframeBackUrl = "' . $liveEditUrl . '"; </script>';
+             $viteScriptSrc .= '<script>window.mwLiveEditIframeBackUrl = "' . $liveEditUrl . '"; </script>';
             $html = str_ireplace('</body>', $viteScriptSrc . '</body>', $html, $c);
             return $html;
         }

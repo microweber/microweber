@@ -254,7 +254,9 @@ class FrontendController extends Controller
 
             if (mw()->user_manager->session_id() and !$is_no_editmode) {
                 $is_editmode = app()->user_manager->session_get('editmode');
-                $is_editmode_iframe = app()->user_manager->session_get('editmode_iframe');
+                if(!isset($is_editmode_iframe) or !$is_editmode_iframe) {
+                    $is_editmode_iframe = app()->user_manager->session_get('editmode_iframe');
+                }
 
             } else {
                 $is_editmode = false;
@@ -1295,7 +1297,12 @@ class FrontendController extends Controller
                 }
             }
 
+            $secFetchDest = request()->header('Sec-Fetch-Dest');
 
+            if ($secFetchDest == 'iframe' and $is_admin and !$is_no_editmode) {
+
+                $is_editmode_iframe = true;
+            }
 
             if ($is_editmode_iframe and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
                 if ($is_admin == true) {

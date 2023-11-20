@@ -146,9 +146,19 @@ export class ElementActions extends MicroweberBaseClass {
             }
         })
     }
+    cloneElementFirstClonableParent(target) {
+
+        var hasCloneableClassOnParents = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable']);
+
+        if (hasCloneableClassOnParents) {
+            return  this.cloneElement(hasCloneableClassOnParents);
+        }
+    }
 
     cloneElement(el) {
-        //check if is IMG and cloneable is in A tag, then delete A tag
+        mw.top().app.liveEdit.stopTyping();
+
+        //check if is IMG and cloneable if its in A tag, then delete A tag
         if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
             el = el.parentNode;
         }
@@ -250,6 +260,13 @@ export class ElementActions extends MicroweberBaseClass {
         mw.app.editor.dispatch('editNodeStyleRequest', el);
     }
 
+    moveBackwardFirstClonableParent(target) {
+        const hasCloneable = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable', 'mw-col']);
+        if (hasCloneable) {
+            this.moveBackward(hasCloneable);
+        }
+    }
+
     moveBackward(el) {
         const prev = el.previousElementSibling;
         if (prev) {
@@ -260,7 +277,12 @@ export class ElementActions extends MicroweberBaseClass {
             mw.app.liveEdit.handles.get('element').set(el);
         }
     }
-
+    moveForwardFirstClonableParent(target) {
+        const hasCloneable = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable', 'mw-col']);
+        if (hasCloneable) {
+            this.moveForward(hasCloneable);
+        }
+    }
     moveForward(el) {
         const next = el.nextElementSibling;
 
@@ -325,6 +347,25 @@ export class ElementActions extends MicroweberBaseClass {
     }
 
     editImage(element) {
+        var dialog = this.imagePicker(function (res) {
+
+            mw.top().app.registerUndoState(element);
+            var url = res.src ? res.src : res;
+            if (!url) return;
+            url = url.toString();
+            element.src = url;
+            element.style.objectFit = '';
+            element.style.width = 'auto';
+            element.style.height = 'auto';
+
+            mw.app.liveEdit.play();
+            dialog.remove();
+
+            mw.top().app.registerChangedState(element);
+        });
+    }
+
+    editImageWithEditor(element) {
         mw.app.editImageDialog.editImage(element.src, (imgData) => {
             if (typeof imgData !==  'undefined' && imgData.src) {
 

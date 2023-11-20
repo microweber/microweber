@@ -5,14 +5,7 @@ trait ShopTagsTrait {
 
     public $tags = '';
 
-    public function queryString()
-    {
-        return [
-            'tags' => ['except' => ''],
-        ];
-    }
-
-    public function appendTag($tagSlug)
+    public function filterTag($tagSlug)
     {
         if (!empty($this->tags)) {
             $currentTags = explode(',', $this->tags);
@@ -23,6 +16,8 @@ trait ShopTagsTrait {
         $currentTags[] = $tagSlug;
         $currentTags = array_unique($currentTags);
         $this->tags = implode(',', $currentTags);
+
+        $this->setPage(1);
     }
 
     public function getTags()
@@ -36,16 +31,20 @@ trait ShopTagsTrait {
         return $currentTags;
     }
 
-    public function clearTags()
+    public function filterClearTags()
     {
         $this->tags = '';
+
+        $this->setPage(1);
     }
 
-    public function removeTag($tagSlug)
+    public function filterRemoveTag($tagSlug)
     {
         $tags = $this->getTags();
         $tags = array_diff($tags, [$tagSlug]);
         $this->tags = implode(',', $tags);
+
+        $this->setPage(1);
     }
 
 }

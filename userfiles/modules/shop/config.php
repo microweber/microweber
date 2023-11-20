@@ -24,7 +24,7 @@ $config['settings']['autoload_namespace'] = [
 ];
 
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Shop\ShopServiceProvider::class
-  //  \MicroweberPackages\Modules\Shop\Providers\ShopServiceProvider::class
+    \MicroweberPackages\Shop\ShopServiceProvider::class,
+   // \MicroweberPackages\Modules\Shop\Providers\ShopServiceProvider::class THE NEW SHOP
 ];
 

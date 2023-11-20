@@ -14,7 +14,25 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
     }
 
 
+    shouldShowCloneButtonInMoreButton(target) {
+        const isVisible = this.isPlaceholder(target) && (target.classList.contains('cloneable') || target.classList.contains('mw-col'));
+        if (!isVisible) {
+            var hasCloneable = DomService.hasAnyOfClasses(target, ['cloneable']);
+            if (hasCloneable) {
+                return true;
+            }
+            var hasCloneableClassOnParents = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable', 'mw-col']);
+            if (hasCloneableClassOnParents) {
+                return true;
+            }
+            // if(this.shouldShowCloneButton(target)) {
+            //     return true;
+            // }
 
+        }
+        return isVisible;
+
+    }
     shouldShowCloneButton(target) {
         const isVisible = this.isPlaceholder(target) && (target.classList.contains('cloneable') || target.classList.contains('mw-col'));
         if (!isVisible) {
@@ -22,8 +40,18 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
             if (hasCloneable) {
                 return true;
             }
+
         }
         return isVisible;
+    }
+
+    shouldShowMoveBackwardInMoreButton(target) {
+        const hasCloneable = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable', 'mw-col']);
+        if (hasCloneable) {
+            return true;
+        }
+
+        return false;
     }
 
     shouldShowMoveBackwardButton(target) {
@@ -33,6 +61,14 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
         const isVisible = this.isPlaceholder(target) && isCloneable && prev;
 
         return isVisible;
+    }
+    shouldShowMoveForwardInMoreButton(target) {
+        const hasCloneable = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable', 'mw-col']);
+        if (hasCloneable) {
+            return true;
+        }
+
+        return false;
     }
 
     shouldShowMoveForwardButton(target) {
@@ -82,12 +118,12 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
         var selfVisible = true;
 
 
-        const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A';
-        if (isImageOrLink && !this.isPlaceholder(target)) {
-
-            selfVisible = false;
-
-        }
+        // const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A';
+        // if (isImageOrLink && !this.isPlaceholder(target)) {
+        //
+        //     selfVisible = false;
+        //
+        // }
         return selfVisible;
     }
 
@@ -122,6 +158,14 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
 
         if (DomService.hasAnyOfClassesOnNodeOrParent(target, ['img-as-background'])) {
             selfVisible = false;
+        }
+        return selfVisible;
+    }
+
+    shouldShowEditImageButton(element) {
+        var selfVisible = false;
+        if (element.nodeName === 'IMG') {
+            selfVisible = true;
         }
         return selfVisible;
     }
@@ -187,6 +231,8 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
         } else if (target.classList.contains('spacer')) {
             selfVisible = false;
         } else if(this.isPlaceholder(target)) {
+            selfVisible = false;
+        } else if(this.shouldShowStyleEditorButton(target)) {
             selfVisible = false;
         }
 

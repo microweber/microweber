@@ -42,6 +42,8 @@ if($background_video_option){
 
 
 
+
+
 $video_html  = '';
 $video_attr_parent  = '';
 if($video_url) {
@@ -55,7 +57,7 @@ if($style_attributes) {
 
 $style_attr_overlay = '';
 if($background_color != '' || $background_image != ''){
-    $style_attr_overlay = 'style="background-color: rgba(0,0,0,0.5);"';
+ //   $style_attr_overlay = 'style="background-color: rgba(0,0,0,0.5);"';
 
 }
 

@@ -12,15 +12,46 @@ class ShopComponent extends ModuleSettingsComponent
     use ShopTagsTrait;
 
     public $keywords;
+    public $sort = '';
+    public $direction = '';
+    public $priceFrom;
+    public $priceTo;
+    public $limit = 10;
 
     public $queryString = [
-        'keywords'
+        'keywords',
+        'tags',
+        'limit',
+        'sort',
+        'direction',
+        'priceFrom',
+        'priceTo',
     ];
+
+    public function keywordsUpdated()
+    {
+        $this->setPage(1);
+    }
+
+    public function filterLimit($limit)
+    {
+        $this->limit = $limit;
+
+        $this->setPage(1);
+    }
+
+    public function filterSort($field,$direction)
+    {
+        $this->sort = $field;
+        $this->direction = $direction;
+
+        $this->setPage(1);
+    }
 
     public function render()
     {
         $productsQuery = Product::query();
-        $productsQuery->where('is_active', 1);
+      //  $productsQuery->where('is_active', 1);
 
         $filters = [];
         if (!empty($this->keywords)) {
@@ -28,6 +59,9 @@ class ShopComponent extends ModuleSettingsComponent
         }
         if (!empty($this->tags)) {
             $filters['tags'] = $this->tags;
+        }
+        if (!empty($this->sort) && !empty($this->direction)) {
+            $filters['orderBy'] = $this->sort . ',' . $this->direction;
         }
 
         if (!empty($filters)) {
@@ -47,7 +81,7 @@ class ShopComponent extends ModuleSettingsComponent
             }
         }
 
-        $products = $productsQuery->paginate(10);
+        $products = $productsQuery->paginate($this->limit);
 
        return view('microweber-module-shop::livewire.shop.index', [
             'products' => $products,
