@@ -152,6 +152,13 @@ export default {
         this.isReady = false;
         this.resetAllProperties();
 
+          var hasGridParent = mw.top().app.liveEdit.liveEditHelpers.targetGetFirstColElement(node);
+          if (hasGridParent) {
+              node = hasGridParent;
+          }
+
+
+
         // Check for grid classes in the active node
         for (const gridOption of this.colOptionsDesktop) {
           if (node.classList.contains(gridOption.key)) {
@@ -181,7 +188,11 @@ export default {
           }
         }
 
-        setTimeout(() => {
+
+
+
+
+          setTimeout(() => {
           this.isReady = true;
         }, 100);
       }
