@@ -8,6 +8,11 @@ use MicroweberPackages\App\Traits\LiveEditTrait;
 class LiveEditIframeController
 {
     use LiveEditTrait;
+    public function __construct()
+    {
+
+        event_trigger('mw.init');
+    }
 
     public function index()
     {

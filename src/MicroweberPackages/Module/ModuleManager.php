@@ -230,9 +230,9 @@ class ModuleManager
 
         if (isset($options['reload_modules']) == true) {
             $modules_remove_old = true;
-            if (is_cli()) {
+           // if (is_cli()) {
                 $this->_install_mode = true;
-            }
+          //  }
         }
 
         if ($modules_remove_old or isset($options['cleanup_db']) == true) {

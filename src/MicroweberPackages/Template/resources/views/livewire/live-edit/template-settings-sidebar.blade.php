@@ -148,6 +148,9 @@
         });
     </script>
 
+
+
+
     @if(isset($styleSettings))
 
         <div
@@ -345,7 +348,10 @@
                                                         @php
                                                             $dropdownOptions = $settingField['options'];
                                                         @endphp
-                                                        <livewire:microweber-option::dropdown :dropdownOptions="$dropdownOptions" optionKey="$settingFieldKey" :optionGroup="$settingFieldOptionGroup" />
+
+
+
+                                                        <livewire:microweber-option::dropdown :dropdownOptions="$dropdownOptions" :optionKey="$settingFieldKey" :optionGroup="$settingFieldOptionGroup" />
                                                     </div>
                                                 @else
                                                     <div>
