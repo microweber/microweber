@@ -7,8 +7,8 @@
                 @foreach($customField->values as $customFieldValue)
                     <label class="form-check">
                         <input class="form-check-input"
-                               @if(in_array($customFieldValue->id, $filteredCustomFields)) checked="" @endif
-                               wire:click="filterToggleCustomField({{$customFieldValue->id}})" type="checkbox">
+
+                               wire:click="filterToggleCustomField('{{$customField->name_key}}','{{$customFieldValue->value}}')" type="checkbox">
                         <span class="form-check-label">{{$customFieldValue->value}}</span>
                     </label>
                 @endforeach

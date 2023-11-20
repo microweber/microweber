@@ -73,6 +73,9 @@ class ShopComponent extends ModuleSettingsComponent
         if (!empty($this->category)) {
             $filters['category'] = $this->category;
         }
+        if (!empty($this->customFields)) {
+            $filters['customFields'] = $this->customFields;
+        }
 
         if (!empty($filters)) {
             $productsQuery->filter($filters);
