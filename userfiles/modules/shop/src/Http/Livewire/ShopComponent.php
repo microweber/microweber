@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Modules\Shop\Http\Livewire;
 
 use Livewire\WithPagination;
+use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopTagsTrait;
 use MicroweberPackages\Product\Models\Product;
@@ -85,8 +86,19 @@ class ShopComponent extends ModuleSettingsComponent
 
        return view('microweber-module-shop::livewire.shop.index', [
             'products' => $products,
-            'availableTags' => $availableTags,
             'filteredTags' => $this->getTags(),
+            'availableTags' => $availableTags,
+            'availableCategories' => $this->getAvailableCategories(),
        ]);
     }
+
+    public function getAvailableCategories()
+    {
+        $categoryQuery = Category::query();
+       // $categoryQuery->where('rel_id', );
+        $categoryQuery->orderBy('position');
+
+        return $categoryQuery->where('parent_id',0)->get();
+    }
+
 }
