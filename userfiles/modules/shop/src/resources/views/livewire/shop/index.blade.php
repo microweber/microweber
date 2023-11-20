@@ -2,7 +2,6 @@
 
     <h1>Shop</h1>
 
-
     <div class="row">
         <div class="col-md-3" style="background:#f1f1f1;border-radius:5px;padding-top:15px;">
             Filters:
