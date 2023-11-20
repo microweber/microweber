@@ -5,6 +5,15 @@ if (!defined('MW_WHITE_LABEL_SETTINGS_FILE')) {
     define('MW_WHITE_LABEL_SETTINGS_FILE_LOCAL', storage_path() . DIRECTORY_SEPARATOR . 'branding.json');
 }
 
+event_bind('mw.admin.settings.website', function ($params = false) {
+
+    if(mw()->ui->powered_by_link_enabled() and mw()->ui->service_links_enabled()) {
+        print '<div type="white_label/settings_card" class="mw-lazy-load-module" id="white_label_settings"></div>';
+
+    }
+});
+
+
 api_expose_admin('save_white_label_config');
 function save_white_label_config($params)
 {

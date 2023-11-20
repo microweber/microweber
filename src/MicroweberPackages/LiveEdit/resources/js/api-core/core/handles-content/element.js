@@ -191,7 +191,11 @@ export class ElementHandleContent {
                     this.elementActions.resetImageSize(el);
                 },
                 onTarget: (target, selfBtn) => {
+
+
+
                     var selfVisible =  this.elementHandleButtonsVisibility.shouldShowResetImageSizeButton(target);
+
                     this.setMenuVisible(selfVisible, selfBtn);
                  },
 

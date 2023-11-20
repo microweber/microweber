@@ -79,11 +79,21 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
         return isVisible;
     }
 
+    shouldShowResetElementSizeButton(target) {
+        const hasResizedClass = DomService.hasAnyOfClasses(target, ['mw-resized']);
+
+        if (hasResizedClass) {
+            return true;
+        }
+    }
+
     shouldShowResetImageSizeButton(target) {
-        if (target && target.classList && target.classList.contains('mw-resized')) {
-            const isImage = target.nodeName === 'IMG' && this.isPlaceholder(target);
+        const hasResizedClass = DomService.hasAnyOfClasses(target, ['mw-resized']);
+
+        if (hasResizedClass) {
+            const isImage = target.nodeName === 'IMG';
             if (isImage) {
-                return !target.parentNode.classList.contains('img-as-background');
+                return true;
             }
         }
     }
