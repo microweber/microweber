@@ -7,7 +7,7 @@
                 @if(in_array($tagSlug, $filteredTags))
                     <span wire:click="filterRemoveTag('{{$tagSlug}}')">
                                     X
-                                </span>
+                        </span>
                 @endif
             </button>
         @endforeach
