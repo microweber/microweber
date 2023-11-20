@@ -325,13 +325,12 @@ export class ElementActions extends MicroweberBaseClass {
         var _pauseSetValue = false;
 
 
-
         var picker = mw.colorPicker({
             // element: tip.get(0),
             element: dlg.container,
 
             method: 'inline',
-            showHEX: false,
+            showHEX: true,
             onchange: function (color) {
                 // mw.top().app.liveEdit.handles.get('element').getTarget().style.backgroundColor = color;
                 if(selfBtn) {
