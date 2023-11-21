@@ -63,8 +63,8 @@
                            <?php endif; ?>
 
                            name="{{$customFieldOptionName}}"
-                           data-value-checked="1"
-                           data-value-unchecked="0"
+                           data-value-checked="0"
+                           data-value-unchecked="1"
                            id="{{$customFieldOptionName}}"
                            class="mw_option_field form-check-input">
 
