@@ -28,10 +28,21 @@ if (!$contentFromId) {
     }
 }
 
+
+$moduleTemplateNamespace = false;
+
+if (isset($params['template'])) {
+    $livewireModuleBladeView = 'microweber-module-shop::livewire.' . $params['template'];
+    if (view()->exists($livewireModuleBladeView)) {
+        $moduleTemplateNamespace = $livewireModuleBladeView;
+    }
+}
+
 // THE NEW SHOP
 echo view('microweber-module-shop::render-livewire-shop', [
     'moduleId' => $params['id'],
     'moduleType' => 'shop',
+    'moduleTemplateNamespace' => $moduleTemplateNamespace
 ]);
 
 

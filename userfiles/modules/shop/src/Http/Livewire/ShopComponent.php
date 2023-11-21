@@ -19,6 +19,7 @@ class ShopComponent extends ModuleSettingsComponent
 
     public string $moduleId;
     public string $moduleType;
+    public string $moduleTemplateNamespace = '';
 
     public $keywords;
     public $sort = '';
@@ -138,7 +139,12 @@ class ShopComponent extends ModuleSettingsComponent
 
         $products = $productsQuery->paginate($this->limit);
 
-       return view('microweber-module-shop::livewire.shop.index', [
+
+        if (empty($this->moduleTemplateNamespace)) {
+            $this->moduleTemplateNamespace = 'microweber-module-shop::livewire.shop.index';
+        }
+
+       return view($this->moduleTemplateNamespace, [
             'products' => $products,
             'filteredTags' => $this->getTags(),
             'filteredCustomFields'=>$this->getCustomFields(),
