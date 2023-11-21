@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66d2c57d2a9edf98b1ede8c1e81738f4",
+    "content-hash": "91ad548a3473bcfa061755ee62e68f43",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -7352,270 +7352,260 @@
         },
         {
             "name": "microweber-templates/big-free",
-            "version": "8.4",
+            "version": "8.5",
             "target-dir": "big",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/big-free",
-                "reference": "300c0689fd7e81e1af3a26a89f0f9bf9d95c07f0"
+                "reference": "8f06bc6ffff1ef04faceb2ac6589840ede2500e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-8.4-a77c39.zip",
-                "reference": "300c0689fd7e81e1af3a26a89f0f9bf9d95c07f0",
-                "shasum": "5d0c7dc6af115f73f2eca423ff4fd74b5005ddbd"
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-8.5-b720f3.zip",
+                "reference": "8f06bc6ffff1ef04faceb2ac6589840ede2500e2",
+                "shasum": "aa1f1a2523dd4dd0b2280fc6b46326b240a6ee6b"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/big/",
                 "premium_package": "microweber-templates/big",
                 "premium_layouts": [
-                    "/layouts/templates/header/skin-5.php",
-                    "/layouts/templates/header/skin-31.php",
-                    "/layouts/templates/header/skin-22.php",
-                    "/layouts/templates/header/skin-14.php",
-                    "/layouts/templates/header/skin-25.php",
-                    "/layouts/templates/header/skin-27.php",
-                    "/layouts/templates/header/skin-26.php",
-                    "/layouts/templates/header/skin-7.php",
-                    "/layouts/templates/header/skin-12.php",
-                    "/layouts/templates/header/skin-16.php",
-                    "/layouts/templates/header/skin-20.php",
-                    "/layouts/templates/header/skin-29.php",
-                    "/layouts/templates/header/skin-24.php",
-                    "/layouts/templates/misc/skin-10.php",
-                    "/layouts/templates/misc/skin-8.php",
-                    "/layouts/templates/misc/skin-4.php",
-                    "/layouts/templates/misc/skin-1.php",
-                    "/layouts/templates/misc/skin-7.php",
-                    "/layouts/templates/misc/skin-11.php",
-                    "/layouts/templates/misc/skin-9.php",
-                    "/layouts/templates/misc/skin-12.php",
-                    "/layouts/templates/animation-bg/skin-6.php",
-                    "/layouts/templates/animation-bg/skin-5.php",
-                    "/layouts/templates/animation-bg/skin-8.php",
-                    "/layouts/templates/animation-bg/skin-4.php",
-                    "/layouts/templates/animation-bg/skin-7.php",
-                    "/layouts/templates/animation-bg/skin-3.php",
-                    "/layouts/templates/animation-bg/skin-2.php",
-                    "/layouts/templates/titles/skin-6.php",
-                    "/layouts/templates/titles/skin-5.php",
-                    "/layouts/templates/titles/skin-8.php",
-                    "/layouts/templates/titles/skin-7.php",
-                    "/layouts/templates/text-block/skin-6.php",
-                    "/layouts/templates/text-block/skin-15.php",
-                    "/layouts/templates/text-block/skin-13.php",
-                    "/layouts/templates/text-block/skin-14.php",
-                    "/layouts/templates/text-block/skin-10.php",
-                    "/layouts/templates/text-block/skin-8.php",
-                    "/layouts/templates/text-block/skin-7.php",
-                    "/layouts/templates/text-block/skin-11.php",
-                    "/layouts/templates/text-block/skin-9.php",
-                    "/layouts/templates/text-block/skin-12.php",
-                    "/layouts/templates/videos/skin-6.php",
-                    "/layouts/templates/videos/skin-5.php",
-                    "/layouts/templates/videos/skin-8.php",
-                    "/layouts/templates/videos/skin-4.php",
-                    "/layouts/templates/videos/skin-1.php",
-                    "/layouts/templates/videos/skin-9.php",
-                    "/layouts/templates/videos/skin-2.php",
-                    "/modules/layouts/templates/skin-1.php",
-                    "/layouts/templates/gallery/skin-6.php",
-                    "/layouts/templates/gallery/skin-19.php",
-                    "/layouts/templates/gallery/skin-5.php",
-                    "/layouts/templates/gallery/skin-15.php",
+                    "/layouts/templates/testimonials/skin-22.php",
+                    "/layouts/templates/testimonials/skin-10.php",
+                    "/layouts/templates/testimonials/skin-9.php",
+                    "/layouts/templates/testimonials/skin-13.php",
+                    "/layouts/templates/testimonials/skin-25.php",
+                    "/layouts/templates/testimonials/skin-21.php",
+                    "/layouts/templates/testimonials/skin-14.php",
+                    "/layouts/templates/testimonials/skin-12.php",
+                    "/layouts/templates/testimonials/skin-20.php",
+                    "/layouts/templates/testimonials/skin-15.php",
+                    "/layouts/templates/testimonials/skin-3.php",
+                    "/layouts/templates/testimonials/skin-4.php",
+                    "/layouts/templates/testimonials/skin-17.php",
+                    "/layouts/templates/testimonials/skin-11.php",
+                    "/layouts/templates/contacts/skin-7.php",
+                    "/layouts/templates/contacts/skin-6.php",
+                    "/layouts/templates/contacts/skin-9.php",
+                    "/layouts/templates/contacts/skin-13.php",
+                    "/layouts/templates/contacts/skin-14.php",
+                    "/layouts/templates/contacts/skin-12.php",
+                    "/layouts/templates/contacts/skin-15.php",
+                    "/layouts/templates/contacts/skin-3.php",
+                    "/layouts/templates/contacts/skin-17.php",
+                    "/layouts/templates/menus/skin-2_settings.php",
+                    "/layouts/templates/menus/skin-1_settings.php",
+                    "/layouts/templates/menus/skin-2.php",
+                    "/layouts/templates/menus/templates-top-header-menu.php",
+                    "/layouts/templates/gallery/skin-7.php",
                     "/layouts/templates/gallery/skin-22.php",
-                    "/layouts/templates/gallery/skin-14.php",
+                    "/layouts/templates/gallery/skin-6.php",
                     "/layouts/templates/gallery/skin-10.php",
+                    "/layouts/templates/gallery/skin-23.php",
                     "/layouts/templates/gallery/skin-18.php",
                     "/layouts/templates/gallery/skin-8.php",
-                    "/layouts/templates/gallery/skin-23.php",
-                    "/layouts/templates/gallery/skin-4.php",
-                    "/layouts/templates/gallery/skin-25.php",
-                    "/layouts/templates/gallery/skin-17.php",
-                    "/layouts/templates/gallery/skin-7.php",
-                    "/layouts/templates/gallery/skin-11.php",
                     "/layouts/templates/gallery/skin-9.php",
-                    "/layouts/templates/gallery/skin-12.php",
+                    "/layouts/templates/gallery/skin-25.php",
                     "/layouts/templates/gallery/skin-21.php",
-                    "/layouts/templates/gallery/skin-16.php",
+                    "/layouts/templates/gallery/skin-14.php",
+                    "/layouts/templates/gallery/skin-12.php",
                     "/layouts/templates/gallery/skin-24.php",
-                    "/layouts/templates/content/skin-77.php",
-                    "/layouts/templates/content/skin-6.php",
-                    "/layouts/templates/content/skin-51.php",
-                    "/layouts/templates/content/skin-34.php",
-                    "/layouts/templates/content/skin-5.php",
-                    "/layouts/templates/content/skin-31.php",
-                    "/layouts/templates/content/skin-61.php",
-                    "/layouts/templates/content/skin-67.php",
-                    "/layouts/templates/content/skin-10.php",
-                    "/layouts/templates/content/skin-69.php",
-                    "/layouts/templates/content/skin-59.php",
-                    "/layouts/templates/content/skin-75.php",
-                    "/layouts/templates/content/skin-50.php",
-                    "/layouts/templates/content/skin-74.php",
-                    "/layouts/templates/content/skin-25.php",
-                    "/layouts/templates/content/skin-30.php",
-                    "/layouts/templates/content/skin-27.php",
-                    "/layouts/templates/content/skin-70.php",
-                    "/layouts/templates/content/skin-40.php",
-                    "/layouts/templates/content/skin-7.php",
-                    "/layouts/templates/content/skin-28.php",
-                    "/layouts/templates/content/skin-73.php",
-                    "/layouts/templates/content/skin-76.php",
-                    "/layouts/templates/content/skin-13-mirror.php",
-                    "/layouts/templates/content/skin-11.php",
-                    "/layouts/templates/content/skin-81.php",
-                    "/layouts/templates/content/skin-48.php",
-                    "/layouts/templates/content/skin-64.php",
-                    "/layouts/templates/content/skin-49.php",
-                    "/layouts/templates/content/skin-33.php",
-                    "/layouts/templates/content/skin-21.php",
-                    "/layouts/templates/content/skin-43.php",
-                    "/layouts/templates/content/skin-35.php",
-                    "/layouts/templates/content/skin-72.php",
-                    "/layouts/templates/content/skin-57.php",
-                    "/layouts/templates/content/skin-37.php",
-                    "/layouts/templates/content/skin-39.php",
-                    "/layouts/templates/content/skin-54.php",
-                    "/layouts/templates/content/skin-41.php",
-                    "/layouts/templates/content/skin-80.php",
-                    "/layouts/templates/footers/skin-25.php",
-                    "/layouts/templates/footers/footer_cart.php",
-                    "/layouts/templates/footers/skin-27.php",
-                    "/layouts/templates/footers/skin-26.php",
-                    "/layouts/templates/footers/skin-28.php",
-                    "/layouts/templates/footers/skin-9.php",
-                    "/layouts/templates/footers/skin-29.php",
+                    "/layouts/templates/gallery/skin-15.php",
+                    "/layouts/templates/gallery/skin-16.php",
+                    "/layouts/templates/gallery/skin-19.php",
+                    "/layouts/templates/gallery/skin-5.php",
+                    "/layouts/templates/gallery/skin-4.php",
+                    "/layouts/templates/gallery/skin-17.php",
+                    "/layouts/templates/gallery/skin-11.php",
+                    "/layouts/templates/ecommerce/skin-7.php",
+                    "/layouts/templates/ecommerce/skin-6.php",
+                    "/layouts/templates/ecommerce/skin-10.php",
+                    "/layouts/templates/ecommerce/skin-8.php",
+                    "/layouts/templates/ecommerce/skin-13.php",
+                    "/layouts/templates/ecommerce/skin-12.php",
+                    "/layouts/templates/ecommerce/skin-2.php",
+                    "/layouts/templates/ecommerce/skin-3.php",
+                    "/layouts/templates/ecommerce/skin-5.php",
+                    "/layouts/templates/ecommerce/skin-4.php",
+                    "/layouts/templates/ecommerce/skin-11.php",
+                    "/modules/layouts/templates/404.php",
+                    "/layouts/templates/blog/skin-7.php",
                     "/layouts/templates/blog/skin-6.php",
-                    "/layouts/templates/blog/skin-5.php",
-                    "/layouts/templates/blog/skin-15.php",
-                    "/layouts/templates/blog/skin-13.php",
-                    "/layouts/templates/blog/skin-14.php",
                     "/layouts/templates/blog/skin-10.php",
                     "/layouts/templates/blog/skin-18.php",
                     "/layouts/templates/blog/skin-8.php",
+                    "/layouts/templates/blog/skin-9.php",
+                    "/layouts/templates/blog/skin-13.php",
+                    "/layouts/templates/blog/skin-14.php",
+                    "/layouts/templates/blog/skin-12.php",
+                    "/layouts/templates/blog/skin-15.php",
+                    "/layouts/templates/blog/skin-3.php",
+                    "/layouts/templates/blog/skin-16.php",
+                    "/layouts/templates/blog/skin-5.php",
                     "/layouts/templates/blog/skin-4.php",
                     "/layouts/templates/blog/skin-17.php",
-                    "/layouts/templates/blog/skin-7.php",
                     "/layouts/templates/blog/skin-11.php",
-                    "/layouts/templates/blog/skin-9.php",
-                    "/layouts/templates/blog/skin-12.php",
-                    "/layouts/templates/blog/skin-16.php",
-                    "/layouts/templates/blog/skin-3.php",
-                    "/layouts/templates/team/skin-6.php",
-                    "/layouts/templates/team/skin-5.php",
-                    "/layouts/templates/team/skin-13.php",
-                    "/layouts/templates/team/skin-14.php",
-                    "/layouts/templates/team/skin-10.php",
-                    "/layouts/templates/team/skin-18.php",
-                    "/layouts/templates/team/skin-17.php",
-                    "/layouts/templates/team/skin-7.php",
-                    "/layouts/templates/team/skin-11.php",
-                    "/layouts/templates/team/skin-9.php",
-                    "/layouts/templates/team/skin-12.php",
-                    "/layouts/templates/team/skin-16.php",
-                    "/layouts/templates/grids/skin-5.php",
-                    "/layouts/templates/grids/skin-13.php",
-                    "/layouts/templates/grids/skin-4.php",
-                    "/layouts/templates/grids/skin-11.php",
-                    "/layouts/templates/grids/skin-12.php",
+                    "/layouts/templates/titles/skin-7.php",
+                    "/layouts/templates/titles/skin-6.php",
+                    "/layouts/templates/titles/skin-8.php",
+                    "/layouts/templates/titles/skin-5.php",
+                    "/layouts/templates/header/skin-7.php",
+                    "/layouts/templates/header/skin-22.php",
+                    "/layouts/templates/header/skin-29.php",
+                    "/layouts/templates/header/skin-25.php",
+                    "/layouts/templates/header/skin-26.php",
+                    "/layouts/templates/header/skin-14.php",
+                    "/layouts/templates/header/skin-12.php",
+                    "/layouts/templates/header/skin-20.php",
+                    "/layouts/templates/header/skin-24.php",
+                    "/layouts/templates/header/skin-27.php",
+                    "/layouts/templates/header/skin-16.php",
+                    "/layouts/templates/header/skin-31.php",
+                    "/layouts/templates/header/skin-5.php",
+                    "/layouts/templates/price_lists/skin-7.php",
                     "/layouts/templates/price_lists/skin-6.php",
-                    "/layouts/templates/price_lists/skin-5.php",
                     "/layouts/templates/price_lists/skin-10.php",
                     "/layouts/templates/price_lists/skin-8.php",
-                    "/layouts/templates/price_lists/skin-4.php",
-                    "/layouts/templates/price_lists/skin-7.php",
                     "/layouts/templates/price_lists/skin-9.php",
                     "/layouts/templates/price_lists/skin-3.php",
-                    "/layouts/templates/testimonials/skin-15.php",
-                    "/layouts/templates/testimonials/skin-22.php",
-                    "/layouts/templates/testimonials/skin-13.php",
-                    "/layouts/templates/testimonials/skin-14.php",
-                    "/layouts/templates/testimonials/skin-10.php",
-                    "/layouts/templates/testimonials/skin-4.php",
-                    "/layouts/templates/testimonials/skin-25.php",
-                    "/layouts/templates/testimonials/skin-17.php",
-                    "/layouts/templates/testimonials/skin-11.php",
-                    "/layouts/templates/testimonials/skin-9.php",
-                    "/layouts/templates/testimonials/skin-12.php",
-                    "/layouts/templates/testimonials/skin-21.php",
-                    "/layouts/templates/testimonials/skin-3.php",
-                    "/layouts/templates/testimonials/skin-20.php",
-                    "/layouts/templates/call-to-action/skin-19.php",
-                    "/layouts/templates/call-to-action/skin-15.php",
+                    "/layouts/templates/price_lists/skin-5.php",
+                    "/layouts/templates/price_lists/skin-4.php",
                     "/layouts/templates/call-to-action/skin-22.php",
                     "/layouts/templates/call-to-action/skin-10.php",
                     "/layouts/templates/call-to-action/skin-18.php",
                     "/layouts/templates/call-to-action/skin-8.php",
                     "/layouts/templates/call-to-action/skin-25.php",
-                    "/layouts/templates/call-to-action/skin-26.php",
-                    "/layouts/templates/call-to-action/skin-17.php",
-                    "/layouts/templates/call-to-action/skin-12.php",
                     "/layouts/templates/call-to-action/skin-21.php",
+                    "/layouts/templates/call-to-action/skin-26.php",
+                    "/layouts/templates/call-to-action/skin-12.php",
                     "/layouts/templates/call-to-action/skin-24.php",
-                    "/layouts/templates/features/skin-6.php",
-                    "/layouts/templates/features/skin-19.php",
-                    "/layouts/templates/features/skin-22.php",
-                    "/layouts/templates/features/skin-14.php",
-                    "/layouts/templates/features/skin-8.php",
-                    "/layouts/templates/features/skin-25.php",
-                    "/layouts/templates/features/skin-32.php",
-                    "/layouts/templates/features/skin-27.php",
-                    "/layouts/templates/features/skin-40.php",
-                    "/layouts/templates/features/skin-26.php",
+                    "/layouts/templates/call-to-action/skin-15.php",
+                    "/layouts/templates/call-to-action/skin-19.php",
+                    "/layouts/templates/call-to-action/skin-17.php",
+                    "/layouts/templates/grids/skin-13.php",
+                    "/layouts/templates/grids/skin-12.php",
+                    "/layouts/templates/grids/skin-5.php",
+                    "/layouts/templates/grids/skin-4.php",
+                    "/layouts/templates/grids/skin-11.php",
+                    "/modules/layouts/templates/skin-1.php",
+                    "/layouts/templates/text-block/skin-7.php",
+                    "/layouts/templates/text-block/skin-6.php",
+                    "/layouts/templates/text-block/skin-10.php",
+                    "/layouts/templates/text-block/skin-8.php",
+                    "/layouts/templates/text-block/skin-9.php",
+                    "/layouts/templates/text-block/skin-13.php",
+                    "/layouts/templates/text-block/skin-14.php",
+                    "/layouts/templates/text-block/skin-12.php",
+                    "/layouts/templates/text-block/skin-15.php",
+                    "/layouts/templates/text-block/skin-11.php",
+                    "/layouts/templates/team/skin-7.php",
+                    "/layouts/templates/team/skin-6.php",
+                    "/layouts/templates/team/skin-10.php",
+                    "/layouts/templates/team/skin-18.php",
+                    "/layouts/templates/team/skin-9.php",
+                    "/layouts/templates/team/skin-13.php",
+                    "/layouts/templates/team/skin-14.php",
+                    "/layouts/templates/team/skin-12.php",
+                    "/layouts/templates/team/skin-16.php",
+                    "/layouts/templates/team/skin-5.php",
+                    "/layouts/templates/team/skin-17.php",
+                    "/layouts/templates/team/skin-11.php",
+                    "/layouts/templates/animation-bg/skin-7.php",
+                    "/layouts/templates/animation-bg/skin-6.php",
+                    "/layouts/templates/animation-bg/skin-8.php",
+                    "/layouts/templates/animation-bg/skin-2.php",
+                    "/layouts/templates/animation-bg/skin-3.php",
+                    "/layouts/templates/animation-bg/skin-5.php",
+                    "/layouts/templates/animation-bg/skin-4.php",
+                    "/layouts/templates/videos/skin-6.php",
+                    "/layouts/templates/videos/skin-8.php",
+                    "/layouts/templates/videos/skin-9.php",
+                    "/layouts/templates/videos/skin-1.php",
+                    "/layouts/templates/videos/skin-2.php",
+                    "/layouts/templates/videos/skin-5.php",
+                    "/layouts/templates/videos/skin-4.php",
+                    "/layouts/templates/misc/skin-7.php",
+                    "/layouts/templates/misc/skin-10.php",
+                    "/layouts/templates/misc/skin-8.php",
+                    "/layouts/templates/misc/skin-9.php",
+                    "/layouts/templates/misc/skin-1.php",
+                    "/layouts/templates/misc/skin-12.php",
+                    "/layouts/templates/misc/skin-4.php",
+                    "/layouts/templates/misc/skin-11.php",
+                    "/layouts/templates/content/skin-7.php",
+                    "/layouts/templates/content/skin-72.php",
+                    "/layouts/templates/content/skin-6.php",
+                    "/layouts/templates/content/skin-74.php",
+                    "/layouts/templates/content/skin-39.php",
+                    "/layouts/templates/content/skin-10.php",
+                    "/layouts/templates/content/skin-13-mirror.php",
+                    "/layouts/templates/content/skin-49.php",
+                    "/layouts/templates/content/skin-41.php",
+                    "/layouts/templates/content/skin-67.php",
+                    "/layouts/templates/content/skin-81.php",
+                    "/layouts/templates/content/skin-30.php",
+                    "/layouts/templates/content/skin-34.php",
+                    "/layouts/templates/content/skin-48.php",
+                    "/layouts/templates/content/skin-50.php",
+                    "/layouts/templates/content/skin-73.php",
+                    "/layouts/templates/content/skin-37.php",
+                    "/layouts/templates/content/skin-80.php",
+                    "/layouts/templates/content/skin-35.php",
+                    "/layouts/templates/content/skin-25.php",
+                    "/layouts/templates/content/skin-33.php",
+                    "/layouts/templates/content/skin-40.php",
+                    "/layouts/templates/content/skin-51.php",
+                    "/layouts/templates/content/skin-43.php",
+                    "/layouts/templates/content/skin-54.php",
+                    "/layouts/templates/content/skin-21.php",
+                    "/layouts/templates/content/skin-64.php",
+                    "/layouts/templates/content/skin-28.php",
+                    "/layouts/templates/content/skin-59.php",
+                    "/layouts/templates/content/skin-27.php",
+                    "/layouts/templates/content/skin-61.php",
+                    "/layouts/templates/content/skin-75.php",
+                    "/layouts/templates/content/skin-70.php",
+                    "/layouts/templates/content/skin-31.php",
+                    "/layouts/templates/content/skin-5.php",
+                    "/layouts/templates/content/skin-77.php",
+                    "/layouts/templates/content/skin-76.php",
+                    "/layouts/templates/content/skin-69.php",
+                    "/layouts/templates/content/skin-11.php",
+                    "/layouts/templates/content/skin-57.php",
                     "/layouts/templates/features/skin-7.php",
-                    "/layouts/templates/features/skin-28.php",
-                    "/layouts/templates/features/skin-11.php",
+                    "/layouts/templates/features/skin-22.php",
+                    "/layouts/templates/features/skin-6.php",
+                    "/layouts/templates/features/skin-39.php",
                     "/layouts/templates/features/skin-47.php",
+                    "/layouts/templates/features/skin-8.php",
                     "/layouts/templates/features/skin-9.php",
-                    "/layouts/templates/features/skin-12.php",
+                    "/layouts/templates/features/skin-25.php",
                     "/layouts/templates/features/skin-33.php",
                     "/layouts/templates/features/skin-44.php",
-                    "/layouts/templates/features/skin-46.php",
+                    "/layouts/templates/features/skin-40.php",
                     "/layouts/templates/features/skin-43.php",
-                    "/layouts/templates/features/skin-39.php",
+                    "/layouts/templates/features/skin-46.php",
+                    "/layouts/templates/features/skin-26.php",
+                    "/layouts/templates/features/skin-14.php",
+                    "/layouts/templates/features/skin-32.php",
+                    "/layouts/templates/features/skin-28.php",
+                    "/layouts/templates/features/skin-12.php",
                     "/layouts/templates/features/skin-24.php",
-                    "/modules/layouts/templates/404.php",
-                    "/layouts/templates/ecommerce/skin-6.php",
-                    "/layouts/templates/ecommerce/skin-5.php",
-                    "/layouts/templates/ecommerce/skin-13.php",
-                    "/layouts/templates/ecommerce/skin-10.php",
-                    "/layouts/templates/ecommerce/skin-8.php",
-                    "/layouts/templates/ecommerce/skin-4.php",
-                    "/layouts/templates/ecommerce/skin-7.php",
-                    "/layouts/templates/ecommerce/skin-11.php",
-                    "/layouts/templates/ecommerce/skin-12.php",
-                    "/layouts/templates/ecommerce/skin-3.php",
-                    "/layouts/templates/ecommerce/skin-2.php",
-                    "/layouts/templates/menus/settings_is_header_socials_front.php",
-                    "/layouts/templates/menus/settings_is_sticky_nav_front.php",
-                    "/layouts/templates/menus/settings_is_profile_link_front.php",
-                    "/layouts/templates/menus/settings_default.php",
-                    "/layouts/templates/menus/skin-2_settings.php",
-                    "/layouts/templates/menus/settings_is_show_header_top_menu.php",
-                    "/layouts/templates/menus/settings_is_contact_us_link_front.php",
-                    "/layouts/templates/menus/settings_is_multilanguage_front.php",
-                    "/layouts/templates/menus/skin-1_settings.php",
-                    "/layouts/templates/menus/settings_is_shopping_cart_front.php",
-                    "/layouts/templates/menus/skin-2.php",
-                    "/layouts/templates/menus/templates-top-header-menu.php",
-                    "/layouts/templates/menus/settings_is_search_bar_front.php",
-                    "/layouts/templates/menus/settings_is_phone_front.php",
-                    "/layouts/templates/contacts/skin-6.php",
-                    "/layouts/templates/contacts/skin-15.php",
-                    "/layouts/templates/contacts/skin-13.php",
-                    "/layouts/templates/contacts/skin-14.php",
-                    "/layouts/templates/contacts/skin-17.php",
-                    "/layouts/templates/contacts/skin-7.php",
-                    "/layouts/templates/contacts/skin-9.php",
-                    "/layouts/templates/contacts/skin-12.php",
-                    "/layouts/templates/contacts/skin-3.php"
+                    "/layouts/templates/features/skin-27.php",
+                    "/layouts/templates/features/skin-19.php",
+                    "/layouts/templates/features/skin-11.php",
+                    "/layouts/templates/footers/skin-29.php",
+                    "/layouts/templates/footers/skin-9.php",
+                    "/layouts/templates/footers/skin-25.php",
+                    "/layouts/templates/footers/footer_cart.php",
+                    "/layouts/templates/footers/skin-26.php",
+                    "/layouts/templates/footers/skin-28.php",
+                    "/layouts/templates/footers/skin-27.php"
                 ],
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/84/README.md",
-                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/84/screenshot.jpg",
-                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/84/screenshot_large.jpg"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/85/README.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/85/screenshot.jpg",
+                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/85/screenshot_large.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7641,7 +7631,7 @@
                 "forum": "https://microweber.org/community",
                 "docs": "http://docs.microweber.org"
             },
-            "time": "2023-11-17T19:39:10+00:00"
+            "time": "2023-11-21T13:22:31+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -15733,12 +15723,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FakerPHP/Faker.git",
-                "reference": "abd4e1528ad51ac07fc7f38151bc4dfb887d149f"
+                "reference": "0d6194286d941416b09a505d04b504f389664d3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/abd4e1528ad51ac07fc7f38151bc4dfb887d149f",
-                "reference": "abd4e1528ad51ac07fc7f38151bc4dfb887d149f",
+                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/0d6194286d941416b09a505d04b504f389664d3b",
+                "reference": "0d6194286d941416b09a505d04b504f389664d3b",
                 "shasum": ""
             },
             "require": {
@@ -15793,7 +15783,7 @@
                 "issues": "https://github.com/FakerPHP/Faker/issues",
                 "source": "https://github.com/FakerPHP/Faker/tree/1.23"
             },
-            "time": "2023-10-15T10:03:40+00:00"
+            "time": "2023-11-14T05:56:53+00:00"
         },
         {
             "name": "filp/whoops",
@@ -16142,12 +16132,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "f6f48cfecf52ab791fe18cc1b11d6345512dc4b8"
+                "reference": "202aaf6b7c2e1e0a622b0298e9f3f537e4d84018"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/f6f48cfecf52ab791fe18cc1b11d6345512dc4b8",
-                "reference": "f6f48cfecf52ab791fe18cc1b11d6345512dc4b8",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/202aaf6b7c2e1e0a622b0298e9f3f537e4d84018",
+                "reference": "202aaf6b7c2e1e0a622b0298e9f3f537e4d84018",
                 "shasum": ""
             },
             "require": {
@@ -16195,7 +16185,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-07-30T10:01:33+00:00"
+            "time": "2023-11-01T08:01:43+00:00"
         },
         {
             "name": "nunomaduro/collision",
@@ -16759,12 +16749,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "bef7494cf9ffa1337207b2eeff12d97b73c5a461"
+                "reference": "84838eed9ded511f61dc3e8b5944a52d9017b297"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/bef7494cf9ffa1337207b2eeff12d97b73c5a461",
-                "reference": "bef7494cf9ffa1337207b2eeff12d97b73c5a461",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/84838eed9ded511f61dc3e8b5944a52d9017b297",
+                "reference": "84838eed9ded511f61dc3e8b5944a52d9017b297",
                 "shasum": ""
             },
             "require": {
@@ -16822,7 +16812,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/main"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.1.8"
             },
             "funding": [
                 {
@@ -16830,7 +16820,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:48:58+00:00"
+            "time": "2023-11-15T13:31:15+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -16899,12 +16889,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-invoker.git",
-                "reference": "9c3c60e74ccbefa8dd73ca87cac82f1b92ab1eda"
+                "reference": "b64808d941b872a5ce315b4feae9ea9641ccb0d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-invoker/zipball/9c3c60e74ccbefa8dd73ca87cac82f1b92ab1eda",
-                "reference": "9c3c60e74ccbefa8dd73ca87cac82f1b92ab1eda",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-invoker/zipball/b64808d941b872a5ce315b4feae9ea9641ccb0d8",
+                "reference": "b64808d941b872a5ce315b4feae9ea9641ccb0d8",
                 "shasum": ""
             },
             "require": {
@@ -16956,7 +16946,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:53:17+00:00"
+            "time": "2023-11-09T07:00:21+00:00"
         },
         {
             "name": "phpunit/php-text-template",
@@ -16964,12 +16954,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-text-template.git",
-                "reference": "7c1b55bb4dc0ba76745069ef244365e30e78cc6c"
+                "reference": "f5737202335b4acd8978da75908b3905bd5212e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-text-template/zipball/7c1b55bb4dc0ba76745069ef244365e30e78cc6c",
-                "reference": "7c1b55bb4dc0ba76745069ef244365e30e78cc6c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-text-template/zipball/f5737202335b4acd8978da75908b3905bd5212e9",
+                "reference": "f5737202335b4acd8978da75908b3905bd5212e9",
                 "shasum": ""
             },
             "require": {
@@ -17017,7 +17007,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:53:26+00:00"
+            "time": "2023-11-09T07:00:31+00:00"
         },
         {
             "name": "phpunit/php-timer",
@@ -17025,12 +17015,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "1f92e24fbe1dbb40d5aebbc7e92717ac42a487bc"
+                "reference": "531475747cd9ed246ff6ac2cf92d154ba9eff7ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/1f92e24fbe1dbb40d5aebbc7e92717ac42a487bc",
-                "reference": "1f92e24fbe1dbb40d5aebbc7e92717ac42a487bc",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/531475747cd9ed246ff6ac2cf92d154ba9eff7ee",
+                "reference": "531475747cd9ed246ff6ac2cf92d154ba9eff7ee",
                 "shasum": ""
             },
             "require": {
@@ -17078,7 +17068,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:53:35+00:00"
+            "time": "2023-11-09T07:00:40+00:00"
         },
         {
             "name": "phpunit/phpunit",
@@ -17086,12 +17076,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "78e109142b8146936f01fd9140376622da642140"
+                "reference": "817da7edf8d850b4243e48d03daa5b3658b63392"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/78e109142b8146936f01fd9140376622da642140",
-                "reference": "78e109142b8146936f01fd9140376622da642140",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/817da7edf8d850b4243e48d03daa5b3658b63392",
+                "reference": "817da7edf8d850b4243e48d03daa5b3658b63392",
                 "shasum": ""
             },
             "require": {
@@ -17179,7 +17169,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-29T06:48:13+00:00"
+            "time": "2023-11-17T16:18:48+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -17320,12 +17310,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/cli-parser.git",
-                "reference": "59c1269de7e2403c5aaa2f66ce2a558767e3a1ab"
+                "reference": "43ff2b959b9ef9f7dd1d8280a04426e85ec1f850"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/cli-parser/zipball/59c1269de7e2403c5aaa2f66ce2a558767e3a1ab",
-                "reference": "59c1269de7e2403c5aaa2f66ce2a558767e3a1ab",
+                "url": "https://api.github.com/repos/sebastianbergmann/cli-parser/zipball/43ff2b959b9ef9f7dd1d8280a04426e85ec1f850",
+                "reference": "43ff2b959b9ef9f7dd1d8280a04426e85ec1f850",
                 "shasum": ""
             },
             "require": {
@@ -17370,7 +17360,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:51:10+00:00"
+            "time": "2023-11-09T06:58:12+00:00"
         },
         {
             "name": "sebastian/code-unit",
@@ -17378,12 +17368,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/code-unit.git",
-                "reference": "0a1add35b99c6ba2cef19ce2bb4c5df81e5761f9"
+                "reference": "664e3ab649b20686bde2f8d25b471939982b2faa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/code-unit/zipball/0a1add35b99c6ba2cef19ce2bb4c5df81e5761f9",
-                "reference": "0a1add35b99c6ba2cef19ce2bb4c5df81e5761f9",
+                "url": "https://api.github.com/repos/sebastianbergmann/code-unit/zipball/664e3ab649b20686bde2f8d25b471939982b2faa",
+                "reference": "664e3ab649b20686bde2f8d25b471939982b2faa",
                 "shasum": ""
             },
             "require": {
@@ -17428,7 +17418,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:51:21+00:00"
+            "time": "2023-11-09T06:58:24+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -17436,12 +17426,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/code-unit-reverse-lookup.git",
-                "reference": "99df68f71a4b67d43e931ec8d0e964f079830342"
+                "reference": "4613cca026def10f9e0bf085613fcbc2254bbe26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/code-unit-reverse-lookup/zipball/99df68f71a4b67d43e931ec8d0e964f079830342",
-                "reference": "99df68f71a4b67d43e931ec8d0e964f079830342",
+                "url": "https://api.github.com/repos/sebastianbergmann/code-unit-reverse-lookup/zipball/4613cca026def10f9e0bf085613fcbc2254bbe26",
+                "reference": "4613cca026def10f9e0bf085613fcbc2254bbe26",
                 "shasum": ""
             },
             "require": {
@@ -17485,7 +17475,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:51:31+00:00"
+            "time": "2023-11-09T06:58:33+00:00"
         },
         {
             "name": "sebastian/comparator",
@@ -17493,12 +17483,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "d7dbc9fb26095a090761384e0a50d02d0fc56432"
+                "reference": "b196ae9ce2e50f5224196f1b390a084ad89e223a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/d7dbc9fb26095a090761384e0a50d02d0fc56432",
-                "reference": "d7dbc9fb26095a090761384e0a50d02d0fc56432",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/b196ae9ce2e50f5224196f1b390a084ad89e223a",
+                "reference": "b196ae9ce2e50f5224196f1b390a084ad89e223a",
                 "shasum": ""
             },
             "require": {
@@ -17563,7 +17553,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:51:40+00:00"
+            "time": "2023-11-09T06:58:43+00:00"
         },
         {
             "name": "sebastian/complexity",
@@ -17571,12 +17561,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/complexity.git",
-                "reference": "9085fb32b4cb10fe309fedc402d15413d88d1f79"
+                "reference": "779d585035292709a9ad61d350bb5ec217a04424"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/complexity/zipball/9085fb32b4cb10fe309fedc402d15413d88d1f79",
-                "reference": "9085fb32b4cb10fe309fedc402d15413d88d1f79",
+                "url": "https://api.github.com/repos/sebastianbergmann/complexity/zipball/779d585035292709a9ad61d350bb5ec217a04424",
+                "reference": "779d585035292709a9ad61d350bb5ec217a04424",
                 "shasum": ""
             },
             "require": {
@@ -17622,7 +17612,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:51:51+00:00"
+            "time": "2023-11-09T06:58:54+00:00"
         },
         {
             "name": "sebastian/diff",
@@ -17630,12 +17620,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "d77210d69b1117bf354d49abd928455205c18182"
+                "reference": "1343d8c08e8cf0843d8c764ed40006d6c358b69a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/d77210d69b1117bf354d49abd928455205c18182",
-                "reference": "d77210d69b1117bf354d49abd928455205c18182",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/1343d8c08e8cf0843d8c764ed40006d6c358b69a",
+                "reference": "1343d8c08e8cf0843d8c764ed40006d6c358b69a",
                 "shasum": ""
             },
             "require": {
@@ -17690,7 +17680,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:52:00+00:00"
+            "time": "2023-11-09T06:59:03+00:00"
         },
         {
             "name": "sebastian/environment",
@@ -17698,12 +17688,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "5ac04ebceb8b8e271066e28c046896aa251827b7"
+                "reference": "c9d0abb1f3b11091fd49eeb3cf0b606d8d7f4b62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/5ac04ebceb8b8e271066e28c046896aa251827b7",
-                "reference": "5ac04ebceb8b8e271066e28c046896aa251827b7",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/c9d0abb1f3b11091fd49eeb3cf0b606d8d7f4b62",
+                "reference": "c9d0abb1f3b11091fd49eeb3cf0b606d8d7f4b62",
                 "shasum": ""
             },
             "require": {
@@ -17755,7 +17745,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:52:09+00:00"
+            "time": "2023-11-09T06:59:12+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -17763,12 +17753,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "4f3de4972cae5fe3ed37b1423d96514b4c34f964"
+                "reference": "7d54c2772847eb6740bdd625bc96781cf0aadc6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/4f3de4972cae5fe3ed37b1423d96514b4c34f964",
-                "reference": "4f3de4972cae5fe3ed37b1423d96514b4c34f964",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/7d54c2772847eb6740bdd625bc96781cf0aadc6d",
+                "reference": "7d54c2772847eb6740bdd625bc96781cf0aadc6d",
                 "shasum": ""
             },
             "require": {
@@ -17834,7 +17824,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:52:18+00:00"
+            "time": "2023-11-09T06:59:22+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -17842,12 +17832,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/global-state.git",
-                "reference": "30ee9ff166ee4e0f7e7a71b9e5c98c8f18de9363"
+                "reference": "0fe8793677b2c8a9948410c71def1c75c631a0e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/30ee9ff166ee4e0f7e7a71b9e5c98c8f18de9363",
-                "reference": "30ee9ff166ee4e0f7e7a71b9e5c98c8f18de9363",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/0fe8793677b2c8a9948410c71def1c75c631a0e6",
+                "reference": "0fe8793677b2c8a9948410c71def1c75c631a0e6",
                 "shasum": ""
             },
             "require": {
@@ -17897,7 +17887,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:52:27+00:00"
+            "time": "2023-11-09T06:59:31+00:00"
         },
         {
             "name": "sebastian/lines-of-code",
@@ -17905,12 +17895,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/lines-of-code.git",
-                "reference": "bbe4257ec5d4603cfde501987f6924cd36e0e719"
+                "reference": "99878d4716abfaa3a6ae21f680f2c00a65d24f2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/lines-of-code/zipball/bbe4257ec5d4603cfde501987f6924cd36e0e719",
-                "reference": "bbe4257ec5d4603cfde501987f6924cd36e0e719",
+                "url": "https://api.github.com/repos/sebastianbergmann/lines-of-code/zipball/99878d4716abfaa3a6ae21f680f2c00a65d24f2e",
+                "reference": "99878d4716abfaa3a6ae21f680f2c00a65d24f2e",
                 "shasum": ""
             },
             "require": {
@@ -17956,7 +17946,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:52:37+00:00"
+            "time": "2023-11-09T06:59:42+00:00"
         },
         {
             "name": "sebastian/object-enumerator",
@@ -17964,12 +17954,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/object-enumerator.git",
-                "reference": "a13428c65412f15ae04c6d78eff8e9ac40660a4b"
+                "reference": "a30dcc4e6e767f8c87ecbf87f7073c2d9b8363e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/object-enumerator/zipball/a13428c65412f15ae04c6d78eff8e9ac40660a4b",
-                "reference": "a13428c65412f15ae04c6d78eff8e9ac40660a4b",
+                "url": "https://api.github.com/repos/sebastianbergmann/object-enumerator/zipball/a30dcc4e6e767f8c87ecbf87f7073c2d9b8363e0",
+                "reference": "a30dcc4e6e767f8c87ecbf87f7073c2d9b8363e0",
                 "shasum": ""
             },
             "require": {
@@ -18015,7 +18005,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:52:47+00:00"
+            "time": "2023-11-09T06:59:51+00:00"
         },
         {
             "name": "sebastian/object-reflector",
@@ -18023,12 +18013,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/object-reflector.git",
-                "reference": "fad5e522529042cb5e6a7669370482f0eeb11182"
+                "reference": "3f6ca1b35db6b500779fe8b5073193c3dfee0673"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/object-reflector/zipball/fad5e522529042cb5e6a7669370482f0eeb11182",
-                "reference": "fad5e522529042cb5e6a7669370482f0eeb11182",
+                "url": "https://api.github.com/repos/sebastianbergmann/object-reflector/zipball/3f6ca1b35db6b500779fe8b5073193c3dfee0673",
+                "reference": "3f6ca1b35db6b500779fe8b5073193c3dfee0673",
                 "shasum": ""
             },
             "require": {
@@ -18072,7 +18062,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:52:57+00:00"
+            "time": "2023-11-09T07:00:02+00:00"
         },
         {
             "name": "sebastian/recursion-context",
@@ -18080,12 +18070,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "387e26b49ab3791c6708369d450b761ea47c3436"
+                "reference": "4a740b724dc95820883733074ef3bf0a9dc7b3b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/387e26b49ab3791c6708369d450b761ea47c3436",
-                "reference": "387e26b49ab3791c6708369d450b761ea47c3436",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/4a740b724dc95820883733074ef3bf0a9dc7b3b0",
+                "reference": "4a740b724dc95820883733074ef3bf0a9dc7b3b0",
                 "shasum": ""
             },
             "require": {
@@ -18137,7 +18127,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:53:44+00:00"
+            "time": "2023-11-09T07:00:49+00:00"
         },
         {
             "name": "sebastian/type",
@@ -18145,12 +18135,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/type.git",
-                "reference": "365c5f89210d083e72692087a532a5711d3872e8"
+                "reference": "21c3a849eb5fcd12fb4200bc4a7cf248abd54355"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/365c5f89210d083e72692087a532a5711d3872e8",
-                "reference": "365c5f89210d083e72692087a532a5711d3872e8",
+                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/21c3a849eb5fcd12fb4200bc4a7cf248abd54355",
+                "reference": "21c3a849eb5fcd12fb4200bc4a7cf248abd54355",
                 "shasum": ""
             },
             "require": {
@@ -18195,7 +18185,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:53:55+00:00"
+            "time": "2023-11-09T07:00:59+00:00"
         },
         {
             "name": "sebastian/version",
@@ -18203,12 +18193,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/version.git",
-                "reference": "b99f591026bbfe4dfc3db92c5b302e65b855f2a6"
+                "reference": "5e492c9190f168b84d31a4867a8f988a422fd5eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/version/zipball/b99f591026bbfe4dfc3db92c5b302e65b855f2a6",
-                "reference": "b99f591026bbfe4dfc3db92c5b302e65b855f2a6",
+                "url": "https://api.github.com/repos/sebastianbergmann/version/zipball/5e492c9190f168b84d31a4867a8f988a422fd5eb",
+                "reference": "5e492c9190f168b84d31a4867a8f988a422fd5eb",
                 "shasum": ""
             },
             "require": {
@@ -18250,7 +18240,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-29T06:54:04+00:00"
+            "time": "2023-11-09T07:01:09+00:00"
         },
         {
             "name": "spatie/backtrace",
@@ -18647,16 +18637,16 @@
         },
         {
             "name": "spatie/ray",
-            "version": "1.39.0",
+            "version": "1.40.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ray.git",
-                "reference": "7ab6bd01dc6a8ecdd836b3182d40a04308ae0c75"
+                "reference": "8e6547ff47aae2e4f615a5dcea1e5e4911b1dc9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ray/zipball/7ab6bd01dc6a8ecdd836b3182d40a04308ae0c75",
-                "reference": "7ab6bd01dc6a8ecdd836b3182d40a04308ae0c75",
+                "url": "https://api.github.com/repos/spatie/ray/zipball/8e6547ff47aae2e4f615a5dcea1e5e4911b1dc9f",
+                "reference": "8e6547ff47aae2e4f615a5dcea1e5e4911b1dc9f",
                 "shasum": ""
             },
             "require": {
@@ -18707,7 +18697,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/ray/issues",
-                "source": "https://github.com/spatie/ray/tree/1.39.0"
+                "source": "https://github.com/spatie/ray/tree/1.40.1"
             },
             "funding": [
                 {
@@ -18719,7 +18709,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2023-09-18T10:36:07+00:00"
+            "time": "2023-11-20T08:20:15+00:00"
         },
         {
             "name": "symfony/stopwatch",
@@ -18785,16 +18775,16 @@
         },
         {
             "name": "theseer/tokenizer",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "34a41e998c2183e22995f158c581e7b5e755ab9e"
+                "reference": "b2ad5003ca10d4ee50a12da31de12a5774ba6b96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/34a41e998c2183e22995f158c581e7b5e755ab9e",
-                "reference": "34a41e998c2183e22995f158c581e7b5e755ab9e",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/b2ad5003ca10d4ee50a12da31de12a5774ba6b96",
+                "reference": "b2ad5003ca10d4ee50a12da31de12a5774ba6b96",
                 "shasum": ""
             },
             "require": {
@@ -18823,7 +18813,7 @@
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
             "support": {
                 "issues": "https://github.com/theseer/tokenizer/issues",
-                "source": "https://github.com/theseer/tokenizer/tree/1.2.1"
+                "source": "https://github.com/theseer/tokenizer/tree/1.2.2"
             },
             "funding": [
                 {
@@ -18831,7 +18821,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-07-28T10:34:58+00:00"
+            "time": "2023-11-20T00:12:19+00:00"
         },
         {
             "name": "zbateson/mail-mime-parser",
