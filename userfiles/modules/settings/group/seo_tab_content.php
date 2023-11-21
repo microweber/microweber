@@ -17,7 +17,7 @@
 
 <?php
 $isGoogleMesurementEnabled = get_option('google-measurement-enabled', 'website') == "y";
-$isGoogleEnhancedConversions = get_option('google-enhanced-conversions', 'website') == "y";
+$isGoogleEnhancedConversions = get_option('google-enhanced-conversions-enabled', 'website') == "y";
 ?>
 
 
@@ -69,12 +69,11 @@ $isGoogleEnhancedConversions = get_option('google-enhanced-conversions', 'websit
             <label class="form-check-label d-block"><?php _e("Google Enhanced conversions"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("Enable Server Side Google Enhanced Conversions"); ?></small>
             <label class="form-check form-switch">
-                <input x-model="showGoogleEnhancedConversions" name="google-enhanced-conversions" class="form-check-input mw_option_field " data-option-group="website" data-value-checked="y" data-value-unchecked="n" type="checkbox" <?php if (!$isGoogleEnhancedConversions): ?> checked="checked" <?php endif; ?>>
+                <input x-model="showGoogleEnhancedConversions" name="google-enhanced-conversions-enabled" class="form-check-input mw_option_field " data-option-group="website" data-value-checked="y" data-value-unchecked="n" type="checkbox" <?php if (!$isGoogleEnhancedConversions): ?> checked="checked" <?php endif; ?>>
             </label>
         </div>
 
         <div x-show="showGoogleEnhancedConversions">
-
 
             <div class="form-group">
                 <label class="form-label"><?php _e("Conversion ID"); ?></label>
@@ -88,11 +87,6 @@ $isGoogleEnhancedConversions = get_option('google-enhanced-conversions', 'websit
                 <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>" placeholder=""/>
             </div>
 
-            Turn on enhanced conversions
-            Conversion ID
-            11084281555
-            Conversion label
-            _NM-CPGmpZoYENPtsqUp
         </div>
 
     </div>

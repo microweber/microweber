@@ -28,6 +28,10 @@ class DispatchServerSideTracking
 
         $measurementId = get_option('google-measurement-id', 'website');
         $apiSecret = get_option('google-measurement-api-secret', 'website');
+        $isGoogleEnhancedConversions = get_option('google-enhanced-conversions-enabled', 'website') == "y";
+        $googleEnhancedConversionId = get_option('google-enhanced-conversion-id', 'website') == "y";
+        $googleEnhancedConversionLabel = get_option('google-enhanced-conversion-label', 'website') == "y";
+
 
         $analytics = Analytics::new(
             $measurementId, $apiSecret
@@ -92,12 +96,12 @@ class DispatchServerSideTracking
                     }
 
                     if ($getStatsEvent->event_action == 'CONVERSION') {
-
-                        $event = Conversion::new();
-                        $event->setTransactionId('');
-                        $event->setEmail($eventData['email']);
-                        $event->setSendTo('');
-
+                        if ($isGoogleEnhancedConversions) {
+                            $event = Conversion::new();
+                            $event->setTransactionId($eventData['transaction_id']);
+                            $event->setEmail($eventData['email']);
+                            $event->setSendTo($googleEnhancedConversionId.'/'.$googleEnhancedConversionLabel);
+                        }
                     }
 
                     if ($getStatsEvent->event_action == 'PURCHASE') {
