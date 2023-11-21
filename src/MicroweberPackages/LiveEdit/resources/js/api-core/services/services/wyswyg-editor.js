@@ -117,8 +117,11 @@ export class WyswygEditor extends MicroweberBaseClass {
         };
     }
 
+    //deprecated
     initEditor(element) {
 
+        console.log('initEditor is deprecated');
+        return;
 
         this.savedCursorPosition = this.getCursorPos(element);
 
