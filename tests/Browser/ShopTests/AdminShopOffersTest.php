@@ -38,7 +38,7 @@ class AdminShopOffersTest extends DuskTestCase
             $newProduct->save();
 
 
-            $browser->pause(100);
+            $browser->pause(2000);
 
             $browser->visit($siteUrl . 'admin/settings?group=shop/offers/admin_block');
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
