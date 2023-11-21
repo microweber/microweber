@@ -165,12 +165,13 @@ if(isset($params['default-fields']) and $params['default-fields'] != ''){
 
 if(isset($params['button-text']) and $params['button-text'] != ''){
     $button_text = $params['button-text'];
+} else if(isset($params['button_text']) and $params['button_text'] != ''){
+    $button_text = $params['button_text'];
 }
 $button_text_option = get_option('button_text', $params['id']);
 if($button_text_option){
     $button_text = $button_text_option;
 }
-
 
 
 

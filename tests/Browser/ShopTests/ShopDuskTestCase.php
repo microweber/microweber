@@ -70,7 +70,7 @@ class ShopDuskTestCase extends DuskTestCase
     {
         $shop_page = app()->content_repository->getFirstShopPage();
         if (!$shop_page) {
-            $title = 'Shop';
+            $title = 'Shop' . uniqid();
             $shop_page = array(
                 'title' => $title,
                 'content_type' => 'page',
@@ -82,6 +82,8 @@ class ShopDuskTestCase extends DuskTestCase
         } else {
             $saved_id_shop = $shop_page['id'];
         }
+
+
 
         $title = 'Product Title ' . time();
 

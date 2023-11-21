@@ -102,7 +102,7 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
     shouldShowFitImageButton(target) {
         //has class mw-resized
         if (target && target.classList) {
-            const isImage = target.nodeName === 'IMG' && this.isPlaceholder(target);
+            const isImage = target.nodeName === 'IMG'  ;
             if (isImage) {
                 return !target.parentNode.classList.contains('img-as-background');
             }
@@ -111,7 +111,7 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
 
 
     shouldShowLinkButton(target) {
-        const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A';
+        const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A' || target.parentNode && target.parentNode.nodeName === 'A';
         if (isImageOrLink && !this.isPlaceholder(target)) {
             return true;
         }
