@@ -21,7 +21,9 @@
         mw.spinner({element: dialog.dialogContainer, size: 32, decorate: true}).show();
 
 
-
+        if(options && options.id){
+            dialog.iframe.id = options.id+'-content-window';
+        }
 
 
         var maxHeight = 'calc(100vh - 140px)';
