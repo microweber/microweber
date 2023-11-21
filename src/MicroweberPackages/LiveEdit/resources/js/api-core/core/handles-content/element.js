@@ -179,6 +179,32 @@ export class ElementHandleContent {
             },
 
         ];
+
+
+        const elementResetSizeMenu = [
+            {
+                title: 'Reset Element Size',
+                text: '',
+                icon: this.handleIcons.icon('reset-image-size'),
+
+                className: 'mw-handle-reset-image-button',
+
+                action: (el) => {
+                    this.elementActions.resetElementSizeOnSelfOfParent(el);
+                },
+                onTarget: (target, selfBtn) => {
+
+
+
+                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowResetElementSizeButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+                },
+
+            },
+
+
+        ];
         const elementResetImageSizeMenu = [
             {
                 title: 'Reset Image Size',
@@ -507,7 +533,7 @@ export class ElementHandleContent {
         if(cloneAbleMenuInMoreMenu.length > 0) {
             shouldShowMoreMenu = true;
         }
-        if(elementResetImageSizeMenu.length > 0) {
+        if(elementResetSizeMenu.length > 0) {
             shouldShowMoreMenu = true;
         }
         if(elementBackgroundImageMenuOnMoreButton.length > 0) {
@@ -527,9 +553,9 @@ export class ElementHandleContent {
 
                         },
                         {
-                            name: 'Image settings',
+                            name: 'Reset Element Size',
                             nodes:
-                            elementResetImageSizeMenu
+                            elementResetSizeMenu
 
                         },
                         {

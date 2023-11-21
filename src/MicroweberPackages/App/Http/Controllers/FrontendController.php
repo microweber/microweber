@@ -227,7 +227,9 @@ class FrontendController extends Controller
                             $legacy_edimode_must_redirect = true;
                             $liveEditUrl = admin_url() . 'live-edit';
                             $liveEditUrl = $liveEditUrl .= '?url=' . site_url($page_url);
-                            redirect($liveEditUrl);
+
+
+                           return redirect($liveEditUrl);
                         //    return app()->url_manager->redirect($liveEditUrl);
 
                         }
