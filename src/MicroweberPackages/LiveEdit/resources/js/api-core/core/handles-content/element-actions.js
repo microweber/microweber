@@ -294,7 +294,23 @@ export class ElementActions extends MicroweberBaseClass {
             mw.app.liveEdit.handles.get('element').set(el);
         }
     }
+    resetElementSizeOnSelfOfParent(el) {
+        const hasResizedClass = DomService.firstParentOrCurrentWithAnyOfClasses(el, ['mw-resized']);
+        if(hasResizedClass){
+            el = hasResizedClass;
+        }
 
+
+        mw.app.registerUndoState(el);
+        el.style.width = '';
+        el.style.height = '';
+        el.style.objectFit = '';
+        el.dataset.objectFit = '';
+        //remove class mw-resized
+        el.classList.remove('mw-resized');
+        mw.app.registerChangedState(el);
+        this.proto.elementHandle.set(el);
+    }
     resetImageSize(el) {
         mw.app.registerUndoState(el);
         el.style.width = '';

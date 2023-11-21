@@ -80,7 +80,7 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
     }
 
     shouldShowResetElementSizeButton(target) {
-        const hasResizedClass = DomService.hasAnyOfClasses(target, ['mw-resized']);
+        const hasResizedClass = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['mw-resized']);
 
         if (hasResizedClass) {
             return true;
