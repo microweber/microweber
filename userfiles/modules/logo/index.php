@@ -147,6 +147,25 @@ $module_template = $logo_options['data-template'];
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }
+
+$moduleBladeView = 'microweber-module-logo::' . $module_template;
+if (view()->exists($moduleBladeView)) {
+    echo view($moduleBladeView, [
+        'params' => $params,
+        'settings' => [
+            'logoType' => $logotype,
+            'logoImage' => $logoimage,
+            'logoImageInverse' => $logoimage_inverse,
+            'text' => $text,
+            'textColor' => $text_color,
+            'fontFamily' => $font_family,
+            'fontSize' => $font_size,
+            'size' => $size,
+        ],
+    ]);
+    return;
+}
+
 if ($module_template != false) {
     $template_file = module_templates($config['module'], $module_template);
 } else {

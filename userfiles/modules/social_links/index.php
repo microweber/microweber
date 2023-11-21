@@ -267,7 +267,7 @@ if ($module_template == false and isset($params['template'])) {
 
 $moduleBladeView = 'microweber-module-social-links::' . $module_template;
 if (view()->exists($moduleBladeView)) {
-    return view($moduleBladeView, [
+    echo view($moduleBladeView, [
         'params'=>$params,
         'settings'=> [
             'facebook_enabled'=>$facebook_enabled,
@@ -331,6 +331,7 @@ if (view()->exists($moduleBladeView)) {
             ]
         ]
     ]);
+    return;
 }
 
 if ($module_template != false) {
