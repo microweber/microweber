@@ -23,7 +23,7 @@ $isGoogleEnhancedConversions = get_option('google-enhanced-conversions-enabled',
 
 <div x-data="{
         showGoogleMeasurement: <?php if($isGoogleMesurementEnabled == 'y'): ?>true<?php else: ?>false<?php endif; ?>,
-        showGoogleEnhancedConversions: <?php if($isGoogleMesurementEnabled == 'y'): ?>true<?php else: ?>false<?php endif; ?>
+        showGoogleEnhancedConversions: <?php if($isGoogleEnhancedConversions == 'y'): ?>true<?php else: ?>false<?php endif; ?>
         }">
 
 
