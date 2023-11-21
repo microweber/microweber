@@ -33,7 +33,7 @@ class DispatchServerSideTracking
         );
         $analytics->setClientId($visitorId);
 
-        $getStatsEvents = StatsEvent::where('utm_visitor_id', $visitorId)->get();
+        $getStatsEvents = StatsEvent::where('is_sent', 0)->where('utm_visitor_id', $visitorId)->get();
 
         if ($getStatsEvents->count() > 0) {
             foreach ($getStatsEvents as $getStatsEvent) {
@@ -152,7 +152,8 @@ class DispatchServerSideTracking
                    // dump($e);
                 }
 
-                $getStatsEvent->delete();
+                $getStatsEvent->is_sent = 1;
+                $getStatsEvent->save();
             }
         }
 
