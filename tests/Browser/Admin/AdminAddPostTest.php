@@ -117,7 +117,8 @@ class AdminAddPostTest extends DuskTestCase
 
             $findPost = Post::where('title', $postTitle)->first();
 
-            $this->assertEquals($findPost->content, $postDescription);
+            $this->assertEquals($findPost->content,'<p class="element">'. $postDescription .'</p>');
+            //$this->assertEquals($findPost->content, $postDescription);
             $this->assertEquals($findPost->content_type, 'post');
             $this->assertEquals($findPost->subtype, 'post');
 

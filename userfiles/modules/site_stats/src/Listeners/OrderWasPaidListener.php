@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\Modules\SiteStats\Listeners;
 
+use MicroweberPackages\Modules\SiteStats\DTO\UtmEventConversion;
 use MicroweberPackages\Modules\SiteStats\DTO\UtmEventPurchase;
 use MicroweberPackages\SiteStats\Models\StatsEvent;
 
@@ -21,7 +22,10 @@ class OrderWasPaidListener
     {
         $utmEvent = new UtmEventPurchase();
         $utmEvent->setInternalData($event);
+        StatsEvent::saveNewUtm($utmEvent);
 
+        $utmEvent = new UtmEventConversion();
+        $utmEvent->setInternalData($event);
         StatsEvent::saveNewUtm($utmEvent);
 
     }

@@ -73,7 +73,7 @@
         "microweber-modules/standalone-updater": "5.3.6",
         "microweber-packages/composer-client": "2.0",
         "microweber-packages/microweber-class-alias": "dev-master",
-        "microweber-templates/big-free": "8.4",
+        "microweber-templates/big-free": "8.5",
         "mtrajano/laravel-swagger": "0.6.4",
         "omnipay/authorizenet": "*",
         "omnipay/mollie": "*",
@@ -111,7 +111,7 @@
         "laravel/sail": "*",
         "mockery/mockery": "*",
         "nunomaduro/collision": "*",
-        "orchestra/testbench": "*",
+        "orchestra/testbench": "^8.10",
         "spatie/laravel-ignition": "*"
     },
     "replace": {

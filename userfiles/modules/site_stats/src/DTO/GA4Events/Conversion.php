@@ -7,6 +7,7 @@ class Conversion extends EventHelper
 {
     protected null|string $transaction_id;
     protected null|string $send_to;
+    protected null|string $email;
 
     public function getName(): string
     {
