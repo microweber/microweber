@@ -149,6 +149,7 @@ $google_analytics_events = [
     'event_data'=> 'text',
     'event_timestamp' => 'dateTime',
     'session_id' => 'string',
+    'is_sent' => 'integer',
     'created_at' => 'dateTime',
     'updated_at' => 'dateTime',
 ];
