@@ -227,15 +227,17 @@
                                                                <label class="custom-control-label" for="filter_by_tags"><?php _e("Tags"); ?></label>
                                                            </div>
                                                        </div>
-<!--                                                       <div data-filter-name="categories" class="js-shop-filter-item-sort d-flex align-items-center align-content-center list-group-item list-group-item-action" aria-current="true">
-                                                           <div class="mr-3 mt-1">
+
+                                                       <div data-filter-name="categories" class="js-shop-filter-item-sort d-flex align-items-center align-content-center list-group-item list-group-item-action" aria-current="true">
+<!--                                                           <div class="mr-3 mt-1">
                                                                <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
-                                                           </div>
+                                                           </div>-->
                                                            <div class="custom-control custom-checkbox js-filtering-by-categories">
                                                                <input type="checkbox" <?php if ('1' == get_option('filtering_by_categories', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" name="filtering_by_categories" value="1" id="filter_by_categories">
                                                                <label class="custom-control-label" for="filter_by_categories"><?php _e("Categories"); ?></label>
                                                            </div>
-                                                       </div>-->
+                                                       </div>
+
                                                        <div data-filter-name="custom_fields" class="js-shop-filter-item-sort d-flex align-items-center align-content-center list-group-item list-group-item-action" aria-current="true">
 <!--                                                           <div class="mr-3 mt-1">
                                                                <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
