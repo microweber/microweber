@@ -28,18 +28,16 @@ class DispatchServerSideTracking
 
         $measurementId = get_option('google-measurement-id', 'website');
         $apiSecret = get_option('google-measurement-api-secret', 'website');
-        $isGoogleEnhancedConversions = get_option('google-enhanced-conversions-enabled', 'website') == "y";
-        $googleEnhancedConversionId = get_option('google-enhanced-conversion-id', 'website') == "y";
-        $googleEnhancedConversionLabel = get_option('google-enhanced-conversion-label', 'website') == "y";
-
+        $isGoogleEnhancedConversions = get_option('google-enhanced-conversions-enabled', 'website');
+        $googleEnhancedConversionId = get_option('google-enhanced-conversion-id', 'website');
+        $googleEnhancedConversionLabel = get_option('google-enhanced-conversion-label', 'website');
 
         $analytics = Analytics::new(
             $measurementId, $apiSecret
         );
         $analytics->setClientId($visitorId);
 
-
-        $getStatsEvents = StatsEvent::where('is_sent', 0)->where('utm_visitor_id', $visitorId)->get();
+        $getStatsEvents = StatsEvent::where('is_sent', null)->where('utm_visitor_id', $visitorId)->get();
         if ($getStatsEvents->count() > 0) {
             foreach ($getStatsEvents as $getStatsEvent) {
 
@@ -98,9 +96,14 @@ class DispatchServerSideTracking
                     if ($getStatsEvent->event_action == 'CONVERSION') {
                         if ($isGoogleEnhancedConversions) {
                             $event = Conversion::new();
-                            $event->setTransactionId($eventData['transaction_id']);
-                            $event->setEmail($eventData['email']);
                             $event->setSendTo($googleEnhancedConversionId.'/'.$googleEnhancedConversionLabel);
+
+                            if (isset($eventData['order']['email'])) {
+                                $event->setEmail($eventData['order']['email']);
+                            }
+                            if (isset($eventData['order']['transaction_id'])) {
+                                $event->setTransactionId($eventData['order']['transaction_id']);
+                            }
                         }
                     }
 
