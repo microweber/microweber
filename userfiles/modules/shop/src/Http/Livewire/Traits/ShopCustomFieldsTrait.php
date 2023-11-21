@@ -5,9 +5,24 @@ trait ShopCustomFieldsTrait {
 
     public $customFields = [];
 
-    public function filterToggleCustomField($nameKey, $customFieldValueId)
+    public function filterToggleCustomField($nameKey, $customFieldValue)
     {
-        $this->customFields[$nameKey] = $customFieldValueId;
+        $findCustomField = false;
+        if (isset($this->customFields[$nameKey])) {
+            if (in_array($customFieldValue, $this->customFields[$nameKey])) {
+                $findCustomField = true;
+                foreach ($this->customFields[$nameKey] as $key => $value) {
+                    if ($value == $customFieldValue) {
+                        unset($this->customFields[$nameKey][$key]);
+                    }
+                }
+            }
+        }
+
+        if (!$findCustomField) {
+            $this->customFields[$nameKey][] = $customFieldValue;
+        }
+
         $this->setPage(1);
     }
 
