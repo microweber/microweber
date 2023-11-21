@@ -156,11 +156,11 @@ if (view()->exists($moduleBladeView)) {
             'logoType' => $logotype,
             'logoImage' => $logoimage,
             'logoImageInverse' => $logoimage_inverse,
-            'text' => $text,
-            'textColor' => $text_color,
-            'fontFamily' => $font_family,
-            'fontSize' => $font_size,
-            'size' => $size,
+            'logoText' => $text,
+            'logoTextColor' => $text_color,
+            'logoFontFamily' => $font_family,
+            'logoFontSize' => $font_size,
+            'logoSize' => $size,
         ],
     ]);
     return;

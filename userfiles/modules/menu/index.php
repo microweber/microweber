@@ -31,7 +31,7 @@ if (isset($params['menu-name'])) {
         if (view()->exists($moduleBladeView)) {
             echo view($moduleBladeView, [
                 'params' => $params,
-                'menu' => $menu_filter
+                'menuFilter' => $menu_filter
             ]);
             return;
         }
