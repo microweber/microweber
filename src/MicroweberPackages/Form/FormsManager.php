@@ -62,7 +62,6 @@ class FormsManager
         }
 
         $data = $this->app->database_manager->get($params);
-        $findFormsDataValues = FormDataValue::where('form_data_id', $data)->get();
 
         $ret = array();
         if (is_array($data)) {
@@ -74,6 +73,7 @@ class FormsManager
                 }
                 if (empty($item['form_values'])) {
                     $fields = [];
+                    $findFormsDataValues = FormDataValue::where('form_data_id', $item)->get();
                     if ($findFormsDataValues->count() > 0) {
                         foreach ($findFormsDataValues as $formsDataValue) {
                             if (is_array($formsDataValue->field_value_json) && !empty($formsDataValue->field_value_json)) {
