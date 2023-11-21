@@ -79,7 +79,6 @@
     <div v-if="showBorder">
     <DropdownSmall v-model="borderStyle" :options="borderStylesOptions" label="Style"/>
 
-    <!--      <BorderRadius v-model="borderRadius"></BorderRadius>-->
 
     <DropdownSmall v-model="borderPosition" :options="borderPositionOptions" label="Position"/>
 
@@ -100,13 +99,12 @@ import FontPicker from "./components/FontPicker.vue";
 import ColorPicker from "./components/ColorPicker.vue";
 import DropdownSmall from "./components/DropdownSmall.vue";
 import SliderSmall from "./components/SliderSmall.vue";
-import BorderRadius from "./components/BorderRadius.vue";
 
 import Slider from '@vueform/slider';
 
 export default {
 
-  components: {Dropdown, Input, FontPicker, ColorPicker, Slider, DropdownSmall, SliderSmall, BorderRadius},
+  components: {Dropdown, Input, FontPicker, ColorPicker, Slider, DropdownSmall, SliderSmall},
 
   data() {
     return {
@@ -140,16 +138,8 @@ export default {
       'borderImage': null,
       'borderImageUrl': null,
       'borderStyle': null,
-      'borderRadius': {
-        borderTopLeftRadius: '',
-        borderTopRightRadius: '',
-        borderBottomLeftRadius: '',
-        borderBottomRightRadius: '',
-      },
-      'borderTopLeftRadius': null,
-      'borderTopRightRadius': null,
-      'borderBottomRightRadius': null,
-      'borderBottomLeftRadius': null,
+
+
     };
   },
 
@@ -169,16 +159,7 @@ export default {
       this.borderSize = null;
       this.borderColor = null;
       this.borderStyle = null;
-      this.borderRadius = {
-        borderTopLeftRadius: '',
-        borderTopRightRadius: '',
-        borderBottomLeftRadius: '',
-        borderBottomRightRadius: '',
-      }
-      this.borderTopLeftRadius = null;
-      this.borderTopRightRadius = null;
-      this.borderBottomRightRadius = null;
-      this.borderBottomLeftRadius = null;
+
       this.borderImageUrl = null;
       this.borderImage = null;
     },
@@ -191,8 +172,6 @@ export default {
         this.activeNode = node;
 
         this.populateCssBorder(css);
-        this.populateCssBorderRadius(css);
-
 
           setTimeout(() => {
               this.isReady = true;
@@ -219,22 +198,8 @@ export default {
       this.borderStyle = style;
       this.borderPosition = 'all';
     },
-    populateCssBorderRadius: function (css) {
-      if (!css || !css.get) return;
-      var borderRadius = css.get.radius(true);
 
-      this.borderTopLeftRadius = borderRadius.tl;
-      this.borderTopRightRadius = borderRadius.tr;
-      this.borderBottomRightRadius = borderRadius.br;
-      this.borderBottomLeftRadius = borderRadius.bl;
 
-      this.borderRadius = {
-        borderTopLeftRadius: borderRadius.tl,
-        borderTopRightRadius: borderRadius.tr,
-        borderBottomLeftRadius: borderRadius.bl,
-        borderBottomRightRadius: borderRadius.br,
-      }
-    },
 
     applyPropertyToActiveNode: function (prop, val) {
       if (!this.isReady) {
@@ -285,36 +250,8 @@ export default {
       },
 
 
-    borderRadius: function (newValue, oldValue) {
-
-      //Proxy(Object) {borderTopLeftRadius: '', borderTopRightRadius: '', borderBottomLeftRadius: '', borderBottomRightRadius: ''}
-
-      var borderRadiusValue = '';
-      if (newValue.borderTopLeftRadius) {
-        borderRadiusValue += newValue.borderTopLeftRadius + 'px ';
-      } else {
-        borderRadiusValue += '0px ';
-      }
-      if (newValue.borderTopRightRadius) {
-        borderRadiusValue += newValue.borderTopRightRadius + 'px ';
-      } else {
-        borderRadiusValue += '0px ';
-      }
-      if (newValue.borderBottomRightRadius) {
-        borderRadiusValue += newValue.borderBottomRightRadius + 'px ';
-      } else {
-        borderRadiusValue += '0px ';
-      }
-      if (newValue.borderBottomLeftRadius) {
-        borderRadiusValue += newValue.borderBottomLeftRadius + 'px ';
-      } else {
-        borderRadiusValue += '0px ';
-      }
-
-      this.applyPropertyToActiveNode('border-radius', borderRadiusValue);
 
 
-    },
     // Border-related property watchers
     borderImageUrl: function (newValue, oldValue) {
       var borderImageValue = '';
@@ -342,18 +279,7 @@ export default {
     },
 
 
-    // borderTopLeftRadius: function (newValue, oldValue) {
-    //   this.applyPropertyToActiveNode('borderTopLeftRadius', newValue + 'px');
-    // },
-    // borderTopRightRadius: function (newValue, oldValue) {
-    //   this.applyPropertyToActiveNode('borderTopRightRadius', newValue + 'px');
-    // },
-    // borderBottomRightRadius: function (newValue, oldValue) {
-    //   this.applyPropertyToActiveNode('borderBottomRightRadius', newValue + 'px');
-    // },
-    // borderBottomLeftRadius: function (newValue, oldValue) {
-    //   this.applyPropertyToActiveNode('borderBottomLeftRadius', newValue + 'px');
-    // },
+
   },
 }
 </script>
