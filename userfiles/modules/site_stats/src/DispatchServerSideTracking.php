@@ -12,6 +12,7 @@ use AlexWestergaard\PhpGa4\Event\PageView;
 use AlexWestergaard\PhpGa4\Event\Purchase;
 use AlexWestergaard\PhpGa4\Event\Signup;
 use AlexWestergaard\PhpGa4\Item;
+use MicroweberPackages\Modules\SiteStats\DTO\GA4Events\Conversion;
 use MicroweberPackages\SiteStats\Models\StatsEvent;
 
 class DispatchServerSideTracking
@@ -33,8 +34,8 @@ class DispatchServerSideTracking
         );
         $analytics->setClientId($visitorId);
 
-        $getStatsEvents = StatsEvent::where('is_sent', 0)->where('utm_visitor_id', $visitorId)->get();
 
+        $getStatsEvents = StatsEvent::where('is_sent', 0)->where('utm_visitor_id', $visitorId)->get();
         if ($getStatsEvents->count() > 0) {
             foreach ($getStatsEvents as $getStatsEvent) {
 
@@ -88,6 +89,15 @@ class DispatchServerSideTracking
                                 $event->addItem($eventDataItem);
                             }
                         }
+                    }
+
+                    if ($getStatsEvent->event_action == 'CONVERSION') {
+
+                        $event = Conversion::new();
+                        $event->setTransactionId('');
+                        $event->setEmail($eventData['email']);
+                        $event->setSendTo('');
+
                     }
 
                     if ($getStatsEvent->event_action == 'PURCHASE') {
