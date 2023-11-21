@@ -234,6 +234,7 @@ export default {
 
 
                     if (element.isContentEditable) {
+
                         return
                     }
 
@@ -288,6 +289,10 @@ export default {
 
                        mw.app.richTextEditor.smallEditorInteract(element);
                        mw.app.richTextEditor.positionSmallEditor(element);
+
+                       if (element && element.innerHTML.trim() === '') {
+                         mw.app.wyswygEditor.setCursorPos(0, element)
+                       }
 
 
 
