@@ -136,8 +136,18 @@ export default {
                 this.emitter.emit('live-edit-ui-show', 'style-editor');
             });
 
+          mw.app.canvas.on('canvasDocumentClick', async (event) => {
+            var element = event.target;
 
-
+            //check if element is empty and set cursor to 0
+            if (element && element.getAttribute('data-mwplaceholder') && element.innerHTML.trim() === '' ) {
+                // check if class .element
+                var elementClass = DomService.hasAnyOfClasses(element, ['element']);
+                if (elementClass) {
+                  mw.app.wyswygEditor.setCursorPos(0, element)
+              }
+            }
+          });
             mw.app.editor.on('editNodeRequest', async (element) => {
 
 
