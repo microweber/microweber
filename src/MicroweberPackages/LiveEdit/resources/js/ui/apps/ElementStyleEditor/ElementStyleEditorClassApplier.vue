@@ -1,32 +1,37 @@
 <template>
-  <div>
+  <div v-if="canShowClassApplier">
+    <div>
 
       <div class="d-flex">
-          <svg fill="currentColor" height="24" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
-                <path d="M12.9,3l2,0.4L11.1,21l-2-0.4L12.9,3 M19.6,12L16,8.4V5.6l6.4,6.4L16,18.4v-2.8L19.6,12 M1.6,12L8,5.6v2.8L4.4,12L8,15.6  v2.8L1.6,12z"></path>
+        <svg fill="currentColor" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 24 24"
+             style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                <path
+                    d="M12.9,3l2,0.4L11.1,21l-2-0.4L12.9,3 M19.6,12L16,8.4V5.6l6.4,6.4L16,18.4v-2.8L19.6,12 M1.6,12L8,5.6v2.8L4.4,12L8,15.6  v2.8L1.6,12z"></path>
           </svg>
 
-          <b class="mw-admin-action-links ms-3" :class="{'active': showClasses }" v-on:click="toggleClasses">
-              Classes
-          </b>
+        <b class="mw-admin-action-links ms-3" :class="{'active': showClasses }" v-on:click="toggleClasses">
+          Classes
+        </b>
       </div>
 
       <div v-if="showClasses">
 
-          <div>
-              <input type="hidden" v-model="classesToKeepInput" @input="updateClassesToKeep"/>
+        <div>
+          <input type="hidden" v-model="classesToKeepInput" @input="updateClassesToKeep"/>
 
-              <vue3-tags-input :tags="classes"
-                               placeholder="Enter classes separated by commas"
-                               :validate="customValidateClasses"
+          <vue3-tags-input :tags="classes"
+                           placeholder="Enter classes separated by commas"
+                           :validate="customValidateClasses"
 
-                               @on-tags-changed="handleChangeClasses"
-              />
-          </div>
+                           @on-tags-changed="handleChangeClasses"
+          />
+        </div>
 
 
-     </div>
+      </div>
 
+    </div>
   </div>
 </template>
 
@@ -39,7 +44,8 @@ export default {
   },
   data() {
     return {
-    showClasses: false,
+      canShowClassApplier: false,
+      showClasses: false,
       activeNode: null,
       isReady: false,
       classesToKeepInput: '',
@@ -62,10 +68,10 @@ export default {
     };
   },
   methods: {
-      toggleClasses: function () {
-          this.showClasses = !this.showClasses;
-          this.emitter.emit('element-style-editor-show', 'classes');
-      },
+    toggleClasses: function () {
+      this.showClasses = !this.showClasses;
+      this.emitter.emit('element-style-editor-show', 'classes');
+    },
     customValidateClasses(value) {
       // Use regex to validate input classes
       const regex = /^[a-zA-Z\s,]*$/;
@@ -109,7 +115,7 @@ export default {
           });
         }
 
-        if(mw.top().app){
+        if (mw.top().app) {
           mw.top().app.registerChangedState(this.activeNode);
         }
       }
@@ -149,29 +155,42 @@ export default {
 
   },
   mounted() {
-      this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
-          if (this.$root.selectedElement) {
-              this.populateStyleEditor(this.$root.selectedElement);
-          }
-      });
-      this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
-          if (elementStyleEditorShow !== 'classes') {
-              this.showClasses = false;
-          }
-      });
+    this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+      if (this.$root.selectedElement) {
+        this.populateStyleEditor(this.$root.selectedElement);
+      }
+    });
+    this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+      if (elementStyleEditorShow !== 'classes') {
+        this.showClasses = false;
+      }
+    });
     // mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
     //   this.populateStyleEditor(element);
     // });
   },
   watch: {
-      '$root.selectedElement': {
-          handler: function (element) {
-              if(element) {
-                  this.populateStyleEditor(element);
-              }
-          },
-          deep: true
+    '$root.selectedElement': {
+      handler: function (element) {
+        if (element) {
+
+          //is in edit field
+          var isInEditField = mw.top().app.liveEdit.liveEditHelpers.targetIsInEditField(element);
+          var isInaccessible = mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(element);
+
+          if (isInEditField && !isInaccessible) {
+            this.canShowClassApplier = false;
+            this.populateStyleEditor(element);
+
+          } else {
+            this.canShowClassApplier = true;
+          }
+
+
+        }
       },
+      deep: true
+    },
     classes(newValue, oldValue) {
       // Apply the classes whenever the classes array changes
       this.applyClasses();

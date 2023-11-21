@@ -83,6 +83,11 @@ export default {
             }
         }
     },
+    targetIsInEditField: element => {
+        var isInsideEditField = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['edit']);
+        return isInsideEditField;
+
+    },
 
 
     targetIsDisabledWriteInEditField: element => {
@@ -94,9 +99,9 @@ export default {
             if (isInContainer) {
                 return false;
             }
-            
+
         }
-        
+
         return false;
     },
 
