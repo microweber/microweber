@@ -68,6 +68,9 @@ class ShopDuskTestCase extends DuskTestCase
 
     protected function _browserToShopAndAddTocart($browser)
     {
+        app()->database_manager->extended_save_set_permission(true);
+
+
         $shop_page = app()->content_repository->getFirstShopPage();
         if (!$shop_page) {
             $title = 'Shop' . uniqid();
@@ -100,7 +103,6 @@ class ShopDuskTestCase extends DuskTestCase
             ),
             'is_active' => 1,
         ];
-        app()->database_manager->extended_save_set_permission(true);
 
         $saved_id = save_content($params);
         $browser->pause(500);
