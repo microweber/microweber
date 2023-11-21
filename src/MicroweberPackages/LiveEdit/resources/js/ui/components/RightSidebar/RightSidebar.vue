@@ -105,6 +105,7 @@ export default {
             this.showSidebar = false;
             this.showElementStyleEditor = false;
             CSSGUIService.hide();
+            this.emitter.emit("live-edit-ui-show");
         },
 
         openSidebar() {

@@ -154,6 +154,7 @@ export default {
     mounted() {
 
         this.emitter.on("live-edit-ui-show", show => {
+
             if (show == 'style-editor') {
                 if (!this.isOpened) {
                 //    this.showStyleEditorModal();

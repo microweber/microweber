@@ -369,7 +369,7 @@ mw.emitter = {
 
             var layoutsData = [];
 
-            if(self !== top) {
+
                 var layouts = mw.top().app.canvas.getWindow().$('.module[data-type="layouts"]');
 
                 layouts.each(function () {
@@ -379,7 +379,7 @@ mw.emitter = {
                         id: this.id
                     });
                 });
-            }
+
             var list = $('<div class="mw-ui-form-controller--radio-list" />');
 
             if (layoutsData.length === 0) {
