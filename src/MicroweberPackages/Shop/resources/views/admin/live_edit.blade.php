@@ -93,7 +93,7 @@
                                            }
                                        </script>
 
-                                       <div class="form-group col-4">
+<!--                                       <div class="form-group col-4">
                                            <label class="form-label d-block"><?php echo _e("Enable pagination", true); ?></label>
                                            <span class="text-muted"><?php echo _e("Show pagination on the page", true); ?></span>
                                            <div class="form-check form-switch pl-0">
@@ -102,10 +102,10 @@
                                                       autocomplete="off" name="disable_pagination" <?php if (!get_option('disable_pagination', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
                                                <label class="custom-control-label" for="disable_pagination"><?php _e('Yes'); ?></label>
                                            </div>
-                                       </div>
+                                       </div>-->
 
 
-                                       <div class="form-group col-4 js-filtering-allow-limit">
+<!--                                       <div class="form-group col-4 js-filtering-allow-limit">
                                            <label class="form-label d-block"><?php echo _e("Enable limit", true); ?></label>
                                            <span class="text-muted"><?php echo _e("User can define number of products per page", true); ?></span>
                                            <div class="form-check form-switch pl-0">
@@ -114,15 +114,15 @@
                                                       autocomplete="off" name="disable_limit" <?php if (!get_option('disable_limit', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
                                                <label class="custom-control-label" for="disable_limit"><?php _e('Yes'); ?></label>
                                            </div>
-                                       </div>
+                                       </div>-->
 
-                                       <div class="form-group col-4 js-filtering-products-per-page">
+<!--                                       <div class="form-group col-4 js-filtering-products-per-page">
                                            <label class="form-label d-block"><?php echo _e("Products per page", true); ?></label>
                                            <span class="text-muted"><?php echo _e("Number of products per page", true); ?></span>
                                            <input type="text" name="items_per_page" value="<?php echo get_option('items_per_page', $moduleId) ?>" class="mw_option_field form-control" option-group="<?php echo $moduleId;?>" />
-                                       </div>
+                                       </div>-->
 
-                                       <div class="form-group col-4 js-filtering-allow-sort">
+<!--                                       <div class="form-group col-4 js-filtering-allow-sort">
                                            <label class="form-label d-block"><?php echo _e("Enable product sort", true); ?></label>
                                            <span class="text-muted"><?php echo _e("Sort products by criteria", true); ?></span>
                                            <div class="form-check form-switch pl-0">
@@ -131,9 +131,9 @@
                                                       autocomplete="off" name="disable_sort" <?php if (!get_option('disable_sort', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
                                                <label class="custom-control-label" for="disable_sort"><?php _e('Yes'); ?></label>
                                            </div>
-                                       </div>
+                                       </div>-->
 
-                                       <div class="form-group col-4">
+<!--                                       <div class="form-group col-4">
                                            <label class="form-label d-block"><?php echo _e("Filtering the results", true); ?></label>
                                            <span class="text-muted"><?php echo _e("Show filters on the shop page", true); ?></span>
                                            <div class="form-check form-switch pl-0">
@@ -142,7 +142,7 @@
                                                       autocomplete="off" name="disable_filter" <?php if (!get_option('disable_filter', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
                                                <label class="custom-control-label" for="disable_filter"><?php _e('Yes'); ?></label>
                                            </div>
-                                       </div>
+                                       </div>-->
 
                                        <script type="text/javascript">
                                            $(document).ready(function () {
@@ -166,7 +166,7 @@
                                            });
                                        </script>
 
-                                       <div class="col-12 js-blog-filtering-the-results" <?php if (get_option('disable_filter', $moduleId)): ?>style="display:none"<?php endif; ?>>
+                                       <div class="col-12 js-blog-filtering-the-results" <?php if (get_option('disable_filter', $moduleId)): ?> <?php endif; ?>>
 
                                            <div class="card shado mb-4">
                                                <div class="card-body">
@@ -209,25 +209,25 @@
                                                    </script>
 
                                                    <div class="list-group mt-3" id="js-shop-filters-items">
-                                                       <div data-filter-name="search" class="js-shop-filter-item-sort d-flex align-items-center align-content-center list-group-item list-group-item-action" aria-current="true">
-                                                           <div class="mr-3 mt-1">
+<!--                                                       <div data-filter-name="search" class="js-shop-filter-item-sort d-flex align-items-center align-content-center list-group-item list-group-item-action" aria-current="true">
+&lt;!&ndash;                                                           <div class="mr-3 mt-1">
                                                                <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
-                                                           </div>
+                                                           </div>&ndash;&gt;
                                                            <div class="custom-control custom-checkbox mt-3 js-disable-search">
                                                                <input type="checkbox" <?php if (!get_option('disable_search', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" data-value-checked="0" data-value-unchecked="1" name="disable_search" value="1" id="disable_search">
                                                                <label class="custom-control-label" for="disable_search"><?php _e("Search"); ?></label>
                                                            </div>
-                                                       </div>
+                                                       </div>-->
                                                        <div data-filter-name="tags" class="js-shop-filter-item-sort d-flex align-items-center align-content-center list-group-item list-group-item-action" aria-current="true">
-                                                           <div class="mr-3 mt-1">
+<!--                                                           <div class="mr-3 mt-1">
                                                                <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
-                                                           </div>
+                                                           </div>-->
                                                            <div class="custom-control custom-checkbox js-filtering-by-tags">
                                                                <input type="checkbox" <?php if ('1'== get_option('filtering_by_tags', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" name="filtering_by_tags" value="1" id="filter_by_tags">
                                                                <label class="custom-control-label" for="filter_by_tags"><?php _e("Tags"); ?></label>
                                                            </div>
                                                        </div>
-                                                       <div data-filter-name="categories" class="js-shop-filter-item-sort d-flex align-items-center align-content-center list-group-item list-group-item-action" aria-current="true">
+<!--                                                       <div data-filter-name="categories" class="js-shop-filter-item-sort d-flex align-items-center align-content-center list-group-item list-group-item-action" aria-current="true">
                                                            <div class="mr-3 mt-1">
                                                                <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
                                                            </div>
@@ -235,11 +235,11 @@
                                                                <input type="checkbox" <?php if ('1' == get_option('filtering_by_categories', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" name="filtering_by_categories" value="1" id="filter_by_categories">
                                                                <label class="custom-control-label" for="filter_by_categories"><?php _e("Categories"); ?></label>
                                                            </div>
-                                                       </div>
+                                                       </div>-->
                                                        <div data-filter-name="custom_fields" class="js-shop-filter-item-sort d-flex align-items-center align-content-center list-group-item list-group-item-action" aria-current="true">
-                                                           <div class="mr-3 mt-1">
+<!--                                                           <div class="mr-3 mt-1">
                                                                <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
-                                                           </div>
+                                                           </div>-->
                                                            <div class="custom-control custom-checkbox js-filtering-by-custom-fields">
                                                                <input type="checkbox" <?php if (get_option('filtering_by_custom_fields', $moduleId)=='1'): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" name="filtering_by_custom_fields" value="1" id="filter_by_custom_fields">
                                                                <label class="custom-control-label" for="filter_by_custom_fields"><?php _e("Custom Fields"); ?></label>
@@ -252,13 +252,13 @@
                                                        <div class="card mb-4">
                                                            <div class="card-body">
 
-                                                               <div class="form-group">
+<!--                                                               <div class="form-group">
                                                                    <label class="form-label d-block"><?php echo _e("Apply filter with", true); ?></label>
                                                                    <select name="filtering_when" option-group="<?php echo $moduleId;?>" class="mw_option_field form-control">
                                                                        <option <?php if (get_option('filtering_when', $moduleId) == 'automatically'): ?> selected="selected" <?php endif; ?> value="automatically">{{_e("Automatically")}}</option>
                                                                        <option <?php if (get_option('filtering_when', $moduleId) == 'apply_button'): ?> selected="selected" <?php endif; ?> value="apply_button">{{_e("Apply Button")}}</option>
                                                                    </select>
-                                                               </div>
+                                                               </div>-->
 
                                                                <div class="js-filtering-custom-fields-table"></div>
 
@@ -308,10 +308,10 @@
                                                                </script>
 
 
-                                                               <div class="custom-control custom-checkbox my-2">
+<!--                                                               <div class="custom-control custom-checkbox my-2">
                                                                    <input type="checkbox" <?php if ('1' == get_option('filtering_show_picked_first', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" name="filtering_show_picked_first" value="1" id="filtering_show_picked_first">
                                                                    <label class="custom-control-label" for="filtering_show_picked_first"><?php _e("Show picked filters first"); ?></label>
-                                                               </div>
+                                                               </div>-->
                                                            </div>
 
                                                            {{--   <div class="custom-control custom-checkbox my-2">

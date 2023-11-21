@@ -1,3 +1,6 @@
 <div>
-@livewire('microweber-module-shop::index')
+@livewire('microweber-module-shop::index', [
+    'moduleId'=>$moduleId,
+    'moduleType'=>$moduleType,
+])
 </div>

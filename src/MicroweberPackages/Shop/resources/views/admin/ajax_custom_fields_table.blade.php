@@ -16,7 +16,7 @@
         <td style="width:40px"></td>
         <td><?php _e("Name"); ?></td>
         <td><?php _e("Custom Field"); ?></td>
-        <td><?php _e("Control"); ?></td>
+<!--        <td><?php _e("Control"); ?></td>-->
         <td><?php _e("Enable"); ?></td>
     </tr>
     </thead>
@@ -33,7 +33,7 @@
                 {{$customField->name}}
             </td>
 
-            <td>
+<!--            <td>
                 @php
                     $customFieldControlTypeOptionName = 'filtering_by_custom_fields_control_type_' . $customFieldKey;
                 @endphp
@@ -46,7 +46,7 @@
                     <option value="square_checkbox" <?php if ('square_checkbox' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Square checkbox"); ?></option>
                     <option value="color" <?php if ('color' == $customField->controlType): ?>selected="selected"<?php endif; ?>><?php _e("Color"); ?></option>
                 </select>
-            </td>
+            </td>-->
             <td>
                 @php
                     $customFieldOptionName = 'filtering_by_custom_fields_' . $customFieldKey;

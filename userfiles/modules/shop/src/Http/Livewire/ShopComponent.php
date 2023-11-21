@@ -7,6 +7,7 @@ use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCategoriesTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCustomFieldsTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopTagsTrait;
+use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
 
 class ShopComponent extends ModuleSettingsComponent
@@ -15,6 +16,9 @@ class ShopComponent extends ModuleSettingsComponent
     use ShopTagsTrait;
     use ShopCategoriesTrait;
     use ShopCustomFieldsTrait;
+
+    public string $moduleId;
+    public string $moduleType;
 
     public $keywords;
     public $sort = '';
@@ -57,7 +61,11 @@ class ShopComponent extends ModuleSettingsComponent
 
     public function render()
     {
+
+        $mainPageId = $this->getMainPageId();
         $productsQuery = Product::query();
+        $productsQuery->where('parent', $mainPageId);
+
       //  $productsQuery->where('is_active', 1);
 
         $filters = [];
@@ -82,6 +90,7 @@ class ShopComponent extends ModuleSettingsComponent
         }
 
         $productsQueryAll = Product::query();
+        $productsQueryAll->where('parent', $mainPageId);
         $productsQueryAll->where('is_active', 1);
         $allProducts = $productsQueryAll->get();
 
@@ -136,14 +145,33 @@ class ShopComponent extends ModuleSettingsComponent
             'filteredCategory' => $this->getCategory(),
             'availableCustomFields'=>$availableCustomFields,
             'availableTags' => $availableTags,
-            'availableCategories' => $this->getAvailableCategories(),
+            'availableCategories' => $this->getAvailableCategories($mainPageId),
        ]);
     }
 
-    public function getAvailableCategories()
+    public function getMainPageId()
+    {
+        $contentFromId = get_option('content_from_id', $this->moduleId);
+        if ($contentFromId) {
+            return $contentFromId;
+        }
+
+        $findFirstShop = Page::where('content_type', 'page')
+            ->where('subtype','dynamic')
+            ->where('is_shop', 1)
+            ->first();
+
+        if ($findFirstShop) {
+            return $findFirstShop->id;
+        }
+
+        return 0;
+    }
+
+    public function getAvailableCategories($mainPageId)
     {
         $categoryQuery = Category::query();
-       // $categoryQuery->where('rel_id', );
+        $categoryQuery->where('rel_id', $mainPageId);
         $categoryQuery->orderBy('position');
 
         return $categoryQuery->where('parent_id',0)->get();
