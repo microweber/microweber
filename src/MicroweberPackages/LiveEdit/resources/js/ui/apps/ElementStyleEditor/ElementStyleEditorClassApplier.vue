@@ -177,13 +177,13 @@ export default {
           //is in edit field
           var isInEditField = mw.top().app.liveEdit.liveEditHelpers.targetIsInEditField(element);
           var isInaccessible = mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(element);
-
+ 
           if (isInEditField && !isInaccessible) {
-            this.canShowClassApplier = false;
+            this.canShowClassApplier = true;
             this.populateStyleEditor(element);
 
           } else {
-            this.canShowClassApplier = true;
+            this.canShowClassApplier = false;
           }
 
 
