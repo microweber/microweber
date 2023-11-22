@@ -28,11 +28,13 @@ if (!$contentFromId) {
     }
 }
 
+if (!isset($params['template'])) {
+    $params['template'] = 'default';
+}
 
 $moduleTemplateNamespace = false;
-
 if (isset($params['template'])) {
-    $livewireModuleBladeView = 'microweber-module-shop::livewire.' . $params['template'];
+    $livewireModuleBladeView = 'microweber-module-shop::livewire.shop.' . $params['template'];
     if (view()->exists($livewireModuleBladeView)) {
         $moduleTemplateNamespace = $livewireModuleBladeView;
     }
