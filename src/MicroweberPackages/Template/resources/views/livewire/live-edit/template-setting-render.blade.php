@@ -41,25 +41,61 @@
 
             @if ($setting['fieldType'] == 'colorPalette')
 
-               @if(isset($setting['fieldSettings']['colors']))
-                    @foreach($setting['fieldSettings']['colors'] as $colorPallete)
-                        <div class="mt-2">
-                            <div class="d-flex flex-cols gap-2"
+                    <div class="list-group list-group list-group-flush overflow-auto" style="max-height: 500px; margin-right: 20px;">
+                        @if(isset($setting['fieldSettings']['colors']))
+                            @foreach($setting['fieldSettings']['colors'] as $colorPallete)
+                        <div class="list-group-item"
 
-                                 x-on:click="(e) => {
+                             x-on:click="(e) => {
                                     @foreach($colorPallete['properties'] as $property=>$propertyValue)
                                     mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$property}}', '{{$propertyValue}}');
                                     @endforeach
-                                }"
+                                }">
+                            <div class="row align-items-center">
+                                <div class="col text-truncate">
+                                    <div  class="text-reset d-block">{{$colorPallete['name']}}</div>
+                                    <div class=" d-flex flex-cols gap-1 mt-n1">
+                                        @foreach($colorPallete['mainColors'] as $mainColors)
+                                            <div style="border-radius:6px;width:100%;height:40px;background:{{$mainColors}}"></div>
+                                        @endforeach
 
-                            >
-                                @foreach($colorPallete['mainColors'] as $mainColors)
-                                    <div style="border-radius:6px;width:100%;height:40px;background:{{$mainColors}}"></div>
-                                @endforeach
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    @endforeach
-                @endif
+                        @endforeach
+                        @endif
+
+                    </div>
+
+              <?php
+
+                        /* @if(isset($setting['fieldSettings']['colors']))
+                        @foreach($setting['fieldSettings']['colors'] as $colorPallete)
+                        <div class="mt-2">
+                        <div class="d-flex flex-cols gap-2"
+
+                        x-on:click="(e) => {
+                        @foreach($colorPallete['properties'] as $property=>$propertyValue)
+                        mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$property}}', '{{$propertyValue}}');
+                        @endforeach
+                        }"
+
+                        >
+                        @if(isset($colorPallete['name']))
+
+                        <div style="border-radius:6px;width:100%;height:40px;background:{{$colorPallete['name']}}"></div>
+                        @endif
+
+                        @foreach($colorPallete['mainColors'] as $mainColors)
+                        <div style="border-radius:6px;width:100%;height:40px;background:{{$mainColors}}"></div>
+                        @endforeach
+                        </div>
+                        </div>
+                        @endforeach
+                        @endif*/
+
+                        ?>
 
             @endif
 
