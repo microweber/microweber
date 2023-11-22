@@ -264,6 +264,76 @@ $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }
+
+$moduleBladeView = 'microweber-module-social-links::' . $module_template;
+if (view()->exists($moduleBladeView)) {
+    echo view($moduleBladeView, [
+        'params'=>$params,
+        'settings'=> [
+            'facebook_enabled'=>$facebook_enabled,
+            'twitter_enabled'=>$twitter_enabled,
+            'googleplus_enabled'=>$googleplus_enabled,
+            'pinterest_enabled'=>$pinterest_enabled,
+            'youtube_enabled'=>$youtube_enabled,
+            'linkedin_enabled'=>$linkedin_enabled,
+            'soundcloud_enabled'=>$soundcloud_enabled,
+            'mixcloud_enabled'=>$mixcloud_enabled,
+            'medium_enabled'=>$medium_enabled,
+            'discord_enabled'=>$discord_enabled,
+            'skype_enabled'=>$skype_enabled,
+            'social_links_has_enabled'=>$social_links_has_enabled,
+        ],
+        'links'=>[
+            [
+                'title'=>'Facebook',
+                'url'=>$facebook_url,
+                'icon'=>'mdi mdi-facebook',
+            ],
+            [
+                'title'=>'Twitter',
+                'url'=>$twitter_url,
+                'icon'=>'mdi mdi-twitter',
+            ],
+            [
+                'title'=>'Google+',
+                'url'=>$googleplus_url,
+                'icon'=>'mdi mdi-google-plus',
+            ],
+            [
+                'title'=>'Pinterest',
+                'url'=>$pinterest_url,
+                'icon'=>'mdi mdi-pinterest',
+            ],
+            [
+                'title'=>'Youtube',
+                'url'=>$youtube_url,
+                'icon'=>'mdi mdi-youtube',
+            ],
+            [
+                'title'=>'Linkedin',
+                'url'=>$linkedin_url,
+                'icon'=>'mdi mdi-linkedin',
+            ],
+            [
+                'title'=>'Soundcloud',
+                'url'=>$soundcloud_url,
+                'icon'=>'mdi mdi-soundcloud',
+            ],
+            [
+                'title'=>'Mixcloud',
+                'url'=>$mixcloud_url,
+                'icon'=>'mdi mdi-mixcloud',
+            ],
+            [
+                'title'=>'Medium',
+                'url'=>$medium_url,
+                'icon'=>'mdi mdi-medium',
+            ]
+        ]
+    ]);
+    return;
+}
+
 if ($module_template != false) {
     $template_file = module_templates($config['module'], $module_template);
 } else {

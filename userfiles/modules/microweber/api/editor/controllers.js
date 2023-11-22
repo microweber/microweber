@@ -1522,7 +1522,7 @@ MWEditor.controllers = {
 
 
 
-    wordPaste: function (scope, api, rootScope) {
+    xwordPaste: function (scope, api, rootScope) {
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
@@ -1537,14 +1537,14 @@ MWEditor.controllers = {
                 var ok = MWEditor.core.element({
                     tag: 'span',
                     props: {
-                        className: 'mw-ui-btn mw-ui-btn-info',
+                        className: 'mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component',
                         innerHTML: rootScope.lang('OK')
                     }
                 });
                 var cancel = MWEditor.core.element({
                     tag: 'span',
                     props: {
-                        className: 'mw-ui-btn',
+                        className: 'mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component',
                         innerHTML: rootScope.lang('Cancel')
                     }
                 });
@@ -1558,7 +1558,7 @@ MWEditor.controllers = {
                     }
                 });
 
-                var footer = mw.element();
+                var footer = mw.element(`<div class="d-flex justify-content-between w-100"></div>`);
                 cancel.on('click', function (){
                     dialog.remove();
                 })
@@ -1575,7 +1575,8 @@ MWEditor.controllers = {
                 footer.append(ok);
                 dialog = mw.dialog({
                     content: cleanEl.get(0),
-                    footer: footer.get(0)
+                    footer: footer.get(0),
+                    title: mw.lang('Paste')
                 });
             });
             return el;

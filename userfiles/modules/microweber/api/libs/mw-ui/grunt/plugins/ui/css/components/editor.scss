@@ -22,7 +22,7 @@ $editorSpacing: 5px;
     z-index: 1101;
     font-family: Inter, sans-serif;
     font-size: 14px;
-    
+
     &.mw-small-editor-skin-default{
 
     }
@@ -42,7 +42,7 @@ $editorSpacing: 5px;
         padding: 10px 10px;
         white-space: nowrap;
         font-size: 14px;
-        
+
     }
     .mw-editor-dropdown-option:hover{
         background-color: rgba(145, 145, 145, 0.47);
@@ -537,13 +537,13 @@ $editorSpacing: 5px;
     }
 
     .mw-bar-row{
-        border-bottom-width: 0px; 
-        background-color: transparent; 
+        border-bottom-width: 0px;
+        background-color: transparent;
         padding: 0px;
     }
     .mw-editor-controller-component-select-values-holder{
         box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-        
+
     }
     .mw-editor-dropdown-option{
         padding: 5px;
@@ -606,7 +606,7 @@ $editorSpacing: 5px;
 
             svg{
                 width: 20px;
-         
+
             }
         }
         .mw-editor-group-button-caret{
@@ -624,10 +624,10 @@ $editorSpacing: 5px;
 }
 
 .mw-editor-group-button-icon{
- 
+
 
     svg{
-     
+
         fill: currentColor;
     }
 }
@@ -652,7 +652,7 @@ $editorSpacing: 5px;
         position: absolute;
         top: 100%;
         left: 0;
-        background-color: white;
+
         border: 1px solid transparent;
         opacity: 0;
         visibility: hidden;
@@ -662,8 +662,8 @@ $editorSpacing: 5px;
         min-width: 100%;
         overflow: auto;
         max-height: calc(100vh - 200px);
- 
-        background-color: #fff;
+
+        background-color: var(--tblr-bg-surface);
     }
     &.active{
         z-index: 10;

@@ -3123,7 +3123,7 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 
 [data-mwplaceholder]:empty:after {
     content: attr(data-mwplaceholder);
-    color: #000;
+
     opacity: .8;
 }
 

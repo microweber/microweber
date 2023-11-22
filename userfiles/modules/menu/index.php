@@ -27,6 +27,15 @@ if (isset($params['menu-name'])) {
             $module_template = $params['template'];
         }
 
+        $moduleBladeView = 'microweber-module-menu::' . $module_template;
+        if (view()->exists($moduleBladeView)) {
+            echo view($moduleBladeView, [
+                'params' => $params,
+                'menuFilter' => $menu_filter
+            ]);
+            return;
+        }
+
         if ($module_template != false and trim($module_template) != '' and trim(strtolower($module_template) != 'none')) {
             $template_file = module_templates($config['module'], $module_template);
         } else {
