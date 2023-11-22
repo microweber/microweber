@@ -148,7 +148,7 @@ export class ElementActions extends MicroweberBaseClass {
     }
     cloneElementFirstClonableParent(target) {
 
-        var hasCloneableClassOnParents = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable']);
+        var hasCloneableClassOnParents = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable', 'mw-col']);
 
         if (hasCloneableClassOnParents) {
             return  this.cloneElement(hasCloneableClassOnParents);
