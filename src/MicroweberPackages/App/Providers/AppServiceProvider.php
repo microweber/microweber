@@ -607,7 +607,12 @@ class AppServiceProvider extends ServiceProvider
                 DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
             }
 
+        //    load_all_functions_files_for_modules();
+
+            load_all_service_providers_for_modules();
             load_all_functions_files_for_modules();
+            load_service_providers_for_template();
+            load_functions_files_for_template();
 
             $this->setupAppLocale();
 
