@@ -94,7 +94,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
                 ]
             ]);
         \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
-            ->addChild('Website Style', [
+            ->addChild('Template Settings', [
                 // 'uri' => admin_url(),
                  'attributes' => [
                     'id' => 'js-live-edit-open-template-settings-link',
