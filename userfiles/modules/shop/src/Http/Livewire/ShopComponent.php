@@ -26,9 +26,14 @@ class ShopComponent extends ModuleSettingsComponent
     public $keywords;
     public $sort = '';
     public $direction = '';
-    public $priceFrom;
-    public $priceTo;
+    public $offers = '';
     public $limit = 10;
+
+    public $priceFrom = 0;
+    public $priceTo = 50;
+
+    public $minPrice = 0;
+    public $maxPrice = 1000;
 
     public $queryString = [
         'keywords',
@@ -40,9 +45,27 @@ class ShopComponent extends ModuleSettingsComponent
         'direction',
         'priceFrom',
         'priceTo',
+        'offers'
     ];
 
-    public function keywordsUpdated()
+
+    public function updatedOffers()
+    {
+        $this->setPage(1);
+    }
+
+    public function updatedPriceFrom()
+    {
+        $this->setPage(1);
+    }
+
+    public function updatedPriceTo()
+    {
+        $this->setPage(1);
+    }
+
+
+    public function updatedKeywords()
     {
         $this->setPage(1);
     }
