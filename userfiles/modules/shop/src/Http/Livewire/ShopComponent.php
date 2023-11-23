@@ -1,9 +1,9 @@
 <?php
 namespace MicroweberPackages\Modules\Shop\Http\Livewire;
 
+use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCategoriesTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCustomFieldsTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopTagsTrait;
@@ -11,7 +11,7 @@ use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Option\Models\ModuleOption;
 
-class ShopComponent extends ModuleSettingsComponent
+class ShopComponent extends Component
 {
     use WithPagination;
     use ShopTagsTrait;
