@@ -18,7 +18,7 @@
 
 if (isset($params["live_edit"]) and $params["live_edit"]) {
 
-    $controller = \Illuminate\Support\Facades\App::make(\MicroweberPackages\Shop\Http\Controllers\LiveEditAdminController::class);
+    $controller = \Illuminate\Support\Facades\App::make(\MicroweberPackages\Modules\Shop\Http\Controllers\LiveEditAdminController::class);
 
     $request = new \Illuminate\Http\Request();
     $request->merge($params);
