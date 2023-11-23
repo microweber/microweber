@@ -389,6 +389,13 @@
             }
         ],
 
+        noUIiSliderStyled: [
+            function () {
+                mw.require(mw.settings.libs_url + 'nouislider' + '/nouislider.css');
+                mw.require(mw.settings.libs_url + 'nouislider' + '/nouislider.js');
+            }
+        ],
+
         tinymce: [
             function () {
                 mw.require(mw.settings.libs_url + 'tinymce' + '/tinymce.min.js');
