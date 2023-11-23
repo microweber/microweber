@@ -10,8 +10,6 @@
         <livewire:microweber-option::toggle-reversed optionKey="disable_tags_filtering" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
-    @dump(get_option('disable_tags_filtering',$moduleId))
-
     <div>
         <label class="live-edit-label">Categories Filtering</label>
         <livewire:microweber-option::toggle-reversed optionKey="disable_categories_filtering" :optionGroup="$moduleId" :module="$moduleType"  />
