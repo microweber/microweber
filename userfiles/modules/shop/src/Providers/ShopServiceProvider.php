@@ -22,10 +22,9 @@ class ShopServiceProvider extends PackageServiceProvider
         parent::register();
 
         Livewire::component('microweber-module-shop::index', ShopComponent::class);
+        Livewire::component('microweber-module-shop::settings', ShopSettingsComponent::class);
 
-
-       // Livewire::component('microweber-module-shop::settings', ShopSettingsComponent::class);
-//        ModuleAdmin::registerSettings('shop', 'microweber-module-shop::settings');
+     //   ModuleAdmin::registerSettings('shop', 'microweber-module-shop::settings');
 
     }
 

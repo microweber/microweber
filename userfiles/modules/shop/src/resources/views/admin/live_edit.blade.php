@@ -31,7 +31,7 @@
                    </div>
 
                    <div class="tab-pane fade" id="settings">
-qko
+                       <livewire:microweber-module-shop::settings />
                    </div>
 
 <!--                   <div class="tab-pane fade" id="templates">

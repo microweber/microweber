@@ -7,6 +7,6 @@ class ShopSettingsComponent extends ModuleSettingsComponent
 {
     public function render()
     {
-       return view('microweber-module-shop::livewire.settings');
+       return view('microweber-module-shop::admin.livewire.settings');
     }
 }
