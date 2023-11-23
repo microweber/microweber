@@ -43,6 +43,7 @@ use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextareaOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\TextOptionNew;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\ToggleOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\ToggleReversedOption;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 
 
@@ -112,6 +113,7 @@ class ModuleServiceProvider extends ServiceProvider
         Livewire::component('microweber-option::color-picker', ColorPickerOption::class);
         Livewire::component('microweber-option::radio', RadioOption::class);
         Livewire::component('microweber-option::toggle', ToggleOption::class);
+        Livewire::component('microweber-option::toggle-reversed', ToggleReversedOption::class);
         Livewire::component('microweber-option::radio-modern', RadioModernOption::class);
         Livewire::component('microweber-option::checkbox', CheckboxOption::class);
         Livewire::component('microweber-option::checkbox-single', CheckboxSingleOption::class);
