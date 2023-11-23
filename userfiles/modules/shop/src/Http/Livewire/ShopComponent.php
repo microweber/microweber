@@ -109,8 +109,7 @@ class ShopComponent extends Component
         $mainPageId = $this->getMainPageId();
         $productsQuery = Product::query();
         $productsQuery->where('parent', $mainPageId);
-
-      //  $productsQuery->where('is_active', 1);
+        $productsQuery->where('is_active', 1);
 
         $filters = [];
         if (!empty($this->keywords)) {
