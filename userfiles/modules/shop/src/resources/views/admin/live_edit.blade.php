@@ -31,7 +31,7 @@
                    </div>
 
                    <div class="tab-pane fade" id="settings">
-                       <livewire:microweber-module-shop::settings />
+                       <livewire:microweber-module-shop::shop-settings :moduleId="$moduleId" moduleType="shop" />
                    </div>
 
 <!--                   <div class="tab-pane fade" id="templates">

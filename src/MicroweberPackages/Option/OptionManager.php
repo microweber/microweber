@@ -444,6 +444,10 @@ class OptionManager
                     }
 
                     $findModuleOption->module = $data['module'];
+
+                    if (!isset($data['option_value'])) {
+                        $data['option_value'] = '';
+                    }
                     $findModuleOption->option_value = $data['option_value'];
 
 

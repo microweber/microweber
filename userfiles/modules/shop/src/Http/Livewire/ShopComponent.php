@@ -9,6 +9,7 @@ use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCustomFieldsTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopTagsTrait;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\Option\Models\ModuleOption;
 
 class ShopComponent extends ModuleSettingsComponent
 {
@@ -17,6 +18,7 @@ class ShopComponent extends ModuleSettingsComponent
     use ShopCategoriesTrait;
     use ShopCustomFieldsTrait;
 
+    public array $settings = [];
     public string $moduleId =  "";
     public string $moduleType =  "";
     public string $moduleTemplateNamespace = '';
@@ -62,6 +64,24 @@ class ShopComponent extends ModuleSettingsComponent
 
     public function render()
     {
+        $filterSettings = [
+            'disable_tags_filtering'=>false,
+            'disable_categories_filtering'=>false,
+            'disable_custom_fields_filtering'=>false,
+            'disable_price_filtering'=>false,
+            'disable_sort_filtering'=>false,
+            'disable_limit_filtering'=>false,
+            'disable_keyword_filtering'=>false,
+            'disable_search'=>false,
+            'disable_pagination'=>false,
+        ];
+
+        $getModuleOptions = ModuleOption::where('option_group', $this->moduleId)->get();
+        if (!empty($getModuleOptions)) {
+            foreach ($getModuleOptions as $moduleOption) {
+                $filterSettings[$moduleOption['option_key']] = $moduleOption['option_value'];
+            }
+        }
 
         $mainPageId = $this->getMainPageId();
         $productsQuery = Product::query();
@@ -139,12 +159,12 @@ class ShopComponent extends ModuleSettingsComponent
 
         $products = $productsQuery->paginate($this->limit);
 
-
         if (empty($this->moduleTemplateNamespace)) {
             $this->moduleTemplateNamespace = 'microweber-module-shop::livewire.shop.index';
         }
 
        return view($this->moduleTemplateNamespace, [
+            'filterSettings'=>$filterSettings,
             'products' => $products,
             'filteredTags' => $this->getTags(),
             'filteredCustomFields'=>$this->getCustomFields(),
