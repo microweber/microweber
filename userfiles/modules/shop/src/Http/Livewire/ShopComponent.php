@@ -17,8 +17,8 @@ class ShopComponent extends ModuleSettingsComponent
     use ShopCategoriesTrait;
     use ShopCustomFieldsTrait;
 
-    public string $moduleId;
-    public string $moduleType;
+    public string $moduleId =  "";
+    public string $moduleType =  "";
     public string $moduleTemplateNamespace = '';
 
     public $keywords;
