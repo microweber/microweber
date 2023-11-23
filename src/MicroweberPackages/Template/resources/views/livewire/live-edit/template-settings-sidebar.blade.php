@@ -42,9 +42,38 @@
 
             }
 
-            function importExportTemplateStylesheetSettings() {
-                alert('importExportTemplateStylesheetSettings');
+            function editStylesheetPropertiesInEditor() {
 
+                if (mw.top().app.cssEditor) {
+                    var vals = mw.top().app.cssEditor.getThemeCSSVariablesAsText();
+                    if (vals) {
+
+                        var btn = document.createElement('button');
+                         btn.className = 'btn btn-outline-primary w-100';
+                        btn.innerHTML = mw.lang('Apply CSS Variables');
+                        btn.onclick = function (ev) {
+                        var newVals = mw.top().doc.getElementById('cssVariablesTextarea').value;
+                            mw.top().app.cssEditor.applyThemeCSSVariablesFromText(newVals);
+                        };
+
+
+                        let cssVariablesDialog = mw.top().dialog({
+                            content: '<div style="width:100%;height:400px;padding:20px;">' +
+
+                                '<textarea id="cssVariablesTextarea" style="width:100%;height:100%;border:none;resize:none;">' + vals + '</textarea>' +
+
+                                '</div>',
+                            title: 'CSS Variables',
+                            footer: btn,
+                            width: 480,
+                            overlayClose: true,
+                        });
+                        return cssVariablesDialog
+
+                    } else {
+                        alert('No CSS Variables found');
+                    }
+                }
             }
 
             document.addEventListener('mw-option-saved', function () {
@@ -178,15 +207,31 @@
                 class="fs-2 font-weight-bold settings-main-group d-flex align-items-center justify-content-between">
                Styles
 
-                <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Reset stylesheet settings"
-                        class="reset-template-settings-and-stylesheet-button" x-on:click="()=> {
-                        resetStylesheetSettings();
-                    }">
-                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
-                         width="24"><path
-                            d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg>
+                <div class="d-flex align-items-end">
 
-                </button>
+                    <button type="button" class="btn   btn-link mw-live-edit-toolbar-link" data-bs-toggle="tooltip"
+                                 data-bs-placement="top" title="Show CSS Variables"
+                                 class="edit-template-settings-and-stylesheet-in-editor-button" x-on:click="()=> {
+                            editStylesheetPropertiesInEditor();
+                        }">
+                      <svg
+
+                          style="margin-top: 20px;"
+                          fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
+                           width="24"><path
+                              d="M420-360q-17 0-28.5-11.5T380-400v-40h60v20h80v-40H420q-17 0-28.5-11.5T380-500v-60q0-17 11.5-28.5T420-600h120q17 0 28.5 11.5T580-560v40h-60v-20h-80v40h100q17 0 28.5 11.5T580-460v60q0 17-11.5 28.5T540-360H420Zm260 0q-17 0-28.5-11.5T640-400v-40h60v20h80v-40H680q-17 0-28.5-11.5T640-500v-60q0-17 11.5-28.5T680-600h120q17 0 28.5 11.5T840-560v40h-60v-20h-80v40h100q17 0 28.5 11.5T840-460v60q0 17-11.5 28.5T800-360H680Zm-520 0q-17 0-28.5-11.5T120-400v-160q0-17 11.5-28.5T160-600h120q17 0 28.5 11.5T320-560v40h-60v-20h-80v120h80v-20h60v40q0 17-11.5 28.5T280-360H160Z"/></svg>
+                    </button>
+
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Reset stylesheet settings"
+                            class="reset-template-settings-and-stylesheet-button" x-on:click="()=> {
+                            resetStylesheetSettings();
+                        }">
+                        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
+                             width="24"><path
+                                d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z"/></svg>
+
+                    </button>
+                </div>
             </span>
 
                     @foreach($styleSettings as $styleSetting)
@@ -308,7 +353,7 @@
                                 {{$settingGroupName}}
                             </a>
 
-                                <?php /* this is the import export style  button*/ ?>
+                                <?php /* this is the import export style  button
                             @if($settingGroup['type'] == 'stylesheet')
 
                                 <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -322,7 +367,7 @@
 
                             @endif
 
-
+                            */ ?>
 
                                 <?php /* this is the reset button*/ ?>
 
@@ -347,7 +392,6 @@
                                 </svg>
 
                             </button>
-
 
 
                         </div>

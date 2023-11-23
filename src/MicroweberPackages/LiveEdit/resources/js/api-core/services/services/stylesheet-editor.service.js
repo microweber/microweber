@@ -60,9 +60,9 @@ export class StylesheetEditor extends MicroweberBaseClass {
     _cssTemp(json) {
         const css = CSSJSON.toCSS(json);
 
-        var tempStylesheetElement =   this.settings.document.querySelector('#mw-liveedit-dynamic-temp-style');
+        var tempStylesheetElement = this.settings.document.querySelector('#mw-liveedit-dynamic-temp-style');
 
-        if(tempStylesheetElement == null){
+        if (tempStylesheetElement == null) {
             mw.app._cssTemp = mw.tools.createStyle('#mw-liveedit-dynamic-temp-style', css, this.settings.document.body);
 
         } else {
@@ -88,12 +88,12 @@ export class StylesheetEditor extends MicroweberBaseClass {
         const removePropertyFromSheet = (sheet) => {
             if (sheet) {
                 var rules;
-                if(sheet.cssRules) {
+                if (sheet.cssRules) {
                     rules = sheet.cssRules;
-                } else if(sheet.sheet) {
+                } else if (sheet.sheet) {
                     rules = sheet.sheet.cssRules;
                 }
-                if(!rules || !rules.length) {
+                if (!rules || !rules.length) {
                     return;
                 }
                 for (let i = 0, l = rules.length; i < l; i++) {
@@ -124,17 +124,16 @@ export class StylesheetEditor extends MicroweberBaseClass {
             if (!ActiveNode) {
 
 
-
                 var newEl = $.jseldom(selector);
 
                 var holder = canvasDocument.querySelector('#mw-non-existing-temp-element-holder');
-                if(!holder){
+                if (!holder) {
                     holder = canvasDocument.createElement('div');
                     holder.id = 'mw-non-existing-temp-element-holder';
                     holder.style.display = 'none';
                     canvasDocument.body.append(holder);
                 }
-                if(newEl) {
+                if (newEl) {
                     holder = canvasDocument.getElementById('mw-non-existing-temp-element-holder');
                     holder.append(newEl[0]);
                 }
@@ -158,16 +157,16 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
         let media = 'screen, print';
 
-        if(mw.top().app.resolutionMode === 'phone') {
+        if (mw.top().app.resolutionMode === 'phone') {
             media = '(max-width: 460px)';
         }
 
         media = `@media ${media}`;
 
-        if(record) {
+        if (record) {
             var state = mw.top().app.state.state();
             var prev = state[state.length - 1];
-            if(prev && (prev.target !== '$liveEditCSS' || (prev.target === '$liveEditCSS' && prev.value.selector !== sel)) ) {
+            if (prev && (prev.target !== '$liveEditCSS' || (prev.target === '$liveEditCSS' && prev.value.selector !== sel))) {
                 mw.top().app.state.record({
                     target: '$liveEditCSS',
                     value: {
@@ -180,8 +179,6 @@ export class StylesheetEditor extends MicroweberBaseClass {
         }
 
         this.changed = true;
-
-
 
 
         if (!this._temp.children[media]) {
@@ -204,13 +201,13 @@ export class StylesheetEditor extends MicroweberBaseClass {
         if (val === '' || val === '!important' || val === undefined || val === null) {
             const prop_val = '';
             this._temp.children[media].children[sel].attributes[prop] = prop_val;
-            if(this._temp.children
+            if (this._temp.children
                 && this._temp.children[media]
                 && this._temp.children[media].children[sel]
             ) {
                 delete this._temp.children[media].children[sel].attributes[prop];
             }
-            if(this.json
+            if (this.json
                 && this.json.children
                 && this.json.children[media]
                 && this.json.children[media].children[sel]
@@ -222,10 +219,9 @@ export class StylesheetEditor extends MicroweberBaseClass {
         }
 
 
-
         this._cssTemp(this._temp);
 
-        if(record) {
+        if (record) {
             mw.top().app.state.record({
                 target: '$liveEditCSS',
                 value: {
@@ -245,11 +241,10 @@ export class StylesheetEditor extends MicroweberBaseClass {
     setPropertyForSelector_v1(sel, prop, val, record = true) {
 
 
-
-        if(record) {
+        if (record) {
             var state = mw.top().app.state.state();
             var prev = state[state.length - 1];
-            if(prev && (prev.target !== '$liveEditCSS' || (prev.target === '$liveEditCSS' && prev.value.selector !== sel)) ) {
+            if (prev && (prev.target !== '$liveEditCSS' || (prev.target === '$liveEditCSS' && prev.value.selector !== sel))) {
                 mw.top().app.state.record({
                     target: '$liveEditCSS',
                     value: {
@@ -275,10 +270,10 @@ export class StylesheetEditor extends MicroweberBaseClass {
         if (val === '' || val === '!important' || val === undefined || val === null) {
             const prop_val = '';
             this._temp.children[sel].attributes[prop] = prop_val;
-            if(this._temp.children[sel]) {
+            if (this._temp.children[sel]) {
                 delete this._temp.children[sel].attributes[prop];
             }
-            if(this.json.children[sel]) {
+            if (this.json.children[sel]) {
                 delete this.json.children[sel].attributes[prop];
             }
 
@@ -289,7 +284,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
         this._cssTemp(this._temp);
 
-        if(record) {
+        if (record) {
             mw.top().app.state.record({
                 target: '$liveEditCSS',
                 value: {
@@ -346,9 +341,9 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     save(merge = true) {
 
-       var toSave;
+        var toSave;
 
-        if(merge) {
+        if (merge) {
             toSave = $.extend(true, {}, this.json, this._temp);
         } else {
             toSave = this._temp;
@@ -358,7 +353,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
         this.json = this._cleanCSSJSON(assigned);
 
-        this._css =  CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.')
+        this._css = CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.')
 
         mw.top().trigger('mw.liveeditCSSEditor.save');
     }
@@ -432,7 +427,93 @@ export class StylesheetEditor extends MicroweberBaseClass {
         this.getLiveeditCSS();
     }
 
+    applyThemeCSSVariablesFromText(cssVariablesText) {
+        cssVariablesText = cssVariablesText.trim();
+        var cssVariables = cssVariablesText.split(';');
 
+        if (cssVariables && cssVariables.length > 0) {
+            cssVariables.forEach(function (variableOriginal) {
+                var variablePair = variableOriginal.split(':');
+
+                if (variablePair.length === 2) {
+                    var variableName = variablePair[0].trim();
+                    var variableValue = variablePair[1].trim().replace(';', '');
+
+                    var ActiveSelector = ':root';
+                    var prop = variableName;
+                    var value = variableValue;
+
+                    mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, prop, value, false);
+                    console.log('applyThemeCSSVariablesFromText', ActiveSelector, prop, value);
+                 }
+            });
+        }
+    }
+    //Retrieve all --root CSS variables
+    getThemeCSSVariables() {
+
+        var targetStylesheetIds = ["theme-style"];
+
+        var cssVariables = this.getAllCSSVariables(targetStylesheetIds);
+        return cssVariables;
+    }
+    getThemeCSSVariablesAsText() {
+        var formattedText = '';
+        var cssVariables = this.getThemeCSSVariables();
+
+        if (cssVariables && cssVariables.length > 0) {
+            cssVariables.forEach(function (variableOriginal) {
+                var variableName = variableOriginal.replace('--', '');
+                var variableValue = mw.top().app.cssEditor.getPropertyForSelector(':root', variableOriginal);
+                formattedText += variableOriginal + ': ' + variableValue + ';\n';
+            });
+        }
+
+        return formattedText;
+    }
+
+    getAllCSSVariables(targetStylesheetIds = null) {
+        var canvasDocument = mw.top().app.canvas.getDocument();
+
+        var allStyleSheets = Array.from(canvasDocument.styleSheets);
+        var cssVariables = [];
+
+        allStyleSheets.forEach(styleSheet => {
+
+
+            var skip = false;
+            if(targetStylesheetIds && targetStylesheetIds.length > 0 ){
+                skip = true;
+            }
+
+            if (targetStylesheetIds && styleSheet.ownerNode && targetStylesheetIds.includes(styleSheet.ownerNode.id)) {
+                skip = false;
+            }
+
+            if (!skip) {
+                try {
+                    var rootRule = [...styleSheet.rules].find(rule => rule.selectorText === ":root");
+
+                    if (rootRule) {
+                        var declarations = rootRule.style;
+                        for (var i = 0; i < declarations.length; i++) {
+                            var property = declarations[i];
+                            if (property.startsWith("--")) {
+                                cssVariables.push(property);
+                            }
+                        }
+                    }
+                } catch (error) {
+                    // Handle security exceptions for cross-origin stylesheets
+                }
+            }
+
+
+        });
+
+
+        return cssVariables;
+    }
 
 
 }

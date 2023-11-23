@@ -16,14 +16,14 @@
 
             @if ($setting['fieldType'] == 'clearAll')
                 <div class="mt-2" style="background:#f7f7f7;border-radius:8px;padding: 12px;">
-                   <div>
-                       <b>{{$setting['title']}}</b>
-                   </div>
+                    <div>
+                        <b>{{$setting['title']}}</b>
+                    </div>
                     <div class="mt-1">
                         <small>{{$setting['description']}}</small>
                     </div>
                     <button
-                        x-on:click="(e) => {
+                            x-on:click="(e) => {
 
                             mw.confirm('Are you sure you want to clear styles?',
                                 function () {
@@ -33,76 +33,117 @@
                                 });
 
                             }"
-                        class="btn btn-outline-dark" style="width:100%;margin-top:15px">
+                            class="btn btn-outline-dark" style="width:100%;margin-top:15px">
                         <i class="fa fa-trash"></i> &nbsp; {{$setting['title']}}
                     </button>
                 </div>
             @endif
 
+
             @if ($setting['fieldType'] == 'colorPalette')
 
-                    <div class="list-group list-group list-group-flush overflow-auto" style="max-height: 500px; margin-right: 20px;">
-                        @if(isset($setting['fieldSettings']['colors']))
-                            @foreach($setting['fieldSettings']['colors'] as $colorPallete)
-                        <div class="list-group-item"
+                <div class="list-group list-group list-group-flush overflow-auto"
+                     style="max-height: 500px; margin-right: 20px;">
 
-                             x-on:click="(e) => {
+                    @if(isset($setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary']))
+
+                       @php
+                           // $setting['fieldType'] = 'colorPalette';
+                            if(!isset($setting['fieldSettings']['colors'])) {
+                                $setting['fieldSettings']['colors'] = [];
+                            }
+                                if (isset($setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary']) and !empty($setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary'])) {
+                                    $jsonFilesOnTemplateColorPalettes = $setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary'];
+                                    foreach ($jsonFilesOnTemplateColorPalettes as $jsonFileColor) {
+                                        $templateColorsFileExits  = templates_dir() . template_name() . DS . $jsonFileColor;
+                                        $templateColorsFileExits = normalize_path($templateColorsFileExits, false);
+                                        if(is_file($templateColorsFileExits)){
+                                            $templateColorsFileExitsContent = @file_get_contents($templateColorsFileExits);
+                                            $templateColorsFileExitsContent = @json_decode($templateColorsFileExitsContent, true);
+
+                                            if(is_array($templateColorsFileExitsContent)){
+                                                foreach ($templateColorsFileExitsContent as $templateColorsFileExitsContentItem) {
+                                                    if(isset($templateColorsFileExitsContentItem['name']) and isset($templateColorsFileExitsContentItem['mainColors'])){
+                                                        $setting['fieldSettings']['colors'][] = $templateColorsFileExitsContentItem;
+                                                    }
+                                                }
+                                            }
+
+                                        }
+
+                                    }
+
+                                }
+
+
+
+                       @endphp
+
+                    @endif
+
+
+                    @if(isset($setting['fieldSettings']['colors']))
+                        @foreach($setting['fieldSettings']['colors'] as $colorPallete)
+                            <div class="list-group-item"
+
+                                 x-on:click="(e) => {
                                     @foreach($colorPallete['properties'] as $property=>$propertyValue)
                                     mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$property}}', '{{$propertyValue}}');
                                     @endforeach
                                 }">
-                            <div class="row align-items-center">
-                                <div class="col text-truncate">
-                                    <div  class="text-reset d-block">{{$colorPallete['name']}}</div>
-                                    <div class=" d-flex flex-cols gap-1 mt-n1">
-                                        @foreach($colorPallete['mainColors'] as $mainColors)
-                                            <div style="border-radius:6px;width:100%;height:40px;background:{{$mainColors}}"></div>
-                                        @endforeach
+                                <div class="row align-items-center">
+                                    <div class="col text-truncate">
+                                        <div class="text-reset d-block">{{$colorPallete['name']}}</div>
+                                        <div class=" d-flex flex-cols gap-1 mt-n1">
+                                            @foreach($colorPallete['mainColors'] as $mainColors)
+                                                <div style="border-radius:6px;width:100%;height:40px;background:{{$mainColors}}"></div>
+                                            @endforeach
 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
-                        @endif
+                    @endif
 
-                    </div>
+                </div>
 
-              <?php
+                    <?php
 
-                        /* @if(isset($setting['fieldSettings']['colors']))
-                        @foreach($setting['fieldSettings']['colors'] as $colorPallete)
-                        <div class="mt-2">
-                        <div class="d-flex flex-cols gap-2"
+                    /* @if(isset($setting['fieldSettings']['colors']))
+                     * @foreach($setting['fieldSettings']['colors'] as $colorPallete)
+                     * <div class="mt-2">
+                     * <div class="d-flex flex-cols gap-2"
+                     *
+                     * x-on:click="(e) => {
+                     * @foreach($colorPallete['properties'] as $property=>$propertyValue)
+                     * mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$property}}', '{{$propertyValue}}');
+                     * @endforeach
+                     * }"
+                     *
+                     * >
+                     * @if(isset($colorPallete['name']))
+                     *
+                     * <div style="border-radius:6px;width:100%;height:40px;background:{{$colorPallete['name']}}"></div>
+                     * @endif
+                     *
+                     * @foreach($colorPallete['mainColors'] as $mainColors)
+                     * <div style="border-radius:6px;width:100%;height:40px;background:{{$mainColors}}"></div>
+                     * @endforeach
+                     * </div>
+                     * </div>
+                     * @endforeach
+                     * @endif
+                     */
 
-                        x-on:click="(e) => {
-                        @foreach($colorPallete['properties'] as $property=>$propertyValue)
-                        mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$property}}', '{{$propertyValue}}');
-                        @endforeach
-                        }"
-
-                        >
-                        @if(isset($colorPallete['name']))
-
-                        <div style="border-radius:6px;width:100%;height:40px;background:{{$colorPallete['name']}}"></div>
-                        @endif
-
-                        @foreach($colorPallete['mainColors'] as $mainColors)
-                        <div style="border-radius:6px;width:100%;height:40px;background:{{$mainColors}}"></div>
-                        @endforeach
-                        </div>
-                        </div>
-                        @endforeach
-                        @endif*/
-
-                        ?>
+                    ?>
 
             @endif
 
             @if ($setting['fieldType'] == 'colorPicker')
 
                 <x-microweber-ui::color-picker
-                x-on:loaded="(colorPickerEvent) => {
+                        x-on:loaded="(colorPickerEvent) => {
                     let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
                     colorPickerEvent.target.value = propertyValue;
                     mw.top().app.on('setPropertyForSelector', (propertyChangeEvent) => {
@@ -113,21 +154,21 @@
                          }
                     });
                 }"
-                x-on:update="(e) => {
+                        x-on:update="(e) => {
                     mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value);
                 }"
-               label="{{$setting['title']}}" />
+                        label="{{$setting['title']}}"/>
 
             @endif
 
             @if ($setting['fieldType'] == 'rangeSlider')
                 <x-microweber-ui::range-slider
-                x-on:loaded="(e) => {
+                        x-on:loaded="(e) => {
                     let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
                     propertyValue = propertyValue.replace('{{$setting['fieldSettings']['unit']}}', '');
                     e.target.value = propertyValue;
                 }"
-                x-on:slide="(e) => {
+                        x-on:slide="(e) => {
                     let currentPropertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
                     currentPropertyValue = currentPropertyValue.replace('{{$setting['fieldSettings']['unit']}}', '');
                     if (currentPropertyValue == event.target.value) {
@@ -137,7 +178,9 @@
                         mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value + '{{$setting['fieldSettings']['unit']}}');
                     }
                 }"
-               label="{{$setting['title']}}" min="{{$setting['fieldSettings']['min']}}" max="{{$setting['fieldSettings']['max']}}" step="{{$setting['fieldSettings']['step']}}" labelUnit="{{$setting['fieldSettings']['unit']}}" />
+                        label="{{$setting['title']}}" min="{{$setting['fieldSettings']['min']}}"
+                        max="{{$setting['fieldSettings']['max']}}" step="{{$setting['fieldSettings']['step']}}"
+                        labelUnit="{{$setting['fieldSettings']['unit']}}"/>
             @endif
 
             @if ($setting['fieldType'] == 'styleEditor')
@@ -158,25 +201,25 @@
                         <b>{{$setting['title']}}</b>
                     </div>
                     <div class="mb-2">
-                      <small>{{$setting['description']}}</small>
-                  </div>
-              </div>
+                        <small>{{$setting['description']}}</small>
+                    </div>
+                </div>
             @endif
 
             @if ($setting['fieldType'] == 'fontFamily')
-            <x-microweber-ui::font-picker
-                x-on:loaded="(e) => {
+                <x-microweber-ui::font-picker
+                        x-on:loaded="(e) => {
                     setTimeout((et)=> {
                         let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}');
                         e.target.value = propertyValue;
                         e.target.dispatchEvent(new Event('input'));
                     }, 200);
                 }"
-                x-on:input="(e) => {
+                        x-on:input="(e) => {
                    if (mw.top().app.cssEditor) {
                         mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$setting['fieldSettings']['property']}}', event.target.value);
                     }
-                }" />
+                }"/>
             @endif
 
         @endif
