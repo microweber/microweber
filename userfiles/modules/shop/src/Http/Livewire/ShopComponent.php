@@ -1,9 +1,9 @@
 <?php
 namespace MicroweberPackages\Modules\Shop\Http\Livewire;
 
+use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCategoriesTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCustomFieldsTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopTagsTrait;
@@ -11,7 +11,7 @@ use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Option\Models\ModuleOption;
 
-class ShopComponent extends ModuleSettingsComponent
+class ShopComponent extends Component
 {
     use WithPagination;
     use ShopTagsTrait;
@@ -26,9 +26,14 @@ class ShopComponent extends ModuleSettingsComponent
     public $keywords;
     public $sort = '';
     public $direction = '';
-    public $priceFrom;
-    public $priceTo;
+    public $offers = '';
     public $limit = 10;
+
+    public $priceFrom = 0;
+    public $priceTo = 50;
+
+    public $minPrice = 0;
+    public $maxPrice = 1000;
 
     public $queryString = [
         'keywords',
@@ -40,9 +45,27 @@ class ShopComponent extends ModuleSettingsComponent
         'direction',
         'priceFrom',
         'priceTo',
+        'offers'
     ];
 
-    public function keywordsUpdated()
+
+    public function updatedOffers()
+    {
+        $this->setPage(1);
+    }
+
+    public function updatedPriceFrom()
+    {
+        $this->setPage(1);
+    }
+
+    public function updatedPriceTo()
+    {
+        $this->setPage(1);
+    }
+
+
+    public function updatedKeywords()
     {
         $this->setPage(1);
     }
@@ -86,8 +109,7 @@ class ShopComponent extends ModuleSettingsComponent
         $mainPageId = $this->getMainPageId();
         $productsQuery = Product::query();
         $productsQuery->where('parent', $mainPageId);
-
-      //  $productsQuery->where('is_active', 1);
+        $productsQuery->where('is_active', 1);
 
         $filters = [];
         if (!empty($this->keywords)) {
@@ -127,11 +149,11 @@ class ShopComponent extends ModuleSettingsComponent
                         continue;
                     }
 
-                    $availableCustomFieldsParents[$productCustomField->id] = $productCustomField;
+                    $availableCustomFieldsParents[$productCustomField->name_key] = $productCustomField;
 
                     if (!empty($productCustomField->fieldValue)) {
                         foreach ($productCustomField->fieldValue as $fieldValue) {
-                            $availableCustomFieldsValues[$fieldValue->custom_field_id][] = $fieldValue;
+                            $availableCustomFieldsValues[$productCustomField->name_key][$fieldValue->value] = $fieldValue;
                         }
                     }
                 }
@@ -147,16 +169,15 @@ class ShopComponent extends ModuleSettingsComponent
 
         $availableCustomFields = [];
         if (!empty($availableCustomFieldsParents)) {
-            foreach ($availableCustomFieldsParents as $customFieldId => $customField) {
+            foreach ($availableCustomFieldsParents as $customFieldNameKey => $customField) {
                 $customFieldObject = new \stdClass();
-                $customFieldObject->id = $customFieldId;
                 $customFieldObject->name = $customField->name;
-                $customFieldObject->name_key = $customField->name_key;
-                $customFieldObject->values = $availableCustomFieldsValues[$customFieldId];
+                $customFieldObject->name_key = $customFieldNameKey;
+                $customFieldObject->values = $availableCustomFieldsValues[$customFieldNameKey];
                 $availableCustomFields[] = $customFieldObject;
             }
         }
-
+        
         $products = $productsQuery->paginate($this->limit);
 
         if (empty($this->moduleTemplateNamespace)) {

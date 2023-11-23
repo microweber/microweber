@@ -46,6 +46,7 @@ class MicroweberComposerPackage
             }
         }
 
+        $version['target-dir'] = '';
         $version['is_symlink'] = false;
         $version['has_update'] = false;
         $version['demo_link'] = false;
