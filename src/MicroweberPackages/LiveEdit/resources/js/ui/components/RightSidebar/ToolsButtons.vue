@@ -2,15 +2,19 @@
     <div class="p-3">
         <label class="font-weight-bold fs-2 mt-2 mb-2">Tools</label>
         <ul class="d-grid gap-2 list-unstyled">
-            <li class="py-2">
+            <li>
                 <a class="btn btn-outline-secondary w-100" v-on:click="show('template-settings')">
 
-                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 96 960 960" width="22"><path
-                        d="M480 976q-82 0-155-31.5t-127.5-86Q143 804 111.5 731T80 576q0-83 32.5-156t88-127Q256 239 330 207.5T488 176q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880 538q0 115-70 176.5T640 776h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480 976Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480 896q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800 538q0-121-92.5-201.5T488 256q-136 0-232 93t-96 227q0 133 93.5 226.5T480 896Z"/></svg>
+                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 96 960 960"
+                         width="22">
+                        <path
+                            d="M480 976q-82 0-155-31.5t-127.5-86Q143 804 111.5 731T80 576q0-83 32.5-156t88-127Q256 239 330 207.5T488 176q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880 538q0 115-70 176.5T640 776h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480 976Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480 896q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800 538q0-121-92.5-201.5T488 256q-136 0-232 93t-96 227q0 133 93.5 226.5T480 896Z"/>
+                    </svg>
 
                     Template Settings
                 </a>
-            </li> <li class="py-2">
+            </li>
+            <li>
                 <a class="btn btn-outline-secondary w-100" v-on:click="show('style-editor')">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="25"
                          viewBox="0 -960 960 960" width="25">
@@ -21,7 +25,7 @@
                 </a>
             </li>
 
-            <li class="pb-2">
+            <li>
                 <a class="btn btn-outline-secondary w-100" v-on:click="show('html-editor')">
 
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
@@ -33,7 +37,7 @@
                 </a>
             </li>
 
-            <li class="pb-2">
+            <li>
                 <a class="btn btn-outline-secondary w-100" v-on:click="openContentRevisionsDialog()">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
                          viewBox="0 -960 960 960" width="24">
@@ -44,7 +48,7 @@
                 </a>
             </li>
 
-            <li class="pb-2">
+            <li>
                 <a class="btn btn-outline-secondary w-100" v-on:click="openContentResetContent()">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
                          viewBox="0 -960 960 960" width="24">
@@ -55,7 +59,7 @@
                 </a>
             </li>
 
-            <li class="pb-2">
+            <li>
                 <a class="btn btn-outline-secondary w-100" v-on:click="clearCache()">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
                          viewBox="0 -960 960 960" width="24">
@@ -81,18 +85,18 @@ export default {
             this.emitter.emit('live-edit-ui-show', name);
         },
 
-      hideContentRevisionsDialog: function () {
-        if (this.contentRevisionsDialogInstance) {
-          this.contentRevisionsDialogInstance.remove();
-          this.contentRevisionsDialogInstance = null;
-        }
-      },
-      hideContentResetDialog: function () {
-        if (this.contentResetContentInstance) {
-          this.contentResetContentInstance.remove();
-          this.contentResetContentInstance = null;
-        }
-      },
+        hideContentRevisionsDialog: function () {
+            if (this.contentRevisionsDialogInstance) {
+                this.contentRevisionsDialogInstance.remove();
+                this.contentRevisionsDialogInstance = null;
+            }
+        },
+        hideContentResetDialog: function () {
+            if (this.contentResetContentInstance) {
+                this.contentResetContentInstance.remove();
+                this.contentResetContentInstance = null;
+            }
+        },
         clearCache: function () {
             mw.tools.confirm("Do you want to clear cache?", function () {
                 mw.notification.warning("Clearing cache...");
@@ -166,13 +170,13 @@ export default {
 
             attrsForSettings.content_id = cont_id;
 
-             if (liveEditIframeData
+            if (liveEditIframeData
                 && liveEditIframeData.content
                 && liveEditIframeData.content.id
                 && liveEditIframeData.content.title
                 && liveEditIframeData.content.is_home
                 && liveEditIframeData.content.is_home === '1'
-            ){
+            ) {
                 attrsForSettings.from_url_string_home = 1;
             } else {
                 attrsForSettings.from_url_string = mw.app.canvas.getWindow().location.href;
@@ -199,27 +203,25 @@ export default {
         },
     },
     mounted() {
-      var toolButtonsInstance = this;
-      // close open tools when page is changed
-      mw.app.canvas.on('liveEditCanvasBeforeUnload', function () {
-        toolButtonsInstance.hideContentRevisionsDialog();
-        toolButtonsInstance.hideContentResetDialog();
-      });
-
-      mw.app.canvas.on('liveEditCanvasLoaded', function () {
-        mw.app.editor.on('insertLayoutRequest', function (element) {
-          // close open tools when layout is inserted
-          toolButtonsInstance.hideContentRevisionsDialog();
-          toolButtonsInstance.hideContentResetDialog();
+        var toolButtonsInstance = this;
+        // close open tools when page is changed
+        mw.app.canvas.on('liveEditCanvasBeforeUnload', function () {
+            toolButtonsInstance.hideContentRevisionsDialog();
+            toolButtonsInstance.hideContentResetDialog();
         });
-        mw.app.editor.on('insertModuleRequest', function (element) {
-          // close open tools when module is inserted
-          toolButtonsInstance.hideContentRevisionsDialog();
-          toolButtonsInstance.hideContentResetDialog();
+
+        mw.app.canvas.on('liveEditCanvasLoaded', function () {
+            mw.app.editor.on('insertLayoutRequest', function (element) {
+                // close open tools when layout is inserted
+                toolButtonsInstance.hideContentRevisionsDialog();
+                toolButtonsInstance.hideContentResetDialog();
+            });
+            mw.app.editor.on('insertModuleRequest', function (element) {
+                // close open tools when module is inserted
+                toolButtonsInstance.hideContentRevisionsDialog();
+                toolButtonsInstance.hideContentResetDialog();
+            });
         });
-      });
-
-
 
 
     },
