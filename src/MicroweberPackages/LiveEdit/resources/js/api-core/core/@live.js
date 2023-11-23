@@ -176,7 +176,17 @@ export class LiveEdit {
             mw.app.registerChange(elementHandle.getTarget());
         });
 
-        elementHandle.resizer.on('resizeStop', e => this.isResizing = false)
+        elementHandle.resizer.on('resizeStop', e => {
+            this.isResizing = false;
+            var target = mw.top().app.liveEdit.handles.get('element').getTarget()
+            mw.top().app.cssEditor.style(target, {
+                'max-width': '100%',
+                'min-height': target.style.minHeight,
+                'height': target.style.height,
+                'width': target.style.width
+            })
+
+        });
 
          elementHandle.on('targetChange', target => {
             this.elementHandleContent.menu.setTarget(target);

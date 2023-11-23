@@ -1,6 +1,18 @@
 <script>
 export default {
 
+    mounted() {
+        mw.top().app.canvas.getFrame().addEventListener('transitionend', e => {
+            var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+            var activeModule = mw.top().app.liveEdit.handles.get('module').getTarget();
+            if(activeElement) {
+                mw.top().app.dispatch('mw.elementStyleEditor.refreshNode', activeElement);
+            } else if(activeModule) {
+                mw.top().app.dispatch('mw.elementStyleEditor.refreshNode', activeModule);
+            }
+        })
+    },
+
     data() {
         return {
             previewMode: 'desktop'
@@ -30,7 +42,10 @@ export default {
                 mw.top().app.resolutionMode = key;
 
             };
-            responsiveEmulatorSet(mode)
+            responsiveEmulatorSet(mode);
+
+
+
 
         }
 
