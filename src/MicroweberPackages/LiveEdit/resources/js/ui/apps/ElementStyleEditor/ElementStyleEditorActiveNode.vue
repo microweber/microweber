@@ -8,6 +8,11 @@ export default {
               this.$root.selectedElement = element;
         });
 
+        mw.top().app.on('mw.elementStyleEditor.refreshNode', (element) => {
+              this.$root.selectedElement = null;
+              this.$root.selectedElement = element;
+        });
+
 
     },
 

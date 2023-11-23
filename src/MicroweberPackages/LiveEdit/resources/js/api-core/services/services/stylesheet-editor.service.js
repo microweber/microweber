@@ -306,6 +306,12 @@ export class StylesheetEditor extends MicroweberBaseClass {
         });
     }
 
+    style(node, css = {}) {
+        for (let i in css) {
+            this.temp(node, i, css[i]);
+        }
+    }
+
     temp(node, prop, val) {
         val = (val || '').trim();
 
