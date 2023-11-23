@@ -20,4 +20,9 @@
         <livewire:microweber-option::toggle-reversed optionKey="disable_custom_fields_filtering" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
+    <div>
+        <label class="live-edit-label">Price Range Filtering</label>
+        <livewire:microweber-option::toggle-reversed optionKey="disable_price_range_filtering" :optionGroup="$moduleId" :module="$moduleType"  />
+    </div>
+
 </div>
