@@ -149,11 +149,11 @@ class ShopComponent extends Component
                         continue;
                     }
 
-                    $availableCustomFieldsParents[$productCustomField->id] = $productCustomField;
+                    $availableCustomFieldsParents[$productCustomField->name_key] = $productCustomField;
 
                     if (!empty($productCustomField->fieldValue)) {
                         foreach ($productCustomField->fieldValue as $fieldValue) {
-                            $availableCustomFieldsValues[$fieldValue->custom_field_id][] = $fieldValue;
+                            $availableCustomFieldsValues[$productCustomField->name_key][$fieldValue->value] = $fieldValue;
                         }
                     }
                 }
@@ -169,16 +169,15 @@ class ShopComponent extends Component
 
         $availableCustomFields = [];
         if (!empty($availableCustomFieldsParents)) {
-            foreach ($availableCustomFieldsParents as $customFieldId => $customField) {
+            foreach ($availableCustomFieldsParents as $customFieldNameKey => $customField) {
                 $customFieldObject = new \stdClass();
-                $customFieldObject->id = $customFieldId;
                 $customFieldObject->name = $customField->name;
-                $customFieldObject->name_key = $customField->name_key;
-                $customFieldObject->values = $availableCustomFieldsValues[$customFieldId];
+                $customFieldObject->name_key = $customFieldNameKey;
+                $customFieldObject->values = $availableCustomFieldsValues[$customFieldNameKey];
                 $availableCustomFields[] = $customFieldObject;
             }
         }
-
+        
         $products = $productsQuery->paginate($this->limit);
 
         if (empty($this->moduleTemplateNamespace)) {
