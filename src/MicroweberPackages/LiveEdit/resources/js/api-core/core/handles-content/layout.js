@@ -287,7 +287,7 @@ export class LayoutHandleContent {
             }
         ];
         this.menu = new HandleMenu({
-            id: 'mw-handle-item-element-menu',
+            id: 'mw-handle-item-element-menu-layout',
             title: 'Module',
             rootScope: this.rootScope,
             menus: [

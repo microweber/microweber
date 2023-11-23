@@ -27,10 +27,10 @@
                             Template Styles
                         </a>
 
-                        <a class="mw-admin-action-links mw-adm-liveedit-tabs" data-bs-toggle="tab"
+<!--                        <a class="mw-admin-action-links mw-adm-liveedit-tabs" data-bs-toggle="tab"
                            data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab">
                             Tools
-                        </a>
+                        </a>-->
 
 
 
@@ -52,13 +52,13 @@
 
 
                     </div>
-                    <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"
+<!--                    <div class="tab-pane tab-pane-slide-right" id="style-edit-custom-template-settings-holder"
                          role="tabpanel">
 
                         <ToolsButtons></ToolsButtons>
 
 
-                    </div>
+                    </div>-->
 
                 </div>
             </div>
@@ -156,6 +156,7 @@ export default {
                 rightSidebarInstance.buttonIsActive = true;
                 rightSidebarInstance.showTemplateSettings = true;
                 rightSidebarInstance.showElementStyleEditor = false;
+                rightSidebarInstance.showSidebar = true;
 
             } else if(show == 'style-editor') {
 
@@ -163,6 +164,16 @@ export default {
                 rightSidebarInstance.showElementStyleEditor = true;
                 rightSidebarInstance.showSidebar = true;
                 rightSidebarInstance.buttonIsActive = false;
+            } else if(show == 'close-element-style-editor') {
+
+
+                rightSidebarInstance.showTemplateSettings = false;
+                rightSidebarInstance.showElementStyleEditor = false;
+                rightSidebarInstance.showSidebar = false;
+                rightSidebarInstance.buttonIsActive = false;
+
+
+
             } else {
                 rightSidebarInstance.showTemplateSettings = false;
                 rightSidebarInstance.showElementStyleEditor = false;

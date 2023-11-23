@@ -3,7 +3,7 @@
         <label class="font-weight-bold fs-2 mt-2 mb-2">Tools</label>
         <ul class="d-grid gap-2 list-unstyled">
             <li class="py-2">
-                <a class="live-edit-tools" v-on:click="show('style-editor')">
+                <a class="btn btn-outline-secondary w-100" v-on:click="show('style-editor')">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="25"
                          viewBox="0 -960 960 960" width="25">
                         <path
@@ -14,7 +14,7 @@
             </li>
 
             <li class="pb-2">
-                <a class="live-edit-tools" v-on:click="show('html-editor')">
+                <a class="btn btn-outline-secondary w-100" v-on:click="show('html-editor')">
 
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
                          viewBox="0 -960 960 960" width="24">
@@ -26,7 +26,7 @@
             </li>
 
             <li class="pb-2">
-                <a class="live-edit-tools" v-on:click="openContentRevisionsDialog()">
+                <a class="btn btn-outline-secondary w-100" v-on:click="openContentRevisionsDialog()">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
                          viewBox="0 -960 960 960" width="24">
                         <path
@@ -37,7 +37,7 @@
             </li>
 
             <li class="pb-2">
-                <a class="live-edit-tools" v-on:click="openContentResetContent()">
+                <a class="btn btn-outline-secondary w-100" v-on:click="openContentResetContent()">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
                          viewBox="0 -960 960 960" width="24">
                         <path
@@ -48,7 +48,7 @@
             </li>
 
             <li class="pb-2">
-                <a class="live-edit-tools" v-on:click="clearCache()">
+                <a class="btn btn-outline-secondary w-100" v-on:click="clearCache()">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
                          viewBox="0 -960 960 960" width="24">
                         <path

@@ -115,14 +115,16 @@ export class LiveEditSpacer extends BaseComponent {
 
         const body = mw.app.canvas.getDocument().body;
         Array.from(body.querySelectorAll('.mw-le-spacer:not([data-resizable])')).forEach(node => {
-
-                node.addEventListener('mouseover', () => {
-                    this.makeSpacerNode(node);
-                });
-
-                node.removeEventListener('mouseout', () => {
-                    this.removeSpacerNode(node);
-                });
+            this.makeSpacerNode(node);
+                // node.addEventListener('mouseover', () => {
+                //
+                //     console.log('mouseover')
+                //     this.makeSpacerNode(node);
+                // });
+                //
+                // node.removeEventListener('mouseout', () => {
+                //     this.removeSpacerNode(node);
+                // });
 
         });
 
