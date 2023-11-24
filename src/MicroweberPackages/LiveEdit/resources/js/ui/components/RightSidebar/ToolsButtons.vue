@@ -38,6 +38,20 @@
             </li>
 
             <li>
+                <a class="btn btn-outline-secondary w-100" v-on:click="editStylesheetVariablesInEditor()">
+                    <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
+                         viewBox="0 -960 960 960" width="24">
+                        <path
+                            d="M320-242 80-482l242-242 43 43-199 199 197 197-43 43Zm318 2-43-43 199-199-197-197 43-43 240 240-242 242Z"/>
+                    </svg>
+                                       Css Variables Editor
+                </a>
+            </li>
+
+
+
+
+            <li>
                 <a class="btn btn-outline-secondary w-100" v-on:click="openContentRevisionsDialog()">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
                          viewBox="0 -960 960 960" width="24">
@@ -200,6 +214,40 @@ export default {
 
             this.contentRevisionsDialogInstance = dlg;
 
+        },
+
+        editStylesheetVariablesInEditor() {
+
+            if (mw.top().app.cssEditor) {
+                var vals = mw.top().app.cssEditor.getThemeCSSVariablesAsText();
+                if (vals) {
+
+                    var btn = document.createElement('button');
+                    btn.className = 'btn btn-outline-primary w-100';
+                    btn.innerHTML = mw.lang('Apply CSS Variables');
+                    btn.onclick = function (ev) {
+                        var newVals = mw.top().doc.getElementById('cssVariablesTextarea').value;
+                        mw.top().app.cssEditor.applyThemeCSSVariablesFromText(newVals);
+                    };
+
+
+                    let cssVariablesDialog = mw.top().dialog({
+                        content: '<div style="width:100%;height:400px;padding:20px;">' +
+
+                            '<textarea id="cssVariablesTextarea" style="width:100%;height:100%;border:none;resize:none;">' + vals + '</textarea>' +
+
+                            '</div>',
+                        title: 'CSS Variables',
+                        footer: btn,
+                        width: 480,
+                        overlayClose: true,
+                    });
+                    return cssVariablesDialog
+
+                } else {
+                    alert('No CSS Variables found');
+                }
+            }
         },
     },
     mounted() {

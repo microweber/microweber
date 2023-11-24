@@ -42,39 +42,7 @@
 
             }
 
-            function editStylesheetPropertiesInEditor() {
 
-                if (mw.top().app.cssEditor) {
-                    var vals = mw.top().app.cssEditor.getThemeCSSVariablesAsText();
-                    if (vals) {
-
-                        var btn = document.createElement('button');
-                         btn.className = 'btn btn-outline-primary w-100';
-                        btn.innerHTML = mw.lang('Apply CSS Variables');
-                        btn.onclick = function (ev) {
-                        var newVals = mw.top().doc.getElementById('cssVariablesTextarea').value;
-                            mw.top().app.cssEditor.applyThemeCSSVariablesFromText(newVals);
-                        };
-
-
-                        let cssVariablesDialog = mw.top().dialog({
-                            content: '<div style="width:100%;height:400px;padding:20px;">' +
-
-                                '<textarea id="cssVariablesTextarea" style="width:100%;height:100%;border:none;resize:none;">' + vals + '</textarea>' +
-
-                                '</div>',
-                            title: 'CSS Variables',
-                            footer: btn,
-                            width: 480,
-                            overlayClose: true,
-                        });
-                        return cssVariablesDialog
-
-                    } else {
-                        alert('No CSS Variables found');
-                    }
-                }
-            }
 
             document.addEventListener('mw-option-saved', function () {
 
@@ -209,18 +177,6 @@
 
                 <div class="d-flex align-items-end">
 
-                    <button type="button" class="btn   btn-link mw-live-edit-toolbar-link" data-bs-toggle="tooltip"
-                                 data-bs-placement="top" title="Show CSS Variables"
-                                 class="edit-template-settings-and-stylesheet-in-editor-button" x-on:click="()=> {
-                            editStylesheetPropertiesInEditor();
-                        }">
-                      <svg
-
-                          style="margin-top: 20px;"
-                          fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
-                           width="24"><path
-                              d="M420-360q-17 0-28.5-11.5T380-400v-40h60v20h80v-40H420q-17 0-28.5-11.5T380-500v-60q0-17 11.5-28.5T420-600h120q17 0 28.5 11.5T580-560v40h-60v-20h-80v40h100q17 0 28.5 11.5T580-460v60q0 17-11.5 28.5T540-360H420Zm260 0q-17 0-28.5-11.5T640-400v-40h60v20h80v-40H680q-17 0-28.5-11.5T640-500v-60q0-17 11.5-28.5T680-600h120q17 0 28.5 11.5T840-560v40h-60v-20h-80v40h100q17 0 28.5 11.5T840-460v60q0 17-11.5 28.5T800-360H680Zm-520 0q-17 0-28.5-11.5T120-400v-160q0-17 11.5-28.5T160-600h120q17 0 28.5 11.5T320-560v40h-60v-20h-80v120h80v-20h60v40q0 17-11.5 28.5T280-360H160Z"/></svg>
-                    </button>
 
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Reset stylesheet settings"
                             class="reset-template-settings-and-stylesheet-button" x-on:click="()=> {
