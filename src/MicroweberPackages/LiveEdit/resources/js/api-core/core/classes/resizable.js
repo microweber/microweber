@@ -28,11 +28,13 @@ export class Resizable  {
     on(e, f){ this.#_e[e] ? this.#_e[e].push(f) : (this.#_e[e] = [f]) };
     dispatch(e, f){ this.#_e[e] ? this.#_e[e].forEach(c => { c.call(this, f); }) : ''; };
 
-    mouseMoveHandler (e) {
+    mouseMoveHandler (e, target) {
         const dx = e.clientX - this.x;
         const dy = e.clientY - this.y;
         let calcH = this.h + dy;
         let calcW;
+
+
 
 
         if(this.activeHandle === this.handles.left) {
@@ -51,11 +53,15 @@ export class Resizable  {
         }
          this.element.style.width = `${calcW}px`;
 
+         var setHeight = target && (target.$name !== 'right' && target.$name !== 'left');
+
+         if(setHeight) {
+            this.element.style.height = `${calcH}px`;
+         }
 
 
-        this.element.style.height = `${calcH}px`;
         e.preventDefault();
-        this.dispatch('resize', { height: this.element.offsetHeight, width: this.element.offsetWidth });
+        this.dispatch('resize', { height: setHeight ? this.element.offsetHeight : (''), width: this.element.offsetWidth });
 
     }
 
@@ -68,7 +74,7 @@ export class Resizable  {
         this.dispatch('resizeStop');
     };
 
-    mouseDownHandler (e) {
+    mouseDownHandler (e, target) {
 
         this.x = e.clientX;
         this.y = e.clientY;
@@ -79,8 +85,10 @@ export class Resizable  {
 
 
 
-        this.listeners.mousemove = e => this.mouseMoveHandler(e)
+        this.listeners.mousemove = e => this.mouseMoveHandler(e, target)
         this.listeners.mouseup = e => this.mouseUpHandler(e)
+
+
 
         for (const l in this.listeners) {
             this.document.addEventListener(l, this.listeners[l]);
@@ -131,6 +139,13 @@ export class Resizable  {
         nodeR.className = 'mw-le-resizer mw-le-resizer-r';
         nodeL.className = 'mw-le-resizer mw-le-resizer-l';
         nodeB.className = 'mw-le-resizer mw-le-resizer-b';
+
+
+        nodeT.$name = 'top';
+        nodeR.$name = 'right';
+        nodeL.$name = 'left';
+        nodeB.$name = 'bottom';
+
         this.element.appendChild(nodeT);
         this.element.appendChild(nodeR);
         this.element.appendChild(nodeB);
@@ -145,8 +160,9 @@ export class Resizable  {
         const resizers = this.element.querySelectorAll('.mw-le-resizer');
 
         Array.from(resizers).forEach(resizer => {
+
             resizer.addEventListener('mousedown', e => {
-                this.mouseDownHandler(e)
+                this.mouseDownHandler(e, resizer)
                 this.activeHandle = resizer;
             });
         });
