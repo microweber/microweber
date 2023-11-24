@@ -42,11 +42,21 @@
         @foreach($setting['fieldSettings']['colors'] as $colorPallete)
             <div class="list-group-item"
 
+
+
                  x-on:click="(e) => {
+                                    mw.top().app.cssEditor.setMultiplePropertiesForSelector('{{end($setting['selectors'])}}', [
                                     @foreach($colorPallete['properties'] as $property=>$propertyValue)
-                                    mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$property}}', '{{$propertyValue}}');
+                                    ['{{$property}}', '{{$propertyValue}}'],
                                     @endforeach
-                                }">
+                                    ]);
+
+                                }"
+
+            >
+
+
+
                 <div class="row align-items-center">
                     <div class="col text-truncate">
                         <div class="text-reset d-block">{{$colorPallete['name']}}</div>
