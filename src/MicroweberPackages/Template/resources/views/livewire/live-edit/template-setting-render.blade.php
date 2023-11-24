@@ -14,6 +14,29 @@
     <div>
         @if(isset($setting['fieldType']))
 
+            @if ($setting['fieldType'] == 'button')
+                <div class="mt-2" style="background:#f7f7f7;border-radius:8px;padding: 12px;">
+                    <div>
+                        <b>{{$setting['title']}}</b>
+                    </div>
+                    <div class="mt-1">
+                        <small>{{$setting['description']}}</small>
+                    </div>
+                    <button
+                        x-on:click="(e) => {
+
+                                 {{$setting['onClick']}}
+
+                            }"
+                        class="btn btn-outline-dark" style="width:100%;margin-top:15px">
+                        &nbsp; {{$setting['title']}}
+                    </button>
+                </div>
+            @endif
+
+
+
+
             @if ($setting['fieldType'] == 'clearAll')
                 <div class="mt-2" style="background:#f7f7f7;border-radius:8px;padding: 12px;">
                     <div>
