@@ -7,8 +7,6 @@ export default {
             var activeModule = mw.top().app.liveEdit.handles.get('module').getTarget();
             if(activeElement) {
                 mw.top().app.dispatch('mw.elementStyleEditor.refreshNode', activeElement);
-            } else if(activeModule) {
-                mw.top().app.dispatch('mw.elementStyleEditor.refreshNode', activeModule);
             }
         })
     },

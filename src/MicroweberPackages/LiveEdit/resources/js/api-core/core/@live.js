@@ -178,13 +178,18 @@ export class LiveEdit {
 
         elementHandle.resizer.on('resizeStop', e => {
             this.isResizing = false;
-            var target = mw.top().app.liveEdit.handles.get('element').getTarget()
-            mw.top().app.cssEditor.style(target, {
+            var target = mw.top().app.liveEdit.handles.get('element').getTarget();
+            var css = {
                 'max-width': '100%',
-                'min-height': target.style.minHeight,
-                'height': target.style.height,
                 'width': target.style.width
-            })
+            }
+            if(target.style.minHeight) {
+                css['min-height'] = target.style.minHeight
+            }
+            if(target.style.height) {
+                css['height'] = target.style.height
+            }
+            mw.top().app.cssEditor.style(target, css)
 
         });
 
