@@ -270,6 +270,7 @@ export class LiveEdit {
 
         this.getLayoutQuickSettings = () => {
             return new Promise(resolve => {
+                var type = 'layouts';
                 resolve(mw.layoutQuickSettings);
                 this.dispatch('layoutQuickSettings', {module: type});
             });
