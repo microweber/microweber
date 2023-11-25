@@ -1,5 +1,5 @@
 <div class="list-group list-group list-group-flush overflow-auto"
-     style="max-height: 500px; margin-right: 20px;">
+     style="max-height: 500px; margin-right: 20px; margin-top: 20px;">
 
     @if(isset($setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary']))
 
@@ -52,6 +52,17 @@
                                     ]);
 
                                 }"
+
+
+                 x-on:mouseover="(e) => {
+                                    mw.top().app.cssEditor.setMultiplePropertiesForSelector('{{end($setting['selectors'])}}', [
+                                    @foreach($colorPallete['properties'] as $property=>$propertyValue)
+                                    ['{{$property}}', '{{$propertyValue}}'],
+                                    @endforeach
+                                    ]);
+
+                                }"
+
 
             >
 
