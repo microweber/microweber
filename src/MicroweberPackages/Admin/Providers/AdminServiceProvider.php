@@ -50,7 +50,7 @@ class AdminServiceProvider extends ServiceProvider
                         'event': event.detail.event,
                         'data': event.detail.data
                     });
-                 });
+                 }
             });
 
 
@@ -59,7 +59,7 @@ class AdminServiceProvider extends ServiceProvider
                if(mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
                    mw.top().app.on('dispatch-global-browser-event', eventData => {
                    window.Livewire.emit(eventData.event, eventData.data);
-                 });
+                    });
                }
 
 
