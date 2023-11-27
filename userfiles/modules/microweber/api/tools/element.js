@@ -349,7 +349,7 @@
 
         this.offset = function () {
             if(this._active()) {
-        
+
                 var win = this.getWindow();
                 var rect = this._active().getBoundingClientRect();
                 rect.offsetTop = rect.top + win.pageYOffset;
@@ -377,6 +377,15 @@
         this.parent = function () {
             return mw.element(this._active().parentNode);
         };
+
+        this.next = function () {
+            return mw.element(this._active().nextElementSibling);
+        };
+        this.prev = function () {
+            return mw.element(this._active().previousElementSibling);
+        };
+
+
         this.parents = function (selector) {
             selector = selector || '*';
             var el = this._active();

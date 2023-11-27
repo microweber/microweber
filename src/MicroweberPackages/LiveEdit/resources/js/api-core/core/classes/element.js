@@ -336,6 +336,14 @@ import {ObjectService} from "./object.service.js";
         this.parent = function () {
             return mw.element(this._active().parentNode);
         };
+
+        this.next = function () {
+            return mw.element(this._active().nextElementSibling);
+        };
+        this.prev = function () {
+            return mw.element(this._active().previousElementSibling);
+        };
+
         this.parents = function (selector) {
             selector = selector || '*';
             var el = this._active();

@@ -164,13 +164,13 @@ export class ElementActions extends MicroweberBaseClass {
         }
         mw.app.registerUndoState(el)
 
-
         ElementManager(el).after(el.outerHTML);
         var next = el.nextElementSibling;
         if (el.classList.contains('mw-col')) {
             el.style.width = ''
             next.style.width = ''
         }
+        ElementManager(el).next().get(0).id = mw.id()
 
         this.proto.elementHandle.set(el);
         mw.app.registerChangedState(el);
