@@ -14,6 +14,29 @@
     <div>
         @if(isset($setting['fieldType']))
 
+            @if ($setting['fieldType'] == 'button')
+                <div class="mt-2" style="background:#f7f7f7;border-radius:8px;padding: 12px;">
+                    <div>
+                        <b>{{$setting['title']}}</b>
+                    </div>
+                    <div class="mt-1">
+                        <small>{{$setting['description']}}</small>
+                    </div>
+                    <button
+                        x-on:click="(e) => {
+
+                                 {{$setting['onClick']}}
+
+                            }"
+                        class="btn btn-outline-dark" style="width:100%;margin-top:15px">
+                        &nbsp; {{$setting['title']}}
+                    </button>
+                </div>
+            @endif
+
+
+
+
             @if ($setting['fieldType'] == 'clearAll')
                 <div class="mt-2" style="background:#f7f7f7;border-radius:8px;padding: 12px;">
                     <div>
@@ -42,71 +65,14 @@
 
             @if ($setting['fieldType'] == 'colorPalette')
 
-                <div class="list-group list-group list-group-flush overflow-auto"
-                     style="max-height: 500px; margin-right: 20px;">
 
-                    @if(isset($setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary']))
-
-                       @php
-                           // $setting['fieldType'] = 'colorPalette';
-                            if(!isset($setting['fieldSettings']['colors'])) {
-                                $setting['fieldSettings']['colors'] = [];
-                            }
-                                if (isset($setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary']) and !empty($setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary'])) {
-                                    $jsonFilesOnTemplateColorPalettes = $setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary'];
-                                    foreach ($jsonFilesOnTemplateColorPalettes as $jsonFileColor) {
-                                        $templateColorsFileExits  = templates_dir() . template_name() . DS . $jsonFileColor;
-                                        $templateColorsFileExits = normalize_path($templateColorsFileExits, false);
-                                        if(is_file($templateColorsFileExits)){
-                                            $templateColorsFileExitsContent = @file_get_contents($templateColorsFileExits);
-                                            $templateColorsFileExitsContent = @json_decode($templateColorsFileExitsContent, true);
-
-                                            if(is_array($templateColorsFileExitsContent)){
-                                                foreach ($templateColorsFileExitsContent as $templateColorsFileExitsContentItem) {
-                                                    if(isset($templateColorsFileExitsContentItem['name']) and isset($templateColorsFileExitsContentItem['mainColors'])){
-                                                        $setting['fieldSettings']['colors'][] = $templateColorsFileExitsContentItem;
-                                                    }
-                                                }
-                                            }
-
-                                        }
-
-                                    }
-
-                                }
+                    @include('template::livewire.live-edit.template-setting-render-color-palette-item', [
+                            'setting' => $setting
+                          ])
 
 
 
-                       @endphp
 
-                    @endif
-
-
-                    @if(isset($setting['fieldSettings']['colors']))
-                        @foreach($setting['fieldSettings']['colors'] as $colorPallete)
-                            <div class="list-group-item"
-
-                                 x-on:click="(e) => {
-                                    @foreach($colorPallete['properties'] as $property=>$propertyValue)
-                                    mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$property}}', '{{$propertyValue}}');
-                                    @endforeach
-                                }">
-                                <div class="row align-items-center">
-                                    <div class="col text-truncate">
-                                        <div class="text-reset d-block">{{$colorPallete['name']}}</div>
-                                        <div class=" d-flex flex-cols gap-1 mt-n1">
-                                            @foreach($colorPallete['mainColors'] as $mainColors)
-                                                <div style="border-radius:6px;width:100%;height:40px;background:{{$mainColors}}"></div>
-                                            @endforeach
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    @endif
-
-                </div>
 
                     <?php
 

@@ -9,9 +9,6 @@
             // skin: 'edit-post',
             // footer: true,
             beforeRemove: function(dialog) {
-                console.log(dialog.container.querySelector('iframe'));
-                console.log(dialog.container.querySelector('iframe').contentWindow);
-                console.log(dialog.container.querySelector('iframe').contentWindow.mw.askusertostay);
 
                 if (dialog.container.querySelector('iframe').contentWindow.mw.askusertostay) {
                     mw.top().tools.confirm('<?php _e("You have unsaved changes, are you sure want to exit?"); ?>', function() {

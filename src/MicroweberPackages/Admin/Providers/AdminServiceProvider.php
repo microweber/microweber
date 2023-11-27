@@ -45,15 +45,24 @@ class AdminServiceProvider extends ServiceProvider
         Blade::directive('dispatchGlobalBrowserEvents', function () {
             return "<script>
            window.addEventListener('dispatch-global-browser-event', event => {
-                mw.top().app.dispatch('dispatch-global-browser-event', {
-                    'event': event.detail.event,
-                    'data': event.detail.data
-                });
+                if(mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
+                    mw.top().app.dispatch('dispatch-global-browser-event', {
+                        'event': event.detail.event,
+                        'data': event.detail.data
+                    });
+                 }
             });
+
+
            setTimeout(function() {
-               mw.top().app.on('dispatch-global-browser-event', eventData => {
+
+               if(mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
+                   mw.top().app.on('dispatch-global-browser-event', eventData => {
                    window.Livewire.emit(eventData.event, eventData.data);
-               });
+                    });
+               }
+
+
            }, 300);
 </script>";
         });
