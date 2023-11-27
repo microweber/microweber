@@ -6,9 +6,13 @@
                 @include('microweber-module-shop::livewire.shop.filters.categories.index')
             @endif
 
-            @include('microweber-module-shop::livewire.shop.filters.price_range.index')
+            @if(!$filterSettings['disable_price_range_filtering'])
+                @include('microweber-module-shop::livewire.shop.filters.price_range.index')
+            @endif
 
-            @include('microweber-module-shop::livewire.shop.filters.offers.index')
+            @if(!$filterSettings['disable_offers_filtering'])
+                @include('microweber-module-shop::livewire.shop.filters.offers.index')
+            @endif
 
             @if(!empty($availableCustomFields) && !$filterSettings['disable_custom_fields_filtering'])
                 @include('microweber-module-shop::livewire.shop.filters.custom_fields.index')
