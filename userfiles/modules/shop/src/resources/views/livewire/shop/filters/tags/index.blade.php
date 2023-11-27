@@ -1,4 +1,4 @@
-<div class="mt-4 text-left">
+<div class="text-left">
     <div>Tags</div>
     <div>
         @foreach($availableTags as $tagSlug=>$tagName)
@@ -12,7 +12,9 @@
             </button>
         @endforeach
     </div>
+    @if(!empty($filteredTags))
     <button type="button" wire:click="filterClearTags()" class="btn btn-outline-danger btn-sm mt-2">
         Clear All
     </button>
+    @endif
 </div>
