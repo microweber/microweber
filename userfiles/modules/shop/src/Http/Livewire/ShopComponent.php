@@ -148,7 +148,14 @@ class ShopComponent extends Component
         $availableCustomFieldsParents = [];
         $availableCustomFieldsValues = [];
 
+        $productPrices = [];
         foreach ($allProducts as $product) {
+
+            if ($product->hasSpecialPrice()) {
+                $productPrices[] = $product->special_price;
+            } else {
+                $productPrices[] = $product->price;
+            }
 
             if (!empty($product->customField)) {
                 foreach ($product->customField as $productCustomField) {
@@ -171,6 +178,16 @@ class ShopComponent extends Component
                 foreach ($getTags as $tag) {
                     $availableTags[$tag->tag_name] = $tag->tag_slug;
                 }
+            }
+        }
+        if (!empty($productPrices)) {
+            $this->minPrice = min($productPrices);
+            $this->maxPrice = max($productPrices);
+            if (empty($this->priceFrom)) {
+                $this->priceFrom = $this->minPrice;
+            }
+            if (empty($this->priceTo)) {
+                $this->priceTo = $this->maxPrice;
             }
         }
 
