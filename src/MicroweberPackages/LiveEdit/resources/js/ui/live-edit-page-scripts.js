@@ -395,7 +395,7 @@ if(window.self !== window.top) {
                 const isEmptyLike = !node.innerHTML.trim();
 
                 if(isEmptyLike && node.innerHTML.trim() === node.textContent.trim()) {
-                    mw.element(node).append(`<p class="element" data-mwplaceholder="${mw.lang(`This is sample text for your page`)}"></p>`);
+                    // mw.element(node).append(`<p class="element" data-mwplaceholder="${mw.lang(`This is sample text for your page`)}"></p>`);
                 } else {
                     node.classList[ isEmptyLike ? 'add' : 'remove']('mw-le-empty-element');
                 }
