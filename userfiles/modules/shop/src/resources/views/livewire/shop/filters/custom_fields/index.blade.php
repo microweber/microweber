@@ -1,4 +1,4 @@
-<div class="mt-4 text-left">
+<div class="text-left">
 
     <div>
         @foreach($availableCustomFields as $customField)

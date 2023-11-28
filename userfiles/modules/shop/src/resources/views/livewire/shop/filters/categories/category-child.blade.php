@@ -1,5 +1,5 @@
 @if(isset($category))
-    <li>
+    <div>
         <span
             class="list-group-item list-group-item-action @if($category->id == $filteredCategory) active @endif"
             wire:click="filterCategory('{{$category->id}}')">
@@ -7,11 +7,11 @@
         </span>
 
         @if(!empty($category->children))
-            <ul>
+            <div>
                 @foreach($category->children as $category)
                     @include('microweber-module-shop::livewire.shop.filters.categories.category-child', ['category' => $category])
                 @endforeach
-            </ul>
+            </div>
         @endif
-    </li>
+    </div>
 @endif
