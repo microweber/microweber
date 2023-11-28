@@ -31,26 +31,42 @@
     </div>
 
     @if (!empty($customFields))
-      <div>
-        <table class="table">
-            <tr>
-                <td>
-                    <label class="live-edit-label">Custom Field</label>
-                </td>
-                <td>
-                    <label class="live-edit-label">Filtering</label>
-                </td>
-            </tr>
-            @foreach($customFields as $customFieldKey=>$customFieldName)
-            <tr>
-                <td>{{ $customFieldName }}</td>
-                <td>
-                    <livewire:microweber-option::toggle-reversed optionKey="disable_custom_field_{{$customFieldKey}}" :optionGroup="$moduleId" :module="$moduleType"  />
-                </td>
-            </tr>
-            @endforeach
-        </table>
-    </div>
+
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.store('customFieldsFiltering',  <?php if (get_option('disable_custom_fields_filtering', $moduleId) == 1): ?> false <?php else: ?> true <?php endif; ?>)
+            });
+            document.addEventListener('mw-option-saved', ($event) => {
+                if ($event.detail.optionKey == 'disable_custom_fields_filtering') {
+                    if ($event.detail.optionValue == 1) {
+                        Alpine.store('customFieldsFiltering', false);
+                    } else {
+                        Alpine.store('customFieldsFiltering', true);
+                    }
+                }
+            });
+        </script>
+
+        <div x-data x-show="$store.customFieldsFiltering">
+            <table class="table">
+                <tr>
+                    <td>
+                        <label class="live-edit-label">Custom Field</label>
+                    </td>
+                    <td>
+                        <label class="live-edit-label">Filtering</label>
+                    </td>
+                </tr>
+                @foreach($customFields as $customFieldKey=>$customFieldName)
+                <tr>
+                    <td>{{ $customFieldName }}</td>
+                    <td>
+                        <livewire:microweber-option::toggle-reversed optionKey="disable_custom_field_{{$customFieldKey}}" :optionGroup="$moduleId" :module="$moduleType"  />
+                    </td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
     @endif
 
 </div>
