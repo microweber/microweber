@@ -95,14 +95,6 @@
                                 }"
 
 
-                 x-on:mouseover="(e) => {
-                                    mw.top().app.cssEditor.setMultiplePropertiesForSelector('{{end($setting['selectors'])}}', [
-                                    @foreach($colorPallete['properties'] as $property=>$propertyValue)
-                                    ['{{$property}}', '{{$propertyValue}}'],
-                                    @endforeach
-                                    ]);
-
-                                }"
 
 
             >
