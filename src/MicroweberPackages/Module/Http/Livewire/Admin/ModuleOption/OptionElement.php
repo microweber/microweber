@@ -228,7 +228,9 @@ class OptionElement extends AdminComponent
     public function render()
     {
         if ($this->translatable) {
-            return view($this->viewTranslatable);
+            if (isset($this->viewTranslatable)) {
+                return view($this->viewTranslatable);
+            }
         }
         return view($this->view);
     }
