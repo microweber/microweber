@@ -75,7 +75,7 @@ export class Resizable  {
     };
 
     mouseDownHandler (e, target) {
-
+        if(e.which !== 1) return;
         this.x = e.clientX;
         this.y = e.clientY;
 
