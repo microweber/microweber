@@ -128,6 +128,9 @@ class ShopComponent extends Component
         if (!empty($this->customFields)) {
             $filters['customFields'] = $this->customFields;
         }
+        if (!empty($this->priceFrom) || !empty($this->priceTo)) {
+            $filters['priceBetween'] = $this->priceFrom . ',' . $this->priceTo;
+        }
 
         if (!empty($filters)) {
             $productsQuery->filter($filters);
