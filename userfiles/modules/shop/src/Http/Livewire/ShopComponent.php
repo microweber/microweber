@@ -30,7 +30,7 @@ class ShopComponent extends Component
     public $limit = 10;
 
     public $priceFrom = 0;
-    public $priceTo = 50;
+    public $priceTo = 0;
 
     public $minPrice = 0;
     public $maxPrice = 1000;
