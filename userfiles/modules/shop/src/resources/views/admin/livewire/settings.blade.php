@@ -30,7 +30,8 @@
         <livewire:microweber-option::toggle-reversed optionKey="disable_custom_fields_filtering" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
-    <div>
+    @if (!empty($customFields))
+      <div>
         <table class="table">
             <tr>
                 <td>
@@ -50,5 +51,6 @@
             @endforeach
         </table>
     </div>
+    @endif
 
 </div>
