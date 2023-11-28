@@ -695,7 +695,7 @@ var domHelp = {
                 return false;
             }
             var n;
-            if (this.className.trim()) {
+            if (this && this.className && typeof this.className.trim === 'function') {
                 n = this.nodeName.toLocaleLowerCase() + '.' + this.className.trim().split(' ').join('.');
             }
             else {
