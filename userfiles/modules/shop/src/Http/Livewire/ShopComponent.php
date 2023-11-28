@@ -91,7 +91,8 @@ class ShopComponent extends Component
             'disable_tags_filtering'=>false,
             'disable_categories_filtering'=>false,
             'disable_custom_fields_filtering'=>false,
-            'disable_price_filtering'=>false,
+            'disable_price_range_filtering'=>false,
+            'disable_offers_filtering'=>false,
             'disable_sort_filtering'=>false,
             'disable_limit_filtering'=>false,
             'disable_keyword_filtering'=>false,
@@ -177,7 +178,7 @@ class ShopComponent extends Component
                 $availableCustomFields[] = $customFieldObject;
             }
         }
-        
+
         $products = $productsQuery->paginate($this->limit);
 
         if (empty($this->moduleTemplateNamespace)) {
