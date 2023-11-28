@@ -24,7 +24,6 @@ $defined_taxes = mw()->tax_manager->get();
 
            <div class="card-header d-flex align-items-center justify-content-between px-0">
                <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
-
                <?php
                if (!empty($defined_taxes)):
                ?>
@@ -37,10 +36,16 @@ $defined_taxes = mw()->tax_manager->get();
            <?php
            if (!empty($defined_taxes)):
            ?>
-           <label class="form-check form-check-single form-switch ps-0 mb-4" style="width: unset;">
-               <input type="checkbox" name="enable_taxes" class="mw_option_field form-check-input" id="enable_taxes" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_taxes', 'shop') == '1'): ?>checked<?php endif; ?> />
-               &nbsp; <?php _e('Enable'); ?>
-           </label>
+
+            <div x-data="{taxIsEnabled:<?php if (get_option('enable_taxes', 'shop') == '1'): ?>true<?php else: ?>false<?php endif; ?> }"
+                 class="d-flex align-items-center justify-content-center py-2" style="background:#e1edf9;border-radius:5px;padding:5px;display:inline;width:150px">
+                <label class="form-check form-check-single form-switch ps-0">
+                    <input type="checkbox" x-model="taxIsEnabled" name="enable_taxes" class="mw_option_field form-check-input" id="enable_taxes" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_taxes', 'shop') == '1'): ?>checked<?php endif; ?> /
+                </label> &nbsp; 
+                <span x-show="taxIsEnabled"><?php _e('Enabled'); ?></span>
+                <span x-show="!taxIsEnabled"><?php _e('Disabled'); ?></span>
+            </div>
+
            <?php
            endif;
            ?>

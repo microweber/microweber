@@ -30,7 +30,7 @@ class ShopComponent extends Component
     public $limit = 10;
 
     public $priceFrom = 0;
-    public $priceTo = 50;
+    public $priceTo = 0;
 
     public $minPrice = 0;
     public $maxPrice = 1000;
@@ -91,7 +91,8 @@ class ShopComponent extends Component
             'disable_tags_filtering'=>false,
             'disable_categories_filtering'=>false,
             'disable_custom_fields_filtering'=>false,
-            'disable_price_filtering'=>false,
+            'disable_price_range_filtering'=>false,
+            'disable_offers_filtering'=>false,
             'disable_sort_filtering'=>false,
             'disable_limit_filtering'=>false,
             'disable_keyword_filtering'=>false,
@@ -127,6 +128,12 @@ class ShopComponent extends Component
         if (!empty($this->customFields)) {
             $filters['customFields'] = $this->customFields;
         }
+        if (!empty($this->priceFrom) || !empty($this->priceTo)) {
+            $filters['priceBetween'] = $this->priceFrom . ',' . $this->priceTo;
+        }
+        if (!empty($this->offers)) {
+            $filters['offers'] = $this->offers;
+        }
 
         if (!empty($filters)) {
             $productsQuery->filter($filters);
@@ -141,7 +148,14 @@ class ShopComponent extends Component
         $availableCustomFieldsParents = [];
         $availableCustomFieldsValues = [];
 
+        $productPrices = [];
         foreach ($allProducts as $product) {
+
+            if ($product->hasSpecialPrice()) {
+                $productPrices[] = $product->special_price;
+            } else {
+                $productPrices[] = $product->price;
+            }
 
             if (!empty($product->customField)) {
                 foreach ($product->customField as $productCustomField) {
@@ -166,6 +180,16 @@ class ShopComponent extends Component
                 }
             }
         }
+        if (!empty($productPrices)) {
+            $this->minPrice = min($productPrices);
+            $this->maxPrice = max($productPrices);
+            if (empty($this->priceFrom)) {
+                $this->priceFrom = $this->minPrice;
+            }
+            if (empty($this->priceTo)) {
+                $this->priceTo = $this->maxPrice;
+            }
+        }
 
         $availableCustomFields = [];
         if (!empty($availableCustomFieldsParents)) {
@@ -177,7 +201,7 @@ class ShopComponent extends Component
                 $availableCustomFields[] = $customFieldObject;
             }
         }
-        
+
         $products = $productsQuery->paginate($this->limit);
 
         if (empty($this->moduleTemplateNamespace)) {
