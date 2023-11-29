@@ -194,6 +194,11 @@ class ShopComponent extends Component
         $availableCustomFields = [];
         if (!empty($availableCustomFieldsParents)) {
             foreach ($availableCustomFieldsParents as $customFieldNameKey => $customField) {
+
+                if (get_option('disable_custom_field_' . $customFieldNameKey, $this->moduleId) == 1) {
+                    continue;
+                }
+
                 $customFieldObject = new \stdClass();
                 $customFieldObject->name = $customField->name;
                 $customFieldObject->name_key = $customFieldNameKey;
