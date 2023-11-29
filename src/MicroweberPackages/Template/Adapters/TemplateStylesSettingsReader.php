@@ -28,13 +28,27 @@ class TemplateStylesSettingsReader
             $settings = @json_decode($settings, true);
 
             if (isset($settings['settings']) and is_array($settings['settings']) and !empty($settings['settings'])) {
-                foreach ($settings['settings'] as $setting) {
+                foreach ($settings['settings'] as $keySettings=> $setting) {
                     $settingsFromFile = $this->readStyleSettingsFromFile($setting);
                     $settingsFromFolders = $this->readStyleSettingsFromFilesAndFolders($setting);
 
+                    if(!empty( $settingsFromFolders['settings'])){
+                        foreach ( $settingsFromFolders['settings'] as $key => $value) {
+                            $settings['settings'][$keySettings]['settings'][] = $value;
+                        }
+                    }
+                    if(!empty( $settingsFromFile['settings'])){
+                        foreach ( $settingsFromFile['settings'] as $key => $value) {
+                            $settings['settings'][$keySettings]['settings'][] = $value;
+                        }
 
-                    $settings['settings'] = array_merge($settings['settings'], $settingsFromFile['settings'], $settingsFromFolders['settings']);
+                    }
 
+                //    $settings['settings'] = array_merge($settings['settings'], $settingsFromFile['settings'], $settingsFromFolders['settings']);
+
+// add to array insead of merge
+
+                  //  $settings['settings']= (...$settings['settings'], ...$settingsFromFile['settings'], ...$settingsFromFolders['settings']);;
 
 
                 }
