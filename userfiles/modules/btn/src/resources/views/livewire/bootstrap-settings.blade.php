@@ -7,9 +7,11 @@
 
     @php
         $styleOptions = [
+            'btn' => 'Normal',
             'btn-primary' => 'Primary',
             'btn-secondary' => 'Secondary',
             'btn-outline' => 'Outline',
+            'btn-link' => 'Link',
         ];
     @endphp
 
