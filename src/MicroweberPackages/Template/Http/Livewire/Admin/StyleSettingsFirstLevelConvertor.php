@@ -44,19 +44,23 @@ class StyleSettingsFirstLevelConvertor
                 }
             }
         }
+
         return $settings;
     }
 
-    public function appendToFirstLevelSettings($setting)
+    public function appendToFirstLevelSettings($setting,$parentSettings = [])
     {
         if (isset($setting['settings'])) {
             $appendSetting = $setting;
+            if($parentSettings){
+                $appendSetting['parent'] = $parentSettings;
+            }
 
             $this->firtsLevelSettings[] = $appendSetting;
 
             if (isset($setting['settings'])) {
                 foreach ($setting['settings'] as $insideSetting) {
-                    $this->appendToFirstLevelSettings($insideSetting);
+                    $this->appendToFirstLevelSettings($insideSetting , $setting);
                 }
             }
         }

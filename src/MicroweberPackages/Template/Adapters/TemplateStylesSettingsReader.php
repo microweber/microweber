@@ -16,7 +16,7 @@ class TemplateStylesSettingsReader
     public function getStyleSettings()
     {
         $settings = $this->getStyleSettingsFromFile($this->templateDir . 'style-settings.json');
-         return $settings;
+        return $settings;
     }
 
     private function getStyleSettingsFromFile($filePath)
@@ -28,35 +28,67 @@ class TemplateStylesSettingsReader
             $settings = @json_decode($settings, true);
 
             if (isset($settings['settings']) and is_array($settings['settings']) and !empty($settings['settings'])) {
-                foreach ($settings['settings'] as $keySettings=> $setting) {
-                    $settingsFromFile = $this->readStyleSettingsFromFile($setting);
-                    $settingsFromFolders = $this->readStyleSettingsFromFilesAndFolders($setting);
+                foreach ($settings['settings'] as $keySettings => $setting) {
+                    $settingsFromFoldersAndFiles = $this->readStyleSettingsFromFilesAndFolders($setting);
 
-                    if(!empty( $settingsFromFolders['settings'])){
-                        foreach ( $settingsFromFolders['settings'] as $key => $value) {
+                    if (!empty($settingsFromFoldersAndFiles['settings'])) {
+
+
+
+                        foreach ($settingsFromFoldersAndFiles['settings'] as $key => $value) {
+
                             $settings['settings'][$keySettings]['settings'][] = $value;
                         }
                     }
-                    if(!empty( $settingsFromFile['settings'])){
-                        foreach ( $settingsFromFile['settings'] as $key => $value) {
-                            $settings['settings'][$keySettings]['settings'][] = $value;
-                        }
 
-                    }
+                   //   $settings = $this->makeInheritSelectors($settings);
 
-                //    $settings['settings'] = array_merge($settings['settings'], $settingsFromFile['settings'], $settingsFromFolders['settings']);
+
+                    //    $settings['settings'] = array_merge($settings['settings'], $settingsFromFile['settings'], $settingsFromFolders['settings']);
 
 // add to array insead of merge
 
-                  //  $settings['settings']= (...$settings['settings'], ...$settingsFromFile['settings'], ...$settingsFromFolders['settings']);;
+                    //  $settings['settings']= (...$settings['settings'], ...$settingsFromFile['settings'], ...$settingsFromFolders['settings']);;
 
 
                 }
             }
         }
+ //dd(end($settings['settings']));
+        return $settings;
+    }
+
+    private function makeInheritSelectors($settings, $parentSelectors = [])
+    {
+        // Search for 'inherit' key
+        $mustInherit = $this->findElementsWithInheritSelectors($settings, 'inherit', true);
+
+        if ($mustInherit) {
+            dd($mustInherit);
+        }
 
         return $settings;
     }
+
+    function findElementsWithInheritSelectors($array, $keyToSearch, $valueToSearch) {
+        $results = [];
+
+        foreach ($array as $item) {
+            if (is_array($item)) {
+                // Check if the current item has the specified key with the desired value
+                if (isset($item[$keyToSearch]) && $item[$keyToSearch] === $valueToSearch) {
+                    $results[] = $item;
+                }
+
+                // Recursively search nested arrays
+                $nestedResults = $this->findElementsWithInheritSelectors($item, $keyToSearch, $valueToSearch);
+                $results = array_merge($results, $nestedResults);
+            }
+        }
+
+        return $results;
+    }
+
 
     private function readStyleSettingsFromFile($setting)
     {
@@ -87,6 +119,25 @@ class TemplateStylesSettingsReader
     {
         $newSettings = [];
 
+        if (isset($setting['readSettingsFromFiles']) and
+            is_array($setting['readSettingsFromFiles']) and
+            !empty($setting['readSettingsFromFiles'])) {
+
+            $jsonFilesOnTemplate = $setting['readSettingsFromFiles'];
+
+            foreach ($jsonFilesOnTemplate as $jsonFile) {
+                $templateColorsFilePath = $this->templateDir . DS . $jsonFile;
+                $templateColorsFilePath = $this->normalizePath($templateColorsFilePath, false);
+
+                $settingsFromFile = @file_get_contents($templateColorsFilePath);
+                $settingsFromFile = @json_decode($settingsFromFile, true);
+
+                if (is_array($settingsFromFile)) {
+                    $newSettings = array_merge($newSettings, $settingsFromFile['settings']);
+                }
+            }
+        }
+
         if (isset($setting['readSettingsFromFolders']) and
             is_array($setting['readSettingsFromFolders']) and
             !empty($setting['readSettingsFromFolders'])) {
@@ -101,7 +152,7 @@ class TemplateStylesSettingsReader
 
                 if (is_array($settingsFromFolder)) {
                     //add to array insead of merge
-                    $newSettings =  array_merge($newSettings, $settingsFromFolder['settings']);
+                    $newSettings = array_merge($newSettings, $settingsFromFolder['settings']);
 
                 }
             }
@@ -120,8 +171,8 @@ class TemplateStylesSettingsReader
             if (is_array($templateColorsFolderExistsContent)) {
                 foreach ($templateColorsFolderExistsContent as $templateColorsFolderExistsContentItem) {
                     if (is_file($templateColorsFolderExistsContentItem)) {
-                        $settingsFromFile = $this->getStyleSettingsFromFile($templateColorsFolderExistsContentItem);
-
+                        $settingsFromFile = @file_get_contents($templateColorsFolderExistsContentItem);
+                        $settingsFromFile = @json_decode($settingsFromFile, true);
                         if (is_array($settingsFromFile)) {
                             $settings = array_merge($settings, $settingsFromFile['settings']);
                         }

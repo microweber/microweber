@@ -247,14 +247,16 @@
 
                                 @if(isset($styleSetting['fieldType']))
                                     @include('template::livewire.live-edit.template-setting-render', [
-                                            'setting' => $styleSetting
+                                            'setting' => $styleSetting,
+                                            'parent' => $styleSetting['parent'] ?? false
                                         ])
                                 @endif
 
                                 @if(isset($styleSetting['settings']))
                                     @foreach($styleSetting['settings'] as $setting)
                                         @include('template::livewire.live-edit.template-setting-render', [
-                                            'setting' => $setting
+                                            'setting' => $setting,
+                                            'parent' => $styleSetting['parent'] ?? false
                                         ])
                                     @endforeach
                                 @endif

@@ -1,5 +1,16 @@
 <div class="mt-3">
 
+    <?php
+
+    $rootSelector = false;
+
+
+
+    if (isset($parent) and !empty($parent) and !empty($parent['rootSelector'])) {
+        $rootSelector = trim($parent['rootSelector']);
+    }
+
+    ?>
     @if(isset($setting['title']))
         <div>
             @if(isset($setting['settings']))
@@ -45,13 +56,22 @@
                     <div class="mt-1">
                         <small>{{$setting['description']}}</small>
                     </div>
+
+                    <?php
+
+                        $selectorToApply = end($setting['selectors']);
+                        if($rootSelector){
+                            $selectorToApply = $rootSelector . ' ' . $selectorToApply;
+                        }
+                        ?>
+
                     <button
                             x-on:click="(e) => {
 
                             mw.confirm('Are you sure you want to clear styles?',
                                 function () {
                                     @foreach($setting['fieldSettings']['properties'] as $property)
-                                    mw.top().app.cssEditor.setPropertyForSelector('{{end($setting['selectors'])}}', '{{$property}}', '');
+                                    mw.top().app.cssEditor.setPropertyForSelector('{{ $selectorToApply }}', '{{$property}}', '');
                                     @endforeach
                                 });
 
