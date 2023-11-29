@@ -1,7 +1,4 @@
 <p>Dear {username},</p>
-
-<br />
-
 <p>This message is to confirm that your user registration.</p>
 
 <br />
