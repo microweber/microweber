@@ -12,7 +12,7 @@ namespace MicroweberPackages\Order\Listeners\Tratis;
 use Illuminate\Support\Facades\Notification;
 use MicroweberPackages\Order\Models\OrderAnonymousClient;
 use MicroweberPackages\User\Models\User;
-use MicroweberPackages\Order\Notifications\NewOrderNotification;
+use MicroweberPackages\Order\Notifications\UserDemoExpiredNotification;
 
 trait NewOrderNotificationTrait {
 
@@ -20,7 +20,7 @@ trait NewOrderNotificationTrait {
 
         $orderId = $order->id;
 
-        $newOrderEvent = new NewOrderNotification($order);
+        $newOrderEvent = new UserDemoExpiredNotification($order);
 
         // Is logged
         $notifiable = false;

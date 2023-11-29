@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\Order\Listeners\Tratis\NewOrderNotificationTrait;
-use MicroweberPackages\Order\Notifications\NewOrderNotification;
+use MicroweberPackages\Order\Notifications\UserDemoExpiredNotification;
 use MicroweberPackages\User\Models\User;
 
 class OrderCreatedListener
@@ -24,12 +24,12 @@ class OrderCreatedListener
         }
 
         // Admin panel notification
-        Notification::send(User::whereIsAdmin(1)->get(), new NewOrderNotification($order));
+        Notification::send(User::whereIsAdmin(1)->get(), new UserDemoExpiredNotification($order));
 
 
         // delete old notifications for orders older than 30 days
         DB::table('notifications')
-            ->where('type', NewOrderNotification::class)
+            ->where('type', UserDemoExpiredNotification::class)
             ->where('created_at', '<', date('Y-m-d H:i:s', strtotime('-30 days')))
             ->delete();
 
