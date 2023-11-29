@@ -63,13 +63,8 @@ class TemplateStylesSettingsReader
 
     private function readStyleSettingsFromFolders(&$setting)
     {
-        if (isset($setting['fieldSettings']['colorPaletteFromTemplateFolderLibrary']) and $setting['fieldSettings']['colorPaletteFromTemplateFolderLibrary']) {
-            if (!isset($setting['fieldSettings']['colors'])) {
-                $setting['fieldSettings']['colors'] = [];
-            }
-
-            $folders = $setting['fieldSettings']['colorPaletteFromTemplateFolderLibrary'];
-
+        if (isset($setting['fieldSettings']['readFromFolders']) and $setting['fieldSettings']['readFromFolders']) {
+            $folders = $setting['fieldSettings']['readFromFolders'];
             foreach ($folders as $folder) {
                 $templateColorsFolderExists = $this->templateDir . DS . $folder;
                 $templateColorsFolderExists = $this->normalizePath($templateColorsFolderExists);

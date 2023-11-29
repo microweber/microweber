@@ -1,7 +1,7 @@
 <div class="list-group list-group list-group-flush overflow-auto"
      style="max-height: 500px; margin-right: 20px; margin-top: 20px;">
 
- 
+
 
     @if(isset($setting['fieldSettings']['colorPaletteFromTemplateFolderLibrary']) and $setting['fieldSettings']['colorPaletteFromTemplateFolderLibrary'])
         @php
