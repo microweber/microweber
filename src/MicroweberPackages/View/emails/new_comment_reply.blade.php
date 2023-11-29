@@ -14,7 +14,7 @@
 		<br>
 	</div>
 	<div>
-		CHECK THE COMMENT IN POST HERE {{post_url}}
+		CHECK THE COMMENT IN POST HERE {post_url}
 		<div>
 			<br>
 		</div>
@@ -28,6 +28,6 @@
 	</div>
 </div>
 
-{{comment_author}} <br />
-{{comment_reply_author}} <br />
-{{post_url}}<br />
+{comment_author} <br />
+{comment_reply_author} <br />
+{post_url}<br />
