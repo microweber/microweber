@@ -2,8 +2,6 @@
 
 namespace MicroweberPackages\Template\Adapters;
 
-use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateMetaTagsRenderer;
-use MicroweberPackages\Template\Http\Livewire\Admin\StyleSettingsFirstLevelConvertor;
 use MicroweberPackages\View\View;
 
 class TemplateStylesSettingsReader
@@ -18,7 +16,7 @@ class TemplateStylesSettingsReader
     public function getStyleSettings()
     {
         $settings = $this->getStyleSettingsFromFile($this->templateDir . 'style-settings.json');
-        return $settings;
+         return $settings;
     }
 
     private function getStyleSettingsFromFile($filePath)
@@ -30,9 +28,15 @@ class TemplateStylesSettingsReader
             $settings = @json_decode($settings, true);
 
             if (isset($settings['settings']) and is_array($settings['settings']) and !empty($settings['settings'])) {
-                foreach ($settings['settings'] as &$setting) {
-                    $this->readStyleSettingsFromFiles($setting);
-                    $this->readStyleSettingsFromFolders($setting);
+                foreach ($settings['settings'] as $setting) {
+                    $settingsFromFile = $this->readStyleSettingsFromFile($setting);
+                    $settingsFromFolders = $this->readStyleSettingsFromFilesAndFolders($setting);
+
+
+                    $settings['settings'] = array_merge($settings['settings'], $settingsFromFile['settings'], $settingsFromFolders['settings']);
+
+
+
                 }
             }
         }
@@ -40,31 +44,41 @@ class TemplateStylesSettingsReader
         return $settings;
     }
 
-    private function readStyleSettingsFromFiles(&$setting)
+    private function readStyleSettingsFromFile($setting)
     {
-        if (isset($setting['fieldSettings']['readFromFiles']) and
-            is_array($setting['fieldSettings']['readFromFiles']) and
-            !empty($setting['fieldSettings']['readFromFiles'])) {
+        $newSettings = [];
 
-            $jsonFilesOnTemplate = $setting['fieldSettings']['readFromFiles'];
+        if (isset($setting['readSettingsFromFiles']) and
+            is_array($setting['readSettingsFromFiles']) and
+            !empty($setting['readSettingsFromFiles'])) {
 
-            foreach ($jsonFilesOnTemplate as $jsonFileColor) {
-                $templateColorsFilePath = $this->templateDir . DS . $jsonFileColor;
+            $jsonFilesOnTemplate = $setting['readSettingsFromFiles'];
+
+            foreach ($jsonFilesOnTemplate as $jsonFile) {
+                $templateColorsFilePath = $this->templateDir . DS . $jsonFile;
                 $templateColorsFilePath = $this->normalizePath($templateColorsFilePath, false);
 
                 $settingsFromFile = $this->getStyleSettingsFromFile($templateColorsFilePath);
 
                 if (is_array($settingsFromFile)) {
-                    $setting['fieldSettings'] = array_merge($setting['fieldSettings'], $settingsFromFile);
+                    $newSettings = array_merge($newSettings, $settingsFromFile['settings']);
                 }
             }
         }
+
+        return ['settings' => $newSettings];
     }
 
-    private function readStyleSettingsFromFolders(&$setting)
+    private function readStyleSettingsFromFilesAndFolders($setting)
     {
-        if (isset($setting['fieldSettings']['readFromFolders']) and $setting['fieldSettings']['readFromFolders']) {
-            $folders = $setting['fieldSettings']['readFromFolders'];
+        $newSettings = [];
+
+        if (isset($setting['readSettingsFromFolders']) and
+            is_array($setting['readSettingsFromFolders']) and
+            !empty($setting['readSettingsFromFolders'])) {
+
+            $folders = $setting['readSettingsFromFolders'];
+
             foreach ($folders as $folder) {
                 $templateColorsFolderExists = $this->templateDir . DS . $folder;
                 $templateColorsFolderExists = $this->normalizePath($templateColorsFolderExists);
@@ -72,10 +86,14 @@ class TemplateStylesSettingsReader
                 $settingsFromFolder = $this->getStyleSettingsFromFolder($templateColorsFolderExists);
 
                 if (is_array($settingsFromFolder)) {
-                    $setting['fieldSettings'] = array_merge($setting['fieldSettings'], $settingsFromFolder);
+                    //add to array insead of merge
+                    $newSettings =  array_merge($newSettings, $settingsFromFolder['settings']);
+
                 }
             }
         }
+
+        return ['settings' => $newSettings];
     }
 
     private function getStyleSettingsFromFolder($folderPath)
@@ -91,14 +109,14 @@ class TemplateStylesSettingsReader
                         $settingsFromFile = $this->getStyleSettingsFromFile($templateColorsFolderExistsContentItem);
 
                         if (is_array($settingsFromFile)) {
-                            $settings = array_merge($settings, $settingsFromFile);
+                            $settings = array_merge($settings, $settingsFromFile['settings']);
                         }
                     }
                 }
             }
         }
 
-        return $settings;
+        return ['settings' => $settings];
     }
 
     private function getActiveTemplateDir()
