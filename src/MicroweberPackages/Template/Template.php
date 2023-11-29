@@ -241,6 +241,12 @@ class Template
         return $this->templateAdapter->getConfig($template);
     }
 
+    public function getStyleSettings($template = false)
+    {
+        return $this->templateAdapter->getStyleSettings($template);
+    }
+
+
     public function get_data_field_title($field, $type = 'general')
     {
         $fieldTitle = '';

@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Template\Adapters;
 
 use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateMetaTagsRenderer;
+use MicroweberPackages\Template\Http\Livewire\Admin\StyleSettingsFirstLevelConvertor;
 use MicroweberPackages\View\View;
 
 class MicroweberTemplate
@@ -550,7 +551,7 @@ class MicroweberTemplate
                 $get_layout_from_parent['layout_file'] = str_replace('___', DS, $get_layout_from_parent['layout_file']);
                 $get_layout_from_parent['layout_file'] = sanitize_path($get_layout_from_parent['layout_file']);
                 $render_file_temp = templates_dir() . $get_layout_from_parent['active_site_template'] . DS . $get_layout_from_parent['layout_file'];
-                $render_file_temp2 = templates_dir() .$get_layout_from_parent['active_site_template'] . DS. 'layouts'.DS . $get_layout_from_parent['layout_file'];
+                $render_file_temp2 = templates_dir() . $get_layout_from_parent['active_site_template'] . DS . 'layouts' . DS . $get_layout_from_parent['layout_file'];
                 $render_use_default = templates_dir() . $get_layout_from_parent['active_site_template'] . DS . 'use_default_layouts.php';
                 $render_file_temp = normalize_path($render_file_temp, false);
                 $render_use_default = normalize_path($render_use_default, false);
@@ -574,7 +575,7 @@ class MicroweberTemplate
                 }
             }
 
-         }
+        }
 
         if ($render_file == false and !isset($page['active_site_template']) and isset($page['layout_file'])) {
             $test_file = str_replace('___', DS, $page['layout_file']);
@@ -1128,6 +1129,20 @@ class MicroweberTemplate
         return $render_file;
     }
 
+
+    public function getStyleSettings($templateDir = false)
+    {
+        if (!$templateDir) {
+            $templateDir = $this->getActiveTemplateDir();
+        }
+
+        $styleSettingReader = new TemplateStylesSettingsReader($templateDir);
+        $getStyleSettings = $styleSettingReader->getStyleSettings();
+
+        return $getStyleSettings;
+    }
+
+
     /**
      * Defines all constants that are needed to parse the page layout.
      *
@@ -1189,7 +1204,7 @@ class MicroweberTemplate
                 if ($ref_page_data != false and !empty($ref_page_data)) {
                     $content = $ref_page_data;
                 }
-             }
+            }
         }
 
         $this->setVariablesFromContent($content);
@@ -1265,7 +1280,7 @@ class MicroweberTemplate
 
         if (!defined('THIS_TEMPLATE_DIR')) {
             $active_dir = $this->getActiveTemplateDir();
-            if(!is_dir($active_dir)){
+            if (!is_dir($active_dir)) {
                 $active_dir = $this->getFallbackTemplateDir();
             }
             define('THIS_TEMPLATE_DIR', $active_dir);

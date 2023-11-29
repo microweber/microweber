@@ -1,6 +1,8 @@
 <div class="list-group list-group list-group-flush overflow-auto"
      style="max-height: 500px; margin-right: 20px; margin-top: 20px;">
 
+ 
+
     @if(isset($setting['fieldSettings']['colorPaletteFromTemplateFolderLibrary']) and $setting['fieldSettings']['colorPaletteFromTemplateFolderLibrary'])
         @php
             if(!isset($setting['fieldSettings']['colors'])) {
@@ -50,28 +52,28 @@
              if(!isset($setting['fieldSettings']['colors'])) {
                  $setting['fieldSettings']['colors'] = [];
              }
-                 if (isset($setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary']) and !empty($setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary'])) {
-                     $jsonFilesOnTemplateColorPalettes = $setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary'];
-                     foreach ($jsonFilesOnTemplateColorPalettes as $jsonFileColor) {
-                         $templateColorsFileExits  = templates_dir() . template_name() . DS . $jsonFileColor;
-                         $templateColorsFileExits = normalize_path($templateColorsFileExits, false);
-                         if(is_file($templateColorsFileExits)){
-                             $templateColorsFileExitsContent = @file_get_contents($templateColorsFileExits);
-                             $templateColorsFileExitsContent = @json_decode($templateColorsFileExitsContent, true);
+             if (isset($setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary']) and !empty($setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary'])) {
+                 $jsonFilesOnTemplateColorPalettes = $setting['fieldSettings']['colorPaletteFromTemplateFilesLibrary'];
+                 foreach ($jsonFilesOnTemplateColorPalettes as $jsonFileColor) {
+                     $templateColorsFileExits  = templates_dir() . template_name() . DS . $jsonFileColor;
+                     $templateColorsFileExits = normalize_path($templateColorsFileExits, false);
+                     if(is_file($templateColorsFileExits)){
+                         $templateColorsFileExitsContent = @file_get_contents($templateColorsFileExits);
+                         $templateColorsFileExitsContent = @json_decode($templateColorsFileExitsContent, true);
 
-                             if(is_array($templateColorsFileExitsContent)){
-                                 foreach ($templateColorsFileExitsContent as $templateColorsFileExitsContentItem) {
-                                     if(isset($templateColorsFileExitsContentItem['name']) and isset($templateColorsFileExitsContentItem['mainColors'])){
-                                         $setting['fieldSettings']['colors'][] = $templateColorsFileExitsContentItem;
-                                     }
+                         if(is_array($templateColorsFileExitsContent)){
+                             foreach ($templateColorsFileExitsContent as $templateColorsFileExitsContentItem) {
+                                 if(isset($templateColorsFileExitsContentItem['name']) and isset($templateColorsFileExitsContentItem['mainColors'])){
+                                     $setting['fieldSettings']['colors'][] = $templateColorsFileExitsContentItem;
                                  }
                              }
-
                          }
 
                      }
 
                  }
+
+             }
 
 
 

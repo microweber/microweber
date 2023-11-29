@@ -101,17 +101,13 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
 
         $templateDir = template_dir();
 
-        $styleSettingsFile = $templateDir . 'style-settings.json';
-        if (is_file($styleSettingsFile)) {
-            $getStyleSettings = file_get_contents($styleSettingsFile);
-            $getStyleSettings = json_decode($getStyleSettings, true);
-            if (isset($getStyleSettings['settings'])) {
-                if (!empty($getStyleSettings['settings']) && is_array($getStyleSettings['settings'])) {
+        $getStyleSettings = app()->template->getStyleSettings($templateDir);
+        if (isset($getStyleSettings['settings'])) {
+            if (!empty($getStyleSettings['settings']) && is_array($getStyleSettings['settings'])) {
 
-                    $convert = new StyleSettingsFirstLevelConvertor();
-                    $this->styleSettings = $convert->getFirstLevelSettings($getStyleSettings['settings']);
+                $convert = new StyleSettingsFirstLevelConvertor();
+                $this->styleSettings = $convert->getFirstLevelSettings($getStyleSettings['settings']);
 
-                }
             }
         }
 
