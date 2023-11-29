@@ -180,19 +180,27 @@ function save_mail_template($data)
 }
 
 
+function get_mail_template_by_name($name)
+{
+    $content = file_get_contents(normalize_path(dirname(MW_PATH) . '/View/emails') . $name . '.blade.php');
+    if (!empty($content)) {
+        return [
+            'subject' => $name,
+            'message' => $content
+        ];
+    }
+    return false;
+}
+
 function get_mail_template_by_id($id, $type = false)
 {
 
     $templates = get_mail_templates();
-
     foreach ($templates as $template) {
-
         if ($template['id'] == $id) {
-
             if (isset($template['is_default'])) {
                 $template['message'] = file_get_contents(normalize_path(dirname(MW_PATH) . '/View/emails') . $template['id']);
             }
-
             return $template;
         }
     }
