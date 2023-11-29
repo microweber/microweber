@@ -144,17 +144,19 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
             if (ActiveNode && ActiveNode && ActiveNode.nodeType === 1) {
                 var css = mw.CSSParser(ActiveNode);
-
-                return css.get(prop);
+                if (css && typeof css.get === 'function') {
+                    return css.get(prop);
+                }
 
             }
 
         }
 
     }
+
     setMultiplePropertiesForSelector(sel, propsAndVals = [], record = true) {
 
-        if(propsAndVals.length > 0){
+        if (propsAndVals.length > 0) {
             propsAndVals.forEach(function (propAndVal) {
                 var prop = propAndVal[0];
                 var val = propAndVal[1];
@@ -162,6 +164,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
             });
         }
     }
+
     setPropertyForSelector(sel, prop, val, record = true) {
 
         let media = 'screen, print';
@@ -170,20 +173,23 @@ export class StylesheetEditor extends MicroweberBaseClass {
             media = '(max-width: 460px)';
         }
 
+
         media = `@media ${media}`;
 
         if (record) {
             var state = mw.top().app.state.state();
             var prev = state[state.length - 1];
             if (prev && (prev.target !== '$liveEditCSS' || (prev.target === '$liveEditCSS' && prev.value.selector !== sel))) {
-                mw.top().app.state.record({
-                    target: '$liveEditCSS',
-                    value: {
-                        selector: sel,
-                        property: prop,
-                        value: getComputedStyle(mw.app.canvas.getDocument().querySelector(sel))[prop]
-                    }
-                })
+                if (mw.app.canvas.getDocument().querySelector(sel)) {
+                    mw.top().app.state.record({
+                        target: '$liveEditCSS',
+                        value: {
+                            selector: sel,
+                            property: prop,
+                            value: getComputedStyle(mw.app.canvas.getDocument().querySelector(sel))[prop]
+                        }
+                    })
+                }
             }
         }
 
@@ -254,14 +260,16 @@ export class StylesheetEditor extends MicroweberBaseClass {
             var state = mw.top().app.state.state();
             var prev = state[state.length - 1];
             if (prev && (prev.target !== '$liveEditCSS' || (prev.target === '$liveEditCSS' && prev.value.selector !== sel))) {
-                mw.top().app.state.record({
-                    target: '$liveEditCSS',
-                    value: {
-                        selector: sel,
-                        property: prop,
-                        value: getComputedStyle(mw.app.canvas.getDocument().querySelector(sel))[prop]
-                    }
-                })
+                if (mw.app.canvas.getDocument().querySelector(sel)) {
+                    mw.top().app.state.record({
+                        target: '$liveEditCSS',
+                        value: {
+                            selector: sel,
+                            property: prop,
+                            value: getComputedStyle(mw.app.canvas.getDocument().querySelector(sel))[prop]
+                        }
+                    })
+                }
             }
         }
 
@@ -454,10 +462,11 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
                     mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, prop, value, false);
                     console.log('applyThemeCSSVariablesFromText', ActiveSelector, prop, value);
-                 }
+                }
             });
         }
     }
+
     //Retrieve all --root CSS variables
     getThemeCSSVariables() {
 
@@ -466,6 +475,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
         var cssVariables = this.getAllCSSVariables(targetStylesheetIds);
         return cssVariables;
     }
+
     getThemeCSSVariablesAsText() {
         var formattedText = '';
         var cssVariables = this.getThemeCSSVariables();
@@ -491,7 +501,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
 
             var skip = false;
-            if(targetStylesheetIds && targetStylesheetIds.length > 0 ){
+            if (targetStylesheetIds && targetStylesheetIds.length > 0) {
                 skip = true;
             }
 
