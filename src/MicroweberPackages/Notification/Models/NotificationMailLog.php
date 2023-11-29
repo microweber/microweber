@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class NotificationMailLog extends Model
 {
-    protected $table = 'notifications_mail_log';
+    protected $table = 'notifications_mails_log';
 
     protected $fillable = [
         'rel_id',
