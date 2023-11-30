@@ -651,7 +651,7 @@ class UserManager
                 // Get register mail temlate
                 $new_user_registration_template_id = $this->app->option_manager->get('new_user_registration_mail_template', 'users');
                 $mail_template = get_mail_template_by_id($new_user_registration_template_id, 'new_user_registration');
-                
+
 
                 $register_email_subject = $mail_template['subject'];
                 $register_email_content = $mail_template['message'];
