@@ -14,7 +14,9 @@ class AddDeletedAtToCommentsTableFallback extends Migration
     public function up()
     {
         Schema::table('comments', function (Blueprint $table) {
-            $table->timestamp('deleted_at')->nullable();
+            if (!Schema::hasColumn('comments', 'deleted_at')) {
+                $table->timestamp('deleted_at')->nullable();
+            }
         });
 
     }
