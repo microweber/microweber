@@ -18,7 +18,12 @@
         $selectorToApply = end($setting['selectors']);
         if ($rootSelector) {
             //   $selectorToApply = $rootSelector . '' . $selectorToApply;
-            $selectorToApply = $rootSelector;
+            if($selectorToApply == ':root'){
+                $selectorToApply = $rootSelector;
+            } else {
+                $selectorToApply = $rootSelector . ' ' . $selectorToApply;
+            }
+         //   $selectorToApply = $rootSelector;
         }
     }
 
@@ -177,9 +182,11 @@
                         if (currentPropertyValue == event.target.value) {
                             return;
                         }
-                        if (mw.top().app.cssEditor) {
+
+                    }
+
+                    if (mw.top().app.cssEditor) {
                             mw.top().app.cssEditor.setPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}', event.target.value + '{{$setting['fieldSettings']['unit']}}');
-                        }
                     }
 
 
