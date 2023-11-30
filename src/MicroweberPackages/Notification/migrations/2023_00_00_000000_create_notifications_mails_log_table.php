@@ -14,11 +14,10 @@ class CreateNotificationsMailsLogTable extends Migration
     public function up()
     {
         Schema::create('notifications_mails_log', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('rel_id')->nullable();
-            $table->string('rel_type')->nullable();
-            $table->string('email')->nullable();
-            $table->string('user_id')->nullable();
+            $table->increments('id');
+            $table->string('type');
+            $table->string('notifiable_type');
+            $table->string('notifiable_id');
             $table->timestamps();
         });
     }
