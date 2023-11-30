@@ -97,7 +97,9 @@
 
 
                     @include('template::livewire.live-edit.template-setting-render-color-palette-item', [
-                            'setting' => $setting
+                            'setting' => $setting,
+                            'selectorToApply' => $selectorToApply,
+                            'parent'=> $parent ?? []
                           ])
 
 
@@ -161,18 +163,26 @@
                 <x-microweber-ui::range-slider
                         x-on:loaded="(e) => {
                     let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
-                    propertyValue = propertyValue.replace('{{$setting['fieldSettings']['unit']}}', '');
-                    e.target.value = propertyValue;
+                    if(propertyValue && typeof propertyValue !== 'undefined'){
+                        propertyValue = propertyValue.replace('{{$setting['fieldSettings']['unit']}}', '');
+                        e.target.value = propertyValue;
+                    }
+
+
                 }"
                         x-on:slide="(e) => {
                     let currentPropertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
-                    currentPropertyValue = currentPropertyValue.replace('{{$setting['fieldSettings']['unit']}}', '');
-                    if (currentPropertyValue == event.target.value) {
-                        return;
+                    if(currentPropertyValue && typeof currentPropertyValue !== 'undefined'){
+                        currentPropertyValue = currentPropertyValue.replace('{{$setting['fieldSettings']['unit']}}', '');
+                        if (currentPropertyValue == event.target.value) {
+                            return;
+                        }
+                        if (mw.top().app.cssEditor) {
+                            mw.top().app.cssEditor.setPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}', event.target.value + '{{$setting['fieldSettings']['unit']}}');
+                        }
                     }
-                    if (mw.top().app.cssEditor) {
-                        mw.top().app.cssEditor.setPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}', event.target.value + '{{$setting['fieldSettings']['unit']}}');
-                    }
+
+
                 }"
                         label="{{$setting['title']}}" min="{{$setting['fieldSettings']['min']}}"
                         max="{{$setting['fieldSettings']['max']}}" step="{{$setting['fieldSettings']['step']}}"
@@ -218,7 +228,26 @@
                 }"/>
             @endif
 
-        @endif
-    </div>
+
+            @if ($setting['fieldType'] == 'dropdown')
+
+                    <x-microweber-ui::select :options="$setting['fieldSettings']['options']"
+                                             x-on:loaded="(e) => {
+                    let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
+                    e.target.value = propertyValue;
+                    e.target.dispatchEvent(new Event('input'));
+                }"
+                                             x-on:input="(e) => {
+                     if (mw.top().app.cssEditor) {
+                        mw.top().app.cssEditor.setPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}', event.target.value);
+                    }
+                }"
+                                             label="{{$setting['title']}}"/>
+
+
+            @endif
+
+@endif
+</div>
 </div>
 
