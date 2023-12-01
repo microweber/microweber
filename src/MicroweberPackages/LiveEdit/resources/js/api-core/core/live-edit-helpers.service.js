@@ -57,6 +57,18 @@ export default {
     },
 
     targetIsInacesibleModule: target => {
+
+
+        //check if case is inaccessibleModuleIfParentIsLayout
+        var isInaccesibleInLayoutParent = DomService.hasAnyOfClassesOnNodeOrParent(target, ['inaccessibleModuleIfFirstParentIsLayout']);
+        if(isInaccesibleInLayoutParent){
+            // check if parent is layout
+            var parentIsLayout = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['module-layouts']);
+            if(parentIsLayout){
+                return true;
+            }
+        }
+
         // check if module is inaccesible and move the handle to the parent if its layout
         var isInaccesibleFirstChild = false;
         var isInaccesible = DomService.hasAnyOfClassesOnNodeOrParent(target, ['no-settings', 'inaccessibleModule']);
@@ -66,6 +78,8 @@ export default {
         if (isInaccesible || isInaccesibleFirstChild) {
             return true;
         }
+
+
 
     },
 

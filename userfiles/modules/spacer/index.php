@@ -24,4 +24,4 @@ if(!empty($styles)) {
 
 
 
-?><div class="mw-le-spacer noelement nodrop no-settings inaccessibleModule" data-for-module-id="<?php print $params['id'] ?>" contenteditable="false" <?php print $styles_attr ?> id="spacer-item-<?php print $params['id'] ?>"></div>
+?><div class="mw-le-spacer noelement nodrop inaccessibleModuleIfFirstParentIsLayout" data-for-module-id="<?php print $params['id'] ?>" contenteditable="false" <?php print $styles_attr ?> id="spacer-item-<?php print $params['id'] ?>"></div>
