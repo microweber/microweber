@@ -79,9 +79,10 @@ class SMTPProvider extends \Newsletter\Providers\DefaultProvider {
 	public function send() {
 
 
-        $transport = new Transport();
-        $transport->setHost($this->getSmtpHost());
-        $transport->setPort($this->getSmtpPort());
+        $transport = new Transport\Smtp\EsmtpTransport(
+            host: $this->getSmtpHost(),
+            port: $this->getSmtpPort(),
+        );
         $transport->setUsername($this->getSmtpUsername());
         $transport->setPassword($this->getSmtpPassword());
 
