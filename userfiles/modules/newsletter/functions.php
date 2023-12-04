@@ -1,6 +1,5 @@
 <?php
 
-include __DIR__ . '/vendor/autoload.php';
 include __DIR__ . '/functions/sender_functions.php';
 include __DIR__ . '/functions/template_functions.php';
 include __DIR__ . '/functions/subscriber_functions.php';

@@ -8,6 +8,10 @@
 
 namespace Newsletter\Providers;
 
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\Email;
+
 class SMTPProvider extends \Newsletter\Providers\DefaultProvider {
 
 	// SMTP Settings
@@ -74,22 +78,24 @@ class SMTPProvider extends \Newsletter\Providers\DefaultProvider {
 
 	public function send() {
 
-		// Create the Transport
-		$transport = (new \Swift_SmtpTransport($this->getSmtpHost(), $this->getSmtpPort()))
-		->setUsername($this->getSmtpUsername())
-		->setPassword($this->getSmtpPassword());
 
-		// Create the Mailer using your created Transport
-		$mailer = new \Swift_Mailer($transport);
+        $transport = new Transport\Smtp\EsmtpTransport(
+            host: $this->getSmtpHost(),
+            port: $this->getSmtpPort(),
+        );
+        $transport->setUsername($this->getSmtpUsername());
+        $transport->setPassword($this->getSmtpPassword());
 
-		// Create a message
-		$message = (new \Swift_Message($this->getSubject()))
-		->setFrom([$this->getFromEmail() => $this->getFromName()])
-		->setTo([$this->getToEmail(), $this->getFromReplyEmail() => $this->getFromName()])
-		->setBody($this->getBody(), 'text/html');
+        $mailer = new Mailer($transport);
 
-		// Send the message
-		return $mailer->send($message);
+        $email = (new Email())
+            ->from($this->getFromEmail())
+            ->to($this->getToEmail())
+            ->replyTo($this->getFromReplyEmail())
+            ->subject($this->getSubject())
+            ->html($this->getBody());
+
+        return $mailer->send($email);
 
 	}
 
