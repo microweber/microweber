@@ -22,7 +22,7 @@ class LiveEditTopRightMenuTest extends TestCase
         $topItem = $items[0];
         $lastItem = array_pop($items);
         $lastItemBefore = array_pop($items);
- 
+
         $this->assertEquals($topItem->title, 'Back to Admin');
         $this->assertEquals($topItem->href, admin_url());
         $this->assertNotEmpty($topItem->icon_html);
