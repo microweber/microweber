@@ -213,6 +213,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
         this._temp.children[media].children[sel].attributes[prop] = val;
 
+
         if (val === '' || val === '!important' || val === undefined || val === null) {
             const prop_val = '';
             this._temp.children[media].children[sel].attributes[prop] = prop_val;
