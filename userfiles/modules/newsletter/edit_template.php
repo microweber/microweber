@@ -8,24 +8,31 @@
 <script>mw.require('editor.js')</script>
 
 <script>
-    function edit_iframe_template(template_id) {
 
-        var module_type = 'newsletter';
-        var module_id = 'edit_template_iframe';
-
-        var src = mw.settings.site_url + 'api/module?template_id=' + template_id + '&id=' + module_id + '&type=' + module_type + '&autosize=true';
-        var modal = mw.dialogIframe({
-            url: src,
-            width: 1500,
-            height: 1500,
-            id: 'mw-module-settings-editor-front',
-            title: 'Settings',
-            template: 'default',
-            center: false,
-            resize: true,
-            draggable: true
-        });
-    }
+    MWEditor.controllers.mailTemplateFormDropdownVariables = function (scope, api, rootScope, data) {
+        this.checkSelection = function (opt) {
+            opt.controller.element.disabled = !opt.api.isSelectionEditable();
+        };
+        this.render = function () {
+            var dropdown = new MWEditor.core.dropdown({
+                data: [
+                    { label: 'firstName', value:'{first_name}' },
+                    { label: 'lastName', value:'{last_name}' },
+                    { label: 'email', value:'{email}' },
+                    { label: 'unsubscribe', value:'{unsubscribe}' },
+                    { label: 'siteUrl', value:'{site_url}' },
+                ],
+                placeholder: rootScope.lang('<?php _ejs("E-mail Values"); ?>')
+            });
+            dropdown.select.on('change', function (e, val) {
+                if(val) {
+                    api.insertHTML(val.value);
+                }
+            });
+            return dropdown.root;
+        };
+        this.element = this.render();
+    };
 
     initEditor = function (val) {
         if (window.editorLaunced) {
@@ -62,7 +69,7 @@
                             controls: ['ul', 'ol']
                         }
                     },
-                    '|', 'link', 'unlink', 'wordPaste', 'table'
+                    '|', 'link', 'unlink', 'wordPaste', 'table', 'mailTemplateFormDropdownVariables'
                 ],
             ]
         });
@@ -109,7 +116,10 @@
 
     <div class="form-group">
         <label class="control-label"><?php _e('Template design'); ?></label>
-        <small class="text-muted d-flex justify-content-between align-items-center mb-2"><span>Variables: {first_name} , {Last_name} , {email} , {unsubscribe} {site_url}</span> <button onclick="edit_iframe_template($('.js-edit-template-id').val())" type="button" class="btn btn-outline-primary"><?php _e('Template Generator'); ?></button></small>
+
+        <small class="text-muted d-flex justify-content-between align-items-center mb-2">
+            <span>Variables: {first_name} , {Last_name} , {email} , {unsubscribe} {site_url}</span>
+        </small>
 
         <textarea id="js-editor-template" name="text" class="js-edit-template-text"></textarea>
 

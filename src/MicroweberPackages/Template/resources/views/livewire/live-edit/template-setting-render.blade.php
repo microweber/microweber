@@ -3,9 +3,6 @@
     <?php
 
     $rootSelector = false;
-
-
-
     if (isset($parent) and !empty($parent) and !empty($parent['rootSelector'])) {
         $rootSelector = trim($parent['rootSelector']);
     }
@@ -66,8 +63,6 @@
                     </button>
                 </div>
             @endif
-
-
 
 
             @if ($setting['fieldType'] == 'clearAll')
@@ -238,19 +233,18 @@
 
             @if ($setting['fieldType'] == 'dropdown')
 
-                    <x-microweber-ui::select :options="$setting['fieldSettings']['options']"
-                                             x-on:loaded="(e) => {
+             <x-microweber-ui::select :options="$setting['fieldSettings']['options']"
+               x-on:loaded="(e) => {
                     let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
                     e.target.value = propertyValue;
                     e.target.dispatchEvent(new Event('input'));
                 }"
-                                             x-on:input="(e) => {
+              x-on:input="(e) => {
                      if (mw.top().app.cssEditor) {
                         mw.top().app.cssEditor.setPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}', event.target.value);
                     }
                 }"
-                                             label="{{$setting['title']}}"/>
-
+               label="{{$setting['title']}}" />
 
             @endif
 

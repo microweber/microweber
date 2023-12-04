@@ -30,6 +30,8 @@
     }
 </script>
 
-<a href="javascript:;" class="btn btn-primary mb-3" onclick="edit_list();"><i class="mdi mdi-plus"></i><?php _e('Add new list'); ?></a>
+<a href="javascript:;" class="btn btn-outline-primary mb-3" onclick="edit_list();">
+    <i class="mdi mdi-plus"></i> <?php _e('Add new list'); ?>
+</a>
 
 <module type="newsletter/lists_list"/>

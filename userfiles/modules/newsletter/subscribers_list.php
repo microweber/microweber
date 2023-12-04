@@ -74,7 +74,5 @@ $subscribers = newsletter_get_subscribers($subscribers_params);
         </table>
     </div>
 <?php else: ?>
-    <div class="icon-title justify-content-center">
-        <i class="mdi mdi-at"></i> <h5 class="mb-0"><?php _e("You don't have any subscribers yet"); ?></h5>
-    </div>
+    <div class="alert alert-info"><?php _e("You don't have any subscribers yet"); ?></div>
 <?php endif; ?>

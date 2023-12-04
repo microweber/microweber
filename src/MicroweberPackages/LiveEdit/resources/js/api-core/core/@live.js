@@ -700,6 +700,8 @@ export class LiveEdit {
         ElementManager(this.root).on('mousemove', (e) => {
 
 
+
+
             const hasBg = DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['background-image-holder', 'img-holder']);
 
             if(hasBg && hasBg !== bgImageHandles.getTarget() && this.canBeEditable(hasBg)) {
@@ -740,6 +742,15 @@ export class LiveEdit {
                 return
             }
             const elements = this.observe.fromEvent(e);
+
+
+            let isTextInColumn = e.target.className.indexOf('col-') !== -1;
+            const isTextOnly = !!e.target.textContent.trim() && !e.target.firstElementChild;
+
+            if(isTextInColumn && isTextOnly && this.elementAnalyzer.isEditOrInEdit(e.target)) {
+                e.target.innerHTML = `<div class="element">${e.target.innerHTML}</div>`;
+            }
+
             /*let element = e.target;
             while (e.target.nodeType !== 1){
                 element = e.target.parentElement;
@@ -848,6 +859,8 @@ export class LiveEdit {
                 } else {
                     title = this.lang('Text');
                 }
+
+
 
                 this.interactionHandle.menu.setTitle(title);
                 this.interactionHandle.show();
