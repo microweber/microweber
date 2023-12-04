@@ -50,6 +50,16 @@ class AdminLogin extends BaseComponent
             $browser->within(new AdminMakeInstall(), function ($browser) {
                 $browser->makeInstallation();
             });
+
+
+        }
+
+
+
+
+
+        if (mw_is_installed()) {
+
             $user = User::where('username', 1)->first();
 
             if(!$user){
@@ -60,15 +70,9 @@ class AdminLogin extends BaseComponent
                 $user->is_admin = 1;
                 $user->save();
             }
-             Auth::login($user);
-
-        }
+            Auth::login($user);
 
 
-
-
-
-        if (mw_is_installed()) {
             $data = [];
             $data['option_value'] = 'n';
             $data['option_key'] = 'login_captcha_enabled';

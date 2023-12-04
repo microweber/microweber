@@ -10,6 +10,8 @@
 
 
 
+<!--
+
         <div class="dropdown btn-icon live-edit-toolbar-buttons " >
             <a role="button" id="dropdownLiveEditMenuLinkMoreSettings" data-bs-toggle="dropdown" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path
@@ -17,10 +19,10 @@
             </a>
 
             <div class="dropdown-menu" aria-labelledby="dropdownLiveEditMenuLinkMoreSettings" ref="moreSettingsDropdown">
-              <ToolsButtons></ToolsButtons>
+                <ToolsButtons></ToolsButtons>
             </div>
         </div>
-
+-->
 
     </div>
 
@@ -44,7 +46,7 @@ export default {
         },
         toggle: function (name) {
 
-            this.$refs.moreSettingsDropdown.classList.remove('show');
+        //   this.$refs.moreSettingsDropdown.classList.remove('show');
 
             if (this.buttonIsActive) {
                 this.buttonIsActive = false;
@@ -57,7 +59,7 @@ export default {
         },
 
         hideMoreSettingsDropdown() {
-            this.$refs.moreSettingsDropdown.classList.remove('show');
+           // this.$refs.moreSettingsDropdown.classList.remove('show');
         }
     },
 
