@@ -102,14 +102,14 @@ if (isset($params['id'])) {
 <form class="js-edit-sender-form">
 
     <div class="form-group">
-        <label class="control-label"><?php _e('Name'); ?></label> 
+        <label class="control-label"><?php _e('Name'); ?></label>
         <small class="text-muted d-block mb-2">Enter the full name of the sender</small>
         <input name="name" value="<?php if (isset($sender['name'])): ?><?php echo $sender['name']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
         <div class="js-field-message"></div>
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e('From Name'); ?></label> 
+        <label class="control-label"><?php _e('From Name'); ?></label>
         <small class="text-muted d-block mb-2">This name will be visible as Sender name in the received e-mail</small>
         <input name="from_name" value="<?php if (isset($sender['from_name'])): ?><?php echo $sender['from_name']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
         <div class="js-field-message"></div>
@@ -130,7 +130,7 @@ if (isset($params['id'])) {
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e('Send email function'); ?></label> 
+        <label class="control-label"><?php _e('Send email function'); ?></label>
         <small class="text-muted d-block mb-2">Choose a method to send the emails</small>
         <select class="selectpicker-x form-control js-select-account-type" name="account_type" data-width="100%">
             <option value="php_mail">PHP Mail</option>
@@ -278,7 +278,7 @@ if (isset($params['id'])) {
         });
     </script>
 
-    <div class="js-sender-test-email-wrapper" style="display:none;background: whitesmoke  none repeat scroll 0% 0%;">
+    <div class="js-sender-test-email-wrapper" style="display:none;background: whitesmoke  none repeat scroll 0% 0%;padding:15px;">
         <div class="form-group">
             <label class="control-label">Send test email to							</label>
             <input name="to_email" class="mw_option_field mw-options-form-binded form-control js-sender-test-email-to" type="text" option-group="email">
@@ -287,12 +287,12 @@ if (isset($params['id'])) {
         <button class="btn btn-outline-success js-sender-send-test-email">Send test email</button>
 
         <hr clas="thin"/>
-        
+
         <pre class="js-email-send-test-output"></pre>
     </div>
     <br />
-    
-    <button type="button" class="btn btn-outline-primary btn-sm js-sender-test-method"><?php _e('Test Method'); ?></button>	
+
+    <button type="button" class="btn btn-outline-primary btn-sm js-sender-test-method"><?php _e('Test Method'); ?></button>
 
     <div class="d-flex justify-content-between">
         <div>

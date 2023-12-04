@@ -8,24 +8,6 @@
 <script>mw.require('editor.js')</script>
 
 <script>
-    function edit_iframe_template(template_id) {
-
-        var module_type = 'newsletter';
-        var module_id = 'edit_template_iframe';
-
-        var src = mw.settings.site_url + 'api/module?template_id=' + template_id + '&id=' + module_id + '&type=' + module_type + '&autosize=true';
-        var modal = mw.dialogIframe({
-            url: src,
-            width: 1500,
-            height: 1500,
-            id: 'mw-module-settings-editor-front',
-            title: 'Settings',
-            template: 'default',
-            center: false,
-            resize: true,
-            draggable: true
-        });
-    }
 
     initEditor = function (val) {
         if (window.editorLaunced) {
@@ -109,7 +91,10 @@
 
     <div class="form-group">
         <label class="control-label"><?php _e('Template design'); ?></label>
-        <small class="text-muted d-flex justify-content-between align-items-center mb-2"><span>Variables: {first_name} , {Last_name} , {email} , {unsubscribe} {site_url}</span> <button onclick="edit_iframe_template($('.js-edit-template-id').val())" type="button" class="btn btn-outline-primary"><?php _e('Template Generator'); ?></button></small>
+
+        <small class="text-muted d-flex justify-content-between align-items-center mb-2">
+            <span>Variables: {first_name} , {Last_name} , {email} , {unsubscribe} {site_url}</span>
+        </small>
 
         <textarea id="js-editor-template" name="text" class="js-edit-template-text"></textarea>
 

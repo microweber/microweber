@@ -13,10 +13,10 @@ $senders = newsletter_get_senders();
                 <tr>
                     <th class="font-weight-bold"><?php _e('Name'); ?></th>
                     <th class="font-weight-bold"><?php _e('From'); ?></th>
-                    <!--<th class="font-weight-bold"><?php _e('Email'); ?></th>-->
-                    <!--<th class="font-weight-bold"><?php _e('Reply'); ?></th>-->
+                    <th class="font-weight-bold"><?php _e('Email'); ?></th>
+                    <th class="font-weight-bold"><?php _e('Reply'); ?></th>
                     <th class="font-weight-bold"><?php _e('Created at'); ?></th>
-                    <th class="font-weight-bold"><?php _e('Active'); ?></th>
+<!--                    <th class="font-weight-bold"><?php _e('Active'); ?></th>-->
                     <th class="font-weight-bold text-center" width="200px"><?php _e('Action'); ?></th>
                 </tr>
             </thead>
@@ -24,10 +24,10 @@ $senders = newsletter_get_senders();
                 <tr>
                     <th class="font-weight-bold"><?php _e('Name'); ?></th>
                     <th class="font-weight-bold"><?php _e('From'); ?></th>
-                    <!--<th class="font-weight-bold"><?php _e('Email'); ?></th>-->
-                    <!--<th class="font-weight-bold"><?php _e('Reply'); ?></th>-->
+                   <th class="font-weight-bold"><?php _e('Email'); ?></th>
+                   <th class="font-weight-bold"><?php _e('Reply'); ?></th>
                     <th class="font-weight-bold"><?php _e('Created at'); ?></th>
-                    <th class="font-weight-bold"><?php _e('Active'); ?></th>
+<!--                    <th class="font-weight-bold"><?php _e('Active'); ?></th>-->
                     <th class="font-weight-bold text-center" width="200px"><?php _e('Action'); ?></th>
                 </tr>
             </tfoot>
@@ -36,13 +36,13 @@ $senders = newsletter_get_senders();
                     <tr>
                         <td><?php print $sender['name']; ?></td>
                         <td><?php print $sender['from_name']; ?></td>
-                        <!--<td><?php print $sender['from_email']; ?></td>-->
-                        <!--<td><?php print $sender['reply_email']; ?></td>-->
+                        <td><?php print $sender['from_email']; ?></td>
+                        <td><?php print $sender['reply_email']; ?></td>
                         <td><?php print $sender['created_at']; ?></td>
-                        <td><?php if ($sender['is_active']): ?><?php _e('Yes'); ?><?php else: ?><?php _e('No'); ?><?php endif; ?></td>
+<!--                        <td><?php if ($sender['is_active']): ?><?php _e('Yes'); ?><?php else: ?><?php _e('No'); ?><?php endif; ?></td>-->
                         <td class="text-center">
                             <button class="btn btn-outline-primary btn-sm" onclick="edit_sender('<?php print $sender['id']; ?>')"><?php _e('Edit'); ?></button>
-                            <a class="btn btn-link btn-sm text-danger" href="javascript:;" onclick="delete_sender('<?php print $sender['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
+                            <button class="btn btn-outline-danger btn-sm" href="javascript:;" onclick="delete_sender('<?php print $sender['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
