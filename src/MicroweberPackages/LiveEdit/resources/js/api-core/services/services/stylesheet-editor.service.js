@@ -218,6 +218,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
             this._temp.children[media].children[sel].attributes[prop] = prop_val;
             if (this._temp.children
                 && this._temp.children[media]
+                && typeof this._temp.children[media].children[sel] !== 'undefined'
                 && this._temp.children[media].children[sel]
             ) {
                 delete this._temp.children[media].children[sel].attributes[prop];
