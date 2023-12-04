@@ -85,6 +85,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
             this.settings.document.querySelector('#mw-custom-user-css'),
         ];
 
+
         const removePropertyFromSheet = (sheet) => {
             if (sheet) {
                 var rules;
@@ -97,6 +98,12 @@ export class StylesheetEditor extends MicroweberBaseClass {
                     return;
                 }
                 for (let i = 0, l = rules.length; i < l; i++) {
+
+                    console.log('For alex')
+                    console.log(11111)
+                    console.log(rules[i])
+                    console.log(rules[i].selectorText,selector)
+
                     if (rules[i].selectorText === selector) {
                         rules[i].style.removeProperty(property);
                     }
@@ -172,6 +179,8 @@ export class StylesheetEditor extends MicroweberBaseClass {
         if (mw.top().app.resolutionMode === 'phone') {
             media = '(max-width: 460px)';
         }
+
+      //  console.log('setPropertyForSelector', sel, prop, val, record);
 
 
         media = `@media ${media}`;

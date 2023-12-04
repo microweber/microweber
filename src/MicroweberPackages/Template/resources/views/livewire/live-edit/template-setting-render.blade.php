@@ -66,31 +66,13 @@
 
 
             @if ($setting['fieldType'] == 'clearAll')
-                <div class="mt-2" style="background:#f7f7f7;border-radius:8px;padding: 12px;">
-                    <div>
-                        <b>{{$setting['title']}}</b>
-                    </div>
-                    <div class="mt-1">
-                        <small>{{$setting['description']}}</small>
-                    </div>
+                    @include('template::livewire.live-edit.template-setting-render-clear-all-item', [
+                                'setting' => $setting,
+                                'selectorToApply' => $selectorToApply,
+                                'parent'=> $parent ?? []
+                              ])
 
-
-                    <button
-                            x-on:click="(e) => {
-
-                            mw.confirm('Are you sure you want to clear styles?',
-                                function () {
-                                    @foreach($setting['fieldSettings']['properties'] as $property)
-                                    mw.top().app.cssEditor.setPropertyForSelector('{{ $selectorToApply }}', '{{$property}}', '');
-                                    @endforeach
-                                });
-
-                            }"
-                            class="btn btn-outline-dark" style="width:100%;margin-top:15px">
-                        <i class="fa fa-trash"></i> &nbsp; {{$setting['title']}}
-                    </button>
-                </div>
-            @endif
+                @endif
 
 
             @if ($setting['fieldType'] == 'colorPalette')
@@ -99,6 +81,7 @@
                     @include('template::livewire.live-edit.template-setting-render-color-palette-item', [
                             'setting' => $setting,
                             'selectorToApply' => $selectorToApply,
+                            'rootSelector' => $rootSelector,
                             'parent'=> $parent ?? []
                           ])
 

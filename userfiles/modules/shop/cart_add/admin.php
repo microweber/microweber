@@ -19,6 +19,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         $for_id = false;
         $for = 'content';
 
+
+
         if (isset($params['rel'])) {
             $params['rel_type'] = $params['rel'];
         }
@@ -37,7 +39,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <script>
             $(document).ready(function () {
                 $(window).on("custom_fields.save", function (event) {
-                    mw.reload_module_parent('#<?php print $params['id'] ?>');
+
+                    mw.reload_module_everywhere('#<?php print $params['id'] ?>');
                 });
             });
         </script>
@@ -49,7 +52,19 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  <?php if (!$for_id): ?>active<?php endif; ?>" data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
         </nav>
 
+
+
+
+
         <div class="tab-content py-3">
+
+            <div class="tab-pane fade <?php if (!$for_id): ?>show active<?php endif; ?>" id="templates">
+                <module type="admin/modules/templates"/>
+            </div>
+
+
+
+
             <?php if ($for_id): ?>
                 <div class="tab-pane fade show active" id="settings">
                     <!-- Settings Content -->
@@ -58,11 +73,19 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
                     <!-- Settings Content - End -->
                 </div>
+            <?php else: ?>
+
+                <div class="current-template-modules">
+
+                    <module type="admin/modules/inner_modules_list" for-module-id="<?php print $params['id'] ?>"/>
+
+
+                </div>
+
             <?php endif; ?>
 
-            <div class="tab-pane fade <?php if (!$for_id): ?>show active<?php endif; ?>" id="templates">
-                <module type="admin/modules/templates"/>
-            </div>
+
+
         </div>
 
     </div>
