@@ -40,7 +40,7 @@ if ($lists) {
                 <?php foreach ($all_lists as $list): ?>
                     <tr>
                         <td><?php print $list['name']; ?></td>
-                        <td><?php print newsletter_get_lists('count=1&list_id=' . $list['id']); ?></td>
+                        <td><?php print count(newsletter_get_subscribers_for_list($list['id'])); ?></td>
                         <td>
                             <?php if ($list['id']): ?>
                                 <button class="btn btn-outline-primary btn-sm" onclick="edit_list('<?php print $list['id']; ?>')"><?php _e('Edit'); ?></button>

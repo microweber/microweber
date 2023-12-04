@@ -68,7 +68,7 @@ $templates = newsletter_get_templates($templates_params);
                         <td class="text-center">
                             <button class="btn btn-outline-primary btn-sm" onclick="edit_template('<?php print $template['id']; ?>')"><?php _e('Edit'); ?></button>
                             <a class="btn btn-outline-danger btn-sm" href="javascript:;" onclick="delete_template('<?php print $template['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
-                        </td> 
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
