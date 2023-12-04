@@ -20,16 +20,16 @@ class LiveEditTopRightMenuTest extends TestCase
         $items = ($get->getData());
 
         $topItem = $items[0];
-        $lastItem = end($items);
-        $lastItemBefore = end($items);
-
+        $lastItem = array_pop($items);
+        $lastItemBefore = array_pop($items);
+ 
         $this->assertEquals($topItem->title, 'Back to Admin');
         $this->assertEquals($topItem->href, admin_url());
         $this->assertNotEmpty($topItem->icon_html);
 
-        $this->assertEquals($lastItemBefore->title, 'Log out');
-        $this->assertEquals($lastItemBefore->href, logout_url());
-        $this->assertNotEmpty($lastItemBefore->icon_html);
+        $this->assertEquals($lastItem->title, 'Log out');
+        $this->assertEquals($lastItem->href, logout_url());
+        $this->assertNotEmpty($lastItem->icon_html);
 
 
 
