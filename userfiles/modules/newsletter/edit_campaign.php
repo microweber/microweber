@@ -9,6 +9,12 @@ $senders_params = array();
 $senders_params['no_limit'] = true;
 $senders_params['order_by'] = "created_at desc";
 $senders = newsletter_get_senders($senders_params);
+
+$templates_params = array();
+$templates_params['no_limit'] = true;
+$templates_params['order_by'] = "created_at desc";
+$templates = newsletter_get_templates($templates_params);
+
 ?>
 
 <style>
@@ -110,20 +116,20 @@ $senders = newsletter_get_senders($senders_params);
     ?>
 
     <div class="form-group">
-        <label class="control-label"><?php _e('Name'); ?></label> 
+        <label class="control-label"><?php _e('Name'); ?></label>
         <input name="name" value="<?php if (isset($campaign['name'])): ?><?php echo $campaign['name']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
         <div class="js-field-message"></div>
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e('Subject'); ?></label> 
+        <label class="control-label"><?php _e('Subject'); ?></label>
         <small class="text-muted d-block mb-2">What the campaign is about</small>
         <input name="subject" value="<?php if (isset($campaign['subject'])): ?><?php echo $campaign['subject']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
         <div class="js-field-message"></div>
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e('Campaign Name'); ?></label> 
+        <label class="control-label"><?php _e('Campaign Name'); ?></label>
         <small class="text-muted d-block mb-2">Give a name of your campaign</small>
         <input name="from_name" value="<?php if (isset($campaign['from_name'])): ?><?php echo $campaign['from_name']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
         <div class="js-field-message"></div>
@@ -131,20 +137,25 @@ $senders = newsletter_get_senders($senders_params);
 
     <!--
     <div class="form-group">
-            <label class="control-label"><?php // _e('Campaign Email');              ?></label> 
+            <label class="control-label"><?php // _e('Campaign Email');              ?></label>
             <input name="from_email" value="<?php // echo $campaign['from_email'];              ?>" type="text" class="form-control js-validation js-validation-email" />
             <div class="js-field-message"></div>
     </div>
     !-->
 
     <div class="form-group">
-        <label class="control-label"><?php _e('Campaign Email Sender'); ?></label> 
+        <label class="control-label"><?php _e('Campaign Email Sender'); ?></label>
         <small class="text-muted d-block mb-2">Select mail sender</small>
 
+
         <?php if (!empty($senders)): ?>
-            <select name="sender_account_id" class="selectpicker" data-width="100%">
+            <select name="sender_account_id" class="form-control">
                 <?php foreach ($senders as $sender) : ?>
-                    <option value="<?php echo $sender['id']; ?>"><?php echo $sender['name']; ?></option>
+                    <option
+
+                        <?php if ($sender['id'] == $campaign['sender_account_id']): ?> selected="selected" <?php endif; ?>
+
+                        value="<?php echo $sender['id']; ?>"><?php echo $sender['name']; ?></option>
                 <?php endforeach; ?>
             </select>
         <?php else: ?>
@@ -154,12 +165,27 @@ $senders = newsletter_get_senders($senders_params);
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e('List'); ?></label> 
+        <label class="control-label"><?php _e('Campaign E-mail Template'); ?></label>
+        <small class="text-muted d-block mb-2">Select from your campaign e-mail templates or <a href="javascript:;">create a new one</a></small>
+
+        <select name="email_template_id"  class="form-control">
+            <?php foreach ($templates as $template) : ?>
+                <option <?php if (isset($list['success_email_template_id']) AND $list['success_email_template_id'] == $template['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $template['id']; ?>"><?php echo $template['title']; ?></option>
+            <?php endforeach; ?>
+        </select>
+        <div class="js-field-message"></div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label"><?php _e('List'); ?></label>
         <small class="text-muted d-block mb-2">Choose from your lists or <a href="javascript:;" onclick="edit_list();">create a new one</a></small>
         <?php if (!empty($lists)): ?>
-            <select name="list_id" class="selectpicker" data-width="100%">
+
+            <select name="list_id" class="form-control">
                 <?php foreach ($lists as $list) : ?>
-                    <option value="<?php echo $list['id']; ?>"><?php echo $list['name']; ?></option>
+                    <option
+                        <?php if ($list['id'] == $campaign['list_id']): ?> selected="selected" <?php endif; ?>
+                        value="<?php echo $list['id']; ?>"><?php echo $list['name']; ?></option>
                 <?php endforeach; ?>
             </select>
         <?php endif; ?>
@@ -171,7 +197,7 @@ $senders = newsletter_get_senders($senders_params);
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e('Status'); ?>: <?php if (isset($campaign['is_done']) and $campaign['is_done']): ?> Yes <?php else: ?> No <?php endif; ?></label> 
+        <label class="control-label"><?php _e('Status'); ?>: <?php if (isset($campaign['is_done']) and $campaign['is_done']): ?> Yes <?php else: ?> No <?php endif; ?></label>
     </div>
 
     <div class="d-flex justify-content-between">
