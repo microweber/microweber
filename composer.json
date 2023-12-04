@@ -91,6 +91,7 @@
         "spatie/laravel-googletagmanager": "dev-main",
         "spatie/laravel-menu": "dev-main",
         "spatie/laravel-permission": "*",
+        "swiftmailer/swiftmailer": "*",
         "symfony/console": "v6.3.4",
         "symfony/css-selector": "v6.3.2",
         "symfony/event-dispatcher": "v6.3.2",
