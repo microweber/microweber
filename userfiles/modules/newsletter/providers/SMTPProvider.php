@@ -85,7 +85,8 @@ class SMTPProvider extends \Newsletter\Providers\DefaultProvider {
 		// Create a message
 		$message = (new \Swift_Message($this->getSubject()))
 		->setFrom([$this->getFromEmail() => $this->getFromName()])
-		->setTo([$this->getToEmail(), $this->getFromReplyEmail() => $this->getFromName()])
+		->setTo([$this->getToEmail()])
+        ->setReplyTo([$this->getFromReplyEmail() => $this->getFromName()])
 		->setBody($this->getBody(), 'text/html');
 
 		// Send the message
