@@ -66,7 +66,7 @@ $subscribers = newsletter_get_subscribers($subscribers_params);
                         </td>
                         <td class="text-center">
                             <button class="btn btn-outline-primary btn-sm" onclick="edit_subscriber('<?php print $subscriber['id']; ?>')"><?php _e('Edit'); ?></button>
-                            <a class="btn btn-link btn-sm text-danger" href="javascript:;" onclick="delete_subscriber('<?php print $subscriber['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
+                            <a class="btn btn-outline-danger btn-sm" href="javascript:;" onclick="delete_subscriber('<?php print $subscriber['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
