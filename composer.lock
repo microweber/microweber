@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d7bf6142fa5be5e1577bf75b186fe90",
+    "content-hash": "370977b2d2dae4a04037e16c7d0e51f8",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -12105,65 +12105,6 @@
             "time": "2023-10-25T08:21:35+00:00"
         },
         {
-            "name": "swiftmailer/swiftmailer",
-            "version": "5.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "181b89f18a90f8925ef805f950d47a7190e9b950"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/181b89f18a90f8925ef805f950d47a7190e9b950",
-                "reference": "181b89f18a90f8925ef805f950d47a7190e9b950",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9.1",
-                "symfony/phpunit-bridge": "~3.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.4-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "lib/swift_required.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Corbyn"
-                },
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                }
-            ],
-            "description": "Swiftmailer, free feature-rich PHP mailer",
-            "homepage": "https://swiftmailer.symfony.com",
-            "keywords": [
-                "email",
-                "mail",
-                "mailer"
-            ],
-            "support": {
-                "issues": "https://github.com/swiftmailer/swiftmailer/issues",
-                "source": "https://github.com/swiftmailer/swiftmailer/tree/v5.4.12"
-            },
-            "abandoned": "symfony/mailer",
-            "time": "2018-07-31T09:26:32+00:00"
-        },
-        {
             "name": "symfony/console",
             "version": "v6.3.4",
             "source": {
@@ -13023,12 +12964,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mailer.git",
-                "reference": "c445b16d85e5f9daab3f220699f19ef649ade5cc"
+                "reference": "b7a8093b59bdc847623a5a99cf293e8b54c1cf1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mailer/zipball/c445b16d85e5f9daab3f220699f19ef649ade5cc",
-                "reference": "c445b16d85e5f9daab3f220699f19ef649ade5cc",
+                "url": "https://api.github.com/repos/symfony/mailer/zipball/b7a8093b59bdc847623a5a99cf293e8b54c1cf1a",
+                "reference": "b7a8093b59bdc847623a5a99cf293e8b54c1cf1a",
                 "shasum": ""
             },
             "require": {
@@ -13095,7 +13036,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-01T08:43:16+00:00"
+            "time": "2023-12-02T12:49:56+00:00"
         },
         {
             "name": "symfony/mime",
@@ -19108,6 +19049,7 @@
         "phpdocumentor/reflection-docblock": 20,
         "spatie/laravel-googletagmanager": 20,
         "spatie/laravel-menu": 20,
+        "symfony/mailer": 20,
         "touhidurabir/laravel-stub-generator": 20,
         "wikimedia/composer-merge-plugin": 20
     },
