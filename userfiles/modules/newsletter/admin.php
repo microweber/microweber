@@ -13,14 +13,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <?php endif; ?>
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
-    <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
-        </h5>
+
+    <div class="card-header mt-3">
+       <h2><?php _e('Newsletter'); ?></h2>
     </div>
 
-    <div class="card-body pt-3">
+    <div class="card-body">
         <style>
             .table td{
                 vertical-align: middle;
@@ -36,12 +34,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <?php if ($from_live_edit == false): ?>
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#subscribers"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e('Subscribers'); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#list"><i class="mdi mdi-clipboard-text-outline mr-1"></i> <?php _e('Lists'); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#campaigns"><i class="mdi mdi-email-check-outline mr-1"></i> <?php _e('Campaigns'); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#templates"><i class="mdi mdi-view-dashboard-outline mr-1"></i> <?php _e('Templates'); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#sender_accounts"><i class="mdi mdi-book-account-outline mr-1"></i> <?php _e('Sending accounts'); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
+                <a class="btn btn-outline-dark justify-content-center gap-2 active" data-bs-toggle="tab" href="#subscribers"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e('Subscribers'); ?></a>
+                <a class="btn btn-outline-dark justify-content-center gap-2" data-bs-toggle="tab" href="#list"><i class="mdi mdi-clipboard-text-outline mr-1"></i> <?php _e('Lists'); ?></a>
+                <a class="btn btn-outline-dark justify-content-center gap-2" data-bs-toggle="tab" href="#campaigns"><i class="mdi mdi-email-check-outline mr-1"></i> <?php _e('Campaigns'); ?></a>
+                <a class="btn btn-outline-dark justify-content-center gap-2" data-bs-toggle="tab" href="#templates"><i class="mdi mdi-view-dashboard-outline mr-1"></i> <?php _e('Templates'); ?></a>
+                <a class="btn btn-outline-dark justify-content-center gap-2" data-bs-toggle="tab" href="#sender_accounts"><i class="mdi mdi-book-account-outline mr-1"></i> <?php _e('Sending accounts'); ?></a>
+                <a class="btn btn-outline-dark justify-content-center gap-2" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
             </nav>
 
             <div class="tab-content py-3">
@@ -74,7 +72,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             </div>
         <?php else: ?>
             <div class="mw-live-edit-settings">
-                <div class="text-center"><a href="<?php echo admin_url(); ?>view:modules/load_module:newsletter" class="mw-ui-btn mw-ui-btn-info"  target="_blank">Go to Newsletter in Admin panel</a></div>
+                <div class="text-center">
+                    <a href="<?php echo admin_url(); ?>view:modules/load_module:newsletter" class="mw-ui-btn mw-ui-btn-info"  target="_blank">
+                        Go to Newsletter in Admin panel
+                    </a>
+                </div>
 
                 <div class="mw-ui-box-content">
                     <module type="admin/modules/templates"/>

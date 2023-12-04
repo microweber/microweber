@@ -31,6 +31,8 @@
     }
 </script>
 
-<a href="javascript:;" class="btn btn-primary mb-3" onclick="edit_sender(false);"><i class="mdi mdi-plus"></i> <?php _e('Add new sender'); ?></a>
+<a href="javascript:;" class="btn btn-outline-primary mb-3" onclick="edit_sender(false);">
+    <i class="mdi mdi-plus"></i> <?php _e('Add new sender'); ?>
+</a>
 
 <module type="newsletter/sender_accounts_list"/>

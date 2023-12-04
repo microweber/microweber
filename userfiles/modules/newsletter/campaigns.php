@@ -35,6 +35,8 @@
     }
 </script>
 
-<a href="javascript:;" class="btn btn-primary mb-3" onclick="edit_campaign(false);"><i class="mdi mdi-plus"></i> <?php _e('Add new campaign'); ?></a>
+<a href="javascript:;" class="btn btn-outline-primary mb-3" onclick="edit_campaign(false);">
+    <i class="mdi mdi-plus"></i> <?php _e('Add new campaign'); ?>
+</a>
 
 <module type="newsletter/campaigns_list"/>

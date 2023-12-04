@@ -57,7 +57,7 @@ $campaigns = newsletter_get_campaigns();
         </table>
     </div>
 <?php else: ?>
-    <div class="icon-title justify-content-center">
-        <i class="mdi mdi-email-check-outline"></i> <h5 class="mb-0"><?php _e("No campaigns found"); ?></h5>
+    <div class="alert alert-info">
+        <?php _e("No campaigns found"); ?>
     </div>
 <?php endif; ?>

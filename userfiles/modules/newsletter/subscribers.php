@@ -29,6 +29,11 @@
     }
 </script>
 
-<a href="javascript:;" class="btn btn-primary mb-3" onclick="edit_subscriber();"><i class="mdi mdi-plus"></i> <?php _e('Add new subscriber'); ?></a>
+<a href="javascript:;" class="btn btn-outline-primary mb-3" onclick="edit_subscriber();">
+    <i class="mdi mdi-plus"></i> <?php _e('Add new subscriber'); ?>
+</a>
+<a href="javascript:;" class="btn btn-outline-success mb-3" onclick="import_subscribers();">
+   <?php _e('Import Subscribers'); ?>
+</a>
 
 <module type="newsletter/subscribers_list"/>

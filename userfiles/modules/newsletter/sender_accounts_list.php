@@ -50,7 +50,5 @@ $senders = newsletter_get_senders();
         </table>
     </div>
 <?php else: ?>
-    <div class="icon-title justify-content-center">
-        <i class="mdi mdi-book-account-outline"></i> <h5 class="mb-0"><?php _e("No senders found"); ?></h5>
-    </div>
+    <div class="alert alert-info"><?php _e("No senders found"); ?></div>
 <?php endif; ?>
