@@ -225,6 +225,8 @@ export class StylesheetEditor extends MicroweberBaseClass {
             if (this.json
                 && this.json.children
                 && this.json.children[media]
+                && this.json.children[media].children
+                && typeof this.json.children[media].children[sel] !== 'undefined'
                 && this.json.children[media].children[sel]
             ) {
                 delete this.json.children[media].children[sel].attributes[prop];
