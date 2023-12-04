@@ -26,7 +26,7 @@ $randId = 'shpr'.md5($this->moduleId . $this->moduleType);
        </div>
     </div>
 
-   @include('shop::filters.price_range.script', [
+   @include('microweber-module-shop::livewire.shop.filters.price_range.script', [
     'randId' => $randId,
     'minPrice' => $minPrice,
     'maxPrice' => $maxPrice,
