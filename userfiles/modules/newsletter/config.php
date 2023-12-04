@@ -26,17 +26,18 @@ $config['tables'] = array (
 			'from_name' => 'text',
 			// 'from_email' => 'text',
 			'created_at' => 'dateTime',
+            'email_template_id' => 'integer',
 			'list_id' => 'integer',
 			'sender_account_id' => 'integer',
 			'is_done' => 'integer'
 	),
 
 	'newsletter_campaigns_send_log' => array (
-			'id' => 'integer',
-			'campaign_id' => 'integer',
-			'subscriber_id' => 'integer',
-			'created_at' => 'dateTime',
-			'is_done' => 'integer'
+        'id' => 'integer',
+        'campaign_id' => 'integer',
+        'subscriber_id' => 'integer',
+        'created_at' => 'dateTime',
+        'is_done' => 'integer'
 	),
 
 	'newsletter_sender_accounts' => array(

@@ -13,5 +13,8 @@
     "newsletter"
   ],
   "type": "microweber-module",
-  "target-dir": "newsletter"
+  "target-dir": "newsletter",
+  "require": {
+    "swiftmailer/swiftmailer": "^6.0"
+  }
 }

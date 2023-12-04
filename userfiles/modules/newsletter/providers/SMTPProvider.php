@@ -15,7 +15,7 @@ class SMTPProvider extends \Newsletter\Providers\DefaultProvider {
 	protected $smtpPort = 587; // 587 or 995, 465, 110, 25
 	protected $smtpUsername;
 	protected $smtpPassword;
-	
+
 	/**
 	 * @return mixed
 	 */
@@ -73,24 +73,24 @@ class SMTPProvider extends \Newsletter\Providers\DefaultProvider {
 	}
 
 	public function send() {
-		
+
 		// Create the Transport
 		$transport = (new \Swift_SmtpTransport($this->getSmtpHost(), $this->getSmtpPort()))
 		->setUsername($this->getSmtpUsername())
 		->setPassword($this->getSmtpPassword());
-		
+
 		// Create the Mailer using your created Transport
 		$mailer = new \Swift_Mailer($transport);
-		
+
 		// Create a message
 		$message = (new \Swift_Message($this->getSubject()))
 		->setFrom([$this->getFromEmail() => $this->getFromName()])
 		->setTo([$this->getToEmail(), $this->getFromReplyEmail() => $this->getFromName()])
-		->setBody($this->getBody());
-		
+		->setBody($this->getBody(), 'text/html');
+
 		// Send the message
 		return $mailer->send($message);
-		
+
 	}
-	
+
 }
