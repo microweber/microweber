@@ -44,7 +44,7 @@ if ($lists) {
                         <td>
                             <?php if ($list['id']): ?>
                                 <button class="btn btn-outline-primary btn-sm" onclick="edit_list('<?php print $list['id']; ?>')"><?php _e('Edit'); ?></button>
-                                <a class="btn btn-link btn-sm text-danger" href="javascript:;" onclick="delete_list('<?php print $list['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
+                                <a class="btn btn-outline-danger btn-sm" href="javascript:;" onclick="delete_list('<?php print $list['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
                             <?php endif; ?>
                         </td>
                     </tr>
