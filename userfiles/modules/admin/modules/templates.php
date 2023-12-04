@@ -86,47 +86,13 @@ if ($screenshots) {
             }
 
             <?php if ($screenshots): ?>
-            setTimeout(function () {
-                mw_admin_layouts_list_inner_modules_btns();
-            }, 999);
+
             <?php endif; ?>
         });
     });
 </script>
 
-<script>
-    function mw_admin_layouts_list_inner_modules_btns() {
-        var mod_in_mods_html_btn = '';
 
-        var mods_in_mod = window.parent.$('#<?php print $params['parent-module-id'] ?>').find('.module', '#<?php print $params['parent-module-id'] ?>');
-        if (mods_in_mod) {
-            $(mods_in_mod).each(function () {
-                var inner_mod_type = $(this).attr("type");
-                var inner_mod_id = $(this).attr("id");
-                if (!inner_mod_type) {
-                    var inner_mod_type = $(this).attr("data-type");
-                }
-
-                var inner_mod_title = $(this).attr("data-mw-title");
-                if (!inner_mod_title) {
-                    inner_mod_title = inner_mod_type;
-                }
-
-                if (inner_mod_type) {
-                    var inner_mod_type_admin = inner_mod_type + '/admin'
-                    mod_in_mods_html_btn += '<a class="  btn btn-primary"  onclick=\'window.mw.parent().tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\' >' + inner_mod_title + '</a>';
-                }
-            });
-        }
-
-        if (mod_in_mods_html_btn) {
-            $('.current-template-modules-list-wrap').show();
-            $('.current-template-modules-list').html(mod_in_mods_html_btn);
-        } else {
-            $('.current-template-modules-list-wrap').hide();
-        }
-    }
-</script>
 
 
 <?php if (is_array($templates)): ?>
@@ -318,13 +284,12 @@ if ($screenshots) {
                 </div>
 
                 <div class="mw-ui-col current-template-modules" style="width: 50%;">
-                    <div class="current-template-modules-list-wrap">
-                        <span class="title"><?php _e('This layout contains modules'); ?></span>
 
-                        <div class="current-template-modules-list">
+                    <module type="admin/modules/inner_modules_list" for-module-id="<?php print $params['parent-module-id'] ?>"  />
 
-                        </div>
-                    </div>
+
+
+
                 </div>
             </div>
         <?php endif; ?>
