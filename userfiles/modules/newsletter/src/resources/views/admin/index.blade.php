@@ -7,7 +7,7 @@
     <div class="container px-5 mb-2">
 
         <div class="mt-3">
-            <h2><?php _e('Newsletter PRO v2.0'); ?></h2>
+            <h1><?php _e('Newsletter PRO v2.0'); ?></h1>
         </div>
 
         <div>
