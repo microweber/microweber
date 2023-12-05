@@ -155,6 +155,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
             }
 
+
             if (ActiveNode && ActiveNode && ActiveNode.nodeType === 1) {
                 var css = mw.CSSParser(ActiveNode);
                 if (css && typeof css.get === 'function') {
@@ -162,6 +163,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
                 }
 
             }
+            return getComputedStyle(canvasDocument.querySelector(selector)).getPropertyValue(prop);
 
         }
 
