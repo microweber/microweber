@@ -116,8 +116,7 @@ mw.custom_fields = {
 
         mw.reload_module_everywhere('custom_fields');
         mw.reload_module_everywhere('custom_fields/list');
-
-
+        mw.reload_module_everywhere('shop/cart_add');
         mw.trigger("custom_fields.save");
 
     },

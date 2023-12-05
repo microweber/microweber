@@ -742,11 +742,15 @@ export class LiveEdit {
                 return
             }
             const elements = this.observe.fromEvent(e);
+            let isTextInColumn = false;
+            let isTextOnly = false;
 
-
-            let isTextInColumn = e.target.className.indexOf('col-') !== -1;
-            const isTextOnly = !!e.target.textContent.trim() && !e.target.firstElementChild;
-
+            if(e.target && e.target.className && typeof e.target.className.indexOf === 'function') {
+                isTextInColumn = e.target.className.indexOf('col-') !== -1;
+            }
+            if(e.target && e.target.className && typeof e.target.className.indexOf === 'function') {
+                isTextOnly = !!e.target.textContent.trim() && !e.target.firstElementChild;
+            }
             if(isTextInColumn && isTextOnly && this.elementAnalyzer.isEditOrInEdit(e.target)) {
                 e.target.innerHTML = `<div class="element">${e.target.innerHTML}</div>`;
             }

@@ -1275,7 +1275,7 @@ class Format
     }
 
 
-    public function arrayToHtmlAttributes(array $attributes): string
+    public function arrayToHtmlAttributes($attributes = []): string
     {
         if (empty($attributes)) {
             return '';

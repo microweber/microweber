@@ -21,6 +21,7 @@ class CreateCustomFieldsValuesTable extends Migration
                 'custom_field_id' => 'integer',
                 'value' => 'text',
                 'position' => 'integer',
+                'price_modifier' => 'integer',
                 '$index' => ['custom_field_id', 'value'],
             ],
         ];

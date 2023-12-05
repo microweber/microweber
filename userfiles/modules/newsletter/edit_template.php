@@ -5,9 +5,40 @@
     }
 </style>
 
+<div class="mb-4 mt-4">
+    <a href="javascript:;" class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component" onclick="list_templates();">
+        <?php _e('Back to List of templates'); ?>
+    </a>
+</div>
+
 <script>mw.require('editor.js')</script>
 
 <script>
+
+    MWEditor.controllers.mailTemplateFormDropdownVariables = function (scope, api, rootScope, data) {
+        this.checkSelection = function (opt) {
+            opt.controller.element.disabled = !opt.api.isSelectionEditable();
+        };
+        this.render = function () {
+            var dropdown = new MWEditor.core.dropdown({
+                data: [
+                    { label: 'firstName', value:'{first_name}' },
+                    { label: 'lastName', value:'{last_name}' },
+                    { label: 'email', value:'{email}' },
+                    { label: 'unsubscribe', value:'{unsubscribe}' },
+                    { label: 'siteUrl', value:'{site_url}' },
+                ],
+                placeholder: rootScope.lang('<?php _ejs("E-mail Values"); ?>')
+            });
+            dropdown.select.on('change', function (e, val) {
+                if(val) {
+                    api.insertHTML(val.value);
+                }
+            });
+            return dropdown.root;
+        };
+        this.element = this.render();
+    };
 
     initEditor = function (val) {
         if (window.editorLaunced) {
@@ -44,7 +75,7 @@
                             controls: ['ul', 'ol']
                         }
                     },
-                    '|', 'link', 'unlink', 'wordPaste', 'table'
+                    '|', 'link', 'unlink', 'wordPaste', 'table', 'mailTemplateFormDropdownVariables'
                 ],
             ]
         });
@@ -80,6 +111,8 @@
     });
 </script>
 
+<div class="card mt-2">
+    <div class="card-body">
 
 
 <form class="js-edit-template-form">
@@ -108,3 +141,5 @@
         <button type="submit" class="btn btn-success btn-sm"><?php _e('Save'); ?></button>
     </div>
 </form>
+    </div>
+</div>

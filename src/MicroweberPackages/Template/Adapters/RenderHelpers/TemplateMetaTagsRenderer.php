@@ -59,8 +59,21 @@ class TemplateMetaTagsRenderer
             }
 
 
+            $useFromContentId = 0;
+            $useFromCategoryId = 0;
             if ($meta_category_id > 0) {
-                $meta_category_data = app()->category_manager->get_by_id($meta_category_id);
+                 $useFromCategoryId = $meta_category_id;
+            }
+
+            if ($meta_content_id > 0) {
+                $useFromCategoryId = 0;
+                $useFromContentId = $meta_content_id;
+            }
+
+
+
+            if ($useFromCategoryId > 0) {
+                $meta_category_data = app()->category_manager->get_by_id($useFromCategoryId);
 
                 if($meta_category_data) {
                     $meta['title'] = $meta_category_data['title'];
@@ -83,16 +96,17 @@ class TemplateMetaTagsRenderer
                         $meta['og_image'] = $content_image;
                     }
                 }
-            } else if ($meta_content_id > 0) {
-                $meta = app()->content_manager->get_by_id($meta_content_id);
-                $content_image = app()->media_manager->get_picture($meta_content_id);
+            } else if ($useFromContentId > 0) {
+                $meta = app()->content_manager->get_by_id($useFromContentId);
+                $content_image = app()->media_manager->get_picture($useFromContentId);
+                $cont_id = get_content_by_id($useFromContentId);
+
                 if ($content_image) {
                     $meta['content_image'] = $content_image;
                 } else {
                     $meta['content_image'] = '';
-                    $cont_id = get_content_by_id($meta_content_id);
 
-                    if ($cont_id and isset($cont_id['content'])) {
+                    if ($cont_id and isset($cont_id['content']) and trim($cont_id['content']) != '') {
                         $img = app()->media_manager->get_first_image_from_html(html_entity_decode($cont_id['content']));
 
                         if ($img != false) {
@@ -100,10 +114,21 @@ class TemplateMetaTagsRenderer
                             $img = app()->format->replace_once('{SITE_URL}', $surl, $img);
                             $meta['content_image'] = $img;
                         }
+
                     }
-
-
                 }
+//                if ($cont_id and isset($cont_id['content_body']) and $cont_id['content_body']) {
+//                    $meta['description'] = str_replace("\n", ' ', app()->format->limit(strip_tags($cont_id['content_body']), 500));
+//                } else if (isset($meta['description']) and $meta['description'] != '') {
+//                    $meta['description'] = str_replace("\n", ' ', app()->format->limit(strip_tags($meta['description']), 500));
+//                } else if (isset($meta['content']) and $meta['content'] != '') {
+//                    $meta['description'] = str_replace("\n", ' ', app()->format->limit(strip_tags($meta['content']), 500));
+//                } else {
+//                    $meta['description'] = '';
+//                }
+
+
+
                 $meta['content_url'] = app()->content_manager->link($meta_content_id);
                 if (isset($meta['content_type'])) {
                     $meta['og_type'] = $meta['content_type'];
@@ -129,19 +154,23 @@ class TemplateMetaTagsRenderer
                             }
                         }
                     }
+
                     if ($meta['description'] != false and trim($meta['description']) != '') {
-                        // $meta['description'] = $meta['description'];
+                        //  $meta['description'] = $meta['description'];
                     } elseif ($meta['content'] != false and trim($meta['content']) != '') {
-                        $meta['description'] = str_replace("\n", ' ', app()->format->limit(strip_tags($meta['content']), 500));
+                        $meta['description'] = str_replace("\n ", ' ', app()->format->limit(strip_tags($meta['content']), 1500));
+                    } elseif ($meta['content_body'] != false and trim($meta['content_body']) != '') {
+                        $meta['description'] = str_replace("\n ", ' ', app()->format->limit(strip_tags($meta['content_body']), 1500));
                     }
 
                     if (isset($meta['description']) and $meta['description'] != '') {
                         $meta['og_description'] = $meta['description'];
                     } else {
-                        if($meta['content']){
-                        $meta['og_description'] = trim(app()->format->limit(strip_tags($meta['content']), 500));
+                        if ($meta['content']) {
+                            $meta['og_description'] = trim(app()->format->limit(strip_tags($meta['content']), 500));
                         }
                     }
+
                 }
             } else {
                 $meta['title'] = $this->websiteOptions['website_title'];
@@ -178,6 +207,7 @@ class TemplateMetaTagsRenderer
 
 
 
+
                 if (isset($meta['title']) and $meta['title'] != '') {
                     $meta['content_meta_title'] = strip_tags($meta['title']);
                 } elseif (isset($found_mod) and $found_mod != false) {
@@ -190,6 +220,7 @@ class TemplateMetaTagsRenderer
                 } else {
                     $meta['content_meta_keywords'] = $this->websiteOptions['website_keywords'];
                 }
+
                 if (is_array($meta)) {
                     foreach ($meta as $key => $item) {
                         if (is_string($item)) {
@@ -220,7 +251,6 @@ class TemplateMetaTagsRenderer
             }
 
             $headers = $this->get_template_meta_tags_render();
-
             foreach ($headers as $headers_append) {
                 if ($headers_append != false) {
                     $one = 1;
@@ -228,6 +258,9 @@ class TemplateMetaTagsRenderer
                 }
             }
             $layout = $l;
+
+
+
             return $layout;
         }
 

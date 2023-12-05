@@ -22,6 +22,12 @@ must_have_access();
                 <?php if (isset($params['for-id'])): ?>
                 mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '<?php print $params['for-id']  ?>'} || {}));
                 <?php endif; ?>
+
+                 mw.reload_module_everywhere('shop/cart_add');
+                 mw.reload_module_everywhere('shop/products');
+                 mw.reload_module_everywhere('posts');
+                 mw.reload_module_everywhere('blog');
+
             }
         }
         Livewire.on('customFieldDeleted', (e) => {

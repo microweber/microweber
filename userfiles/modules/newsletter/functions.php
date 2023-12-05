@@ -7,7 +7,6 @@ include __DIR__ . '/functions/campaign_functions.php';
 include __DIR__ . '/functions/list_functions.php';
 
 
-
 event_bind('website.privacy_settings', function () {
     print '<module type="newsletter/privacy_settings" />';
 });

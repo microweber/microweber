@@ -31,8 +31,9 @@
     }
 </script>
 
-<a href="javascript:;" class="btn btn-outline-primary mb-3" onclick="edit_sender(false);">
-    <i class="mdi mdi-plus"></i> <?php _e('Add new sender'); ?>
-</a>
 
+<div class="card mt-2">
+    <div class="card-body">
 <module type="newsletter/sender_accounts_list"/>
+    </div>
+</div>

@@ -30,6 +30,12 @@
         <?php foreach ($data['values'] as $key => $value): ?>
             <option data-custom-field-id="<?php print $data["id"]; ?>" value="<?php echo $value; ?>">
                 <?php echo $value; ?>
+
+
+                <?php if(isset($data['values_price_modifiers']) and !empty($data['values_price_modifiers']) and isset($data['values_price_modifiers'][$key]) and $data['values_price_modifiers'][$key]) : ?>
+                    (+<?php echo currency_format($data['values_price_modifiers'][$key]); ?>)
+                <?php endif; ?>
+
             </option>
         <?php endforeach; ?>
         </select>

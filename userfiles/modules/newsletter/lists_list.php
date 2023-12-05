@@ -16,8 +16,16 @@ if ($lists) {
 }
 ?>
 <?php if ($all_lists): ?>
-    <div class="form-group">
-        <label class="control-label"><?php _e('Your lists'); ?></label>
+
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h4><?php _e('Your lists'); ?></h4>
+        </div>
+        <div>
+            <a href="javascript:;" class="btn btn-outline-primary mb-3" onclick="edit_list();">
+                <i class="mdi mdi-plus"></i> <?php _e('Add new list'); ?>
+            </a>
+        </div>
     </div>
 
     <div class="table-responsive">
@@ -29,22 +37,16 @@ if ($lists) {
                     <th class="font-weight-bold" width="140px"><?php _e('Action'); ?></th>
                 </tr>
             </thead>
-            <tfoot>
-                <tr>
-                    <th class="font-weight-bold"><?php _e('Name'); ?></th>
-                    <th class="font-weight-bold"><?php _e('Subscribers'); ?></th>
-                    <th class="font-weight-bold" width="140px"><?php _e('Action'); ?></th>
-                </tr>
-            </tfoot>
+
             <tbody class="small">
                 <?php foreach ($all_lists as $list): ?>
                     <tr>
                         <td><?php print $list['name']; ?></td>
-                        <td><?php print newsletter_get_lists('count=1&list_id=' . $list['id']); ?></td>
+                        <td><?php print count(newsletter_get_subscribers_for_list($list['id'])); ?></td>
                         <td>
                             <?php if ($list['id']): ?>
                                 <button class="btn btn-outline-primary btn-sm" onclick="edit_list('<?php print $list['id']; ?>')"><?php _e('Edit'); ?></button>
-                                <a class="btn btn-link btn-sm text-danger" href="javascript:;" onclick="delete_list('<?php print $list['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
+                                <a class="btn btn-outline-danger btn-sm" href="javascript:;" onclick="delete_list('<?php print $list['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
                             <?php endif; ?>
                         </td>
                     </tr>

@@ -5,10 +5,7 @@ if (isset($params['id'])) {
     $list = newsletter_get_list($params['id']);
 }
 
-$templates_params = array();
-$templates_params['no_limit'] = true;
-$templates_params['order_by'] = "created_at desc";
-$templates = newsletter_get_templates($templates_params);
+$templates = newsletter_get_templates();
 
 $senders_params = array();
 $senders_params['no_limit'] = true;
@@ -115,7 +112,7 @@ $senders = newsletter_get_senders($senders_params);
 
 <form class="js-edit-list-form">
     <div class="form-group">
-        <label class="control-label"><?php _e('List name'); ?></label> 
+        <label class="control-label"><?php _e('List name'); ?></label>
         <small class="text-muted d-block mb-2">Enter the name of the list</small>
         <input name="name" value="<?php if (isset($list['name'])): ?><?php echo $list['name']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
         <div class="js-field-message"></div>
@@ -128,10 +125,10 @@ $senders = newsletter_get_senders($senders_params);
     <?php if (!empty($templates)): ?>
         <div class="js-template-select-table">
             <div class="form-group">
-                <label class="control-label"><?php _e('Success E-mail Template'); ?></label> 
+                <label class="control-label"><?php _e('Success E-mail Template'); ?></label>
                 <small class="text-muted d-block mb-2">Select from your e-mail templates or <a href="javascript:;">create a new one</a></small>
 
-                <select name="success_email_template_id" class="selectpicker" data-width="100%">
+                <select name="success_email_template_id"  class="form-control">
                     <?php foreach ($templates as $template) : ?>
                         <option <?php if (isset($list['success_email_template_id']) AND $list['success_email_template_id'] == $template['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $template['id']; ?>"><?php echo $template['title']; ?></option>
                     <?php endforeach; ?>
@@ -144,7 +141,7 @@ $senders = newsletter_get_senders($senders_params);
                 <small class="text-muted d-block mb-2">Select from your e-mail templates or <a href="javascript:;">create a new one</a></small>
 
                 <?php if (!empty($senders) and is_array($senders)): ?>
-                    <select name="success_sender_account_id" class="selectpicker" data-width="100%">
+                    <select name="success_sender_account_id" class="form-control">
                         <?php foreach ($senders as $sender) : ?>
                             <option <?php if (isset($list['success_sender_account_id']) AND $list['success_sender_account_id'] == $sender['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $sender['id']; ?>"><?php echo $sender['name']; ?></option>
                         <?php endforeach; ?>
@@ -159,7 +156,7 @@ $senders = newsletter_get_senders($senders_params);
                 <label class="control-label"><?php _e('Unsubscription E-mail Template'); ?></label>
                 <small class="text-muted d-block mb-2">Select from your e-mail templates or <a href="javascript:;">create a new one</a></small>
 
-                <select name="unsubscription_email_template_id" class="selectpicker" data-width="100%">
+                <select name="unsubscription_email_template_id" class="form-control">
                     <?php foreach ($templates as $template) : ?>
                         <option <?php if (isset($list['unsubscription_email_template_id']) AND $list['unsubscription_email_template_id'] == $template['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $template['id']; ?>"><?php echo $template['title']; ?></option>
                     <?php endforeach; ?>
@@ -172,7 +169,7 @@ $senders = newsletter_get_senders($senders_params);
                 <small class="text-muted d-block mb-2">Select from your e-mail templates or <a href="javascript:;">create a new one</a></small>
 
                 <?php if (!empty($senders)): ?>
-                    <select name="unsubscription_sender_account_id" class="selectpicker" data-width="100%">
+                    <select name="unsubscription_sender_account_id" class="form-control">
                         <?php foreach ($senders as $sender) : ?>
                             <option <?php if (isset($list['unsubscription_sender_account_id']) AND $list['unsubscription_sender_account_id'] == $sender['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $sender['id']; ?>"><?php echo $sender['name']; ?></option>
                         <?php endforeach; ?>
@@ -187,7 +184,7 @@ $senders = newsletter_get_senders($senders_params);
                 <label class="control-label"><?php _e('Confirmation E-mail Template'); ?></label>
                 <small class="text-muted d-block mb-2">Select from your e-mail templates or <a href="javascript:;">create a new one</a></small>
 
-                <select name="confirmation_email_template_id" class="selectpicker" data-width="100%">
+                <select name="confirmation_email_template_id" class="form-control">
                     <?php foreach ($templates as $template) : ?>
                         <option <?php if (isset($list['confirmation_email_template_id']) AND $list['confirmation_email_template_id'] == $template['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $template['id']; ?>"><?php echo $template['title']; ?></option>
                     <?php endforeach; ?>
@@ -199,8 +196,8 @@ $senders = newsletter_get_senders($senders_params);
                 <label class="control-label"><?php _e('Confirmation E-mail Sender'); ?></label>
                 <small class="text-muted d-block mb-2">Select from your e-mail templates or <a href="javascript:;">create a new one</a></small>
 
-                <?php if (!empty($senders)): ?>  
-                    <select name="confirmation_sender_account_id" class="selectpicker" data-width="100%">
+                <?php if (!empty($senders)): ?>
+                    <select name="confirmation_sender_account_id" class="form-control">
                         <?php foreach ($senders as $sender) : ?>
                             <option <?php if (isset($list['confirmation_sender_account_id']) AND $list['confirmation_sender_account_id'] == $sender['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $sender['id']; ?>"><?php echo $sender['name']; ?></option>
                         <?php endforeach; ?>

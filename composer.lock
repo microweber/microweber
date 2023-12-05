@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "91ad548a3473bcfa061755ee62e68f43",
+    "content-hash": "370977b2d2dae4a04037e16c7d0e51f8",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -12964,12 +12964,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mailer.git",
-                "reference": "c445b16d85e5f9daab3f220699f19ef649ade5cc"
+                "reference": "b7a8093b59bdc847623a5a99cf293e8b54c1cf1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mailer/zipball/c445b16d85e5f9daab3f220699f19ef649ade5cc",
-                "reference": "c445b16d85e5f9daab3f220699f19ef649ade5cc",
+                "url": "https://api.github.com/repos/symfony/mailer/zipball/b7a8093b59bdc847623a5a99cf293e8b54c1cf1a",
+                "reference": "b7a8093b59bdc847623a5a99cf293e8b54c1cf1a",
                 "shasum": ""
             },
             "require": {
@@ -13036,7 +13036,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-01T08:43:16+00:00"
+            "time": "2023-12-02T12:49:56+00:00"
         },
         {
             "name": "symfony/mime",
@@ -19049,6 +19049,7 @@
         "phpdocumentor/reflection-docblock": 20,
         "spatie/laravel-googletagmanager": 20,
         "spatie/laravel-menu": 20,
+        "symfony/mailer": 20,
         "touhidurabir/laravel-stub-generator": 20,
         "wikimedia/composer-merge-plugin": 20
     },
@@ -19066,5 +19067,5 @@
         "ext-zip": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

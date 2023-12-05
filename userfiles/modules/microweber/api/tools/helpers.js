@@ -145,11 +145,13 @@
             var curr = window;
             callback.call(curr, curr);
             while (curr !== top) {
-                this.eachIframe(function (iframeWindow) {
-                    callback.call(iframeWindow, iframeWindow);
-                }, curr.parent.document, [curr]);
-                curr = curr.parent;
-                callback.call(curr, curr);
+                if(curr.parent && curr.parent.document) {
+                    this.eachIframe(function (iframeWindow) {
+                        callback.call(iframeWindow, iframeWindow);
+                    }, curr.parent.document, [curr]);
+                    curr = curr.parent;
+                    callback.call(curr, curr);
+                }
             }
             this.eachIframe(function (iframeWindow) {
                 callback.call(iframeWindow, iframeWindow);
