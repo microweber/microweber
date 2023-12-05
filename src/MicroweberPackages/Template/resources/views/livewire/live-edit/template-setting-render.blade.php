@@ -24,6 +24,9 @@
         }
     }
 
+//
+//    dump($selectorToApply);
+//    dump($setting);
     ?>
 
 

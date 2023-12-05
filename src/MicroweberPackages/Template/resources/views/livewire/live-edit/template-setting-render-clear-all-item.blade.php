@@ -7,6 +7,8 @@
     </div>
 
 
+
+
     <button
         x-on:click="(e) => {
 
@@ -16,6 +18,9 @@
                                     mw.top().app.cssEditor.setPropertyForSelector('{{ $selectorToApply }}', '{{$property}}', '');
                                     @endforeach
                                     @if(isset($rootSelector) and $rootSelector)
+
+                                        mw.top().app.cssEditor.setPropertyForSelector('{{ $rootSelector }}', '{{$property}}', '');
+
                                         @if(isset($setting['selectors']))
                                             @foreach($setting['selectors'] as $selector)
                                                 @foreach($setting['fieldSettings']['properties'] as $property)
