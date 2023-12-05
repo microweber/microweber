@@ -61,6 +61,7 @@ trait LiveEditTrait
         if (isset($page['id'])) {
             $pageId = $page['id'];
             $contentEditLink = content_edit_link($page['id']);
+            $contentLink = content_link($page['id']);
         }
 
         $contentDetailsScript = "
@@ -78,6 +79,7 @@ trait LiveEditTrait
 
 
         mw.liveEditIframeData.back_to_admin_link = '" . admin_url() . "';
+        mw.liveEditIframeData.content_link = '" . $contentLink . "';
         mw.liveEditIframeData.template_name = '{$templateName}';
 </script>\n";
         $html = str_ireplace('</head>', $contentDetailsScript . '</head>', $html, $c);
