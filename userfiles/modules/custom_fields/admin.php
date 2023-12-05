@@ -24,6 +24,9 @@ must_have_access();
                 <?php endif; ?>
 
                  mw.reload_module_everywhere('shop/cart_add');
+                 mw.reload_module_everywhere('shop/products');
+                 mw.reload_module_everywhere('posts');
+                 mw.reload_module_everywhere('blog');
 
             }
         }
