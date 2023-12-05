@@ -29,6 +29,9 @@ $config['tables'] = array (
             'email_template_id' => 'integer',
 			'list_id' => 'integer',
 			'sender_account_id' => 'integer',
+            'sending_limit_per_day' => 'integer',
+            'is_scheduled' => 'integer',
+            'scheduled_at' => 'dateTime',
 			'is_done' => 'integer'
 	),
 
@@ -37,7 +40,7 @@ $config['tables'] = array (
         'campaign_id' => 'integer',
         'subscriber_id' => 'integer',
         'created_at' => 'dateTime',
-        'is_done' => 'integer'
+        'is_sent' => 'integer'
 	),
 
 	'newsletter_sender_accounts' => array(
@@ -103,3 +106,17 @@ $config['tables'] = array (
 			'created_at' => 'dateTime'
 	)
 );
+
+
+
+
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\\Modules\\Newsletter'
+    ],
+];
+
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\Newsletter\Providers\NewsletterServiceProvider::class
+];
