@@ -115,25 +115,25 @@ $templates = newsletter_get_templates($templates_params);
     $lists = newsletter_get_lists();
     ?>
 
-    <div class="form-group">
-        <label class="control-label"><?php _e('Name'); ?></label>
-        <input name="name" value="<?php if (isset($campaign['name'])): ?><?php echo $campaign['name']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
-        <div class="js-field-message"></div>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label"><?php _e('Campaign Name'); ?></label>
+                <small class="text-muted d-block mb-2">Give a name of your campaign</small>
+                <input name="from_name" value="<?php if (isset($campaign['from_name'])): ?><?php echo $campaign['from_name']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
+                <div class="js-field-message"></div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label"><?php _e('Subject'); ?></label>
+                <small class="text-muted d-block mb-2">What the campaign is about</small>
+                <input name="subject" value="<?php if (isset($campaign['subject'])): ?><?php echo $campaign['subject']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
+                <div class="js-field-message"></div>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label class="control-label"><?php _e('Subject'); ?></label>
-        <small class="text-muted d-block mb-2">What the campaign is about</small>
-        <input name="subject" value="<?php if (isset($campaign['subject'])): ?><?php echo $campaign['subject']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
-        <div class="js-field-message"></div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label"><?php _e('Campaign Name'); ?></label>
-        <small class="text-muted d-block mb-2">Give a name of your campaign</small>
-        <input name="from_name" value="<?php if (isset($campaign['from_name'])): ?><?php echo $campaign['from_name']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
-        <div class="js-field-message"></div>
-    </div>
 
     <!--
     <div class="form-group">
@@ -143,11 +143,11 @@ $templates = newsletter_get_templates($templates_params);
     </div>
     !-->
 
-    <div class="form-group">
+    <div class="row">
+        <div class="col-6">
+         <div class="form-group">
         <label class="control-label"><?php _e('Campaign Email Sender'); ?></label>
         <small class="text-muted d-block mb-2">Select mail sender</small>
-
-
         <?php if (!empty($senders)): ?>
             <select name="sender_account_id" class="form-control">
                 <?php foreach ($senders as $sender) : ?>
@@ -163,8 +163,9 @@ $templates = newsletter_get_templates($templates_params);
         <?php endif; ?>
         <div class="js-field-message"></div>
     </div>
-
-    <div class="form-group">
+        </div>
+        <div class="col-6">
+         <div class="form-group">
         <label class="control-label"><?php _e('Campaign E-mail Template'); ?></label>
         <small class="text-muted d-block mb-2">Select from your campaign e-mail templates or <a href="javascript:;">create a new one</a></small>
 
@@ -175,8 +176,12 @@ $templates = newsletter_get_templates($templates_params);
         </select>
         <div class="js-field-message"></div>
     </div>
+        </div>
+    </div>
 
-    <div class="form-group">
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
         <label class="control-label"><?php _e('List'); ?></label>
         <small class="text-muted d-block mb-2">Choose from your lists or <a href="javascript:;" onclick="edit_list();">create a new one</a></small>
         <?php if (!empty($lists)): ?>
@@ -195,9 +200,57 @@ $templates = newsletter_get_templates($templates_params);
             <div style="color:#b93636;">First you need to create lists.</div>
         <?php endif; ?>
     </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label"><?php _e('Sending Limit'); ?></label>
+                <small class="text-muted d-block mb-2">
+                    <?php _e('Set the maximum number of emails to be sent per day'); ?>
+                </small>
+                <select name="sending_limit_per_day" class="form-control">
+                    <option>100</option>
+                    <option>300</option>
+                    <option>500</option>
+                    <option>1000</option>
+                </select>
+                <div class="js-field-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label"><?php _e('Scheduled At'); ?></label>
+                <small class="text-muted d-block mb-2">
+                    <?php _e('Set the date and time when the campaign will be sent'); ?>
+                </small>
+                <?php
+                $scheduled_at = date('Y-m-d\TH:i', strtotime('+1 hour'));
+                ?>
+                <input type="datetime-local" value="<?php echo $scheduled_at;?>" name="scheduled_at" class="form-control" />
+                <div class="js-field-message"></div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label"><?php _e('Start Campaign'); ?></label>
+                <small class="text-muted d-block mb-2">
+                    <?php _e('Enable or disable this campaign'); ?>
+                </small>
+                <select name="is_scheduled" class="form-control">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+                <div class="js-field-message"></div>
+            </div>
+        </div>
+    </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e('Status'); ?>: <?php if (isset($campaign['is_done']) and $campaign['is_done']): ?> Yes <?php else: ?> No <?php endif; ?></label>
+        <label class="control-label">
+            <?php _e('Campaign finished'); ?>: <?php if (isset($campaign['is_done']) and $campaign['is_done']): ?> Yes <?php else: ?> No <?php endif; ?>
+        </label>
     </div>
 
     <div class="d-flex justify-content-between">
@@ -207,7 +260,7 @@ $templates = newsletter_get_templates($templates_params);
                 <input type="hidden" value="<?php echo $campaign['id']; ?>" name="id" />
             <?php endif; ?>
         </div>
-
         <button type="submit" class="btn btn-success btn-sm"><?php _e('Save'); ?></button>
     </div>
+
 </form>

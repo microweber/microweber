@@ -3,8 +3,12 @@
 
     function edit_campaign(id = false) {
     var data = {};
-            data.id = id;
-            edit_campaign_modal = mw.tools.open_module_modal('newsletter/edit_campaign', data, {overlay: true, skin: 'simple'});
+        data.id = id;
+        edit_campaign_modal = mw.tools.open_module_modal('newsletter/edit_campaign', data, {
+            overlay: true,
+            width: 960,
+            skin: 'simple'
+        });
     }
 
     function delete_campaign(id) {
