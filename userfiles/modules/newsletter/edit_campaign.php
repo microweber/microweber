@@ -1,9 +1,22 @@
 <?php must_have_access(); ?>
 
 <?php
+$campaign = [];
+$campaign['from_name'] = '';
+$campaign['from_email'] = '';
+$campaign['subject'] = '';
+$campaign['sender_account_id'] = '';
+$campaign['list_id'] = '';
+$campaign['template_id'] = '';
+$campaign['id'] = 0;
+
 if (isset($params['id'])) {
-    $campaign = newsletter_get_campaign($params['id']);
+    $getCampaign = newsletter_get_campaign($params['id']);
+    if ($getCampaign) {
+        $campaign = $getCampaign;
+    }
 }
+
 
 $senders_params = array();
 $senders_params['no_limit'] = true;

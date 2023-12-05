@@ -26,7 +26,7 @@ $senders = newsletter_get_senders();
                     <th class="font-weight-bold text-center" width="200px"><?php _e('Action'); ?></th>
                 </tr>
             </thead>
-      
+
             <tbody class="small">
                 <?php foreach ($senders as $sender): ?>
                     <tr>
