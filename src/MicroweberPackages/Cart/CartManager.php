@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Cart;
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Cart\Events\AddToCartEvent;
 use MicroweberPackages\Cart\Events\RemoveFromCartEvent;
 use MicroweberPackages\Cart\Models\Cart;
@@ -71,7 +72,7 @@ class CartManager extends Crud
             // Discount with percentage
             $discount_sum = ($sum * ($discount_value / 100));
             $check_discount_sum = $sum - $discount_sum;
-            if($check_discount_sum < 0){
+            if ($check_discount_sum < 0) {
                 $discount_sum = $sum;
             }
             $sum = $sum - $discount_sum;
@@ -79,7 +80,7 @@ class CartManager extends Crud
             // Discount with amount
             $discount_sum = $discount_value;
             $check_discount_sum = $sum - $discount_sum;
-            if($check_discount_sum < 0){
+            if ($check_discount_sum < 0) {
                 $discount_sum = $sum;
             }
             $sum = $sum - $discount_sum;
@@ -672,6 +673,7 @@ class CartManager extends Crud
             }
         }
 
+
         if ($content_custom_fields == false) {
             $content_custom_fields = $data;
 
@@ -696,8 +698,10 @@ class CartManager extends Crud
                 }
             }
         }
-
+        $priceModifierCustomFields = [];
         foreach ($data as $k => $item) {
+
+
             if ($k != 'for' and $k != 'for_id' and $k != 'title') {
                 $found = false;
                 foreach ($content_custom_fields as $cf) {
@@ -723,6 +727,29 @@ class CartManager extends Crud
                                 $found = true;
                             } else if ($k == $cf['name_key']) {
                                 $found = true;
+
+
+                            }
+                            if ($found) {
+                                if (isset($cf['values_price_modifiers']) and !empty($cf['values_price_modifiers'])) {
+                                    $modifierData = [];
+                                    $modifierData['custom_field_id'] = $cf['id'];
+                                    $modifierData['name'] = $cf['name'];
+                                    $modifierData['name_key'] = $cf['name'];
+                                    $modifierData['value'] = $item;
+
+                                    //modifer price
+                                    $getCustomFieldValuePriCeModifier = DB::table('custom_fields_values')
+                                        ->where('custom_field_id', $cf['id'])
+                                        ->where('value', $item)
+                                        ->orderBy('position', 'asc')
+                                        ->first();
+                                    if($getCustomFieldValuePriCeModifier and $getCustomFieldValuePriCeModifier->price_modifier){
+                                        $modifierData['selected_price_modifier_from_user'] = $getCustomFieldValuePriCeModifier->price_modifier;
+
+                                    }
+                                    $priceModifierCustomFields[$cf['id']] =$modifierData;
+                                }
                             }
                         }
                     }
@@ -733,6 +760,11 @@ class CartManager extends Crud
                 }
 
                 if (is_array($prices)) {
+
+
+
+
+
                     foreach ($prices as $price_key => $price) {
                         if (isset($data['price'])) {
                             if ($price == $data['price']) {
@@ -778,6 +810,14 @@ class CartManager extends Crud
             }
         }
 
+        if($found_price && $priceModifierCustomFields){
+            foreach ($priceModifierCustomFields as $priceModifierCustomField){
+                if(isset($priceModifierCustomField['selected_price_modifier_from_user'])){
+                    $found_price = $found_price + floatval($priceModifierCustomField['selected_price_modifier_from_user']);
+                }
+            }
+         }
+
         if (is_array($prices)) {
             ksort($add);
             asort($add);
@@ -803,8 +843,8 @@ class CartManager extends Crud
                 $cart['qty'] = $data['qty'];
             }
 
-            if(!isset($data['title']) or $data['title'] == false){
-                $data['title'] = 'Product '.$cart['rel_id'];
+            if (!isset($data['title']) or $data['title'] == false) {
+                $data['title'] = 'Product ' . $cart['rel_id'];
             }
 
             $cart['title'] = mw()->format->clean_html($data['title']);
@@ -886,6 +926,9 @@ class CartManager extends Crud
                 $findCart->custom_fields_data = $cart['custom_fields_data'];
                 $findCart->custom_fields_json = $cart['custom_fields_json'];
             }
+            if(!isset($cart['qty'])){
+                $cart['qty'] = 1;
+            }
 
             $findCart->qty = $cart['qty'];
             $findCart->title = $cart['title'];
@@ -909,10 +952,10 @@ class CartManager extends Crud
             $this->app->cache_manager->delete('cart_orders');
 
             event(new AddToCartEvent([
-                'cart'=>get_cart(),
-                'total'=>cart_total(),
-                'discount'=>cart_get_discount(),
-                'currency'=>get_currency_code(),
+                'cart' => get_cart(),
+                'total' => cart_total(),
+                'discount' => cart_get_discount(),
+                'currency' => get_currency_code(),
             ]));
 
             return array('success' => 'Item added to cart', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
