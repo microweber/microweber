@@ -29,6 +29,9 @@ $config['tables'] = array (
             'email_template_id' => 'integer',
 			'list_id' => 'integer',
 			'sender_account_id' => 'integer',
+            'sending_limit_per_day' => 'integer',
+            'is_scheduled' => 'integer',
+            'scheduled_at' => 'dateTime',
 			'is_done' => 'integer'
 	),
 
