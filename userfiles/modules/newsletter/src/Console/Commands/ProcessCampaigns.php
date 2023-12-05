@@ -41,6 +41,16 @@ class ProcessCampaigns extends Command
     {
         $this->info('Processing Campaigns');
 
+
+        for ($i = 0; $i < 5000; $i++) {
+            newsletter_save_subscriber(array(
+                'email' => 'test' . $i . '@test.com',
+                'name' => 'Test ' . $i,
+                'subscribed_for' => array(4)
+            ));
+        }
+        return;
+
         $getCampaigns = NewsletterCampaign::where('is_scheduled', 1)
                     ->where('scheduled_at', '>=', date('Y-m-d H:i:s'))
                     ->where(function ($query) {
@@ -69,12 +79,15 @@ class ProcessCampaigns extends Command
                         continue;
                     }
 
-                    $newsletterMailSender = new \Newsletter\Senders\NewsletterMailSender();
-                    $newsletterMailSender->setCampaign($campaign);
-                    $newsletterMailSender->setSubscriber($subscriber);
-                    $newsletterMailSender->setSender($sender);
-                    $newsletterMailSender->setTemplate($template);
-                    $sendMailResponse = $newsletterMailSender->sendMail();
+//                    $newsletterMailSender = new \Newsletter\Senders\NewsletterMailSender();
+//                    $newsletterMailSender->setCampaign($campaign);
+//                    $newsletterMailSender->setSubscriber($subscriber);
+//                    $newsletterMailSender->setSender($sender);
+//                    $newsletterMailSender->setTemplate($template);
+//                    $sendMailResponse = $newsletterMailSender->sendMail();
+
+                    $sendMailResponse = [];
+                    $sendMailResponse['success'] = true;
 
                     $this->warn('Subscriber: ' . $subscriber['name'] . ' (' . $subscriber['email'] . ')');
 

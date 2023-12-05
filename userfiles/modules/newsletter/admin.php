@@ -1,6 +1,14 @@
 <?php must_have_access(); ?>
 
 <?php
+must_have_access();
+
+return redirect(route('admin.newsletter.index'));
+?>
+
+
+
+<?php
 
 $from_live_edit = false;
 if (isset($params["live_edit"]) and $params["live_edit"]) {

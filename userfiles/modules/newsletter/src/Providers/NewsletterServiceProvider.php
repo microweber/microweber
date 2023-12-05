@@ -19,6 +19,8 @@ class NewsletterServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
+        $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/admin.php');
+
         if (is_cli()) {
             $this->commands(ProcessCampaigns::class);
         }
