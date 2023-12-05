@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Newsletter\Console\Commands;
 
 use Illuminate\Console\Command;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
 
 class ProcessCampaigns extends Command
 {
@@ -38,6 +39,22 @@ class ProcessCampaigns extends Command
     public function handle()
     {
         $this->info('Processing Campaigns');
+
+        $getCampaigns = NewsletterCampaign::where('is_scheduled', 1)
+                    ->where('scheduled_at', '>=', date('Y-m-d H:i:s'))
+                    ->where(function ($query) {
+                        $query->where('is_done', 0)
+                            ->orWhereNull('is_done');
+                    })
+                    ->get();
+
+        if ($getCampaigns->count() > 0) {
+            foreach ($getCampaigns as $campaign) {
+                $this->info('Processing Campaign: ' . $campaign->name);
+
+
+            }
+        }
 
 
         return 0;
