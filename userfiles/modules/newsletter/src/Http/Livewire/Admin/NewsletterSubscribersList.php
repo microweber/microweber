@@ -4,6 +4,9 @@ namespace MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignsSendLog;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 
 class NewsletterSubscribersList extends Component
@@ -19,6 +22,11 @@ class NewsletterSubscribersList extends Component
 
     public function render()
     {
+
+        $this->campaignsCount = NewsletterCampaign::count();
+        $this->listsCount = NewsletterList::count();
+        $this->emailsSentCount = NewsletterCampaignsSendLog::count();
+
         $subscribersQuery = NewsletterSubscriber::query();
 
         if (!empty($this->keyword)) {

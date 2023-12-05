@@ -68,12 +68,7 @@
     }
 </script>
 
-<a href="javascript:;" class="btn btn-outline-primary mb-3" onclick="edit_template();">
-    <i class="mdi mdi-plus"></i>  <?php _e('Add new template'); ?>
-</a>
-<a href="javascript:;" class="btn btn-outline-dark mb-3" onclick="list_templates();">
-    <?php _e('List of templates'); ?>
-</a>
+
 
 <div class="js-templates-list-wrapper">
     <module type="newsletter/templates_list" />

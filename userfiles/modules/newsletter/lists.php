@@ -1,5 +1,7 @@
 <?php must_have_access(); ?>
 
+<div class="card mt-2">
+    <div class="card-body">
 <script>
     function edit_list(id = false) {
         var data = {};
@@ -30,8 +32,9 @@
     }
 </script>
 
-<a href="javascript:;" class="btn btn-outline-primary mb-3" onclick="edit_list();">
-    <i class="mdi mdi-plus"></i> <?php _e('Add new list'); ?>
-</a>
 
-<module type="newsletter/lists_list"/>
+    <module type="newsletter/lists_list"/>
+
+    </div>
+
+</div>
