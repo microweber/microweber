@@ -12,6 +12,11 @@ if (isset($params['id'])) {
         padding-top: 5px;
         color: #c21f1f;
     }
+    .js-sender-wrapper {
+        background: #f6f6f6;
+        padding: 10px;
+        border-radius:5px;
+    }
 </style>
 
 <script>
@@ -132,7 +137,7 @@ if (isset($params['id'])) {
     <div class="form-group">
         <label class="control-label"><?php _e('Send email function'); ?></label>
         <small class="text-muted d-block mb-2">Choose a method to send the emails</small>
-        <select class="selectpicker-x form-control js-select-account-type" name="account_type" data-width="100%">
+        <select class="form-control js-select-account-type" name="account_type">
             <option value="php_mail">PHP Mail</option>
             <option value="smtp">SMTP Server</option>
             <option value="mailchimp">Mailchimp</option>
@@ -142,9 +147,14 @@ if (isset($params['id'])) {
             <option value="sparkpost">Sparkpost</option>
         </select>
     </div>
+
+
 <br />
     <script>
         $(document).ready(function () {
+
+            $(".js-select-account-type").val('<?php echo $sender['account_type']; ?>');
+            $(".js-select-account-type").trigger("change");
 
             $(".js-sender-php-mail").show();
 
@@ -231,9 +241,6 @@ if (isset($params['id'])) {
         </div>
     </div>
 
-    <div class="js-sender-wrapper js-sender-php-mail" style="display:none;">
-        <!-- settings for php mail -->
-    </div>
 
     <div class="js-sender-wrapper js-sender-smtp" style="display:none;">
         <div class="form-group">
