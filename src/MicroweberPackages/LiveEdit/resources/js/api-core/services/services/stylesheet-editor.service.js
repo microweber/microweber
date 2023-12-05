@@ -60,6 +60,8 @@ export class StylesheetEditor extends MicroweberBaseClass {
     _cssTemp(json) {
         const css = CSSJSON.toCSS(json);
 
+
+
         var tempStylesheetElement = this.settings.document.querySelector('#mw-liveedit-dynamic-temp-style');
 
         if (tempStylesheetElement == null) {
@@ -78,6 +80,8 @@ export class StylesheetEditor extends MicroweberBaseClass {
     }
 
     removeSheetRuleProperty(selector, property) {
+
+
         this.changed = true;
         const sheets = [
             this.settings.document.querySelector('link#mw-template-settings'),
@@ -85,7 +89,10 @@ export class StylesheetEditor extends MicroweberBaseClass {
             this.settings.document.querySelector('#mw-custom-user-css'),
         ];
 
-        const removePropertyFromSheet = (sheet) => {
+        // const sheets = this.settings.document.querySelectorAll('[rel="stylesheet"],style,[type="text/css"]');
+
+        const removePropertyFromSheet = (sheet, property) => {
+
             if (sheet) {
                 var rules;
                 if (sheet.cssRules) {
@@ -97,15 +104,21 @@ export class StylesheetEditor extends MicroweberBaseClass {
                     return;
                 }
                 for (let i = 0, l = rules.length; i < l; i++) {
-                    if (rules[i].selectorText === selector) {
-                        rules[i].style.removeProperty(property);
+
+
+                    if(rules[i].cssRules && rules[i].cssRules.length) {
+                        removePropertyFromSheet(rules[i], property)
+                    } else if (rules[i].selectorText === selector) {
+
+                        rules[i].style.removeProperty(property.trim());
+
                     }
                 }
             }
         };
 
         sheets.forEach((sheet) => {
-            removePropertyFromSheet(sheet);
+            removePropertyFromSheet(sheet, property);
         });
     }
 
@@ -461,7 +474,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
                     var value = variableValue;
 
                     mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, prop, value, false);
-                    console.log('applyThemeCSSVariablesFromText', ActiveSelector, prop, value);
+
                 }
             });
         }
