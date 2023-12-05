@@ -5,6 +5,12 @@
     }
 </style>
 
+<div class="mb-4 mt-4">
+    <a href="javascript:;" class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component" onclick="list_templates();">
+        <?php _e('Back to List of templates'); ?>
+    </a>
+</div>
+
 <script>mw.require('editor.js')</script>
 
 <script>
@@ -105,6 +111,8 @@
     });
 </script>
 
+<div class="card mt-2">
+    <div class="card-body">
 
 
 <form class="js-edit-template-form">
@@ -133,3 +141,5 @@
         <button type="submit" class="btn btn-success btn-sm"><?php _e('Save'); ?></button>
     </div>
 </form>
+    </div>
+</div>

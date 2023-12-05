@@ -33,9 +33,21 @@
     return false;
     }
 </script>
+<div class="mb-4">
+    <div class="alert alert-info">
+        Add this to your cron jobs to process campaigns. Frequency must be every 30 minutes.
+        <div>
+            <code class="style:font-weight:bold;">
+                php artisan panel:process-campaigns
+            </code>
+        </div>
+    </div>
+</div>
 
-<a href="javascript:;" class="btn btn-outline-primary mb-3" onclick="edit_campaign(false);">
-    <i class="mdi mdi-plus"></i> <?php _e('Add new campaign'); ?>
-</a>
 
+<div class="card mt-2">
+    <div class="card-body">
 <module type="newsletter/campaigns_list"/>
+
+    </div>
+</div>

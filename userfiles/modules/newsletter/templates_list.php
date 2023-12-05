@@ -40,8 +40,18 @@ $templates = newsletter_get_templates($templates_params);
 
 </script>
 <?php if ($templates): ?>
-    <div class="form-group">
-        <label class="control-label">List of templates</label>
+
+<div class="card mt-2">
+    <div class="card-body">
+<div class="d-flex justify-content-between align-items-center">
+    <div>
+        <h4>List of templates</h4>
+    </div>
+    <div>
+        <a href="javascript:;" class="btn btn-outline-primary mb-3" onclick="edit_template();">
+            <i class="mdi mdi-plus"></i>  <?php _e('Add new template'); ?>
+        </a>
+    </div>
     </div>
 
     <div class="table-responsive">
@@ -73,6 +83,8 @@ $templates = newsletter_get_templates($templates_params);
                 <?php endforeach; ?>
             </tbody>
         </table>
+    </div>
+    </div>
     </div>
 <?php else: ?>
     <div class="alert alert-info"><?php _e("No templates found"); ?></div>

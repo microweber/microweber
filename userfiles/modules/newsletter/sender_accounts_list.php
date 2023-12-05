@@ -3,8 +3,14 @@
 $senders = newsletter_get_senders();
 ?>
 <?php if ($senders): ?>
-    <div class="form-group">
-        <label class="control-label">List of senders</label>
+
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h4>List of senders</h4>
+        </div>
+        <a href="javascript:;" class="btn btn-outline-primary mb-3" onclick="edit_sender(false);">
+            <i class="mdi mdi-plus"></i> <?php _e('Add new sender'); ?>
+        </a>
     </div>
 
     <div class="table-responsive">
@@ -20,17 +26,7 @@ $senders = newsletter_get_senders();
                     <th class="font-weight-bold text-center" width="200px"><?php _e('Action'); ?></th>
                 </tr>
             </thead>
-            <tfoot>
-                <tr>
-                    <th class="font-weight-bold"><?php _e('Name'); ?></th>
-                    <th class="font-weight-bold"><?php _e('From'); ?></th>
-                   <th class="font-weight-bold"><?php _e('Email'); ?></th>
-                   <th class="font-weight-bold"><?php _e('Reply'); ?></th>
-                    <th class="font-weight-bold"><?php _e('Created at'); ?></th>
-<!--                    <th class="font-weight-bold"><?php _e('Active'); ?></th>-->
-                    <th class="font-weight-bold text-center" width="200px"><?php _e('Action'); ?></th>
-                </tr>
-            </tfoot>
+      
             <tbody class="small">
                 <?php foreach ($senders as $sender): ?>
                     <tr>
