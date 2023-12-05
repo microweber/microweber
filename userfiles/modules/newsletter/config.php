@@ -40,7 +40,7 @@ $config['tables'] = array (
         'campaign_id' => 'integer',
         'subscriber_id' => 'integer',
         'created_at' => 'dateTime',
-        'is_done' => 'integer'
+        'is_sent' => 'integer'
 	),
 
 	'newsletter_sender_accounts' => array(

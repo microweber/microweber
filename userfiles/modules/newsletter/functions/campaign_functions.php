@@ -77,6 +77,7 @@ function newsletter_campaigns_send_log($campaign_id, $subscriber_id) {
     $save = array();
     $save['campaign_id'] = $campaign_id;
     $save['subscriber_id'] = $subscriber_id;
+    $save['is_sent'] = 1;
     $save['created_at'] = date('Y-m-d H:i:s');
 
     $table = 'newsletter_campaigns_send_log';
