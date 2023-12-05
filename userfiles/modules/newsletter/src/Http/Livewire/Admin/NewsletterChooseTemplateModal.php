@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 
 class NewsletterChooseTemplateModal extends AdminModalComponent
 {
@@ -14,18 +15,25 @@ class NewsletterChooseTemplateModal extends AdminModalComponent
         'overlayClose' => true,
     ];
 
+    public function selectTemplate($name, $filename)
+    {
+
+        $newsletterTemplate = new NewsletterTemplate();
+        $newsletterTemplate->title = $name;
+        $newsletterTemplate->text = 'wow';
+        $newsletterTemplate->save();
+
+        $this->emit('newsletter.templateSelected', $name, $filename);
+        $this->closeModal();
+    }
+
     public function render()
     {
 
         $this->emailTemplates[] = [
-            'name' => 'Default',
-            'filename' => 'template1',
-            'screenshot'=>modules_url() . '/newsletter/src/resources/views/email-templates/template1.jpg',
-        ];
-        $this->emailTemplates[] = [
-            'name' => 'Simple 3',
-            'filename' => 'template3',
-            'screenshot'=>modules_url() . '/newsletter/src/resources/views/email-templates/template3.jpg',
+            'name' => 'Explore',
+            'filename' => 'template6',
+            'screenshot'=>modules_url() . '/newsletter/src/resources/views/email-templates/template6.jpg',
         ];
 
         $this->emailTemplates[] = [
@@ -40,11 +48,6 @@ class NewsletterChooseTemplateModal extends AdminModalComponent
             'screenshot'=>modules_url() . '/newsletter/src/resources/views/email-templates/template5.jpg',
         ];
 
-        $this->emailTemplates[] = [
-            'name' => 'Explore',
-            'filename' => 'template6',
-            'screenshot'=>modules_url() . '/newsletter/src/resources/views/email-templates/template6.jpg',
-        ];
 
         $this->emailTemplates[] = [
             'name' => 'Modern',

@@ -14,7 +14,7 @@
         <div class="row">
             @foreach($emailTemplates as $emailTemplate)
                 <div class="col-6 cursor-pointer mt-4"
-                     wire:click="selectTemplate({{ $emailTemplate['name'] }})">
+                     wire:click="selectTemplate('{{ $emailTemplate['name'] }}','{{ $emailTemplate['filename'] }}')">
                     <div style="
                             background-image: url('{{ $emailTemplate['screenshot'] }}');
                             background-size: contain;

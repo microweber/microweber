@@ -26,10 +26,8 @@ $senders_params['no_limit'] = true;
 $senders_params['order_by'] = "created_at desc";
 $senders = newsletter_get_senders($senders_params);
 
-$templates_params = array();
-$templates_params['no_limit'] = true;
-$templates_params['order_by'] = "created_at desc";
-$templates = newsletter_get_templates($templates_params);
+
+$templates = newsletter_get_templates();
 
 ?>
 
@@ -199,9 +197,11 @@ $templates = newsletter_get_templates($templates_params);
         <small class="text-muted d-block mb-2">Select from your campaign e-mail templates or <a href="javascript:;">create a new one</a></small>
 
         <select name="email_template_id"  class="form-control">
-            <?php foreach ($templates as $template) : ?>
-                <option <?php if (isset($list['success_email_template_id']) AND $list['success_email_template_id'] == $template['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $template['id']; ?>"><?php echo $template['title']; ?></option>
-            <?php endforeach; ?>
+            <?php if (!empty($templates)): ?>
+                <?php foreach ($templates as $template) : ?>
+                    <option <?php if (isset($list['success_email_template_id']) AND $list['success_email_template_id'] == $template['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $template['id']; ?>"><?php echo $template['title']; ?></option>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </select>
         <div class="js-field-message"></div>
     </div>

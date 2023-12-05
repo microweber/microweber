@@ -1,9 +1,6 @@
 <?php must_have_access(); ?>
 <?php
-$templates_params = array();
-$templates_params['no_limit'] = true;
-$templates_params['order_by'] = "created_at desc";
-$templates = newsletter_get_templates($templates_params);
+$templates = newsletter_get_templates();
 ?>
 <script>
     function edit_template(id = false) {
