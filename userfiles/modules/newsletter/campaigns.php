@@ -1,6 +1,6 @@
 <?php must_have_access(); ?>
 <script>
-    
+
     function edit_campaign(id = false) {
     var data = {};
             data.id = id;

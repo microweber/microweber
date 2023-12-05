@@ -1,4 +1,12 @@
 <?php must_have_access(); ?>
+
+
+<div class="mb-4">
+    <code>
+        php artisan
+    </code>
+</div>
+
 <?php
 $campaigns = newsletter_get_campaigns();
 ?>

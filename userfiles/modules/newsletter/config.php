@@ -106,3 +106,17 @@ $config['tables'] = array (
 			'created_at' => 'dateTime'
 	)
 );
+
+
+
+
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\\Modules\\Newsletter'
+    ],
+];
+
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\Newsletter\Providers\NewsletterServiceProvider::class
+];
