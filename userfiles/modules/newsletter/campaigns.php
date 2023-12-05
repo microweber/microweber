@@ -1,11 +1,6 @@
 <?php must_have_access(); ?>
 <script>
-    function start_campaign(id = false) {
-    var data = {};
-            data.id = id;
-            start_campaign_modal = mw.tools.open_module_modal('newsletter/start_campaign', data, {overlay: true, skin: 'simple'});
-    }
-
+    
     function edit_campaign(id = false) {
     var data = {};
             data.id = id;

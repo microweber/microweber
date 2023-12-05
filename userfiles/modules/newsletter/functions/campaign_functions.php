@@ -29,6 +29,9 @@ function newsletter_get_campaigns() {
             'created_at'=>$campaigns->created_at,
             'list_name'=>$campaigns->list_name,
             'is_done'=>$campaigns->is_done,
+            'sending_limit_per_day'=>$campaigns->sending_limit_per_day,
+            'is_scheduled'=>$campaigns->is_scheduled,
+            'scheduled_at'=>$campaigns->scheduled_at,
             'id'=>$campaigns->id
         );
     }
