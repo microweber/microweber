@@ -8,4 +8,15 @@ Route::name('admin.newsletter.')
 
         Route::get('/', 'AdminController@index')->name('index');
 
+        Route::get('/preview-email-template-iframe', function() {
+
+            $templateFilename = request()->get('filename');
+            if (!$templateFilename) {
+                return;
+            }
+
+            return view('microweber-module-newsletter::email-templates.'.$templateFilename);
+
+        });
+
     });

@@ -39,7 +39,7 @@ $templates = newsletter_get_templates($templates_params);
     }
 
 </script>
-<?php if ($templates): ?>
+
 
 <div class="card mt-2">
     <div class="card-body">
@@ -48,44 +48,49 @@ $templates = newsletter_get_templates($templates_params);
         <h4>List of templates</h4>
     </div>
     <div>
-        <a href="javascript:;" class="btn btn-outline-primary mb-3" onclick="edit_template();">
+        <a href="javascript:;"
+           class="btn btn-outline-primary mb-3"
+           onclick='Livewire.emit("openModal", "admin-newsletter-choose-template-modal")'
+        >
             <i class="mdi mdi-plus"></i>  <?php _e('Add new template'); ?>
         </a>
     </div>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
+    <?php if ($templates): ?>
+        <div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="font-weight-bold"><?php _e('Title'); ?></th>
+                <th class="font-weight-bold"><?php _e('Date'); ?></th>
+                <th class="font-weight-bold text-center" width="140px"><?php _e('Action'); ?></th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th class="font-weight-bold"><?php _e('Title'); ?></th>
+                <th class="font-weight-bold"><?php _e('Date'); ?></th>
+                <th class="font-weight-bold text-center" width="140px"><?php _e('Action'); ?></th>
+            </tr>
+        </tfoot>
+        <tbody class="small">
+            <?php foreach ($templates as $template): ?>
                 <tr>
-                    <th class="font-weight-bold"><?php _e('Title'); ?></th>
-                    <th class="font-weight-bold"><?php _e('Date'); ?></th>
-                    <th class="font-weight-bold text-center" width="140px"><?php _e('Action'); ?></th>
+                    <td><?php print $template['title']; ?></td>
+                    <td><?php print $template['created_at']; ?></td>
+                    <td class="text-center">
+                        <button class="btn btn-outline-primary btn-sm" onclick="edit_template('<?php print $template['id']; ?>')"><?php _e('Edit'); ?></button>
+                        <a class="btn btn-outline-danger btn-sm" href="javascript:;" onclick="delete_template('<?php print $template['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
+                    </td>
                 </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <th class="font-weight-bold"><?php _e('Title'); ?></th>
-                    <th class="font-weight-bold"><?php _e('Date'); ?></th>
-                    <th class="font-weight-bold text-center" width="140px"><?php _e('Action'); ?></th>
-                </tr>
-            </tfoot>
-            <tbody class="small">
-                <?php foreach ($templates as $template): ?>
-                    <tr>
-                        <td><?php print $template['title']; ?></td>
-                        <td><?php print $template['created_at']; ?></td>
-                        <td class="text-center">
-                            <button class="btn btn-outline-primary btn-sm" onclick="edit_template('<?php print $template['id']; ?>')"><?php _e('Edit'); ?></button>
-                            <a class="btn btn-outline-danger btn-sm" href="javascript:;" onclick="delete_template('<?php print $template['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+    <?php else: ?>
+        <div class="alert alert-info"><?php _e("No templates found"); ?></div>
+    <?php endif; ?>
+
     </div>
     </div>
-    </div>
-<?php else: ?>
-    <div class="alert alert-info"><?php _e("No templates found"); ?></div>
-<?php endif; ?>
