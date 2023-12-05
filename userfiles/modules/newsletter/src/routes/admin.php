@@ -15,8 +15,14 @@ Route::name('admin.newsletter.')
                 return;
             }
 
-            return view('microweber-module-newsletter::email-templates.'.$templateFilename);
+            return view('microweber-module-newsletter::email-templates.'.$templateFilename, [
+                'content' => 'This is a test content',
+                'title' => 'This is a test title',
+                'name' => 'Jhon Doe',
+                'unsubscribe_url' => '',
+                'email' => 'jhon@doe.com'
+            ]);
 
-        });
+        })->name('preview-email-template-iframe');
 
     });
