@@ -8,6 +8,9 @@ $campaign['subject'] = '';
 $campaign['sender_account_id'] = '';
 $campaign['list_id'] = '';
 $campaign['template_id'] = '';
+$campaign['sending_limit_per_day'] = 100;
+$campaign['scheduled_at'] = '';
+$campaign['is_scheduled'] = '';
 $campaign['id'] = 0;
 
 if (isset($params['id'])) {
@@ -64,6 +67,8 @@ $templates = newsletter_get_templates($templates_params);
                     }
                 }
             });
+
+            console.log(errors);
 
             if (isEmpty(errors)) {
 
@@ -128,18 +133,29 @@ $templates = newsletter_get_templates($templates_params);
     $lists = newsletter_get_lists();
     ?>
 
+    <div>
+        <div class="form-group">
+            <label class="control-label"><?php _e('Campaign Name (Internal Name)'); ?></label>
+            <small class="text-muted d-block mb-2">Give a name of your campaign</small>
+            <input name="name" value="<?php if (isset($campaign['name'])): ?><?php echo $campaign['name']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
+            <div class="js-field-message"></div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-6">
             <div class="form-group">
-                <label class="control-label"><?php _e('Campaign Name'); ?></label>
-                <small class="text-muted d-block mb-2">Give a name of your campaign</small>
+                <label class="control-label"><?php _e('Email From Name'); ?></label>
+                <small class="text-muted d-block mb-2">
+                    <?php _e('The name of the email sender'); ?>
+                </small>
                 <input name="from_name" value="<?php if (isset($campaign['from_name'])): ?><?php echo $campaign['from_name']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
                 <div class="js-field-message"></div>
             </div>
         </div>
         <div class="col-6">
             <div class="form-group">
-                <label class="control-label"><?php _e('Subject'); ?></label>
+                <label class="control-label"><?php _e('Email Subject'); ?></label>
                 <small class="text-muted d-block mb-2">What the campaign is about</small>
                 <input name="subject" value="<?php if (isset($campaign['subject'])): ?><?php echo $campaign['subject']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
                 <div class="js-field-message"></div>
