@@ -18,9 +18,16 @@ class NewsletterChooseTemplateModal extends AdminModalComponent
     public function selectTemplate($name, $filename)
     {
 
+        $templateFile = modules_path() . '/newsletter/src/resources/views/email-templates/'.$filename.'.blade.php';
+        if (!is_file($templateFile)) {
+            return;
+        }
+
+        $templateContentHtml = file_get_contents($templateFile);
+
         $newsletterTemplate = new NewsletterTemplate();
         $newsletterTemplate->title = $name;
-        $newsletterTemplate->text = 'wow';
+        $newsletterTemplate->text = $templateContentHtml;
         $newsletterTemplate->save();
 
         $this->emit('newsletter.templateSelected', $name, $filename);
