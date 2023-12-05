@@ -208,10 +208,10 @@ $templates = newsletter_get_templates($templates_params);
                     <?php _e('Set the maximum number of emails to be sent per day'); ?>
                 </small>
                 <select name="sending_limit_per_day" class="form-control">
-                    <option>100</option>
-                    <option>300</option>
-                    <option>500</option>
-                    <option>1000</option>
+                    <option <?php if ($campaign['sending_limit_per_day'] == 100): ?> selected="selected" <?php endif; ?> >100</option>
+                    <option <?php if ($campaign['sending_limit_per_day'] == 300): ?> selected="selected" <?php endif; ?> >300</option>
+                    <option <?php if ($campaign['sending_limit_per_day'] == 500): ?> selected="selected" <?php endif; ?> >500</option>
+                    <option <?php if ($campaign['sending_limit_per_day'] == 1000): ?> selected="selected" <?php endif; ?> >1000</option>
                 </select>
                 <div class="js-field-message"></div>
             </div>
@@ -227,6 +227,9 @@ $templates = newsletter_get_templates($templates_params);
                 </small>
                 <?php
                 $scheduled_at = date('Y-m-d\TH:i', strtotime('+1 hour'));
+                if (!empty($campaign['scheduled_at'])) {
+                    $scheduled_at = $campaign['scheduled_at'];
+                }
                 ?>
                 <input type="datetime-local" value="<?php echo $scheduled_at;?>" name="scheduled_at" class="form-control" />
                 <div class="js-field-message"></div>
@@ -239,8 +242,8 @@ $templates = newsletter_get_templates($templates_params);
                     <?php _e('Enable or disable this campaign'); ?>
                 </small>
                 <select name="is_scheduled" class="form-control">
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+                    <option <?php if ($campaign['is_scheduled'] == 0): ?> selected="selected" <?php endif; ?> >No</option>
+                    <option <?php if ($campaign['is_scheduled'] == 1): ?> selected="selected" <?php endif; ?> >Yes</option>
                 </select>
                 <div class="js-field-message"></div>
             </div>
