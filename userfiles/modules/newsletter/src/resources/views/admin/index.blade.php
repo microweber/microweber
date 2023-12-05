@@ -4,13 +4,13 @@
 
     <div>
 
-    <div class="card style-1 mb-2">
+    <div class="container px-5 mb-2">
 
-        <div class="card-header mt-3">
-            <h2><?php _e('Newsletter'); ?></h2>
+        <div class="mt-3">
+            <h2><?php _e('Newsletter PRO v2.0'); ?></h2>
         </div>
 
-        <div class="card-body">
+        <div>
             <style>
                 .table td{
                     vertical-align: middle;
@@ -28,9 +28,7 @@
 
             <div class="tab-content py-3">
                 <div class="tab-pane fade show active" id="subscribers">
-
-                    
-
+                    @livewire('admin-newsletter-subscribers-list')
                 </div>
 
                 <div class="tab-pane fade" id="list">
