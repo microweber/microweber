@@ -60,6 +60,8 @@ export class StylesheetEditor extends MicroweberBaseClass {
     _cssTemp(json) {
         const css = CSSJSON.toCSS(json);
 
+
+
         var tempStylesheetElement = this.settings.document.querySelector('#mw-liveedit-dynamic-temp-style');
 
         if (tempStylesheetElement == null) {
@@ -78,6 +80,8 @@ export class StylesheetEditor extends MicroweberBaseClass {
     }
 
     removeSheetRuleProperty(selector, property) {
+
+
         this.changed = true;
         const sheets = [
             this.settings.document.querySelector('link#mw-template-settings'),
@@ -85,8 +89,10 @@ export class StylesheetEditor extends MicroweberBaseClass {
             this.settings.document.querySelector('#mw-custom-user-css'),
         ];
 
+        // const sheets = this.settings.document.querySelectorAll('[rel="stylesheet"],style,[type="text/css"]');
 
-        const removePropertyFromSheet = (sheet) => {
+        const removePropertyFromSheet = (sheet, property) => {
+
             if (sheet) {
                 var rules;
                 if (sheet.cssRules) {
@@ -99,20 +105,20 @@ export class StylesheetEditor extends MicroweberBaseClass {
                 }
                 for (let i = 0, l = rules.length; i < l; i++) {
 
-                    console.log('For alex')
-                    console.log(11111)
-                    console.log(rules[i])
-                    console.log(rules[i].selectorText,selector)
 
-                    if (rules[i].selectorText === selector) {
-                        rules[i].style.removeProperty(property);
+                    if(rules[i].cssRules && rules[i].cssRules.length) {
+                        removePropertyFromSheet(rules[i], property)
+                    } else if (rules[i].selectorText === selector) {
+
+                        rules[i].style.removeProperty(property.trim());
+
                     }
                 }
             }
         };
 
         sheets.forEach((sheet) => {
-            removePropertyFromSheet(sheet);
+            removePropertyFromSheet(sheet, property);
         });
     }
 
@@ -180,8 +186,6 @@ export class StylesheetEditor extends MicroweberBaseClass {
             media = '(max-width: 460px)';
         }
 
-      //  console.log('setPropertyForSelector', sel, prop, val, record);
-
 
         media = `@media ${media}`;
 
@@ -222,13 +226,11 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
         this._temp.children[media].children[sel].attributes[prop] = val;
 
-
         if (val === '' || val === '!important' || val === undefined || val === null) {
             const prop_val = '';
             this._temp.children[media].children[sel].attributes[prop] = prop_val;
             if (this._temp.children
                 && this._temp.children[media]
-                && typeof this._temp.children[media].children[sel] !== 'undefined'
                 && this._temp.children[media].children[sel]
             ) {
                 delete this._temp.children[media].children[sel].attributes[prop];
@@ -236,8 +238,6 @@ export class StylesheetEditor extends MicroweberBaseClass {
             if (this.json
                 && this.json.children
                 && this.json.children[media]
-                && this.json.children[media].children
-                && typeof this.json.children[media].children[sel] !== 'undefined'
                 && this.json.children[media].children[sel]
             ) {
                 delete this.json.children[media].children[sel].attributes[prop];
@@ -474,7 +474,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
                     var value = variableValue;
 
                     mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, prop, value, false);
-                    console.log('applyThemeCSSVariablesFromText', ActiveSelector, prop, value);
+
                 }
             });
         }
