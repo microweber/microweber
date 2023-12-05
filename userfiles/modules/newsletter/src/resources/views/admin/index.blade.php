@@ -1,10 +1,10 @@
 @extends('admin::layouts.app')
 
 @section('content')
+
     <div>
 
-
-    <div class="card style-1 mb-3">
+    <div class="card style-1 mb-2">
 
         <div class="card-header mt-3">
             <h2><?php _e('Newsletter'); ?></h2>
@@ -16,14 +16,6 @@
                     vertical-align: middle;
                 }
             </style>
-            <?php
-            $mod_action = '';
-            $load_mod_action = false;
-            if ((url_param('mod_action') != false)) {
-                $mod_action = url_param('mod_action');
-            }
-            ?>
-
 
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
                 <a class="btn btn-outline-dark justify-content-center gap-2 active" data-bs-toggle="tab" href="#subscribers"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e('Subscribers'); ?></a>
@@ -36,7 +28,9 @@
 
             <div class="tab-content py-3">
                 <div class="tab-pane fade show active" id="subscribers">
-                    <module type="newsletter/subscribers"/>
+
+                    
+
                 </div>
 
                 <div class="tab-pane fade" id="list">
@@ -56,52 +50,13 @@
                 </div>
 
                 <div class="tab-pane fade" id="settings">
-                    <module type="newsletter/privacy_settings" for_module_id="<?php print $params['id'] ?>" data-no-hr="true"/>
-
-
-                    <module type="newsletter/settings" for_module_id="<?php print $params['id'] ?>"/>
-                </div>
-            </div>
-
-
-            <div class="mw-live-edit-settings">
-                <div class="text-center">
-                    <a href="<?php echo admin_url(); ?>view:modules/load_module:newsletter" class="mw-ui-btn mw-ui-btn-info"  target="_blank">
-                        Go to Newsletter in Admin panel
-                    </a>
-                </div>
-
-                <div class="mw-ui-box-content">
-                    <module type="admin/modules/templates"/>
-                    <hr class="thin"/>
-                    <module type="newsletter/privacy_settings" for_module_id="<?php print $params['id'] ?>"/>
-                    <hr class="thin"/>
-                    <module type="newsletter/settings" for_module_id="<?php print $params['id'] ?>"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label"><?php _e('Subscribe to list'); ?>:</label>
-                    <?php
-                    $list_id = get_option('list_id', $params['id']);
-                    $list_params = array();
-                    $list_params['no_limit'] = true;
-                    $list_params['order_by'] = "created_at desc";
-                    $lists = newsletter_get_lists($list_params);
-                    ?>
-                    <select name="list_id" class="mw_option_field selectpicker" data-width="100%" name="list_id" value="<?php print $list_id; ?>">
-                        <option value="0">Default</option>
-                        <?php if (!empty($lists)): ?>
-                        <?php foreach ($lists as $list) : ?>
-                        <option value="<?php echo $list['id']; ?>" <?php if ($list_id == $list['id']): ?>  selected="selected"    <?php endif; ?> ><?php echo $list['name']; ?></option>
-                        <?php endforeach; ?>
-                        <?php endif; ?>
-                    </select>
+                    <module type="newsletter/privacy_settings" data-no-hr="true"/>
+                    <module type="newsletter/settings" />
                 </div>
             </div>
 
         </div>
     </div>
     </div>
-
 
 @endsection
