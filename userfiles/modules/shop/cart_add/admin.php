@@ -16,7 +16,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
     <div class=" ">
         <?php
-        $for_id = false;
+
+
+
+        $for_id = content_id();
         $for = 'content';
 
 
@@ -75,12 +78,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </div>
             <?php else: ?>
 
-                <div class="current-template-modules">
+               <?php
+
+                /* <div class="current-template-modules">
 
                     <module type="admin/modules/inner_modules_list" for-module-id="<?php print $params['id'] ?>"/>
 
 
-                </div>
+                </div>*/
+                ?>
 
             <?php endif; ?>
 
