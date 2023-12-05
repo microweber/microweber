@@ -64,18 +64,14 @@ class ProcessCampaigns extends Command
                     $newsletterMailSender->setSender($sender);
                     $newsletterMailSender->setTemplate($template);
 
-                    $sendMailResponse = $newsletterMailSender->sendMail();
+                   // $sendMailResponse = $newsletterMailSender->sendMail();
 
-                    echo 'Subscriber: ' . $subscriber['name'] . ' (' . $subscriber['email'] . ') <br />';
+                    $this->warn('Subscriber: ' . $subscriber['name'] . ' (' . $subscriber['email'] . ')');
+//
+//                    if ($sendMailResponse['success']) {
+//                        newsletter_campaigns_send_log($campaign['id'], $subscriber['id']);
+//                    }
 
-                    if ($sendMailResponse['success']) {
-                        echo '<font style="color:green;">' . $sendMailResponse['message'] . '</font>';
-                        newsletter_campaigns_send_log($campaign['id'], $subscriber['id']);
-                    } else {
-                        echo '<font style="color:red;">' . $sendMailResponse['message'] . '</font>';
-                    }
-
-                    echo '<br />';
                 }
 
 
