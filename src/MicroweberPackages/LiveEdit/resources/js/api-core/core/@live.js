@@ -745,10 +745,10 @@ export class LiveEdit {
             let isTextInColumn = false;
             let isTextOnly = false;
 
-            if(e.target && e.target.className) {
+            if(e.target && e.target.className && typeof e.target.className.indexOf === 'function') {
                 isTextInColumn = e.target.className.indexOf('col-') !== -1;
             }
-            if(e.target && e.target.className) {
+            if(e.target && e.target.className && typeof e.target.className.indexOf === 'function') {
                 isTextOnly = !!e.target.textContent.trim() && !e.target.firstElementChild;
             }
             if(isTextInColumn && isTextOnly && this.elementAnalyzer.isEditOrInEdit(e.target)) {

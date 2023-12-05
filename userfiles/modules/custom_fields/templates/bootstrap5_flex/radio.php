@@ -18,7 +18,17 @@
             <div class="custom-control custom-radio my-2">
                 <input type="radio" id="custom-radio-<?php echo $data['id'] . '-' . $key; ?>" class="form-check-input" <?php if ($settings['required'] && $i == 1): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" value="<?php echo $value; ?>"
                        name="<?php echo $data['name_key']; ?>">
-                <label class="custom-control-label ms-2" for="custom-radio-<?php echo $data['id'] . '-' . $key; ?>"><?php echo $value; ?></label>
+                <label class="custom-control-label ms-2" for="custom-radio-<?php echo $data['id'] . '-' . $key; ?>"><?php echo $value; ?>
+
+
+
+
+                    <?php if(isset($data['values_price_modifiers']) and !empty($data['values_price_modifiers']) and isset($data['values_price_modifiers'][$key]) and $data['values_price_modifiers'][$key]) : ?>
+                        (+<?php echo currency_format($data['values_price_modifiers'][$key]); ?>)
+                    <?php endif; ?>
+
+
+                </label>
             </div>
         <?php endforeach; ?>
 

@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\CustomField\Http\Livewire;
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Admin\Http\Livewire\AdminMwTopDialogIframeComponent;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
@@ -17,6 +18,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
     public $customFieldId = false;
     public $state = [];
     public $inputs = [];
+    public $priceModifiers = [];
 
     public $showValueSettings = false;
     public $showRequiredSettings = false;
@@ -72,6 +74,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         $newCustomFieldValue->save();
 
         $this->inputs[$newCustomFieldValue->id] = $typeText;
+        $this->priceModifiers[$newCustomFieldValue->id] = 0;
     }
 
     public function remove($id)
@@ -89,7 +92,9 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
             if ($findCustomFieldValue) {
                 $findCustomFieldValue->delete();
             }
+            $this->priceModifiers[$id] =  false;
 
+            unset($this->priceModifiers[$id]);
             unset($this->inputs[$id]);
             $this->dispatchGlobalBrowserEvent('customFieldUpdated');
         }
@@ -99,10 +104,23 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
     {
         $this->save();
     }
+    public function updatedPriceModifiers()
+    {
+        if (!empty($this->priceModifiers)) {
+            foreach ($this->priceModifiers as $custFieldValueId => $priceModifierValue) {
+                $valueItem = CustomFieldValue::where('id', $custFieldValueId)->first();
+                if($valueItem){
+                    $valueItem->price_modifier = $priceModifierValue;
+                    $valueItem->save();
+                }
+            }
+        }
 
+    }
     public function updatedInputs()
     {
         if (!empty($this->inputs)) {
+
 
             $this->state['value'] = array_values($this->inputs);
 
@@ -115,7 +133,26 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
 
     public function save()
     {
-        mw()->fields_manager->save($this->state);
+
+        $custFieldId = mw()->fields_manager->save($this->state);
+
+        if ($this->priceModifiers and !empty($this->priceModifiers)) {
+
+//            foreach ($this->priceModifiers as $custFieldValueId => $priceModifierValue) {
+//             //   $valueItem = CustomFieldValue::where('id', $custFieldValueId)->firstOrNew();
+//
+//
+//
+//                $valueItem = DB::table('custom_fields_values')
+//                    ->where('id', $custFieldValueId)
+//                    ->update(['price_modifier' => $priceModifierValue]);
+////                if ($valueItem) {
+////                    $valueItem->price_modifier = $priceModifierValue;
+////                    $valueItem->save();
+////                }
+//            }
+
+        }
 
         $this->showSettings($this->state['type']);
         $this->dispatchGlobalBrowserEvent('customFieldUpdated');
@@ -193,6 +230,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
             if ($this->customField->fieldValue->count() > 0) {
                 foreach ($this->customField->fieldValue as $fieldValue) {
                     $this->inputs[$fieldValue->id] = $fieldValue->value;
+                    $this->priceModifiers[$fieldValue->id] = $fieldValue->price_modifier;
                 }
             }
         } else {

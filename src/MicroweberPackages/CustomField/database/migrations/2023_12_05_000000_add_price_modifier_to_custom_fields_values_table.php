@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCustomFieldsValuesTable extends Migration
+class AddPriceModifierToCustomFieldsValuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,11 +18,7 @@ class CreateCustomFieldsValuesTable extends Migration
     {
         return [
             'custom_fields_values' => [
-                'custom_field_id' => 'integer',
-                'value' => 'text',
-                'position' => 'integer',
                 'price_modifier' => 'integer',
-                '$index' => ['custom_field_id', 'value'],
             ],
         ];
     }

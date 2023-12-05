@@ -60,6 +60,7 @@ if (isset($params['default-fields']) and isset($params['parent-module-id'])) {
 $data = mw()->fields_manager->get(['rel_type'=>$for,'rel_id'=>$for_id, 'return_full'=>true]);
 
 $formHasUpload = false;
+$formHasPriceModifierValues = false;
 $fields_group = array();
 $group_i = 0;
 if (!empty($data)){
@@ -100,6 +101,7 @@ if (!empty($data)){
             $field['options']['field_size_desktop'] = 12;
         }
 
+
         $fields_group[$group_i][] = $field;
     }
 }
@@ -117,7 +119,7 @@ foreach ($fields_group as $field_group_key => $fields) {
                 $price_fields[] = $field;
             } else {
                 $field['params'] = $params;
-                $ready_fields[] = array('html' => mw()->fields_manager->make($field));
+                 $ready_fields[] = array('html' => mw()->fields_manager->make($field));
             }
         }
     }

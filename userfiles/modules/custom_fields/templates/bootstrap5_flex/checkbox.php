@@ -10,7 +10,15 @@
             <?php $i++; ?>
             <div class="custom-control custom-checkbox my-2">
                 <input class="form-check-input" type="checkbox" name="<?php echo $data["name_key"]; ?>[]" id="field-<?php echo $i; ?>-<?php echo $data["id"]; ?>" data-custom-field-id="<?php echo $data["id"]; ?>" value="<?php echo $value; ?>"/>
-                <label class="custom-control-label" for="field-<?php echo $i; ?>-<?php echo $data["id"]; ?>"><?php echo $value; ?></label>
+                <label class="custom-control-label" for="field-<?php echo $i; ?>-<?php echo $data["id"]; ?>"><?php echo $value; ?>
+
+
+
+                    <?php if(isset($data['values_price_modifiers']) and !empty($data['values_price_modifiers']) and isset($data['values_price_modifiers'][$key]) and $data['values_price_modifiers'][$key]) : ?>
+                        (+<?php echo currency_format($data['values_price_modifiers'][$key]); ?>)
+                    <?php endif; ?>
+
+                </label>
             </div>
         <?php endforeach; ?>
     </div>

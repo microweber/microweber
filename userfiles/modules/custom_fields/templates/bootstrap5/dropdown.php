@@ -9,6 +9,8 @@
     </script>
 <?php endif; ?>
 
+
+
 <div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
     <div class="mw-text-start my-2">
 
@@ -30,6 +32,13 @@
         <?php foreach ($data['values'] as $key => $value): ?>
             <option data-custom-field-id="<?php print $data["id"]; ?>" value="<?php echo $value; ?>">
                 <?php echo $value; ?>
+
+
+                <?php if(isset($data['values_price_modifiers']) and !empty($data['values_price_modifiers']) and isset($data['values_price_modifiers'][$key]) and $data['values_price_modifiers'][$key]) : ?>
+                 (+<?php echo currency_format($data['values_price_modifiers'][$key]); ?>)
+                <?php endif; ?>
+
+
             </option>
         <?php endforeach; ?>
         </select>

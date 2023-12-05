@@ -27,16 +27,34 @@
                         </div>
                     </div>
                     <div class="w-full">
-                        <x-microweber-ui::input class="mt-1 block w-full" wire:model="inputs.{{ $fieldValue->id }}" />
+                        <x-microweber-ui::input class="mt-1 block w-full" wire:model.debounce="inputs.{{ $fieldValue->id }}" />
                         @error('inputs.'.$fieldValue->id) <span class="text-danger error">{{ $message }}</span>@enderror
                     </div>
+
+                    @if (isset($customField->options['as_price_modifier']) && $customField->options['as_price_modifier'])
+                    <div class="w-full">
+                        <x-microweber-ui::input class="mt-1 block w-full" wire:model.debounce="priceModifiers.{{ $fieldValue->id }}" placeholder="Price modifier to add to the product price" />
+                        @error('priceModifiers.'.$fieldValue->id) <span class="text-danger error">{{ $message }}</span>@enderror
+                    </div>
+                    @endif
+
+
                     <div class="d-flex gap-3 justify-content-center align-items-center">
                         <button class="btn btn-outline-success btn-sm" wire:click.prevent="add()">Add</button>
                         <button class="btn btn-outline-danger btn-sm" wire:click.prevent="remove({{$fieldValue->id}})">Delete</button>
                     </div>
+
+
                 </div>
             @endforeach
             </div>
+
+            <div class="mt-3">
+                <x-microweber-ui::label for="as_price_modifier" value="Use a price modifier for value" />
+                <x-microweber-ui::toggle id="as_price_modifier" class="mt-1 block w-full" wire:model="state.options.as_price_modifier" />
+            </div>
+
+
         </div>
 
     @elseif($customField->type == 'price')

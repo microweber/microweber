@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\CustomField\Repositories;
 
 use Illuminate\Support\Facades\DB;
@@ -64,9 +65,10 @@ class CustomFieldRepository extends AbstractRepository
                     $readyCustomField['options'] = $options;
                     $readyCustomField['value'] = '';
                     $readyCustomField['values'] = [];
+                    $readyCustomField['values_price_modifiers'] = [];
                     $readyCustomField['values_plain'] = '';
 
-                    $getCustomFieldValue = DB::table('custom_fields_values')->where('custom_field_id',$customField['id'])->get();
+                    $getCustomFieldValue = DB::table('custom_fields_values')->where('custom_field_id', $customField['id'])->get();
                     $getCustomFieldValue = collect($getCustomFieldValue)->map(function ($item) {
                         return (array)$item;
                     })->toArray();
@@ -74,7 +76,12 @@ class CustomFieldRepository extends AbstractRepository
                     if (isset($getCustomFieldValue[0])) {
                         $readyCustomField['value'] = $getCustomFieldValue[0]['value'];
                         foreach ($getCustomFieldValue as $customFieldValue) {
-                            $readyCustomField['values'][] = $customFieldValue['value'];
+                            $readyCustomField['values'][$customFieldValue['id']] = $customFieldValue['value'];
+                            if (isset($options['as_price_modifier']) && $options['as_price_modifier']) {
+                                if (isset($customFieldValue['price_modifier']) and $customFieldValue['price_modifier']) {
+                                    $readyCustomField['values_price_modifiers'][$customFieldValue['id']] = $customFieldValue['price_modifier'];
+                                }
+                            }
                         }
                     }
 
@@ -89,7 +96,6 @@ class CustomFieldRepository extends AbstractRepository
             return $customFields;
         });
     }
-
 
 
 }
