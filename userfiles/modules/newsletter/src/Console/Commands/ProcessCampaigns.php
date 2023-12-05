@@ -76,12 +76,8 @@ class ProcessCampaigns extends Command
                     $newsletterMailSender->setTemplate($template);
                     $sendMailResponse = $newsletterMailSender->sendMail();
 
-//                    $sendMailResponse = [];
-//                    $sendMailResponse['success'] = true;
-
-                    $this->warn('Subscriber: ' . $subscriber['name'] . ' (' . $subscriber['email'] . ')');
-
                     if ($sendMailResponse['success']) {
+                        $this->info('Subscriber: ' . $subscriber['name'] . ' (' . $subscriber['email'] . ')');
                         newsletter_campaigns_send_log($campaign['id'], $subscriber['id']);
                     }
 
