@@ -2,9 +2,14 @@
 
 
 <div class="mb-4">
-    <code>
-        php artisan
-    </code>
+    <div class="alert alert-info">
+        Add this to your cron jobs to process campaigns. Frequency must be every 30 minutes.
+        <div>
+            <code class="style:font-weight:bold;">
+                php artisan panel:process-campaigns
+            </code>
+        </div>
+    </div>
 </div>
 
 <?php

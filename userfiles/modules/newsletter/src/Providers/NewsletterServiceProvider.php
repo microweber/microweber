@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Modules\Newsletter\Providers;
 
+use MicroweberPackages\Modules\Panel\Console\Commands\PreparedServerAccountsCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -18,6 +19,8 @@ class NewsletterServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-
+        if (is_cli()) {
+            $this->commands(PreparedServerAccountsCommand::class);
+        }
     }
 }
