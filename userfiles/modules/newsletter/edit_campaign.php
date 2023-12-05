@@ -242,8 +242,8 @@ $templates = newsletter_get_templates($templates_params);
                     <?php _e('Enable or disable this campaign'); ?>
                 </small>
                 <select name="is_scheduled" class="form-control">
-                    <option <?php if ($campaign['is_scheduled'] == 0): ?> selected="selected" <?php endif; ?> >No</option>
-                    <option <?php if ($campaign['is_scheduled'] == 1): ?> selected="selected" <?php endif; ?> >Yes</option>
+                    <option value="0" <?php if ($campaign['is_scheduled'] == 0): ?> selected="selected" <?php endif; ?> >No</option>
+                    <option value="1" <?php if ($campaign['is_scheduled'] == 1): ?> selected="selected" <?php endif; ?> >Yes</option>
                 </select>
                 <div class="js-field-message"></div>
             </div>
