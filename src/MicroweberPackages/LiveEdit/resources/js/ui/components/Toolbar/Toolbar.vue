@@ -88,7 +88,7 @@ html.preview .back-to-edit{
                 </span>
                 <div id="user-menu" class="card mw-le-nav-box">
                     <nav>
-                        <a v-for="menuItem in menu" :href="menuItem.href" :ref="menuItem.ref?menuItem.ref:''" :class="menuItem.class?menuItem.class:''">
+                        <a v-for="menuItem in menu" :href="menuItem.href" :id="menuItem.id" :ref="menuItem.ref?menuItem.ref:''" :class="menuItem.class?menuItem.class:''">
                             <span v-html="menuItem.icon_html"></span>
                             {{ menuItem.title }}
 
@@ -227,6 +227,16 @@ export default {
                 if (liveEditIframeData.content.is_home) {
                     this.backToAdminLink = liveEditIframeData.back_to_admin_link;
                 }
+
+                if (liveEditIframeData.content_link) {
+                    var liveEditWebsitePreviewLink = document.getElementById('js-live-edit-website-preview-link');
+                    if (liveEditWebsitePreviewLink) {
+                        liveEditWebsitePreviewLink.href = liveEditIframeData.content_link;
+                        liveEditWebsitePreviewLink.target = '_blank';
+                    }
+
+                }
+
             }
 
 

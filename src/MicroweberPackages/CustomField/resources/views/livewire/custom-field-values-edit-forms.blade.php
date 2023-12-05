@@ -49,6 +49,8 @@
             @endforeach
             </div>
 
+            <br>
+
             <div class="mt-3">
                 <x-microweber-ui::label for="as_price_modifier" value="Use a price modifier for value" />
                 <x-microweber-ui::toggle id="as_price_modifier" class="mt-1 block w-full" wire:model="state.options.as_price_modifier" />
