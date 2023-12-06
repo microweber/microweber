@@ -310,35 +310,51 @@ MWEditor.controllers = {
                 var node = api.elementNode(sel.focusNode);
                 var actionTarget = mw.tools.firstBlockLikeLevel(node);
 
-                var buttons = [
-                    {text: 'Rewrite:', type: 'title'},
+                var buttonsRewrite = [
+
                     {text: 'Simplify', instruction: 'Simplify'},
                     {text: 'Paraphrase', instruction: 'Paraphrase'},
                     {text: 'Lengthen', instruction: 'Lengthen'},
                     {text: 'Summarize', instruction: 'Summarize'},
                     {text: 'Fix Spelling and Grammar', instruction: 'Fix spelling and grammar',},
-                    {text: 'Tone:', type: 'title'},
-                    {text: '😊 Friendly', instruction: 'Make the text more friendly'},
+
+
+                ];
+                var buttonsTone = [
+                    {text: 'Friendly', instruction: 'Make the text more friendly'},
                     {text: 'Casual', instruction: 'Make the text sound casual'},
                     {text: 'Natural', instruction: 'Make the text sound natural'},
                     {text: 'Friendly', instruction: 'Make the text sound friendly'},
                     {text: 'Gentle', instruction: 'Make the text sound gentle'},
-                ];
+                ]
 
                 var aiTextGeneratorHtml = `
                 <div class="ai-text-generator-container">
                     <div class="d-flex gap-2">
-                        <input placeholder="Write instructions. e.g.: Make it sound gangsta" class="form-control" id="ai-text-generator-topic" />
+                        <input placeholder="Write instructions. e.g.: Make it sound casual" autocomplete="off" class="form-control" id="ai-text-generator-topic" />
                         <button class="btn" id="ai-text-generator-submit" type="button"> ${aiIconSVG} Generate </button>
                     </div>
                     <div class="mt-2" id="ai-text-generator-options">
                         <div class="list-group">
-                            ${buttons.map(obj => `
-                                ${obj.type === 'title' ? `<h3>${obj.text}</h3>` : `<button type="button" data-instruction="${obj.instruction}" class="list-group-item list-group-item-action">${obj.text}</button>`}
+                        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3" role="tablist">
+                            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs" role="tab" tabindex="-1">${mw.lang('Rewrite')}</a>
+                            <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs" role="tab" tabindex="-1">${mw.lang('Tone')}</a>
+                        </nav>
 
+                        <div class="mw-aiwriter-tab">
+                        ${buttonsRewrite.map(obj => `
+                            ${ `<button type="button" data-instruction="${obj.instruction}" class="list-group-item list-group-item-action">${obj.text}</button>`}
+                        `)
+                        .join('')}
+                        </div>
+                        <div class="mw-aiwriter-tab">
+                        ${buttonsTone.map(obj => `
+                            ${ `<button type="button" data-instruction="${obj.instruction}" class="list-group-item list-group-item-action">${obj.text}</button>`}
+                        `)
+                        .join('')}
+                        </div>
+                        </div>
 
-                            `)
-                            .join('')}
                         </div>
                     </div>
                 </div>`;
@@ -370,11 +386,25 @@ MWEditor.controllers = {
                         });
                     });
 
-                }, 300);
+                    mw.tabs({
+                        nav: aiTextAutocompleteDialog.dialogContainer.querySelectorAll('.mw-adm-liveedit-tabs'),
+                        tabs: aiTextAutocompleteDialog.dialogContainer.querySelectorAll('.mw-aiwriter-tab'),
+                    });
+                    document.getElementById('ai-text-generator-topic').focus()
+                    document.getElementById('ai-text-generator-topic').addEventListener('keyup', function(e){
+                        if(e.keyCode === 13) {
+                            $('#ai-text-generator-submit').click()
+                        }
+                    })
+
+
+                }, 100);
 
                 document.getElementById('ai-text-generator-submit').onclick = function () {
 
                     document.getElementById('ai-text-generator-submit').innerHTML = 'Generating...';
+
+                    mw.spinner({element:  document.getElementById('ai-text-generator-submit'), decorate: true, size: 25});
 
                     var instruction = document.getElementById('ai-text-generator-topic').value;
 
