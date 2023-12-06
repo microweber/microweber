@@ -5,6 +5,7 @@ namespace MicroweberPackages\Modules\Newsletter\Providers;
 use Livewire\Livewire;
 use MicroweberPackages\Modules\Newsletter\Console\Commands\ProcessCampaigns;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterChooseTemplateModal;
+use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterProcessCampaignsModal;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterSubscribersList;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -25,6 +26,7 @@ class NewsletterServiceProvider extends PackageServiceProvider
 
         Livewire::component('admin-newsletter-subscribers-list', NewsletterSubscribersList::class);
         Livewire::component('admin-newsletter-choose-template-modal', NewsletterChooseTemplateModal::class);
+        Livewire::component('admin-newsletter-process-campaigns-modal', NewsletterProcessCampaignsModal::class);
     }
 
     public function register(): void
