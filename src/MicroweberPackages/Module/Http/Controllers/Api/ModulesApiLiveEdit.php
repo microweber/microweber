@@ -320,8 +320,8 @@ class ModulesApiLiveEdit extends Controller
             }
 
             $module_layouts_skins_grouped_ordered_positions = [
-                'header',
                 'content',
+                'header',
                 'features',
                 'gallery',
                 'testimonials',
