@@ -1,29 +1,31 @@
 <?php
-/* 
+/*
  * EMAIL SENDER FUNCTIONS
  */
 
 api_expose_admin('newsletter_get_sender');
 function newsletter_get_sender($data) {
-	$data = ['id' => $data['id'], 'single' => true];
-	$table = "newsletter_sender_accounts";
-	return db_get($table, $data);
+
+    $query = \MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount::query();
+    if (isset($data['id'])) {
+        $query->where('id', $data['id']);
+    }
+    $get = $query->first();
+    if ($get) {
+        return $get->toArray();
+    }
+    return [];
+
 }
 
 api_expose_admin('newsletter_get_senders');
-function newsletter_get_senders($params = array()) {
-	if (is_string($params)) {
-		$params = parse_params($params);
-	}
-	$params ['table'] = "newsletter_sender_accounts";
-	return db_get($params);
-}
+function newsletter_get_senders() {
 
-api_expose('newsletter_save_sender');
-function newsletter_save_sender($data) {
-	$table = 'newsletter_sender_accounts';
-	$data['allow_html'] = true;
-	return db_save($table, $data);
+    $get = \MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount::all();
+    if ($get) {
+        return $get->toArray();
+    }
+    return [];
 }
 
 api_expose('newsletter_delete_sender');
@@ -39,30 +41,30 @@ api_expose('newsletter_test_sender');
 function newsletter_test_sender($newSender) {
 	if (isset($newSender['id'])) {
 		$id = $newSender['id'];
-		
+
 		if (empty($newSender['to_email'])) {
 			echo '<b>Please, fill send email to.</b>';
 			return;
 		}
-		
+
 		$campaign = array();
 		$campaign['subject'] = 'Campaing subject';
 		$campaign['name'] = 'Campaing name';
-		
+
 		$template = array();
 		$template['text'] = 'This is an example newsletter test email.';
-		
+
 		$subscriber = array();
 		$subscriber['name'] = 'Subscriber name';
 		$subscriber['email'] = $newSender['to_email'];
-		
+
 		$sender = new \Newsletter\Senders\NewsletterMailSender();
 		$sender->setCampaign($campaign);
 		$sender->setSubscriber($subscriber);
 		$sender->setSender($newSender);
 		$sender->setTemplate($template);
-		
+
 		return $sender->sendMail();
-		
+
 	}
 }

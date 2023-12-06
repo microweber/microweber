@@ -1,6 +1,13 @@
 <?php must_have_access(); ?>
 
 <script>
+
+    Livewire.on('newsletter.templateSelected', function () {
+        // Reload the modules
+        mw.reload_module('newsletter/templates_list')
+        mw.reload_module_parent('newsletter')
+    });
+
     function list_templates() {
         $('.mw-iframe-editor').remove();
         $('.js-edit-template-wrapper').slideUp();

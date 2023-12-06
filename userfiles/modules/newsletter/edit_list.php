@@ -6,11 +6,7 @@ if (isset($params['id'])) {
 }
 
 $templates = newsletter_get_templates();
-
-$senders_params = array();
-$senders_params['no_limit'] = true;
-$senders_params['order_by'] = "created_at desc";
-$senders = newsletter_get_senders($senders_params);
+$senders = newsletter_get_senders();
 ?>
 
 <style>

@@ -35,6 +35,7 @@ api_expose('newsletter_get_templates');
 function newsletter_get_templates() {
 
     $getTemplates = \MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate::query();
+    $getTemplates = $getTemplates->orderBy('id', 'desc');
     $getTemplates = $getTemplates->get();
 
     if ($getTemplates) {
