@@ -81,6 +81,7 @@ $campaigns = newsletter_get_campaigns();
                         <td class="text-center">
                             <button class="btn btn-outline-primary btn-sm" onclick="edit_campaign('<?php print $campaign['id']; ?>')"><?php _e('Edit'); ?></button>
                             <a class="btn btn-outline-danger btn-sm" href="javascript:;" onclick="delete_campaign('<?php print $campaign['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
+                            <a class="btn btn-outline-danger btn-sm" href="javascript:;"><i class="mdi mdi-eye-outline"></i> <?php _e('View Log'); ?></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
