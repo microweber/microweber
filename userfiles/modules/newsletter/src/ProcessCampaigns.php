@@ -37,15 +37,13 @@ class ProcessCampaigns
                 $subscribers = newsletter_get_subscribers_for_list($campaign->list_id);
                 $sender = newsletter_get_sender(array("id"=>$campaign->sender_account_id));
 
+                $sendLogCount = 0;
                 foreach($subscribers as $subscriber) {
-
                     $findCampaignSendLog = NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)
                         ->where('subscriber_id', $subscriber['id'])
                         ->where('is_sent', 1)
                         ->first();
                     if ($findCampaignSendLog) {
-                        sleep(4);
-
                         $this->logger->warn('Subscriber: ' . $subscriber['name'] . ' (' . $subscriber['email'] . ') - already sent');
                         continue;
                     }
@@ -60,8 +58,12 @@ class ProcessCampaigns
                     if ($sendMailResponse['success']) {
                         $this->logger->info('Subscriber: ' . $subscriber['name'] . ' (' . $subscriber['email'] . ')');
                         newsletter_campaigns_send_log($campaign['id'], $subscriber['id']);
+                        $sendLogCount++;
                     }
+                }
 
+                if ($sendLogCount >= $campaign->sending_limit_per_day) {
+                    $this->logger->info('Campaign: ' . $campaign->name . ' - daily sending limit reached.');
                 }
 
                 $this->logger->info('');
