@@ -45,9 +45,8 @@ $templates = newsletter_get_templates();
         <h4>List of templates</h4>
     </div>
     <div>
-        <a href="javascript:;"
+        <a href="javascript:;" onclick='Livewire.emit("openModal", "admin-newsletter-choose-template-modal")'
            class="btn btn-outline-primary mb-3"
-           onclick='Livewire.emit("openModal", "admin-newsletter-choose-template-modal")'
         >
             <i class="mdi mdi-plus"></i>  <?php _e('Add new template'); ?>
         </a>
@@ -64,13 +63,7 @@ $templates = newsletter_get_templates();
                 <th class="font-weight-bold text-center" width="140px"><?php _e('Action'); ?></th>
             </tr>
         </thead>
-        <tfoot>
-            <tr>
-                <th class="font-weight-bold"><?php _e('Title'); ?></th>
-                <th class="font-weight-bold"><?php _e('Date'); ?></th>
-                <th class="font-weight-bold text-center" width="140px"><?php _e('Action'); ?></th>
-            </tr>
-        </tfoot>
+
         <tbody class="small">
             <?php foreach ($templates as $template): ?>
                 <tr>

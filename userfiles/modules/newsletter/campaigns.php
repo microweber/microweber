@@ -40,10 +40,11 @@
 <div class="mb-4">
     <div class="alert alert-info">
         Add this to your cron jobs to process campaigns. Frequency must be every 30 minutes.
-        <div>
+        <div class="mt-2">
             <code class="style:font-weight:bold;">
-                php artisan panel:process-campaigns
+                php artisan newsletter:process-campaigns
             </code>
+            or <a href="javascript:;" onclick='Livewire.emit("openModal", "admin-newsletter-process-campaigns-modal")' style="border:1px solid #4299e1; border-radius:4px;text-transform:uppercase;font-size:10px;padding:4px 9px;color: #4299e1;">run the process manually</a>
         </div>
     </div>
 </div>
