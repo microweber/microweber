@@ -43,10 +43,10 @@ if(!empty($styles)) {
  * <script>
     ;(function(){
 
-        function init() {
+        function init(spacer) {
             // todo: move to service
 
-            var spacer = document.getElementById('spacer-item-<?php print $params['id'] ?>');
+
             if(spacer) {
 
                 if(mw && mw.top && mw.top().app && mw.top().app.liveEdit && mw.top().app.liveEdit.elementAnalyzer && !mw.top().app.liveEdit.elementAnalyzer.isInEdit(spacer.parentElement))  {
@@ -59,12 +59,17 @@ if(!empty($styles)) {
 
         if(!mw.top().win.__spacerDisableSettingsEvent) {
             mw.top().win.__spacerDisableSettingsEvent = true;
-            mw.top().win.addEventListener('load', init)
+            mw.top().win.addEventListener('load', function(){
+                document.querySelectorAll('.mw-le-spacer').forEach(function(node){
+                    init(node)
+
+                })
+            })
         }
 
 
 
-        init()
+        init(document.getElementById('spacer-item-<?php print $params['id'] ?>'))
 
 
     })();
