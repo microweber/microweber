@@ -12,18 +12,31 @@
 
     <div class="mt-4 px-5 pb-5">
 
-        <div wire:poll.750ms>
-         {!! $this->log !!}
-        </div>
+        <script>
+            let runningProcessCampaigns = false;
+            document.getElementById('js-process-campaigns').addEventListener('click', function() {
+                runningProcessCampaigns = true;
+                window.livewire.emit('processCampaigns');
+                let log = document.getElementById('js-process-campaigns-log');
+                log.innerHTML = 'Processing...';
+
+                setInterval(function() {
+                    $.ajax('{{$logPublicUrl}}').done(function(data) {
+                        log.innerHTML = data;
+                        if (data.indexOf('Process Campaigns Complete') !== -1) {
+                            runningProcessCampaigns = false;
+                        }
+                    });
+                }, 3000);
+
+            });
+        </script>
+
+        <div id="js-process-campaigns-log"></div>
 
         <div class="text-center">
-            <button type="button" class="btn btn-outline-primary" wire:click="processCampaigns">
-                 <span wire:loading wire:target="processCampaigns">
-                     Running...
-                </span>
-                <span wire:loading.remove wire:target="processCampaigns">
-                    Run Process Campaigns
-                </span>
+            <button type="button" id="js-process-campaigns" class="btn btn-outline-primary">
+                Run Process Campaigns
             </button>
         </div>
 

@@ -3,12 +3,15 @@
 namespace MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
+use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 use MicroweberPackages\Modules\Newsletter\ProcessCampaigns;
 
 class NewsletterProcessCampaignsModal extends AdminModalComponent
 {
     public $log = '';
+    private $logger;
+    public $logPublicUrl = '';
 
     public $modalSettings = [
         'width'=>'900px',
@@ -16,30 +19,54 @@ class NewsletterProcessCampaignsModal extends AdminModalComponent
         'overlayClose' => true,
     ];
 
+    public $listeners = [
+        'processCampaigns'=>'processCampaigns'
+    ];
+
     public function render()
     {
         return view('microweber-module-newsletter::livewire.admin.process-campaigns-modal');
     }
 
+    public function mount()
+    {
+        $this->setupLogger();
+    }
+
+    public function setupLogger()
+    {
+        $this->logger = new ProcessCampaignsLogger();
+        $this->logger->clearLog();
+
+        $logPublicUrl = $this->logger->getLogFilepath();
+        $logPublicUrl = str_replace(userfiles_path(), userfiles_url(), $logPublicUrl);
+
+        $this->logPublicUrl = $logPublicUrl;
+    }
+
     public function processCampaigns()
     {
+        $this->setupLogger();
+
         $processCampaigns = new ProcessCampaigns();
-        $processCampaigns->setLogger($this);
+        $processCampaigns->setLogger($this->logger);
         $processCampaigns->run();
     }
 
-    public function info($message)
-    {
-        $this->log .= '<span class="text-primary">' . $message . '</span><br />';
+}
+
+class ProcessCampaignsLogger extends DefaultLogger {
+
+    public function info($msg) {
+       $this->setLogInfo($msg);
     }
 
-    public function warn($message)
-    {
-        $this->log .= '<span class="text-warning">' . $message . '</span><br />';
+    public function warn($msg) {
+        $this->setLogInfo($msg);
     }
 
-    public function error($message)
-    {
-        $this->log .= '<span style="text-danger">' . $message . '</span><br />';
+    public function error($msg) {
+        $this->setLogInfo($msg);
     }
+
 }
