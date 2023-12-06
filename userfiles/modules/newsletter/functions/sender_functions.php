@@ -11,20 +11,13 @@ function newsletter_get_sender($data) {
 }
 
 api_expose_admin('newsletter_get_senders');
-function newsletter_get_senders($params = array()) {
-	if (is_string($params)) {
-		$params = parse_params($params);
-	}
-	$params ['table'] = "newsletter_sender_accounts";
-	return db_get($params);
-}
+function newsletter_get_senders() {
 
-api_expose('newsletter_save_sender');
-function newsletter_save_sender($data) {
-
-    $table = 'newsletter_sender_accounts';
-	$data['allow_html'] = true;
-	return db_save($table, $data);
+    $get = \MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount::all();
+    if ($get) {
+        return $get->toArray();
+    }
+    return [];
 }
 
 api_expose('newsletter_delete_sender');

@@ -30,14 +30,6 @@ if (isset($params['id'])) {
 
     $(document).ready(function () {
 
-        $(document).on("change", ".js-validation", function () {
-            $('.js-edit-sender-form :input').each(function () {
-                if ($(this).hasClass('js-validation')) {
-                    runFieldsValidation(this);
-                }
-            });
-        });
-
         $(".js-edit-sender-form").submit(function (e) {
 
             e.preventDefault(e);
@@ -45,36 +37,23 @@ if (isset($params['id'])) {
             var errors = {};
             var data = mw.serializeFields(this);
 
-            $('.js-edit-sender-form :input').each(function (k, v) {
-                if ($(this).hasClass('js-validation')) {
-                    if (runFieldsValidation(this) == false) {
-                        errors[k] = true;
-                    }
-                }
-            });
-
             $.ajax({
                 url: '<?php echo route('admin.newsletter.sender-accounts.save'); ?>',
                 type: 'POST',
                 data: data,
                 success: function (result) {
 
-                    console.log(result);
+                    mw.notification.success('<?php _ejs('Sender saved'); ?>');
 
-                    //mw.notification.success('<?php //_ejs('Sender saved'); ?>//');
-                    //
-                    //// Remove modal
-                    //if (typeof (edit_campaign_modal) != 'undefined' && edit_campaign_modal.modal) {
-                    //    edit_campaign_modal.modal.remove();
-                    //}
-                    //
-                    //// Reload the modules
-                    //mw.reload_module('newsletter/sender_accounts_list')
-                    //mw.reload_module_parent('newsletter');
+                    // Remove modal
+                    if (typeof (edit_campaign_modal) != 'undefined' && edit_campaign_modal.modal) {
+                        edit_campaign_modal.modal.remove();
+                    }
 
-                },
-                error: function (e) {
-                    alert('Error processing your request: ' + e.responseText);
+                    // Reload the modules
+                    mw.reload_module('newsletter/sender_accounts_list')
+                    mw.reload_module_parent('newsletter');
+
                 }
             });
 
@@ -82,30 +61,6 @@ if (isset($params['id'])) {
 
     });
 
-    function runFieldsValidation(instance) {
-
-        var ok = true;
-        var inputValue = $(instance).val().trim();
-
-        $(instance).removeAttr("style");
-        $(instance).parent().find(".js-field-message").html('');
-
-        if (inputValue == "") {
-            $(instance).css("border", "1px solid #b93636");
-            $(instance).parent().find('.js-field-message').html(errorText('<?php _e('The field cannot be empty'); ?>'));
-            ok = false;
-        }
-
-        if ($(instance).hasClass('js-validation-email')) {
-            if (validateEmail(inputValue) == false) {
-                $(instance).css("border", "1px solid #b93636");
-                $(instance).parent().find('.js-field-message').html(errorText('<?php _e('The email address is not valid.'); ?>'));
-                ok = false;
-            }
-        }
-
-        return ok;
-    }
 </script>
 
 <form class="js-edit-sender-form">

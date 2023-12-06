@@ -17,6 +17,14 @@ class NewsletterSenderAccountController extends \MicroweberPackages\Admin\Http\C
            'account_type'=>'required'
         ]);
 
+        if ($request->get('id') > 0) {
+            $find = NewsletterSenderAccount::find($request->get('id'));
+            if ($find) {
+                $find->update($request->except('id'));
+                return $find;
+            }
+        }
+
        return NewsletterSenderAccount::create($request->all());
 
     }
