@@ -5,9 +5,17 @@
 
 api_expose_admin('newsletter_get_sender');
 function newsletter_get_sender($data) {
-	$data = ['id' => $data['id'], 'single' => true];
-	$table = "newsletter_sender_accounts";
-	return db_get($table, $data);
+
+    $query = \MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount::query();
+    if (isset($data['id'])) {
+        $query->where('id', $data['id']);
+    }
+    $get = $query->first();
+    if ($get) {
+        return $get->toArray();
+    }
+    return [];
+
 }
 
 api_expose_admin('newsletter_get_senders');

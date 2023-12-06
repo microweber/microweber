@@ -34,7 +34,6 @@ if (isset($params['id'])) {
 
             e.preventDefault(e);
 
-            var errors = {};
             var data = mw.serializeFields(this);
 
             $.ajax({
@@ -43,16 +42,18 @@ if (isset($params['id'])) {
                 data: data,
                 success: function (result) {
 
-                    mw.notification.success('<?php _ejs('Sender saved'); ?>');
+                    if (result.data.id) {
+                        mw.notification.success('<?php _ejs('Sender saved'); ?>');
 
-                    // Remove modal
-                    if (typeof (edit_campaign_modal) != 'undefined' && edit_campaign_modal.modal) {
-                        edit_campaign_modal.modal.remove();
+                        // Remove modal
+                        if (typeof (edit_campaign_modal) != 'undefined' && edit_campaign_modal.modal) {
+                            edit_campaign_modal.modal.remove();
+                        }
+
+                        // Reload the modules
+                        mw.reload_module('newsletter/sender_accounts_list')
+                        mw.reload_module_parent('newsletter');
                     }
-
-                    // Reload the modules
-                    mw.reload_module('newsletter/sender_accounts_list')
-                    mw.reload_module_parent('newsletter');
 
                 }
             });

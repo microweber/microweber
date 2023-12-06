@@ -21,12 +21,19 @@ class NewsletterSenderAccountController extends \MicroweberPackages\Admin\Http\C
             $find = NewsletterSenderAccount::find($request->get('id'));
             if ($find) {
                 $find->update($request->except('id'));
-                return $find;
+                return [
+                    'success' => true,
+                    'data' => $find
+                ];
             }
         }
 
-       return NewsletterSenderAccount::create($request->all());
+       $create = NewsletterSenderAccount::create($request->all());
 
+        return [
+            'success' => true,
+            'data' => $create
+        ];
     }
 
 
