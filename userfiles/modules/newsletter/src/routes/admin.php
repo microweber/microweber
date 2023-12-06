@@ -7,7 +7,6 @@ Route::name('admin.newsletter.')
     ->group(function () {
 
         Route::get('/', 'AdminController@index')->name('index');
-
         Route::get('/preview-email-template-iframe', function() {
 
             $templateFilename = request()->get('filename');
@@ -24,5 +23,7 @@ Route::name('admin.newsletter.')
             ]);
 
         })->name('preview-email-template-iframe');
+
+        Route::post('sender-accounts/save', 'NewsletterSenderAccountController@save')->name('sender-accounts.save');
 
     });

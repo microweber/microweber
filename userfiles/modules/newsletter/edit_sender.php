@@ -1,8 +1,14 @@
 <?php must_have_access(); ?>
 
 <?php
+$sender = [];
+$sender['account_type'] = '';
+
 if (isset($params['id'])) {
-    $sender = newsletter_get_sender($params);
+    $getSender = newsletter_get_sender($params);
+    if (!empty($getSender)) {
+        $sender = $getSender;
+    }
 }
 ?>
 <script>mw.lib.require('mwui');</script>
@@ -47,33 +53,31 @@ if (isset($params['id'])) {
                 }
             });
 
-            if (isEmpty(errors)) {
+            $.ajax({
+                url: '<?php echo route('admin.newsletter.sender-accounts.save'); ?>',
+                type: 'POST',
+                data: data,
+                success: function (result) {
 
-                $.ajax({
-                    url: mw.settings.api_url + 'newsletter_save_sender',
-                    type: 'POST',
-                    data: data,
-                    success: function (result) {
+                    console.log(result);
 
-                        mw.notification.success('<?php _ejs('Sender saved'); ?>');
+                    //mw.notification.success('<?php //_ejs('Sender saved'); ?>//');
+                    //
+                    //// Remove modal
+                    //if (typeof (edit_campaign_modal) != 'undefined' && edit_campaign_modal.modal) {
+                    //    edit_campaign_modal.modal.remove();
+                    //}
+                    //
+                    //// Reload the modules
+                    //mw.reload_module('newsletter/sender_accounts_list')
+                    //mw.reload_module_parent('newsletter');
 
-                        // Remove modal
-                        if (typeof (edit_campaign_modal) != 'undefined' && edit_campaign_modal.modal) {
-                            edit_campaign_modal.modal.remove();
-                        }
+                },
+                error: function (e) {
+                    alert('Error processing your request: ' + e.responseText);
+                }
+            });
 
-                        // Reload the modules
-                        mw.reload_module('newsletter/sender_accounts_list')
-                        mw.reload_module_parent('newsletter');
-
-                    },
-                    error: function (e) {
-                        alert('Error processing your request: ' + e.responseText);
-                    }
-                });
-            } else {
-                mw.notification.error('<?php _ejs('Please fill correct data.'); ?>');
-            }
         });
 
     });

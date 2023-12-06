@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * EMAIL SENDER FUNCTIONS
  */
 
@@ -21,7 +21,8 @@ function newsletter_get_senders($params = array()) {
 
 api_expose('newsletter_save_sender');
 function newsletter_save_sender($data) {
-	$table = 'newsletter_sender_accounts';
+
+    $table = 'newsletter_sender_accounts';
 	$data['allow_html'] = true;
 	return db_save($table, $data);
 }
@@ -39,30 +40,30 @@ api_expose('newsletter_test_sender');
 function newsletter_test_sender($newSender) {
 	if (isset($newSender['id'])) {
 		$id = $newSender['id'];
-		
+
 		if (empty($newSender['to_email'])) {
 			echo '<b>Please, fill send email to.</b>';
 			return;
 		}
-		
+
 		$campaign = array();
 		$campaign['subject'] = 'Campaing subject';
 		$campaign['name'] = 'Campaing name';
-		
+
 		$template = array();
 		$template['text'] = 'This is an example newsletter test email.';
-		
+
 		$subscriber = array();
 		$subscriber['name'] = 'Subscriber name';
 		$subscriber['email'] = $newSender['to_email'];
-		
+
 		$sender = new \Newsletter\Senders\NewsletterMailSender();
 		$sender->setCampaign($campaign);
 		$sender->setSubscriber($subscriber);
 		$sender->setSender($newSender);
 		$sender->setTemplate($template);
-		
+
 		return $sender->sendMail();
-		
+
 	}
 }
