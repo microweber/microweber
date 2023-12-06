@@ -31,7 +31,6 @@ class ProcessCampaigns
         if ($getCampaigns->count() > 0) {
             foreach ($getCampaigns as $campaign) {
 
-                $this->logger->info('----------------------------------------------------------------------');
                 $this->logger->info('Processing Campaign: ' . $campaign->name);
 
                 $template = newsletter_get_template(array("id"=>$campaign->email_template_id));
@@ -62,6 +61,9 @@ class ProcessCampaigns
                     }
 
                 }
+
+                $this->logger->info('');
+                $this->logger->info('');
 
             }
         }
