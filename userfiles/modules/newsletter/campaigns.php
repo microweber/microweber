@@ -4,10 +4,15 @@
     function edit_campaign(id = false) {
     var data = {};
         data.id = id;
+        let modal_title = 'New Campaign';
+        if (id > 0) {
+            modal_title = 'Edit Campaign';
+        }
         edit_campaign_modal = mw.tools.open_module_modal('newsletter/edit_campaign', data, {
             overlay: true,
             width: 960,
-            skin: 'simple'
+            skin: 'simple',
+            title: modal_title
         });
     }
 
@@ -18,15 +23,14 @@
             data.id = id;
             $.ajax({
             url: mw.settings.api_url + 'newsletter_delete_campaign',
-                    type: 'POST',
-                    data: data,
-                    success: function (result) {
-
+                type: 'POST',
+                data: data,
+                success: function (result) {
                     mw.notification.success('Campaign deleted');
-                            //reload the modules
-                            mw.reload_module('newsletter/campaigns_list')
-                            mw.reload_module_parent('newsletter')
-                    }
+                    //reload the modules
+                    mw.reload_module('newsletter/campaigns_list')
+                    mw.reload_module_parent('newsletter')
+                }
             });
     }
 
@@ -47,7 +51,6 @@
 
 <div class="card mt-2">
     <div class="card-body">
-<module type="newsletter/campaigns_list"/>
-
+        <module type="newsletter/campaigns_list"/>
     </div>
 </div>
