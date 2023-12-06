@@ -44,6 +44,8 @@ class ProcessCampaigns
                         ->where('is_sent', 1)
                         ->first();
                     if ($findCampaignSendLog) {
+                        sleep(4);
+
                         $this->logger->warn('Subscriber: ' . $subscriber['name'] . ' (' . $subscriber['email'] . ') - already sent');
                         continue;
                     }

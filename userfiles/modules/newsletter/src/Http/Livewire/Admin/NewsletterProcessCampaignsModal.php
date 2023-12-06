@@ -18,11 +18,14 @@ class NewsletterProcessCampaignsModal extends AdminModalComponent
 
     public function render()
     {
+        return view('microweber-module-newsletter::livewire.admin.process-campaigns-modal');
+    }
+
+    public function processCampaigns()
+    {
         $processCampaigns = new ProcessCampaigns();
         $processCampaigns->setLogger($this);
         $processCampaigns->run();
-
-        return view('microweber-module-newsletter::livewire.admin.process-campaigns-modal');
     }
 
     public function info($message)

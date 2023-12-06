@@ -12,8 +12,19 @@
 
     <div class="mt-4 px-5 pb-5">
 
-        <div wire:pool>
+        <div wire:poll.750ms>
          {!! $this->log !!}
+        </div>
+
+        <div class="text-center">
+            <button type="button" class="btn btn-outline-primary" wire:click="processCampaigns">
+                 <span wire:loading wire:target="processCampaigns">
+                     Running...
+                </span>
+                <span wire:loading.remove wire:target="processCampaigns">
+                    Run Process Campaigns
+                </span>
+            </button>
         </div>
 
     </div>
