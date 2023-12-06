@@ -20,8 +20,6 @@ class ProcessCampaigns
 
     public function run()
     {
-        $this->logger->info('Processing Campaigns');
-
         $getCampaigns = NewsletterCampaign::where('is_scheduled', 1)
             ->where('scheduled_at', '<=', date('Y-m-d H:i:s'))
             ->where(function ($query) {
@@ -33,6 +31,7 @@ class ProcessCampaigns
         if ($getCampaigns->count() > 0) {
             foreach ($getCampaigns as $campaign) {
 
+                $this->logger->info('----------------------------------------------------------------------');
                 $this->logger->info('Processing Campaign: ' . $campaign->name);
 
                 $template = newsletter_get_template(array("id"=>$campaign->email_template_id));
