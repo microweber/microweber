@@ -58,15 +58,15 @@ class NewsletterProcessCampaignsModal extends AdminModalComponent
 class ProcessCampaignsLogger extends DefaultLogger {
 
     public function info($msg) {
-       $this->setLogInfo($msg);
+       $this->setLogInfo($msg . '<br>');
     }
 
     public function warn($msg) {
-        $this->setLogInfo($msg);
+        $this->setLogInfo($msg. '<br>');
     }
 
     public function error($msg) {
-        $this->setLogInfo($msg);
+        $this->setLogInfo($msg. '<br>');
     }
 
 }
