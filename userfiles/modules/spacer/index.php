@@ -35,7 +35,12 @@ if(!empty($styles)) {
 </style>
 
 <div class="mw-le-spacer noelement nodrop inaccessibleModuleIfFirstParentIsLayout" data-for-module-id="<?php print $params['id'] ?>" contenteditable="false" <?php print $styles_attr ?> id="spacer-item-<?php print $params['id'] ?>"></div>
-<script>
+<?php
+
+
+/*
+ *
+ * <script>
     ;(function(){
 
         function init() {
@@ -44,10 +49,10 @@ if(!empty($styles)) {
             var spacer = document.getElementById('spacer-item-<?php print $params['id'] ?>');
             if(spacer) {
 
-                if(mw.top().app && mw.top().app.liveEdit && mw.top().app.liveEdit.elementAnalyzer && !mw.top().app.liveEdit.elementAnalyzer.isInEdit(spacer.parentElement))  {
+                if(mw && mw.top && mw.top().app && mw.top().app.liveEdit && mw.top().app.liveEdit.elementAnalyzer && !mw.top().app.liveEdit.elementAnalyzer.isInEdit(spacer.parentElement))  {
                     spacer.classList.add('mw-spacer-disable-settings--<?php print $params['id'] ?>')
                     spacer.parentElement.classList.add('no-settings', 'no-element')
-                    spacer.parentElement.classList.remove('module')
+               //     spacer.parentElement.classList.remove('module')
                 }
             }
         }
@@ -63,4 +68,5 @@ if(!empty($styles)) {
 
 
     })();
-</script>
+</script>*/
+?>

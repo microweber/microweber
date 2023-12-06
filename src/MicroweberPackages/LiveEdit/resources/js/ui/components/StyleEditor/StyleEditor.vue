@@ -189,15 +189,79 @@ export default {
         //     }
         // });
 
-        mw.top().app.canvas.on('canvasDocumentClick', function () {
+  /*
+        mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
+            mw.top().app.liveEdit.handles.get('element').on('targetChange', target => {
+                if (styleEditorInstance.isOpened) {
+                    if (styleEditorInstance.cssEditorIframe) {
+                mw.top().app.dispatch('mw.elementStyleEditor.selectNode', target);
+                    }
+                }
+            });
+
+            mw.top().app.liveEdit.handles.get('module').on('targetChange', target => {
+                if (styleEditorInstance.isOpened) {
+                    if (styleEditorInstance.cssEditorIframe) {
+                        mw.top().app.dispatch('mw.elementStyleEditor.selectNode', target);
+
+                    }
+                }
+            });
+        });
+*/
+
+        // mw.top().app.canvas.on('canvasDocumentClick', function (event) {
+        //     if (styleEditorInstance.isOpened) {
+        //         if (styleEditorInstance.cssEditorIframe) {
+        //             var activeNode = mw.top().app.liveEdit.getSelectedNode();
+        //             if(activeNode) {
+        //                 mw.top().app.dispatch('mw.elementStyleEditor.selectNode', activeNode);
+        //             }
+        //         }}
+        //    });
+
+
+        mw.top().app.canvas.on('canvasDocumentClick', function (event) {
             if (styleEditorInstance.isOpened) {
                 if (styleEditorInstance.cssEditorIframe) {
-                    var activeNode = mw.top().app.liveEdit.getSelectedNode();
+                    var activeNodeSelected = mw.top().app.liveEdit.getSelectedNode();
+                    var targetWindow = mw.top().app.canvas.getWindow();
 
-                    var can = mw.top().app.liveEdit.canBeElement(activeNode)
+                    var can = true;
+                   var activeNode = event.target;
+
+                    var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+                    var activeModule = mw.top().app.liveEdit.handles.get('module').getTarget();
+                    var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
+                    if(activeElement){
+                        activeNode = activeElement;
+                    } else if(activeModule){
+                        activeNode = activeModule;
+                    } /*else if(activeLayout){
+                        activeNode = activeLayout;
+                    } */ else {
+
+                    }
+                    activeNode = event.target;
+
+                    if(activeNode && !activeNode.id){
+                        try {
+                           targetWindow.mw.tools.generateSelectorForNode(activeNode);
+                        } catch (e) {
+
+                        }
+                    }
+
+                    if(activeNode && activeNode.id){
+                        can = true;
+                    } else {
+                        can = false;
+                    }
+
+
+                    //   var can = mw.top().app.liveEdit.canBeElement(activeNode)
                     if (can) {
                         //check if has Id
-                        var targetWindow = mw.top().app.canvas.getWindow();
                         if (activeNode) {
                             var id = activeNode.id;
                             if (!id) {
@@ -213,12 +277,16 @@ export default {
 
                               //   activeNode.id = id;
                             }
+                            console.log(1111234455667);
+                            mw.top().app.dispatch('mw.elementStyleEditor.selectNode', activeNode);
+                        }
+                        // var event = new CustomEvent('refreshSelectedElement')
+                        // if(styleEditorInstance.cssEditorIframe.contentWindow) {
+                        //     styleEditorInstance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
+                        // }
+                    } else {
+                        mw.top().app.dispatch('mw.elementStyleEditor.selectNode', null);
 
-                        }
-                        var event = new CustomEvent('refreshSelectedElement')
-                        if(styleEditorInstance.cssEditorIframe.contentWindow) {
-                            styleEditorInstance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
-                        }
                     }
                 }
             }

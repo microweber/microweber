@@ -10,6 +10,7 @@
 
     selectNodeInElementStyleEditorApp = function (ActiveNode) {
         if (ActiveNode) {
+
             mw.top().app.dispatch('mw.elementStyleEditor.selectNode', ActiveNode);
         }
     }
@@ -43,8 +44,6 @@
 
     $(document).on('ready', function () {
         window.document.addEventListener('refreshSelectedElement', function (e) {
-
-
 
             ActiveNode = mw.top().app.liveEdit.getSelectedNode();
             if(ActiveNode){

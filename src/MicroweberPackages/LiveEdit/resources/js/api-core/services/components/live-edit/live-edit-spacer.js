@@ -141,6 +141,12 @@ export class LiveEditSpacer extends BaseComponent {
         if(node.getAttribute('data-resizable-spacer')){
             return;
         }
+
+        if(node.parentElement && !mw.top().app.liveEdit.elementAnalyzer.isInEdit(node.parentElement)) {
+            node.parentElement.classList.add('no-settings', 'no-element');
+        }
+
+
         node.setAttribute('data-resizable-spacer', 'true');
         node.classList.add('mw-le-spacer', 'noedit', 'nodrop', 'mw-le-spacer-is-ready');
         node.innerHTML = '';
