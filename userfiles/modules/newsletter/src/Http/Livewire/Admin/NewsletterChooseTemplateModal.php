@@ -25,8 +25,14 @@ class NewsletterChooseTemplateModal extends AdminModalComponent
 
         $templateContentHtml = file_get_contents($templateFile);
 
+        $newsletterTemplateName = 'Newsletter Template - ' . $name;
+        $findNewsletterTemplateCount = NewsletterTemplate::where('title', 'like', '%' . $newsletterTemplateName . '%')->count();
+        if ($findNewsletterTemplateCount) {
+            $newsletterTemplateName = 'Newsletter Template - ' . $name . ' ('.($findNewsletterTemplateCount+1).')';
+        }
+
         $newsletterTemplate = new NewsletterTemplate();
-        $newsletterTemplate->title = $name;
+        $newsletterTemplate->title = $newsletterTemplateName;
         $newsletterTemplate->text = $templateContentHtml;
         $newsletterTemplate->save();
 
@@ -38,7 +44,7 @@ class NewsletterChooseTemplateModal extends AdminModalComponent
     {
 
         $this->emailTemplates[] = [
-            'name' => 'Explore',
+            'name' => 'Default',
             'filename' => 'template6',
             'screenshot'=>modules_url() . '/newsletter/src/resources/views/email-templates/template6.jpg',
         ];
@@ -50,7 +56,7 @@ class NewsletterChooseTemplateModal extends AdminModalComponent
         ];
 
         $this->emailTemplates[] = [
-            'name' => 'Explore',
+            'name' => 'Explore White',
             'filename' => 'template5',
             'screenshot'=>modules_url() . '/newsletter/src/resources/views/email-templates/template5.jpg',
         ];
