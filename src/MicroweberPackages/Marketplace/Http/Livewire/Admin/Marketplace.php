@@ -73,11 +73,10 @@ class Marketplace extends AdminComponent
         }
         foreach ($packages as $packageName=>$package) {
 
-            if (!isset($package['target-dir'])) {
+            $latestVersionPackage = end($package);
+            if (!isset($latestVersionPackage['target-dir'])) {
                 continue;
             }
-
-            $latestVersionPackage = end($package);
 
             if (isset($latestVersionPackage['type']) && !in_array($latestVersionPackage['type'], $allowedCategories)) {
                 continue;
