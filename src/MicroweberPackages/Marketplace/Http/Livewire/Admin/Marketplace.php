@@ -98,6 +98,7 @@ class Marketplace extends AdminComponent
                     $founded = true;
                 }
 
+
                 if (isset($latestVersionPackage['description'])) {
                     if (mb_strpos(mb_strtolower($latestVersionPackage['description']), mb_strtolower(trim($this->keyword))) !== false) {
                         $founded = true;
@@ -107,7 +108,6 @@ class Marketplace extends AdminComponent
                     continue;
                 }
             }
-
             $latestVersionPackage = MicroweberComposerPackage::format($latestVersionPackage);
 
             $latestVersions[$packageName] = $latestVersionPackage;

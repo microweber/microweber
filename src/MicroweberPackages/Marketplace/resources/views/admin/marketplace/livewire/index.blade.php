@@ -146,10 +146,9 @@
 
                        @else
                            <div class="col-12 text-center mt-7">
-                                  <h2>
-                                          <?php _e("No results found"); ?>
-                                  </h2>
-
+                              <h2>
+                                  <?php _e("No results found"); ?>
+                              </h2>
                            </div>
                        @endif
 
