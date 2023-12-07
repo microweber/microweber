@@ -21,13 +21,19 @@ function newsletter_get_campaigns() {
 
     $readyCampaigns = array();
     foreach ($campaigns as $campaigns) {
+
+        $list_name = 'Default';
+        if ($campaigns->list_name) {
+            $list_name = $campaigns->list_name;
+        }
+
         $readyCampaigns[] = array(
             'name'=>$campaigns->name,
             'subject'=>$campaigns->subject,
             'from_name'=>$campaigns->from_name,
             //'from_email'=>$campaigns->from_email,
             'created_at'=>$campaigns->created_at,
-            'list_name'=>$campaigns->list_name,
+            'list_name'=>$list_name,
             'is_done'=>$campaigns->is_done,
             'sending_limit_per_day'=>$campaigns->sending_limit_per_day,
             'is_scheduled'=>$campaigns->is_scheduled,
