@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * LIST FUNCTIONS
  */
 
@@ -22,7 +22,7 @@ function newsletter_get_lists($params = array()) {
 
 api_expose_admin('newsletter_save_list');
 function newsletter_save_list($data) {
-	
+
 	$table = "newsletter_lists";
 	return db_save($table, $data);
 }
@@ -30,8 +30,11 @@ function newsletter_save_list($data) {
 api_expose('newsletter_delete_list');
 function newsletter_delete_list($params) {
 	if (isset($params ['id'])) {
-		$table = "newsletter_lists";
-		$id = $params ['id'];
-		return db_delete($table, $id);
+
+        \MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterSubscribersList::where('list_id', $id)->delete();
+
+        $table = "newsletter_lists";
+        $id = $params ['id'];
+        return db_delete($table, $id);
 	}
 }
