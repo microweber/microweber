@@ -169,22 +169,22 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     }
 
-    setMultiplePropertiesForSelector(sel, propsAndVals = [], record = true) {
+    setMultiplePropertiesForSelector(sel, propsAndVals = [], record = true, skipMedia = false) {
 
         if (propsAndVals.length > 0) {
             propsAndVals.forEach(function (propAndVal) {
                 var prop = propAndVal[0];
                 var val = propAndVal[1];
-                mw.top().app.cssEditor.setPropertyForSelector(sel, prop, val, record);
+                mw.top().app.cssEditor.setPropertyForSelector(sel, prop, val, record, skipMedia);
             });
         }
     }
 
-    setPropertyForSelector(sel, prop, val, record = true) {
+    setPropertyForSelector(sel, prop, val, record = true, skipMedia = false) {
 
         let media = 'screen, print';
 
-        if (mw.top().app.resolutionMode === 'phone') {
+        if (mw.top().app.resolutionMode === 'phone' && !skipMedia) {
             media = '(max-width: 460px)';
         }
 

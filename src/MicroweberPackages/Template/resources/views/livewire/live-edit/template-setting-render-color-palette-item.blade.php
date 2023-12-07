@@ -92,7 +92,7 @@
                                     @foreach($colorPallete['properties'] as $property=>$propertyValue)
                                     ['{{$property}}', '{{$propertyValue}}'],
                                     @endforeach
-                                    ]);
+                                    ], true, true);
 
                                 }"
 

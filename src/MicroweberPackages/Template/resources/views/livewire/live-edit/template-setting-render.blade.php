@@ -139,7 +139,7 @@
                     });
                 }"
                         x-on:update="(e) => {
-                    mw.top().app.cssEditor.setPropertyForSelector('{{ $selectorToApply }}', '{{$setting['fieldSettings']['property']}}', event.target.value);
+                    mw.top().app.cssEditor.setPropertyForSelector('{{ $selectorToApply }}', '{{$setting['fieldSettings']['property']}}', event.target.value, true, true);
                 }"
                         label="{{$setting['title']}}"/>
 
@@ -167,7 +167,7 @@
                     }
 
                     if (mw.top().app.cssEditor) {
-                            mw.top().app.cssEditor.setPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}', event.target.value + '{{$setting['fieldSettings']['unit']}}');
+                            mw.top().app.cssEditor.setPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}', event.target.value + '{{$setting['fieldSettings']['unit']}}', true, true);
                     }
 
 
@@ -211,7 +211,7 @@
                 }"
                         x-on:input="(e) => {
                    if (mw.top().app.cssEditor) {
-                        mw.top().app.cssEditor.setPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}', event.target.value);
+                        mw.top().app.cssEditor.setPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}', event.target.value, true, true);
                     }
                 }"/>
             @endif
@@ -227,7 +227,7 @@
                 }"
               x-on:input="(e) => {
                      if (mw.top().app.cssEditor) {
-                        mw.top().app.cssEditor.setPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}', event.target.value);
+                        mw.top().app.cssEditor.setPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}', event.target.value, true, true);
                     }
                 }"
                label="{{$setting['title']}}" />

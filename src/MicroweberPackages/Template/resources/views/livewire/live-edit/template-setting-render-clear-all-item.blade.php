@@ -15,19 +15,19 @@
                             mw.confirm('Are you sure you want to clear styles?',
                                 function () {
                                     @foreach($setting['fieldSettings']['properties'] as $property)
-                                    mw.top().app.cssEditor.setPropertyForSelector('{{ $selectorToApply }}', '{{$property}}', '');
+                                    mw.top().app.cssEditor.setPropertyForSelector('{{ $selectorToApply }}', '{{$property}}', '', true, true);
                                     @endforeach
                                     @if(isset($rootSelector) and $rootSelector)
 
-                                        mw.top().app.cssEditor.setPropertyForSelector('{{ $rootSelector }}', '{{$property}}', '');
+                                        mw.top().app.cssEditor.setPropertyForSelector('{{ $rootSelector }}', '{{$property}}', '', true, true);
 
                                         @if(isset($setting['selectors']))
                                             @foreach($setting['selectors'] as $selector)
                                                 @foreach($setting['fieldSettings']['properties'] as $property)
                                                     @if($selector == ':root')
-                                                     mw.top().app.cssEditor.setPropertyForSelector('{{ $rootSelector }}', '{{$property}}', '');
+                                                     mw.top().app.cssEditor.setPropertyForSelector('{{ $rootSelector }}', '{{$property}}', '', true, true);
                                                      @else
-                                                     mw.top().app.cssEditor.setPropertyForSelector('{{ $rootSelector }} {{ $selector }}', '{{$property}}', '');
+                                                     mw.top().app.cssEditor.setPropertyForSelector('{{ $rootSelector }} {{ $selector }}', '{{$property}}', '', true, true);
                                                      @endif
                                                 @endforeach
                                             @endforeach
