@@ -410,7 +410,9 @@ $current_template = false;
                         <?php if ($screenshots): ?>
                             <script>
                                 $(document).ready(function () {
-                                    mw_admin_layouts_list_inner_modules_btns();
+                                    if(typeof mw_admin_layouts_list_inner_modules_btns === 'function') {
+                                        mw_admin_layouts_list_inner_modules_btns();
+                                    }
 
                                     $('.module-layouts-viewer .js-apply-template').on('click', function () {
                                         var option = $(this).data('file');
