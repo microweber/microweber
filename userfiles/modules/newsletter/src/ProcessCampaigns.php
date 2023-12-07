@@ -72,6 +72,8 @@ class ProcessCampaigns
             }
         }
 
+        $this->logger->info('Process Campaigns Complete');
+
     }
 
 }
