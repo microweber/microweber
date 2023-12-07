@@ -15,7 +15,9 @@
 
             @if($campaignLog)
                 @foreach($campaignLog as $log)
-                    {{ json_encode($log) }} 
+
+                    {{$log->subscriber->name}} - {{$log->subscriber->email}} | Send at: {{$log->created_at}} <br>
+
                 @endforeach
             @endif
 

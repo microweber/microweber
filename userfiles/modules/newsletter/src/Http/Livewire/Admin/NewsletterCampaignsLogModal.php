@@ -20,7 +20,8 @@ class NewsletterCampaignsLogModal extends AdminModalComponent
         if ($findCampaign) {
             $findCampaignSendLog = NewsletterCampaignsSendLog::where('campaign_id', $findCampaign->id)
                 ->where('is_sent', 1)
-                ->paginate(10);
+                ->with('subscriber')
+                ->paginate(1);
 
             if ($findCampaignSendLog) {
                 $campaignLog = $findCampaignSendLog;
@@ -28,6 +29,7 @@ class NewsletterCampaignsLogModal extends AdminModalComponent
         }
 
         return view('microweber-module-newsletter::livewire.admin.campaigns-log-modal',[
+            'campaign' => $findCampaign,
             'campaignLog' => $campaignLog
         ]);
     }
