@@ -10,32 +10,35 @@ class MWSiteMobileMenuService {
     state = false;
 
     currentMenu = null;
-    
+
     buildMobileMenu(targetMenu) {
       if(this.currentMenu) {
         this.currentMenu.remove()
       }
       var ul = document.createElement('ul');
-      ul.innerHTML = targetMenu.querySelector('ul').innerHTML;
-      ul.querySelectorAll('[style],[class]').forEach(node => {
-        node.removeAttribute('style')
-        node.removeAttribute('class');
-      });
+      if(ul && targetMenu.querySelector('ul')){
+          ul.innerHTML = targetMenu.querySelector('ul').innerHTML;
+          ul.querySelectorAll('[style],[class]').forEach(node => {
+              node.removeAttribute('style')
+              node.removeAttribute('class');
+          });
 
-      const block =  document.createElement('div');
-      const ovl =  document.createElement('div');
-      ovl.className = 'mw-vhmbgr-active-overlay';
-      block.className = 'mw-vhmbgr-active-popup';
-      this.currentMenu = block;
+          const block =  document.createElement('div');
+          const ovl =  document.createElement('div');
+          ovl.className = 'mw-vhmbgr-active-overlay';
+          block.className = 'mw-vhmbgr-active-popup';
+          this.currentMenu = block;
 
-      ovl.addEventListener('click', e => {
-        this.mobileMenu(undefined, false)
-      })
+          ovl.addEventListener('click', e => {
+              this.mobileMenu(undefined, false)
+          })
 
-     
-      block.append(ul)
-      document.body.append(ovl)
-      document.body.append(block)
+
+          block.append(ul)
+          document.body.append(ovl)
+          document.body.append(block)
+      }
+
 
     }
 
@@ -57,17 +60,17 @@ class MWSiteMobileMenuService {
         })
       }
 
-   
-      
+
+
       document.body.classList[action]('mw-vhmbgr-menu-active');
     }
 
     init() {
-      
-        
-    
+
+
+
         document.body.addEventListener('click', (e) => {
-         this.mobileMenu(undefined, false) 
+         this.mobileMenu(undefined, false)
         });
 
         const nav = document.querySelector('.mw-vhmbgr--navigation');
@@ -76,7 +79,7 @@ class MWSiteMobileMenuService {
           this.buildMobileMenu(nav);
         }
 
-        
+
         Array.from(document.querySelectorAll('.mw-vhmbgr')).forEach(node => {
           node.addEventListener('click', e => {
             this.mobileMenu(node);
@@ -84,12 +87,12 @@ class MWSiteMobileMenuService {
             e.stopPropagation();
           })
         })
-       
+
     }
 
   }
 
-   
+
 
   const MWSiteMobileMenu = ( options, hamburger = 5) => {
     options.threshold = options.threshold || 800;
@@ -97,17 +100,17 @@ class MWSiteMobileMenuService {
     options.size = options.size || '55px';
     const hamburgers = [
 
-        ` 
+        `
         <svg class="mw-vhmbgr mw-vhmbgrRotate mw-vhmbgr1" viewBox="0 0 100 100"><path class="mw-vhmbgr--line mw-vhmbgr--top" d="m 30,33 h 40 c 0,0 9.044436,-0.654587 9.044436,-8.508902 0,-7.854315 -8.024349,-11.958003 -14.89975,-10.85914 -6.875401,1.098863 -13.637059,4.171617 -13.637059,16.368042 v 40"/><path class="mw-vhmbgr--line mw-vhmbgr--middle" d="m 30,50 h 40"/><path class="mw-vhmbgr--line mw-vhmbgr--bottom" d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40"/></svg>
         `,
-        ` 
+        `
         <svg class="mw-vhmbgr mw-vhmbgr2" viewBox="0 0 100 100"><path class="mw-vhmbgr--line mw-vhmbgr--top" d="m 70,33 h -40 c -6.5909,0 -7.763966,-4.501509 -7.763966,-7.511428 0,-4.721448 3.376452,-9.583771 13.876919,-9.583771 14.786182,0 11.409257,14.896182 9.596449,21.970818 -1.812808,7.074636 -15.709402,12.124381 -15.709402,12.124381"/><path class="mw-vhmbgr--line mw-vhmbgr--middle" d="m 30,50 h 40"/><path class="mw-vhmbgr--line mw-vhmbgr--bottom" d="m 70,67 h -40 c -6.5909,0 -7.763966,4.501509 -7.763966,7.511428 0,4.721448 3.376452,9.583771 13.876919,9.583771 14.786182,0 11.409257,-14.896182 9.596449,-21.970818 -1.812808,-7.074636 -15.709402,-12.124381 -15.709402,-12.124381"/></svg>
         `,
-        
-        ` 
+
+        `
         <svg class="mw-vhmbgr mw-vhmbgrRotate mw-vhmbgr4" viewBox="0 0 100 100"><path class="mw-vhmbgr--line mw-vhmbgr--top" d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20"/><path class="mw-vhmbgr--line mw-vhmbgr--middle" d="m 70,50 h -40"/><path class="mw-vhmbgr--line mw-vhmbgr--bottom" d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20"/></svg>
         `,
-        ` 
+        `
         <svg class="mw-vhmbgr mw-vhmbgrRotate180 mw-vhmbgr5" viewBox="0 0 100 100"><path class="mw-vhmbgr--line mw-vhmbgr--top" d="m 30,33 h 40 c 0,0 8.5,-0.68551 8.5,10.375 0,8.292653 -6.122707,9.002293 -8.5,6.625 l -11.071429,-11.071429"/><path class="mw-vhmbgr--line mw-vhmbgr--middle" d="m 70,50 h -40"/><path class="mw-vhmbgr--line mw-vhmbgr--bottom" d="m 30,67 h 40 c 0,0 8.5,0.68551 8.5,-10.375 0,-8.292653 -6.122707,-9.002293 -8.5,-6.625 l -11.071429,11.071429"/></svg>
         `,
         `
@@ -121,8 +124,8 @@ class MWSiteMobileMenuService {
 
         `,
 
-    ]; 
-   
+    ];
+
 
    var  curr = document.getElementById('mw-vhmbgr--style');
    if(curr) {
@@ -166,7 +169,7 @@ body.mw-vhmbgr-menu-active .mw-vhmbgr-active-overlay{
     background-color: #fff;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     min-width: 300px;
- 
+
   }
   .mw-vhmbgr-active-overlay{
     position: fixed;
@@ -177,7 +180,7 @@ body.mw-vhmbgr-menu-active .mw-vhmbgr-active-overlay{
     height: 100%;
     background-color: rgba(0,0,0,.2);
   }
- 
+
 
 .mw-vhmbgr {
   cursor: pointer;
@@ -329,7 +332,7 @@ body.mw-vhmbgr-menu-active .mw-vhmbgr-active-overlay{
   stroke-dashoffset: -64px;
 }
 .mw-vhmbgr8.mw-vhmbgr-active .mw-vhmbgr--middle {
- 
+
   transform: rotate(90deg);
 }
 .mw-vhmbgr8.mw-vhmbgr-active .mw-vhmbgr--bottom {
@@ -369,7 +372,7 @@ body.mw-vhmbgr-menu-active .mw-vhmbgr-active-overlay{
         display: block;
       }
     }
-    
+
    `;
    document.body.append(css);
    document.querySelectorAll('.mw-vhmbgr--navigation').forEach(function(node){
