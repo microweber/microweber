@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * LIST FUNCTIONS
  */
 
@@ -22,16 +22,22 @@ function newsletter_get_lists($params = array()) {
 
 api_expose_admin('newsletter_save_list');
 function newsletter_save_list($data) {
-	
+
 	$table = "newsletter_lists";
 	return db_save($table, $data);
 }
 
 api_expose('newsletter_delete_list');
 function newsletter_delete_list($params) {
-	if (isset($params ['id'])) {
-		$table = "newsletter_lists";
-		$id = $params ['id'];
-		return db_delete($table, $id);
+	if (isset($params['id'])) {
+
+        $list = \MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriberList::where('list_id', $params['id'])->first();
+        if ($list) {
+            $list->delete();
+        }
+
+        $table = "newsletter_lists";
+        $id = $params ['id'];
+        return db_delete($table, $id);
 	}
 }

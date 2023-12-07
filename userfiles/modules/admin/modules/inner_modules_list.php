@@ -10,7 +10,10 @@ if(isset($params['for-module-id'])){
 
     $(document).ready(function () {
         setTimeout(function () {
-            mw_admin_layouts_list_inner_modules_btns();
+            if(typeof mw_admin_layouts_list_inner_modules_btns === 'function') {
+
+                mw_admin_layouts_list_inner_modules_btns();
+            }
         }, 999);
     });
 

@@ -2,7 +2,7 @@
     <div class="ps-3" v-if="isOpened">
         <div class="d-flex align-items-center justify-content-between mt-5 mb-3">
             <h3 class="fs-2 font-weight-bold">Element Style Editor</h3>
-            <span v-on:click="closeStyleEditor" class="mdi mdi-close x-close-modal-link" style="top: 36px;"></span>
+            <span v-on:click="closeStyleEditor" class="mdi mdi-close x-close-modal-link" style="top: 30px;"></span>
         </div>
             <iframe @load="load" ref="styleEditorIframe" :src="buildIframeUrlStyleEditor()" style="width:100%;height:100vh;"
                 frameborder="0"
@@ -47,8 +47,8 @@ export default {
         },
         closeStyleEditor: function () {
             this.removeStyleEditor();
-           // this.emitter.emit("live-edit-ui-show", 'template-settings')
-            this.emitter.emit("live-edit-ui-show", 'close-element-style-editor')
+            this.emitter.emit("live-edit-ui-show", 'template-settings')
+           // this.emitter.emit("live-edit-ui-show", 'close-element-style-editor')
         },
 
         buildIframeUrlStyleEditor: function (url) {
@@ -189,15 +189,79 @@ export default {
         //     }
         // });
 
-        mw.top().app.canvas.on('canvasDocumentClick', function () {
+  /*
+        mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
+            mw.top().app.liveEdit.handles.get('element').on('targetChange', target => {
+                if (styleEditorInstance.isOpened) {
+                    if (styleEditorInstance.cssEditorIframe) {
+                mw.top().app.dispatch('mw.elementStyleEditor.selectNode', target);
+                    }
+                }
+            });
+
+            mw.top().app.liveEdit.handles.get('module').on('targetChange', target => {
+                if (styleEditorInstance.isOpened) {
+                    if (styleEditorInstance.cssEditorIframe) {
+                        mw.top().app.dispatch('mw.elementStyleEditor.selectNode', target);
+
+                    }
+                }
+            });
+        });
+*/
+
+        // mw.top().app.canvas.on('canvasDocumentClick', function (event) {
+        //     if (styleEditorInstance.isOpened) {
+        //         if (styleEditorInstance.cssEditorIframe) {
+        //             var activeNode = mw.top().app.liveEdit.getSelectedNode();
+        //             if(activeNode) {
+        //                 mw.top().app.dispatch('mw.elementStyleEditor.selectNode', activeNode);
+        //             }
+        //         }}
+        //    });
+
+
+        mw.top().app.canvas.on('canvasDocumentClick', function (event) {
             if (styleEditorInstance.isOpened) {
                 if (styleEditorInstance.cssEditorIframe) {
-                    var activeNode = mw.top().app.liveEdit.getSelectedNode();
+                    var activeNodeSelected = mw.top().app.liveEdit.getSelectedNode();
+                    var targetWindow = mw.top().app.canvas.getWindow();
 
-                    var can = mw.top().app.liveEdit.canBeElement(activeNode)
+                    var can = true;
+                   var activeNode = event.target;
+                    //
+                    // var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+                    // var activeModule = mw.top().app.liveEdit.handles.get('module').getTarget();
+                    // var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
+                    // if(activeElement){
+                    //     activeNode = activeElement;
+                    // } else if(activeModule){
+                    //     activeNode = activeModule;
+                    // } /*else if(activeLayout){
+                    //     activeNode = activeLayout;
+                    // } */ else {
+                    //
+                    // }
+                    activeNode = event.target;
+
+                    if(activeNode && !activeNode.id){
+                        try {
+                           targetWindow.mw.tools.generateSelectorForNode(activeNode);
+                        } catch (e) {
+
+                        }
+                    }
+
+                    if(activeNode && activeNode.id){
+                        can = true;
+                    } else {
+                        can = false;
+                    }
+
+
+                    //   var can = mw.top().app.liveEdit.canBeElement(activeNode)
                     if (can) {
                         //check if has Id
-                        var targetWindow = mw.top().app.canvas.getWindow();
                         if (activeNode) {
                             var id = activeNode.id;
                             if (!id) {
@@ -213,12 +277,19 @@ export default {
 
                               //   activeNode.id = id;
                             }
+                            mw.top().app.dispatch('mw.elementStyleEditor.selectNode', activeNode);
+                        }
+                        // var event = new CustomEvent('refreshSelectedElement')
+                        // if(styleEditorInstance.cssEditorIframe.contentWindow) {
+                        //     styleEditorInstance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
+                        // }
+                    } else {
+                        mw.top().app.dispatch('mw.elementStyleEditor.selectNode', null);
+                        var targetLayout = mw.top().app.liveEdit.liveEditHelpers.targetIsInLayout(activeNode)
+                        if(targetLayout){
+                            mw.top().app.dispatch('mw.elementStyleEditor.selectLayout', targetLayout);
+                        }
 
-                        }
-                        var event = new CustomEvent('refreshSelectedElement')
-                        if(styleEditorInstance.cssEditorIframe.contentWindow) {
-                            styleEditorInstance.cssEditorIframe.contentWindow.document.dispatchEvent(event);
-                        }
                     }
                 }
             }

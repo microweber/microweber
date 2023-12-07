@@ -74,6 +74,9 @@ class Marketplace extends AdminComponent
         foreach ($packages as $packageName=>$package) {
 
             $latestVersionPackage = end($package);
+            if (!isset($latestVersionPackage['target-dir'])) {
+                continue;
+            }
 
             if (isset($latestVersionPackage['type']) && !in_array($latestVersionPackage['type'], $allowedCategories)) {
                 continue;
@@ -98,6 +101,7 @@ class Marketplace extends AdminComponent
                     $founded = true;
                 }
 
+
                 if (isset($latestVersionPackage['description'])) {
                     if (mb_strpos(mb_strtolower($latestVersionPackage['description']), mb_strtolower(trim($this->keyword))) !== false) {
                         $founded = true;
@@ -107,7 +111,6 @@ class Marketplace extends AdminComponent
                     continue;
                 }
             }
-
             $latestVersionPackage = MicroweberComposerPackage::format($latestVersionPackage);
 
             $latestVersions[$packageName] = $latestVersionPackage;

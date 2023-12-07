@@ -20,11 +20,12 @@
                 let log = document.getElementById('js-process-campaigns-log');
                 log.innerHTML = 'Processing...';
 
-                setInterval(function() {
+                let processCampaignInterval = setInterval(function() {
                     $.ajax('{{$logPublicUrl}}').done(function(data) {
                         log.innerHTML = data;
                         if (data.indexOf('Process Campaigns Complete') !== -1) {
                             runningProcessCampaigns = false;
+                            clearInterval(processCampaignInterval);
                         }
                     });
                 }, 3000);

@@ -300,7 +300,9 @@ if ($screenshots) {
 
             <script>
                 $(document).ready(function () {
-                    mw_admin_layouts_list_inner_modules_btns();
+                    if(typeof mw_admin_layouts_list_inner_modules_btns === 'function') {
+                        mw_admin_layouts_list_inner_modules_btns();
+                    }
                 });
             </script>
 

@@ -517,6 +517,19 @@ if(window.self !== window.top) {
             return mw.top().app.editor.dispatch('Ctrl+S', event);
         }
     });
+
+
+
+    document.body.addEventListener('mouseenter', function (event) {
+        $('body').removeClass('mw-live-body-mouse-moved-outside');
+
+    });
+
+
+    document.body.addEventListener('mouseleave', function (event) {
+        $('body').addClass('mw-live-body-mouse-moved-outside');
+    });
+
 }
 if (self === top) {
     window.addEventListener("load", (event) => {

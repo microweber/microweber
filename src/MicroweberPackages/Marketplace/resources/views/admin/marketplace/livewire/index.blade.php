@@ -73,12 +73,6 @@
 
                            @foreach($marketplacePagination as $marketItem)
 
-                               @php
-                               if (!isset($marketItem['target-dir'])) {
-                                  continue;
-                               }
-                               @endphp
-
                                <div class="col-sm-6 col-lg-4" id="mw-market-item-<?php print crc32(json_encode($marketItem)) ?>">
                                    <div class="card my-1 mx-1 card-sm card-link card-stacked">
 
@@ -152,10 +146,9 @@
 
                        @else
                            <div class="col-12 text-center mt-7">
-                                  <h2>
-                                          <?php _e("No results found"); ?>
-                                  </h2>
-
+                              <h2>
+                                  <?php _e("No results found"); ?>
+                              </h2>
                            </div>
                        @endif
 

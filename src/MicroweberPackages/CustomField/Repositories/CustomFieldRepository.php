@@ -57,11 +57,14 @@ class CustomFieldRepository extends AbstractRepository
                     $readyCustomField = $customField;
 
                     $options = [];
-                    $decodeOptions = json_decode($customField['options'], true);
-                    if (is_array($decodeOptions)) {
-                        $options = $decodeOptions;
+                    if(is_string($customField['options'])) {
+                        $decodeOptions = @json_decode($customField['options'], true);
+                        if (is_array($decodeOptions)) {
+                            $options = $decodeOptions;
+                        }
+                    } elseif (is_array($customField['options'])) {
+                        $options = $customField['options'];
                     }
-
                     $readyCustomField['options'] = $options;
                     $readyCustomField['value'] = '';
                     $readyCustomField['values'] = [];
@@ -76,7 +79,7 @@ class CustomFieldRepository extends AbstractRepository
                     if (isset($getCustomFieldValue[0])) {
                         $readyCustomField['value'] = $getCustomFieldValue[0]['value'];
                         foreach ($getCustomFieldValue as $customFieldValue) {
-                            $readyCustomField['values'][$customFieldValue['id']] = $customFieldValue['value'];
+                            $readyCustomField['values'][] = $customFieldValue['value'];
                             if (isset($options['as_price_modifier']) && $options['as_price_modifier']) {
                                 if (isset($customFieldValue['price_modifier']) and $customFieldValue['price_modifier']) {
                                     $readyCustomField['values_price_modifiers'][$customFieldValue['id']] = $customFieldValue['price_modifier'];

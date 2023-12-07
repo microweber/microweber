@@ -210,21 +210,25 @@ $templates = newsletter_get_templates();
             <div class="form-group">
         <label class="control-label"><?php _e('List'); ?></label>
         <small class="text-muted d-block mb-2">Choose from your lists or <a href="javascript:;" onclick="edit_list();">create a new one</a></small>
-        <?php if (!empty($lists)): ?>
+
 
             <select name="list_id" class="form-control">
-                <?php foreach ($lists as $list) : ?>
-                    <option
-                        <?php if ($list['id'] == $campaign['list_id']): ?> selected="selected" <?php endif; ?>
-                        value="<?php echo $list['id']; ?>"><?php echo $list['name']; ?></option>
-                <?php endforeach; ?>
+
+                <option
+                    <?php if (0 == $campaign['list_id']): ?> selected="selected" <?php endif; ?>
+                    value="0">Default</option>
+
+                <?php if (!empty($lists)): ?>
+                    <?php foreach ($lists as $list) : ?>
+                        <option
+                            <?php if ($list['id'] == $campaign['list_id']): ?> selected="selected" <?php endif; ?>
+                            value="<?php echo $list['id']; ?>"><?php echo $list['name']; ?></option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </select>
-        <?php endif; ?>
+
         <div class="js-field-message"></div>
 
-        <?php if (empty($lists)): ?>
-            <div style="color:#b93636;">First you need to create lists.</div>
-        <?php endif; ?>
     </div>
         </div>
         <div class="col-6">
