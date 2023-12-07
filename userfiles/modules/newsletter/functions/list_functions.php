@@ -29,9 +29,12 @@ function newsletter_save_list($data) {
 
 api_expose('newsletter_delete_list');
 function newsletter_delete_list($params) {
-	if (isset($params ['id'])) {
+	if (isset($params['id'])) {
 
-        \MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterSubscribersList::where('list_id', $id)->delete();
+        $list = \MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriberList::where('list_id', $params['id'])->first();
+        if ($list) {
+            $list->delete();
+        }
 
         $table = "newsletter_lists";
         $id = $params ['id'];

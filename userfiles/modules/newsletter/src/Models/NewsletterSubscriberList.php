@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class NewsletterSubscriberList extends Model
 {
-    protected $table = 'newsletter_subscribers_list';
+    protected $table = 'newsletter_subscribers_lists';
 
 }
