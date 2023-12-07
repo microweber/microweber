@@ -392,5 +392,8 @@ html[dir="rtl"] .reset-field{
 
 
 
-
+.style-editor-disabled {
+    pointer-events: none;
+    opacity: .5;
+}
 
