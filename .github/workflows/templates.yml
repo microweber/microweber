@@ -14,6 +14,7 @@ jobs:
       matrix:
         templates: [
 #          'microweber-templates/big',
+          'microweber-templates/big-free',
 #          'microweber-templates/bootstrap5',
 #          'microweber-templates/dream',
 #          'microweber-templates/green',
