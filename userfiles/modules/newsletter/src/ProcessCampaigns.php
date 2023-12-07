@@ -37,6 +37,21 @@ class ProcessCampaigns
                 $subscribers = newsletter_get_subscribers_for_list($campaign->list_id);
                 $sender = newsletter_get_sender(array("id"=>$campaign->sender_account_id));
 
+                if (empty($subscribers)) {
+                    $this->logger->warn('No subscribers found for this campaign.');
+                    continue;
+                }
+
+                if (empty($sender)) {
+                    $this->logger->warn('No sender found for this campaign.');
+                    continue;
+                }
+
+                if (empty($template)) {
+                    $this->logger->warn('No template found for this campaign.');
+                    continue;
+                }
+
                 $sendLogCount = 0;
                 foreach($subscribers as $subscriber) {
                     $findCampaignSendLog = NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)
