@@ -2,8 +2,8 @@
     <div class="p-3">
         <label class="font-weight-bold fs-2 mt-2 mb-2">Tools</label>
         <ul class="d-grid gap-2 list-unstyled">
-            <li>
-                <a class="btn btn-outline-secondary w-100" v-on:click="show('template-settings')">
+            <li class="py-2">
+                <a class="live-edit-tools" v-on:click="show('template-settings')">
 
                     <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 96 960 960"
                          width="22">
@@ -14,8 +14,8 @@
                     Template Settings
                 </a>
             </li>
-            <li>
-                <a class="btn btn-outline-secondary w-100" v-on:click="show('style-editor')">
+            <li class="pb-2">
+                <a class="live-edit-tools" v-on:click="show('style-editor')">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="25"
                          viewBox="0 -960 960 960" width="25">
                         <path
@@ -25,8 +25,8 @@
                 </a>
             </li>
 
-            <li>
-                <a class="btn btn-outline-secondary w-100" v-on:click="show('html-editor')">
+            <li class="pb-2">
+                <a class="live-edit-tools" v-on:click="show('html-editor')">
 
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
                          viewBox="0 -960 960 960" width="24">
@@ -37,22 +37,22 @@
                 </a>
             </li>
 
-            <li>
-                <a class="btn btn-outline-secondary w-100" v-on:click="editStylesheetVariablesInEditor()">
+            <li class="pb-2">
+                <a class="live-edit-tools" v-on:click="editStylesheetVariablesInEditor()">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
                          viewBox="0 -960 960 960" width="24">
                         <path
                             d="M320-242 80-482l242-242 43 43-199 199 197 197-43 43Zm318 2-43-43 199-199-197-197 43-43 240 240-242 242Z"/>
                     </svg>
-                                       Css Variables Editor
+                    Css Variables Editor
                 </a>
             </li>
 
 
 
 
-            <li>
-                <a class="btn btn-outline-secondary w-100" v-on:click="openContentRevisionsDialog()">
+            <li class="pb-2">
+                <a class="live-edit-tools" v-on:click="openContentRevisionsDialog()">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
                          viewBox="0 -960 960 960" width="24">
                         <path
@@ -62,8 +62,8 @@
                 </a>
             </li>
 
-            <li>
-                <a class="btn btn-outline-secondary w-100" v-on:click="openContentResetContent()">
+            <li class="pb-2">
+                <a class="live-edit-tools" v-on:click="openContentResetContent()">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
                          viewBox="0 -960 960 960" width="24">
                         <path
@@ -73,8 +73,8 @@
                 </a>
             </li>
 
-            <li>
-                <a class="btn btn-outline-secondary w-100" v-on:click="clearCache()">
+            <li class="pb-2">
+                <a class="live-edit-tools" v-on:click="clearCache()">
                     <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24"
                          viewBox="0 -960 960 960" width="24">
                         <path
@@ -87,6 +87,9 @@
     </div>
 
 </template>
+
+
+
 
 
 <script>
