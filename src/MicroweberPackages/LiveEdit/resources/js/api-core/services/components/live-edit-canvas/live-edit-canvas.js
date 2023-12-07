@@ -124,7 +124,9 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             // });
 
             liveEditIframe.contentWindow.document.body.addEventListener('click', (event) => {
-                if (mw.app.liveEdit.handles.targetIsOrInsideHandle(e.target ) ) {
+
+
+                if (mw.app.liveEdit.handles.targetIsOrInsideHandle(event.target ) ) {
                     return;
                 }
                 this.dispatch('canvasDocumentClick', event)
@@ -134,7 +136,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
 
             liveEditIframe.contentWindow.document.addEventListener('keydown', (event) => {
-                if (mw.app.liveEdit.handles.targetIsOrInsideHandle(e.target ) ) {
+                if (mw.app.liveEdit.handles.targetIsOrInsideHandle(event.target ) ) {
                     return;
                 }
                 this.dispatch('canvasDocumentKeydown', event)

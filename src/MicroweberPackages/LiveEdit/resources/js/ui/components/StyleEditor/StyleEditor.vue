@@ -229,19 +229,19 @@ export default {
 
                     var can = true;
                    var activeNode = event.target;
-
-                    var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
-                    var activeModule = mw.top().app.liveEdit.handles.get('module').getTarget();
-                    var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
-                    if(activeElement){
-                        activeNode = activeElement;
-                    } else if(activeModule){
-                        activeNode = activeModule;
-                    } /*else if(activeLayout){
-                        activeNode = activeLayout;
-                    } */ else {
-
-                    }
+                    //
+                    // var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+                    // var activeModule = mw.top().app.liveEdit.handles.get('module').getTarget();
+                    // var activeLayout = mw.top().app.liveEdit.handles.get('layout').getTarget();
+                    // if(activeElement){
+                    //     activeNode = activeElement;
+                    // } else if(activeModule){
+                    //     activeNode = activeModule;
+                    // } /*else if(activeLayout){
+                    //     activeNode = activeLayout;
+                    // } */ else {
+                    //
+                    // }
                     activeNode = event.target;
 
                     if(activeNode && !activeNode.id){
@@ -277,7 +277,6 @@ export default {
 
                               //   activeNode.id = id;
                             }
-                            console.log(1111234455667);
                             mw.top().app.dispatch('mw.elementStyleEditor.selectNode', activeNode);
                         }
                         // var event = new CustomEvent('refreshSelectedElement')
