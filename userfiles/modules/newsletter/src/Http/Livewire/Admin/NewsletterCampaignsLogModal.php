@@ -21,7 +21,7 @@ class NewsletterCampaignsLogModal extends AdminModalComponent
             $findCampaignSendLog = NewsletterCampaignsSendLog::where('campaign_id', $findCampaign->id)
                 ->where('is_sent', 1)
                 ->with('subscriber')
-                ->paginate(1);
+                ->paginate(10);
 
             if ($findCampaignSendLog) {
                 $campaignLog = $findCampaignSendLog;
