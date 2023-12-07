@@ -39,16 +39,19 @@ class ProcessCampaigns
 
                 if (empty($subscribers)) {
                     $this->logger->warn('No subscribers found for this campaign.');
+                    $this->logger->info('');
                     continue;
                 }
 
                 if (empty($sender)) {
                     $this->logger->warn('No sender found for this campaign.');
+                    $this->logger->info('');
                     continue;
                 }
 
                 if (empty($template)) {
                     $this->logger->warn('No template found for this campaign.');
+                    $this->logger->info('');
                     continue;
                 }
 
