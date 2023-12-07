@@ -39,7 +39,7 @@
                 <div class="tab-content" v-show="showTemplateSettings">
                     <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
                          role="tabpanel">
-                        <div v-show="showTemplateSettings" >
+                        <div v-if="showTemplateSettings" >
 
                         <iframe :src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
                                 frameborder="0"
@@ -61,7 +61,7 @@
 
 
 
-              <div v-show="showElementStyleEditor">
+              <div v-if="showElementStyleEditor">
 
 
 
