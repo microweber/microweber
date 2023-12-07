@@ -6,6 +6,7 @@ use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
 class LiveEditTemplateSettingsSidebar extends AdminComponent
 {
+    protected $listeners = ['refreshComponent' => '$refresh'];
 
     public $styleSheetSourceFile;
     public $settingsGroups;

@@ -8,26 +8,23 @@
 
 
 
-            <div v-show="showElementStyleEditor">
 
 
 
-                <StyleEditor></StyleEditor>
-            </div>
-
-
-
-
-            <div v-show="showTemplateSettings">
+            <div>
                 <div class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0 position-relative">
-                    <span v-on:click="closeSidebar" :class="[buttonIsActive?'live-edit-right-sidebar-active':'']" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
-                    <div id="rightSidebarTabStyleEditorNav" role="tablist">
+
+                    <span v-show="!showElementStyleEditor" v-on:click="closeSidebar" :class="[buttonIsActive?'live-edit-right-sidebar-active':'']" class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
+
+                  <div id="rightSidebarTabStyleEditorNav" role="tablist">
                         <a class="mw-admin-action-links mw-adm-liveedit-tabs active me-3" data-bs-toggle="tab"
+                           v-on:click="closeElementStyleEditorIfOpened"
                            data-bs-target="#style-edit-global-template-settings-holder" type="button" role="tab">
                             Template Styles
                         </a>
 
                         <a class="mw-admin-action-links mw-adm-liveedit-tabs" data-bs-toggle="tab"
+                           v-on:click="closeElementStyleEditorIfOpened"
                            data-bs-target="#style-edit-custom-template-settings-holder" type="button" role="tab">
                             Tools
                         </a>
@@ -39,7 +36,7 @@
 
                 </div>
 
-                <div class="tab-content">
+                <div class="tab-content" v-show="showTemplateSettings">
                     <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
                          role="tabpanel">
                         <div v-if="showTemplateSettings" >
@@ -61,6 +58,22 @@
                     </div>
 
                 </div>
+
+
+
+              <div v-if="showElementStyleEditor">
+
+
+
+                <StyleEditor></StyleEditor>
+              </div>
+
+
+
+
+
+
+
             </div>
 
         </div>
@@ -107,7 +120,10 @@ export default {
             CSSGUIService.hide();
             this.emitter.emit("live-edit-ui-show");
         },
+      closeElementStyleEditorIfOpened() {
+        this.emitter.emit("live-edit-ui-show", 'template-settings');
 
+      },
         openSidebar() {
             this.showTemplateSettings = true;
             this.showSidebar = true;
@@ -169,8 +185,10 @@ export default {
 
                 rightSidebarInstance.showTemplateSettings = true;
                 rightSidebarInstance.showElementStyleEditor = false;
-                rightSidebarInstance.showSidebar = false;
-                rightSidebarInstance.buttonIsActive = false;
+                rightSidebarInstance.showSidebar = true;
+                rightSidebarInstance.buttonIsActive = true;
+            //    rightSidebarInstance.showSidebar = false;
+             //   rightSidebarInstance.buttonIsActive = false;
 
 
 
