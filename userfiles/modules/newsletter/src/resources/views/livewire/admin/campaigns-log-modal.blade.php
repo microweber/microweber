@@ -12,7 +12,15 @@
 
     <div class="mt-4 px-5 pb-5">
         <div class="row">
-            aa
+
+            @dump($campaignLog)
+
+            @if($campaignLog)
+            <div class="d-flex justify-content-center mb-3">
+                {{ $campaignLog->links("livewire-tables::specific.bootstrap-4.pagination") }}
+            </div>
+            @endif
+
         </div>
     </div>
 </div>
