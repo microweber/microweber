@@ -5317,7 +5317,13 @@ body.mw-module-settings-modal-opened .mw-handle-item-menus-holder {
     display: none !important;
 }
 
+/*
 body.mw-live-body-mouse-moved-outside .mw-handle-item {
+    display: none !important;
+}
+*/
+
+body.mw-live-body-mouse-moved-outside mw-le-element {
     display: none !important;
 }
 

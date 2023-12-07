@@ -3,7 +3,7 @@
     <ElementStyleEditorActiveNode></ElementStyleEditorActiveNode>
 
     <div class="mb-4" v-show="!selectedElement">
-
+      <div   v-show="!selectedLayout">
         <div class="alert alert-info" role="alert">
             <div class="d-flex">
                 <div>
@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-
+      </div>
     </div>
 
     <div class="mb-4" v-show="selectedLayout">
