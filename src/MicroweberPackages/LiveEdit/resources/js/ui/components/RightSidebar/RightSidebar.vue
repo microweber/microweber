@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="isReady" >
 
 
 
@@ -39,7 +39,7 @@
                 <div class="tab-content" v-show="showTemplateSettings">
                     <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
                          role="tabpanel">
-                        <div v-if="showTemplateSettings" >
+                        <div>
 
                         <iframe :src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
                                 frameborder="0"
@@ -61,7 +61,7 @@
 
 
 
-              <div v-if="showElementStyleEditor">
+              <div v-show="showElementStyleEditor">
 
 
 
@@ -153,7 +153,10 @@ export default {
         const rightSidebarInstance = this;
 
 
-        mw.app.canvas.on('liveEditCanvasLoaded', function () {
+        mw.app.canvas.on('liveEditCanvasLoaded', ()=> {
+
+          this.isReady = true;
+
             if(rightSidebarInstance.buttonIsActive) {
                 rightSidebarInstance.showTemplateSettings = true;
             }
@@ -207,6 +210,7 @@ export default {
             showSidebar: false,
             showTemplateSettings: false,
             buttonIsActive: false,
+            isReady: false,
             showElementStyleEditor: false
         }
     }
