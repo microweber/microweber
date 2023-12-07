@@ -103,6 +103,12 @@ export default {
 
     },
 
+    targetIsInLayout: element => {
+        var isInsideEditField = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['module-layouts']);
+        return isInsideEditField;
+
+    },
+
 
     targetIsDisabledWriteInEditField: element => {
         if (element.classList.contains('no-typing')) {

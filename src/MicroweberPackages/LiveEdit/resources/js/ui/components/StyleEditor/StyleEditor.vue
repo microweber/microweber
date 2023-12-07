@@ -285,6 +285,10 @@ export default {
                         // }
                     } else {
                         mw.top().app.dispatch('mw.elementStyleEditor.selectNode', null);
+                        var targetLayout = mw.top().app.liveEdit.liveEditHelpers.targetIsInLayout(activeNode)
+                        if(targetLayout){
+                            mw.top().app.dispatch('mw.elementStyleEditor.selectLayout', targetLayout);
+                        }
 
                     }
                 }
