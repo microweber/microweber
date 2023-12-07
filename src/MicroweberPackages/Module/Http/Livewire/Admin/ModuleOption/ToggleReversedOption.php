@@ -23,7 +23,7 @@ class ToggleReversedOption extends OptionElement
     {
         parent::mount();
 
-        if ($this->state['settings'][$this->optionKey] == 1) {
+        if ($this->state and isset($this->state['settings']) and isset($this->state['settings'][$this->optionKey]) and $this->state['settings'][$this->optionKey] == 1) {
             $this->optionValueReversed = 0;
         } else {
             $this->optionValueReversed = 1;

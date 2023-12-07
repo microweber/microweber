@@ -17,6 +17,12 @@
 
     </div>
 
+    <div class="mb-4" v-show="selectedLayout">
+
+        <ElementStyleEditorLayoutSettings></ElementStyleEditorLayoutSettings>
+
+    </div>
+
     <div class="mb-4" v-show="selectedElement">
         <div class="d-flex flex-column">
 
@@ -84,6 +90,7 @@ import ElementStyleEditorGrid from './ElementStyleEditorGrid.vue';
 import ElementStyleEditorClassApplier from './ElementStyleEditorClassApplier.vue';
 import ElementStyleEditorRoundedCorners from "./ElementStyleEditorRoundedCorners.vue";
 import ElementStyleEditorShadow from "./ElementStyleEditorShadow.vue";
+import ElementStyleEditorLayoutSettings from "./ElementStyleEditorLayoutSettings.vue";
 
 export default {
     components: {
@@ -99,11 +106,13 @@ export default {
         ElementStyleEditorAnimations,
         ElementStyleEditorShadow,
         ElementStyleEditorClassApplier,
+        ElementStyleEditorLayoutSettings,
     },
 
     data() {
         return {
             selectedElement: null,
+            selectedLayout: null,
             showElementSelector: true,
             showBackground: true,
             showTypography: true,

@@ -8,7 +8,7 @@ use MicroweberPackages\Product\Models\Product;
 class ShopSettingsComponent extends ModuleSettingsComponent
 {
 
-    public string $moduleId;
+    public string $moduleId = '';
     public string $moduleType = 'shop';
 
     public function render()
