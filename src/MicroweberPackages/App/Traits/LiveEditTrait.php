@@ -57,6 +57,7 @@ trait LiveEditTrait
         $templateName = addslashes($templateName);
 
         $pageId = '';
+        $contentLink = '';
         $contentEditLink = '';
         if (isset($page['id'])) {
             $pageId = $page['id'];
