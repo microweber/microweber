@@ -132,6 +132,10 @@
                     colorPickerEvent.target.value = propertyValue;
                     mw.top().app.on('setPropertyForSelector', (propertyChangeEvent) => {
                          if (propertyChangeEvent.selector == '{{ $selectorToApply }}' && propertyChangeEvent.property == '{{$setting['fieldSettings']['property']}}') {
+                             if(propertyChangeEvent && propertyChangeEvent.value === ''){
+                               let newPropertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{ $selectorToApply }}', '{{$setting['fieldSettings']['property']}}');
+                               propertyChangeEvent.value = newPropertyValue;
+                             }
 
                              colorPickerEvent.target.value = propertyChangeEvent.value;
                              colorPickerEvent.target.dispatchEvent(new Event('input'));
@@ -154,6 +158,13 @@
                         e.target.value = propertyValue;
                     }
 
+                   mw.top().app.on('setPropertyForSelector', (propertyChangeEvent) => {
+                       let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
+                       if(propertyValue){
+                            propertyValue = propertyValue.replace('{{$setting['fieldSettings']['unit']}}', '');
+                            e.target.value = propertyValue;
+                       }
+                   });
 
                 }"
                         x-on:slide="(e) => {

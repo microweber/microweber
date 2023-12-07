@@ -33,7 +33,7 @@
                                             @endforeach
                                         @endif
                                     @endif
-                                   
+
 
                                 });
 
