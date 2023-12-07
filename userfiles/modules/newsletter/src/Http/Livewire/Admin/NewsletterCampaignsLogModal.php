@@ -23,7 +23,7 @@ class NewsletterCampaignsLogModal extends AdminModalComponent
                 ->paginate(10);
 
             if ($findCampaignSendLog) {
-                $campaignLog = $findCampaignSendLog->toArray();
+                $campaignLog = $findCampaignSendLog;
             }
         }
 

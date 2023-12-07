@@ -13,7 +13,11 @@
     <div class="mt-4 px-5 pb-5">
         <div class="row">
 
-            @dump($campaignLog)
+            @if($campaignLog)
+                @foreach($campaignLog as $log)
+                    {{ json_encode($log) }} 
+                @endforeach
+            @endif
 
             @if($campaignLog)
             <div class="d-flex justify-content-center mb-3">
