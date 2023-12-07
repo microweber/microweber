@@ -81,7 +81,10 @@ $campaigns = newsletter_get_campaigns();
                         <td class="d-flex justify-content-center gap-2">
                             <button class="btn btn-outline-primary btn-sm" onclick="edit_campaign('<?php print $campaign['id']; ?>')"><?php _e('Edit'); ?></button>
                             <a class="btn btn-outline-danger btn-sm" href="javascript:;" onclick="delete_campaign('<?php print $campaign['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
-                            <a class="btn btn-outline-dark btn-sm" href="javascript:;"><?php _e('View Log'); ?></a>
+                            <a class="btn btn-outline-dark btn-sm"
+                               href="javascript:;" onclick='Livewire.emit("openModal", "admin-newsletter-campaigns-log-modal", {{ json_encode(["campaignId" => $campaign['id']]) }})'>
+                                <?php _e('View Log'); ?>
+                            </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
