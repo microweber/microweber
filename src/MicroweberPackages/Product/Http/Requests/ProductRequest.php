@@ -15,7 +15,7 @@ class ProductRequest extends ContentSaveRequest
         'content_meta_title' => 'max:500',
         'content_meta_keywords' => 'max:500',
         'original_link' => 'max:500',
-        'price' => 'required|min:0.01|numeric',
+        //'price' => 'required|min:0.01|numeric',
         'qty' => 'max:50',
         'sku' => 'max:500',
         'content_data.barcode' => 'max:200',
