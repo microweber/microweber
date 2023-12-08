@@ -28,6 +28,6 @@
 	</div>
 </div>
 
-{comment_author} <br />
-{comment_reply_author} <br />
-{post_url}<br />
+{{comment_author}} <br />
+{{comment_reply_author}} <br />
+{{post_url}}<br />
