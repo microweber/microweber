@@ -62,23 +62,23 @@ function get_mail_template_fields($type = '')
     if ($type == 'new_order' || $type == 'order_change_status' || $type == 'receive_payment') {
 
         $fields = array();
-        $fields[] = array('value' => '{{id}}', 'label' => 'Order Id');
-        $fields[] = array('value' => '{{date}}', 'label' => 'Date');
-        $fields[] = array('value' => '{{cart_items}}', 'label' => 'Cart items');
-        $fields[] = array('value' => '{{amount}}', 'label' => 'Amount');
-        $fields[] = array('value' => '{{order_status}}', 'label' => 'Order Status');
-        $fields[] = array('value' => '{{currency}}', 'label' => 'Currency');
-        $fields[] = array('value' => '{{first_name}}', 'label' => 'First Name');
-        $fields[] = array('value' => '{{last_name}}', 'label' => 'Last Name');
-        $fields[] = array('value' => '{{email}}', 'label' => 'Email');
-        $fields[] = array('value' => '{{country}}', 'label' => 'Country');
-        $fields[] = array('value' => '{{city}}', 'label' => 'City');
-        $fields[] = array('value' => '{{state}}', 'label' => 'State');
-        $fields[] = array('value' => '{{zip}}', 'label' => 'Zip');
-        $fields[] = array('value' => '{{address}}', 'label' => 'Address');
-        $fields[] = array('value' => '{{phone}}', 'label' => 'Phone');
-        $fields[] = array('value' => '{{transaction_id}}', 'label' => 'Transaction Id');
-        $fields[] = array('value' => '{{order_id}}', 'label' => 'Order Id');
+        $fields[] = array('value' => '{{$id}}', 'label' => 'Order Id');
+        $fields[] = array('value' => '{{$date}}', 'label' => 'Date');
+        $fields[] = array('value' => '{{$cart_items}}', 'label' => 'Cart items');
+        $fields[] = array('value' => '{{$amount}}', 'label' => 'Amount');
+        $fields[] = array('value' => '{{$order_status}}', 'label' => 'Order Status');
+        $fields[] = array('value' => '{{$currency}}', 'label' => 'Currency');
+        $fields[] = array('value' => '{{$first_name}}', 'label' => 'First Name');
+        $fields[] = array('value' => '{{$last_name}}', 'label' => 'Last Name');
+        $fields[] = array('value' => '{{$email}}', 'label' => 'Email');
+        $fields[] = array('value' => '{{$country}}', 'label' => 'Country');
+        $fields[] = array('value' => '{{$city}}', 'label' => 'City');
+        $fields[] = array('value' => '{{$state}}', 'label' => 'State');
+        $fields[] = array('value' => '{{$zip}}', 'label' => 'Zip');
+        $fields[] = array('value' => '{{$address}}', 'label' => 'Address');
+        $fields[] = array('value' => '{{$phone}}', 'label' => 'Phone');
+        $fields[] = array('value' => '{{$transaction_id}}', 'label' => 'Transaction Id');
+        $fields[] = array('value' => '{{$order_id}}', 'label' => 'Order Id');
 
         return $fields;
     }
@@ -86,9 +86,9 @@ function get_mail_template_fields($type = '')
     if ($type == 'new_comment_reply') {
 
         $fields = array();
-        $fields[] = array('value' => '{{comment_author}}', 'label' => 'Comment Author');
-        $fields[] = array('value' => '{{comment_reply_author}}', 'label' => 'Comment Reply Author');
-        $fields[] = array('value' => '{{post_url}}', 'label' => 'Post Url');
+        $fields[] = array('value' => '{{$comment_author}}', 'label' => 'Comment Author');
+        $fields[] = array('value' => '{{$comment_reply_author}}', 'label' => 'Comment Reply Author');
+        $fields[] = array('value' => '{{$post_url}}', 'label' => 'Post Url');
 
         return $fields;
     }
@@ -96,13 +96,13 @@ function get_mail_template_fields($type = '')
     if ($type == 'new_user_registration') {
 
         $fields = array();
-        $fields[] = array('value' => '{{id}}', 'label' => 'User Id');
-        $fields[] = array('value' => '{{username}}', 'label' => 'Username');
-        $fields[] = array('value' => '{{email}}', 'label' => 'Email');
-        $fields[] = array('value' => '{{first_name}}', 'label' => 'First Name');
-        $fields[] = array('value' => '{{last_name}}', 'label' => 'Last Name');
-        $fields[] = array('value' => '{{created_at}}', 'label' => 'Date of registration');
-        $fields[] = array('value' => '{{verify_email_link}}', 'label' => 'Verify email link');
+        $fields[] = array('value' => '{{$id}}', 'label' => 'User Id');
+        $fields[] = array('value' => '{{$username}}', 'label' => 'Username');
+        $fields[] = array('value' => '{{$email}}', 'label' => 'Email');
+        $fields[] = array('value' => '{{$first_name}}', 'label' => 'First Name');
+        $fields[] = array('value' => '{{$last_name}}', 'label' => 'Last Name');
+        $fields[] = array('value' => '{{$created_at}}', 'label' => 'Date of registration');
+        $fields[] = array('value' => '{{$verify_email_link}}', 'label' => 'Verify email link');
 
         return $fields;
     }
@@ -110,14 +110,14 @@ function get_mail_template_fields($type = '')
     if ($type == 'forgot_password') {
 
         $fields = array();
-        $fields[] = array('value' => '{{id}}', 'label' => 'User Id');
-        $fields[] = array('value' => '{{username}}', 'label' => 'Username');
-        $fields[] = array('value' => '{{email}}', 'label' => 'Email');
-        $fields[] = array('value' => '{{first_name}}', 'label' => 'First Name');
-        $fields[] = array('value' => '{{last_name}}', 'label' => 'Last Name');
-        $fields[] = array('value' => '{{created_at}}', 'label' => 'Date of registration');
-        $fields[] = array('value' => '{{reset_password_link}}', 'label' => 'Reset password link');
-        $fields[] = array('value' => '{{ip}}', 'label' => 'IP address');
+        $fields[] = array('value' => '{{$id}}', 'label' => 'User Id');
+        $fields[] = array('value' => '{{$username}}', 'label' => 'Username');
+        $fields[] = array('value' => '{{$email}}', 'label' => 'Email');
+        $fields[] = array('value' => '{{$first_name}}', 'label' => 'First Name');
+        $fields[] = array('value' => '{{$last_name}}', 'label' => 'Last Name');
+        $fields[] = array('value' => '{{$created_at}}', 'label' => 'Date of registration');
+        $fields[] = array('value' => '{{$reset_password_link}}', 'label' => 'Reset password link');
+        $fields[] = array('value' => '{{$ip}}', 'label' => 'IP address');
 
         return $fields;
     }
