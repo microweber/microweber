@@ -133,7 +133,8 @@
             <a href="javascript:;" class="btn btn-outline-primary mb-3" onclick="edit_subscriber();">
                 <i class="mdi mdi-plus"></i> <?php _e('Add new subscriber'); ?>
             </a>
-            <a href="javascript:;" class="btn btn-outline-success mb-3" onclick="import_subscribers();">
+            <a href="javascript:;" class="btn btn-outline-success mb-3"
+               onclick="Livewire.emit('openModal', 'admin-newsletter-import-subscribers-modal')" >
                 <?php _e('Import Subscribers'); ?>
             </a>
         </div>
