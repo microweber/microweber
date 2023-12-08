@@ -11,7 +11,7 @@ class NewsletterCampaignsLogModal extends AdminModalComponent
 {
     use WithPagination;
 
-    public $campaignId;
+    public $campaignId = 0;
 
     public function render()
     {
@@ -34,7 +34,7 @@ class NewsletterCampaignsLogModal extends AdminModalComponent
         ]);
     }
 
-    public function mount($campaignId)
+    public function mount($campaignId = 0)
     {
         $this->campaignId = $campaignId;
     }

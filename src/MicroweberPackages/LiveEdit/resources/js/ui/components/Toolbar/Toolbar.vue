@@ -146,24 +146,35 @@ export default {
             });
         },
         toggleDarkMode: () => {
-
             var is_dark = $("body").hasClass('theme-dark');
-
             if (!is_dark) {
-                $("body").addClass('theme-dark')
-                $("#navbar-change-theme-icon-dark").show()
-                $("#navbar-change-theme-icon-light").hide()
-
                 mw.cookie.set('admin_theme_dark', 'true');
 
             } else {
-                $("body").removeClass('theme-dark')
-                $("#navbar-change-theme-icon-light").show()
-                $("#navbar-change-theme-icon-dark").hide()
 
                 mw.cookie.delete('admin_theme_dark');
             }
-        }
+            var canvasWindow = mw.top().app.canvas.getWindow();
+            mw.tools.eachWindow(function () {
+                if(this.mw && this !== canvasWindow ){
+                    console.log(this.document.body)
+                    if (!is_dark) {
+                        $("body", this.document).addClass('theme-dark')
+                        $("#navbar-change-theme-icon-dark", this.document).show()
+                        $("#navbar-change-theme-icon-light", this.document).hide()
+                    } else {
+                        $("body", this.document).removeClass('theme-dark')
+                        $("#navbar-change-theme-icon-light", this.document).show()
+                        $("#navbar-change-theme-icon-dark", this.document).hide()
+                    }
+                }
+            })
+
+
+
+
+        },
+
     },
     data() {
         return {

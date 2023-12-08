@@ -1,4 +1,4 @@
-<div class="mt-2" style="background:#f7f7f7;border-radius:8px;padding: 12px;">
+<div class="mt-2" style="background:var(--tblr-bg-surface);border-radius:8px;padding: 12px;">
     <div>
         <b>{{$setting['title']}}</b>
     </div>
