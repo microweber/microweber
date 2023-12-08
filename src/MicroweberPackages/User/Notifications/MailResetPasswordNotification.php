@@ -47,7 +47,8 @@ class MailResetPasswordNotification extends ResetPassword {
 
         $templateId = Option::getValue('forgot_password_mail_template', 'users');
         $template = get_mail_template_by_id($templateId, 'forgot_password');
-        if (!empty($template)) {
+
+        if (empty($template)) {
             $template = get_mail_template_by_name('forgot_password');
             $template['subject'] = _e('Reset Password Notification', true);
         }
@@ -62,7 +63,6 @@ class MailResetPasswordNotification extends ResetPassword {
                     'created_at'=>date('Y-m-d H:i:s')
                 ]
             );
-
 
             $mail->subject($template['subject']);
             $mail->action($template['subject'], $url);
