@@ -1,0 +1,110 @@
+name: Dusk Apache Big theme tests
+on:
+  push:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dusk_apache:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        php-versions: [ '8.2' ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        env:
+          DEBUG: true
+          APP_ENV: "testing"
+      - uses: ./.github/actions/setup-php
+        with:
+          php_version: ${{ matrix.php-versions }}
+      - name: Npm install
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: ./package-lock.json
+      - run: npm install
+      - run: npm run build
+
+      - name: Cleanup old theme files
+        run: |
+          rm -rf ./userfiles/templates/big
+
+      - name: Get Theme from Github
+        uses: actions/checkout@v4
+        with:
+          repository: microweber-templates/big-free
+          path: ./userfiles/templates/big
+
+
+      - name: Setup Apache
+        uses: thunder/apache-shiva-php-action@v1
+        with:
+          php-version: '8.2'
+          site-directory: /home/runner/work/microweber/microweber/
+          # Defaults to 8888
+          http-port: 8000
+      - name: Run Dusk Tests Core Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberCoreTests
+      - name: Run Dusk Shop Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberShopTests
+      - name: Run Dusk Microweber Pages Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberPagesTests
+      - name: Run Dusk Multilanguage Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberMultilanguageTests
+      - name: Run Dusk Admin Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberAdminTest
+      - name: Run Dusk LiveEdit Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberLiveEditTest
+      - name: Run Dusk Template Tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --testsuite MicroweberTemplatesTests
+#      - name: Run Dusk Flaky Tests
+#        run: |
+#          php artisan dusk --testsuite MicroweberFlakyTests
+      - name: Run Dusk Slow Tests
+        run: |
+          php artisan dusk --testsuite MicroweberSlowTests
+      - name: Upload Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: tests/Browser/screenshots
+      - name: Upload Console Logs
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: console
+          path: tests/Browser/console
+      - name: Upload Laravel Storage Logs
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: storage-logs
+          path: storage/logs
+      - name: Upload Laravel config
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: config
+          path: config
