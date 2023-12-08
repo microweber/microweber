@@ -3,7 +3,7 @@
     z-index:10;
     display:flex;
     padding: 5px;
- 
+
     .mw-ui-btn{
         margin: 5px;
         .mw-icon-close{
@@ -40,9 +40,18 @@
             width: 100%;
         }
         .mw-autocomplete-value + input.mw-autocomplete-field{
-          
+
             width: 100%;
         }
+    }
+}
+
+body.theme-dark .mw-autocomplete {
+    .mw-spinner-decorate:after{
+        background-color: var(--tblr-body-bg);
+    }
+    .mw-spinner{
+        background-color: var(--tblr-body-bg);
     }
 }
 

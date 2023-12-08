@@ -215,9 +215,13 @@ body.theme-dark {
             fill: var(--tblr-body-color) !important;
         }
     }
-
-    .modules-list-block-item-picture {
-        background-color: var(--tblr-body-bg2) !important;
+    .mw-le-modules-dialog .modules-list-block-item-picture{
+        filter: invert(1);
+    }
+    .mw-le-layouts-dialog{
+        .modules-list-block-item-picture {
+            background-color: var(--tblr-body-bg2) !important;
+        }
     }
 
     .mw-le-layouts-dialog .modules-list-block-item-title, .modules-list-block-item-masonry-title {
@@ -1570,6 +1574,9 @@ svg.text-danger {
     color: var(--tblr-body-color);
     font-weight: 500;
     outline: none;
+    svg{
+        fill: currentColor;
+    }
 
     &:focus{
         outline: none;
