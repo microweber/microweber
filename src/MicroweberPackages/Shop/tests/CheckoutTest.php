@@ -59,6 +59,7 @@ class CheckoutTest extends TestCase
 
         $checkEmailContent = '';
         $emails = app()->make('mailer')->getSymfonyTransport()->messages();
+
         foreach ($emails as $email) {
 
             $emailAsArray = $this->getEmailDataAsArrayFromObject($email);
