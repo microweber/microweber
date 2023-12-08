@@ -34,7 +34,7 @@ class NewsletterCampaignsLogModal extends AdminModalComponent
         ]);
     }
 
-    public function mount($campaignId)
+    public function mount($campaignId = 0)
     {
         $this->campaignId = $campaignId;
     }
