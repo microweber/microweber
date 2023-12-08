@@ -75,20 +75,21 @@ class LaravelApplication extends Application
         $this->register(new TaggableFileCacheServiceProvider($this));
 
     }
+
     private function _check_new_config_files()
     {
         // we check if there is cached file for the current version and copy the missing config files if there is no cached file
         $mwVersionFile = $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/app_version.' . self::VERSION . '_' . self::APP_VERSION . '.txt');
-        $checkDir  = dirname($mwVersionFile);
+        $checkDir = dirname($mwVersionFile);
         if (!is_dir($checkDir)) {
             mkdir($checkDir);
         }
 
         $mwVersionFile = normalize_path($mwVersionFile, false);
-        if(!is_file($mwVersionFile)){
+        if (!is_file($mwVersionFile)) {
             $copyConfigs = new UpdateMissingConfigFiles();
             $copyConfigs->copyMissingConfigStubs();
-            file_put_contents($mwVersionFile,  self::VERSION . '_' . self::APP_VERSION );
+            file_put_contents($mwVersionFile, self::VERSION . '_' . self::APP_VERSION);
         }
     }
 
@@ -171,13 +172,16 @@ class LaravelApplication extends Application
     {
         try {
             parent::writeManifest($manifest);
+        } catch (\ErrorException $e) {
+
         } catch (\Exception $e) {
 
         }
 
     }
 
-    public function rebootApplication(){
+    public function rebootApplication()
+    {
         $this->booted = false;
         $this->boot();
     }
