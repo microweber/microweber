@@ -12,7 +12,19 @@
 
     <div class="mt-4 px-1 pb-5">
 
-    <script wire:ignore type="text/javascript">
+        @if (session()->has('successMessage'))
+            <script id="js-success-message-{{time()}}">
+                mw.notification.success('{{ session('successMessage') }}');
+            </script>
+        @endif
+
+        @if (session()->has('errorMessage'))
+            <script id="js-error-message-{{time()}}">
+                mw.notification.error('{{ session('errorMessage') }}');
+            </script>
+        @endif
+
+        <script wire:ignore type="text/javascript">
 
         mw.require("files.js");
         mw.require("uploader.js");
@@ -114,7 +126,7 @@
                         </div>
                     @endif
 
-                    <div class="mt-2 js-read-feed-from-file" style="display: none">
+                    <div class="mt-2 js-read-subscribers-list-from-file" style="display: none">
                         <div class="spinner-border spinner-border-sm text-success" role="status"></div>
                         <span class="text-success">
                        Reading subscribers list data...
@@ -122,9 +134,9 @@
                     </div>
 
                     <script type="text/javascript">
-                        window.addEventListener('read-feed-from-file', event => {
-                            $('.js-read-feed-from-file').show();
-                            window.livewire.emit('readFeedFile');
+                        window.addEventListener('read-subscribers-list-from-file', event => {
+                            $('.js-read-subscribers-list-from-file').show();
+                            window.livewire.emit('readSubscribersListFile');
                         });
                     </script>
 

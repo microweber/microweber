@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
+use MicroweberPackages\Modules\Newsletter\ImportSubscribersFileReader;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 use MicroweberPackages\Modules\Newsletter\ProcessCampaigns;
 
@@ -21,18 +22,42 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
         'sourceType' => 'uploadFile'
     ];
 
+    protected $listeners = [
+        'readSubscribersListFile' => 'readSubscribersListFile',
+    ];
+
     public function download()
     {
         $sourceUrl = $this->importSubscribers['sourceUrl'];
-
         if ($this->downloadFeed($sourceUrl)) {
             session()->flash('successMessage', 'Feed is downloaded successfully.');
-            $this->dispatchBrowserEvent('read-feed-from-file');
+            $this->dispatchBrowserEvent('read-subscribers-list-from-file');
         } else {
             session()->flash('errorMessage', 'Feed can\'t be downloaded.');
         }
 
     }
+
+    public function readSubscribersListFile()
+    {
+        $subscriberListFile = $this->importSubscribers['sourceFileRealpath'];
+
+        if (is_file($subscriberListFile)) {
+
+            $fileExt = pathinfo($subscriberListFile, PATHINFO_EXTENSION);
+
+            $fileReader = new ImportSubscribersFileReader();
+            $read = $fileReader->readContentFromFile($subscriberListFile, $fileExt);
+            if ($read) {
+                session()->flash('successMessage', 'Subscribers list is read successfully.');
+            } else {
+                session()->flash('errorMessage', 'No data found in subscribers list file.');
+            }
+        } else {
+            session()->flash('errorMessage', 'Can\'t read subscribers list file.');
+        }
+    }
+
 
     public function downloadFeed($url)
     {
@@ -60,11 +85,8 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
         }
 
         $downloaded = mw()->http->url($url)->download($filename);
-
         if ($downloaded && is_file($filename)) {
-
-            dd($filename);
-
+            $this->importSubscribers['sourceFileRealpath'] = $filename;
             return true;
         }
 
