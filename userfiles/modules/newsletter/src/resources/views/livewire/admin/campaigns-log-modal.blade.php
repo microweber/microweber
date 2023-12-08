@@ -13,7 +13,7 @@
     <div class="mt-4 px-5 pb-5">
         <div class="row">
 
-            @if($campaignLog)
+            @if(!empty($campaignLog))
                 @foreach($campaignLog as $log)
 
                     <div class="card mt-2">
@@ -23,6 +23,11 @@
                     </div>
 
                 @endforeach
+                @if($campaignLog->count() == 0)
+                    <div class="alert alert-info mt-3">
+                        No log found.
+                    </div>
+                @endif
             @endif
 
             @if($campaignLog)

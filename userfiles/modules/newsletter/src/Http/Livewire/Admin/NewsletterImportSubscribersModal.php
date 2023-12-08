@@ -7,13 +7,14 @@ use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Modules\Newsletter\ImportSubscribersFileReader;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 use MicroweberPackages\Modules\Newsletter\ProcessCampaigns;
 
 class NewsletterImportSubscribersModal extends AdminModalComponent
 {
     public $modalSettings = [
-        'width'=>'900px',
+        'width'=>'700px',
         'overlay' => true,
         'overlayClose' => true,
     ];
@@ -22,23 +23,21 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
         'sourceType' => 'uploadFile'
     ];
 
-    protected $listeners = [
-        'readSubscribersListFile' => 'readSubscribersListFile',
-    ];
+    public $importDone = [];
 
     public function download()
     {
         $sourceUrl = $this->importSubscribers['sourceUrl'];
-        if ($this->downloadFeed($sourceUrl)) {
-            session()->flash('successMessage', 'Feed is downloaded successfully.');
-            $this->dispatchBrowserEvent('read-subscribers-list-from-file');
-        } else {
-            session()->flash('errorMessage', 'Feed can\'t be downloaded.');
-        }
+        $this->downloadFeed($sourceUrl);
 
     }
 
-    public function readSubscribersListFile()
+    public function mount()
+    {
+        $this->importDone = [];
+    }
+
+    public function importSubscribersList()
     {
         $subscriberListFile = $this->importSubscribers['sourceFileRealpath'];
 
@@ -47,12 +46,31 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
             $fileExt = pathinfo($subscriberListFile, PATHINFO_EXTENSION);
 
             $fileReader = new ImportSubscribersFileReader();
-            $read = $fileReader->readContentFromFile($subscriberListFile, $fileExt);
-            if ($read) {
-                session()->flash('successMessage', 'Subscribers list is read successfully.');
-            } else {
-                session()->flash('errorMessage', 'No data found in subscribers list file.');
+            $readSubscribers = $fileReader->readContentFromFile($subscriberListFile, $fileExt);
+            if (!empty($readSubscribers)) {
+                $imported = 0;
+                $skipped = 0;
+                $failed = 0;
+                foreach($readSubscribers as $subscriber) {
+                    $findSubsciber = NewsletterSubscriber::where('email', $subscriber['email'])->first();
+                    if (!$findSubsciber) {
+                        $findSubsciber = new NewsletterSubscriber();
+                        $findSubsciber->email = $subscriber['email'];
+                        $imported++;
+                    } else {
+                        $skipped++;
+                    }
+                    $findSubsciber->name = $subscriber['name'];
+                    $findSubsciber->save();
+                }
+                $this->importDone = [
+                    'imported'=>$imported,
+                    'skipped'=>$skipped,
+                    'failed'=>$failed
+                ];
+                $this->emit('newsletterSubscribersListUpdated');
             }
+
         } else {
             session()->flash('errorMessage', 'Can\'t read subscribers list file.');
         }
@@ -87,10 +105,10 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
         $downloaded = mw()->http->url($url)->download($filename);
         if ($downloaded && is_file($filename)) {
             $this->importSubscribers['sourceFileRealpath'] = $filename;
-            return true;
+        } else {
+            $this->importSubscribers['sourceFileRealpath'] = false;
         }
 
-        return false;
     }
 
     public function render()
