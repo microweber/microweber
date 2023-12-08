@@ -77,6 +77,11 @@ class ProcessCampaigns
                         $this->logger->info('Subscriber: ' . $subscriber['name'] . ' (' . $subscriber['email'] . ')');
                         newsletter_campaigns_send_log($campaign['id'], $subscriber['id']);
                         $sendLogCount++;
+                    } else {
+                        $this->logger->warn('Subscriber: ' . $subscriber['name'] . ' (' . $subscriber['email'] . ') - failed to send');
+                        if (isset($sendMailResponse['message'])) {
+                            $this->logger->warn($sendMailResponse['message']);
+                        }
                     }
                 }
 

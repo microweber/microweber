@@ -33,6 +33,9 @@ class VerifyCsrfToken extends Middleware
     public function handle($request, \Closure $next)
     {
         $this->addHttpCookie = false;
+        if(app()->runningUnitTests()){
+            return $next($request);
+        }
 
         try {
             return parent::handle($request, $next);
@@ -76,7 +79,9 @@ class VerifyCsrfToken extends Middleware
      */
     protected function addCookieToResponse($request, $response)
     {
+
         if (!is_object($response)) {
+
             return;
         }
 

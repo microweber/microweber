@@ -20,6 +20,8 @@ class NewsletterSubscribersList extends Component
 
     protected $queryString = ['keyword'];
 
+    protected $listeners = ['newsletterSubscribersListUpdated' => 'render'];
+
     public function render()
     {
 

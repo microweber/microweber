@@ -62,8 +62,11 @@
                     customRangeValueField.dispatchEvent(new Event('slide'));
                 });
 
-                customRangeValueField{{$rand}}.addEventListener('change', function() {
+                customRangeValueField{{$rand}}.addEventListener('input', function() {
                     slider{{$rand}}.noUiSlider.set(parseFloat(this.value).toString());
+
+                    let customRangeValueField = document.getElementById('js-custom-range-value-{{$rand}}');
+                    customRangeValueField.dispatchEvent(new Event('slide'));
                 });
             }, 100);
         }

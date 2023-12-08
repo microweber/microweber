@@ -8,4 +8,12 @@ class NewsletterSubscriber extends Model
 {
     protected $table = 'newsletter_subscribers';
 
+    public $timestamps = false;
+
+    protected $fillable = [
+        'email',
+        'name',
+        'is_subscribed'
+    ];
+
 }

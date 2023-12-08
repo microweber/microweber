@@ -10,19 +10,28 @@
         </h3>
     </div>
 
+    @if(!empty($this->importDone))
+        <div class="mt-4 px-1 pb-5">
+            <div class="row">
+                <div class="mx-auto col-md-10">
+            <div class="alert alert-success">
+                <h4 class="alert-heading">Import is done</h4>
+                <p>
+                    <b>Imported subscribers:</b> {{ $this->importDone['imported'] }}<br />
+                    <b>Skipped subscribers:</b> {{ $this->importDone['skipped'] }}<br />
+                    <b>Failed subscribers:</b> {{ $this->importDone['failed'] }}<br />
+                </p>
+                <div>
+                    <button type="button" class="btn btn-outline-success" wire:click="$emit('closeModal', true)">
+                        Back to Newsletter
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    @else
     <div class="mt-4 px-1 pb-5">
-
-        @if (session()->has('successMessage'))
-            <script id="js-success-message-{{time()}}">
-                mw.notification.success('{{ session('successMessage') }}');
-            </script>
-        @endif
-
-        @if (session()->has('errorMessage'))
-            <script id="js-error-message-{{time()}}">
-                mw.notification.error('{{ session('errorMessage') }}');
-            </script>
-        @endif
 
         <script wire:ignore type="text/javascript">
 
@@ -77,7 +86,7 @@
                 <div class="input-group mb-3">
                     <span class="input-group-text">Upload File Type</span>
                     <select class="form-select" wire:model="importSubscribers.sourceType">
-                        <option value="downloadLink">Download subscibers list from link</option>
+                        <option value="downloadLink">Download subscribers list from link</option>
                         <option value="uploadFile">Upload subscribers list from your computer</option>
                     </select>
                 </div>
@@ -128,15 +137,37 @@
 
                     <div class="mt-2 js-read-subscribers-list-from-file" style="display: none">
                         <div class="spinner-border spinner-border-sm text-success" role="status"></div>
-                        <span class="text-success">
-                       Reading subscribers list data...
-                   </span>
+                            <span class="text-success">
+                           Reading subscribers list data...
+                       </span>
                     </div>
+
+                    @if(isset($this->importSubscribers['sourceFileRealpath']))
+                        @if(!$this->importSubscribers['sourceFileRealpath'])
+                            <span class="text-danger">
+                                 Failed to download subscribers list.
+                           </span>
+                        @else
+                            <span class="text-success">
+                               Subscribers list is downloaded successfully.
+                           </span>
+                            <div>
+                                <div>
+
+                                </div>
+                                <br />
+                                <button type="button" class="btn btn-outline-success"
+                                        wire:click="importSubscribersList"
+                                        wire:loading.attr="disabled">
+                                    Import subscribers
+                                </button>
+                            </div>
+                        @endif
+                    @endif
 
                     <script type="text/javascript">
                         window.addEventListener('read-subscribers-list-from-file', event => {
                             $('.js-read-subscribers-list-from-file').show();
-                            window.livewire.emit('readSubscribersListFile');
                         });
                     </script>
 
@@ -156,10 +187,10 @@
                         }
                     </style>
                     <div class="d-flex align-items-center justify-content-between mt-5">
-                        <div>
+                        <div style="width:100%">
                             <span class="text-muted">Supported formats</span>
                         </div>
-                        <div class="d-flex justify-content-end gap-3 js-supported-file-formats">
+                        <div style="width:100%" class="d-flex justify-content-end gap-3 js-supported-file-formats">
 
                             <a href="#">
                                 <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/csv.svg" />
@@ -177,4 +208,6 @@
         </div>
     </div>
     </div>
+    @endif
+
 </div>
