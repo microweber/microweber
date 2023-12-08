@@ -6,6 +6,7 @@ use Livewire\Livewire;
 use MicroweberPackages\Modules\Newsletter\Console\Commands\ProcessCampaigns;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterCampaignsLogModal;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterChooseTemplateModal;
+use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterImportSubscribersModal;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterProcessCampaignsModal;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterSubscribersList;
 use Spatie\LaravelPackageTools\Package;
@@ -29,6 +30,7 @@ class NewsletterServiceProvider extends PackageServiceProvider
         Livewire::component('admin-newsletter-choose-template-modal', NewsletterChooseTemplateModal::class);
         Livewire::component('admin-newsletter-process-campaigns-modal', NewsletterProcessCampaignsModal::class);
         Livewire::component('admin-newsletter-campaigns-log-modal', NewsletterCampaignsLogModal::class);
+        Livewire::component('admin-newsletter-import-subscribers-modal', NewsletterImportSubscribersModal::class);
     }
 
     public function register(): void
