@@ -15,6 +15,10 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
         'overlayClose' => true,
     ];
 
+    public $importSubscribers = [
+        'sourceType' => 'uploadFile'
+    ];
+
     public function render()
     {
         return view('microweber-module-newsletter::livewire.admin.import-subscribers-modal');
