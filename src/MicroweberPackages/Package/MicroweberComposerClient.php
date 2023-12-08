@@ -297,6 +297,8 @@ class MicroweberComposerClient extends Client
             Cache::forget('livewire-marketplace');
             mw()->cache_manager->delete('livewire-marketplace');
 
+            $this->clearLog();
+
 
         }
 
@@ -333,7 +335,9 @@ class MicroweberComposerClient extends Client
 
     public function clearLog()
     {
-        @file_put_contents($this->logfile, '');
+        if(is_file($this->logfile)){
+            @unlink($this->logfile);
+        }
     }
 
     public function log($log)

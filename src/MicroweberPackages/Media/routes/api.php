@@ -6,7 +6,7 @@
 \Illuminate\Support\Facades\Route::get('/api/image-generate-tn-request/{cache_id}', function ($mediaId) {
 
     $mediaId = str_replace('..', '', $mediaId);
-    $check = \MicroweberPackages\Media\Models\MediaThumbnail::where('id', $mediaId)->first();
+    $check = \MicroweberPackages\Media\Models\MediaThumbnail::where('uuid', $mediaId)->first();
 
     if ($check) {
         $opts = $check->image_options;

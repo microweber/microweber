@@ -914,11 +914,12 @@ class MediaManager
             if (!$check) {
                 $media_tn_temp = new MediaThumbnail();
                 $media_tn_temp->filename = $cache_id_without_ext;
+                $media_tn_temp->uuid = (string) Str::orderedUuid();
                 //$media_tn_temp->filename = null;
                 $media_tn_temp->image_options = $cache_id_data;
                 $media_tn_temp->save();
 
-                return $this->app->url_manager->site('api/image-generate-tn-request/') . $media_tn_temp->id . '?saved';
+                return $this->app->url_manager->site('api/image-generate-tn-request/') . $media_tn_temp->uuid . '?saved';
             } elseif (isset($check['image_options']) and isset($check['image_options']['cache_path_relative'])) {
                 $file_check = normalize_path(userfiles_path() . '' . $check['image_options']['cache_path_relative'], false);
                 if (is_file($file_check)) {
@@ -927,7 +928,7 @@ class MediaManager
 
             }
 
-            return $this->app->url_manager->site('api/image-generate-tn-request/') . $check['id'] . '?finded';
+            return $this->app->url_manager->site('api/image-generate-tn-request/') . $check['uuid'] . '?finded';
         }
 
     }
@@ -1131,28 +1132,31 @@ class MediaManager
         }
 
         if (is_file($cache_path)) {
-            $ext = get_file_extension($cache_path);
-            if ($ext == 'jpg') {
-                $ext = 'jpeg';
-            }
-
-//        if (isset($return_cache_path)) {
-//            delete_option($cache_id, 'media_tn_temp');
-//            return $cache_path;
-//        }
-
-            if ($ext == 'svg') {
-                header('Content-Type: image/svg+xml');
-            } else {
-                header('Content-Type: image/' . $ext);
-            }
-
-            header('Content-Length: ' . filesize($cache_path));
-            readfile($cache_path);
+            $this->outputImageFile($cache_path);
             exit;
         } else {
             return $this->pixum_img();
         }
+    }
+
+
+    public function outputImageFile($cache_path)
+    {
+        $ext = get_file_extension($cache_path);
+        if ($ext == 'jpg') {
+            $ext = 'jpeg';
+        }
+
+
+        if ($ext == 'svg') {
+            header('Content-Type: image/svg+xml');
+        } else {
+            header('Content-Type: image/' . $ext);
+        }
+
+        header('Content-Length: ' . filesize($cache_path));
+        return readfile($cache_path);
+
     }
 
     public function tn_cache_id($params)

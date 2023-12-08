@@ -42,7 +42,7 @@ class MediaRepository extends AbstractRepository
             $return = false;
 
             $check = \DB::table('media_thumbnails')
-                ->select(['id', 'filename', 'image_options'])
+                ->select(['id', 'filename', 'image_options','uuid'])
                 ->where('filename', $tn_cache_id)->first();
 
             //$check = MediaThumbnail::where('filename', $tn_cache_id)->first();

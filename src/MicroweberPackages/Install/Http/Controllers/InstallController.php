@@ -480,6 +480,8 @@ class InstallController extends Controller
 
             event_trigger('mw.install.complete', $input);
 
+            $this->clearLog();
+
             return 'done';
         }
 
