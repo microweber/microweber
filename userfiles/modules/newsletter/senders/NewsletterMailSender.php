@@ -163,13 +163,49 @@ class NewsletterMailSender {
 
         $templateText = $this->getTemplate()['text'];
 
-        return Blade::render($templateText, [
-            'name' => $this->subscriber['name'],
-            'first_name' => $this->subscriber['name'],
-            'last_name' => $this->subscriber['name'],
-            'email' => $this->subscriber['email'],
-            'site_url' => url('/'),
-        ]);
+        $firstName = '';
+        $lastName = '';
+        $name = '';
+        $email = '';
+        $siteUrl = url('/');
+
+        if (isset($this->subscriber['name'])) {
+            $name = $this->subscriber['name'];
+        }
+        if (isset($this->subscriber['first_name'])) {
+            $firstName = $this->subscriber['first_name'];
+        }
+        if (isset($this->subscriber['last_name'])) {
+            $lastName = $this->subscriber['last_name'];
+        }
+        if (isset($this->subscriber['email'])) {
+            $email = $this->subscriber['email'];
+        }
+
+        if (empty($firstName)) {
+            $firstName = $name;
+        }
+        if (empty($lastName)) {
+            $lastName = $name;
+        }
+
+        $twig = new \MicroweberPackages\View\TwigView();
+
+        $twigSettings = [
+            'autoescape' => false
+        ];
+        $parsedEmail = $twig->render($templateText,
+            [
+                'name' => $name,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => $email,
+                'site_url' => $siteUrl,
+            ],
+            $twigSettings
+        );
+        
+        return $parsedEmail;
 
 	}
 }
