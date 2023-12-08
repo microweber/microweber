@@ -582,6 +582,7 @@ mw.uploadGlobalSettings = {
                 xhr.onload = function (res) {
 
                     if(xhr.status === 400) {
+                        mw.cookie.delete("XSRF-TOKEN")
                         $.post(route('csrf'), function (res) {
                             var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
                             $.ajaxSetup({

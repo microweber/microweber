@@ -3,6 +3,21 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+
+
+## [2.0.6] - 2023-12-08
+- Maintenance release
+- Added new price modifier custom field setting for products
+- Added newsletter module
+- New template editing framework only with css variables 
+- Fixed problem with resize images
+- Fixed problem when editing text in field without html elements
+- Fixed element style editor to work any element that have ID
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/2.0.5...2.0.6 "")
+
+
+
 ## [2.0.5] - 2023-11-17
 - Maintenance release
 - Fixed issues with cloneable controls
@@ -22,7 +37,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added Laravel events for some cart and checkout actions
 - Added box shadow and text shadow settings in element style editor
 - [see all changes....](https://github.com/microweber/microweber/compare/2.0.4...2.0.5 "")
-
+`
 
 ## [2.0.4] - 2023-11-09
 - Fixed problem with menu links  
