@@ -58,23 +58,20 @@ class HTMLClean
         $config->set('URI.Host', site_hostname());
 
         if(isset($options['admin_mode']) and $options['admin_mode']){
-            // allo more tags and images
-            //  'CSS.AllowedProperties' => ',
-            /*'AutoFormat.AutoParagraph' => false,'URI.AllowedSchemes' => array(
-            'http' => true,
-            'https' => true,
-        ),
-        'AutoFormat.RemoveEmpty' => true,*/
-            $config->set('HTML.Allowed', 'div,module,*[style|class|field|rel|type|data-type|id|data-background-image],img[src],p,b,a[href],i,ul,ol,li,img[src],br,div[style],span[style],table,td,tr,th,tbody,thead,iframe[src|width|height|frameborder],h1,h2,h3,h4,h5,h6,hr,blockquote,pre,code,small');
+
+            $config->set('HTML.Allowed', 'div,module,section,*[style|class|field|rel|type|data-type|id|data-background-image|data-src],img[src],p,b,a[href],i,ul,ol,li,img[src],br,div[style],span[style],table,td,tr,th,tbody,thead,iframe[src|width|height|frameborder],h1,h2,h3,h4,h5,h6,hr,blockquote,pre,code,small');
             $config->set('CSS.AllowedProperties', 'font,font-size,font-weight,font-style,font-family,text-decoration,padding-left,color,background-color,text-align,margin-left,margin-right,margin-top,margin-bottom,width,height,margin,margin-left,margin-right,margin-top,margin-bottom,padding,padding-left,padding-right,padding-top,padding-bottom,border,border-left,border-right,border-top,border-bottom,border-color,border-width,border-style,display,vertical-align,white-space,box-sizing,clear,float,position,top,left,right,bottom,overflow,overflow-x,overflow-y,visibility,z-index');
             $config->set('CSS.AllowTricky', true);
             $config->set('CSS.Proprietary', true);
             $config->set('HTML.Proprietary', true);
+            $config->set('HTML.TidyLevel', 'none');
             $config->set('URI.AllowedSchemes',  array(
                 'http' => true,
                 'https' => true,
             ));
-
+                $config->set('URI.DisableExternal', false);
+             $config->set('URI.DisableExternalResources', false);
+                $config->set('URI.DisableResources', false);
 
             $allowedAttrs = [
                 'style',
@@ -150,6 +147,7 @@ class HTMLClean
             $def->addAttribute('div', 'data-parent-module',  'CDATA');
             $def->addAttribute('div', 'data-parent-module-id',  'CDATA');
             $def->addAttribute('div', 'data-filter',  'CDATA');
+            $def->addAttribute('div', 'data-layout-container',  'CDATA');
             $def->addElement('mark', 'Inline', 'Inline', 'Common');
             $def->addElement('figure', 'Block', 'Optional: (figcaption, Flow) | (Flow, figcaption) | Flow', 'Common');
             $def->addElement('figcaption', 'Inline', 'Flow', 'Common');
@@ -163,6 +161,7 @@ class HTMLClean
                 'data-type' => 'Text',
                 'data-module' => 'Text',
                 'data-filter' => 'Text',
+                'data-layout-container' => 'Text',
                 'data-x' => 'Text',
                 'button_style' => 'Text',
                 'button_size' => 'Text',
