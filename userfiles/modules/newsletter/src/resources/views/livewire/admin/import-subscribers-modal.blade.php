@@ -150,7 +150,15 @@
                            </span>
                             <div>
                                 <div>
-
+                                    <span>Import to E-mail List</span>
+                                    <select wire:model="list_id" class="form-control">
+                                        <option value="0">Default</option>
+                                        @if (!empty($this->lists))
+                                            @foreach ($this->lists as $list)
+                                                <option value="{{ $list['id'] }}">{{ $list['name'] }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
                                 </div>
                                 <br />
                                 <button type="button" class="btn btn-outline-success"

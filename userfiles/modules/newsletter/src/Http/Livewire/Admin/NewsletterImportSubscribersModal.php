@@ -7,7 +7,9 @@ use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Modules\Newsletter\ImportSubscribersFileReader;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriberList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 use MicroweberPackages\Modules\Newsletter\ProcessCampaigns;
 
@@ -29,6 +31,9 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
         'uploadEmailList'=>'uploadEmailList'
     ];
 
+    public $lists = [];
+    public $list_id = 0;
+
     public function download()
     {
         $sourceUrl = $this->importSubscribers['sourceUrl'];
@@ -49,7 +54,6 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
 
             $fileReader = new ImportSubscribersFileReader();
             $readSubscribers = $fileReader->readContentFromFile($subscriberListFile, $fileExt);
-
             if (!empty($readSubscribers)) {
                 $imported = 0;
                 $skipped = 0;
@@ -65,6 +69,11 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
                     }
                     $findSubsciber->name = $subscriber['name'];
                     $findSubsciber->save();
+
+                    NewsletterSubscriberList::firstOrCreate([
+                        'list_id' => $this->list_id,
+                        'subscriber_id' => $findSubsciber->id
+                    ]);
                 }
                 $this->importDone = [
                     'imported'=>$imported,
@@ -125,6 +134,8 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
 
     public function render()
     {
+        $this->lists = NewsletterList::all()->toArray();
+
         return view('microweber-module-newsletter::livewire.admin.import-subscribers-modal');
     }
 }
