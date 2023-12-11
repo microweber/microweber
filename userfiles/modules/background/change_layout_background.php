@@ -115,6 +115,7 @@
                     const {bg, bgOverlay, bgNode, target} = getTargets();
                     videoPicker.setFile(null);
                     mw.top().app.layoutBackground.setBackgroundImage(bgNode, picker.file);
+                    mw.top().app.registerChange(mw.top().app.liveEdit.handles.get('layout').getTarget());
                 })
 
 
@@ -123,6 +124,7 @@
                     const {bg, bgOverlay, bgNode, target} = getTargets();
                     mw.top().app.layoutBackground.setBackgroundVideo(bgNode, videoPicker.file);
                     picker.setFile(null);
+                    mw.top().app.registerChange(mw.top().app.liveEdit.handles.get('layout').getTarget());
                 })
             }
 
@@ -176,6 +178,7 @@
 
                     mw.top().app.layoutBackground.setBackgroundColor(bgNode, color);
                     showHideRemoveBackgroundsButtons();
+                    mw.top().app.registerChange(mw.top().app.liveEdit.handles.get('layout').getTarget());
                 }
             });
 
@@ -191,6 +194,7 @@
                     if (!cpoPickerPause) {
                         mw.top().app.layoutBackground.setBackgroundColor(bgOverlay, color);
                         showHideRemoveBackgroundsButtons();
+                        mw.top().app.registerChange(mw.top().app.liveEdit.handles.get('layout').getTarget());
                     }
 
                 }
@@ -229,6 +233,7 @@
             } else {
                 $('#overlay-color-picker-remove-color').hide()
             }
+            mw.top().app.registerChange(mw.top().app.liveEdit.handles.get('layout').getTarget());
 
         }
 
