@@ -68,6 +68,7 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
                     $findSubsciber = NewsletterSubscriber::where('email', $subscriber['email'])->first();
                     if (!$findSubsciber) {
                         $findSubsciber = new NewsletterSubscriber();
+                        $findSubsciber->is_subscribed = 1;
                         $findSubsciber->email = $subscriber['email'];
                         $imported++;
                     } else {
@@ -84,6 +85,7 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
                         $findSubscriberList->subscriber_id = $findSubsciber->id;
                         $findSubscriberList->save();
                     }
+
                 }
                 $this->importDone = [
                     'imported'=>$imported,
