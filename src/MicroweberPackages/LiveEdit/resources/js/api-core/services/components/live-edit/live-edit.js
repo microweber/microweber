@@ -164,6 +164,11 @@ export const liveEditComponent = () => {
         })
 
 
+        mw.app.on('$resizeStop', () => {
+            mw.top().app.liveEdit.layoutHandleContent.positionButtons(mw.top().app.liveEdit.handles.get('layout').getTarget())
+            mw.top().app.liveEdit.layoutHandleContent.plusTop.hide()
+            mw.top().app.liveEdit.layoutHandleContent.plusBottom.hide()
+        })
 
 
      mw.app.dispatch('onLiveEditReady');

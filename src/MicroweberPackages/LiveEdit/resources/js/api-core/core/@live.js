@@ -334,6 +334,8 @@ export class LiveEdit {
 
             });
 
+
+
             this.layoutHandleContent.menu.setTarget(target);
             this.layoutHandleContent.menu.setTitle(title);
             if (scope.elementAnalyzer.isEditOrInEdit(target)) {
@@ -343,20 +345,10 @@ export class LiveEdit {
                 this.layoutHandleContent.plusTop.hide()
                 this.layoutHandleContent.plusBottom.hide()
             }
+            this.layoutHandleContent.positionButtons(target)
 
 
-           // console.log('layoutHandle.on targetChange', target)
-            //
-            //
-            // scope.handles.set('module', null);
-            // scope.handles.set('element', null);
-            // scope.handles.set('interactionHandle', null);
-            // scope.handles.get('module').hide();
-            // scope.handles.get('element').hide();
-            // scope.handles.get('interactionHandle').hide();
-            // mw.top().app.richTextEditor.smallEditor.hide()
 
-            //mw.app.domTreeSelect(target)
         });
 
         this.layoutHandleContent.handle = layoutHandle;

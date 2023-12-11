@@ -132,7 +132,7 @@ export class LayoutHandleContent {
         this.menusHolder.append(this.menu.root.get(0));
         this.root.append(this.menusHolder);
 
-        this.addButtons();
+        setTimeout(() => { this.addButtons() }, 100);
     }
 
     on(eventName, callback) {
@@ -312,6 +312,23 @@ export class LayoutHandleContent {
         });
     }
 
+    positionButtons(target) {
+        const targetDocument = mw.top().app.canvas.getDocument()
+        const off = ElementManager(target, targetDocument).offset();
+
+
+        this.plusTop.css({
+            left: off.offsetLeft + (off.width/2),
+            top: off.offsetTop,
+            zIndex: 1102,
+        })
+        this.plusBottom.css({
+            left: off.offsetLeft + (off.width/2),
+            top: off.offsetTop + target.offsetHeight - 15,
+            zIndex: 1102,
+        })
+    }
+
     addButtons() {
         const plusLabel = 'Add Layout';
 
@@ -342,7 +359,24 @@ export class LayoutHandleContent {
             handlePlus('bottom');
         });
 
-        this.root.append(this.plusTop);
-        this.root.append(this.plusBottom);
+        const targetDocument = mw.top().app.canvas.getDocument()
+
+        targetDocument.body.append(this.plusTop.get(0));
+        targetDocument.body.append(this.plusBottom.get(0));
+
+        console.log(this.rootScope)
+
+        mw.top().app.liveEdit.handles.get('layout').on('hide', () => {
+            console.log(9191)
+            this.plusTop.hide()
+            this.plusBottom.hide()
+        });
+
+
+        mw.top().app.liveEdit.handles.get('layout').on('show', () => {
+
+            this.plusTop.show()
+            this.plusBottom.show()
+        })
     }
 }
