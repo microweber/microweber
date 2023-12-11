@@ -41,7 +41,7 @@
         function initJsUploader() {
 
             var uploader = mw.upload({
-                url: route('admin.import-export-tool.upload-feed'),
+                url: '{{ route('admin.newsletter.upload-subscribers-list') }}',
                 filetypes: "zip",
                 multiple: false,
                 element:$("#mw_uploader")
@@ -49,7 +49,7 @@
 
             $(uploader).bind("FileUploaded", function (obj, data) {
 
-                window.Livewire.emit('uploadFeedReadFile', data.name);
+                window.Livewire.emit('uploadEmailList', data.name);
 
                 mw.$("#mw_uploader_loading").hide();
                 mw.$("#upload_file_info").html("");
@@ -72,10 +72,7 @@
                 mw.notification.error("The backup must be sql or zip.");
             });
         }
-
-        window.addEventListener('initJsUploader', event => {
-            initJsUploader();
-        });
+        initJsUploader();
     </script>
 
     <div class="row">
@@ -153,7 +150,15 @@
                            </span>
                             <div>
                                 <div>
-
+                                    <span>Import to E-mail List</span>
+                                    <select wire:model="list_id" class="form-control">
+                                        <option value="0">Default</option>
+                                        @if (!empty($this->lists))
+                                            @foreach ($this->lists as $list)
+                                                <option value="{{ $list['id'] }}">{{ $list['name'] }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
                                 </div>
                                 <br />
                                 <button type="button" class="btn btn-outline-success"
@@ -196,9 +201,9 @@
                                 <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/csv.svg" />
                             </a>
 
-                            <a href="#">
+<!--                            <a href="#">
                                 <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/excel.svg" />
-                            </a>
+                            </a>-->
 
                         </div>
                     </div>

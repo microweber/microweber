@@ -6,16 +6,15 @@
  * @package NewsletterMailSender
  */
 
-namespace Newsletter\Senders;
+namespace MicroweberPackages\Modules\Newsletter\Senders;
 
-use Illuminate\Support\Facades\Blade;
-use Newsletter\Providers\SMTPProvider;
-use Newsletter\Providers\PHPMailProvider;
-use Newsletter\Providers\MailchimpProvider;
-use Newsletter\Providers\MailgunProvider;
-use Newsletter\Providers\AmazonSesProvider;
-use Newsletter\Providers\SparkpostProvider;
-use Newsletter\Providers\MandrillProvider;
+use MicroweberPackages\Modules\Newsletter\EmailProviders\AmazonSesProvider;
+use MicroweberPackages\Modules\Newsletter\EmailProviders\MailchimpProvider;
+use MicroweberPackages\Modules\Newsletter\EmailProviders\MailgunProvider;
+use MicroweberPackages\Modules\Newsletter\EmailProviders\MandrillProvider;
+use MicroweberPackages\Modules\Newsletter\EmailProviders\PHPMailProvider;
+use MicroweberPackages\Modules\Newsletter\EmailProviders\SMTPProvider;
+use MicroweberPackages\Modules\Newsletter\EmailProviders\SparkpostProvider;
 
 class NewsletterMailSender {
 
@@ -204,7 +203,7 @@ class NewsletterMailSender {
             ],
             $twigSettings
         );
-        
+
         return $parsedEmail;
 
 	}

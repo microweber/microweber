@@ -6,6 +6,12 @@ description: Default
 */
 ?>
 
+<style>
+    .mwembed-video {
+        max-width: 100%;
+    }
+</style>
+
 <?php if ($lazyload) { ?>
     <script>
         $(document).ready(function () {

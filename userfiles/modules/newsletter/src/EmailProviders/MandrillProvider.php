@@ -6,21 +6,21 @@
  * @package MandrillProvider
  */
 
-namespace Newsletter\Providers;
+namespace MicroweberPackages\Modules\Newsletter\EmailProviders;
 
 use Config;
 
-class MandrillProvider extends \Newsletter\Providers\DefaultProvider {
-	
+class MandrillProvider extends DefaultProvider {
+
 	public function send() {
-		
+
 		Config::set('mail.driver', 'mandrill');
 		Config::set('services.mandrill.secret', $this->getSecret());
-		
+
 		$this->sendToEmail();
-		
+
 		//var_dump(Config::get('services'));
 		//die();
 	}
-	
+
 }

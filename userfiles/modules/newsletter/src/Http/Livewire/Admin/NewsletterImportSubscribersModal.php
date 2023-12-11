@@ -7,7 +7,9 @@ use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Modules\Newsletter\ImportSubscribersFileReader;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriberList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 use MicroweberPackages\Modules\Newsletter\ProcessCampaigns;
 
@@ -25,6 +27,13 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
 
     public $importDone = [];
 
+    protected $listeners = [
+        'uploadEmailList'=>'uploadEmailList'
+    ];
+
+    public $lists = [];
+    public $list_id = 0;
+
     public function download()
     {
         $sourceUrl = $this->importSubscribers['sourceUrl'];
@@ -40,13 +49,17 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
     public function importSubscribersList()
     {
         $subscriberListFile = $this->importSubscribers['sourceFileRealpath'];
-
         if (is_file($subscriberListFile)) {
-
             $fileExt = pathinfo($subscriberListFile, PATHINFO_EXTENSION);
 
-            $fileReader = new ImportSubscribersFileReader();
-            $readSubscribers = $fileReader->readContentFromFile($subscriberListFile, $fileExt);
+            try {
+                $fileReader = new ImportSubscribersFileReader();
+                $readSubscribers = $fileReader->readContentFromFile($subscriberListFile, $fileExt);
+            } catch (\Exception $e) {
+                session()->flash('errorMessage', $e->getMessage());
+                return;
+            }
+
             if (!empty($readSubscribers)) {
                 $imported = 0;
                 $skipped = 0;
@@ -55,6 +68,7 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
                     $findSubsciber = NewsletterSubscriber::where('email', $subscriber['email'])->first();
                     if (!$findSubsciber) {
                         $findSubsciber = new NewsletterSubscriber();
+                        $findSubsciber->is_subscribed = 1;
                         $findSubsciber->email = $subscriber['email'];
                         $imported++;
                     } else {
@@ -62,6 +76,16 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
                     }
                     $findSubsciber->name = $subscriber['name'];
                     $findSubsciber->save();
+
+                    $findSubscriberList = NewsletterSubscriberList::where('list_id', $this->list_id)
+                        ->where('subscriber_id', $findSubsciber->id)->first();
+                    if (!$findSubscriberList) {
+                        $findSubscriberList = new NewsletterSubscriberList();
+                        $findSubscriberList->list_id = $this->list_id;
+                        $findSubscriberList->subscriber_id = $findSubsciber->id;
+                        $findSubscriberList->save();
+                    }
+
                 }
                 $this->importDone = [
                     'imported'=>$imported,
@@ -76,6 +100,15 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
         }
     }
 
+    public function uploadEmailList($fileName)
+    {
+        $fullPathEmailList = ImportSubscribersFileReader::getImportTempPath() . 'uploaded_files' . DS . $fileName;
+        if ($fullPathEmailList && is_file($fullPathEmailList)) {
+            $this->importSubscribers['sourceFileRealpath'] = $fullPathEmailList;
+        } else {
+            $this->importSubscribers['sourceFileRealpath'] = false;
+        }
+    }
 
     public function downloadFeed($url)
     {
@@ -113,6 +146,8 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
 
     public function render()
     {
+        $this->lists = NewsletterList::all()->toArray();
+
         return view('microweber-module-newsletter::livewire.admin.import-subscribers-modal');
     }
 }

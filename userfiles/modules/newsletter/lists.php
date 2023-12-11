@@ -7,9 +7,9 @@
             function edit_list(id = false) {
                 var data = {};
                 data.id = id;
-                let modal_title = 'New list';
+                let modal_title = 'New E-mail List';
                 if (id > 0) {
-                    modal_title = 'Edit list';
+                    modal_title = 'Edit E-mail List';
                 }
                 edit_list_modal = mw.tools.open_module_modal('newsletter/edit_list', data, {
                     overlay: true,
@@ -19,7 +19,7 @@
             }
 
             function delete_list(id) {
-                var ask = confirm("<?php _ejs('Are you sure you want to delete this list?'); ?>");
+                var ask = confirm("<?php _ejs('Are you sure you want to delete this e-mail list?'); ?>");
                 if (ask == true) {
                     var data = {};
                     data.id = id;
@@ -28,7 +28,7 @@
                         type: 'POST',
                         data: data,
                         success: function (result) {
-                            mw.notification.success('<?php _ejs('List deleted'); ?>');
+                            mw.notification.success('<?php _ejs('E-mail list deleted'); ?>');
 
                             // Reload the modules
                             mw.reload_module('newsletter/lists_list')

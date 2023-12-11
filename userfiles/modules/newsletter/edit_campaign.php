@@ -208,9 +208,8 @@ $templates = newsletter_get_templates();
     <div class="row">
         <div class="col-6">
             <div class="form-group">
-        <label class="control-label"><?php _e('List'); ?></label>
-        <small class="text-muted d-block mb-2">Choose from your lists or <a href="javascript:;" onclick="edit_list();">create a new one</a></small>
-
+        <label class="control-label"><?php _e('E-mail List'); ?></label>
+        <small class="text-muted d-block mb-2">Choose from your E-mail Lists or <a href="javascript:;" onclick="edit_list();">create a new one</a></small>
 
             <select name="list_id" class="form-control">
 
@@ -269,7 +268,7 @@ $templates = newsletter_get_templates();
             <div class="form-group">
                 <label class="control-label"><?php _e('Start Campaign'); ?></label>
                 <small class="text-muted d-block mb-2">
-                    <?php _e('Enable or disable this campaign'); ?>
+                    <?php _e('Start campaign Yes/No'); ?>
                 </small>
                 <select name="is_scheduled" class="form-control">
                     <option value="0" <?php if ($campaign['is_scheduled'] == 0): ?> selected="selected" <?php endif; ?> >No</option>

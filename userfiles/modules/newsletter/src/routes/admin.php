@@ -6,6 +6,8 @@ Route::name('admin.newsletter.')
     ->namespace('MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin')
     ->group(function () {
 
+        Route::post('/upload-subscribers-list', 'NewsletterUploadSubscribersListController@upload')->name('upload-subscribers-list');
+
         Route::get('/', 'AdminController@index')->name('index');
         Route::get('/preview-email-template-iframe', function() {
 
