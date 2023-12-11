@@ -10,7 +10,7 @@ namespace MicroweberPackages\Modules\Newsletter\EmailProviders;
 
 use Config;
 
-class MandrillProvider extends \Newsletter\Providers\DefaultProvider {
+class MandrillProvider extends DefaultProvider {
 
 	public function send() {
 

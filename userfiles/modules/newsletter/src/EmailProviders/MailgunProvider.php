@@ -10,7 +10,7 @@ namespace MicroweberPackages\Modules\Newsletter\EmailProviders;
 
 use Config;
 
-class MailgunProvider extends \Newsletter\Providers\DefaultProvider {
+class MailgunProvider extends DefaultProvider {
 
 	public function send() {
 

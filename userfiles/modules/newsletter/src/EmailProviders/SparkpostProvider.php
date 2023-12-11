@@ -10,7 +10,7 @@ namespace MicroweberPackages\Modules\Newsletter\EmailProviders;
 
 use Config;
 
-class SparkpostProvider extends \Newsletter\Providers\DefaultProvider {
+class SparkpostProvider extends DefaultProvider {
 
 	public function send() {
 

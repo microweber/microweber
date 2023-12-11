@@ -10,7 +10,7 @@ namespace MicroweberPackages\Modules\Newsletter\EmailProviders;
 
 use Config;
 
-class AmazonSesProvider extends \Newsletter\Providers\DefaultProvider {
+class AmazonSesProvider extends DefaultProvider {
 
 	public function send() {
 

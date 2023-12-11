@@ -12,7 +12,7 @@ use Microweber\App\Providers\Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Utils\Mail\MailSender;
 
-class PHPMailProvider extends \Newsletter\Providers\DefaultProvider {
+class PHPMailProvider extends DefaultProvider {
 
 	public function send() {
 
