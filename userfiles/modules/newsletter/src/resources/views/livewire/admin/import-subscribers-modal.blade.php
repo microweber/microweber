@@ -41,7 +41,7 @@
         function initJsUploader() {
 
             var uploader = mw.upload({
-                url: route('admin.import-export-tool.upload-feed'),
+                url: '{{ route('admin.newsletter.upload-subscribers-list') }}',
                 filetypes: "zip",
                 multiple: false,
                 element:$("#mw_uploader")
@@ -72,10 +72,7 @@
                 mw.notification.error("The backup must be sql or zip.");
             });
         }
-
-        window.addEventListener('initJsUploader', event => {
-            initJsUploader();
-        });
+        initJsUploader();
     </script>
 
     <div class="row">
