@@ -148,7 +148,9 @@
         <table class="table table-hover table-striped">
             <thead>
             <tr>
-                <th class="font-weight-bold" scope="col" width="40px"><?php _e('ID'); ?></th>
+                <th class="font-weight-bold" scope="col" width="40px">
+                    <input type="checkbox" wire:click="selectAll()" />
+                </th>
                 <th class="font-weight-bold" scope="col"><?php _e('Name'); ?></th>
                 <th class="font-weight-bold" scope="col"><?php _e('E-mail'); ?></th>
                 <th class="font-weight-bold" scope="col"><?php _e('Subscribed at'); ?></th>
@@ -160,7 +162,9 @@
             <tbody class="small">
             <?php foreach ($subscribers as $key => $subscriber): ?>
             <tr>
-                <td data-label="<?php _e('#'); ?>"><?php print $key + 1; ?></td>
+                <td>
+                    <input type="checkbox" wire:model="checkedLists[]" value="<?php print $subscriber['id']; ?>" />
+                </td>
                 <td data-label="<?php _e('Name'); ?>"><?php print $subscriber['name']; ?></td>
                 <td data-label="<?php _e('E-mail'); ?>"><?php print $subscriber['email']; ?></td>
                 <td data-label="<?php _e('Subscribed at'); ?>"><?php print $subscriber['created_at']; ?></td>
