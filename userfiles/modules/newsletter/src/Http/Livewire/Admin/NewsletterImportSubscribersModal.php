@@ -25,6 +25,10 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
 
     public $importDone = [];
 
+    protected $listeners = [
+        'uploadEmailList'=>'uploadEmailList'
+    ];
+
     public function download()
     {
         $sourceUrl = $this->importSubscribers['sourceUrl'];
@@ -40,13 +44,12 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
     public function importSubscribersList()
     {
         $subscriberListFile = $this->importSubscribers['sourceFileRealpath'];
-
         if (is_file($subscriberListFile)) {
-
             $fileExt = pathinfo($subscriberListFile, PATHINFO_EXTENSION);
 
             $fileReader = new ImportSubscribersFileReader();
             $readSubscribers = $fileReader->readContentFromFile($subscriberListFile, $fileExt);
+
             if (!empty($readSubscribers)) {
                 $imported = 0;
                 $skipped = 0;
@@ -76,6 +79,15 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
         }
     }
 
+    public function uploadEmailList($fileName)
+    {
+        $fullPathEmailList = ImportSubscribersFileReader::getImportTempPath() . 'uploaded_files' . DS . $fileName;
+        if ($fullPathEmailList && is_file($fullPathEmailList)) {
+            $this->importSubscribers['sourceFileRealpath'] = $fullPathEmailList;
+        } else {
+            $this->importSubscribers['sourceFileRealpath'] = false;
+        }
+    }
 
     public function downloadFeed($url)
     {
