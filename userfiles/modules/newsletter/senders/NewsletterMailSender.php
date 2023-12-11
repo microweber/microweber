@@ -80,7 +80,7 @@ class NewsletterMailSender {
 		$this->subscriber = $subscriber;
 	}
 
-	public function sendMail() {
+	public function sendMail() { 
 
 		try {
 
@@ -204,7 +204,7 @@ class NewsletterMailSender {
             ],
             $twigSettings
         );
-        
+
         return $parsedEmail;
 
 	}
