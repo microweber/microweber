@@ -8,4 +8,9 @@ class NewsletterSubscriberList extends Model
 {
     protected $table = 'newsletter_subscribers_lists';
 
+    protected $fillable =[
+        'subscriber_id',
+        'list_id',
+    ];
+    
 }

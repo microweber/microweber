@@ -52,8 +52,14 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
         if (is_file($subscriberListFile)) {
             $fileExt = pathinfo($subscriberListFile, PATHINFO_EXTENSION);
 
-            $fileReader = new ImportSubscribersFileReader();
-            $readSubscribers = $fileReader->readContentFromFile($subscriberListFile, $fileExt);
+            try {
+                $fileReader = new ImportSubscribersFileReader();
+                $readSubscribers = $fileReader->readContentFromFile($subscriberListFile, $fileExt);
+            } catch (\Exception $e) {
+                session()->flash('errorMessage', $e->getMessage());
+                return;
+            }
+            
             if (!empty($readSubscribers)) {
                 $imported = 0;
                 $skipped = 0;
