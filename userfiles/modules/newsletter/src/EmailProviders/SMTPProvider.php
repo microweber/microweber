@@ -6,7 +6,7 @@
  * @package SMTPProvider
  */
 
-namespace Newsletter\Providers;
+namespace MicroweberPackages\Modules\Newsletter\EmailProviders;
 
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;

@@ -6,31 +6,31 @@
  * @package DefaultProvider
  */
 
-namespace Newsletter\Providers;
+namespace MicroweberPackages\Modules\Newsletter\EmailProviders;
 
 use Illuminate\Support\Facades\Mail;
 
 class DefaultProvider {
-	
+
 	// Provider settings
 	protected $domain;
 	protected $secret;
 	protected $key;
 	protected $region;
-	
+
 	// Message settings
 	protected $subject;
 	protected $body;
-	
+
 	// Sender settings
 	protected $fromName;
 	protected $fromEmail;
 	protected $fromReplyEmail;
-	
+
 	// Reciver settings
 	protected $toEmail;
 	protected $toName;
-	
+
 	/**
 	 * @return mixed
 	 */
@@ -107,15 +107,15 @@ class DefaultProvider {
 	protected function getBody() {
 		return $this->body;
 	}
-	
+
 	/**
 	 * @param mixed $body
 	 */
 	public function setBody($body) {
 		$this->body = $body;
 	}
-	
-	
+
+
 	/**
 	 * @return mixed
 	 */
@@ -189,15 +189,15 @@ class DefaultProvider {
 	public function send() {
 		throw new \Exception('We don\'t support this mail provider.');
 	}
-	
+
 	protected function sendToEmail() {
-		
+
 		Mail::raw($this->getBody(), function ($message) {
 			$message->from($this->getFromEmail(), $this->getFromName());
 			$message->to($this->getToEmail(), $this->getToName());
 			$message->replyTo($this->getFromReplyEmail());
 			$message->subject($this->getSubject());
 		});
-		
+
 	}
 }
