@@ -6,9 +6,8 @@
  * @package NewsletterMailSender
  */
 
-namespace Newsletter\Senders;
+namespace MicroweberPackages\Modules\Newsletter\Senders;
 
-use Illuminate\Support\Facades\Blade;
 use Newsletter\Providers\SMTPProvider;
 use Newsletter\Providers\PHPMailProvider;
 use Newsletter\Providers\MailchimpProvider;
@@ -80,7 +79,7 @@ class NewsletterMailSender {
 		$this->subscriber = $subscriber;
 	}
 
-	public function sendMail() { 
+	public function sendMail() {
 
 		try {
 

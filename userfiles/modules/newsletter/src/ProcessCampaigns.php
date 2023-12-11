@@ -3,7 +3,7 @@ namespace MicroweberPackages\Modules\Newsletter;
 
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignsSendLog;
-use Newsletter\Senders\NewsletterMailSender;
+use MicroweberPackages\Modules\Newsletter\Senders\NewsletterMailSender;
 
 class ProcessCampaigns
 {
