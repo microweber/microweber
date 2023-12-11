@@ -95,6 +95,7 @@
         "symfony/css-selector": "v6.3.2",
         "symfony/event-dispatcher": "v6.3.2",
         "symfony/filesystem": "v6.3.1",
+        "symfony/html-sanitizer": "7.1.x-dev",
         "symfony/intl": "v6.3.2",
         "symfony/mailer": "6.4.x-dev",
         "symfony/string": "v6.3.5",
