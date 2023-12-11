@@ -62,18 +62,6 @@ export default {
 
       colOptionsDesktop: [
         // {key: null, value: 'None'},
-        {key: 'col-1', value: 'col-1'},
-        {key: 'col-2', value: 'col-2'},
-        {key: 'col-3', value: 'col-3'},
-        {key: 'col-4', value: 'col-4'},
-        {key: 'col-5', value: 'col-5'},
-        {key: 'col-6', value: 'col-6'},
-        {key: 'col-7', value: 'col-7'},
-        {key: 'col-8', value: 'col-8'},
-        {key: 'col-9', value: 'col-9'},
-        {key: 'col-10', value: 'col-10'},
-        {key: 'col-11', value: 'col-11'},
-        {key: 'col-12', value: 'col-12'},
         {key: 'col-lg-1', value: 'col-lg-1'},
         {key: 'col-lg-2', value: 'col-lg-2'},
         {key: 'col-lg-3', value: 'col-lg-3'},
@@ -102,6 +90,10 @@ export default {
         {key: 'col-md-10', value: 'col-md-10'},
         {key: 'col-md-11', value: 'col-md-11'},
         {key: 'col-md-12', value: 'col-md-12'},
+      ],
+
+      colOptionsMobile: [
+      // {key: null, value: 'None'},
         {key: 'col-sm-1', value: 'col-sm-1'},
         {key: 'col-sm-2', value: 'col-sm-2'},
         {key: 'col-sm-3', value: 'col-sm-3'},
@@ -114,22 +106,6 @@ export default {
         {key: 'col-sm-10', value: 'col-sm-10'},
         {key: 'col-sm-11', value: 'col-sm-11'},
         {key: 'col-sm-12', value: 'col-sm-12'},
-      ],
-
-      colOptionsMobile: [
-      // {key: null, value: 'None'},
-        {key: 'col-xs-1', value: 'col-xs-1'},
-        {key: 'col-xs-2', value: 'col-xs-2'},
-        {key: 'col-xs-3', value: 'col-xs-3'},
-        {key: 'col-xs-4', value: 'col-xs-4'},
-        {key: 'col-xs-5', value: 'col-xs-5'},
-        {key: 'col-xs-6', value: 'col-xs-6'},
-        {key: 'col-xs-7', value: 'col-xs-7'},
-        {key: 'col-xs-8', value: 'col-xs-8'},
-        {key: 'col-xs-9', value: 'col-xs-9'},
-        {key: 'col-xs-10', value: 'col-xs-10'},
-        {key: 'col-xs-11', value: 'col-xs-11'},
-        {key: 'col-xs-12', value: 'col-xs-12'},
       ],
 
       selectedColDesktop: '',
