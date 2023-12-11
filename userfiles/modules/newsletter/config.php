@@ -94,10 +94,10 @@ $config['tables'] = array (
     ),
 
 	'newsletter_subscribers_lists' => array (
-			'id' => 'integer',
-			'subscriber_id' => 'integer',
-			'list_id' => 'integer',
-			'created_at' => 'dateTime',
+        'id' => 'integer',
+        'subscriber_id' => 'integer',
+        'list_id' => 'integer',
+        'created_at' => 'dateTime',
         'updated_at' => 'dateTime'
     ),
 

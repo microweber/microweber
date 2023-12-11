@@ -59,7 +59,7 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
                 session()->flash('errorMessage', $e->getMessage());
                 return;
             }
-            
+
             if (!empty($readSubscribers)) {
                 $imported = 0;
                 $skipped = 0;
@@ -76,10 +76,14 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
                     $findSubsciber->name = $subscriber['name'];
                     $findSubsciber->save();
 
-                    NewsletterSubscriberList::firstOrCreate([
-                        'list_id' => $this->list_id,
-                        'subscriber_id' => $findSubsciber->id
-                    ]);
+                    $findSubscriberList = NewsletterSubscriberList::where('list_id', $this->list_id)
+                        ->where('subscriber_id', $findSubsciber->id)->first();
+                    if (!$findSubscriberList) {
+                        $findSubscriberList = new NewsletterSubscriberList();
+                        $findSubscriberList->list_id = $this->list_id;
+                        $findSubscriberList->subscriber_id = $findSubsciber->id;
+                        $findSubscriberList->save();
+                    }
                 }
                 $this->importDone = [
                     'imported'=>$imported,

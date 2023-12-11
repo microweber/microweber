@@ -12,5 +12,5 @@ class NewsletterSubscriberList extends Model
         'subscriber_id',
         'list_id',
     ];
-    
+
 }
