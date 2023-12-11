@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9702dcb08de1a34ae403e3032cfa65bf",
+    "content-hash": "9374f4c1e4b442226e69529953e2da0b",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -7352,18 +7352,18 @@
         },
         {
             "name": "microweber-templates/big-free",
-            "version": "8.7",
+            "version": "8.9",
             "target-dir": "big",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/big-free",
-                "reference": "9363fbaf79fb1712ac31057e427179cc5953167f"
+                "reference": "4a3735760f52a82fae04a0a869e050ea435f4369"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-8.7-3542cd.zip",
-                "reference": "9363fbaf79fb1712ac31057e427179cc5953167f",
-                "shasum": "efe2932487df2f955081175b05037a77cd22a891"
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-8.9-dfa027.zip",
+                "reference": "4a3735760f52a82fae04a0a869e050ea435f4369",
+                "shasum": "b65e9c42d9ea57fafaed90bce8926121d3bfe883"
             },
             "type": "microweber-template",
             "extra": {
@@ -7602,9 +7602,9 @@
                     "/layouts/templates/footers/skin-27.php"
                 ],
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/87/README.md",
-                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/87/screenshot.jpg",
-                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/87/screenshot_large.jpg"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/89/README.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/89/screenshot.jpg",
+                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/89/screenshot_large.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7630,7 +7630,7 @@
                 "forum": "https://microweber.org/community",
                 "docs": "http://docs.microweber.org"
             },
-            "time": "2023-12-07T11:47:29+00:00"
+            "time": "2023-12-08T11:17:07+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -12684,6 +12684,75 @@
                 }
             ],
             "time": "2023-10-11T14:01:18+00:00"
+        },
+        {
+            "name": "symfony/html-sanitizer",
+            "version": "7.1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/html-sanitizer.git",
+                "reference": "388787213379c85f07ce270afd78c5b7cff3b0f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/html-sanitizer/zipball/388787213379c85f07ce270afd78c5b7cff3b0f6",
+                "reference": "388787213379c85f07ce270afd78c5b7cff3b0f6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "league/uri": "^6.5|^7.0",
+                "masterminds/html5": "^2.7.2",
+                "php": ">=8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\HtmlSanitizer\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Titouan Galopin",
+                    "email": "galopintitouan@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides an object-oriented API to sanitize untrusted HTML input for safe insertion into a document's DOM.",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "Purifier",
+                "html",
+                "sanitizer"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/html-sanitizer/tree/v7.0.0-RC1"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-10-28T23:12:22+00:00"
         },
         {
             "name": "symfony/http-foundation",

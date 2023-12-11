@@ -22,11 +22,11 @@
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
                 data: [
-                    { label: 'firstName', value:'{first_name}' },
-                    { label: 'lastName', value:'{last_name}' },
-                    { label: 'email', value:'{email}' },
-                    { label: 'unsubscribe', value:'{unsubscribe}' },
-                    { label: 'siteUrl', value:'{site_url}' },
+                    { label: 'name', value:'{{name}}' },
+                    { label: 'first_name', value:'{{first_name}}' },
+                    { label: 'last_name', value:'{{last_name}}' },
+                    { label: 'email', value:'{{email}}' },
+                    { label: 'siteUrl', value:'{{site_url}}' },
                 ],
                 placeholder: rootScope.lang('<?php _ejs("E-mail Values"); ?>')
             });
@@ -126,7 +126,7 @@
         <label class="control-label"><?php _e('Template design'); ?></label>
 
         <small class="text-muted d-flex justify-content-between align-items-center mb-2">
-            <span>Variables: {first_name} , {Last_name} , {email} , {unsubscribe} {site_url}</span>
+            <span>Variables:  {{name}}, {{first_name}} , {{last_name}} , {{email}, {{site_url}}</span>
         </small>
 
         <textarea id="js-editor-template" name="text" class="js-edit-template-text"></textarea>

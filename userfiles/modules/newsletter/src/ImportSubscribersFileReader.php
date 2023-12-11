@@ -2,12 +2,30 @@
 
 namespace MicroweberPackages\Modules\Newsletter;
 
+use Illuminate\Support\Facades\App;
 use MicroweberPackages\Export\Formats\Helpers\SpreadsheetHelper;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Formats\CsvReader;
 
 class ImportSubscribersFileReader
 {
+
+    public static function getImportTempPath()
+    {
+        $environment = App::environment();
+        $folder = storage_path('newsletter_subscribers_list/') . ('default' . DIRECTORY_SEPARATOR);
+
+        if(defined('MW_IS_MULTISITE') and MW_IS_MULTISITE) {
+            $folder = storage_path('newsletter_subscribers_list/') . ($environment . DIRECTORY_SEPARATOR);
+        }
+
+        if (!is_dir($folder)) {
+            mkdir_recursive($folder);
+        }
+
+        return $folder;
+    }
+
     public function readContentFromFile(string $filename, $fileType = false)
     {
         if ($fileType == 'xlsx' || $fileType == 'xls') {

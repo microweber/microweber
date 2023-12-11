@@ -3,6 +3,7 @@ namespace MicroweberPackages\Modules\Newsletter;
 
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignsSendLog;
+use MicroweberPackages\Modules\Newsletter\Senders\NewsletterMailSender;
 
 class ProcessCampaigns
 {
@@ -66,7 +67,7 @@ class ProcessCampaigns
                         continue;
                     }
 
-                    $newsletterMailSender = new \Newsletter\Senders\NewsletterMailSender();
+                    $newsletterMailSender = new NewsletterMailSender();
                     $newsletterMailSender->setCampaign($campaign);
                     $newsletterMailSender->setSubscriber($subscriber);
                     $newsletterMailSender->setSender($sender);

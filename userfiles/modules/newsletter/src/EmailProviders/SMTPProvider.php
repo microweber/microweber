@@ -6,13 +6,13 @@
  * @package SMTPProvider
  */
 
-namespace Newsletter\Providers;
+namespace MicroweberPackages\Modules\Newsletter\EmailProviders;
 
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
 
-class SMTPProvider extends \Newsletter\Providers\DefaultProvider {
+class SMTPProvider extends DefaultProvider {
 
 	// SMTP Settings
 	protected $smtpHost;
