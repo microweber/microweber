@@ -364,10 +364,10 @@ export class LayoutHandleContent {
         targetDocument.body.append(this.plusTop.get(0));
         targetDocument.body.append(this.plusBottom.get(0));
 
-        console.log(this.rootScope)
+
 
         mw.top().app.liveEdit.handles.get('layout').on('hide', () => {
-            console.log(9191)
+
             this.plusTop.hide()
             this.plusBottom.hide()
         });

@@ -97,7 +97,7 @@ img[src*=pixum_img] {
 
   .mw-row {
     display: flex;
-    
+
 }
 
 .mw-row .mw-col{
@@ -2730,7 +2730,7 @@ html.mw-loading:after {
   min-width: 60px; }
 
 .mwiconlist-icon:hover {
-  background-color: #efecec; }
+    background-color: #efecec3d; }
 
 .mw-icon-list .mw-ui-btn-nav {
   padding-bottom: 16px; }
@@ -2766,7 +2766,7 @@ html.mw-loading:after {
   z-index: 1;
   font-size: 22px !important;
   border-radius: 3px;
-  background-color: white;
+
   width: 12%;
   color: #939393;
   display: inline-block;
@@ -7675,7 +7675,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   display: none;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   z-index: 1101; }
- 
+
   .mw-small-editor .mw-bar .mw-bar-row {
     border: none !important;
     white-space: nowrap; }
