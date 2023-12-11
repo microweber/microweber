@@ -140,7 +140,7 @@ $templates = newsletter_get_templates();
     <div class="row">
         <div class="col-6">
             <div class="form-group">
-                <label class="control-label"><?php _e('Email From Name'); ?></label>
+                <label class="control-label"><?php _e('From Name'); ?></label>
                 <small class="text-muted d-block mb-2">
                     <?php _e('The name of the email sender'); ?>
                 </small>
