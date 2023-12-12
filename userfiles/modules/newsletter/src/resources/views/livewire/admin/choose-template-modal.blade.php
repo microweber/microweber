@@ -4,11 +4,11 @@
         <button type="button" class="btn-close" wire:click="$emit('closeModal', true)"></button>
     </div>
 
-    <div class="text-center">
-        <h3>
-            Select a Email Template
-        </h3>
-    </div>
+
+    <h2 class="text-center">
+        Select a Email Template
+    </h2>
+
 
     <div class="mt-4 px-5 pb-5">
         <div class="row">

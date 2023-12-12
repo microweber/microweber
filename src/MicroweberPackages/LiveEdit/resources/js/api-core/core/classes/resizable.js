@@ -71,7 +71,11 @@ export class Resizable  {
         }
         this.listeners = {};
         this.activeHandle = null;
+
         this.dispatch('resizeStop');
+        if(mw.top() && mw.top().app) {
+            mw.top().app.dispatch('$resizeStop')
+        }
     };
 
     mouseDownHandler (e, target) {

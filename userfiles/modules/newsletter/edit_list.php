@@ -108,8 +108,8 @@ $senders = newsletter_get_senders();
 
 <form class="js-edit-list-form">
     <div class="form-group">
-        <label class="control-label"><?php _e('List name'); ?></label>
-        <small class="text-muted d-block mb-2">Enter the name of the list</small>
+        <h5 class="settings-title-inside mb-1"><?php _e('List name'); ?></h5>
+        <small class="text-muted d-block mb-1"><?php _e('Enter the name of the list'); ?></small>
         <input name="name" value="<?php if (isset($list['name'])): ?><?php echo $list['name']; ?><?php endif; ?>" type="text" class="form-control js-validation" />
         <div class="js-field-message"></div>
     </div>
@@ -213,6 +213,6 @@ $senders = newsletter_get_senders();
                 <input type="hidden" value="<?php echo $list['id']; ?>" name="id" />
             <?php endif; ?>
         </div>
-        <button type="submit" class="btn btn-success btn-sm"><?php _e('Save'); ?></button>
+        <button type="submit" class="btn btn-dark"><?php _e('Save'); ?></button>
     </div>
 </form>

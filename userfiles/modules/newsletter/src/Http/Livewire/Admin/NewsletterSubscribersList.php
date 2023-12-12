@@ -18,9 +18,16 @@ class NewsletterSubscribersList extends Component
     public $listsCount = 0;
     public $emailsSentCount = 0;
 
+    public $checkedLists = [];
+
     protected $queryString = ['keyword'];
 
     protected $listeners = ['newsletterSubscribersListUpdated' => 'render'];
+
+    public function selectAll()
+    {
+        $this->checkedLists = NewsletterList::pluck('id')->toArray();
+    }
 
     public function render()
     {

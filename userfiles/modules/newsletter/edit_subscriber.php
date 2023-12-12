@@ -105,21 +105,22 @@ if (isset($params['id'])) {
 
 <form class="js-edit-subscriber-form">
     <div class="form-group">
-        <label class="control-label"><?php _e('Subscriber Name'); ?></label>
-        <small class="text-muted d-block mb-2">Enter the full name of the subscriber</small>
+        <h5 class="settings-title-inside mb-1"><?php _e('Subscriber Name'); ?></h5>
+        <small class="text-muted d-block mb-1"><?php _e('Enter the full name of the subscriber'); ?></small>
         <input name="name" type="text" value="<?php if (isset($subscriber['name'])): ?><?php echo $subscriber['name']; ?><?php endif; ?>" class="form-control js-validation" />
         <div class="js-field-message"></div>
     </div>
     <div class="form-group">
-        <label class="control-label"><?php _e('Subscriber Email'); ?></label> 
-        <small class="text-muted d-block mb-2">Enter the email address of the subscriber</small>
+        <h5 class="settings-title-inside mb-1"><?php _e('Subscriber Email'); ?></h5>
+        <small class="text-muted d-block mb-1"><?php _e('Enter the email address of the subscriber'); ?></small>
         <input name="email" type="text"  value="<?php if (isset($subscriber['email'])): ?><?php echo $subscriber['email']; ?><?php endif; ?>" class="form-control js-validation js-validation-email" />
         <div class="js-field-message"></div>
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e('Subscribed for'); ?></label>
-        <small class="text-muted d-block mb-2">Choose list to subscribe or <a href="javascript:;" onclick="edit_list();">create a new list</a></small>
+        <h5 class="settings-title-inside mb-1"><?php _e('Subscribed for'); ?></h5>
+
+        <small class="text-muted d-block mb-1">Choose list to subscribe or <a href="javascript:;" onclick="edit_list();">create a new list</a></small>
     </div>
     <div class="form-group">
         <?php
@@ -141,15 +142,17 @@ if (isset($params['id'])) {
                     $inList = false;
                 }
                 ?>
-                <div class="custom-control custom-checkbox">
-                    <input <?php if ($inList !== false): ?>checked<?php endif; ?> class="custom-control-input" id="inlist-<?php echo $list['id']; ?>" name="subscribed_for[]" type="checkbox" value="<?php echo $list['id']; ?>" />
-                    <label class="custom-control-label" for="inlist-<?php echo $list['id']; ?>"><?php echo $list['name']; ?></label>
+                <div class="custom-control custom-checkbox d-flex align-items-center gap-2">
+                    <input <?php if ($inList !== false): ?>checked<?php endif; ?> class="form-check-input" id="inlist-<?php echo $list['id']; ?>" name="subscribed_for[]" type="checkbox" value="<?php echo $list['id']; ?>" />
+                    <span class="form-check-label" for="inlist-<?php echo $list['id']; ?>"><?php echo $list['name']; ?></span>
                 </div>
+
             <?php endforeach; ?>
         <?php else: ?>
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="subscribed_for[]" id="inlist-default" value="0" checked>
-                <label class="custom-control-label" for="inlist-default">Default</label>
+
+            <div class="custom-control custom-checkbox d-flex align-items-center gap-2">
+                <input type="checkbox" class="form-check-input" name="subscribed_for[]" id="inlist-default" value="0" checked>
+                <span class="form-check-label"><?php _e("Default") ?> </span>
             </div>
         <?php endif; ?>
     </div>
@@ -160,7 +163,7 @@ if (isset($params['id'])) {
                 <input type="hidden" value="<?php echo $subscriber['id']; ?>" name="id" />
             <?php endif; ?>
         </div>
-        
-        <button type="submit" class="btn btn-success btn-sm"><?php _e('Save'); ?></button>
+
+        <button type="submit" class="btn btn-dark"><?php _e('Save'); ?></button>
     </div>
 </form>

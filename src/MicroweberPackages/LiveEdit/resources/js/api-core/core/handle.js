@@ -41,6 +41,7 @@ export const Handle = function (options) {
     this.show = function () {
         _visible = true;
         this.wrapper.removeClass('mw-handle-item-hidden');
+        this.dispatch('show')
     };
     this.hide = function () {
         _visible = false;
@@ -48,6 +49,7 @@ export const Handle = function (options) {
 
         this.wrapper.addClass('mw-handle-item-hidden');
         this.wrapper.removeClass('mw-handle-active');
+        this.dispatch('hide')
     };
 
 

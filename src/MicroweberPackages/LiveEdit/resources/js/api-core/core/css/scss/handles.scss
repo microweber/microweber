@@ -62,7 +62,7 @@
     .mw-le-resizer.mw-le-resizer-r:after,
     .mw-le-resizer:not(.mw-le-resizer-r, .mw-le-resizer-b) {
         display: none;
-          
+
     }
 }
 
@@ -418,6 +418,14 @@ html[dir="rtl"] {
 
 
 
+body.mw--resizing{
+
+
+    .mw-handle-item-layout-plus {
+        opacity: 0;
+        pointer-events: none !important;
+    }
+}
 
 
 .mw-handle-item-layout-plus {
@@ -513,7 +521,7 @@ html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
     border-radius: 25px;
     border: 2px solid #111;
     overflow: hidden;
-     
+
 
         background-image: repeating-conic-gradient(silver 0 25%, transparent 0 50%), linear-gradient(0deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0) 100%);
         background-size:9px 9px, 100% 100%;
