@@ -9,7 +9,15 @@
     }
     ?>
 
-    <form wire:submit.prevent="submit">
+
+    <script>
+        mw.require('forms.js', true);
+        setTimeout(function() {
+            mw.form.unsavedChangesCheck('js-module-items-editor-edit-item-form');
+        }, 300);
+    </script>
+
+    <form  id="js-module-items-editor-edit-item-form" wire:submit.prevent="submit">
 
         <div class="d-flex align-items-center justify-content-between">
 
