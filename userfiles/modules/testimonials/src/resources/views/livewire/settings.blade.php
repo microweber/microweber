@@ -69,6 +69,7 @@
 
         <div x-show="showEditTab=='editTestimonial'">
             <script>
+                mw.require('forms.js');
                 setTimeout(function() {
                     mw.formUnsavedChangesCheck('js-testimonials-form');
                 }, 300);
