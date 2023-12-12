@@ -271,7 +271,23 @@ mw.form = {
   serialize : function(id, ignorenopost){
     var ignorenopost = ignorenopost || false;
     return mw.serializeFields(id, ignorenopost);
-  }
+  },
+  unsavedChangesCheck: function(elementId) {
+        var form = document.getElementById(elementId);
+        if (form) {
+            form.onsubmit = function () {
+                document.body.classList.remove('mw-unsaved-changes');
+            };
+            var formInputs = form.querySelectorAll('input');
+            if (formInputs) {
+                for (var i = 0; i < formInputs.length; i++) {
+                    formInputs[i].addEventListener('change', function () {
+                        document.body.classList.add('mw-unsaved-changes');
+                    });
+                }
+            }
+        }
+    }
 }
 
 
