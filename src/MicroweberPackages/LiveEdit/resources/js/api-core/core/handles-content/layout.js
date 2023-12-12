@@ -316,6 +316,9 @@ export class LayoutHandleContent {
         const targetDocument = mw.top().app.canvas.getDocument()
         const off = ElementManager(target, targetDocument).offset();
 
+        if(off === null) {
+            return;
+        }
 
         this.plusTop.css({
             left: off.offsetLeft + (off.width/2),
@@ -327,6 +330,8 @@ export class LayoutHandleContent {
             top: off.offsetTop + target.offsetHeight - 15,
             zIndex: 1102,
         })
+
+
     }
 
     addButtons() {
