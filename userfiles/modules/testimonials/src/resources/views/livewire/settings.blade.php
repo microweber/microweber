@@ -72,6 +72,9 @@
                 setTimeout(function() {
                     let testimonialsForm = document.getElementById('js-testimonials-form');
                     if (testimonialsForm) {
+                        testimonialsForm.onsubmit = function () {
+                            document.body.classList.remove('mw-unsaved-changes');
+                        }
                         let testimonialsFormInputs = testimonialsForm.querySelectorAll('input');
                         if (testimonialsFormInputs) {
                             for (let i = 0; i < testimonialsFormInputs.length; i++) {
