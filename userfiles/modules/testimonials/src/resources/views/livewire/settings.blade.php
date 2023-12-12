@@ -68,7 +68,22 @@
         </div>
 
         <div x-show="showEditTab=='editTestimonial'">
-            <form wire:submit.prevent="submit">
+            <script>
+                setTimeout(function() {
+                    let testimonialsForm = document.getElementById('js-testimonials-form');
+                    if (testimonialsForm) {
+                        let testimonialsFormInputs = testimonialsForm.querySelectorAll('input');
+                        if (testimonialsFormInputs) {
+                            for (let i = 0; i < testimonialsFormInputs.length; i++) {
+                                testimonialsFormInputs[i].addEventListener('change', function () {
+                                    document.body.classList.add('mw-unsaved-changes');
+                                });
+                            }
+                        }
+                    }
+                }, 300);
+            </script>
+            <form id="js-testimonials-form" wire:submit.prevent="submit">
 
                 <div class="d-flex align-items-center justify-content-end">
                     <x-microweber-ui::button-animation type="submit">
