@@ -56,24 +56,6 @@ mw.Form = function(options) {
     };
 };
 
-mw.formUnsavedChangesCheck = function(elementId) {
-    var form = document.getElementById(elementId);
-    if (form) {
-        form.onsubmit = function () {
-            document.body.classList.remove('mw-unsaved-changes');
-        };
-        var formInputs = form.querySelectorAll('input');
-        if (formInputs) {
-            for (var i = 0; i < formInputs.length; i++) {
-                formInputs[i].addEventListener('change', function () {
-                    document.body.classList.add('mw-unsaved-changes');
-                });
-            }
-        }
-    }
-};
-
-
 mw.form = {
     typeNumber:function(el){
         el.value = el.value.replace(/[^0-9\.,]/g,'');
@@ -92,7 +74,6 @@ mw.form = {
             el.value = arr.join('');
         }
     },
-
     post: function(selector, url_to_post, callback, ignorenopost, callback_error, callback_user_cancel, before_send){
         mw.session.checkPause = true;
         if(selector.constructor === {}.constructor){
@@ -298,9 +279,24 @@ mw.form = {
     serialize : function(id, ignorenopost){
         var ignorenopost = ignorenopost || false;
         return mw.serializeFields(id, ignorenopost);
+    },
+    unsavedChangesCheck: function(elementId) {
+        var form = document.getElementById(elementId);
+        if (form) {
+            form.onsubmit = function () {
+                document.body.classList.remove('mw-unsaved-changes');
+            };
+            var formInputs = form.querySelectorAll('input');
+            if (formInputs) {
+                for (var i = 0; i < formInputs.length; i++) {
+                    formInputs[i].addEventListener('change', function () {
+                        document.body.classList.add('mw-unsaved-changes');
+                    });
+                }
+            }
+        }
     }
-}
-
+};
 
 mw.postForm = function(o){
     return mw.form._post(o);
