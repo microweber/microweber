@@ -144,6 +144,17 @@
         <input type="text" class="form-control" placeholder="Search..." wire:model="keyword" />
     </div>
 
+    <div>
+        @if(!empty($this->checked))
+            <div>
+                Selected: {{ count($this->checked) }}
+            </div>
+            <button class="btn btn-outline-danger" wire:click="deleteSelected()" onclick="return confirm('Are you sure?')">
+                <?php _e('Delete selected'); ?>
+            </button>
+        @endif
+    </div>
+
     <div class="table-responsive">
         <table class="table table-hover table-striped">
             <thead>
@@ -155,7 +166,7 @@
                 <th class="font-weight-bold" scope="col"><?php _e('E-mail'); ?></th>
                 <th class="font-weight-bold" scope="col"><?php _e('Subscribed at'); ?></th>
                 <th class="font-weight-bold" scope="col"><?php _e('Subscribed'); ?></th>
-                <th class="font-weight-bold text-center" scope="col" width="200px"><?php _e('Action'); ?></th>
+                <th class="font-weight-bold text-center" scope="col"><?php _e('Action'); ?></th>
             </tr>
             </thead>
 
@@ -179,7 +190,10 @@
                 </td>
                 <td class="text-center">
                     <button class="btn btn-outline-primary btn-sm" onclick="edit_subscriber('<?php print $subscriber['id']; ?>')"><?php _e('Edit'); ?></button>
-                    <a class="btn btn-outline-danger btn-sm" href="javascript:;" onclick="delete_subscriber('<?php print $subscriber['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
+
+                    <button class="btn btn-outline-danger btn-sm" onclick="delete_subscriber('<?php print $subscriber['id']; ?>')">
+                        <i class="fa fa-times"></i>  &nbsp; Delete
+                    </button>
                 </td>
             </tr>
             <?php endforeach; ?>
