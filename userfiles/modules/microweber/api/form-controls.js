@@ -1308,6 +1308,7 @@ mw.emitter = {
                     label: mw.lang('Website URL'),
                     description: mw.lang('Type the website URL to link it'),
                     placeholder: "http://example.com",
+
                 },
                 target: {
                     label: mw.lang('Open the link in a new window')
@@ -1358,6 +1359,8 @@ mw.emitter = {
             var textField = holder.querySelector('[name="text"]');
             var urlField = holder.querySelector('[name="url"]');
             var targetField = holder.querySelector('[name="target"]');
+
+            urlField.value = location.protocol + '//';
 
             this.valid = function () {
                 var res = this.isValid();

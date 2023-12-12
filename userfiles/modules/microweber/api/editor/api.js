@@ -603,14 +603,30 @@ mw.lib.require('rangy');
             },
             afterExecCommand: function ( parent) {
                 scope.api.cleanNesting(parent);
-                Array.prototype.slice.call(parent.querySelectorAll('[style]')).forEach(node => {
-                    const keys = Array.from(node.style);
-                    keys.forEach(key => {
-                        if(node.style[key].includes('var(')) {
-                            node.style[key] = '';
+                Array.prototype.slice.call(parent.querySelectorAll('[style],[id]')).forEach(node => {
+                    if(!!node.getAttribute('style')) {
+                        const keys = Array.from(node.style);
+                        keys.forEach(key => {
+                            if(node.style[key].includes('var(')) {
+                                node.style[key] = '';
+                            }
+                        });
+                    }
+                    if(node.id) {
+                        var others = parent.querySelectorAll('[id="'+node.id+'"]');
+                        if(others.length > 1) {
+                            others.forEach(n => {
+                                if(node !== n) {
+                                    n.id += mw.id();
+                                }
+                            })
                         }
-                    });
+
+                    }
+
                 });
+
+
                 mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                 mw.$(scope).trigger('execCommand');
             },
@@ -618,30 +634,6 @@ mw.lib.require('rangy');
 
 
 
-                // timy mce is breaking html
-                // if (mw && mw.top && mw.top().app && mw.top().app.canvas) {
-                //     var liveEditIframe = (mw.app.canvas.getWindow());
-                //
-                //     if (liveEditIframe && liveEditIframe.tinyMCE && liveEditIframe.tinyMCE.activeEditor) {
-                //         // set by tinyMCE
-                //         var editor = liveEditIframe.tinyMCE.activeEditor;
-                //         if (editor) {
-                //
-                //             console.log('execCommand', cmd, def, val);
-                //
-                //             if(cmd === 'insertHTML') {
-                //                 editor.selection.setContent(val);
-                //
-                //                 //editor.execCommand('mceInsertRawHTML', false, val);
-                //                 return;
-                //             }
-                //             // Execute the command
-                //             editor.execCommand(cmd, def, val);
-                //         }
-                //         return;
-                //     }
-                //
-                // }
 
 
 
@@ -679,34 +671,7 @@ mw.lib.require('rangy');
                                 }
 
 
-                                if (mw && mw.top && mw.top().app && mw.top().app.canvas) {
-                                    var liveEditIframe = (mw.app.canvas.getWindow());
-
-                                    if (liveEditIframe && liveEditIframe.tinyMCE && liveEditIframe.tinyMCE.activeEditor) {
-                                        // set by tinyMCE
-                                        var editor = liveEditIframe.tinyMCE.activeEditor;
-                                        if (editor) {
-
-
-                                             if(cmd === 'insertHTML') {
-                                                //editor.selection.setContent(val);
-                                                scope.actionWindow.document.execCommand(cmd, def, val);
-                                               //  editor.execCommand('mceInsertRawHTML', false, val);
-                                                return;
-                                            }
-                                            // Execute the command
-                                            editor.execCommand(cmd, def, val);
-                                        }
-
-                                    } else {
-                                        _execCommand(cmd, def, val);
-                                    }
-
-                                } else {
-                                    _execCommand(cmd, def, val);
-
-                                }
-
+                                _execCommand(cmd, def, val);
 
 
                                 scope.api.afterExecCommand(parent);
