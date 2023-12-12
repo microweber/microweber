@@ -827,7 +827,7 @@ mw.drag = {
             if(!can) {
                 can = mw.tools.hasClass(el, 'cloneable')
             }
-          
+
             return  can;
         },
         canBeEditable: function(el) {
@@ -1043,6 +1043,7 @@ mw.drag = {
         mw.drag.saving = true;
 
         /************  START base64  ************/
+        data.from_url = location.href;
         data = JSON.stringify(data);
         data = btoa(encodeURIComponent(data).replace(/%([0-9A-F]{2})/g,
             function toSolidBytes(match, p1) {
