@@ -70,20 +70,7 @@
         <div x-show="showEditTab=='editTestimonial'">
             <script>
                 setTimeout(function() {
-                    let testimonialsForm = document.getElementById('js-testimonials-form');
-                    if (testimonialsForm) {
-                        testimonialsForm.onsubmit = function () {
-                            document.body.classList.remove('mw-unsaved-changes');
-                        }
-                        let testimonialsFormInputs = testimonialsForm.querySelectorAll('input');
-                        if (testimonialsFormInputs) {
-                            for (let i = 0; i < testimonialsFormInputs.length; i++) {
-                                testimonialsFormInputs[i].addEventListener('change', function () {
-                                    document.body.classList.add('mw-unsaved-changes');
-                                });
-                            }
-                        }
-                    }
+                    mw.formUnsavedChangesCheck('js-testimonials-form');
                 }, 300);
             </script>
             <form id="js-testimonials-form" wire:submit.prevent="submit">
