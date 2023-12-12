@@ -53,7 +53,8 @@ class MwHtmlSanitizer implements HtmlSanitizerInterface
     {
         // Text context: early return with HTML encoding
         if (W3CReference::CONTEXT_TEXT === $context) {
-            return StringSanitizer::encodeHtmlEntities($input);
+            return $input;
+         //   return StringSanitizer::encodeHtmlEntities($input);
         }
 
         // Other context: build a DOM visitor

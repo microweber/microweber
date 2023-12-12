@@ -61,7 +61,7 @@ class MwHtmlSanitizerDomVisitor
     /**
      * @param array<string, false|array<string, bool>> $elementsConfig
      */
-    public function __construct(HtmlSanitizerConfig $config, array $elementsConfig)
+    public function __construct(MwHtmlSanitizerConfig $config, array $elementsConfig)
     {
         $this->config = $config;
         $this->elementsConfig = $elementsConfig;
@@ -86,6 +86,7 @@ class MwHtmlSanitizerDomVisitor
 
     private function visitNode(\DOMNode $domNode, Cursor $cursor): void
     {
+        dd(111);
         $nodeName = StringSanitizer::htmlLower($domNode->nodeName);
 
         // Element should be dropped, including its children
@@ -112,7 +113,9 @@ class MwHtmlSanitizerDomVisitor
         }
 
         // Otherwise create the node
-        $node = new Node($cursor->node, $domNodeName);
+      //  $node = new Node($cursor->node, $domNodeName);
+        $node = new MwHtmlSanitizerDomNode($cursor->node, $domNodeName);
+
         $this->setAttributes($domNodeName, $domNode, $node, $this->elementsConfig[$domNodeName]);
 
         // Force configured attributes
@@ -142,7 +145,7 @@ class MwHtmlSanitizerDomVisitor
     /**
      * Set attributes from a DOM node to a sanitized node.
      */
-    private function setAttributes(string $domNodeName, \DOMNode $domNode, Node $node, array $allowedAttributes = []): void
+    private function setAttributes(string $domNodeName, \DOMNode $domNode, MwHtmlSanitizerDomNode $node, array $allowedAttributes = []): void
     {
         /** @var iterable<\DOMAttr> $domAttributes */
         if (!$domAttributes = $domNode->attributes ? $domNode->attributes->getIterator() : []) {
@@ -182,7 +185,8 @@ class MwHtmlSanitizerDomVisitor
                 );
 
                 foreach ($attributeSanitizers as $sanitizer) {
-                    $value = $sanitizer->sanitizeAttribute($domNodeName, $name, $value, $this->config);
+                 //  / $value = $sanitizer->sanitizeAttribute($domNodeName, $name, $value, $this->config);
+                 //   $value = xss_clean($value);
                 }
 
                 $node->setAttribute($name, $value);
