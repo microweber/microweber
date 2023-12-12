@@ -210,7 +210,12 @@ export class ModuleSettings extends MicroweberBaseClass {
             overlayClose: () => {
                 var checkForChanges = this.moduleCheckIfUserHasUnsavedChanges();
                 if (checkForChanges) {
-                    alert(333);
+                    return mw.confirm(mw.lang("You have unsaved changes. Do you want to save them first") + '?',
+                        function () {
+                            return true;
+                        }, function () {
+                            moduleSettingsDialogIframe.remove();
+                    });
                 }
                 return this.moduleCheckIfLiveweireStillLoading();
             },
@@ -244,18 +249,17 @@ export class ModuleSettings extends MicroweberBaseClass {
             if (this.moduleSettingsDialogIframeInstance.iframe) {
                 if (this.moduleSettingsDialogIframeInstance.iframe.contentWindow) {
                     var iframe = this.moduleSettingsDialogIframeInstance.iframe;
-                    //check if body has 'mw-livewire-loading' class
                     if(iframe && iframe.contentWindow && iframe.contentWindow.document && iframe.contentWindow.document.body){
                         var body = iframe.contentWindow.document.body;
                         if (body && body.classList.contains('mw-unsaved-changes')) {
-                            return false;
+                            return true;
                         }
                     }
                 }
             }
         }
 
-        return true;
+        return false;
     }
 
     moduleCheckIfLiveweireStillLoading() {

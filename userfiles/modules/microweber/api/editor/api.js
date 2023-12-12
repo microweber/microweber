@@ -663,6 +663,21 @@ mw.lib.require('rangy');
 
                             scope.api.action(parent, function () {
 
+                                function _execCommand(cmd, def, val) {
+                                    var pce = parent.contentEditable
+                                    var current = parent.querySelector('[contenteditable="true"]');
+                                    if(current) {
+                                        current.contentEditable = 'inherit';
+                                    }
+                                    parent.contentEditable = true;
+                                    scope.actionWindow.document.execCommand(cmd, def, val);
+                                    parent.contentEditable = pce;
+                                    if(current) {
+                                        current.contentEditable = true;
+                                    }
+
+                                }
+
 
                                 if (mw && mw.top && mw.top().app && mw.top().app.canvas) {
                                     var liveEditIframe = (mw.app.canvas.getWindow());
@@ -672,7 +687,7 @@ mw.lib.require('rangy');
                                         var editor = liveEditIframe.tinyMCE.activeEditor;
                                         if (editor) {
 
-                                            console.log('execCommand', cmd, def, val);
+
                                              if(cmd === 'insertHTML') {
                                                 //editor.selection.setContent(val);
                                                 scope.actionWindow.document.execCommand(cmd, def, val);
@@ -684,11 +699,11 @@ mw.lib.require('rangy');
                                         }
 
                                     } else {
-                                        scope.actionWindow.document.execCommand(cmd, def, val);
+                                        _execCommand(cmd, def, val);
                                     }
 
                                 } else {
-                                    scope.actionWindow.document.execCommand(cmd, def, val);
+                                    _execCommand(cmd, def, val);
 
                                 }
 

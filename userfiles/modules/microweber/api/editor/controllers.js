@@ -1535,6 +1535,7 @@ MWEditor.controllers = {
                         </table>
                     </div>
                     `;
+                    api.getSelection().deleteFromDocument();
                     api.insertHTML(table);
                 }
             });
