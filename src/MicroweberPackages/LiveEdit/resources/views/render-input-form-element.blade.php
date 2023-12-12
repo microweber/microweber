@@ -14,7 +14,7 @@
 
 
     $element = $formBuilder->make($fieldType, $settingsKey,$this->moduleId);
-     $element->setAttribute('wire:model.debounce.100ms', $settingsKey);
+     $element->setAttribute('wire:model.debounce.500ms', $settingsKey);
     $element->setAttribute('module', $this->moduleType);
 
     if ($label and method_exists($element, 'label')) {
