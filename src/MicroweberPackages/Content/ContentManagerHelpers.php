@@ -682,6 +682,18 @@ class ContentManagerHelpers extends ContentManagerCrud
 
         }
 
+        $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
+
+        if ($multilanguageIsActive) {
+            $lang_from_url = detect_lang_from_url($ref_page_url);
+            if (isset($lang_from_url['target_locale'])
+                and isset($lang_from_url['target_locale'])
+            ) {
+
+                change_language_by_locale($lang_from_url['target_locale']);
+            }
+        }
+
 
 
 
@@ -797,14 +809,14 @@ class ContentManagerHelpers extends ContentManagerCrud
                     $is_module = 1;
                     $save_page = false;
                 }
-                $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
-
-//                if($multilanguageIsActive){
-//                      $lang_from_url = detect_lang_from_url($ref_page_url);
-//                        if(isset($lang_from_url['target_url'])){
-//                            $ref_page_url = $lang_from_url['target_url'];
-//                        }
-//                }
+//                $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
+//
+////                if($multilanguageIsActive){
+////                      $lang_from_url = detect_lang_from_url($ref_page_url);
+////                        if(isset($lang_from_url['target_url'])){
+////                            $ref_page_url = $lang_from_url['target_url'];
+////                        }
+////                }
 
 
                 if ($is_admin == true and is_array($pd) and $is_module == false) {

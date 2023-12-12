@@ -257,6 +257,8 @@ if (!function_exists('detect_lang_from_url')) {
         if (count($segments) > 1) {
             // Find target lang in segments
             $findedLangAbr = false;
+            $findedLangLocale = false;
+            $findedLangLocaleData = false;
             $urlSegs = [];
             foreach ($segments as $segment) {
                 if (is_lang_correct($segment)) {
@@ -264,6 +266,12 @@ if (!function_exists('detect_lang_from_url')) {
                         $urlSegs[] = $segment;
                     } else {
                         $findedLangAbr = $segment;
+
+
+                        $findedLangLocaleData = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($findedLangAbr);
+                        if(isset($findedLangLocaleData['locale'])){
+                            $findedLangLocale = $findedLangLocaleData['locale'];
+                        }
                     }
                 } else {
                     $urlSegs[] = $segment;
@@ -271,7 +279,12 @@ if (!function_exists('detect_lang_from_url')) {
             }
             if ($findedLangAbr) {
                 $targetUrl = implode('/', $urlSegs);
-                return array('target_lang' => $findedLangAbr, 'target_url' => $targetUrl);
+                return array(
+                    'target_lang' => $findedLangAbr,
+                    'target_locale' => $findedLangLocale,
+                    'target_locale_data' =>    $findedLangLocaleData,
+
+                    'target_url' => $targetUrl);
             }
         }
 
