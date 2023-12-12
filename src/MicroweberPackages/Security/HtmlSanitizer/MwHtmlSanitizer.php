@@ -51,6 +51,7 @@ class MwHtmlSanitizer implements HtmlSanitizerInterface
 
     private function sanitizeWithContext(string $context, string $input): string
     {
+
         // Text context: early return with HTML encoding
         if (W3CReference::CONTEXT_TEXT === $context) {
             return $input;
@@ -59,6 +60,7 @@ class MwHtmlSanitizer implements HtmlSanitizerInterface
 
         // Other context: build a DOM visitor
         $this->domVisitors[$context] ??= $this->createDomVisitorForContext($context);
+
 
         // Prevent DOS attack induced by extremely long HTML strings
         if (-1 !== $this->config->getMaxInputLength() && \strlen($input) > $this->config->getMaxInputLength()) {

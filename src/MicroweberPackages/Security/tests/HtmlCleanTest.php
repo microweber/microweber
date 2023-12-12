@@ -15,7 +15,7 @@ class HtmlCleanTest extends TestCase
 
         $xss = "<script>alert('xss')</script>";
         $xss .= "<div onmousedown='11'><script>alert('xss')</script></div>";
-        $xss .= "<module type='test' onmousedown='11'><script>alert('xss')</script></module>";
+        $xss .= "<module type=\"test\" onmousedown='11'><script>alert('xss')</script></module>";
 
         $check = $clean->clean($xss, $options);
 
@@ -26,6 +26,7 @@ class HtmlCleanTest extends TestCase
         $options = [];
         $options['admin_mode'] = true;
         $check = $clean->clean($xss, $options);
+        //$expected = '<div></div><module type="test"></module>';
         $expected = '<div></div><module type="test"></module>';
         $this->assertEquals($expected, $check);
 
