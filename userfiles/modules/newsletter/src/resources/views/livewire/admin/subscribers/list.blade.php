@@ -194,6 +194,7 @@
                     <button class="btn btn-outline-danger btn-sm" onclick="delete_subscriber('<?php print $subscriber['id']; ?>')">
                         <i class="fa fa-times"></i>  &nbsp; Delete
                     </button>
+                    
                 </td>
             </tr>
             <?php endforeach; ?>
