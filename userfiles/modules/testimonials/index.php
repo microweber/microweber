@@ -39,16 +39,19 @@ $testimonialsQuery->orderBy('position', 'asc');
 $data = [];
 $getTestimonials = $testimonialsQuery->get();
 if ($getTestimonials->count() == 0) {
-    $defaultTestimonials = file_get_contents(__DIR__ . '/default_testimonials.json');
-    $defaultTestimonials = json_decode($defaultTestimonials, true);
-    if (isset($defaultTestimonials['testimonials'])) {
-        foreach ($defaultTestimonials['testimonials'] as $defaultTestimonial) {
-            $testimonial = new \MicroweberPackages\Modules\Testimonials\Models\Testimonial();
-            $testimonial->fill($defaultTestimonial);
-            $testimonial->save();
+    $isDefaultContentApplied = get_option('testimonials_default_content_applied', $params['id']);
+    if (!$isDefaultContentApplied) {
+        $defaultTestimonials = file_get_contents(__DIR__ . '/default_testimonials.json');
+        $defaultTestimonials = json_decode($defaultTestimonials, true);
+        if (isset($defaultTestimonials['testimonials'])) {
+            foreach ($defaultTestimonials['testimonials'] as $defaultTestimonial) {
+                $testimonial = new \MicroweberPackages\Modules\Testimonials\Models\Testimonial();
+                $testimonial->fill($defaultTestimonial);
+                $testimonial->save();
+            }
+            save_option('testimonials_default_content_applied', 1, $params['id'])
         }
     }
-
 }
 
 if ($getTestimonials->count() > 0) {
