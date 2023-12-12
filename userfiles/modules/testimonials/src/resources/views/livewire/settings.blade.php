@@ -71,7 +71,7 @@
             <script>
                 mw.require('forms.js');
                 setTimeout(function() {
-                    mw.formUnsavedChangesCheck('js-testimonials-form');
+                    mw.form.unsavedChangesCheck('js-testimonials-form');
                 }, 300);
             </script>
             <form id="js-testimonials-form" wire:submit.prevent="submit">
