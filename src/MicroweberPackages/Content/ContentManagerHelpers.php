@@ -620,6 +620,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
         $is_admin = $this->app->user_manager->is_admin();
         if ($post_data) {
+
             if (isset($post_data['data_base64'])) {
 
                 if (!php_can_use_func('base64_decode')) {

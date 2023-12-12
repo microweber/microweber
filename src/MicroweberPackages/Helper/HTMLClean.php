@@ -46,20 +46,22 @@ class HTMLClean
 
        $xssClean = new XSSClean();
        $html = $xssClean->clean($html);
+        $attributeSanitizer = new MwAttrbuteSanitizer();
 
        if(isset($options['admin_mode']) and $options['admin_mode']) {
-//           $attributeSanitizer = new MwAttrbuteSanitizer();
-//           $config = (new MwHtmlSanitizerConfig())
-//               ->allowSafeElements()
-//               ->withMaxInputLength(200000)
-//               ->allowStaticElements()
-//               ->allowLinkSchemes(['https', 'http', 'mailto'])
-//               ->allowRelativeLinks()
-//               ->allowMediaSchemes(['https', 'http'])
-//               ->allowRelativeMedias()
-//
-//           ;
-//           $sanitizer = new MwHtmlSanitizer($config);
+           $config = (new MwHtmlSanitizerConfig())
+               ->allowSafeElements()
+               ->withMaxInputLength(200000)
+               ->allowStaticElements()
+               ->allowLinkSchemes(['https', 'http', 'mailto'])
+               ->allowRelativeLinks()
+               ->allowMediaSchemes(['https', 'http'])
+               ->allowRelativeMedias()
+               ->withAttributeSanitizer($attributeSanitizer)
+
+           ;
+           $sanitizer = new MwHtmlSanitizer($config);
+
        } else {
            $config = (new HtmlSanitizerConfig())
                ->allowSafeElements()
@@ -69,15 +71,17 @@ class HTMLClean
                ->allowRelativeLinks()
                ->allowMediaSchemes(['https', 'http'])
                ->allowRelativeMedias()
+               ->withAttributeSanitizer($attributeSanitizer)
+
            ;
            $sanitizer = new HtmlSanitizer($config);
 
-           $userInput = $html;
-
-           $html = $sanitizer->sanitize($userInput);
        }
 
 
+        $userInput = $html;
+
+        $html = $sanitizer->sanitize($userInput);
 
 
          return $html;

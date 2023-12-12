@@ -23,6 +23,8 @@ class MwAttrbuteSanitizer implements AttributeSanitizerInterface
 
     public function sanitizeAttribute(string $element, string $attribute, string $value, HtmlSanitizerConfig $config): ?string
     {
+        dd(11);;
+        return ($value);
         return StringSanitizer::encodeHtmlEntities($value);
 
 

@@ -86,7 +86,7 @@ class MwHtmlSanitizerDomVisitor
 
     private function visitNode(\DOMNode $domNode, Cursor $cursor): void
     {
-        dd(111);
+
         $nodeName = StringSanitizer::htmlLower($domNode->nodeName);
 
         // Element should be dropped, including its children
@@ -132,9 +132,12 @@ class MwHtmlSanitizerDomVisitor
         /** @var \DOMNode $child */
         foreach ($domNode->childNodes ?? [] as $child) {
             if ('#text' === $child->nodeName) {
+
                 // Add text directly for performance
-                $cursor->node->addChild(new TextNode($cursor->node, $child->nodeValue));
+                $cursor->node->addChild(new MwHtmlSanitizerTextNode($cursor->node, $child->nodeValue));
             } elseif (!$child instanceof \DOMText) {
+
+
                 // Otherwise continue the visit recursively
                 // Ignore comments for security reasons (interpreted differently by browsers)
                 $this->visitNode($child, $cursor);

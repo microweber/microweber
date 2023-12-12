@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use GrahamCampbell\SecurityCore\Security;
 use Illuminate\Support\Facades\Log;
 use MicroweberPackages\Helper\HTMLClean;
+use MicroweberPackages\Helper\XSSClean;
 
 class XSS
 {
@@ -16,16 +17,16 @@ class XSS
         $input = $request->all();
 
         if (($request->isMethod('post')  or $request->isMethod('patch') or $request->isMethod('put') ) and !empty($input)) {
-            $clean = new HTMLClean();
+
             $options = [];
             if(is_admin()){
-                //allows more tags and images
-                $options['admin_mode'] = true;
+                 $options['admin_mode'] = true;
             }
-
-            array_walk_recursive($input, function (&$input) use ($clean,$options) {
+            $xssClean = new XSSClean();
+            array_walk_recursive($input, function (&$input) use ($options,$xssClean) {
                 if (is_string($input)) {
-                    $input = $clean->clean($input,$options);
+                     $input = $xssClean->clean($input);
+
                 }
             });
         }
