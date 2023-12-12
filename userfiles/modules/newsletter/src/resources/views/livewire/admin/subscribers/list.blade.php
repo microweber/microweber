@@ -163,7 +163,7 @@
             <?php foreach ($subscribers as $key => $subscriber): ?>
             <tr>
                 <td>
-                    <input type="checkbox" wire:model="checkedLists[]" value="<?php print $subscriber['id']; ?>" />
+                    <input type="checkbox" wire:model="checked" value="<?php print $subscriber['id']; ?>" />
                 </td>
                 <td data-label="<?php _e('Name'); ?>"><?php print $subscriber['name']; ?></td>
                 <td data-label="<?php _e('E-mail'); ?>"><?php print $subscriber['email']; ?></td>

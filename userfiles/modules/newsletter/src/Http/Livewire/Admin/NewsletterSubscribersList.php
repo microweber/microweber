@@ -18,20 +18,25 @@ class NewsletterSubscribersList extends Component
     public $listsCount = 0;
     public $emailsSentCount = 0;
 
-    public $checkedLists = [];
-
     protected $queryString = ['keyword'];
-
     protected $listeners = ['newsletterSubscribersListUpdated' => 'render'];
+
+    public $checked = [];
+    public $selectAll = false;
 
     public function selectAll()
     {
-        $this->checkedLists = NewsletterList::pluck('id')->toArray();
+        if ($this->selectAll) {
+            $this->selectAll = false;
+            $this->checked = [];
+        } else {
+            $this->selectAll = true;
+            $this->checked = NewsletterSubscriber::pluck('id')->map(fn($item) => (string)$item)->toArray();
+        }
     }
 
     public function render()
     {
-
         $this->campaignsCount = NewsletterCampaign::count();
         $this->listsCount = NewsletterList::count();
         $this->emailsSentCount = NewsletterCampaignsSendLog::count();
