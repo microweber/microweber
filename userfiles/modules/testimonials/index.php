@@ -49,7 +49,7 @@ if ($getTestimonials->count() == 0) {
                 $testimonial->fill($defaultTestimonial);
                 $testimonial->save();
             }
-            save_option('testimonials_default_content_applied', 1, $params['id'])
+            save_option('testimonials_default_content_applied', 1, $params['id']);
         }
     }
 }
