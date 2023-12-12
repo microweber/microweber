@@ -68,7 +68,13 @@
         </div>
 
         <div x-show="showEditTab=='editTestimonial'">
-            <form wire:submit.prevent="submit">
+            <script>
+                mw.require('forms.js');
+                setTimeout(function() {
+                    mw.form.unsavedChangesCheck('js-testimonials-form');
+                }, 300);
+            </script>
+            <form id="js-testimonials-form" wire:submit.prevent="submit">
 
                 <div class="d-flex align-items-center justify-content-end">
                     <x-microweber-ui::button-animation type="submit">
