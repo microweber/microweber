@@ -9,6 +9,7 @@ description: Default
 <style>
     .mwembed-video {
         max-width: 100%;
+        margin: 0 auto;
     }
 </style>
 
