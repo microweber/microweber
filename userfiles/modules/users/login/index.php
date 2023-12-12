@@ -117,8 +117,19 @@
 
     $input = [];
     if(!empty($_POST) or !empty($_GET)){
-        $input = mw()->format->clean_xss(\Request::all());
+        $input = \Request::all();
     }
+
+    $selectedLang = current_lang();
+    if (isset($_COOKIE['lang'])) {
+        $selectedLang = xss_clean($_COOKIE['lang']);
+    }
+    if(isset($input) and !empty($input)){
+        $input = xss_clean($input);
+    }
+
+
+
     $login_captcha_enabled = get_option('login_captcha_enabled', 'users') == 'y';
 
     # Login Providers

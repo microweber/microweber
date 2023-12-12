@@ -20,7 +20,11 @@ $user = user_id();
 
 $selectedLang = current_lang();
 if (isset($_COOKIE['lang'])) {
-    $selectedLang = $_COOKIE['lang'];
+    $selectedLang = xss_clean($_COOKIE['lang']);
+}
+if(isset($input) and !empty($input)){
+    $input = xss_clean($input);
+
 }
 
 $currentLang = current_lang();
