@@ -816,17 +816,17 @@ function template_stack_display($group = 'default')
     return mw()->template->stack_display($group);
 }
 
-
-api_expose_admin('current_template_save_custom_css');
-function current_template_save_custom_css($data)
-{
-    return mw()->layouts_manager->template_save_css($data);
-}
-
-api_expose_admin('layouts/template_remove_custom_css', function ($params) {
-    return mw()->layouts_manager->template_remove_custom_css($params);
-
-});
+//
+//api_expose_admin('current_template_save_custom_css');
+//function current_template_save_custom_css($data)
+//{
+//    return mw()->layouts_manager->template_save_css($data);
+//}
+//
+//api_expose_admin('layouts/template_remove_custom_css', function ($params) {
+//    return mw()->layouts_manager->template_remove_custom_css($params);
+//
+//});
 
 
 function mw_logo_svg()

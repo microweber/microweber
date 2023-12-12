@@ -4,6 +4,8 @@
 use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Import;
+use \Illuminate\Http\Request;
+use \Illuminate\Http\Response;
 
 Route::name('api.template.')
     ->prefix('api/template')
@@ -68,22 +70,48 @@ Route::name('api.template.')
 
     });
 
+\Route::post('api/current_template_save_custom_css', function (Request $request) {
+    $data = $request->all();
+    app()->template->defineConstants($data);
+
+    return mw()->layouts_manager->template_save_css($data);
+})->name('current_template_save_custom_css')
+->middleware(['admin']);
+
+\Route::post('api/layouts/template_remove_custom_css', function (Request $request) {
+    $data = $request->all();
+    app()->template->defineConstants($data);
+
+    return mw()->layouts_manager->template_remove_custom_css($data);
+})->name('template_remove_custom_css')
+->middleware(['admin']);
 
 
+\Route::post('api/template/delete_compiled_css', function (Request  $request) {
+    $data = $request->all();
+    app()->template->defineConstants($data);
 
-api_expose('template/compile_css', function ($params) {
-    $compiled =  mw()->template->compile_css($params);
+    return mw()->template->delete_compiled_css($data);
+})->name('current_template_save_custom_css')
+->middleware(['admin']);
+
+\Route::get('api/template/delete_compiled_css', function (Request $request) {
+    $data = $request->all();
+    app()->template->defineConstants($data);
+
+    $compiled =  mw()->template->compile_css($data);
 
     $compiled = str_replace( '../../../../../../',userfiles_url(), $compiled);
 
     $response = \Response::make($compiled);
     $response->header('Content-Type', 'text/css');
     return $response;
- });
+})->name('delete_compiled_css')
+->middleware(['admin']);
 
-api_expose_admin('template/delete_compiled_css', function ($params) {
-    return mw()->template->delete_compiled_css($params);
-});
+
+
+
 
 
 
