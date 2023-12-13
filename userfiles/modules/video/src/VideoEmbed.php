@@ -512,6 +512,7 @@ class VideoEmbed
             $attributes[] = 'autoplay="1"';
         }
 
+
         return '<video ' . implode(" ", $attributes) . '></video>';
     }
 

@@ -19,10 +19,21 @@ class NewsletterSubscribersList extends Component
     public $emailsSentCount = 0;
 
     protected $queryString = ['keyword'];
-    protected $listeners = ['newsletterSubscribersListUpdated' => 'render'];
+    protected $listeners = [
+        'newsletterSubscribersListUpdated' => 'render',
+        'refreshSubscribers'=>'$refresh'
+    ];
 
     public $checked = [];
     public $selectAll = false;
+
+    public function delete($id)
+    {
+        $subscriber = NewsletterSubscriber::find($id);
+        if ($subscriber) {
+            $subscriber->delete();
+        }
+    }
 
     public function selectAll()
     {

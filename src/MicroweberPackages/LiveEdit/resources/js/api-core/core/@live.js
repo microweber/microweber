@@ -338,6 +338,8 @@ export class LiveEdit {
 
             this.layoutHandleContent.menu.setTarget(target);
             this.layoutHandleContent.menu.setTitle(title);
+
+
             if (scope.elementAnalyzer.isEditOrInEdit(target)) {
                 this.layoutHandleContent.plusTop.show()
                 this.layoutHandleContent.plusBottom.show()
