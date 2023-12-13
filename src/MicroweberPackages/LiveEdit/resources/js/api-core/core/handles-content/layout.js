@@ -313,6 +313,9 @@ export class LayoutHandleContent {
     }
 
     positionButtons(target) {
+        if(!target) {
+            return;
+        }
         const targetDocument = mw.top().app.canvas.getDocument()
         const off = ElementManager(target, targetDocument).offset();
 
