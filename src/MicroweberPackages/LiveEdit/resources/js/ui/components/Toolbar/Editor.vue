@@ -265,9 +265,7 @@ export default {
 
 
 
-                  let timeoutIdEditor;
 
-                   timeoutIdEditor = setTimeout(() => {
 
 
                         let editTarget = element;
@@ -294,15 +292,13 @@ export default {
 
                         element.focus();
 
-                     //   editTarget.contentEditable = true;
+                        editTarget.contentEditable = true;
                         mw.app.liveEdit.pause();
 
                        mw.app.richTextEditor.smallEditorInteract(element);
                        mw.app.richTextEditor.positionSmallEditor(element);
 
-                       if (element && element.innerHTML.trim() === '') {
-                         mw.app.wyswygEditor.setCursorPos(0, element)
-                       }
+
 
 
 
@@ -314,16 +310,19 @@ export default {
                             node.contentEditable = 'inherit';
                         })
 
-                 //   mw.app.wyswygEditor.initEditor(element);
-
-                       // try {
-                       //     mw.app.wyswygEditor.initEditor(element);
-                       // } catch (e) {
-                       //     console.warn(e);
-                       // }
+                        // mw.top().app.richTextEditor.api.getSelection().getRangeAt(0).collapse();
 
 
-                  }, 300);
+
+
+                        setTimeout(() => {
+
+                            if(mw.top().app.canvas.getDocument().activeElement !== editTarget) {
+                                editTarget.focus();
+                            }
+                        }, 110)
+
+
 
                 }
 
