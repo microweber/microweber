@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9374f4c1e4b442226e69529953e2da0b",
+    "content-hash": "d19433557361c368eee370e33cf252a9",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -12687,23 +12687,23 @@
         },
         {
             "name": "symfony/html-sanitizer",
-            "version": "7.1.x-dev",
+            "version": "v6.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/html-sanitizer.git",
-                "reference": "388787213379c85f07ce270afd78c5b7cff3b0f6"
+                "reference": "9cc71f272eb62504872c80845074f236e8e43536"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/html-sanitizer/zipball/388787213379c85f07ce270afd78c5b7cff3b0f6",
-                "reference": "388787213379c85f07ce270afd78c5b7cff3b0f6",
+                "url": "https://api.github.com/repos/symfony/html-sanitizer/zipball/9cc71f272eb62504872c80845074f236e8e43536",
+                "reference": "9cc71f272eb62504872c80845074f236e8e43536",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "league/uri": "^6.5|^7.0",
                 "masterminds/html5": "^2.7.2",
-                "php": ">=8.2"
+                "php": ">=8.1"
             },
             "type": "library",
             "autoload": {
@@ -12736,7 +12736,7 @@
                 "sanitizer"
             ],
             "support": {
-                "source": "https://github.com/symfony/html-sanitizer/tree/v7.0.0-RC1"
+                "source": "https://github.com/symfony/html-sanitizer/tree/v6.4.0"
             },
             "funding": [
                 {
@@ -12752,7 +12752,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-28T23:12:22+00:00"
+            "time": "2023-10-28T23:12:08+00:00"
         },
         {
             "name": "symfony/http-foundation",
