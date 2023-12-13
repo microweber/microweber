@@ -610,6 +610,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 //        }
 
         $save_as_draft = false;
+        $from_url = false;
         if (isset($post_data['save_draft'])) {
             $save_as_draft = true;
             unset($post_data['save_draft']);
@@ -650,6 +651,12 @@ class ContentManagerHelpers extends ContentManagerCrud
                 unset($post_data['is_draft']);
                 $is_draft = 1;
             }
+            $from_url = false;
+            if (isset($post_data['from_url'])) {
+                $from_url = $post_data['from_url'];
+
+                unset($post_data['from_url']);
+            }
             $the_field_data_all = $post_data;
             $this->app->event_manager->trigger('mw.content.save_edit.before', $the_field_data_all);
 
@@ -666,7 +673,29 @@ class ContentManagerHelpers extends ContentManagerCrud
         if (isset($_SERVER['HTTP_REFERER'])) {
             $ref_page_url = $_SERVER['HTTP_REFERER'];
             $ref_page_url = xss_clean($ref_page_url);
+
         }
+
+        if($from_url){
+            $ref_page_url = $from_url;
+            $ref_page_url = xss_clean($ref_page_url);
+
+        }
+
+        $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
+
+        if ($multilanguageIsActive) {
+            $lang_from_url = detect_lang_from_url($ref_page_url);
+            if (isset($lang_from_url['target_locale'])
+                and isset($lang_from_url['target_locale'])
+            ) {
+
+                change_language_by_locale($lang_from_url['target_locale']);
+            }
+        }
+
+
+
 
         if (isset($post_data['id']) and intval($post_data['id']) > 0) {
             $page_id = intval($post_data['id']);
@@ -780,13 +809,14 @@ class ContentManagerHelpers extends ContentManagerCrud
                     $is_module = 1;
                     $save_page = false;
                 }
-                $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
-//                if($multilanguageIsActive){
-//                      $lang_from_url = detect_lang_from_url($ref_page_url);
-//                        if(isset($lang_from_url['target_url'])){
-//                            $ref_page_url = $lang_from_url['target_url'];
-//                        }
-//                }
+//                $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
+//
+////                if($multilanguageIsActive){
+////                      $lang_from_url = detect_lang_from_url($ref_page_url);
+////                        if(isset($lang_from_url['target_url'])){
+////                            $ref_page_url = $lang_from_url['target_url'];
+////                        }
+////                }
 
 
                 if ($is_admin == true and is_array($pd) and $is_module == false) {
