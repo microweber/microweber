@@ -633,6 +633,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                     return array('error' => 'The invalid data was sent');
                 }
 
+
+
             }
             if (isset($post_data['json_obj'])) {
                 $obj = @json_decode($post_data['json_obj'], true);
@@ -928,7 +930,6 @@ class ContentManagerHelpers extends ContentManagerCrud
         } elseif ($is_admin == false) {
             return array('error' => 'Not logged in as admin to use ' . __FUNCTION__);
         }
-
 
         foreach ($the_field_data_all as $the_field_data) {
             $save_global = false;
