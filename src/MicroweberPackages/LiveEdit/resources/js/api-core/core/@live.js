@@ -341,13 +341,22 @@ export class LiveEdit {
 
 
             if (scope.elementAnalyzer.isEditOrInEdit(target)) {
-                this.layoutHandleContent.plusTop.show()
-                this.layoutHandleContent.plusBottom.show()
+                if(this.layoutHandleContent.plusTop){
+                    this.layoutHandleContent.plusTop.show();
+                }
+                if(this.layoutHandleContent.plusBottom){
+                    this.layoutHandleContent.plusBottom.show();
+                }
+
             } else {
-                this.layoutHandleContent.plusTop.hide()
-                this.layoutHandleContent.plusBottom.hide()
+                if(this.layoutHandleContent.plusTop){
+                    this.layoutHandleContent.plusTop.hide();
+                }
+                if(this.layoutHandleContent.plusBottom){
+                    this.layoutHandleContent.plusBottom.hide();
+                }
             }
-            this.layoutHandleContent.positionButtons(target)
+            this.layoutHandleContent.positionButtons(target);
 
 
 
