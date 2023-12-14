@@ -125,8 +125,8 @@
     <div class="form-group">
         <label class="control-label"><?php _e('Template design'); ?></label>
 
-        <small class="text-muted d-flex justify-content-between align-items-center mb-2">
-            <span>Variables:  {{name}}, {{first_name}} , {{last_name}} , {{email}, {{site_url}}</span>
+        <small class="text-muted d-flex justify-content-between align-items-center mt-2 mb-2">
+            <span>Variables:  {{name}}, {{first_name}} , {{last_name}} , {{email}, {{unsubscribe}}, {{site_url}}</span>
         </small>
 
         <textarea id="js-editor-template" name="text" class="js-edit-template-text"></textarea>

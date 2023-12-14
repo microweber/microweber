@@ -17,9 +17,9 @@
             <div class="alert alert-success">
                 <h4 class="alert-heading">Import is done</h4>
                 <p>
-                    <b>Imported subscribers:</b> {{ $this->importDone['imported'] }}<br />
-                    <b>Skipped subscribers:</b> {{ $this->importDone['skipped'] }}<br />
-                    <b>Failed subscribers:</b> {{ $this->importDone['failed'] }}<br />
+                    <b>Imported:</b> {{ $this->importDone['imported'] }}<br />
+                    <b>Skipped:</b> {{ $this->importDone['skipped'] }}<br />
+                    <b>Failed:</b> {{ $this->importDone['failed'] }}<br />
                 </p>
                 <div>
                     <button type="button" class="btn btn-outline-success" wire:click="$emit('closeModal', true)">

@@ -65,6 +65,12 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
                 $skipped = 0;
                 $failed = 0;
                 foreach($readSubscribers as $subscriber) {
+
+                    if (!isset($subscriber['email']) || empty($subscriber['email'])) {
+                        $failed++;
+                        continue;
+                    }
+
                     $findSubsciber = NewsletterSubscriber::where('email', $subscriber['email'])->first();
                     if (!$findSubsciber) {
                         $findSubsciber = new NewsletterSubscriber();

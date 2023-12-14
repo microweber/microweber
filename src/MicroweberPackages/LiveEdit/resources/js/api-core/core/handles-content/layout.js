@@ -313,13 +313,34 @@ export class LayoutHandleContent {
     }
 
     positionButtons(target) {
+
+
+        const _hideButtons = () => {
+            this.plusTop.css({
+                left: -9999,
+                top: -9999,
+                zIndex: 1102,
+            })
+            this.plusBottom.css({
+                left:-9999,
+                top: -9999,
+                zIndex: 1102,
+            })
+        }
         if(!target) {
+            _hideButtons()
+            return;
+        }
+        if(!DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
+            _hideButtons()
+
             return;
         }
         const targetDocument = mw.top().app.canvas.getDocument()
         const off = ElementManager(target, targetDocument).offset();
 
         if(off === null) {
+            _hideButtons()
             return;
         }
 

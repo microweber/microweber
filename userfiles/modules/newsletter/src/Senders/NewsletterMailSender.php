@@ -200,6 +200,7 @@ class NewsletterMailSender {
                 'last_name' => $lastName,
                 'email' => $email,
                 'site_url' => $siteUrl,
+                'unsubscribe' => $siteUrl . '/web/modules/newsletter/unsubscribe?email=' . $email,
             ],
             $twigSettings
         );
