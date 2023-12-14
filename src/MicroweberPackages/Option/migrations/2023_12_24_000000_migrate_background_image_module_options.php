@@ -32,7 +32,7 @@ class MigrateBackgroundImageModuleOptions extends Migration
                     foreach ($changeKeys as $changeKey => $newKey) {
                         if ($opt && $opt->option_key == $changeKey) {
                            // db update where
-                            \DB::table('options')
+                            \DB::table('options') 
                                 ->where('id', $opt->id)
                                 ->update([
                                     'option_key' => $newKey
