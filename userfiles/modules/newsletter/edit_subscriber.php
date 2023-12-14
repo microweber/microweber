@@ -127,11 +127,14 @@ if (isset($params['id'])) {
         if (isset($subscriber['id'])) {
             $subscriber_lists = newsletter_get_subscriber_lists($subscriber['id']);
         }
-        $subscriber_lists = false;
         $list_params = array();
         $list_params['no_limit'] = true;
         $list_params['order_by'] = "created_at desc";
         $lists = newsletter_get_lists($list_params);
+        if (array_search_multidimensional($lists, 'list_id', '0') === false) {
+            $newLists[] = array('id' => '0', 'name' => 'Default');
+            $lists = array_merge($newLists, $lists);
+        }
         ?>
         <?php if ($lists): ?>
             <?php
@@ -142,9 +145,11 @@ if (isset($params['id'])) {
                     $inList = false;
                 }
                 ?>
-                <div class="custom-control custom-checkbox d-flex align-items-center gap-2">
+                <div class="custom-control custom-checkbox d-flex align-items-center gap-2 mt-2">
+                    <label class="d-flex gap-1">
                     <input <?php if ($inList !== false): ?>checked<?php endif; ?> class="form-check-input" id="inlist-<?php echo $list['id']; ?>" name="subscribed_for[]" type="checkbox" value="<?php echo $list['id']; ?>" />
                     <span class="form-check-label" for="inlist-<?php echo $list['id']; ?>"><?php echo $list['name']; ?></span>
+                    </label>
                 </div>
 
             <?php endforeach; ?>
