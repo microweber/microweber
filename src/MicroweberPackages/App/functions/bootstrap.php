@@ -60,10 +60,14 @@ $functions_dir = __DIR__.DS;
 
 include_once $functions_dir.'paths.php';
 
+include_once $functions_dir.'url.php';
 include_once $functions_dir.'api.php';
 include_once $functions_dir.'api_callbacks.php';
 include_once $functions_dir.'lang.php';
 include_once $functions_dir.'common.php';
+include_once $functions_dir.'filesystem.php';
+include_once $functions_dir.'array.php';
+include_once $functions_dir.'string.php';
 include_once $functions_dir.'other.php';
 include_once $functions_dir.'mail.php';
 

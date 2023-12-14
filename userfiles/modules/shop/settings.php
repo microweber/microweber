@@ -63,7 +63,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     <small class="text-muted"><?php _e("Basic store settings."); ?><?php _e("Setup currency and more."); ?></small>
                 </div>
             </a>
-        </div>`
+        </div>
 
         <?php event_trigger('mw.admin.shop.settings.menu', $params); ?>
 
