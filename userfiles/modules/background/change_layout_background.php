@@ -216,7 +216,7 @@
             document.querySelector('#overlay-color-picker-remove-color').addEventListener('click', function () {
                 let {bg, bgOverlay, bgNode, target} = getTargets();
 
-                mw.top().app.layoutBackground.setBackgroundColor(bgOverlay, '');
+                mw.top().app.layoutBackground.setBackgroundColor(bgOverlay, 'transparent');
                 showHideRemoveBackgroundsButtons()
             })
             showHideRemoveBackgroundsButtons();

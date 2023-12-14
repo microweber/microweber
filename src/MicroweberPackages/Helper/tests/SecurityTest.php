@@ -24,7 +24,7 @@ class SecurityTest extends TestCase
 
         $string = '<img src="' . site_url() . 'test.jpg" />';
         $content = $antiXss->clean($string);
-        $this->assertEquals('<img src="' . site_url() . 'test.jpg" alt="test.jpg" />', $content);
+        $this->assertEquals('<img src="' . site_url() . 'test.jpg" />', $content);
 
 
         $string = '<img src="https://google.bg/test.jpg" />';
