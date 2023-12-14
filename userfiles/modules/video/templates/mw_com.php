@@ -26,7 +26,7 @@ description: MW com
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: rgba(255, 255, 255, 0.40);
+        background-color: rgba(255, 255, 255, 0.80);
         color: #fff;
         border-radius: 50%;
         cursor: pointer;
@@ -49,7 +49,7 @@ description: MW com
         width: 100%;
         height: 100%;
         pointer-events: none;
-        background-color: rgba(0, 0, 0, 0.6);
+        background-color: rgba(0, 0, 0, 0.4);
         z-index: 2;
         content: '';
     }
