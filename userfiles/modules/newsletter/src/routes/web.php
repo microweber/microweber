@@ -19,6 +19,8 @@ Route::name('web.newsletter.')
             $findSubscriber->is_subscribed = 0;
             $findSubscriber->save();
 
+            return redirect('/');
+
         })->name('unsubscribe');
 
     });
