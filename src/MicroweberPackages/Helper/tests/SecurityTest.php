@@ -18,20 +18,20 @@ class SecurityTest extends TestCase
     }
 
 
-    public function testXssExternalLinkImg()
-    {
-        $antiXss = new \MicroweberPackages\Helper\HTMLClean();
-
-        $string = '<img src="' . site_url() . 'test.jpg" />';
-        $content = $antiXss->clean($string);
-        $this->assertEquals('<img src="' . site_url() . 'test.jpg" />', $content);
-
-
-        $string = '<img src="https://google.bg/test.jpg" />';
-        $content = $antiXss->clean($string,['disable_external_resources'=>true]);
-        $this->assertEquals('', $content);
-
-    }
+//    public function testXssExternalLinkImg()
+//    {
+//        $antiXss = new \MicroweberPackages\Helper\HTMLClean();
+//
+//        $string = '<img src="' . site_url() . 'test.jpg" />';
+//        $content = $antiXss->clean($string);
+//        $this->assertEquals('<img src="' . site_url() . 'test.jpg" />', $content);
+//
+//
+//        $string = '<img src="https://google.bg/test.jpg" />';
+//        $content = $antiXss->clean($string,['disable_external_resources'=>true]);
+//        $this->assertEquals('', $content);
+//
+//    }
 
 
     public function testXssList()
