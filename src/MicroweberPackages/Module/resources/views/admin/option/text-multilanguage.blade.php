@@ -15,9 +15,9 @@ currentLanguageData = mlCurrentLanguage;
         <input
 
             @if($language['locale'] == $defaultLanguage)
-                wire:model.debounce.300ms="state.settings.{{$fieldName}}"
+                wire:model.debounce.500ms="state.settings.{{$fieldName}}"
             @else
-                wire:model.debounce.300ms="state.translations.{{$language['locale']}}.{{$fieldName}}"
+                wire:model.debounce.500ms="state.translations.{{$language['locale']}}.{{$fieldName}}"
             @endif
 
             x-show="currentLanguageData.locale == '{{$language['locale']}}'"
