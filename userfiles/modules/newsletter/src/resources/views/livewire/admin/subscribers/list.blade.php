@@ -143,12 +143,14 @@
 
     <div>
         @if(!empty($this->checked))
-            <div>
-                Selected: {{ count($this->checked) }}
+            <div class="px-2 py-2">
+                <div>
+                    Selected: {{ count($this->checked) }}
+                </div>
+                <button class="btn btn-outline-danger" wire:click="deleteSelected()" onclick="return confirm('Are you sure?')">
+                    <?php _e('Delete selected'); ?>
+                </button>
             </div>
-            <button class="btn btn-outline-danger" wire:click="deleteSelected()" onclick="return confirm('Are you sure?')">
-                <?php _e('Delete selected'); ?>
-            </button>
         @endif
     </div>
 
