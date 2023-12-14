@@ -42,14 +42,19 @@
             <label class="live-edit-label"><?php _ejs("Skin"); ?></label>
             @php
                 $selectModernOptions = [];
-                $selectModernOptions['default'] = '<div style="width:100%;height:100px;background:#fff;display:flex;justify-content:center;align-items:center;">Default Skin</div>';
+                if ($disableScreenshots) {
+                    $selectModernOptions['default'] = '<div>Default Skin</div>';
+                } else {
+                    $selectModernOptions['default'] = '<div style="width:100%;height:100px;background:#fff;display:flex;justify-content:center;align-items:center;">Default Skin</div>';
+                }
                 foreach ($moduleTemplates as $item) {
                     $optionHtml = '<div  style="width:100%;">';
 
-                   $optionHtml .=  '<div><h4>'.$item['name'].'</h4></div>';
-                    if (isset($item['screenshot'])) {
+                    if (isset($item['screenshot']) && ($disableScreenshots == false)) {
+                        $optionHtml .=  '<div><h4>'.$item['name'].'</h4></div>';
                         $optionHtml .= '<div style="width:100%; height:100px; background-image: url(' . $item['screenshot'] . '); background-size: contain; background-position: top center; background-repeat: no-repeat;"></div>';
                     } else {
+                         $optionHtml .=  '<div>'.$item['name'].'</div>';
                     }
 
                     $optionHtml .= '</div>';
