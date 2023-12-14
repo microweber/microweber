@@ -148,7 +148,7 @@ return [
 	|
 	*/
 
-	'secure' => is_https(),
+	'secure' => function_exists('is_https') ? is_https() : false,
 
     /*
     |--------------------------------------------------------------------------
