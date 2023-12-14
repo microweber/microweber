@@ -4,7 +4,7 @@ namespace MicroweberPackages\LiveEdit\Http\Livewire;
 
 class ModuleTemplateSelectComponent extends ModuleSettingsComponent
 {
-
+    public $disableScreenshots = false;
 
     public array $settings = [
         'template' => 'default',
@@ -13,17 +13,12 @@ class ModuleTemplateSelectComponent extends ModuleSettingsComponent
 
     public function render()
     {
+        $moduleTemplates = module_templates($this->moduleType);
 
-         $moduleTemplates = module_templates($this->moduleType);
+        if (empty($moduleTemplates)) {
+            return '<div class="alert">There are no templates for this module</div>';
+        }
 
-         if(empty($moduleTemplates)){
-
-             return '<div class="alert">There are no templates for this module</div>';
-         }
-
-
-
-      //  $currentTemplate = get_option('template', $this->moduleId);
         return view('microweber-live-edit::module-select-template', [
             'moduleTemplates' => $moduleTemplates,
             'moduleType' => $this->moduleType,
