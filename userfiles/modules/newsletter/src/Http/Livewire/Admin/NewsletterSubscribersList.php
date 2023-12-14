@@ -35,6 +35,14 @@ class NewsletterSubscribersList extends Component
         }
     }
 
+    public function deleteSelected()
+    {
+        if (!empty($this->checked)) {
+            NewsletterSubscriber::whereIn('id', $this->checked)->delete();
+            $this->checked = [];
+        }
+    }
+
     public function selectAll()
     {
         if ($this->selectAll) {

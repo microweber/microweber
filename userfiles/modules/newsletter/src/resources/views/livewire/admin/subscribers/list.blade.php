@@ -119,10 +119,7 @@
                             data: data,
                             success: function (result) {
                                 mw.notification.success('<?php _ejs('Subscriber deleted'); ?>');
-
-                                // Reload the modules
-                                mw.reload_module('newsletter/subscribers_list')
-                                mw.reload_module_parent('newsletter')
+                                window.Livewire.emit('refreshSubscribers');
                             }
                         });
                     }
@@ -194,7 +191,7 @@
                     <button class="btn btn-outline-danger btn-sm" onclick="delete_subscriber('<?php print $subscriber['id']; ?>')">
                         <i class="fa fa-times"></i>  &nbsp; Delete
                     </button>
-                    
+
                 </td>
             </tr>
             <?php endforeach; ?>
