@@ -44,7 +44,7 @@ export class LiveEditLayoutBackground extends BaseComponent {
             //set bg image option
             var optionsBg = {
                 group: isInsideBackgroundModule.id,
-                key: 'background_image',
+                key: 'data-background-image',
                 module: 'background',
                 value: url
             };
@@ -55,7 +55,7 @@ export class LiveEditLayoutBackground extends BaseComponent {
                 //remove bg video option
                 var optionsVideo = {
                     group: isInsideBackgroundModule.id,
-                    key: 'background_video',
+                    key: 'data-background-video',
                     module: 'background',
                     value: ''
                 };
@@ -104,7 +104,7 @@ export class LiveEditLayoutBackground extends BaseComponent {
                 //remove bg image option
                 var optionsBg = {
                     group: isInsideBackgroundModule.id,
-                    key: 'background_image',
+                    key: 'data-background-image',
                     module: 'background',
                     value: ''
                 };
@@ -114,7 +114,7 @@ export class LiveEditLayoutBackground extends BaseComponent {
            //set bg video option
             var optionsVideo = {
                 group: isInsideBackgroundModule.id,
-                key: 'background_video',
+                key: 'data-background-video',
                 module: 'background',
                 value: url
             };
@@ -174,7 +174,7 @@ export class LiveEditLayoutBackground extends BaseComponent {
             //set bg image option
             var optionsBg = {
                 group: isInsideBackgroundModule.id,
-                key: 'background_color',
+                key: 'data-background-color',
                 module: 'background',
                 value: color
             };
