@@ -131,9 +131,14 @@ if (isset($params['id'])) {
         $list_params['no_limit'] = true;
         $list_params['order_by'] = "created_at desc";
         $lists = newsletter_get_lists($list_params);
-        if (array_search_multidimensional($lists, 'list_id', '0') === false) {
-            $newLists[] = array('id' => '0', 'name' => 'Default');
-            $lists = array_merge($newLists, $lists);
+        if (!empty($lists)) {
+            if (array_search_multidimensional($lists, 'list_id', '0') === false) {
+                $newLists[] = array('id' => '0', 'name' => 'Default');
+                $lists = array_merge($newLists, $lists);
+            }
+        } else {
+            $lists = array();
+            $lists[] = array('id' => '0', 'name' => 'Default');
         }
         ?>
         <?php if ($lists): ?>
