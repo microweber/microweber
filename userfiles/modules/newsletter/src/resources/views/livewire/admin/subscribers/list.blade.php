@@ -119,10 +119,7 @@
                             data: data,
                             success: function (result) {
                                 mw.notification.success('<?php _ejs('Subscriber deleted'); ?>');
-
-                                // Reload the modules
-                                mw.reload_module('newsletter/subscribers_list')
-                                mw.reload_module_parent('newsletter')
+                                window.Livewire.emit('refreshSubscribers');
                             }
                         });
                     }
@@ -146,12 +143,14 @@
 
     <div>
         @if(!empty($this->checked))
-            <div>
-                Selected: {{ count($this->checked) }}
+            <div class="px-2 py-2">
+                <div>
+                    Selected: {{ count($this->checked) }}
+                </div>
+                <button class="btn btn-outline-danger" wire:click="deleteSelected()" onclick="return confirm('Are you sure?')">
+                    <?php _e('Delete selected'); ?>
+                </button>
             </div>
-            <button class="btn btn-outline-danger" wire:click="deleteSelected()" onclick="return confirm('Are you sure?')">
-                <?php _e('Delete selected'); ?>
-            </button>
         @endif
     </div>
 
@@ -194,7 +193,7 @@
                     <button class="btn btn-outline-danger btn-sm" onclick="delete_subscriber('<?php print $subscriber['id']; ?>')">
                         <i class="fa fa-times"></i>  &nbsp; Delete
                     </button>
-                    
+
                 </td>
             </tr>
             <?php endforeach; ?>

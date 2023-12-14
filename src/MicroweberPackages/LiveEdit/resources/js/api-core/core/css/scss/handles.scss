@@ -501,6 +501,11 @@ body.mw--resizing{
 }
 
 
+html.mw-le--page-preview {
+    .mw-handle-item-layout-plus{
+        display: none;
+    }
+}
 html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
     pointer-events: none;
     .module,.element,.cloneable, .edit{

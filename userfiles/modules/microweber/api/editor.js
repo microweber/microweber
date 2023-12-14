@@ -805,7 +805,7 @@ var MWEditor = function (options) {
             }
 
             icon.on('mousedown touchstart', function () {
-                const parent = this.parentNode.parentNode;
+                const parent = this.parentNode;
                 scope.document.querySelectorAll('.mw-bar-control-item.active, .mw-editor-controller-component.active').forEach(node => {
                     if(node !== parent) {
                         node.classList.remove('active')

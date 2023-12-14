@@ -914,7 +914,7 @@ body.loaded #bubble-nav span {
     border-left: var(--tblr-body-color);
     padding: 11px;
     z-index: 1;
-    box-shadow: -10px 0px 10px -2px #eee;
+
 }
 
 
