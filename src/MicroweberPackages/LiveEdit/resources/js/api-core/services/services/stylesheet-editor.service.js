@@ -180,6 +180,8 @@ export class StylesheetEditor extends MicroweberBaseClass {
         }
     }
 
+    recordTimeout = {}
+
     setPropertyForSelector(sel, prop, val, record = true, skipMedia = false) {
 
         let media = 'screen, print';
@@ -192,20 +194,33 @@ export class StylesheetEditor extends MicroweberBaseClass {
         media = `@media ${media}`;
 
         if (record) {
-            var state = mw.top().app.state.state();
-            var prev = state[state.length - 1];
-            if (prev && (prev.target !== '$liveEditCSS' || (prev.target === '$liveEditCSS' && prev.value.selector !== sel))) {
-                if (mw.app.canvas.getDocument().querySelector(sel)) {
-                    mw.top().app.state.record({
-                        target: '$liveEditCSS',
-                        value: {
-                            selector: sel,
-                            property: prop,
-                            value: getComputedStyle(mw.app.canvas.getDocument().querySelector(sel))[prop]
-                        }
-                    })
+            var timeoutNameStart = sel + prop + 'Start';
+            var timeoutName = sel + prop;
+
+
+
+            if(!this.recordTimeout[timeoutNameStart]) {
+
+                var state = mw.top().app.state.state();
+                var prev = state[state.length - 1];
+                if (prev && (prev.target !== '$liveEditCSS' || (prev.target === '$liveEditCSS' && prev.value.selector !== sel))) {
+                    if (mw.app.canvas.getDocument().querySelector(sel)) {
+                        this.recordTimeout[timeoutNameStart] = true;
+                        mw.top().app.state.record({
+                            target: '$liveEditCSS',
+                            value: {
+                                selector: sel,
+                                property: prop,
+                                value: getComputedStyle(mw.app.canvas.getDocument().querySelector(sel))[prop]
+                            }
+                        })
+                    }
                 }
             }
+
+
+
+
         }
 
         this.changed = true;
@@ -252,14 +267,21 @@ export class StylesheetEditor extends MicroweberBaseClass {
         this._cssTemp(this._temp);
 
         if (record) {
-            mw.top().app.state.record({
-                target: '$liveEditCSS',
-                value: {
-                    selector: sel,
-                    property: prop,
-                    value: val
-                }
-            })
+            clearTimeout(this.recordTimeout[timeoutName]);
+            this.recordTimeout[timeoutName] = setTimeout(() => {
+
+
+                mw.top().app.state.record({
+                    target: '$liveEditCSS',
+                    value: {
+                        selector: sel,
+                        property: prop,
+                        value: val
+                    }
+                });
+                delete this.recordTimeout[timeoutNameStart];
+                delete this.recordTimeout[timeoutName];
+            }, 200);
         }
         mw.top().app.dispatch('setPropertyForSelector', {
             selector: sel,

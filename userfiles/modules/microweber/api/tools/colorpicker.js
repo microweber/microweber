@@ -108,6 +108,7 @@
 
 
             frame = sett.attachTo.ownerDocument.defaultView.AColorPicker.createPicker(sett); // AColorPicker works only with local window
+
             frame.onchange = function (data) {
 
                 if (proto.settings.onchange) {
@@ -236,7 +237,7 @@
             });
 
             var resetColorButton = mw.element(`
-                <div 
+                <div
                     class="a-color-picker-palette-color color-picker-palette-color-reset"></div>
                     `)
             resetColorButton.on('click', function (e) {
