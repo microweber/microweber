@@ -281,7 +281,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
                 });
                 delete this.recordTimeout[timeoutNameStart];
                 delete this.recordTimeout[timeoutName];
-            }, 200);
+            }, 1500);
         }
         mw.top().app.dispatch('setPropertyForSelector', {
             selector: sel,
