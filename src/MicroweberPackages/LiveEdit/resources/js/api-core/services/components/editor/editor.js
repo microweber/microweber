@@ -88,7 +88,8 @@ export const EditorComponent = function () {
             },
             'table',
 
-            'removeFormat'
+            'removeFormat',
+            'pin',
 
         ]
     ];
@@ -120,7 +121,8 @@ export const EditorComponent = function () {
         state: mw.liveEditState,
 
         fontFamilyProvider: fontFamilyProvider,
-        forced: true
+        forced: true,
+        canPin: true,
     });
 
     $(liveEditor).on('change', function(e, html){

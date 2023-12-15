@@ -74,7 +74,7 @@ export default {
                 options.as_element = true;
             }
 
-            var insertLocation = 'bottom';
+            var insertLocation = 'top';
             mw.app.editor.insertModule(module, options,insertLocation);
             this.showModal = false;
         },

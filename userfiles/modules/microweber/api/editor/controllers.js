@@ -1400,9 +1400,9 @@ MWEditor.controllers = {
             el.addClass('mw-editor-button-pin');
             el.on('mousedown touchstart', function (e) {
                 e.preventDefault();
-                var sel = api.getSelection();
-                var node = api.elementNode(sel.focusNode);
-                rootScope.smallEditorApi.toggle();
+
+                scope.smallEditorApi.toggle();
+                console.log(scope, api, rootScope, scope.smallEditorApi.isPinned())
 
             });
             return el;
@@ -1465,7 +1465,6 @@ MWEditor.controllers = {
                 if(sel.isCollapsed) {
                     var el = scope.api.elementNode(sel.focusNode);
                     scope.api.action(mw.tools.firstBlockLikeLevel(el.parentNode), function () {
-
                         mw.top().app.cssEditor.temp(el, 'color', val)
                     }, true);
                 } else {
@@ -1495,7 +1494,6 @@ MWEditor.controllers = {
                 if(sel.isCollapsed) {
                     var el = scope.api.elementNode(sel.focusNode);
                     scope.api.action(mw.tools.firstBlockLikeLevel(el.parentNode), function () {
-
                         mw.top().app.cssEditor.temp(el, 'background-color', val)
                     }, true);
                 } else {

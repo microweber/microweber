@@ -75,7 +75,7 @@ export default {
         getHexColorDisplayValueText(newColor) {
             if (newColor == 'revert-layer') {
                 return '';
-            }  
+            }
             if (newColor == 'none') {
                 return '';
             }
