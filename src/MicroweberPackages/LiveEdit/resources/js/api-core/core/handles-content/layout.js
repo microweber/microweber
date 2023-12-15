@@ -316,16 +316,20 @@ export class LayoutHandleContent {
 
 
         const _hideButtons = () => {
-            this.plusTop.css({
-                left: -9999,
-                top: -9999,
-                zIndex: 1102,
-            })
-            this.plusBottom.css({
-                left:-9999,
-                top: -9999,
-                zIndex: 1102,
-            })
+            if(this.plusTop){
+                this.plusTop.css({
+                    left: -9999,
+                    top: -9999,
+                    zIndex: 1102,
+                });
+            }
+            if(this.plusBottom) {
+                this.plusBottom.css({
+                    left: -9999,
+                    top: -9999,
+                    zIndex: 1102,
+                });
+            }
         }
         if(!target) {
             _hideButtons()
@@ -343,17 +347,20 @@ export class LayoutHandleContent {
             _hideButtons()
             return;
         }
-
-        this.plusTop.css({
-            left: off.offsetLeft + (off.width/2),
-            top: off.offsetTop,
-            zIndex: 1102,
-        })
-        this.plusBottom.css({
-            left: off.offsetLeft + (off.width/2),
-            top: off.offsetTop + target.offsetHeight - 15,
-            zIndex: 1102,
-        })
+        if(this.plusTop) {
+            this.plusTop.css({
+                left: off.offsetLeft + (off.width / 2),
+                top: off.offsetTop,
+                zIndex: 1102,
+            });
+        }
+        if(this.plusBottom) {
+            this.plusBottom.css({
+                left: off.offsetLeft + (off.width / 2),
+                top: off.offsetTop + target.offsetHeight - 15,
+                zIndex: 1102,
+            });
+        }
 
 
     }

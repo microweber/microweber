@@ -10,6 +10,8 @@ if ($module_template != false) {
 
 
 $settings = get_module_option('settings', $params['id']);
+$useTextFromLiveEdit = get_module_option('use_content_from_live_edit', $params['id']);
+
 
 $json = array();
 

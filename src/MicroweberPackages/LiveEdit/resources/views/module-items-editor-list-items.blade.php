@@ -131,14 +131,19 @@
                                             <div class="d-flex align-items-center gap-2">
                                             @foreach ($editorSettings['config']['listColumns'] as $columnKey => $columnLabel)
                                                 @if (isset($item[$columnKey]))
+
                                                     @if (\MicroweberPackages\Media\MediaManager::guessMediaTypeFromUrl($item[$columnKey]) == 'picture')
                                                         <img src="{{ thumbnail($item[$columnKey], 100, 100, true) }}" style="border-radius:3px;width: 40px;"
                                                              alt="{{ $item[$columnKey] }}" />
+                                                    @elseif($columnKey == 'icon')
+
+                                                            {!! $item[$columnKey] !!}
+
                                                     @else
-                                                    <label class="d-block cursor-pointer">
-                                                        {{ str_limit($item[$columnKey], 22) }}
-                                                    </label>
-                                                @endif
+                                                        <label class="d-block cursor-pointer">
+                                                            {{ str_limit($item[$columnKey], 22) }}
+                                                        </label>
+                                                    @endif
                                                 @endif
                                             @endforeach
                                             </div>

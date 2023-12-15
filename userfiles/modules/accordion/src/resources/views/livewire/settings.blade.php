@@ -41,7 +41,7 @@ showMainEditTab: 'mainSettings'
                 'label' => 'Icon',
                 'placeholder' => 'Icon',
                 'name' => 'icon',
-            ]
+            ],
 
         ]
     ];
@@ -49,7 +49,7 @@ showMainEditTab: 'mainSettings'
 
 
 
-    if($use_content_from_live_edit == 1) {
+    if($use_content_from_live_edit != 1) {
         $editorSettings['schema'][] = [
             'type' => 'textarea',
             'label' => 'Content',
