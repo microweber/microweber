@@ -13,6 +13,9 @@ class SaveOptionApiController
         'website' => [
             'website_head',
             'website_footer'
+        ],
+        'template' => [
+            'animations-global',
         ]
     ];
 
