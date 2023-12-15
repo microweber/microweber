@@ -352,7 +352,9 @@ export class ElementActions extends MicroweberBaseClass {
                 if(selfBtn) {
                     selfBtn.querySelector('.mw-le--handle-icon--color-color').style.backgroundColor = color;
                 }
-                mw.top().app.cssEditor.temp(mw.top().app.liveEdit.handles.get('element').getTarget(), 'background-color', color)
+                var target = mw.top().app.liveEdit.handles.get('element').getTarget();
+                mw.top().app.cssEditor.temp(target, 'background-color', color);
+                mw.top().app.registerChangedState(target);
 
             },
 

@@ -955,15 +955,15 @@ export class LiveEdit {
             }
 
 
-            if (selected && !selected.contains(_dblclicktarget) ) {
 
+            if (selected && !selected.contains(_dblclicktarget) ) {
                 mw.app.editor.dispatch('editNodeRequest', selected);
             } else if (selected &&  selected === _dblclicktarget) {
-
                 mw.app.editor.dispatch('editNodeRequest', selected);
             } else if (!selected && e.target.classList.contains('edit') && e.target.style.backgroundImage) {
-
                 mw.app.editor.dispatch('editNodeRequest', e.target);
+            } else if(this.elementAnalyzer.isEditOrInEdit(selected)) {
+                mw.app.editor.dispatch('editNodeRequest', selected);
             }
 
 
