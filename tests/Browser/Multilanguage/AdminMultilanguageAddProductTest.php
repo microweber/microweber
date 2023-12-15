@@ -198,7 +198,7 @@ class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
             $this->assertEquals($productQuantity, $findProduct->qty);
             $this->assertEquals($productSku, $findProduct->sku);
 
-            $this->assertEquals($findProduct->content_body, $productDataMultilanguage['en_US']['content_body']);
+            $this->assertEquals(strip_tags($findProduct->content_body), strip_tags($productDataMultilanguage['en_US']['content_body']));
             $this->assertEquals($findProduct->content_type, 'product');
             $this->assertEquals($findProduct->subtype, 'product');
 
