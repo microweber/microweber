@@ -3,6 +3,19 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [2.0.7] - 2023-12-15
+- Maintenance release
+- Text Editor can now be pinned to the top
+- Fixed some problems with live editing
+- Fixed undo and redo issues when changing CSS properties
+- Fixed Testimonials module
+- Fixed editing borders in the style editor
+- Fixed Accordion module
+- Fixed an issue when saving a Multi language page, but changing the language in another tab
+- Further improvements to the newsletter module
+- XSS fixes
+- Other miscellaneous fixes
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.6...2.0.7 "")
 
 
 ## [2.0.6] - 2023-12-08
