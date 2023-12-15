@@ -4,10 +4,6 @@
     $randId = time() . rand(111,999);
 @endphp
 
-
-
-
-
 <div class="microweber-ui-icon-picker">
     <div class="form-control-live-edit-label-wrapper d-flex justify-content-between flex-wrap gap-2">
 
