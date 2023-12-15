@@ -31,8 +31,8 @@ class SaveOptionApiController
     public function saveOption(Request $request)
     {
         $request->validate([
-            'option_key' => 'required|max:500',
-            'option_group' => 'required|max:500',
+            'option_key' => 'required|max:50000',
+            'option_group' => 'required|max:50000',
         ]);
 
         $cleanFromXss = true;
@@ -67,8 +67,9 @@ class SaveOptionApiController
         }
 
         if ($cleanFromXss) {
-            $clean = new HTMLClean();
-            $option = $clean->cleanArray($option);
+//            $clean = new HTMLClean();
+//            $option = $clean->cleanArray($option);
+            $option = xss_clean($option);
         }
 
         return response()->json([
