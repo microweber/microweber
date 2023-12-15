@@ -128,7 +128,9 @@ showMainEditTab: 'video'
         <div x-show="showMainEditTab=='design'" x-transition:enter="tab-pane-slide-right-active">
 
             <div>
-                <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
+                <livewire:microweber-live-edit::module-select-template
+                    :disableScreenshots="true" 
+                    :moduleId="$moduleId" :moduleType="$moduleType"/>
             </div>
         </div>
 
