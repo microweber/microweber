@@ -31,12 +31,12 @@
 
             <div class="tab-content py-3">
 
-                <div class="tab-pane fade" id="list">
-                    <module type="newsletter/lists"/>
-                </div>
-
                 <div class="tab-pane fade show active" id="campaigns">
                     <module type="newsletter/campaigns"/>
+                </div>
+
+                <div class="tab-pane fade" id="list">
+                    <module type="newsletter/lists"/>
                 </div>
 
                 <div class="tab-pane fade" id="subscribers">
