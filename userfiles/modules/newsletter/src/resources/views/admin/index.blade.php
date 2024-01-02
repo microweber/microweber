@@ -32,6 +32,7 @@
             <div class="tab-content py-3">
 
                 <div class="tab-pane fade show active" id="campaigns">
+                    @livewire('admin-newsletter-dashboard-stats')
                     <module type="newsletter/campaigns"/>
                 </div>
 
