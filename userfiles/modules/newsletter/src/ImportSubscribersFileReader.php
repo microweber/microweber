@@ -104,25 +104,28 @@ class ImportSubscribersFileReader
                     $subscriberData['email'] = $subscriber['email'];
                 }
                 if (isset($subscriber['Email'])) {
-                    $subscriberData['Email'] = $subscriber['Email'];
+                    $subscriberData['email'] = $subscriber['Email'];
                 }
                 if (isset($subscriber['name'])) {
                     $subscriberData['name'] = $subscriber['name'];
                 }
                 if (isset($subscriber['Name'])) {
-                    $subscriberData['Name'] = $subscriber['Name'];
+                    $subscriberData['name'] = $subscriber['Name'];
                 }
                 if (isset($subscriber['first_name'])) {
                     $subscriberData['first_name'] = $subscriber['first_name'];
                 }
                 if (isset($subscriber['FirstName'])) {
-                    $subscriberData['FirstName'] = $subscriber['FirstName'];
+                    $subscriberData['first_name'] = $subscriber['FirstName'];
                 }
                 if (isset($subscriber['First Name'])) {
-                    $subscriberData['First Name'] = $subscriber['First Name'];
+                    $subscriberData['first_name'] = $subscriber['First Name'];
                 }
                 if (isset($subscriber['last_name'])) {
                     $subscriberData['last_name'] = $subscriber['last_name'];
+                }
+                if (isset($subscriber['Phone'])) {
+                    $subscriberData['phone'] = $subscriber['Phone'];
                 }
                 if (isset($subscriber['phone'])) {
                     $subscriberData['phone'] = $subscriber['phone'];
