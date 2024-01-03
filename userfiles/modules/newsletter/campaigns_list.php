@@ -1,6 +1,10 @@
 <?php must_have_access(); ?>
 
-
+<script>
+    function viewSubscribers(list_id) {
+        window.location.href = '<?php print route('admin.newsletter.subscribers'); ?>?list_id=' + list_id;
+    }
+</script>
 
 <div class="d-flex justify-content-between align-items-center">
     <div>

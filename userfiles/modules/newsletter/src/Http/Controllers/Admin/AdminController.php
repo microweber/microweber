@@ -10,4 +10,39 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
         return view('microweber-module-newsletter::admin.index');
     }
 
+    public function subscribers(Request $request)
+    {
+        return view('microweber-module-newsletter::admin.subscribers');
+    }
+
+    public function campaigns(Request $request)
+    {
+        return view('microweber-module-newsletter::admin.campaigns');
+    }
+
+    public function lists(Request $request)
+    {
+        return view('microweber-module-newsletter::admin.lists');
+    }
+
+    public function senderAccounts(Request $request)
+    {
+        return view('microweber-module-newsletter::admin.sender-accounts');
+    }
+
+    public function templates(Request $request)
+    {
+        return view('microweber-module-newsletter::admin.templates');
+    }
+
+    public function templatesEdit(Request $request)
+    {
+        return view('microweber-module-newsletter::admin.templates_edit');
+    }
+
+    public function settings(Request $request)
+    {
+        return view('microweber-module-newsletter::admin.settings');
+    }
+
 }

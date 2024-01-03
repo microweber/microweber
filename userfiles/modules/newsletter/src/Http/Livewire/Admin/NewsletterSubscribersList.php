@@ -14,6 +14,7 @@ class NewsletterSubscribersList extends Component
     use WithPagination;
 
     public $keyword;
+    public $listId;
     public $campaignsCount = 0;
     public $listsCount = 0;
     public $emailsSentCount = 0;
@@ -21,11 +22,18 @@ class NewsletterSubscribersList extends Component
     protected $queryString = ['keyword'];
     protected $listeners = [
         'newsletterSubscribersListUpdated' => 'render',
-        'refreshSubscribers'=>'$refresh'
+        'refreshSubscribers'=>'$refresh',
+        'filterSubscribersByListId'=>'filterSubscribersByListId'
     ];
 
     public $checked = [];
     public $selectAll = false;
+
+    public function filterSubscribersByListId($listId)
+    {
+        $this->listId = $listId;
+        $this->gotoPage(1);
+    }
 
     public function delete($id)
     {
@@ -61,6 +69,12 @@ class NewsletterSubscribersList extends Component
         $this->emailsSentCount = NewsletterCampaignsSendLog::count();
 
         $subscribersQuery = NewsletterSubscriber::query();
+
+        if ($this->listId > 0) {
+            $subscribersQuery->whereHas('lists', function ($query) {
+                $query->where('list_id', $this->listId);
+            });
+        }
 
         if (!empty($this->keyword)) {
             $subscribersQuery->where('email', 'like', '%' . $this->keyword . '%');
