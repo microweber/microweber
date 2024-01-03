@@ -11,7 +11,6 @@
         </div>
         <div class="">
 
-
             <script>
                 function edit_subscriber(id = false) {
                     var data = {};
@@ -48,8 +47,20 @@
         </div>
     </div>
 
-    <div class="mb-3">
-        <input type="text" class="form-control" placeholder="Search..." wire:model="keyword" />
+    <div class="mb-3 d-flex gap-3">
+        <div>
+            <div>Keyword</div>
+            <input type="text" class="form-control" placeholder="Search..." wire:model="keyword" />
+        </div>
+        <div style="width:300px">
+            <div>List</div>
+            <select class="form-control" wire:model="listId">
+                <option value=""><?php _e('All lists'); ?></option>
+                <?php foreach ($lists as $list): ?>
+                <option value="<?php print $list['id']; ?>"><?php print $list['name']; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
     </div>
 
     <div>
@@ -88,7 +99,14 @@
                 </td>
                 <td data-label="<?php _e('Name'); ?>"><?php print $subscriber['name']; ?></td>
                 <td data-label="<?php _e('E-mail'); ?>"><?php print $subscriber['email']; ?></td>
-                <td data-label="<?php _e('Subscribed at'); ?>"><?php print $subscriber['created_at']; ?></td>
+                <td data-label="<?php _e('Subscribed at'); ?>"><?php
+                    if ($subscriber['created_at'] > 0) {
+                       echo $subscriber['created_at'];
+                    } else {
+                        echo 'N/A';
+                    }
+
+                    ?></td>
                 <td data-label="<?php _e('Subscribed'); ?>">
                     <?php
                     if ($subscriber['is_subscribed']) {

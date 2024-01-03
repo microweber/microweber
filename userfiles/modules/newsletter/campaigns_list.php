@@ -2,7 +2,7 @@
 
 <script>
     function viewSubscribers(list_id) {
-        window.location.href = '<?php print route('admin.newsletter.subscribers'); ?>?list_id=' + list_id;
+        window.location.href = '<?php print route('admin.newsletter.subscribers'); ?>?listId=' + list_id;
     }
 </script>
 

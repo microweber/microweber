@@ -19,7 +19,7 @@ class NewsletterSubscribersList extends Component
     public $listsCount = 0;
     public $emailsSentCount = 0;
 
-    protected $queryString = ['keyword'];
+    protected $queryString = ['keyword', 'listId'];
     protected $listeners = [
         'newsletterSubscribersListUpdated' => 'render',
         'refreshSubscribers'=>'$refresh',
@@ -84,7 +84,8 @@ class NewsletterSubscribersList extends Component
         $subscribers = $subscribersQuery->paginate(8);
 
         return view('microweber-module-newsletter::livewire.admin.subscribers.list', [
-            'subscribers' => $subscribers
+            'subscribers' => $subscribers,
+            'lists' => NewsletterList::all(),
         ]);
     }
 
