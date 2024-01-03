@@ -20,25 +20,26 @@ function newsletter_get_campaigns() {
     ->get();
 
     $readyCampaigns = array();
-    foreach ($campaigns as $campaigns) {
+    foreach ($campaigns as $campaign) {
 
         $list_name = 'Default';
-        if ($campaigns->list_name) {
-            $list_name = $campaigns->list_name;
+        if ($campaign->list_name) {
+            $list_name = $campaign->list_name;
         }
 
         $readyCampaigns[] = array(
-            'name'=>$campaigns->name,
-            'subject'=>$campaigns->subject,
-            'from_name'=>$campaigns->from_name,
-            //'from_email'=>$campaigns->from_email,
-            'created_at'=>$campaigns->created_at,
+            'name'=>$campaign->name,
+            'subject'=>$campaign->subject,
+            'from_name'=>$campaign->from_name,
+            //'from_email'=>$campaign->from_email,
+            'created_at'=>$campaign->created_at,
             'list_name'=>$list_name,
-            'is_done'=>$campaigns->is_done,
-            'sending_limit_per_day'=>$campaigns->sending_limit_per_day,
-            'is_scheduled'=>$campaigns->is_scheduled,
-            'scheduled_at'=>$campaigns->scheduled_at,
-            'id'=>$campaigns->id
+            'list_id'=>$campaign->list_id,
+            'is_done'=>$campaign->is_done,
+            'sending_limit_per_day'=>$campaign->sending_limit_per_day,
+            'is_scheduled'=>$campaign->is_scheduled,
+            'scheduled_at'=>$campaign->scheduled_at,
+            'id'=>$campaign->id
         );
     }
 

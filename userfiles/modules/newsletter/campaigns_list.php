@@ -27,6 +27,7 @@ $campaigns = newsletter_get_campaigns();
                     <!--<th class="font-weight-bold"><?php _e('Email'); ?></th>  -->
 <!--                    <th class="font-weight-bold"><?php _e('Created at'); ?></th>-->
                     <th class="font-weight-bold"><?php _e('List'); ?></th>
+                    <th class="font-weight-bold"><?php _e('Subscribers'); ?></th>
                     <th class="font-weight-bold"><?php _e('Scheduled'); ?></th>
                     <th class="font-weight-bold"><?php _e('Scheduled At'); ?></th>
                     <th class="font-weight-bold"><?php _e('Done'); ?></th>
@@ -42,10 +43,19 @@ $campaigns = newsletter_get_campaigns();
                         <!--
                             <td><?php // print $campaign['from_email'];      ?></td>-->
 <!--                        <td><?php print $campaign['created_at']; ?></td>-->
-                        <td><?php print $campaign['list_name']; ?></td>
+                        <td>
+                            <a href="#" onclick="viewSubscribers('<?php print $campaign['list_id']; ?>')">
+                            <?php print $campaign['list_name']; ?>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" onclick="viewSubscribers('<?php print $campaign['list_id']; ?>')">
+                            <?php print count(newsletter_get_subscribers_for_list($campaign['list_id'])); ?>
+                            </a>
+                        </td>
                         <td>
                             <?php if ($campaign['is_scheduled']): ?>
-                                <?php _e('Yes'); ?>
+                            <span class="badge badge-success"><?php _e('Yes'); ?></span>
                             <?php else: ?>
                                 <?php _e('No'); ?>
                             <?php endif; ?>
