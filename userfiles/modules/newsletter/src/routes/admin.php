@@ -15,7 +15,9 @@ Route::name('admin.newsletter.')
         Route::get('/sender-accounts', 'AdminController@senderAccounts')->name('sender-accounts');
         Route::get('/settings', 'AdminController@settings')->name('settings');
 
-        Route::get('/preview-email-template/{id}', function ($id) {
+        Route::get('/templates/edit/{id}', 'AdminController@templatesEdit')->name('templates.edit');
+
+        Route::get('/templates/preview/{id}', function ($id) {
 
             $template = \MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate::find($id);
             if (!$template) {
@@ -24,7 +26,7 @@ Route::name('admin.newsletter.')
 
             echo $template->text;
 
-        })->name('preview-email-template');
+        })->name('templates.preview');
 
         Route::get('/preview-email-template-iframe', function() {
 

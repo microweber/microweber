@@ -35,9 +35,11 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
         return view('microweber-module-newsletter::admin.templates');
     }
 
-    public function templatesEdit(Request $request)
+    public function templatesEdit(Request $request,$templateId)
     {
-        return view('microweber-module-newsletter::admin.templates_edit');
+        return view('microweber-module-newsletter::admin.templates_edit', [
+            'templateId' => $templateId
+        ]);
     }
 
     public function settings(Request $request)

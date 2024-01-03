@@ -11,7 +11,43 @@
     </a>
 </div>
 
-<script>mw.require('editor.js')</script>
+<script>
+    mw.require('editor.js');
+    function edit_template(id = false) {
+        var data = {};
+        data.id = id;
+
+        mw.notification.success('<?php _ejs('Loading...'); ?>');
+
+        if (data.id > 0) {
+            $.ajax({
+                url: mw.settings.api_url + 'newsletter_get_template',
+                type: 'POST',
+                data: data,
+                success: function (result) {
+
+                    $('.js-edit-template-id').val(result.id);
+                    $('.js-edit-template-title').val(result.title);
+                    $('.js-edit-template-text').val(result.text);
+
+                    initEditor(result.text);
+                }
+            });
+        } else {
+            $('.js-edit-template-id').val('0');
+            $('.js-edit-template-title').val('');
+            $('.js-edit-template-text').val('');
+
+            initEditor('');
+        }
+
+        $('.js-templates-list-wrapper').slideUp();
+        $('.js-edit-template-wrapper').slideDown();
+    }
+    edit_template(<?php echo $params['template-id']; ?>);
+</script>
+
+
 
 <script>
 
@@ -142,7 +178,7 @@
                     <a
                         class="btn btn-outline-primary btn-sm"
                         target="_blank"
-                        href="<?php echo route('admin.newsletter.preview-email-template', 0); ?>">
+                        href="<?php echo route('admin.newsletter.templates.preview', $params['template-id']); ?>">
                         Preview template
                     </a>
                     <button type="submit" class="btn btn-success btn-sm"><?php _e('Save'); ?></button>
