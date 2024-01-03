@@ -576,6 +576,9 @@ mw.lib.require('rangy');
                     })
                     scope.api._execCommandWrongFormats = res.join(',');
                 }
+                if(!target) {
+                    return
+                }
                 var all = target.querySelectorAll(scope.api._execCommandWrongFormats);
 
                 while (all.length) {
@@ -589,7 +592,7 @@ mw.lib.require('rangy');
                 if(lit.length) {
                      Array.from(lit).forEach(function (node){
                          var cld = node.firstElementChild;
-                         if(cld.nodeName === 'li') {
+                         if(cld && cld.nodeName === 'li') {
                              node.parentNode.insertBefore(cld, node);
                              while (cld.firstChild) {
                                  node.appendChild(cld.firstChild)
@@ -602,6 +605,10 @@ mw.lib.require('rangy');
 
             },
             afterExecCommand: function ( parent) {
+                if(!parent) {
+                    var sel = scope.getSelection();
+                    parent = sel.focusNode;
+                }
                 scope.api.cleanNesting(parent);
                 Array.prototype.slice.call(parent.querySelectorAll('[style],[id]')).forEach(node => {
                     if(!!node.getAttribute('style')) {

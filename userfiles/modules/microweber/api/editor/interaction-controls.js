@@ -163,6 +163,17 @@ MWEditor.interactionControls = {
                 var css = $target.offset();
                 css.width = $target.outerWidth();
                 css.height = $target.outerHeight();
+
+                var parntRelative = document.body;
+                $target.parents().each(function(){
+                    if($(this).css('position') === 'relative'){
+                        parntRelative = this;
+                        return false;
+                    }
+                });
+                if(parntRelative) {
+                    css.left = css.left - $(parntRelative).offset().left
+                }
                 this.element.css(css).show();
             } else {
                 this.element.hide();
