@@ -268,10 +268,15 @@ if (!function_exists('detect_lang_from_url')) {
                         $findedLangAbr = $segment;
 
 
-                        $findedLangLocaleData = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($findedLangAbr);
+                        $findedLangLocaleData = app()->multilanguage_repository->getSupportedLocale($findedLangAbr);
                         if(isset($findedLangLocaleData['locale'])){
                             $findedLangLocale = $findedLangLocaleData['locale'];
-                        }
+                        } else {
+                            $findedLangLocaleData = app()->multilanguage_repository->getSupportedLocaleByLocale($findedLangAbr);
+                            if(isset($findedLangLocaleData['locale'])){
+                                $findedLangLocale = $findedLangLocaleData['locale'];
+                            }
+                         }
                     }
                 } else {
                     $urlSegs[] = $segment;

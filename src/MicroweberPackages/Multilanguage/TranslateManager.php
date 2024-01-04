@@ -200,11 +200,22 @@ class TranslateManager
                             return $saveData;
                         }
 
-                        if ($providerInstance->getRelType() == 'content_fields') {
 
-                            $saveData['__value'] = $saveData['value'];
-                            unset($saveData['value']);
-                            return $saveData;
+
+                        if ($providerInstance->getRelType() == 'content_fields') {
+                            $skip = false;
+                            if(isset($saveData['field']) and $saveData['field']) {
+                                $is_native_fld_all = app()->database_manager->get_fields('content');
+                                if (in_array($saveData['field'], $is_native_fld_all)) {
+                                    //return $saveData;
+                                    $skip = true;
+                                }
+                            }
+                            if (!$skip) {
+                                $saveData['__value'] = $saveData['value'];
+                                unset($saveData['value']);
+                                return $saveData;
+                            }
                         }
                     }
 
@@ -227,6 +238,7 @@ class TranslateManager
 
                         if ($currentLocale != $defaultLocale) {
                             if (!empty($dataForTranslate) && isset($dataForTranslate['id']) && intval($dataForTranslate['id']) !== 0) {
+
                                 $providerInstance->saveOrUpdate($dataForTranslate);
                             }
                         }
