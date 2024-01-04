@@ -17,11 +17,11 @@ description: Default
     <script>mw.moduleCSS('<?php print module_url(); ?>style.css');</script>
 
     <?php if ($facebook_enabled) { ?>
-        <a class="btn-outline-primary" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php print mw()->url->current(); ?>"><span class="mdi mdi-facebook"></span></a>
+        <a   target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php print mw()->url->current(); ?>"><span class="mdi mdi-facebook"></span></a>
     <?php } ?>
 
     <?php if ($twitter_enabled) { ?>
-        <a class="btn-outline-primary" href="https://twitter.com/intent/tweet?text=<?php print content_title(); ?>&url=<?php print mw()->url->current(); ?>" target="_blank"><span class="mdi mdi-twitter"></span></a>
+        <a   href="https://twitter.com/intent/tweet?text=<?php print content_title(); ?>&url=<?php print mw()->url->current(); ?>" target="_blank"><span class="mdi mdi-twitter"></span></a>
     <?php } ?>
 
     <?php if ($pinterest_enabled) { ?>
@@ -35,16 +35,16 @@ description: Default
             }
         </script>
 
-        <a class="btn-outline-primary" href="javascript:mw.pinMarklet();" target="_self"><span class="mdi mdi-pinterest"></span></a>
+        <a   href="javascript:mw.pinMarklet();" target="_self"><span class="mdi mdi-pinterest"></span></a>
     <?php } ?>
 
     <?php if ($linkedin_enabled) { ?>
-        <a class="btn-outline-primary" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php print url_current(); ?>&title=<?php print page_title(); ?>&summary=&source=LinkedIn" target="_blank">
+        <a   href="https://www.linkedin.com/shareArticle?mini=true&url=<?php print url_current(); ?>&title=<?php print page_title(); ?>&summary=&source=LinkedIn" target="_blank">
             <span class="mdi mdi-linkedin"></span></a>
     <?php } ?>
 
     <?php if ($viber_enabled) { ?>
-        <a class="btn-outline-primary" target="_blank" href="#" id="viber_share"><span class="mdi mdi-viber"></span></a>
+        <a   target="_blank" href="#" id="viber_share"><span class="mdi mdi-viber"></span></a>
         <script>
             var buttonID = "viber_share";
             var text = "Check this out: ";
@@ -54,6 +54,6 @@ description: Default
     <?php } ?>
 
     <?php if ($whatsapp_enabled) { ?>
-        <a class="btn-outline-primary" target="_blank" href="whatsapp://send?text=Check this out: <?php print url_current(); ?> " data-action="share/whatsapp/share"><span class="mdi mdi-whatsapp"></span></a>
+        <a   target="_blank" href="whatsapp://send?text=Check this out: <?php print url_current(); ?> " data-action="share/whatsapp/share"><span class="mdi mdi-whatsapp"></span></a>
     <?php } ?>
 </div>
