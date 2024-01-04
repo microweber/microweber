@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Browser\Multilanguage;
 
 use Faker\Factory;
@@ -15,6 +16,7 @@ use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\DuskTestCase;
 use Tests\DuskTestCaseMultilanguage;
+
 /**
  * @runTestsInSeparateProcesses
  */
@@ -22,16 +24,17 @@ class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
 {
 
     use TestHelpers;
+
     public function testAddProduct()
     {
 
-        $title='Shop ML '.uniqid();
+        $title = 'Shop ML ' . uniqid();
         $pageId = $this->_generateShopPage($title, $title);
         $this->_generateCategory('clothes', 'Clothes', $pageId);
         $this->_generateCategory('t-shirts', 'T-shirts', $pageId);
         $this->_generateCategory('decor', 'Decor', $pageId);
 
-        $this->browse(function (Browser $browser) use ($title,$pageId) {
+        $this->browse(function (Browser $browser) use ($title, $pageId) {
 
             $quickTest = false;
 
@@ -48,19 +51,19 @@ class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
 
             $productDataMultilanguage = [];
 
-            foreach(get_supported_languages(true) as $supportedLocale) {
+            foreach (get_supported_languages(true) as $supportedLocale) {
                 $locale = $supportedLocale['locale'];
 
                 $faker = Factory::create($locale);
-                $productTitle = $faker->name . ' on lang - ' .$locale . time().rand(1111,9999);
+                $productTitle = $faker->name . ' on lang - ' . $locale . time() . rand(1111, 9999);
 
                 $productDataMultilanguage[$locale] = [
-                  'title'=> $productTitle,
-                  'url'=> str_slug($productTitle),
-                  'content_body'=> 'Product content body ' . $locale . ' on lang' . time().rand(1111,9999),
-                  'content_meta_title'=> 'Product content meta title ' . $locale . ' on lang' . time().rand(1111,9999),
-                  'description'=> 'Product description ' . $locale . ' on lang' . time().rand(1111,9999),
-                  'content_meta_keywords'=> 'Product, content, meta, keywords, ' . $locale . ', on lang, ' . time().rand(1111,9999),
+                    'title' => $productTitle,
+                    'url' => str_slug($productTitle),
+                    'content_body' => 'Product content body ' . $locale . ' on lang' . time() . rand(1111, 9999),
+                    'content_meta_title' => 'Product content meta title ' . $locale . ' on lang' . time() . rand(1111, 9999),
+                    'description' => 'Product description ' . $locale . ' on lang' . time() . rand(1111, 9999),
+                    'content_meta_keywords' => 'Product, content, meta, keywords, ' . $locale . ', on lang, ' . time() . rand(1111, 9999),
                 ];
             }
 
@@ -71,7 +74,7 @@ class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
             });
 
             $browser->within(new AdminContentMultilanguage, function ($browser) use ($productDataMultilanguage) {
-                foreach($productDataMultilanguage as $locale=>$productData) {
+                foreach ($productDataMultilanguage as $locale => $productData) {
                     $browser->fillTitle($productData['title'], $locale);
                     $browser->fillUrl($productData['url'], $locale);
                     $browser->fillContentBody($productData['content_body'], $locale);
@@ -79,7 +82,7 @@ class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
             });
 
             $browser->within(new AdminContentMultilanguage, function ($browser) use ($productDataMultilanguage) {
-                foreach($productDataMultilanguage as $locale=>$productData) {
+                foreach ($productDataMultilanguage as $locale => $productData) {
                     $browser->fillContentMetaTitle($productData['content_meta_title'], $locale);
                     $browser->fillDescription($productData['description'], $locale);
                     $browser->fillContentMetaKeywords($productData['content_meta_keywords'], $locale);
@@ -170,9 +173,9 @@ class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
             $browser->pause(3000);
             $browser->visit(content_link($findProduct->id));
 
-            foreach($productDataMultilanguage as $locale=>$productData) {
+            foreach ($productDataMultilanguage as $locale => $productData) {
 
-                $browser->within(new FrontendSwitchLanguage, function ($browser) use($locale) {
+                $browser->within(new FrontendSwitchLanguage, function ($browser) use ($locale) {
                     $browser->switchLanguage($locale);
                 });
 
@@ -180,16 +183,20 @@ class AdminMultilanguageAddProductTest extends DuskTestCaseMultilanguage
                 $currentUrl = $browser->driver->getCurrentURL();
                 $this->assertTrue(strpos($currentUrl, $productData['url']) !== false);
 
-                $browser->waitForText($productData['title'],30);
-                $browser->waitForText($productData['content_body'],30);
+                $browser->waitForText($productData['title'], 30);
+                $browser->waitForText($productData['content_body'], 30);
             }
 
             $this->assertEquals($productDataMultilanguage['en_US']['title'], $findProduct->title);
 
-            foreach($productDataMultilanguage as $locale=>$productData) {
-                foreach($productData as $dataKey=>$dataValue) {
-                   // $this->assertEquals($dataValue, $findProduct->multilanguage_translatons[$locale][$dataKey]);
-                    $this->assertStringContainsString($dataValue, $findProduct->multilanguage_translatons[$locale][$dataKey]);
+
+            $translations = $findProduct->getTranslationsFormated();
+
+
+            foreach ($productDataMultilanguage as $locale => $productData) {
+                foreach ($productData as $dataKey => $dataValue) {
+                    // $this->assertEquals($dataValue, $findProduct->multilanguage_translatons[$locale][$dataKey]);
+                    $this->assertStringContainsString($dataValue, $translations[$locale][$dataKey]);
                 }
             }
 
