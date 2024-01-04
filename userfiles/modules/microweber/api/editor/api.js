@@ -389,8 +389,10 @@ mw.lib.require('rangy');
                 }
             },
             targetSupportsFormatting: function (target) {
+                var case1 = !!target && !!target.classList && !target.classList.contains('edit');
+                var case2 = !!target.querySelector && !target.querySelector('table,tr,td,div,p,section,h1,h2,h3,h4,h5,h6,article,aside,figcaption,figure,footer,header,hgroup,main,nav');
 
-                return !!target && !!target.classList && !target.classList.contains('edit') && !target.querySelector('table,tr,td,div,p,section,h1,h2,h3,h4,h5,h6,article,aside,figcaption,figure,footer,header,hgroup,main,nav');
+                return  case1 && case2;
             },
             isSelectionEditable: function (sel) {
                 try {
@@ -576,9 +578,10 @@ mw.lib.require('rangy');
                     })
                     scope.api._execCommandWrongFormats = res.join(',');
                 }
-                if(!target) {
+                if(!target || target.nodeType === 3) {
                     return
                 }
+
                 var all = target.querySelectorAll(scope.api._execCommandWrongFormats);
 
                 while (all.length) {
@@ -610,11 +613,20 @@ mw.lib.require('rangy');
                     parent = sel.focusNode;
                 }
                 scope.api.cleanNesting(parent);
+                const keysToRemove = []
+                const keysValuesToRemove = [{'font-size': '0px'}];
+                if(parent.nodeType === 3) {
+                    return;
+                }
+
                 Array.prototype.slice.call(parent.querySelectorAll('[style],[id]')).forEach(node => {
                     if(!!node.getAttribute('style')) {
                         const keys = Array.from(node.style);
                         keys.forEach(key => {
-                            if(node.style[key].includes('var(')) {
+                            var toRemove = node.style[key].includes('var(')
+                            || keysToRemove.indexOf(key) !== -1
+                            || keysValuesToRemove.find(a => a[key] === node.style[key]);
+                            if(toRemove) {
                                 node.style[key] = '';
                             }
                         });
@@ -669,6 +681,7 @@ mw.lib.require('rangy');
                                         current.contentEditable = 'inherit';
                                     }
                                     parent.contentEditable = true;
+
                                     scope.actionWindow.document.execCommand(cmd, def, val);
                                     parent.contentEditable = pce;
                                     if(current) {

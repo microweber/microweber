@@ -159,6 +159,7 @@ var MWEditor = function (options) {
                 var aptarget = scope.actionWindow.document.body;
                 if(scope.settings.mode === 'div') {
                     aptarget = scope.$editArea.get(0).parentNode;
+
                 }
                 aptarget.appendChild(int.element.node);
                 scope.interactionControls.push(int);

@@ -96,6 +96,29 @@ MWEditor.interactionControls = {
                     }
                 }
             });
+
+
+            var deleteButton = mw.element({
+                props: {
+                    innerHTML: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon"><title>delete-outline</title><path d="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8,9H16V19H8V9M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z" /></svg>',
+                    className: 'btn btn-icon',
+                    dataset: {
+                        tip: rootScope.lang('Delete image')
+                    }
+                }
+            });
+            deleteButton.on('click', function () {
+                rootScope.state.unpause();
+
+                rootScope.state.record({
+                    target: rootScope.$editArea[0],
+                    value: rootScope.$editArea[0].innerHTML
+                });
+                scope.$target.remove()
+                el.hide();
+                rootScope.api.afterExecCommand(); console.log(rootScope.state)
+                rootScope._syncTextArea();
+            })
             changeButton.on('click', function () {
                 var dialog;
                 var picker = new mw.filePicker({
@@ -110,6 +133,11 @@ MWEditor.interactionControls = {
                     onResult: function (res) {
                         var url = res.src ? res.src : res;
                         if(!url) return;
+                        rootScope.state.unpause();
+                        rootScope.state.record({
+                            target: rootScope.$editArea[0],
+                            value: rootScope.$editArea[0].innerHTML
+                        });
                         url = url.toString();
                         scope.$target.attr('src', url);
                         dialog.remove();
@@ -138,10 +166,11 @@ MWEditor.interactionControls = {
             });
             var nav = mw.element({
                 props: {
-                    className: 'mw-ui-btn-nav'
+                    className: 'btn-group'
                 }
             });
             nav.append(changeButton);
+            nav.append(deleteButton);
             el.append(nav);
             // nav.append(editButton);
             this.nodes.push(el.node, changeButton.node, editButton.node);
@@ -163,6 +192,7 @@ MWEditor.interactionControls = {
                 var css = $target.offset();
                 css.width = $target.outerWidth();
                 css.height = $target.outerHeight();
+                css.height = 80;
 
                 var parntRelative = document.body;
                 $target.parents().each(function(){
@@ -173,7 +203,9 @@ MWEditor.interactionControls = {
                 });
                 if(parntRelative) {
                     css.left = css.left - $(parntRelative).offset().left
+                    css.top = css.top - $(parntRelative).offset().top
                 }
+
                 this.element.css(css).show();
             } else {
                 this.element.hide();

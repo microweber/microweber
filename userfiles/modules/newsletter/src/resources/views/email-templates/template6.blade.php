@@ -168,7 +168,7 @@
                         <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:bottom;" width="100%">
 
                             <tr>
-                                <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                                <td align="center" style=" padding:10px 25px;word-break:break-word;">
 
                                     <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
                                         <tbody>
@@ -186,7 +186,7 @@
                             </tr>
 
                             <tr>
-                                <td align="center" style="font-size:0px;padding:10px 25px;padding-bottom:40px;word-break:break-word;">
+                                <td align="center" style=" padding:10px 25px;padding-bottom:40px;word-break:break-word;">
 
                                     <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:28px;font-weight:bold;line-height:1;text-align:center;color:#555;">
                                         Welcome to Microweber
@@ -196,7 +196,7 @@
                             </tr>
 
                             <tr>
-                                <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                                <td align="left" style=" padding:10px 25px;word-break:break-word;">
 
                                     <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;text-align:left;color:#555;">
                                         Hello {{ name }}!<br></br>
@@ -207,7 +207,7 @@
                             </tr>
 
                             <tr>
-                                <td align="center" style="font-size:0px;padding:10px 25px;padding-top:30px;padding-bottom:50px;word-break:break-word;">
+                                <td align="center" style=" padding:10px 25px;padding-top:30px;padding-bottom:50px;word-break:break-word;">
 
                                     <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
                                         <tr>
