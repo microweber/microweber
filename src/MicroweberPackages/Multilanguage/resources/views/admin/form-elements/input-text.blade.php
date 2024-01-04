@@ -33,7 +33,7 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
                type="text" class="form-control">
         @endforeach
 
-        <button data-bs-toggle="dropdown" type="button" class="btn dropdown-toggle dropdown-toggle-split" aria-expanded="false">
+        <button data-bs-toggle="dropdown" type="button" class="btn dropdown-toggle dropdown-toggle-split gap-2" aria-expanded="false">
             <i :class="function () {
                     return 'flag-icon flag-icon-'+currentLanguageData.icon+' mr-4';
             }"></i>
