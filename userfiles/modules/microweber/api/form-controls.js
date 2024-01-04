@@ -369,8 +369,8 @@ mw.emitter = {
 
             var layoutsData = [];
 
-
-                var layouts = mw.top().app.canvas.getWindow().$('.module[data-type="layouts"]');
+            var _win = mw.top().app.canvas.getWindow() || window;
+                var layouts = _win.$('.module[data-type="layouts"]');
 
                 layouts.each(function () {
                     layoutsData.push({

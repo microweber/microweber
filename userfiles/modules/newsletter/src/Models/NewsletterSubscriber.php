@@ -16,4 +16,8 @@ class NewsletterSubscriber extends Model
         'is_subscribed'
     ];
 
+    public function lists()
+    {
+        return $this->belongsToMany(NewsletterList::class, 'newsletter_subscribers_lists', 'subscriber_id', 'list_id');
+    }
 }

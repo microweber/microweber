@@ -2,41 +2,6 @@
 <?php
 $templates = newsletter_get_templates();
 ?>
-<script>
-    function edit_template(id = false) {
-        var data = {};
-        data.id = id;
-
-        mw.notification.success('<?php _ejs('Loading...'); ?>');
-
-        if (data.id > 0) {
-            $.ajax({
-                url: mw.settings.api_url + 'newsletter_get_template',
-                type: 'POST',
-                data: data,
-                success: function (result) {
-
-                    $('.js-edit-template-id').val(result.id);
-                    $('.js-edit-template-title').val(result.title);
-                    $('.js-edit-template-text').val(result.text);
-
-                    initEditor(result.text);
-                }
-            });
-        } else {
-            $('.js-edit-template-id').val('0');
-            $('.js-edit-template-title').val('');
-            $('.js-edit-template-text').val('');
-
-            initEditor('');
-        }
-
-        $('.js-templates-list-wrapper').slideUp();
-        $('.js-edit-template-wrapper').slideDown();
-    }
-
-</script>
-
 
 <div class="card mt-2">
     <div class="card-body">
@@ -70,7 +35,7 @@ $templates = newsletter_get_templates();
                     <td><?php print $template['title']; ?></td>
                     <td><?php print $template['created_at']; ?></td>
                     <td class="text-center">
-                        <button class="btn btn-outline-primary btn-sm" onclick="edit_template('<?php print $template['id']; ?>')"><?php _e('Edit'); ?></button>
+                        <a href="<?php print route('admin.newsletter.templates.edit', $template['id']); ?>" class="btn btn-outline-primary btn-sm"><?php _e('Edit'); ?></a>
                         <a class="btn btn-outline-danger btn-sm" href="javascript:;" onclick="delete_template('<?php print $template['id']; ?>')"><i class="mdi mdi-trash-can-outline"></i></a>
                     </td>
                 </tr>
@@ -83,4 +48,4 @@ $templates = newsletter_get_templates();
     <?php endif; ?>
 
     </div>
-    </div>
+</div>

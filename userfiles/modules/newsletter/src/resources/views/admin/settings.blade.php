@@ -3,8 +3,8 @@
 @section('content-admin-newsletter')
 
     <div>
-        @livewire('admin-newsletter-dashboard-stats')
-        <module type="newsletter/campaigns"/>
+        <module type="newsletter/privacy_settings" data-no-hr="true"/>
+        <module type="newsletter/settings" />
     </div>
 
 @endsection

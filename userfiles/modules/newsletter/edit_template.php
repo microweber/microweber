@@ -11,7 +11,43 @@
     </a>
 </div>
 
-<script>mw.require('editor.js')</script>
+<script>
+    mw.require('editor.js');
+    function edit_template(id = false) {
+        var data = {};
+        data.id = id;
+
+        mw.notification.success('<?php _ejs('Loading...'); ?>');
+
+        if (data.id > 0) {
+            $.ajax({
+                url: mw.settings.api_url + 'newsletter_get_template',
+                type: 'POST',
+                data: data,
+                success: function (result) {
+
+                    $('.js-edit-template-id').val(result.id);
+                    $('.js-edit-template-title').val(result.title);
+                    $('.js-edit-template-text').val(result.text);
+
+                    initEditor(result.text);
+                }
+            });
+        } else {
+            $('.js-edit-template-id').val('0');
+            $('.js-edit-template-title').val('');
+            $('.js-edit-template-text').val('');
+
+            initEditor('');
+        }
+
+        $('.js-templates-list-wrapper').slideUp();
+        $('.js-edit-template-wrapper').slideDown();
+    }
+    edit_template(<?php echo $params['template-id']; ?>);
+</script>
+
+
 
 <script>
 
@@ -114,32 +150,41 @@
 <div class="card mt-2">
     <div class="card-body">
 
+        <form class="js-edit-template-form">
+            <div class="form-group">
+                <label class="control-label"><?php _e('Template title'); ?></label>
+                <input name="title" type="text" value="" class="form-control js-validation js-edit-template-title"/>
+                <div class="js-field-message"></div>
+            </div>
 
-<form class="js-edit-template-form">
-    <div class="form-group">
-        <label class="control-label"><?php _e('Template title'); ?></label>
-        <input name="title" type="text" value="" class="form-control js-validation js-edit-template-title"/>
-        <div class="js-field-message"></div>
-    </div>
+            <div class="form-group">
+                <label class="control-label"><?php _e('Template design'); ?></label>
 
-    <div class="form-group">
-        <label class="control-label"><?php _e('Template design'); ?></label>
+                <small class="text-muted d-flex justify-content-between align-items-center mt-2 mb-2">
+                    <span>Variables:  {{name}}, {{first_name}} , {{last_name}} , {{email}, {{unsubscribe}}, {{site_url}}</span>
+                </small>
 
-        <small class="text-muted d-flex justify-content-between align-items-center mt-2 mb-2">
-            <span>Variables:  {{name}}, {{first_name}} , {{last_name}} , {{email}, {{unsubscribe}}, {{site_url}}</span>
-        </small>
+                <textarea id="js-editor-template" name="text" class="js-edit-template-text"></textarea>
 
-        <textarea id="js-editor-template" name="text" class="js-edit-template-text"></textarea>
+                <div class="js-template-design"></div>
+                <div class="js-field-message"></div>
+            </div>
 
-        <div class="js-template-design"></div>
-        <div class="js-field-message"></div>
-    </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <a class="btn btn-outline-danger btn-sm" href="javascript:;" onclick="delete_template($('.js-edit-template-id').val())">Delete</a>
+                <input type="hidden" value="0" class="js-edit-template-id" name="id"/>
 
-    <div class="d-flex justify-content-between align-items-center">
-        <a class="btn btn-outline-danger btn-sm" href="javascript:;" onclick="delete_template($('.js-edit-template-id').val())">Delete</a>
-        <input type="hidden" value="0" class="js-edit-template-id" name="id"/>
-        <button type="submit" class="btn btn-success btn-sm"><?php _e('Save'); ?></button>
-    </div>
-</form>
+                <div>
+                    <a
+                        class="btn btn-outline-primary btn-sm"
+                        target="_blank"
+                        href="<?php echo route('admin.newsletter.templates.preview', $params['template-id']); ?>">
+                        Preview template
+                    </a>
+                    <button type="submit" class="btn btn-success btn-sm"><?php _e('Save'); ?></button>
+                </div>
+
+            </div>
+        </form>
     </div>
 </div>

@@ -20,8 +20,10 @@ if(isset($params['for-module-id'])){
     function mw_admin_layouts_list_inner_modules_btns() {
         var mod_in_mods_html_btn = '';
 
-        var mods_in_mod =  mw.top().app.canvas.getWindow().$('#<?php print $for_id ?>').find('.module', '#<?php print $for_id ?>');
-        var mods_in_mod =  mw.top().app.canvas.getWindow().$('#<?php print $for_id ?>').find('.module', '#<?php print $for_id ?>');
+        var _win = mw.top().app.canvas.getWindow() || window;
+
+        var mods_in_mod =  _win.$('#<?php print $for_id ?>').find('.module', '#<?php print $for_id ?>');
+        var mods_in_mod =  _win.$('#<?php print $for_id ?>').find('.module', '#<?php print $for_id ?>');
         if (mods_in_mod) {
             $(mods_in_mod).each(function () {
                 var isInaccessible =  mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(this);

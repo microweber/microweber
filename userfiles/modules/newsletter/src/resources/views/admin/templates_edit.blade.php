@@ -3,8 +3,7 @@
 @section('content-admin-newsletter')
 
     <div>
-        @livewire('admin-newsletter-dashboard-stats')
-        <module type="newsletter/campaigns"/>
+        <module type="newsletter/edit_template" template-id="{{$templateId}}" />
     </div>
 
 @endsection

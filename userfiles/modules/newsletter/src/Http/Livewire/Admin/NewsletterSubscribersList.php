@@ -14,18 +14,26 @@ class NewsletterSubscribersList extends Component
     use WithPagination;
 
     public $keyword;
+    public $listId;
     public $campaignsCount = 0;
     public $listsCount = 0;
     public $emailsSentCount = 0;
 
-    protected $queryString = ['keyword'];
+    protected $queryString = ['keyword', 'listId'];
     protected $listeners = [
         'newsletterSubscribersListUpdated' => 'render',
-        'refreshSubscribers'=>'$refresh'
+        'refreshSubscribers'=>'$refresh',
+        'filterSubscribersByListId'=>'filterSubscribersByListId'
     ];
 
     public $checked = [];
     public $selectAll = false;
+
+    public function filterSubscribersByListId($listId)
+    {
+        $this->listId = $listId;
+        $this->gotoPage(1);
+    }
 
     public function delete($id)
     {
@@ -62,6 +70,12 @@ class NewsletterSubscribersList extends Component
 
         $subscribersQuery = NewsletterSubscriber::query();
 
+        if ($this->listId > 0) {
+            $subscribersQuery->whereHas('lists', function ($query) {
+                $query->where('list_id', $this->listId);
+            });
+        }
+
         if (!empty($this->keyword)) {
             $subscribersQuery->where('email', 'like', '%' . $this->keyword . '%');
             $subscribersQuery->orWhere('name', 'like', '%' . $this->keyword . '%');
@@ -70,7 +84,8 @@ class NewsletterSubscribersList extends Component
         $subscribers = $subscribersQuery->paginate(8);
 
         return view('microweber-module-newsletter::livewire.admin.subscribers.list', [
-            'subscribers' => $subscribers
+            'subscribers' => $subscribers,
+            'lists' => NewsletterList::all(),
         ]);
     }
 
