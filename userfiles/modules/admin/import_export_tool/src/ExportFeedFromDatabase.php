@@ -49,6 +49,10 @@ class ExportFeedFromDatabase
 
         $exportData = [];
 
+        if(!$findExportFeed->export_type){
+            throw new \Exception('Feed export type is not set.');
+        }
+
         if ($findExportFeed->export_type == 'products') {
             if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'xls' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
                 $oneLevelArray = true;
@@ -82,11 +86,18 @@ class ExportFeedFromDatabase
             mkdir_recursive(dirname($file));
         }
 
-        if ($exportData['currentPage'] == 1) {
+         if (!isset($exportData['currentPage'])
+           or (
+               isset( $exportData['currentPage']) and  $exportData['currentPage'] == 1
+            )
+        ) {
             if (is_file($file)) {
                 unlink($file);
             }
         }
+
+
+
 
         $appendArray = [];
         if (is_file($file)) {
