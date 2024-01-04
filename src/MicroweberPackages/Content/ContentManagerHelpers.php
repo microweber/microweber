@@ -688,8 +688,8 @@ class ContentManagerHelpers extends ContentManagerCrud
             if (isset($lang_from_url['target_locale'])
                 and isset($lang_from_url['target_locale'])
             ) {
- // not needed here its done in the service provider
-             //   change_language_by_locale($lang_from_url['target_locale']);
+
+                change_language_by_locale($lang_from_url['target_locale']);
             }
         }
 

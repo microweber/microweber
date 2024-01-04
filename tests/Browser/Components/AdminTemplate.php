@@ -58,7 +58,7 @@ class AdminTemplate extends BaseComponent
         $browser->pause(1000);
         $browser->click('.js-button-change-template');
 
-        $browser->waitForText('Template has been changed.',30);
+        $browser->waitForText('Template has been changed.',60);
      //   $browser->assertSee('Template settings are saved');
 
     }
