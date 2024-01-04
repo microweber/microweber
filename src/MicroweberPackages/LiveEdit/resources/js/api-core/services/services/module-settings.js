@@ -134,6 +134,11 @@ export class ModuleSettings extends MicroweberBaseClass {
                     moduleId: moduleId,
 
                 };
+                if(modal.iframe.contentWindow && modal.iframe.contentWindow.document){
+                    modal.iframe.contentWindow.document.addEventListener('mw-option-saved', function () {
+                        mw.notification.success('Settings are saved');
+                    });
+                }
 
                 mw.app.dispatch('moduleSettingsLoaded', eventData);
 

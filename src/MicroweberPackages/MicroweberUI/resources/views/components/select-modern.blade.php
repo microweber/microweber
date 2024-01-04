@@ -25,6 +25,9 @@
                 return;
              }
            let inputElement = document.getElementById('{{$md5InputElement}}');
+            if(!inputElement){
+                return;
+             }
            inputElement.value = value.key;
            inputElement.dispatchEvent(new Event('input'));
         });
