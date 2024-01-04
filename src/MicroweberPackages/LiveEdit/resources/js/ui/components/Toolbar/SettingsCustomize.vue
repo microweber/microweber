@@ -1,5 +1,5 @@
 <template>
-    <div class="mw-live-edit-right-sidebar-wrapper mx-2">
+    <div class="mw-live-edit-right-sidebar-wrapper mx-1">
         <span v-on:click="toggle('template-settings')" :class="[buttonIsActive?'live-edit-right-sidebar-active':'']"
               class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle">
 
@@ -9,20 +9,19 @@
         </span>
 
 
+        <!--
 
-<!--
+                <div class="dropdown btn-icon live-edit-toolbar-buttons " >
+                    <a role="button" id="dropdownLiveEditMenuLinkMoreSettings" data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path
+                            d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z"/></svg>
+                    </a>
 
-        <div class="dropdown btn-icon live-edit-toolbar-buttons " >
-            <a role="button" id="dropdownLiveEditMenuLinkMoreSettings" data-bs-toggle="dropdown" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path
-                    d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z"/></svg>
-            </a>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownLiveEditMenuLinkMoreSettings" ref="moreSettingsDropdown">
-                <ToolsButtons></ToolsButtons>
-            </div>
-        </div>
--->
+                    <div class="dropdown-menu" aria-labelledby="dropdownLiveEditMenuLinkMoreSettings" ref="moreSettingsDropdown">
+                        <ToolsButtons></ToolsButtons>
+                    </div>
+                </div>
+        -->
 
     </div>
 
@@ -33,10 +32,12 @@
 import CSSGUIService from "../../../api-core/services/services/css-gui.service.js";
 
 import ToolsButtons from "../RightSidebar/ToolsButtons.vue";
+import ToolbarMulilanguageSelector from "./ToolbarMulilanguageSelector.vue";
 
 export default {
     components: {
         ToolsButtons,
+        ToolbarMulilanguageSelector,
 
     },
     methods: {
@@ -46,7 +47,7 @@ export default {
         },
         toggle: function (name) {
 
-        //   this.$refs.moreSettingsDropdown.classList.remove('show');
+            //   this.$refs.moreSettingsDropdown.classList.remove('show');
 
             if (this.buttonIsActive) {
                 this.buttonIsActive = false;
@@ -59,7 +60,7 @@ export default {
         },
 
         hideMoreSettingsDropdown() {
-           // this.$refs.moreSettingsDropdown.classList.remove('show');
+            // this.$refs.moreSettingsDropdown.classList.remove('show');
         }
     },
 
@@ -76,17 +77,17 @@ export default {
             this.show('template-settings')
         });
 
-        mw.app.canvas.on('canvasDocumentClick',event => {
+        mw.app.canvas.on('canvasDocumentClick', event => {
             this.hideMoreSettingsDropdown();
 
         });
 
-        mw.app.canvas.on('liveEditCanvasBeforeUnload',event => {
+        mw.app.canvas.on('liveEditCanvasBeforeUnload', event => {
             this.hideMoreSettingsDropdown();
         });
 
 
-        mw.app.canvas.on('liveEditCanvasLoaded',() => {
+        mw.app.canvas.on('liveEditCanvasLoaded', () => {
             mw.app.editor.on('onModuleSettingsRequest', event => {
                 this.hideMoreSettingsDropdown();
             });
@@ -94,10 +95,10 @@ export default {
             mw.app.editor.on('onLayoutSettingsRequest', event => {
                 this.hideMoreSettingsDropdown();
             });
-            mw.app.editor.on('insertLayoutRequest',  event => {
+            mw.app.editor.on('insertLayoutRequest', event => {
                 this.hideMoreSettingsDropdown();
             });
-            mw.app.editor.on('insertModuleRequest',  event => {
+            mw.app.editor.on('insertModuleRequest', event => {
                 this.hideMoreSettingsDropdown();
             });
         });

@@ -127,6 +127,13 @@ class MultilanguageApi
         } else {
 
             $url = url_current(true);
+
+            if (isset($params['from_url'])) {
+                $url = $params['from_url'];
+            }
+
+
+
             $location = false;
 
             $categoryId = get_category_id_from_url($url);

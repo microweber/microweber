@@ -68,6 +68,9 @@ html.preview .back-to-edit{
                     <ResolutionSwitch></ResolutionSwitch>
                     <SettingsCustomize></SettingsCustomize>
 
+                    <ToolbarMulilanguageSelector></ToolbarMulilanguageSelector>
+
+
                     <HtmlEditor></HtmlEditor>
 
                     <span class="back-to-edit" @click="pagePreviewToggle()" title="Back to edit">
@@ -126,12 +129,14 @@ import axios from 'axios';
 import StyleEditor from "../StyleEditor/StyleEditor.vue";
 import HtmlEditor from "../HtmlEditor/HtmlEditor.vue";
 import AddContentButton from "./AddContentButton.vue";
+import ToolbarMulilanguageSelector from "./ToolbarMulilanguageSelector.vue";
 
 export default {
     components: {
+        ToolbarMulilanguageSelector,
         AddContentButton,
         HtmlEditor,
-        SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav, SettingsCustomize},
+        SaveButton, UndoRedo, Editor, ResolutionSwitch, ContentSearchNav, SettingsCustomize,},
     methods: {
         pagePreviewToggle: () => {
            api.pagePreviewToggle()
