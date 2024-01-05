@@ -11,9 +11,9 @@
                 <div class="mw-modal-body" >
 
                     <div class="d-flex align-items-center">
+
                         <div class="w-full">
-                            <x-microweber-ui::label for="name" value="Name" />
-                            <x-microweber-ui::input id="name" class="block w-full" wire:model.defer="state.name" />
+                            <x-microweber-ml::input-text wire:model.defer="state.name" />
                         </div>
 
                         <div class="w-full">
