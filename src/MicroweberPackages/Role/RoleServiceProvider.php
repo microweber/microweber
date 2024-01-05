@@ -20,15 +20,10 @@ use MicroweberPackages\Role\Http\Controllers\RoleController;
 class RoleServiceProvider extends ServiceProvider
 {
 
-    protected function mergeConfigFrom($path, $key)
-    {
-        $config = $this->app['config']->get($key, []);
-        $this->app['config']->set($key, array_merge( $config,require $path,));
-    }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/config/permission.php', 'permission');
+        $this->mergeConfigFrom(__DIR__ . '/config/permission.php', 'permission');
 
     }
 
@@ -41,9 +36,15 @@ class RoleServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
 
-       /* View::addNamespace('role', __DIR__.'/resources/views');
+        View::addNamespace('role', __DIR__ . '/resources/views');
+
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
+    }
 
 
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');*/
+    protected function mergeConfigFrom($path, $key)
+    {
+        $config = $this->app['config']->get($key, []);
+        $this->app['config']->set($key, array_merge($config, require $path,));
     }
 }

@@ -87,13 +87,13 @@ Route::name('api.template.')
 ->middleware(['admin']);
 
 
-\Route::post('api/template/delete_compiled_css', function (Request  $request) {
-    $data = $request->all();
-    app()->template->defineConstants($data);
-
-    return mw()->template->delete_compiled_css($data);
-})->name('current_template_save_custom_css')
-->middleware(['admin']);
+//\Route::post('api/template/delete_compiled_css', function (Request  $request) {
+//    $data = $request->all();
+//    app()->template->defineConstants($data);
+//
+//    return mw()->template->delete_compiled_css($data);
+//})->name('current_template_save_custom_css')
+//->middleware(['admin']);
 
 \Route::get('api/template/delete_compiled_css', function (Request $request) {
     $data = $request->all();
