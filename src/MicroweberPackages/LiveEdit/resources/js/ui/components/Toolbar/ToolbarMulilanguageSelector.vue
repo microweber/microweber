@@ -56,8 +56,10 @@ export default {
     components: {},
     methods: {
         hideLangDropdown() {
-            this.$refs.multilanguageSwticherSettingsDropdown.classList.remove('show');
-        },
+            if(this.$refs.multilanguageSwticherSettingsDropdown && this.$refs.multilanguageSwticherSettingsDropdown.classList) {
+                this.$refs.multilanguageSwticherSettingsDropdown.classList.remove('show');
+            }
+         },
 
 
         changeLang: function (name) {
