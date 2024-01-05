@@ -105,7 +105,7 @@
                                            </div>
                                            <div class="mt-2">
 
-                                               @if($marketItem['available_for_install'])
+                                               @if($marketItem['available_for_install'] && !$marketItem['current_install'])
                                                    <span class="badge bg-lime-lt">
                                                        {{_e('Available for install')}}
                                                    </span>
