@@ -236,9 +236,12 @@ export default {
 
             var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
 
-            this.backToAdminLink = liveEditIframeData.back_to_admin_link;
 
             if (liveEditIframeData && liveEditIframeData.content) {
+
+                this.backToAdminLink = liveEditIframeData.back_to_admin_link;
+
+
                 this.backToAdminLink = liveEditIframeData.content.content_edit_link;
                 if (liveEditIframeData.content.is_home) {
                     this.backToAdminLink = liveEditIframeData.back_to_admin_link;
