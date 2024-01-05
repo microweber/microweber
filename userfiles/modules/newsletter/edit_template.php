@@ -123,7 +123,6 @@
 
             e.preventDefault(e);
 
-            var errors = {};
             var data = mw.serializeFields(this);
 
             $.ajax({
@@ -134,8 +133,6 @@
                     mw.notification.success('<?php _ejs('Template saved'); ?>');
                     mw.reload_module('newsletter/templates_list');
                     mw.reload_module_parent('newsletter');
-                    $(".js-edit-template-form")[0].reset();
-                    list_templates();
                 },
                 error: function (e) {
                     alert('Error processing your request: ' + e.responseText);
