@@ -32,7 +32,7 @@
                       <h3 class="main-pages-title mt-3">{{$package['description']}}</h3>
                   </div>
                    <div>
-                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                       <button type="button" class="btn-close" aria-label="Close"
                                wire:click="$emit('closeModal')"></button>
                    </div>
                </div>

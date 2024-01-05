@@ -35,8 +35,10 @@
             for (let i = 0; i < openedModals.length; i++) {
                 let openedModalId = openedModals[i].getAttribute('wire:key');
                 let modal = document.getElementById("js-modal-livewire-id-" + openedModalId);
-                modal.style.display = "none";
-                Livewire.emit('destroyComponent', openedModalId);
+                if(modal) {
+                    modal.style.display = "none";
+                    Livewire.emit('destroyComponent', openedModalId);
+                }
             }
         });
 
