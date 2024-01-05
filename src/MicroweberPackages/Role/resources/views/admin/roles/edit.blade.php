@@ -1,4 +1,4 @@
-@extends('admin::layout')
+@extends('admin::layouts.app')
 
 @section('title', 'Set role and permitions')
 
