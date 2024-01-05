@@ -3,7 +3,7 @@ namespace MicroweberPackages\Multilanguage\View\Components\FormElements;
 
 use Illuminate\View\Component;
 
-class InputText extends Component
+class InputTextarea extends Component
 {
 
     public $randId;
@@ -56,7 +56,7 @@ class InputText extends Component
             }
         }
 
-        return view('multilanguage::components.form-elements.input-text', [
+        return view('multilanguage::components.form-elements.input-textarea', [
             'randId' => $this->randId,
             'fieldName' => $fieldName,
             'fieldValue' => $fieldValue,

@@ -9,7 +9,7 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
 >
 
     <div>
-        Multilanguage Input
+        {{ $label }}
     </div>
 
     <div class="input-group">
