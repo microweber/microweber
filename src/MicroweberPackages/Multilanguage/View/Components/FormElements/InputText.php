@@ -28,9 +28,10 @@ class InputText extends Component
     {
         $this->defaultLanguage = mw()->lang_helper->default_lang();
         $this->currentLanguage = mw()->lang_helper->current_lang();
-        $this->randId = 'ml_editor_element_'.md5(str_random());
-        $fieldName = 'auuu____ebasi';
 
+        $this->randId = 'ml_editor_element_'.md5(str_random());
+
+        $fieldName = 'input_element_name';
         $fieldValue = '';
 
         $locales = [];
@@ -38,32 +39,12 @@ class InputText extends Component
         foreach ($supportedLanguages as $language) {
             $locales[] = $language['locale'];
         }
-        $localesJson = json_encode($locales);
-
-        $modelTranslations = [];
-
 
         $translations = [];
         // Fill with empty values
         foreach ($locales as $locale) {
             $translations[$locale] = '';
         }
-        // Fill the translations if available
-        $findTranslationsFromField = $fieldName;
-
-
-        if (!empty($modelTranslations)) {
-            foreach ($modelTranslations as $modelTranslationLocale=>$modelTranslation) {
-                if (isset($modelTranslation[$findTranslationsFromField])) {
-                    $translations[$modelTranslationLocale] = $modelTranslation[$findTranslationsFromField];
-                    if ($this->currentLanguage == $modelTranslationLocale) {
-                        $fieldValue = $modelTranslation[$findTranslationsFromField];
-                    }
-                }
-            }
-        }
-//        $translationsJson = json_encode($translations);
-//        $attributes = json_encode($this->getAttributes());
 
         $currentLanguageData = [];
         foreach ($supportedLanguages as $language) {
