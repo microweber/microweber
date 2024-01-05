@@ -567,7 +567,7 @@ var MWEditor = function (options) {
                 _observe();
             }, 123);
         });
-        scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', _observe);
+        scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove scroll', _observe);
         this.createInteractionControls();
     };
 

@@ -62,6 +62,7 @@ MWEditor.interactionControls = {
     },
     image: function (rootScope) {
         this.nodes = [];
+        var scope = this;
         this.render = function () {
             var scope = this;
             var el = mw.element({
@@ -174,10 +175,59 @@ MWEditor.interactionControls = {
             el.append(nav);
             // nav.append(editButton);
             this.nodes.push(el.node, changeButton.node, editButton.node);
+            scope.__resizing = false;
+
+            if(window.jQuery && jQuery.fn.resizable) {
+                jQuery(el.get(0)).resizable({
+                    handles: "e,se",
+                    start: function( event, ui ) {
+                        scope.__resizing = true;
+
+                        rootScope.state.unpause();
+                        rootScope.state.record({
+                            target: rootScope.$editArea[0],
+                            value: rootScope.$editArea[0].innerHTML
+                        });
+
+
+
+                    },
+                    stop: function( event, ui ) {
+                        scope.__resizing = false;
+                        rootScope.api.afterExecCommand();
+                        rootScope._syncTextArea();
+                        rootScope.state.record({
+                            target: rootScope.$editArea[0],
+                            value: rootScope.$editArea[0].innerHTML
+                        });
+
+                    },
+                    resize: function( event, ui ) {
+
+                        scope.$target.css({width: ui.size.width});
+                        var css = scope.$target.offset();
+                        var parntRelative = document.body;
+                        scope.$target.parents().each(function(){
+                            if($(this).css('position') === 'relative'){
+                                parntRelative = this;
+                                return false;
+                            }
+                        });
+                        if(parntRelative) {
+
+                            css.top = css.top - $(parntRelative).offset().top
+                        }
+                        el.css({height: scope.$target.get(0).offsetHeight, top: css.top})
+                    }
+                })
+            }
             el.hide();
             return el;
         };
         this.interact = function (data) {
+            if(scope.__resizing) {
+                return;
+            }
             if(mw.tools.firstParentOrCurrentWithClass(data.localTarget, 'mw-editor-image-handle-wrap')) {
                 return;
             }
@@ -192,7 +242,7 @@ MWEditor.interactionControls = {
                 var css = $target.offset();
                 css.width = $target.outerWidth();
                 css.height = $target.outerHeight();
-                css.height = 80;
+                // css.height = 80;
 
                 var parntRelative = document.body;
                 $target.parents().each(function(){
