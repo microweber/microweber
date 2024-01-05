@@ -55,10 +55,10 @@ class TranslateManager
                         //   dump($providerInstance->getRepositoryClass() . '\\' . $repositoryMethod);
 
                         event_bind($providerInstance->getRepositoryClass() . '\\' . $repositoryMethod, function ($data) use ($providerInstance) {
-/*
+
                             if (isset($data['getEditField'])) {
-                                dump($data);
-                            }*/
+                              //  dump($data);
+                            }
 
                             if (isset($data['data']) && !empty($data['data']) && isset($data['hook_overwrite_type'])) {
                                 if ($data['hook_overwrite_type'] == 'multiple') {
@@ -200,11 +200,31 @@ class TranslateManager
                             return $saveData;
                         }
 
-                        if ($providerInstance->getRelType() == 'content_fields') {
 
-                            $saveData['__value'] = $saveData['value'];
-                            unset($saveData['value']);
-                            return $saveData;
+
+                        if ($providerInstance->getRelType() == 'content_fields') {
+                            $skip = false;
+                            if(isset($saveData['field']) and $saveData['field']) {
+                                $is_native_fld_all = app()->database_manager->get_fields('content');
+                                if (in_array($saveData['field'], $is_native_fld_all)) {
+                                    //return $saveData;
+                                    $skip = true;
+                                }
+                            }
+                            if(!isset($saveData['value'])){
+                                $skip = true;
+
+
+                            }
+
+                            if (!$skip) {
+
+
+
+                                $saveData['__value'] = $saveData['value'];
+                                unset($saveData['value']);
+                                return $saveData;
+                            }
                         }
                     }
 
@@ -227,6 +247,7 @@ class TranslateManager
 
                         if ($currentLocale != $defaultLocale) {
                             if (!empty($dataForTranslate) && isset($dataForTranslate['id']) && intval($dataForTranslate['id']) !== 0) {
+
                                 $providerInstance->saveOrUpdate($dataForTranslate);
                             }
                         }

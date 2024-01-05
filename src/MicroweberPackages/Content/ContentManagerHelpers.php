@@ -182,30 +182,28 @@ class ContentManagerHelpers extends ContentManagerCrud
                         $this->app->database_manager->delete_by_id('menus', $c_id, 'content_id');
 
 
-                            DB::table('media')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
+                        DB::table('media')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
 
 
-
-                            DB::table('categories')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
-
+                        DB::table('categories')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
 
 
-                            DB::table('categories_items')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
+                        DB::table('categories_items')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
 
-                            DB::table('custom_fields')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
-
-
-                            DB::table('content_data')->where('content_id', '=', $c_id)->delete();
+                        DB::table('custom_fields')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
 
 
-                            DB::table('menus')->where('content_id', '=', $c_id)->delete();
+                        DB::table('content_data')->where('content_id', '=', $c_id)->delete();
+
+
+                        DB::table('menus')->where('content_id', '=', $c_id)->delete();
 
                     } else {
                         DB::table('content')->whereId($c_id)->update(['is_deleted' => 1]);
                         DB::table('content')->whereParent($c_id)->update(['is_deleted' => 1]);
 
 
-                            DB::table('categories')->whereRelId($c_id)->whereRelType('content')->update(['is_deleted' => 1]);
+                        DB::table('categories')->whereRelId($c_id)->whereRelType('content')->update(['is_deleted' => 1]);
 
                     }
                     $this->app->cache_manager->delete('content/' . $c_id);
@@ -267,7 +265,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $del->where('rel_id', '=', $item['rel_id']);
                         }
 
-                            $del->delete();
+                        $del->delete();
 
                     }
                 }
@@ -629,16 +627,15 @@ class ContentManagerHelpers extends ContentManagerCrud
                 }
 
                 $post_data['json_obj'] = @base64_decode($post_data['data_base64']);
-                if($post_data['json_obj'] == false){
+                if ($post_data['json_obj'] == false) {
                     return array('error' => 'The invalid data was sent');
                 }
-
 
 
             }
             if (isset($post_data['json_obj'])) {
                 $obj = @json_decode($post_data['json_obj'], true);
-                if($obj == false){
+                if ($obj == false) {
                     return array('error' => 'The invalid data was sent');
                 }
                 $post_data = $obj;
@@ -678,7 +675,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
         }
 
-        if($from_url){
+        if ($from_url) {
             $ref_page_url = $from_url;
             $ref_page_url = xss_clean($ref_page_url);
 
@@ -697,8 +694,6 @@ class ContentManagerHelpers extends ContentManagerCrud
         }
 
 
-
-
         if (isset($post_data['id']) and intval($post_data['id']) > 0) {
             $page_id = intval($post_data['id']);
         } elseif ($ref_page_url != '') {
@@ -706,6 +701,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             if (strpos($ref_page_url, '#')) {
                 $ref_page_url = substr($ref_page_url, 0, strpos($ref_page_url, '#'));
             }
+
 
             $slug_page = $this->app->permalink_manager->slug($ref_page_url, 'page');
             $slug_post = $this->app->permalink_manager->slug($ref_page_url, 'post');
@@ -721,6 +717,31 @@ class ContentManagerHelpers extends ContentManagerCrud
                     $ref_page2 = $ref_page = $ref_post;
                 } else {
                     $ref_page2 = $ref_page = $this->get_by_url($slug_page);
+                }
+
+
+                if (!$ref_page2) {
+
+//                    if ($multilanguageIsActive) {
+//                        if ($slug_post) {
+//                            $findTranslate = app()->multilanguage_repository->getTranslationByFieldNameFieldValueAndRelType('url', $slug_post, 'content');
+//                        } else {
+//                            $findTranslate = app()->multilanguage_repository->getTranslationByFieldNameFieldValueAndRelType('url', $slug_page, 'content');
+//                        }
+//
+//                        if ($findTranslate and isset($findTranslate['rel_id'])) {
+//                            $get = array();
+//                            $get['id'] = $findTranslate['rel_id'];
+//                            $get['single'] = true;
+//
+//                            $contentMultilang = app()->content_manager->get($get);
+//                            if($contentMultilang){
+//                                $ref_page2 = $ref_page = $contentMultilang;
+//                            }
+//
+//                        }
+//
+//                    }
                 }
 
             } elseif ($slug_post) {
@@ -1004,9 +1025,6 @@ class ContentManagerHelpers extends ContentManagerCrud
                         }
 
 
-
-
-
 //
 //
 //                        if (isset($the_field_data['attributes']['rel_type'])
@@ -1017,7 +1035,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 //                        }
 
 
-                        if(!$save_module){
+                        if (!$save_module) {
                             if (!isset($the_field_data['attributes']['data-id'])) {
                                 $the_field_data['attributes']['data-id'] = $content_id;
                             }
@@ -1112,14 +1130,13 @@ class ContentManagerHelpers extends ContentManagerCrud
                         }
                         $html_to_save = $the_field_data['html'];
 
-                        $html_to_save = $content =  $this->app->parser->make_tags($html_to_save);
+                        $html_to_save = $content = $this->app->parser->make_tags($html_to_save);
 
                         //\Log::info($html_to_save);
 
 
                         $xssClean = new XSSClean();
                         $html_to_save = $content = $xssClean->clean($html_to_save);
-
 
 
                         if ($save_module == false and $save_global == false and $save_layout == false) {
@@ -1179,7 +1196,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                         $cont_field1 = $this->app->content_manager->save_content_field($cont_field);
                                     } else {
                                         $cont_table_save = array();
-                                        $cont_table_save[$field]=$html_to_save;
+                                        $cont_table_save[$field] = $html_to_save;
                                     }
 
 
@@ -1190,7 +1207,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                 $to_save = array();
                                 $to_save['id'] = $content_id;
-                                if(isset($cont_table_save)  and $cont_table_save){
+                                if (isset($cont_table_save) and $cont_table_save) {
                                     $to_save = array_merge($to_save, $cont_table_save);
                                 }
 
@@ -1202,7 +1219,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 if ($is_no_save != true and $is_draft == false) {
                                     $to_save2 = $to_save;
                                     //   $to_save2['rel_type'] = 'content';
-                                    if(isset($cont_table_save)  and $cont_table_save){
+                                    if (isset($cont_table_save) and $cont_table_save) {
                                         $to_save2_print = $to_save2;
                                         $to_save2_print['table'] = 'content';
                                         $to_save2_print['rel_type'] = 'content';
@@ -1264,7 +1281,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     //if we have more than one delete the other ones
                                     $i = 1;
                                     foreach ($getExisting as $existing) {
-                                        if($existing->rel_id != $cont_field['rel_id']){
+                                        if ($existing->rel_id != $cont_field['rel_id']) {
                                             DB::table('content_fields')->where('id', $existing->id)->delete();
                                         }
                                         if ($i > 1) {
@@ -1275,8 +1292,6 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 }
 
                             }
-
-
 
 
                             if ($is_draft != false) {
@@ -1438,7 +1453,7 @@ class ContentManagerHelpers extends ContentManagerCrud
     {
         $adm = $this->app->user_manager->is_admin();
         $table = 'content_fields';
-         $table_drafts = 'content_revisions_history';
+        $table_drafts = 'content_revisions_history';
 
         if ($adm == false) {
             return false;
@@ -1570,14 +1585,13 @@ class ContentManagerHelpers extends ContentManagerCrud
                 ->take(1000)
                 ->skip(1000)
                 ->get();
-            if (!empty($old)){
+            if (!empty($old)) {
                 foreach ($old as $item) {
                     \DB::table($table)->where('id', $item->id)->delete();
                 }
             }
 
-        }  else {
-
+        } else {
 
 
             $find = $this->app->database_manager->get($table, $filter);
@@ -1587,7 +1601,6 @@ class ContentManagerHelpers extends ContentManagerCrud
         if ($find and isset($find['id'])) {
             $data['id'] = $find['id'];
         }
-
 
 
         $save = $this->app->database_manager->save($data);

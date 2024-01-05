@@ -159,6 +159,7 @@ var MWEditor = function (options) {
                 var aptarget = scope.actionWindow.document.body;
                 if(scope.settings.mode === 'div') {
                     aptarget = scope.$editArea.get(0).parentNode;
+
                 }
                 aptarget.appendChild(int.element.node);
                 scope.interactionControls.push(int);
@@ -566,7 +567,7 @@ var MWEditor = function (options) {
                 _observe();
             }, 123);
         });
-        scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', _observe);
+        scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove scroll', _observe);
         this.createInteractionControls();
     };
 

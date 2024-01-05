@@ -39,7 +39,7 @@ class MultilanguageRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($fieldName, $fieldValue, $relType) {
 
             $getMultilangTranslatesQuery = DB::table('multilanguage_translations');
-            $getMultilangTranslatesQuery->select(['locale','field_name', 'field_value','rel_type','rel_id']);
+            $getMultilangTranslatesQuery->select(['locale', 'field_name', 'field_value', 'rel_type', 'rel_id']);
 
             $getMultilangTranslatesQuery->where('field_name', $fieldName);
             $getMultilangTranslatesQuery->where('field_value', $fieldValue);
@@ -105,29 +105,46 @@ class MultilanguageRepository extends AbstractRepository
 
     public function getSupportedLocaleByLocale($locale)
     {
-        if(!$locale){
+        if (!$locale) {
             return [];
         }
 
         $allLocales = $this->getSupportedLocales(true);
-        if($allLocales){
-            foreach ($allLocales as $localeItem){
-                if(isset($localeItem['locale']) and strtolower($localeItem['locale']) == strtolower($locale)){
+        if ($allLocales) {
+            foreach ($allLocales as $localeItem) {
+                if (isset($localeItem['locale']) and strtolower($localeItem['locale']) == strtolower($locale)) {
                     return $localeItem;
                 }
             }
         }
     }
 
+    public function getSupportedLocale($locale)
+    {
+        $findedLangLocale = false;
+        $findedLangLocaleData = $this->getSupportedLocaleByDisplayLocale($locale);
+
+        if (isset($findedLangLocaleData['locale'])) {
+            $findedLangLocale = $findedLangLocaleData ;
+        } else {
+            $findedLangLocaleData = $this->getSupportedLocaleByLocale($locale);
+            if (isset($findedLangLocaleData['locale'])) {
+                $findedLangLocale = $findedLangLocaleData ;
+            }
+        }
+
+        return $findedLangLocale;
+    }
+
     public function getSupportedLocaleByDisplayLocale($display_locale)
     {
-        if(!$display_locale){
+        if (!$display_locale) {
             return [];
         }
         $allLocales = $this->getSupportedLocales(true);
-        if($allLocales){
-            foreach ($allLocales as $localeItem){
-                if(isset($localeItem['display_locale']) and strtolower($localeItem['display_locale']) == strtolower($display_locale)){
+        if ($allLocales) {
+            foreach ($allLocales as $localeItem) {
+                if (isset($localeItem['display_locale']) and strtolower($localeItem['display_locale']) == strtolower($display_locale)) {
                     return $localeItem;
                 }
             }
@@ -178,7 +195,7 @@ class MultilanguageRepository extends AbstractRepository
         }
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relType, $relId) {
             $getMultilangTranslatesQuery = DB::table('multilanguage_translations');
-            $getMultilangTranslatesQuery->select(['locale','field_name', 'field_value','rel_type','rel_id']);
+            $getMultilangTranslatesQuery->select(['locale', 'field_name', 'field_value', 'rel_type', 'rel_id']);
             if (is_array($relId)) {
                 $getMultilangTranslatesQuery->whereIn('rel_id', $relId);
             } else {
@@ -213,7 +230,7 @@ class MultilanguageRepository extends AbstractRepository
 
             $getMultilangTranslatesQuery = DB::table('multilanguage_translations');
 
-            $getMultilangTranslatesQuery->select(['locale','field_name', 'field_value','rel_type','rel_id']);
+            $getMultilangTranslatesQuery->select(['locale', 'field_name', 'field_value', 'rel_type', 'rel_id']);
             $getMultilangTranslatesQuery->where('locale', $locale);
             $getMultilangTranslatesQuery->where('rel_type', $relType);
             // $getMultilangTranslatesQuery->whereNotNull('field_value');

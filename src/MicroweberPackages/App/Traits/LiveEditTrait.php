@@ -3,6 +3,7 @@
 namespace MicroweberPackages\App\Traits;
 
 use Illuminate\Support\Facades\Vite;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\View\View;
 
 trait LiveEditTrait
@@ -48,7 +49,7 @@ trait LiveEditTrait
         }
 
         $contentType = 'page';
-        if(isset($page['content_type'])){
+        if (isset($page['content_type'])) {
             $contentType = $page['content_type'];
         }
         $contentType = addslashes($contentType);
@@ -65,6 +66,16 @@ trait LiveEditTrait
             $contentLink = content_link($page['id']);
         }
 
+
+        $multiLanguageIsEnabled = false;
+        $current_lang = false;
+        $multiLanguageEnabledLanguages = [];
+        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+            $multiLanguageIsEnabled = true;
+            $multiLanguageEnabledLanguages= MultilanguageHelpers::getSupportedLanguages();
+            $current_lang = current_lang();
+        }
+        $multiLanguageEnabledLanguages = json_encode($multiLanguageEnabledLanguages);
         $contentDetailsScript = "
 \n<script type='application/x-javascript' id='mw-iframe-page-data-script'>
         mw.liveEditIframeData = mw.liveEditIframeData || {};
@@ -82,12 +93,15 @@ trait LiveEditTrait
         mw.liveEditIframeData.back_to_admin_link = '" . admin_url() . "';
         mw.liveEditIframeData.content_link = '" . $contentLink . "';
         mw.liveEditIframeData.template_name = '{$templateName}';
+        mw.liveEditIframeData.multiLanguageIsEnabled = '{$multiLanguageIsEnabled}';
+        mw.liveEditIframeData.multiLanguageCurrentLanguage = '{$current_lang}';
+        mw.liveEditIframeData.multiLanguageEnabledLanguages = {$multiLanguageEnabledLanguages};
 </script>\n";
         $html = str_ireplace('</head>', $contentDetailsScript . '</head>', $html, $c);
         return $html;
     }
 
-    public function liveEditToolbarIframe($html,$content)
+    public function liveEditToolbarIframe($html, $content)
     {
 
         $liveEditUrl = admin_url() . 'live-edit';
@@ -97,13 +111,12 @@ trait LiveEditTrait
         }
 
 
-
         $viteScript = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js');
 
         if ($viteScript) {
 
             $viteScriptSrc = '<script src="' . $viteScript . '"></script>';
-             $viteScriptSrc .= '<script>window.mwLiveEditIframeBackUrl = "' . $liveEditUrl . '"; </script>';
+            $viteScriptSrc .= '<script>window.mwLiveEditIframeBackUrl = "' . $liveEditUrl . '"; </script>';
             $html = str_ireplace('</body>', $viteScriptSrc . '</body>', $html, $c);
             return $html;
         }

@@ -720,7 +720,7 @@ MWEditor.controllers = {
 
            //  const byTag = mw.tools.firstParentOrCurrentWithTag(node, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p']);
 
-            let isDisabled = opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(node);
+            let isDisabled = opt.isPlainText || !opt.api.isSelectionEditable(opt.selection) || (!opt.api.targetSupportsFormatting(node) && rootScope.settings.mode !== 'div');
 
 
             rootScope.disabled(opt.controller.element.get(0),  isDisabled);
@@ -782,8 +782,9 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-
-            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+            console.log(opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)) )
+            // console.log(opt.isPlainText , opt.api.isSelectionEditable(opt.selection) , opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)))
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection) );
             rootScope.controllerActive(opt.controller.element.get(0), !!mw.tools.firstParentOrCurrentWithTag(api.elementNode(api.getSelection().focusNode), 'a'));
 
         };
@@ -1365,7 +1366,7 @@ MWEditor.controllers = {
         this.checkSelection = function (opt) {
             var sel = api.getSelection();
             var isLink =  mw.tools.firstParentWithTag(sel.focusNode, 'a');
-            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection) || !isLink|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection) || !isLink /*|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode))*/);
          };
         this.element = this.render();
     },

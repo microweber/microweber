@@ -90,9 +90,9 @@ class TemplateCssParser
         }
         $token = md5(mw()->user_manager->session_id());
 
-        if ($options['token'] !== $token) {
-            return;
-        }
+//        if ($options['token'] !== $token) {
+//            return;
+//        }
 
         $compileFile = $this->_getOutputDir($options['path']);
         $compileFile = normalize_path($compileFile, false);

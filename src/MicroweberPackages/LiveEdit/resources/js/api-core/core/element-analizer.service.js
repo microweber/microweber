@@ -88,8 +88,9 @@ export class ElementAnalyzerServiceBase {
             this.settings.editClass,
             this.settings.moduleClass,
         ];
-
-        return this.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node.parentNode, order);
+        if (node && node.parentNode) {
+            return this.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node.parentNode, order);
+        }
     }
 
     isEditOrInEdit (node) {

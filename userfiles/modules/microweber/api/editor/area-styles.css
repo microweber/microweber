@@ -5,9 +5,21 @@
     align-items: center;
     justify-content: center;
     display: flex;
+    pointer-events: none;
+    border: 3px solid rgb(26, 93, 238);
+    max-width: 100%;
 
 
 }
+
+.mw-editor-image-handle-wrap > *{
+
+    pointer-events: all;
+
+
+}
+
+
 
 .mw-small-editor{
     position: absolute;

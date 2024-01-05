@@ -53,7 +53,7 @@
                         @endif
 
                         @foreach($customFields as $customField)
-                        <tr class="js-sortable-item" sort-key="{{ $customField->id }}">
+                        <tr class="js-sortable-item" sort-key="{{ $customField->id }}" ondblclick="Livewire.emit('openMwTopDialogIframe', 'custom-field-edit-modal', {{ json_encode(['customFieldId'=>$customField->id]) }})">
                             <td>
                                 <div class="js-sort-handle">
                                     <div>

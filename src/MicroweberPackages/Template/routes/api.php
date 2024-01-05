@@ -110,6 +110,21 @@ Route::name('api.template.')
 ->middleware(['admin']);
 
 
+\Route::get('api/template/compile_css', function (Request $request) {
+    $data = $request->all();
+    app()->template->defineConstants($data);
+
+    $compiled =  mw()->template->compile_css($data);
+
+    $compiled = str_replace( '../../../../../../',userfiles_url(), $compiled);
+
+    $response = \Response::make($compiled);
+    $response->header('Content-Type', 'text/css');
+    return $response;
+})->name('template_compile_css')
+->middleware(['admin']);
+
+
 
 
 

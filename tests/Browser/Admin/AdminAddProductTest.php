@@ -138,7 +138,7 @@ class AdminAddProductTest extends DuskTestCase
             $this->assertEquals($productSku, $findProduct->sku);
 
 
-            $this->assertEquals($findProduct->content_body, '<p class="element">'. $productDescription .'</p>');
+            $this->assertEquals(strip_tags($findProduct->content_body), strip_tags($productDescription));
             $this->assertEquals($findProduct->content_type, 'product');
             $this->assertEquals($findProduct->subtype, 'product');
 

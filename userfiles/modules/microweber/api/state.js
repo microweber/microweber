@@ -49,7 +49,7 @@
 
         var recentRecordIsEqual = function (item) {
             const curr = scope._state[0];
-            if(!curr) return false;
+            if(!curr || curr.$initial) return false;
             for (var n in item) {
                 if(curr[n] !== item[n]) {
                     return false;
@@ -90,6 +90,7 @@
                 }
             }
             if (recentRecordIsEqual(item)) {
+
                 return;
             }
             this._state.unshift(item);
@@ -252,7 +253,7 @@
         }
 
 
- 
+
 
         mw.$('#history_panel_toggle,#history_dd,.mw_editor_undo,.mw_editor_redo').remove();
 

@@ -32,8 +32,8 @@
                     </div>
 
                     @if (isset($customField->options['as_price_modifier']) && $customField->options['as_price_modifier'])
-                    <div class="w-full">
-                        <x-microweber-ui::input class="mt-1 block w-full" wire:model.debounce="priceModifiers.{{ $fieldValue->id }}" placeholder="Price modifier to add to the product price" />
+                    <div class="w-full" style="max-width: 120px;">
+                        <x-microweber-ui::input type="number" class="mt-1 block w-full" wire:model.debounce="priceModifiers.{{ $fieldValue->id }}" placeholder="0" />
                         @error('priceModifiers.'.$fieldValue->id) <span class="text-danger error">{{ $message }}</span>@enderror
                     </div>
                     @endif

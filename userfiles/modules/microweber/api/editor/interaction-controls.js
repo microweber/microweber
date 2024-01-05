@@ -62,6 +62,7 @@ MWEditor.interactionControls = {
     },
     image: function (rootScope) {
         this.nodes = [];
+        var scope = this;
         this.render = function () {
             var scope = this;
             var el = mw.element({
@@ -96,6 +97,29 @@ MWEditor.interactionControls = {
                     }
                 }
             });
+
+
+            var deleteButton = mw.element({
+                props: {
+                    innerHTML: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon"><title>delete-outline</title><path d="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8,9H16V19H8V9M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z" /></svg>',
+                    className: 'btn btn-icon',
+                    dataset: {
+                        tip: rootScope.lang('Delete image')
+                    }
+                }
+            });
+            deleteButton.on('click', function () {
+                rootScope.state.unpause();
+
+                rootScope.state.record({
+                    target: rootScope.$editArea[0],
+                    value: rootScope.$editArea[0].innerHTML
+                });
+                scope.$target.remove()
+                el.hide();
+                rootScope.api.afterExecCommand(); console.log(rootScope.state)
+                rootScope._syncTextArea();
+            })
             changeButton.on('click', function () {
                 var dialog;
                 var picker = new mw.filePicker({
@@ -110,6 +134,11 @@ MWEditor.interactionControls = {
                     onResult: function (res) {
                         var url = res.src ? res.src : res;
                         if(!url) return;
+                        rootScope.state.unpause();
+                        rootScope.state.record({
+                            target: rootScope.$editArea[0],
+                            value: rootScope.$editArea[0].innerHTML
+                        });
                         url = url.toString();
                         scope.$target.attr('src', url);
                         dialog.remove();
@@ -138,17 +167,67 @@ MWEditor.interactionControls = {
             });
             var nav = mw.element({
                 props: {
-                    className: 'mw-ui-btn-nav'
+                    className: 'btn-group'
                 }
             });
             nav.append(changeButton);
+            nav.append(deleteButton);
             el.append(nav);
             // nav.append(editButton);
             this.nodes.push(el.node, changeButton.node, editButton.node);
+            scope.__resizing = false;
+
+            if(window.jQuery && jQuery.fn.resizable) {
+                jQuery(el.get(0)).resizable({
+                    handles: "e,se",
+                    start: function( event, ui ) {
+                        scope.__resizing = true;
+
+                        rootScope.state.unpause();
+                        rootScope.state.record({
+                            target: rootScope.$editArea[0],
+                            value: rootScope.$editArea[0].innerHTML
+                        });
+
+
+
+                    },
+                    stop: function( event, ui ) {
+                        scope.__resizing = false;
+                        rootScope.api.afterExecCommand();
+                        rootScope._syncTextArea();
+                        rootScope.state.record({
+                            target: rootScope.$editArea[0],
+                            value: rootScope.$editArea[0].innerHTML
+                        });
+
+                    },
+                    resize: function( event, ui ) {
+
+                        scope.$target.css({width: ui.size.width});
+                        var css = scope.$target.offset();
+                        var parntRelative = document.body;
+                        scope.$target.parents().each(function(){
+                            if($(this).css('position') === 'relative'){
+                                parntRelative = this;
+                                return false;
+                            }
+                        });
+                        if(parntRelative) {
+
+                            css.top = css.top - $(parntRelative).offset().top
+                        }
+                        el.css({height: scope.$target.get(0).offsetHeight, top: css.top})
+                    }
+                })
+            }
             el.hide();
             return el;
         };
         this.interact = function (data) {
+            if(scope.__resizing) {
+                return;
+            }
             if(mw.tools.firstParentOrCurrentWithClass(data.localTarget, 'mw-editor-image-handle-wrap')) {
                 return;
             }
@@ -163,6 +242,7 @@ MWEditor.interactionControls = {
                 var css = $target.offset();
                 css.width = $target.outerWidth();
                 css.height = $target.outerHeight();
+                // css.height = 80;
 
                 var parntRelative = document.body;
                 $target.parents().each(function(){
@@ -173,7 +253,9 @@ MWEditor.interactionControls = {
                 });
                 if(parntRelative) {
                     css.left = css.left - $(parntRelative).offset().left
+                    css.top = css.top - $(parntRelative).offset().top
                 }
+
                 this.element.css(css).show();
             } else {
                 this.element.hide();

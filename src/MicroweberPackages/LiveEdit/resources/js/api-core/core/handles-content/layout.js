@@ -387,11 +387,11 @@ export class LayoutHandleContent {
             }
         });
 
-        this.plusTop.on('click', () => {
+        this.plusTop.hide().on('click', () => {
             handlePlus('top');
         });
 
-        this.plusBottom.on('click', () => {
+        this.plusBottom.hide().on('click', () => {
             handlePlus('bottom');
         });
 

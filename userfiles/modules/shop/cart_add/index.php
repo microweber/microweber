@@ -184,11 +184,15 @@ $taxes_enabled = get_option('enable_taxes', 'shop');
             $for_id = 0;
         } ?>
         <?php //$data = get_custom_fields("field_type=price&for={$for}&for_id=" . $for_id . ""); ?>
-        <?php if (is_array($data) == true): ?>
+        <?php if (is_array($data)): ?>
             <input type="hidden" name="for" value="<?php print $for ?>"/>
             <input type="hidden" name="for_id" value="<?php print $for_id ?>"/>
         <?php endif; ?>
-
+        <?php if (empty($data)): ?>
+        <div class="mw-open-module-settings">
+            <?php print lnotif('Click here to edit custom fields'); ?>
+        </div>
+        <?php endif; ?>
         <?php if (isset($template_file) and is_file($template_file) != false) : ?>
             <?php include($template_file); ?>
         <?php else: ?>
