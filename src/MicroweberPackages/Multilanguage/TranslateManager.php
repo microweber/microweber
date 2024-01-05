@@ -55,10 +55,10 @@ class TranslateManager
                         //   dump($providerInstance->getRepositoryClass() . '\\' . $repositoryMethod);
 
                         event_bind($providerInstance->getRepositoryClass() . '\\' . $repositoryMethod, function ($data) use ($providerInstance) {
-/*
+
                             if (isset($data['getEditField'])) {
-                                dump($data);
-                            }*/
+                              //  dump($data);
+                            }
 
                             if (isset($data['data']) && !empty($data['data']) && isset($data['hook_overwrite_type'])) {
                                 if ($data['hook_overwrite_type'] == 'multiple') {
@@ -211,7 +211,16 @@ class TranslateManager
                                     $skip = true;
                                 }
                             }
+                            if(!isset($saveData['value'])){
+                                $skip = true;
+
+
+                            }
+
                             if (!$skip) {
+
+
+
                                 $saveData['__value'] = $saveData['value'];
                                 unset($saveData['value']);
                                 return $saveData;
