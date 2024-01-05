@@ -15,15 +15,18 @@ use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Events\LocaleUpdated;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Application;
 use MicroweberPackages\FormBuilder\FormElementBuilder;
 use MicroweberPackages\Multilanguage\Listeners\LocaleUpdatedListener;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
+use MicroweberPackages\Multilanguage\View\Components\FormElements\InputText;
 
 
-class MultilanguageServiceProvider extends ServiceProvider
+class
+MultilanguageServiceProvider extends ServiceProvider
 {
     /**
      * The application instance.
@@ -53,6 +56,8 @@ class MultilanguageServiceProvider extends ServiceProvider
     public function boot()
     {
         View::addNamespace('multilanguage', __DIR__ . '/resources/views');
+
+        Blade::component('microweber-ml::input-text', InputText::class);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/api_public.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
