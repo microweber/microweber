@@ -5,9 +5,19 @@
     align-items: center;
     justify-content: center;
     display: flex;
+    pointer-events: none;
 
 
 }
+
+.mw-editor-image-handle-wrap > *{
+
+    pointer-events: all;
+
+
+}
+
+
 
 .mw-small-editor{
     position: absolute;

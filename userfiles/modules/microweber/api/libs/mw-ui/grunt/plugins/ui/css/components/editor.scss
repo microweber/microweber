@@ -291,6 +291,12 @@ $editorSpacing: 5px;
     &.mw-editor-default{
         border:1px solid var(--tblr-border-color);;
         border-radius: 5px;
+        overflow: hidden;
+        position: relative;
+        .mw-bar{
+            position: relative;
+            z-index: 2;
+        }
         .mw-bar-row:first-child{
             border-radius: 5px 5px 0 0;
         }
