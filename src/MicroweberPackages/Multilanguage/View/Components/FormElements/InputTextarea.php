@@ -10,6 +10,7 @@ class InputTextarea extends Component
     public $defaultLanguage;
     public $wireModelName = 'input_element_name';
     public $wireModelDefer = 1;
+    public $label = '';
 
     /**
      * Create a new component instance.
@@ -63,6 +64,9 @@ class InputTextarea extends Component
             'supportedLanguages' => $supportedLanguages,
             'currentLanguageData' => $currentLanguageData,
             'translations' => $translations,
+            'wireModelName' => $this->wireModelName,
+            'wireModelDefer' => $this->wireModelDefer,
+            'label' => $this->label,
         ]);
     }
 }
