@@ -68,15 +68,13 @@
 
     @elseif($customField->type == 'property')
         <div class="mt-3">
-            <x-microweber-ui::label for="value" value="Value" />
-            <x-microweber-ui::textarea id="value" class="mt-1 block w-full" wire:model.defer="state.value" />
+            <x-microweber-ml::input-textarea label="Value" wireModelName="value" wireModelDefer="1" />
         </div>
     @elseif (isset($customField->options['as_text_area']) && $customField->options['as_text_area'])
 
         <div>
             <div class="mt-3">
-                <x-microweber-ui::label for="value" value="Value" />
-                <x-microweber-ui::textarea id="value" class="mt-1 block w-full" wire:model.defer="state.value" />
+                <x-microweber-ml::input-textarea label="Value" wireModelName="value" wireModelDefer="1" />
             </div>
 
             <div class="d-flex gap-3 mt-3">
@@ -93,8 +91,7 @@
 
     @else
         <div class="mt-3">
-            <x-microweber-ui::label for="value" value="Value" />
-            <x-microweber-ui::input id="value" class="mt-1 block w-full" wire:model.defer="state.value" />
+            <x-microweber-ml::input-text label="Value" wireModelName="value" wireModelDefer="1" />
         </div>
     @endif
 

@@ -13,7 +13,7 @@
                     <div class="d-flex align-items-center">
 
                         <div class="w-full">
-                            <x-microweber-ml::input-text wire:model.defer="state.name" />
+                            <x-microweber-ml::input-text label="Name" wireModelName="name" wireModelDefer="1" />
                         </div>
 
                         <div class="w-full">

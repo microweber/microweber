@@ -23,6 +23,7 @@ use MicroweberPackages\FormBuilder\FormElementBuilder;
 use MicroweberPackages\Multilanguage\Listeners\LocaleUpdatedListener;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 use MicroweberPackages\Multilanguage\View\Components\FormElements\InputText;
+use MicroweberPackages\Multilanguage\View\Components\FormElements\InputTextarea;
 
 
 class
@@ -58,6 +59,7 @@ MultilanguageServiceProvider extends ServiceProvider
         View::addNamespace('multilanguage', __DIR__ . '/resources/views');
 
         Blade::component('microweber-ml::input-text', InputText::class);
+        Blade::component('microweber-ml::input-textarea', InputTextarea::class);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/api_public.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
