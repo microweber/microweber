@@ -20,11 +20,9 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
 
                 @if($language['locale'] == $defaultLanguage)
 
-                wire:model="state.{{$fieldName}}"
+                wire:model.lazy="state.{{$fieldName}}"
                 @else
-                name="multilanguage[{{$fieldName}}][{{$language['locale']}}]"
-
-                wire:model="state.multilanguage.{{$fieldName}}.{{$language['locale']}}"
+                wire:model.lazy="state.multilanguage.{{$fieldName}}.{{$language['locale']}}"
                 style="display:none"
                 @endif
 
@@ -33,7 +31,6 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
                     return mw.admin.rtlDetect.getLangDir('{{$language['locale']}}')
                     }"
                 lang="{{$language['locale']}}"
-
 
                 type="text" class="form-control">
         @endforeach

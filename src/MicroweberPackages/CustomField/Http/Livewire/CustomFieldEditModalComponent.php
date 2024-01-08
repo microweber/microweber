@@ -242,6 +242,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         if ($this->customField) {
             $this->showSettings($this->customField->type);
         }
+
     }
 
     public function render()

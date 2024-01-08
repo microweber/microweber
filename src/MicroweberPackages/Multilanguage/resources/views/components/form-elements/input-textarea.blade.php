@@ -1,5 +1,4 @@
 <div x-data="{
-defaultLanguageInputField: '',
 currentLanguageData: @js($currentLanguageData)
 }"
      x-init="function() {
@@ -12,8 +11,6 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
     <label class="live-edit-label" for="type">
         {{ $labelText }}
     </label>
-
-    <textarea style="display:none" x-model="defaultLanguageInputField"></textarea>
 
     <div class="btn-group w-100" role="group">
         @foreach($supportedLanguages as $language)
@@ -38,13 +35,12 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
         @foreach($supportedLanguages as $language)
             <textarea
 
-                wire:model.lazy="state.multilanguage[{{$fieldName}}][{{$language['locale']}}]"
-
                 x-show="currentLanguageData.locale == '{{$language['locale']}}'"
 
                 @if($language['locale'] == $defaultLanguage)
-                x-model="defaultLanguageInputField"
+                wire:model.lazy="state.{{$fieldName}}"
                 @else
+                wire:model.lazy="state.multilanguage[{{$fieldName}}][{{$language['locale']}}]"
                 style="display:none"
                 @endif
 
