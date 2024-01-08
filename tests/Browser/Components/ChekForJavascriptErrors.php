@@ -182,6 +182,7 @@ class ChekForJavascriptErrors extends BaseComponent
             'log.txt - Failed to load resource: the server responded with a status of 404 (Not Found)',
             'Cannot read properties of undefined (reading \'done\')',
             'chromewebdata',
+            'mw_global_sidebar_template_settings',
         ];
         $findedErrors = [];
         if (!empty($consoleLog)) {
@@ -199,7 +200,11 @@ class ChekForJavascriptErrors extends BaseComponent
                 }
 
                 if ($log['level'] == 'SEVERE') {
-                    $findedErrors[] = $log;
+                    foreach ($errorStrings as $errorString) {
+                        if (strpos($log['message'], $errorString) !== false) {
+                            $findedErrors[] = $log;
+                        }
+                    }
                 }
 
                 if ($log['level'] == 'INFO') {

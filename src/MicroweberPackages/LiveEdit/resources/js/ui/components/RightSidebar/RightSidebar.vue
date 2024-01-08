@@ -155,11 +155,12 @@ export default {
 
         mw.app.canvas.on('liveEditCanvasLoaded', ()=> {
 
-          this.isReady = true;
+
 
             if(rightSidebarInstance.buttonIsActive) {
                 rightSidebarInstance.showTemplateSettings = true;
             }
+            this.isReady = true;
         });
 
         mw.app.canvas.on('liveEditCanvasBeforeUnload', function () {
