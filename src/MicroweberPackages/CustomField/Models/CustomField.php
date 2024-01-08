@@ -5,13 +5,14 @@ use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
+use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class CustomField extends Model
 {
     //use MaxPositionTrait;
     use CacheableQueryBuilderTrait;
-
     use HasCreatedByFieldsTrait;
+    use HasMultilanguageTrait;
 
     protected $fillable = [
         'value',
@@ -26,7 +27,7 @@ class CustomField extends Model
     protected $table = 'custom_fields';
     public $timestamps = true;
 
-    public $translatable = ['name','options', 'placeholder','error_text'];
+    public $translatable = ['name', 'placeholder','error_text'];
 
     public $cacheTagsToClear = ['repositories','content'];
 

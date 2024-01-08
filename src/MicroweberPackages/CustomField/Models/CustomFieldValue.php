@@ -15,7 +15,7 @@ class CustomFieldValue extends Model
 
     public $translatable = ['value'];
 
-    protected array $fillable = [
+    protected $fillable = [
         'custom_field_id',
         'value',
         'position'
