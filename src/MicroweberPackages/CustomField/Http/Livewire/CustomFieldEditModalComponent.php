@@ -27,12 +27,6 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
     public $showErrorTextSettings = false;
     public $showOptionsSettings = false;
 
-    public $multilanguage = [
-        'value'=> [
-            'en_US'=>'wow'
-        ]
-    ];
-
     public $listeners = [
         'customFieldUpdated' => '$refresh',
         'onReorderCustomFieldValuesList' => 'onReorderCustomFieldValuesList'

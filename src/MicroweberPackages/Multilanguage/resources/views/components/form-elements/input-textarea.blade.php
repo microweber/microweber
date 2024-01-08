@@ -38,7 +38,7 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
         @foreach($supportedLanguages as $language)
             <textarea
 
-                wire:model.lazy="multilanguage[{{$fieldName}}][{{$language['locale']}}]"
+                wire:model.lazy="state.multilanguage[{{$fieldName}}][{{$language['locale']}}]"
 
                 x-show="currentLanguageData.locale == '{{$language['locale']}}'"
 
