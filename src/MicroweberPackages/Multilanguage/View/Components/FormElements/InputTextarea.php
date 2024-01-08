@@ -10,16 +10,18 @@ class InputTextarea extends Component
     public $defaultLanguage;
     public $wireModelName = 'input_element_name';
     public $wireModelDefer = 1;
-    public $label = '';
+    public $labelText = '';
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($labelText = '', $wireModelName = '', $wireModelDefer = '')
     {
-
+        $this->labelText = $labelText;
+        $this->wireModelName = $wireModelName;
+        $this->wireModelDefer = $wireModelDefer;
     }
 
     /**
@@ -33,6 +35,7 @@ class InputTextarea extends Component
         $this->currentLanguage = mw()->lang_helper->current_lang();
 
         $this->randId = 'ml_editor_element_'.md5(str_random());
+        $this->label = 'Input text label';
 
         $fieldName = 'input_element_name';
         $fieldValue = '';
@@ -66,7 +69,7 @@ class InputTextarea extends Component
             'translations' => $translations,
             'wireModelName' => $this->wireModelName,
             'wireModelDefer' => $this->wireModelDefer,
-            'label' => $this->label,
+            'labelText' => $this->labelText,
         ]);
     }
 }

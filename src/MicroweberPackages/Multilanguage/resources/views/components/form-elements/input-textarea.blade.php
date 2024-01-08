@@ -8,6 +8,11 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
 });
 }"
 >
+
+    <label class="live-edit-label" for="type">
+        {{ $labelText }}
+    </label>
+
     <textarea style="display:none" x-model="defaultLanguageInputField" name="{{$fieldName}}">{{$fieldValue}}</textarea>
 
     <div class="btn-group w-100" role="group">

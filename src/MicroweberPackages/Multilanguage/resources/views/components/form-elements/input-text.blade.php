@@ -8,9 +8,9 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
 }"
 >
 
-    <div>
-        {{ $label }}
-    </div>
+    <label class="live-edit-label" for="type">
+        {{ $labelText }}
+    </label>
 
     <div class="input-group">
 
