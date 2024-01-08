@@ -21,6 +21,9 @@ use Tests\DuskTestCaseMultilanguage;
  */
 class AdminMultilanguageAddPageTest extends DuskTestCaseMultilanguage
 {
+    /**
+     * @runInSeparateProcess
+     */
     public function testAddPost()
     {
         $this->browse(function (Browser $browser) {

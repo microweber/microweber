@@ -144,7 +144,9 @@
         ],
         "post-create-project-cmd": [
             "php artisan key:generate"
-        ]
+        ],
+
+        "test:coverage": "php -d xdebug.mode=coverage -r \"require 'vendor/bin/phpunit';\" -- --configuration phpunit.xml --do-not-cache-result --coverage-clover tests/clover.xml --coverage-html tests/coverage"
     },
     "config": {
         "preferred-install": "dist",

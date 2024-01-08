@@ -14,10 +14,14 @@ use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\DuskTestCaseMultilanguage;
-
+/**
+ * @runTestsInSeparateProcesses
+ */
 class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
 {
-
+    /**
+     * @runInSeparateProcess
+     */
     public function testMultilanguageAddCategory()
     {
         $this->browse(function (Browser $browser) {
