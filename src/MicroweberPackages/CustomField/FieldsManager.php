@@ -478,6 +478,12 @@ class FieldsManager
             $customField->session_id = app()->user_manager->session_id();
         }
 
+        if (isset($fieldData['multilanguage'])) {
+            $multilanguageField = $fieldData['multilanguage'];
+            unset($multilanguageField['value']);
+
+            $customField->multilanguage = $multilanguageField;
+        }
 
         $customField->save();
 
@@ -526,6 +532,13 @@ class FieldsManager
                     $getCustomFieldValues = new CustomFieldValue();
                     $getCustomFieldValues->custom_field_id = $customField->id;
                 }
+
+                if (isset($fieldData['multilanguage']['value'])) {
+                    $getCustomFieldValues->multilanguage = [
+                        'value' => $fieldData['multilanguage']['value']
+                    ];
+                }
+
                 $getCustomFieldValues->value = $fieldData['value'];
                 $getCustomFieldValues->save();
             }
