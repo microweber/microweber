@@ -3,15 +3,19 @@ namespace MicroweberPackages\CustomField\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
+use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class CustomFieldValue extends Model
 {
     use CacheableQueryBuilderTrait;
+    use HasMultilanguageTrait;
 
     protected $table = 'custom_fields_values';
     protected $primaryKey = 'id';
 
-    protected $fillable = [
+    public $translatable = ['value'];
+
+    protected array $fillable = [
         'custom_field_id',
         'value',
         'position'
