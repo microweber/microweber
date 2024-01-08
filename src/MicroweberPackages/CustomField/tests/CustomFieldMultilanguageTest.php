@@ -2,10 +2,57 @@
 
 namespace MicroweberPackages\CustomField\tests;
 
+use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Multilanguage\tests\MultilanguageTestBase;
 
 class CustomFieldMultilanguageTest extends MultilanguageTestBase
 {
+
+    public function testAddCustomFieldValue()
+    {
+
+        $simpleCustomField = new CustomField();
+        $simpleCustomField->rel_type = 'content';
+        $simpleCustomField->rel_id = 13;
+        $simpleCustomField->type = 'text';
+        $simpleCustomField->name = 'This is the custom field name - EN';
+        $simpleCustomField->save();
+        $customFieldId = $simpleCustomField->id;
+
+        $newCustomFieldValue = new CustomFieldValue();
+        $newCustomFieldValue->custom_field_id = $customFieldId;
+        $newCustomFieldValue->value = 'This is the custom field value - EN';
+
+        $multilanguage = [];
+        $multilanguage['value']['bg_BG'] = 'This is the custom field value - BG';
+
+        $newCustomFieldValue->multilanguage = $multilanguage;
+        $newCustomFieldValue->save();
+
+        $customFieldValueId = $newCustomFieldValue->id;
+
+        // Try to edit the custom field existing multilanguage value
+        $findCustomFieldValue = \MicroweberPackages\CustomField\Models\CustomFieldValue::find($customFieldValueId);
+        $findCustomFieldValue->value = 'This is the NEW custom field value - EN';
+
+        $multilanguage = [];
+        $multilanguage['value']['bg_BG'] = 'This is the NEW custom field value - BG';
+
+        $findCustomFieldValue->multilanguage = $multilanguage;
+        $findCustomFieldValue->save();
+
+        $findCustomFieldValue = \MicroweberPackages\CustomField\Models\CustomFieldValue::find($customFieldValueId);
+        $this->assertEquals('This is the NEW custom field value - EN', $findCustomFieldValue->value);
+
+        $translations = $findCustomFieldValue->getTranslationsFormated();
+
+        $this->assertEquals($translations['en_US']['value'], 'This is the NEW custom field value - EN');
+        $this->assertEquals($translations['bg_BG']['value'], 'This is the NEW custom field value - BG');
+
+
+    }
+
     public function testAddCustomField()
     {
         $newCustomField = new \MicroweberPackages\CustomField\Models\CustomField();
