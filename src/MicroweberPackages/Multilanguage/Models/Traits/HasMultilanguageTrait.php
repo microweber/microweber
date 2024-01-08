@@ -61,6 +61,7 @@ trait HasMultilanguageTrait
     {
 
         static::saving(function ($model) {
+
             if (!MultilanguageHelpers::multilanguageIsEnabled()) {
                 if (isset($model->attributes['lang'])) {
                     unset($model->attributes['lang']);
@@ -70,6 +71,7 @@ trait HasMultilanguageTrait
                 }
             }
             if (MultilanguageHelpers::multilanguageIsEnabled()) {
+
                 $defaultLocale = mw()->lang_helper->default_lang();
                 $modelClass = get_class($model);
                 $skipModelClasses = [
