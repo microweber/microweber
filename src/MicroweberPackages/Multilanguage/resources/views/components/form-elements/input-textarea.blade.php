@@ -40,7 +40,7 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
                 @if($language['locale'] == $defaultLanguage)
                 wire:model.lazy="state.{{$fieldName}}"
                 @else
-                wire:model.lazy="state.multilanguage[{{$fieldName}}][{{$language['locale']}}]"
+                wire:model.lazy="state.multilanguage.{{$fieldName}}.{{$language['locale']}}"
                 style="display:none"
                 @endif
 

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Admin\Http\Livewire\AdminMwTopDialogIframeComponent;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
 {
@@ -237,11 +238,39 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
             // One value
             if ($this->customField and $this->customField->fieldValue->count() > 0) {
                 $this->state['value'] = $this->customField->fieldValue[0]->value;
+                if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                    $getFieldValue = $this->customField->fieldValue()->first();
+                    if ($getFieldValue) {
+                        $getFieldValueTranslations = $getFieldValue->getTranslationsFormated();
+                        if (!empty($getFieldValueTranslations)) {
+                            foreach ($getFieldValueTranslations as $fieldValueLocale => $fieldValueTranslatable) {
+                                foreach ($fieldValueTranslatable as $fieldValueTranslatableKey => $fieldValueTranslatableValue) {
+                                   // state.multilanguage[FIELD_VALUE_NAME][FIELD_VALUE_LOCALE] = FIELD_VALUE_VALUE
+                                    $this->state['multilanguage'][$fieldValueTranslatableKey][$fieldValueLocale] = $fieldValueTranslatableValue;
+                                }
+                            }
+
+                        }
+                    }
+                }
             }
         }
         if ($this->customField) {
             $this->showSettings($this->customField->type);
         }
+
+        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+            // [key][locale]=value
+            $translations = $this->customField->getTranslationsFormated();
+            if (!empty($translations)) {
+                foreach ($translations as $locale => $fields) {
+                    foreach ($fields as $key => $value) {
+                        $this->state['multilanguage'][$key][$locale] = $value;
+                    }
+                }
+            }
+        }
+
 
     }
 
