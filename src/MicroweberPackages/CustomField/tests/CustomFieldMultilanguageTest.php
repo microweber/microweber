@@ -4,10 +4,60 @@ namespace MicroweberPackages\CustomField\tests;
 
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
+use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\tests\MultilanguageTestBase;
 
 class CustomFieldMultilanguageTest extends MultilanguageTestBase
 {
+
+    public function testAddCustomFieldValueAsArray()
+    {
+
+//        CustomField::truncate();
+//        CustomFieldValue::truncate();
+//        MultilanguageTranslations::truncate();
+
+        $simpleCustomField = new CustomField();
+        $simpleCustomField->rel_type = 'content';
+        $simpleCustomField->rel_id = 13;
+        $simpleCustomField->type = 'dropdown';
+        $simpleCustomField->name = 'This is the custom field name - EN';
+        $simpleCustomField->save();
+
+        $customFieldId = $simpleCustomField->id;
+
+        $newCustomFieldValue = new CustomFieldValue();
+        $newCustomFieldValue->custom_field_id = $customFieldId;
+        $newCustomFieldValue->value = 'This is the custom field value array #1 - EN';
+        $multilanguage = [];
+        $multilanguage['value']['bg_BG'] = 'This is the custom field value array #1 - BG';
+        $multilanguage['position']['bg_BG'] = 3;
+        $newCustomFieldValue->multilanguage = $multilanguage;
+        $newCustomFieldValue->save();
+
+
+        $newCustomFieldValue = new CustomFieldValue();
+        $newCustomFieldValue->custom_field_id = $customFieldId;
+        $newCustomFieldValue->value = 'This is the custom field value array #2 - EN';
+        $multilanguage = [];
+        $multilanguage['value']['bg_BG'] = 'This is the custom field value array #2 - BG';
+        $multilanguage['position']['bg_BG'] = 2;
+        $newCustomFieldValue->multilanguage = $multilanguage;
+        $newCustomFieldValue->save();
+
+
+
+        $newCustomFieldValue = new CustomFieldValue();
+        $newCustomFieldValue->custom_field_id = $customFieldId;
+        $newCustomFieldValue->value = 'This is the custom field value array #3 - EN';
+        $multilanguage = [];
+        $multilanguage['value']['bg_BG'] = 'This is the custom field value array #3 - BG';
+        $multilanguage['position']['bg_BG'] = 1;
+        $newCustomFieldValue->multilanguage = $multilanguage;
+        $newCustomFieldValue->save();
+
+
+    }
 
     public function testAddCustomFieldValue()
     {
