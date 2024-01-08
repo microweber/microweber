@@ -32,6 +32,15 @@ class CustomFieldMultilanguageTest extends MultilanguageTestBase
 
         $customFieldValueId = $newCustomFieldValue->id;
 
+        // Check if the custom field value is saved
+        $findCustomFieldValue = CustomFieldValue::find($customFieldValueId);
+        $this->assertEquals('This is the custom field value - EN', $findCustomFieldValue->value);
+        $translations = $findCustomFieldValue->getTranslationsFormated();
+
+        $this->assertEquals($translations['en_US']['value'], 'This is the custom field value - EN');
+        $this->assertEquals($translations['bg_BG']['value'], 'This is the custom field value - BG');
+
+
         // Try to edit the custom field existing multilanguage value
         $findCustomFieldValue = \MicroweberPackages\CustomField\Models\CustomFieldValue::find($customFieldValueId);
         $findCustomFieldValue->value = 'This is the NEW custom field value - EN';
