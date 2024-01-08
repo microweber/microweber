@@ -148,7 +148,7 @@
 
         "test:coverage": [
             "Composer\\Config::disableProcessTimeout",
-            "php -d xdebug.mode=coverage -r \"require 'vendor/bin/phpunit';\" -- --configuration phpunit-coverage.xml --coverage-clover tests/clover.xml --coverage-html tests/coverage"
+            "php -d xdebug.mode=coverage -r \"require 'vendor/bin/phpunit';\" -- --configuration phpunit-coverage.xml"
         ]
     },
     "config": {
