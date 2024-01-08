@@ -31,26 +31,15 @@ class InputTextarea extends Component
      */
     public function render()
     {
+
         $this->defaultLanguage = mw()->lang_helper->default_lang();
         $this->currentLanguage = mw()->lang_helper->current_lang();
 
         $this->randId = 'ml_editor_element_'.md5(str_random());
-        $this->label = 'Input text label';
 
-        $fieldName = 'input_element_name';
-        $fieldValue = '';
+        $fieldName = $this->wireModelName;
 
-        $locales = [];
         $supportedLanguages = get_supported_languages(true);
-        foreach ($supportedLanguages as $language) {
-            $locales[] = $language['locale'];
-        }
-
-        $translations = [];
-        // Fill with empty values
-        foreach ($locales as $locale) {
-            $translations[$locale] = '';
-        }
 
         $currentLanguageData = [];
         foreach ($supportedLanguages as $language) {
@@ -62,11 +51,9 @@ class InputTextarea extends Component
         return view('multilanguage::components.form-elements.input-textarea', [
             'randId' => $this->randId,
             'fieldName' => $fieldName,
-            'fieldValue' => $fieldValue,
             'defaultLanguage' => $this->defaultLanguage,
             'supportedLanguages' => $supportedLanguages,
             'currentLanguageData' => $currentLanguageData,
-            'translations' => $translations,
             'wireModelName' => $this->wireModelName,
             'wireModelDefer' => $this->wireModelDefer,
             'labelText' => $this->labelText,
