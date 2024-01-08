@@ -44,13 +44,8 @@ jobs:
         restore-keys: ${{ runner.os }}-composer-
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
-    - name: Run PHPUnit
+    - name: Run PHPUnit Coverage with Xdebug
       run: composer test:coverage
-    - name: Upload coverage results to Coveralls
-      env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        composer global require php-coveralls/php-coveralls
-        php-coveralls --json_path=/tmp/coverage.json --coverage_clover=coverage.xml -v
-
+    - name: Coveralls
+      uses: coverallsapp/github-action@v2
 

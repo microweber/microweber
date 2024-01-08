@@ -148,8 +148,8 @@
 
         "test:coverage": [
             "Composer\\Config::disableProcessTimeout",
-            "php -d xdebug.mode=coverage -r \"require 'vendor/bin/phpunit';\" -- --configuration phpunit-coverage.xml"
-        ]
+            "php -d xdebug.mode=coverage artisan test -c \"phpunit-coverage.xml\""
+         ]
     },
     "config": {
         "preferred-install": "dist",
