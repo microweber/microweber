@@ -1,5 +1,5 @@
 <div x-data="{
-defaultLanguageInputField: '{{$fieldValue}}',
+defaultLanguageInputField: '',
 currentLanguageData: @js($currentLanguageData)
 }"
      x-init="function() {
@@ -13,7 +13,7 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
         {{ $labelText }}
     </label>
 
-    <textarea style="display:none" x-model="defaultLanguageInputField" name="{{$fieldName}}">{{$fieldValue}}</textarea>
+    <textarea style="display:none" x-model="defaultLanguageInputField"></textarea>
 
     <div class="btn-group w-100" role="group">
         @foreach($supportedLanguages as $language)
@@ -37,7 +37,7 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
     <div class="mt-2">
         @foreach($supportedLanguages as $language)
             <textarea
-                name="multilanguage[{{$fieldName}}][{{$language['locale']}}]"
+
                 wire:model.lazy="multilanguage[{{$fieldName}}][{{$language['locale']}}]"
 
                 x-show="currentLanguageData.locale == '{{$language['locale']}}'"
@@ -53,7 +53,7 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
                     }"
                 lang="{{$language['locale']}}"
 
-                class="form-control">{{$translations[$language['locale']]}}</textarea>
+                class="form-control"></textarea>
         @endforeach
     </div>
 </div>
