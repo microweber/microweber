@@ -37,16 +37,9 @@ class CustomersListComponent extends ContentList
     public function getDropdownFiltersProperty()
     {
         $dropdownFilters = [];
-        $dropdownFilters[] = [
-            'groupName' => 'Dates',
-            'class'=> 'col-md-12',
-            'filters'=> [
-                [
-                    'name' => 'Created at',
-                    'key' => 'createdAt',
-                ]
-            ]
-        ];
+
+        $datesFields = $this->getDropdownFiltersDates();
+        $dropdownFilters = array_merge($dropdownFilters, $datesFields);
 
         return $dropdownFilters;
     }
