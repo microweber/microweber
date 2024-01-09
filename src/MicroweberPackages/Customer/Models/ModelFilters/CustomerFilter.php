@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Customer\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
 use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -16,6 +17,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 class CustomerFilter extends ModelFilter
 {
 
+    use FilterByDateBetweenTrait;
 
     public function keyword($keyword)
     {
