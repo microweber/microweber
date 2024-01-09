@@ -372,21 +372,19 @@ class ContentList extends AdminComponent
             $contentTypeForAddButton = 'product';
         }
 
-        if ($showNoActiveContentsScreen) {
-            return [
-                'view'=>$this->noActiveContentView,
-                'data'=>[
-                    'contentType'=>$contentTypeForAddButton,
-                    'isInTrashed' => $isInTrashed,
-                    'currentCategoryId'=>$currentCategoryId,
-                    'currentPageId' => $currentPageId,
-                    'total' => $this->countActiveContents,
-                ]
-            ];
-        }
-
-
-
+//        if ($showNoActiveContentsScreen) {
+//            return [
+//                'view'=>$this->noActiveContentView,
+//                'data'=>[
+//                    'contentType'=>$contentTypeForAddButton,
+//                    'isInTrashed' => $isInTrashed,
+//                    'currentCategoryId'=>$currentCategoryId,
+//                    'currentPageId' => $currentPageId,
+//                    'total' => $this->countActiveContents,
+//                ]
+//            ];
+//        }
+//
         if ($currentCategory && (count($this->filters)==1) && $this->contents->count() == 0) {
             return [
                 'view'=>$this->noActiveContentView,
@@ -442,9 +440,8 @@ class ContentList extends AdminComponent
                 'contents' => $this->contents,
                 'countActiveContents' => $this->countActiveContents,
                 'total' => $this->countActiveContents,
-
-                'appliedFilters' => $this->appliedFilters
-
+                'appliedFilters' => $this->appliedFilters,
+                'cardStats'=>$this->getCardsStats()
             ]
         ];
     }
@@ -665,5 +662,42 @@ class ContentList extends AdminComponent
         }
 
         return $dropdownFilters;
+    }
+
+    public function getCardsStats()
+    {
+        return [];
+
+        // if you want statistic cards on the top of the page
+        return [
+            [
+                'name' => 'All',
+                'value' => $this->contentsQuery->count(),
+                'icon' => 'mdi mdi-account-multiple',
+                'bgClass' => 'bg-primary',
+                'textClass' => 'text-white'
+            ],
+            [
+                'name' => 'Active',
+                'value' => $this->contentsQuery->active()->count(),
+                'icon' => 'mdi mdi-account-multiple',
+                'bgClass' => 'bg-success',
+                'textClass' => 'text-white'
+            ],
+            [
+                'name' => 'Inactive',
+                'value' => $this->contentsQuery->inactive()->count(),
+                'icon' => 'mdi mdi-account-multiple',
+                'bgClass' => 'bg-warning',
+                'textClass' => 'text-white'
+            ],
+            [
+                'name' => 'Trashed',
+                'value' => $this->contentsQuery->trashed()->count(),
+                'icon' => 'mdi mdi-account-multiple',
+                'bgClass' => 'bg-danger',
+                'textClass' => 'text-white'
+            ]
+        ];
     }
 }

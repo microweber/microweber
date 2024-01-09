@@ -59,11 +59,11 @@ mw.filePickerDialog = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) 
             url = url.toString();
             result = url
             dialog.remove();
-   
+
         }
     });
 
- 
+
 
 
     var dialogDefaults = {
@@ -72,27 +72,27 @@ mw.filePickerDialog = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) 
         footer: false,
         width: 860,
     }
-   
+
     var dialogSettings = Object.assign({}, dialogDefaults, dialogOptions);
-    
+
     let resolver, result = null;
     const promise = new Promise(resolve => {
         resolver = resolve;
     });
-    
+
     dialog = mw.top().dialog(dialogSettings);
     picker.$cancel.on('click', function(){
         dialog.remove()
     });
     mw.top().$(dialog).on('Remove', function(){
- 
+
         resolver(url);
         if(typeof callback === 'function') {
             callback.call(undefined, url)
         }
     });
 
- 
+
 
     return {
         picker, dialog, promise: () => promise
@@ -132,7 +132,8 @@ mw.filePicker = function (options) {
 
 
 
-    this.settings = $.extend(true, {}, defaults, options);
+    this.settings = $.extend(true, {}, defaults, options,  );
+    this.settings.type = this.settings.type || this.settings.accept;
 
     this.$root = $('<div class="'+ (this.settings.boxed ? ('card mb-3') : '') +' mw-filepicker-root form-control-live-edit-label-wrapper"></div>');
     this.root = this.$root[0];
@@ -194,6 +195,7 @@ mw.filePicker = function (options) {
             var $wrap = this._$inputWrapper(scope._getComponentObject('desktop').label);
             scope.uploaderHolder = mw.$('<div class="mw-uploader-type-holder"></div>');
             _setdesktopType();
+
             $wrap.append(scope.uploaderHolder);
             scope.uploader = mw.upload({
                 element: $wrap[0],

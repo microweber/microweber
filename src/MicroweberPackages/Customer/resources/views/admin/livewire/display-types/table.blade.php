@@ -26,9 +26,9 @@
 
                     </th>
                     <td>{{ $customer->id }}</td>
-                    <td>{{ $customer->first_name }} {{ $customer->last_name }}</td>
-                    <td>{{ $customer->email }}</td>
-                    <td>{{ $customer->phone }}</td>
+                    <td>{{ $customer->getFullName() }}</td>
+                    <td>{{ $customer->getEmail() }}</td>
+                    <td>{{ $customer->getPhone() }}</td>
                     <td>
                         {{ $customer->cityAndCountry() }}
                     </td>

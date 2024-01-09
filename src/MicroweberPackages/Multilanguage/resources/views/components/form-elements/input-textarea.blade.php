@@ -1,3 +1,10 @@
+@if (!\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled())
+
+    <x-microweber-ui::label for="{{$randId}}" :value="$labelText" />
+    <x-microweber-ui::textarea id="{{$randId}}" class="block w-full" wire:model.lazy="state.{{$fieldName}}" />
+
+@else
+
 <div x-data="{
 currentLanguageData: @js($currentLanguageData)
 }"
@@ -26,7 +33,7 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
                 type="radio" class="btn-check" name="btn-radio-toolbar" id="btn-radio-toolbar-{{$randId}}-{{$language['locale']}}" autocomplete="off">
             <label for="btn-radio-toolbar-{{$randId}}-{{$language['locale']}}" class="btn btn-icon">
                 <i class="flag-icon flag-icon-{{$language['icon']}} mr-4"></i>
-                <span> {{strtoupper($language['locale'])}}</span>
+                &nbsp; <span> {{strtoupper($language['locale'])}}</span>
             </label>
         @endforeach
     </div>
@@ -53,3 +60,4 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
         @endforeach
     </div>
 </div>
+@endif
