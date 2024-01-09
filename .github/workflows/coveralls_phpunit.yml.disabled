@@ -49,45 +49,5 @@ jobs:
     - name: Coveralls
       uses: coverallsapp/github-action@v2
       with:
-        flag-name: run-${{ join(matrix.*, '-') }}
-        parallel: true
         files: clover.xml
-  dusk:
-    needs: main
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      max-parallel: 1
-      matrix:
-        php-versions: ['8.2']
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - uses: ./.github/actions/setup-php
-      with:
-        php_version: ${{ matrix.php-versions }}
-    - name: Npm install
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'npm'
-        cache-dependency-path: ./package-lock.json
-    - run: npm install
-    - run: npm run build
-    - name: Run Laravel Server
-      run: APP_ENV=testing && php artisan serve-test-code-coverage --ansi --env=testing --no-interaction --quiet &
-    - name: Run Dusk Tests Core Tests
-      run: |
-        chmod -R 0755 vendor/laravel/dusk/bin/
-        composer test:dusk
 
-  finish:
-    needs: dusk
-    if: ${{ always() }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Coveralls Finished
-        uses: coverallsapp/github-action@v2
-        with:
-          parallel-finished: true
-          carryforward: "true"
