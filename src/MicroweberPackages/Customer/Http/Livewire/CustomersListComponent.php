@@ -23,10 +23,12 @@ class CustomersListComponent extends ContentList
 
     public function getCardsStats()
     {
+        $count = ($this->getContentsQueryProperty()->count());
+
         return [
           [
                 'name' => 'Customers',
-                'value' => $this->contentsQuery->count(),
+                'value' => $count,
                 'icon' => 'mdi mdi-account-multiple',
                 'bgClass' => 'bg-primary',
                 'textClass' => 'text-white'
