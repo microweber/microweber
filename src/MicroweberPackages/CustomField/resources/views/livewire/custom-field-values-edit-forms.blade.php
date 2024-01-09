@@ -52,7 +52,7 @@
                             type="radio" class="btn-check" name="btn-radio-toolbar" id="btn-radio-toolbar-02-{{$supportedLanguage['locale']}}" autocomplete="off">
                         <label for="btn-radio-toolbar-02-{{$supportedLanguage['locale']}}" class="btn btn-icon">
                             <i class="flag-icon flag-icon-{{$supportedLanguage['icon']}} mr-4"></i>
-                            <span> {{strtoupper($supportedLanguage['locale'])}}</span>
+                            <span>   &nbsp;  {{strtoupper($supportedLanguage['locale'])}}</span>
                         </label>
                 @endforeach
                 </div>

@@ -33,7 +33,7 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
                 type="radio" class="btn-check" name="btn-radio-toolbar" id="btn-radio-toolbar-{{$randId}}-{{$language['locale']}}" autocomplete="off">
             <label for="btn-radio-toolbar-{{$randId}}-{{$language['locale']}}" class="btn btn-icon">
                 <i class="flag-icon flag-icon-{{$language['icon']}} mr-4"></i>
-                <span> {{strtoupper($language['locale'])}}</span>
+                &nbsp; <span> {{strtoupper($language['locale'])}}</span>
             </label>
         @endforeach
     </div>
