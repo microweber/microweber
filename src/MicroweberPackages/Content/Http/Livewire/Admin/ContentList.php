@@ -372,21 +372,19 @@ class ContentList extends AdminComponent
             $contentTypeForAddButton = 'product';
         }
 
-        if ($showNoActiveContentsScreen) {
-            return [
-                'view'=>$this->noActiveContentView,
-                'data'=>[
-                    'contentType'=>$contentTypeForAddButton,
-                    'isInTrashed' => $isInTrashed,
-                    'currentCategoryId'=>$currentCategoryId,
-                    'currentPageId' => $currentPageId,
-                    'total' => $this->countActiveContents,
-                ]
-            ];
-        }
-
-
-
+//        if ($showNoActiveContentsScreen) {
+//            return [
+//                'view'=>$this->noActiveContentView,
+//                'data'=>[
+//                    'contentType'=>$contentTypeForAddButton,
+//                    'isInTrashed' => $isInTrashed,
+//                    'currentCategoryId'=>$currentCategoryId,
+//                    'currentPageId' => $currentPageId,
+//                    'total' => $this->countActiveContents,
+//                ]
+//            ];
+//        }
+//
         if ($currentCategory && (count($this->filters)==1) && $this->contents->count() == 0) {
             return [
                 'view'=>$this->noActiveContentView,
