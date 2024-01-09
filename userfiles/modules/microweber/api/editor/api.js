@@ -394,6 +394,35 @@ mw.lib.require('rangy');
 
                 return  case1 && case2;
             },
+            getFocusedNeighbours: function(focused) {
+                var res = [focused];
+                if(!focused) {
+                    return res;
+                }
+                var next = focused.nextSibling;
+                var prev = focused.previousSibling;
+
+                var tags = ['a','abbr','acronym','b','bdo','big','br','button','cite','code','dfn','em','i','img','kbd','label','map','output','q','samp','small','span','strong','sub','sup','time','tt','var' ];
+
+                while (next) {
+                    if(next.nodeType === 3 || tags.indexOf(next.nodeName.toLowerCase()) !== -1) {
+                        res.push(next);
+                        next = next.nextSibling
+                    } else{
+                        break
+                    }
+                }
+                while (prev) {
+                    if(prev.nodeType === 3 || tags.indexOf(prev.nodeName.toLowerCase()) !== -1) {
+                        res.unshift(prev);
+                        prev = prev.previousSibling
+                    } else{
+                        break
+                    }
+                }
+
+                return res;
+            },
             isSelectionEditable: function (sel) {
                 try {
                     var node = (sel || scope.getSelection()).focusNode;

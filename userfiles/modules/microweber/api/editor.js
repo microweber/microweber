@@ -327,7 +327,15 @@ var MWEditor = function (options) {
 
 
                 if (!isLi || (isLi && event.shiftKey)) {
-                    scope.document.execCommand('insertLineBreak');
+                   // scope.document.execCommand('insertLineBreak');
+
+
+
+                    var range = instance.api.getSelection().getRangeAt(0);
+                    var br = range.commonAncestorContainer.ownerDocument.createElement('br');
+                    range.deleteContents();
+                    range.insertNode(br);
+                    range.collapse()
                     e.preventDefault();
                     return;
                 }
@@ -654,6 +662,13 @@ var MWEditor = function (options) {
             scope.actionWindow = this.contentWindow;
             scope.$editArea = scope.$iframeArea;
             scope.editArea = scope.$iframeArea[0];
+
+            if (scope.settings.isTextArea) {
+                scope.$editArea.html(($(scope.settings.selectorNode).val()));
+
+
+            }
+
             mw.tools.iframeAutoHeight(scope.frame);
 
             scope.preventEvents();
@@ -685,6 +700,7 @@ var MWEditor = function (options) {
         if (scope.settings.isTextArea) {
             $(scope.settings.selectorNode).val(content);
             $(scope.settings.selectorNode).trigger('change');
+
         }
     };
 
@@ -1342,7 +1358,7 @@ var MWEditor = function (options) {
 
 
 
-                if(typeof scope.actionWindow.mw.wysiwyg !== 'undefined') {
+                if( scope.actionWindow.mw && scope.actionWindow.mw.wysiwyg) {
                     scope.actionWindow.mw.wysiwyg.normalizeBase64Images(this.parentNode, function () {
                         scope.registerChange();
                     });
