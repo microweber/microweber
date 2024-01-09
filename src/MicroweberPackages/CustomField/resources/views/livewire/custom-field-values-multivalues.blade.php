@@ -27,12 +27,10 @@
                     </div>
                 @endif
 
-
                 <div class="d-flex gap-3 justify-content-center align-items-center">
                     <button class="btn btn-outline-success btn-sm" wire:click.prevent="add()">Add</button>
                     <button class="btn btn-outline-danger btn-sm" wire:click.prevent="remove({{$fieldValue->id}})">Delete</button>
                 </div>
-
 
             </div>
         @endforeach
