@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Multilanguage\View\Components\FormElements;
 
 use Illuminate\View\Component;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class InputText extends Component
 {
