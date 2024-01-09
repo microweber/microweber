@@ -124,6 +124,22 @@ class Content extends Model
             });
     }
 
+   public function scopeInactive($query)
+    {
+        return $query
+            ->where('is_active', 0)
+            ->where(function($subQuery) {
+                $subQuery
+                    ->whereNull('is_deleted')
+                    ->orWhere('is_deleted', 0);
+            });
+    }
+
+    public function scopeTrashed($query)
+    {
+        return $query->where('is_deleted', 1);
+    }
+
     public function related()
     {
         return $this->hasMany(ContentRelated::class,'content_id','id')->orderBy('position', 'ASC');

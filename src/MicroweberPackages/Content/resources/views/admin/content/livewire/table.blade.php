@@ -78,6 +78,36 @@
                 </div>
             @endif
 
+            @if(!empty($cardStats))
+            <div class="row row-cards">
+                @foreach($cardStats as $cardStat)
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-sm">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <span class="{{$cardStat['bgClass']}} {{$cardStat['textClass']}} avatar">
+                                        <i class="{{$cardStat['icon']}}"></i>
+                                    </span>
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-medium">
+                                        <strong>
+                                            {{$cardStat['value']}}
+                                        </strong>
+                                    </div>
+                                    <div class="text-secondary">
+                                        {{$cardStat['name']}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            @endif
+
             <div class="row py-3 dropdown-filters-if-naked">
                 <div class="d-flex flex-wrap">
 

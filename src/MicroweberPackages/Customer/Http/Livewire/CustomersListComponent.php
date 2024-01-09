@@ -21,6 +21,19 @@ class CustomersListComponent extends ContentList
         return 'Customer';
     }
 
+    public function getCardsStats()
+    {
+        return [
+          [
+                'name' => 'Customers',
+                'value' => Customer::count(),
+                'icon' => 'mdi mdi-account-multiple',
+                'bgClass' => 'bg-primary',
+                'textClass' => 'text-white'
+          ]
+        ];
+    }
+
     public function getDropdownFiltersProperty()
     {
         $dropdownFilters = [];

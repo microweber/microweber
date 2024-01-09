@@ -21,21 +21,21 @@
                     <div class="col mx-2 my-md-0 my-2 ms-3">
                         <span class="text-muted">
                             {{'Client'}}: <br />
-                        {{ $content->first_name }} {{ $content->last_name }}
+                        {{ $content->getFullName() }}
                         </span>
                     </div>
 
                     <div class="col mx-2 my-md-0 my-2">
                         <span class="text-muted">
                             {{'E-mail'}}: <br />
-                        {{ $content->email }}
+                        {{ $content->getEmail() }}
                         </span>
                     </div>
 
                     <div class="col mx-2 my-md-0 my-2">
                         <span class="text-muted">
                             {{'Phone'}}: <br />
-                        {{ $content->phone }}
+                        {{ $content->getPhone() }}
                         </span>
                     </div>
 

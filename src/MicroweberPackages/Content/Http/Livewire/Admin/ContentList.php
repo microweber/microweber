@@ -442,9 +442,8 @@ class ContentList extends AdminComponent
                 'contents' => $this->contents,
                 'countActiveContents' => $this->countActiveContents,
                 'total' => $this->countActiveContents,
-
-                'appliedFilters' => $this->appliedFilters
-
+                'appliedFilters' => $this->appliedFilters,
+                'cardStats'=>$this->getCardsStats()
             ]
         ];
     }
@@ -665,5 +664,39 @@ class ContentList extends AdminComponent
         }
 
         return $dropdownFilters;
+    }
+
+    public function getCardsStats()
+    {
+        return [
+            [
+                'name' => 'All',
+                'value' => $this->contentsQuery->count(),
+                'icon' => 'mdi mdi-account-multiple',
+                'bgClass' => 'bg-primary',
+                'textClass' => 'text-white'
+            ],
+            [
+                'name' => 'Active',
+                'value' => $this->contentsQuery->active()->count(),
+                'icon' => 'mdi mdi-account-multiple',
+                'bgClass' => 'bg-success',
+                'textClass' => 'text-white'
+            ],
+            [
+                'name' => 'Inactive',
+                'value' => $this->contentsQuery->inactive()->count(),
+                'icon' => 'mdi mdi-account-multiple',
+                'bgClass' => 'bg-warning',
+                'textClass' => 'text-white'
+            ],
+            [
+                'name' => 'Trashed',
+                'value' => $this->contentsQuery->trashed()->count(),
+                'icon' => 'mdi mdi-account-multiple',
+                'bgClass' => 'bg-danger',
+                'textClass' => 'text-white'
+            ]
+        ];
     }
 }

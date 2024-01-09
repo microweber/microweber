@@ -191,4 +191,33 @@ class Customer extends Model
 
         return $cityCountryText;
     }
+
+    public function getFullName()
+    {
+        if ((isset($this->first_name) && !empty($this->first_name)) and (isset($this->last_name) && !empty($this->last_name))) {
+            return $this->first_name . ' ' . $this->last_name;
+        }
+
+        return '...';
+    }
+
+    public function getEmail()
+    {
+        if (isset($this->email) && !empty($this->email)) {
+            return $this->email;
+        }
+        if ($this->user_id) {
+            return user_email($this->user_id);
+        }
+
+        return '...';
+    }
+
+    public function getPhone()
+    {
+        if (isset($this->phone) && !empty($this->phone)) {
+            return $this->phone;
+        }
+        return '...';
+    }
 }
