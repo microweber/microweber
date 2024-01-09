@@ -26,7 +26,7 @@ class CustomersListComponent extends ContentList
         return [
           [
                 'name' => 'Customers',
-                'value' => Customer::count(),
+                'value' => $this->contentsQuery->count(),
                 'icon' => 'mdi mdi-account-multiple',
                 'bgClass' => 'bg-primary',
                 'textClass' => 'text-white'

@@ -668,6 +668,9 @@ class ContentList extends AdminComponent
 
     public function getCardsStats()
     {
+        return [];
+
+        // if you want statistic cards on the top of the page
         return [
             [
                 'name' => 'All',
