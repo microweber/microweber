@@ -6,8 +6,16 @@
 >
     <logging>
         <testdoxText outputFile="php://stdout"/>
-        <junit outputFile="coverage.xml" />
+        <junit outputFile="coverage.xml"/>
     </logging>
+    <coverage includeUncoveredFiles="true"
+              pathCoverage="false"
+              ignoreDeprecatedCodeUnits="true"
+              disableCodeCoverageIgnore="true">
+        <report>
+            <clover outputFile="clover.xml"/>
+        </report>
+    </coverage>
     <testsuites>
         <testsuite name="Unit">
             <directory>tests/Unit</directory>

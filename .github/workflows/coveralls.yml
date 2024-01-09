@@ -48,4 +48,6 @@ jobs:
       run: composer test:coverage
     - name: Coveralls
       uses: coverallsapp/github-action@v2
+      with:
+        files: clover.xml
 
