@@ -158,7 +158,11 @@
         @if($contents->total() > 0)
             <div class="row py-3">
                 <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1">
+
                     <div class="col-md-5 col-12 d-flex justify-content-start align-items-center px-0 ">
+                        <button type="button" class="btn btn-outline-dark btn-sm ms-2">
+                            {{ _e('Export') }}
+                        </button>
                         @include('content::admin.content.livewire.components.display-as')
                     </div>
 
