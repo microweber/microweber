@@ -3,6 +3,9 @@
 namespace Tests\Browser\Admin;
 
 use Laravel\Dusk\Browser;
+use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
+use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Page\Models\Page;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;
@@ -19,6 +22,10 @@ class AdminAddPageTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
+
+            CustomField::truncate();
+            CustomFieldValue::truncate();
+            Media::truncate();
 
 
             $pageTitle = 'This is the page title' . time();
@@ -39,7 +46,7 @@ class AdminAddPageTest extends DuskTestCase
 
             $browser->pause(1000);
 
-            // add images to gallery
+//            // add images to gallery
             $browser->within(new AdminContentImageAdd, function ($browser) {
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img1.jpg');
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img2.jpg');
@@ -50,6 +57,7 @@ class AdminAddPageTest extends DuskTestCase
             $browser->within(new AdminContentCustomFieldAdd, function ($browser) {
                 $browser->addCustomField('dropdown', 'Dropdown');
                 $browser->addCustomField('text', 'Text Field');
+              //  $browser->addCustomField('number', 'Number');
             });
 
 

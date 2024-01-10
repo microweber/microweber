@@ -329,7 +329,11 @@ var MWEditor = function (options) {
                 if (!isLi || (isLi && event.shiftKey)) {
                    // scope.document.execCommand('insertLineBreak');
 
+                    scope.state.record({
 
+                        target: scope.$editArea[0],
+                        value: scope.$editArea[0].innerHTML
+                    });
 
                     var range = instance.api.getSelection().getRangeAt(0);
                     var br = range.commonAncestorContainer.ownerDocument.createElement('br');
@@ -337,6 +341,11 @@ var MWEditor = function (options) {
                     range.insertNode(br);
                     range.collapse()
                     e.preventDefault();
+                    scope.state.record({
+
+                        target: scope.$editArea[0],
+                        value: scope.$editArea[0].innerHTML
+                    });
                     return;
                 }
              }
@@ -638,6 +647,8 @@ var MWEditor = function (options) {
         this.frame.scrolling = "yes";
         this.frame.width = "100%";
         this.frame.frameBorder = "0";
+
+
         if (this.settings.url) {
             this.frame.src = this.settings.url;
         } else {
@@ -670,6 +681,8 @@ var MWEditor = function (options) {
             }
 
             mw.tools.iframeAutoHeight(scope.frame);
+
+
 
             scope.preventEvents();
             $(scope).trigger('ready');
@@ -1283,9 +1296,28 @@ var MWEditor = function (options) {
 
 
 
+
+
+            scope.$editArea.on('keydown', async event => {
+                if (event.keyCode == 90 && event.ctrlKey)  {
+                    if(event.shiftKey) {
+                        scope.state.redo()
+                    } else {
+                        scope.state.undo()
+                    }
+                    event.preventDefault()
+                } else if (event.keyCode == 89 && event.ctrlKey)  {
+                    if(!event.shiftKey) {
+                        scope.state.redo()
+                    }
+                    event.preventDefault()
+                }
+            });
+
             scope.$editArea.on('paste input', async event => {
                 var clipboardData, pastedData;
                 var e = event.originalEvent || event;
+
                 if(e.type === 'paste' && !scope.$editArea._pasting) {
                     scope.$editArea._pasting = true;
                     const edoc = e.target.ownerDocument;
@@ -1470,6 +1502,7 @@ mw.require('editor/helpers.js');
 mw.require('editor/tools.js');
 mw.require('editor/core.js');
 mw.require('editor/controllers.js');
+
 
 
 

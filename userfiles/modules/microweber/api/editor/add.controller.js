@@ -36,16 +36,16 @@ MWEditor.controllers.editSource = function (scope, api, rootScope) {
         });
         el.on('mousedown touchstart', function (e) {
 
-            var ok = mw.element('<span class="mw-ui-btn mw-ui-btn-info">'+mw.lang('OK')+'</span>');
-            var cancel = mw.element('<span class="mw-ui-btn">'+mw.lang('Cancel')+'</span>');
-            var area = mw.element({ tag: 'textarea', props: {
-                    className: 'mw-ui-field',
-                }});
+            var ok = mw.element('<span class="btn btn-primary">'+mw.lang('OK')+'</span>');
+            var cancel = mw.element('<span class="btn">'+mw.lang('Cancel')+'</span>');
+            var area = mw.element(`<textarea class="form-control"></textarea>`);
             area.css({
                 height: 400
             })
             area.val(rootScope.$editArea.html());
-            var footer = mw.element();
+            var footer = mw.element(`
+                <div class="d-flex justify-content-between w-100"></div>
+            `);
             footer.append(cancel).append(ok)
             var dialog = mw.dialog({
                 overlay: true,

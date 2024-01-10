@@ -16,6 +16,10 @@ if (isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI'] == '/favicon.ico'
 if (isset($_SERVER['REQUEST_URI']) and str_contains($_SERVER['REQUEST_URI'], '/userfiles/')) {
     $skip_xdebug = true;
 }
+
+if (isset($_SERVER['REQUEST_URI']) and str_contains($_SERVER['REQUEST_URI'], 'plupload')) {
+    $skip_xdebug = true;
+}
 if (!$skip_xdebug) {
 
 //    xdebug_set_filter(

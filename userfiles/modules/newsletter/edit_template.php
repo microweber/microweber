@@ -111,7 +111,7 @@
                             controls: ['ul', 'ol']
                         }
                     },
-                    '|', 'link', 'unlink', 'wordPaste', 'table', 'mailTemplateFormDropdownVariables'
+                    '|', 'link', 'unlink', 'wordPaste', 'table', 'mailTemplateFormDropdownVariables', 'editSource'
                 ],
             ]
         });

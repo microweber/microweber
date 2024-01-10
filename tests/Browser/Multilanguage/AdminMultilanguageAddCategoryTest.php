@@ -59,7 +59,8 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
-            $browser->click('#category-create-in-blog-link');
+          //  $browser->click('#category-create-in-blog-link');
+            $browser->click('#category-create-in-shop-link');
             $browser->pause(400);
             $browser->waitForText('Category name');
 
