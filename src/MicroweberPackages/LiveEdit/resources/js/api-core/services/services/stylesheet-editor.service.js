@@ -144,14 +144,17 @@ export class StylesheetEditor extends MicroweberBaseClass {
                     holder = canvasDocument.createElement('div');
                     holder.id = 'mw-non-existing-temp-element-holder';
                     holder.style.display = 'none';
-                    canvasDocument.body.append(holder);
+                    if(canvasDocument && canvasDocument.body) {
+                        canvasDocument.body.append(holder);
+                    }
                 }
                 if (newEl) {
                     holder = canvasDocument.getElementById('mw-non-existing-temp-element-holder');
                     holder.append(newEl[0]);
                 }
-                ActiveNode = canvasDocument.querySelector(selector);
-
+                if(canvasDocument && canvasDocument.body) {
+                    ActiveNode = canvasDocument.querySelector(selector);
+                }
 
             }
 

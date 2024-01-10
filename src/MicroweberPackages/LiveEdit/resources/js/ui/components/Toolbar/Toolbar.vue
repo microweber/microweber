@@ -235,8 +235,9 @@ export default {
 
 
             var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
-
-
+            if (document.getElementById('js-live-edit-back-to-admin-link')) {
+                liveEditIframeData.back_to_admin_link = document.getElementById('js-live-edit-back-to-admin-link').href;
+            }
             if (liveEditIframeData && liveEditIframeData.content) {
 
                 this.backToAdminLink = liveEditIframeData.back_to_admin_link;
