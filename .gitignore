@@ -17,6 +17,7 @@ userfiles/templates/bootstrap5
 userfiles/templates/shopmag
 userfiles/templates/new-world
 storage/cache/*
+tests/coverages/*
 cache/.htaccess
 cache/*
 old_mw/

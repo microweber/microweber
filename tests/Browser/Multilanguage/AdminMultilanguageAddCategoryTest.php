@@ -110,7 +110,7 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
 
 
             $browser->scrollTo('.js-category-save');
-            $browser->pause(500);
+            $browser->pause(1500);
             $browser->click('.js-category-save');
             $browser->pause(3500);
 

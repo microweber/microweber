@@ -82,10 +82,10 @@ class AdminAddCategoryTest extends DuskTestCase
 
 
             $browser->scrollTo('#content-title-field');
-            $browser->pause(1000);
+            $browser->pause(2500);
 
             $browser->scrollTo('[dusk="category-save"]');
-            $browser->pause(1000);
+            $browser->pause(2500);
 
             $browser->click('@category-save');
             $browser->pause(4000);

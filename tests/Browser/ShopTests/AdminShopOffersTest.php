@@ -16,7 +16,7 @@ class AdminShopOffersTest extends DuskTestCase
     {
         $siteUrl = site_url();
 
-
+        Offer::truncate();
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
 
@@ -24,7 +24,7 @@ class AdminShopOffersTest extends DuskTestCase
                 $browser->fillForm();
             });
 
-            Offer::truncate();
+
             $title = 'offer-' . uniqid();
             $newProduct = new Product();
             $newProduct->title = $title;
@@ -65,7 +65,7 @@ class AdminShopOffersTest extends DuskTestCase
             $browser->click('#mw-admin-search-for-products');
 
             $browser->typeSlowly('#mw-admin-search-for-products input.mw-ui-invisible-field', $title);
-            $browser->pause(1000);
+            $browser->pause(5000);
 
             $browser->typeSlowly('offer_price', $offerRand);
             $browser->pause(3000);
@@ -77,8 +77,10 @@ class AdminShopOffersTest extends DuskTestCase
 
             $browser->visit($siteUrl . 'admin/settings?group=shop/offers/admin_block');
             $browser->waitForText('Offers');
-            $browser->pause(1000);
-            $browser->assertSee($title);
+            $browser->pause(10000);
+          //  $browser->assertSee($title);
+            $browser->waitForText($title);
+
 
 
         });

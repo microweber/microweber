@@ -28,9 +28,7 @@ $allOffers = app()->offer_repository->getAll();
                         <span class="avatar avatar-md me-2 shadow-none" style="background-image: url('<?php print  get_picture($offer['product_id']) ?>')"></span>
                     </td>
                     <td style="width: 250px;">
-                        <a href="<?php print  content_link($offer['product_id']) ?>" target="_blank">
-                            <?php print($offer['product_title']) ?>
-                        </a>
+                        <a href="<?php print  content_link($offer['product_id']) ?>" target="_blank"><?php print($offer['product_title']) ?></a>
                     </td>
                     <td><?php print($offer['price_name']) ?></td>
                     <td class="min-width-100"><?php print currency_format($offer['price']) ?></td>

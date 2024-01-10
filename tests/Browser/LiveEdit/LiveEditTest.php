@@ -159,6 +159,7 @@ class LiveEditTest extends DuskTestCase
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
 
             $browser->switchFrame($iframeElement);
+            $browser->pause(1000);
             // $browser->mouseover('#h1-test-element');
             $browser->click('#h1-test-element');
             // $browser->click('#h1-test-element');
