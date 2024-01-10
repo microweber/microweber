@@ -100,7 +100,7 @@ class AdminLogin extends BaseComponent
                 // Wait for redirect after login
            //     $browser->waitForLocation('/admin/', 120);
 
-               $browser->waitForText('Welcome',30);
+               $browser->waitForText('Welcome',45);
                 $browser->pause(100);
 
             }

@@ -39,7 +39,7 @@ class AdminAddPageTest extends DuskTestCase
 
             $browser->pause(1000);
 
-            // add images to gallery
+//            // add images to gallery
             $browser->within(new AdminContentImageAdd, function ($browser) {
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img1.jpg');
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img2.jpg');
@@ -50,6 +50,7 @@ class AdminAddPageTest extends DuskTestCase
             $browser->within(new AdminContentCustomFieldAdd, function ($browser) {
                 $browser->addCustomField('dropdown', 'Dropdown');
                 $browser->addCustomField('text', 'Text Field');
+                $browser->addCustomField('number', 'Number');
             });
 
 
