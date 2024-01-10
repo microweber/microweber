@@ -18,6 +18,7 @@ class CreateNotificationsMailsLogTable extends Migration
             $table->string('type');
             $table->string('notifiable_type');
             $table->string('notifiable_id');
+            $table->string('html');
             $table->timestamps();
         });
     }
