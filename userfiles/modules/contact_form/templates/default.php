@@ -63,7 +63,7 @@
                 <div class="mw-flex-col-md-3 mw-flex-col-sm-12 mw-flex-col-xs-12">
                     <label>&nbsp;</label>
                     <div class="control-group form-group">
-                        <module type="btn" button_action="submit" button_style="mw-ui-btn pull-right" button_text="<?php print $button_text; ?>"/>
+                        <module type="btn" button_action="submit" button_style="btn-primary" button_text="<?php print $button_text; ?>"/>
                     </div>
                 </div>
 
