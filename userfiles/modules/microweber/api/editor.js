@@ -329,7 +329,11 @@ var MWEditor = function (options) {
                 if (!isLi || (isLi && event.shiftKey)) {
                    // scope.document.execCommand('insertLineBreak');
 
+                    scope.state.record({
 
+                        target: scope.$editArea[0],
+                        value: scope.$editArea[0].innerHTML
+                    });
 
                     var range = instance.api.getSelection().getRangeAt(0);
                     var br = range.commonAncestorContainer.ownerDocument.createElement('br');
@@ -337,6 +341,11 @@ var MWEditor = function (options) {
                     range.insertNode(br);
                     range.collapse()
                     e.preventDefault();
+                    scope.state.record({
+
+                        target: scope.$editArea[0],
+                        value: scope.$editArea[0].innerHTML
+                    });
                     return;
                 }
              }
