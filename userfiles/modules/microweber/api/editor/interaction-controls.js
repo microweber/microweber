@@ -109,16 +109,21 @@ MWEditor.interactionControls = {
                 }
             });
             deleteButton.on('click', function () {
-                rootScope.state.unpause();
 
-                rootScope.state.record({
-                    target: rootScope.$editArea[0],
-                    value: rootScope.$editArea[0].innerHTML
+                mw.tools.confirm(mw.msg.del, function() {
+                    rootScope.state.unpause();
+
+                    rootScope.state.record({
+                        target: rootScope.$editArea[0],
+                        value: rootScope.$editArea[0].innerHTML
+                    });
+                    scope.$target.remove()
+                    el.hide();
+                    rootScope.api.afterExecCommand(); console.log(rootScope.state)
+                    rootScope._syncTextArea();
                 });
-                scope.$target.remove()
-                el.hide();
-                rootScope.api.afterExecCommand(); console.log(rootScope.state)
-                rootScope._syncTextArea();
+
+
             })
             changeButton.on('click', function () {
                 var dialog;
