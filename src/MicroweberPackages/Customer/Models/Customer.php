@@ -186,7 +186,7 @@ class Customer extends Model
         }
 
         if (empty($cityCountryText)) {
-            $cityCountryText = 'Anonymous';
+            $cityCountryText = '...';
         }
 
         return $cityCountryText;
@@ -196,6 +196,11 @@ class Customer extends Model
     {
         if ((isset($this->first_name) && !empty($this->first_name)) and (isset($this->last_name) && !empty($this->last_name))) {
             return $this->first_name . ' ' . $this->last_name;
+        }
+
+        $userName = user_name($this->user_id);
+        if ($userName) {
+            return $userName;
         }
 
         return '...';
@@ -217,6 +222,12 @@ class Customer extends Model
     {
         if (isset($this->phone) && !empty($this->phone)) {
             return $this->phone;
+        }
+        $findUser = $this->user()->first();
+        if ($findUser) {
+           if (isset($findUser->phone) && !empty($findUser->phone)) {
+               return $findUser->phone;
+           }
         }
         return '...';
     }
