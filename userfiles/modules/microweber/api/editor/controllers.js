@@ -1,3 +1,4 @@
+
 MWEditor.controllers = {
     alignLeft: function (scope, api, rootScope) {
         var el;
@@ -426,9 +427,7 @@ MWEditor.controllers = {
                         })
                     });
 
-                    api.action(actionTarget.parentNode, function () {
-                        console.log(actionTarget)
-                    });
+
                 };
 
             });
@@ -712,6 +711,12 @@ MWEditor.controllers = {
                 });
 
             });
+            setTimeout(function(){
+                el.after(`<link rel="stylesheet" hrf="http://localhost/mw2/userfiles/modules/microweber/api/libs/jqueryui/jquery-ui.min.css?mwv=2.0.7">`)
+                el.after(`<link rel="stylesheet" hrf="http://localhost/mw2/userfiles/modules/microweber/css/fonts/tabler-icons/webfont/tabler-icons.min.css">`)
+                el.after(`<link rel="stylesheet" hrf="http://localhost/mw2/userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/admin_v2.css">`)
+
+            }, 3000)
             return el;
         };
         this.checkSelection = function (opt) {
@@ -782,7 +787,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            console.log(opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)) )
+
             // console.log(opt.isPlainText , opt.api.isSelectionEditable(opt.selection) , opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)))
             rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection) );
             rootScope.controllerActive(opt.controller.element.get(0), !!mw.tools.firstParentOrCurrentWithTag(api.elementNode(api.getSelection().focusNode), 'a'));
@@ -883,16 +888,18 @@ MWEditor.controllers = {
     },
     format: function (scope, api, rootScope) {
 
+        var _proto = this;
+
         this._availableTags = [
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h1">Heading 1</mw-editor-option>', value: 'h1' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h2">Heading 2</mw-editor-option>', value: 'h2' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h3">Heading 3</mw-editor-option>', value: 'h3' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h4">Heading 4</mw-editor-option>', value: 'h4' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h5">Heading 5</mw-editor-option>', value: 'h5' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h6">Heading 6</mw-editor-option>', value: 'h6' },
-            { label: 'Paragraph', value: 'p' },
-            { label: 'Block', value: 'div' },
-            { label: 'Pre formated', value: 'pre' }
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h1">Heading 1</mw-editor-option>', value: 'h1', title: 'Title 1' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h2">Heading 2</mw-editor-option>', value: 'h2', title: 'Title 2' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h3">Heading 3</mw-editor-option>', value: 'h3', title: 'Title 3' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h4">Heading 4</mw-editor-option>', value: 'h4', title: 'Title 4' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h5">Heading 5</mw-editor-option>', value: 'h5' , title: 'Title 5'},
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h6">Heading 6</mw-editor-option>', value: 'h6', title: 'Title 6' },
+            { label: 'Paragraph', value: 'p', title: 'Paragraph' },
+            { label: 'Block', value: 'div', title: 'Block' },
+            { label: 'Pre formated', value: 'pre', title: 'Pre formated' }
         ];
 
         this.availableTags = function () {
@@ -910,7 +917,7 @@ MWEditor.controllers = {
             if(!tag) return;
             for (var i = 0; i < this._availableTags.length; i++) {
                 if(this._availableTags[i].value === tag) {
-                    return this._availableTags[i].label;
+                    return this._availableTags[i].title;
                 }
             }
         };
@@ -918,7 +925,9 @@ MWEditor.controllers = {
         this.checkSelection = function (opt) {
             var el = opt.api.elementNode(opt.selection.focusNode);
             var parentEl = mw.tools.firstParentOrCurrentWithTag(el, this.availableTags());
-            opt.controller.element.displayValue(parentEl ? this.getTagDisplayName(parentEl.nodeName) : '');
+
+            console.log(this.getTagDisplayName(parentEl.nodeName))
+            opt.controller.element.get(0).querySelector('.mw-editor-select-display-value-content').textContent = (parentEl ? this.getTagDisplayName(parentEl.nodeName) : '');
             const element = opt.api.elementNode(opt.api.getSelection().focusNode);
 
             const unsuportedElements = ['table','tr','td','th','tbody','thead','section','article','aside','figcaption','figure','footer','header','hgroup','main','nav'];
@@ -927,7 +936,7 @@ MWEditor.controllers = {
 
 
 
-             rootScope.disabled(opt.controller.element, !elementSupports || opt.isPlainText || !opt.api.isSelectionEditable() || !opt.api.targetSupportsFormatting(element));
+              rootScope.disabled(opt.controller.element, !elementSupports || opt.isPlainText || !opt.api.isSelectionEditable()  );
 
 
         };
@@ -936,10 +945,90 @@ MWEditor.controllers = {
                 data: this._availableTags,
                 placeholder: rootScope.lang('Format')
             });
+            this.dropdown = dropdown
             dropdown.root.addClass('mw-editor-controller-component-format')
             dropdown.select.on('change', function (e, val) {
                 if(e.detail) {
-                    var el = api.elementNode(api.getSelection().focusNode);
+                    var focusedNode = api.getSelection().focusNode;
+                    var el = api.elementNode(focusedNode);
+
+
+
+                    var tags = ['a','abbr','acronym','b','bdo','big','br','button','cite','code','dfn','em','i','img','kbd','label','map','output','q','samp','small','span','strong','sub','sup','time','tt','var' ];
+
+
+                    var elisInline = tags.indexOf(el.nodeName.toLowerCase()) !== -1;
+
+                     var nn = focusedNode.parentNode.nodeName.toLowerCase();
+
+                     var textNodeHandle = function() {
+                        var newBlock = document.createElement(e.detail.value);
+                        var getFocusedNeighbours = api.getFocusedNeighbours(focusedNode);
+                        focusedNode.after(newBlock);
+                        getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
+                        // newBlock.appendChild(focusedNode);
+                        scope.api.setCursorAtStart(newBlock);
+                     }
+
+                     var inlinNodeHandle = function() {
+                        var newBlock = document.createElement(e.detail.value);
+                        var getFocusedNeighbours = api.getFocusedNeighbours(el);
+                        el.after(newBlock);
+                        getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
+                        // newBlock.appendChild(focusedNode);
+                        scope.api.setCursorAtStart(newBlock);
+                     }
+
+
+                     var isTxtLike1 = rootScope.editArea === el;
+                     var isTxtLike2 = focusedNode.nodeType === 3  && !_proto._availableTags.find(obj => obj.value === nn && obj.value !== 'div');
+
+                     var formattagsArray = _proto._availableTags.filter(obj => obj.value !== 'div').map(o => o.value) ;
+                     var formattags = formattagsArray.join(',');
+
+
+                    var focusedNodeBlock = focusedNode;
+                    var focusedNodeBlockRes = false;
+
+
+
+
+
+                     if(focusedNode.nodeType === 1 && focusedNode.querySelector(formattags)) {
+                        return;
+                     }
+
+                     while(focusedNodeBlock) {
+                        if(formattagsArray.indexOf(focusedNodeBlock.nodeName.toLowerCase()) !== -1) {
+                            focusedNodeBlockRes = true;
+                            break
+                        }
+                        focusedNodeBlock = focusedNodeBlock.parentNode;
+                    }
+
+
+                     if(focusedNodeBlockRes) {
+                        var el = mw.tools.setTag(focusedNodeBlock, e.detail.value);
+                            el.style.fontSize = '';
+                            scope.api.setCursorAtStart(el);
+                     } else {
+                        if(elisInline) {
+                            inlinNodeHandle();
+                            return;
+                         }
+
+                        if(( isTxtLike1 || isTxtLike2) ){
+                            if(focusedNode !== el){
+                                if(focusedNode.nodeType === 3) {
+                                    textNodeHandle()
+                                }
+
+                            }
+                            return;
+                        }
+                     }
+
+
                     var parent = el.parentNode;
                     var parentul = mw.tools.firstParentOrCurrentWithTag(el, 'ul');
                     var parentol = mw.tools.firstParentOrCurrentWithTag(el, 'ol');
@@ -955,7 +1044,8 @@ MWEditor.controllers = {
                     if(block && block.parentNode) {
                         scope.api.action(block.parentNode.parentNode, function () {
                             var el = mw.tools.setTag(block, e.detail.value);
-                            scope.api.setCursorAtStart(el)
+                            el.style.fontSize = '';
+                            scope.api.setCursorAtStart(el);
                         });
                     }
                 }
@@ -1403,7 +1493,7 @@ MWEditor.controllers = {
                 e.preventDefault();
 
                 scope.smallEditorApi.toggle();
-                console.log(scope, api, rootScope, scope.smallEditorApi.isPinned())
+
 
             });
             return el;

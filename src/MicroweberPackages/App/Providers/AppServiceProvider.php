@@ -12,6 +12,7 @@ use Jenssegers\Agent\Agent;
 
 use MicroweberPackages\Admin\Providers\AdminRouteServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
+use MicroweberPackages\App\Console\Commands\ServeCodeCoverageTestCommand;
 use MicroweberPackages\App\Console\Commands\ServeTestCommand;
 use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
 use MicroweberPackages\App\Http\Middleware\TrimStrings;
@@ -217,7 +218,10 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 ServeTestCommand::class,
+                ServeCodeCoverageTestCommand::class,
+
             ]);
+
         }
 
         $this->app->register(CoreServiceProvider::class);

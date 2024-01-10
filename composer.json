@@ -149,6 +149,10 @@
         "test:coverage": [
             "Composer\\Config::disableProcessTimeout",
             "php -d xdebug.mode=coverage artisan test --coverage -c \"phpunit-coverage.xml\""
+         ],
+        "test:dusk": [
+            "Composer\\Config::disableProcessTimeout",
+            "php artisan dusk"
          ]
     },
     "config": {

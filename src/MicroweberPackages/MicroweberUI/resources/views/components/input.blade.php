@@ -1,7 +1,5 @@
 @props(['disabled' => false])
 
-
-
 <div>
     <label class="form-control-live-edit-label-wrapper">
         <input
