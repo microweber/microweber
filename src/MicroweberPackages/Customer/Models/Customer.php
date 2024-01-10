@@ -211,8 +211,12 @@ class Customer extends Model
         if (isset($this->email) && !empty($this->email)) {
             return $this->email;
         }
-        if ($this->user_id) {
-            return user_email($this->user_id);
+
+        $findUser = $this->user()->first();
+        if ($findUser) {
+            if (isset($findUser->email) && !empty($findUser->email)) {
+                return $findUser->email;
+            }
         }
 
         return '...';
