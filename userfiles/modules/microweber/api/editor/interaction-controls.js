@@ -299,6 +299,21 @@ MWEditor.interactionControls = {
                     css.left -= ( space);
 
 
+                    var parntRelative = document.body;
+                    lscope.$target.parents().each(function(){
+                        if($(this).css('position') === 'relative'){
+                            parntRelative = this;
+                            return false;
+                        }
+                    });
+
+                    console.log(parntRelative)
+                    if(parntRelative) {
+
+                        css.top = css.top - $(parntRelative).offset().top
+                    }
+
+
 
 
                     this.element.$node.css(css)
@@ -346,7 +361,13 @@ MWEditor.interactionControls = {
                     target: rootScope.$editArea[0],
                     value: rootScope.$editArea[0].innerHTML
                 });
-                lscope[data.value.action](data.value.type);
+
+
+                if(e.detail) {
+                    lscope[e.detail.value.action](e.detail.value.type);
+                }
+
+
                 lscope._afterAction();
             });
             var deletetDD = new MWEditor.core.dropdown({
@@ -364,7 +385,7 @@ MWEditor.interactionControls = {
                     target: rootScope.$editArea[0],
                     value: rootScope.$editArea[0].innerHTML
                 });
-                lscope[data.value.action]();
+                lscope[e.detail.value.action]();
                 lscope._afterAction()
             });
 

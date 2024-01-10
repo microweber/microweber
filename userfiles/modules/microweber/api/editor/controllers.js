@@ -1002,6 +1002,11 @@ MWEditor.controllers = {
                     }
 
 
+                    rootScope.state.record({
+                        target: rootScope.$editArea[0],
+                        value: rootScope.$editArea[0].innerHTML
+                    });
+
                      if(focusedNodeBlockRes) {
                         var el = mw.tools.setTag(focusedNodeBlock, e.detail.value);
                             el.style.fontSize = '';
@@ -1009,6 +1014,10 @@ MWEditor.controllers = {
                      } else {
                         if(elisInline) {
                             inlinNodeHandle();
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
                             return;
                          }
 
@@ -1016,6 +1025,10 @@ MWEditor.controllers = {
                             if(focusedNode !== el){
                                 if(focusedNode.nodeType === 3) {
                                     textNodeHandle()
+                                    rootScope.state.record({
+                                        target: rootScope.$editArea[0],
+                                        value: rootScope.$editArea[0].innerHTML
+                                    });
                                 }
 
                             }
