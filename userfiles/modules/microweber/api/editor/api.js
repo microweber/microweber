@@ -652,12 +652,15 @@ mw.lib.require('rangy');
                     if(!!node.getAttribute('style')) {
                         const keys = Array.from(node.style);
                         keys.forEach(key => {
-                            var toRemove = node.style[key].includes('var(')
-                            || keysToRemove.indexOf(key) !== -1
-                            || keysValuesToRemove.find(a => a[key] === node.style[key]);
-                            if(toRemove) {
-                                node.style[key] = '';
+                            if(node.style[key]) {
+                                var toRemove = node.style[key].includes('var(')
+                                || keysToRemove.indexOf(key) !== -1
+                                || keysValuesToRemove.find(a => a[key] === node.style[key]);
+                                if(toRemove) {
+                                    node.style[key] = '';
+                                }
                             }
+
                         });
                     }
                     if(node.id) {

@@ -11,6 +11,26 @@ description: skin 1
 */
 ?>
 
+<style>
+    .header-section-title, .header-section-title span {
+
+        @media screen and (max-width: 991px) {
+            font-size: 3rem;
+        }
+
+        @media screen and (max-width: 600px) {
+            font-size: 2.5rem!important;
+        }
+
+        @media screen and (max-width: 400px) {
+            font-size: 2rem!important;
+
+        }
+
+        overflow-wrap: break-word;
+    }
+</style>
+
 <div id="js-slider-<?php echo $params['id']; ?>" class="slider_v2-default swiper">
     <div class="swiper-wrapper">
 
@@ -30,12 +50,12 @@ description: skin 1
 
                 <div style="height: calc(100vh - 100px);" class="d-flex flex-column justify-content-center align-items-center">
                     <div>
-                        <h3 class="js-slide-title-<?php echo $slide['itemId']; ?>">
+                        <h3 class="header-section-title js-slide-title-<?php echo $slide['itemId']; ?>">
                             <?php echo $slide['title'];?>
                         </h3>
                     </div>
                     <div>
-                        <p class="js-slide-description-<?php echo $slide['itemId']; ?>">
+                        <p class="header-section-p js-slide-description-<?php echo $slide['itemId']; ?>">
                             <?php echo $slide['description'];?>
                         </p>
                     </div>
