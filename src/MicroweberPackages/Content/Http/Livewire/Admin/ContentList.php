@@ -5,6 +5,7 @@ namespace MicroweberPackages\Content\Http\Livewire\Admin;
 use Livewire\WithPagination;
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Content\Models\Content;
+use MicroweberPackages\Export\Formats\XlsxExport;
 
 class ContentList extends AdminComponent
 {
@@ -662,6 +663,19 @@ class ContentList extends AdminComponent
         }
 
         return $dropdownFilters;
+    }
+
+    public function export() {
+
+        $exportingData = $this->contentsQuery->get();
+
+        $exportExcel = new XlsxExport();
+        $exportExcel->data['mw_export_' . date('Y-m-d-H-i-s')] = $exportingData->toArray();
+        $exportExcel = $exportExcel->start();
+        $exportExcelFile = $exportExcel['files']['0']['filepath'];
+
+        return response()->download($exportExcelFile);
+
     }
 
     public function getCardsStats()
