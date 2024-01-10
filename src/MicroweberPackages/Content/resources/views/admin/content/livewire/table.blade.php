@@ -158,11 +158,17 @@
         @if($contents->total() > 0)
             <div class="row py-3">
                 <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1">
+
                     <div class="col-md-5 col-12 d-flex justify-content-start align-items-center px-0 ">
                         @include('content::admin.content.livewire.components.display-as')
                     </div>
 
                     <div class="col-md-7 col-12 d-flex justify-content-end align-items-center mw-filters-sorts-mobile">
+
+                        <button type="button" wire:click="export" class="btn btn-outline-dark btn-sm ms-2">
+                            <span wire:loading wire:target="export" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            {{ _e('Export') }}
+                        </button>
 
                         @if($displayType=='table')
                             <div>

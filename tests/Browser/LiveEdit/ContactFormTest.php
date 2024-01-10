@@ -177,10 +177,10 @@ class ContactFormTest extends DuskTestCase
         $rel = 'module';
         $fields_csv_str = '';
         $rel_id = $contactformid;
-        $fields_csv_str .= 'test-email-field[type=email,field_size=6,show_placeholder=true,required=true],';
-        $fields_csv_str .= 'test-text-field[type=text,field_size=6,show_placeholder=true,required=true],';
-        $fields_csv_str .= 'test-phone-field[type=phone,field_size=6,show_placeholder=true,required=true],';
-        $fields_csv_str .= 'test-textarea-field[type=textarea,field_size=12,show_placeholder=true,required=true],';
+        $fields_csv_str .= 'test-email-field[type=email,field_size=6,show_placeholder=true,required=true,value=test-email-field],';
+        $fields_csv_str .= 'test-text-field[type=text,field_size=6,show_placeholder=true,required=true,value=test-text-field],';
+        $fields_csv_str .= 'test-phone-field[type=phone,field_size=6,show_placeholder=true,required=true,value=test-phone-field]],';
+        $fields_csv_str .= 'test-textarea-field[type=textarea,field_size=12,show_placeholder=true,required=true,value=test-textarea-field],';
         $fields_csv_str .= 'test-radio-field[type=radio,field_size=12,show_placeholder=true,required=true,value=one|two|three],';
         $fields_csv_str .= 'test-dropdown-field[type=dropdown,field_size=12,show_placeholder=true,required=true,value=select_one|select_two|select_three],';
         $fields_csv_str .= 'test-none-field[type=text,field_size=12,show_placeholder=true,required=false]';
@@ -219,7 +219,7 @@ class ContactFormTest extends DuskTestCase
 
             $browser->scrollTo('[name="test-radio-field"]');
             $browser->pause(1000);
-            $browser->radio('[name="test-radio-field"][value="three"]', 'three');
+            $browser->radio('[name="test-radio-field"][value="three"]' , 'three');
 
 
             $browser->scrollTo('[name="test-dropdown-field"]');
@@ -228,8 +228,8 @@ class ContactFormTest extends DuskTestCase
 
 
             $browser->click('#btn-' . $contactformid . '-btn');
+            $browser->waitUntilMissing('.mw_form.has-mw-spinner',30);
             $browser->pause(2000);
-
 
             $response = mw()->forms_manager->get_entires('rel_id=' . $contactformid);
 

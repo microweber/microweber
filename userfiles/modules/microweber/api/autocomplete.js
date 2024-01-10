@@ -47,6 +47,7 @@ mw.autoComplete = function(options){
     this.createField = function(){
         this.inputField = document.createElement('input');
         this.inputField.className = 'mw-ui-invisible-field mw-autocomplete-field mw-ui-field-' + this.options.size;
+        this.inputField.name = this.options.name || 'search';
         if(this.options.placeholder){
             this.inputField.placeholder = this.options.placeholder;
         }
@@ -204,7 +205,7 @@ mw.autoComplete = function(options){
         this.element.classList.add('mw-autocomplete-loading')
         var xhr = $.ajax(config);
         xhr.done(function(data){
-           
+
             if(data.data){
                 scope.data = data.data;
             }
