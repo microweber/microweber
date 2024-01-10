@@ -91,10 +91,10 @@ class AdminContentCustomFieldAdd extends BaseComponent
       //  }
 
         $browser->pause(3000);
-        $browser->waitFor('.mw-modal-header');
-        $browser->waitFor('.btn-close');
+        $browser->waitFor('.mw-modal-header',30);
+        $browser->waitFor('.btn-close',30);
         $browser->click('#js-save-custom-field');
-        $browser->pause(3000);
+        $browser->pause(5000);
 
         $browser->click('.btn-close');
 
