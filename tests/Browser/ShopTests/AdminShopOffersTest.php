@@ -24,6 +24,7 @@ class AdminShopOffersTest extends DuskTestCase
                 $browser->fillForm();
             });
             Offer::truncate();
+            Product::truncate();
 
             $title = 'offer-' . uniqid();
             $newProduct = new Product();
