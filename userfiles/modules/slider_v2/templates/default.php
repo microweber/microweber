@@ -30,12 +30,12 @@ description: skin 1
 
                 <div style="height: calc(100vh - 100px);" class="d-flex flex-column justify-content-center align-items-center">
                     <div>
-                        <h3 class="js-slide-title-<?php echo $slide['itemId']; ?>">
+                        <h3 class="header-section-title js-slide-title-<?php echo $slide['itemId']; ?>">
                             <?php echo $slide['title'];?>
                         </h3>
                     </div>
                     <div>
-                        <p class="js-slide-description-<?php echo $slide['itemId']; ?>">
+                        <p class="header-section-p js-slide-description-<?php echo $slide['itemId']; ?>">
                             <?php echo $slide['description'];?>
                         </p>
                     </div>
