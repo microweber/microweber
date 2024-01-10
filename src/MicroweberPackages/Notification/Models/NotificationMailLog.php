@@ -14,6 +14,7 @@ class NotificationMailLog extends Model
         'rel_type',
         'email',
         'user_id',
+        'html'
     ];
 
 
