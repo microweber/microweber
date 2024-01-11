@@ -559,7 +559,7 @@ MWEditor.controllers = {
 
                 if(sel.getRangeAt(0).collapsed) {
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLikeLevel(node);
+                    var actionTarget = node// mw.tools.firstBlockLikeLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isStrike =  (rootScope.actionWindow.getComputedStyle(actionTarget).textDecoration).includes('line-through');
                         let textDecoration;
@@ -568,7 +568,33 @@ MWEditor.controllers = {
                         } else {
                              textDecoration = 'line-through';
                         }
-                        mw.top().app.cssEditor.temp(actionTarget, 'text-decoration', textDecoration)
+                        if(rootScope.settings.editMode === 'liveedit') {
+                            mw.top().app.cssEditor.temp(actionTarget, 'text-decoration', textDecoration);
+                        } else {
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                            if(rootScope.editArea === actionTarget) {
+
+                                var newBlock = document.createElement('span');
+                                var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                sel.focusNode.after(newBlock);
+                                getFocusedNeighbours.forEach(el => newBlock.appendChild(el));
+                                newBlock.style.textDecoration = textDecoration;
+                                newBlock.querySelectorAll('*').forEach(n => n.style.textDecoration = '')
+
+                                rootScope.api.setCursorAtStart(newBlock);
+                            } else {
+                                actionTarget.style.textDecoration = textDecoration;
+                                actionTarget.querySelectorAll('*').forEach(n => n.style.textDecoration = '')
+                            }
+
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                        }
                     });
                 } else {
                     api.execCommand('strikeThrough');
@@ -609,7 +635,7 @@ MWEditor.controllers = {
 
 
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLikeLevel(node);
+                    var actionTarget = node//mw.tools.firstBlockLikeLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isItalic = rootScope.actionWindow.getComputedStyle(actionTarget).fontStyle !== 'normal';
                         var fontStyle
@@ -618,7 +644,36 @@ MWEditor.controllers = {
                         } else {
                             fontStyle = 'italic';
                         }
-                        mw.top().app.cssEditor.temp(actionTarget, 'font-style', fontStyle)
+                        if(rootScope.settings.editMode === 'liveedit') {
+                            mw.top().app.cssEditor.temp(actionTarget, 'font-style', fontStyle);
+                        } else {
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                            if(rootScope.editArea === actionTarget) {
+
+                                var newBlock = document.createElement('span');
+                                var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                sel.focusNode.after(newBlock);
+                                getFocusedNeighbours.forEach(el => newBlock.appendChild(el));
+                                newBlock.style.fontStyle = fontStyle;
+                                newBlock.querySelectorAll('*').forEach(n => n.style.fontStyle = '')
+
+                                rootScope.api.setCursorAtStart(newBlock);
+                            } else {
+                                actionTarget.style.fontStyle = fontStyle;
+                                actionTarget.querySelectorAll('*').forEach(n => n.style.fontStyle = '')
+                            }
+
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                        }
+
+
+
                     });
                 } else {
                     api.execCommand('italic');
@@ -660,7 +715,7 @@ MWEditor.controllers = {
 
 
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLikeLevel(node)
+                    var actionTarget = node// mw.tools.firstBlockLikeLevel(node)
                     api.action(actionTarget.parentNode, function () {
                         var isUnderline = rootScope.actionWindow.getComputedStyle(actionTarget).textDecoration.indexOf('underline') === 0;
                         var textDecoration
@@ -669,7 +724,33 @@ MWEditor.controllers = {
                         } else {
                              textDecoration = 'underline';
                         }
-                        mw.top().app.cssEditor.temp(actionTarget, 'text-decoration', textDecoration)
+                        if(rootScope.settings.editMode === 'liveedit') {
+                            mw.top().app.cssEditor.temp(actionTarget, 'text-decoration', textDecoration);
+                        } else {
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                            if(rootScope.editArea === actionTarget) {
+
+                                var newBlock = document.createElement('span');
+                                var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                sel.focusNode.after(newBlock);
+                                getFocusedNeighbours.forEach(el => newBlock.appendChild(el));
+                                newBlock.style.textDecoration = textDecoration;
+                                newBlock.querySelectorAll('*').forEach(n => n.style.textDecoration = '')
+
+                                rootScope.api.setCursorAtStart(newBlock);
+                            } else {
+                                actionTarget.style.textDecoration = textDecoration;
+                                actionTarget.querySelectorAll('*').forEach(n => n.style.textDecoration = '')
+                            }
+
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                        }
 
                     });
                 } else {

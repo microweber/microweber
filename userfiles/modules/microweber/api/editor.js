@@ -228,6 +228,7 @@ var MWEditor = function (options) {
             ctrl.interact(data);
         });
     };
+
     this.hide = function (target) {
         var node = target.get ? target.get(0) : target;
         //hide the node
@@ -314,6 +315,7 @@ var MWEditor = function (options) {
     var notEditableSelectors = scope.settings.notEditableClasses ? scope.settings.notEditableClasses.map(c => `.${c}:not([contenteditable="false"])`).join(',') : null;
     var  instance = this;
     var _observe = function(e){
+
         e = e || {type: 'action'};
         var max = 78;
         var eventIsActionLike = e.type === 'click' || e.type === 'execCommand' || e.type === 'keydown' || e.type === 'action';
@@ -359,7 +361,8 @@ var MWEditor = function (options) {
 
         if (!e.target) {
             localTarget = scope.getSelection().focusNode;
-         }
+        }
+        console.log(99)
         var wTarget = localTarget;
         if(eventIsActionLike) {
             var shouldCloseSelects = false;
@@ -404,6 +407,7 @@ var MWEditor = function (options) {
                 });
             }
         }
+        console.log(22)
         var time = new Date().getTime();
         if(eventIsActionLike || (time - scope._interactionTime) > max){
             if (e.pageX) {
@@ -428,7 +432,9 @@ var MWEditor = function (options) {
                 rangeInEditor = true;
             }
 
-            const isPlainText = scope.api.isPlainText(scope.selection)
+            const isPlainText = scope.api.isPlainText(scope.selection);
+
+
 
             var iterData = {
                 selection: scope.selection,

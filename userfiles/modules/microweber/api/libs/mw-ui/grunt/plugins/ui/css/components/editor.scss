@@ -234,7 +234,7 @@ $editorSpacing: 5px;
 
         &.active-control{
             color: white;
-            background-color: #4592ff;
+            background-color: #4592ff !important;
             &:hover,
             &:focus{
                 background-color: #4592ff;
@@ -593,7 +593,7 @@ $editorSpacing: 5px;
 
 
     &.active-control{
-        background-color: #4592ff;
+        background-color: #4592ff !important;
         color: #fff;
     }
     &.mw-editor-group-button{
