@@ -362,7 +362,7 @@ var MWEditor = function (options) {
         if (!e.target) {
             localTarget = scope.getSelection().focusNode;
         }
-        console.log(99)
+
         var wTarget = localTarget;
         if(eventIsActionLike) {
             var shouldCloseSelects = false;
@@ -407,7 +407,7 @@ var MWEditor = function (options) {
                 });
             }
         }
-        console.log(22)
+
         var time = new Date().getTime();
         if(eventIsActionLike || (time - scope._interactionTime) > max){
             if (e.pageX) {
