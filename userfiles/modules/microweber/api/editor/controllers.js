@@ -473,9 +473,12 @@ MWEditor.controllers = {
 
                 var sel = api.getSelection();
 
+
+
+
                 if(sel.getRangeAt(0).collapsed) {
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLikeLevel(node);
+                    var actionTarget = node;//mw.tools.firstBlockLikeLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isBold = Number(rootScope.actionWindow.getComputedStyle(actionTarget).fontWeight) > 400;
                         let weight;
@@ -484,7 +487,35 @@ MWEditor.controllers = {
                         } else {
                             weight = '700';
                         }
-                        mw.top().app.cssEditor.temp(actionTarget, 'font-weight', weight)
+
+
+                        if(rootScope.settings.editMode === 'liveedit') {
+                            mw.top().app.cssEditor.temp(actionTarget, 'font-weight', weight);
+                        } else {
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                            if(rootScope.editArea === actionTarget) {
+
+                                var newBlock = document.createElement('span');
+                                var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                sel.focusNode.after(newBlock);
+                                getFocusedNeighbours.forEach(el => newBlock.appendChild(el));
+                                newBlock.style.fontWeight = weight;
+                                newBlock.querySelectorAll('*').forEach(n => n.style.fontWeight = weight)
+
+                                rootScope.api.setCursorAtStart(newBlock);
+                            } else {
+                                actionTarget.style.fontWeight = weight;
+                            }
+
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                        }
+
                     });
                 } else {
                     api.execCommand('bold');
