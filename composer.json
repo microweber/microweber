@@ -145,15 +145,14 @@
         "post-create-project-cmd": [
             "php artisan key:generate"
         ],
-
         "test:coverage": [
             "Composer\\Config::disableProcessTimeout",
             "php -d xdebug.mode=coverage artisan test --coverage -c \"phpunit-coverage.xml\""
-         ],
+        ],
         "test:dusk": [
             "Composer\\Config::disableProcessTimeout",
-            "php artisan dusk"
-         ]
+            "php -d max_execution_time=0 -d memory_limit=-1 artisan dusk"
+        ]
     },
     "config": {
         "preferred-install": "dist",

@@ -13,7 +13,7 @@ $driver = new \SebastianBergmann\CodeCoverage\Driver\XdebugDriver($filter);
 $cov_obj = new \SebastianBergmann\CodeCoverage\CodeCoverage($driver, $filter);
 
 // Set the directory to whitelist for code coverage
-$include_dir = dirname(__DIR__) . '/src';
+//$include_dir = dirname(__DIR__) . '/src';
 //$cov_obj->filter()->addDirectoryToWhitelist($include_dir);
 
 // Directory containing coverage files
@@ -21,6 +21,11 @@ $cov_dir = __DIR__ . '/coverages';
 
 // Scan the directory for coverage files
 $files = scandir($cov_dir);
+// get only .json
+$files = array_filter($files, function ($file) {
+    return strpos($file, '.json') !== false;
+});
+
 $file_count = 0;
 
 foreach ($files as $file) {
@@ -46,8 +51,10 @@ foreach ($files as $file) {
 //    $rawData = \SebastianBergmann\CodeCoverage\Data\RawCodeCoverageData::fromXdebugWithPathCoverage($rawDataArray);
     //$rawData = \SebastianBergmann\CodeCoverage\CodeCoverage::fromXdebugWithPathCoverage($rawDataArray);
     $rawData = \SebastianBergmann\CodeCoverage\Data\RawCodeCoverageData::fromXdebugWithoutPathCoverage($rawDataArray);
-
+    echo "\n - Processing coverage file: " . $file;
     $cov_obj->append($rawData, $file_path);
+
+    @unlink($file_path);
 
    // exit($cov_obj);
     $file_count++;
@@ -58,7 +65,7 @@ echo "\n - " . $file_count . ' coverage files combined in ' . $cov_dir;
 echo "\n";
 
 // Generate Clover report
-$cov_file = $cov_dir . '/requests.clover.xml';
+$cov_file = $cov_dir . '/dusk-clover.xml';
 $writer = new \SebastianBergmann\CodeCoverage\Report\Clover();
 $writer->process($cov_obj, $cov_file);
 

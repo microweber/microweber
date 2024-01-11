@@ -11,7 +11,7 @@ use function get_option;
 use function save_option;
 use function Tests\Browser\str_contains;
 
-class CheckoutCartXssTest extends ShopDuskTestCase
+class ShopCheckoutCartXssTest extends ShopDuskTestCase
 {
 
     public function testSubmit()
@@ -46,7 +46,7 @@ class CheckoutCartXssTest extends ShopDuskTestCase
                 $browser->pause(10000);
             }
 
-            $browser->pause(1000);
+            $browser->pause(2000);
 
 
             $browser->waitForText('Your order is completed');

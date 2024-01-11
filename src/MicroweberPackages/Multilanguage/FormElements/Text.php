@@ -78,7 +78,12 @@ class Text extends \MicroweberPackages\FormBuilder\Elements\Text
 //            'translations' => $translations,
 //        ]);
 
-        return "<script>
+        $html = '';
+        if (isset($this->prepend) and $this->prepend) {
+            $html .= $this->prepend;
+        }
+
+        $html .= "<script>
             mw.lib.require('multilanguage');
             window.initMlInput$this->randId = function() {
 
@@ -109,6 +114,12 @@ class Text extends \MicroweberPackages\FormBuilder\Elements\Text
         </script>
 
         <input type=\"text\" name=\"$fieldName\" value=\"$fieldValue\" class=\"form-control\" id=\"$this->randId\" "." />";
+
+        if (isset($this->append) and $this->append) {
+            $html .= $this->append;
+        }
+
+        return $html;
 
     }
 }

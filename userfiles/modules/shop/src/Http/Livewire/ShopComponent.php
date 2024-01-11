@@ -111,6 +111,7 @@ class ShopComponent extends Component
         $productsQuery = Product::query();
         $productsQuery->where('parent', $mainPageId);
         $productsQuery->where('is_active', 1);
+        $productsQuery->where('is_deleted', 0);
 
         $filters = [];
         if (!empty($this->keywords)) {

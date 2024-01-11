@@ -22,15 +22,16 @@ class AdminAddPageTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
-
-            CustomField::truncate();
-            CustomFieldValue::truncate();
-            Media::truncate();
+//
+//            CustomField::truncate();
+//            CustomFieldValue::truncate();
+//            Media::truncate();
 
 
             $pageTitle = 'This is the page title' . time();
 
             $browser->visit(route('admin.page.create'));
+            $browser->waitFor('.create-page-clean',30);
             $browser->pause(3000);
             $browser->click('.create-page-clean');
             $browser->waitUntilMissing('.mw-create-page-templates-select-window',60);
