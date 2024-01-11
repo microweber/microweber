@@ -95,6 +95,7 @@ if ($id == 0) {
             }
             ?>
 
+
             <div class="row">
                 <div class="col">
 
@@ -137,7 +138,8 @@ if ($id == 0) {
                     </div>
 
                     <?php else: ?>
-
+                    <div class="form-group change-url-box">
+                        <div class="input-group mb-3 append-transparent">
 
                         <?php
 
@@ -150,18 +152,16 @@ if ($id == 0) {
                             ->setModel($menuModel)
                             ->placeholder($data['url'])
                             ->value($data['url'])
+                            ->append('<div class="input-group-append">
+                                <span class="input-group-text"><i class="mdi mdi-cog-outline mdi-18px text-muted"></i></span>
+                            </div>')
                             ->autofocus(true);
                         ?>
 
-
+                        </div>
+                    </div>
                     <?php endif; ?>
                 </div>
-                <div class="col-auto">
-                    <label class="form-label d-block">&nbsp;</label>
-                    <button type="button" class="btn btn-outline-primary" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>adv').toggle();"><?php _e("Advanced"); ?></button>
-
-                </div>
-
 
 
 
@@ -170,6 +170,9 @@ if ($id == 0) {
 
             </div>
 
+            <div class="row">
+                <button type="button" class="btn btn-link" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>adv').toggle();"><?php _e("Advanced"); ?></button>
+            </div>
 
 
             <?php if ($data['id'] != 0): ?>
