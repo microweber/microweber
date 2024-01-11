@@ -95,7 +95,7 @@ class AdminContentCustomFieldAdd extends BaseComponent
       //  $browser->script("document.querySelector('body').scrollIntoView({block: 'center', inline: 'nearest',behavior :'auto'});");
      //   $browser->script("document.querySelector('body').css('background-color','red');");
         //$browser->script("document.querySelector('body').style.backgroundColor = 'red';");
-
+        $browser->pause(5000);
        // $browser->waitFor('.mw-modal-header',30);
  //    $browser->waitFor('.btn-close',30);
   //      $browser->pause(500000);
@@ -106,6 +106,8 @@ class AdminContentCustomFieldAdd extends BaseComponent
    //     $browser->click('.btn-close');
         $browser->script("document.querySelector('#js-save-custom-field').style.backgroundColor = 'red';");
         $browser->script("document.querySelector('#js-save-custom-field').click()");
+        $browser->pause(100);
+        $browser->waitUntilMissing('#js-save-custom-field-loading', 30);
 
         $browser->pause(5000);
         $browser->script("document.querySelector('.btn-close').click()");

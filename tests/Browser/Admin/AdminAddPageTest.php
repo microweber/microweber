@@ -22,10 +22,10 @@ class AdminAddPageTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
-
-            CustomField::truncate();
-            CustomFieldValue::truncate();
-            Media::truncate();
+//
+//            CustomField::truncate();
+//            CustomFieldValue::truncate();
+//            Media::truncate();
 
 
             $pageTitle = 'This is the page title' . time();

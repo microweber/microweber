@@ -139,7 +139,7 @@
                     <div class="mt-3 d-flex justify-content-end"  style="position: sticky; z-index: 100; padding-bottom:15px; padding-top:20px; bottom:0px; background-color: var(--tblr-bg-surface)">
                         <x-microweber-ui::button wire:click="save" id="js-save-custom-field">
                             <span wire:loading wire:target="save">
-                                <span class="spinner-border spinner-border-sm text-white" role="status"></span>
+                                <span id="js-save-custom-field-loading" class="spinner-border spinner-border-sm text-white" role="status"></span>
                             </span>
                             {{_e('Save')}}
                         </x-microweber-ui::button>
