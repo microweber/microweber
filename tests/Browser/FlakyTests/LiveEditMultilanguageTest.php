@@ -65,7 +65,7 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
             $adminUrl = admin_url();
             $this->assertStringContainsString($adminUrl, $href);
 
- 
+
             $browser->waitFor('#live-editor-frame', 30)
                 ->withinFrame('#live-editor-frame', function ($browser) {
                     $browser->within(new ChekForJavascriptErrors(), function ($browser) {

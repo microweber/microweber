@@ -31,6 +31,7 @@ class AdminAddPageTest extends DuskTestCase
             $pageTitle = 'This is the page title' . time();
 
             $browser->visit(route('admin.page.create'));
+            $browser->waitFor('.create-page-clean',30);
             $browser->pause(3000);
             $browser->click('.create-page-clean');
             $browser->waitUntilMissing('.mw-create-page-templates-select-window',60);
