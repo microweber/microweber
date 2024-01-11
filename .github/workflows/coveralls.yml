@@ -76,7 +76,7 @@ jobs:
     - run: npm run build
     - name: Run Laravel Server
       run: APP_ENV=testing && php artisan serve-test-code-coverage --ansi --env=testing --no-interaction --quiet &
-    - name: Run Dusk Tests Core Tests
+    - name: Run Dusk Tests
       run: |
         chmod -R 0755 vendor/laravel/dusk/bin/
         composer test:dusk

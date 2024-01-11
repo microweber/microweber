@@ -65,7 +65,7 @@ class AdminContentCustomFieldAdd extends BaseComponent
         $browser->click('.js-add-custom-field');
         $browser->pause(3000);
 //        $browser->waitForText('Fields');
-
+        $browser->switchFrameDefault();
         $iframeElement = $browser->driver->findElement(WebDriverBy::id('mw-livewire-component-iframe-content-window'));
 
         if($iframeElement){
@@ -81,23 +81,37 @@ class AdminContentCustomFieldAdd extends BaseComponent
             $browser->switchFrameDefault();
         }
         $browser->pause(2000);
-
+        if($browser->driver->findElement(WebDriverBy::cssSelector('.mw-dialog-container'))->isDisplayed()) {
+            $browser->waitUntilMissing('.mw-dialog-container.has-mw-spinner', 30);
+        }
         $browser->waitFor('#mw-livewire-component-iframe-content-window');
-
-        $iframeElement = $browser->driver->findElement(WebDriverBy::id('mw-livewire-component-iframe-content-window'));
-
+       // $browser->switchFrameDefault();
+         $iframeElement = $browser->driver->findElement(WebDriverBy::id('mw-livewire-component-iframe-content-window'));
+        $browser->switchFrame($iframeElement);
       //  if($iframeElement){
-            $browser->switchFrame($iframeElement);
+         //   $browser->switchFrame($iframeElement);
       //  }
 
-        $browser->pause(3000);
-        $browser->waitFor('.mw-modal-header');
-        $browser->waitFor('.btn-close');
-        $browser->click('#js-save-custom-field');
-        $browser->pause(3000);
+      //  $browser->script("document.querySelector('body').scrollIntoView({block: 'center', inline: 'nearest',behavior :'auto'});");
+     //   $browser->script("document.querySelector('body').css('background-color','red');");
+        //$browser->script("document.querySelector('body').style.backgroundColor = 'red';");
+        $browser->pause(5000);
+       // $browser->waitFor('.mw-modal-header',30);
+ //    $browser->waitFor('.btn-close',30);
+  //      $browser->pause(500000);
+      $browser->click('#js-save-custom-field');
+        $browser->pause(100);
+     //   $browser->script("document.querySelector('#js-save-custom-field').click()");
+   //     $browser->script("document.querySelector('.btn-close').click()");
+   //     $browser->click('.btn-close');
+        $browser->script("document.querySelector('#js-save-custom-field').style.backgroundColor = 'red';");
+        $browser->script("document.querySelector('#js-save-custom-field').click()");
+        $browser->pause(100);
+        $browser->waitUntilMissing('#js-save-custom-field-loading', 30);
 
-        $browser->click('.btn-close');
-
+        $browser->pause(5000);
+        $browser->script("document.querySelector('.btn-close').click()");
+      //  $browser->pause(40000);
        // if($browser->driver->findElement(WebDriverBy::cssSelector('.mw-modal-header .btn-close'))->isDisplayed()) {
 
          //   $browser->script("document.querySelector('.mw-modal-header .btn-close').click()");

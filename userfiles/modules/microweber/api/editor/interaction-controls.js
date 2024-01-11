@@ -109,16 +109,21 @@ MWEditor.interactionControls = {
                 }
             });
             deleteButton.on('click', function () {
-                rootScope.state.unpause();
 
-                rootScope.state.record({
-                    target: rootScope.$editArea[0],
-                    value: rootScope.$editArea[0].innerHTML
+                mw.tools.confirm(mw.msg.del, function() {
+                    rootScope.state.unpause();
+
+                    rootScope.state.record({
+                        target: rootScope.$editArea[0],
+                        value: rootScope.$editArea[0].innerHTML
+                    });
+                    scope.$target.remove()
+                    el.hide();
+                    rootScope.api.afterExecCommand(); console.log(rootScope.state)
+                    rootScope._syncTextArea();
                 });
-                scope.$target.remove()
-                el.hide();
-                rootScope.api.afterExecCommand(); console.log(rootScope.state)
-                rootScope._syncTextArea();
+
+
             })
             changeButton.on('click', function () {
                 var dialog;
@@ -294,6 +299,21 @@ MWEditor.interactionControls = {
                     css.left -= ( space);
 
 
+                    var parntRelative = document.body;
+                    lscope.$target.parents().each(function(){
+                        if($(this).css('position') === 'relative'){
+                            parntRelative = this;
+                            return false;
+                        }
+                    });
+
+                    console.log(parntRelative)
+                    if(parntRelative) {
+
+                        css.top = css.top - $(parntRelative).offset().top
+                    }
+
+
 
 
                     this.element.$node.css(css)
@@ -341,7 +361,13 @@ MWEditor.interactionControls = {
                     target: rootScope.$editArea[0],
                     value: rootScope.$editArea[0].innerHTML
                 });
-                lscope[data.value.action](data.value.type);
+
+
+                if(e.detail) {
+                    lscope[e.detail.value.action](e.detail.value.type);
+                }
+
+
                 lscope._afterAction();
             });
             var deletetDD = new MWEditor.core.dropdown({
@@ -359,7 +385,7 @@ MWEditor.interactionControls = {
                     target: rootScope.$editArea[0],
                     value: rootScope.$editArea[0].innerHTML
                 });
-                lscope[data.value.action]();
+                lscope[e.detail.value.action]();
                 lscope._afterAction()
             });
 

@@ -1,303 +1,61 @@
 
 .mw_form{
-  position: relative;
-  clear: both;
+    position: relative;
+    clear: both;
 }
 
 .mw_form:after{
-  content: ".";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0;
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
 }
 
 /* Contact Form Styles */
 
 .message-sent-icon{
-  display: block;
-  width:52px;
-  height: 52px;
-  background: url(../img/message-sent.png) no-repeat;
-  margin: 0 auto 20px;
+    display: block;
+    width:52px;
+    height: 52px;
+    background: url(../img/message-sent.png) no-repeat;
+    margin: 0 auto 20px;
 }
 
 
 [class*='contact-form-template-'] .message-sent {
-   display:none;
+    display:none;
 }
 
 .message-sent-icon-orange{background-position: 0 -104px;}
 .message-sent-icon-green{background-position: 0 -52px;}
 
-[class*='contact-form-template-'] input,
-[class*='contact-form-template-'] textarea,
-[class*='contact-form-template-'] select{
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  height: auto;
-}
-[class*='contact-form-template-'] .mw-custom-field-upload{
-    width: 100%;
-}
-[class*='contact-form-template-'] input[type='submit']{
-  float: right;
-}
-
 
 
 [class*='contact-form-template-'] textarea{
-  resize: vertical;
+    resize: vertical;
 }
 
 .datepicker{
-  display: none;
-  position: absolute;
-  z-index: 12;
-  background: white;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 0;
+    display: none;
+    position: absolute;
+    z-index: 12;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0;
 }
-
-[class*='contact-form-template-'] label{
-  display: block;
-  clear: both;
-  padding-bottom: 4px;
-  padding-top: 12px;
-}
-
-[class*='contact-form-template-'] label.inline{
-  display: inline-block;
-  float: left;
-  clear: both;
-  margin-right: 12px;
-}
-
-[class*='contact-form-template-'] .captcha-holder{
-  background: white;
-  border-radius: 2px;
-}
-
 
 
 [class*='contact-form-template-'] .mw-custom-field-price .mw-custom-field-form-controls{
-  color: #6C6C6C;
-  font-size: 150%;
+    color: #6C6C6C;
+    font-size: 150%;
 }
-
-
-
-
-
-/* DREAM Template */
-
-
-.
-
-.contact-form-template-dream{
-  position: relative;
-  overflow: hidden;
-  text-align: left;
-}
-
-.contact-form-template-dream .contact-form {
-  padding: 40px;
- /* background: white;
-  border:1px solid #D1D1D1;*/
-
-}
-
-
-.contact-form-template-dream .contact-form-title {
-  /*
-
-  color:#3f3f3f;
-  */
-
-}
-
-
-
-
-.contact-form-template-dream .message-sent{
-  padding: 40px;
-  background: white;
-  border:1px solid #D1D1D1;
-  text-align: center;
-  color: #418CD1;
-  font-weight: bold;
-  position: absolute;
-  top: -100%;
-  left: 50%;
-  margin: auto;
-  z-index: 10;
-  width: 300px;
-  margin-left: -190px;
-  transition: top 0.3s;
-  -moz-transition: top 0.3s;
-  -webkit-transition: top 0.3s;
-  -o-transition: top 0.3s;
-}
-.contact-form-template-dream textarea, .contact-form-template-dream select, .contact-form-template-dream input[type="text"], .contact-form-template-dream input[type="password"], .contact-form-template-dream input[type="datetime"], .contact-form-template-dream input[type="datetime-local"], .contact-form-template-dream input[type="date"], .contact-form-template-dream input[type="month"], .contact-form-template-dream input[type="time"], .contact-form-template-dream input[type="week"], .contact-form-template-dream input[type="number"], .contact-form-template-dream input[type="email"], .contact-form-template-dream input[type="url"], .contact-form-template-dream input[type="search"], .contact-form-template-dream input[type="tel"], .contact-form-template-dream input[type="color"]{
-  background-color: #F4F4F4;
-  border: 1px solid #E6E6E6;
-  border-radius: 2px;
-  padding: 10px;
-  width: 100%;
-  transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  -o-transition: all 0.3s;
-}
-
-
-
-
-.contact-form-template-dream textarea:focus, .contact-form-template-dream input[type="text"]:focus, .contact-form-template-dream input[type="password"]:focus, .contact-form-template-dream input[type="datetime"]:focus, .contact-form-template-dream input[type="datetime-local"]:focus, .contact-form-template-dream input[type="date"]:focus, .contact-form-template-dream input[type="month"]:focus, .contact-form-template-dream input[type="time"]:focus, .contact-form-template-dream input[type="week"]:focus, .contact-form-template-dream input[type="number"]:focus, .contact-form-template-dream input[type="email"]:focus, .contact-form-template-dream input[type="url"]:focus, .contact-form-template-dream input[type="search"]:focus, .contact-form-template-dream input[type="tel"]:focus, .contact-form-template-dream input[type="color"]:focus{
-    box-shadow: inset 0 0 4px #C9C9C9;
-}
-.contact-form-template-dream .cft-submit{
-  color:#FFFFFF;
-  display: inline-block;
-  padding: 8px 20px;
-  background:#418CD1;
-  text-align: center;
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-}
-.contact-form-template-dream .cft-submit:hover, .contact-form-template-dream .cft-submit:focus{ background:#317FC9; }
-.contact-form-template-dream .cft-submit:active{ box-shadow: inset 0 0 6px #1F517F; }
-.contact-form-template-dream .contact-form-title{
-  border-bottom: 2px solid #418CD1;
-  display: inline-block;
-  padding-bottom: 4px;
-  margin-bottom: 20px;
-}
-.contact-form-template-dream input.mw-captcha-input{ width: 85px; float: left; }
-
-.contact-form-template-dream .mw-captcha-img{ float: left; margin-top: 10px; }
-.contact-form-template-dream .irefresh{ margin-top: 7px; }
-
-
-
-/* DARK Template */
-
-.contact-form-template-dark{
-  position: relative;
-  overflow: hidden;
-  text-align: left;
-}
-
-.contact-form-template-dark .contact-form {
-  padding: 40px;
-  background: #3A3A3A;
-  border: 1px solid #D1D1D1;
-
-}
-
-.contact-form-template-dark .deactivated:before{ background: #3A3A3A; }
-
-.contact-form-template-dark .message-sent{
-  padding: 40px;
-  background: #3A3A3A;
-  border:1px solid #D1D1D1;
-  text-align: center;
-  color: #FF4600;
-  font-weight: bold;
-  position: absolute;
-  top: -100%;
-  left: 50%;
-  margin: auto;
-  z-index: 10;
-  width: 300px;
-  margin-left: -190px;
-  transition: top 0.3s;
-  -moz-transition: top 0.3s;
-  -webkit-transition: top 0.3s;
-  -o-transition: top 0.3s;
-}
-
-.contact-form-template-dark label, .contact-form-template-dark .custom-field-title{
-  color:#6C6C6C;
-}
-
-.contact-form-template-dark textarea,.contact-form-template-dark select, .contact-form-template-dark input[type="text"], .contact-form-template-dark input[type="password"], .contact-form-template-dark input[type="datetime"], .contact-form-template-dark input[type="datetime-local"], .contact-form-template-dark input[type="date"], .contact-form-template-dark input[type="month"], .contact-form-template-dark input[type="time"], .contact-form-template-dark input[type="week"], .contact-form-template-dark input[type="number"], .contact-form-template-dark input[type="email"], .contact-form-template-dark input[type="url"], .contact-form-template-dark input[type="search"], .contact-form-template-dark input[type="tel"], .contact-form-template-dark input[type="color"]{
-  background-color: #646464;
-  color: #A4A4A4;
-  border: 1px solid #454545;
-  border-radius: 2px;
-  padding: 10px;
-  width:100%;
-  transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  -o-transition: all 0.3s;
-}
-.contact-form-template-dark textarea:focus, .contact-form-template-dark input[type="text"]:focus, .contact-form-template-dark input[type="password"]:focus, .contact-form-template-dark input[type="datetime"]:focus, .contact-form-template-dark input[type="datetime-local"]:focus, .contact-form-template-dark input[type="date"]:focus, .contact-form-template-dark input[type="month"]:focus, .contact-form-template-dark input[type="time"]:focus, .contact-form-template-dark input[type="week"]:focus, .contact-form-template-dark input[type="number"]:focus, .contact-form-template-dark input[type="email"]:focus, .contact-form-template-dark input[type="url"]:focus, .contact-form-template-dark input[type="search"]:focus, .contact-form-template-dark input[type="tel"]:focus, .contact-form-template-dark input[type="color"]:focus{
-    box-shadow: inset 1px 1px 6px #292929, inset -1px -1px 6px #292929;
-}
-.contact-form-template-dark .cft-submit{
-  color:#FFFFFF;
-  display: inline-block;
-  padding: 8px 20px;
-  background:#CA440F;
-  text-align: center;
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-}
-.contact-form-template-dark .cft-submit:hover, .contact-form-template-dark .cft-submit:focus{ background:#E04000; }
-.contact-form-template-dark .cft-submit:active{ box-shadow: inset 0 0 6px #702000; }
-.contact-form-template-dark .contact-form-title{
-  background: #C9430F;
-  color: white;
-  margin-bottom: 20px;
-  padding: 3px 10px 5px;
-  border-radius: 2px;
-}
-.contact-form-template-dark input.mw-captcha-input{ width: 85px; float: left; }
-
-.contact-form-template-dark .mw-captcha-img{ float: left; margin-top: 10px; }
-.contact-form-template-dark .irefresh{ margin-top: 7px; }
-.contact-form-template-dark .mw-custom-field-price .mw-custom-field-form-controls{
-  color: #6C6C6C;
-}
-
-.contact-form-template-dark hr{
-  background:#6C6C6C;
-}
-
-
-/* Basic */
-
-.contact-form-template-basic {
-  text-align: left;
-}
-
-.contact-form-template-basic textarea, .contact-form-template-basic select, .contact-form-template-basic input[type="text"], .contact-form-template-basic input[type="password"], .contact-form-template-basic input[type="datetime"], .contact-form-template-basic input[type="datetime-local"], .contact-form-template-basic input[type="date"], .contact-form-template-basic input[type="month"], .contact-form-template-basic input[type="time"], .contact-form-template-basic input[type="week"], .contact-form-template-basic input[type="number"], .contact-form-template-basic input[type="email"], .contact-form-template-basic input[type="url"], .contact-form-template-basic input[type="search"], .contact-form-template-basic input[type="tel"], .contact-form-template-basic input[type="color"]{
-  border: 1px solid #E6E6E6;
-  padding: 10px;
-  width: 100%;
-}
-
-.contact-form-template-basic form {
-  padding: 40px 0;
-}
-
-/* /Basic */
-
-
-
-/*  */
-
 
 [class*='contact-form-template-'] .mw-custom-field-upload input{
-  width:60%;
-  float: left;
-  margin-right: 12px;
+    width:60%;
+    float: left;
+    margin-right: 12px;
 }
 
 

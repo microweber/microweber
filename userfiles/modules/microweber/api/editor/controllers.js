@@ -473,9 +473,12 @@ MWEditor.controllers = {
 
                 var sel = api.getSelection();
 
+
+
+
                 if(sel.getRangeAt(0).collapsed) {
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLikeLevel(node);
+                    var actionTarget = node;//mw.tools.firstBlockLikeLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isBold = Number(rootScope.actionWindow.getComputedStyle(actionTarget).fontWeight) > 400;
                         let weight;
@@ -484,7 +487,35 @@ MWEditor.controllers = {
                         } else {
                             weight = '700';
                         }
-                        mw.top().app.cssEditor.temp(actionTarget, 'font-weight', weight)
+
+
+                        if(rootScope.settings.editMode === 'liveedit') {
+                            mw.top().app.cssEditor.temp(actionTarget, 'font-weight', weight);
+                        } else {
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                            if(rootScope.editArea === actionTarget) {
+
+                                var newBlock = document.createElement('span');
+                                var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                sel.focusNode.after(newBlock);
+                                getFocusedNeighbours.forEach(el => newBlock.appendChild(el));
+                                newBlock.style.fontWeight = weight;
+                                newBlock.querySelectorAll('*').forEach(n => n.style.fontWeight = weight)
+
+                                rootScope.api.setCursorAtStart(newBlock);
+                            } else {
+                                actionTarget.style.fontWeight = weight;
+                            }
+
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                        }
+
                     });
                 } else {
                     api.execCommand('bold');
@@ -711,12 +742,7 @@ MWEditor.controllers = {
                 });
 
             });
-            setTimeout(function(){
-                el.after(`<link rel="stylesheet" hrf="http://localhost/mw2/userfiles/modules/microweber/api/libs/jqueryui/jquery-ui.min.css?mwv=2.0.7">`)
-                el.after(`<link rel="stylesheet" hrf="http://localhost/mw2/userfiles/modules/microweber/css/fonts/tabler-icons/webfont/tabler-icons.min.css">`)
-                el.after(`<link rel="stylesheet" hrf="http://localhost/mw2/userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/admin_v2.css">`)
 
-            }, 3000)
             return el;
         };
         this.checkSelection = function (opt) {
@@ -926,7 +952,7 @@ MWEditor.controllers = {
             var el = opt.api.elementNode(opt.selection.focusNode);
             var parentEl = mw.tools.firstParentOrCurrentWithTag(el, this.availableTags());
 
-            console.log(this.getTagDisplayName(parentEl.nodeName))
+
             opt.controller.element.get(0).querySelector('.mw-editor-select-display-value-content').textContent = (parentEl ? this.getTagDisplayName(parentEl.nodeName) : '');
             const element = opt.api.elementNode(opt.api.getSelection().focusNode);
 
@@ -1007,6 +1033,11 @@ MWEditor.controllers = {
                     }
 
 
+                    rootScope.state.record({
+                        target: rootScope.$editArea[0],
+                        value: rootScope.$editArea[0].innerHTML
+                    });
+
                      if(focusedNodeBlockRes) {
                         var el = mw.tools.setTag(focusedNodeBlock, e.detail.value);
                             el.style.fontSize = '';
@@ -1014,6 +1045,10 @@ MWEditor.controllers = {
                      } else {
                         if(elisInline) {
                             inlinNodeHandle();
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
                             return;
                          }
 
@@ -1021,6 +1056,10 @@ MWEditor.controllers = {
                             if(focusedNode !== el){
                                 if(focusedNode.nodeType === 3) {
                                     textNodeHandle()
+                                    rootScope.state.record({
+                                        target: rootScope.$editArea[0],
+                                        value: rootScope.$editArea[0].innerHTML
+                                    });
                                 }
 
                             }

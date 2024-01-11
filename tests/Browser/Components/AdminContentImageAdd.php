@@ -64,6 +64,13 @@ class AdminContentImageAdd extends BaseComponent
         $browser->attach('input.mw-uploader-input', $image);
      //   $browser->attach('.mw-filepicker-desktop-type-big input.mw-uploader-input', $image);
        // $browser->waitForText('Pictures settings are saved',30);
+        if ($browser->element('.mw-dialog-overlay')) {
+            if ($browser->element('.mw-dialog-overlay')->isDisplayed()) {
+                $browser->waitUntilMissing('.mw-dialog-overlay', 30);
+            }
+        }
+
+
         if (!$browser->element('.admin-thumb-item')) {
             $browser->waitFor('.admin-thumb-item', 30);
         }

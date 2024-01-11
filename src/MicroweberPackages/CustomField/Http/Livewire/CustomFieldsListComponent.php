@@ -11,10 +11,10 @@ class CustomFieldsListComponent extends AdminComponent
     public $relType = 'content';
 
     public $listeners = [
-        'customFieldUpdated'=>'$refresh',
-        'customFieldAdded'=>'$refresh',
+        'customFieldUpdated' => '$refresh',
+        'customFieldAdded' => '$refresh',
         'executeCustomFieldDelete' => 'executeCustomFieldDelete',
-        'onReorderCustomFieldsList'=>'onReorderCustomFieldsList'
+        'onReorderCustomFieldsList' => 'onReorderCustomFieldsList'
     ];
 
     public function onReorderCustomFieldsList($params)
@@ -35,7 +35,8 @@ class CustomFieldsListComponent extends AdminComponent
         $this->emit('customFieldUpdated');
     }
 
-    public function executeCustomFieldDelete($id) {
+    public function executeCustomFieldDelete($id)
+    {
         mw()->fields_manager->delete($id);
 
         $this->emit('customFieldDeleted');
@@ -44,11 +45,16 @@ class CustomFieldsListComponent extends AdminComponent
     public function render()
     {
         $getCustomFields = CustomField::where('rel_type', $this->relType)
-            ->where('rel_id', $this->relId)
-            ->orderBy('position', 'asc')
+            ->where('rel_id', $this->relId);
+
+        if ($this->relId == 0) {
+            $getCustomFields = $getCustomFields->where('session_id', mw()->user_manager->session_id());
+        }
+
+        $getCustomFields = $getCustomFields->orderBy('position', 'asc')
             ->get();
 
-        return view('custom_field::livewire.custom-fields-list-component',[
+        return view('custom_field::livewire.custom-fields-list-component', [
             'customFields' => $getCustomFields
         ]);
     }
