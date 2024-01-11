@@ -27,6 +27,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
     public $showPlaceholderSettings = false;
     public $showErrorTextSettings = false;
     public $showOptionsSettings = false;
+    public $multivaluesMl = [];
 
     public $listeners = [
         'customFieldUpdated' => '$refresh',
@@ -38,68 +39,73 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         $this->customFieldId = $customFieldId;
     }
 
-    public function onReorderCustomFieldValuesList($params)
+    public function updatedMultivaluesMl()
     {
-        if (isset($params['itemIds'])) {
-            $itemIds = $params['itemIds'];
-            $position = 0;
-            foreach ($itemIds as $itemId) {
-                $findCustomField = CustomFieldValue::where('id', $itemId)->first();
-                if ($findCustomField) {
-                    $findCustomField->position = $position;
-                    $findCustomField->save();
-                }
-                $position++;
-            }
-        }
+      //  dd($this->multivaluesMl);
     }
 
-    public function add()
-    {
-        $typeText = _e('New Value', true);
-        if ($this->state['type'] == 'radio') {
-            $typeText = _e('New Option', true);
-        }
-
-        if ($this->state['type'] == 'checkbox') {
-            $typeText = _e('New Check', true);
-        }
-
-        if ($this->state['type'] == 'dropdown') {
-            $typeText = _e('New Select', true);
-        }
-
-        $newCustomFieldValue = new CustomFieldValue();
-        $newCustomFieldValue->custom_field_id = $this->customFieldId;
-        $newCustomFieldValue->value = $typeText;
-        $newCustomFieldValue->save();
-
-        $this->inputs[$newCustomFieldValue->id] = $typeText;
-        $this->priceModifiers[$newCustomFieldValue->id] = 0;
-    }
-
-    public function remove($id)
-    {
-        if (count($this->inputs) == 1) {
-            $this->addError('inputs.' . $id, 'You must have at least one input.');
-            return;
-        }
-
-        if (isset($this->inputs[$id])) {
-
-            $findCustomFieldValue = CustomFieldValue::where('custom_field_id', $this->customFieldId)
-                ->where('id', $id)
-                ->first();
-            if ($findCustomFieldValue) {
-                $findCustomFieldValue->delete();
-            }
-            $this->priceModifiers[$id] =  false;
-
-            unset($this->priceModifiers[$id]);
-            unset($this->inputs[$id]);
-            $this->dispatchGlobalBrowserEvent('customFieldUpdated');
-        }
-    }
+//    public function onReorderCustomFieldValuesList($params)
+//    {
+//        if (isset($params['itemIds'])) {
+//            $itemIds = $params['itemIds'];
+//            $position = 0;
+//            foreach ($itemIds as $itemId) {
+//                $findCustomField = CustomFieldValue::where('id', $itemId)->first();
+//                if ($findCustomField) {
+//                    $findCustomField->position = $position;
+//                    $findCustomField->save();
+//                }
+//                $position++;
+//            }
+//        }
+//    }
+//
+//    public function add()
+//    {
+//        $typeText = _e('New Value', true);
+//        if ($this->state['type'] == 'radio') {
+//            $typeText = _e('New Option', true);
+//        }
+//
+//        if ($this->state['type'] == 'checkbox') {
+//            $typeText = _e('New Check', true);
+//        }
+//
+//        if ($this->state['type'] == 'dropdown') {
+//            $typeText = _e('New Select', true);
+//        }
+//
+//        $newCustomFieldValue = new CustomFieldValue();
+//        $newCustomFieldValue->custom_field_id = $this->customFieldId;
+//        $newCustomFieldValue->value = $typeText;
+//        $newCustomFieldValue->save();
+//
+//        $this->inputs[$newCustomFieldValue->id] = $typeText;
+//        $this->priceModifiers[$newCustomFieldValue->id] = 0;
+//    }
+//
+//    public function remove($id)
+//    {
+//        if (count($this->inputs) == 1) {
+//            $this->addError('inputs.' . $id, 'You must have at least one input.');
+//            return;
+//        }
+//
+//        if (isset($this->inputs[$id])) {
+//
+//            $findCustomFieldValue = CustomFieldValue::where('custom_field_id', $this->customFieldId)
+//                ->where('id', $id)
+//                ->first();
+//            if ($findCustomFieldValue) {
+//                $findCustomFieldValue->delete();
+//            }
+//            $this->priceModifiers[$id] =  false;
+//
+//            unset($this->priceModifiers[$id]);
+//            unset($this->inputs[$id]);
+//            $this->dispatchGlobalBrowserEvent('customFieldUpdated');
+//        }
+//    }
 
     public function updatedState()
     {
@@ -118,19 +124,14 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         }
 
     }
-    public function updatedInputs()
-    {
-        if (!empty($this->inputs)) {
-
-
-            $this->state['value'] = array_values($this->inputs);
-
-            mw()->fields_manager->save($this->state);
-
-            $this->refreshState();
-
-        }
-    }
+//    public function updatedInputs()
+//    {
+//        if (!empty($this->inputs)) {
+//            $this->state['value'] = array_values($this->inputs);
+//            mw()->fields_manager->save($this->state);
+//            $this->refreshState();
+//        }
+//    }
 
     public function save()
     {
