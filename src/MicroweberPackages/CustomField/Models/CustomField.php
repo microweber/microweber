@@ -12,7 +12,7 @@ class CustomField extends Model
     //use MaxPositionTrait;
     use CacheableQueryBuilderTrait;
     use HasCreatedByFieldsTrait;
-    use HasMultilanguageTrait;
+   /// use HasMultilanguageTrait;
 
     protected $fillable = [
         'value',

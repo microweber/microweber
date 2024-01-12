@@ -8,7 +8,7 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 class CustomFieldValue extends Model
 {
     use CacheableQueryBuilderTrait;
-    use HasMultilanguageTrait;
+  //  use HasMultilanguageTrait;
 
     protected $table = 'custom_fields_values';
     protected $primaryKey = 'id';
