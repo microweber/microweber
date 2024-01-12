@@ -108,8 +108,10 @@ jobs:
         ls -la
         composer install --no-progress --prefer-dist --optimize-autoloader
         chmod -R 0755 vendor/laravel/dusk/bin/
-        rm -rf /home/runner/work/microweber/microweber/templates/new-world/
-        rm -rf /home/runner/work/microweber/microweber/templates/shopmag/
+        find /home/runner/work/microweber/microweber/templates/ -mindepth 1 -maxdepth 1 -type d ! -name "default" -exec rm -rf {} \;
+      #        rm -rf /home/runner/work/microweber/microweber/templates/new-world/
+#        rm -rf /home/runner/work/microweber/microweber/templates/shopmag/
+#        rm -rf /home/runner/work/microweber/microweber/templates/*
     - name: Install template
       run: composer require ${{ matrix.templates }} --no-cache
     - name: Install Microweber with template ${{ matrix.templates }}
