@@ -1,6 +1,9 @@
 name: PHP Coverage Tests With Xdebug
 on:
   push:
+    branches:
+      - dev
+      - test
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

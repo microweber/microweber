@@ -1,6 +1,9 @@
 name: PHP Code Coverage Tests
 on:
   push:
+    branches:
+      - dev
+      - test
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
