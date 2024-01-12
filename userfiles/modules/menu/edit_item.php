@@ -150,11 +150,10 @@ if ($id == 0) {
 
                         echo $formBuilder->text('url')
                             ->setModel($menuModel)
+                            ->setAttribute('readonly', 'readonly')
                             ->placeholder($data['url'])
                             ->value($data['url'])
-                            ->append('<div class="input-group-append">
-                                <span class="input-group-text"><i class="mdi mdi-cog-outline mdi-18px text-muted"></i></span>
-                            </div>')
+
                             ->autofocus(true);
                         ?>
 
