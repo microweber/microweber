@@ -14,7 +14,7 @@ class AddLicenseKeyCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'microweber:add-license-key {key}';
+    protected $signature = 'microweber:license-add {key}';
 
 
     public function handle()
