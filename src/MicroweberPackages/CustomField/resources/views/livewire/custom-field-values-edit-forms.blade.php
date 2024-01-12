@@ -59,7 +59,7 @@
                 <div class="mt-2 bg-white px-2 py-2">
                     @foreach($supportedLanguages as $supportedLanguage)
                        <div
-                           x-show="currentLanguageData.locale == '{{$supportedLanguage['locale']}}'"> 
+                           x-show="currentLanguageData.locale == '{{$supportedLanguage['locale']}}'">
                            @include('custom_field::livewire.custom-field-values-multivalues', ['stateKey'=>'multivaluesMl.'.$supportedLanguage['locale']])
                        </div>
                     @endforeach
@@ -67,7 +67,7 @@
             </div>
 
         @else
-          @include('custom_field::livewire.custom-field-values-multivalues', ['stateKey'=>'multivalues'])
+          @include('custom_field::livewire.custom-field-values-multivalues', ['stateKey'=>false])
         @endif
 
     @elseif($customField->type == 'price')
