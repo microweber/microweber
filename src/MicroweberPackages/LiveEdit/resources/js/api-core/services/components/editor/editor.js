@@ -112,7 +112,7 @@ export const EditorComponent = function () {
         smallEditorPositionX: 'left',
         smallEditorSkin: 'lite',
 
-        interactionControls: ['tableManager'],
+        interactionControls: ['tableManager', 'linkTooltip'],
 
         id: 'live-edit-wysiwyg-editor',
 
