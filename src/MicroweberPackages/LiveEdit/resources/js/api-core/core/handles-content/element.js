@@ -523,6 +523,7 @@ export class ElementHandleContent {
 
             // ...cloneAbleMenu,
             //  ...elementImageMenu,
+           ...cloneAbleMenuInMoreMenu,
 
 
         ]
@@ -546,12 +547,12 @@ export class ElementHandleContent {
                     title: 'Quick Settings',
                     icon: this.handleIcons.icon('more'),
                     menu: [
-                        {
-                            name: 'Cloneable',
-
-                            nodes: cloneAbleMenuInMoreMenu,
-
-                        },
+                        // {
+                        //     name: 'Cloneable',
+                        //
+                        //     nodes: cloneAbleMenuInMoreMenu,
+                        //
+                        // },
                         {
                             name: 'Reset Element Size',
                             nodes:
@@ -604,15 +605,16 @@ export class ElementHandleContent {
                 name: 'dynamic',
                 nodes: []
             },
-            {
-                name: 'cloneAbleMenu',
-                nodes: cloneAbleMenu
-            },
+            // {
+            //     name: 'cloneAbleMenu',
+            //     nodes: cloneAbleMenu
+            // },
             {
                 name: 'Image settings',
                 nodes: elementResetImageSizeMenu
 
             },
+
 
             // {
             //     name: 'tail',
