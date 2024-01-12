@@ -67,7 +67,7 @@
             </div>
 
         @else
-          @include('custom_field::livewire.custom-field-values-multivalues', ['stateKey'=>false])
+          @include('custom_field::livewire.custom-field-values-multivalues')
         @endif
 
     @elseif($customField->type == 'price')

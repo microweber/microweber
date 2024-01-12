@@ -13,7 +13,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
 
     public $modalSettings = [
         'overlay' => true,
-        'overlayClose' => false, 
+        'overlayClose' => false,
     ];
 
     public $customFieldId = false;
@@ -91,20 +91,20 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
             return;
         }
 
-        if (isset($this->inputs[$id])) {
+        $findCustomFieldValue = CustomFieldValue::where('custom_field_id', $this->customFieldId)
+            ->where('id', $id)
+            ->first();
 
-            $findCustomFieldValue = CustomFieldValue::where('custom_field_id', $this->customFieldId)
-                ->where('id', $id)
-                ->first();
-            if ($findCustomFieldValue) {
-                $findCustomFieldValue->delete();
-            }
-            $this->priceModifiers[$id] =  false;
-
-            unset($this->priceModifiers[$id]);
-            unset($this->inputs[$id]);
-            $this->dispatchGlobalBrowserEvent('customFieldUpdated');
+        if ($findCustomFieldValue) {
+            $findCustomFieldValue->delete();
         }
+        $this->priceModifiers[$id] =  false;
+
+        unset($this->priceModifiers[$id]);
+        unset($this->inputs[$id]);
+
+        $this->emit('$refresh');
+        $this->dispatchGlobalBrowserEvent('customFieldUpdated');
     }
 
     public function updatedState()

@@ -3,7 +3,7 @@
 
     <div id="js-sortable-items-holder-{{$this->id}}">
         @foreach($customField->fieldValue as $fieldValue)
-            <div class="d-flex gap-3 mt-3 js-sortable-item" sort-key="{{ $fieldValue->id }}" wire:key="custom-field-vals-{{ $this->id }}">
+            <div class="d-flex gap-3 mt-3 js-sortable-item" sort-key="{{ $fieldValue->id }}" wire:key="custom-field-vals-{{ $this->id }}-{{ $fieldValue->id }}">
                 <div class="d-flex justify-content-center align-items-center">
                     <div class="js-sort-handle">
                         <svg class="mdi-cursor-move cursor-grab ui-sortable-handle"
