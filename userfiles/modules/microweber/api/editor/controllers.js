@@ -29,7 +29,7 @@ MWEditor.controllers = {
                         if(rootScope.editArea === actionTarget) {
                             var newBlock = document.createElement('div');
                             var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
-                            focusedNode.after(newBlock);
+                            sel.focusNode.after(newBlock);
                             getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
                             newBlock.style.textAlign = 'left'
                             scope.api.setCursorAtStart(newBlock);
@@ -72,7 +72,7 @@ MWEditor.controllers = {
                             if(rootScope.editArea === actionTarget) {
                                 var newBlock = document.createElement('div');
                                 var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
-                                focusedNode.after(newBlock);
+                                sel.focusNode.after(newBlock);
                                 getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
                                 newBlock.style.textAlign = 'center'
                                 scope.api.setCursorAtStart(newBlock);
@@ -119,7 +119,7 @@ MWEditor.controllers = {
                             if(rootScope.editArea === actionTarget) {
                                 var newBlock = document.createElement('div');
                                 var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
-                                focusedNode.after(newBlock);
+                                sel.focusNode.after(newBlock);
                                 getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
                                 newBlock.style.textAlign = 'right'
                                 scope.api.setCursorAtStart(newBlock);
@@ -166,7 +166,7 @@ MWEditor.controllers = {
                             if(rootScope.editArea === actionTarget) {
                                 var newBlock = document.createElement('div');
                                 var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
-                                focusedNode.after(newBlock);
+                                sel.focusNode.after(newBlock);
                                 getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
                                 newBlock.style.textAlign = 'justify'
                                 scope.api.setCursorAtStart(newBlock);
@@ -226,8 +226,9 @@ MWEditor.controllers = {
 
                                 if(rootScope.editArea === actionTarget) {
                                     var newBlock = document.createElement('div');
+                                    console.log(sel)
                                     var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
-                                    focusedNode.after(newBlock);
+                                    sel.focusNode.after(newBlock);
                                     getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
                                     newBlock.style.textAlign = item.action
                                     scope.api.setCursorAtStart(newBlock);

@@ -1171,6 +1171,19 @@ var MWEditor = function (options) {
             }
         }
         this.wrapper.appendChild(this.bar.bar);
+        if(this.settings.stickyBar) {
+            this.bar.element.css({
+                position: 'sticky',
+                top: 0,
+                zIndx: 10
+            });
+            setTimeout(() => {
+                this.bar.element.parent().css({
+
+                    overflow: 'visible'
+                });
+            }, 100)
+        }
     };
 
     this._onReady = function () {
