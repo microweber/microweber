@@ -13,7 +13,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
 
     public $modalSettings = [
         'overlay' => true,
-        'overlayClose' => false,
+        'overlayClose' => false, 
     ];
 
     public $customFieldId = false;
@@ -124,14 +124,14 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         }
 
     }
-//    public function updatedInputs()
-//    {
-//        if (!empty($this->inputs)) {
-//            $this->state['value'] = array_values($this->inputs);
-//            mw()->fields_manager->save($this->state);
-//            $this->refreshState();
-//        }
-//    }
+    public function updatedInputs()
+    {
+        if (!empty($this->inputs)) {
+            $this->state['value'] = array_values($this->inputs);
+            mw()->fields_manager->save($this->state);
+            $this->refreshState();
+        }
+    }
 
     public function save()
     {
@@ -239,6 +239,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
             // One value
             if ($this->customField and $this->customField->fieldValue->count() > 0) {
                 $this->state['value'] = $this->customField->fieldValue[0]->value;
+
                 if (MultilanguageHelpers::multilanguageIsEnabled()) {
                     $getFieldValue = $this->customField->fieldValue()->first();
                     if ($getFieldValue) {
@@ -254,6 +255,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
                         }
                     }
                 }
+
             }
         }
         if ($this->customField) {
