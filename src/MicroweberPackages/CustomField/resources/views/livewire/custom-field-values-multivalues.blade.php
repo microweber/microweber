@@ -16,13 +16,13 @@
                     </div>
                 </div>
                 <div class="w-full">
-                    <x-microweber-ui::input class="mt-1 block w-full" wire:model.debounce="{{$stateKey}}.inputs.{{ $fieldValue->id }}" />
+                    <x-microweber-ui::input class="mt-1 block w-full" wire:model.debounce="inputs.{{ $fieldValue->id }}" />
                     @error('inputs.'.$fieldValue->id) <span class="text-danger error">{{ $message }}</span>@enderror
                 </div>
 
                 @if (isset($customField->options['as_price_modifier']) && $customField->options['as_price_modifier'])
                     <div class="w-full" style="max-width: 120px;">
-                        <x-microweber-ui::input type="number" class="mt-1 block w-full" wire:model.debounce="{{$stateKey}}.priceModifiers.{{ $fieldValue->id }}" placeholder="0" />
+                        <x-microweber-ui::input type="number" class="mt-1 block w-full" wire:model.debounce="priceModifiers.{{ $fieldValue->id }}" placeholder="0" />
                         @error('priceModifiers.'.$fieldValue->id) <span class="text-danger error">{{ $message }}</span>@enderror
                     </div>
                 @endif
