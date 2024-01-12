@@ -105,6 +105,7 @@ jobs:
         json: '{"http-basic":{"packages.microweberapi.com":{"username":"${{ secrets.COMPOSER_USERNAME }}","password":"${{ secrets.COMPOSER_PASSWORD }}"}}}'
     - name: Install Composer dependencies
       run: |
+        ls -la
         composer install --no-progress --prefer-dist --optimize-autoloader
         chmod -R 0755 vendor/laravel/dusk/bin/
         rm -rf /home/runner/work/microweber/microweber/templates/new-world/
