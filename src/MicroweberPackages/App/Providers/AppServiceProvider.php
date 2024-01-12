@@ -627,6 +627,7 @@ class AppServiceProvider extends ServiceProvider
                 $this->commands('MicroweberPackages\Console\Commands\ModuleCommand');
                 $this->commands('MicroweberPackages\Console\Commands\ReloadDatabaseCommand');
                 $this->commands('MicroweberPackages\Console\Commands\PackageInstallCommand');
+                $this->commands('MicroweberPackages\Console\Commands\AddLicenseKeyCommand');
 
             }
         } else {
