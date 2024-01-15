@@ -343,7 +343,7 @@ var MWEditor = function (options) {
                     var br = range.commonAncestorContainer.ownerDocument.createElement('br');
                     range.deleteContents();
                     range.insertNode(br);
-                    range.collapse()
+                    range.collapseToEnd()
                     e.preventDefault();
                     scope.state.record({
 
