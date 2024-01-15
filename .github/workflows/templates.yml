@@ -102,7 +102,10 @@ jobs:
         cache-dependency-path: ./package-lock.json
     - run: npm install
     - run: npm run build
-
+    - name: Cleanup old theme files
+      run: |
+        rm -rvf userfiles/templates/big
+        rm -rvf userfiles/templates/*
     - name: Add auth composer
       id: create-json
       uses: jsdaniell/create-json@1.1.2
@@ -114,10 +117,6 @@ jobs:
         ls -la
         composer install --no-progress --prefer-dist --optimize-autoloader
         chmod -R 0755 vendor/laravel/dusk/bin/
-    - name: Cleanup old theme files
-      run: |
-        rm -rvf userfiles/templates/big
-        rm -rvf userfiles/templates/*
     - name: Install template
       run: composer require ${{ matrix.templates }} --no-cache
     - name: Install Microweber with template ${{ matrix.templates }}
