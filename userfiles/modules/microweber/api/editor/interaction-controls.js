@@ -380,9 +380,11 @@ MWEditor.interactionControls = {
                     });
 
                     console.log(parntRelative)
-                    if(parntRelative) {
+                    if(parntRelative &&  rootScope.settings.editMode !== 'liveedit') {
+                        var poff = $(parntRelative).offset()
 
-                        css.top = css.top - $(parntRelative).offset().top
+                        css.top = css.top - poff.top
+                        css.left = css.left - poff.left
                     }
 
 
