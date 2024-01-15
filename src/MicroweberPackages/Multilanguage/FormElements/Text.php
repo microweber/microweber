@@ -80,7 +80,8 @@ class Text extends \MicroweberPackages\FormBuilder\Elements\Text
 
         $html = '';
         if (isset($this->prepend) and $this->prepend) {
-            $html .= $this->prepend;
+            //temp fix
+   //         $html .= $this->prepend;
         }
 
         $html .= "<script>
@@ -116,7 +117,8 @@ class Text extends \MicroweberPackages\FormBuilder\Elements\Text
         <input type=\"text\" name=\"$fieldName\" value=\"$fieldValue\" class=\"form-control\" id=\"$this->randId\" "." />";
 
         if (isset($this->append) and $this->append) {
-            $html .= $this->append;
+            //temp fix
+       //     $html .= $this->append;
         }
 
         return $html;
