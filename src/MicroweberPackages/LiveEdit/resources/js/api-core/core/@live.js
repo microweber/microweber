@@ -959,7 +959,12 @@ export class LiveEdit {
             if (selected && !selected.contains(_dblclicktarget) ) {
                 mw.app.editor.dispatch('editNodeRequest', selected);
             } else if (selected &&  selected === _dblclicktarget) {
+                if(!selected.isContentEditable) {
+                    setTimeout(()=>{mw.top().app.richTextEditorAPI.getSelection().collapseToStart()}, 20)
+                }
                 mw.app.editor.dispatch('editNodeRequest', selected);
+
+
             } else if (!selected && e.target.classList.contains('edit') && e.target.style.backgroundImage) {
                 mw.app.editor.dispatch('editNodeRequest', e.target);
             } else if(this.elementAnalyzer.isEditOrInEdit(selected)) {
