@@ -330,8 +330,6 @@ var MWEditor = function (options) {
 
 
                 if (!isLi || (isLi && event.shiftKey)) {
-                   // scope.document.execCommand('insertLineBreak');
-
 
                     scope.state.record({
 
@@ -339,14 +337,26 @@ var MWEditor = function (options) {
                         value: edit.innerHTML
                     });
 
-                    var range = instance.api.getSelection().getRangeAt(0);
+                    var sel = instance.api.getSelection() ;
+                    var range = sel.getRangeAt(0);
                     var br = range.commonAncestorContainer.ownerDocument.createElement('br');
-                    range.deleteContents();
+
                     range.insertNode(br);
-                    range.collapseToEnd()
+                    range = range.cloneRange();
+
+                    if(!br.nextSibling || !br.nextSibling.nodeValue) {
+                        br.after(document.createTextNode('\u200B'))
+                    }
+                    range.selectNode ( br );
+                    range.collapse(false);
+
+
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+
+
                     e.preventDefault();
                     scope.state.record({
-
                         target: edit,
                         value: edit.innerHTML
                     });
