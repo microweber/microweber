@@ -323,7 +323,8 @@ export default {
             const showModal = () => {
                 instance.showModal = true;
                 setTimeout(() => {
-                    const searchField = document.querySelector('.mw-le-modules-dialog input.mw-modules-list-search-block');
+                    const searchField = document.querySelector('.mw-le-layouts-dialog input.modules-list-search-field');
+
                     if(searchField) {
                         searchField.focus()
                     }
@@ -362,6 +363,7 @@ export default {
         // });
 
         // Close on Escape
+
         document.addEventListener('keyup', function (evt) {
             if (evt.keyCode === 27) {
                 instance.showModal = false;
