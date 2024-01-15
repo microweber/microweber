@@ -379,7 +379,7 @@ MWEditor.interactionControls = {
                         }
                     });
 
-                    console.log(parntRelative)
+
                     if(parntRelative &&  rootScope.settings.editMode !== 'liveedit') {
                         var poff = $(parntRelative).offset()
 

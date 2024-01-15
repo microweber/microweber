@@ -326,15 +326,17 @@ var MWEditor = function (options) {
             if (e.type === 'keydown' && e.key === "Enter") {
                 const focusNode = scope.api.elementNode(scope.getSelection().focusNode);
                 const isLi = mw.tools.firstParentOrCurrentWithTag(focusNode, 'li');
+                const edit = mw.tools.firstParentOrCurrentWithClass(focusNode, 'edit') || scope.$editArea[0];
 
 
                 if (!isLi || (isLi && event.shiftKey)) {
                    // scope.document.execCommand('insertLineBreak');
 
+
                     scope.state.record({
 
-                        target: scope.$editArea[0],
-                        value: scope.$editArea[0].innerHTML
+                        target: edit,
+                        value: edit.innerHTML
                     });
 
                     var range = instance.api.getSelection().getRangeAt(0);
@@ -345,8 +347,8 @@ var MWEditor = function (options) {
                     e.preventDefault();
                     scope.state.record({
 
-                        target: scope.$editArea[0],
-                        value: scope.$editArea[0].innerHTML
+                        target: edit,
+                        value: edit.innerHTML
                     });
                     return;
                 }
