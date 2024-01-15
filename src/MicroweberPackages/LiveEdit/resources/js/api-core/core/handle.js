@@ -146,19 +146,27 @@ export const Handle = function (options) {
             }
 
 
-
-
-
             menu.style.transition = `none`;
             menu.style.transform = transform ? `translateY(${transform}px)` : '';
+
 
             if(typeof this.settings.onPosition === 'function') {
                 this.settings.onPosition(menu, transform, off)
             }
 
+            menu.style.marginLeft = 0
 
 
 
+
+
+            setTimeout(() => {
+                var offmenu = mw.element(menu).offset();
+                if(offmenu.offsetLeft + menu.offsetWidth > menu.ownerDocument.defaultView.innerWidth){
+                    menu.style.marginLeft = ( menu.ownerDocument.defaultView.innerWidth - (offmenu.offsetLeft + menu.offsetWidth + 12)) + 'px'
+                }
+
+            }, 120)
             setTimeout(() => menu.style.transition = ``, 100)
         }
 
