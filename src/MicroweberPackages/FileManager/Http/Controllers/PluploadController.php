@@ -600,7 +600,11 @@ class PluploadController extends Controller
                         $valid = false;
                         if (is_file($filePath)) {
                             $dirtySVG = file_get_contents($filePath);
-                            $valid = $files_utils->check_if_svg_is_valid($dirtySVG);
+                            $dirtySVG = $files_utils->sanitize_svg($dirtySVG);
+                            file_put_contents($filePath, $dirtySVG);
+
+                            $valid = true;
+                            //$valid = $files_utils->check_if_svg_is_valid($dirtySVG);
                         }
 
 
@@ -610,7 +614,12 @@ class PluploadController extends Controller
 
                     if (!$valid) {
                         @unlink($filePath);
-                        die('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
+                    //    die('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
+
+                        $error_json = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
+                        $error_json = json_decode($error_json, true);
+                        return response()->json($error_json, 422);;
+
                     }
                 }
 
@@ -687,8 +696,10 @@ class PluploadController extends Controller
                 } catch (Exception $e) {
                     @unlink($filePath);
 
-                    die('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
+                    $error_json = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
+                    $error_json = json_decode($error_json, true);
 
+                    return response()->json($error_json, 422);;
                 }
             }
 

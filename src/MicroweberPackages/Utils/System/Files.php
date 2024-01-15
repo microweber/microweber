@@ -1136,7 +1136,12 @@ class Files
 
         return false;
     }
-
+    function sanitize_svg($dirtySVG)
+    {
+        $sanitizer = new \enshrined\svgSanitize\Sanitizer();
+        $cleanSVG = $sanitizer->sanitize($dirtySVG);
+        return $cleanSVG;
+    }
     function check_if_svg_is_valid($dirtySVG)
     {
         $sanitizer = new \enshrined\svgSanitize\Sanitizer();
@@ -1163,8 +1168,10 @@ class Files
                 "<",
             ];
 
+
             $compare1 = strtolower(trim(str_replace($replaces, '', $cleanSVG)));
             $compare2 = strtolower(trim(str_replace($replaces, '', $dirtySVG)));
+
             if (md5($compare1) != md5($compare2)) {
                  $valid = false;
             }
