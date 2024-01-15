@@ -480,8 +480,7 @@ export class ElementHandleContent {
             },
             ...elementLinkMenu,
             ...elementEditStyleMenu,
-            ...elementEditImageUploadMenu,
-            ...elementEditImageInEditorMenu,
+
             ...elementBackgroundImageMenu,
             // ...elementLinkMenuGroup,
             {
@@ -524,29 +523,37 @@ export class ElementHandleContent {
             // ...cloneAbleMenu,
             //  ...elementImageMenu,
            ...cloneAbleMenuInMoreMenu,
-
+            ...elementEditImageUploadMenu,
+            ...elementEditImageInEditorMenu,
+            ...elementResetImageSizeMenu,
+            ...elementResetSizeMenu,
 
         ]
 
         var tailMenuQuickSettings = [];
 
-        var shouldShowMoreMenu = false;
-        if(cloneAbleMenuInMoreMenu.length > 0) {
-            shouldShowMoreMenu = true;
-        }
-        if(elementResetSizeMenu.length > 0) {
-            shouldShowMoreMenu = true;
-        }
-        if(elementBackgroundImageMenuOnMoreButton.length > 0) {
-            shouldShowMoreMenu = true;
-        }
+
+        var shouldShowMoreMenu = cloneAbleMenuInMoreMenu.length > 0 ||
+            elementResetSizeMenu.length > 0 ||
+            elementEditImageUploadMenu.length > 0 ||
+            elementEditImageInEditorMenu.length > 0 ||
+            elementBackgroundImageMenuOnMoreButton.length > 0;
+
+
 
         if(shouldShowMoreMenu) {
+
+
+
+
              tailMenuQuickSettings = [
                 {
                     title: 'Quick Settings',
                     icon: this.handleIcons.icon('more'),
                     menu: [
+                        ...elementEditImageUploadMenu,
+                        ...elementEditImageInEditorMenu,
+                        ...elementResetImageSizeMenu,
                         // {
                         //     name: 'Cloneable',
                         //
@@ -564,7 +571,7 @@ export class ElementHandleContent {
                             nodes:
                             elementBackgroundImageMenuOnMoreButton
 
-                        },
+                        }
                     ]
                 },
             ];
@@ -609,11 +616,11 @@ export class ElementHandleContent {
             //     name: 'cloneAbleMenu',
             //     nodes: cloneAbleMenu
             // },
-            {
-                name: 'Image settings',
-                nodes: elementResetImageSizeMenu
-
-            },
+            // {
+            //     name: 'Image settings',
+            //     nodes: elementResetImageSizeMenu
+            //
+            // },
 
 
             // {
@@ -622,12 +629,12 @@ export class ElementHandleContent {
             // },
             ];
 
-        if(tailMenuQuickSettings.length > 0) {
-            menuItems.push({
-                name: 'tailMenuQuickSettings',
-                nodes: tailMenuQuickSettings
-            });
-        }
+        // if(tailMenuQuickSettings.length > 0) {
+        //     menuItems.push({
+        //         name: 'tailMenuQuickSettings',
+        //         nodes: tailMenuQuickSettings
+        //     });
+        // }
 
         menuItems.push({
             name: 'tail',
@@ -642,7 +649,6 @@ export class ElementHandleContent {
 
 
         });
-        // Rest of your initMenu code here
     }
 
 
