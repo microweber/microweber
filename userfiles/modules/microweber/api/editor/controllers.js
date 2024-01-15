@@ -577,9 +577,11 @@ MWEditor.controllers = {
                         if(rootScope.settings.editMode === 'liveedit') {
                             mw.top().app.cssEditor.temp(actionTarget, 'font-weight', weight);
                         } else {
+                            const edit = mw.tools.firstParentOrCurrentWithClass(node, 'edit') || scope.$editArea[0];
+
                             rootScope.state.record({
-                                target: rootScope.$editArea[0],
-                                value: rootScope.$editArea[0].innerHTML
+                                target: edit,
+                                value: edit.innerHTML
                             });
                             if(rootScope.editArea === actionTarget) {
 
@@ -596,8 +598,8 @@ MWEditor.controllers = {
                             }
 
                             rootScope.state.record({
-                                target: rootScope.$editArea[0],
-                                value: rootScope.$editArea[0].innerHTML
+                                target: edit,
+                                value: edit.innerHTML
                             });
                         }
 
