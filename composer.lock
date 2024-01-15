@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7c60238f2c7c5c7dbe2f52672a64696",
+    "content-hash": "c5f09db2fae13b573832fe6b9b3948d2",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -7214,23 +7214,23 @@
         },
         {
             "name": "microweber-modules/standalone-updater",
-            "version": "5.3.6",
+            "version": "5.3.7",
             "target-dir": "standalone-updater",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-modules/standalone-updater",
-                "reference": "2c9e9615e35cce8f78b8b30ea1fe904d722add79"
+                "reference": "41ea1d29b912bb3251f5eabe4b80f83485f0ca35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-5.3.6-9eac9f.zip",
-                "reference": "2c9e9615e35cce8f78b8b30ea1fe904d722add79",
-                "shasum": "7e31f2bcb70c892e4f646477fc7c4aea902fef88"
+                "url": "https://packages.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-5.3.7-2e1aa0.zip",
+                "reference": "41ea1d29b912bb3251f5eabe4b80f83485f0ca35",
+                "shasum": "d8762fdc1ec292d614c99b17a1a361d9de1ff17c"
             },
             "type": "microweber-module",
             "extra": {
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-modules-standalone-updater/536/README.md"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-modules-standalone-updater/537/README.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7251,7 +7251,7 @@
             "keywords": [
                 "standalone-updater"
             ],
-            "time": "2023-10-30T11:44:41+00:00"
+            "time": "2023-12-08T09:26:25+00:00"
         },
         {
             "name": "microweber-packages/composer-client",
@@ -7352,7 +7352,7 @@
         },
         {
             "name": "microweber-templates/big-free",
-            "version": "9.6",
+            "version": "11.7",
             "target-dir": "big",
             "source": {
                 "type": "git",
@@ -7361,9 +7361,9 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-9.6-11b870.zip",
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-11.7-11b870.zip",
                 "reference": "07596634ae00e128f62b22428cc1f042b415e5ec",
-                "shasum": "d6e40efa148da292f6fac6b469750f531a453854"
+                "shasum": "eba19875a0f11213fecf82340f51a8444970b90a"
             },
             "type": "microweber-template",
             "extra": {
@@ -7605,9 +7605,9 @@
                     "/layouts/templates/header/skin-24.php"
                 ],
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/96/README.md",
-                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/96/screenshot.jpg",
-                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/96/screenshot_large.jpg"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/117/README.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/117/screenshot.jpg",
+                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/117/screenshot_large.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
