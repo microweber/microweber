@@ -1,5 +1,10 @@
 name: PHP Templates Tests
-on: [push,pull_request]
+on:
+  push:
+    branches:
+      - dev
+      - test
+
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

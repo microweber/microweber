@@ -170,7 +170,7 @@ if (!isset($rand)) {
                 }
 
 
-
+                    mw.notification.success('<?php _ejs('Menu item saved'); ?>');
 
                 return data;
 
