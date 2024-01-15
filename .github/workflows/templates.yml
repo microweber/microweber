@@ -114,7 +114,10 @@ jobs:
         ls -la
         composer install --no-progress --prefer-dist --optimize-autoloader
         chmod -R 0755 vendor/laravel/dusk/bin/
-        rm -rf /home/runner/work/microweber/microweber/templates/*
+    - name: Cleanup old theme files
+      run: |
+        rm -rvf userfiles/templates/big
+        rm -rvf userfiles/templates/*
     - name: Install template
       run: composer require ${{ matrix.templates }} --no-cache
     - name: Install Microweber with template ${{ matrix.templates }}
