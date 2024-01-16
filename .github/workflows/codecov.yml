@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  main:
+  main-codecov:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true

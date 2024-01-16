@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  main:
+  main-coveralls:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
@@ -57,8 +57,8 @@ jobs:
         flag-name: run-${{ join(matrix.*, '-') }}
         parallel: true
         files: clover.xml
-  dusk:
-    needs: main
+  dusk-coveralls:
+    needs: main-coveralls
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
@@ -96,7 +96,7 @@ jobs:
         parallel: true
         files: tests/coverages/dusk-clover.xml
   finish:
-    needs: dusk
+    needs: dusk-coveralls
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
