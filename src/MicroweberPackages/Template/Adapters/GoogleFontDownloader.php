@@ -37,37 +37,14 @@ class GoogleFontDownloader {
                 continue;
             }
 
-            $countSubset = 0;
-            $replaceFontUrls = [];
+            $fontUrls = [];
+            $fontFamily = '';
             foreach ($cssContents as $cssContent) {
                 $cssRules = $cssContent->getRules();
                 if (empty($cssRules)) {
                     continue;
                 }
-                $countSubset++;
-
-                $fontFamily = '';
-                $fontStyle = '';
-                $fontWeight = '';
-                $fontFileType = '';
-
-//                $cssComments = $cssContent->getComments();
-//                if (empty($cssComments)) {
-//                    continue;
-//                }
-//                if (!isset($cssComments[0])) {
-//                    continue;
-//                }
-//                $fontSubset = $cssComments[0]->getComment();
-//                $fontSubset = trim($fontSubset);
-
                 foreach ($cssRules as $cssRule) {
-                    if ($cssRule->getRule() == 'font-style') {
-                        $fontStyle = $cssRule->getValue();
-                    }
-                    if ($cssRule->getRule() == 'font-weight') {
-                        $fontWeight = $cssRule->getValue()->getSize();
-                    }
                     if ($cssRule->getRule() == 'font-family') {
                         $fontFamily = $cssRule->getValue()->getString();
                     }
@@ -77,30 +54,31 @@ class GoogleFontDownloader {
                         if (!isset($fontFileComponents[0]) or !method_exists($fontFileComponents[0], 'getURL')) {
                             continue;
                         }
-                        $fontFileUrl = $fontFileComponents[0]->getURL()->getString();
-                        $fontFileType = get_file_extension($fontFileUrl);
+                        $fontUrl =  $fontFileComponents[0]->getURL()->getString();
+                        $fontUrls[md5($fontUrl)] = $fontUrl;
                     }
                 }
+            }
 
-                $fontPath = $this->outputPath .DS. str_slug($fontFamily);
-                if (!is_dir($fontPath)) {
-                    mkdir_recursive($fontPath);
-                }
-                $fontFilename = str_slug($countSubset .'-'. $fontFamily . '-' . $fontWeight . '-' . $fontStyle) . '.' . $fontFileType;
-                $fontFileContent = $this->_downloadFile($fontFileUrl);
-                file_put_contents($fontPath .DS. $fontFilename, $fontFileContent);
-                $replaceFontUrls[] = [
-                    'original' => $fontFileUrl,
-                    'new' => './' . $fontFilename,
-                ];
+            if (empty($fontUrls)) {
+                continue;
             }
+
             $newFontFileContent = $getContent;
-            if (!empty($replaceFontUrls)) {
-                foreach ($replaceFontUrls as $replaceFontUrl) {
-                    $newFontFileContent = str_replace($replaceFontUrl['original'], $replaceFontUrl['new'], $newFontFileContent);
-                }
+            $fontPath = $this->outputPath .DS. str_slug($fontFamily);
+            if (!is_dir($fontPath)) {
+                mkdir_recursive($fontPath);
             }
+
+            foreach ($fontUrls as $fontFileUrl) {
+                $fontFileContent = $this->_downloadFile($fontFileUrl);
+                $fontFilename = basename($fontFileUrl);
+                file_put_contents($fontPath .DS. $fontFilename, $fontFileContent);
+                $newFontFileContent = str_replace($fontFileUrl, './'.$fontFilename, $newFontFileContent);
+            }
+
             file_put_contents($fontPath . DS . 'font.css', $newFontFileContent);
+
         }
     }
 
