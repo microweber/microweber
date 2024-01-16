@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Core\DatabaseManager\tests;
 
+use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
@@ -28,6 +29,8 @@ class DbTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        Content::truncate();
+        Category::truncate();
         $this->content = db_save('content', $this->save);
         $this->content5 = db_save('content', $this->save_post);
     }
@@ -216,4 +219,5 @@ class DbTest extends TestCase
             $this->assertTrue(isset($item['position']));
         }
     }
+
 }
