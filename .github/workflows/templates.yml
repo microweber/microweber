@@ -1,11 +1,9 @@
 name: PHP Templates Tests
 on:
-  push:
-    branches:
-      - dev
-      - test
-  schedule:
-    - cron: '0 18 * * *' # This runs the workflow every day at 6 PM (18:00) UTC
+  workflow_run:
+    workflows: ["Dusk"]
+    types:
+      - completed
   workflow_dispatch:
     inputs:
       templates:
