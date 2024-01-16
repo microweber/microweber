@@ -43,17 +43,7 @@
         mw.lib.require('nouislider');
 
         mw.require('icon_selector.js');
-        mw.iconLoader()
-            .addIconSet('mwIcons')
-            .addIconSet('materialIcons')
-            .addIconSet('iconsMindLine')
-            .addIconSet('iconsMindSolid')
-            .addIconSet('fontAwesome')
-            .addIconSet('materialDesignIcons')
 
-
-
-      //  mw.lib.require('mwui');
 
         mw.lib.require('flag_icons', true);
        //  mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);

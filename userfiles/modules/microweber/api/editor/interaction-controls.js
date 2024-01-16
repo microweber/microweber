@@ -117,11 +117,13 @@ MWEditor.interactionControls = {
             return el;
         };
         this.interact = function (data) {
+
             var tg = mw.tools.firstParentOrCurrentWithTag(data.target,'a');
-            if(!tg) {
+            if(!tg || !tg.isContentEditable) {
                 this.element.hide();
                 return;
             }
+
             var $target = $(data.target);
             this.$target = $target;
             var css = $target.offset();
