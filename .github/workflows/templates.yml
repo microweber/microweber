@@ -4,6 +4,14 @@ on:
     branches:
       - dev
       - test
+  schedule:
+    - cron: '0 18 * * *' # This runs the workflow every day at 6 PM (18:00) UTC
+  workflow_dispatch:
+    inputs:
+      templates:
+        description: 'Templates to test'
+        required: true
+        default: 'microweber-templates/big'
 
 
 concurrency:
