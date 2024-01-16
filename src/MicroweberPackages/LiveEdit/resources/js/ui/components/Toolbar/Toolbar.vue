@@ -243,8 +243,8 @@ export default {
                 // check if windowd location is in admin
                 if (liveEditIframeDocument.location.href.indexOf(this.backToAdminLink) !== -1) {
                     // go top to the location in admin
-                     mw.notification.msg('Redirecting to admin...', 5000, 'info', true);
-                  window.location.href = liveEditIframeDocument.location.href;
+                    mw.notification.success('You are back to admin', 5000);
+                    window.location.href = liveEditIframeDocument.location.href;
                 }
 
 

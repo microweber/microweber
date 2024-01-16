@@ -7,7 +7,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  main:
+  main_phpunit:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
