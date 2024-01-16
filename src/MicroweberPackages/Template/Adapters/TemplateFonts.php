@@ -40,10 +40,7 @@ class TemplateFonts
         }
 
         $downloader = new GoogleFontDownloader();
-        $downloader->setConfig([
-            'output'=>$fontsPath,
-        //    'formats'=>['woff','woff2','svg']
-        ]);
+        $downloader->setOutputPath($fontsPath);
 
         if (!empty($enabledCustomFonts)) {
             foreach ($enabledCustomFonts as $font) {
@@ -51,20 +48,12 @@ class TemplateFonts
                     $font = str_replace('%2B', '+', $font);
                     $fontUrl = urlencode($font);
                     $output[] = "@import url(//{$googleFontDomain}/css?family={$fontUrl}:300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic);";
-                    $downloader->addFont($font,
-                        'italic', [
-                        '300','400', '500', '600', '700', '800'
-                        ],
-                        ['woff','woff2','svg'],
-                        ['latin','cyrillic-ext','greek-ext','greek','vietnamese','latin-ext','cyrillic'],
-                    );
+                    $downloader->addFontUrl("https://{$googleFontDomain}/css?family={$fontUrl}:300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic");
                 }
             }
         }
 
-        $result = $downloader->download(function($cb) {
-            echo '<pre>' . print_r($cb, true) . '</pre>';
-        });
+        $downloader->download();
 
         return implode("\n", $output);
     }
