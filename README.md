@@ -173,7 +173,13 @@ Join our Discord server [here](https://microweber.org/go/discord).
 
 ### Dev branch
 ![PHP Unit Tests](https://github.com/microweber/microweber/actions/workflows/ci.yml/badge.svg?branch=dev)
+![Browser Tests](https://github.com/microweber/microweber/actions/workflows/dusk.yml/badge.svg?branch=dev)
 
+All development is done on the `dev` branch. The `master` branch is used for stable releases.
+
+Please note that the `dev` branch is not guaranteed to be stable at all times, and may contain bugs or other issues. Use it at your own risk.
+
+Please submit all pull requests to the `dev` branch.
 
 
 ## Contributors

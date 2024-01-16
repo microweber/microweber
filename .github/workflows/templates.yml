@@ -4,6 +4,14 @@ on:
     branches:
       - dev
       - test
+  schedule:
+    - cron: '0 18 * * *' # This runs the workflow every day at 6 PM (18:00) UTC
+  workflow_dispatch:
+    inputs:
+      templates:
+        description: 'Templates to test'
+        required: true
+        default: 'microweber-templates/big'
 
 
 concurrency:
@@ -14,7 +22,7 @@ jobs:
   main:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 16
+      max-parallel: 1
       fail-fast: false
       matrix:
         templates: [
@@ -30,7 +38,7 @@ jobs:
          'microweber-templates/shopmag',
 #          'microweber-templates/accessories',
 #          'microweber-templates/apartment',
-          'microweber-templates/art',
+   #       'microweber-templates/art',
 #          'microweber-templates/bamboo',
 #          'microweber-templates/banking',
            'microweber-templates/beauty',
@@ -62,15 +70,15 @@ jobs:
 #          'microweber-templates/offline-cash',
 #          'microweber-templates/photography',
 #          'microweber-templates/portfolio',
-          'microweber-templates/private-school',
+ #         'microweber-templates/private-school',
 #          'microweber-templates/services',
 #          'microweber-templates/simple-shop',
 #          'microweber-templates/skydive',
 #          'microweber-templates/tattoo',
  #         'microweber-templates/theplace',
 #          'microweber-templates/tony',
-          'microweber-templates/tourism',
-          'microweber-templates/urban',
+     #     'microweber-templates/tourism',
+ #         'microweber-templates/urban',
           'microweber-templates/big',
 #          'microweber-templates/veterinary',
 #          'microweber-templates/wedding',
@@ -102,7 +110,10 @@ jobs:
         cache-dependency-path: ./package-lock.json
     - run: npm install
     - run: npm run build
-
+    - name: Cleanup old theme files
+      run: |
+        rm -rf userfiles/templates/big
+        rm -rf userfiles/templates/*
     - name: Add auth composer
       id: create-json
       uses: jsdaniell/create-json@1.1.2
@@ -114,7 +125,9 @@ jobs:
         ls -la
         composer install --no-progress --prefer-dist --optimize-autoloader
         chmod -R 0755 vendor/laravel/dusk/bin/
-        rm -rf /home/runner/work/microweber/microweber/templates/*
+    - name: Clean opcache
+      run: |
+        php -r "if (function_exists('opcache_reset')) { var_dump(opcache_reset()); } else { echo 'opcache_reset function does not exist.'; }"
     - name: Install template
       run: composer require ${{ matrix.templates }} --no-cache
     - name: Install Microweber with template ${{ matrix.templates }}
