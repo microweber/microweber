@@ -311,6 +311,9 @@ export class ElementActions extends MicroweberBaseClass {
         //remove class mw-resized
         el.classList.remove('mw-resized');
         mw.app.registerChangedState(el);
+        const sel = mw.tools.generateSelectorForNode(el);
+        mw.top().app.cssEditor.setPropertyForSelector(sel, 'width', '', true, true);
+        mw.top().app.cssEditor.setPropertyForSelector(sel, 'height', '', true, true);
         this.proto.elementHandle.set(el);
     }
     resetImageSize(el) {
