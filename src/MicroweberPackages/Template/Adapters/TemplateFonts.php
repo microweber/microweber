@@ -33,7 +33,6 @@ class TemplateFonts
         $googleFontDomain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
         $enabledCustomFonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
         $output = [];
-      //  $fontLinks = [];
 
         $fontsPath = userfiles_path() . 'fonts' . DS;
         if (!is_dir($fontsPath)) {
@@ -45,8 +44,6 @@ class TemplateFonts
             'output'=>$fontsPath,
         //    'formats'=>['woff','woff2','svg']
         ]);
-        $downloader->addFont('Roboto', 'italic', ['400', 500]);
-        $downloader->addFont('Roboto', 'normal', ['400', 500, 700]);
 
         if (!empty($enabledCustomFonts)) {
             foreach ($enabledCustomFonts as $font) {
@@ -54,7 +51,13 @@ class TemplateFonts
                     $font = str_replace('%2B', '+', $font);
                     $fontUrl = urlencode($font);
                     $output[] = "@import url(//{$googleFontDomain}/css?family={$fontUrl}:300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic);";
-                   // $fontLinks[] = "https//{$googleFontDomain}/css?family={$fontUrl}:300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic";
+                    $downloader->addFont($font,
+                        'italic', [
+                        '300','400', '500', '600', '700', '800'
+                        ],
+                        ['woff','woff2','svg'],
+                        ['latin','cyrillic-ext','greek-ext','greek','vietnamese','latin-ext','cyrillic'],
+                    );
                 }
             }
         }
@@ -62,8 +65,6 @@ class TemplateFonts
         $result = $downloader->download(function($cb) {
             echo '<pre>' . print_r($cb, true) . '</pre>';
         });
-
-        dd($result);
 
         return implode("\n", $output);
     }
