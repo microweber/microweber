@@ -7,7 +7,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  dusk_apache:
+  dusk_apache_big_theme:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
