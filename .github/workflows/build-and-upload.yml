@@ -1,10 +1,7 @@
 name: Microweber build & upload
 
 on:
-  workflow_run:
-    workflows: ["PHP Unit Tests"]
-    types:
-      - completed
+  push:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
