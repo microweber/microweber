@@ -1,9 +1,6 @@
 name: PHP Coverage Tests With Xdebug
 on:
-  push:
-    branches:
-      - dev
-      - test
+  workflow_dispatch:
   schedule:
     - cron: '0 18 * * *' # This runs the workflow every day at 6 PM (18:00) UTC
 
@@ -22,6 +19,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        ref: dev
     - name: Npm install
       uses: actions/setup-node@v3
       with:
@@ -68,6 +67,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        ref: dev
     - uses: ./.github/actions/setup-php
       with:
         php_version: ${{ matrix.php-versions }}
