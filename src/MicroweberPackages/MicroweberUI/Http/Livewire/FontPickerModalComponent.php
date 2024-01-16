@@ -5,6 +5,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Livewire\WithPagination;
 use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\Template\Adapters\GoogleFontDownloader;
 use MicroweberPackages\Utils\Misc\GoogleFonts;
 
 class FontPickerModalComponent extends ModalComponent
@@ -59,6 +60,20 @@ class FontPickerModalComponent extends ModalComponent
 
     public function favorite($fontFamily)
     {
+        $fontsPath = userfiles_path() . 'fonts';
+        if (!is_dir($fontsPath)) {
+            mkdir_recursive($fontsPath);
+        }
+
+        $googleFontDomain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
+        $fontUrl = str_replace('%2B', '+', $fontFamily);
+        $fontUrl = urlencode($fontUrl);
+
+        $downloader = new GoogleFontDownloader();
+        $downloader->setOutputPath($fontsPath);
+        $downloader->addFontUrl("https://{$googleFontDomain}/css?family={$fontUrl}:300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic");
+        $downloader->download();
+
         $newFavorites = [];
         $favoritesFonts = GoogleFonts::getEnabledFonts();
 

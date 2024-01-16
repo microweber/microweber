@@ -33,7 +33,7 @@ class TemplateFonts
         $googleFontDomain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
         $enabledCustomFonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
         $output = [];
-        
+
         if (!empty($enabledCustomFonts)) {
             foreach ($enabledCustomFonts as $font) {
                 if ($font) {
@@ -43,11 +43,6 @@ class TemplateFonts
 
                 }
             }
-        }
-
-        $fontsPath = userfiles_path() . 'fonts';
-        if (!is_dir($fontsPath)) {
-            mkdir_recursive($fontsPath);
         }
 
         return implode("\n", $output);
