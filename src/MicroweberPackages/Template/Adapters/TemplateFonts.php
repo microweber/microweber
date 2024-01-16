@@ -30,18 +30,40 @@ class TemplateFonts
 
     public function getFontsStylesheetCss() : string
     {
-        $google_font_domain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
-        $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
+        $googleFontDomain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
+        $enabledCustomFonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
         $output = [];
-        if (!empty($enabled_custom_fonts)) {
-            foreach ($enabled_custom_fonts as $font) {
+      //  $fontLinks = [];
+
+        $fontsPath = userfiles_path() . 'fonts' . DS;
+        if (!is_dir($fontsPath)) {
+            mkdir_recursive($fontsPath);
+        }
+
+        $downloader = new GoogleFontDownloader();
+        $downloader->setConfig([
+            'output'=>$fontsPath,
+        //    'formats'=>['woff','woff2','svg']
+        ]);
+        $downloader->addFont('Roboto', 'italic', ['400', 500]);
+        $downloader->addFont('Roboto', 'normal', ['400', 500, 700]);
+
+        if (!empty($enabledCustomFonts)) {
+            foreach ($enabledCustomFonts as $font) {
                 if ($font) {
                     $font = str_replace('%2B', '+', $font);
-                    $font_url = urlencode($font);
-                    $output[] = "@import url(//{$google_font_domain}/css?family={$font_url}:300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic);";
+                    $fontUrl = urlencode($font);
+                    $output[] = "@import url(//{$googleFontDomain}/css?family={$fontUrl}:300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic);";
+                   // $fontLinks[] = "https//{$googleFontDomain}/css?family={$fontUrl}:300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic";
                 }
             }
         }
+
+        $result = $downloader->download(function($cb) {
+            echo '<pre>' . print_r($cb, true) . '</pre>';
+        });
+
+        dd($result);
 
         return implode("\n", $output);
     }
