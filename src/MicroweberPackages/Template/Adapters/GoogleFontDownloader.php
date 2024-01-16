@@ -25,7 +25,14 @@ class GoogleFontDownloader {
 
         foreach ($this->fontUrls as $fontUrl) {
 
-            $getContent = $this->_downloadFile($fontUrl);
+            $mainFontFile = md5($fontUrl) . '.css';
+            if (is_file($this->outputPath .DS. $mainFontFile)) {
+                $getContent = file_get_contents($this->outputPath .DS. $mainFontFile);
+            } else {
+                $getContent = $this->_downloadFile($fontUrl);
+                file_put_contents($this->outputPath .DS. $mainFontFile, $getContent);
+            }
+
             $parser = new \Sabberworm\CSS\Parser($getContent);
             $cssDocument = $parser->parse();
             if (empty($cssDocument)) {
@@ -86,6 +93,9 @@ class GoogleFontDownloader {
                     mkdir_recursive($fontPath);
                 }
                 $fontFilename = str_slug($countSubset .'-'. $fontFamily . '-' . $fontWeight . '-' . $fontStyle) . '.' . $fontFileType;
+                if (is_file($fontPath .DS. $fontFilename)) {
+                    continue;
+                }
                 $fontFileContent = $this->_downloadFile($fontFileUrl);
                 file_put_contents($fontPath .DS. $fontFilename, $fontFileContent);
                 $replaceFontUrls[] = [
@@ -100,7 +110,9 @@ class GoogleFontDownloader {
                 }
             }
 
-            file_put_contents($fontPath .DS. 'font.css', $newFontFileContent);
+            if (!is_file($fontPath .DS. 'font.css')) {
+                file_put_contents($fontPath . DS . 'font.css', $newFontFileContent);
+            }
         }
     }
 
