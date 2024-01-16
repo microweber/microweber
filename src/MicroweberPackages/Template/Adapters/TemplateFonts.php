@@ -34,7 +34,7 @@ class TemplateFonts
         $enabledCustomFonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
         $output = [];
 
-        $fontsPath = userfiles_path() . 'fonts' . DS;
+        $fontsPath = userfiles_path() . 'fonts';
         if (!is_dir($fontsPath)) {
             mkdir_recursive($fontsPath);
         }
