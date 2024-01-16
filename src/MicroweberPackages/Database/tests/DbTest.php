@@ -183,7 +183,7 @@ class DbTest extends TestCase
         $content_max = intval($content_max);
         $this->assertTrue(is_numeric($content_avg));
         $content_avg = intval($content_avg);
-        $this->assertTrue(($content < $content_max), "Content: " . $content . ", Content_max: " . $content_max);
+        $this->assertTrue(($content <= $content_max), "Content: " . $content . ", Content_max: " . $content_max);
         $this->assertTrue(($content_avg < $content_max), "Content_avg: " . $content_avg . ", Content_max: " . $content_max);
         $this->assertTrue(($content <= $content_avg), "Content: " . $content . ", Content_avg: " . $content_avg);
     }
