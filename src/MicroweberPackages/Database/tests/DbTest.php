@@ -5,6 +5,7 @@ namespace MicroweberPackages\Core\DatabaseManager\tests;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
 class DbTest extends TestCase
 {
@@ -33,6 +34,21 @@ class DbTest extends TestCase
         Category::truncate();
         $this->content = db_save('content', $this->save);
         $this->content5 = db_save('content', $this->save_post);
+    }
+
+    public function testDbSaveJsonField()
+    {
+
+        $customFieldValueId = db_save('custom_fields_values', [
+            'rel_type' => 'content',
+            'rel_id' => 1,
+            'custom_field_id' => 1,
+            'value' => json_encode(['test' => 'test'])
+        ]);
+
+       $findCustomFieldValue = CustomFieldValue::where('id', $customFieldValueId)->first();
+
+       $this->assertEquals($findCustomFieldValue->value, json_encode(['test' => 'test']));
     }
 
     public function testSaveIsShop()
