@@ -3,9 +3,13 @@
 namespace MicroweberPackages\Notification\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class MailTemplate extends Model
 {
+
+    use HasMultilanguageTrait;
+
   //  protected $appends = ['type', 'name', 'subject'];
 
     public $timestamps = false;
@@ -23,5 +27,5 @@ class MailTemplate extends Model
         "is_active",
     ];
 
-    public $translatable = ['name','from_name', 'subject', 'message'];
+    public $translatable = ['subject', 'message', ''];
 }
