@@ -159,7 +159,7 @@ if (!empty($template_id)) {
             </div>
             <hr class="thin"/>
 
-            <h5 class="mb-3"><?php _e("Sendind the email"); ?></h5>
+            <h5 class="mb-3"><?php _e("Email details"); ?></h5>
             <div class="row">
                 <div class="col-12">
                     <div class="form-group mb-4">
@@ -187,10 +187,7 @@ if (!empty($template_id)) {
                 </div>
             </div>
             <hr class="thin"/>
-
-
-            <?php event_trigger('admin_mail_templates_message'); ?>
-
+            
             <h5 class="mb-3"><?php _e("Message"); ?></h5>
             <div class="row">
                 <div class="col-12">
