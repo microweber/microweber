@@ -62,7 +62,7 @@ const editImage = (url, target, dialog) => {
                 },
             ],
         },
-        tabsIds: [TABS.FINETUNE, TABS.FILTERS, TABS.ADJUST, TABS.ANNOTATE, /*TABS.WATERMARK*/], // or ['Adjust', 'Annotate', 'Watermark']
+        tabsIds: [TABS.FINETUNE, TABS.FILTERS, TABS.ADJUST, TABS.ANNOTATE, /*TABS.WATERMARK*/, TABS.RESIZE], // or ['Adjust', 'Annotate', 'Watermark']
         defaultTabId: TABS.FINETUNE, // or 'Annotate'
         defaultToolId: TOOLS.TEXT, // or 'Text'
     };

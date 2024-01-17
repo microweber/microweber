@@ -1,6 +1,11 @@
 mw.required = [] ;
-mw.require = function(url, inHead, key) {
+mw.require = function(url, inHead, key, defer) {
     if(!url) return;
+    if(defer) {
+        defer = ' defer ';
+    } else {
+        defer = ''
+    }
     if(typeof inHead === 'boolean' || typeof inHead === 'undefined'){
         inHead = inHead || false;
     }
@@ -30,7 +35,7 @@ mw.require = function(url, inHead, key) {
         if(document.querySelector('link[href="'+url+'"],script[src="'+url+'"]') !== null){
             return;
         }
-        var string = t !== "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
+        var string = t !== "css" ? "<script type='text/javascript' "+defer+"  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
         if(typeof $.fn === 'object'){
             $(document.head).append(string);
         }
@@ -39,6 +44,7 @@ mw.require = function(url, inHead, key) {
             if( t !== "css")  {
                 el = document.createElement('script');
                 el.src = url;
+                el.defer = !!defer;
                 el.setAttribute('type', 'text/javascript');
                 document.head.appendChild(el);
             }
