@@ -617,7 +617,9 @@ class TaggableFileStore implements Store
                         }
                         try {
                             if ($this->files->isFile($tagPath)) {
-                                $this->files->delete($tagPath);
+                           //     $this->files->delete($tagPath);
+                                //   $this->files->delete makes tmeout on large files
+                                @unlink($tagPath);
                                 $this->deletedFilesCache[] =$tagPath;
                             }
                         } catch (\Exception $e) {
