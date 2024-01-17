@@ -39,7 +39,7 @@ if (isset($data['active_site_template']) and $data['active_site_template'] == ''
     $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
 }
 
- 
+
 
 if (isset($params["show-page-id-layout"]) and isset($params["data-page-id"])) {
 
