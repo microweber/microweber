@@ -187,7 +187,7 @@ if (!empty($template_id)) {
                 </div>
             </div>
             <hr class="thin"/>
-            
+
             <h5 class="mb-3"><?php _e("Message"); ?></h5>
             <div class="row">
                 <div class="col-12">
