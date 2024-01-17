@@ -36,7 +36,7 @@ class DbTest extends TestCase
         $this->content5 = db_save('content', $this->save_post);
     }
 
-    public function testDbSaveJsonField()
+    public function testDbSaveJsonFieldCustomFieldValue()
     {
 
         $customFieldValueId = db_save('custom_fields_values', [
@@ -49,6 +49,17 @@ class DbTest extends TestCase
        $findCustomFieldValue = CustomFieldValue::where('id', $customFieldValueId)->first();
 
        $this->assertEquals($findCustomFieldValue->value, json_encode(['test' => 'test']));
+    }
+    public function testDbSaveJsonFieldOption(){
+        $option = [
+            'option_group' => 'test',
+            'option_key' => 'test',
+            'option_value' => json_encode(['test' => 'test'])
+        ];
+
+        $optionId = db_save('options', $option);
+        $findOption = \MicroweberPackages\Option\Models\Option::where('id', $optionId)->first();
+        $this->assertEquals($findOption->option_value, json_encode(['test' => 'test']));
     }
 
     public function testSaveIsShop()
