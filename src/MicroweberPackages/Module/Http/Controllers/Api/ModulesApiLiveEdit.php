@@ -84,8 +84,17 @@ class ModulesApiLiveEdit extends Controller
                 $modules = array();
             }
 
+            $template_dir = template_dir();
+            if (isset($params['active_site_template'])) {
+                $filter_template_dir = templates_dir() . $params['active_site_template'] . DS;
+                $filter_template_dir = normalize_path($filter_template_dir, true);
+                if (is_dir($filter_template_dir)) {
+                    $template_dir = $filter_template_dir;
+                }
+            }
+
             $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
-            $module_layouts_skins = mw()->module_manager->templates('layouts');
+            $module_layouts_skins = mw()->module_manager->templates('layouts', false, false, $template_dir);
 
             if ($hide_dynamic_layouts) {
                 $dynamic_layouts = false;

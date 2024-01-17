@@ -848,7 +848,7 @@ class ModuleManager
      *
      * @category       modules api
      */
-    public function templates($module_name, $template_name = false, $get_settings_file = false)
+    public function templates($module_name, $template_name = false, $get_settings_file = false, $template_dir = false)
     {
         $module_name = str_replace('admin', '', $module_name);
         $module_name_l = $this->locate($module_name);
@@ -863,11 +863,16 @@ class ModuleManager
             $replace_paths[] = $module_name_l;
         }
         $module_name_l_theme = false;
-        if (template_dir()) {
-            $module_name_l_theme = template_dir() . 'modules' . DS . $module_name . DS . 'templates' . DS;
-            $module_name_l_theme = normalize_path($module_name_l_theme, 1);
-            $replace_paths[] = $module_name_l_theme;
+
+        $default_template_dir = template_dir();
+        if ($template_dir && is_dir($template_dir)) {
+            $default_template_dir = $template_dir;
         }
+        $template_dir = $default_template_dir;
+
+        $module_name_l_theme = $template_dir . 'modules' . DS . $module_name . DS . 'templates' . DS;
+        $module_name_l_theme = normalize_path($module_name_l_theme, 1);
+        $replace_paths[] = $module_name_l_theme;
 
 
         $replace_paths[] = normalize_path('modules' . '/' . $module_name . '/' . 'templates' . '/', 1);
