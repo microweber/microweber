@@ -74,6 +74,11 @@ class CustomField extends Model
             unset($this->value);
         }
 
+        if (isset($this->options) and is_string($this->options) and $this->options != '') {
+            $this->options = @json_decode($this->options, true);
+        }
+
+
         if(isset($this->name)) {
             $this->name_key = \Str::slug($this->name, '-');
         }
