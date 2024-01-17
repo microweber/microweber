@@ -167,7 +167,6 @@ export const Confirm = function (content, c) {
         dialog.remove()
     });
     setTimeout(() => {
-        console.log(footer.ok);
         footer.ok.focus();
     }, 100)
     return dialog
