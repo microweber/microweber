@@ -275,8 +275,8 @@ export default {
             }, 300);
         },
 
-        getLayoutsListFromService() {
-            return mw.app.layouts.list();
+        getLayoutsListFromService(cache) {
+            return mw.app.layouts.list(cache);
         },
         searchInAll() {
             this.filterCategory = '';
@@ -317,6 +317,14 @@ export default {
     },
     mounted() {
         const instance = this;
+
+        mw.app.canvas.on('liveEditCanvasLoaded', () => {
+            this.getLayoutsListFromService(false).then(function (data) {
+                instance.layoutsList = data;
+                instance.layoutsListLoaded = true;
+                instance.filterLayouts();
+            });
+        });
 
         mw.app.on('ready', () => {
 
