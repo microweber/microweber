@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c5f09db2fae13b573832fe6b9b3948d2",
+    "content-hash": "16feabea6c0876f03ed1d95f0f588eca",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -7352,18 +7352,18 @@
         },
         {
             "name": "microweber-templates/big-free",
-            "version": "11.7",
+            "version": "11.9",
             "target-dir": "big",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/big-free",
-                "reference": "07596634ae00e128f62b22428cc1f042b415e5ec"
+                "reference": "fd1d53447dd801573f1b4c3e9bf2a9e14a701b73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-11.7-11b870.zip",
-                "reference": "07596634ae00e128f62b22428cc1f042b415e5ec",
-                "shasum": "eba19875a0f11213fecf82340f51a8444970b90a"
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-11.9-5d9f8c.zip",
+                "reference": "fd1d53447dd801573f1b4c3e9bf2a9e14a701b73",
+                "shasum": "77006cb0f726c72ff0940cc4a94c13225650646c"
             },
             "type": "microweber-template",
             "extra": {
@@ -7420,6 +7420,7 @@
                     "/layouts/templates/price_lists/skin-10.php",
                     "/layouts/templates/price_lists/skin-4.php",
                     "/layouts/templates/price_lists/skin-7.php",
+                    "/layouts/templates/price_lists/skin-11.php",
                     "/layouts/templates/price_lists/skin-5.php",
                     "/layouts/templates/price_lists/skin-3.php",
                     "/layouts/templates/misc/skin-9.php",
@@ -7578,6 +7579,7 @@
                     "/layouts/templates/blog/skin-6.php",
                     "/layouts/templates/blog/skin-8.php",
                     "/layouts/templates/blog/skin-17.php",
+                    "/layouts/templates/blog/skin-19.php",
                     "/layouts/templates/blog/skin-10.php",
                     "/layouts/templates/blog/skin-16.php",
                     "/layouts/templates/blog/skin-15.php",
@@ -7597,17 +7599,19 @@
                     "/layouts/templates/header/skin-31.php",
                     "/layouts/templates/header/skin-27.php",
                     "/layouts/templates/header/skin-7.php",
+                    "/layouts/templates/header/skin-32.php",
                     "/layouts/templates/header/skin-14.php",
                     "/layouts/templates/header/skin-12.php",
+                    "/layouts/templates/header/skin-33.php",
                     "/layouts/templates/header/skin-29.php",
                     "/layouts/templates/header/skin-5.php",
                     "/layouts/templates/header/skin-25.php",
                     "/layouts/templates/header/skin-24.php"
                 ],
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/117/README.md",
-                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/117/screenshot.jpg",
-                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/117/screenshot_large.jpg"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/119/README.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/119/screenshot.jpg",
+                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/119/screenshot_large.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7633,7 +7637,7 @@
                 "forum": "https://microweber.org/community",
                 "docs": "http://docs.microweber.org"
             },
-            "time": "2023-12-15T12:07:25+00:00"
+            "time": "2024-01-17T14:20:19+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
