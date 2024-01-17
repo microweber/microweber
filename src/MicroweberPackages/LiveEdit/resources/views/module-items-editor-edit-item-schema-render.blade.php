@@ -28,7 +28,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 <label class="live-edit-label" for="{{ $field['name'] }}">{{ $field['label'] }}</label>
 
                 @if ($realtimeEditing)
-                    <x-microweber-ui::input wire:model.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::input wire:model.debounce.1500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
                     <x-microweber-ui::input wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
@@ -38,7 +38,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 <label class="live-edit-label" for="{{ $field['name'] }}">{{ $field['label'] }}</label>
 
                 @if ($realtimeEditing)
-                    <x-microweber-ui::textarea wire:model.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::textarea wire:model.debounce.1500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
                     <x-microweber-ui::textarea wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
@@ -48,7 +48,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 <label class="live-edit-label" for="{{ $field['name'] }}">{{ $field['label'] }}</label>
 
                 @if ($realtimeEditing)
-                    <x-microweber-ui::simple-text-editor wire:model.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::simple-text-editor wire:model.debounce.2500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
                     <x-microweber-ui::simple-text-editor wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
@@ -177,7 +177,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 <label class="live-edit-label" for="{{ $field['name'] }}">{{ $field['label'] }}</label>
 
                 @if ($realtimeEditing)
-                    <x-microweber-ui::input type="url" label="{{$field['label']}}" wire:model.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::input type="url" label="{{$field['label']}}" wire:model.debounce.2500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
                     <x-microweber-ui::input type="url" label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif

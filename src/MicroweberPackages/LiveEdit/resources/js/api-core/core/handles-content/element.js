@@ -525,7 +525,7 @@ export class ElementHandleContent {
            ...cloneAbleMenuInMoreMenu,
             ...elementEditImageUploadMenu,
             ...elementEditImageInEditorMenu,
-            ...elementResetImageSizeMenu,
+          //  ...elementResetImageSizeMenu,
             ...elementResetSizeMenu,
 
         ]
