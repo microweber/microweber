@@ -27,5 +27,5 @@ class MailTemplate extends Model
         "is_active",
     ];
 
-    public $translatable = ['subject', 'message', ''];
+    public $translatable = ['subject', 'message']; 
 }
