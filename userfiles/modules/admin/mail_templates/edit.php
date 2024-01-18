@@ -188,13 +188,28 @@ if (!empty($template_id)) {
             </div>
             <hr class="thin"/>
 
+            <?php
+            /**
+             * @var \MicroweberPackages\FormBuilder\FormElementBuilder $formBuilder
+             */
+
+            $mailTemplateModel = \MicroweberPackages\Notification\Models\MailTemplate::where('id', $template_id)->first();
+            $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
+            ?>
+
             <h5 class="mb-3"><?php _e("Message"); ?></h5>
             <div class="row">
                 <div class="col-12">
+
                     <div class="form-group mb-4">
                         <label class="form-label"><?php _e("Subject"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Subject of your email"); ?></small>
-                        <input type="text" name="subject" value="<?php echo $template['subject']; ?>" class="form-control">
+                        <?php
+                        echo $formBuilder->text('subject')
+                            ->setModel($mailTemplateModel)
+                            ->value($template['subject'])
+                            ->id('subject-mail-template-field');
+                        ?>
                     </div>
 
                     <div>
@@ -207,8 +222,19 @@ if (!empty($template_id)) {
                         <module type="admin/components/file_append" option_group="mail_template_id_<?php echo $template_id_attachment; ?>"/>
                     </div>
 
+                    <script>
+                        mw.handle_mail_template_save = function (go_live) {
+                            alert(3);  
+                        };
+                    </script>
                     <div class="form-group mb-4">
-                        <textarea id="editorAM" name="message" class="form-control"><?php echo $template['message']; ?></textarea>
+                        <?php
+                        echo $formBuilder->mwEditor('message')
+                            ->setModel($mailTemplateModel)
+                            ->value($template['message'])
+                            ->onSaveCallback('mw.handle_mail_template_save();')
+                            ->autocomplete(false);
+                        ?>
                     </div>
                 </div>
             </div>
