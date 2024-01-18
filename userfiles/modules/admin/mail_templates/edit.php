@@ -222,6 +222,16 @@ if (!empty($template_id)) {
                         <module type="admin/components/file_append" option_group="mail_template_id_<?php echo $template_id_attachment; ?>"/>
                     </div>
 
+<!--                    <div class="form-group mb-4">
+                        <?php
+                        echo $formBuilder->fileOption('append_files', 'mail_template_id_' . $template_id_attachment)
+                            ->setModel($mailTemplateModel)
+                           // ->value($template['message'])
+                           // ->onSaveCallback('mw.handle_mail_template_save();')
+                            ->autocomplete(false);
+                        ?>
+                    </div>--> 
+
                     <script>
                         mw.handle_mail_template_save = function (go_live) {
                             //
