@@ -9,8 +9,6 @@ class GoogleFontsTest extends TestCase
 {
 
     public function testGoogleFontsDownloader()
-
-
     {
 
         if (getenv('CI') !== false && getenv('CI') === 'true') {
