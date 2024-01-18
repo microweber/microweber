@@ -145,6 +145,10 @@
         "post-create-project-cmd": [
             "php artisan key:generate"
         ],
+        "test:phpunit": [
+            "Composer\\Config::disableProcessTimeout",
+            "php artisan test"
+        ],
         "test:coverage": [
             "Composer\\Config::disableProcessTimeout",
             "php -d xdebug.mode=coverage artisan test --coverage -c \"phpunit-coverage.xml\""

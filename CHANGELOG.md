@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [2.0.9] - 2024-01-18
+- Maintenance release
+- Fixed missing database field in the newsletter module
+- Fixed issue on Enter key in live edit
+ - [See all changes...](https://github.com/microweber/microweber/compare/2.0.8...2.0.9 "")
+
+
 ## [2.0.8] - 2024-01-17
 - Maintenance release
 - Fixes in live edit
