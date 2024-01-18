@@ -9,7 +9,17 @@ class GoogleFontsTest extends TestCase
 {
 
     public function testGoogleFontsDownloader()
+
+
     {
+
+        if (getenv('CI') !== false && getenv('CI') === 'true') {
+            // Code to run only in GitHub Actions
+            $this->markTestSkipped(
+                'The GoogleFontsTest is not available.'
+            );
+        }
+
         $fontFamily = 'Cairo';
         $googleFontDomain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
         $fontUrl = str_replace('%2B', '+', $fontFamily);

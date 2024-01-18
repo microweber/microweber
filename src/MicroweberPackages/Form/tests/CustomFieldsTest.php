@@ -4,6 +4,7 @@ namespace MicroweberPackages\Form\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 
+
 class CustomFieldsTest extends TestCase
 {
     public $template_name = 'default';
@@ -92,13 +93,23 @@ class CustomFieldsTest extends TestCase
 
     	$rel = 'module';
     	$rel_id = 'layouts-'.rand(1111,9999).'-contact-form';
+        $fields_csv_str = '';
+        $fields_csv_str = 'message[type=text,field_size=6,show_placeholder=true],';
+        $fields_csv_str .= 'email[type=email,field_size=6,show_placeholder=true],';
+        $fields_csv_str .= 'second-email[type=text,field_size=6,show_placeholder=true],';
+        $fields_csv_str .= 'website[type=website,field_size=6,show_placeholder=true],';
+        $fields_csv_str .= 'phone[type=phone,field_size=6,show_placeholder=true],';
+        $fields_csv_str .= 'number[type=number,field_size=6,show_placeholder=true],';
+        $fields_csv_str .= 'select[type=select,field_size=6,show_placeholder=true,values=1,2,3,4,5,6,7,8,9,10],';
+        $fields_csv_str .= 'checkbox[type=checkbox,field_size=6,show_placeholder=true,values=1,2,3,4,5,6,7,8,9,10],';
+        $fields = mw()->fields_manager->makeDefault($rel, $rel_id, $fields_csv_str);
 
-    	$params = array();
+        $params = array();
     	$params['for_id'] = $rel_id;
     	$params['for'] = $rel;
     	$params['message'] = 'This is my message.';
     	$params['email'] = 'bobi@microweber.com';
-    	$params['second_email'] = 'bobi@microweber.com';
+    	$params['second-email'] = 'bobi@microweber.com';
     	$params['website'] = 'bobi.microweber.com';
     	$params['phone'] = '0885451012';
     	$params['number'] = '123456789';
@@ -115,9 +126,10 @@ class CustomFieldsTest extends TestCase
 
     	$entry = mw()->forms_manager->get_entires('single=1&id=' . $response['id']);
 
+
     	$this->assertEquals($entry['custom_fields']['message'], $params['message']);
     	$this->assertEquals($entry['custom_fields']['email'], $params['email']);
-    	$this->assertEquals($entry['custom_fields']['second_email'], $params['second_email']);
+    	$this->assertEquals($entry['custom_fields']['second-email'], $params['second-email']);
     	$this->assertEquals($entry['custom_fields']['website'], $params['website']);
     	$this->assertEquals($entry['custom_fields']['phone'], $params['phone']);
     	$this->assertEquals($entry['custom_fields']['number'], $params['number']);
@@ -128,16 +140,43 @@ class CustomFieldsTest extends TestCase
 
     	$rel = 'module';
     	$rel_id = 'layouts-'.rand(1111,9999).'-contact-form';
-    	$fields_csv_str = 'price, text, radio, select, checkbox, number, phone, website, email, address, date, time, fileupload, property, hidden, message';
-    	$fields_csv_array = explode(',', $fields_csv_str);
+    	 $fields_csv_strss = 'price, text, radio, select, checkbox, number, phone, website, email, address, date, time, fileupload, property, hidden, message';
+
+
+        $fields_csv_str = 'text[type=text,field_size=6,show_placeholder=true],';
+        $fields_csv_str .= 'phone[type=phone,field_size=6,show_placeholder=true],';
+        $fields_csv_str .= 'textarea[type=textarea,field_size=12,show_placeholder=true]';
+        $fields_csv_str .= 'radio[type=radio,field_size=12,show_placeholder=true,values=1,2,3,4,5,6,7,8,9,10]';
+        $fields_csv_str .= 'select[type=select,field_size=12,show_placeholder=true,values=1,2,3,4,5,6,7,8,9,10]';
+        $fields_csv_str .= 'checkbox[type=checkbox,field_size=12,show_placeholder=true,values=1,2,3,4,5,6,7,8,9,10]';
+        $fields_csv_str .= 'number[type=number,field_size=12,show_placeholder=true]';
+        $fields_csv_str .= 'address[type=address,field_size=12,show_placeholder=true]';
+        $fields_csv_str .= 'date[type=date,field_size=12,show_placeholder=true]';
+        $fields_csv_str .= 'time[type=time,field_size=12,show_placeholder=true]';
+        $fields_csv_str .= 'fileupload[type=fileupload,field_size=12,show_placeholder=true]';
+        $fields_csv_str .= 'property[type=property,field_size=12,show_placeholder=true]';
+        $fields_csv_str .= 'hidden[type=hidden,field_size=12,show_placeholder=true]';
+        $fields_csv_str .= 'message[type=message,field_size=12,show_placeholder=true]';
+        $fields_csv_str .= 'email[type=email,field_size=12,show_placeholder=true]';
+        $fields_csv_str .= 'website[type=website,field_size=12,show_placeholder=true]';
+        $fields_csv_str .= 'price[type=price,field_size=12,show_placeholder=true]';
+        $fields_csv_str .= 'hidden[type=hidden,field_size=12,show_placeholder=true]';
+
+
+
+
+
+   //     $fields_csv_array = explode(',', $fields_csv_str);
 
     	$fields = mw()->fields_manager->makeDefault($rel, $rel_id, $fields_csv_str);
 
     	foreach ($fields as $key=>$field_id) {
 
     		$html_output = mw()->fields_manager->make($field_id);
+    		$fieldData = mw()->fields_manager->getById($field_id);
+            $field_name = $fieldData['name_key'];
 
-    		$field_name = trim($fields_csv_array[$key]);
+    		//$field_name = trim($fields_csv_array[$key]);
 
     		if ($field_name == 'price') {
 
@@ -149,13 +188,13 @@ class CustomFieldsTest extends TestCase
     			$this->assertEquals($check_input_if_exists, true);
     		}
 
-    		if ($field_name == 'phone') {
 
+
+            if ($field_name == 'phone') {
     			$check_input_if_exists = false;
     			if (strpos($html_output, 'name="phone"') !== false) {
     				$check_input_if_exists = true;
     			}
-
     			$this->assertEquals($check_input_if_exists, true);
     		}
 

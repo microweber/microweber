@@ -139,15 +139,15 @@ class FormsManager
             $params['for_id'] = str_replace("-custom-fields", false, $params['for_id']);
         }
 
-        $adm = $this->app->user_manager->is_admin();
-        if (defined('MW_API_CALL')) {
-            //            $validate_token = $this->app->user_manager->csrf_validate($params);
-//            if (!$adm) {
-//                if ($validate_token == false) {
-//                    return array('error' => 'Invalid token!');
-//                }
-//            }
-        }
+  //      $adm = $this->app->user_manager->is_admin();
+//        if (defined('MW_API_CALL')) {
+//            //            $validate_token = $this->app->user_manager->csrf_validate($params);
+////            if (!$adm) {
+////                if ($validate_token == false) {
+////                    return array('error' => 'Invalid token!');
+////                }
+////            }
+//        }
         $before_process = $this->app->event_manager->trigger('mw.forms_manager.before_post', $params);
         if (is_array($before_process) and !empty($before_process)) {
             foreach ($before_process as $before_process_item) {
@@ -161,9 +161,9 @@ class FormsManager
         mw_var('FORCE_SAVE', $table);
 
         if (isset($params['id'])) {
-            if ($adm == false) {
-                return array('error' => 'Error: Only admin can edit forms!');
-            }
+//            if ($adm == false) {
+//                return array('error' => 'Error: Only admin can edit forms!');
+//            }
         }
         $for = 'module';
         if (isset($params['for'])) {
@@ -382,15 +382,27 @@ class FormsManager
 
                     $customFieldName = $item['name']; // custom field name
                     $customFieldNameKey = $item['name_key']; // custom field name key
+
+
                     $customFieldType = 'text'; // custom field type
                     if (isset($item['options']['field_type'])) {
                         $customFieldType = $item['options']['field_type'];
                     } else if (isset($item['type'])) {
                         $customFieldType = $item['type'];
                     }
-
                     foreach ($params as $paramKey => $paramValues) {
-                        if ($paramKey == $customFieldNameKey) {
+
+                        $customFieldNameKeyReplaced = str_replace('-', '_', $customFieldNameKey);
+                        $customFieldNameKeyReplaced = str_replace(' ', '_', $customFieldNameKeyReplaced);
+                        $customFieldNameKeyReplaced = strtolower($customFieldNameKeyReplaced);
+
+
+                        $paramKeyReplaced = str_replace('-', '_', $paramKey);
+                        $paramKeyReplaced = str_replace(' ', '_', $paramKeyReplaced);
+                        $paramKeyReplaced = strtolower($paramKeyReplaced);
+
+
+                        if ($paramKeyReplaced == $customFieldNameKeyReplaced) {
 
                             $item['value'] = $params[$paramKey];
                             $cfToSave[$customFieldNameKey] = $paramValues;
@@ -403,6 +415,7 @@ class FormsManager
                             } else {
                                 $customFieldValue = $paramValues;
                             }
+                           // file_put_contents(storage_path().'/log.txt', print_r($fieldsData, true), FILE_APPEND);
 
                             $fieldsData[] = [
                                 'field_type' => $customFieldType,
