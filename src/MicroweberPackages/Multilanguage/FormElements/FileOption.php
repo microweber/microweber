@@ -64,16 +64,35 @@ class FileOption extends \MicroweberPackages\FormBuilder\Elements\TextAreaOption
                         }
 
                         $html .= '<div class="tab-pane fade '.$showTab.'" id="' . $this->randId . $language['locale'] . '">
-                                   <textarea onchange="applyMlFieldChanges(this)" lang="'.$language['locale'] . '" class="form-control">'.$textareaValue . '</textarea>
 
 
+                                    <div class="form-group mb-4 p-4" style="background:#fff;">
+                                        <label class="form-label">
+                                            Atachments
+                                        </label>
+                                        <small class="text-muted d-block mb-2">
+                                        You can attach a file to this field.
+                                        </small>
+                                        <button type="button" id="mw_uploader" lang="'.$language['locale'] . '" class="btn btn-sm btn-outline-primary">
+                                        Upload file <span id="upload_info"></span>
+                                        </button>
+                                    </div>
 
 
                                    </div>';
                     }
 
                     $html .= '
-                    <script>
+                      <script type="text/javascript">
+
+                        $(document).ready(function () {
+                             var uploader = mw.uploader({
+                                filetypes: "images,videos",
+                                multiple: false,
+                                element: "#mw_uploader"
+                            });
+                        });
+
                         function applyMlFieldChanges(element) {
                             var applyToElement = document.getElementById("js-multilanguage-textarea-' . $this->randId . '");
                             applyToElement.value = element.value
