@@ -224,7 +224,7 @@ if (!empty($template_id)) {
 
                     <script>
                         mw.handle_mail_template_save = function (go_live) {
-                            alert(3);  
+                            //
                         };
                     </script>
                     <div class="form-group mb-4">
