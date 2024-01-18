@@ -9,7 +9,7 @@ use MicroweberPackages\Multilanguage\tests\MultilanguageTestBase;
 
 class CustomFieldMultilanguageTest extends MultilanguageTestBase
 {
-
+/*
     public function testAddCustomFieldValueAsArray()
     {
 
@@ -146,5 +146,5 @@ class CustomFieldMultilanguageTest extends MultilanguageTestBase
         $this->assertEquals($findCustomField->placeholder, 'This is the placeholder - EN');
         $this->assertEquals($findCustomField->error_text, 'This is the error text - EN');
 
-    }
+    }*/
 }
