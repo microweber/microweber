@@ -329,11 +329,13 @@ var MWEditor = function (options) {
             if (e.type === 'keydown' && e.key === "Enter") {
 
 
-                const focusNode = scope.api.elementNode(scope.getSelection().focusNode);
+                let focusNode = scope.api.elementNode(scope.getSelection().focusNode);
+                focusNode = scope.getActualTarget(focusNode)
 
-                var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(focusNode, ['safe-mode', 'regular-mode'])
+                var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(focusNode, ['safe-mode', 'regular-mode']);
+                console.log(focusNode)
 
-                if(!isSafeMode) {
+                if(!isSafeMode || true) {
 
                     if(focusNode.contentEditable === 'true'){
 
