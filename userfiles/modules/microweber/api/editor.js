@@ -323,45 +323,78 @@ var MWEditor = function (options) {
         var localTarget = event.target;
 
 
+
+
+
             if (e.type === 'keydown' && e.key === "Enter") {
+
+
                 const focusNode = scope.api.elementNode(scope.getSelection().focusNode);
-                const isLi = mw.tools.firstParentOrCurrentWithTag(focusNode, 'li');
-                const edit = mw.tools.firstParentOrCurrentWithClass(focusNode, 'edit') || scope.$editArea[0];
+
+                var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(focusNode, ['safe-mode', 'regular-mode'])
+
+                if(!isSafeMode) {
+
+                    if(focusNode.contentEditable === 'true'){
 
 
-                if (!isLi || (isLi && event.shiftKey)) {
+                        var pc = focusNode.parentNode.contentEditable;
+                        focusNode.parentNode.contentEditable  =  true;
+                        focusNode.contentEditabdle  =  'inherit';
+                        focusNode.focus();
 
-                    scope.state.record({
 
-                        target: edit,
-                        value: edit.innerHTML
-                    });
+                        clearTimeout(focusNode.__etimeout);
+                        focusNode.__etimeout = setTimeout(() => {
+                            focusNode.parentNode.contentEditable  =  pc
+                            focusNode.contentEditable  =  true
+                        },  20)
 
-                    var sel = instance.api.getSelection() ;
-                    var range = sel.getRangeAt(0);
-                    var br = range.commonAncestorContainer.ownerDocument.createElement('br');
-
-                    range.insertNode(br);
-                    range = range.cloneRange();
-
-                    if(!br.nextSibling || !br.nextSibling.nodeValue) {
-                        br.after(document.createTextNode('\u200B'))
                     }
-                    range.selectNode ( br );
-                    range.collapse(false);
 
 
-                    sel.removeAllRanges();
-                    sel.addRange(range);
+                } else {
+
+                    const isLi = mw.tools.firstParentOrCurrentWithTag(focusNode, 'li');
+                    const edit = mw.tools.firstParentOrCurrentWithClass(focusNode, 'edit') || scope.$editArea[0];
 
 
-                    e.preventDefault();
-                    scope.state.record({
-                        target: edit,
-                        value: edit.innerHTML
-                    });
-                    return;
+                    if (!isLi || (isLi && event.shiftKey)) {
+
+                        scope.state.record({
+
+                            target: edit,
+                            value: edit.innerHTML
+                        });
+
+                        var sel = instance.api.getSelection() ;
+                        var range = sel.getRangeAt(0);
+                        var br = range.commonAncestorContainer.ownerDocument.createElement('br');
+
+                        range.insertNode(br);
+                        range = range.cloneRange();
+
+                        if(!br.nextSibling || !br.nextSibling.nodeValue) {
+                            br.after(document.createTextNode('\u200B'))
+                        }
+                        range.selectNode ( br );
+                        range.collapse(false);
+
+
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+
+
+                        e.preventDefault();
+                        scope.state.record({
+                            target: edit,
+                            value: edit.innerHTML
+                        });
+                        return;
+                    }
                 }
+
+
              }
 
             if (e.key === "Backspace" || e.key === "Delete") {
