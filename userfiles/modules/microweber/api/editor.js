@@ -333,7 +333,7 @@ var MWEditor = function (options) {
 
                 var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(focusNode, ['safe-mode', 'regular-mode'])
 
-                if(!isSafeMode) {
+                if(!isSafeMode || true) {
 
                     if(focusNode.contentEditable === 'true'){
 
