@@ -52,8 +52,8 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
             <div class="mw-filepicker-component" id="root-${id}">
                 <div id="js-preview-image-wrapper-${id}" style="display:none">
                     <div class="d-flex justify-content-between">
-                        <div data-fpc-action="preview">
-
+                        <div data-fpc-action="edit">
+                             <div data-fpc-action="preview"></div>
                         </div>
                         <div class="d-flex gap-2 justify-content-between w-100">
                             <div class="form-control-live-edit-label-wrapper d-flex align-items-center">
