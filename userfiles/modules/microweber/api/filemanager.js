@@ -423,7 +423,7 @@
                 globalcheck.input.prop('checked', false);
                 globalcheck.input.prop('indeterminate', true);
 
-                scope.root.get(0).querySelector('.mw-file-manager--multiselect--count').innerHTML = this.getSelected().length;
+                scope.root.get(0).querySelector('.mw-file-manager--multiselect--count').innerHTML = scope.getSelected().length;
             }
         };
 
@@ -1126,7 +1126,7 @@
 
                     <div class="alert alert-info">
                         <span class="mw-file-manager--multiselect--count">0</span> files are marked.
-                        <button type="button" class="btn btn-outline-info btn-sm" data-action="multiSelectCancel">Cancel</button>
+                        <button type="button" class="btn btn-outline-info btn-sm" data-action="multiSelectRemoveSelection">Cancel</button>
                         <button type="button" class="btn btn-outline-success btn-sm" data-action="multiSelectInsert">Insert</button>
                     </div>
                 </div>
@@ -1138,6 +1138,14 @@
                 const selected = scope.getSelected();
                 _deleteHandle(selected)
             }
+
+            this.multiSelectRemoveSelection = function() {
+                scope.selectNone();
+            }
+            this.multiSelectInsert = function() {
+                alert(4);
+            }
+
             this.multiSelectDownloadAll = function() {
                 const selected = scope.getSelected().filter(itm => itm.type === 'file');
                 selected.forEach(itm => {
