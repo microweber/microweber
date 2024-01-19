@@ -218,6 +218,7 @@
                 root.get(0).addEventListener(ev, function (e){
                    e.stopImmediatePropagation();
                    e.stopPropagation();
+
                 });
             });
 
