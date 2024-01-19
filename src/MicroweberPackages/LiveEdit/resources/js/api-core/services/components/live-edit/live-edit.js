@@ -138,7 +138,7 @@ export const liveEditComponent = () => {
             }
             clearTimeout(_inputTimeout);
             _inputTimeout = setTimeout(() => {
-                if(_edit) {
+                if(_edit && _edit.classList) {
                     _edit.classList.add('changed');
                     mw.app.state.record({
                         target: _edit,
@@ -147,7 +147,7 @@ export const liveEditComponent = () => {
                     mw.app.registerAskUserToStay(e.target);
                 }
 
-            }, 200)
+            }, 1200)
         }
     }
 
