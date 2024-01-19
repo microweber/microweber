@@ -423,7 +423,13 @@
                 globalcheck.input.prop('checked', false);
                 globalcheck.input.prop('indeterminate', true);
 
-                scope.root.get(0).querySelector('.mw-file-manager--multiselect--count').innerHTML = scope.getSelected().length;
+                var selectedItemsCount = scope.getSelected().length;
+                if (selectedItemsCount > 0) {
+                    scope.root.get(0).querySelector('.mw-file-manager--multiselect--selected-actions').style.display = 'block';
+                    scope.root.get(0).querySelector('.mw-file-manager--multiselect--count').innerHTML = selectedItemsCount;
+                } else {
+                    scope.root.get(0).querySelector('.mw-file-manager--multiselect--selected-actions').style.display = 'none';
+                }
             }
         };
 
@@ -1124,7 +1130,7 @@
                         </button>
                     </div>
 
-                    <div>
+                    <div class="mw-file-manager--multiselect--selected-actions">
                         <span class="mw-file-manager--multiselect--count">0</span> files are marked.
                         <button type="button" class="btn btn-outline-info btn-sm" data-action="multiSelectRemoveSelection">Cancel</button>
                         <button type="button" class="btn btn-outline-success btn-sm" data-action="multiSelectInsert">Insert</button>
