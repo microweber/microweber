@@ -30,6 +30,7 @@
 
                       <module type="admin/components/file_append"
                               title="File attachments"
+                              lang="{{$language['locale']}}"
                               option_group="{{$optionGroup}}"
                               option_key="{{$optionKey}}" />
                   </div>
