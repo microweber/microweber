@@ -1124,7 +1124,7 @@
                         </button>
                     </div>
 
-                    <div class="alert alert-info">
+                    <div>
                         <span class="mw-file-manager--multiselect--count">0</span> files are marked.
                         <button type="button" class="btn btn-outline-info btn-sm" data-action="multiSelectRemoveSelection">Cancel</button>
                         <button type="button" class="btn btn-outline-success btn-sm" data-action="multiSelectInsert">Insert</button>
