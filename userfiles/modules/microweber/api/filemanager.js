@@ -422,6 +422,8 @@
                 scope.root.addClass('mw-fm-part-selected');
                 globalcheck.input.prop('checked', false);
                 globalcheck.input.prop('indeterminate', true);
+
+                scope.root.get(0).querySelector('.mw-file-manager--multiselect--count').innerHTML = this.getSelected().length;
             }
         };
 
