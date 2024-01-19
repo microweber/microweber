@@ -323,6 +323,25 @@ var MWEditor = function (options) {
         var localTarget = event.target;
 
 
+        if(localTarget ) {
+            if(  localTarget.parentNode) {
+                var parentobserve = localTarget;
+                while(parentobserve) {
+                    if(parentobserve.classList && parentobserve.classList.contains('no-typing')) {
+                        parentobserve.contentEditable = false;
+                    }
+                    parentobserve = parentobserve.parentNode;
+                }
+            }
+            if(localTarget.querySelectorAll) {
+                var childNodes = localTarget.querySelectorAll('.no-typing');
+                if(childNodes) {
+                    childNodes.forEach(node => node.contentEditable = false)
+                }
+            }
+
+        }
+
 
 
 
@@ -351,11 +370,19 @@ var MWEditor = function (options) {
                             focusNode.parentNode.contentEditable  =  pc
                             focusNode.contentEditable  =  true;
                             focusNode.focus();
+
                         },  20)
 
                     }
+                    setTimeout(() => {
+                        var parent = focusNode.parentNode;
+                        Array.from(parent.children).forEach(node => {
+                            if(node.id && node.nextElementSibling.id === node.id) {
+                                node.nextElementSibling.id = mw.id()
+                            }
+                        })
 
-
+                    },  30)
 
 
                 } else {
