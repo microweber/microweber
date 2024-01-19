@@ -335,7 +335,7 @@ var MWEditor = function (options) {
                 var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(focusNode, ['safe-mode', 'regular-mode']);
                 console.log(focusNode)
 
-                if(!isSafeMode || true) {
+                if(!isSafeMode) {
 
                     if(focusNode.contentEditable === 'true'){
 
@@ -349,10 +349,13 @@ var MWEditor = function (options) {
                         clearTimeout(focusNode.__etimeout);
                         focusNode.__etimeout = setTimeout(() => {
                             focusNode.parentNode.contentEditable  =  pc
-                            focusNode.contentEditable  =  true
+                            focusNode.contentEditable  =  true;
+                            focusNode.focus();
                         },  20)
 
                     }
+
+
 
 
                 } else {
@@ -401,7 +404,23 @@ var MWEditor = function (options) {
 
             if (e.key === "Backspace" || e.key === "Delete") {
 
-                instance.handleDeleteAndBackspace(e);
+                // instance.handleDeleteAndBackspace(e);
+
+                setTimeout(function(){
+                    var edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit');
+                    console.log(edit, edit.querySelectorAll('*[style*="var"]'))
+                if(edit) {
+                    var all = edit.querySelectorAll('*[style*="var"]');
+                    all.forEach(node => {
+                        if (node.style) {
+                            if (node.isContentEditable) {
+                                [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
+                            }
+                        }
+                    });
+                }
+                }, 10)
+
 
             }
 
