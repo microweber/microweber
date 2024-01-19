@@ -333,7 +333,7 @@ var MWEditor = function (options) {
                 focusNode = scope.getActualTarget(focusNode)
 
                 var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(focusNode, ['safe-mode', 'regular-mode']);
-                console.log(focusNode)
+
 
                 if(!isSafeMode) {
 
