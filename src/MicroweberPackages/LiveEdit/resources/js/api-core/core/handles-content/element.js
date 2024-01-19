@@ -206,7 +206,7 @@ export class ElementHandleContent {
 
         ];
         const elementResetImageSizeMenu = [
-            {
+          /*  {
                 title: 'Reset Image Size',
                 text: '',
                 icon: this.handleIcons.icon('reset-image-size'),
@@ -225,7 +225,7 @@ export class ElementHandleContent {
                     this.setMenuVisible(selfVisible, selfBtn);
                  },
 
-            },
+            },*/
             {
                 title: 'Fit Image',
                 text: '',
@@ -525,8 +525,8 @@ export class ElementHandleContent {
            ...cloneAbleMenuInMoreMenu,
             ...elementEditImageUploadMenu,
             ...elementEditImageInEditorMenu,
+            ...elementResetSizeMenu,
             ...elementResetImageSizeMenu,
-           // ...elementResetSizeMenu,
 
         ]
 
