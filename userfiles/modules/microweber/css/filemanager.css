@@ -554,3 +554,6 @@
     gap: 12px;
     align-items: baseline;
 }
+.mw-file-manager--multiselect--selected-actions {
+    display: none;
+}
