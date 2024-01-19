@@ -273,7 +273,7 @@ export default {
                         var isSafeMode = DomService.parentsOrCurrentOrderMatchOrOnlyFirst(editTarget, ['safe-mode', 'regular-mode']);
 
                         if(!isSafeMode) {
-                            editTarget = DomService.firstParentOrCurrentWithClass(editTarget, 'edit')
+                            editTarget = DomService.firstParentOrCurrentWithAnyOfClasses(editTarget, ['edit', 'regular-mode'])
                         }
 
 
