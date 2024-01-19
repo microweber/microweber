@@ -218,6 +218,7 @@
                 root.get(0).addEventListener(ev, function (e){
                    e.stopImmediatePropagation();
                    e.stopPropagation();
+
                 });
             });
 
@@ -1112,18 +1113,23 @@
 
             var multiSelectMenuTemplate = mw.element(`
                 <div class="mw-file-manager--multiselect--context-actions">
-                    <button type="button" class="btn btn-icon btn-sm" data-action="multiSelectDownloadAll" data-bs-toggle="tooltip" data-bs-placement="top" title="Download">
+                    <div>
+                        <button type="button" class="btn btn-icon btn-sm" data-action="multiSelectDownloadAll" data-bs-toggle="tooltip" data-bs-placement="top" title="Download">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M240 896q-33 0-56.5-23.5T160 816V696h80v120h480V696h80v120q0 33-23.5 56.5T720 896H240Zm240-160L280 536l56-58 104 104V256h80v326l104-104 56 58-200 200Z"/></svg>
+                        </button>
+                        <button type="button" class="btn btn-icon btn-danger btn-sm" data-action="multiSelectDeleteAll"  data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z"/></svg>
+                        </button>
+                    </div>
 
-<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M240 896q-33 0-56.5-23.5T160 816V696h80v120h480V696h80v120q0 33-23.5 56.5T720 896H240Zm240-160L280 536l56-58 104 104V256h80v326l104-104 56 58-200 200Z"/></svg>
-
-                    </button>
-                    <button type="button" class="btn btn-icon btn-danger btn-sm" data-action="multiSelectDeleteAll"  data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z"/></svg>
-
-                    </button>
+                    <div class="alert alert-info">
+                        <span class="mw-file-manager--multiselect--count">0</span> files are marked.
+                        <button type="button" class="btn btn-outline-info btn-sm" data-action="multiSelectCancel">Cancel</button>
+                        <button type="button" class="btn btn-outline-success btn-sm" data-action="multiSelectInsert">Insert</button>
+                    </div>
                 </div>
             `);
+
 
 
             this.multiSelectDeleteAll = function() {
