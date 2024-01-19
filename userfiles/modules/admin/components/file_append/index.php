@@ -1,4 +1,8 @@
 <?php
+if (is_admin() == false) {
+    return;
+}
+
 $fileAppendRandomId = uniqid();
 $option_key = 'append_files';
 $option_group = 'file_append';
