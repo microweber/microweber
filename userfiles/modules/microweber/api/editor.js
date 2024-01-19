@@ -356,7 +356,7 @@ var MWEditor = function (options) {
 
                 if(!isSafeMode) {
 
-                    if(focusNode.contentEditable === 'true'){
+                    if(focusNode && focusNode.contentEditable === 'true' && focusNode.parentNode) {
 
 
                         var pc = focusNode.parentNode.contentEditable;
@@ -376,11 +376,14 @@ var MWEditor = function (options) {
                     }
                     setTimeout(() => {
                         var parent = focusNode.parentNode;
-                        Array.from(parent.children).forEach(node => {
-                            if(node.id && node.nextElementSibling.id === node.id) {
-                                node.nextElementSibling.id = mw.id()
-                            }
-                        })
+                        if(parent && parent.children && parent.children.length > 1) {
+                            Array.from(parent.children).forEach(node => {
+                                if(node && node.id && node.nextElementSibling.id === node.id) {
+                                    node.nextElementSibling.id = mw.id()
+                                }
+                            })
+                        }
+
 
                     },  30)
 
