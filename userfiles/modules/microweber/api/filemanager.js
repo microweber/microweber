@@ -1143,7 +1143,7 @@
                 scope.selectNone();
             }
             this.multiSelectInsert = function() {
-                alert(4);
+                scope.dispatch('insert');
             }
 
             this.multiSelectDownloadAll = function() {
