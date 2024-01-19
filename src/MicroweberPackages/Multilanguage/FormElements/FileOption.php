@@ -27,7 +27,7 @@ class FileOption extends \MicroweberPackages\FormBuilder\Elements\TextAreaOption
             $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
         }
 
-        $this->id('js-multilanguage-fileo-ption-' . $this->randId);
+        $this->id('js-multilanguage-fileo-option-' . $this->randId);
 
         $renderAttributes = $this->renderAttributes();
 
@@ -37,6 +37,8 @@ class FileOption extends \MicroweberPackages\FormBuilder\Elements\TextAreaOption
             'supportedLanguages' => $supportedLanguages,
             'currentLanguage' => $this->currentLanguage,
             'renderAttributes' => $renderAttributes,
+            'optionKey' => $this->optionKey,
+            'optionGroup' => $this->optionGroup,
         ]);
 
         return $html->render();
