@@ -112,6 +112,7 @@ export default {
 
     targetIsDisabledWriteInEditField: element => {
         if (element.classList.contains('no-typing')) {
+            element.contentEditable = false;
             return true;
         }
         if (element.classList.contains('edit')) {

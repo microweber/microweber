@@ -209,6 +209,7 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
             selfVisible = false;
         }
         if (target.classList.contains('no-typing')) {
+            target.contentEditable = false;
             selfVisible = false;
         }
 
