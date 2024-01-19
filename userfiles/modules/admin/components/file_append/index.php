@@ -4,6 +4,9 @@ if (is_admin() == false) {
 }
 
 $fileAppendRandomId = uniqid();
+if (isset($params['lang'])) {
+    $fileAppendRandomId .= $params['lang'];
+}
 $option_key = 'append_files';
 $option_group = 'file_append';
 
@@ -88,6 +91,24 @@ $option_group = $params['option_group'];
 
 <?php
 $appendFiles = explode(",", get_module_option($option_key, $option_group));
+if (isset($params['lang'])) {
+    if (\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()) {
+        $findLangModuleOption = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', $option_key)
+            ->where('option_group', $option_group)
+            ->first();
+        if ($findLangModuleOption) {
+            $translations = $findLangModuleOption->getTranslationsFormated();
+            if (isset($translations[$params['lang']]['option_value'])) {
+                $appendFiles = [];
+                if (strpos($translations[$params['lang']]['option_value'], ',') !== false) {
+                    $appendFiles = explode(",", $translations[$params['lang']]['option_value']);
+                } else {
+                    $appendFiles[] = $translations[$params['lang']]['option_value'];
+                }
+            }
+        }
+    }
+}
 ?>
 <input
     name="<?php echo $option_key; ?>"
