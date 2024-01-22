@@ -394,7 +394,7 @@
 
 
         this.settings = mw.object.extend(true, {}, defaults, options);
-        console.log(this.settings)
+
         var scope = this;
         var tabAccordionBuilder = function (items) {
             var res = {root: mw.element('<div class="mw-tab-accordion" data-options="tabsSize: medium, tabsColor: tab" />'), items: []};

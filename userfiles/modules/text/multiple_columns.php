@@ -1,11 +1,11 @@
 
-<div class="mw-row nodrop no-edit">
-  <?php 
+<div class="mw-row no-edit" style="margin-block:0;padding: 15px 0;">
+  <?php
 
   $cols = 3;
-  
-  for($i = 1; $i <= $cols; $i ++) { 
-    
+
+  for($i = 1; $i <= $cols; $i ++) {
+
   ?>
 
     <div class="mw-col" style="width: <?php print (100/$cols); ?>%" >
@@ -16,6 +16,6 @@
 
    <?php } ?>
 
- 
- 
+
+
 </div>

@@ -59,7 +59,9 @@ export class ElementAnalyzerServiceBase {
         if(!node.classList){
             return false;
         }
-        return node.classList.contains(this.settings.elementClass);
+
+
+        return node.classList.contains(this.settings.elementClass) || node.classList.contains('mw-row');
     }
 
     isEmptyElement (node) {
