@@ -33,7 +33,7 @@
         <div id="js-preview-image-wrapper-{{$randId}}" style="display:none">
             <div class="d-flex justify-content-between">
                 <div>
-                    <img src="" style="border-radius:4px" class="js-select-file-{{$randId}} cursor-pointer" id="js-preview-image-{{$randId}}" />
+                    <img src="" style="border-radius:4px; height: 150px; width: 150px; object-fit: contain;" class="js-select-file-{{$randId}} cursor-pointer" id="js-preview-image-{{$randId}}" />
                 </div>
                 <div class="d-flex gap-2">
                     <x-microweber-ui::button-action type="button" class="btn-sm js-select-file-{{$randId}}">

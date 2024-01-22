@@ -55,6 +55,7 @@ trait LiveEditTrait
         $contentType = addslashes($contentType);
 
         $templateName = app()->template->name();
+        $templateConfig = app()->template->get_config();
         $templateName = addslashes($templateName);
 
         $pageId = '';
@@ -76,6 +77,7 @@ trait LiveEditTrait
             $current_lang = current_lang();
         }
         $multiLanguageEnabledLanguages = json_encode($multiLanguageEnabledLanguages);
+        $templateConfig = json_encode($templateConfig);
         $contentDetailsScript = "
 \n<script type='application/x-javascript' id='mw-iframe-page-data-script'>
         mw.liveEditIframeData = mw.liveEditIframeData || {};
@@ -93,6 +95,7 @@ trait LiveEditTrait
         mw.liveEditIframeData.back_to_admin_link = '" . admin_url() . "';
         mw.liveEditIframeData.content_link = '" . $contentLink . "';
         mw.liveEditIframeData.template_name = '{$templateName}';
+        mw.liveEditIframeData.template_config = {$templateConfig};
         mw.liveEditIframeData.multiLanguageIsEnabled = '{$multiLanguageIsEnabled}';
         mw.liveEditIframeData.multiLanguageCurrentLanguage = '{$current_lang}';
         mw.liveEditIframeData.multiLanguageEnabledLanguages = {$multiLanguageEnabledLanguages};

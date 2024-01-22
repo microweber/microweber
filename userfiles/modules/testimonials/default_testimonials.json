@@ -5,7 +5,7 @@
             "name": "Wilma Hover",
             "client_role": "Creator",
             "client_company": "Example Inc.",
-            "client_website": "https://www.example.com",
+            "client_website": "",
             "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
 
             "project_name": "Default"
@@ -15,7 +15,7 @@
             "name": "Hattie Nelson",
             "client_role": "Game Designer",
             "client_company": "Example Inc.",
-            "client_website": "https://www.example.com",
+            "client_website": "",
             "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
 
             "project_name": "Default"
@@ -25,7 +25,7 @@
             "name": "John Doe",
             "client_role": "Social Media Ninja",
             "client_company": "Example Inc.",
-            "client_website": "https://www.example.com",
+            "client_website": "",
             "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
 
             "project": "Default"
@@ -35,7 +35,7 @@
             "name": "Mark Brown",
             "client_role": "Social Media Ninja",
             "client_company": "Example Inc.",
-            "client_website": "https://www.example.com",
+            "client_website": "",
             "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
 
             "project_name": "Default"
