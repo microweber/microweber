@@ -164,6 +164,7 @@ $rand = 'pic-sorter-' . uniqid();
 
                         <div id="image-json-options-<?php print  $item['id']; ?>">
                             <div class="image-json-options">
+
                                 <?php
                                 $curr = isset($item['image_options']) ? $item['image_options'] : array();
                                 foreach ($init_image_options as $name) {
@@ -173,6 +174,27 @@ $rand = 'pic-sorter-' . uniqid();
                                         <label class="form-label"><?php print $name ?></label>
                                         <input type="text" class="form-control" name="<?php print $ok; ?>" value="<?php print isset($curr[$ok]) ? $curr[$ok] : ''; ?>"/>
                                     </div>
+
+                                    <?php if ($name == 'Link'): ?>
+
+                                        <div class="form-group">
+                                            <label class="form-label">
+                                                <?php _e("Click on image event"); ?>
+                                            </label>
+                                            <select name="click_image_event" class="form-control">
+                                                <option
+                                                    <?php if (isset($curr['click_image_event']) && ($curr['click_image_event'] == 'fullscreen')) { echo ' selected="selected" '; }; ?>
+                                                    value="fullscreen">Open Image on Fullscreen</option>
+                                                <option
+                                                    <?php if (isset($curr['click_image_event']) && ($curr['click_image_event'] == 'link')) { echo ' selected="selected" '; }; ?>
+                                                    value="link">Open Link</option>
+                                                <option
+                                                    <?php if (isset($curr['click_image_event']) && ($curr['click_image_event'] == 'link_target_blank')) { echo ' selected="selected" '; }; ?>
+                                                    value="link_target_blank">Open Link (On target blank)</option>
+                                            </select>
+                                        </div>
+                                    <?php endif; ?>
+
                                 <?php } ?>
 
                                 <hr class="thin"/>
