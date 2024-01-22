@@ -9,6 +9,7 @@
 namespace MicroweberPackages\User\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
@@ -20,6 +21,7 @@ class UserFilter extends ModelFilter
 {
     use OrderByTrait;
     use FilterByUrlTrait;
+    use FilterByDateBetweenTrait;
 
     public function keyword($keyword)
     {

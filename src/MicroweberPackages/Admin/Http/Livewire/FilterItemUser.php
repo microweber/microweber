@@ -32,11 +32,14 @@ class FilterItemUser extends FilterItemComponent
     {
         $query = $this->model::query();
 
+        $filters = [];
         $keyword = trim($this->query);
         if (!empty($keyword)) {
-            $query->where('first_name', 'like', '%' . $keyword . '%');
-            $query->orWhere('last_name', 'like', '%' . $keyword . '%');
-            $query->orWhere('email', 'like', '%' . $keyword . '%');
+            $filters['keyword'] = $keyword;
+        }
+
+        if (!empty($filters)) {
+            $query->filter($filters);
         }
 
         $this->total = $query->count();
