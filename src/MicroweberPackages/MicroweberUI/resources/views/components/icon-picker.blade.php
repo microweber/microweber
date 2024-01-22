@@ -46,7 +46,7 @@
                 <?php _e("Select Icon"); ?>
             </button>
 
-            <button style="display:none" id="btn-icon-preview-{{$randId}}" class="btn text-center col-1" x-on:click="()=> {
+            <button type="button" style="display:none" id="btn-icon-preview-{{$randId}}" class="btn text-center col-1" x-on:click="()=> {
                         mw.app.iconPicker.selectIcon('#btn-icon-pick-{{$randId}}');
                     }" style="font-size:24px; background-color: #f5f5f5;">
                 Loading...
