@@ -18,7 +18,7 @@ description: Default Picture List
         <div class="mw-pictures-clean" id="mw-gallery-<?php print $rand; ?>">
             <?php $count = -1; foreach ($data as $item): ?>
                 <?php $count++; ?>
-            <?php dump($item);?>
+
                 <div class="mw-pictures-clean-item mw-pictures-clean-item-<?php print $item['id']; ?>">
                     <a href="<?php print ($item['filename']); ?>"
                        onclick="mw.gallery(gallery<?php print $rand; ?>, <?php print $count; ?>);return false;">
