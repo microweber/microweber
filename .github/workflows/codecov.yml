@@ -1,13 +1,15 @@
 name: PHP Code Coverage Tests
 on:
-  push:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 18 * * *' # This runs the workflow every day at 6 PM (18:00) UTC
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  main:
+  main-codecov:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true

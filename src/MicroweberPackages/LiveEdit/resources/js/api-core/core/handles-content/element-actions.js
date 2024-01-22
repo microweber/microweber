@@ -170,7 +170,9 @@ export class ElementActions extends MicroweberBaseClass {
             el.style.width = ''
             next.style.width = ''
         }
-        ElementManager(el).next().get(0).id = mw.id()
+        var newNode = ElementManager(el).next().get(0)
+        newNode.id = mw.id();
+        newNode.querySelectorAll('[id]').forEach(node => node.id = mw.id())
 
         this.proto.elementHandle.set(el);
         mw.app.registerChangedState(el);
@@ -309,6 +311,9 @@ export class ElementActions extends MicroweberBaseClass {
         //remove class mw-resized
         el.classList.remove('mw-resized');
         mw.app.registerChangedState(el);
+        const sel = mw.tools.generateSelectorForNode(el);
+        mw.top().app.cssEditor.setPropertyForSelector(sel, 'width', '', true, true);
+        mw.top().app.cssEditor.setPropertyForSelector(sel, 'height', '', true, true);
         this.proto.elementHandle.set(el);
     }
     resetImageSize(el) {

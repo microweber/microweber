@@ -12,7 +12,7 @@ class CustomField extends Model
     //use MaxPositionTrait;
     use CacheableQueryBuilderTrait;
     use HasCreatedByFieldsTrait;
-    use HasMultilanguageTrait;
+   /// use HasMultilanguageTrait;
 
     protected $fillable = [
         'value',
@@ -73,6 +73,11 @@ class CustomField extends Model
             $customFieldValueToSave = $this->value;
             unset($this->value);
         }
+
+        if (isset($this->options) and is_string($this->options) and $this->options != '') {
+            $this->options = @json_decode($this->options, true);
+        }
+
 
         if(isset($this->name)) {
             $this->name_key = \Str::slug($this->name, '-');

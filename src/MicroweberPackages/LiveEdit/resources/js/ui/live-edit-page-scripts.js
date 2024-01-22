@@ -501,7 +501,7 @@ if(window.self !== window.top) {
         var target = event.target;
         var link = mw.tools.firstParentOrCurrentWithTag(target, 'a');
 
-        if(link && link.href.indexOf('javascript:') !== 0) {
+        if(link && link.href.indexOf('javascript:') !== 0 && !link.isContentEditable) {
             const tmp = document.createElement('a');
             tmp.href = link.href;
             if(tmp.host !== location.host && (!link.target || link.target === '_self')) {

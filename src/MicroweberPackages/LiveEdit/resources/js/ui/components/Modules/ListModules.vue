@@ -74,7 +74,10 @@ export default {
                 options.as_element = true;
             }
 
-            var insertLocation = 'top';
+            //var insertLocation = 'top';
+
+          //  var insertLocation = 'bottom';
+            var insertLocation = this.insertModulePosition;
             mw.app.editor.insertModule(module, options,insertLocation);
             this.showModal = false;
         },
@@ -153,6 +156,8 @@ export default {
     },
     data() {
         return {
+
+            insertModulePosition: 'top',  // insert module on top or bottom
             filterKeyword: '',
             category: '',
             modulesList: [],

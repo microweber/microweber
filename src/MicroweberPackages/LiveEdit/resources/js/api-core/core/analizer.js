@@ -23,7 +23,15 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
 
 
     canAcceptByClass (node) {
-        return this.tools.hasAnyOfClasses(node, this.dropableElements()) || node.className.indexOf('col-') !== -1;
+        let can = this.tools.hasAnyOfClasses(node, this.dropableElements()) || node.className.indexOf('col-') !== -1;
+
+        if(can) {
+            if(node.classList.contains('mw-row')) {
+                can = false;
+            }
+        }
+
+        return can;
     }
 
     canAcceptByTag (node) {
@@ -32,6 +40,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
     }
 
     allowDrop (node) {
+
         return this.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(node, [this.settings.allowDrop, this.settings.nodrop]);
     }
 
@@ -133,6 +142,10 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
 
                 return null;
             }
+        }
+
+        if(target.classList.contains('mw-row')) {
+            res.canInsert = false;
         }
 
         return res;

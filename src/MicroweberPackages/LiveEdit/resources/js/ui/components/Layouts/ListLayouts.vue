@@ -275,8 +275,8 @@ export default {
             }, 300);
         },
 
-        getLayoutsListFromService() {
-            return mw.app.layouts.list();
+        getLayoutsListFromService(cache) {
+            return mw.app.layouts.list(cache);
         },
         searchInAll() {
             this.filterCategory = '';
@@ -318,12 +318,21 @@ export default {
     mounted() {
         const instance = this;
 
+        mw.app.canvas.on('liveEditCanvasLoaded', () => {
+            this.getLayoutsListFromService(false).then(function (data) {
+                instance.layoutsList = data;
+                instance.layoutsListLoaded = true;
+                instance.filterLayouts();
+            });
+        });
+
         mw.app.on('ready', () => {
 
             const showModal = () => {
                 instance.showModal = true;
                 setTimeout(() => {
-                    const searchField = document.querySelector('.mw-le-modules-dialog input.mw-modules-list-search-block');
+                    const searchField = document.querySelector('.mw-le-layouts-dialog input.modules-list-search-field');
+
                     if(searchField) {
                         searchField.focus()
                     }
@@ -362,6 +371,7 @@ export default {
         // });
 
         // Close on Escape
+
         document.addEventListener('keyup', function (evt) {
             if (evt.keyCode === 27) {
                 instance.showModal = false;

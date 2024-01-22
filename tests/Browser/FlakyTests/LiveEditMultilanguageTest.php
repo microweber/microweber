@@ -59,6 +59,13 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
             $browser->visit($siteUrl . '?editmode=y');
             $browser->pause(4000);
 
+
+            $browser->waitFor('#mw-live-edit-toolbar-back-to-admin-link',30  );
+            $href = $browser->attribute('#mw-live-edit-toolbar-back-to-admin-link', 'href');
+            $adminUrl = admin_url();
+            $this->assertStringContainsString($adminUrl, $href);
+
+
             $browser->waitFor('#live-editor-frame', 30)
                 ->withinFrame('#live-editor-frame', function ($browser) {
                     $browser->within(new ChekForJavascriptErrors(), function ($browser) {
@@ -66,6 +73,12 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
                     });
                     $browser->pause(1000);
                 });
+
+
+
+
+
+
 
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
             $browser->switchFrame($iframeElement);
@@ -75,6 +88,7 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
             $browser->doubleClick('#h1-test-element'  );
             $browser->pause(1000);
             $browser->typeSlowly('#h1-test-element' , 'This is my text on english language');
+            $browser->click('#mw-back-to-element-settings-editor-button'  );
 
             $browser->switchFrameDefault();
 
@@ -110,6 +124,7 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
 
 
             $browser->typeSlowly('#h1-test-element', 'Текст написан на български, това е българска страница');
+            $browser->click('#mw-back-to-element-settings-editor-button'  );
 
             $browser->within(new LiveEditSaveButton(), function ($browser) {
                 $browser->clickSaveButton($browser);

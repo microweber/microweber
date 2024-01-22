@@ -22,7 +22,22 @@ MWEditor.controllers = {
 
 
                 api.action(actionTarget.parentNode, function () {
-                    mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'left')
+                    if(rootScope.settings.editMode === 'liveedit') {
+                        mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'left');
+                    } else {
+
+                        if(rootScope.editArea === actionTarget) {
+                            var newBlock = document.createElement('div');
+                            var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                            sel.focusNode.after(newBlock);
+                            getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
+                            newBlock.style.textAlign = 'left'
+                            scope.api.setCursorAtStart(newBlock);
+                        } else {
+                            actionTarget.style.textAlign = 'left'
+                        }
+
+                    }
                 });
             });
             return el;
@@ -49,7 +64,24 @@ MWEditor.controllers = {
                 var node = api.elementNode(sel.focusNode);
                 var actionTarget = mw.tools.firstBlockLikeLevel(node);
                 api.action(actionTarget.parentNode, function () {
-                    mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'center')
+                    api.action(actionTarget.parentNode, function () {
+                        if(rootScope.settings.editMode === 'liveedit') {
+                            mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'center');
+                        } else {
+
+                            if(rootScope.editArea === actionTarget) {
+                                var newBlock = document.createElement('div');
+                                var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                sel.focusNode.after(newBlock);
+                                getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
+                                newBlock.style.textAlign = 'center'
+                                scope.api.setCursorAtStart(newBlock);
+                            } else {
+                                actionTarget.style.textAlign = 'center'
+                            }
+
+                        }
+                    });
                 });
             });
             return el;
@@ -79,7 +111,24 @@ MWEditor.controllers = {
                 var actionTarget = mw.tools.firstBlockLikeLevel(node);
                 api.action(actionTarget.parentNode, function () {
 
-                    mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'right')
+                    api.action(actionTarget.parentNode, function () {
+                        if(rootScope.settings.editMode === 'liveedit') {
+                            mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'right');
+                        } else {
+
+                            if(rootScope.editArea === actionTarget) {
+                                var newBlock = document.createElement('div');
+                                var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                sel.focusNode.after(newBlock);
+                                getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
+                                newBlock.style.textAlign = 'right'
+                                scope.api.setCursorAtStart(newBlock);
+                            } else {
+                                actionTarget.style.textAlign = 'right'
+                            }
+
+                        }
+                    });
                 });
             });
             return el;
@@ -109,7 +158,24 @@ MWEditor.controllers = {
                 var actionTarget = mw.tools.firstBlockLikeLevel(node);
                 api.action(actionTarget.parentNode, function () {
 
-                    mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'justify')
+                    api.action(actionTarget.parentNode, function () {
+                        if(rootScope.settings.editMode === 'liveedit') {
+                            mw.top().app.cssEditor.temp(actionTarget, 'text-align', 'justify');
+                        } else {
+
+                            if(rootScope.editArea === actionTarget) {
+                                var newBlock = document.createElement('div');
+                                var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                sel.focusNode.after(newBlock);
+                                getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
+                                newBlock.style.textAlign = 'justify'
+                                scope.api.setCursorAtStart(newBlock);
+                            } else {
+                                actionTarget.style.textAlign = 'justify'
+                            }
+
+                        }
+                    });
                 });
             });
             return el;
@@ -152,7 +218,26 @@ MWEditor.controllers = {
                     var actionTarget = mw.tools.firstBlockLikeLevel(node);
                     api.action(actionTarget.parentNode, function () {
 
-                        mw.top().app.cssEditor.temp(actionTarget, 'text-align',  item.action)
+
+                        api.action(actionTarget.parentNode, function () {
+                            if(rootScope.settings.editMode === 'liveedit') {
+                                mw.top().app.cssEditor.temp(actionTarget, 'text-align',item.action);
+                            } else {
+
+                                if(rootScope.editArea === actionTarget) {
+                                    var newBlock = document.createElement('div');
+                                    console.log(sel)
+                                    var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                    sel.focusNode.after(newBlock);
+                                    getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
+                                    newBlock.style.textAlign = item.action
+                                    scope.api.setCursorAtStart(newBlock);
+                                } else {
+                                    actionTarget.style.textAlign = item.action
+                                }
+
+                            }
+                        });
                     });
                 });
                 scope.root.append(el);
@@ -473,9 +558,12 @@ MWEditor.controllers = {
 
                 var sel = api.getSelection();
 
+
+
+
                 if(sel.getRangeAt(0).collapsed) {
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLikeLevel(node);
+                    var actionTarget = node;//mw.tools.firstBlockLikeLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isBold = Number(rootScope.actionWindow.getComputedStyle(actionTarget).fontWeight) > 400;
                         let weight;
@@ -484,7 +572,37 @@ MWEditor.controllers = {
                         } else {
                             weight = '700';
                         }
-                        mw.top().app.cssEditor.temp(actionTarget, 'font-weight', weight)
+
+
+                        if(rootScope.settings.editMode === 'liveedit') {
+                            mw.top().app.cssEditor.temp(actionTarget, 'font-weight', weight);
+                        } else {
+                            const edit = mw.tools.firstParentOrCurrentWithClass(node, 'edit') || scope.$editArea[0];
+
+                            rootScope.state.record({
+                                target: edit,
+                                value: edit.innerHTML
+                            });
+                            if(rootScope.editArea === actionTarget) {
+
+                                var newBlock = document.createElement('span');
+                                var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                sel.focusNode.after(newBlock);
+                                getFocusedNeighbours.forEach(el => newBlock.appendChild(el));
+                                newBlock.style.fontWeight = weight;
+                                newBlock.querySelectorAll('*').forEach(n => n.style.fontWeight = weight)
+
+                                rootScope.api.setCursorAtStart(newBlock);
+                            } else {
+                                actionTarget.style.fontWeight = weight;
+                            }
+
+                            rootScope.state.record({
+                                target: edit,
+                                value: edit.innerHTML
+                            });
+                        }
+
                     });
                 } else {
                     api.execCommand('bold');
@@ -528,7 +646,7 @@ MWEditor.controllers = {
 
                 if(sel.getRangeAt(0).collapsed) {
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLikeLevel(node);
+                    var actionTarget = node// mw.tools.firstBlockLikeLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isStrike =  (rootScope.actionWindow.getComputedStyle(actionTarget).textDecoration).includes('line-through');
                         let textDecoration;
@@ -537,7 +655,33 @@ MWEditor.controllers = {
                         } else {
                              textDecoration = 'line-through';
                         }
-                        mw.top().app.cssEditor.temp(actionTarget, 'text-decoration', textDecoration)
+                        if(rootScope.settings.editMode === 'liveedit') {
+                            mw.top().app.cssEditor.temp(actionTarget, 'text-decoration', textDecoration);
+                        } else {
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                            if(rootScope.editArea === actionTarget) {
+
+                                var newBlock = document.createElement('span');
+                                var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                sel.focusNode.after(newBlock);
+                                getFocusedNeighbours.forEach(el => newBlock.appendChild(el));
+                                newBlock.style.textDecoration = textDecoration;
+                                newBlock.querySelectorAll('*').forEach(n => n.style.textDecoration = '')
+
+                                rootScope.api.setCursorAtStart(newBlock);
+                            } else {
+                                actionTarget.style.textDecoration = textDecoration;
+                                actionTarget.querySelectorAll('*').forEach(n => n.style.textDecoration = '')
+                            }
+
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                        }
                     });
                 } else {
                     api.execCommand('strikeThrough');
@@ -578,7 +722,7 @@ MWEditor.controllers = {
 
 
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLikeLevel(node);
+                    var actionTarget = node//mw.tools.firstBlockLikeLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isItalic = rootScope.actionWindow.getComputedStyle(actionTarget).fontStyle !== 'normal';
                         var fontStyle
@@ -587,7 +731,36 @@ MWEditor.controllers = {
                         } else {
                             fontStyle = 'italic';
                         }
-                        mw.top().app.cssEditor.temp(actionTarget, 'font-style', fontStyle)
+                        if(rootScope.settings.editMode === 'liveedit') {
+                            mw.top().app.cssEditor.temp(actionTarget, 'font-style', fontStyle);
+                        } else {
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                            if(rootScope.editArea === actionTarget) {
+
+                                var newBlock = document.createElement('span');
+                                var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                sel.focusNode.after(newBlock);
+                                getFocusedNeighbours.forEach(el => newBlock.appendChild(el));
+                                newBlock.style.fontStyle = fontStyle;
+                                newBlock.querySelectorAll('*').forEach(n => n.style.fontStyle = '')
+
+                                rootScope.api.setCursorAtStart(newBlock);
+                            } else {
+                                actionTarget.style.fontStyle = fontStyle;
+                                actionTarget.querySelectorAll('*').forEach(n => n.style.fontStyle = '')
+                            }
+
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                        }
+
+
+
                     });
                 } else {
                     api.execCommand('italic');
@@ -629,7 +802,7 @@ MWEditor.controllers = {
 
 
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLikeLevel(node)
+                    var actionTarget = node// mw.tools.firstBlockLikeLevel(node)
                     api.action(actionTarget.parentNode, function () {
                         var isUnderline = rootScope.actionWindow.getComputedStyle(actionTarget).textDecoration.indexOf('underline') === 0;
                         var textDecoration
@@ -638,7 +811,33 @@ MWEditor.controllers = {
                         } else {
                              textDecoration = 'underline';
                         }
-                        mw.top().app.cssEditor.temp(actionTarget, 'text-decoration', textDecoration)
+                        if(rootScope.settings.editMode === 'liveedit') {
+                            mw.top().app.cssEditor.temp(actionTarget, 'text-decoration', textDecoration);
+                        } else {
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                            if(rootScope.editArea === actionTarget) {
+
+                                var newBlock = document.createElement('span');
+                                var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                sel.focusNode.after(newBlock);
+                                getFocusedNeighbours.forEach(el => newBlock.appendChild(el));
+                                newBlock.style.textDecoration = textDecoration;
+                                newBlock.querySelectorAll('*').forEach(n => n.style.textDecoration = '')
+
+                                rootScope.api.setCursorAtStart(newBlock);
+                            } else {
+                                actionTarget.style.textDecoration = textDecoration;
+                                actionTarget.querySelectorAll('*').forEach(n => n.style.textDecoration = '')
+                            }
+
+                            rootScope.state.record({
+                                target: rootScope.$editArea[0],
+                                value: rootScope.$editArea[0].innerHTML
+                            });
+                        }
 
                     });
                 } else {
@@ -886,12 +1085,12 @@ MWEditor.controllers = {
         var _proto = this;
 
         this._availableTags = [
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h1">Heading 1</mw-editor-option>', value: 'h1', title: 'Title 1' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h2">Heading 2</mw-editor-option>', value: 'h2', title: 'Title 2' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h3">Heading 3</mw-editor-option>', value: 'h3', title: 'Title 3' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h4">Heading 4</mw-editor-option>', value: 'h4', title: 'Title 4' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h5">Heading 5</mw-editor-option>', value: 'h5' , title: 'Title 5'},
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h6">Heading 6</mw-editor-option>', value: 'h6', title: 'Title 6' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h1">Heading 1</mw-editor-option>', value: 'h1', title: 'Heading 1' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h2">Heading 2</mw-editor-option>', value: 'h2', title: 'Heading 2' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h3">Heading 3</mw-editor-option>', value: 'h3', title: 'Heading 3' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h4">Heading 4</mw-editor-option>', value: 'h4', title: 'Heading 4' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h5">Heading 5</mw-editor-option>', value: 'h5' , title: 'Heading 5'},
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h6">Heading 6</mw-editor-option>', value: 'h6', title: 'Heading 6' },
             { label: 'Paragraph', value: 'p', title: 'Paragraph' },
             { label: 'Block', value: 'div', title: 'Block' },
             { label: 'Pre formated', value: 'pre', title: 'Pre formated' }

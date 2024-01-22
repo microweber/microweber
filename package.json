@@ -7,7 +7,6 @@
         "admincss": "gulp admin-css",
         "admincssdev": "gulp admin-css-dev"
     },
-
     "dependencies": {
         "@alpinejs/focus": "^3.12.0",
         "@heroicons/vue": "^1.0.6",
@@ -17,29 +16,31 @@
         "@yeger/vue-masonry-wall": "^3.4.4",
         "alpinejs": "^3.12.0",
         "aos": "^2.3.4",
-        "axios": ">=1.6.0",
+        "axios": ">=1.6.5",
         "bootstrap": "^4.6.2",
         "bootstrap-select": "^1.13.18",
         "filerobot-image-editor": "^4.4.0",
+        "follow-redirects": "^1.15.5",
         "ion-rangeslider": "^2.3.1",
         "jquery": "^3.6.0",
         "jquery-ui": "^1.12.1",
         "mitt": "^3.0.0",
         "popper.js": "^1.16.1",
+        "postcss": ">=8.4.31",
         "react-filerobot-image-editor": "^4.4.0",
         "vue": "^3.2.36",
         "vue-color-kit": "^1.0.5",
         "vue-loader": "^17.0.1",
         "vue3-click-away": "^1.2.4",
         "vue3-tags-input": "^1.0.12",
-        "postcss": ">=8.4.31",
         "vuetify": "^3.3.19"
     },
     "devDependencies": {
         "@nextapps-be/livewire-sortablejs": "^0.2.0",
         "autoprefixer": "^10.4.13",
-        "axios": ">=1.6.0",
+        "axios": ">=1.6.5",
         "concurrently": "^8.0.1",
+        "follow-redirects": "^1.15.5",
         "gulp": "^4.0.2",
         "gulp-clean-css": "^4.3.0",
         "gulp-concat": "^2.6.1",
@@ -52,8 +53,8 @@
         "gulp-uglify": "^3.0.2",
         "gulp-watch": "^5.0.1",
         "laravel-vite-plugin": "^0.7.2",
-        "tippy.js": "^6.3.7",
         "postcss": ">=8.4.31",
+        "tippy.js": "^6.3.7",
         "vite": "^4.4.12"
     }
 }

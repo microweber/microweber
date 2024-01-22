@@ -163,6 +163,11 @@ function save_mail_template($data)
     $findMailTemplate->message = $data['message'];
    // $findMailTemplate->custom = $data['custom'];
    // $findMailTemplate->plain_text = $data['plain_text'];
+
+    if (isset($data['multilanguage'])) {
+        $findMailTemplate->multilanguage = $data['multilanguage'];
+    }
+
     $findMailTemplate->save();
 
     if (isset($data['append_files']) && !empty($data['append_files'])) {

@@ -15,8 +15,6 @@ export const Modules = {
                 this.modulesListData = response.data;
             });
 
-
-
         return this.modulesListData;
 
     },

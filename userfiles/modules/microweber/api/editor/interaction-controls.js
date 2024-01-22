@@ -23,33 +23,107 @@ MWEditor.interactionControls = {
                 tag: 'a',
                 props: {
                     className: 'mw-editor-link-tooltip-url',
-                    target: 'blank'
-                }
+                    target: 'blank',
+                    }
             });
             var urlUnlink = MWEditor.core.button({
                 props: {
-                    className: 'mdi-link-off',
+
+                    innerHTML:  `<svg viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.43 19.12,14.63 17.79,15L19.25,16.44C20.88,15.61 22,13.95 22,12A5,5 0 0,0 17,7M16,11H13.81L15.81,13H16V11M2,4.27L5.11,7.38C3.29,8.12 2,9.91 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12C3.9,10.41 5.11,9.1 6.66,8.93L8.73,11H8V13H10.73L13,15.27V17H14.73L18.74,21L20,19.74L3.27,3L2,4.27Z"></path>
+                </svg>`
+                }
+            });
+            var urlLink = MWEditor.core.button({
+                props: {
+
+                    innerHTML: `<svg viewBox="0 0 24 24"><path fill="currentColor" d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z"></path></svg>`
+
                 }
             });
 
-            urlUnlink.on('click', function () {
-                rootScope.api.unlink();
+            urlLink.on('click', function (e) {
+                e.preventDefault();
+                setTimeout(() => {
+                    scope.element.hide();
+                }, 100)
+                var api = rootScope.api;
+                api.saveSelection();
+                var sel = rootScope.getSelection();
+
+                var target = mw.tools.firstParentWithTag(sel.focusNode, 'a');
+
+                var val;
+                if(target) {
+                    val = {
+                        url: target.href,
+                        text: target.innerHTML,
+                        target: target.target === '_blank'
+                    };
+                } else if(!sel.isCollapsed) {
+                    val = {
+                        url: '',
+                        text: api.getSelectionHTML(),
+                        target: target.target === '_blank'
+                    };
+                }
+                var linkEditor = new mw.LinkEditor({
+                    mode: 'dialog',
+                });
+                if(val) {
+                    linkEditor.setValue(val);
+                }
+
+                linkEditor.promise().then(function (data){
+
+                    var modal = linkEditor.dialog;
+                    if(data) {
+                        api.restoreSelection();
+                        api.link(data);
+                        modal.remove();
+                    } else {
+                        modal.remove();
+                    }
+                });
+            });
+            urlUnlink.on('click', function (e) {
+                e.preventDefault();
+                var api = rootScope.api;
+                var sel = api.getSelection();
+                if(sel.isCollapsed) {
+                    var node = api.elementNode(sel.focusNode);
+                    node = mw.tools.firstParentOrCurrentWithTag(node, 'a');
+                    api.action(node.parentNode, function () {
+                        while (node.firstChild) {
+                            node.parentNode.insertBefore(node.firstChild, node);
+                        }
+                        node.parentNode.removeChild(node);
+                    })
+                } else {
+                    api.execCommand('unlink');
+                }
+                setTimeout(() => {
+                    scope.element.hide();
+                }, 100)
             });
 
             el.urlElement = urlElement;
             el.urlUnlink = urlUnlink;
             el.append(urlElement);
+            el.append(urlLink);
             el.append(urlUnlink);
             el.target = null;
             el.hide();
             return el;
         };
         this.interact = function (data) {
+
             var tg = mw.tools.firstParentOrCurrentWithTag(data.target,'a');
-            if(!tg) {
+            if(!tg || !tg.isContentEditable) {
                 this.element.hide();
                 return;
             }
+
             var $target = $(data.target);
             this.$target = $target;
             var css = $target.offset();
@@ -307,10 +381,12 @@ MWEditor.interactionControls = {
                         }
                     });
 
-                    console.log(parntRelative)
-                    if(parntRelative) {
 
-                        css.top = css.top - $(parntRelative).offset().top
+                    if(parntRelative &&  rootScope.settings.editMode !== 'liveedit') {
+                        var poff = $(parntRelative).offset()
+
+                        css.top = css.top - poff.top
+                        css.left = css.left - poff.left
                     }
 
 

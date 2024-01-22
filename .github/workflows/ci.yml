@@ -4,10 +4,10 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  main:
+  main_phpunit:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
@@ -22,7 +22,6 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, intl, bcmath, json, zlib, openssl, iconv
-        coverage: xdebug #optional
         tools: phpunit #optional
     - name: Get composer cache directory
       id: composer-cache

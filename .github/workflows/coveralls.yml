@@ -1,13 +1,15 @@
 name: PHP Coverage Tests With Xdebug
 on:
-  push:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 18 * * *' # This runs the workflow every day at 6 PM (18:00) UTC
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  main:
+  main-coveralls:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
@@ -17,6 +19,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        ref: dev
     - name: Npm install
       uses: actions/setup-node@v3
       with:
@@ -52,8 +56,8 @@ jobs:
         flag-name: run-${{ join(matrix.*, '-') }}
         parallel: true
         files: clover.xml
-  dusk:
-    needs: main
+  dusk-coveralls:
+    needs: main-coveralls
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
@@ -63,6 +67,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        ref: dev
     - uses: ./.github/actions/setup-php
       with:
         php_version: ${{ matrix.php-versions }}
@@ -76,13 +82,22 @@ jobs:
     - run: npm run build
     - name: Run Laravel Server
       run: APP_ENV=testing && php artisan serve-test-code-coverage --ansi --env=testing --no-interaction --quiet &
-    - name: Run Dusk Tests Core Tests
+    - name: Run Dusk Tests
       run: |
         chmod -R 0755 vendor/laravel/dusk/bin/
         composer test:dusk
-
+    - name: Combine clover file
+      working-directory: ./tests
+      run: |
+        php combine_xdebug.php
+    - name: Coveralls Dusk Upload
+      uses: coverallsapp/github-action@v2
+      with:
+        flag-name: run-${{ join(matrix.*, '-') }}
+        parallel: true
+        files: tests/coverages/dusk-clover.xml
   finish:
-    needs: dusk
+    needs: dusk-coveralls
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:

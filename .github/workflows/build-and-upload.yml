@@ -8,34 +8,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  microweber-test-before-build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/setup-php
-        with:
-          php_version: "8.1"
-      - name: Npm install
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'npm'
-          cache-dependency-path: ./package-lock.json
-      - run: npm install
-      - run: npm run build
-
-      - name: Install Dependencies
-        run: composer install
-
-      - name: Dump autoload dependecies
-        run: composer dump-autoload
-
-      - name: Run PHPUnit
-        run: php artisan test
 
   microweber-build-and-upload:
     runs-on: ubuntu-latest
-    needs: microweber-test-before-build
     steps:
       - uses: actions/checkout@v3
         with:
@@ -92,3 +67,66 @@ jobs:
           curl -T CHANGELOG.md ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
           curl -T README.md ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv
 
+
+  microweber-build-and-upload-update-zip:
+    runs-on: ubuntu-latest
+    needs: microweber-build-and-upload
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: ${{ github.repository }}
+      - name: Npm install
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: ./package-lock.json
+      - run: npm install
+      - run: npm run build
+
+      - name: Install Dependencies
+        run: composer install --no-dev
+
+      - name: Dump autoload dependecies
+        run: composer dump-autoload
+
+
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
+
+      - name: Zip the update files
+        run: |
+          rm -rf .git
+          rm -rf .github
+          rm -rf .idea
+          rm -rf .nmp
+          rm -rf node_modules
+          rm -rf .phpunit.cache
+          rm -rf vendor/composer/tmp-*.zip
+          rm -rf userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/tabler-ui/demo
+          rm -rf userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/tabler-ui/src/static
+          rm -rf config/*
+          rm -rf storage/*
+          rm -rf app/*
+          rm -rf bootstrap/*
+          rm -rf database/*
+          rm -rf tests/*
+          rm -rf routes/*
+          rm -rf userfiles/cache/*
+          rm -rf userfiles/css/*
+          rm -rf userfiles/media/*
+          rm -rf favicon.ico
+          rm -f *.php
+          rm -f *.yml
+          find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
+          cp -r userfiles/ update/
+          cp -r vendor/ update/
+          cp -r src/ update/
+          cd update/
+          zip -r microweber-update-${{ env.GITHUB_REF_SLUG }}.zip `ls -A`
+          cp microweber-update-${{ env.GITHUB_REF_SLUG }}.zip ../microweber-update-${{ env.GITHUB_REF_SLUG }}.zip
+      - name: Upload zip
+        run: |
+          echo insecure >> ~/.curlrc
+          cp microweber-update-${{ env.GITHUB_REF_SLUG }}.zip microweber-update.zip
+          curl -T microweber-update.zip ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_HOST }}/builds/${{ env.GITHUB_REF_SLUG }}/ --ftp-create-dirs --no-epsv

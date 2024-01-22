@@ -9,66 +9,7 @@
 
     @if($customField->type == 'checkbox' || $customField->type == 'dropdown' || $customField->type == 'radio')
 
-        @if(\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled())
-
-            @php
-                $supportedLanguages = \MicroweberPackages\Multilanguage\MultilanguageHelpers::getSupportedLanguages();
-                $currentLang = mw()->lang_helper->current_lang();
-                $currentLanguageData = [];
-                foreach ($supportedLanguages as $supportedLanguage) {
-                    if ($supportedLanguage['locale'] == $currentLang) {
-                        $currentLanguageData = $supportedLanguage;
-                    }
-                }
-            @endphp
-
-            <div
-                x-data="{
-                    currentLanguageData: @js($currentLanguageData)
-                    }"
-                        x-init="function() {
-                    mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
-                        console.log(mlCurrentLanguage);
-                        currentLanguageData = mlCurrentLanguage;
-                    });
-                    }"
-                class="mt-2">
-                <label class="live-edit-label" for="type">
-                  Values
-                </label>
-
-                <div class="btn-group w-100" role="group">
-                @foreach($supportedLanguages as $supportedLanguage)
-
-                        <input
-                            x-on:click="function() {
-                    currentLanguageData = @js($supportedLanguage);
-                    mw.trigger('mlChangedLanguage', currentLanguageData);
-            }"
-                            @if($supportedLanguage['locale'] == $currentLang)
-                                checked="checked"
-                            @endif
-
-                            type="radio" class="btn-check" name="btn-radio-toolbar" id="btn-radio-toolbar-02-{{$supportedLanguage['locale']}}" autocomplete="off">
-                        <label for="btn-radio-toolbar-02-{{$supportedLanguage['locale']}}" class="btn btn-icon">
-                            <i class="flag-icon flag-icon-{{$supportedLanguage['icon']}} mr-4"></i>
-                            <span>   &nbsp;  {{strtoupper($supportedLanguage['locale'])}}</span>
-                        </label>
-                @endforeach
-                </div>
-                <div class="mt-2 bg-white px-2 py-2">
-                    @foreach($supportedLanguages as $supportedLanguage)
-                       <div
-                           x-show="currentLanguageData.locale == '{{$supportedLanguage['locale']}}'"> 
-                           @include('custom_field::livewire.custom-field-values-multivalues', ['stateKey'=>'multivaluesMl.'.$supportedLanguage['locale']])
-                       </div>
-                    @endforeach
-                </div>
-            </div>
-
-        @else
-          @include('custom_field::livewire.custom-field-values-multivalues', ['stateKey'=>'multivalues'])
-        @endif
+        @include('custom_field::livewire.custom-field-values-multivalues')
 
     @elseif($customField->type == 'price')
 

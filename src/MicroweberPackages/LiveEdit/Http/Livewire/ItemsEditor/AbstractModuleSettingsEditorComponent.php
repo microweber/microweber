@@ -46,7 +46,8 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
     public function getItems()
     {
         $settings = get_module_option($this->getSettingsKey(), $this->moduleId);
-        $json = @json_decode($settings, true);
+       // $settings = app()->url_manager->replace_site_url_back($settings);
+         $json = @json_decode($settings, true);
 
         if ($json) {
             $this->items = $json;

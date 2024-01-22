@@ -123,7 +123,8 @@ class ShopDuskTestCase extends DuskTestCase
 
         //    $browser->script('$(".name-of-product-shop").first().click()');
         //
-
+        $browser->script("$('html, body').animate({ scrollTop: $('.price button').first().offset().top - 160 }, 0);");
+        $browser->pause(500);
         $browser->click('.price button');
         $browser->pause(500);
         $browser->waitForText('Continue shopping',30);

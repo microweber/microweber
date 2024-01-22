@@ -611,14 +611,7 @@ mw.lib.require('rangy');
                     return
                 }
 
-                var all = target.querySelectorAll(scope.api._execCommandWrongFormats);
 
-                while (all.length) {
-                    var parent = all[0].parentNode;
-                    parent.parentNode.insertBefore(all[0], parent);
-                    parent.remove();
-                    all = target.querySelectorAll(scope.api._execCommandWrongFormats);
-                }
 
                 var lit = target.querySelectorAll('ul > *:not(li), ol > *:not(li)');
                 if(lit.length) {
@@ -684,11 +677,6 @@ mw.lib.require('rangy');
             execCommand: function (cmd, def, val, recordTimeout) {
 
 
-
-
-
-
-
                 scope.actionWindow.document.execCommand('styleWithCss', 'false', false);
                 var sel = scope.getSelection();
                 try {  // 0x80004005
@@ -709,22 +697,23 @@ mw.lib.require('rangy');
                                 function _execCommand(cmd, def, val) {
                                     var pce = parent.contentEditable
                                     var current = parent.querySelector('[contenteditable="true"]');
+                                    parent.contentEditable = true;
                                     if(current) {
                                         current.contentEditable = 'inherit';
                                     }
-                                    parent.contentEditable = true;
 
                                     scope.actionWindow.document.execCommand(cmd, def, val);
+
                                     parent.contentEditable = pce;
+
                                     if(current) {
                                         current.contentEditable = true;
                                     }
 
+
                                 }
 
-
                                 _execCommand(cmd, def, val);
-
 
                                 scope.api.afterExecCommand(parent);
 

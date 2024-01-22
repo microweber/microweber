@@ -271,7 +271,7 @@ class ImageLib
         // *** Make sure the file passed in is valid
         if (!$this->image) {
             if ($this->debug) {
-                die('file ' . $this->getFileName() . ' is missing or invalid');
+                die('file ' . basename( $this->getFileName() ). ' is missing or invalid');
             } else {
                 die();
             }

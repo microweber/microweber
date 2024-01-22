@@ -303,8 +303,9 @@ class ZipBatchExport extends DefaultExport
 
         $userFilesReady = array();
 
-        $userFilesPathCss = userfiles_path() . DIRECTORY_SEPARATOR . 'css';
-        $userFilesPathMedia = userfiles_path() . DIRECTORY_SEPARATOR . 'media';
+        $userFilesPathCss = userfiles_path() . 'css';
+        $userFilesPathMedia = userfiles_path() . 'media';
+        $userFilesPathFonts = userfiles_path() . 'fonts';
 
         if (!is_dir($userFilesPathCss)) {
             mkdir_recursive($userFilesPathCss);
@@ -313,15 +314,20 @@ class ZipBatchExport extends DefaultExport
         if (!is_dir($userFilesPathMedia)) {
             mkdir_recursive($userFilesPathMedia);
         }
+        if (!is_dir($userFilesPathFonts)) {
+            mkdir_recursive($userFilesPathFonts);
+        }
 
         $css = $this->_getDirContents($userFilesPathCss);
         $media = $this->_getDirContents($userFilesPathMedia);
+        $fonts = $this->_getDirContents($userFilesPathFonts);
 
         $userFiles = array_merge($css, $media);
+        $userFiles = array_merge($userFiles, $fonts);
 
         foreach ($userFiles as $filePath) {
 
-            $dataFile = str_replace(userfiles_path() . DIRECTORY_SEPARATOR, false, $filePath);
+            $dataFile = str_replace(userfiles_path(), '', $filePath);
 
             $dataFile = normalize_path($dataFile, false);
             $filePath = normalize_path($filePath, false);
@@ -330,7 +336,6 @@ class ZipBatchExport extends DefaultExport
                 'filename' => $dataFile,
                 'filepath' => $filePath
             );
-
         }
 
         return $userFilesReady;

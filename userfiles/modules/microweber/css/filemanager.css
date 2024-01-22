@@ -35,7 +35,7 @@
 
 }
 .mw-file-manager-root{
-     
+
     min-height: 150px;
     position: relative;
 
@@ -56,7 +56,7 @@
     border-bottom: 1px solid #dbdcdd;
 
 }
- 
+
 
 
 
@@ -127,8 +127,8 @@
     opacity: .5;
 }
 
- 
- 
+
+
 
 .mw-file-manager-list-item-options{
     position: relative;
@@ -136,13 +136,13 @@
 }
 
 .mw-file-manager-list-item-options-list > *{
- 
+
     white-space: nowrap;
     max-width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
- 
+
 .mw-file-manager-list-item-options-list{
     position: absolute;
     top: 0;
@@ -173,11 +173,11 @@
     justify-content: space-between;
 }
 
- 
+
 .mw-file-manager-root[data-view="grid"] thead th:empty{
     display: none;
 }
- 
+
 .mw-file-manager-root[data-view="grid"] thead,
 .mw-file-manager-root[data-view="grid"] tbody{
     width: 100%;
@@ -191,7 +191,7 @@
 }
 
 .mw-file-manager-root[data-view="grid"] {
-   
+
     container-name: mwfilemanagergrid;
      container-type: inline-size;
 }
@@ -207,7 +207,7 @@
     width: 180px;
 }
 
- 
+
 .mw-file-manager-root{
     --mw-file-manager-root-grid-space: 10px;
 }
@@ -246,7 +246,7 @@
   }
 
   @container mwfilemanagergrid (max-width: 900px) {
-    
+
     .mw-file-manager-root[data-view="grid"] tbody tr{
         width: calc(25% + 2px - var(--mw-file-manager-root-grid-space));
     }
@@ -277,14 +277,14 @@
 
 
 
-  
+
 
 .mw-file-manager-root[data-view="grid"] tr:hover {
     transition: box-shadow .3s;
     box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
-  
+
 }
- 
+
 
 
 .mw-file-manager-root[data-view="grid"] tbody tr .mw-file-manager-options-cell{
@@ -300,22 +300,22 @@
     padding: 20px;
 }
 .mw-file-manager-root[data-view="grid"] tbody .mw-file-manager-list-item-type--types-delimitter{
- 
+
     display: block;
     width: 100%;
- 
+
 }
 .mw-file-manager-root[data-view="list"] tbody .mw-file-manager-list-item-type--types-delimitter{
- 
+
     display: none;
 
- 
+
 }
 .mw-file-manager-root[data-view="grid"] tbody tr {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
+
 }
 .mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-options{
     position: absolute;
@@ -347,7 +347,7 @@
     transform-origin: center bottom;
 }
 .mw-file-manager-root[data-view="grid"] tr{
-   
+
     position: relative;
     padding: 0px 0px 35px;
 }
@@ -357,7 +357,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
+
     padding: 10px 0;
 }
 
@@ -371,14 +371,14 @@
     padding: 0 20px;
 }
 .mw-file-manager-bar-path{
- 
+
     max-width: 90%;
     overflow:hidden;
     text-align: right;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
- 
+
 
 .mw-file-manager-root[data-view="grid"]  .mw-file-manager-list-item-thumb{
     background-size: cover;
@@ -470,7 +470,7 @@
     vertical-align: top;
 }
 
- 
+
 .mw-file-manager-add-node{
     position: relative;
     display: block;
@@ -480,7 +480,7 @@
     font-size: 14px;
     font-weight: normal;
 }
- 
+
 .mw-file-manager-add-node > :first-child{
     display: block;
     padding: 10px;
@@ -506,12 +506,12 @@
 
 .mw-file-manager-search{
     position: relative;
-    
+
     min-width: 200px;
     width: 50%;
 
 }
- 
+
 
 .mw-file-manager-no-results-content{
     font-size: 17px;
@@ -523,7 +523,7 @@
 }
 
 
- 
+
 
 .mw-file-manager-paging{
     display: flex;
@@ -546,9 +546,14 @@
 
 .mw-file-manager--multiselect--context-actions{
     display: none;
-    padding-inline-end: 20px;
 }
 .mw-fm-part-selected .mw-file-manager--multiselect--context-actions,
 .mw-fm-all-selected .mw-file-manager--multiselect--context-actions{
-    display: inline-block;
+    display: flex;
+    width: 100%;
+    gap: 12px;
+    align-items: baseline;
+}
+.mw-file-manager--multiselect--selected-actions {
+    display: none;
 }

@@ -249,6 +249,7 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
 //    Route::any($admin_url . '/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*')->name('admin.all');
 
     Route::any('robots.txt', 'FrontendController@robotstxt')->name('robots');
+    Route::any('ads.txt', 'FrontendController@adstxt')->name('ads-txt');
 
     Route::get('sitemap.xml', 'SitemapController@index')->name('sitemap.index');
     Route::get('sitemap.xml/categories', 'SitemapController@categories')->name('sitemap.categories');

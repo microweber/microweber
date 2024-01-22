@@ -1528,6 +1528,19 @@ class FrontendController extends Controller
         }
     }
 
+    public function adstxt()
+    {
+        header('Content-Type: text/plain');
+        $adsTxt = $this->websiteOptions['ads_txt'];
+
+        if ($adsTxt == false) {
+            $adsTxt = "";
+        }
+
+        event_trigger('mw_ads_txt_url_hit');
+        echo $adsTxt;
+        exit;
+    }
 
     public function robotstxt()
     {

@@ -22,6 +22,12 @@
 
             window.livewire.on('saveModuleAsPreset', function () {
                 var el = mw.top().app.canvas.getWindow().$('#{{$this->moduleId}}')[0];
+                if(!el){
+                    el = mw.top().app.canvas.getWindow().$('[data-module-original-id="{{$this->moduleId}}"]')[0];
+                }
+                if(!el){
+                    el = mw.top().app.canvas.getWindow().$('[data-module-id-from-preset="{{$this->moduleId}}"]')[0];
+                }
                 var attrs = el.attributes;
                 var attrsObj = {};
                 var skipAttrs = ['contenteditable', 'class', 'data-original-attrs', 'data-original-id']
@@ -51,6 +57,7 @@
 
                 var have_orig_attr = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs");
 
+                var have_orig_id = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id");
 
                 if (have_orig_attr) {
                     var obj = JSON.parse(window.atob(have_orig_attr));
@@ -67,6 +74,12 @@
 
                 }
 
+                if(have_orig_id){
+                    mw.top().app.canvas.getWindow().$(el).attr("id", have_orig_id);
+                    applyToModuleId = have_orig_id;
+                }
+
+                mw.top().app.canvas.getWindow().$(el).removeAttr("data-module-original-id");
                 mw.top().app.canvas.getWindow().$(el).removeAttr("data-module-id-from-preset");
                 mw.top().app.canvas.getWindow().$(el).removeAttr("data-module-original-attrs");
                 mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': applyToModuleId}))
@@ -92,7 +105,9 @@
 
                 var orig_id = mw.top().app.canvas.getWindow().$(el).attr("id");
                 // var set_orig_id = mw.top().app.canvas.getWindow().$(el).attr("data-module-id-from-preset");
-                // var have_orig_id = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id");
+               var have_orig_id = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id");
+
+
                 var have_orig_attr = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs");
                 //
                 if(!have_orig_attr) {
@@ -117,6 +132,11 @@
                     }
                 }
                 mw.top().app.canvas.getWindow().$(el).attr("data-module-id-from-preset", preset.module_id);
+            //    mw.top().app.canvas.getWindow().$(el).attr("module-id", preset.module_id);
+
+                if(!have_orig_id){
+                    mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id", applyToModuleId);
+                }
 
                 //   mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': preset.module_id}))
                 mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': applyToModuleId}))

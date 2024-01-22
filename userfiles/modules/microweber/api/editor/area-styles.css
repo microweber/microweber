@@ -24,6 +24,9 @@
 .mw-small-editor{
     position: absolute;
 }
+.mw-editor-link-tooltip > *{
+    vertical-align: middle;
+}
 .mw-editor-link-tooltip{
     position: absolute;
     z-index: 10;
@@ -34,3 +37,22 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
+
+.mw-editor-link-tooltip-url{
+    margin-inline-end: 12px;
+}
+
+.mw-editor-link-tooltip mw-editor-button.mw-editor-controller-button svg{
+    width: 25px;
+    height: 25px;
+    color: black;
+}
+.mw-editor-link-tooltip mw-editor-button.mw-editor-controller-button:hover{
+    background-color: #efecec;
+}
+.mw-editor-link-tooltip mw-editor-button.mw-editor-controller-button{
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -38,6 +38,9 @@ if (isset($params["active-site-template"]) and $params["active-site-template"]) 
 if (isset($data['active_site_template']) and $data['active_site_template'] == '') {
     $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
 }
+
+
+
 if (isset($params["show-page-id-layout"]) and isset($params["data-page-id"])) {
 
 } else if (isset($params["layout_file"]) and trim($params["layout_file"]) != '') {
@@ -391,7 +394,8 @@ if (!empty($recomended_layouts)) {
                 mw.templatePreview<?php print $rand; ?>.generate();
 
 
-
+mw.reload_module("#<?php print $params['id']?>", function () {
+                });
                 //mw.reload_module("#<?php //print $params['id']?>//", function () {
                 //});
             }

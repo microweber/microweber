@@ -4,7 +4,7 @@
     <div class="col-md-12">
         <h5>{{$template['description']}}</h5>
 
-        @if($template['is_paid'])
+        @if(isset($template['is_paid']) and $template['is_paid'])
             <span class="badge badge-sm badge-success">PREMIUM LICENSE</span>
         @else
             <span class="badge badge-sm badge-primary">FREE LICENSE</span>
@@ -23,6 +23,12 @@
     </div>
 
     <div class="col-md-6">
+
+        @php
+        if(!isset($template['buy_link'])){
+            $template['buy_link'] = 'https://microweber.com/';
+        }
+        @endphp
 
         @if ($template['dist']['type'] == 'license_key')
 

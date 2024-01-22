@@ -11,7 +11,7 @@ export const afterLayoutChange = target => {
             if(edit.querySelector('.module-layouts') === null) {
 
                 var ghostLayout = mw.element()
-                     
+
                     .addClass('mw-le-ghost-layout')
                     .addClass('noedit')
                     .addClass('noelement')
@@ -148,6 +148,12 @@ export class LayoutActions extends MicroweberBaseClass {
             target.remove();
             mw.app.registerChange(edit);
             mw.app.registerUndoState(edit)
+
+            //check if the edit is empty and add comment
+            if(edit && edit.innerHTML && edit.innerHTML.trim() === '') {
+                edit.innerHTML = '<!-- add content here -->';
+            }
+
             afterLayoutChange(edit)
         })
     }

@@ -248,6 +248,9 @@ mw.filePicker = function (options) {
                          selectableRow: true,
                          type: scope.settings.type
                      });
+                     fm.on('insert', function (){
+                         scope.result();
+                     });
                      fm.on('selectionChanged', function (val){
 
                          scope.setSectionValue(val.map(a=>a.url));

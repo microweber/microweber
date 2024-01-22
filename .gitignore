@@ -47,6 +47,7 @@ node_modules/
 /.project
 /userfiles/*.log
 /userfiles/*.json
+/userfiles/fonts/*
 /phpunit.phar
 /run-build.sh
 /userfiles/templates

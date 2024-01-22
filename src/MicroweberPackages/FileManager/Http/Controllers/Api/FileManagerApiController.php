@@ -121,7 +121,7 @@ class FileManagerApiController extends Controller {
 
                 $ext = strtolower(get_file_extension($file));
                 if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp' or $ext == 'webp' or $ext == 'svg') {
-                    $thumbnail = thumbnail(mw()->url_manager->link_to_file($file), $thumbnailSize, $thumbnailSize, true);
+                    $thumbnail = thumbnail(mw()->url_manager->link_to_file($file), $thumbnailSize, $thumbnailSize, false);
                 }
 
                 $relative_path = str_ireplace(media_base_path(), '', $file);

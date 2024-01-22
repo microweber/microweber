@@ -37,7 +37,7 @@ html.preview .back-to-edit{
     <div id="toolbar" class="shadow-sm" :style="{'display': toolbarDisplay}">
         <div class="toolbar-nav toolbar-nav-hover col-xxl-3 col-auto d-flex justify-content-lg-start">
 
-            <a class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" :href="backToAdminLink">
+            <a id="mw-live-edit-toolbar-back-to-admin-link" class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" :href="backToAdminLink">
                 <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                     <g fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-miterlimit="10">
                         <circle class="arrow-icon--circle" cx="16" cy="16" r="15.12"></circle>
@@ -236,7 +236,18 @@ export default {
 
             var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
             if (document.getElementById('js-live-edit-back-to-admin-link')) {
-                liveEditIframeData.back_to_admin_link = document.getElementById('js-live-edit-back-to-admin-link').href;
+
+                this.backToAdminLink = document.getElementById('js-live-edit-back-to-admin-link').href;
+
+                var liveEditIframeDocument = mw.top().app.canvas.getWindow();
+                // check if windowd location is in admin
+                if (liveEditIframeDocument.location.href.indexOf(this.backToAdminLink) !== -1) {
+                    // go top to the location in admin
+                    mw.notification.success('You are back to admin', 5000);
+                    window.location.href = liveEditIframeDocument.location.href;
+                }
+
+
             }
             if (liveEditIframeData && liveEditIframeData.content) {
 

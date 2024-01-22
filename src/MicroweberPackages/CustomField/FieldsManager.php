@@ -139,15 +139,16 @@ class FieldsManager
     {
         global $_mw_made_default_fields_register;
 
-        if (!defined('SKIP_CF_ADMIN_CHECK')) {
-            define('SKIP_CF_ADMIN_CHECK', 1);
-        }
+//        if (!defined('SKIP_CF_ADMIN_CHECK')) {
+//            define('SKIP_CF_ADMIN_CHECK', 1);
+//        }
 
-        // return false;
-        $id = $this->app->user_manager->is_admin();
-        if ($id == false) {
-            //return false;
-        }
+//        // return false;
+        // admin check is moved in middleware
+//        $id = $this->app->user_manager->is_admin();
+//        if ($id == false) {
+//            //return false;
+//        }
 
         $function_cache_id = false;
 

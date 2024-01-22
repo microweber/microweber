@@ -14,14 +14,10 @@ use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\DuskTestCaseMultilanguage;
-/**
- * @runTestsInSeparateProcesses
- */
+
 class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
 {
-    /**
-     * @runInSeparateProcess
-     */
+
     public function testMultilanguageAddCategory()
     {
         $this->browse(function (Browser $browser) {
@@ -55,13 +51,14 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
             }
 
             $browser->visit(route('admin.category.create'));
+            $browser->pause(3000);
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
           //  $browser->click('#category-create-in-blog-link');
             $browser->click('#category-create-in-shop-link');
-            $browser->pause(400);
+            $browser->pause(1400);
             $browser->waitForText('Category name');
 
             $browser->within(new AdminCategoryMultilanguage, function ($browser) use ($categoryDataMultilanguage) {
@@ -145,7 +142,7 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
                 $this->assertTrue(strpos($currentUrl, $categoryData['url']) !== false);
 
                 $browser->assertSee($categoryData['title']);
-
+                 $browser->pause(1000);
             }
 
         });

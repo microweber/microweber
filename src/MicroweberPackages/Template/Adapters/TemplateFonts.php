@@ -30,15 +30,23 @@ class TemplateFonts
 
     public function getFontsStylesheetCss() : string
     {
-        $google_font_domain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
-        $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
+        $googleFontDomain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
+        $enabledCustomFonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
         $output = [];
-        if (!empty($enabled_custom_fonts)) {
-            foreach ($enabled_custom_fonts as $font) {
+
+        if (!empty($enabledCustomFonts)) {
+            foreach ($enabledCustomFonts as $font) {
                 if ($font) {
                     $font = str_replace('%2B', '+', $font);
-                    $font_url = urlencode($font);
-                    $output[] = "@import url(//{$google_font_domain}/css?family={$font_url}:300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic);";
+                    $fontUrl = urlencode($font);
+
+                    $checkLocalFont = userfiles_path() . 'fonts' . DS . str_slug($font) . DS . 'font.css';
+                    if (is_file($checkLocalFont)) {
+                        $output[] = "@import url('" . userfiles_url() . 'fonts/' . str_slug($font) . '/font.css' . "');";
+                        continue;
+                    }
+
+                    $output[] = "@import url(//{$googleFontDomain}/css?family={$fontUrl}:300italic,400italic,600italic,700italic,800italic,400,600,800,700,300&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic);";
                 }
             }
         }

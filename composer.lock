@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7c60238f2c7c5c7dbe2f52672a64696",
+    "content-hash": "5311163422b48d9f55ff24350656252d",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -7214,23 +7214,23 @@
         },
         {
             "name": "microweber-modules/standalone-updater",
-            "version": "5.3.6",
+            "version": "5.3.7",
             "target-dir": "standalone-updater",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-modules/standalone-updater",
-                "reference": "2c9e9615e35cce8f78b8b30ea1fe904d722add79"
+                "reference": "41ea1d29b912bb3251f5eabe4b80f83485f0ca35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-5.3.6-9eac9f.zip",
-                "reference": "2c9e9615e35cce8f78b8b30ea1fe904d722add79",
-                "shasum": "7e31f2bcb70c892e4f646477fc7c4aea902fef88"
+                "url": "https://packages.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-5.3.7-2e1aa0.zip",
+                "reference": "41ea1d29b912bb3251f5eabe4b80f83485f0ca35",
+                "shasum": "d8762fdc1ec292d614c99b17a1a361d9de1ff17c"
             },
             "type": "microweber-module",
             "extra": {
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-modules-standalone-updater/536/README.md"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-modules-standalone-updater/537/README.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7251,7 +7251,7 @@
             "keywords": [
                 "standalone-updater"
             ],
-            "time": "2023-10-30T11:44:41+00:00"
+            "time": "2023-12-08T09:26:25+00:00"
         },
         {
             "name": "microweber-packages/composer-client",
@@ -7352,18 +7352,18 @@
         },
         {
             "name": "microweber-templates/big-free",
-            "version": "9.6",
+            "version": "12.1",
             "target-dir": "big",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/big-free",
-                "reference": "07596634ae00e128f62b22428cc1f042b415e5ec"
+                "reference": "48a1f32e0ad5c37c316ef0674d2cd1120bfe7134"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-9.6-11b870.zip",
-                "reference": "07596634ae00e128f62b22428cc1f042b415e5ec",
-                "shasum": "d6e40efa148da292f6fac6b469750f531a453854"
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-12.1-57344b.zip",
+                "reference": "48a1f32e0ad5c37c316ef0674d2cd1120bfe7134",
+                "shasum": "dd31a20aad0b5a899c184c7d8e23ecf310488881"
             },
             "type": "microweber-template",
             "extra": {
@@ -7420,6 +7420,7 @@
                     "/layouts/templates/price_lists/skin-10.php",
                     "/layouts/templates/price_lists/skin-4.php",
                     "/layouts/templates/price_lists/skin-7.php",
+                    "/layouts/templates/price_lists/skin-11.php",
                     "/layouts/templates/price_lists/skin-5.php",
                     "/layouts/templates/price_lists/skin-3.php",
                     "/layouts/templates/misc/skin-9.php",
@@ -7454,6 +7455,7 @@
                     "/layouts/templates/content/skin-41.php",
                     "/layouts/templates/content/skin-13-mirror.php",
                     "/layouts/templates/content/skin-30.php",
+                    "/layouts/templates/content/skin-11-double.php",
                     "/layouts/templates/content/skin-70.php",
                     "/layouts/templates/content/skin-35.php",
                     "/layouts/templates/content/skin-64.php",
@@ -7578,6 +7580,7 @@
                     "/layouts/templates/blog/skin-6.php",
                     "/layouts/templates/blog/skin-8.php",
                     "/layouts/templates/blog/skin-17.php",
+                    "/layouts/templates/blog/skin-19.php",
                     "/layouts/templates/blog/skin-10.php",
                     "/layouts/templates/blog/skin-16.php",
                     "/layouts/templates/blog/skin-15.php",
@@ -7597,17 +7600,19 @@
                     "/layouts/templates/header/skin-31.php",
                     "/layouts/templates/header/skin-27.php",
                     "/layouts/templates/header/skin-7.php",
+                    "/layouts/templates/header/skin-32.php",
                     "/layouts/templates/header/skin-14.php",
                     "/layouts/templates/header/skin-12.php",
+                    "/layouts/templates/header/skin-33.php",
                     "/layouts/templates/header/skin-29.php",
                     "/layouts/templates/header/skin-5.php",
                     "/layouts/templates/header/skin-25.php",
                     "/layouts/templates/header/skin-24.php"
                 ],
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/96/README.md",
-                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/96/screenshot.jpg",
-                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/96/screenshot_large.jpg"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/121/README.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/121/screenshot.jpg",
+                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/121/screenshot_large.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7633,7 +7638,7 @@
                 "forum": "https://microweber.org/community",
                 "docs": "http://docs.microweber.org"
             },
-            "time": "2023-12-15T12:07:25+00:00"
+            "time": "2024-01-22T14:25:29+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",

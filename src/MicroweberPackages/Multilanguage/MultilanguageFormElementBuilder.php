@@ -13,6 +13,7 @@ use MicroweberPackages\FormBuilder\Elements\RadioButton;
 use MicroweberPackages\FormBuilder\Elements\Range;
 use MicroweberPackages\FormBuilder\Elements\Select;
 use MicroweberPackages\FormBuilder\FormElementBuilder;
+use MicroweberPackages\Multilanguage\FormElements\FileOption;
 use MicroweberPackages\Multilanguage\FormElements\MwEditor;
 use MicroweberPackages\Multilanguage\FormElements\MwModuleSettings;
 use MicroweberPackages\Multilanguage\FormElements\Text;
@@ -29,6 +30,7 @@ class MultilanguageFormElementBuilder extends FormElementBuilder
         'TextOption' => TextOption::class,
         'TextArea' => TextArea::class,
         'TextAreaOption' => TextAreaOption::class,
+        'FileOption'=>FileOption::class
     ];
 //    protected $drivers = [
 //        'text' => Text::class,

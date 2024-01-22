@@ -10,8 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
+/*
+// todo ...
 Route::prefix(mw_admin_prefix_url())->name('admin.')->middleware(['admin','api'])->namespace('\MicroweberPackages\Role\Http\Controllers\Admin')->group(function () {
 
     Route::resource('role', 'RolesController');
@@ -21,4 +21,4 @@ Route::prefix(mw_admin_prefix_url())->name('admin.')->middleware(['admin','api']
         'uses' => 'RolesController@cloneRole'
     ]);
 
-});
+});*/

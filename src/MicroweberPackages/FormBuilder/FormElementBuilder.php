@@ -146,6 +146,13 @@ class FormElementBuilder extends Manager
         return $textOption;
     }
 
+    public function fileOption($optionKey, $optionGroup)
+    {
+        $fileOption = new $this->formElementsClasses['FileOption']($optionKey, $optionGroup);
+
+        return $fileOption;
+    }
+
     /**
      * @deprecated This property is deprecated and should not be used anymore.
      */

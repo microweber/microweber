@@ -27,6 +27,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
     public $showPlaceholderSettings = false;
     public $showErrorTextSettings = false;
     public $showOptionsSettings = false;
+   // public $multivaluesMl = [];
 
     public $listeners = [
         'customFieldUpdated' => '$refresh',
@@ -37,6 +38,11 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
     {
         $this->customFieldId = $customFieldId;
     }
+
+//    public function updatedMultivaluesMl()
+//    {
+//      //  dd($this->multivaluesMl);
+//    }
 
     public function onReorderCustomFieldValuesList($params)
     {
@@ -85,20 +91,20 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
             return;
         }
 
-        if (isset($this->inputs[$id])) {
+        $findCustomFieldValue = CustomFieldValue::where('custom_field_id', $this->customFieldId)
+            ->where('id', $id)
+            ->first();
 
-            $findCustomFieldValue = CustomFieldValue::where('custom_field_id', $this->customFieldId)
-                ->where('id', $id)
-                ->first();
-            if ($findCustomFieldValue) {
-                $findCustomFieldValue->delete();
-            }
-            $this->priceModifiers[$id] =  false;
-
-            unset($this->priceModifiers[$id]);
-            unset($this->inputs[$id]);
-            $this->dispatchGlobalBrowserEvent('customFieldUpdated');
+        if ($findCustomFieldValue) {
+            $findCustomFieldValue->delete();
         }
+        $this->priceModifiers[$id] =  false;
+
+        unset($this->priceModifiers[$id]);
+        unset($this->inputs[$id]);
+
+        $this->emit('$refresh');
+        $this->dispatchGlobalBrowserEvent('customFieldUpdated');
     }
 
     public function updatedState()
@@ -121,14 +127,9 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
     public function updatedInputs()
     {
         if (!empty($this->inputs)) {
-
-
             $this->state['value'] = array_values($this->inputs);
-
             mw()->fields_manager->save($this->state);
-
             $this->refreshState();
-
         }
     }
 
@@ -238,38 +239,40 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
             // One value
             if ($this->customField and $this->customField->fieldValue->count() > 0) {
                 $this->state['value'] = $this->customField->fieldValue[0]->value;
-                if (MultilanguageHelpers::multilanguageIsEnabled()) {
-                    $getFieldValue = $this->customField->fieldValue()->first();
-                    if ($getFieldValue) {
-                        $getFieldValueTranslations = $getFieldValue->getTranslationsFormated();
-                        if (!empty($getFieldValueTranslations)) {
-                            foreach ($getFieldValueTranslations as $fieldValueLocale => $fieldValueTranslatable) {
-                                foreach ($fieldValueTranslatable as $fieldValueTranslatableKey => $fieldValueTranslatableValue) {
-                                   // state.multilanguage[FIELD_VALUE_NAME][FIELD_VALUE_LOCALE] = FIELD_VALUE_VALUE
-                                    $this->state['multilanguage'][$fieldValueTranslatableKey][$fieldValueLocale] = $fieldValueTranslatableValue;
-                                }
-                            }
 
-                        }
-                    }
-                }
+//                if (MultilanguageHelpers::multilanguageIsEnabled()) {
+//                    $getFieldValue = $this->customField->fieldValue()->first();
+//                    if ($getFieldValue) {
+//                        $getFieldValueTranslations = $getFieldValue->getTranslationsFormated();
+//                        if (!empty($getFieldValueTranslations)) {
+//                            foreach ($getFieldValueTranslations as $fieldValueLocale => $fieldValueTranslatable) {
+//                                foreach ($fieldValueTranslatable as $fieldValueTranslatableKey => $fieldValueTranslatableValue) {
+//                                   // state.multilanguage[FIELD_VALUE_NAME][FIELD_VALUE_LOCALE] = FIELD_VALUE_VALUE
+//                                    $this->state['multilanguage'][$fieldValueTranslatableKey][$fieldValueLocale] = $fieldValueTranslatableValue;
+//                                }
+//                            }
+//
+//                        }
+//                    }
+//                }
+
             }
         }
         if ($this->customField) {
             $this->showSettings($this->customField->type);
         }
 
-        if (MultilanguageHelpers::multilanguageIsEnabled()) {
-            // [key][locale]=value
-            $translations = $this->customField->getTranslationsFormated();
-            if (!empty($translations)) {
-                foreach ($translations as $locale => $fields) {
-                    foreach ($fields as $key => $value) {
-                        $this->state['multilanguage'][$key][$locale] = $value;
-                    }
-                }
-            }
-        }
+//        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+//            // [key][locale]=value
+//            $translations = $this->customField->getTranslationsFormated();
+//            if (!empty($translations)) {
+//                foreach ($translations as $locale => $fields) {
+//                    foreach ($fields as $key => $value) {
+//                        $this->state['multilanguage'][$key][$locale] = $value;
+//                    }
+//                }
+//            }
+//        }
 
 
     }

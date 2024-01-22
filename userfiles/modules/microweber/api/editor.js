@@ -228,6 +228,7 @@ var MWEditor = function (options) {
             ctrl.interact(data);
         });
     };
+
     this.hide = function (target) {
         var node = target.get ? target.get(0) : target;
         //hide the node
@@ -314,6 +315,7 @@ var MWEditor = function (options) {
     var notEditableSelectors = scope.settings.notEditableClasses ? scope.settings.notEditableClasses.map(c => `.${c}:not([contenteditable="false"])`).join(',') : null;
     var  instance = this;
     var _observe = function(e){
+
         e = e || {type: 'action'};
         var max = 78;
         var eventIsActionLike = e.type === 'click' || e.type === 'execCommand' || e.type === 'keydown' || e.type === 'action';
@@ -321,45 +323,156 @@ var MWEditor = function (options) {
         var localTarget = event.target;
 
 
-            if (e.type === 'keydown' && e.key === "Enter") {
-                const focusNode = scope.api.elementNode(scope.getSelection().focusNode);
-                const isLi = mw.tools.firstParentOrCurrentWithTag(focusNode, 'li');
-
-
-                if (!isLi || (isLi && event.shiftKey)) {
-                   // scope.document.execCommand('insertLineBreak');
-
-                    scope.state.record({
-
-                        target: scope.$editArea[0],
-                        value: scope.$editArea[0].innerHTML
-                    });
-
-                    var range = instance.api.getSelection().getRangeAt(0);
-                    var br = range.commonAncestorContainer.ownerDocument.createElement('br');
-                    range.deleteContents();
-                    range.insertNode(br);
-                    range.collapse()
-                    e.preventDefault();
-                    scope.state.record({
-
-                        target: scope.$editArea[0],
-                        value: scope.$editArea[0].innerHTML
-                    });
-                    return;
+        if(localTarget ) {
+            if(  localTarget.parentNode) {
+                var parentobserve = localTarget;
+                while(parentobserve) {
+                    if(parentobserve.classList && parentobserve.classList.contains('no-typing')) {
+                        parentobserve.contentEditable = false;
+                    }
+                    parentobserve = parentobserve.parentNode;
                 }
+            }
+            if(localTarget.querySelectorAll) {
+                var childNodes = localTarget.querySelectorAll('.no-typing');
+                if(childNodes) {
+                    childNodes.forEach(node => node.contentEditable = false)
+                }
+            }
+
+        }
+
+
+
+
+            if (e.type === 'keydown' && e.key === "Enter") {
+
+
+                let focusNode = scope.api.elementNode(scope.getSelection().focusNode);
+                focusNode = scope.getActualTarget(focusNode)
+
+                var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(focusNode, ['safe-mode', 'regular-mode']);
+
+
+                if(!isSafeMode) {
+                    focusNode.appendChild(document.createTextNode('\u200B'));
+
+                    if(focusNode && focusNode.contentEditable === 'true' && focusNode.parentNode) {
+
+
+                        var pc = focusNode.parentNode.contentEditable;
+                        focusNode.parentNode.contentEditable  =  true;
+                        focusNode.contentEditabdle  =  'inherit';
+                        focusNode.focus();
+
+
+                        clearTimeout(focusNode.__etimeout);
+                        focusNode.__etimeout = setTimeout(() => {
+                            focusNode.parentNode.contentEditable  =  pc
+                            focusNode.contentEditable  =  true;
+                            focusNode.focus();
+
+                        },  20)
+
+                    }
+
+                    setTimeout(focusNode => {
+                        if(focusNode) {
+                            var parent = focusNode.parentNode;
+                            if(parent && parent.children && parent.children.length > 1) {
+                                Array.from(parent.children).forEach(node => {
+                                    if(node && node.id && node.nextElementSibling && node.nextElementSibling.id === node.id) {
+                                        node.nextElementSibling.id = mw.id()
+                                    }
+                                })
+                            }
+                            focusNode.childNodes.forEach(node => {
+                                if(node.nodeType === 3 && node.nodeValue === '\u200B') {
+                                    node.remove()
+                                }
+                            })
+                            if(focusNode.nextElementSibling) {
+                                focusNode.nextElementSibling.childNodes.forEach(node => {
+                                    if(node.nodeType === 3 &&  node.nodeValue === '\u200B') {
+                                        node.remove()
+                                    }
+                                })
+                            }
+                        }
+                    },  30, focusNode)
+
+
+                } else {
+
+                    const isLi = mw.tools.firstParentOrCurrentWithTag(focusNode, 'li');
+                    const edit = mw.tools.firstParentOrCurrentWithClass(focusNode, 'edit') || scope.$editArea[0];
+
+
+                    if (!isLi || (isLi && event.shiftKey)) {
+
+                        scope.state.record({
+
+                            target: edit,
+                            value: edit.innerHTML
+                        });
+
+                        var sel = instance.api.getSelection() ;
+                        var range = sel.getRangeAt(0);
+                        var br = range.commonAncestorContainer.ownerDocument.createElement('br');
+
+                        range.insertNode(br);
+                        range = range.cloneRange();
+
+                        if(!br.nextSibling || !br.nextSibling.nodeValue) {
+                            br.after(document.createTextNode('\u200B'))
+                        }
+                        range.selectNode ( br );
+                        range.collapse(false);
+
+
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+
+
+                        e.preventDefault();
+                        scope.state.record({
+                            target: edit,
+                            value: edit.innerHTML
+                        });
+                        return;
+                    }
+                }
+
+
              }
 
             if (e.key === "Backspace" || e.key === "Delete") {
 
-                instance.handleDeleteAndBackspace(e);
+                // instance.handleDeleteAndBackspace(e);
+
+                setTimeout(function(){
+                    var edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit');
+                    console.log(edit, edit.querySelectorAll('*[style*="var"]'))
+                if(edit) {
+                    var all = edit.querySelectorAll('*[style*="var"]');
+                    all.forEach(node => {
+                        if (node.style) {
+                            if (node.isContentEditable) {
+                                [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
+                            }
+                        }
+                    });
+                }
+                }, 10)
+
 
             }
 
 
         if (!e.target) {
             localTarget = scope.getSelection().focusNode;
-         }
+        }
+
         var wTarget = localTarget;
         if(eventIsActionLike) {
             var shouldCloseSelects = false;
@@ -404,6 +517,7 @@ var MWEditor = function (options) {
                 });
             }
         }
+
         var time = new Date().getTime();
         if(eventIsActionLike || (time - scope._interactionTime) > max){
             if (e.pageX) {
@@ -428,7 +542,9 @@ var MWEditor = function (options) {
                 rangeInEditor = true;
             }
 
-            const isPlainText = scope.api.isPlainText(scope.selection)
+            const isPlainText = scope.api.isPlainText(scope.selection);
+
+
 
             var iterData = {
                 selection: scope.selection,
@@ -1165,6 +1281,19 @@ var MWEditor = function (options) {
             }
         }
         this.wrapper.appendChild(this.bar.bar);
+        if(this.settings.stickyBar) {
+            this.bar.element.css({
+                position: 'sticky',
+                top: 0,
+                zIndx: 10
+            });
+            setTimeout(() => {
+                this.bar.element.parent().css({
+
+                    overflow: 'visible'
+                });
+            }, 100)
+        }
     };
 
     this._onReady = function () {

@@ -1,5 +1,5 @@
 <div x-data="{
-showMainEditTab: 'mainSettings'
+showEditTab: 'main'
 }">
 
 
@@ -70,17 +70,15 @@ showMainEditTab: 'mainSettings'
     ?>
 
 
-
-
     @if($moduleTemplates && count($moduleTemplates) >  1)
         <div class="d-flex justify-content-between align-items-center mb-4 collapseNav-initialized">
             <div class="d-flex flex-wrap gap-md-4 gap-3">
-                <button x-on:click="showMainEditTab = 'mainSettings'"
-                        :class="{ 'active': showMainEditTab == 'mainSettings' }"
+                <button x-on:click="showEditTab = 'main'"
+                        :class="{ 'active': showEditTab == 'main' }"
                         class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs active">
                     @lang('Accordion Settings')
                 </button>
-                <button x-on:click="showMainEditTab = 'design'" :class="{ 'active': showMainEditTab == 'design' }"
+                <button x-on:click="showEditTab = 'design'" :class="{ 'active': showEditTab == 'design' }"
                         class="btn btn-link text-decoration-none mw-admin-action-links mw-adm-liveedit-tabs">
                     @lang('Design')
                 </button>
@@ -88,8 +86,7 @@ showMainEditTab: 'mainSettings'
         </div>
     @endif
 
-    <div x-show="showMainEditTab=='mainSettings'" x-transition:enter="tab-pane-slide-left-active">
-
+    <div x-show="showEditTab=='main'" x-transition:enter="tab-pane-slide-left-active">
 
         <div>
         <livewire:microweber-live-edit::module-items-editor :moduleId="$moduleId" :moduleType="$moduleType"
@@ -100,9 +97,7 @@ showMainEditTab: 'mainSettings'
     </div>
 
 
-
-
-        <div x-show="showMainEditTab=='design'" x-transition:enter="tab-pane-slide-right-active">
+        <div x-show="showEditTab=='design'" x-transition:enter="tab-pane-slide-right-active">
 
             <div>
                 <div class="d-flex col-xl-3 col-md-6 col-12">
@@ -117,12 +112,6 @@ showMainEditTab: 'mainSettings'
 
                     </div>
                 </div>
-
-
-
-
-
-
 
 
                 @if($moduleTemplates && count($moduleTemplates) >  1)
