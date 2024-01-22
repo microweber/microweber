@@ -381,7 +381,7 @@ var MWEditor = function (options) {
                             var parent = focusNode.parentNode;
                             if(parent && parent.children && parent.children.length > 1) {
                                 Array.from(parent.children).forEach(node => {
-                                    if(node && node.id && node.nextElementSibling.id === node.id) {
+                                    if(node && node.id && node.nextElementSibling && node.nextElementSibling.id === node.id) {
                                         node.nextElementSibling.id = mw.id()
                                     }
                                 })

@@ -7,7 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Maintenance release
 - Fixed missing database field in the newsletter module
 - Fixed issue on Enter key in live edit
- - [See all changes...](https://github.com/microweber/microweber/compare/2.0.8...2.0.9 "")
+- Fixed on testimonials module not showing the image
+- Fixed accordion module not showing the icon
+- Fixes on multiple columns module not showing the drag handles
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.8...2.0.9 "")
 
 
 ## [2.0.8] - 2024-01-17
