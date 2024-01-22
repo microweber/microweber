@@ -7,6 +7,11 @@
     if (isset($editorSettings['config']['backButtonIconSvg'])) {
         $backButtonIconSvg = $editorSettings['config']['backButtonIconSvg'];
     }
+    $saveButtonIconSvg = '';
+    if (isset($editorSettings['config']['saveButtonIconSvg'])) {
+        $saveButtonIconSvg = $editorSettings['config']['saveButtonIconSvg'];
+    }
+
     ?>
 
 
@@ -28,7 +33,10 @@
                 {!!$backButtonIconSvg!!}
             </x-microweber-ui::button-back>
 
-            <x-microweber-ui::button-animation type="submit">@lang('Save')</x-microweber-ui::button-animation>
+            <x-microweber-ui::button-animation type="submit">
+                {!!$saveButtonIconSvg!!}
+                @lang('Save')
+            </x-microweber-ui::button-animation>
 
         </div>
 
@@ -40,7 +48,10 @@
         <div class="d-flex align-items-center justify-content-between">
             <x-microweber-ui::button-animation x-on:click="showEditTab = 'main'"
                                                type="button">@lang('Cancel')</x-microweber-ui::button-animation>
-            <x-microweber-ui::button-animation type="submit">@lang('Save')</x-microweber-ui::button-animation>
+            <x-microweber-ui::button-animation type="submit">
+                {!!$saveButtonIconSvg!!}
+                @lang('Save')
+            </x-microweber-ui::button-animation>
         </div>
     </form>
 
