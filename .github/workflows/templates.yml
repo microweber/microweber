@@ -112,6 +112,7 @@ jobs:
       run: |
         rm -rf userfiles/templates/big
         rm -rf userfiles/templates/*
+        rm -rf bootstrap/cache/*
     - name: Add auth composer
       id: create-json
       uses: jsdaniell/create-json@1.1.2
@@ -121,7 +122,7 @@ jobs:
     - name: Install Composer dependencies
       run: |
         ls -la
-        composer install --no-progress --prefer-dist --optimize-autoloader
+        composer install
         chmod -R 0755 vendor/laravel/dusk/bin/
     - name: Clean opcache
       run: |

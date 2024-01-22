@@ -16,17 +16,30 @@ export class LiveEditFontManager extends BaseComponent {
             'Georgia',
         ];
 
-        mw.app.on('onLiveEditReady', event =>{
+        mw.app.on('onLiveEditReady', event => {
             this.init();
         });
 
-        mw.app.on('liveEditCanvasLoaded', event =>{
+        mw.app.on('liveEditCanvasLoaded', event => {
             this.init();
         });
     }
 
     init() {
-        mw.log('LiveEditFontManager');
+
+        var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
+        if (liveEditIframeData
+            && liveEditIframeData.template_config
+            && liveEditIframeData.template_config.fonts
+
+        ) {
+            var template_config = liveEditIframeData.template_config;
+            if (template_config.fonts && template_config.fonts.length > 0) {
+                //merge fonts
+                this.fonts = [...this.fonts, ...template_config.fonts];
+            }
+        }
+
     }
 
     selectFont(font) {
@@ -49,7 +62,6 @@ export class LiveEditFontManager extends BaseComponent {
     reloadLiveEdit() {
 
         mw.top().app.canvas.dispatch('reloadCustomCss');
-
 
 
     }
