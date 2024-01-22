@@ -355,6 +355,7 @@ var MWEditor = function (options) {
 
 
                 if(!isSafeMode) {
+                    focusNode.appendChild(document.createTextNode('\u200B'));
 
                     if(focusNode && focusNode.contentEditable === 'true' && focusNode.parentNode) {
 
@@ -374,18 +375,31 @@ var MWEditor = function (options) {
                         },  20)
 
                     }
-                    setTimeout(() => {
-                        var parent = focusNode.parentNode;
-                        if(parent && parent.children && parent.children.length > 1) {
-                            Array.from(parent.children).forEach(node => {
-                                if(node && node.id && node.nextElementSibling.id === node.id) {
-                                    node.nextElementSibling.id = mw.id()
+
+                    setTimeout(focusNode => {
+                        if(focusNode) {
+                            var parent = focusNode.parentNode;
+                            if(parent && parent.children && parent.children.length > 1) {
+                                Array.from(parent.children).forEach(node => {
+                                    if(node && node.id && node.nextElementSibling.id === node.id) {
+                                        node.nextElementSibling.id = mw.id()
+                                    }
+                                })
+                            }
+                            focusNode.childNodes.forEach(node => {
+                                if(node.nodeType === 3 && node.nodeValue === '\u200B') {
+                                    node.remove()
                                 }
                             })
+                            if(focusNode.nextElementSibling) {
+                                focusNode.nextElementSibling.childNodes.forEach(node => {
+                                    if(node.nodeType === 3 &&  node.nodeValue === '\u200B') {
+                                        node.remove()
+                                    }
+                                })
+                            }
                         }
-
-
-                    },  30)
+                    },  30, focusNode)
 
 
                 } else {
