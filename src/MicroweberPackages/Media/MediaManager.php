@@ -832,6 +832,9 @@ class MediaManager
         $cd_relative = $this->thumbnails_path_in_userfiles . DS . $width . DS;
 
         $ext = strtolower(get_file_extension($base_src));
+        if($ext == 'svg'){
+            return $src;
+        }
 
 
         $cache = ($base_src . $width . $height) . '.' . $ext;
