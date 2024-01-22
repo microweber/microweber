@@ -177,7 +177,9 @@ $rand = 'pic-sorter-' . uniqid();
 
                                     <?php if ($name == 'Link'): ?>
 
-                                        <div class="form-group">
+<!--
+                            this must be global option
+                                    <div class="form-group">
                                             <label class="form-label">
                                                 <?php _e("Click on image event"); ?>
                                             </label>
@@ -192,7 +194,7 @@ $rand = 'pic-sorter-' . uniqid();
                                                     <?php if (isset($curr['click_image_event']) && ($curr['click_image_event'] == 'link_target_blank')) { echo ' selected="selected" '; }; ?>
                                                     value="link_target_blank">Open Link (On target blank)</option>
                                             </select>
-                                        </div>
+                                        </div>-->
                                     <?php endif; ?>
 
                                 <?php } ?>
