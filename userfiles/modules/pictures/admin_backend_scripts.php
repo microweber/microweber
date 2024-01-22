@@ -37,11 +37,14 @@
                 root.find('input').each(function () {
                     data[this.name] = this.value;
                 })
+                root.find('select').each(function () {
+                    data[this.name] = this.value;
+                })
                 saveOptions(id, data);
                 this.remove()
             }
         })
-        
+
     }
 
 
@@ -120,7 +123,7 @@
     $(document).ready(function () {
 
         var $root = mw.$('#admin-thumbs-holder-sort-<?php print $rand; ?>');
- 
+
         var thumbs = mw.$('.admin-thumb-item', $root);
 
         if (thumbs.length) {
