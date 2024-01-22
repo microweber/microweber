@@ -468,7 +468,7 @@ export class LiveEdit {
         let first = elements[0];
 
         if(!isIcon) {
-            target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit']);
+            target = DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout', 'edit', 'mw-row']);
         }
 
 
@@ -484,6 +484,8 @@ export class LiveEdit {
         if(target && !target.classList.contains('module') && elementTarget && elementTarget.contains(target) && elementTarget.isContentEditable) {
             return
         }
+
+
 
 
 
@@ -515,7 +517,7 @@ export class LiveEdit {
         });
         this.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);
 
-         this.handles.get('element').set(null)
+        this.handles.get('element').set(null)
         this.handles.get('module').set(null)
         this.handles.hide();
 
@@ -527,6 +529,8 @@ export class LiveEdit {
         if (first) {
             first = this._hoverAndSelectExceptions(first)
             const type = this.elementAnalyzer.getType(first);
+
+
 
 
             if (type !== 'layout') {
@@ -799,7 +803,7 @@ export class LiveEdit {
             if(liveEditHelpers.targetIsIcon(elements[0])) {
                 target = elements[0]
             } else {
-                target= DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'edit']);
+                target= DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'edit', 'mw-row']);
             }
 
 
@@ -877,7 +881,12 @@ export class LiveEdit {
                 } else if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(target.nodeName)) {
                     title = this.lang('Title ' + target.nodeName.replace('H', ''));
                 } else if (['DIV', 'MAIN', 'SECTION'].includes(target.nodeName)) {
-                    title = this.lang('Block');
+                    if(target.classList.contains('mw-row')) {
+                        title = this.lang('Columns');
+                    } else {
+                        title = this.lang('Block');
+                    }
+
                 } else {
                     title = this.lang('Text');
                 }
@@ -1023,6 +1032,7 @@ export class LiveEdit {
 
 
                 var elementTarget = this.elementHandle.getTarget();
+
 
                 if ( !elementTarget || (elementTarget && !elementTarget.contains(e.target)) ) {
                     this.stopTyping()

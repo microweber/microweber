@@ -128,12 +128,10 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
         var selfVisible = true;
 
 
-        // const isImageOrLink = target.nodeName === 'IMG' || target.nodeName === 'A';
-        // if (isImageOrLink && !this.isPlaceholder(target)) {
-        //
-        //     selfVisible = false;
-        //
-        // }
+        if (  target.classList.contains('no-typing')) {
+            target.contentEditable = false;
+            selfVisible = false;
+        }
         return selfVisible;
     }
 
@@ -208,7 +206,7 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
         if (target.classList.contains('spacer')) {
             selfVisible = false;
         }
-        if (target.classList.contains('no-typing')) {
+        if (target.classList.contains('no-typing') || target.classList.contains('mw-row')) {
             target.contentEditable = false;
             selfVisible = false;
         }
