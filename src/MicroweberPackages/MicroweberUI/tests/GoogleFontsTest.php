@@ -11,15 +11,20 @@ class GoogleFontsTest extends TestCase
     public function testGoogleFontsDownloader()
     {
 
-        if (getenv('CI') !== false && getenv('CI') === 'true') {
-            // Code to run only in GitHub Actions
-            $this->markTestSkipped(
-                'The GoogleFontsTest is not available.'
-            );
-        }
+//        if (getenv('CI') !== false && getenv('CI') === 'true') {
+//            // Code to run only in GitHub Actions
+//            $this->markTestSkipped('This test is skipped in GitHub Actions.');
+//            return;
+//        }
 
         $fontFamily = 'Cairo';
         $googleFontDomain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
+        if (getenv('CI') !== false && getenv('CI') === 'true') {
+            $googleFontDomain = 'google-fonts.microweberapi.com';
+        }
+        //google-fonts.microweberapi.com
+
+
         $fontUrl = str_replace('%2B', '+', $fontFamily);
         $fontUrl = urlencode($fontUrl);
 

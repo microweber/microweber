@@ -4,7 +4,9 @@ namespace MicroweberPackages\Multilanguage\tests;
 
 use \MicroweberPackages\Multilanguage\MultilanguageApi;
 
-
+/**
+ * @runTestsInSeparateProcesses
+ */
 class MultilanguageTest extends MultilanguageTestBase
 {
 
