@@ -15,7 +15,9 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\StartE
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\StartImportingModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\ViewImport;
 use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
-
+/**
+ * @runTestsInSeparateProcesses
+ */
 class ImportExportToolLivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {
     public $componentsList = [

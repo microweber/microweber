@@ -17,6 +17,7 @@ class ModuleListTest extends TestCase
      */
     private function testModuleIndex()
     {
+        ob_start();
         $getModules = app()->module_repository->getAllModules();
 
         $user = User::where('is_admin', '=', '1')->first();
@@ -44,6 +45,8 @@ class ModuleListTest extends TestCase
 
             $this->assertNotEmpty($moduleOutput);
         }
+        ob_end_flush();
+        ob_get_clean();
     }
 
 
@@ -53,6 +56,7 @@ class ModuleListTest extends TestCase
      */
     public function testModuleAdmin()
     {
+        ob_start();
         $getModules = app()->module_repository->getAllModules();
 
         $user = User::where('is_admin', '=', '1')->first();
@@ -71,7 +75,7 @@ class ModuleListTest extends TestCase
                 }
 
 
-
+                ob_start();
                 $moduleOutput = app()->parser->process('<module type="' . $module['module'] . '/admin" />');
 
                 // Looking for parser errors
@@ -80,10 +84,12 @@ class ModuleListTest extends TestCase
                 }
 
                $this->assertNotEmpty($moduleOutput);
-
+                ob_end_clean();
+                ob_flush();
             }
         }
-
+        ob_end_flush();
+        ob_get_clean();
     }
 
     /**
@@ -92,6 +98,7 @@ class ModuleListTest extends TestCase
      */
     public function testLoadFromModuleManager()
     {
+        ob_start();
         if (!defined('IN_EDIT')) {
             define('IN_EDIT', 1);
         }
@@ -139,5 +146,7 @@ class ModuleListTest extends TestCase
                 }
             }
         }
+        ob_end_flush();
+        ob_get_clean();
     }
 }

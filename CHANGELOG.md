@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [2.0.9] - 2024-01-18
+## [2.0.9] - 2024-01-23
 - Maintenance release
 - Fixed missing database field in the newsletter module
 - Fixed issue on Enter key in live edit

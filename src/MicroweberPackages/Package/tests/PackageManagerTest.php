@@ -35,7 +35,7 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
             $this->markTestSkipped('Skipping package manager test for this server configuration!');
         }
 
-        $require_name = "microweber-templates/dream";
+        $require_name = "microweber-templates/new-world";
         $params['require_name'] = $require_name;
 
         $runner = new \MicroweberPackages\Package\MicroweberComposerClient();
@@ -52,7 +52,7 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
     private function isOnline()
     {
 
-        $ch = curl_init('https://packages-phpunit.microweberapi.com/packages.json');
+        $ch = curl_init('https://packages.microweberapi.com/packages.json');
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

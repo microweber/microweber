@@ -36,6 +36,8 @@ use Illuminate\Support\Facades\Password;
  * @author Bobi Slaveykvo Microweber
  * @command php phpunit.phar --filter UserTest
  */
+
+
 class UserManagerTest extends TestCase
 {
     use UserTestHelperTrait;
