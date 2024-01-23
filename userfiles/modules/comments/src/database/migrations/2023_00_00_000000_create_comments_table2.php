@@ -35,6 +35,7 @@ class CreateCommentsTable2 extends Migration
                 $table->integer('edited_by')->nullable();
                 $table->timestamp('created_at')->nullable();
                 $table->timestamp('updated_at')->nullable();
+                $table->timestamp('deleted_at')->nullable();
                 $table->string('session_id')->nullable();
                 $table->string('user_ip')->nullable();
             });
