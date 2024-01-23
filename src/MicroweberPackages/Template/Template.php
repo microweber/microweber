@@ -108,6 +108,7 @@ class Template
 
     public function delete_compiled_css($params)
     {
+
         return $this->stylesheet_adapter->delete_compiled($params);
     }
 

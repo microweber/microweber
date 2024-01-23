@@ -99,7 +99,9 @@ Route::name('api.template.')
     $data = $request->all();
     app()->template->defineConstants($data);
 
-    $compiled =  mw()->template->compile_css($data);
+    $compiled =  mw()->template->delete_compiled_css($data);
+
+   // $compiled =  mw()->template->compile_css($data);
 
     $compiled = str_replace( '../../../../../../',userfiles_url(), $compiled);
 
@@ -121,8 +123,7 @@ Route::name('api.template.')
     $response = \Response::make($compiled);
     $response->header('Content-Type', 'text/css');
     return $response;
-})->name('template_compile_css')
-->middleware(['admin']);
+})->name('template_compile_css');
 
 
 

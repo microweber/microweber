@@ -121,6 +121,7 @@ class TemplateCssParser
         $compileFile = normalize_path($compileFile, false);
         $compileFile = $compileFile . '.css';
 
+
         @unlink($compileFile);
 
         $newFile = mw()->template->get_stylesheet($options['path'], false, false);
