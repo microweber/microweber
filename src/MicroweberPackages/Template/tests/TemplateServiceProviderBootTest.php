@@ -15,7 +15,7 @@ use MicroweberPackages\User\Models\User;
  */
 class TemplateServiceProviderBootTest extends TestCase
 {
-    public $template_name = 'new-world';
+    public $template_name = 'big';
 
     /**
      * @runInSeparateProcess
@@ -23,21 +23,20 @@ class TemplateServiceProviderBootTest extends TestCase
      */
     public function testTemplateServiceProviderIsLoaded()
     {
-        $this->markTestSkipped('This test has not been implemented yet.');
-        return;
 
 
         $is_dir = templates_dir() . $this->template_name;
         if(!$is_dir){
-            $this->markTestSkipped('Template not found: ' . $this->template_name);
+            return;
         }
+        $templateName = $this->template_name;
+        save_option('current_template', $this->template_name, 'template');
 
         $this->setPreserveGlobalState(false);
 
         app()->template->setTemplateAdapter(new MicroweberTemplate());
 
-        $templateName = $this->template_name;
-        save_option('current_template', $this->template_name, 'template');
+
         $current_template = app()->option_manager->get('current_template', 'template');
 
         $user = User::where('is_admin', '=', '1')->first();
@@ -55,7 +54,7 @@ class TemplateServiceProviderBootTest extends TestCase
         app()->content_manager->define_constants(['id' => $newCleanPageId]);
         app()->template_manager->boot_template();
         $this->assertEquals($templateName, app()->template->folder_name());
-        $expected = 'MicroweberPackages\Template\NewWorld\TemplateServiceProvider';
+        $expected = 'MicroweberPackages\Template\Big\TemplateServiceProvider';
         $this->assertNotEmpty(app()->getProviders($expected));
         $found = false;
         $loaded = app()->getLoadedProviders();
