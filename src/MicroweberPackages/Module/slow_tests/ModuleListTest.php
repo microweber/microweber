@@ -45,7 +45,8 @@ class ModuleListTest extends TestCase
 
             $this->assertNotEmpty($moduleOutput);
         }
-        ob_end_clean();
+        ob_end_flush();
+        ob_get_clean();
     }
 
 
@@ -145,6 +146,7 @@ class ModuleListTest extends TestCase
                 }
             }
         }
-        ob_end_clean();
+        ob_end_flush();
+        ob_get_clean();
     }
 }
