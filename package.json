@@ -3,7 +3,7 @@
     "scripts": {
         "vitedev": "vite build --watch --sourcemap inline --mode development",
         "dev": "concurrently \"npm run vitedev\" \"npm run admincssdev\"",
-        "build": "concurrently \"vite build\" \"gulp admin-css\" \"gulp admin-css-rtl\"",
+        "build": "concurrently \"vite build\" \"gulp api-js\" \"gulp admin-css\" \"gulp admin-css-rtl\"",
         "admincss": "gulp admin-css",
         "admincssdev": "gulp admin-css-dev"
     },
@@ -21,6 +21,7 @@
         "bootstrap-select": "^1.13.18",
         "filerobot-image-editor": "^4.4.0",
         "follow-redirects": "^1.15.5",
+        "gulp-include": "^2.4.1",
         "ion-rangeslider": "^2.3.1",
         "jquery": "^3.6.0",
         "jquery-ui": "^1.12.1",
