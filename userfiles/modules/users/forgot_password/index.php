@@ -34,15 +34,17 @@
                         mw.form.post(mw.$('#user_forgot_password_form<?php echo $rand;?>'), '<?php print route('api.user.password.email') ?>', function (a) {
                             mw.response('#form-holder<?php echo $rand;?>', this);
                             formenabled = true;
-                            if(this.error  && this.message){
+                            if(this.error && this.message){
                                 mw.notification.error(this.message);
-                            } else if(this.message){
-                                mw.notification.msg(this.message);
                             }
+                            if (this.success && this.message) {
+                                mw.notification.success(this.message); 
+                            }
+
                             $(form).removeClass('loading');
                             mw.tools.enable(mw.$("[type='submit']", form));
-                        },false, function (a) {
 
+                        },false, function (a) {
                             mw.notification.msg(this);
 
                             formenabled = true;

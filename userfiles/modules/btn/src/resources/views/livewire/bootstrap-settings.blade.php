@@ -1,7 +1,7 @@
 <div class="mb-3">
 
     <div>
-        <label class="live-edit-label">Icon</label>
+        <label class="live-edit-label">{{__('Button Icon')}}</label>
         <livewire:microweber-option::icon-picker optionKey="icon" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
@@ -17,7 +17,7 @@
 
 
     <div>
-        <label class="live-edit-label">{{__('Style')}} </label>
+        <label class="live-edit-label">{{__('Button Style')}} </label>
         <livewire:microweber-option::dropdown :dropdownOptions="$styleOptions" optionKey="button_style" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
@@ -32,7 +32,7 @@
     @endphp
 
     <div>
-        <label class="live-edit-label">{{__('Size')}} </label>
+        <label class="live-edit-label">{{__('Button Size')}} </label>
         <livewire:microweber-option::dropdown :dropdownOptions="$sizeOptions" optionKey="button_size" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
