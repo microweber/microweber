@@ -208,18 +208,6 @@ api_expose('pingstats', function ($params = false) {
         'referer'=>$referer,
     ]));
 
-//    if (isset($_COOKIE['_ga'])) {
-//        $isGoogleMesurementEnabled = get_option('google-measurement-enabled', 'website') == "y";
-//        if ($isGoogleMesurementEnabled) {
-//            \MicroweberPackages\SiteStats\UtmVisitorData::setVisitorData([
-//                'utm_source' => 'google',
-//                'utm_visitor_id' => $_COOKIE['_ga']
-//            ]);
-//            $serverSideTracking = new \MicroweberPackages\SiteStats\DispatchServerSideTracking();
-//            $serverSideTracking->dispatch();
-//        }
-//    }
-
     $response = response('var mwpingstats={}');
 
     $response->header('Pragma', 'no-cache');
