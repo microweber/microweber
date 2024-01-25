@@ -6,7 +6,7 @@ $config['ui'] = true;
 $config['ui_admin'] = true;
 $config['categories'] = 'marketing';
 $config['position'] = 55;
-$config['version'] = "1.7";
+$config['version'] = "2.0";
 
 $config['tables'] = array (
 
