@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e36fb66dee7fd774a10a5a752c5fe674",
+    "content-hash": "e7dc91d605ab118ab6823090bb1832c6",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -14277,20 +14277,20 @@
         },
         {
             "name": "symfony/string",
-            "version": "7.1.x-dev",
+            "version": "6.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "7a06dfa63d80e98eedc362c12fad3381a249cd63"
+                "reference": "6901a54f38d633f1d81604002ce43bc3706616f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/7a06dfa63d80e98eedc362c12fad3381a249cd63",
-                "reference": "7a06dfa63d80e98eedc362c12fad3381a249cd63",
+                "url": "https://api.github.com/repos/symfony/string/zipball/6901a54f38d633f1d81604002ce43bc3706616f4",
+                "reference": "6901a54f38d633f1d81604002ce43bc3706616f4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.2",
+                "php": ">=8.1",
                 "symfony/polyfill-ctype": "~1.8",
                 "symfony/polyfill-intl-grapheme": "~1.0",
                 "symfony/polyfill-intl-normalizer": "~1.0",
@@ -14300,11 +14300,11 @@
                 "symfony/translation-contracts": "<2.5"
             },
             "require-dev": {
-                "symfony/error-handler": "^6.4|^7.0",
-                "symfony/http-client": "^6.4|^7.0",
-                "symfony/intl": "^6.4|^7.0",
+                "symfony/error-handler": "^5.4|^6.0|^7.0",
+                "symfony/http-client": "^5.4|^6.0|^7.0",
+                "symfony/intl": "^6.2|^7.0",
                 "symfony/translation-contracts": "^2.5|^3.0",
-                "symfony/var-exporter": "^6.4|^7.0"
+                "symfony/var-exporter": "^5.4|^6.0|^7.0"
             },
             "type": "library",
             "autoload": {
@@ -14343,7 +14343,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/7.1"
+                "source": "https://github.com/symfony/string/tree/6.4"
             },
             "funding": [
                 {
@@ -14359,7 +14359,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-02T10:01:52+00:00"
+            "time": "2024-01-23T14:51:35+00:00"
         },
         {
             "name": "symfony/translation",
