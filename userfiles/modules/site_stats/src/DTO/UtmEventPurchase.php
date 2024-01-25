@@ -18,8 +18,14 @@ class UtmEventPurchase extends UtmEvent
 
     public function setInternalData($data)
     {
-        if (isset($data->order)) {
-            $cartProducts = $data->order->cartProducts();
+        $order = false;
+        if (method_exists($data, 'getModel')) {
+            $order = $data->getModel();
+        }
+
+        if (isset($order)) {
+            $cartProducts = $order->cartProducts();
+
             if (isset($cartProducts['products'])) {
                 foreach ($cartProducts['products'] as $cartItem) {
 
@@ -34,9 +40,17 @@ class UtmEventPurchase extends UtmEvent
 
                 }
             }
-            $this->eventData['total'] = $data->order->amount;
-            $this->eventData['currency'] = $data->order->currency;
-            $this->eventData['transaction_id'] = $data->order->transaction_id;
+
+            $this->eventData['total'] = $order->amount;
+            $this->eventData['currency'] = $order->currency;
+            $this->eventData['transaction_id'] = $order->transaction_id;
+
+            $this->eventData['customer'] = [
+                'first_name'=>$order->first_name,
+                'last_name'=>$order->last_name,
+                'email'=>$order->email,
+                'phone'=>$order->phone,
+            ];
 
         }
 

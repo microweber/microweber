@@ -202,7 +202,7 @@ class OrderManager
             }
         });
 
-        event($event = new OrderWasCreated($orderModel, $place_order));
+        event($event = new OrderWasCreated(Order::find($ord), $place_order));
         mw()->user_manager->session_set('order_id', $ord);
 
         return $ord;
