@@ -26,6 +26,9 @@ class SiteStatsServiceProvider extends PackageServiceProvider
         Livewire::component('microweber-module-sitestats::settings', SiteStatsSettingsComponent::class);
         ModuleAdmin::registerSettings('site_stats', 'microweber-module-sitestats::settings');
 
+        // if google or fb pixel is enabled
+        $this->app->register(\MicroweberPackages\Modules\SiteStats\Providers\UtmTrackingEventsServiceProvider::class);
+
         $this->app->register(\MicroweberPackages\Modules\SiteStats\Providers\SiteStatsEventsLocalTrackingServiceProvider::class);
     }
 

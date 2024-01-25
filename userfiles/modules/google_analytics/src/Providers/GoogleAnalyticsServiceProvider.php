@@ -44,6 +44,11 @@ class GoogleAnalyticsServiceProvider extends PackageServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 
+        $isGoogleMesurementEnabled = get_option('google-measurement-enabled', 'website') == "y";
+        if ($isGoogleMesurementEnabled) {
+            $this->app->register(\MicroweberPackages\Modules\GoogleAnalytics\Providers\GoogleAnalyticsEventsServiceProvider::class);
+        }
+
         parent::register();
 
     }
