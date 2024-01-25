@@ -5,7 +5,6 @@ namespace MicroweberPackages\Modules\SiteStats\Providers;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
-use Livewire\Livewire;
 use MicroweberPackages\Cart\Events\AddToCartEvent;
 use MicroweberPackages\Cart\Events\RemoveFromCartEvent;
 use MicroweberPackages\Checkout\Events\AddPaymentInfoEvent;
@@ -20,12 +19,8 @@ use MicroweberPackages\Modules\SiteStats\Listeners\RemoveFromCartListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\UserWasLoggedListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\UserWasRegisteredListener;
 use MicroweberPackages\Order\Events\OrderWasPaid;
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-use MicroweberPackages\Module\Facades\ModuleAdmin;
-use MicroweberPackages\Modules\SiteStats\Http\Livewire\SiteStatsSettingsComponent;
 
-class SiteStatsEventsServiceProvider extends EventServiceProvider
+class UtmTrackingEventsServiceProvider extends EventServiceProvider
 {
     protected $listen = [
         Login::class => [
