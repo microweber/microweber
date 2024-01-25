@@ -13,11 +13,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\MessageBag;
 use MicroweberPackages\Repository\Traits\CacheableRepository;
-use Torann\LaravelRepository\Contracts\RepositoryContract;
+use Torann\LaravelRepository\Contracts\Repository;
 use Torann\LaravelRepository\Exceptions\RepositoryException;
 
 
-abstract class AbstractRepository implements RepositoryContract
+abstract class AbstractRepository implements Repository
 {
     use CacheableRepository;
 
@@ -212,7 +212,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function findOrFail($id, $columns = ['*'])
+    public function findOrFail(mixed $id, array $columns = ['*']): Model|null
     {
         $this->newQuery();
 
@@ -332,7 +332,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @return self
      */
-    public function orderBy($column, $direction)
+    public function orderBy(mixed $column, string|null $direction): static
     {
         // Ensure the sort is valid
         if (in_array($column, $this->getOrderable()) === false
@@ -383,7 +383,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @return self
      */
-    public function search($queries)
+    public function search(string|array|null $queries, array $options = []): static
     {
         // Adjust for simple search queries
         if (is_string($queries)) {
@@ -503,7 +503,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @return Collection
      */
-    public function all($columns = ['*'])
+    public function all(array $columns = ['*']): Collection
     {
         $this->newQuery();
 
@@ -517,7 +517,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @return int
      */
-    public function count($columns = ['*'])
+    public function count(array $columns = ['*']): int
     {
         $this->newQuery();
 
@@ -532,7 +532,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @return array
      */
-    public function pluck($value, $key = null)
+    public function pluck(string $value, string $key = null): array
     {
         $this->newQuery();
 
@@ -601,7 +601,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @return Model|bool
      */
-    public function create(array $attributes)
+    public function create(array $attributes): Model|bool
     {
         $entity = $this->getNew($attributes);
 
@@ -660,7 +660,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @return bool
      */
-    public function update(Model $entity, array $attributes)
+    public function update(Model $entity, array $attributes): Model|bool
     {
         if ($entity->update($attributes)) {
             $this->clearCache();
@@ -680,7 +680,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @throws \Exception
      */
-    public function delete($entity)
+    public function delete(mixed $entity): bool
     {
         if (($entity instanceof Model) === false) {
             $entity = $this->find($entity);
@@ -730,7 +730,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @return string
      */
-    public function toSql()
+    public function toSql(): string
     {
         $this->newQuery();
 
@@ -837,8 +837,9 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @return self
      */
-    public function addError($message, string $key = 'message')
+    public function addError(string $message): static
     {
+        $key = 'message';
         $this->getErrors()->add($key, $message);
 
         return $this;
