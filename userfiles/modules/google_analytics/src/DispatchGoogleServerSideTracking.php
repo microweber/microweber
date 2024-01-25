@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\SiteStats;
+namespace MicroweberPackages\GoogleAnalytics;
 
 use AlexWestergaard\PhpGa4\Analytics;
 use AlexWestergaard\PhpGa4\Event\AddPaymentInfo;
@@ -15,7 +15,7 @@ use AlexWestergaard\PhpGa4\Item;
 use MicroweberPackages\Modules\SiteStats\DTO\GA4Events\Conversion;
 use MicroweberPackages\SiteStats\Models\StatsEvent;
 
-class DispatchServerSideTracking
+class DispatchGoogleServerSideTracking
 {
 
     public function dispatch()
