@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Import;
 
 use Illuminate\Support\Facades\Log;
@@ -15,25 +16,25 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 class Import
 {
 
-	/**
-	 * The import file type
-	 *
-	 * @var string
-	 */
-	public $type;
+    /**
+     * The import file type
+     *
+     * @var string
+     */
+    public $type;
 
-	/**
-	 * The import file path
-	 *
-	 * @var string
-	 */
-	public $file;
+    /**
+     * The import file path
+     *
+     * @var string
+     */
+    public $file;
 
     /**
      * The import language
      * @var string
      */
-	public $language = 'en';
+    public $language = 'en';
 
     public $batchImporting = true;
     public $ovewriteById = false;
@@ -43,15 +44,16 @@ class Import
     public $logger;
     public $writeOnDatabase = true;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->logger = new ImportLogger();
     }
 
-	/**
-	 * Set file type
-	 *
-	 * @param string $file
-	 */
+    /**
+     * Set file type
+     *
+     * @param string $file
+     */
     public function setType($type)
     {
         if ($type == '' or $type == false) {
@@ -74,8 +76,9 @@ class Import
         $this->file = $file;
     }
 
-	public function setLanguage($abr) {
-	    $this->language = trim($abr);
+    public function setLanguage($abr)
+    {
+        $this->language = trim($abr);
     }
 
     public function setBatchImporting($batchImporting)
@@ -178,17 +181,17 @@ class Import
         }
     }
 
-	/**
-	 * Import data as type
-	 *
-	 * @param array $data
-	 * @return array
-	 */
-	public function importAsType($file)
-	{
-		$readedData = $this->_getReader($file);
+    /**
+     * Import data as type
+     *
+     * @param array $data
+     * @return array
+     */
+    public function importAsType($file)
+    {
+        $readedData = $this->_getReader($file);
 
-		if ($readedData) {
+        if ($readedData) {
 
             if (isset($readedData['must_choice_language']) && $readedData['must_choice_language']) {
                 return $readedData;
@@ -196,111 +199,114 @@ class Import
 
             $this->logger->setLogInfo('Reading data from file ' . basename($this->file));
 
-			if (! empty($readedData)) {
-				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are read.';
+            if (!empty($readedData)) {
+                $successMessages = count($readedData, COUNT_RECURSIVE) . ' items are read.';
                 $this->logger->setLogInfo($successMessages);
-				return array(
-					'success' => $successMessages,
-					'imoport_type' => $this->type,
-					'data' => $readedData
-				);
-			}
-		}
+                return array(
+                    'success' => $successMessages,
+                    'imoport_type' => $this->type,
+                    'data' => $readedData
+                );
+            }
+        }
 
-		$formatNotSupported = 'Import format not supported';
+        $formatNotSupported = 'Import format not supported';
         $this->logger->setLogInfo($formatNotSupported);
 
-		throw new \Exception($formatNotSupported);
-	}
+        throw new \Exception($formatNotSupported);
+    }
 
-	public function readContent()
-	{
+    public function readContent()
+    {
         if (SessionStepper::isFirstStep()) {
             $this->logger->setLogInfo('Start importing session..');
         }
 
-		return $this->importAsType($this->file);
-	}
+        return $this->importAsType($this->file);
+    }
 
-	private function _recognizeDataTableName($data)
-	{
-		$tables = $this->_getTableList();
+    private function _recognizeDataTableName($data)
+    {
+        $tables = $this->_getTableList();
 
-		$filename = basename($this->file);
-		$fileExtension = get_file_extension($this->file);
+        $filename = basename($this->file);
+        $fileExtension = get_file_extension($this->file);
 
-		if ($fileExtension == 'zip') {
-			return $data;
-		}
+        if ($fileExtension == 'zip') {
+            return $data;
+        }
 
-		$importToTable = str_replace('.' . $fileExtension, false, $filename);
+        $importToTable = str_replace('.' . $fileExtension, false, $filename);
 
-		$foundedTable = false;
-		foreach ($tables as $table) {
-			if (strpos($importToTable, $table) !== false) {
-				$foundedTable = $table;
-				break;
-			}
-		}
+        $foundedTable = false;
+        foreach ($tables as $table) {
+            if (strpos($importToTable, $table) !== false) {
+                $foundedTable = $table;
+                break;
+            }
+        }
 
-		if ($foundedTable) {
-			return array(
-				$foundedTable => $data
-			);
-		}
+        if ($foundedTable) {
+            return array(
+                $foundedTable => $data
+            );
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	private function _getTableList()
-	{
-		$readyTables = array();
+    private function _getTableList()
+    {
+        $readyTables = array();
 
-		$tables = mw()->database_manager->get_tables_list();
-		foreach ($tables as $table) {
-			$readyTables[] = str_replace(mw()->database_manager->get_prefix(), false, $table);
-		}
+        $tables = mw()->database_manager->get_tables_list();
+        foreach ($tables as $table) {
+            $readyTables[] = str_replace(mw()->database_manager->get_prefix(), false, $table);
+        }
 
-		return $readyTables;
-	}
+        return $readyTables;
+    }
 
-	/**
-	 * Get file reader by type
-	 *
-	 * @param array $data
-	 * @return boolean|\MicroweberPackages\Import\Formats\DefaultReader
-	 */
-	private function _getReader($data = array())
-	{
-	    switch ($this->type) {
-			case 'json':
-				$reader = new JsonReader($data);
-				break;
+    /**
+     * Get file reader by type
+     *
+     * @param array $data
+     * @return boolean|\MicroweberPackages\Import\Formats\DefaultReader
+     */
+    private function _getReader($data = array())
+    {
+        if (!$this->type) {
+            return;
+        }
+        switch ($this->type) {
+            case 'json':
+                $reader = new JsonReader($data);
+                break;
 
-			case 'csv':
-				$reader = new CsvReader($data);
-				break;
+            case 'csv':
+                $reader = new CsvReader($data);
+                break;
 
-			case 'xml':
-				$reader = new XmlReader($data);
-				break;
+            case 'xml':
+                $reader = new XmlReader($data);
+                break;
 
-			case 'xlsx':
-				$reader = new XlsxReader($data);
-				break;
+            case 'xlsx':
+                $reader = new XlsxReader($data);
+                break;
 
-			case 'zip':
-				$reader = new ZipReader($data);
-				$reader->setLanguage($this->language);
-				break;
+            case 'zip':
+                $reader = new ZipReader($data);
+                $reader->setLanguage($this->language);
+                break;
 
-			default:
-				throw new \Exception('Format not supported for importing. Trying to import as ' . $this->type);
-				break;
-		}
+            default:
+                throw new \Exception('Format not supported for importing. Trying to import as ' . $this->type);
+                break;
+        }
 
-		$data = $reader->readData();
+        $data = $reader->readData();
 
-		return $this->_recognizeDataTableName($data);
-	}
+        return $this->_recognizeDataTableName($data);
+    }
 }
