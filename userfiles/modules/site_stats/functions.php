@@ -185,7 +185,7 @@ api_expose('pingstats', function ($params = false) {
     } else {
         $tracker->track();
     }
-    
+
     // Decode referrer and save UTM in cookie
     $referer = request()->headers->get('referer');
     $refererParse = parse_url($referer);
@@ -204,17 +204,9 @@ api_expose('pingstats', function ($params = false) {
         }
     }
 
-    if (isset($_COOKIE['_ga'])) {
-        $isGoogleMesurementEnabled = get_option('google-measurement-enabled', 'website') == "y";
-        if ($isGoogleMesurementEnabled) {
-            \MicroweberPackages\SiteStats\UtmVisitorData::setVisitorData([
-                'utm_source' => 'google',
-                'utm_visitor_id' => $_COOKIE['_ga']
-            ]);
-            $serverSideTracking = new \MicroweberPackages\SiteStats\DispatchServerSideTracking();
-            $serverSideTracking->dispatch();
-        }
-    }
+    event(new \MicroweberPackages\SiteStats\Events\PingStatsEvent([
+        'referer'=>$referer,
+    ]));
 
     $response = response('var mwpingstats={}');
 
