@@ -18,7 +18,7 @@ use MicroweberPackages\Modules\SiteStats\Listeners\OrderWasPaidListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\RemoveFromCartListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\UserWasLoggedListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\UserWasRegisteredListener;
-use MicroweberPackages\Order\Events\OrderWasPaid;
+use MicroweberPackages\Order\Events\OrderWasCreated;
 
 class UtmTrackingEventsServiceProvider extends EventServiceProvider
 {
@@ -44,7 +44,7 @@ class UtmTrackingEventsServiceProvider extends EventServiceProvider
         AddShippingInfoEvent::class => [
             AddShippingInfoListener::class
         ],
-        OrderWasPaid::class => [
+        OrderWasCreated::class => [
             OrderWasPaidListener::class
         ],
     ];
