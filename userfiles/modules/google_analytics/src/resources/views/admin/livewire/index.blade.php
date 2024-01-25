@@ -12,16 +12,14 @@
     <div class="mb-3 mt-4 gap-3">
 
 
-            <div class="card mt-4">
-                <div class="card-body mb-4">
-                    <div>
-                        <label class="live-edit-label">
-                            {{_e('GoogleAnalytics pixel id')}}
-                        </label>
-                        <livewire:microweber-option::text placeholder="Place your GoogleAnalytics pixel id" optionKey="GoogleAnalyticsId" optionGroup="GoogleAnalytics" />
-                    </div>
+        <div class="card mt-4">
+            <div class="card-body mb-4">
+                <div>
+                    <module type="google_analytics/settings_form_admin" />
                 </div>
             </div>
+        </div>
+
 
     </div>
 
