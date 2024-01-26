@@ -72,12 +72,10 @@ export default {
                 this.resetAllProperties();
                 var containerNode = mw.tools.firstParentOrCurrentWithAnyOfClasses(node, ['container', 'container-fluid']);
 
-                if (containerNode && mw.tools.isEditable(containerNode)) {
-                    if (containerNode) {
+                if (containerNode && containerNode.parentNode &&  mw.tools.isEditable(containerNode.parentNode)) {
                         this.hasContainer = true;
                         this.activeContainerNode = containerNode;
                         this.populateCssContainerForNode(containerNode);
-                    }
                 }
 
 
