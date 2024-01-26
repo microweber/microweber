@@ -3,7 +3,7 @@ export default {
     methods: {
         showHtmlEditor: function () {
 
- 
+
             var moduleType = 'editor/code_editor';
             var attrsForSettings = {};
 
@@ -21,7 +21,7 @@ export default {
 
             var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
-            
+
             var id = mw.id('iframe-editor');
 
 
@@ -32,7 +32,7 @@ export default {
                 id: 'live_edit_side_holder',
                 closeButton: true
             });
-        
+
 
             dlg.closeButton.onclick = function(){
                 dlg.remove();
@@ -42,8 +42,8 @@ export default {
                 leFrame.style.transition = '';
                 leFrameParent.style.transition = '';
             };
-             
-           
+
+
 
             var htmlEditorDialoginstance = this;
             $(this.htmlEditorDialog).on('Remove', function () {
@@ -64,7 +64,7 @@ export default {
             frame.style.position = 'absolute';
             frame.dataset.autoHeight = 'false';
 
- 
+
 
             this.htmlEditorDialog = dlg;
             this.htmlEditorIframe = frame;
@@ -73,7 +73,7 @@ export default {
 
             mw.spinner({element: dlg.boxContent, decorate: true})
 
-        
+
 
             frame.addEventListener('load', () => {
                 var selected = mw.app.liveEdit.elementHandle.getTarget();
@@ -83,7 +83,7 @@ export default {
                      html,body{
                         overflow: hidden;
                      }
-                
+
                 `;
 
                 try{
@@ -94,14 +94,14 @@ export default {
 
                     }
                 } catch (err) {}
-                 
+
             });
 
 
-          
- 
 
-            
+
+
+
 
             $(dlg.boxContent)
             .css('minHeight', 100)
@@ -158,24 +158,30 @@ export default {
     },
     mounted() {
         this.emitter.on("live-edit-ui-hide", hide => {
-            
+
             if (hide == 'html-editor') {
                 this.removeHtmlEditor();
                 this.isOpened = false;
             }
         });
         this.emitter.on("live-edit-ui-show", show => {
-           
+
             if (show == 'html-editor') {
                 if (!this.isOpened) {
                     this.showHtmlEditor();
                     // this.isOpened = true;
                 }
-            }  
+            }
+        });
+        this.emitter.on("show-code-editor", show => {
+
+
+                    this.showHtmlEditor();
+
         });
 
         var htmlEditorInstance = this;
- 
+
 
         mw.app.canvas.on('liveEditCanvasLoaded', function (frame) {
             if (htmlEditorInstance) {

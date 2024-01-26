@@ -178,6 +178,11 @@ export default {
                 rightSidebarInstance.showElementStyleEditor = false;
                 rightSidebarInstance.showSidebar = true;
 
+            } else if(show == 'html-editor' || 'show-code-editor') {
+                rightSidebarInstance.showTemplateSettings = false;
+                rightSidebarInstance.showElementStyleEditor = false;
+                rightSidebarInstance.showSidebar = false;
+                rightSidebarInstance.buttonIsActive = false;
             } else if(show == 'style-editor') {
 
                 rightSidebarInstance.showTemplateSettings = false;
