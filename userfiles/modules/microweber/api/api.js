@@ -297,12 +297,13 @@ mw.askusertostay = false;
 
 
   mw.required = typeof mw.required === 'undefined'?[]:mw.required;
-  mw.require = function(url, inHead, key, defer) {
+  mw.require = function(url, inHead, key, defered) {
     if(!url) return;
-    if(defer) {
+    var defer;
+    if(defered) {
         defer = ' defer ';
     } else {
-        defer = ''
+        defer = '   '
     }
     if(typeof inHead === 'boolean' || typeof inHead === 'undefined'){
         inHead = inHead || false;
@@ -330,7 +331,15 @@ mw.askusertostay = false;
       if(document.querySelector('link[href="'+url+'"],script[src="'+url+'"]') !== null){
           return
       }
-      var string = t !== "css" ? "<script type='text/javascript' "+defer+"  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
+
+      var cssRel = " rel='stylesheet' ";
+
+      if(defered){
+        cssRel = " rel='preload' as='style' onload='this.onload=null;this.rel=\'stylesheet\'' ";
+      }
+
+
+      var string = t !== "css" ? "<script  "+defer+"  src='" + url + "'></script>" : "<link "+cssRel+" href='" + url + "' />";
 
           if(typeof $.fn === 'object'){
               $(mwhead).append(string);
@@ -345,9 +354,17 @@ mw.askusertostay = false;
                   mwhead.appendChild(el);
               }
               else{
+
                  el = document.createElement('link');
-                 el.rel='stylesheet';
-                 el.type='text/css';
+                 if(defered) {
+                    el.as='style';
+                    el.rel='preload';
+                    el.addEventListener('load', e => el.rel='stylesheet');
+                 } else {
+                    el.rel='stylesheet';
+                 }
+
+
                  el.href = url;
                  mwhead.appendChild(el);
               }
@@ -394,8 +411,9 @@ mw.requireAsync = (url, key) => {
     if (!~mw.required.indexOf(url)) {
       mw.required.push(url);
       var el = document.createElement('link');
-      el.rel='stylesheet';
-      el.type='text/css';
+      el.as='style';
+      el.rel='preload';
+      el.addEventListener('load', e => el.rel='stylesheet');
       el.href = url;
       mwhead.insertBefore(el, mwhead.firstChild);
     }

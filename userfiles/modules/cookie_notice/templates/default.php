@@ -90,4 +90,4 @@ if (!empty($this->config['textColor'])) {
     </div>
 </div>
 <script src="<?php print modules_url(); ?>/cookie_notice/scwCookie/output/assets/js-cookie.js" type="text/javascript"></script>
-<script src="<?php print modules_url(); ?>/cookie_notice/scwCookie/output/assets/scwCookie.min.js" type="text/javascript"></script>
+<script src="<?php print modules_url(); ?>/cookie_notice/scwCookie/output/assets/scwCookie.js" type="text/javascript"></script>

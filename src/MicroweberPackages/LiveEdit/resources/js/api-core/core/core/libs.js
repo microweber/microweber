@@ -81,7 +81,7 @@
         bxslider: [
             function () {
                 mw.require(mw.settings.libs_url + 'bxSlider/jquery.bxslider.min.js', true);
-                mw.require(mw.settings.libs_url + 'bxSlider/jquery.bxslider.css', true);
+                mw.require(mw.settings.libs_url + 'bxSlider/jquery.bxslider.css', true, undefined, true);
 
             }
         ],
@@ -94,8 +94,8 @@
         ],
         slick: [
             function () {
-                mw.require(mw.settings.libs_url + 'slick' + '/slick.css', true);
-                mw.moduleCSS(mw.settings.libs_url + 'slick' + '/slick-theme.css');
+                mw.require(mw.settings.libs_url + 'slick' + '/slick.css', true, undefined, true);
+                mw.require(mw.settings.libs_url + 'slick' + '/slick-theme.css', undefined, undefined, true);
                 mw.require(mw.settings.libs_url + 'slick' + '/slick.min.js', true);
             }
         ],
