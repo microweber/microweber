@@ -17,7 +17,7 @@
                             d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z"/></svg>
                     </a>
 
-                    <div class="dropdown-menu" aria-labelledby="dropdownLiveEditMenuLinkMoreSettings" ref="moreSettingsDropdown">
+                    <div class="dropdown-menu mw-live-edit-tools-dropdown-menu" aria-labelledby="dropdownLiveEditMenuLinkMoreSettings" ref="moreSettingsDropdown">
                         <ToolsButtons></ToolsButtons>
                     </div>
                 </div>
