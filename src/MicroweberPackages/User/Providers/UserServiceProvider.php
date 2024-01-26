@@ -117,7 +117,7 @@ class UserServiceProvider extends AuthServiceProvider
         $this->app->register(\Laravel\Passport\PassportServiceProvider::class);
         $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
 
-        Passport::ignoreMigrations();
+     //   Passport::ignoreMigrations();
 
         $this->app->singleton('user_manager', function ($app) {
             return new UserManager();

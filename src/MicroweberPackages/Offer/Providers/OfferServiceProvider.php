@@ -22,6 +22,8 @@ class OfferServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
             $repositoryManager->extend(Offer::class, function () {
                 return new OfferRepository();

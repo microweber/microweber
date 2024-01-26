@@ -368,6 +368,12 @@ export default {
                   var customFontsStylesheetFontsRestyle = mw.settings.api_url + 'template/print_custom_css_fonts?time=' + Math.random(0, 10000);
                   customFontsStylesheetFonts.href = customFontsStylesheetFontsRestyle;
                 }
+
+
+                var customFontsStylesheetCss = win.document.getElementById("mw-template-settings");
+                if (customFontsStylesheetCss != null) {
+                   mw.tools.refresh(customFontsStylesheetCss)
+                }
               });
           })
 

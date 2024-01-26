@@ -23,18 +23,20 @@ $config['settings']['service_provider'] = [
     \MicroweberPackages\Offer\Providers\OfferServiceProvider::class,
 ];
 
-$config['tables'] = array(
-	'offers' => array(
-		'id' => 'integer',
-		'product_id' => 'integer',
-		'price_id' => 'integer',
-	//	'price_key' => 'string',
-		'offer_price' => 'float',
-		'created_at' => 'datetime',
-		'updated_at' => 'datetime',
-		'expires_at' => 'datetime',
-		'created_by' => 'integer',
-		'edited_by' => 'integer',
-		'is_active' => 'integer',
-	)
-);
+//
+// moved to src/MicroweberPackages/Offer/migrations/2024_01_26_000000_offers_table.php
+//$config['tables'] = array(
+//	'offers' => array(
+//		'id' => 'integer',
+//		'product_id' => 'integer',
+//		'price_id' => 'integer',
+//	//	'price_key' => 'string',
+//		'offer_price' => 'float',
+//		'created_at' => 'datetime',
+//		'updated_at' => 'datetime',
+//		'expires_at' => 'datetime',
+//		'created_by' => 'integer',
+//		'edited_by' => 'integer',
+//		'is_active' => 'integer',
+//	)
+//);

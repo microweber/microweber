@@ -14,6 +14,7 @@ class OptionElement extends AdminComponent
     public string $optionGroup = '';
     public string $module = '';
     public string $optionKey = '';
+    public string $palceholder = '';
 
     public array $state = [
 

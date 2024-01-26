@@ -2,18 +2,18 @@
     <div class="p-3">
         <label class="font-weight-bold fs-2 mt-2 mb-2">Tools</label>
         <ul class="d-grid gap-2 list-unstyled">
-<!--            <li class="py-2">-->
-<!--                <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="show('template-settings')">-->
+            <li class="py-2">
+                <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="show('template-settings')">
 
-<!--                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 96 960 960"-->
-<!--                         width="22">-->
-<!--                        <path-->
-<!--                            d="M480 976q-82 0-155-31.5t-127.5-86Q143 804 111.5 731T80 576q0-83 32.5-156t88-127Q256 239 330 207.5T488 176q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880 538q0 115-70 176.5T640 776h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480 976Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480 896q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800 538q0-121-92.5-201.5T488 256q-136 0-232 93t-96 227q0 133 93.5 226.5T480 896Z"/>-->
-<!--                    </svg>-->
+                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 96 960 960"
+                         width="22">
+                        <path
+                            d="M480 976q-82 0-155-31.5t-127.5-86Q143 804 111.5 731T80 576q0-83 32.5-156t88-127Q256 239 330 207.5T488 176q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880 538q0 115-70 176.5T640 776h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480 976Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480 896q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800 538q0-121-92.5-201.5T488 256q-136 0-232 93t-96 227q0 133 93.5 226.5T480 896Z"/>
+                    </svg>
 
-<!--                    Template Settings-->
-<!--                </a>-->
-<!--            </li>-->
+                    Template Settings
+                </a>
+            </li>
             <li>
                 <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="show('style-editor')">
                     <svg class="mb-2 me-1"
@@ -26,7 +26,7 @@
             </li>
 
             <li>
-                <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="show('html-editor')">
+                <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="showCodeEditor()">
 
                     <svg class="mb-2 me-1" xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 -960 960 960" width="22"><path d="M0-360v-240h60v80h80v-80h60v240h-60v-100H60v100H0Zm310 0v-180h-70v-60h200v60h-70v180h-60Zm170 0v-200q0-17 11.5-28.5T520-600h180q17 0 28.5 11.5T740-560v200h-60v-180h-40v140h-60v-140h-40v180h-60Zm320 0v-240h60v180h100v60H800Z"/></svg>
                     Code Editor
@@ -85,7 +85,9 @@ export default {
         show: function (name) {
             this.emitter.emit('live-edit-ui-show', name);
         },
-
+        showCodeEditor: function () {
+            this.emitter.emit('show-code-editor');
+        },
         hideContentRevisionsDialog: function () {
             if (this.contentRevisionsDialogInstance) {
                 this.contentRevisionsDialogInstance.remove();

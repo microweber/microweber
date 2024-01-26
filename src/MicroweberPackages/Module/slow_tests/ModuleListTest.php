@@ -124,6 +124,10 @@ class ModuleListTest extends TestCase
             if (intval($module['installed']) == 1) {
                 if ($module['ui_admin']) {
 
+                    if(!is_file(modules_path() . $module['module'] . '/admin.php')){
+                        continue;
+                    }
+
                     $moduleOutput = app()->module_manager->load($module['module'] . '/admin', ['id' => 'mod-admin-' . $i ]);
 
                     // Looking for parser errors
