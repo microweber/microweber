@@ -9,7 +9,7 @@
         </span>
 
 
-        <!--
+
 
                 <div class="dropdown btn-icon live-edit-toolbar-buttons " >
                     <a role="button" id="dropdownLiveEditMenuLinkMoreSettings" data-bs-toggle="dropdown" aria-expanded="false">
@@ -21,7 +21,7 @@
                         <ToolsButtons></ToolsButtons>
                     </div>
                 </div>
-        -->
+
 
     </div>
 
