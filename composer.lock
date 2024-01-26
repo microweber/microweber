@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "150a5ca2a74e1f8a51adffc2dad06aac",
+    "content-hash": "d7b6d6baa90fac3dd69d9a71f19c59df",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -12505,23 +12505,23 @@
         },
         {
             "name": "symfony/html-sanitizer",
-            "version": "7.1.x-dev",
+            "version": "6.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/html-sanitizer.git",
-                "reference": "388787213379c85f07ce270afd78c5b7cff3b0f6"
+                "reference": "116335ab09e10b05405f01d8afd31ccc3832b08b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/html-sanitizer/zipball/388787213379c85f07ce270afd78c5b7cff3b0f6",
-                "reference": "388787213379c85f07ce270afd78c5b7cff3b0f6",
+                "url": "https://api.github.com/repos/symfony/html-sanitizer/zipball/116335ab09e10b05405f01d8afd31ccc3832b08b",
+                "reference": "116335ab09e10b05405f01d8afd31ccc3832b08b",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "league/uri": "^6.5|^7.0",
                 "masterminds/html5": "^2.7.2",
-                "php": ">=8.2"
+                "php": ">=8.1"
             },
             "type": "library",
             "autoload": {
@@ -12554,7 +12554,7 @@
                 "sanitizer"
             ],
             "support": {
-                "source": "https://github.com/symfony/html-sanitizer/tree/v7.0.0-RC1"
+                "source": "https://github.com/symfony/html-sanitizer/tree/6.4"
             },
             "funding": [
                 {
@@ -12570,7 +12570,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-28T23:12:22+00:00"
+            "time": "2024-01-23T14:51:35+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -18932,7 +18932,6 @@
         "phpdocumentor/reflection-docblock": 20,
         "spatie/laravel-googletagmanager": 20,
         "spatie/laravel-menu": 20,
-        "symfony/html-sanitizer": 20,
         "touhidurabir/laravel-stub-generator": 20,
         "wikimedia/composer-merge-plugin": 20
     },
