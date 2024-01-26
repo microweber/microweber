@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e98fff99c105843d23988724c42328d3",
+    "content-hash": "b2158c2fbee2fe10c829ebe0e7b920ad",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -198,63 +198,6 @@
                 "source": "https://github.com/ARCANEDEV/Support/tree/10.0.1"
             },
             "time": "2023-10-06T13:55:57+00:00"
-        },
-        {
-            "name": "asm89/stack-cors",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/asm89/stack-cors.git",
-                "reference": "57bd9184e386e065d74531d1b08787b06b2b4b6e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/asm89/stack-cors/zipball/57bd9184e386e065d74531d1b08787b06b2b4b6e",
-                "reference": "57bd9184e386e065d74531d1b08787b06b2b4b6e",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2|^8.0",
-                "symfony/http-foundation": "^4|^5|^6",
-                "symfony/http-kernel": "^4|^5|^6"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7|^9",
-                "squizlabs/php_codesniffer": "^3.5"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Asm89\\Stack\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alexander",
-                    "email": "iam.asm89@gmail.com"
-                }
-            ],
-            "description": "Cross-origin resource sharing library and stack middleware",
-            "homepage": "https://github.com/asm89/stack-cors",
-            "keywords": [
-                "cors",
-                "stack"
-            ],
-            "support": {
-                "issues": "https://github.com/asm89/stack-cors/issues",
-                "source": "https://github.com/asm89/stack-cors/tree/master"
-            },
-            "time": "2023-03-13T20:10:12+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -3132,88 +3075,6 @@
                 "source": "https://github.com/florianv/swap/tree/4.3.0"
             },
             "time": "2020-12-28T10:14:12+00:00"
-        },
-        {
-            "name": "fruitcake/laravel-cors",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fruitcake/laravel-cors.git",
-                "reference": "8cf86974af166a1d75d64c5776028652f486190f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fruitcake/laravel-cors/zipball/8cf86974af166a1d75d64c5776028652f486190f",
-                "reference": "8cf86974af166a1d75d64c5776028652f486190f",
-                "shasum": ""
-            },
-            "require": {
-                "asm89/stack-cors": "^2.0.1",
-                "illuminate/contracts": "^6|^7|^8|^9|^10",
-                "illuminate/support": "^6|^7|^8|^9|^10",
-                "php": ">=7.2",
-                "symfony/http-foundation": "^4|^5|^6",
-                "symfony/http-kernel": "^4.3.4|^5|^6"
-            },
-            "require-dev": {
-                "laravel/framework": "^6|^7.24|^8|^9|^10",
-                "orchestra/testbench-dusk": "^4|^5|^6|^7|^8",
-                "phpunit/phpunit": "^6|^7|^8|^9",
-                "squizlabs/php_codesniffer": "^3.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "Fruitcake\\Cors\\CorsServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Fruitcake\\Cors\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fruitcake",
-                    "homepage": "https://fruitcake.nl"
-                },
-                {
-                    "name": "Barry vd. Heuvel",
-                    "email": "barryvdh@gmail.com"
-                }
-            ],
-            "description": "Adds CORS (Cross-Origin Resource Sharing) headers support in your Laravel application",
-            "keywords": [
-                "api",
-                "cors",
-                "crossdomain",
-                "laravel"
-            ],
-            "support": {
-                "issues": "https://github.com/fruitcake/laravel-cors/issues",
-                "source": "https://github.com/fruitcake/laravel-cors/tree/develop"
-            },
-            "funding": [
-                {
-                    "url": "https://fruitcake.nl",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/barryvdh",
-                    "type": "github"
-                }
-            ],
-            "abandoned": true,
-            "time": "2022-02-11T11:51:48+00:00"
         },
         {
             "name": "fruitcake/php-cors",
@@ -6884,6 +6745,75 @@
                 "source": "https://github.com/maxmind/web-service-common-php/tree/v0.9.0"
             },
             "time": "2022-03-28T17:43:20+00:00"
+        },
+        {
+            "name": "microweber-deps/laravel-cors",
+            "version": "v3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-deps/laravel-cors.git",
+                "reference": "0da3972222913272043d8cc21f2e695c93b5ac71"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-deps/laravel-cors/zipball/0da3972222913272043d8cc21f2e695c93b5ac71",
+                "reference": "0da3972222913272043d8cc21f2e695c93b5ac71",
+                "shasum": ""
+            },
+            "require": {
+                "fruitcake/php-cors": "^1.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Fruitcake\\Cors\\CorsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fruitcake\\Cors\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fruitcake",
+                    "homepage": "https://fruitcake.nl"
+                },
+                {
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
+                }
+            ],
+            "description": "Fork of fruitcake/laravel-cors  Adds CORS (Cross-Origin Resource Sharing) headers support in your Laravel application",
+            "keywords": [
+                "api",
+                "cors",
+                "crossdomain",
+                "laravel"
+            ],
+            "support": {
+                "source": "https://github.com/microweber-deps/laravel-cors/tree/v3.1"
+            },
+            "funding": [
+                {
+                    "url": "https://fruitcake.nl",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/barryvdh",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-01-26T17:04:55+00:00"
         },
         {
             "name": "microweber-deps/seo-helper",
@@ -19024,6 +18954,7 @@
         "phpdocumentor/reflection-docblock": 20,
         "spatie/laravel-googletagmanager": 20,
         "spatie/laravel-menu": 20,
+        "symfony/html-sanitizer": 20,
         "touhidurabir/laravel-stub-generator": 20,
         "wikimedia/composer-merge-plugin": 20
     },
