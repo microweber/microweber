@@ -959,7 +959,7 @@ mw.requireAsync = (url, key) => {
         var el = mw.$(id);
         var fields = "input[type='text'], input[type='email'], input[type='number'], input[type='tel'], "
                     + "input[type='color'], input[type='url'], input[type='week'], input[type='search'], input[type='range'], "
-                    + "input[type='datetime-local'], input[type='month'], "
+                    + "input[type='datetime-local'], input[type='month'], input[type='file'], "
                     + "input[type='password'], input[type='hidden'], input[type='datetime'], input[type='date'], input[type='time'], "
                     +"input[type='email'],  textarea, select, input[type='checkbox']:checked, input[type='radio']:checked, "
                     +"input[type='checkbox'][data-value-checked][data-value-unchecked]";
@@ -973,7 +973,11 @@ mw.requireAsync = (url, key) => {
               if(el.name.contains("[]")){
                   data[name] = data[name] || []
                   data[name].push(val);
-              }
+              } else if(el.type == 'file'){
+                  if (typeof el.files[0] !== 'undefined') {
+                      data[name] = el.files[0];
+                  }
+                }
               else if(el.type === 'checkbox' && el.getAttribute('data-value-checked') ){
                   data[name] = el.checked ? el.getAttribute('data-value-checked') : el.getAttribute('data-value-unchecked');
               }
