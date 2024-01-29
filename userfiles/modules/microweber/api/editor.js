@@ -1447,6 +1447,7 @@ var MWEditor = function (options) {
                 var clipboardData, pastedData;
                 var e = event.originalEvent || event;
 
+
                 if(e.type === 'paste' && !scope.$editArea._pasting) {
                     scope.$editArea._pasting = true;
                     const edoc = e.target.ownerDocument;
@@ -1492,17 +1493,23 @@ var MWEditor = function (options) {
                                 } else {
 
                                     let all = ta.querySelectorAll(`*:not(${allowedTags})`);
-                                    while ( all.length ) {
-                                        all.forEach(node => node.replaceWith(...node.childNodes));
-                                        all = ta.querySelectorAll(`*:not(${allowedTags})`);
-                                    }
+
                                     ta.querySelectorAll('[style]').forEach(node => node.removeAttribute('style'))
                                     content = ta.innerHTML;
                                 }
 
 
 
-                            scope.api.insertHTML(content);
+
+                            if(!!content) {
+                               scope.api.insertHTML(content);
+                            }
+
+
+
+
+
+
                             mw.element(ta).remove();
                             scope.$editArea._pasting = false;
 
