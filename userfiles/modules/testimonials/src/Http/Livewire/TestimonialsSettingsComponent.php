@@ -115,7 +115,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
                 ],
                 [
                   'type' => 'textarea',
-                    'rules' => 'max:255',
+                    'rules' => '',
                     'label' => 'Content',
                     'name' => 'content',
                     'placeholder' => 'Content',
