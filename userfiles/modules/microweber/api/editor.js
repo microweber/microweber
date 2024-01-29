@@ -1493,10 +1493,7 @@ var MWEditor = function (options) {
                                 } else {
 
                                     let all = ta.querySelectorAll(`*:not(${allowedTags})`);
-                                    while ( all.length ) {
-                                        all.forEach(node => node.replaceWith(...node.childNodes));
-                                        all = ta.querySelectorAll(`*:not(${allowedTags})`);
-                                    }
+
                                     ta.querySelectorAll('[style]').forEach(node => node.removeAttribute('style'))
                                     content = ta.innerHTML;
                                 }
