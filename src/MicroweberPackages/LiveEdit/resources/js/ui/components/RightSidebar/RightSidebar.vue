@@ -61,7 +61,7 @@
 
 
 
-              <div v-show="showElementStyleEditor">
+              <div class="tab-content" v-show="showElementStyleEditor">
 
 
 
@@ -169,26 +169,30 @@ export default {
 
         this.emitter.on("live-edit-ui-show", show => {
 
-            rightSidebarInstance.showTemplateSettings = false;
-            rightSidebarInstance.showElementStyleEditor = false;
+         //   rightSidebarInstance.showTemplateSettings = false;
+          //  rightSidebarInstance.showElementStyleEditor = false;
 
-            if (show == 'template-settings') {
+            if (show === 'template-settings') {
                 rightSidebarInstance.buttonIsActive = true;
                 rightSidebarInstance.showTemplateSettings = true;
                 rightSidebarInstance.showElementStyleEditor = false;
                 rightSidebarInstance.showSidebar = true;
 
-            } else if(show == 'html-editor' || 'show-code-editor') {
+            } else if(show === 'html-editor' || show === 'show-code-editor') {
                 rightSidebarInstance.showTemplateSettings = false;
                 rightSidebarInstance.showElementStyleEditor = false;
                 rightSidebarInstance.showSidebar = false;
                 rightSidebarInstance.buttonIsActive = false;
-            } else if(show == 'style-editor') {
+            } else if(show === 'style-editor') {
 
                 rightSidebarInstance.showTemplateSettings = false;
                 rightSidebarInstance.showElementStyleEditor = true;
                 rightSidebarInstance.showSidebar = true;
                 rightSidebarInstance.buttonIsActive = false;
+
+
+
+
             } else if(show == 'close-element-style-editor') {
 
 
@@ -202,6 +206,7 @@ export default {
 
 
             } else {
+                alert('aaaaa')
                 rightSidebarInstance.showTemplateSettings = false;
                 rightSidebarInstance.showElementStyleEditor = false;
                 rightSidebarInstance.showSidebar = false;
