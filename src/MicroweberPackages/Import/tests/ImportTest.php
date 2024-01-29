@@ -93,12 +93,18 @@ class ImportTest extends TestCase
 
     public function testImportZipFile() {
 
-        $sample = userfiles_path() . '/templates/new-world/mw_default_content.zip';
+
+        $template_folder = 'new-world';
+        if(!is_dir(userfiles_path() . '/templates/' . $template_folder)){
+            $template_folder = 'big';
+        }
+
+        $sample = userfiles_path() . '/templates/'.$template_folder.'/mw_default_content.zip';
         $sample = normalize_path($sample, false);
 
 
         if(!is_file($sample)){
-            $this->markTestSkipped('File not found for new-world template test: ' . $sample);
+            $this->markTestSkipped('File not found for template test: ' . $sample);
         }
 
 
@@ -142,7 +148,7 @@ class ImportTest extends TestCase
         }
 
         $ensureTemplateIsSet = get_option('current_template', 'template');
-        $this->assertEquals('new-world', $ensureTemplateIsSet);
+        $this->assertEquals($template_folder, $ensureTemplateIsSet);
 
         $this->assertSame(true, $importStatus['done']);
         $this->assertSame(100, $importStatus['percentage']);
