@@ -93,8 +93,21 @@ mw.cart = {
         if (data.price == null) {
             data.price = 0;
         }
-        $.post(mw.settings.api_url + 'update_cart', data,
-            function (data) {
+
+        var formData = new FormData();
+        $.each(data, function (k,v) {
+            formData.append(k,v);
+        });
+
+        $.ajax({
+            url:mw.settings.api_url + 'update_cart',
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            type: 'post',
+            success: function (data) {
 
                 // mw.trigger('mw.cart.add', [data]);
 
@@ -105,7 +118,8 @@ mw.cart = {
                 mw.trigger('cartAddItem', data);
 
 
-            });
+            }
+         });
     },
 
     remove: function ($id) {
