@@ -1447,6 +1447,7 @@ var MWEditor = function (options) {
                 var clipboardData, pastedData;
                 var e = event.originalEvent || event;
 
+
                 if(e.type === 'paste' && !scope.$editArea._pasting) {
                     scope.$editArea._pasting = true;
                     const edoc = e.target.ownerDocument;
@@ -1502,7 +1503,16 @@ var MWEditor = function (options) {
 
 
 
-                            scope.api.insertHTML(content);
+
+                            if(!!content) {
+                               scope.api.insertHTML(content);
+                            }
+
+
+
+
+
+
                             mw.element(ta).remove();
                             scope.$editArea._pasting = false;
 
