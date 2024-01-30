@@ -36,10 +36,6 @@
             <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
         </testsuite>
 
-        <testsuite name="MicroweberModulesImportToolTests">
-            <directory>./userfiles/modules/admin/import_export_tool/src/tests/</directory>
-        </testsuite>
-
         <testsuite name="MicroweberTestMultilanguage">
             <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>
         </testsuite>
