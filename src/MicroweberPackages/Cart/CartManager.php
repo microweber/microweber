@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Cart;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use MicroweberPackages\Cart\Events\AddToCartEvent;
 use MicroweberPackages\Cart\Events\RemoveFromCartEvent;
 use MicroweberPackages\Cart\Models\Cart;
@@ -824,6 +825,69 @@ class CartManager extends Crud
             $add = mw()->format->clean_xss($add);
             $table = 'cart';
 
+
+            $fieldRules = [];
+            $files_utils = new \MicroweberPackages\Utils\System\Files();
+
+            $inputFields = [];
+            $fieldsValidationRules = [];
+            $customFieldsFileUploads = [];
+            foreach($content_custom_fields as $cf){
+                if (isset($add[$cf['name_key']])) {
+                    $inputFields[$cf['name_key']] = $add[$cf['name_key']];
+                }
+                $customFieldRules = [];
+                $customFieldRules[] = 'max:500';
+                if ((isset($cf['required']) and $cf['required']) or (isset($cf['options']['required']) && $cf['options']['required'] == 1)) {
+                    $customFieldRules[] = 'required';
+                }
+                if(isset($cf['type']) and $cf['type'] == 'upload') {
+                    $customFieldsFileUploads[$cf['id']] = $cf;
+                    if (isset($_FILES[$cf['name_key']])) {
+                        $customFieldsFileUploads[$cf['id']]['uploaded_file'] = $_FILES[$cf['name_key']];
+                    }
+
+                    $mimeTypes = [];
+                    if (isset($cf['options']['file_types']) && !empty($cf['options']['file_types'])) {
+                        foreach ($cf['options']['file_types'] as $optionFileTypes) {
+                            if (!empty($optionFileTypes)) {
+                                $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
+                                $mimeTypesArray = explode(',', $mimeTypesString);
+                                $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
+                            }
+                        }
+                    }
+
+                    if (empty($mimeTypes)) {
+                        $mimeTypes = $files_utils->get_allowed_files_extensions_for_upload('images');
+                    }
+
+                    if (!empty($mimeTypes) && is_array($mimeTypes)) {
+                        $mimeTypes = implode(',', $mimeTypes);
+                    }
+
+                    $customFieldRules[] = 'mimes:' . $mimeTypes;
+                }
+                $fieldsValidationRules[$cf['name_key']] = implode('|', $customFieldRules);
+            }
+
+            $validationErrorsReturn = [];
+            if (!empty($fieldsValidationRules)) {
+                $validator = Validator::make($inputFields, $fieldsValidationRules);
+                if ($validator->fails()) {
+                    $validatorMessages = false;
+                    foreach ($validator->messages()->toArray() as $inputFieldErrors) {
+                        $validatorMessages = implode("\n", $inputFieldErrors);
+                    }
+                    $validationErrorsReturn = array(
+                        'form_errors' => $validator->messages()->toArray(),
+                        'error' => $validatorMessages
+                    );
+                }
+            }
+            if (!empty($validationErrorsReturn)) {
+                return $validationErrorsReturn;
+            }
 
             $cart = array();
             $cart['rel_type'] = trim($data['for']);
