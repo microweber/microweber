@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Cart;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use MicroweberPackages\Cart\Events\AddToCartEvent;
 use MicroweberPackages\Cart\Events\RemoveFromCartEvent;
@@ -837,7 +838,7 @@ class CartManager extends Crud
                     continue;
                 }
                 if (isset($add[$cf['name_key']])) {
-                    $inputFields[$cf['name_key']] = $add[$cf['name_key']];
+                    $inputFields[] = $cf['name_key'];
                 }
                 $customFieldRules = [];
                 $customFieldRules[] = 'max:500';
@@ -845,10 +846,6 @@ class CartManager extends Crud
                     $customFieldRules[] = 'required';
                 }
                 if(isset($cf['type']) and $cf['type'] == 'upload') {
-                    $customFieldsFileUploads[$cf['id']] = $cf;
-                    if (isset($_FILES[$cf['name_key']])) {
-                        $customFieldsFileUploads[$cf['id']]['uploaded_file'] = $_FILES[$cf['name_key']];
-                    }
 
                     $mimeTypes = [];
                     if (isset($cf['options']['file_types']) && !empty($cf['options']['file_types'])) {
@@ -866,6 +863,7 @@ class CartManager extends Crud
                     }
 
                     if (!empty($mimeTypes) && is_array($mimeTypes)) {
+                        $customFieldsFileUploads[$cf['name_key']] = true;
                         $mimeTypes = implode(',', $mimeTypes);
                     }
 
@@ -876,7 +874,7 @@ class CartManager extends Crud
 
             $validationErrorsReturn = [];
             if (!empty($fieldsValidationRules)) {
-                $validator = Validator::make($inputFields, $fieldsValidationRules);
+                $validator = Validator::make(request()->only($inputFields), $fieldsValidationRules);
                 if ($validator->fails()) {
                     $validatorMessages = false;
                     foreach ($validator->messages()->toArray() as $inputFieldErrors) {
@@ -891,6 +889,120 @@ class CartManager extends Crud
             if (!empty($validationErrorsReturn)) {
                 return $validationErrorsReturn;
             }
+
+
+            $fileAttachments = [];
+            $target_path_name = '/attachments';
+
+            $target_path = media_uploads_path();
+            $target_path .= $target_path_name;
+            $target_path = normalize_path($target_path, 0);
+            if (!is_dir($target_path)) {
+                mkdir_recursive($target_path);
+            }
+            if ($customFieldsFileUploads and !empty($customFieldsFileUploads)) {
+                foreach ($customFieldsFileUploads as $fieldName => $file_up) {
+
+                    if (!isset($_FILES[$fieldName])) {
+                        continue;
+                    }
+
+                    $file = $_FILES[$fieldName];
+
+                    if (!is_array($file)) {
+                        continue;
+                    }
+                    if (!isset($file['name'])) {
+                        continue;
+                    }
+
+                    if ($files_utils->is_dangerous_file($file['full_path'])) {
+                        return array(
+                            'form_errors' => array(
+                                $fieldName => 'This file is not allowed to be uploaded'
+                            ),
+                            'error' => 'This file is not allowed to be uploaded'
+                        );
+
+                    }
+                    $filePath = $file['tmp_name'];
+                    $ext = get_file_extension($file['name']);
+                    if ($ext === 'svg') {
+                        $valid = false;
+                        if (is_file($filePath)) {
+                            $sanitizer = new \enshrined\svgSanitize\Sanitizer();
+                            // Load the dirty svg
+                            $dirtySVG = file_get_contents($filePath);
+                            // Pass it to the sanitizer and get it back clean
+                            $valid = $files_utils->check_if_svg_is_valid($dirtySVG);
+
+                            if (!$valid) {
+                                @unlink($filePath);
+
+                                return array(
+                                    'form_errors' => array(
+                                        $fieldName => 'This file is not because it contains invalid SVG code'
+                                    ),
+                                    'error' => 'This file is not allowed because it contains invalid SVG code'
+                                );
+
+                            }
+
+                        }
+
+                    }
+
+
+                    $target_path_name = md5($file['name'] . time()) . $target_path_name;
+                    $targetFileName = $target_path_name . '/' . $file['name'];
+                    if (is_file($target_path . '/' . $file['name'])) {
+                        $targetFileName = $target_path_name . '/' . date('Ymd-His') . $file['name'];
+                    }
+
+                    $fileContent = @file_get_contents($file['tmp_name']);
+                    if ($fileContent) {
+                        $save = Storage::disk('media')->put($targetFileName, $fileContent);
+                        if ($save) {
+
+                            $realPath = Storage::disk('media')->path($targetFileName);
+
+                            $fileMime = \Illuminate\Support\Facades\File::mimeType($realPath);
+                            $fileExtension = \Illuminate\Support\Facades\File::extension($realPath);
+                            $fileSize = \Illuminate\Support\Facades\File::size($realPath);
+
+                            $mediaFileUrl = Storage::disk('media')->url($targetFileName);
+                            $mediaFileUrl = str_replace(site_url(), '{SITE_URL}', $mediaFileUrl);
+
+//                            $fieldsData[] = [
+//                                'field_type' => 'upload',
+//                                'field_key' => $file['name'],
+//                                'field_name' => $fieldName,
+//                                'field_value' => false,
+//                                'field_value_json' => [
+//                                    'url' => $mediaFileUrl,
+//                                    'file_name' => $file['name'],
+//                                    'file_extension' => $fileExtension,
+//                                    'file_mime' => $fileMime,
+//                                    'file_size' => $fileSize,
+//                                ]
+//                            ];
+                            $fileAttachments[$fieldName] = $mediaFileUrl;
+                        }
+
+                    } else {
+                        return array(
+                            'error' => _e('Invalid file.', true)
+                        );
+                    }
+                }
+            }
+
+            if (!empty($fileAttachments)) {
+                foreach ($fileAttachments as $customFieldKey=>$fileAttachment) {
+                    $add[$customFieldKey] = $fileAttachment;
+                }
+            }
+
 
             $cart = array();
             $cart['rel_type'] = trim($data['for']);
