@@ -833,6 +833,9 @@ class CartManager extends Crud
             $fieldsValidationRules = [];
             $customFieldsFileUploads = [];
             foreach($content_custom_fields as $cf){
+                if (!$add) {
+                    continue;
+                }
                 if (isset($add[$cf['name_key']])) {
                     $inputFields[$cf['name_key']] = $add[$cf['name_key']];
                 }
