@@ -38,12 +38,12 @@
         <testsuite name="Backup">
             <directory>./src/MicroweberPackages/Backup/</directory>
         </testsuite>
-<!--
+
 
         <testsuite name="BladeUI">
             <directory>./src/MicroweberPackages/BladeUI/</directory>
         </testsuite>
--->
+
 
         <testsuite name="Blog">
             <directory>./src/MicroweberPackages/Blog/</directory>
@@ -93,35 +93,35 @@
             <directory>./src/MicroweberPackages/ContentFilter/</directory>
         </testsuite>
 
+        <testsuite name="Core">
+            <directory>./src/MicroweberPackages/Core/</directory>
+        </testsuite>
+        <testsuite name="Country">
+            <directory>./src/MicroweberPackages/Country/</directory>
+        </testsuite>
 
-        
+        <testsuite name="Currency">
+            <directory>./src/MicroweberPackages/Currency/</directory>
+        </testsuite>
+
+        <testsuite name="CustomField">
+            <directory>./src/MicroweberPackages/CustomField/</directory>
+        </testsuite>
+
+        <testsuite name="Customer">
+            <directory>./src/MicroweberPackages/Customer/</directory>
+        </testsuite>
+
+        <testsuite name="Database">
+            <directory>./src/MicroweberPackages/Database/</directory>
+        </testsuite>
+
         <!--
 
 
 
 
-           <testsuite name="Core">
-               <directory>./src/MicroweberPackages/Core/</directory>
-           </testsuite>
-           <testsuite name="Country">
-               <directory>./src/MicroweberPackages/Country/</directory>
-           </testsuite>
 
-           <testsuite name="Currency">
-               <directory>./src/MicroweberPackages/Currency/</directory>
-           </testsuite>
-
-           <testsuite name="CustomField">
-               <directory>./src/MicroweberPackages/CustomField/</directory>
-           </testsuite>
-
-           <testsuite name="Customer">
-               <directory>./src/MicroweberPackages/Customer/</directory>
-           </testsuite>
-
-           <testsuite name="Database">
-               <directory>./src/MicroweberPackages/Database/</directory>
-           </testsuite>
     <testsuite name="Dusk">
                <directory>./src/MicroweberPackages/Dusk/</directory>
            </testsuite>
