@@ -12,7 +12,9 @@ use MicroweberPackages\Post\Models\Post;
  * @author Bobi Microweber
  * @command php phpunit.phar --filter Import
  */
-
+/**
+ * @runTestsInSeparateProcesses
+ */
 class ImportTest extends TestCase
 {
 
