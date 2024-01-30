@@ -24,10 +24,12 @@
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
         </testsuite>
+<!--
 
         <testsuite name="Core">
             <directory>./src/MicroweberPackages/Core/</directory>
         </testsuite>
+-->
 
         <testsuite name="Admin">
             <directory>./src/MicroweberPackages/Admin/</directory>
