@@ -144,7 +144,7 @@
                <directory>./src/MicroweberPackages/FileManager/</directory>
            </testsuite>
 
-        <!--
+
                 <testsuite name="Form">
                     <directory>./src/MicroweberPackages/Form/</directory>
                 </testsuite>
@@ -299,7 +299,7 @@
                 <testsuite name="View">
                     <directory>./src/MicroweberPackages/View/</directory>
                 </testsuite>
-        -->
+
 
 
         <!--     <testsuite name="MicroweberTemplatesTests">
