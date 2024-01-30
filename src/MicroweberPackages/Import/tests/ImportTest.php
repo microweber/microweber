@@ -48,6 +48,7 @@ class ImportTest extends TestCase
         $manager = new Import();
         $manager->setSessionId($sessionId);
         $manager->setFile($sample);
+
         $manager->setBatchImporting(false);
 
         $importStatus = $manager->start();
