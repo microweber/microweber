@@ -25,13 +25,13 @@ jobs:
       - run: npm run build
 
       - name: Install Dependencies
-        run: composer install --no-dev
+        run: composer install
 
       - name: Dump autoload dependecies
         run: composer dump-autoload
 
       - name: Test before build
-        run: php artisan test
+        run: composer test:phpunit
 
 
       - name: Inject slug/short variables
