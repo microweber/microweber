@@ -303,7 +303,9 @@
                     <directory>./src/MicroweberPackages/View/</directory>
                 </testsuite>
 
-
+                <testsuite name="MicroweberModulesTests">
+                    <directory>./userfiles/modules/*/tests/</directory>
+                 </testsuite>
 
         <!--     <testsuite name="MicroweberTemplatesTests">
                  <directory>./userfiles/templates/*/tests/</directory>
