@@ -334,9 +334,11 @@ function get_user($id = false)
     return app()->user_manager->get($id);
 }
 
-function get_username_short()
+function get_username_short($user_id = false)
 {
-    $user = get_user();
+    $user = get_user($user_id);
+
+
     if(isset($user['first_name']) and $user['first_name'] != ''){
         $displayName = mb_substr($user['first_name'], 0,2);
         if (!empty($user['first_name']) && !empty($user['last_name'])) {
@@ -344,7 +346,10 @@ function get_username_short()
         }
         return mb_strtoupper($displayName);
     } else {
-        return $user['username'];
+        //fist 2 leeters
+        $usernameShort = mb_substr($user['username'], 0,2);
+
+        return $usernameShort;
     }
 }
 

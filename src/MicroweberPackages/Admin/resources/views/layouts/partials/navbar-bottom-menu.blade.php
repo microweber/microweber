@@ -60,6 +60,9 @@ if (isset($_COOKIE['admin_theme_dark'])) {
         </div>
         @endif
 
+            <span style="text-overflow: ellipsis; overflow: hidden; display: block; white-space:nowrap; max-width: 150px;">
+               <?php print user_name(); ?>
+            </span>
 
         </a>
     </li>
