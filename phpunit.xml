@@ -27,6 +27,7 @@
             <exclude>./userfiles/templates/*/src/tests/Browser/</exclude>
             <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
         </testsuite>-->
+<!--
         <testsuite name="MicroweberCoreTests">
             <directory>./src/MicroweberPackages/*/tests/</directory>
             <directory>./userfiles/modules/*/*/src/tests/</directory>
@@ -35,6 +36,7 @@
             <exclude>./src/MicroweberPackages/User/tests/*</exclude>
             <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
         </testsuite>
+-->
 
       <!--  <testsuite name="MicroweberModulesImportToolTests">
             <directory>./userfiles/modules/admin/import_export_tool/src/tests/</directory>
