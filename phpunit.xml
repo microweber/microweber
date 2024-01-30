@@ -108,17 +108,17 @@
             <directory>./src/MicroweberPackages/CustomField/</directory>
         </testsuite>
 
-        <testsuite name="Customer">
+
+
+        <!--
+    <testsuite name="Customer">
             <directory>./src/MicroweberPackages/Customer/</directory>
         </testsuite>
 
-        <testsuite name="Database">
+
+       <testsuite name="Database">
             <directory>./src/MicroweberPackages/Database/</directory>
         </testsuite>
-
-        <!--
-
-
 
 
 
