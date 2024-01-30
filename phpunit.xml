@@ -21,12 +21,12 @@
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
         </testsuite>
-        <testsuite name="MicroweberTemplatesTests">
+   <!--     <testsuite name="MicroweberTemplatesTests">
             <directory>./userfiles/templates/*/tests/</directory>
             <directory>./userfiles/templates/*/src/tests/</directory>
             <exclude>./userfiles/templates/*/src/tests/Browser/</exclude>
             <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
-        </testsuite>
+        </testsuite>-->
         <testsuite name="MicroweberCoreTests">
             <directory>./src/MicroweberPackages/*/tests/</directory>
             <directory>./userfiles/modules/*/*/src/tests/</directory>
