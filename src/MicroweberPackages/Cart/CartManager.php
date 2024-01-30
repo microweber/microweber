@@ -863,11 +863,12 @@ class CartManager extends Crud
                     }
 
                     if (!empty($mimeTypes) && is_array($mimeTypes)) {
-                        $customFieldsFileUploads[$cf['name_key']] = true;
                         $mimeTypes = implode(',', $mimeTypes);
                     }
 
                     $customFieldRules[] = 'mimes:' . $mimeTypes;
+
+                    $customFieldsFileUploads[$cf['name_key']] = true;
                 }
                 $fieldsValidationRules[$cf['name_key']] = implode('|', $customFieldRules);
             }
@@ -973,19 +974,6 @@ class CartManager extends Crud
                             $mediaFileUrl = Storage::disk('media')->url($targetFileName);
                             $mediaFileUrl = str_replace(site_url(), '{SITE_URL}', $mediaFileUrl);
 
-//                            $fieldsData[] = [
-//                                'field_type' => 'upload',
-//                                'field_key' => $file['name'],
-//                                'field_name' => $fieldName,
-//                                'field_value' => false,
-//                                'field_value_json' => [
-//                                    'url' => $mediaFileUrl,
-//                                    'file_name' => $file['name'],
-//                                    'file_extension' => $fileExtension,
-//                                    'file_mime' => $fileMime,
-//                                    'file_size' => $fileSize,
-//                                ]
-//                            ];
                             $fileAttachments[$fieldName] = $mediaFileUrl;
                         }
 
@@ -1002,7 +990,6 @@ class CartManager extends Crud
                     $add[$customFieldKey] = $fileAttachment;
                 }
             }
-
 
             $cart = array();
             $cart['rel_type'] = trim($data['for']);
