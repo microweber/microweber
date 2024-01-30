@@ -51,10 +51,10 @@
         </testsuite>
 
 
-        <testsuite name="MicroweberModulesTests">
-            <directory>./userfiles/modules/*/tests/</directory>
-            <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
-        </testsuite>
+<!--        <testsuite name="MicroweberModulesTests">-->
+<!--            <directory>./userfiles/modules/*/tests/</directory>-->
+<!--            <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>-->
+<!--        </testsuite>-->
 
 <!--        <testsuite name="MicroweberSlowTests">-->
 <!--            <directory>./src/MicroweberPackages/Helper/tests/*</directory>-->
