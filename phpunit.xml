@@ -27,6 +27,18 @@
 
         </testsuite>
 
+        <testsuite name="Admin">
+            <directory>./src/MicroweberPackages/Admin/</directory>
+        </testsuite>
+
+        <testsuite name="App">
+            <directory>./src/MicroweberPackages/App/</directory>
+        </testsuite>
+
+        <testsuite name="Backup">
+            <directory>./src/MicroweberPackages/Backup/</directory>
+        </testsuite>
+
    <!--     <testsuite name="MicroweberTemplatesTests">
             <directory>./userfiles/templates/*/tests/</directory>
             <directory>./userfiles/templates/*/src/tests/</directory>
