@@ -206,7 +206,7 @@ export default {
 
 
             } else {
-                alert('aaaaa')
+
                 rightSidebarInstance.showTemplateSettings = false;
                 rightSidebarInstance.showElementStyleEditor = false;
                 rightSidebarInstance.showSidebar = false;
