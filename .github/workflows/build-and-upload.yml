@@ -31,7 +31,7 @@ jobs:
         run: composer dump-autoload
 
       - name: Test before build
-        run: composer test
+        run: php artisan test
 
 
       - name: Inject slug/short variables

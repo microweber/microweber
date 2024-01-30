@@ -114,7 +114,6 @@
         "nunomaduro/collision": "*",
         "orchestra/testbench": "*",
         "phpunit/phpunit": "^10",
-
         "spatie/laravel-ignition": "*"
     },
     "replace": {
@@ -144,6 +143,14 @@
         ],
         "post-create-project-cmd": [
             "php artisan key:generate"
+        ],
+        "test:coverage": [
+            "Composer\\Config::disableProcessTimeout",
+            "php -d xdebug.mode=coverage artisan test --coverage -c \"phpunit-coverage.xml\""
+        ],
+        "test:dusk": [
+            "Composer\\Config::disableProcessTimeout",
+            "php artisan dusk"
         ]
     },
     "config": {
