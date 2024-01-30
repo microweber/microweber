@@ -110,6 +110,8 @@ class ShopDuskTestCase extends DuskTestCase
         $browser->pause(500);
         $link = content_link($saved_id);
 
+        $addedProducts = get_content('id=' . $saved_id);
+
         $browser->visit($link);
 
 
@@ -152,6 +154,8 @@ class ShopDuskTestCase extends DuskTestCase
         //    $browser->seeLink('Proceed to Checkout');
         $browser->clickLink('Proceed to Checkout');
         $browser->pause(3000);
+
+        return $addedProducts;
     }
 
 
