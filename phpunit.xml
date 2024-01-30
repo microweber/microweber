@@ -6,12 +6,16 @@
          stopOnSkipped="false"
          stopOnRisky="false"
          stopOnIncomplete="false"
+         stopOnDeprecation="false"
+         failOnEmptyTestSuite="false"
+         failOnDeprecation="false"
+         failOnIncomplete="false"
+         failOnNotice="false"
+         failOnRisky="false"
+         failOnSkipped="false"
          failOnWarning="false"
 
-         beStrictAboutOutputDuringTests="false"
-         beStrictAboutChangesToGlobalState="false"
-         beStrictAboutTestsThatDoNotTestAnything="false"
-         colors="true"
+
 >
     <testsuites>
         <testsuite name="Unit">
