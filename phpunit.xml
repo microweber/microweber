@@ -3,6 +3,9 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          stopOnFailure="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
          stopOnSkipped="false"
          stopOnRisky="false"
          stopOnIncomplete="false"
@@ -73,23 +76,29 @@
             <directory>./src/MicroweberPackages/Content/</directory>
         </testsuite>
 
+        <testsuite name="ContentData">
+            <directory>./src/MicroweberPackages/ContentData/</directory>
+        </testsuite>
 
+        <testsuite name="ContentDataVariant">
+            <directory>./src/MicroweberPackages/ContentDataVariant/</directory>
+        </testsuite>
+
+
+        <testsuite name="ContentField">
+            <directory>./src/MicroweberPackages/ContentField/</directory>
+        </testsuite>
+
+        <testsuite name="ContentFilter">
+            <directory>./src/MicroweberPackages/ContentFilter/</directory>
+        </testsuite>
+
+
+        
         <!--
-           <testsuite name="ContentData">
-               <directory>./src/MicroweberPackages/ContentData/</directory>
-           </testsuite>
 
-           <testsuite name="ContentDataVariant">
-               <directory>./src/MicroweberPackages/ContentDataVariant/</directory>
-           </testsuite>
 
-           <testsuite name="ContentField">
-               <directory>./src/MicroweberPackages/ContentField/</directory>
-           </testsuite>
 
-           <testsuite name="ContentFilter">
-               <directory>./src/MicroweberPackages/ContentFilter/</directory>
-           </testsuite>
 
            <testsuite name="Core">
                <directory>./src/MicroweberPackages/Core/</directory>
@@ -350,6 +359,8 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+        <ini name="display_errors" value="On" />
+        <ini name="display_startup_errors" value="On" />
 
     </php>
 
