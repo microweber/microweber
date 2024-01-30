@@ -31,6 +31,11 @@
             <exclude>./src/MicroweberPackages/User/tests/*</exclude>
             <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
         </testsuite>
+
+        <testsuite name="MicroweberModulesImportToolTests">
+            <directory>./userfiles/modules/admin/import_export_tool/src/tests/</directory>
+        </testsuite>
+
         <testsuite name="MicroweberTestMultilanguage">
             <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>
         </testsuite>
@@ -40,9 +45,7 @@
         <testsuite name="MicroweberModuleListTests">
             <directory>./src/MicroweberPackages/Module/slow_tests/</directory>
         </testsuite>
-        <testsuite name="MicroweberModulesImportToolTests">
-            <directory>./userfiles/modules/admin/import_export_tool/src/tests/</directory>
-        </testsuite>
+
 
         <testsuite name="MicroweberModulesTests">
             <directory>./userfiles/modules/*/tests/</directory>
