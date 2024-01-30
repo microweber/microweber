@@ -3,6 +3,9 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          stopOnFailure="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
          stopOnSkipped="false"
          stopOnRisky="false"
          stopOnIncomplete="false"
@@ -22,17 +25,289 @@
             <directory>tests/Unit</directory>
         </testsuite>
 
-        <testsuite name="MicroweberCoreTests">
-            <directory>./src/MicroweberPackages/Core/tests/</directory>
 
+
+        <testsuite name="Admin">
+            <directory>./src/MicroweberPackages/Admin/</directory>
         </testsuite>
 
-   <!--     <testsuite name="MicroweberTemplatesTests">
-            <directory>./userfiles/templates/*/tests/</directory>
-            <directory>./userfiles/templates/*/src/tests/</directory>
-            <exclude>./userfiles/templates/*/src/tests/Browser/</exclude>
-            <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
+        <testsuite name="App">
+            <directory>./src/MicroweberPackages/App/</directory>
+        </testsuite>
+
+        <testsuite name="Backup">
+            <directory>./src/MicroweberPackages/Backup/</directory>
+        </testsuite>
+
+
+        <testsuite name="BladeUI">
+            <directory>./src/MicroweberPackages/BladeUI/</directory>
+        </testsuite>
+
+
+        <testsuite name="Blog">
+            <directory>./src/MicroweberPackages/Blog/</directory>
+        </testsuite>
+
+        <testsuite name="Cache">
+            <directory>./src/MicroweberPackages/Cache/</directory>
+        </testsuite>
+
+        <testsuite name="Cart">
+            <directory>./src/MicroweberPackages/Cart/</directory>
+        </testsuite>
+
+        <testsuite name="Category">
+            <directory>./src/MicroweberPackages/Category/</directory>
+        </testsuite>
+        <testsuite name="Checkout">
+            <directory>./src/MicroweberPackages/Checkout/</directory>
+        </testsuite>
+
+        <testsuite name="Config">
+            <directory>./src/MicroweberPackages/Config/</directory>
+        </testsuite>
+
+        <testsuite name="Console">
+            <directory>./src/MicroweberPackages/Console/</directory>
+        </testsuite>
+
+        <testsuite name="Content">
+            <directory>./src/MicroweberPackages/Content/</directory>
+        </testsuite>
+
+        <testsuite name="ContentData">
+            <directory>./src/MicroweberPackages/ContentData/</directory>
+        </testsuite>
+
+        <testsuite name="ContentDataVariant">
+            <directory>./src/MicroweberPackages/ContentDataVariant/</directory>
+        </testsuite>
+
+
+        <testsuite name="ContentField">
+            <directory>./src/MicroweberPackages/ContentField/</directory>
+        </testsuite>
+
+        <testsuite name="ContentFilter">
+            <directory>./src/MicroweberPackages/ContentFilter/</directory>
+        </testsuite>
+
+      <!--  <testsuite name="Core">
+            <directory>./src/MicroweberPackages/Core/</directory>
         </testsuite>-->
+        <testsuite name="Country">
+            <directory>./src/MicroweberPackages/Country/</directory>
+        </testsuite>
+
+        <testsuite name="Currency">
+            <directory>./src/MicroweberPackages/Currency/</directory>
+        </testsuite>
+<!--
+
+        <testsuite name="CustomField">
+            <directory>./src/MicroweberPackages/CustomField/</directory>
+        </testsuite>
+
+-->
+
+
+
+    <testsuite name="Customer">
+            <directory>./src/MicroweberPackages/Customer/</directory>
+        </testsuite>
+
+
+       <testsuite name="Database">
+            <directory>./src/MicroweberPackages/Database/</directory>
+        </testsuite>
+
+
+
+    <testsuite name="Dusk">
+               <directory>./src/MicroweberPackages/Dusk/</directory>
+           </testsuite>
+
+           <testsuite name="Event">
+               <directory>./src/MicroweberPackages/Event/</directory>
+           </testsuite>
+
+           <testsuite name="Export">
+               <directory>./src/MicroweberPackages/Export/</directory>
+           </testsuite>
+
+           <testsuite name="Filament">
+               <directory>./src/MicroweberPackages/Filament/</directory>
+           </testsuite>
+
+           <testsuite name="FileManager">
+               <directory>./src/MicroweberPackages/FileManager/</directory>
+           </testsuite>
+
+        <!--
+                <testsuite name="Form">
+                    <directory>./src/MicroweberPackages/Form/</directory>
+                </testsuite>
+
+                <testsuite name="FormBuilder">
+                    <directory>./src/MicroweberPackages/FormBuilder/</directory>
+                </testsuite>
+
+                <testsuite name="Fortify">
+                    <directory>./src/MicroweberPackages/Fortify/</directory>
+                </testsuite>
+
+                <testsuite name="Helper">
+                    <directory>./src/MicroweberPackages/Helper/</directory>
+                </testsuite>
+
+                <testsuite name="Import">
+                    <directory>./src/MicroweberPackages/Import/</directory>
+                </testsuite>
+                <testsuite name="Install">
+                    <directory>./src/MicroweberPackages/Install/</directory>
+                </testsuite>
+
+                <testsuite name="LiveEdit">
+                    <directory>./src/MicroweberPackages/LiveEdit/</directory>
+                </testsuite>
+
+                <testsuite name="Livewire">
+                    <directory>./src/MicroweberPackages/Livewire/</directory>
+                </testsuite>
+
+                <testsuite name="Marketplace">
+                    <directory>./src/MicroweberPackages/Marketplace/</directory>
+                </testsuite>
+
+                <testsuite name="Media">
+                    <directory>./src/MicroweberPackages/Media/</directory>
+                </testsuite>
+
+
+                <testsuite name="Menu">
+                    <directory>./src/MicroweberPackages/Menu/</directory>
+                </testsuite>
+
+                <testsuite name="MicroweberUI">
+                    <directory>./src/MicroweberPackages/MicroweberUI/</directory>
+                </testsuite>
+
+                <testsuite name="Module">
+                    <directory>./src/MicroweberPackages/Module/</directory>
+                </testsuite>
+
+                <testsuite name="Multilanguage">
+                    <directory>./src/MicroweberPackages/Multilanguage/</directory>
+                </testsuite>
+
+                <testsuite name="Notification">
+                    <directory>./src/MicroweberPackages/Notification/</directory>
+                </testsuite>
+
+
+                <testsuite name="Offer">
+                    <directory>./src/MicroweberPackages/Offer/</directory>
+                </testsuite>
+
+                <testsuite name="OpenApi">
+                    <directory>./src/MicroweberPackages/OpenApi/</directory>
+                </testsuite>
+
+                <testsuite name="Option">
+                    <directory>./src/MicroweberPackages/Option/</directory>
+                </testsuite>
+
+                <testsuite name="Order">
+                    <directory>./src/MicroweberPackages/Order/</directory>
+                </testsuite>
+
+                <testsuite name="Package">
+                    <directory>./src/MicroweberPackages/Package/</directory>
+                </testsuite>
+
+                <testsuite name="Page">
+                    <directory>./src/MicroweberPackages/Page/</directory>
+                </testsuite>
+
+                <testsuite name="Pagination">
+                    <directory>./src/MicroweberPackages/Pagination/</directory>
+                </testsuite>
+
+                <testsuite name="Payment">
+                    <directory>./src/MicroweberPackages/Payment/</directory>
+                </testsuite>
+
+                <testsuite name="Post">
+                    <directory>./src/MicroweberPackages/Post/</directory>
+                </testsuite>
+
+                <testsuite name="Product">
+                    <directory>./src/MicroweberPackages/Product/</directory>
+                </testsuite>
+
+
+                <testsuite name="Queue">
+                    <directory>./src/MicroweberPackages/Queue/</directory>
+                </testsuite>
+
+                <testsuite name="Repository">
+                    <directory>./src/MicroweberPackages/Repository/</directory>
+                </testsuite>
+
+                <testsuite name="Role">
+                    <directory>./src/MicroweberPackages/Role/</directory>
+                </testsuite>
+
+                <testsuite name="Security">
+                    <directory>./src/MicroweberPackages/Security/</directory>
+                </testsuite>
+
+                <testsuite name="Shipping">
+                    <directory>./src/MicroweberPackages/Shipping/</directory>
+                </testsuite>
+
+                <testsuite name="Shop">
+                    <directory>./src/MicroweberPackages/Shop/</directory>
+                </testsuite>
+
+                <testsuite name="Tag">
+                    <directory>./src/MicroweberPackages/Tag/</directory>
+                </testsuite>
+
+                <testsuite name="Tax">
+                    <directory>./src/MicroweberPackages/Tax/</directory>
+                </testsuite>
+
+                <testsuite name="Template">
+                    <directory>./src/MicroweberPackages/Template/</directory>
+                </testsuite>
+
+                <testsuite name="Translation">
+                    <directory>./src/MicroweberPackages/Translation/</directory>
+                </testsuite>
+
+
+                <testsuite name="User">
+                    <directory>./src/MicroweberPackages/User/</directory>
+                </testsuite>
+
+                <testsuite name="Utils">
+                    <directory>./src/MicroweberPackages/Utils/</directory>
+                </testsuite>
+
+                <testsuite name="View">
+                    <directory>./src/MicroweberPackages/View/</directory>
+                </testsuite>
+        -->
+
+
+        <!--     <testsuite name="MicroweberTemplatesTests">
+                 <directory>./userfiles/templates/*/tests/</directory>
+                 <directory>./userfiles/templates/*/src/tests/</directory>
+                 <exclude>./userfiles/templates/*/src/tests/Browser/</exclude>
+                 <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
+             </testsuite>-->
 <!--
         <testsuite name="MicroweberCoreTestsAll">
             <directory>./src/MicroweberPackages/*/tests/</directory>
@@ -86,6 +361,8 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+        <ini name="display_errors" value="On" />
+        <ini name="display_startup_errors" value="On" />
 
     </php>
 

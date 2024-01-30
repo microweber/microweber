@@ -6,6 +6,7 @@ use MicroweberPackages\Core\tests\TestCase;
 
 class CheckoutControllerTest extends TestCase
 {
+    public static $content_id;
 
     public function testProcess()
     {
@@ -38,9 +39,6 @@ class CheckoutControllerTest extends TestCase
         $this->assertEquals(isset($cart_add['success']), true);
         $this->assertEquals(isset($cart_add['product']), true);
         $this->assertEquals($cart_add['product']['price'], 30);
-
-
-
 
 
     }
