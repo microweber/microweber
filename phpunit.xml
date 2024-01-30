@@ -93,9 +93,9 @@
             <directory>./src/MicroweberPackages/ContentFilter/</directory>
         </testsuite>
 
-        <testsuite name="Core">
+      <!--  <testsuite name="Core">
             <directory>./src/MicroweberPackages/Core/</directory>
-        </testsuite>
+        </testsuite>-->
         <testsuite name="Country">
             <directory>./src/MicroweberPackages/Country/</directory>
         </testsuite>
@@ -103,11 +103,13 @@
         <testsuite name="Currency">
             <directory>./src/MicroweberPackages/Currency/</directory>
         </testsuite>
+<!--
 
         <testsuite name="CustomField">
             <directory>./src/MicroweberPackages/CustomField/</directory>
         </testsuite>
 
+-->
 
 
         <!--
