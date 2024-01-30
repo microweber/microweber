@@ -893,14 +893,13 @@ class CartManager extends Crud
 
 
             $fileAttachments = [];
-            $target_path_name = '/attachments';
 
-            $target_path = media_uploads_path();
-            $target_path .= $target_path_name;
-            $target_path = normalize_path($target_path, 0);
-            if (!is_dir($target_path)) {
-                mkdir_recursive($target_path);
+            $attachmentsPath = media_uploads_path() . '/attachments/shop-cart/'.md5(app()->user_manager->session_id());
+            $attachmentsPath = normalize_path($attachmentsPath, 0);
+            if (!is_dir($attachmentsPath)) {
+                mkdir_recursive($attachmentsPath);
             }
+
             if ($customFieldsFileUploads and !empty($customFieldsFileUploads)) {
                 foreach ($customFieldsFileUploads as $fieldName => $file_up) {
 
@@ -954,26 +953,18 @@ class CartManager extends Crud
                     }
 
 
-                    $target_path_name = md5($file['name'] . time()) . $target_path_name;
-                    $targetFileName = $target_path_name . '/' . $file['name'];
-                    if (is_file($target_path . '/' . $file['name'])) {
-                        $targetFileName = $target_path_name . '/' . date('Ymd-His') . $file['name'];
+                    $attachmentFilename = $attachmentsPath . '/' . $file['name'];
+                    if (is_file($attachmentFilename)) { // if file with same name exists, add timestamp to the name
+                        $attachmentFilename = $attachmentsPath . '/' . date('Ymd-His') .'-'. $file['name'];
                     }
 
                     $fileContent = @file_get_contents($file['tmp_name']);
+
                     if ($fileContent) {
-                        $save = Storage::disk('media')->put($targetFileName, $fileContent);
+                        $save = file_put_contents($attachmentFilename, $fileContent);
                         if ($save) {
 
-                            $realPath = Storage::disk('media')->path($targetFileName);
-
-                            $fileMime = \Illuminate\Support\Facades\File::mimeType($realPath);
-                            $fileExtension = \Illuminate\Support\Facades\File::extension($realPath);
-                            $fileSize = \Illuminate\Support\Facades\File::size($realPath);
-
-                            $mediaFileUrl = Storage::disk('media')->url($targetFileName);
-                            $mediaFileUrl = str_replace(site_url(), '{SITE_URL}', $mediaFileUrl);
-
+                            $mediaFileUrl = dir2url($attachmentFilename);
                             $fileAttachments[$fieldName] = $mediaFileUrl;
                         }
 
