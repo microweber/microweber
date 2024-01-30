@@ -34,9 +34,13 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
        }
 
         parent::setUp();
+
+
     }
-
-
+    public function testTrue()
+    {
+        $this->assertTrue(true);
+    }
     public function install()
     {
 

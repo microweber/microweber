@@ -97,9 +97,9 @@ class ImportTest extends TestCase
     public function testImportZipFile() {
 
 
-        $template_folder = 'new-world';
-        if(!is_dir(userfiles_path() . '/templates/' . $template_folder)){
-            $template_folder = 'big';
+        $template_folder = 'big';
+        if(!is_dir(templates_dir(). $template_folder)){
+            $template_folder = 'new-world';
         }
 
         $sample = userfiles_path() . '/templates/'.$template_folder.'/mw_default_content.zip';
