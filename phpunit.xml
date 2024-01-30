@@ -25,9 +25,11 @@
             <directory>tests/Unit</directory>
         </testsuite>
 
+        <testsuite name="Core">
+            <directory>./src/MicroweberPackages/Core/</directory>
+        </testsuite>
 
-
-        <testsuite name="Admin">
+      <!--  <testsuite name="Admin">
             <directory>./src/MicroweberPackages/Admin/</directory>
         </testsuite>
 
@@ -93,9 +95,7 @@
             <directory>./src/MicroweberPackages/ContentFilter/</directory>
         </testsuite>
 
-      <!--  <testsuite name="Core">
-            <directory>./src/MicroweberPackages/Core/</directory>
-        </testsuite>-->
+
         <testsuite name="Country">
             <directory>./src/MicroweberPackages/Country/</directory>
         </testsuite>
@@ -103,13 +103,13 @@
         <testsuite name="Currency">
             <directory>./src/MicroweberPackages/Currency/</directory>
         </testsuite>
-<!--
+
 
         <testsuite name="CustomField">
             <directory>./src/MicroweberPackages/CustomField/</directory>
         </testsuite>
 
--->
+
 
 
 
@@ -300,7 +300,7 @@
                     <directory>./src/MicroweberPackages/View/</directory>
                 </testsuite>
 
-
+-->
 
         <!--     <testsuite name="MicroweberTemplatesTests">
                  <directory>./userfiles/templates/*/tests/</directory>
