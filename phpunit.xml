@@ -297,13 +297,13 @@
                 <testsuite name="Utils">
                     <directory>./src/MicroweberPackages/Utils/</directory>
                 </testsuite>
-<!--
+
 
                 <testsuite name="View">
                     <directory>./src/MicroweberPackages/View/</directory>
                 </testsuite>
 
--->
+
 
         <!--     <testsuite name="MicroweberTemplatesTests">
                  <directory>./userfiles/templates/*/tests/</directory>

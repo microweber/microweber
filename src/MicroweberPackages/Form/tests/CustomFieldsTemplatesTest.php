@@ -3,9 +3,7 @@
 namespace MicroweberPackages\Form\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-/**
- * @runTestsInSeparateProcesses
- */
+
 class CustomFieldsTemplatesTest extends TestCase
 {
     public $template_name = 'default';

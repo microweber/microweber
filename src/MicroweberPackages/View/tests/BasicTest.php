@@ -5,8 +5,10 @@ use MicroweberPackages\Core\tests\TestCase;
 
 class BasicTest extends TestCase
 {
-    public function testBasic()
+    public function testConstructorThrowsExceptionForNonexistentFile()
     {
-        $this->assertTrue(true);
+        $this->expectException(\Exception::class);
+
+        new \MicroweberPackages\View\View('/path/to/nonexistent/file');
     }
 }
