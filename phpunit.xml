@@ -6,7 +6,10 @@
          stopOnSkipped="false"
          stopOnRisky="false"
          stopOnIncomplete="false"
+         failOnWarning="false"
 
+         beStrictAboutOutputDuringTests="false"
+         beStrictAboutChangesToGlobalState="false"
          beStrictAboutTestsThatDoNotTestAnything="false"
          colors="true"
 >
@@ -67,6 +70,8 @@
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+
     </php>
 
 
