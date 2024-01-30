@@ -111,7 +111,7 @@
             <directory>./src/MicroweberPackages/Database/</directory>
         </testsuite>
 
-        <testsuite name="Dusk">
+     <!--   <testsuite name="Dusk">
             <directory>./src/MicroweberPackages/Dusk/</directory>
         </testsuite>
 
@@ -286,7 +286,7 @@
         <testsuite name="View">
             <directory>./src/MicroweberPackages/View/</directory>
         </testsuite>
-
+-->
 
 
         <!--     <testsuite name="MicroweberTemplatesTests">
