@@ -29,7 +29,7 @@
             <directory>./src/MicroweberPackages/Core/</directory>
         </testsuite>
 
-      <!--  <testsuite name="Admin">
+        <testsuite name="Admin">
             <directory>./src/MicroweberPackages/Admin/</directory>
         </testsuite>
 
@@ -300,7 +300,6 @@
                     <directory>./src/MicroweberPackages/View/</directory>
                 </testsuite>
 
--->
 
         <!--     <testsuite name="MicroweberTemplatesTests">
                  <directory>./userfiles/templates/*/tests/</directory>
