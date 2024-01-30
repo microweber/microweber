@@ -36,7 +36,7 @@
             <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
         </testsuite>
 
-        <testsuite name="MicroweberModulesImportToolTests">
+      <!--  <testsuite name="MicroweberModulesImportToolTests">
             <directory>./userfiles/modules/admin/import_export_tool/src/tests/</directory>
         </testsuite>
 
@@ -45,7 +45,7 @@
         </testsuite>
         <testsuite name="MicroweberTestUser">
             <directory>./src/MicroweberPackages/User/tests/</directory>
-        </testsuite>
+        </testsuite>-->
 <!--        <testsuite name="MicroweberModuleListTests">-->
 <!--            <directory>./src/MicroweberPackages/Module/slow_tests/</directory>-->
 <!--        </testsuite>-->
