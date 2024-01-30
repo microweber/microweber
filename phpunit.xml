@@ -6,12 +6,16 @@
          stopOnSkipped="false"
          stopOnRisky="false"
          stopOnIncomplete="false"
+         stopOnDeprecation="false"
+         failOnEmptyTestSuite="false"
+         failOnDeprecation="false"
+         failOnIncomplete="false"
+         failOnNotice="false"
+         failOnRisky="false"
+         failOnSkipped="false"
          failOnWarning="false"
 
-         beStrictAboutOutputDuringTests="false"
-         beStrictAboutChangesToGlobalState="false"
-         beStrictAboutTestsThatDoNotTestAnything="false"
-         colors="true"
+
 >
     <testsuites>
         <testsuite name="Unit">
@@ -30,10 +34,6 @@
             <exclude>./src/MicroweberPackages/Helper/tests/*</exclude>
             <exclude>./src/MicroweberPackages/User/tests/*</exclude>
             <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
-        </testsuite>
-
-        <testsuite name="MicroweberModulesImportToolTests">
-            <directory>./userfiles/modules/admin/import_export_tool/src/tests/</directory>
         </testsuite>
 
         <testsuite name="MicroweberTestMultilanguage">

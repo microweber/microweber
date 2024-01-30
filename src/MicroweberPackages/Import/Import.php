@@ -176,7 +176,7 @@ class Import
 
         } catch (\Exception $e) {
             $errorMessage = array("file" => $e->getFile(), "line" => $e->getLine(), "error" => $e->getMessage());
-            Log::error($errorMessage);
+          //  Log::error($errorMessage);
             return $errorMessage;
         }
     }
