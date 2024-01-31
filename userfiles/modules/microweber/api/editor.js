@@ -347,7 +347,7 @@ var MWEditor = function (options) {
 
 
                 let focusNode = scope.api.elementNode(scope.getSelection().focusNode);
-                /// focusNode = scope.getActualTarget(focusNode)
+                let focusActualTarget = scope.getActualTarget(focusNode)
 
                 var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(focusNode, ['safe-mode', 'regular-mode']);
 
@@ -378,7 +378,8 @@ var MWEditor = function (options) {
                     }
 
                     setTimeout(focusNode => {
-                        if(focusNode) {
+
+                        const clean = focusNode => {
                             var parent = focusNode.parentNode;
                             if(parent && parent.children && parent.children.length > 1) {
                                 Array.from(parent.children).forEach(node => {
@@ -402,6 +403,13 @@ var MWEditor = function (options) {
                                     }
                                 })
                             }
+                        }
+
+                        if(focusNode) {
+                            clean(focusNode)
+                        }
+                        if(focusActualTarget) {
+                            clean(focusActualTarget)
                         }
                     },  30, focusNode)
 
