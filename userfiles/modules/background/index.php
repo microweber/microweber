@@ -17,6 +17,10 @@ if ($background_image_option) {
     $background_image = $background_image_option;
 }
 
+if($background_image == 'none'){
+    $background_image = '';
+}
+
 $background_image_attr_style = '';
 if ($background_image) {
     $style_attributes[] = 'background-image: url(' . $background_image . ')';
@@ -39,7 +43,9 @@ $background_video_option = get_option('data-background-video', $params['id']);
 if ($background_video_option) {
     $video_url = $background_video_option;
 }
-
+if ($video_url == 'none') {
+    $video_url = '';
+}
 
 $video_html = '';
 $video_attr_parent = '';

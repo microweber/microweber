@@ -115,6 +115,8 @@
                     const {bg, bgOverlay, bgNode, target} = getTargets();
                     videoPicker.setFile(null);
                     mw.top().app.layoutBackground.setBackgroundImage(bgNode, picker.file);
+                    mw.top().app.layoutBackground.setBackgroundVideo(bgNode, 'none');
+
                     mw.top().app.registerChange(mw.top().app.liveEdit.handles.get('layout').getTarget());
                 })
 
@@ -122,6 +124,11 @@
 
                 videoPicker.on('change', () => {
                     const {bg, bgOverlay, bgNode, target} = getTargets();
+
+
+
+                    mw.top().app.layoutBackground.setBackgroundImage(bgNode,  'none');
+
                     mw.top().app.layoutBackground.setBackgroundVideo(bgNode, videoPicker.file);
                     picker.setFile(null);
                     mw.top().app.registerChange(mw.top().app.liveEdit.handles.get('layout').getTarget());

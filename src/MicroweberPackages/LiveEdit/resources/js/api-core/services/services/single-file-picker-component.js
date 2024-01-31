@@ -169,6 +169,8 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
     }
 
     removeFile() {
+
+
         const previewNodes = this.root.querySelectorAll('[data-fpc-action="preview"]');
         this.file = null;
         this.root.querySelectorAll('[data-fpc-action="preview"]');
