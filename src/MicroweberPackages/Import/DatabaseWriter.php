@@ -56,11 +56,8 @@ class DatabaseWriter
      */
     public $deleteOldCssFiles = false;
 
-    /**
-     * The content from backup file
-     * @var string
-     */
-    public $content;
+
+    public $content = [];
 
     public $logger;
 
@@ -346,6 +343,19 @@ class DatabaseWriter
         // All db tables
         $topItemsForSave = array();
         $otherItemsForSave = array();
+
+
+        $tables_content = $this->content;
+        $tables_last = [];
+
+        //users table must be last
+        if(isset($tables_content['users'])){
+            $tables_last['users'] = $tables_content['users'];
+            unset($tables_content['users']);
+        }
+        $tables_content = array_merge($tables_content, $tables_last);
+
+
         foreach ($this->content as $table => $items) {
 
             if (!\Schema::hasTable($table)) {
