@@ -36,7 +36,8 @@ export class BGImageHandles {
                                 return
                             }
                             url = url.toString();
-                            target.style.backgroundImage = `url(${url})`; ;
+
+                            mw.top().app.cssEditor.temp(target, 'background-image', `url(${url})`);
                             mw.app.liveEdit.play();
                             dialog.remove();
                             mw.top().app.registerChange(target);

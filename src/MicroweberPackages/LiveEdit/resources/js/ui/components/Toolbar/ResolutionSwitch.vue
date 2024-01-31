@@ -35,7 +35,10 @@ export default {
                 if (typeof width === 'number') {
                     width = width + 'px'
                 }
-                mw.app.canvas.getFrame().style.width = width;
+                var _frame = mw.app.canvas.getFrame();
+                _frame.classList.add('resizing');
+                _frame.style.width = width;
+                setTimeout(() => _frame.classList.remove('resizing'), 400)
                 mw.app.liveEdit.handles.hide();
                 mw.top().app.resolutionMode = key;
 

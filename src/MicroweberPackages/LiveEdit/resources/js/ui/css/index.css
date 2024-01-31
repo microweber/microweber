@@ -41,10 +41,14 @@ a {
     overflow: hidden;
 }
 
+#live-editor-frame.resizing{
+    transition: all var(--toolbar-height-animation-speed);
+}
 #live-editor-frame {
     width: 100%;
     height: 100%;
-    transition: all var(--toolbar-height-animation-speed);
+    min-width: 340px;
+    resize: horizontal;
 }
 
 #toolbar {

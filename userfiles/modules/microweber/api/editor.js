@@ -4,8 +4,6 @@
 
 
 
-
-
 var EditorPredefinedControls = {
     'default': [
         [ 'bold', 'italic', 'underline' ],
@@ -1443,6 +1441,9 @@ var MWEditor = function (options) {
                 }
             });
 
+
+
+
             scope.$editArea.on('paste input', async event => {
                 var clipboardData, pastedData;
                 var e = event.originalEvent || event;
@@ -1453,8 +1454,16 @@ var MWEditor = function (options) {
                     const edoc = e.target.ownerDocument;
                     const ta = edoc.createElement('div');
                     ta.contentEditable = true;
+                    // e.preventDefault();
 
                     const off = scope.api.getSelection().getRangeAt(0).getClientRects()[0];
+/*
+                    var range = mw.top().app.canvas.getWindow().rangy.getSelection().getRangeAt(0);
+                    console.log(range)
+
+                    range.deleteContents()
+                    range.surroundContents(document.createElement('span'))*/
+
 
                     if(!!off) {
                         // preventScroll not working on chrome 117
@@ -1478,6 +1487,7 @@ var MWEditor = function (options) {
                                 const safeModeAllowedTags = 'a,b,br,del,em,i,font,s,samp,small,span,strong,sub,summary,sup,time,u,var,wbr';
                                 const noBlocksInThese = 'p,h1,h2,h3,h4,h5,h6';
 
+
                                 if(plainTextNodes.includes(e.target.nodeName)){
                                     content = ta.textContent;
 
@@ -1492,7 +1502,18 @@ var MWEditor = function (options) {
                                     content = ta.innerHTML;
                                 } else {
 
+
                                     let all = ta.querySelectorAll(`*:not(${allowedTags})`);
+
+
+
+                                    while (ta.querySelectorAll(noBlocksInThese).length) {
+                                        var first = ta.querySelector(noBlocksInThese);
+                                        if(first.id) {
+                                            first.id = mw.id('element')
+                                        }
+                                        mw.tools.setTag(first, 'span')
+                                    }
 
                                     ta.querySelectorAll('[style]').forEach(node => node.removeAttribute('style'))
                                     content = ta.innerHTML;
@@ -1500,27 +1521,39 @@ var MWEditor = function (options) {
 
 
 
-
                             if(!!content) {
-                               scope.api.insertHTML(content);
+                               // scope.api.insertHTML(content);
+                               var range = scope.api.getSelection().getRangeAt(0);
+                               var doc = this.actionWindow.document.createRange().createContextualFragment(content);
+                               range.deleteContents();
+                               range.insertNode(doc);
+                               var txt = this.actionWindow.document.createTextNode('\u200B')
+                               range.insertNode(txt);
+                               range.collapse(false);
                             }
 
 
-
-
-
-
                             mw.element(ta).remove();
-                            scope.$editArea._pasting = false;
-
 
                         })
                     } else {
-                        console.warn('Selection is not present.')
+                        console.warn('Selection is not present.');
+
                     }
 
 
+                    setTimeout(() => {
+                        var all =  scope.api.elementNode(scope.getSelection().focusNode).parentNode.querySelectorAll('*[style*="var"]');
 
+                         all.forEach(node => {
+                             if (node.style) {
+                                 if (node.isContentEditable) {
+                                     [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
+                                 }
+                             }
+                         });
+                         scope.$editArea._pasting = false;
+                    }, 1)
 
                 }
 

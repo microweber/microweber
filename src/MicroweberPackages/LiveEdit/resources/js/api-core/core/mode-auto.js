@@ -62,7 +62,7 @@ const _isElementHandle = (is, element, elementClass) => {
     if(!element || !elementClass) {
         return
     }
- 
+
 
     if (is) {
         element.classList.add(elementClass);
@@ -82,7 +82,7 @@ export const ModeAuto = (scope) => {
     } = scope.settings;
     const root = scope.root;
 
- 
+
     var selector = '*';
     var bgHolders = root.querySelectorAll('.' + editClass + '.' + backgroundImageHolder + ', .' + editClass + ' .' + backgroundImageHolder + ', .'+editClass+'[style*="background-image"], .'+editClass+' [style*="background-image"]');
     var noEditModules = root.querySelectorAll('.' + moduleClass + scope.settings.unEditableModules.join(',.' + moduleClass));
@@ -93,7 +93,7 @@ export const ModeAuto = (scope) => {
         if( scope.elementAnalyzer.isInEdit(curr) ){
             _isElementHandle(scope.canBeElement(curr), curr, elementClass)
             if(!curr.style.backgroundImage) {
-                curr.style.backgroundImage = 'none';
+                // curr.style.backgroundImage = 'none';
             }
         }
     }
@@ -119,7 +119,7 @@ export const ModeAuto = (scope) => {
         for( ; i2a<all.length; i2a++) {
             if(!all[i2a].classList.contains(moduleClass)){
                 if(scope.elementAnalyzer.isInEdit(all[i2a])){
- 
+
                     _isElementHandle(scope.canBeElement(all[i2a]), all[i2a], elementClass)
                 }
             }

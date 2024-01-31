@@ -172,7 +172,7 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
 
     shouldShowEditImageButton(element) {
         var selfVisible = false;
-        if (element.nodeName === 'IMG') {
+        if (element.nodeName === 'IMG' && element.src &&  element.src.toLowerCase().indexOf('.svg') === -1) {
             selfVisible = true;
         }
         return selfVisible;
