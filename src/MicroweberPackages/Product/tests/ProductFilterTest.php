@@ -4,8 +4,10 @@
 namespace MicroweberPackages\Product\tests;
 
 
+use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\User\Models\User;
@@ -18,6 +20,8 @@ class ProductFilterTest extends TestCase
     {
 
         $clean = \MicroweberPackages\Product\Models\Product::truncate();
+        $clean = Order::truncate();
+        $clean = Cart::truncate();
 
         $newShopPage = new Page();
         $newShopPage->title = 'my-new-shop-page-for-filter-test-' . uniqid();

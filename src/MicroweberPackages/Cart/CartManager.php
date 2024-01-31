@@ -12,6 +12,8 @@
 namespace MicroweberPackages\Cart;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use MicroweberPackages\Cart\Events\AddToCartEvent;
 use MicroweberPackages\Cart\Events\RemoveFromCartEvent;
 use MicroweberPackages\Cart\Models\Cart;
@@ -824,6 +826,161 @@ class CartManager extends Crud
             $add = mw()->format->clean_xss($add);
             $table = 'cart';
 
+
+            $fieldRules = [];
+            $files_utils = new \MicroweberPackages\Utils\System\Files();
+
+            $inputFields = [];
+            $fieldsValidationRules = [];
+            $customFieldsFileUploads = [];
+            foreach($content_custom_fields as $cf){
+                if (!$add) {
+                    continue;
+                }
+                if (isset($add[$cf['name_key']])) {
+                    $inputFields[] = $cf['name_key'];
+                }
+                $customFieldRules = [];
+                $customFieldRules[] = 'max:500';
+                if ((isset($cf['required']) and $cf['required']) or (isset($cf['options']['required']) && $cf['options']['required'] == 1)) {
+                    $customFieldRules[] = 'required';
+                }
+                if(isset($cf['type']) and $cf['type'] == 'upload') {
+
+                    $mimeTypes = [];
+                    if (isset($cf['options']['file_types']) && !empty($cf['options']['file_types'])) {
+                        foreach ($cf['options']['file_types'] as $optionFileTypes) {
+                            if (!empty($optionFileTypes)) {
+                                $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
+                                $mimeTypesArray = explode(',', $mimeTypesString);
+                                $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
+                            }
+                        }
+                    }
+
+                    if (empty($mimeTypes)) {
+                        $mimeTypes = $files_utils->get_allowed_files_extensions_for_upload('images');
+                    }
+
+                    if (!empty($mimeTypes) && is_array($mimeTypes)) {
+                        $mimeTypes = implode(',', $mimeTypes);
+                    }
+
+                    $customFieldRules[] = 'mimes:' . $mimeTypes;
+
+                    $customFieldsFileUploads[$cf['name_key']] = true;
+                }
+                $fieldsValidationRules[$cf['name_key']] = implode('|', $customFieldRules);
+            }
+
+            $validationErrorsReturn = [];
+            if (!empty($fieldsValidationRules)) {
+                $validator = Validator::make(request()->only($inputFields), $fieldsValidationRules);
+                if ($validator->fails()) {
+                    $validatorMessages = false;
+                    foreach ($validator->messages()->toArray() as $inputFieldErrors) {
+                        $validatorMessages = implode("\n", $inputFieldErrors);
+                    }
+                    $validationErrorsReturn = array(
+                        'form_errors' => $validator->messages()->toArray(),
+                        'error' => $validatorMessages
+                    );
+                }
+            }
+            if (!empty($validationErrorsReturn)) {
+                return $validationErrorsReturn;
+            }
+
+
+            $fileAttachments = [];
+
+            $attachmentsPath = media_uploads_path() . '/attachments/shop-cart/'.md5(app()->user_manager->session_id());
+            $attachmentsPath = normalize_path($attachmentsPath, 0);
+            if (!is_dir($attachmentsPath)) {
+                mkdir_recursive($attachmentsPath);
+            }
+
+            if ($customFieldsFileUploads and !empty($customFieldsFileUploads)) {
+                foreach ($customFieldsFileUploads as $fieldName => $file_up) {
+
+                    if (!isset($_FILES[$fieldName])) {
+                        continue;
+                    }
+
+                    $file = $_FILES[$fieldName];
+
+                    if (!is_array($file)) {
+                        continue;
+                    }
+                    if (!isset($file['name'])) {
+                        continue;
+                    }
+
+                    if ($files_utils->is_dangerous_file($file['full_path'])) {
+                        return array(
+                            'form_errors' => array(
+                                $fieldName => 'This file is not allowed to be uploaded'
+                            ),
+                            'error' => 'This file is not allowed to be uploaded'
+                        );
+
+                    }
+                    $filePath = $file['tmp_name'];
+                    $ext = get_file_extension($file['name']);
+                    if ($ext === 'svg') {
+                        $valid = false;
+                        if (is_file($filePath)) {
+                            $sanitizer = new \enshrined\svgSanitize\Sanitizer();
+                            // Load the dirty svg
+                            $dirtySVG = file_get_contents($filePath);
+                            // Pass it to the sanitizer and get it back clean
+                            $valid = $files_utils->check_if_svg_is_valid($dirtySVG);
+
+                            if (!$valid) {
+                                @unlink($filePath);
+
+                                return array(
+                                    'form_errors' => array(
+                                        $fieldName => 'This file is not because it contains invalid SVG code'
+                                    ),
+                                    'error' => 'This file is not allowed because it contains invalid SVG code'
+                                );
+
+                            }
+
+                        }
+
+                    }
+
+
+                    $attachmentFilename = $attachmentsPath . '/' . $file['name'];
+                    if (is_file($attachmentFilename)) { // if file with same name exists, add timestamp to the name
+                        $attachmentFilename = $attachmentsPath . '/' . date('Ymd-His') .'-'. $file['name'];
+                    }
+
+                    $fileContent = @file_get_contents($file['tmp_name']);
+
+                    if ($fileContent) {
+                        $save = file_put_contents($attachmentFilename, $fileContent);
+                        if ($save) {
+
+                            $mediaFileUrl = dir2url($attachmentFilename);
+                            $fileAttachments[$fieldName] = $mediaFileUrl;
+                        }
+
+                    } else {
+                        return array(
+                            'error' => _e('Invalid file.', true)
+                        );
+                    }
+                }
+            }
+
+            if (!empty($fileAttachments)) {
+                foreach ($fileAttachments as $customFieldKey=>$fileAttachment) {
+                    $add[$customFieldKey] = $fileAttachment;
+                }
+            }
 
             $cart = array();
             $cart['rel_type'] = trim($data['for']);

@@ -1,12 +1,12 @@
 name: PHP Coverage Tests With Xdebug
+
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 18 * * *' # This runs the workflow every day at 6 PM (18:00) UTC
+  push:
+
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   main-coveralls:
@@ -96,6 +96,34 @@ jobs:
         flag-name: run-${{ join(matrix.*, '-') }}
         parallel: true
         files: tests/coverages/dusk-clover.xml
+
+
+    - name: Upload Screenshots
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: screenshots
+        path: tests/Browser/screenshots
+    - name: Upload Console Logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: console
+        path: tests/Browser/console
+    - name: Upload Laravel Storage Logs
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: storage-logs
+        path: storage/logs
+    - name: Upload Laravel config
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: config
+        path: config
+
+
   finish:
     needs: dusk-coveralls
     if: ${{ always() }}

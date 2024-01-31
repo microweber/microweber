@@ -2,8 +2,7 @@
 
 namespace MicroweberPackages\Core\tests;
 
-use Config;
-
+use Illuminate\Support\Facades\Config;
 class TestConfigFile extends TestCase
 {
     public function testSomethingIsTrue()

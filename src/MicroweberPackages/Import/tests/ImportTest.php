@@ -12,7 +12,9 @@ use MicroweberPackages\Post\Models\Post;
  * @author Bobi Microweber
  * @command php phpunit.phar --filter Import
  */
-
+/**
+ * @runTestsInSeparateProcesses
+ */
 class ImportTest extends TestCase
 {
 
@@ -48,6 +50,7 @@ class ImportTest extends TestCase
         $manager = new Import();
         $manager->setSessionId($sessionId);
         $manager->setFile($sample);
+
         $manager->setBatchImporting(false);
 
         $importStatus = $manager->start();
@@ -94,9 +97,9 @@ class ImportTest extends TestCase
     public function testImportZipFile() {
 
 
-        $template_folder = 'new-world';
-        if(!is_dir(userfiles_path() . '/templates/' . $template_folder)){
-            $template_folder = 'big';
+        $template_folder = 'big';
+        if(!is_dir(templates_dir(). $template_folder)){
+            $template_folder = 'new-world';
         }
 
         $sample = userfiles_path() . '/templates/'.$template_folder.'/mw_default_content.zip';

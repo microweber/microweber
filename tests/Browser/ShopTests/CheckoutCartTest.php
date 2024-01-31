@@ -3,6 +3,7 @@
 namespace Tests\Browser\ShopTests;
 
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Order\Models\Order;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
@@ -20,16 +21,13 @@ class CheckoutCartTest extends ShopDuskTestCase
         $siteUrl = $this->siteUrl;
 
 
-
-
-
         $this->browse(function (Browser $browser) use ($siteUrl) {
 
             $uniqueId = time();
 
             $browser->visit($siteUrl);
 
-            $this->_browserToShopAndAddTocart($browser);
+            $addedProducts = $this->_browserToShopAndAddTocart($browser);
 
             $this->_browserToCheckoutAndFillShippingInfo($browser, $uniqueId);
 
@@ -73,6 +71,13 @@ class CheckoutCartTest extends ShopDuskTestCase
             $this->assertEquals($findOrder->state, 'Sofia' . $uniqueId);
             $this->assertEquals($findOrder->zip, '1000' . $uniqueId);
             $this->assertEquals($findOrder->address, 'Vitosha 143' . $uniqueId);
+
+            $findCartOrder = Cart::where('order_id', $findOrder->id)->first();
+
+            foreach ($addedProducts as $addedProduct) {
+                $findCartOrderProduct = $findCartOrder->products->where('id', $addedProduct['id'])->first();
+                $this->assertNotEmpty($findCartOrderProduct);
+            }
         });
     }
 
@@ -151,6 +156,7 @@ class CheckoutCartTest extends ShopDuskTestCase
             $this->assertNull($findOrder->is_paid);
             $this->assertNotNull($findOrder->customer_id);
             $this->assertNotNull($findOrder->session_id);
+
 
         });
 

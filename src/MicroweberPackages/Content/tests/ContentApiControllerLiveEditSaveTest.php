@@ -8,7 +8,9 @@ use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
-
+/**
+ * @runTestsInSeparateProcesses
+ */
 class ContentApiControllerLiveEditSaveTest extends TestCase
 {
     public function testSaveContentOnPageLiveEditSingle()

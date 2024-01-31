@@ -336,6 +336,10 @@ class UserManagerTest extends TestCase
         $this->assertEquals(!isset($user_array['password_reset_hash']), true);
 
 
+        $shotUsername  = get_username_short($user->id);
+        $this->assertEquals('bo',$shotUsername);
+
+
     }
 
     public function testUserRegistrationWithXSS()

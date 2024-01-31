@@ -98,6 +98,8 @@ class ShopDuskTestCase extends DuskTestCase
             'subtype' => 'product',
             'custom_fields_advanced' => array(
                 array('type'=>'dropdown','name'=>'Color', 'value' => array('Purple','Blue')),
+                array('type'=>'upload','name'=>'User image', 'required' => 'true'),
+                array('type'=>'upload','name'=>'Company logo', 'required' => 'true'),
                 array('type'=>'price','name'=>'Price', 'value' => '9.99'),
 
             ),
@@ -108,7 +110,9 @@ class ShopDuskTestCase extends DuskTestCase
         $browser->pause(500);
         $link = content_link($saved_id);
 
-        $browser->visit($link );
+        $addedProducts = get_content('id=' . $saved_id);
+
+        $browser->visit($link);
 
 
 //        $browser->waitForText('Shop');
@@ -125,7 +129,24 @@ class ShopDuskTestCase extends DuskTestCase
         //
         $browser->script("$('html, body').animate({ scrollTop: $('.price button').first().offset().top - 160 }, 0);");
         $browser->pause(500);
+
+
+        // User image attachment
+        $userImagePath = storage_path() . '/user-image.jpg';
+        $browser->driver->takeScreenshot($userImagePath);
+        $browser->pause(800);
+        $browser->attach('user-image', $userImagePath)
+            ->pause(3000);
+
+        // Company logo attachment
+        $userImagePath = storage_path() . '/company-logo.jpg';
+        $browser->driver->takeScreenshot($userImagePath);
+        $browser->pause(800);
+        $browser->attach('company-logo', $userImagePath)
+            ->pause(3000);
+
         $browser->click('.price button');
+
         $browser->pause(500);
         $browser->waitForText('Continue shopping',30);
         //   $browser->assertSee('Proceed to Checkout');
@@ -134,6 +155,7 @@ class ShopDuskTestCase extends DuskTestCase
         $browser->clickLink('Proceed to Checkout');
         $browser->pause(3000);
 
+        return $addedProducts;
     }
 
 

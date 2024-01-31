@@ -28,9 +28,6 @@ class CustomFieldsTemplatesTest extends TestCase
 
 
 
-        file_put_contents(storage_path('custom_fields.txt'), mw()->template->dir()."\n\n"."\nn\========", FILE_APPEND);
-
-
         // Make new custom template
         $templateCustomFields = mw()->template->dir()
                     . 'modules' . DS
