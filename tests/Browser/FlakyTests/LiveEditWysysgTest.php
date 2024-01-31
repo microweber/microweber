@@ -159,17 +159,38 @@ class LiveEditWysysgTest extends DuskTestCase
             $browser->pause(100);
 
 
-//            $this->assertEquals($output[0], true, 'The element must have one font child');
-//
-//            $browser->pause(100);
-//
-//            $browser->within(new LiveEditSaveButton(), function ($browser) {
-//                $browser->clickSaveButton($browser);
-//            });
-//            $browser->switchFrameDefault();
-//
-//            $browser->visit($link . '?editmode=n');
-//            $browser->pause(1000);
+            $this->assertEquals($output[0], true, 'The element must have one font child');
+
+            $browser->pause(100);
+
+            $browser->within(new LiveEditSaveButton(), function ($browser) {
+                $browser->clickSaveButton($browser);
+            });
+            $browser->switchFrameDefault();
+
+            $browser->visit($link . '?editmode=n');
+            $browser->pause(1000);
+
+
+            $output = $browser->script("
+            var  isTrue = document.querySelectorAll('[id=\"my-text-parent\"]').length === 1;
+            return isTrue;
+            ");
+            $this->assertEquals($output[0], true, 'The element has only 1 id');
+            $output = $browser->script("
+            var  isTrue = document.querySelectorAll('[id=\"my-text-here\"]').length === 1;
+            return isTrue;
+            ");
+            $this->assertEquals($output[0], true, 'The element must only have 1 id');
+
+
+            $output = $browser->script("
+            var  isTrue = document.getElementById('my-text-parent').nextElementSibling.nodeName === document.getElementById('my-text-parent').nodeName;
+            return isTrue;
+            ");
+            $this->assertEquals($output[0], true, 'Next element is not the same as the parent');
+
+
 
         });
     }
