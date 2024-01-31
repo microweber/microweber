@@ -580,7 +580,10 @@ MWEditor.controllers = {
                         if(rootScope.settings.editMode === 'liveedit') {
                             mw.top().app.cssEditor.temp(actionTarget, 'font-weight', weight);
                         } else {
-                            const edit = mw.tools.firstParentOrCurrentWithClass(node, 'edit') || scope.$editArea[0];
+
+
+
+                            const edit = mw.tools.firstParentOrCurrentWithClass(node, 'edit') || (rootScope.$editArea ? rootScope.$editArea[0] : false);
 
                             rootScope.state.record({
                                 target: edit,
