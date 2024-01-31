@@ -12,7 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix Must be able to delete email messages
 - Fix Live edit menu is missing on small screen
 - Fix Layout background image is not deleted when 
-- Fix Element style editow was not opening 
+- Fix Element style editor was not opening 
 - [See all changes...](https://github.com/microweber/microweber/compare/2.0.9...2.0.10 "")
 
 
