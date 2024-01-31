@@ -383,7 +383,10 @@ var MWEditor = function (options) {
                             if(parent && parent.children && parent.children.length > 1) {
                                 Array.from(parent.children).forEach(node => {
                                     if(node && node.id && node.nextElementSibling && node.nextElementSibling.id === node.id) {
-                                        node.nextElementSibling.id = mw.id()
+                                        node.nextElementSibling.id = mw.id();
+                                        node.nextElementSibling.querySelectorAll('[id]').forEach(node => {
+                                            node.id = mw.id();
+                                        })
                                     }
                                 })
                             }
