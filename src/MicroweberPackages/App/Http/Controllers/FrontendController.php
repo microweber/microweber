@@ -179,6 +179,10 @@ class FrontendController extends Controller
         $is_editmode_iframe = false;
         if($is_editmode == 'iframe'){
             $is_editmode_iframe = true;
+
+            app()->user_manager->session_set('editmode', true);
+            app()->user_manager->session_set('back_to_editmode', false);
+            app()->user_manager->session_set('editmode_iframe', true);
         }
 
         $is_no_editmode = app()->url_manager->param('no_editmode');
@@ -218,6 +222,8 @@ class FrontendController extends Controller
                     //app()->user_manager->session_set('editmode_iframe', false);
 
                     return app()->url_manager->redirect(app()->url_manager->site_url($page_url));
+                } else if ($is_editmode == 'iframe') {
+
                 } else {
                     $editmode_sess = app()->user_manager->session_get('editmode');
                     $page_url = app()->url_manager->param_unset('editmode', $page_url);
@@ -229,8 +235,10 @@ class FrontendController extends Controller
                             $liveEditUrl = admin_url() . 'live-edit';
                             $liveEditUrl = $liveEditUrl .= '?url=' . site_url($page_url);
 
-
-                           return redirect($liveEditUrl);
+                            app()->user_manager->session_set('editmode', true);
+                            app()->user_manager->session_set('back_to_editmode', false);
+                            app()->user_manager->session_set('editmode_iframe', true);
+                            return redirect($liveEditUrl);
                         //    return app()->url_manager->redirect($liveEditUrl);
 
                         }
@@ -245,6 +253,7 @@ class FrontendController extends Controller
                         //    $is_editmode = false;
                            // dd($page_url);
                         }
+                        dd(2222);
                         return redirect(app()->url_manager->site_url($page_url));
 
                      //   return app()->url_manager->redirect(app()->url_manager->site_url($page_url));
