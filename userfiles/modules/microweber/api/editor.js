@@ -347,13 +347,16 @@ var MWEditor = function (options) {
 
 
                 let focusNode = scope.api.elementNode(scope.getSelection().focusNode);
-                focusNode = scope.getActualTarget(focusNode)
+                /// focusNode = scope.getActualTarget(focusNode)
 
                 var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(focusNode, ['safe-mode', 'regular-mode']);
 
-
+                focusNode.appendChild(document.createTextNode('\u200B'));
+                focusNode.focus();
+                focusNode.appendChild(document.createTextNode('\u200B'));
+                console.log(focusNode)
                 if(!isSafeMode) {
-                    focusNode.appendChild(document.createTextNode('\u200B'));
+
 
                     if(focusNode && focusNode.contentEditable === 'true' && focusNode.parentNode) {
 
