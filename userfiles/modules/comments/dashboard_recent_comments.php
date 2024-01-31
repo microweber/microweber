@@ -1,4 +1,9 @@
 <?php
+
+if(!class_exists('\MicroweberPackages\Modules\Comments\Models\Comment')){
+    return;
+}
+
 $commentsCount = \MicroweberPackages\Modules\Comments\Models\Comment::forAdminPreview()->count();
 
 ?>

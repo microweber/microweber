@@ -24,6 +24,9 @@ export class LiveEditLayoutBackground extends BaseComponent {
         mw.app.registerUndoState(node);
         mw.app.registerAskUserToStay(true);
         let bg
+
+
+
         if (!url) {
             bg = 'none'
         } else {
@@ -57,7 +60,7 @@ export class LiveEditLayoutBackground extends BaseComponent {
                     group: isInsideBackgroundModule.id,
                     key: 'data-background-video',
                     module: 'background',
-                    value: ''
+                    value: 'none'
                 };
                 mw.top().options.tempOption(isInsideBackgroundModule,optionsVideo);
 
@@ -106,7 +109,7 @@ export class LiveEditLayoutBackground extends BaseComponent {
                     group: isInsideBackgroundModule.id,
                     key: 'data-background-image',
                     module: 'background',
-                    value: ''
+                    value: 'none'
                 };
 
                 mw.top().options.tempOption(isInsideBackgroundModule, optionsBg);
