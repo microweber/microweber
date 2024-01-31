@@ -1521,13 +1521,15 @@ var MWEditor = function (options) {
 
 
 
+
                             if(!!content) {
+                                content = content.trim();
                                // scope.api.insertHTML(content);
                                var range = scope.api.getSelection().getRangeAt(0);
                                var doc = this.actionWindow.document.createRange().createContextualFragment(content);
                                range.deleteContents();
                                range.insertNode(doc);
-                               var txt = this.actionWindow.document.createTextNode('\u200B')
+                               var txt = this.actionWindow.document.createTextNode('\u200B');
                                range.insertNode(txt);
                                range.collapse(false);
                             }
