@@ -29,7 +29,11 @@ class MicroweberComposerClient extends Client
         if (function_exists('get_white_label_config')) {
             $settings = get_white_label_config();
             if (isset($settings['marketplace_repositories_urls']) && !empty($settings['marketplace_repositories_urls'])) {
-                $this->packageServers = $settings['marketplace_repositories_urls'];
+                if (!is_array($settings['marketplace_repositories_urls'])) {
+                    $this->packageServers = [$settings['marketplace_repositories_urls']];
+                } else {
+                    $this->packageServers = $settings['marketplace_repositories_urls'];
+                }
             }
         }
     }
