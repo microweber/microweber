@@ -3,6 +3,19 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+
+
+## [2.0.10] - 2024-01-31
+- Maintenance release
+- Fix Cant edit text in some heading tags
+- Fix cant save image as background when using svg
+- Fix Must be able to delete email messages
+- Fix Live edit menu is missing on small screen
+- Fix Layout background image is not deleted when 
+- Fix Element style editow was not opening 
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.9...2.0.10 "")
+
+
 ## [2.0.9] - 2024-01-23
 - Maintenance release
 - Fixed missing database field in the newsletter module
