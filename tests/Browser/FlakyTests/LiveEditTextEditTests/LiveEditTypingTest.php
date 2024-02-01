@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\FlakyTests;
+namespace Tests\Browser\FlakyTests\LiveEditTextEditTests;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
