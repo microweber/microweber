@@ -354,7 +354,7 @@ var MWEditor = function (options) {
                 focusNode.appendChild(document.createTextNode('\u200B'));
                 focusNode.focus();
                 focusNode.appendChild(document.createTextNode('\u200B'));
-                console.log(focusNode)
+
                 if(!isSafeMode) {
 
 
@@ -362,7 +362,7 @@ var MWEditor = function (options) {
 
 
                         var pc = focusNode.parentNode.contentEditable;
-                        focusNode.parentNode.contentEditable  =  true;
+                        focusActualTarget.contentEditable  =  true;
                         focusNode.contentEditabdle  =  'inherit';
                         focusNode.focus();
 
@@ -1464,19 +1464,26 @@ var MWEditor = function (options) {
 
 
                 if(e.type === 'paste' && !scope.$editArea._pasting) {
+
+                    const edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit') || scope.$editArea[0];
+                    scope.state.record({
+
+                        target: edit,
+                        value: edit.innerHTML
+                    });
                     scope.$editArea._pasting = true;
                     const edoc = e.target.ownerDocument;
                     const ta = edoc.createElement('div');
                     ta.contentEditable = true;
-                    // e.preventDefault();
 
-                    const off = scope.api.getSelection().getRangeAt(0).getClientRects()[0];
-/*
-                    var range = mw.top().app.canvas.getWindow().rangy.getSelection().getRangeAt(0);
-                    console.log(range)
 
-                    range.deleteContents()
-                    range.surroundContents(document.createElement('span'))*/
+                    const sel = scope.api.getSelection()
+                    let off = sel.getRangeAt(0).getClientRects()[0];
+
+
+                    if(!off) {
+                        off = sel.focusNode.nodeType === 1 ? sel.focusNode.getBoundingClientRect() : sel.focusNode.parentNode.getBoundingClientRect()
+                    }
 
 
                     if(!!off) {
@@ -1493,7 +1500,10 @@ var MWEditor = function (options) {
                         setTimeout(() => {
                             scope.api.restoreSelection();
                             var content;
-                            var plainTextNodes = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'A', 'EM', 'STRONG', 'SUP', 'B', 'SUB', 'PRE'];
+
+                            var titles = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'];
+
+                            var plainTextNodes = [ 'A', 'EM', 'STRONG', 'SUP', 'B', 'SUB', 'PRE'];
 
                                 var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(scope.api.elementNode(scope.api.getSelection().focusNode), ['safe-mode', 'regular-mode'])
 
@@ -1502,8 +1512,13 @@ var MWEditor = function (options) {
                                 const noBlocksInThese = 'p,h1,h2,h3,h4,h5,h6';
 
 
-                                if(plainTextNodes.includes(e.target.nodeName)){
+                                if(ta.firstChild === ta.lastChild && ta.lastChild.nodeName === 'DIV') {
+                                    ta.innerHTML = ta.firstChild.innerHTML;
+                                }
+
+                                if(plainTextNodes.includes(e.target.nodeName) || mw.tools.firstParentWithTag(e.target, titles)){
                                     content = ta.textContent;
+
 
                                 } else if(isSafeMode) {
 
@@ -1512,13 +1527,12 @@ var MWEditor = function (options) {
                                         all.forEach(node => node.replaceWith(...node.childNodes));
                                         all = ta.querySelectorAll(`*:not(${safeModeAllowedTags})`);
                                     }
-                                    ta.querySelectorAll('[style]').forEach(node => node.removeAttribute('style'))
+                                    ta.querySelectorAll('[style]').forEach(node => node.removeAttribute('style'));
                                     content = ta.innerHTML;
                                 } else {
 
 
                                     let all = ta.querySelectorAll(`*:not(${allowedTags})`);
-
 
 
                                     while (ta.querySelectorAll(noBlocksInThese).length) {
@@ -1529,10 +1543,25 @@ var MWEditor = function (options) {
                                         mw.tools.setTag(first, 'span')
                                     }
 
-                                    ta.querySelectorAll('[style]').forEach(node => node.removeAttribute('style'))
-                                    content = ta.innerHTML;
-                                }
+                                    var cssKeys = ['fontWeight', 'fontStyle', 'textDecoration', 'fontSize'];
 
+
+                                    ta.querySelectorAll('[style]').forEach(node => {
+                                        basicStyles = cssKeys.map(itm => {
+                                            return {
+                                                key: itm,
+                                                value: node.style[itm]
+                                            }
+                                        })
+                                        node.removeAttribute('style');
+                                        basicStyles.forEach(itm => {
+                                            node.style[itm.key] = itm.value;
+                                        });
+
+                                    });
+                                    content = ta.innerHTML;
+
+                                }
 
 
 
@@ -1544,15 +1573,24 @@ var MWEditor = function (options) {
                                range.deleteContents();
                                range.insertNode(doc);
                                var txt = this.actionWindow.document.createTextNode('\u200B');
+
                                range.insertNode(txt);
+                               txt.parentNode.focus();
                                range.collapse(false);
                             }
 
 
                             mw.element(ta).remove();
 
+                            scope.state.record({
+
+                                target: edit,
+                                value: edit.innerHTML
+                            });
+
                         })
                     } else {
+
                         console.warn('Selection is not present.');
 
                     }
