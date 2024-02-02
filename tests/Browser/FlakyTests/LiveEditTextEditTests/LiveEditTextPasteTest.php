@@ -23,9 +23,13 @@ class LiveEditTextPasteTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
+
             $this->browse(function (Browser $browser) {
                 $this->grantPermission($browser, ["clipboardReadWrite", "clipboardSanitizedWrite"]);
-
              });
 
             $params = array(
@@ -50,6 +54,10 @@ class LiveEditTextPasteTest extends DuskTestCase
             $browser->waitFor('#live-editor-frame', 30)
                 ->withinFrame('#live-editor-frame', function ($browser) {
                     $browser->pause(1000);
+                    $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                        $browser->validate();
+                    });
+
                 });
 
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));

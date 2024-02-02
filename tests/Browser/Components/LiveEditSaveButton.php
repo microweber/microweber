@@ -2,10 +2,7 @@
 
 namespace Tests\Browser\Components;
 
-use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
-use Laravel\Dusk\Component as BaseComponent;
-use PHPUnit\Framework\Assert as PHPUnit;
 
 class LiveEditSaveButton extends BaseComponent
 {

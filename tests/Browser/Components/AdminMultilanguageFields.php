@@ -3,7 +3,6 @@
 namespace Tests\Browser\Components;
 
 use Laravel\Dusk\Browser;
-use Laravel\Dusk\Component as BaseComponent;
 
 class AdminMultilanguageFields extends BaseComponent
 {

@@ -20,6 +20,12 @@ class LiveEditTypingTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
+
+
             $params = array(
                 'title' => 'My new page ' . time(),
                 'content_type' => 'page',
@@ -38,6 +44,10 @@ class LiveEditTypingTest extends DuskTestCase
             $browser->waitFor('#live-editor-frame', 30)
                 ->withinFrame('#live-editor-frame', function ($browser) {
                     $browser->pause(1000);
+                    $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                        $browser->validate();
+                    });
+
                 });
 
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));

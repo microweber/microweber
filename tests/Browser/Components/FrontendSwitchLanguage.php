@@ -3,7 +3,6 @@
 namespace Tests\Browser\Components;
 
 use Laravel\Dusk\Browser;
-use Laravel\Dusk\Component as BaseComponent;
 
 class FrontendSwitchLanguage extends BaseComponent
 {
@@ -56,7 +55,7 @@ class FrontendSwitchLanguage extends BaseComponent
         $browser->click('.module-multilanguage .mw-dropdown-default');
         $browser->pause(400);
         $browser->script('$(\'li[data-value="'.$locale.'"]\', ".module-multilanguage").click()');
-        $browser->waitForReload(false, 6000);
+        $browser->waitForReload(false, 30);
 
     }
 }
