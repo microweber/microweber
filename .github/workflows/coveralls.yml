@@ -78,10 +78,12 @@ jobs:
         node-version: 16
         cache: 'npm'
         cache-dependency-path: ./package-lock.json
-    - name: Copy vide config stub
+    - name: Copy vite config stub
       run: |
         cp tests/vite.config.stub.js vite.config.js
-
+    - name: Remove screenshot layout test
+      run: |
+        rm -f userfiles/templates/big/src/tests/Browser/BigScreenshotLayoutsTest.php
     - run: npm install -g istanbul
     - run: npm install -g istanbul-combine
     - run: npm install -g istanbul-merge

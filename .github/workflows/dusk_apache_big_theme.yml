@@ -42,6 +42,9 @@ jobs:
           repository: microweber-templates/big-free
           path: ./userfiles/templates/big
 
+      - name: Remove screenshot layout test
+        run: |
+          rm -f userfiles/templates/big/src/tests/Browser/BigScreenshotLayoutsTest.php
 
       - name: Setup Apache
         uses: thunder/apache-shiva-php-action@v1

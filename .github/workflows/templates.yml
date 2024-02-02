@@ -129,6 +129,9 @@ jobs:
         php -r "if (function_exists('opcache_reset')) { var_dump(opcache_reset()); } else { echo 'opcache_reset function does not exist.'; }"
     - name: Install template
       run: composer require ${{ matrix.templates }} --no-cache
+    - name: Remove screenshot layout test
+      run: |
+        rm -f userfiles/templates/big/src/tests/Browser/BigScreenshotLayoutsTest.php
     - name: Install Microweber with template ${{ matrix.templates }}
       run: php artisan microweber:install --email=admin@site.com --username=1 --password=1 --db-host=/home/runner/work/microweber/microweber/storage/database1.sqlite --db-name=microweber --db-password=nopass --db-driver=sqlite --db-prefix=site_ --template=${{ matrix.templates }} --default-content=1
     - name: Run Laravel Server

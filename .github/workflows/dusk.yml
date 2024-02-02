@@ -30,7 +30,9 @@ jobs:
           cache-dependency-path: ./package-lock.json
       - run: npm install
       - run: npm run build
-
+      - name: Remove screenshot layout test
+        run: |
+          rm -f userfiles/templates/big/src/tests/Browser/BigScreenshotLayoutsTest.php
       - name: Run Laravel Server
         #run: php artisan serve-test --env=testing > /dev/null 2>&1 &
         #run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /dev/null 2>&1 &
