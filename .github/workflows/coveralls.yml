@@ -80,7 +80,7 @@ jobs:
         cache-dependency-path: ./package-lock.json
     - name: Copy vite config stub
       run: |
-        cp tests/vite.config.stub.js vite.config.js
+        cp tests/vite.config.js.stub vite.config.js
     - name: Remove screenshot layout test
       run: |
         rm -f userfiles/templates/big/src/tests/Browser/BigScreenshotLayoutsTest.php
