@@ -3,7 +3,6 @@
 namespace Tests\Browser\Components;
 
 use Laravel\Dusk\Browser;
-use Laravel\Dusk\Component as BaseComponent;
 use PHPUnit\Framework\Assert as PHPUnit;
 
 class ChekForJavascriptErrors extends BaseComponent
@@ -258,6 +257,15 @@ class ChekForJavascriptErrors extends BaseComponent
                     PHPUnit::assertFalse(str_contains($htmlString, $errorString), 'Parser error found. It should not have tag: ' . $errorString . ' on url: ' . $url);
                 }
             }
+        }
+
+
+
+
+        //collect coverage if any
+        $coverage = $browser->driver->executeScript('return window.__coverage__');
+        if ($coverage) {
+            self::saveCoverage($coverage);
         }
     }
 }

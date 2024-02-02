@@ -72,7 +72,7 @@ class LiveEditTextPasteTest extends DuskTestCase
     document.execCommand("copy");
     document.body.removeChild(tempInput);
 ');
-             $browser->pause(100);
+             $browser->pause(400);
             $output = $browser->script("
 
             var myTextElement = navigator.clipboard.readText();

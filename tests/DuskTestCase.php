@@ -15,6 +15,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
 use MicroweberPackages\User\Models\User;
 use Tests\Browser\Components\AdminMakeInstall;
+use Tests\Browser\Components\BaseComponent;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 
 abstract class DuskTestCase extends BaseTestCase
@@ -75,10 +76,10 @@ abstract class DuskTestCase extends BaseTestCase
         $arguments[] = '--window-size=1280,1080';
         $arguments[] = '--disable-popup-blocking';
         $arguments[] = '--disable-dev-shm-usage';
-      //  $arguments[] = '--user-data-dir=' . $tempDir;
-     //   $arguments[] = '--crash-dumps-dir=' . $tempDir;
+        //  $arguments[] = '--user-data-dir=' . $tempDir;
+        //   $arguments[] = '--crash-dumps-dir=' . $tempDir;
 
-      //  $arguments[] = '--headless';
+        //  $arguments[] = '--headless';
         //addArguments(`user-data-dir=${CURRENT_CHROMIUM_TMP_DIR}`);
 
         // chrome_options.add_experimental_option(
@@ -114,10 +115,9 @@ abstract class DuskTestCase extends BaseTestCase
         ]);
 
 
-
         return RemoteWebDriver::create(
-           $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
-        //    $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:4444/wd/hub',
+            $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
+            //    $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:4444/wd/hub',
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY, $options
             ), 90000, 90000
@@ -137,9 +137,6 @@ abstract class DuskTestCase extends BaseTestCase
 
     protected function assertPreConditions(): void
     {
-
-
-
 
 
         $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
@@ -201,7 +198,39 @@ abstract class DuskTestCase extends BaseTestCase
         }
     }
 
+    protected function assertPostConditions(): void
+    {
+        self::collectCoverage();
+        parent::assertPostConditions();
+    }
 
+    public static function tearDownAfterClass(): void
+    {
+        self::collectCoverage();
+        parent::tearDownAfterClass();
+    }
 
+    protected function tearDown(): void
+    {
+        self::collectCoverage();
+        parent::tearDown();
+    }
 
+    public static function collectCoverage(): void
+    {
+
+        foreach (static::$browsers as $browser) {
+            $window = collect($browser->driver->getWindowHandles())->last();
+            $browser->driver->switchTo()->window($window);
+            $coverage = $browser->driver->executeScript('return window.__coverage__');
+            if ($coverage) {
+                self::saveCoverage($coverage);
+            }
+        }
+    }
+
+    public static function saveCoverage($coverage)
+    {
+        BaseComponent::saveCoverage($coverage);
+    }
 }

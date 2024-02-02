@@ -39,14 +39,6 @@ class MultilanguageTestBase extends \Microweber\tests\TestCase
 
     }
 
-    /**
-     * This method is called after the last test of this test class is run.
-     */
-    public static function tearDownAfterClass(): void
-    {
-
-
-    }
 
     protected function assertPreConditions(): void
     {

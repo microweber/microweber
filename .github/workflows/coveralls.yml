@@ -78,6 +78,14 @@ jobs:
         node-version: 16
         cache: 'npm'
         cache-dependency-path: ./package-lock.json
+    - name: Copy vide config stub
+      run: |
+        cp tests/vite.config.stub.js vite.config.js
+
+    - run: npm install -g istanbul
+    - run: npm install -g istanbul-combine
+    - run: npm install -g istanbul-merge
+    - run: npm install -g nyc
     - run: npm install
     - run: npm run build
     - name: Run Laravel Server
@@ -86,6 +94,10 @@ jobs:
       run: |
         chmod -R 0755 vendor/laravel/dusk/bin/
         composer test:dusk
+    - name: Combine JS coverage
+      run: |
+        nyc merge tests/coverages/js/*.json tests/coverages/coverage.raw.json
+        istanbul report --dir tests/coverages/js-report --include tests/coverages/coverage.raw.json lcov
     - name: Combine clover file
       working-directory: ./tests
       run: |
@@ -95,8 +107,7 @@ jobs:
       with:
         flag-name: run-${{ join(matrix.*, '-') }}
         parallel: true
-        files: tests/coverages/dusk-clover.xml
-
+        files: tests/coverages/dusk-clover.xml tests/coverages/js-report/lcov.info
 
     - name: Upload Screenshots
       if: failure()
