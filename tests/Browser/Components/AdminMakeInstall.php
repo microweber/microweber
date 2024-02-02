@@ -6,8 +6,6 @@ use Facebook\WebDriver\WebDriverBy;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Laravel\Dusk\Browser;
-use Laravel\Dusk\Component as BaseComponent;
-use MicroweberPackages\Config\ConfigSave;
 use PHPUnit\Framework\Assert as PHPUnit;
 
 class AdminMakeInstall extends BaseComponent

@@ -2,11 +2,8 @@
 
 namespace Tests\Browser\Components;
 
-use Facebook\WebDriver\WebDriverBy;
-use Facebook\WebDriver\WebDriverKeys;
+
 use Laravel\Dusk\Browser;
-use Laravel\Dusk\Component as BaseComponent;
-use PHPUnit\Framework\Assert as PHPUnit;
 
 class InputFieldsXssType extends BaseComponent
 {

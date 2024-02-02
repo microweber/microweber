@@ -4,9 +4,7 @@ namespace Tests\Browser\Components;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
-use Laravel\Dusk\Component as BaseComponent;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use PHPUnit\Framework\Assert as PHPUnit;
 
 class AdminContentMultilanguage extends BaseComponent
 {

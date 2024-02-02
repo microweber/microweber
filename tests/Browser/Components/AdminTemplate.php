@@ -2,9 +2,7 @@
 
 namespace Tests\Browser\Components;
 
-use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
-use Laravel\Dusk\Component as BaseComponent;
 
 class AdminTemplate extends BaseComponent
 {

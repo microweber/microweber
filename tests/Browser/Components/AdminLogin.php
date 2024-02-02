@@ -6,7 +6,6 @@ use Composer\Config;
 use Facebook\WebDriver\WebDriverBy;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
-use Laravel\Dusk\Component as BaseComponent;
 use MicroweberPackages\User\Models\User;
 
 class AdminLogin extends BaseComponent
