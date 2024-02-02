@@ -21,6 +21,10 @@ class LiveEditWysysgTest extends DuskTestCase
                 $browser->fillForm();
             });
 
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
             $params = array(
                 'title' => 'My new page for typing ' . time(),
                 'content_type' => 'page',
@@ -43,6 +47,10 @@ class LiveEditWysysgTest extends DuskTestCase
 
             $browser->waitFor('#live-editor-frame', 30)
                 ->withinFrame('#live-editor-frame', function ($browser) {
+                    $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                        $browser->validate();
+                    });
+
                     $browser->pause(1000);
                 });
 
@@ -203,6 +211,11 @@ class LiveEditWysysgTest extends DuskTestCase
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
 
             $params = array(
                 'title' => 'My new page for typing ' . time(),
