@@ -462,9 +462,72 @@ var MWEditor = function (options) {
 
                 // instance.handleDeleteAndBackspace(e);
 
+                if(e.key === "Backspace") {
+                    var sel = mw.top().app.richTextEditorAPI.getSelection();
+                    var mergeNodeNames = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P'];
+                    const getParentHolder = (focusNode) => {
+                        var prev = null;
+                        while (focusNode && focusNode.parentNode) {
+                            if (prev && focusNode.firstChild !== prev) {
+                                return null;
+                            }
+                            if (focusNode.nodeType === 1 && mergeNodeNames.indexOf(focusNode.nodeName) !== -1) {
+                                return focusNode
+                            }
+                            prev = focusNode;
+                            focusNode = focusNode.parentNode;
+                        }
+                        return null;
+                    }
+
+                    const deepLastChild = node => {
+                        let child = node.children[node.children.lngth - 1];
+                        if(!child) {
+                            return node;
+                        }
+                        if(child) {
+                            return deepLastChild(node)
+                        }
+                    }
+
+                    if(sel.type === 'Caret') {
+
+                        if(sel.focusNode.nodeType !== 37 && sel.focusOffset === 0) {
+                            var parent = getParentHolder(sel.focusNode);
+
+                            if (parent) {
+                                const target = deepLastChild(parent.previousElementSibling);
+                                if(target) {
+                                    scope.api.setCursorAtEnd(target);
+                                    const edit = mw.tools.firstParentOrCurrentWithClass(target, 'edit') || scope.$editArea[0];
+                                    scope.state.record({
+
+                                        target: edit,
+                                        value: edit.innerHTML
+                                    });
+                                    while (parent.firstChild) {
+                                        target.appendChild(parent.firstChild)
+                                    }
+                                    parent.remove();
+                                    scope.state.record({
+
+                                        target: edit,
+                                        value: edit.innerHTML
+                                    });
+                                    e.preventDefault();
+                                }
+                            }
+                        }
+                    } else if(sel.type === 'Range') {
+
+                    }
+
+
+                }
+
                 setTimeout(function(){
                     var edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit');
-                    console.log(edit, edit.querySelectorAll('*[style*="var"]'))
+
                 if(edit) {
                     var all = edit.querySelectorAll('*[style*="var"]');
                     all.forEach(node => {
@@ -883,6 +946,7 @@ var MWEditor = function (options) {
         scope.editArea = this.area.get(0);
         scope.preventEvents();
         $(scope).trigger('ready');
+
     };
 
     this.documentMode = function () {
@@ -1511,10 +1575,26 @@ var MWEditor = function (options) {
                                 const safeModeAllowedTags = 'a,b,br,del,em,i,font,s,samp,small,span,strong,sub,summary,sup,time,u,var,wbr';
                                 const noBlocksInThese = 'p,h1,h2,h3,h4,h5,h6';
 
+                                var classesToremove = [
+                                    'd-flex',
+                                    'd-inline-flex',
+                                    'd-sm-flex',
+                                    'd-sm-inline-flex',
+                                    'd-md-flex',
+                                    'd-md-inline-flex',
+                                    'd-lg-flex',
+                                    'd-lg-inline-flex',
+                                    'd-xl-flex',
+                                    'd-xl-inline-flex'
+                                ];
+
 
                                 if(ta.firstChild === ta.lastChild && ta.lastChild.nodeName === 'DIV') {
                                     ta.innerHTML = ta.firstChild.innerHTML;
                                 }
+
+
+                                ta.querySelectorAll('.' + classesToremove.join(',.')).forEach(el => el.classList.remove(...classesToremove));
 
                                 if(plainTextNodes.includes(e.target.nodeName) || mw.tools.firstParentWithTag(e.target, titles)){
                                     content = ta.textContent;
