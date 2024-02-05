@@ -53,7 +53,7 @@ export class LiveEditLayoutBackground extends BaseComponent {
             };
             mw.top().options.tempOption(isInsideBackgroundModule, optionsBg);
 
-            if(url != '') {
+            if(url != '' && url != 'none') {
 
                 //remove bg video option
                 var optionsVideo = {
@@ -103,7 +103,7 @@ export class LiveEditLayoutBackground extends BaseComponent {
 
         var isInsideBackgroundModule = liveEditHelpers.targetGetFirstModuleOfType(node, 'background');
         if (isInsideBackgroundModule) {
-            if(url != '') {
+            if(url != '' && url != 'none') {
                 //remove bg image option
                 var optionsBg = {
                     group: isInsideBackgroundModule.id,
