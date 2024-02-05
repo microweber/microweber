@@ -622,8 +622,18 @@ body.mw-iframe-admin {
 }
 
 .mw-dialog-close {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 -960 960 960' width='24'%3E%3Cpath d='m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z'/%3E%3C/svg%3E");
     margin-inline-start: auto;
-
+    width: 26px;
+    position: absolute;
+    top: -22px;
+    left: 42px;
+    height: 20px;
+    cursor: pointer;
+    background-color: #0078ff;
+    color: #fff!important;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .mw-dialog-skin-default .mw-dialog-close {
