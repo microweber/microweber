@@ -65,6 +65,8 @@ jobs:
         projectBaseDir: src
         args: >
           -Dproject.settings=./sonar-project.properties
+          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
   dusk-coveralls:
     needs: main-coveralls
     runs-on: ubuntu-latest
@@ -128,6 +130,8 @@ jobs:
         projectBaseDir: src
         args: >
           -Dproject.settings=./sonar-project.properties
+          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
 
     - name: Upload Screenshots
       if: failure()
