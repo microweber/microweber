@@ -26,7 +26,10 @@ if ($for_id != false) {
     $media = get_pictures("rel_id=0&rel_type={$for}&session_id={$sid}");
 }
 
-dump($sid);
+if (!$media) {
+    $media = array();
+}
+
 $init_image_options = array();
 $default_image_options = 'Title, Alt Text, Link, Caption, Author, Source, Tags';
 $image_options = (isset($params['image-options']) ? $params['image-options'] : (isset($params['data-image-options']) ? $params['data-image-options'] : $default_image_options));
