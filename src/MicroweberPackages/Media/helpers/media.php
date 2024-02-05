@@ -8,7 +8,7 @@ api_expose_admin('media/upload', function ($data) {
 api_expose_admin('get_media_by_id');
 
 api_expose_admin('reorder_media');
-api_expose_admin('save_media');
+//api_expose_admin('save_media');
 api_expose_admin('save_picture');
 api_expose('pixum_img');
 api_expose('thumbnail_img');
@@ -18,7 +18,7 @@ api_expose_admin('get_media');
 
 api_expose_admin('upload');
 api_expose_admin('reorder_media');
-api_expose_admin('save_media');
+//api_expose_admin('save_media');
 
 api_expose('pixum_img');
 api_expose('thumbnail_img');
