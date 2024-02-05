@@ -124,6 +124,8 @@ jobs:
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       with:
         projectBaseDir: src
+        args: >
+          -Dproject.settings=../sonar-project.properties
 
     - name: Upload Screenshots
       if: failure()
