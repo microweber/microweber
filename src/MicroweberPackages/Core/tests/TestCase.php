@@ -11,12 +11,13 @@ use Tests\CreatesApplication;
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
-   // use WithConsoleEvents;
+    // use WithConsoleEvents;
 
     use CreatesApplication;
 
     public $parserErrorStrings = ['mw_replace_back', 'tag-comment', 'mw-unprocessed-module-tag', 'parser_'];
     private $sqlite_file = 'phpunit.sqlite';
+    public $template_name = '';
 
     protected function setUp(): void
     {
@@ -29,18 +30,24 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $config_folder = realpath($config_folder);
 
         $mw_file = $config_folder . '/microweber.php';
-       if(!is_file($mw_file)){
-           $this->install();
-       }
+        if (!is_file($mw_file)) {
+            $this->install();
+        }
+
+        if ($this->template_name) {
+            save_option('current_template', $this->template_name, 'template');
+        }
 
         parent::setUp();
 
 
     }
+
     public function testTrue()
     {
         $this->assertTrue(true);
     }
+
     public function install()
     {
 
