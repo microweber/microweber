@@ -58,7 +58,7 @@ MWEditor.controllers = {
             var scope = this;
             el = MWEditor.core.button({
                 props: {
-                    className : 'mw-editor-state-component-align-center',
+                    id: 'mw-editor-state-component-align-center',
 
                     tooltip: rootScope.lang('Align center'),
                     innerHTML: '<svg  viewBox="0 0 24 24"><path fill="currentColor" d="M3,3H21V5H3V3M7,7H17V9H7V7M3,11H21V13H3V11M7,15H17V17H7V15M3,19H21V21H3V19Z" /></svg>'
@@ -104,7 +104,8 @@ MWEditor.controllers = {
             var scope = this;
             el = MWEditor.core.button({
                 props: {
-                    className : 'mw-editor-state-component-align-right',
+                    id: 'mw-editor-state-component-align-right',
+
                     tooltip: rootScope.lang('Align center'),
                     innerHTML: '<svg  viewBox="0 0 24 24">\n' +
                         '    <path fill="currentColor" d="M3,3H21V5H3V3M9,7H21V9H9V7M3,11H21V13H3V11M9,15H21V17H9V15M3,19H21V21H3V19Z" />\n' +
@@ -152,8 +153,7 @@ MWEditor.controllers = {
             var scope = this;
             el = MWEditor.core.button({
                 props: {
-                    className : 'mw-editor-state-component-align-justify',
-
+                    id: 'mw-editor-state-component-align-justify',
                     tooltip: rootScope.lang('Justify'),
                     innerHTML: '<svg   viewBox="0 0 24 24">\n' +
                         '    <path fill="currentColor" d="M3,3H21V5H3V3M3,7H21V9H3V7M3,11H21V13H3V11M3,15H21V17H3V15M3,19H21V21H3V19Z" />\n' +
@@ -218,6 +218,8 @@ MWEditor.controllers = {
             arr.forEach(function (item) {
                 var el = MWEditor.core.button({
                     props: {
+                        id: 'mw-editor-state-component-align-' + item.align,
+
                         innerHTML:  item.icon
                     }
                 });
