@@ -54,6 +54,19 @@ abstract class DuskTestCaseMultilanguage extends DuskTestCase
             $option['option_group'] = 'header-layout';
             save_option($option);
 
+            // set template
+            $templateForMultilanguage = 'default';
+            if(is_dir(base_path() . '/userfiles/templates/new-world')){
+                $templateForMultilanguage = 'new-world';
+            }
+            if(is_dir(base_path() . '/userfiles/templates/big')){
+                $templateForMultilanguage = 'big';
+            }
+            $option = array();
+            $option['option_value'] = $templateForMultilanguage;
+            $option['option_key'] = 'current_template';
+            $option['option_group'] = 'template';
+            save_option($option);
 
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(true);
 

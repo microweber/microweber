@@ -6,6 +6,7 @@ use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Post\Models\Post;
 use Tests\Browser\Components\AdminCategoryMultilanguage;
 use Tests\Browser\Components\AdminContentImageAdd;
@@ -18,6 +19,8 @@ use Tests\DuskTestCaseMultilanguage;
 class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
 {
 
+    use TestHelpers;
+
     public function testMultilanguageAddCategory()
     {
         $this->browse(function (Browser $browser) {
@@ -25,8 +28,8 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
-
-
+            $shopPageTitle = 'Shop for multilanguage add category' . uniqid();
+            $this->_generateShopPage('shop', $shopPageTitle);
 
             $browser->within(new AdminContentMultilanguage, function ($browser) {
                 $browser->addLanguage('en_US');
@@ -37,16 +40,16 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
 
             $categoryDataMultilanguage = [];
 
-            foreach(get_supported_languages(true) as $supportedLocale) {
+            foreach (get_supported_languages(true) as $supportedLocale) {
                 $locale = $supportedLocale['locale'];
 
                 $faker = Factory::create($locale);
-                $categoryTitle = $faker->name . ' on lang - ' .$locale . time().rand(1111,9999);
+                $categoryTitle = $faker->name . ' on lang - ' . $locale . time() . rand(1111, 9999);
 
                 $categoryDataMultilanguage[$locale] = [
-                    'title'=> $categoryTitle,
-                    'url'=> str_slug($categoryTitle),
-                    'description'=> 'Category description ' . $locale . ' on lang' . time().rand(1111,9999),
+                    'title' => $categoryTitle,
+                    'url' => str_slug($categoryTitle),
+                    'description' => 'Category description ' . $locale . ' on lang' . time() . rand(1111, 9999),
                 ];
             }
 
@@ -56,13 +59,13 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
-          //  $browser->click('#category-create-in-blog-link');
+            //  $browser->click('#category-create-in-blog-link');
             $browser->click('#category-create-in-shop-link');
             $browser->pause(1400);
             $browser->waitForText('Category name');
 
             $browser->within(new AdminCategoryMultilanguage, function ($browser) use ($categoryDataMultilanguage) {
-                foreach($categoryDataMultilanguage as $locale=>$categoryData) {
+                foreach ($categoryDataMultilanguage as $locale => $categoryData) {
                     $browser->fillTitle($categoryData['title'], $locale);
                     $browser->fillDescription($categoryData['description'], $locale);
                 }
@@ -71,11 +74,11 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
             $browser->click('#category-dropdown-holder');
             $browser->pause(300);
 
-            $category = 'Blog';
+            $category = $shopPageTitle;
 
             $script = '
-            if ($(".category-parent-selector .mw-tree-item-title:contains(\''.$category.'\')").parent().parent().parent().hasClass(\'selected\') == false) {
-                $(".category-parent-selector .mw-tree-item-title:contains(\''.$category.'\')").parent().click();
+            if ($(".category-parent-selector .mw-tree-item-title:contains(\'' . $category . '\')").parent().parent().parent().hasClass(\'selected\') == false) {
+                $(".category-parent-selector .mw-tree-item-title:contains(\'' . $category . '\')").parent().click();
             }';
 
             $browser->script($script);
@@ -89,12 +92,11 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
             $browser->pause(1300);
 
             $browser->within(new AdminCategoryMultilanguage, function ($browser) use ($categoryDataMultilanguage) {
-                foreach($categoryDataMultilanguage as $locale=>$categoryData) {
+                foreach ($categoryDataMultilanguage as $locale => $categoryData) {
                     $browser->fillUrl($categoryData['url'], $locale);
                 }
             });
             $browser->pause(200);
-
 
 
             $browser->scrollTo('.admin-thumbs-holder');
@@ -104,7 +106,6 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img2.jpg');
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img3.jpg');
             });
-
 
 
             $browser->scrollTo('.js-category-save');
@@ -118,8 +119,8 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
 
             $this->assertEquals($categoryDataMultilanguage['en_US']['description'], $findCategory->description);
 
-            foreach($categoryDataMultilanguage as $locale=>$fields) {
-                foreach($fields as $fieldKey=>$fieldValue) {
+            foreach ($categoryDataMultilanguage as $locale => $fields) {
+                foreach ($fields as $fieldKey => $fieldValue) {
                     $this->assertEquals($fieldValue, $findCategory->multilanguage_translatons[$locale][$fieldKey]);
                 }
             }
@@ -131,9 +132,9 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
 
             $browser->visit(category_link($findCategory->id));
 
-             foreach($categoryDataMultilanguage as $locale=>$categoryData) {
+            foreach ($categoryDataMultilanguage as $locale => $categoryData) {
 
-                $browser->within(new FrontendSwitchLanguage, function ($browser) use($locale) {
+                $browser->within(new FrontendSwitchLanguage, function ($browser) use ($locale) {
                     $browser->switchLanguage($locale);
                 });
 
@@ -142,7 +143,7 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
                 $this->assertTrue(strpos($currentUrl, $categoryData['url']) !== false);
 
                 $browser->assertSee($categoryData['title']);
-                 $browser->pause(1000);
+                $browser->pause(1000);
             }
 
         });

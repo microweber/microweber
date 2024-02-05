@@ -54,6 +54,8 @@ trait TestHelpers {
             'title' => $title,
             'url' => $url,
             'content_type' => 'page',
+            'subtype' => 'dynamic',
+            'layout_file' => 'layouts/shop.php',
             'is_shop' => 1,
             'is_active' => 1,
         );

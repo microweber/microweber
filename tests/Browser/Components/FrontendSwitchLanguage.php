@@ -55,8 +55,8 @@ class FrontendSwitchLanguage extends BaseComponent
         $browser->click('.module-multilanguage > .mw-dropdown-default');
         $browser->pause(400);
         $browser->script('$(\'li[data-value="'.$locale.'"]\', ".module-multilanguage").click()');
-        $browser->pause(20000);
-     //   $browser->waitForReload(false, 30);
+     //   $browser->pause(20000);
+     $browser->waitForReload(false, 30);
 
     }
 }
