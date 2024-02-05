@@ -86,5 +86,3 @@ if (is_file($template_file) != false) {
 } else {
     print lnotif("No template found. Please choose template.");
 }
-
-?>

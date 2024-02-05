@@ -40,24 +40,35 @@ class AdminContentImageAdd extends BaseComponent
 
     public function addImage(Browser $browser, $image)
     {
-        if (!$browser->driver->findElement(WebDriverBy::cssSelector('.admin-thumb-item-uploader-holder'))->isDisplayed()) {
-            //  $browser->script('$(".js-card-search-engine a.btn").click();');
-            if ($browser->element('.js-default-card-tab')) {
-                $browser->click('.js-default-card-tab');
+
+
+        if ($browser->element('.admin-thumb-item-uploader-holder')) {
+            if ($browser->driver->findElement(WebDriverBy::cssSelector('.admin-thumb-item-uploader-holder'))) {
+                if (!$browser->driver->findElement(WebDriverBy::cssSelector('.admin-thumb-item-uploader-holder'))->isDisplayed()) {
+                    //  $browser->script('$(".js-card-search-engine a.btn").click();');
+                    if ($browser->element('.js-default-card-tab')) {
+                        $browser->click('.js-default-card-tab');
+                    }
+
+                }
             }
-
         }
+        if ($browser->element('.admin-thumb-item-uploader-holder')) {
 
+            if ($browser->driver->findElement(WebDriverBy::cssSelector('.admin-thumbs-holder'))) {
 
-        $browser->pause(1000);
-        $browser->scrollTo('.admin-thumbs-holder');
-        $browser->pause(1000);
-       // $browser->click('.admin-thumb-item-uploader-holder');
-        if ($browser->element('#post-file-picker')) {
-            $browser->click('#post-file-picker');
-        } else {
-            $browser->click('#post-file-picker-small');
+                $browser->pause(1000);
+                $browser->scrollTo('.admin-thumbs-holder');
+                $browser->pause(1000);
+                // $browser->click('.admin-thumb-item-uploader-holder');
+                if ($browser->element('#post-file-picker')) {
+                    $browser->click('#post-file-picker');
+                } else {
+                    $browser->click('#post-file-picker-small');
 
+                }
+
+            }
         }
         $browser->pause(1000);
         $browser->attach('input.mw-uploader-input', $image);
@@ -69,14 +80,17 @@ class AdminContentImageAdd extends BaseComponent
             }
         }
 
-
-        if (!$browser->element('.admin-thumb-item')) {
-            $browser->waitFor('.admin-thumb-item', 30);
+        if ($browser->element('.admin-thumb-item-uploader-holder')) {
+            if (!$browser->element('.admin-thumb-item')) {
+                $browser->waitFor('.admin-thumb-item', 30);
+            }
         }
-
 
         $browser->pause(3000);
 
 
     }
+
+
+
 }
