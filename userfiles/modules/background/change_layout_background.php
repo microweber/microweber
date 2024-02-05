@@ -27,10 +27,7 @@
             </div>
 
     </div>
-    <div class="bg-tab">
-        <div id="color-picker" class="card card-body"></div>
 
-    </div>
     <div class="bg-tab">
         <div id="overlay-color-picker" class="card card-body"></div>
 
@@ -167,22 +164,6 @@
                 tabs: ".bg-tab",
                 onclick: function () {
 
-                }
-            });
-
-            var cp = document.querySelector('#color-picker');
-
-            var picker = mw.colorPicker({
-                element: cp,
-
-                mode: 'inline',
-                onchange: function (color) {
-
-                    let {bg, bgOverlay, bgNode, target} = getTargets();
-
-                    mw.top().app.layoutBackground.setBackgroundColor(bgNode, color);
-                    showHideRemoveBackgroundsButtons();
-                    mw.top().app.registerChange(mw.top().app.liveEdit.handles.get('layout').getTarget());
                 }
             });
 
