@@ -65,7 +65,8 @@ jobs:
         projectBaseDir: src
         args: >
           -Dsonar.python.coverage.reportPaths=clover.xml
-          -Dsonar.tests=src/*/tests
+          -Dsonar.tests=src/MicroweberPackages/*/tests
+          -Dsonar.test.inclusions=src/MicroweberPackages/*/tests/**
           -Dsonar.verbose=true
   dusk-coveralls:
     needs: main-coveralls
@@ -121,7 +122,18 @@ jobs:
         flag-name: run-${{ join(matrix.*, '-') }}
         parallel: true
         files: tests/coverages/dusk-clover.xml tests/coverages/js-report/lcov.info
-
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      with:
+        projectBaseDir: src
+        args: >
+          -Dsonar.python.coverage.reportPaths=tests/coverages/dusk-clover.xml,tests/coverages/js-report/lcov.info
+          -Dsonar.tests=src/MicroweberPackages/*/tests
+          -Dsonar.test.inclusions=src/MicroweberPackages/*/tests/**
+          -Dsonar.verbose=true
     - name: Upload Screenshots
       if: failure()
       uses: actions/upload-artifact@v2
