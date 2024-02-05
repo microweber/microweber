@@ -39,37 +39,37 @@ description: Default register template
             <?php print csrf_form(); ?>
             <?php if ($form_show_first_name): ?>
                 <div class="form-group">
-                    <label class="form-label mb-2"><?php _e('First Name'); ?></label>
+                    <label class="form-label"><?php _e('First Name'); ?></label>
                     <input class="form-control input-lg" type="text" name="first_name" placeholder="<?php _e('First Name'); ?>">
                 </div>
             <?php endif; ?>
 
             <?php if ($form_show_last_name): ?>
                 <div class="form-group">
-                    <label class="form-label mb-2"><?php _e('Last Name'); ?></label>
+                    <label class="form-label"><?php _e('Last Name'); ?></label>
                     <input class="form-control input-lg" type="text" name="last_name" placeholder="<?php _e('Last Name'); ?>">
                 </div>
             <?php endif; ?>
 
             <div class="form-group">
-                <label class="form-label mb-2"><?php _e('E-mail'); ?></label>
+                <label class="form-label"><?php _e('E-mail'); ?></label>
                 <input class="form-control input-lg" type="email" name="email" placeholder="<?php _e('E-mail'); ?>">
             </div>
 
             <div class="form-group">
-                <label class="form-label mb-2"><?php _e('Password'); ?></label>
+                <label class="form-label"><?php _e('Password'); ?></label>
                 <input class="form-control input-lg" type="password" name="password" placeholder="<?php _e('Password'); ?>">
             </div>
 
             <?php if ($form_show_password_confirmation): ?>
                 <div class="form-group">
-                    <label class="form-label mb-2"><?php _e('Confirm Password'); ?></label>
+                    <label class="form-label"><?php _e('Confirm Password'); ?></label>
                     <input class="form-control input-lg" type="password" name="password2" placeholder="<?php _e("Confirm Password"); ?>">
                 </div>
             <?php endif; ?>
 
             <?php if (!$captcha_disabled): ?>
-                <label class="form-label mb-2"><?php _e('Security code'); ?></label>
+                <label class="form-label"><?php _e('Security code'); ?></label>
                 <module type="captcha"/>
             <?php endif; ?>
 
