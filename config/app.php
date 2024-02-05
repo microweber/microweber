@@ -38,7 +38,7 @@ return [
     |
     */
 
-    'debug' => (bool) getenv('APP_DEBUG') ?: false,
+    'debug' => (bool) getenv('APP_DEBUG') ?: 1,
 
     /*
     |--------------------------------------------------------------------------
@@ -102,7 +102,7 @@ return [
     |
     */
 
-    'key' => getenv('APP_KEY') ?: 'YourSecretKey!!!',
+    'key' => 'base64:NXNhc1RRZktQSk1UTjQ4UzA0R3huMHZsNENHeUFrZjM=',
 
     'cipher' => 'AES-256-CBC',
 
