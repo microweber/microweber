@@ -134,6 +134,45 @@ export const EditorComponent = function () {
     });
 
 
+    frame.contentWindow.document.body.addEventListener('beforeinput', e => {
+        let sel = liveEditor.api.getSelection();
+        let focusNode = mw.top().app.richTextEditorAPI.elementNode(sel.focusNode);
+        var isModification = /* e.inputType.includes('insert') || */ e.inputType.includes('delete');
+        if(sel.type === 'Range'  ) {
+            if(  isModification) {
+                const anchorNode = mw.top().app.richTextEditorAPI.elementNode(sel.anchorNode);
+                focusNode = mw.top().app.richTextEditorAPI.elementNode(sel.focusNode);
+                if(anchorNode !== focusNode ) {
+                    setTimeout(() => {
+                        sel = liveEditor.api.getSelection();
+                        focusNode = mw.top().app.richTextEditorAPI.elementNode(sel.focusNode);
+                        if(focusNode.nextSibling && focusNode.nextSibling.nodeType === 3) {
+                            focusNode.appendChild(focusNode.nextSibling)
+                        }
+                    })
+                }
+            }
+            setTimeout(() => {
+
+                var all =  mw.top().app.richTextEditorAPI.elementNode(mw.top().app.richTextEditorAPI.getSelection().focusNode).parentNode.querySelectorAll('*[style*="var"]');
+
+
+                all.forEach(node => {
+                    if (node.style) {
+                        if (node.isContentEditable) {
+                            [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
+                        }
+                    }
+                });
+
+            }, 1)
+
+        }
+
+
+    })
+
+
     holder.innerHTML = '';
     holder.appendChild(liveEditor.wrapper);
 
