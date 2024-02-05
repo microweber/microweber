@@ -62,7 +62,6 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       with:
-        projectBaseDir: src
         args: >
           -Dproject.settings=./sonar-project.properties
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
@@ -127,7 +126,6 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       with:
-        projectBaseDir: src
         args: >
           -Dproject.settings=./sonar-project.properties
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
