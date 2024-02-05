@@ -46,13 +46,19 @@ mw.lib.require('rangy');
 
             },
             setCursorAtStart: function(target){
+                return scope.api.setCursorAt(target, true);
+            },
+            setCursorAtEnd: function(target){
+                return scope.api.setCursorAt(target, false);
+            },
+            setCursorAt: function(target, toStart = true){
                 var sel = scope.getSelection();
                 if(!target) {
                     return
                 }
-                range = document.createRange();
+                range = (sel.focusNode ? sel.focusNode.ownerDocument : document).createRange();
                 range.selectNodeContents(target);
-                range.collapse(true);
+                range.collapse(toStart);
                 sel.removeAllRanges();
                 sel.addRange(range);
             },
