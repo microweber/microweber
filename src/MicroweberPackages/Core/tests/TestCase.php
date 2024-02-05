@@ -34,9 +34,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $this->install();
         }
 
-        if ($this->template_name) {
-            save_option('current_template', $this->template_name, 'template');
-        }
+
 
         parent::setUp();
 
@@ -247,6 +245,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $testing_env_name = $testEnvironment = $test_env_from_conf;
             putenv("APP_ENV=$testing_env_name");
         }
+
+
+
         parent::setUpBeforeClass();
 
     }
@@ -317,6 +318,12 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     {
         $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
         $this->assertEquals('testing', app()->environment());
+
+
+        if ($this->template_name) {
+
+            save_option('current_template', $this->template_name, 'template');
+        }
     }
 
 
