@@ -76,10 +76,12 @@ export const HandleMenu = function(options) {
 
         this.rebuildButtons();
 
-
+        this.root.parents('.mw-handle-item').hide();
 
         setTimeout(() => {
-          //   console.log(this.buttons)
+
+            this.root.parents('.mw-handle-item').show()
+
             for ( ; i < this.buttons.length; i++) {
                 const config = this.buttons[i].config;
                 const button = this.buttons[i].button;
@@ -107,6 +109,8 @@ export const HandleMenu = function(options) {
                     }
                 })
             }
+
+            this.root.parents('.mw-handle-item').show();
 
 
         }, 50)

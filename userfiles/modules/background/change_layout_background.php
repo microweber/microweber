@@ -197,6 +197,23 @@
 
 
 
+            cpo.querySelectorAll('input').forEach(node => node.addEventListener('keyup', function(e) {
+
+                if(e.key === 'Escape') {
+                    const dialog = mw.dialog.get(this);
+
+                    if(dialog) {
+                        dialog.remove();
+                    } else if(this.ownerDocument.defaultView.frameElement) {
+                        const dialog = mw.dialog.get(this.ownerDocument.defaultView.frameElement);
+                        if(dialog) {
+                            dialog.remove();
+                        }
+                    }
+                }
+            }))
+
+
 
             document.querySelector('#overlay-color-picker-remove-color').addEventListener('click', function () {
                 let {bg, bgOverlay, bgNode, target} = getTargets();

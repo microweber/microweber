@@ -149,7 +149,7 @@ export const EditorComponent = function () {
                         if(focusNode.nextSibling && focusNode.nextSibling.nodeType === 3) {
                             focusNode.appendChild(focusNode.nextSibling)
                         }
-                    })
+                    });
                 }
             }
             setTimeout(() => {

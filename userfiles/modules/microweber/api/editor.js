@@ -1527,7 +1527,8 @@ var MWEditor = function (options) {
                 var e = event.originalEvent || event;
 
 
-                if(e.type === 'paste' && !scope.$editArea._pasting) {
+
+                if(e.type === 'paste' && !scope.$editArea._pasting && !e.shiftKey) {
 
                     const edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit') || scope.$editArea[0];
                     scope.state.record({
@@ -1589,7 +1590,9 @@ var MWEditor = function (options) {
                                 ];
 
 
-                                if(ta.firstChild === ta.lastChild && ta.lastChild.nodeName === 'DIV') {
+
+
+                                if(ta.firstChild && ta.firstChild === ta.lastChild && ta.lastChild.nodeName === 'DIV') {
                                     ta.innerHTML = ta.firstChild.innerHTML;
                                 }
 
@@ -1643,7 +1646,7 @@ var MWEditor = function (options) {
 
                                 }
 
-
+console.log(content)
 
                             if(!!content) {
                                 content = content.trim();

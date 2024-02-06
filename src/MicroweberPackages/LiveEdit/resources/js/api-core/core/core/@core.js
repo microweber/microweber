@@ -50,9 +50,9 @@ mw.onAdmin = function(callback) {
 
 mw.target = {};
 
-mw.log = function(what) {
-    if (window.console && mw.settings.debug) {
-        top.console.log(what);
+mw.log = function() {
+    if (mw.settings.debug) {
+        top.console.log(...arguments);
     }
 };
 

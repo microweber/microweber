@@ -3,7 +3,7 @@
 ;(function (){
 
     MWEditor.core = {
- 
+
         capsulatedField: function (options) {
 
             var defaults = {
@@ -104,7 +104,7 @@
         },
         colorPicker: function(config) {
 
- 
+
 
             config = config || {};
             var defaults = {
@@ -126,69 +126,84 @@
             el.addClass('mw-editor-color-picker');
 
 
-            var dlg = mw.top().dialog({
-                width: 280,
-                closeButtonAction: 'hide',
-                disableTextSelection: true,
-                title: mw.lang('Choose color'),
-                overlayClose: true,
-                closeOnEscape: false, //todo: escape destroys the dialog
-                // skin: 'mw_modal_simple mw_modal_live_edit_settings',
-            });
- 
-     
 
- 
+            var dlg
+
+
+            const escapeHandle =  e => e.key === 'Escape' ? dlg ? dlg.hide() : '' : undefined;
+
+            el.get(0).ownerDocument.addEventListener('keydown', escapeHandle);
+            if(mw.top().app && mw.top().app.canvas) {
+                mw.top().app.canvas.getDocument().addEventListener('keydown', escapeHandle);
+            }
+
+
 
             el.on('click', function (e){
-                dlg.show()
-            });
+                  dlg = mw.top().dialog({
+                    width: 280,
+                    closeButtonAction: 'remove',
+                    disableTextSelection: true,
+                    title: mw.lang('Choose color'),
+                    overlayClose: true,
+                    closeOnEscape: false, //todo: escape destroys the dialog
+                    // skin: 'mw_modal_simple mw_modal_live_edit_settings',
+                });
+
+                var cf = new MWEditor.core.capsulatedField({
+                    placeholder: '#efecec',
+                    width: '100%',
+
+                    css: 'text-align: center;'
+                });
+
+                var _pauseSetValue = false;
 
 
-            var cf = new MWEditor.core.capsulatedField({
-                placeholder: '#efecec',
-                width: '100%',
 
-                css: 'text-align: center;'
-            });
 
-            var _pauseSetValue = false;
 
-            
-            dlg.hide();
 
-   
+               var picker = mw.colorPicker({
+                    // element: tip.get(0),
+                    element: dlg.container,
 
-           var picker = mw.colorPicker({
-                // element: tip.get(0),
-                element: dlg.container,
-                 
-                method: 'inline',
-                showHEX: false,
-                onchange: function (color) {
-                    el.trigger('change', color);
-                    if(!_pauseSetValue) {
-                        cf.field.value = color;
+                    method: 'inline',
+                    showHEX: false,
+                    onchange: function (color) {
+                        el.trigger('change', color);
+                        if(!_pauseSetValue) {
+                            cf.field.value = color;
+                        }
+
+                    },
+
+                });
+
+                mw.element('.a-color-picker-row.a-color-picker-palette', dlg.container).before(cf.frame);
+
+                cf.field.addEventListener('keydown', function (e){
+                    if (e.key === 'Escape') {
+                        dlg.remove();
                     }
+                })
+                cf.field.addEventListener('input', function (e){
+                    e.stopPropagation();
+                    if(isColor(this.value)) {
+                        _pauseSetValue = true;
+                        picker.setColor(this.value);
+                        _pauseSetValue = false;
+                    }
+                });
 
-                },
+                cf.field.addEventListener('mousedown', function (e){
+                    e.stopPropagation();
+                })
 
             });
 
-            mw.element('.a-color-picker-row.a-color-picker-palette', dlg.container).before(cf.frame);
 
-            cf.field.addEventListener('input', function (e){
-                e.stopPropagation();
-                if(isColor(this.value)) {
-                    _pauseSetValue = true;
-                    picker.setColor(this.value);
-                    _pauseSetValue = false;
-                }
-            });
 
-            cf.field.addEventListener('mousedown', function (e){
-                e.stopPropagation();
-            })
 
 
 
@@ -401,7 +416,7 @@
                     });
 
                 }
-                
+
 
                 lscope.select.get(0).ownerDocument.querySelectorAll('.mw-bar-control-item.active, .mw-editor-controller-component.active').forEach(node => {
                     if(node !== _this  && !node.contains(_this)) {
@@ -409,7 +424,7 @@
                     }
                 });
 
- 
+
 
                 mw.element('.mw-editor-controller-component-select').each(function (){
                     if (this !== curr && !this.contains(_this) ) {
@@ -418,7 +433,7 @@
                 });
                 mw.element(_this).toggleClass('active');
                 mw.element('.mw-bar-control-item.active').each(function (){
-                   
+
                     if(!this.contains(lscope.select.get(0)) ){
                         mw.element(this).removeClass('active');
                     }
