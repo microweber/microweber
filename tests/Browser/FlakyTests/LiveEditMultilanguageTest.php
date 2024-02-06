@@ -16,6 +16,9 @@ use Tests\DuskTestCaseMultilanguage;
 
 class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
 {
+    public $template_name = 'big';
+
+    public $tempContentId = 0;
 
     public function testLiveEditNewPageSaveMiltilanguage()
     {

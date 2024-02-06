@@ -22,6 +22,8 @@ abstract class DuskTestCase extends BaseTestCase
 {
     public $siteUrl = 'http://127.0.0.1:8000/';
 
+    public $template_name = 'big';
+
     use CreatesApplication;
 
 
