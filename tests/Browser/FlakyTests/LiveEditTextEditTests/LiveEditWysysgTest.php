@@ -326,6 +326,7 @@ class LiveEditWysysgTest extends DuskTestCase
                 'content' => '
                 <div class="container-fluid col-sm-12 mx-auto mx-lg-0  ">
                    <h6 class="font-weight-normal" id="my-text-parent"><font id="my-text-here" color="#ff0000">Enter text here and hit enter</font></h6>
+
                 </div>
             ',
                 'subtype' => 'static',
@@ -368,10 +369,123 @@ class LiveEditWysysgTest extends DuskTestCase
             var myTextElementHtml = document.getElementById('my-text-here').innerHTML
             return myTextElementHtml;
         ");
-            $this->assertEquals('Enter text hereNew text in my element and hit enter', $output[0], 'The element has only 1 id');
+
+            $browser->pause(400);
+            $this->assertEquals('Enter text hereNew text in my element and hit enter', $output[0], 'The text must be the same');
+
+
+
 
 
         });
+    }
+    public function testLiveEditTypingTestBackspaceKeyWithDiferentFonts()
+    {
+        $siteUrl = $this->siteUrl;
+
+        $this->browse(function (Browser $browser) use ($siteUrl) {
+            $browser->within(new AdminLogin, function ($browser) {
+                $browser->fillForm();
+            });
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
+            $params = array(
+                'title' => 'My new page for typing ' . time(),
+                'content_type' => 'page',
+                'content' => '
+                <div class="container-fluid col-sm-12 mx-auto mx-lg-0  ">
+
+
+
+                   <div id="another-text">
+
+                   <h5>
+                        <font color="red">Red text</font>
+                   </h5>
+
+                   <h4>
+                       <font color="green">Hit backspace Green text must be green</font>
+                   </h4>
+
+                   </div>
+
+
+                </div>
+            ',
+                'subtype' => 'static',
+                'is_active' => 1,
+            );
+
+            $saved_id = save_content($params);
+            $link = content_link($saved_id);
+
+            $browser->visit($link . '?editmode=y');
+            $browser->pause(4000);
+
+            $browser->waitFor('#live-editor-frame', 30)
+                ->withinFrame('#live-editor-frame', function ($browser) {
+                    $browser->pause(1000);
+                });
+
+            $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
+
+            $browser->switchFrame($iframeElement);
+
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
+
+            $browser->doubleClick('#another-text h4');
+            // move the custros to the start
+            $browser->script("var myTextElement = document.getElementById('another-text').children[1].firstChild;
+                      var range = document.createRange();
+                      range.setStart(myTextElement, 0);
+                      range.setEnd(myTextElement, 0);
+                      window.getSelection().removeAllRanges();
+                      window.getSelection().addRange(range);" );
+
+
+            $browser->pause(1500);
+
+            //   $browser->keys('#my-text-here', 'New text in my element');
+            $browser->pause(100);
+            //  $browser->keys('#my-text-here', [ WebDriverKeys::ENTER, WebDriverKeys::BACKSPACE]);
+            $this->expectException(\Facebook\WebDriver\Exception\StaleElementReferenceException::class);
+            $browser->keys('#another-text h4', [WebDriverKeys::BACKSPACE]);
+            $browser->pause(1000);
+
+            //check if another-text has 2 font children red and green
+
+            $output = $browser->script("
+            var  isTrue = document.getElementById('another-text').querySelectorAll('font').length === 2;
+            return isTrue;
+        ");
+            $this->assertEquals($output[0], true, 'The element must have 2 font children');
+
+            $output = $browser->script("
+            var  isTrue = document.getElementById('another-text').querySelectorAll('font')[0].getAttribute('color') === 'red';
+            return isTrue;
+        ");
+            $this->assertEquals($output[0], true, 'The first font must be red');
+
+            $output = $browser->script("
+            var  isTrue = document.getElementById('another-text').querySelectorAll('font')[1].getAttribute('color') === 'green';
+            return isTrue;
+        ");
+            $this->assertEquals($output[0], true, 'The second font must be green');
+
+            $output = $browser->script("
+            var  isTrue = document.getElementById('another-text').querySelectorAll('font')[1].innerText === 'Hit backspace Green text must be green';
+            return isTrue;
+        ");
+            $this->assertEquals($output[0], true, 'The second font must contain the text');
+
+        });
+
+
     }
 
 
@@ -469,7 +583,7 @@ class LiveEditWysysgTest extends DuskTestCase
                 'content_type' => 'page',
                 'content' => '
                 <div class="container-fluid col-sm-12 mx-auto mx-lg-0  ">
-                   <h6 class="font-weight-normal" id="my-text-parent"><font id="my-text-here" color="#ff0000">Enter text here and hit enter</font></h6>
+                   <h6 class="font-weight-normal" id="my-text-parent"><font id="my-text-here" color="#ff0000">Enter text for align</font></h6>
                 </div>
             ',
                 'subtype' => 'static',
@@ -480,7 +594,7 @@ class LiveEditWysysgTest extends DuskTestCase
             $link = content_link($saved_id);
 
             $browser->visit($link . '?editmode=y');
-            $browser->pause(4000);
+            $browser->pause(3000);
 
             $browser->waitFor('#live-editor-frame', 30)
                 ->withinFrame('#live-editor-frame', function ($browser) {
@@ -496,8 +610,6 @@ class LiveEditWysysgTest extends DuskTestCase
             });
 
             $browser->doubleClick('#my-text-here');
-
-
 
 
 

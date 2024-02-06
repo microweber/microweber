@@ -9,7 +9,7 @@
         </span>
 
 
-        <div class="dropdown btn-icon live-edit-toolbar-buttons " >
+        <div class="dropdown btn-icon live-edit-toolbar-buttons " style="display: none" >
             <a role="button" id="dropdownLiveEditMenuLinkMoreSettings" data-bs-toggle="dropdown" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                     <path
@@ -19,7 +19,7 @@
 
             <div class="dropdown-menu mw-live-edit-tools-dropdown-menu"
                  aria-labelledby="dropdownLiveEditMenuLinkMoreSettings" ref="moreSettingsDropdown">
-                <ToolsButtons></ToolsButtons>
+<!--                <ToolsButtons></ToolsButtons>-->
             </div>
         </div>
 
