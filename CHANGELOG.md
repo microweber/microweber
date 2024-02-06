@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
-## [2.0.10] - 2024-01-31
+## [2.0.10] - 2024-02-06
 - Maintenance release
 - Fix Cant edit text in some heading tags
 - Fix cant save image as background when using svg
@@ -13,6 +13,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix Live edit menu is missing on small screen
 - Fix Layout background image is not deleted when 
 - Fix Element style editor was not opening 
+- Fix text typing in the editor 
+- Fix the background image module when you have picture and color as background
 - [See all changes...](https://github.com/microweber/microweber/compare/2.0.9...2.0.10 "")
 
 
