@@ -148,7 +148,7 @@ event_bind('mw.pageview', function ($params = false) {
 //        return;
 //    }
 //
-//    $tracker = new MicroweberPackages\SiteStats\Tracker();
+//    $tracker = new MicroweberPackages\Modules\SiteStats\Tracker();
 //
 //    if (get_option('stats_is_buffered', 'site_stats') == 1) {
 //        return $tracker->track_buffered();
@@ -178,7 +178,7 @@ api_expose('pingstats', function ($params = false) {
     if (!$to_track) {
         return;
     }
-    $tracker = new MicroweberPackages\SiteStats\Tracker();
+    $tracker = new MicroweberPackages\Modules\SiteStats\Tracker();
 
     if (get_option('stats_is_buffered', 'site_stats') == 1) {
         $tracker->track_buffered();
@@ -204,7 +204,7 @@ api_expose('pingstats', function ($params = false) {
         }
     }
 
-    event(new \MicroweberPackages\SiteStats\Events\PingStatsEvent([
+    event(new \MicroweberPackages\Modules\SiteStats\Events\PingStatsEvent([
         'referer'=>$referer,
     ]));
 
@@ -553,5 +553,5 @@ function get_visits($range = 'daily')
 
 function stats_get_views_count_for_content($content_id = 0)
 {
-    return (new \MicroweberPackages\SiteStats\Models\ContentViewCounter)->getCountViewsForContent($content_id);
+    return (new \MicroweberPackages\Modules\SiteStats\Models\ContentViewCounter)->getCountViewsForContent($content_id);
 }

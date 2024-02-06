@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Modules\GoogleAnalytics\Listeners;
 
 use MicroweberPackages\Modules\GoogleAnalytics\DispatchGoogleServerSideTracking;
-use MicroweberPackages\SiteStats\UtmVisitorData;
+use MicroweberPackages\Modules\SiteStats\UtmVisitorData;
 
 class GoogleAnalyticsPingStatsListener
 {
