@@ -8,6 +8,8 @@ use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\LiveEditSaveButton;
+use Tests\Browser\Components\LiveEditWaitUntilLoaded;
+use Tests\Browser\Components\WysiwygSmallEditorButtonClick;
 use Tests\DuskTestCase;
 
 class LiveEditWysysgTest extends DuskTestCase
@@ -374,11 +376,9 @@ class LiveEditWysysgTest extends DuskTestCase
             $this->assertEquals('Enter text hereNew text in my element and hit enter', $output[0], 'The text must be the same');
 
 
-
-
-
         });
     }
+
     public function testLiveEditTypingTestBackspaceKeyWithDiferentFonts()
     {
         $siteUrl = $this->siteUrl;
@@ -445,7 +445,7 @@ class LiveEditWysysgTest extends DuskTestCase
                       range.setStart(myTextElement, 0);
                       range.setEnd(myTextElement, 0);
                       window.getSelection().removeAllRanges();
-                      window.getSelection().addRange(range);" );
+                      window.getSelection().addRange(range);");
 
 
             $browser->pause(1500);
@@ -596,13 +596,19 @@ class LiveEditWysysgTest extends DuskTestCase
             $browser->visit($link . '?editmode=y');
             $browser->pause(3000);
 
+            $browser->within(new LiveEditWaitUntilLoaded(), function ($browser) {
+                $browser->waitUntilLoaded();
+            });
+
+
+
             $browser->waitFor('#live-editor-frame', 30)
                 ->withinFrame('#live-editor-frame', function ($browser) {
                     $browser->pause(1000);
                 });
 
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
-
+            $browser->pause(2000);
             $browser->switchFrame($iframeElement);
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
@@ -611,6 +617,11 @@ class LiveEditWysysgTest extends DuskTestCase
 
             $browser->doubleClick('#my-text-here');
 
+            $editorComponent = new WysiwygSmallEditorButtonClick();
+            $editorComponent->clickEditorButton($browser, 'Align left');
+
+$this->markTestIncomplete('This test has not been implemented yet. testLiveEditAlignOnElements');
+            $browser->pause(1110);
 
 
 

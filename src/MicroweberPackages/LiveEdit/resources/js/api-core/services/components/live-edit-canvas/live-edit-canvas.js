@@ -118,7 +118,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
                 liveEditIframe.contentWindow.mw.require('liveedit.css');
             }
 
-
+            target.classList.add('live-edit-frame-loaded');
 
             // liveEditIframe.contentWindow.addEventListener('beforeunload', event => {
             //     mw.spinner({element: target, decorate: true, size: 52}).show()
@@ -160,9 +160,13 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             this.dispatch('liveEditCanvasLoaded', {frame: liveEditIframe, frameWindow: liveEditIframe.contentWindow, frameDocument: liveEditIframe.contentWindow.document});
 
 
+
+
             mw.spinner({
                 element: target,
             }).remove()
+
+
         });
     }
 }
