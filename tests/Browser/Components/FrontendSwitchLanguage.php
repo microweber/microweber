@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Components;
 
+use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 
 class FrontendSwitchLanguage extends BaseComponent
@@ -40,6 +41,15 @@ class FrontendSwitchLanguage extends BaseComponent
     public function switchLanguage(Browser $browser, $locale)
     {
 
+        $browser->switchFrameDefault();
+        $browser->click('#mw-page-set-preview-mode');
+
+        $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
+        $browser->switchFrame($iframeElement);
+
+
+
+
         //
         if (!$browser->element('#switch_language_ul')) {
             if ($browser->element('#header-layout')) {
@@ -56,7 +66,17 @@ class FrontendSwitchLanguage extends BaseComponent
         $browser->pause(400);
         $browser->script('$(\'li[data-value="'.$locale.'"]\', ".module-multilanguage").click()');
      //   $browser->pause(20000);
-     $browser->waitForReload(false, 30);
+         $browser->waitForReload(false, 30);
+
+
+
+        $browser->switchFrameDefault();
+        $browser->click('#mw-page-set-back-to-edit-mode');
+
+        $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
+        $browser->switchFrame($iframeElement);
+
+
 
     }
 }
