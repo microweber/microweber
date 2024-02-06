@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\SiteStats\Models;
+namespace MicroweberPackages\Modules\SiteStats\Models;
 
 
 class Orders extends Base

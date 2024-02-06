@@ -1,8 +1,8 @@
 <?php
 
-namespace MicroweberPackages\SiteStats;
+namespace MicroweberPackages\Modules\SiteStats;
 
-use MicroweberPackages\SiteStats\Models\UserAttribute;
+use MicroweberPackages\Modules\SiteStats\Models\UserAttribute;
 
 class DispatchLocalTracking
 {

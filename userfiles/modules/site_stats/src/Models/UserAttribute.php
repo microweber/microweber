@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\SiteStats\Models;
+namespace MicroweberPackages\Modules\SiteStats\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

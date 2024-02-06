@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\SiteStats\Models;
+namespace MicroweberPackages\Modules\SiteStats\Models;
 
 
 class Referrers extends Base
@@ -18,12 +18,12 @@ class Referrers extends Base
 
     public function domain()
     {
-        return $this->belongsTo('MicroweberPackages\SiteStats\Models\ReferrersDomains' ,'referrer_domain_id' );
+        return $this->belongsTo('MicroweberPackages\Modules\SiteStats\Models\ReferrersDomains' ,'referrer_domain_id' );
     }
 
     public function path()
     {
-        return $this->belongsTo('MicroweberPackages\SiteStats\Models\ReferrersPaths','referrer_path_id');
+        return $this->belongsTo('MicroweberPackages\Modules\SiteStats\Models\ReferrersPaths','referrer_path_id');
     }
 
 

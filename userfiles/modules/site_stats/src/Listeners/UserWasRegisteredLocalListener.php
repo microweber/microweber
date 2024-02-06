@@ -3,9 +3,9 @@ namespace MicroweberPackages\Modules\SiteStats\Listeners;
 
 use MicroweberPackages\Modules\SiteStats\DTO\UtmEvent;
 use MicroweberPackages\Modules\SiteStats\DTO\UtmEventSignUp;
-use MicroweberPackages\SiteStats\DispatchLocalTracking;
-use MicroweberPackages\SiteStats\Models\StatsEvent;
-use MicroweberPackages\SiteStats\UtmVisitorData;
+use MicroweberPackages\Modules\SiteStats\DispatchLocalTracking;
+use MicroweberPackages\Modules\SiteStats\Models\StatsEvent;
+use MicroweberPackages\Modules\SiteStats\UtmVisitorData;
 
 class UserWasRegisteredLocalListener
 {

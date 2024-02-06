@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\SiteStats\Events;
+namespace MicroweberPackages\Modules\SiteStats\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
