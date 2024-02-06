@@ -4,7 +4,7 @@ namespace MicroweberPackages\Modules\GoogleAnalytics\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use MicroweberPackages\Modules\GoogleAnalytics\Listeners\GoogleAnalyticsPingStatsListener;
-use MicroweberPackages\SiteStats\Events\PingStatsEvent;
+use MicroweberPackages\Modules\SiteStats\Events\PingStatsEvent;
 
 class GoogleAnalyticsEventsServiceProvider extends EventServiceProvider
 {

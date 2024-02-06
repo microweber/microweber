@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\SiteStats;
+namespace MicroweberPackages\Modules\SiteStats;
 
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;

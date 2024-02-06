@@ -13,8 +13,8 @@ use AlexWestergaard\PhpGa4\Event\Purchase;
 use AlexWestergaard\PhpGa4\Event\Signup;
 use AlexWestergaard\PhpGa4\Item;
 use MicroweberPackages\Modules\SiteStats\DTO\GA4Events\Conversion;
-use MicroweberPackages\SiteStats\Models\StatsEvent;
-use MicroweberPackages\SiteStats\UtmVisitorData;
+use MicroweberPackages\Modules\SiteStats\Models\StatsEvent;
+use MicroweberPackages\Modules\SiteStats\UtmVisitorData;
 
 class DispatchGoogleServerSideTracking
 {

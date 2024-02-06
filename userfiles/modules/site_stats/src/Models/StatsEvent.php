@@ -1,10 +1,10 @@
 <?php
-namespace MicroweberPackages\SiteStats\Models;
+namespace MicroweberPackages\Modules\SiteStats\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Modules\SiteStats\DTO\UtmEvent;
-use MicroweberPackages\SiteStats\UtmVisitorData;
+use MicroweberPackages\Modules\SiteStats\UtmVisitorData;
 
 class StatsEvent extends Model
 {

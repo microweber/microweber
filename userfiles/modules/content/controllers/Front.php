@@ -4,7 +4,7 @@
 namespace content\controllers;
 
 use Illuminate\Support\Collection;
-use MicroweberPackages\SiteStats\Models\ContentViewCounter;
+use MicroweberPackages\Modules\SiteStats\Models\ContentViewCounter;
 use MicroweberPackages\View\View;
 use DB;
 use \MicroweberPackages\Option\Models\Option;

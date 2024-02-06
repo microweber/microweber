@@ -335,9 +335,9 @@ class LiveEditBackgroundImageTest extends DuskTestCase
           //  $browser->keys('.js-filepicker-pick-type-tab-video', [WebDriverKeys::ESCAPE]);
             $browser->switchFrameDefault();
             $browser->pause(300);
-         //   $browser->click('.mw-dialog .mw-dialog-close');
-          $browser->script("$('.mw-dialog-close').click()");
-//
+          $browser->click('.mw-dialog.active .mw-dialog-close');
+  //        $browser->script("$('.mw-dialog-close').click()");
+////
 //         //   $browser->keys('.a-color-picker-single-input input', [WebDriverKeys::ESCAPE]);
 //
 //

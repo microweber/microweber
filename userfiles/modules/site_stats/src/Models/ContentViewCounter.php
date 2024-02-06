@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MicroweberPackages\SiteStats\Models;
+namespace MicroweberPackages\Modules\SiteStats\Models;
 
 
 use MicroweberPackages\Content\Models\Content;

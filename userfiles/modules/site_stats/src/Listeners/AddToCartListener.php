@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Modules\SiteStats\Listeners;
 
 use MicroweberPackages\Modules\SiteStats\DTO\UtmEventAddToCart;
-use MicroweberPackages\SiteStats\Models\StatsEvent;
+use MicroweberPackages\Modules\SiteStats\Models\StatsEvent;
 
 class AddToCartListener
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace MicroweberPackages\SiteStats;
+namespace MicroweberPackages\Modules\SiteStats;
 
 
-use MicroweberPackages\SiteStats\Models\Browsers;
-use MicroweberPackages\SiteStats\Models\Geoip;
-use MicroweberPackages\SiteStats\Models\Log;
-use MicroweberPackages\SiteStats\Models\Referrers;
-use MicroweberPackages\SiteStats\Models\ReferrersDomains;
-use MicroweberPackages\SiteStats\Models\ReferrersPaths;
-use MicroweberPackages\SiteStats\Models\Sessions;
-use MicroweberPackages\SiteStats\Models\StatsUrl;
+use MicroweberPackages\Modules\SiteStats\Models\Browsers;
+use MicroweberPackages\Modules\SiteStats\Models\Geoip;
+use MicroweberPackages\Modules\SiteStats\Models\Log;
+use MicroweberPackages\Modules\SiteStats\Models\Referrers;
+use MicroweberPackages\Modules\SiteStats\Models\ReferrersDomains;
+use MicroweberPackages\Modules\SiteStats\Models\ReferrersPaths;
+use MicroweberPackages\Modules\SiteStats\Models\Sessions;
+use MicroweberPackages\Modules\SiteStats\Models\StatsUrl;
 use Jenssegers\Agent\Agent;
 use GeoIp2\Database\Reader;
 
