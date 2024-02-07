@@ -594,7 +594,6 @@ class LiveEditWysysgTest extends DuskTestCase
             $link = content_link($saved_id);
 
             $browser->visit($link . '?editmode=y');
-            $browser->pause(3000);
 
             $browser->within(new LiveEditWaitUntilLoaded(), function ($browser) {
                 $browser->waitUntilLoaded();
@@ -607,7 +606,7 @@ class LiveEditWysysgTest extends DuskTestCase
                 });
 
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
-            $browser->pause(2000);
+            $browser->pause(1000);
             $browser->switchFrame($iframeElement);
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
@@ -620,8 +619,30 @@ class LiveEditWysysgTest extends DuskTestCase
             $editorComponent->clickEditorButton($browser, 'Align center');
 
           //  $this->markTestIncomplete('This test has not been implemented yet. testLiveEditAlignOnElements');
-            $browser->pause(110010);
+            $browser->pause(500);
 
+            //check if aligned
+            $output = $browser->script("
+            var  isTrue = window.getComputedStyle(document.getElementById('my-text-parent')).textAlign
+ === 'center';
+            return isTrue;
+        ");
+            $this->assertEquals($output[0], true, 'The element must be aligned center');
+
+            $browser->within(new LiveEditSaveButton(), function ($browser) {
+                $browser->clickSaveButton($browser);
+            });
+            $browser->switchFrameDefault();
+
+            $browser->visit($link . '?editmode=n');
+            $browser->pause(1000);
+
+            $output = $browser->script("
+            var  isTrue = window.getComputedStyle(document.getElementById('my-text-parent')).textAlign
+ === 'center';
+            return isTrue;
+        ");
+            $this->assertEquals($output[0], true, 'The element must be aligned center');
 
         });
 

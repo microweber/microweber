@@ -49,6 +49,35 @@ class CartTest extends TestCase
         $cart_add = update_cart($add_to_cart);
         $cart_items = get_cart();
         $this->assertEquals($cart_items[0]['qty'], 2);
+
+
+
+    }
+    public function testAddToCartNotAProduct()
+    {
+      //  empty_cart();
+        app()->database_manager->extended_save_set_permission(true);
+
+        $params = array(
+            'title' => 'My page',
+            'content_type' => 'page',
+            'subtype' => 'static',
+
+            'is_active' => 1,);
+
+
+        $saved_id = save_content($params);
+        $get = get_content_by_id($saved_id);
+
+        $this->assertEquals($saved_id, ($get['id']));
+
+        $add_to_cart = array(
+           'content_id' => $saved_id,
+
+        );
+        $cart_add = update_cart($add_to_cart);
+        $this->assertEquals(isset($cart_add['error']), true);
+
     }
 
     public function testGetCart()

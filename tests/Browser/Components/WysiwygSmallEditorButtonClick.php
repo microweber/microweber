@@ -45,26 +45,36 @@ class WysiwygSmallEditorButtonClick extends BaseComponent
 
         $selector = ".mw-small-editor [data-tooltip='{$button}'] + .mw-editor-group-button-caret";
 
-        $randId = 'id-rand-dusk-'.rand(1, 1000).uniqid();
+        $randId = 'id-rand-dusk-click-element-'.rand(1, 1000).uniqid();
 
         $browser->driver->executeScript(
             <<<JS
-        //var elEditor = document.querySelector(".mw-small-editor [data-tooltip='{$button}'] + .mw-editor-group-button-caret").id = '{$randId}'
+         var elEditor = document.querySelector(".mw-small-editor [data-tooltip='{$button}']");
 
-        var checkIfinDD = document.querySelector(".mw-small-editor [data-tooltip='Align center']").parentElement
-        if(checkIfinDD){
-            //check for class mw-bar-control-item-group-contents
-            var isinDD = checkIfinDD.closest(".mw-bar-control-item-group-contents").parentElement;
-            if (isinDD) {
-               //chec if is caret
-            var isinDDWithCaret = checkIfinDD.closest(".mw-bar-control-item-group-contents.mw-editor-group-button-caret");
-            if(isinDDWithCaret){
-                isinDDWithCaret.id = '{$randId}';
+var getCaretForComponent = node => {
+    if(typeof node === 'string') {
+        node = document.querySelector(node);
+    }
 
-             }
+    if(!node) return null;
 
-            }
-        }
+    let dd = node.closest('.mw-bar-control-item-group');
+    if(!dd) return null;
+    return {
+       dropdown: dd,
+       caret: dd.querySelector('.mw-editor-group-button-caret')
+     }
+}
+
+var isCaret = getCaretForComponent(elEditor);
+if(isCaret && isCaret.caret){
+    if(isCaret && isCaret.dropdown && isCaret.dropdown.classList.contains('active')){
+        //isCaret.dropdown.classList.remove('active');
+    } else {
+        //isCaret.dropdown.classList.add('active');
+            isCaret.caret.id = '{$randId}';
+    }
+}
 
 JS
         );
@@ -75,7 +85,7 @@ JS
             $browser->click('#'.$randId);
         }
 
-        $browser->pause(10000);
+        $browser->pause(100);
 
         $selector = ".mw-small-editor .mw-editor-controller-button[data-tooltip='{$button}']";
         if ($browser->element($selector)) {
@@ -84,18 +94,6 @@ JS
 
 
 
-//        $browser->driver->executeScript(
-//            <<<JS
-//        var elEditor = document.querySelector(".mw-small-editor [data-tooltip='{$button}']");
-//        if (elEditor) {
-//            var isinDD = elEditor.closest(".mw-editor-group-button").nextSibling;
-//            if (isinDD) {
-//                isinDD.click();
-//            }
-//        }
-//        return true;
-//JS
-//        );
     }
 
 }
