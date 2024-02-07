@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "178865a78e20ad8fd9037be89f4a0b7d",
+    "content-hash": "047cdb08da62a4e88cde2012737be6c2",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -918,16 +918,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "dev-main",
+            "version": "2.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "c827c93b62186488dbffdf4b614413ae7a785607"
+                "reference": "d75d17c16a863438027d1d96401cddcd6aa5bb60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/c827c93b62186488dbffdf4b614413ae7a785607",
-                "reference": "c827c93b62186488dbffdf4b614413ae7a785607",
+                "url": "https://api.github.com/repos/composer/composer/zipball/d75d17c16a863438027d1d96401cddcd6aa5bb60",
+                "reference": "d75d17c16a863438027d1d96401cddcd6aa5bb60",
                 "shasum": ""
             },
             "require": {
@@ -966,7 +966,6 @@
                 "ext-zip": "Enabling the zip extension allows you to unzip archives",
                 "ext-zlib": "Allow gzip compression of HTTP requests"
             },
-            "default-branch": true,
             "bin": [
                 "bin/composer"
             ],
@@ -1013,7 +1012,7 @@
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
                 "security": "https://github.com/composer/composer/security/policy",
-                "source": "https://github.com/composer/composer/tree/main"
+                "source": "https://github.com/composer/composer/tree/2.6.4"
             },
             "funding": [
                 {
@@ -1029,7 +1028,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-11T12:19:31+00:00"
+            "time": "2023-09-29T08:54:47+00:00"
         },
         {
             "name": "composer/installers",
