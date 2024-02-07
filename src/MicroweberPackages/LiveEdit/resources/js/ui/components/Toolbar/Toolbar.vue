@@ -207,6 +207,14 @@ export default {
             setTimeout(() => {
                 this.toolbarDisplay = '';
                 document.querySelector('#live-edit-app').style.display = this.toolbarDisplay;
+
+
+                if (this.toolbarDisplay !== 'none') {
+                    var event = new Event('liveEditLoaded');
+                    window.dispatchEvent(event);
+                    document.querySelector('#live-edit-app').classList.add('live-edit-loaded');
+                }
+
             }, 700);
 
         }
@@ -269,6 +277,8 @@ export default {
                 }
 
             }
+
+
 
 
         })
