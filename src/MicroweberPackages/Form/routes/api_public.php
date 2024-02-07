@@ -12,5 +12,5 @@ Route::name('api.')
  ->middleware(['api','xss'])
     ->namespace('\MicroweberPackages\Form\Http\Controllers\ApiPublic')
     ->group(function () {
-        Route::post('post_form', 'FormController@post')->name('post.form')->middleware(['throttle:60,10']);
+        Route::post('post_form', 'FormController@post')->name('post.form')->middleware(['throttle:60,1']);
     });
