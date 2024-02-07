@@ -34,6 +34,7 @@
         "vue-loader": "^17.0.1",
         "vue3-click-away": "^1.2.4",
         "vue3-tags-input": "^1.0.12",
+        "lodash": "^4.17.21",
         "vuetify": "^3.3.19"
     },
     "devDependencies": {

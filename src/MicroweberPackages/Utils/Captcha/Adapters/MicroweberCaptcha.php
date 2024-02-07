@@ -4,8 +4,11 @@ namespace MicroweberPackages\Utils\Captcha\Adapters;
 
 class MicroweberCaptcha
 {
+
+
     public function validate($key, $captcha_id = null, $unset_if_found = true)
     {
+
         if ($key == false) {
             return false;
         }
@@ -19,9 +22,9 @@ class MicroweberCaptcha
             }, $old_array);
         }
 
-         if (is_array($old_array) and in_array($key, $old_array)) {
+        if (is_array($old_array) and in_array($key, $old_array)) {
             $found_key = array_search($key, $old_array);
-             if ($found_key !== false) {
+            if ($found_key !== false) {
                 if ($unset_if_found) {
                     unset($old_array[$found_key]);
                 }
@@ -32,10 +35,10 @@ class MicroweberCaptcha
         }
 
         $existing = app()->user_manager->session_get('captcha_' . $captcha_id);
-         if ($existing == $key) {
-             if ($captcha_id) {
-                 $this->reset($captcha_id);
-             }
+        if ($existing == $key) {
+            if ($captcha_id) {
+                $this->reset($captcha_id);
+            }
             return true;
         } else {
             $existing = app()->user_manager->session_get('captcha');
@@ -43,17 +46,31 @@ class MicroweberCaptcha
                 $this->reset();
                 return true;
             }
-            return false;
         }
+
+        $this->increaseDificulty();
     }
 
     public function reset($captcha_id = null)
     {
-        $old = app()->user_manager->session_set('captcha',[]);
-        $old = app()->user_manager->session_set('captcha_recent',[]);
+        $old = app()->user_manager->session_set('captcha', []);
+        $old = app()->user_manager->session_set('captcha_recent', []);
         if ($captcha_id) {
-            $old = app()->user_manager->session_set('captcha_' . $captcha_id,[]);
+            $old = app()->user_manager->session_set('captcha_' . $captcha_id, []);
         }
+
+    }
+
+    public function increaseDificulty()
+    {
+
+        $difficulty = app()->user_manager->session_get('captcha_difficulty');
+        if (!$difficulty) {
+            $difficulty = 1;
+        }
+
+        $difficulty++;
+        app()->user_manager->session_set('captcha_difficulty', $difficulty);
     }
 
     public function render($params = array())
@@ -61,7 +78,7 @@ class MicroweberCaptcha
         ob_get_clean();
 
         $roit1 = rand(1, 6);
-        $font = dirname(dirname(__FILE__)). DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.ttf';
+        $font = dirname(dirname(__FILE__)) . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.ttf';
         $font = normalize_path($font, 0);
 
         $x = 100;
@@ -74,7 +91,7 @@ class MicroweberCaptcha
             $y = intval($params['h']);
         }
 
-
+        //    $randLettersAz = Str
         if (function_exists('imagettftext')) {
             $text1 = mt_rand(100, 4500);
         } else {
@@ -84,6 +101,18 @@ class MicroweberCaptcha
         $roit = mt_rand(1, 5);
         $text = "$text1";
         $answ = $text1;
+        $difficulty = app()->user_manager->session_get('captcha_difficulty');
+        $difficulty = intval($difficulty);
+        if ($difficulty > 4) {
+            $randomLetters = '';
+            for ($i = 0; $i < 4; $i++) {
+                $asciiValue = rand(97, 122);
+                $randomLetters .= chr($asciiValue);
+            }
+            $text = $randomLetters;
+            $text2 = $randomLetters;
+            $answ = $randomLetters;
+        }
 
 
         $captcha_sid = 'captcha';
@@ -115,7 +144,7 @@ class MicroweberCaptcha
                 $old_array = array();
             }
 
-            $old_array[] =$old;
+            $old_array[] = $old;
             // array_unshift($old_array, $old);
             //   array_slice($old_array, 20);
             // app()->user_manager->session_set('captcha_recent', $old_array);
@@ -123,28 +152,28 @@ class MicroweberCaptcha
         if (!isset($old_array) or !is_array($old_array)) {
             $old_array = array();
         }
-        if($captcha_sid != 'captcha'){
+        if ($captcha_sid != 'captcha') {
             $old_array[$captcha_sid] = $answ;
         } else {
             $old_array[] = $answ;
         }
-        if($old_array){
+        if ($old_array) {
             $old_array = array_unique($old_array);
-            if(count($old_array)> 20){
-                $old_array=  array_slice($old_array, 0,20);
+            if (count($old_array) > 20) {
+                $old_array = array_slice($old_array, 0, 20);
             }
         }
         app()->user_manager->session_set('captcha_recent', $old_array);
 
         //dd($old_array);
-       // dd($old_array);
+        // dd($old_array);
         $sess = app()->user_manager->session_set($captcha_sid, $answ);
-     //   dd($captcha_sid,$old_array);
+        //   dd($captcha_sid,$old_array);
         $col1z = rand(200, 242);
         $col1z1 = rand(150, 242);
         $col1z11 = rand(150, 242);
-      //  $color1 = imagecolorallocate($image, $col1z, $col1z1, $tcol1z11);
-       // $color2 = imagecolorallocate($image, $tcol1z - 1, $ttcol1z1 - 1, $tcol1z11 - 2);
+        //  $color1 = imagecolorallocate($image, $col1z, $col1z1, $tcol1z11);
+        // $color2 = imagecolorallocate($image, $tcol1z - 1, $ttcol1z1 - 1, $tcol1z11 - 2);
         // imagefill($image, 0, 0, $color1);
         for ($i = 0; $i < $x; ++$i) {
             for ($j = 0; $j < $y; ++$j) {
@@ -193,24 +222,21 @@ class MicroweberCaptcha
             $image_height = imagesy($image);
 
 // Get Bounding Box Size
-            $text_box = imagettfbbox($tsize,$roit,$font,$text);
+            $text_box = imagettfbbox($tsize, $roit, $font, $text);
 
 // Get your Text Width and Height
-            $text_width = $text_box[2]-$text_box[0];
-            $text_height = $text_box[7]-$text_box[1];
+            $text_width = $text_box[2] - $text_box[0];
+            $text_height = $text_box[7] - $text_box[1];
 
 // Calculate coordinates of the text
-            $xa = ($image_width/2) - ($text_width/2);
-            $ya = ($image_height/2) - ($text_height/2);
+            $xa = ($image_width / 2) - ($text_width / 2);
+            $ya = ($image_height / 2) - ($text_height / 2);
 
 // Add some shadow to the text
             //imagettftext($im, $font_size, 0, $x, $y+1, $grey, $font, $text);
 
 // Add the text
             imagettftext($image, $font_size, 0, $xa, $ya, $black, $font, $text);
-
-
-
 
 
             //imagettftext($image, $tsize, $roit, $x1, $y1, $black, $font, $text);
