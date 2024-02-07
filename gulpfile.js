@@ -26,6 +26,19 @@ const _apiJs = () => {
         .pipe(gulp.dest(apiJSOutputPath));
     console.log('api-js compiled');
 };
+const _mwEditor = () => {
+    return gulp.src([
+        `${apiJSPath}/editor/mweditor.js`,
+    ])
+        .pipe(include())
+
+        .pipe(sourcemaps.init()) // Initialize sourcemaps
+        .pipe(concat('/editor/mweditor.min.js'))
+        .pipe(uglify())
+        .pipe(sourcemaps.write('.')) // Write sourcemaps to the same directory
+        .pipe(gulp.dest(apiJSOutputPath));
+    console.log('mweditor compiled');
+};
 
 
 const _adminCss = () => {
@@ -49,14 +62,17 @@ const _adminCssRtl = () => {
 gulp.task('admin-css', _adminCss);
 gulp.task('admin-css-rtl', _adminCssRtl);
 gulp.task('api-js', _apiJs);
+gulp.task('mw-editor', _mwEditor);
 
 
 gulp.task('admin-css-dev', () => {
     _apiJs();
     _adminCss();
     _adminCssRtl();
+    _mwEditor();
     gulp.watch('userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/**/*.scss', gulp.series(['admin-css','admin-css-rtl']));
     gulp.watch('userfiles/modules/microweber/api/apijs_combined.js', gulp.series(['api-js']));
+    gulp.watch('userfiles/modules/microweber/api/editor/**/*.js', gulp.series(['mw-editor']));
 
 
 })
