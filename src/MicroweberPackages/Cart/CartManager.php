@@ -631,7 +631,12 @@ class CartManager extends Crud
                     $cont = false;
                 }
             }
+            if (isset($cont['content_type'])) {
+                if ($cont['content_type'] != 'product') {
+                    $cont = false;
+                }
 
+            }
             $cont_data = $this->app->content_manager->data($for_id);
             if ($cont == false) {
                 return array('error' => 'Invalid product?');
