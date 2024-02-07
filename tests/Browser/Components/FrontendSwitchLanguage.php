@@ -42,11 +42,13 @@ class FrontendSwitchLanguage extends BaseComponent
     {
 
         $browser->switchFrameDefault();
-        $browser->click('#mw-page-set-preview-mode');
-
-        $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
-        $browser->switchFrame($iframeElement);
-
+        if ($browser->element('#mw-page-set-preview-mode')) {
+            $browser->click('#mw-page-set-preview-mode');
+        }
+        if ($browser->element('#live-editor-frame')) {
+            $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
+            $browser->switchFrame($iframeElement);
+        }
 
 
 
@@ -71,8 +73,9 @@ class FrontendSwitchLanguage extends BaseComponent
 
 
         $browser->switchFrameDefault();
-        $browser->click('#mw-page-set-back-to-edit-mode');
-
+        if ($browser->element('#mw-page-set-back-to-edit-mode')) {
+            $browser->click('#mw-page-set-back-to-edit-mode');
+        }
         $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
         $browser->switchFrame($iframeElement);
 

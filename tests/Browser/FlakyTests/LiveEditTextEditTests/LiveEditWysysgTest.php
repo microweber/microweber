@@ -601,7 +601,6 @@ class LiveEditWysysgTest extends DuskTestCase
             });
 
 
-
             $browser->waitFor('#live-editor-frame', 30)
                 ->withinFrame('#live-editor-frame', function ($browser) {
                     $browser->pause(1000);
@@ -618,11 +617,10 @@ class LiveEditWysysgTest extends DuskTestCase
             $browser->doubleClick('#my-text-here');
 
             $editorComponent = new WysiwygSmallEditorButtonClick();
-            $editorComponent->clickEditorButton($browser, 'Align left');
+            $editorComponent->clickEditorButton($browser, 'Align center');
 
-$this->markTestIncomplete('This test has not been implemented yet. testLiveEditAlignOnElements');
-            $browser->pause(1110);
-
+          //  $this->markTestIncomplete('This test has not been implemented yet. testLiveEditAlignOnElements');
+            $browser->pause(110010);
 
 
         });
