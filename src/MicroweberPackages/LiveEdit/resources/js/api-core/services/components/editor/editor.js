@@ -37,7 +37,7 @@ export const EditorComponent = function () {
     const editorControls = [
         [
 
-            'backToElementSettings',
+
             'plus',
             'ai',
             {
@@ -90,6 +90,7 @@ export const EditorComponent = function () {
 
             'removeFormat',
             'pin',
+            'backToElementSettings',
 
         ]
     ];

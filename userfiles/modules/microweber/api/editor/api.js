@@ -23,6 +23,146 @@ mw.lib.require('rangy');
 
     MWEditor.api = function (scope) {
         return {
+            format: function(value) {
+                var focusedNode = api.getSelection().focusNode;
+                var el = api.elementNode(focusedNode);
+
+
+
+                var tags = ['a','abbr','acronym','b','bdo','big','br','button','cite','code','dfn','em','i','img','kbd','label','map','output','q','samp','small','span','strong','sub','sup','time','tt','var' ];
+
+
+                var elisInline = tags.indexOf(el.nodeName.toLowerCase()) !== -1;
+
+                 var nn = focusedNode.parentNode.nodeName.toLowerCase();
+
+                 var textNodeHandle = function() {
+                    var newBlock = document.createElement(value);
+                    var getFocusedNeighbours = api.getFocusedNeighbours(focusedNode);
+                    focusedNode.after(newBlock);
+                    getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
+                    // newBlock.appendChild(focusedNode);
+                    scope.api.setCursorAtStart(newBlock);
+                 }
+
+                 var inlinNodeHandle = function() {
+                    var newBlock = document.createElement(value);
+                    var getFocusedNeighbours = api.getFocusedNeighbours(el);
+                    el.after(newBlock);
+                    getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
+                    // newBlock.appendChild(focusedNode);
+                    scope.api.setCursorAtStart(newBlock);
+                 }
+
+
+                 var isTxtLike1 = rootScope.editArea === el;
+                 var isTxtLike2 = focusedNode.nodeType === 3  && !_proto._availableTags.find(obj => obj.value === nn && obj.value !== 'div');
+
+                 var formattagsArray = _proto._availableTags.filter(obj => obj.value !== 'div').map(o => o.value) ;
+                 var formattags = formattagsArray.join(',');
+
+
+                var focusedNodeBlock = focusedNode;
+                var focusedNodeBlockRes = false;
+
+
+
+
+
+                 if(focusedNode.nodeType === 1 && focusedNode.querySelector(formattags)) {
+                    return;
+                 }
+
+                 while(focusedNodeBlock) {
+                    if(formattagsArray.indexOf(focusedNodeBlock.nodeName.toLowerCase()) !== -1) {
+                        focusedNodeBlockRes = true;
+                        break
+                    }
+                    focusedNodeBlock = focusedNodeBlock.parentNode;
+                }
+
+
+                rootScope.state.record({
+                    target: rootScope.$editArea[0],
+                    value: rootScope.$editArea[0].innerHTML
+                });
+
+                 if(focusedNodeBlockRes) {
+                    var el = mw.tools.setTag(focusedNodeBlock, value);
+                        el.style.fontSize = '';
+                        scope.api.setCursorAtStart(el);
+                 } else {
+                    if(elisInline) {
+                        inlinNodeHandle();
+                        rootScope.state.record({
+                            target: rootScope.$editArea[0],
+                            value: rootScope.$editArea[0].innerHTML
+                        });
+                        return;
+                     }
+
+                    if(( isTxtLike1 || isTxtLike2) ){
+                        if(focusedNode !== el){
+                            if(focusedNode.nodeType === 3) {
+                                textNodeHandle()
+                                rootScope.state.record({
+                                    target: rootScope.$editArea[0],
+                                    value: rootScope.$editArea[0].innerHTML
+                                });
+                            }
+
+                        }
+                        return;
+                    }
+                 }
+
+
+
+                var parentul = mw.tools.firstParentOrCurrentWithTag(el, 'ul');
+                var parentol = mw.tools.firstParentOrCurrentWithTag(el, 'ol');
+                if(parentul) {
+                    api.execCommand('insertUnorderedList', false, value);
+                }
+                if (parentol) {
+                    api.execCommand('insertOrderedList', false, value);
+                }
+
+                var block = mw.tools.firstBlockLikeLevel(el);
+
+                if(block && block.parentNode) {
+                    scope.api.action(block.parentNode.parentNode, function () {
+                        var el = mw.tools.setTag(block, value);
+                        el.style.fontSize = '';
+                        scope.api.setCursorAtStart(el);
+                    });
+                }
+            },
+
+            getSelectionChildren: function () {
+                const sel = scope.api.getSelection();
+                const range = sel.getRangeAt(0);
+                const  commonAncestorContainer = scope.api.elementNode(range.commonAncestorContainer)
+                const nodes = Array
+                    .from(commonAncestorContainer.children)
+                    .filter(node => range.intersectsNode(node));
+                    if(nodes.length === 0) {
+                        return [commonAncestorContainer];
+                    }
+                return nodes;
+            },
+            getSelectionNodes: function () {
+                const sel = scope.api.getSelection();
+                const range = sel.getRangeAt(0);
+                const  commonAncestorContainer = scope.api.elementNode(range.commonAncestorContainer)
+                const nodes = Array
+                    .from(commonAncestorContainer.childNodes)
+                    .filter(node => range.intersectsNode(node))
+                    .filter(node => node.nodeType === 1 || ( node.nodeType === 3 && !!node.nodeValue.trim()));
+                    if(nodes.length === 0) {
+                        return [range.commonAncestorContainer]
+                    }
+                return nodes;
+            },
             getSelection: function () {
                 return scope.getSelection();
             },

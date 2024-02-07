@@ -314,13 +314,16 @@ var MWEditor = function (options) {
     var  instance = this;
 
 
-
+    var actionLikeEvents = ['click', 'execCommand', 'keydown', 'action', 'mouseup'];
 
     function _observe(e){
 
         e = e || {type: 'action'};
         var max = 78;
-        var eventIsActionLike = e.type === 'click' || e.type === 'execCommand' || e.type === 'keydown' || e.type === 'action';
+
+
+
+        var eventIsActionLike = actionLikeEvents.indexOf(e.type) !== -1 ;
         var event = e.originaleEvent ? e.originaleEvent : e;
         var localTarget = event.target;
 
@@ -753,6 +756,9 @@ var MWEditor = function (options) {
     this.initInteraction = function () {
 
         this.interactionData = {};
+        scope.state.on('record', () => {
+            _observe();
+        });
         $(scope.actionWindow.document).on('click', function(e){
 
             if(e.detail >= 3) {
@@ -774,7 +780,7 @@ var MWEditor = function (options) {
         });
         scope.state.on('undo', function (){
             setTimeout(function (){
-                _observe();
+                _observe({type: 'action'});
             }, 123);
         });
         scope.state.on('redo', function (){
@@ -784,7 +790,7 @@ var MWEditor = function (options) {
                 _observe();
             }, 123);
         });
-        scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove scroll', _observe);
+        scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove scroll mouseup', _observe);
         this.createInteractionControls();
     };
 
