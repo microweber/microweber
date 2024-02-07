@@ -56,6 +56,13 @@ if ($menu_name == false and isset($params['menu_name'])) {
         });
     });
 
+
+    $( document ).ready(function() {
+        var dialog = mw.dialog.get(window.frameElement);
+        if(dialog) {
+            dialog.width(500)
+        }
+    });
 </script>
 
 <div class="module-live-edit-settings">
