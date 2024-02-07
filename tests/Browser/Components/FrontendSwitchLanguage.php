@@ -76,10 +76,10 @@ class FrontendSwitchLanguage extends BaseComponent
         if ($browser->element('#mw-page-set-back-to-edit-mode')) {
             $browser->click('#mw-page-set-back-to-edit-mode');
         }
-        if ($browser->element('#live-editor-frame')) {
-            $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
-            $browser->switchFrame($iframeElement);
-        }
+//        if ($browser->element('#live-editor-frame')) {
+//            $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
+//            $browser->switchFrame($iframeElement);
+//        }
 
 
     }
