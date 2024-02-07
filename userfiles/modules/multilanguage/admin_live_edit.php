@@ -29,6 +29,15 @@ only_admin_access();
 
 
     });
+
+    $( document ).ready(function() {
+        var dialog = mw.dialog.get(window.frameElement);
+        if(dialog) {
+            dialog.width(800)
+        }
+    });
+
+
 </script>
 <div id="mw-language-settings">
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs m-1 w-100">
