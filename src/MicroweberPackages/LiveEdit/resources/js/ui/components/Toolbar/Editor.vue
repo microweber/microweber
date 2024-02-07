@@ -298,7 +298,7 @@ export default {
                        mw.app.richTextEditor.smallEditorInteract(element);
                        mw.app.richTextEditor.positionSmallEditor(element);
 
-
+                       mw.app.richTextEditor.observe()
 
 
 

@@ -312,7 +312,11 @@ var MWEditor = function (options) {
     }
     var notEditableSelectors = scope.settings.notEditableClasses ? scope.settings.notEditableClasses.map(c => `.${c}:not([contenteditable="false"])`).join(',') : null;
     var  instance = this;
-    var _observe = function(e){
+
+
+
+
+    function _observe(e){
 
         e = e || {type: 'action'};
         var max = 78;
@@ -672,6 +676,11 @@ var MWEditor = function (options) {
         }
     }
 
+
+    this.observe = _observe;
+
+
+
     this.__$tempNodes = [];
 
     this.adjustDoubleClickRange = function(event, sel) {
@@ -977,6 +986,7 @@ var MWEditor = function (options) {
 
     this.controls = [];
     this.api = MWEditor.api(this);
+    this.api.observe = _observe;
 
     this._addControllerGroups = [];
     this.addControllerGroup = function (obj, row, bar) {

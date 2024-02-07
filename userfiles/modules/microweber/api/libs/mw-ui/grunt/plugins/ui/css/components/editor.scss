@@ -37,6 +37,9 @@ $editorSpacing: 5px;
 .mw-small-editor.mw-small-editor-skin-lite,
 .mw-small-editor.mw-small-editor-skin-dark{
 
+    -webkit-user-select: none;
+    user-select: none;
+
 
     .mw-editor-dropdown-option{
         padding: 10px 10px;
