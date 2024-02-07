@@ -36,9 +36,23 @@ only_admin_access();
             <?php
             $defaultLang = mw()->lang_helper->default_lang();
             $supportedLanguages = get_supported_languages();
+
             if (!empty($supportedLanguages)):
                 $isl = 1;
-                foreach ($supportedLanguages as $language):
+
+            ?>
+
+            <script>
+                if(typeof mw.top === 'function'){
+                    mw.top().app.dispatch('populateSupportedLanguages', <?php echo json_encode($supportedLanguages); ?>);
+                }
+            </script>
+
+            <?php
+
+
+
+            foreach ($supportedLanguages as $language):
                     ?>
                     <tr class="js-lang-tr-<?php echo $language['locale']; ?> show-on-hover-root">
 <!--                        <td class="text-center px-0" style="vertical-align: middle;"><span class="mdi mdi-cursor-move mdi-20px show-on-hover text-opacity-5"></span></td>-->

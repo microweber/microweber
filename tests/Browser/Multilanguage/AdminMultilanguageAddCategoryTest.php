@@ -21,6 +21,8 @@ class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage
 
     use TestHelpers;
 
+    public $template_name = 'big';
+
     public function testMultilanguageAddCategory()
     {
         $this->browse(function (Browser $browser) {

@@ -25,6 +25,14 @@
                 </li>
 
 
+                <li class="dropdown-item">
+                    <a href="javascript:;" @click="showLangSettings">
+                        <span class="mdi mdi-cog"></span>
+                        Settings
+                    </a>
+                </li>
+
+
             </ul>
         </div>
     </div>
@@ -56,10 +64,16 @@ export default {
     components: {},
     methods: {
         hideLangDropdown() {
-            if(this.$refs.multilanguageSwticherSettingsDropdown && this.$refs.multilanguageSwticherSettingsDropdown.classList) {
+            if (this.$refs.multilanguageSwticherSettingsDropdown && this.$refs.multilanguageSwticherSettingsDropdown.classList) {
                 this.$refs.multilanguageSwticherSettingsDropdown.classList.remove('show');
             }
-         },
+        },
+        showLangSettings() {
+            if (this.$refs.multilanguageSwticherSettingsDropdown && this.$refs.multilanguageSwticherSettingsDropdown.classList) {
+                this.$refs.multilanguageSwticherSettingsDropdown.classList.remove('show');
+            }
+            mw.tools.open_global_module_settings_modal('multilanguage/admin');
+        },
 
 
         changeLang: function (name) {
@@ -93,6 +107,21 @@ export default {
 
         mw.app.canvas.on('liveEditCanvasBeforeUnload', event => {
             this.hideLangDropdown();
+        });
+
+
+        mw.app.on('populateSupportedLanguages', data => {
+
+
+            if (!Array.isArray(data)) {
+                return;
+            }
+            this.languages = {};
+            data.forEach((item, index) => {
+                this.languages[item.locale] = item.language;
+                this.languagesIcons[item.locale] = item.icon;
+            })
+
         });
 
 
