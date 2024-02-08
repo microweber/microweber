@@ -20,7 +20,6 @@ class OrderWasPaidListener
      */
     public function handle($event): void
     {
-        
         $utmEvent = new UtmEventPurchase();
         $utmEvent->setInternalData($event);
         StatsEvent::saveNewUtm($utmEvent);

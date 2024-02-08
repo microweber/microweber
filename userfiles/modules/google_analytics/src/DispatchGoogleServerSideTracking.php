@@ -109,7 +109,6 @@ class DispatchGoogleServerSideTracking
                     }
 
                     if ($getStatsEvent->event_action == 'PURCHASE') {
-
                         $event = Purchase::new();
                         $event->setCurrency($eventData['currency']);
                         // $event->setCoupon($eventData['discount']);
