@@ -19,11 +19,12 @@ class UtmEventPurchase extends UtmEvent
     public function setInternalData($data)
     {
         $order = false;
-        if (method_exists($data, 'getModel')) {
-            $order = $data->getModel();
+        if (isset($data->order)) {
+            $order = $data->order;
         }
 
-        if (isset($order)) {
+        if (isset($order) && $order) {
+
             $cartProducts = $order->cartProducts();
 
             if (isset($cartProducts['products'])) {
