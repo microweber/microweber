@@ -23,7 +23,8 @@ class UtmEventPurchase extends UtmEvent
             $order = $data->getModel();
         }
 
-        if (isset($order)) {
+        if (isset($order) && $order) {
+
             $cartProducts = $order->cartProducts();
 
             if (isset($cartProducts['products'])) {
