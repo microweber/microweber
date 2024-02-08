@@ -26,7 +26,9 @@ class CustomFieldsTemplatesTest extends TestCase
     public function testCustomTemplate()
     {
 
+        app()->content_manager->define_constants(['active_site_template' => $this->template_name]);
 
+        save_option('current_template', $this->template_name,'template');
 
         // Make new custom template
         $templateCustomFields = mw()->template->dir()

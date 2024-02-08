@@ -76,6 +76,9 @@ ForceType 'text/css; charset=UTF-8'
     RewriteRule ^tests/(.*)?$ / [F,L]
     RewriteRule ^composer\.(lock|json)$ / [F,L]
 
+    RewriteRule ^userfiles/modules/.*\.php$ - [F,L]
+    RewriteRule ^userfiles/templates/.*\.php$ - [F,L]
+
 
 
     RewriteCond %{REQUEST_URI} ^/userfiles/.*$ [NC,OR]

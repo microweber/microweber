@@ -9,7 +9,7 @@ use Symfony\Component\Mime\Part\Multipart\MixedPart;
 use Symfony\Component\Mime\Part\TextPart;
 use Tests\CreatesApplication;
 
-class TestCase extends \Illuminate\Foundation\Testing\TestCase
+abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
     // use WithConsoleEvents;
 
@@ -41,10 +41,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     }
 
-    public function testTrue()
-    {
-        $this->assertTrue(true);
-    }
+
 
     public function install()
     {
@@ -299,6 +296,11 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         return $path;
 
+    }
+
+    public function testTrue()
+    {
+        $this->assertTrue(true);
     }
 
     /**

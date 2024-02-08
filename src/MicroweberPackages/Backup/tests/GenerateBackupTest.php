@@ -13,7 +13,9 @@ use MicroweberPackages\Multilanguage\tests\MultilanguageTest;
  * @command php artisan test --filter GenerateBackupTest
  */
 
-class GenerateBackupTest extends MultilanguageTest
+
+
+class GenerateBackupTest extends TestCase
 {
     public function testSingleModuleBackup() {
 
@@ -42,7 +44,7 @@ class GenerateBackupTest extends MultilanguageTest
 
         $moduleInZip = $zip->getFromName('modules/categories/category_images/index.php');
         $moduleInZip2 = $zip->getFromName('modules/content/index.php');
-        $moduleInZip3= $zip->getFromName('modules/menu/config.php');
+        $moduleInZip3= $zip->getFromName('modules/menu/index.php');
 
         $zip->close();
 

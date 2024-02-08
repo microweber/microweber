@@ -7,7 +7,7 @@ use \MicroweberPackages\Multilanguage\MultilanguageApi;
 use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 
-class MultilanguageTestBase extends \Microweber\tests\TestCase
+abstract class MultilanguageTestBase extends \Microweber\tests\TestCase
 {
     protected $preserveGlobalState = FALSE;
  //   protected $runTestInSeparateProcess = TRUE;
