@@ -1,9 +1,6 @@
 
 
-
-
-
-mw.lib.require('rangy');
+ mw.lib.require('rangy');
  mw.lib.require('xss');
 
 ;(function (){
@@ -23,9 +20,114 @@ mw.lib.require('rangy');
 
     MWEditor.api = function (scope) {
         return {
-            format: function(value) {
-                var focusedNode = api.getSelection().focusNode;
+            textAlign: function(value) {
+                var api = scope.api;
+                var sel = api.getSelection();
+                var focusedNode = sel.focusNode;
                 var el = api.elementNode(focusedNode);
+
+                if(api.isCrossBlockSelection()) {
+
+                    var off = sel.focusOffset;
+
+                    var actionTarget = mw.tools.firstBlockLikeLevel(node);
+
+                        const children = api.getSelectionChildren();
+
+                        const parent = children[0].parentElement;
+
+
+                        api.action(parent, function () {
+                            if(scope.settings.editMode === 'liveedit') {
+
+                                children.forEach(node => {
+                                    mw.top().app.cssEditor.temp(node, 'text-align', value);
+
+                                })
+
+
+                            } else {
+                                const childNodes = api.getSelectionNodes();
+                                childNodes.forEach(node => {
+                                    if(scope.editArea === node) {
+                                        var newBlock = document.createElement('div');
+                                        var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                                        sel.focusNode.after(newBlock);
+                                        getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
+                                        newBlock.style.textAlign = value
+                                        scope.api.setCursorAtStart(newBlock);
+                                    } else {
+                                        node.style.textAlign = value
+                                    }
+
+                                })
+
+
+                            }
+                        });
+
+
+                    return;
+                } else {
+
+                    var node = api.elementNode(sel.focusNode);
+            if(!node) {
+                return;
+            }
+
+              var actionTarget = mw.tools.firstBlockLikeLevel(node);
+
+
+              api.action(actionTarget.parentNode, function () {
+                  if(scope.settings.editMode === 'liveedit') {
+                      mw.top().app.cssEditor.temp(actionTarget, 'text-align', value);
+                  } else {
+
+                      if(scope.editArea === actionTarget) {
+                          var newBlock = document.createElement('div');
+                          var getFocusedNeighbours = api.getFocusedNeighbours(sel.focusNode);
+                          sel.focusNode.after(newBlock);
+                          getFocusedNeighbours.forEach(el => newBlock.appendChild(el))
+                          newBlock.style.textAlign = value
+                          scope.api.setCursorAtStart(newBlock);
+                      } else {
+                          actionTarget.style.textAlign = value
+                      }
+
+                  }
+              });
+                }
+
+            },
+            format: function(value) {
+                var api = scope.api;
+                var sel = api.getSelection();
+                var focusedNode = sel.focusNode;
+                var el = api.elementNode(focusedNode);
+
+                if(api.isCrossBlockSelection()) {
+
+                    var off = sel.focusOffset;
+
+                    const acceptsFormat = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre'];
+
+                    let last
+                    api.getSelectionChildren().forEach(node => {
+                        if(acceptsFormat.indexOf(node.nodeName.toLowerCase()) !== -1) {
+                            last = mw.tools.setTag(node, value);
+                        }
+
+                    })
+
+                    if(last) {
+                        console.log(sel.getRangeAt(0).commonAncestorContainer, off)
+                        sel.getRangeAt(0).setEnd(sel.getRangeAt(0).commonAncestorContainer, off)
+                    }
+
+
+
+                    return;
+                }
 
 
 
@@ -138,13 +240,36 @@ mw.lib.require('rangy');
                 }
             },
 
+
+            isCrossSelection: function() {
+                const sel = scope.api.getSelection();
+                return sel.anchorNode !== sel.focusNode;
+            },
+
+            isCrossBlockSelection: function() {
+                const sel = scope.api.getSelection();
+
+
+
+                let startNode = mw.tools.firstBlockLevel(scope.api.elementNode(sel.anchorNode))
+                let endNode = mw.tools.firstBlockLevel(scope.api.elementNode(sel.focusNode))
+
+
+
+                return startNode !== endNode;
+            },
+            isCrossElementSelection: function() {
+                const sel = scope.api.getSelection();
+                return sel.anchorNode !== sel.focusNode && scope.api.elementNode(sel.anchorNode) !== scope.api.elementNode(sel.focusNode);
+            },
+
             getSelectionChildren: function () {
                 const sel = scope.api.getSelection();
                 const range = sel.getRangeAt(0);
                 const  commonAncestorContainer = scope.api.elementNode(range.commonAncestorContainer)
                 const nodes = Array
                     .from(commonAncestorContainer.children)
-                    .filter(node => range.intersectsNode(node));
+                    .filter(node => range.intersectsNode(node))
                     if(nodes.length === 0) {
                         return [commonAncestorContainer];
                     }
