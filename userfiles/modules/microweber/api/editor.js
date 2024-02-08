@@ -488,7 +488,11 @@ var MWEditor = function (options) {
                     }
 
                     const deepLastChild = node => {
-                        let child = node.children[node.children.lngth - 1];
+                        if(!node) {
+                            return null
+                        }
+
+                        let child = node.children[node.children.length - 1];
                         if(!child) {
                             return node;
                         }

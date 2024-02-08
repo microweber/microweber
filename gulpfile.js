@@ -4,7 +4,7 @@ const concat = require('gulp-concat');
 const cleanCSS = require('gulp-clean-css');
 const uglify = require('gulp-uglify');
 const sourcemaps = require('gulp-sourcemaps');
-const include = require('gulp-include');
+// const include = require('gulp-include');
 
 
 const adminCSS = 'userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css';
@@ -17,7 +17,7 @@ const _apiJs = () => {
     return gulp.src([
         `${apiJSPath}/apijs_combined.js`,
     ])
-        .pipe(include())
+        //.pipe(include())
 
         .pipe(sourcemaps.init()) // Initialize sourcemaps
         .pipe(concat('apijs_combined.min.js'))
@@ -30,7 +30,7 @@ const _mwEditor = () => {
     return gulp.src([
         `${apiJSPath}/editor/mweditor.js`,
     ])
-        .pipe(include())
+        //.pipe(include())
 
         .pipe(sourcemaps.init()) // Initialize sourcemaps
         .pipe(concat('dist/mweditor.min.js'))
