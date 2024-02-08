@@ -33,7 +33,7 @@ const _mwEditor = () => {
         .pipe(include())
 
         .pipe(sourcemaps.init()) // Initialize sourcemaps
-        .pipe(concat('mweditor.min.js'))
+        .pipe(concat('dist/mweditor.min.js'))
         .pipe(uglify())
         .pipe(sourcemaps.write('.')) // Write sourcemaps to the same directory
         .pipe(gulp.dest(apiJSOutputPath));
