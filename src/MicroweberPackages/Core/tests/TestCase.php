@@ -298,6 +298,11 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     }
 
+    public function testTrue()
+    {
+        $this->assertTrue(true);
+    }
+
     /**
      * Removes double slashes from sting.
      *
