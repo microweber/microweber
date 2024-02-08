@@ -34,6 +34,7 @@ import CSSGUIService from "../../../api-core/services/services/css-gui.service.j
 
 import ToolsButtons from "../RightSidebar/ToolsButtons.vue";
 import ToolbarMulilanguageSelector from "./ToolbarMulilanguageSelector.vue";
+import {tr} from "vuetify/locale";
 
 export default {
     components: {
@@ -62,6 +63,24 @@ export default {
 
         hideMoreSettingsDropdown() {
             this.$refs.moreSettingsDropdown.classList.remove('show');
+        } ,
+
+        openReportIssueModal() {
+
+            var url = 'https://microweber.org/go/feedback/';
+            let linkInModal = mw.top().dialogIframe({
+                url: url,
+                width:640,
+                height:480,
+                closeOnEscape:true,
+
+            });
+            linkInModal.dialogContainer.style.paddingLeft = '0px';
+            linkInModal.dialogContainer.style.paddingRight = '0px';
+            linkInModal.dialogFooter.style.display = 'none';
+
+
+
         }
     },
 
@@ -76,6 +95,10 @@ export default {
             this.hideMoreSettingsDropdown();
 
             this.show('template-settings')
+        });
+
+        mw.top().app.on('mw.open-report-issue-modal', () => {
+this.openReportIssueModal();
         });
 
         mw.app.canvas.on('canvasDocumentClick', event => {

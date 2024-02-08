@@ -13,6 +13,10 @@ use MicroweberPackages\Multilanguage\tests\MultilanguageTest;
  * @command php artisan test --filter GenerateBackupTest
  */
 
+
+/**
+ * @runTestsInSeparateProcesses
+ */
 class GenerateBackupTest extends TestCase
 {
     public function testSingleModuleBackup() {
