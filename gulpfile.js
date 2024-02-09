@@ -50,17 +50,14 @@ gulp.task('admin-css', _adminCss);
 gulp.task('admin-css-rtl', _adminCssRtl);
 gulp.task('api-js', _apiJs);
 
-const _buildAll = (done) => {
+const _buildAll = () => {
     console.log('build all');
 
-    _apiJs(() => {
-        _adminCss(() => {
-            _adminCssRtl(() => {
-                done(); // Signal completion to Gulp
-            });
-        });
-    });
+    return gulp.series(_apiJs, _adminCss, _adminCssRtl);
+
 };
+
+
 gulp.task('admin-css-dev', (done) => {
      _buildAll(done);
     gulp.watch('userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/**/*.scss', gulp.series(['admin-css','admin-css-rtl']));
@@ -68,7 +65,4 @@ gulp.task('admin-css-dev', (done) => {
 
 
 })
-gulp.task('js-build-all', (done) => {
-    _buildAll(done);
-
-})
+gulp.task('js-build-all', _buildAll());
