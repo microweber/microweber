@@ -116,12 +116,12 @@ $rand = uniqid();
 
         //  mw.reload_module_parent("#<?php print $params['id'] ?>");
 
-        mw.reload_module("#<?php print $params['id'] ?>");
+        mw.reload_module_everywhere("#<?php print $params['id'] ?>");
 
         clearTimeout(mw.module_pictures_upload_time)
         mw.module_pictures_upload_time = setTimeout(function () {
-            mw.reload_module_parent("pictures");
-            mw.reload_module("#mw-pics-list-live-ed");
+            mw.reload_module_everywhere("pictures");
+            mw.reload_module_everywhere("#mw-pics-list-live-ed");
 
 
         }, 1500)
