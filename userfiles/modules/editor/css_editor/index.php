@@ -181,6 +181,8 @@ $live_edit_css_content = '';
 if ($file and is_file($file)) {
     $live_edit_css_content = file_get_contents($file);
 }
+
+
 ?>
 
 <div class="d-flex">
@@ -337,6 +339,34 @@ if ($file and is_file($file)) {
 
             });
         }
+
+        if(mw.top && mw.top().app && mw.top().app.canvas){
+
+            mw.top().on('mw.liveeditCSSEditor.save', function () {
+                // when the live edit is saved from the window opener, we need to reload the css in this module
+                setTimeout(function () {
+                     mw.reload_module('#<?php print $params['id'] ?>')
+                }, 200);
+
+            });
+
+            mw.top().app.on('setPropertyForSelector', (propertyChangeEvent) => {
+                if (typeof live_edit_css_code_area_editor != 'undefined') {
+                    live_edit_css_code_area_editor.getWrapperElement().parentNode.removeChild(live_edit_css_code_area_editor.getWrapperElement());
+                    live_edit_css_code_area_editor = undefined;
+                    $('#style-edit-global-template-css-editor-holder-live-edit-css').html('' +
+                        '<div class="alert alert-warning">' +
+                        'Editor content has been changed, please save the page to see the changes' +
+                        '</div>');
+
+                }
+            });
+
+
+        }
+
+
+
     });
 
 </script>

@@ -62,6 +62,8 @@ var layout_selector_custom_css_clear_custom_style = function($template){
 </script>
 
 <?php
+
+/*<?php
 if(mw()->layouts_manager->template_check_for_custom_css($template) != false): ?>
 
 <span
@@ -78,3 +80,5 @@ if(mw()->layouts_manager->template_check_for_custom_css($template) != false): ?>
     onclick="layout_selector_custom_css_return_custom_style('<?php print $template ?>')"><?php _e("Return custom style"); ?></span>
 
 <?php endif; ?>
+*/
+?>

@@ -375,6 +375,9 @@ export default {
                    mw.tools.refresh(customFontsStylesheetCss)
                 }
               });
+
+              mw.app.canvas.dispatch('reloadCustomCssDone');
+
           })
 
 

@@ -82,7 +82,7 @@ export default {
             if (newColor == 'rgb(0 0 0 / 0%)') {
                 return 'transparent';
             }
-            var colorHex = mw.top().color.rgbOrRgbaToHex(newColor)
+            var colorHex = mw.color.rgbOrRgbaToHex(newColor)
             if(colorHex == '#00000000'){
                 return '';
             }
