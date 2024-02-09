@@ -50,10 +50,12 @@ gulp.task('admin-css', _adminCss);
 gulp.task('admin-css-rtl', _adminCssRtl);
 gulp.task('api-js', _apiJs);
 
-const _buildAll = () => {
+const _buildAll = done  => {
     _apiJs();
     _adminCss();
     _adminCssRtl();
+    done();
+
 }
 gulp.task('admin-css-dev', () => {
      _buildAll();
