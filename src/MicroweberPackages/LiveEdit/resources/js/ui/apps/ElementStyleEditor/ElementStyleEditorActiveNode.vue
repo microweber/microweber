@@ -27,7 +27,7 @@ export default {
         mw.top().app.canvas.on('reloadCustomCssDone', () => {
 
             setTimeout(() => {
-                alert(1);
+
                 var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
                  if(activeElement) {
 
