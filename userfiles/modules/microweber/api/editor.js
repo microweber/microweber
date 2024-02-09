@@ -488,23 +488,54 @@ var MWEditor = function (options) {
                     }
 
                     const deepLastChild = node => {
-                        let child = node.children[node.children.lngth - 1];
+                        if(!node) {
+                            return null
+                        }
+
+                        var unsupported = ['IMG', 'BR', 'UL', 'OL', 'DL'];
+
+                        var children = Array
+                        .from(node.children)
+                        .filter(node => unsupported.indexOf(node.nodeName) === -1)
+
+                        let child = children[children.length - 1];
                         if(!child) {
                             return node;
                         }
                         if(child) {
-                            return deepLastChild(node)
+                            return deepLastChild(child)
+                        }
+                    }
+                    const deepFirstChild = node => {
+                        if(!node) {
+                            return null
+                        }
+
+                        var unsupported = ['IMG', 'BR', 'UL', 'OL', 'DL'];
+
+                        var children = Array
+                        .from(node.children)
+                        .filter(node => unsupported.indexOf(node.nodeName) === -1)
+
+                        let child = children[0];
+                        if(!child) {
+                            return node;
+                        }
+                        if(child) {
+                            return deepLastChild(child)
                         }
                     }
 
                     if(sel.type === 'Caret') {
 
-                        if(sel.focusNode.nodeType !== 37 && sel.focusOffset === 0) {
+                        if(sel.focusOffset === 0) {
                             var parent = getParentHolder(sel.focusNode);
 
                             if (parent) {
                                 const target = deepLastChild(parent.previousElementSibling);
-                                if(target) {
+
+
+                                if(target && sel.focusNode.nodeName !== target.nodeName) {
                                     scope.api.setCursorAtEnd(target);
                                     const edit = mw.tools.firstParentOrCurrentWithClass(target, 'edit') || scope.$editArea[0];
                                     scope.state.record({
