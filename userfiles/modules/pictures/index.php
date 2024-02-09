@@ -1,8 +1,3 @@
-<script>mw.lib.require('material_icons');</script>
-
-
-
-
 <?php
 
 /*
@@ -43,6 +38,8 @@ if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'c
     $params['rel_id'] = CONTENT_ID;
     $params['for'] = 'content';
 }
+
+
 $default_images = false;
 if (isset($params['images']) and trim(strtolower(($params['images']))) != '') {
     $default_images = explode(',', $params['images']);
@@ -56,10 +53,10 @@ if (isset($params['for'])) {
 
 $use_from_post = get_option('data-use-from-post', $params['id']);
 if ($use_from_post == 'y') {
-    if (POST_ID != false) {
-        $params['content-id'] = POST_ID;
+    if (content_id() != false) {
+        $params['content-id'] = content_id();
     } else {
-        $params['content-id'] = PAGE_ID;
+        $params['content-id'] = page_id();
 
     }
 } elseif (!isset($params['for']) and get_option('data-use-from-post', $params['id']) == '') {
