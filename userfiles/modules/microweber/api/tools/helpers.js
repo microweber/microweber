@@ -561,7 +561,7 @@
 
             if(onSuccess) {
                 if (a.__onSuccess) {
-                    a.removeEventListener(a.__onSuccess);
+                    a.removeEventListener('load', a.__onSuccess);
                 }
                 a.__onSuccess = function(e) {
                     onSuccess.call(a, e)
@@ -570,7 +570,7 @@
             }
             if(onError) {
                 if (a.__onError) {
-                    a.removeEventListener(a.__onError);
+                    a.removeEventListener('error', a.__onError);
 
                 }
                 a.__listener = function(e) {
