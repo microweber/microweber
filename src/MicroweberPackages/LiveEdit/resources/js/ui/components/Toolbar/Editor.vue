@@ -352,9 +352,10 @@ export default {
           const getCustomCSSNodes = () => {
             const res = [];
             const selector = '#mw-custom-user-css,#mw-custom-user-fonts,#mw-template-settings';
-            mw.tools.eachWindow(win => win.document.querySelectorAll(selector).forEach(node => res.push(node)))
+            mw.tools.eachWindow(win => Array.from(win.document.querySelectorAll(selector)).filter(node => !!node.href).forEach(node => res.push(node)))
             return res;
           }
+
 
 
           mw.app.canvas.on('reloadCustomCss', (event) => {
@@ -362,12 +363,12 @@ export default {
             let count = 0;
 
             if (!customCSSNodes.length) {
-                mw.app.canvas.dispatch('reloadCustomCssDone');
+                mw.top().app.canvas.dispatch('reloadCustomCssDone');
             }
             const doneSingle = e => {
                 count++;
                 if (count === customCSSNodes.length) {
-                    mw.app.canvas.dispatch('reloadCustomCssDone');
+                    mw.top().app.canvas.dispatch('reloadCustomCssDone');
                 }
             }
 
