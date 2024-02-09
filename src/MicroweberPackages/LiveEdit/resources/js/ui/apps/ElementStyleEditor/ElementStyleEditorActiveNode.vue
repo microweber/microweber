@@ -27,15 +27,16 @@ export default {
         mw.top().app.canvas.on('reloadCustomCssDone', () => {
 
             setTimeout(() => {
-
+                alert(1);
                 var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
                  if(activeElement) {
+
                     this.$root.selectedLayout = null;
-                    this.$root.selectedLayout = activeElement;
+                     this.$root.selectedElement = activeElement;
                 }
 
 
-            },1000 );
+            },300 );
 
 
         });
