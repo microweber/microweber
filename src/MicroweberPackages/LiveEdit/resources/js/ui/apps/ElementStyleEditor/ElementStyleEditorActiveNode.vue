@@ -30,12 +30,13 @@ export default {
 
                 var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
                  if(activeElement) {
+
                     this.$root.selectedLayout = null;
-                    this.$root.selectedLayout = activeElement;
+                     this.$root.selectedElement = activeElement;
                 }
 
 
-            },1000 );
+            },300 );
 
 
         });
