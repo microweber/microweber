@@ -562,20 +562,21 @@
             if(onSuccess) {
                 if (a.__onSuccess) {
                     a.removeEventListener(a.__onSuccess);
-                    a.__onSuccess = function(e) {
-                        onSuccess.call(a, e)
-                    }
-                    a.addEventListener('load', a.__onSuccess);
                 }
+                a.__onSuccess = function(e) {
+                    onSuccess.call(a, e)
+                }
+                a.addEventListener('load', a.__onSuccess);
             }
             if(onError) {
                 if (a.__onError) {
                     a.removeEventListener(a.__onError);
-                    a.__listener = function(e) {
-                        onError.call(a, e)
-                    }
-                    a.addEventListener('error', a.__onError);
+
                 }
+                a.__listener = function(e) {
+                    onError.call(a, e)
+                }
+                a.addEventListener('error', a.__onError);
             }
 
             if (a.src) {
