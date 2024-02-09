@@ -554,10 +554,30 @@
             node.src = mw.url.set_param('refresh_image', mw.random(), node.src);
             return node;
         },
-        refresh: function (a) {
+        refresh: function (a, onSuccess, onError) {
             if (a === null || typeof a === 'undefined') {
                 return false;
             }
+
+            if(onSuccess) {
+                if (a.__onSuccess) {
+                    a.removeEventListener(a.__onSuccess);
+                    a.__onSuccess = function(e) {
+                        onSuccess.call(a, e)
+                    }
+                    a.addEventListener('load', a.__onSuccess);
+                }
+            }
+            if(onError) {
+                if (a.__onError) {
+                    a.removeEventListener(a.__onError);
+                    a.__listener = function(e) {
+                        onError.call(a, e)
+                    }
+                    a.addEventListener('error', a.__onError);
+                }
+            }
+
             if (a.src) {
                 a.src = mw.url.set_param('mwrefresh', mw.random(), a.src);
             }

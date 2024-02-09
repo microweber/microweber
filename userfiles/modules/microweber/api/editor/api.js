@@ -120,7 +120,6 @@
                     })
 
                     if(last) {
-                        console.log(sel.getRangeAt(0).commonAncestorContainer, off)
                         sel.getRangeAt(0).setEnd(sel.getRangeAt(0).commonAncestorContainer, off)
                     }
 
@@ -157,7 +156,7 @@
                  }
 
 
-                 var isTxtLike1 = rootScope.editArea === el;
+                 var isTxtLike1 = scope.editArea === el;
                  var isTxtLike2 = focusedNode.nodeType === 3  && !_proto._availableTags.find(obj => obj.value === nn && obj.value !== 'div');
 
                  var formattagsArray = _proto._availableTags.filter(obj => obj.value !== 'div').map(o => o.value) ;
@@ -184,9 +183,9 @@
                 }
 
 
-                rootScope.state.record({
-                    target: rootScope.$editArea[0],
-                    value: rootScope.$editArea[0].innerHTML
+                scope.state.record({
+                    target: scope.$editArea[0],
+                    value: scope.$editArea[0].innerHTML
                 });
 
                  if(focusedNodeBlockRes) {
@@ -196,9 +195,9 @@
                  } else {
                     if(elisInline) {
                         inlinNodeHandle();
-                        rootScope.state.record({
-                            target: rootScope.$editArea[0],
-                            value: rootScope.$editArea[0].innerHTML
+                        scope.state.record({
+                            target: scope.$editArea[0],
+                            value: scope.$editArea[0].innerHTML
                         });
                         return;
                      }
@@ -207,9 +206,9 @@
                         if(focusedNode !== el){
                             if(focusedNode.nodeType === 3) {
                                 textNodeHandle()
-                                rootScope.state.record({
-                                    target: rootScope.$editArea[0],
-                                    value: rootScope.$editArea[0].innerHTML
+                                scope.state.record({
+                                    target: scope.$editArea[0],
+                                    value: scope.$editArea[0].innerHTML
                                 });
                             }
 

@@ -349,38 +349,30 @@ export default {
 
             })
 
-
+          const getCustomCSSNodes = () => {
+            const res = [];
+            const selector = '#mw-custom-user-css,#mw-custom-user-fonts,#mw-template-settings';
+            mw.tools.eachWindow(win => win.document.querySelectorAll(selector).forEach(node => res.push(node)))
+            return res;
+          }
 
 
           mw.app.canvas.on('reloadCustomCss', (event) => {
+            const customCSSNodes = getCustomCSSNodes();
+            let count = 0;
 
-              mw.tools.eachWindow(function (win) {
-
-                var customFontsStylesheet = win.document.getElementById("mw-custom-user-css");
-
-                if (customFontsStylesheet != null) {
-                  var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
-                  customFontsStylesheet.href = customFontsStylesheetRestyle;
+            if (!customCSSNodes.length) {
+                mw.app.canvas.dispatch('reloadCustomCssDone');
+            }
+            const doneSingle = e => {
+                count++;
+                if (count === customCSSNodes.length) {
+                    mw.app.canvas.dispatch('reloadCustomCssDone');
                 }
+            }
 
-                var customFontsStylesheetFonts = win.document.getElementById("mw-custom-user-fonts");
-                if (customFontsStylesheetFonts != null) {
-                  var customFontsStylesheetFontsRestyle = mw.settings.api_url + 'template/print_custom_css_fonts?time=' + Math.random(0, 10000);
-                  customFontsStylesheetFonts.href = customFontsStylesheetFontsRestyle;
-                }
-
-
-                var customFontsStylesheetCss = win.document.getElementById("mw-template-settings");
-                if (customFontsStylesheetCss != null) {
-                   mw.tools.refresh(customFontsStylesheetCss)
-                }
-              });
-
-              mw.app.canvas.dispatch('reloadCustomCssDone');
-
+            customCSSNodes.forEach(node => mw.tools.refresh(node, doneSingle, doneSingle));
           })
-
-
         });
 
     }
