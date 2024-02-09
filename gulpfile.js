@@ -5,6 +5,7 @@ const cleanCSS = require('gulp-clean-css');
 const uglify = require('gulp-uglify');
 const sourcemaps = require('gulp-sourcemaps');
 const include = require('gulp-include');
+const inlineSource = require('gulp-inline-source');
 
 
 const adminCSS = 'userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css';
@@ -28,19 +29,19 @@ const _apiJs = () => {
 };
 const _mwEditor = () => {
     return gulp.src([
-        `${apiJSPath}/editor/mweditor.js`,
-    ])
+        `${apiJSPath}/editor/mweditor.js`, // Include all JS files within the editor directory and its subdirectories
+    ] )
         .pipe(include())
-
         .pipe(sourcemaps.init()) // Initialize sourcemaps
-        .pipe(concat('dist/mweditor.min.js'))
+        .pipe(concat('mweditor.min.js')) // Concatenate all files into mweditor.min.js
         .pipe(uglify())
         .pipe(sourcemaps.write('.')) // Write sourcemaps to the same directory
-        .pipe(gulp.dest(apiJSOutputPath));
-    console.log('mweditor compiled');
+        .pipe(inlineSource()) // Inline the content of mweditor-core.js
+
+        .on('end', () => {
+            console.log('mweditor compiled');
+        });
 };
-
-
 const _adminCss = () => {
     return gulp.src([
         `${adminCSS}/admin_v2.scss`,
@@ -63,16 +64,21 @@ gulp.task('admin-css', _adminCss);
 gulp.task('admin-css-rtl', _adminCssRtl);
 gulp.task('api-js', _apiJs);
 gulp.task('mw-editor', _mwEditor);
-
-
-gulp.task('admin-css-dev', () => {
+const _buildAll = () => {
     _apiJs();
     _adminCss();
     _adminCssRtl();
     _mwEditor();
+}
+gulp.task('admin-css-dev', () => {
+     _buildAll();
     gulp.watch('userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/**/*.scss', gulp.series(['admin-css','admin-css-rtl']));
     gulp.watch('userfiles/modules/microweber/api/apijs_combined.js', gulp.series(['api-js']));
-    gulp.watch('userfiles/modules/microweber/api/editor/**/*.js', gulp.series(['mw-editor']));
+    gulp.watch('userfiles/modules/microweber/api/editor/services/*.js', gulp.series(['mw-editor']));
+    gulp.watch('userfiles/modules/microweber/api/editor/mweditor.js', gulp.series(['mw-editor']));
 
 
+})
+gulp.task('js-build-all', () => {
+    _buildAll();
 })
