@@ -3,7 +3,7 @@
     "scripts": {
         "vitedev": "vite build --watch --sourcemap inline --mode development",
         "dev": "concurrently \"npm run vitedev\" \"npm run admincssdev\"",
-        "build": "concurrently \"vite build\" \"gulp api-js\" \"gulp admin-css\" \"gulp admin-css-rtl\"",
+        "build": "concurrently \"vite build\" \"gulp js-build-all\" ",
         "admincss": "gulp admin-css",
         "admincssdev": "gulp admin-css-dev"
     },
@@ -25,6 +25,7 @@
         "ion-rangeslider": "^2.3.1",
         "jquery": "^3.6.0",
         "jquery-ui": "^1.12.1",
+        "lodash": "^4.17.21",
         "mitt": "^3.0.0",
         "popper.js": "^1.16.1",
         "postcss": ">=8.4.31",
@@ -34,7 +35,6 @@
         "vue-loader": "^17.0.1",
         "vue3-click-away": "^1.2.4",
         "vue3-tags-input": "^1.0.12",
-        "lodash": "^4.17.21",
         "vuetify": "^3.3.19"
     },
     "devDependencies": {
@@ -49,6 +49,7 @@
         "gulp-css-url-fix": "0.0.1",
         "gulp-cssmin": "^0.2.0",
         "gulp-dart-sass": "^1.0.2",
+        "gulp-inline-source": "^4.0.0",
         "gulp-less": "^4.0.1",
         "gulp-rename": "^2.0.0",
         "gulp-sourcemaps": "^3.0.0",
