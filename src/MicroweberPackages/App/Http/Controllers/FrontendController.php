@@ -250,10 +250,8 @@ class FrontendController extends Controller
                             if ($is_editmode == 'iframe') {
                                 app()->user_manager->session_set('editmode_iframe', true);
                             }
-                            //    $is_editmode = false;
-                            // dd($page_url);
+
                         }
-                        dd(2222);
                         return redirect(app()->url_manager->site_url($page_url));
 
                         //   return app()->url_manager->redirect(app()->url_manager->site_url($page_url));

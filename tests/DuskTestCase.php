@@ -143,7 +143,10 @@ abstract class DuskTestCase extends BaseTestCase
 
         $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
         $this->assertEquals('testing', app()->environment());
+        if ($this->template_name) {
 
+            save_option('current_template', $this->template_name, 'template');
+        }
         if (mw_is_installed()) {
 
             save_option('dusk_test', 1, 'dusk');

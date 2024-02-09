@@ -14,6 +14,7 @@ use Tests\DuskTestCase;
 class LiveEditLinkScrollTest extends DuskTestCase
 {
 
+    public $template_name = 'big';
 
     public function testLiveEditLinkScroll()
     {
@@ -27,8 +28,6 @@ class LiveEditLinkScrollTest extends DuskTestCase
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
-
-
 
 
             $params = array(
