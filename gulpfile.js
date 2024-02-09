@@ -28,19 +28,7 @@ const _apiJs = () => {
     console.log('api-js compiled');
 };
 const _mwEditor = () => {
-    return gulp.src([
-        `${apiJSPath}/editor/mweditor.js`, // Include all JS files within the editor directory and its subdirectories
-    ] )
-        .pipe(include())
-        .pipe(sourcemaps.init()) // Initialize sourcemaps
-        .pipe(concat('mweditor.min.js')) // Concatenate all files into mweditor.min.js
-        .pipe(uglify())
-        .pipe(sourcemaps.write('.')) // Write sourcemaps to the same directory
-        .pipe(inlineSource()) // Inline the content of mweditor-core.js
-
-        .on('end', () => {
-            console.log('mweditor compiled');
-        });
+    // todo add sourcemaps
 };
 const _adminCss = () => {
     return gulp.src([
