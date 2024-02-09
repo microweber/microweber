@@ -152,9 +152,15 @@ $(mwd).ready(function () {
         }
     });
     mw.$(document.body).on('click', 'a', function(e){
-        if(location.hash.indexOf('#mw@') !== -1 && (e.target.href || '').indexOf('#mw@') !== -1){
-            if(location.href === e.target.href){
-                var el = mw.$('#' + e.target.href.split('mw@')[1])[0];
+
+        var target = e.target;
+        if(target.nodeName !== 'A') {
+            target = mw.tools.firstParentWithTag(target, 'a');
+        }
+
+        if(target && location.hash.indexOf('#mw@') !== -1 && (target.href || '').indexOf('#mw@') !== -1){
+            if(location.href === target.href){
+                var el = mw.$('#' + target.href.split('mw@')[1])[0];
                 if(el){
                     mw.tools.scrollTo(el)
                 }
