@@ -35,18 +35,19 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
  * $option['option_group'] = 'my_option_group';
  * save_option($option);
  *
- * Or Eexample:
+ * Or Example:
  * save_option($key, $value, $group);
  *
  */
-function save_option($dataOrKey, $value = false, $group = false)
+function save_option($dataOrKey, $value = false, $group = false, $lang = false)
 {
-    $lang = false;
-    if (isset($_POST['lang'])) {
-        $lang = $_POST['lang'];
+  //  $lang = false;
+    if(!$lang) {
+        if (isset($_POST['lang'])) {
+            $lang = $_POST['lang'];
+        }
     }
-
-    if ($dataOrKey && $value && $group) {
+    if ($dataOrKey && $group) {
 
         $option = array();
         $option['option_value'] = $value;
