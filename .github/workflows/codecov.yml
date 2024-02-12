@@ -47,12 +47,12 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
     - name: Run PHPUnit
-      run: php artisan test -c "phpunit-coverage.xml"
+      run: composer test:coverage
     - name: Code Cov
       uses: codecov/codecov-action@v2
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: coverage.xml
+        files: clover.xml
         fail_ci_if_error: true # optional (default = false)
         verbose: true # optional (default = false)
 
