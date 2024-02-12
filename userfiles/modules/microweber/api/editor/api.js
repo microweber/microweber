@@ -100,6 +100,20 @@
 
             },
             format: function(value) {
+
+
+                var _availableTags = [
+                    { label: '<mw-editor-option class="mw-editor-option-dropdown-h1">Heading 1</mw-editor-option>', value: 'h1', title: 'Heading 1' },
+                    { label: '<mw-editor-option class="mw-editor-option-dropdown-h2">Heading 2</mw-editor-option>', value: 'h2', title: 'Heading 2' },
+                    { label: '<mw-editor-option class="mw-editor-option-dropdown-h3">Heading 3</mw-editor-option>', value: 'h3', title: 'Heading 3' },
+                    { label: '<mw-editor-option class="mw-editor-option-dropdown-h4">Heading 4</mw-editor-option>', value: 'h4', title: 'Heading 4' },
+                    { label: '<mw-editor-option class="mw-editor-option-dropdown-h5">Heading 5</mw-editor-option>', value: 'h5' , title: 'Heading 5'},
+                    { label: '<mw-editor-option class="mw-editor-option-dropdown-h6">Heading 6</mw-editor-option>', value: 'h6', title: 'Heading 6' },
+                    { label: 'Paragraph', value: 'p', title: 'Paragraph' },
+                    { label: 'Block', value: 'div', title: 'Block' },
+                    { label: 'Pre formated', value: 'pre', title: 'Pre formated' }
+                ];
+
                 var api = scope.api;
                 var sel = api.getSelection();
                 var focusedNode = sel.focusNode;
@@ -120,7 +134,7 @@
                     })
 
                     if(last) {
-                        sel.getRangeAt(0).setEnd(sel.getRangeAt(0).commonAncestorContainer, off)
+                        sel.getRangeAt(0).setEnd(last, 1)
                     }
 
 
@@ -157,9 +171,9 @@
 
 
                  var isTxtLike1 = scope.editArea === el;
-                 var isTxtLike2 = focusedNode.nodeType === 3  && !_proto._availableTags.find(obj => obj.value === nn && obj.value !== 'div');
+                 var isTxtLike2 = focusedNode.nodeType === 3  && !_availableTags.find(obj => obj.value === nn && obj.value !== 'div');
 
-                 var formattagsArray = _proto._availableTags.filter(obj => obj.value !== 'div').map(o => o.value) ;
+                 var formattagsArray = _availableTags.filter(obj => obj.value !== 'div').map(o => o.value) ;
                  var formattags = formattagsArray.join(',');
 
 
