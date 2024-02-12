@@ -257,24 +257,7 @@ var MWEditor = function (options) {
         }
         return this;
     }
-    this.handleDeleteAndBackspace = function (e) {
 
-
-
-        if(e.target) {
-            var edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit');
-            if(edit) {
-                var all = edit.querySelectorAll('*[style*="var"]');
-                all.forEach(node => {
-                    if (node.style) {
-                        if (node.isContentEditable) {
-                            [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
-                        }
-                    }
-                });
-            }
-        }
-    }
     var notEditableSelectors = scope.settings.notEditableClasses ? scope.settings.notEditableClasses.map(c => `.${c}:not([contenteditable="false"])`).join(',') : null;
     var  instance = this;
 
@@ -317,8 +300,7 @@ var MWEditor = function (options) {
 
             if (e.type === 'keydown' && e.key === "Enter") {
                 return scope.eventHandles.enter(e)
-
-             }
+            }
 
             if (e.key === "Backspace" || e.key === "Delete") {
 

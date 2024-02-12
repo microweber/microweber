@@ -99,8 +99,8 @@ class MWEditorEventHandles {
      }
 
      enter(e) {
-        console.log(this)
-        let focusNode =this.scope.api.elementNode(this.scope.getSelection().focusNode);
+
+        let focusNode = this.scope.api.elementNode(this.scope.getSelection().focusNode);
         let focusActualTarget =this.scope.getActualTarget(focusNode)
 
         var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(focusNode, ['safe-mode', 'regular-mode']);
@@ -182,7 +182,7 @@ class MWEditorEventHandles {
                     value: edit.innerHTML
                 });
 
-                var sel = instance.api.getSelection() ;
+                var sel = this.scope.api.getSelection() ;
                 var range = sel.getRangeAt(0);
                 var br = range.commonAncestorContainer.ownerDocument.createElement('br');
 

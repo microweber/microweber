@@ -918,12 +918,15 @@
                     var sel = scope.getSelection();
                     parent = sel.focusNode;
                 }
-                scope.api.cleanNesting(parent);
+
+               // scope.api.cleanNesting(parent);
                 const keysToRemove = []
                 const keysValuesToRemove = [{'font-size': '0px'}];
                 if(parent.nodeType === 3) {
                     return;
                 }
+
+                parent.normalize();
 
                 Array.prototype.slice.call(parent.querySelectorAll('[style],[id]')).forEach(node => {
                     if(!!node.getAttribute('style')) {
@@ -934,6 +937,8 @@
                                 || keysToRemove.indexOf(key) !== -1
                                 || keysValuesToRemove.find(a => a[key] === node.style[key]);
                                 if(toRemove) {
+                                    console.log(node, parent)
+                                    console.log(key)
                                     node.style[key] = '';
                                 }
                             }
@@ -976,12 +981,14 @@
                             }
 
 
+
                             scope.api.action(parent, function () {
 
                                 function _execCommand(cmd, def, val) {
                                     var pce = parent.contentEditable
                                     var current = parent.querySelector('[contenteditable="true"]');
                                     parent.contentEditable = true;
+                                    parent.querySelectorAll('[contentditable]').forEach(node => node.contentEditable = 'inherit');
                                     if(current) {
                                         current.contentEditable = 'inherit';
                                     }

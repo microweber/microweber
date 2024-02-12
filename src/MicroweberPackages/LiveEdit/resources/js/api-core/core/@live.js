@@ -322,7 +322,8 @@ export class LiveEdit {
         var layoutHandle = this.layoutHandle;
 
         layoutHandle.wrapper.css({
-            zIndex: 1000
+            zIndex: 1000,
+            zIndex: 1102
         })
 
         var title = scope.lang('Layout');
