@@ -1053,6 +1053,8 @@ MWEditor.controllers = {
                 data: this._availableTags,
                 placeholder: rootScope.lang('Format')
             });
+
+            dropdown.select.get(0).querySelector('.mw-editor-select-display-value-content').style.width = '70px';
             this.dropdown = dropdown
             dropdown.root.addClass('mw-editor-controller-component-format')
             dropdown.select.on('change', function (e, val) {
