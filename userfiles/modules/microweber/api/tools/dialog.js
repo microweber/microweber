@@ -51,12 +51,16 @@
                     });
                     dialog.dialogMain.classList.remove('mw-dialog-iframe-loading');
 
-                    if(frame && frame.contentWindow && frame.contentWindow.thismodal) {
-                        frame.contentWindow.thismodal = dialog;
-                        if (options.autoHeight) {
-                            mw.tools.iframeAutoHeight(frame, {dialog: dialog, maxHeightWindowScroll: maxHeight});
+
+                    if (mw.tools.canAccessIFrame(frame)) {
+                        if(frame && frame.contentWindow && frame.contentWindow.thismodal) {
+                            frame.contentWindow.thismodal = dialog;
+                            if (options.autoHeight) {
+                                mw.tools.iframeAutoHeight(frame, {dialog: dialog, maxHeightWindowScroll: maxHeight});
+                            }
                         }
                     }
+
                 }, 78);
                 if (mw.tools.canAccessIFrame(frame)) {
                     mw.$(frame.contentWindow.document).on('keydown', function (e) {

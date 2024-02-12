@@ -388,6 +388,9 @@ export default {
             }
 
             customCSSNodes.forEach(node => mw.tools.refresh(node, doneSingle, doneSingle));
+
+
+
           })
         });
 
