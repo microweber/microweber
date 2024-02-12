@@ -86,7 +86,7 @@ export default class ElementStyleAnimationsApplier {
 
     static getAnimation(node) {
         var nodeWindow = node.ownerDocument.defaultView;
-        if (nodeWindow.mw.__pageAnimations) {
+        if (nodeWindow && nodeWindow.mw && nodeWindow.mw.__pageAnimations) {
 
 
             var sel = nodeWindow.mw.tools.generateSelectorForNode(node);
