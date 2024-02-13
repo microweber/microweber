@@ -235,20 +235,7 @@
                 var moduleContainerElement = document.getElementById("settings-container")
                 var docEl = document.documentElement;
 
-                if (docEl && docEl.addEventListener) {
-                    docEl.addEventListener("DOMSubtreeModified", function(evt) {
-                        var t = evt.target;
 
-                        window.domModifiedForAutoHeight();
-
-                    }, false);
-                } else {
-                    document.onpropertychange = function() {
-
-                        window.domModifiedForAutoHeight();
-
-                    };
-                }
 
                mw.interval('_settingsAutoHeight', function () {
                     if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
@@ -276,11 +263,7 @@
 
     <script>
         $(document).ready(function() {
-            $('body').on('click', function(e) {
-                if(typeof window.domModifiedForAutoHeight === 'function') {
-                    window.domModifiedForAutoHeight();
-                }
-            });
+
             window.createAutoHeight();
         });
     </script>
