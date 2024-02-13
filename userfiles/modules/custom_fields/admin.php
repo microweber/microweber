@@ -23,16 +23,19 @@ must_have_access();
                 mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '<?php print $params['for-id']  ?>'} || {}));
                 <?php endif; ?>
 
-                 mw.reload_module_everywhere('shop/cart_add');
-                 mw.reload_module_everywhere('shop/products');
-                 mw.reload_module_everywhere('posts');
-                 mw.reload_module_everywhere('blog');
+                if (self !== top) {
+                    //mw.reload_module_everywhere('shop/cart_add');
+                    // mw.reload_module_everywhere('shop/products');
+                    // mw.reload_module_everywhere('posts');
+                    // mw.reload_module_everywhere('blog');
+                }
 
             }
         }
         if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
             mw.top().app.on('customFieldUpdatedGlobal', function () {
-                reloadParentModule();
+                alert('polucheno');
+                 reloadParentModule();
             });
         }
     </script>
