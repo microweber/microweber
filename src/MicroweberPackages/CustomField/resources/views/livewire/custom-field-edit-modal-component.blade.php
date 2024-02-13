@@ -154,7 +154,6 @@
             window.addEventListener('customFieldUpdated', event => {
                 mw.notification.success('Custom field saved!');
                 if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
-                    alert('prateno');
                     mw.top().app.dispatch('customFieldUpdatedGlobal', {});
                 }
             });

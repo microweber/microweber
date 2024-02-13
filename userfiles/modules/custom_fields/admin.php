@@ -24,17 +24,29 @@ must_have_access();
                 <?php endif; ?>
 
                 if (self !== top) {
-                    //mw.reload_module_everywhere('shop/cart_add');
-                    // mw.reload_module_everywhere('shop/products');
-                    // mw.reload_module_everywhere('posts');
-                    // mw.reload_module_everywhere('blog');
+                    try {
+                        mw.top().reload_module_everywhere('shop/cart_add');
+                    } catch (e) {
+                    }
+                    try {
+                        mw.top().reload_module_everywhere('shop/products');
+                    } catch (e) {
+                    }
+                    try {
+                        mw.top().reload_module_everywhere('posts');
+                    } catch (e) {
+                    }
+                    try {
+                        mw.top().reload_module_everywhere('blog');
+                    } catch (e) {
+                    }
+
                 }
 
             }
         }
         if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
             mw.top().app.on('customFieldUpdatedGlobal', function () {
-                alert('polucheno');
                  reloadParentModule();
             });
         }
