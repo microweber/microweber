@@ -11,6 +11,7 @@ use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\Browser\Components\LiveEditSaveButton;
+use Tests\Browser\Components\LiveEditSwitchLanguage;
 use Tests\DuskTestCaseMultilanguage;
 
 
@@ -110,9 +111,17 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
 
 
 
-            $browser->within(new FrontendSwitchLanguage(), function ($browser) {
+//            $browser->within(new FrontendSwitchLanguage(), function ($browser) {
+//                $browser->switchLanguage('bg_BG');
+//            });
+
+            $browser->within(new LiveEditSwitchLanguage(), function ($browser) {
                 $browser->switchLanguage('bg_BG');
             });
+
+
+
+
             $browser->waitFor('#h1-test-element',30  );
 
             $browser->pause(3000);

@@ -3,7 +3,7 @@
     <script>
         window.addEventListener('livewire:load', function () {
             mw.top().app.on('layoutsListCategoryFilter', function (category) {
-                alert(category);
+
             });
         });
     </script>
