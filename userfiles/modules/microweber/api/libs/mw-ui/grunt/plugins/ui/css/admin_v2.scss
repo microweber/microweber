@@ -621,7 +621,8 @@ body.mw-iframe-admin {
     background-color: transparent;
 }
 
-.mw-admin-live-edit-page {
+
+.mw-dialog-skin-mw_modal_simple.mw_modal_live_edit_settings {
 
     .mw-dialog-close {
         background-image: url("data:image/svg+xml,%3Csvg fill='%23fff' xmlns='http://www.w3.org/2000/svg' height='16' viewBox='0 -960 960 960' width='16'%3E%3Cpath d='m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z'/%3E%3C/svg%3E");
@@ -638,6 +639,7 @@ body.mw-iframe-admin {
         background-position: center;
     }
 }
+
 
 .mw-dialog-skin-default .mw-dialog-close {
     top: 17px;
