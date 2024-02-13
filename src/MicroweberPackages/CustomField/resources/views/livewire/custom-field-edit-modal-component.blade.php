@@ -151,7 +151,7 @@
     </div>
     <div wire:ignore>
         <script>
-            document.addEventListener('customFieldUpdated', function () {
+            Livewire.on('customFieldUpdated', (e) => {
                 mw.notification.success('Custom field saved!');
             });
         </script>

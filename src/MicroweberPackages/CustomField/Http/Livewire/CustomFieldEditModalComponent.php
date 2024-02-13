@@ -104,7 +104,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         unset($this->inputs[$id]);
 
         $this->emit('$refresh');
-        $this->dispatchBrowserEvent('customFieldUpdated');
+        $this->emit('customFieldUpdated');
     }
 
     public function updatedState()
@@ -157,7 +157,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         }
 
         $this->showSettings($this->state['type']);
-        $this->dispatchBrowserEvent('customFieldUpdated');
+        $this->emit('customFieldUpdated');
     }
 
     public function showSettings($type)
