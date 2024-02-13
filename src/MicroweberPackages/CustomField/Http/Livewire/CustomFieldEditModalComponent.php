@@ -30,7 +30,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
    // public $multivaluesMl = [];
 
     public $listeners = [
-        'customFieldUpdated' => '$refresh',
+       // 'customFieldUpdated' => '$refresh',
         'onReorderCustomFieldValuesList' => 'onReorderCustomFieldValuesList'
     ];
 
@@ -103,7 +103,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         unset($this->priceModifiers[$id]);
         unset($this->inputs[$id]);
 
-        $this->emit('$refresh');
+       // $this->emit('$refresh');
         $this->emit('customFieldUpdated');
     }
 

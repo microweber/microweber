@@ -11,8 +11,8 @@ class CustomFieldsListComponent extends AdminComponent
     public $relType = 'content';
 
     public $listeners = [
-        'customFieldUpdated' => '$refresh',
-        'customFieldAdded' => '$refresh',
+       // 'customFieldUpdated' => '$refresh',
+      //  'customFieldAdded' => '$refresh',
         'executeCustomFieldDelete' => 'executeCustomFieldDelete',
         'onReorderCustomFieldsList' => 'onReorderCustomFieldsList'
     ];
