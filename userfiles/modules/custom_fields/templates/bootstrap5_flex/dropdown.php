@@ -10,10 +10,10 @@
 <?php endif; ?>
 
 <div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
-    <div class="mb-3 d-flex">
+    <div class="mb-3 d-flex gap-3 flex-wrap">
 
         <?php if($settings['show_label']): ?>
-        <label class="form-label me-2 align-self-center mb-0">
+        <label class="form-label me-2 align-self-center mb-0 col-xl-4 col-auto">
             <?php echo $data['name']; ?>
             <?php if ($settings['required']): ?>
                 <span style="color: red;">*</span>
@@ -21,7 +21,7 @@
         </label>
         <?php endif; ?>
 
-        <select <?php if ($settings['multiple']): ?>multiple="multiple"<?php endif; ?> class="form-control js-mw-select-<?php echo $data['id']; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name_key']; ?>"/>
+        <select <?php if ($settings['multiple']): ?>multiple="multiple"<?php endif; ?> class="form-control col js-mw-select-<?php echo $data['id']; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name_key']; ?>"/>
 
         <?php if (!empty($data['placeholder'])): ?>
             <option disabled selected value><?php echo $data['placeholder']; ?></option>

@@ -149,7 +149,19 @@
                                       </div>
                                   </div>
                               </div>
+
+                              <div class="col-xl-6 col-12 my-xl-0 my-3">
+                                  <div class="card mx-2 h-100">
+                                      <div class="card-body">
+                                          <label class="form-label"><?php _e("Trust proxies"); ?></label>
+                                          <small class="advanced-settings-small-helper d-block mb-2"><?php _e("Configuring Trusted Proxies"); ?></small>
+                                          <a class="btn btn-sm btn-outline-primary" href="javascript:settings_load_module('Trusted Proxies','settings/group/trust_proxies')"><?php _e("Edit Trusted Proxies"); ?></a>
+                                      </div>
+                                  </div>
+                              </div>
                           </div>
+
+
 
                       </div>
                   </div>

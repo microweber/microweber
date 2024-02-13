@@ -24,15 +24,15 @@ return [
      * how many proxies that client's request has
      * subsequently passed through.
      */
-    //'proxies' => [
-    //    '192.168.1.10',
-    //],
+    'proxies' => [
+
+    ],
 
     /*
      * Or, to trust all proxies that connect
      * directly to your server, uncomment this:
      */
-     'proxies' => '*',
+    // 'proxies' => '*',
 
     /*
      * Or, to trust ALL proxies, including those that
@@ -62,6 +62,7 @@ return [
      * as they are currently unsupported there.
      */
     'headers' => [
+        (defined('Illuminate\Http\Request::HEADER_FORWARDED') ? \Illuminate\Http\Request::HEADER_FORWARDED : 'forwarded') => 'FORWARDED',
         \Illuminate\Http\Request::HEADER_X_FORWARDED_FOR |
         \Illuminate\Http\Request::HEADER_X_FORWARDED_HOST |
         \Illuminate\Http\Request::HEADER_X_FORWARDED_PORT |

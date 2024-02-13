@@ -77,8 +77,8 @@ class FrontendSwitchLanguage extends BaseComponent
      //  $browser->script('$(\'li[data-value="'.$locale.'"]\', ".module-multilanguage").click()');
       $browser->click('.module-multilanguage li[data-value="'.$locale.'"]');
         $browser->pause(400);
-     //   $browser->pause(20000);
-         $browser->waitForReload(false, 30);
+        $browser->pause(10000);
+       //  $browser->waitForReload(false, 30);
         $browser->pause(400);
    //     $browser->waitFor('.module-multilanguage', 30);
 
