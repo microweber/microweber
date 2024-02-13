@@ -30,15 +30,11 @@ must_have_access();
 
             }
         }
-        Livewire.on('customFieldDeleted', (e) => {
-            reloadParentModule();
-        });
-        Livewire.on('customFieldUpdated', (e) => {
-            reloadParentModule();
-        });
-        Livewire.on('customFieldAdded', (e) => {
-            reloadParentModule();
-        });
+        if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
+            mw.top().app.on('customFieldUpdatedGlobal', function () {
+                reloadParentModule();
+            });
+        }
     </script>
 
     <?php
