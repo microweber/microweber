@@ -57,8 +57,9 @@ html.preview .back-to-edit{
         </div>
 
 
-        <div class="col-md-3 col">
-           <ContentSearchNav></ContentSearchNav>
+        <div class="col-md-3 col toolbar-col-container d-flex align-items-center">
+            <ContentSearchNav></ContentSearchNav>
+            <ToolbarMulilanguageSelector></ToolbarMulilanguageSelector>
         </div>
 
 
@@ -67,9 +68,6 @@ html.preview .back-to-edit{
                 <div class="d-flex align-items-center">
                     <ResolutionSwitch></ResolutionSwitch>
                     <SettingsCustomize></SettingsCustomize>
-
-                    <ToolbarMulilanguageSelector></ToolbarMulilanguageSelector>
-
 
                     <HtmlEditor></HtmlEditor>
 

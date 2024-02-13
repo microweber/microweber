@@ -1,6 +1,6 @@
 <template>
     <div class="ps-3" v-if="isOpened">
-        <div class="d-flex align-items-center justify-content-between mt-5 mb-3">
+        <div class="d-flex align-items-center justify-content-between mb-3">
             <h3 class="fs-2 font-weight-bold">Element Style Editor</h3>
             <span v-on:click="closeStyleEditor" class="mdi mdi-close x-close-modal-link" style="top: 30px;"></span>
         </div>
