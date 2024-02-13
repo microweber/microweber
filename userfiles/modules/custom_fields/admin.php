@@ -4,14 +4,6 @@ must_have_access();
 
 <div>
     <script>
-        $(document).ready(function () {
-            if(mw.top() && mw.top().dialog && mw.top().dialog.get('.mw_modal_live_edit_settings')) {
-                mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
-            }
-        });
-    </script>
-
-    <script>
         function reloadParentModule() {
             if (typeof mw !== 'undefined' && mw.top().app && mw.top().app.editor) {
 
@@ -45,11 +37,24 @@ must_have_access();
 
             }
         }
-        if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
-            mw.top().app.on('customFieldUpdatedGlobal', function () {
-                 reloadParentModule();
-            });
-        }
+
+        addEventListener('DOMContentLoaded', function () {
+            if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
+                mw.top().app.on('customFieldUpdatedGlobal', () => {
+                    Livewire.emit('customFieldListRefresh');
+                    reloadParentModule();
+                });
+            }
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            if(mw.top() && mw.top().dialog && mw.top().dialog.get('.mw_modal_live_edit_settings')) {
+                mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
+            }
+        });
     </script>
 
     <?php
