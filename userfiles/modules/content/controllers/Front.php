@@ -800,13 +800,15 @@ class Front
                     $item['content'] = htmlspecialchars_decode($item['content']);
                 }
 
-                if (isset($item['created_at']) and trim($item['created_at']) != '') {
+               /*
+               date format is done in the skin
+               if (isset($item['created_at']) and trim($item['created_at']) != '') {
                     $item['created_at'] = date($date_format, strtotime($item['created_at']));
                     if (!isset($item['posted_at'])
                         or (isset($item['posted_at']) and trim($item['posted_at']) == '')) {
                         $item['posted_at'] = $item['created_at'];
                     }
-                }
+                }*/
 
                 if (!isset($item['created_at']) or (isset($item['created_at']) and trim($item['created_at']) == '')) {
                     // empty created_at date , so we set updated_at as created_at
