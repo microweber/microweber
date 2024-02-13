@@ -50,6 +50,20 @@ class LiveEditWysiwygHeadingTest extends DuskTestCase
         $this->performFormatOnElements('h6');
     }
 
+
+    public function testLiveEditTypingMakeParagraph()
+    {
+        $this->performFormatOnElements('p');
+    }
+
+    public function testLiveEditTypingMakePreformatted()
+    {
+        $this->performFormatOnElements('pre');
+    }
+    public function testLiveEditTypingMakeDiv()
+    {
+        $this->performFormatOnElements('div');
+    }
     private function performFormatOnElements($format)
     {
         $siteUrl = $this->siteUrl;
@@ -129,7 +143,6 @@ class LiveEditWysiwygHeadingTest extends DuskTestCase
             return tagName;
             ");
             $this->assertEquals(strtolower($format), strtolower($output[0]));
-
 
         });
 
