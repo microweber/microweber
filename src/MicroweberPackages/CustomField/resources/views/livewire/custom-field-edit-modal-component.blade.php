@@ -153,6 +153,9 @@
         <script>
             Livewire.on('customFieldUpdated', (e) => {
                 mw.notification.success('Custom field saved!');
+                if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
+                    mw.top().app.dispatch('customFieldUpdated', {});
+                }
             });
         </script>
     </div>
