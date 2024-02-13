@@ -288,7 +288,10 @@ class Format
     function date_system_format($db_date)
     {
         $date_format = $this->get_date_format();
-        $date = date_create($db_date);
+        $date = @date_create($db_date);
+        if(!$date){
+            $date = date_create(strtotime($db_date));
+        }
         return date_format($date, $date_format);
     }
 
