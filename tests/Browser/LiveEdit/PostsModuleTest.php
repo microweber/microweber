@@ -32,7 +32,6 @@ class PostsModuleTest extends DuskTestCase
 
         $moduleIdRand = 'testpostsmodule' . time() . uniqid();
 
-        $fields = 'Your Name[type=text,field_size=6,show_placeholder=true],E-mail Address[type=email,field_size=6,show_placeholder=true],Phone[type=phone, field_size=6,show_placeholder=true],Company[type=text,field_size=6,show_placeholder=true],Message[type=textarea,field_size=12,show_placeholder=true]';
         $title = 'My page for posts module test ' . time();
         $params = array(
             'id' => $pageId,
