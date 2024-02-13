@@ -1,5 +1,5 @@
 <div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
-    <div class="mb-3 d-flex">
+    <div class="mb-3 d-flex gap-3 flex-wrap">
 
         <?php if ($settings['show_label']): ?>
             <label class="form-label my-3 "><?php echo $data["name"]; ?></label>
