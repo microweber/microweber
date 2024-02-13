@@ -70,14 +70,19 @@ class AdminContentImageAdd extends BaseComponent
 
             }
         }
-        $browser->pause(1000);
+        $browser->pause(100);
         $browser->attach('input.mw-uploader-input', $image);
      //   $browser->attach('.mw-filepicker-desktop-type-big input.mw-uploader-input', $image);
        // $browser->waitForText('Pictures settings are saved',30);
         if ($browser->element('.mw-dialog-overlay')) {
-            if ($browser->element('.mw-dialog-overlay')->isDisplayed()) {
+            if ($browser->element('.mw-dialog-iframe.active .mw-dialog-close')->isDisplayed()) {
+                $browser->click('.mw-dialog-iframe.active .mw-dialog-close');
+                $browser->pause(100);
+            } else if ($browser->element('.mw-dialog-overlay')->isDisplayed()) {
                 $browser->waitUntilMissing('.mw-dialog-overlay', 30);
             }
+
+
         }
 
         if ($browser->element('.admin-thumb-item-uploader-holder')) {
@@ -86,7 +91,7 @@ class AdminContentImageAdd extends BaseComponent
             }
         }
 
-        $browser->pause(3000);
+        $browser->pause(1000);
 
 
     }
