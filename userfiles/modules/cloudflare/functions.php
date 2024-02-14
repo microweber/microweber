@@ -3,7 +3,11 @@
 event_bind('mw.trust_proxies', function () {
 
     if (request()->header('cdn-loop') == 'cloudflare') {
-
+        //check if the user has set in config
+        $check = \Illuminate\Support\Facades\Config::get('trustedproxy.proxies');
+        if ($check) {
+            return;
+        }
         \Illuminate\Support\Facades\Config::set('trustedproxy.proxies', fetchCloudFlareIps());
 
     }
