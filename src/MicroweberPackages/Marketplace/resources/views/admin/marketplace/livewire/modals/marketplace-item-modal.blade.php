@@ -39,8 +39,8 @@
             @endif
         </div>
 
-        <div class="col-xl-8 mx-auto mt-3">
-            <div class="row col-xl-8 mx-auto">
+        <div class="col-8 mx-auto mt-3">
+            <div class="row col-sm-6 ps-2">
                 <div class="tblr-body-color my-2">
                     {{'Latest Version'}}: {{$package['version']}}
                 </div>
