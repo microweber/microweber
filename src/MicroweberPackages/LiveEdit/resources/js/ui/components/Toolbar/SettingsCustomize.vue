@@ -76,8 +76,8 @@ export default {
             var url = 'https://microweber.org/go/feedback/';
             let linkInModal = mw.top().dialogIframe({
                 url: url,
-                width:640,
-                height:480,
+                width:900,
+                height:900,
                 closeOnEscape:true,
 
             });
