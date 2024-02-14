@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Background\tests\Browser\TemplateLayoutsTests;
+namespace Tests\Browser\FlakyTests\LiveEditTextEditTests;
 
 
 use Facebook\WebDriver\WebDriverBy;
