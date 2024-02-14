@@ -202,7 +202,7 @@ class LiveEditWysiwygTest extends DuskTestCase
     }
 
 
-    public function testLiveEditTypingInTextWithFontAndShiftEnterKeys()
+    public function testLiveEditTypingInTextWithFontAndEnterKeysinSafeMode()
     {
         $siteUrl = $this->siteUrl;
 
@@ -220,7 +220,7 @@ class LiveEditWysiwygTest extends DuskTestCase
                 'title' => 'My new page for typing ' . time(),
                 'content_type' => 'page',
                 'content' => '
-                <div class="container-fluid col-sm-12 mx-auto mx-lg-0  ">
+                <div class="container-fluid col-sm-12 mx-auto mx-lg-0 safe-mode ">
                    <h6 class="font-weight-normal" id="my-text-parent"><font id="my-text-here" color="#ff0000">Enter text here and hit enter</font></h6>
                 </div>
             ',
@@ -328,7 +328,6 @@ class LiveEditWysiwygTest extends DuskTestCase
                 'content' => '
                 <div class="container-fluid col-sm-12 mx-auto mx-lg-0  ">
                    <h6 class="font-weight-normal" id="my-text-parent"><font id="my-text-here" color="#ff0000">Enter text here and hit enter</font></h6>
-
                 </div>
             ',
                 'subtype' => 'static',
@@ -339,7 +338,7 @@ class LiveEditWysiwygTest extends DuskTestCase
             $link = content_link($saved_id);
 
             $browser->visit($link . '?editmode=y');
-            $browser->pause(4000);
+            $browser->pause(2000);
 
             $browser->waitFor('#live-editor-frame', 30)
                 ->withinFrame('#live-editor-frame', function ($browser) {
