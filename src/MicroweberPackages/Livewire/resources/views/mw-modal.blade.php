@@ -87,6 +87,7 @@
             .js-modal-livewire-content {
                 width: 800px;
                 max-height: calc(100% - 100px);
+                overflow: auto;
             }
         }
     </style>

@@ -5,8 +5,8 @@
     @else
     <script>mw.require('admin_package_manager.js');</script>
 
-    <div class="row">
-            <div class="marketplace-template-img-wrapper col-sm-7 pe-3 px-0" style="max-height:500px; overflow:hidden">
+    <div class="row w-100">
+            <div class="marketplace-template-img-wrapper col-sm-6 pe-3 px-0" style="max-height:500px; overflow:hidden">
                 <div class="marketplace-template-img-wrapper-overlay">
 
                     @if (isset($package['demo_link']))
@@ -26,7 +26,7 @@
                 </div>
                 @endif
             </div>
-            <div class="col-sm-5 px-sm-0 px-4">
+            <div class="col-sm-6 px-sm-0 px-4">
                <div class="d-flex justify-content-between align-items-center" style="padding-right: 15px;">
                   <div>
                       <h3 class="main-pages-title mt-3">{{$package['description']}}</h3>
