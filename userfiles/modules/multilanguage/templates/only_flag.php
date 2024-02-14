@@ -17,7 +17,24 @@ description: MW Default
 <?php if (!empty($supported_languages)): ?>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#switch_language_ul li').on('click', function () {
+            $('#switch_language_ul')
+            .parent()
+            .parent()
+            .on('click', function(e){
+
+                setTimeout(() => {
+                    var el = $(this).find('.mw-dropdown-content').eq(0)
+                    var off = el.offset();
+                    var elLeft = off.left + el.outerWidth()
+
+                    if( elLeft > innerWidth ) {
+                        el.css('marginLeft', -((elLeft - innerWidth) + 20) )
+                    }
+                }, 1);
+
+            })
+            .find('li')
+            .on('click', function () {
                 var selected = $(this).data('value');
                 var is_admin = <?php if (defined('MW_FRONTEND')) {
                     echo 0;

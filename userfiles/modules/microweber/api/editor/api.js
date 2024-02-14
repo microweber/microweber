@@ -100,6 +100,20 @@
 
             },
             format: function(value) {
+
+
+                var _availableTags = [
+                    { label: '<mw-editor-option class="mw-editor-option-dropdown-h1">Heading 1</mw-editor-option>', value: 'h1', title: 'Heading 1' },
+                    { label: '<mw-editor-option class="mw-editor-option-dropdown-h2">Heading 2</mw-editor-option>', value: 'h2', title: 'Heading 2' },
+                    { label: '<mw-editor-option class="mw-editor-option-dropdown-h3">Heading 3</mw-editor-option>', value: 'h3', title: 'Heading 3' },
+                    { label: '<mw-editor-option class="mw-editor-option-dropdown-h4">Heading 4</mw-editor-option>', value: 'h4', title: 'Heading 4' },
+                    { label: '<mw-editor-option class="mw-editor-option-dropdown-h5">Heading 5</mw-editor-option>', value: 'h5' , title: 'Heading 5'},
+                    { label: '<mw-editor-option class="mw-editor-option-dropdown-h6">Heading 6</mw-editor-option>', value: 'h6', title: 'Heading 6' },
+                    { label: 'Paragraph', value: 'p', title: 'Paragraph' },
+                    { label: 'Block', value: 'div', title: 'Block' },
+                    { label: 'Pre formated', value: 'pre', title: 'Pre formated' }
+                ];
+
                 var api = scope.api;
                 var sel = api.getSelection();
                 var focusedNode = sel.focusNode;
@@ -120,8 +134,7 @@
                     })
 
                     if(last) {
-                        console.log(sel.getRangeAt(0).commonAncestorContainer, off)
-                        sel.getRangeAt(0).setEnd(sel.getRangeAt(0).commonAncestorContainer, off)
+                        sel.getRangeAt(0).setEnd(last, 1)
                     }
 
 
@@ -157,10 +170,10 @@
                  }
 
 
-                 var isTxtLike1 = rootScope.editArea === el;
-                 var isTxtLike2 = focusedNode.nodeType === 3  && !_proto._availableTags.find(obj => obj.value === nn && obj.value !== 'div');
+                 var isTxtLike1 = scope.editArea === el;
+                 var isTxtLike2 = focusedNode.nodeType === 3  && !_availableTags.find(obj => obj.value === nn && obj.value !== 'div');
 
-                 var formattagsArray = _proto._availableTags.filter(obj => obj.value !== 'div').map(o => o.value) ;
+                 var formattagsArray = _availableTags.filter(obj => obj.value !== 'div').map(o => o.value) ;
                  var formattags = formattagsArray.join(',');
 
 
@@ -184,9 +197,9 @@
                 }
 
 
-                rootScope.state.record({
-                    target: rootScope.$editArea[0],
-                    value: rootScope.$editArea[0].innerHTML
+                scope.state.record({
+                    target: scope.$editArea[0],
+                    value: scope.$editArea[0].innerHTML
                 });
 
                  if(focusedNodeBlockRes) {
@@ -196,9 +209,9 @@
                  } else {
                     if(elisInline) {
                         inlinNodeHandle();
-                        rootScope.state.record({
-                            target: rootScope.$editArea[0],
-                            value: rootScope.$editArea[0].innerHTML
+                        scope.state.record({
+                            target: scope.$editArea[0],
+                            value: scope.$editArea[0].innerHTML
                         });
                         return;
                      }
@@ -207,9 +220,9 @@
                         if(focusedNode !== el){
                             if(focusedNode.nodeType === 3) {
                                 textNodeHandle()
-                                rootScope.state.record({
-                                    target: rootScope.$editArea[0],
-                                    value: rootScope.$editArea[0].innerHTML
+                                scope.state.record({
+                                    target: scope.$editArea[0],
+                                    value: scope.$editArea[0].innerHTML
                                 });
                             }
 
@@ -905,12 +918,15 @@
                     var sel = scope.getSelection();
                     parent = sel.focusNode;
                 }
-                scope.api.cleanNesting(parent);
+
+               // scope.api.cleanNesting(parent);
                 const keysToRemove = []
                 const keysValuesToRemove = [{'font-size': '0px'}];
                 if(parent.nodeType === 3) {
                     return;
                 }
+
+                parent.normalize();
 
                 Array.prototype.slice.call(parent.querySelectorAll('[style],[id]')).forEach(node => {
                     if(!!node.getAttribute('style')) {
@@ -921,6 +937,8 @@
                                 || keysToRemove.indexOf(key) !== -1
                                 || keysValuesToRemove.find(a => a[key] === node.style[key]);
                                 if(toRemove) {
+                                    console.log(node, parent)
+                                    console.log(key)
                                     node.style[key] = '';
                                 }
                             }
@@ -963,12 +981,14 @@
                             }
 
 
+
                             scope.api.action(parent, function () {
 
                                 function _execCommand(cmd, def, val) {
                                     var pce = parent.contentEditable
                                     var current = parent.querySelector('[contenteditable="true"]');
                                     parent.contentEditable = true;
+                                    parent.querySelectorAll('[contentditable]').forEach(node => node.contentEditable = 'inherit');
                                     if(current) {
                                         current.contentEditable = 'inherit';
                                     }

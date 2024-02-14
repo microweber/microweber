@@ -61,16 +61,8 @@ class FrontendController extends Controller
             $installer = new InstallController($this->app);
             return $installer->index();
         } elseif (defined('MW_VERSION')) {
-            $config_version = Config::get('microweber.version');
-            $app_version = false;
-            if (isset($this->websiteOptions['app_version']) and $this->websiteOptions['app_version']) {
-                $app_version = $this->websiteOptions['app_version'];
-            }
-            if ($config_version != MW_VERSION) {
-                $this->app->update->post_update(MW_VERSION);
-            } else if ($app_version != MW_VERSION) {
-                $this->app->update->post_update(MW_VERSION);
-            }
+                $this->app->update->perform_post_update_if_needed();
+
         }
 
         $this->debugbarEnabled = false;
@@ -177,7 +169,7 @@ class FrontendController extends Controller
         $is_editmode = app()->url_manager->param('editmode');
         $legacy_edimode_must_redirect = false;
         $is_editmode_iframe = false;
-        if($is_editmode == 'iframe'){
+        if ($is_editmode == 'iframe') {
             $is_editmode_iframe = true;
 
             app()->user_manager->session_set('editmode', true);
@@ -207,7 +199,7 @@ class FrontendController extends Controller
                 }
             }
 
-            if($is_no_editmode){
+            if ($is_no_editmode) {
                 if (!defined('NO_EDITMODDE')) {
                     define('NO_EDITMODDE', true);
                 }
@@ -217,7 +209,7 @@ class FrontendController extends Controller
                 if ($is_editmode == 'n') {
                     $is_editmode = false;
                     $page_url = app()->url_manager->param_unset('editmode', $page_url);
-                   // app()->user_manager->session_set('back_to_editmode', true);
+                    // app()->user_manager->session_set('back_to_editmode', true);
                     //app()->user_manager->session_set('editmode', false);
                     //app()->user_manager->session_set('editmode_iframe', false);
 
@@ -229,7 +221,7 @@ class FrontendController extends Controller
                     $page_url = app()->url_manager->param_unset('editmode', $page_url);
 
                     if ($is_admin == true) {
-                        if($is_editmode == 'y'){
+                        if ($is_editmode == 'y') {
                             // legacy editmode, must redirect to the iframe
                             $legacy_edimode_must_redirect = true;
                             $liveEditUrl = admin_url() . 'live-edit';
@@ -239,7 +231,7 @@ class FrontendController extends Controller
                             app()->user_manager->session_set('back_to_editmode', false);
                             app()->user_manager->session_set('editmode_iframe', true);
                             return redirect($liveEditUrl);
-                        //    return app()->url_manager->redirect($liveEditUrl);
+                            //    return app()->url_manager->redirect($liveEditUrl);
 
                         }
 
@@ -250,13 +242,11 @@ class FrontendController extends Controller
                             if ($is_editmode == 'iframe') {
                                 app()->user_manager->session_set('editmode_iframe', true);
                             }
-                        //    $is_editmode = false;
-                           // dd($page_url);
+
                         }
-                        dd(2222);
                         return redirect(app()->url_manager->site_url($page_url));
 
-                     //   return app()->url_manager->redirect(app()->url_manager->site_url($page_url));
+                        //   return app()->url_manager->redirect(app()->url_manager->site_url($page_url));
                     } else {
 
                         $is_editmode = false;
@@ -266,7 +256,7 @@ class FrontendController extends Controller
 
             if (mw()->user_manager->session_id() and !$is_no_editmode) {
                 $is_editmode = app()->user_manager->session_get('editmode');
-                if(!isset($is_editmode_iframe) or !$is_editmode_iframe) {
+                if (!isset($is_editmode_iframe) or !$is_editmode_iframe) {
                     $is_editmode_iframe = app()->user_manager->session_get('editmode_iframe');
                 }
 
@@ -1130,10 +1120,9 @@ class FrontendController extends Controller
                     }
                 }
                 if ($template_headers_append != false and $template_headers_append != '') {
-                  //  $l = str_ireplace('</head>', $template_headers_append . '</head>', $l, $one);
+                    //  $l = str_ireplace('</head>', $template_headers_append . '</head>', $l, $one);
 
                     $l = Str::replaceFirst('</head>', $template_headers_append . '</head>', $l);
-
 
 
                 }
@@ -1174,21 +1163,21 @@ class FrontendController extends Controller
                     }
                 }
             }
+            if (is_string($l)) {
+                // Add custom footer tags
+                $website_footer_tags = $this->websiteOptions['website_footer'];
+                if ($website_footer_tags != false) {
+                    $template_footer_src .= $website_footer_tags . "\n";
+                }
 
-            // Add custom footer tags
-            $website_footer_tags = $this->websiteOptions['website_footer'];
-            if ($website_footer_tags != false) {
-                $template_footer_src .= $website_footer_tags . "\n";
+                if ($template_footer_src != false and is_string($template_footer_src)) {
+                    $l = Str::replaceFirst('</body>', $template_footer_src . '</body>', $l);
+                }
+
+
+                $l = $this->app->template->append_livewire_to_layout($l);
+                $l = $this->app->template->append_api_js_to_layout($l);
             }
-
-            if ($template_footer_src != false and is_string($template_footer_src)) {
-                $l = Str::replaceFirst('</body>', $template_footer_src . '</body>', $l);
-            }
-
-
-            $l = $this->app->template->append_livewire_to_layout($l);
-            $l = $this->app->template->append_api_js_to_layout($l);
-
 
 
             if (isset($content['active_site_template']) and $content['active_site_template'] == 'default' and $the_active_site_template != 'default' and $the_active_site_template != 'mw_default') {
@@ -1262,9 +1251,6 @@ class FrontendController extends Controller
             }
 
 
-
-
-
             //    }
 
             // Add custom head tags
@@ -1318,8 +1304,8 @@ class FrontendController extends Controller
 
             if ($is_editmode_iframe and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
                 if ($is_admin == true) {
-                    $l = $this->liveEditToolbarIframeData($l,$content);
-                    $l = $this->liveEditToolbarIframe($l,$content);
+                    $l = $this->liveEditToolbarIframeData($l, $content);
+                    $l = $this->liveEditToolbarIframe($l, $content);
 //                    if ($is_editmode_iframe) {
 //
 //

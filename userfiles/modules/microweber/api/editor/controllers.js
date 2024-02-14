@@ -67,7 +67,7 @@ MWEditor.controllers = {
                 props: {
                     id: 'mw-editor-state-component-align-right',
 
-                    tooltip: rootScope.lang('Align center'),
+                    tooltip: rootScope.lang('Align right'),
                     innerHTML: '<svg  viewBox="0 0 24 24">\n' +
                         '    <path fill="currentColor" d="M3,3H21V5H3V3M9,7H21V9H9V7M3,11H21V13H3V11M9,15H21V17H9V15M3,19H21V21H3V19Z" />\n' +
                         '</svg>'
@@ -1053,6 +1053,8 @@ MWEditor.controllers = {
                 data: this._availableTags,
                 placeholder: rootScope.lang('Format')
             });
+
+            dropdown.select.get(0).querySelector('.mw-editor-select-display-value-content').style.width = '70px';
             this.dropdown = dropdown
             dropdown.root.addClass('mw-editor-controller-component-format')
             dropdown.select.on('change', function (e, val) {

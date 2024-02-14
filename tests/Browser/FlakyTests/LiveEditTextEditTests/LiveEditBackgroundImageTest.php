@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Background\tests\Browser\TemplateLayoutsTests;
+namespace Tests\Browser\FlakyTests\LiveEditTextEditTests;
 
 
 use Facebook\WebDriver\WebDriverBy;
@@ -105,11 +105,11 @@ class LiveEditBackgroundImageTest extends DuskTestCase
 
             $this->assertTrue($output[0]);
 
+            $browser->switchFrameDefault();
 
             $browser->within(new LiveEditSaveButton(), function ($browser) {
                 $browser->clickSaveButton($browser);
             });
-            $browser->switchFrameDefault();
 
 
 

@@ -4,14 +4,6 @@ must_have_access();
 
 <div>
     <script>
-        $(document).ready(function () {
-            if(mw.top() && mw.top().dialog && mw.top().dialog.get('.mw_modal_live_edit_settings')) {
-                mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
-            }
-        });
-    </script>
-
-    <script>
         function reloadParentModule() {
             if (typeof mw !== 'undefined' && mw.top().app && mw.top().app.editor) {
 
@@ -23,21 +15,45 @@ must_have_access();
                 mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '<?php print $params['for-id']  ?>'} || {}));
                 <?php endif; ?>
 
-                 mw.reload_module_everywhere('shop/cart_add');
-                 mw.reload_module_everywhere('shop/products');
-                 mw.reload_module_everywhere('posts');
-                 mw.reload_module_everywhere('blog');
+                if (self !== top) {
+                    try {
+                        mw.top().reload_module_everywhere('shop/cart_add');
+                    } catch (e) {
+                    }
+                    try {
+                        mw.top().reload_module_everywhere('shop/products');
+                    } catch (e) {
+                    }
+                    try {
+                        mw.top().reload_module_everywhere('posts');
+                    } catch (e) {
+                    }
+                    try {
+                        mw.top().reload_module_everywhere('blog');
+                    } catch (e) {
+                    }
+
+                }
 
             }
         }
-        Livewire.on('customFieldDeleted', (e) => {
-            reloadParentModule();
+
+        addEventListener('DOMContentLoaded', function () {
+            if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
+                mw.top().app.on('customFieldUpdatedGlobal', () => {
+                    Livewire.emit('customFieldListRefresh');
+                    reloadParentModule();
+                });
+            }
         });
-        Livewire.on('customFieldUpdated', (e) => {
-            reloadParentModule();
-        });
-        Livewire.on('customFieldAdded', (e) => {
-            reloadParentModule();
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            if(mw.top() && mw.top().dialog && mw.top().dialog.get('.mw_modal_live_edit_settings')) {
+                mw.top().dialog.get('.mw_modal_live_edit_settings').resize(900);
+            }
         });
     </script>
 

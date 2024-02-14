@@ -11,8 +11,7 @@ class CustomFieldsListComponent extends AdminComponent
     public $relType = 'content';
 
     public $listeners = [
-        'customFieldUpdated' => '$refresh',
-        'customFieldAdded' => '$refresh',
+        'customFieldListRefresh' => '$refresh',
         'executeCustomFieldDelete' => 'executeCustomFieldDelete',
         'onReorderCustomFieldsList' => 'onReorderCustomFieldsList'
     ];
@@ -32,7 +31,7 @@ class CustomFieldsListComponent extends AdminComponent
             }
         }
 
-        $this->emit('customFieldUpdated');
+        $this->dispatchBrowserEvent('customFieldUpdated');
     }
 
     public function executeCustomFieldDelete($id)

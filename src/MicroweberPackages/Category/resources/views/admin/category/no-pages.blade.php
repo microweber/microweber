@@ -6,8 +6,11 @@
     <h1 style="font-weight: 600;" class="text-center mt-4">
         {{ 'You do not have any dynamic pages yet.' }}
     </h1>
+    <h2 style="font-weight: 600;" class="text-center mt-4">
+        {{ 'Please create blog or shop pages.' }}
+    </h2>
 
     <a class="btn btn-primary mt-4" href="{{route('admin.page.create')}}">{{ 'Create a dynamic page' }}</a>
-    
+
 </div>
 

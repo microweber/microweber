@@ -285,10 +285,18 @@ class Format
         return $date_format;
     }
 
+    function get_supported_date_formats()
+    {
+        $date_formats = array("Y-m-d H:i:s", "Y-m-d H:i", "d-m-Y H:i:s", "d-m-Y H:i", "m/d/y", "m/d/Y", "d/m/Y", "F j, Y g:i a", "F j, Y", "F, Y", "l, F jS, Y", "M j, Y @ G:i", "Y/m/d \a\t g:i A", "Y/m/d \a\t g:ia", "Y/m/d g:i:s A", "Y/m/d", "g:i a", "g:i:s a", 'D-M-Y', 'D-M-Y H:i');
+        return $date_formats;
+    }
     function date_system_format($db_date)
     {
         $date_format = $this->get_date_format();
-        $date = date_create($db_date);
+        $date = @date_create($db_date);
+        if(!$date){
+           return $db_date;
+        }
         return date_format($date, $date_format);
     }
 

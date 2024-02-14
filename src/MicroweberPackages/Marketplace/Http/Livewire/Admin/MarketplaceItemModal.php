@@ -17,7 +17,7 @@ class MarketplaceItemModal extends AdminModalComponent
     public $installVersion = '';
 
     public $modalSettings = [
-        'width'=>'800px',
+     //   'width'=>'800px',
         'overlay' => true,
         'overlayClose' => true,
     ];

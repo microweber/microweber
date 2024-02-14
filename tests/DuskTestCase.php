@@ -146,6 +146,11 @@ abstract class DuskTestCase extends BaseTestCase
 
         if (mw_is_installed()) {
 
+            if ($this->template_name) {
+
+                save_option('current_template', $this->template_name, 'template');
+            }
+
             save_option('dusk_test', 1, 'dusk');
 
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);

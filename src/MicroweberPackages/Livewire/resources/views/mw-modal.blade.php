@@ -76,7 +76,7 @@
                 padding-top: 100px;
             }
             .js-modal-livewire-content {
-                width: 500px;
+                max-width: 800px;
                 max-height: calc(100% - 100px);
             }
         }
@@ -85,8 +85,8 @@
                 padding-top: 8%;
             }
             .js-modal-livewire-content {
-                width: 800px;
                 max-height: calc(100% - 100px);
+                overflow: auto;
             }
         }
     </style>

@@ -30,7 +30,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
    // public $multivaluesMl = [];
 
     public $listeners = [
-        'customFieldUpdated' => '$refresh',
+       // 'customFieldUpdated' => '$refresh',
         'onReorderCustomFieldValuesList' => 'onReorderCustomFieldValuesList'
     ];
 
@@ -103,8 +103,8 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         unset($this->priceModifiers[$id]);
         unset($this->inputs[$id]);
 
-        $this->emit('$refresh');
-        $this->dispatchGlobalBrowserEvent('customFieldUpdated');
+       // $this->emit('$refresh');
+        $this->dispatchBrowserEvent('customFieldUpdated');
     }
 
     public function updatedState()
@@ -157,7 +157,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         }
 
         $this->showSettings($this->state['type']);
-        $this->dispatchGlobalBrowserEvent('customFieldUpdated');
+        $this->dispatchBrowserEvent('customFieldUpdated');
     }
 
     public function showSettings($type)

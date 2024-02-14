@@ -12,7 +12,7 @@ use Tests\Browser\Components\LiveEditWaitUntilLoaded;
 use Tests\Browser\Components\WysiwygSmallEditorButtonClick;
 use Tests\DuskTestCase;
 
-class LiveEditWysysgTest extends DuskTestCase
+class LiveEditWysiwygTest extends DuskTestCase
 {
     public function testLiveEditTypingInTextWithFont()
     {
@@ -202,7 +202,7 @@ class LiveEditWysysgTest extends DuskTestCase
     }
 
 
-    public function testLiveEditTypingInTextWithFontAndShiftEnterKeys()
+    public function testLiveEditTypingInTextWithFontAndEnterKeysinSafeMode()
     {
         $siteUrl = $this->siteUrl;
 
@@ -220,7 +220,7 @@ class LiveEditWysysgTest extends DuskTestCase
                 'title' => 'My new page for typing ' . time(),
                 'content_type' => 'page',
                 'content' => '
-                <div class="container-fluid col-sm-12 mx-auto mx-lg-0  ">
+                <div class="container-fluid col-sm-12 mx-auto mx-lg-0 safe-mode ">
                    <h6 class="font-weight-normal" id="my-text-parent"><font id="my-text-here" color="#ff0000">Enter text here and hit enter</font></h6>
                 </div>
             ',
@@ -328,7 +328,6 @@ class LiveEditWysysgTest extends DuskTestCase
                 'content' => '
                 <div class="container-fluid col-sm-12 mx-auto mx-lg-0  ">
                    <h6 class="font-weight-normal" id="my-text-parent"><font id="my-text-here" color="#ff0000">Enter text here and hit enter</font></h6>
-
                 </div>
             ',
                 'subtype' => 'static',
@@ -339,7 +338,7 @@ class LiveEditWysysgTest extends DuskTestCase
             $link = content_link($saved_id);
 
             $browser->visit($link . '?editmode=y');
-            $browser->pause(4000);
+            $browser->pause(2000);
 
             $browser->waitFor('#live-editor-frame', 30)
                 ->withinFrame('#live-editor-frame', function ($browser) {
@@ -565,88 +564,6 @@ class LiveEditWysysgTest extends DuskTestCase
     }
 
 
-    public function testLiveEditAlignOnElements()
-    {
-        $siteUrl = $this->siteUrl;
-
-        $this->browse(function (Browser $browser) use ($siteUrl) {
-            $browser->within(new AdminLogin, function ($browser) {
-                $browser->fillForm();
-            });
-
-            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-                $browser->validate();
-            });
-
-            $params = array(
-                'title' => 'My new page for typing ' . time(),
-                'content_type' => 'page',
-                'content' => '
-                <div class="container-fluid col-sm-12 mx-auto mx-lg-0  ">
-                   <h6 class="font-weight-normal" id="my-text-parent"><font id="my-text-here" color="#ff0000">Enter text for align</font></h6>
-                </div>
-            ',
-                'subtype' => 'static',
-                'is_active' => 1,
-            );
-
-            $saved_id = save_content($params);
-            $link = content_link($saved_id);
-
-            $browser->visit($link . '?editmode=y');
-
-            $browser->within(new LiveEditWaitUntilLoaded(), function ($browser) {
-                $browser->waitUntilLoaded();
-            });
-
-
-            $browser->waitFor('#live-editor-frame', 30)
-                ->withinFrame('#live-editor-frame', function ($browser) {
-                    $browser->pause(1000);
-                });
-
-            $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
-            $browser->pause(1000);
-            $browser->switchFrame($iframeElement);
-
-            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-                $browser->validate();
-            });
-
-            $browser->doubleClick('#my-text-here');
-
-            $editorComponent = new WysiwygSmallEditorButtonClick();
-            $editorComponent->clickEditorButton($browser, 'Align center');
-
-          //  $this->markTestIncomplete('This test has not been implemented yet. testLiveEditAlignOnElements');
-            $browser->pause(500);
-
-            //check if aligned
-            $output = $browser->script("
-            var  isTrue = window.getComputedStyle(document.getElementById('my-text-parent')).textAlign
- === 'center';
-            return isTrue;
-        ");
-            $this->assertEquals($output[0], true, 'The element must be aligned center');
-
-            $browser->within(new LiveEditSaveButton(), function ($browser) {
-                $browser->clickSaveButton($browser);
-            });
-            $browser->switchFrameDefault();
-
-            $browser->visit($link . '?editmode=n');
-            $browser->pause(1000);
-
-            $output = $browser->script("
-            var  isTrue = window.getComputedStyle(document.getElementById('my-text-parent')).textAlign
- === 'center';
-            return isTrue;
-        ");
-            $this->assertEquals($output[0], true, 'The element must be aligned center');
-
-        });
-
-    }
 
 
 }

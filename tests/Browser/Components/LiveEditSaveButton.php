@@ -46,7 +46,7 @@ class LiveEditSaveButton extends BaseComponent
       $browser->waitForText('Page saved successfully.',60);
 
 
-        $browser->pause(4000);
+        $browser->pause(1000);
 
     }
 

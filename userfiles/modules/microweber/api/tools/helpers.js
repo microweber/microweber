@@ -554,15 +554,26 @@
             node.src = mw.url.set_param('refresh_image', mw.random(), node.src);
             return node;
         },
-        refresh: function (a) {
+        refresh: function (a, onSuccess) {
             if (a === null || typeof a === 'undefined') {
                 return false;
             }
             if (a.src) {
                 a.src = mw.url.set_param('mwrefresh', mw.random(), a.src);
+                if(onSuccess) {
+                    jQuery.get(a.getAttribute('src'), function(e){
+                        onSuccess.call(a, e)
+                    })
+                }
+
             }
             else if (a.href) {
                 a.href = mw.url.set_param('mwrefresh', mw.random(), a.href);
+                if(onSuccess) {
+                    jQuery.get(a.getAttribute('href'), function(e){
+                        onSuccess.call(a, e)
+                    })
+                }
             }
         },
         getDiff: function (_new, _old) {

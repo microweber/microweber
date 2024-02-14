@@ -24,6 +24,28 @@ export default {
 
         });
 
+        mw.top().app.canvas.on('reloadCustomCssDone', () => {
+
+            setTimeout(() => {
+
+                var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
+                 if(activeElement) {
+
+                     this.$root.selectedLayout = null;
+                     this.$root.selectedElement = null;
+
+                     this.$root.selectedElement = activeElement;
+                }
+
+
+            },300 );
+
+
+        });
+
+
+
+
 
     },
 
