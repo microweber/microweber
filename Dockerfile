@@ -33,7 +33,6 @@ COPY . /var/www/html
 
 WORKDIR /var/www/html
 ENV COMPOSER_ALLOW_SUPERUSER=1
-
 RUN composer install --no-interaction --prefer-dist
 
 RUN chmod -R 777 /var/www/html

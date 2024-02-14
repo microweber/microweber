@@ -15,6 +15,7 @@ services:
     links:
       - 'mariadb'
     environment:
+      COMPOSER_ALLOW_SUPERUSER: 1
       APACHE_EXTENSION_DAV: 0
       PHP_INI_MEMORY_LIMIT: 1g
       PHP_INI_ERROR_REPORTING: E_ALL

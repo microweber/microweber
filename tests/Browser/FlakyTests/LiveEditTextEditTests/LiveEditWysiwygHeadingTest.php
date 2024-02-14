@@ -18,57 +18,67 @@ class LiveEditWysiwygHeadingTest extends DuskTestCase
     {
 
         $this->performFormatOnElements('h1');
+        $this->performFormatOnElements('h1' , true);
     }
 
     public function testLiveEditTypingMakeH2()
     {
 
         $this->performFormatOnElements('h2');
+        $this->performFormatOnElements('h2' , true);
     }
 
     public function testLiveEditTypingMakeH3()
     {
 
         $this->performFormatOnElements('h3');
+        $this->performFormatOnElements('h3' , true);
     }
 
     public function testLiveEditTypingMakeH4()
     {
 
         $this->performFormatOnElements('h4');
+        $this->performFormatOnElements('h4' , true);
     }
 
     public function testLiveEditTypingMakeH5()
     {
 
         $this->performFormatOnElements('h5');
+        $this->performFormatOnElements('h5' , true);
     }
 
     public function testLiveEditTypingMakeH6()
     {
 
         $this->performFormatOnElements('h6');
+        $this->performFormatOnElements('h6' , true);
     }
 
 
     public function testLiveEditTypingMakeParagraph()
     {
         $this->performFormatOnElements('p');
+        $this->performFormatOnElements('p' , true);
     }
 
     public function testLiveEditTypingMakePreformatted()
     {
         $this->performFormatOnElements('pre');
+        $this->performFormatOnElements('pre' , true);
+
     }
     public function testLiveEditTypingMakeDiv()
     {
         $this->performFormatOnElements('div');
+        $this->performFormatOnElements('div',true);
     }
-    private function performFormatOnElements($format)
+    private function performFormatOnElements($format,$onSelectedText = false)
     {
         $siteUrl = $this->siteUrl;
 
-        $this->browse(function (Browser $browser) use ($siteUrl, $format) {
+        $this->browse(function (Browser $browser) use ($siteUrl, $format,$onSelectedText) {
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
@@ -114,6 +124,15 @@ class LiveEditWysiwygHeadingTest extends DuskTestCase
             });
 
             $browser->doubleClick('#my-text-here');
+
+
+            if ($onSelectedText ) {
+                $browser->script("var myTextElement = document.getElementById('my-text-here');
+                      var range = document.createRange();
+                      range.selectNodeContents(myTextElement);
+                      window.getSelection().removeAllRanges();
+                      window.getSelection().addRange(range);");
+            }
 
             $editorComponent = new WysiwygSmallEditorButtonClick();
             $editorComponent->clickEditorFormatButton($browser, $format);
