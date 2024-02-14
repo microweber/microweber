@@ -105,11 +105,11 @@ class LiveEditBackgroundImageTest extends DuskTestCase
 
             $this->assertTrue($output[0]);
 
+            $browser->switchFrameDefault();
 
             $browser->within(new LiveEditSaveButton(), function ($browser) {
                 $browser->clickSaveButton($browser);
             });
-            $browser->switchFrameDefault();
 
 
 

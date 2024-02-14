@@ -72,26 +72,29 @@ class AdminContentImageAdd extends BaseComponent
         }
         $browser->pause(100);
         $browser->attach('input.mw-uploader-input', $image);
+        $browser->pause(1000);
      //   $browser->attach('.mw-filepicker-desktop-type-big input.mw-uploader-input', $image);
        // $browser->waitForText('Pictures settings are saved',30);
-        if ($browser->element('.mw-dialog-overlay')) {
-            if ($browser->element('.mw-dialog-iframe.active .mw-dialog-close')
-            and $browser->element('.mw-dialog-iframe.active .mw-dialog-close')->isDisplayed()) {
-                $browser->click('.mw-dialog-iframe.active .mw-dialog-close');
-                $browser->pause(100);
-            } else if ($browser->element('.mw-dialog-overlay')->isDisplayed()) {
-                $browser->waitUntilMissing('.mw-dialog-overlay', 30);
-            }
 
-
-        }
 
         if ($browser->element('.admin-thumb-item-uploader-holder')) {
             if (!$browser->element('.admin-thumb-item')) {
                 $browser->waitFor('.admin-thumb-item', 30);
             }
-        }
+        } else {
 
+            $browser->switchFrameDefault();
+            if ($browser->element('.mw-dialog-overlay')) {
+                if ($browser->element('.mw-dialog-iframe.active .mw-dialog-close')
+                    and $browser->element('.mw-dialog-iframe.active .mw-dialog-close')->isDisplayed()) {
+                    $browser->click('.mw-dialog-iframe.active .mw-dialog-close');
+                    $browser->pause(200);
+                } else if ($browser->element('.mw-dialog-overlay')->isDisplayed()) {
+                    $browser->waitUntilMissing('.mw-dialog-overlay', 30);
+                }
+
+            }
+        }
         $browser->pause(1000);
 
 
