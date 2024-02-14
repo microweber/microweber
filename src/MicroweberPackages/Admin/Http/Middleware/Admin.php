@@ -50,6 +50,10 @@ class Admin
         }
 
         if ($this->inExceptArray($request) || (Auth::check() && intval(Auth::user()->is_admin) === 1)) {
+
+            if(defined('MW_VERSION')) {
+                app()->update->perform_post_update_if_needed();
+            }
              return $next($request);
         }
 
