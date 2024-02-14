@@ -1,12 +1,23 @@
 <div>
 
+    <div class="card-header d-flex align-items-center justify-content-between px-5 py-3">
+
+        <div>
+            <h3 class="main-pages-title mt-3">{{$package['description']}}</h3>
+        </div>
+        <br/>
+
+        <button type="button" class="btn-close" aria-label="Close"
+                wire:click="$emit('closeModal')"></button>
+    </div>
+
     @if (!isset($package['description']))
         <div class="alert alert-danger">{{'Please select a package'}}</div>
     @else
         <script>mw.require('admin_package_manager.js');</script>
 
         <div class="row w-100">
-            <div class="marketplace-template-img-wrapper" style="max-height: 500px; overflow:hidden">
+            <div class="marketplace-template-img-wrapper col-lg-10 mx-auto" style="max-height: 500px; overflow:hidden">
                 <div class="marketplace-template-img-wrapper-overlay">
                     @if (isset($package['demo_link']))
                         <a target="_blank" href="{{$package['demo_link']}}"
@@ -28,31 +39,21 @@
                 @endif
             </div>
 
-            <div class="col-xl-8 mx-auto">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h3 class="main-pages-title mt-3">{{$package['description']}}</h3>
+            <div class="col-xl-8 mx-auto mt-3">
+                <div class="row col-xl-8 mx-auto">
+                    <div class="tblr-body-color my-2">
+                        {{'Latest Version'}}: {{$package['version']}}
                     </div>
-                    <div>
-                        <button type="button" class="btn-close" aria-label="Close"
-                                wire:click="$emit('closeModal')"></button>
-                    </div>
-                </div>
-                <div class="tblr-body-color">
-                    {{'Latest Version'}}: {{$package['version']}}
-                </div>
-                <br/>
+                   <div class="col-10">
+                       <select class="form-select form-select-sm" wire:model="installVersion" class="form-control">
+                           @foreach($package['versions'] as $version)
+                               <option value="{{$version}}">{{$version}}</option>
+                           @endforeach
+                       </select>
+                   </div>
 
-                {{'Install version'}}:
-                <div class="d-flex align-items-center ">
-                    <div class="col-xl-5 me-2">
-                        <select class="form-select form-select-sm" wire:model="installVersion" class="form-control">
-                            @foreach($package['versions'] as $version)
-                                <option value="{{$version}}">{{$version}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class=" text-end">
+
+                    <div class="col-2">
 
                         @if($package['has_update'] && $installVersion == $package['version'])
                             <a vkey="{{$installVersion}}" href="javascript:;"
@@ -89,7 +90,7 @@
                 </div>
 
                 <br/>
-                <div class="table-responsive">
+                <div class="table-responsive mb-5">
                     <table class="table card-table table-vcenter fs-5 m-0">
                         <tbody>
 
@@ -101,7 +102,7 @@
                         </tr>
 
                         <tr>
-                            <td><?php _e('For the module'); ?></td>
+                            <td><?php _e('Help'); ?></td>
                             <td>
                                     <?php _e('Calendly is a popular online scheduling tool that allows individuals or businesses to schedule meetings or appointments with others.'); ?>
                             </td>
@@ -121,7 +122,7 @@
 
                         @if(isset($package['authors']) && !empty($package['authors']))
                             <tr>
-                                <td><?php _e('Author'); ?> <br> <?php _e('Support'); ?></td>
+                                <td><?php _e('Author'); ?></td>
                                 <td>
                                     @foreach($package['authors'] as $author)
                                         {{$author['name']}}  <a
