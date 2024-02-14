@@ -58,7 +58,7 @@ export default {
 <template>
 
 
-    <nav id="preview-nav" class="toolbar-nav mw-live-edit-resolutions-wrapper toolbar-nav-hover">
+    <nav id="preview-nav" class="toolbar-nav mw-live-edit-resolutions-wrapper toolbar-nav-hover me-2">
        <span class="btn-icon live-edit-toolbar-buttons me-1" v-on:click="setPreviewMode('desktop')" data-preview="desktop"
              :class="[previewMode=='desktop' ? 'live-edit-resolution-active': '']">
             <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 96 960 960" width="22"><path d="M320 936v-80h80v-80H160q-33 0-56.5-23.5T80 696V296q0-33 23.5-56.5T160 216h640q33 0 56.5 23.5T880 296v400q0 33-23.5 56.5T800 776H560v80h80v80H320ZM160 696h640V296H160v400Zm0 0V296v400Z"/></svg>

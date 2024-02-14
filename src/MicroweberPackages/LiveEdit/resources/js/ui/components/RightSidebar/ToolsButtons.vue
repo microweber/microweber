@@ -1,18 +1,16 @@
 <template>
-    <div class="p-3">
-        <label class="font-weight-bold fs-2 mt-2 mb-2">Tools</label>
-        <ul class="d-grid gap-2 list-unstyled">
+    <ul class="d-grid gap-2 list-unstyled p-3">
 
-            <li>
-                <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="show('style-editor')">
-                    <svg class="mb-2 me-1"
-                        xmlns="http://www.w3.org/2000/svg" height="22"
-                        viewBox="0 -960 960 960" width="22">
-                        <path d="M480-120q-133 0-226.5-92T160-436q0-65 25-121.5T254-658l226-222 226 222q44 44 69 100.5T800-436q0 132-93.5 224T480-120ZM242-400h474q12-72-13.5-123T650-600L480-768 310-600q-27 26-53 77t-15 123Z"/>
-                    </svg>
-                    Element Style Editor
-                </a>
-            </li>
+<!--            <li>-->
+<!--                <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="show('style-editor')">-->
+<!--                    <svg class="mb-2 me-1"-->
+<!--                        xmlns="http://www.w3.org/2000/svg" height="22"-->
+<!--                        viewBox="0 -960 960 960" width="22">-->
+<!--                        <path d="M480-120q-133 0-226.5-92T160-436q0-65 25-121.5T254-658l226-222 226 222q44 44 69 100.5T800-436q0 132-93.5 224T480-120ZM242-400h474q12-72-13.5-123T650-600L480-768 310-600q-27 26-53 77t-15 123Z"/>-->
+<!--                    </svg>-->
+<!--                    Element Style Editor-->
+<!--                </a>-->
+<!--            </li>-->
 
             <li>
                 <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="showCodeEditor()">
@@ -61,13 +59,9 @@
                 </a>
             </li>
         </ul>
-    </div>
 </template>
 
-
 <script>
-
-
 export default {
     components: {},
     methods: {

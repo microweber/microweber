@@ -1721,11 +1721,11 @@ svg.text-danger {
             opacity: 1;
             z-index: 1;
             position: absolute;
-            top: 45%;
-            left: 40%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     }
-
 }
 
 
@@ -2248,7 +2248,7 @@ svg.text-danger {
 .mw-live-edit-search-dropdown {
     background-color: var(--tblr-body-bg2);
     border-color: var(--tblr-body-bg2);
-    max-height: 45px;
+    max-height: 35px;
     display: flex;
     align-items: center;
     min-width: 235px;

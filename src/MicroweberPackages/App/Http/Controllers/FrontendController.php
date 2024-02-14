@@ -61,16 +61,8 @@ class FrontendController extends Controller
             $installer = new InstallController($this->app);
             return $installer->index();
         } elseif (defined('MW_VERSION')) {
-            $config_version = Config::get('microweber.version');
-            $app_version = false;
-            if (isset($this->websiteOptions['app_version']) and $this->websiteOptions['app_version']) {
-                $app_version = $this->websiteOptions['app_version'];
-            }
-            if ($config_version != MW_VERSION) {
-                $this->app->update->post_update(MW_VERSION);
-            } else if ($app_version != MW_VERSION) {
-                $this->app->update->post_update(MW_VERSION);
-            }
+                $this->app->update->perform_post_update_if_needed();
+
         }
 
         $this->debugbarEnabled = false;

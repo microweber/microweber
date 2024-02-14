@@ -38,6 +38,19 @@ class WysiwygSmallEditorButtonClick extends BaseComponent
         return [];
     }
 
+    public function clickEditorFormatButton(Browser $browser, $format = 'h1')
+    {
+        $selector = ".mw-editor-controller-component-format";
+        $browser->click($selector);
+        $browser->pause(100);
+
+        $selector = ".mw-editor-controller-component-format [data-value='{$format}']";
+        $browser->click($selector);
+        $browser->pause(100);
+
+
+    }
+
     public function clickEditorButton(Browser $browser, $button = 'Bold')
     {
         // Escape any special characters in the button name

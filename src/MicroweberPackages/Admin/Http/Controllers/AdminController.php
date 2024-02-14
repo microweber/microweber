@@ -76,10 +76,7 @@ class AdminController extends Controller
             return $installer->index();
 
         } elseif (defined('MW_VERSION')) {
-            $config_version = Config::get('microweber.version');
-            if ($config_version != MW_VERSION) {
-                $this->app->update->post_update(MW_VERSION);
-            }
+            $this->app->update->perform_post_update_if_needed();
         }
 
         $force_https = \Config::get('microweber.force_https');

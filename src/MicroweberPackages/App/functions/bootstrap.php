@@ -59,6 +59,7 @@ if (!defined('MW_SYSTEM_MODULE_FOLDER')) {
 $functions_dir = __DIR__.DS;
 
 include_once $functions_dir.'paths.php';
+include_once $functions_dir.'events.php';
 
 include_once $functions_dir.'url.php';
 include_once $functions_dir.'api.php';
