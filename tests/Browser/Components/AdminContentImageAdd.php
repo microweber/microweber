@@ -41,6 +41,10 @@ class AdminContentImageAdd extends BaseComponent
     public function addImage(Browser $browser, $image)
     {
 
+        $isliveed = false;
+        if ($browser->element('.admin-thumb-item-uploader-holder')) {
+            $isliveed = true;
+        }
 
         if ($browser->element('.admin-thumb-item-uploader-holder')) {
             if ($browser->driver->findElement(WebDriverBy::cssSelector('.admin-thumb-item-uploader-holder'))) {
@@ -72,6 +76,13 @@ class AdminContentImageAdd extends BaseComponent
         }
         $browser->pause(100);
         $browser->attach('input.mw-uploader-input', $image);
+        if (!$browser->element('.admin-thumb-item-uploader-holder')) {
+            $browser->switchFrameDefault();
+            if ($browser->element('#mw-file-picker-dialog')) {
+                $browser->waitUntilMissing('#mw-file-picker-dialog .mw-filepicker-component-section', 30);
+            }
+        }
+  //      $browser->waitUntilMissing('.mw-uploader-type-holder', 30);
         $browser->pause(1000);
      //   $browser->attach('.mw-filepicker-desktop-type-big input.mw-uploader-input', $image);
        // $browser->waitForText('Pictures settings are saved',30);
@@ -87,7 +98,8 @@ class AdminContentImageAdd extends BaseComponent
             if ($browser->element('.mw-dialog-overlay')) {
                 if ($browser->element('.mw-dialog-iframe.active .mw-dialog-close')
                     and $browser->element('.mw-dialog-iframe.active .mw-dialog-close')->isDisplayed()) {
-                    $browser->click('.mw-dialog-iframe.active .mw-dialog-close');
+                   $browser->click('.mw-dialog-iframe.active .mw-dialog-close');
+                  //  $browser->script('$(".mw-dialog-iframe.active .mw-dialog-close").click();');
                     $browser->pause(200);
                 } else if ($browser->element('.mw-dialog-overlay')->isDisplayed()) {
                     $browser->waitUntilMissing('.mw-dialog-overlay', 30);

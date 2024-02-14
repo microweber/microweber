@@ -187,7 +187,7 @@ class LiveEditBackgroundImageTest extends DuskTestCase
             $browser->switchFrame($iframeElement);
 
 
-            $browser->pause(1000);
+            $browser->pause(500);
             $browser->click('.js-filepicker-pick-type-tab-video');
 
 
@@ -200,6 +200,7 @@ class LiveEditBackgroundImageTest extends DuskTestCase
             $browser->within(new AdminContentImageAdd, function ($browser) {
                 $browser->addImage(userfiles_path() . '/templates/default/img/videos/example.mp4');
             });
+            $browser->pause(1000);
             $browser->keys('', [WebDriverKeys::ESCAPE]);
 
 

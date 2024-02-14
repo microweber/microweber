@@ -216,6 +216,7 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
                 }
             });
             dialog = mw.top().dialog({
+                id: 'mw-file-picker-dialog',
                 content: picker.root,
                 title: mw.lang('Select file'),
                 footer: false,
