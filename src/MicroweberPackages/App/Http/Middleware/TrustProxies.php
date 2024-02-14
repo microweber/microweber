@@ -12,6 +12,10 @@ class TrustProxies extends TrustProxiesMiddleware
     {
 
         if (mw_is_installed()) {
+
+            event_trigger('mw.trust_proxies');
+
+
             $proxy_ips = [];
             $trust_proxies = get_option('trust_proxies', 'website');
             if ($trust_proxies) {

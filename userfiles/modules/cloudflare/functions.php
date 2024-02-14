@@ -1,6 +1,6 @@
 <?php
 
-event_bind('mw.init', function () {
+event_bind('mw.trust_proxies', function () {
 
     if (request()->header('cdn-loop') == 'cloudflare') {
 //        if (\Symfony\Component\HttpFoundation\IpUtils::checkIp(request()->ip(), fetchCloudFlareIps())) {
