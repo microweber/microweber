@@ -28,6 +28,8 @@
             <exclude>./src/MicroweberPackages/Helper/tests/*</exclude>
             <exclude>./src/MicroweberPackages/User/tests/*</exclude>
             <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
+            <exclude>./userfiles/templates/*/src/tests/Browser/</exclude>
+            <exclude>./userfiles/modules/*/src/tests/Browser/</exclude>
         </testsuite>
         <testsuite name="MicroweberTestMultilanguage">
             <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>

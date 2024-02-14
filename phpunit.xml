@@ -305,6 +305,8 @@
 
                 <testsuite name="MicroweberModulesTests">
                     <directory>./userfiles/modules/*/tests/</directory>
+                    <exclude>./userfiles/templates/*/src/tests/Browser/</exclude>
+                    <exclude>./userfiles/modules/*/src/tests/Browser/</exclude>
                  </testsuite>
 
         <!--     <testsuite name="MicroweberTemplatesTests">
