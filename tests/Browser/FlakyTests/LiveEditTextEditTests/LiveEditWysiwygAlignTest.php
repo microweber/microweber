@@ -20,34 +20,37 @@ class LiveEditWysiwygAlignTest extends DuskTestCase
     public function testLiveEditAlignCenter()
     {
         $this->performAlignOnElements('center');
+        $this->performAlignOnElements('center',true);
     }
 
     public function testLiveEditAlignLeft()
     {
         $this->performAlignOnElements('left');
+        $this->performAlignOnElements('left',true);
     }
 
     public function testLiveEditAlignRight()
     {
         $this->performAlignOnElements('right');
+        $this->performAlignOnElements('right',true);
     }
 
-    private function performAlignOnElements($alignType)
+    private function performAlignOnElements($alignType,$onSelectedText = false)
     {
         $siteUrl = $this->siteUrl;
 
-        $this->browse(function (Browser $browser) use ($siteUrl, $alignType) {
+        $this->browse(function (Browser $browser) use ($siteUrl, $alignType,$onSelectedText) {
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
 
             $buttonText = 'Align center';
             $expectedTextAlign = 'center';
-            if($alignType == 'left'){
+            if ($alignType == 'left') {
                 $buttonText = 'Align left';
                 $expectedTextAlign = 'left';
             }
-            if($alignType == 'right'){
+            if ($alignType == 'right') {
                 $buttonText = 'Align right';
                 $expectedTextAlign = 'right';
             }
@@ -93,6 +96,13 @@ class LiveEditWysiwygAlignTest extends DuskTestCase
 
             $browser->doubleClick('#my-text-here');
 
+            if ($onSelectedText ) {
+                $browser->script("var myTextElement = document.getElementById('my-text-here');
+                      var range = document.createRange();
+                      range.selectNodeContents(myTextElement);
+                      window.getSelection().removeAllRanges();
+                      window.getSelection().addRange(range);");
+            }
             $editorComponent = new WysiwygSmallEditorButtonClick();
             $editorComponent->clickEditorButton($browser, $buttonText);
 
@@ -120,6 +130,7 @@ class LiveEditWysiwygAlignTest extends DuskTestCase
             return isTrue;
         ");
             $this->assertEquals($output[0], true, 'The element must be aligned center');
+
 
         });
 
