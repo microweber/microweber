@@ -2,10 +2,13 @@
 
     <div class="card-header d-flex align-items-center justify-content-between px-3">
 
-        <div>
-            <h3 class="main-pages-title mt-3">{{$package['description']}}</h3>
-        </div>
-        <br/>
+        @if (isset($package['description']))
+            <div>
+                <h3 class="main-pages-title mt-3">{{$package['description']}}</h3>
+            </div>
+            <br/>
+
+        @endif
 
         <button type="button" class="btn-close" aria-label="Close"
                 wire:click="$emit('closeModal')"></button>
@@ -31,11 +34,16 @@
         </div>
 
         <div class="px-3 mt-3">
+
+            @if (isset($package['version']))
             <div class="tblr-body-color my-2">
                 {{'Latest Version'}}: {{$package['version']}}
             </div>
-            <div class="row align-items-center">
+            @endif
 
+
+            <div class="row align-items-center">
+                @if (isset($package['versions']) && !empty($package['versions']))
                 <div class="col-4">
                     <select class="form-select form-select-sm" wire:model="installVersion" class="form-control">
                         @foreach($package['versions'] as $version)
@@ -43,23 +51,23 @@
                         @endforeach
                     </select>
                 </div>
-
+                @endif
                 <div class="col-auto px-0">
-                    @if($package['has_update'] && $installVersion == $package['version'])
+                    @if(isset($package['has_update']) && $package['has_update'] && $installVersion == $package['version'])
                         <a vkey="{{$installVersion}}" href="javascript:;"
                            id="js-install-package-action"
                            onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
                            class="btn btn-warning btn-sm js-package-install-btn">
                             {{_e('Update to')}} {{$installVersion}}
                         </a>
-                    @elseif($package['current_install'] && $installVersion < $package['version'])
+                    @elseif(isset($package['current_install']) && $package['current_install'] && $installVersion < $package['version'])
                         <a vkey="{{$installVersion}}" href="javascript:;"
                            id="js-install-package-action"
                            onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
                            class="btn btn-danger btn-sm js-package-install-btn">
                             {{_e('Downgrade to')}} {{$installVersion}}
                         </a>
-                    @elseif($package['current_install'])
+                    @elseif(isset($package['current_install']) && $package['current_install'])
                         <a vkey="{{$installVersion}}" href="javascript:;"
                            id="js-install-package-action"
                            onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
@@ -67,12 +75,14 @@
                             {{_e('Reinstall')}}
                         </a>
                     @else
+
                         <a vkey="{{$installVersion}}" href="javascript:;"
                            id="js-install-package-action"
                            onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
                            class="btn btn-success btn-sm js-package-install-btn">
                             {{_('Install')}}
                         </a>
+
                     @endif
                 </div>
 
