@@ -5,7 +5,7 @@
 
 
     <div class="mw-live-edit-right-sidebar-wrapper me-2">
-        <span v-on:click="show('template-settings')" :class="{'live-edit-right-sidebar-active': buttonIsActive && !buttonIsActiveStyleEditor }"
+        <span v-on:click="toggle('template-settings')" :class="{'live-edit-right-sidebar-active': buttonIsActive && !buttonIsActiveStyleEditor }"
               class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle">
 
 
@@ -13,7 +13,7 @@
                 d="M480 976q-82 0-155-31.5t-127.5-86Q143 804 111.5 731T80 576q0-83 32.5-156t88-127Q256 239 330 207.5T488 176q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880 538q0 115-70 176.5T640 776h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480 976Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480 896q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800 538q0-121-92.5-201.5T488 256q-136 0-232 93t-96 227q0 133 93.5 226.5T480 896Z"/></svg>
         </span>
 
-        <div v-on:click="show('style-editor')" :class="{'live-edit-right-sidebar-active': !buttonIsActive && buttonIsActiveStyleEditor }"
+        <div v-on:click="toggle('style-editor')" :class="{'live-edit-right-sidebar-active': !buttonIsActive && buttonIsActiveStyleEditor }"
              class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle">
             <svg class="me-1" fill="currentColor"
                  xmlns="http://www.w3.org/2000/svg" height="22"
@@ -65,17 +65,39 @@ export default {
 
             this.$refs.moreSettingsDropdown.classList.remove('show');
 
-            if (this.buttonIsActive) {
-                this.buttonIsActive = false;
-                //       CSSGUIService.hide()
-            } else if (this.buttonIsActive) {
-                this.buttonIsActive = false;
-                //       CSSGUIService.hide()
-            }  else {
-                this.emitter.emit('live-edit-ui-show', name);
-            }
+            if(name === 'template-settings') {
+                if(!this.buttonIsActive){
+                    this.buttonIsActive = true;
+                    this.buttonIsActiveStyleEditor = false;
+                    this.emitter.emit('live-edit-ui-show', name);
+                    CSSGUIService.show()
+                } else {
+                    this.buttonIsActive = false;
+                    CSSGUIService.hide()
+                }
 
-            this.emitter.emit('live-edit-ui-show', name);
+            } else if(name === 'style-editor') {
+              if(this.buttonIsActiveStyleEditor){
+                  this.buttonIsActiveStyleEditor = false;
+                  CSSGUIService.hide()
+              } else {
+                  this.buttonIsActiveStyleEditor = true;
+                  this.buttonIsActive = false;
+                  this.emitter.emit('live-edit-ui-show', name);
+                  CSSGUIService.show()
+              }
+            }
+            // if (this.buttonIsActive) {
+            //     this.buttonIsActive = false;
+            //      CSSGUIService.hide()
+            // } else if (this.buttonIsActiveStyleEditor) {
+            //     this.buttonIsActiveStyleEditor = false;
+            //         CSSGUIService.hide()
+            // }  else {
+            //     this.emitter.emit('live-edit-ui-show', name);
+            // }
+
+           //  this.emitter.emit('live-edit-ui-show', name);
         },
 
         hideMoreSettingsDropdown() {
