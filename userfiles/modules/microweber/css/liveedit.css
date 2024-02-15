@@ -5151,10 +5151,19 @@ body.dragStart picture img{
     top: 30px;
 }
 
+body.live-edit-frame-loaded .mw-handle-item {
+    visibility: visible;
+}
+
+body:not(.live-edit-frame-loaded) .mw-handle-item {
+    visibility: hidden !important;
+}
+
 
 #mw-handle-item-element-root{
     position: relative;
     z-index: 1;
+
 }
 
 /*  Spacer */
@@ -5329,4 +5338,7 @@ body.mw-live-body-mouse-moved-outside .mw-handle-item-interaction-handle {
 body.mw-live-body-mouse-moved-outside mw-le-element {
     display: none !important;
 }
+
+
+
 

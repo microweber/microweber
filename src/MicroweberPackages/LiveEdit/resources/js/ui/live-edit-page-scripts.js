@@ -4,7 +4,7 @@
 
 if(window.self !== window.top) {
 
-
+    mw.require('liveedit.css');
     //mw.require('options.js');
 
    // mw.lib.require('tinymce');
