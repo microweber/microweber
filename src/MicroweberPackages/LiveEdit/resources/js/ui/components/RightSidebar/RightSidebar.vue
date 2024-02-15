@@ -1,9 +1,12 @@
 <template>
     <div v-if="isReady">
+
+
         <div id="general-theme-settings" :class="[showSidebar == true ? 'active' : '']">
             <div>
                 <div class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0 position-relative">
-
+                    <h3 v-show="showTemplateSettings" class="fs-2 font-weight-bold">Template Style Editor</h3>
+                    
                     <span v-show="!showElementStyleEditor" v-on:click="closeSidebar"
                           :class="[buttonIsActive?'live-edit-right-sidebar-active':'']"
                           class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
@@ -91,8 +94,10 @@ export default {
             this.showTemplateSettings = false;
             this.showSidebar = false;
             this.showElementStyleEditor = false;
+            this.buttonIsActive = false;
+
             CSSGUIService.hide();
-            this.emitter.emit("live-edit-ui-show");
+
         },
         closeElementStyleEditorIfOpened() {
             this.emitter.emit("live-edit-ui-show", 'template-settings');
@@ -167,10 +172,12 @@ export default {
             } else if (show == 'close-element-style-editor') {
 
 
-                rightSidebarInstance.showTemplateSettings = true;
+                rightSidebarInstance.showTemplateSettings = false;
                 rightSidebarInstance.showElementStyleEditor = false;
-                rightSidebarInstance.showSidebar = true;
-                rightSidebarInstance.buttonIsActive = true;
+                rightSidebarInstance.showSidebar = false;
+                rightSidebarInstance.buttonIsActive = false;
+                rightSidebarInstance.closeSidebar()
+
                 //    rightSidebarInstance.showSidebar = false;
                 //   rightSidebarInstance.buttonIsActive = false;
 

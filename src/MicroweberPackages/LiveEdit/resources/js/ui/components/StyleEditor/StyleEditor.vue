@@ -47,8 +47,8 @@ export default {
         },
         closeStyleEditor: function () {
             this.removeStyleEditor();
-            this.emitter.emit("live-edit-ui-show", 'template-settings')
-           // this.emitter.emit("live-edit-ui-show", 'close-element-style-editor')
+         //   this.emitter.emit("live-edit-ui-show", 'template-settings')
+           this.emitter.emit("live-edit-ui-show", 'close-element-style-editor')
         },
 
         buildIframeUrlStyleEditor: function (url) {

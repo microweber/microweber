@@ -1,14 +1,14 @@
- 
+
 let _cssGUIVisible = false;
 
 
 let _show = state => {
     const action = state ? 'add' : 'remove';
     const btns = document.querySelectorAll('.live-edit-toolbar-button-css-editor-toggle');
-    btns.forEach(node => node.classList[action]('live-edit-right-sidebar-active'));
+     btns.forEach(node => node.classList[action]('live-edit-right-sidebar-active'));
 
-    document.documentElement.classList[action]('live-edit-gui-editor-opened')
-    document.querySelector('#general-theme-settings').classList[action]('active');
+    document.documentElement.classList[action]('live-edit-gui-editor-opened');
+     document.querySelector('#general-theme-settings').classList[action]('active');
 }
 
 const CSSGUIService = {
@@ -36,7 +36,7 @@ addEventListener('load', function(){
         }
     })
     mw.app.canvas.on('canvasDocumentKeydown',function(e){
-        
+
         if(e.key === "Escape") {
             CSSGUIService.hide()
         }
@@ -46,4 +46,3 @@ addEventListener('load', function(){
 
 
 export default CSSGUIService;
- 
