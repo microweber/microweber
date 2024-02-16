@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "19426a90dae2ad83c8135daacc4e6fd0",
+    "content-hash": "1958af5b0b79737c589c9485f4821f41",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -7293,18 +7293,18 @@
         },
         {
             "name": "microweber-templates/big-free",
-            "version": "12.7",
+            "version": "13.1",
             "target-dir": "big",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/big-free",
-                "reference": "fb9ac52ce9c3d7336c08f0f361de058bb50989c6"
+                "reference": "69f8a3edf119b398e5ebe7dec6fb9dd578dc0b7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-12.7-0f8b49.zip",
-                "reference": "fb9ac52ce9c3d7336c08f0f361de058bb50989c6",
-                "shasum": "629b70d45b8b04109511ac1529b8a1cc9b5170b8"
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/big-free/microweber-templates-big-free-13.1-d15169.zip",
+                "reference": "69f8a3edf119b398e5ebe7dec6fb9dd578dc0b7b",
+                "shasum": "33f14009a023bb85f2307b3ca1cd4491b3e76d2e"
             },
             "type": "microweber-template",
             "extra": {
@@ -7314,6 +7314,7 @@
                     "/layouts/templates/menus/skin-2_settings.php",
                     "/layouts/templates/menus/skin-1_settings.php",
                     "/layouts/templates/menus/skin-2.php",
+                    "/layouts/templates/menus/skin-3_settings.php",
                     "/modules/layouts/templates/404.php",
                     "/layouts/templates/animation-bg/skin-6.php",
                     "/layouts/templates/animation-bg/skin-8.php",
@@ -7461,6 +7462,7 @@
                     "/layouts/templates/features/skin-12.php",
                     "/layouts/templates/features/skin-33.php",
                     "/layouts/templates/features/skin-11.php",
+                    "/layouts/templates/features/skin-50.php",
                     "/layouts/templates/features/skin-25.php",
                     "/layouts/templates/features/skin-24.php",
                     "/layouts/templates/call-to-action/skin-22.php",
@@ -7522,6 +7524,7 @@
                     "/layouts/templates/testimonials/skin-25.php",
                     "/layouts/templates/testimonials/skin-3.php",
                     "/layouts/templates/blog/skin-9.php",
+                    "/layouts/templates/blog/skin-20.php",
                     "/layouts/templates/blog/skin-6.php",
                     "/layouts/templates/blog/skin-8.php",
                     "/layouts/templates/blog/skin-17.php",
@@ -7556,7 +7559,11 @@
                     "/layouts/templates/header/skin-25.php",
                     "/layouts/templates/header/skin-24.php"
                 ],
-                "_meta": [],
+                "_meta": {
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-big-free/131/README.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-big-free/131/screenshot.jpg",
+                    "screenshot_large": "https://packages.microweberapi.com/meta/microweber-templates-big-free/131/screenshot_large.jpg"
+                },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
                 }
@@ -7581,7 +7588,7 @@
                 "forum": "https://microweber.org/community",
                 "docs": "http://docs.microweber.org"
             },
-            "time": "2024-01-30T13:36:16+00:00"
+            "time": "2024-02-15T13:04:48+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -16742,12 +16749,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "e4d4e78e3cdc741280ba5546dda3b6d23ae0e172"
+                "reference": "333035d936233a2c3d460366bb873135241212dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e4d4e78e3cdc741280ba5546dda3b6d23ae0e172",
-                "reference": "e4d4e78e3cdc741280ba5546dda3b6d23ae0e172",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/333035d936233a2c3d460366bb873135241212dd",
+                "reference": "333035d936233a2c3d460366bb873135241212dd",
                 "shasum": ""
             },
             "require": {
@@ -16797,7 +16804,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-14T12:06:50+00:00"
+            "time": "2024-02-15T21:43:34+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -19164,5 +19171,5 @@
         "ext-zip": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
