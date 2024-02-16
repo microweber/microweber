@@ -3,9 +3,9 @@
     <ElementStyleEditorActiveNode></ElementStyleEditorActiveNode>
 
 
-
-
-
+    <div v-if="!selectedElement" class="mb-4">
+<div class="alert alert-primary">Please select an element to edit</div>
+    </div>
 
     <div class="mb-4" :class="{'style-editor-disabled': !selectedElement}">
         <div class="d-flex flex-column">

@@ -51,7 +51,7 @@ export default {
             });
         });
         document.addEventListener('keydown', function (event) {
-            if (event.ctrlKey && event.key === 's') {
+            if (event.ctrlKey && event.keyCode === 83) {
                 event.preventDefault();
                 saveButtonInstance.save();
             }

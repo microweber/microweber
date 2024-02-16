@@ -6,7 +6,7 @@
             <div>
                 <div class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0 position-relative">
                     <h3 v-show="showTemplateSettings" class="fs-2 font-weight-bold">Template Style Editor</h3>
-                    
+
                     <span v-show="!showElementStyleEditor" v-on:click="closeSidebar"
                           :class="[buttonIsActive?'live-edit-right-sidebar-active':'']"
                           class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>

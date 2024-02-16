@@ -115,7 +115,8 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             mw.spinner({element: target, decorate: true}).remove();
 
             if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw) {
-                liveEditIframe.contentWindow.mw.require('liveedit.css');
+               // liveEditIframe.contentWindow.mw.require('liveedit.css');
+                liveEditIframe.contentWindow.document.body.classList.add('live-edit-frame-loaded');
             }
 
             target.classList.add('live-edit-frame-loaded');

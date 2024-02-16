@@ -48,7 +48,7 @@ class InputTextarea extends Component
             }
         }
 
-        return view('multilanguage::components.form-elements.input-textarea', [
+        return view('multilanguage::components.form-elements.input-textarea-native', [
             'randId' => $this->randId,
             'fieldName' => $fieldName,
             'defaultLanguage' => $this->defaultLanguage,

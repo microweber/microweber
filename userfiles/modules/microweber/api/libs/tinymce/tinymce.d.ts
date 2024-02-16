@@ -149,6 +149,7 @@ interface ElementSettings {
     void_elements?: string;
     whitespace_elements?: string;
     transparent_elements?: string;
+    wrap_block_elements?: string;
 }
 interface SchemaSettings extends ElementSettings {
     custom_elements?: string;
@@ -220,6 +221,9 @@ interface Schema {
     getSpecialElements: () => SchemaRegExpMap;
     isValidChild: (name: string, child: string) => boolean;
     isValid: (name: string, attr?: string) => boolean;
+    isBlock: (name: string) => boolean;
+    isInline: (name: string) => boolean;
+    isWrapper: (name: string) => boolean;
     getCustomElements: () => SchemaMap;
     addValidElements: (validElements: string) => void;
     setValidElements: (validElements: string) => void;
@@ -370,6 +374,12 @@ interface Annotator {
     removeAll: (name: string) => void;
     getAll: (name: string) => Record<string, Element[]>;
 }
+interface IsEmptyOptions {
+    readonly skipBogus?: boolean;
+    readonly includeZwsp?: boolean;
+    readonly checkRootAsContent?: boolean;
+    readonly isContent?: (node: Node) => boolean;
+}
 interface GeomRect {
     readonly x: number;
     readonly y: number;
@@ -396,7 +406,6 @@ interface NotificationSpec {
     icon?: string;
     progressBar?: boolean;
     timeout?: number;
-    closeButton?: boolean;
 }
 interface NotificationApi {
     close: () => void;
@@ -425,6 +434,7 @@ interface UploadResult$2 {
     status: boolean;
     error?: UploadFailure;
 }
+type BlockPatternTrigger = 'enter' | 'space';
 interface RawPattern {
     start?: any;
     end?: any;
@@ -432,6 +442,7 @@ interface RawPattern {
     cmd?: any;
     value?: any;
     replacement?: any;
+    trigger?: BlockPatternTrigger;
 }
 interface InlineBasePattern {
     readonly start: string;
@@ -449,6 +460,7 @@ interface InlineCmdPattern extends InlineBasePattern {
 type InlinePattern = InlineFormatPattern | InlineCmdPattern;
 interface BlockBasePattern {
     readonly start: string;
+    readonly trigger: BlockPatternTrigger;
 }
 interface BlockFormatPattern extends BlockBasePattern {
     readonly type: 'block-format';
@@ -527,6 +539,7 @@ interface CustomEditorNewSpec extends FormComponentSpec {
     tag?: string;
     scriptId: string;
     scriptUrl: string;
+    onFocus?: (e: HTMLElement) => void;
     settings?: any;
 }
 type CustomEditorSpec = CustomEditorOldSpec | CustomEditorNewSpec;
@@ -635,6 +648,7 @@ interface BaseToolbarButtonInstanceApi {
 interface ToolbarButtonSpec extends BaseToolbarButtonSpec<ToolbarButtonInstanceApi> {
     type?: 'button';
     onAction: (api: ToolbarButtonInstanceApi) => void;
+    shortcut?: string;
 }
 interface ToolbarButtonInstanceApi extends BaseToolbarButtonInstanceApi {
 }
@@ -776,6 +790,7 @@ interface NestedMenuItemSpec extends CommonMenuItemSpec {
     onSetup?: (api: NestedMenuItemInstanceApi) => (api: NestedMenuItemInstanceApi) => void;
 }
 interface NestedMenuItemInstanceApi extends CommonMenuItemInstanceApi {
+    setTooltip: (tooltip: string) => void;
     setIconFill: (id: string, value: string) => void;
 }
 type MenuButtonItemTypes = NestedMenuItemContents;
@@ -831,6 +846,7 @@ interface ToolbarSplitButtonInstanceApi {
     setIconFill: (id: string, value: string) => void;
     isActive: () => boolean;
     setActive: (state: boolean) => void;
+    setTooltip: (tooltip: string) => void;
     setText: (text: string) => void;
     setIcon: (icon: string) => void;
 }
@@ -844,6 +860,7 @@ interface BaseToolbarToggleButtonInstanceApi extends BaseToolbarButtonInstanceAp
 interface ToolbarToggleButtonSpec extends BaseToolbarToggleButtonSpec<ToolbarToggleButtonInstanceApi> {
     type?: 'togglebutton';
     onAction: (api: ToolbarToggleButtonInstanceApi) => void;
+    shortcut?: string;
 }
 interface ToolbarToggleButtonInstanceApi extends BaseToolbarToggleButtonInstanceApi {
 }
@@ -876,6 +893,7 @@ interface UrlInputSpec extends FormComponentWithLabelSpec {
     type: 'urlinput';
     filetype?: 'image' | 'media' | 'file';
     enabled?: boolean;
+    picker_text?: string;
 }
 interface UrlInputData {
     value: string;
@@ -1204,6 +1222,11 @@ interface ViewToggleButtonApi extends ViewButtonApi {
     isActive: () => boolean;
     setActive: (state: boolean) => void;
 }
+interface ViewLabelSpec {
+    text: string;
+    size?: 'normal' | 'large';
+    type: 'label';
+}
 interface BaseButtonSpec<Api extends ViewButtonApi> {
     text?: string;
     icon?: string;
@@ -1223,9 +1246,9 @@ interface ViewToggleButtonSpec extends BaseButtonSpec<ViewToggleButtonApi> {
 }
 interface ViewButtonsGroupSpec {
     type: 'group';
-    buttons: Array<ViewNormalButtonSpec | ViewToggleButtonSpec>;
+    buttons: Array<ViewNormalButtonSpec | ViewToggleButtonSpec | ViewLabelSpec>;
 }
-type ViewButtonSpec = ViewNormalButtonSpec | ViewToggleButtonSpec | ViewButtonsGroupSpec;
+type ViewButtonSpec = ViewNormalButtonSpec | ViewToggleButtonSpec | ViewLabelSpec | ViewButtonsGroupSpec;
 interface ViewInstanceApi {
     getContainer: () => HTMLElement;
 }
@@ -1368,6 +1391,7 @@ interface DomParserSettings {
     allow_unsafe_link_target?: boolean;
     blob_cache?: BlobCache;
     convert_fonts_to_spans?: boolean;
+    convert_unsafe_embeds?: boolean;
     document?: Document;
     fix_list_elements?: boolean;
     font_size_legacy_values?: string;
@@ -1376,8 +1400,8 @@ interface DomParserSettings {
     inline_styles?: boolean;
     pad_empty_with_br?: boolean;
     preserve_cdata?: boolean;
-    remove_trailing_brs?: boolean;
     root_name?: string;
+    sandbox_iframes?: boolean;
     sanitize?: boolean;
     validate?: boolean;
 }
@@ -1398,8 +1422,10 @@ interface StyleSheetLoaderSettings {
 }
 interface StyleSheetLoader {
     load: (url: string) => Promise<void>;
+    loadRawCss: (key: string, css: string) => void;
     loadAll: (urls: string[]) => Promise<string[]>;
     unload: (url: string) => void;
+    unloadRawCss: (key: string) => void;
     unloadAll: (urls: string[]) => void;
     _setReferrerPolicy: (referrerPolicy: ReferrerPolicy) => void;
     _setContentCssCors: (contentCssCors: boolean) => void;
@@ -1582,6 +1608,8 @@ interface EditorEventMap extends Omit<NativeEventMap, 'blur' | 'focus'> {
     };
     'resize': UIEvent;
     'scroll': UIEvent;
+    'input': InputEvent;
+    'beforeinput': InputEvent;
     'detach': {};
     'remove': {};
     'init': {};
@@ -1784,6 +1812,7 @@ interface ToolbarGroup {
 }
 type ToolbarMode = 'floating' | 'sliding' | 'scrolling' | 'wrap';
 type ToolbarLocation = 'top' | 'bottom' | 'auto';
+type ForceHexColor = 'always' | 'rgb_only' | 'off';
 interface BaseEditorOptions {
     a11y_advanced_options?: boolean;
     add_form_submit_trigger?: boolean;
@@ -1824,11 +1853,13 @@ interface BaseEditorOptions {
     contextmenu?: string | string[] | false;
     contextmenu_never_use_native?: boolean;
     convert_fonts_to_spans?: boolean;
+    convert_unsafe_embeds?: boolean;
     convert_urls?: boolean;
     custom_colors?: boolean;
     custom_elements?: string;
     custom_ui_selector?: string;
     custom_undo_redo_levels?: number;
+    default_font_stack?: string[];
     deprecation_warnings?: boolean;
     directionality?: 'ltr' | 'rtl';
     doctype?: string;
@@ -1857,6 +1888,7 @@ interface BaseEditorOptions {
     font_size_style_values?: string;
     font_size_formats?: string;
     font_size_input_default_unit?: string;
+    force_hex_color?: ForceHexColor;
     forced_root_block?: string;
     forced_root_block_attrs?: Record<string, string>;
     formats?: Formats;
@@ -1936,6 +1968,7 @@ interface BaseEditorOptions {
     resize?: boolean | 'both';
     resize_img_proportional?: boolean;
     root_name?: string;
+    sandbox_iframes?: boolean;
     schema?: SchemaType;
     selector?: string;
     setup?: SetupCallback;
@@ -2019,7 +2052,9 @@ interface EditorOptions extends NormalizedEditorOptions {
     color_default_foreground: string;
     content_css: string[];
     contextmenu: string[];
+    convert_unsafe_embeds: boolean;
     custom_colors: boolean;
+    default_font_stack: string[];
     document_base_url: string;
     init_content_sync: boolean;
     draggable_modal: boolean;
@@ -2034,6 +2069,7 @@ interface EditorOptions extends NormalizedEditorOptions {
     font_size_style_values: string;
     forced_root_block: string;
     forced_root_block_attrs: Record<string, string>;
+    force_hex_color: ForceHexColor;
     format_noneditable_selector: string;
     height: number | string;
     highlight_on_focus: boolean;
@@ -2067,6 +2103,7 @@ interface EditorOptions extends NormalizedEditorOptions {
     promotion: boolean;
     readonly: boolean;
     removed_menuitems: string;
+    sandbox_iframes: boolean;
     toolbar: boolean | string | string[] | Array<ToolbarGroup>;
     toolbar_groups: Record<string, GroupToolbarButtonSpec>;
     toolbar_location: ToolbarLocation;
@@ -2088,6 +2125,7 @@ interface StylesSettings {
     allow_svg_data_urls?: boolean;
     url_converter?: URLConverter;
     url_converter_scope?: any;
+    force_hex_color?: ForceHexColor;
 }
 interface Styles {
     parse: (css: string | undefined) => Record<string, string>;
@@ -2148,6 +2186,7 @@ interface DOMUtilsSettings {
     onSetAttrib: (event: SetAttribEvent) => void;
     contentCssCors: boolean;
     referrerPolicy: ReferrerPolicy;
+    force_hex_color: ForceHexColor;
 }
 type Target = Node | Window;
 type RunArguments<T extends Node = Node> = string | T | Array<string | T> | null;
@@ -2266,9 +2305,7 @@ interface DOMUtils {
     findCommonAncestor: (a: Node, b: Node) => Node | null;
     run<R, T extends Node>(this: DOMUtils, elm: T | T[], func: (node: T) => R, scope?: any): typeof elm extends Array<any> ? R[] : R;
     run<R, T extends Node>(this: DOMUtils, elm: RunArguments<T>, func: (node: T) => R, scope?: any): RunResult<typeof elm, R>;
-    isEmpty: (node: Node, elements?: Record<string, any>, options?: ({
-        includeZwsp?: boolean;
-    })) => boolean;
+    isEmpty: (node: Node, elements?: Record<string, any>, options?: IsEmptyOptions) => boolean;
     createRng: () => Range;
     nodeIndex: (node: Node, normalized?: boolean) => number;
     split: {
@@ -3030,6 +3067,8 @@ interface IconManager {
 interface Resource {
     load: <T = any>(id: string, url: string) => Promise<T>;
     add: (id: string, data: any) => void;
+    has: (id: string) => boolean;
+    get: (id: string) => any;
     unload: (id: string) => void;
 }
 type TextPatterns_d_Pattern = Pattern;

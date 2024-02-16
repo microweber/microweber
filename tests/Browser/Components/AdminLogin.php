@@ -59,6 +59,11 @@ class AdminLogin extends BaseComponent
 
         if (mw_is_installed()) {
 
+            if(is_admin()){
+                return;
+            }
+
+
             $user = User::where('username', 1)->first();
 
             if(!$user){

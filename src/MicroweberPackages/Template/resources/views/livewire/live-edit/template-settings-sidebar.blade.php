@@ -175,7 +175,7 @@
                 class="fs-2 font-weight-bold settings-main-group d-flex align-items-center justify-content-between">
                Styles
 
-                <div class="d-flex align-items-end">
+                <div class="d-flex align-items-end" style="display: none">
 
 
                     <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Reset stylesheet settings"

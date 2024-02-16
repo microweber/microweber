@@ -108,7 +108,7 @@
     var output = function (property, value, ActiveNode) {
 
 
-
+//console.log('CSSoutput', property, value, ActiveNode)
 
 
         var mwTarget = targetMw;
