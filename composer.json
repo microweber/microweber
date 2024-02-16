@@ -97,6 +97,8 @@
         "symfony/event-dispatcher": "v6.3.2",
         "symfony/filesystem": "v6.3.1",
         "symfony/html-sanitizer": "6.*",
+        "symfony/psr-http-message-bridge": "6.*",
+        "symfony/stopwatch": "6.*",
         "symfony/intl": "v6.3.2",
         "symfony/string": "v6.3.5",
         "symfony/translation": "*",
