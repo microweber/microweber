@@ -31,8 +31,8 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                     <x-microweber-ui::input wire:model.debounce.1500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
 
-                    <x-microweber-ml::input-text label-text="" wire-model-name="itemState.{{$field['name']}}" wire-model-defer="1" />
-<!--                    <x-microweber-ui::input wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />-->
+<!--                    <x-microweber-ml::input-text label-text="" wire-model-name="itemState.{{$field['name']}}" wire-model-defer="1" />-->
+                   <x-microweber-ui::input wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'textarea' )
@@ -42,8 +42,8 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::textarea wire:model.debounce.1500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ml::input-textarea label-text="" wire-model-name="itemState.{{$field['name']}}" wire-model-defer="1" />
-<!--                    <x-microweber-ui::textarea wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />-->
+                  {{--  <x-microweber-ml::input-textarea label-text="" wire-model-name="itemState.{{$field['name']}}" wire-model-defer="1" />--}}
+                    <x-microweber-ui::textarea wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'simple-text-editor' )

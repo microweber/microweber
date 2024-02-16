@@ -33,6 +33,8 @@ class InputText extends Component
     public function render()
     {
 
+        return view('multilanguage::components.form-elements.input-text-native');
+
         $this->defaultLanguage = mw()->lang_helper->default_lang();
         $this->currentLanguage = mw()->lang_helper->current_lang();
 
