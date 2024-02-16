@@ -31,7 +31,6 @@ class InputTextarea extends Component
      */
     public function render()
     {
-        return view('multilanguage::components.form-elements.input-textarea-native');
 
         $this->defaultLanguage = mw()->lang_helper->default_lang();
         $this->currentLanguage = mw()->lang_helper->current_lang();
@@ -49,7 +48,7 @@ class InputTextarea extends Component
             }
         }
 
-        return view('multilanguage::components.form-elements.input-textarea', [
+        return view('multilanguage::components.form-elements.input-textarea-native', [
             'randId' => $this->randId,
             'fieldName' => $fieldName,
             'defaultLanguage' => $this->defaultLanguage,
