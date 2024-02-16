@@ -140,6 +140,16 @@
 
 
             el.on('click', function (e){
+
+
+                var ok = mw.$(`<button class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component">${mw.lang('OK')}</button>`);
+                var cancel = mw.$(`<button class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component">${mw.lang('Cancel')}</button>`);
+                var footer = mw.$(`<div class="d-flex justify-content-between w-100"></div>`);
+
+                footer.append(cancel);
+                footer.append(ok);
+
+
                   dlg = mw.top().dialog({
                     width: 280,
                     closeButtonAction: 'remove',
@@ -147,6 +157,7 @@
                     title: mw.lang('Choose color'),
                     overlayClose: true,
                     closeOnEscape: false, //todo: escape destroys the dialog
+                    footer: footer
                     // skin: 'mw_modal_simple mw_modal_live_edit_settings',
                 });
 
@@ -162,6 +173,7 @@
 
 
 
+                var vall = null;
 
 
                var picker = mw.colorPicker({
@@ -171,7 +183,8 @@
                     method: 'inline',
                     showHEX: false,
                     onchange: function (color) {
-                        el.trigger('change', color);
+                        vall = color
+
                         if(!_pauseSetValue) {
                             cf.field.value = color;
                         }
@@ -179,6 +192,19 @@
                     },
 
                 });
+
+
+                ok.on('click', function() {
+                    if(vall) {
+                        el.trigger('change', vall);
+                    }
+                    dlg.remove()
+                })
+                cancel.on('click', function() {
+
+                    dlg.remove()
+                })
+
 
                 mw.element('.a-color-picker-row.a-color-picker-palette', dlg.container).before(cf.frame);
 
