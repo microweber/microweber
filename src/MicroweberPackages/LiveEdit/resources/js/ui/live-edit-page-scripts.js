@@ -7,7 +7,7 @@ if(window.self !== window.top) {
     mw.require('liveedit.css');
     //mw.require('options.js');
 
-   // mw.lib.require('tinymce');
+   mw.lib.require('tinymce');
 
     mw.liveEditSaveService = {
         grammarlyFix: function (data) {

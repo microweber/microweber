@@ -35,6 +35,7 @@ export class WyswygEditor extends MicroweberBaseClass {
             verify_html: false,
             inline_styles : true,
 
+
             typeahead_urls: false,
             resize_img_proportional: false,
             allow_unsafe_link_target: true,
@@ -120,8 +121,7 @@ export class WyswygEditor extends MicroweberBaseClass {
     //deprecated
     initEditor(element) {
 
-        console.log('initEditor is deprecated');
-        return;
+
 
         this.savedCursorPosition = this.getCursorPos(element);
 
@@ -141,7 +141,7 @@ export class WyswygEditor extends MicroweberBaseClass {
                 // Initialize the new editor directly on the existing contenteditable element
                 mwTinymceEditor.init(this.config).then((initializedEditor) => {
                     this.editor = initializedEditor;
-                    this.setCursorPos(this.savedCursorPosition,element);
+                //    this.setCursorPos(this.savedCursorPosition,element);
                     // mwTinymceEditor.activeEditor.focus();
                 }).catch((error) => {
                     if(console && console.log) {

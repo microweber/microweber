@@ -966,6 +966,7 @@
             execCommand: function (cmd, def, val, recordTimeout) {
 
 
+
                 scope.actionWindow.document.execCommand('styleWithCss', 'false', false);
                 var sel = scope.getSelection();
                 try {  // 0x80004005
@@ -985,6 +986,8 @@
                             scope.api.action(parent, function () {
 
                                 function _execCommand(cmd, def, val) {
+
+
                                     var pce = parent.contentEditable
                                     var current = parent.querySelector('[contenteditable="true"]');
                                     parent.contentEditable = true;
@@ -992,9 +995,12 @@
                                     if(current) {
                                         current.contentEditable = 'inherit';
                                     }
-
-                                    scope.actionWindow.document.execCommand(cmd, def, val);
-
+                                    if(window.tinyMCE && window.tinyMCE.activeEditor) {
+                                        var camelcasecmd = cmd.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+                                        window.tinyMCE.activeEditor.execCommand(camelcasecmd, def, val);
+                                    } else {
+                                        scope.actionWindow.document.execCommand(cmd, def, val);
+                                    }
                                     parent.contentEditable = pce;
 
                                     if(current) {

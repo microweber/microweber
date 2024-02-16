@@ -261,13 +261,6 @@ export default {
 
 
 
-
-
-
-
-
-
-
                         let editTarget = element;
 
                         var isSafeMode = DomService.parentsOrCurrentOrderMatchOrOnlyFirst(editTarget, ['safe-mode', 'regular-mode']);
@@ -321,6 +314,9 @@ export default {
                                 editTarget.focus();
                             }
                         }, 110)
+
+
+                    mw.app.wyswygEditor.initEditor(element);
 
 
 
