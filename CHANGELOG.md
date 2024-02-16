@@ -5,6 +5,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.0.11] - 2024-02-16
+- Maintenance release
+- Fix scroll to element if click on link that has inner elements
+- Fix multilanguage dropdown menu was going out of the screen
+- Fix Use picture from posts setting was not refreshing the image galeery
+- Added trust proxy settings in the admin panel
+- Added element style editor button in the live edit toolbar
+- Link picker modal is now draggable
+- Other issues
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.10...2.0.11 "")
+
+
 ## [2.0.10] - 2024-02-06
 - Maintenance release
 - Fix Cant edit text in some heading tags
