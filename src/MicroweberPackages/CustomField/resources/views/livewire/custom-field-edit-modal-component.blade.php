@@ -157,6 +157,12 @@
                     mw.top().app.dispatch('customFieldUpdatedGlobal', {});
                 }
             });
+            window.addEventListener('customFieldDeleted', event => {
+                mw.notification.success('Custom field deleted!');
+                if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
+                    mw.top().app.dispatch('customFieldUpdatedGlobal', {});
+                }
+            });
         </script>
     </div>
 </div>
