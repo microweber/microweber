@@ -8120,6 +8120,12 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   .mw-small-editor.mw-small-editor-skin-lite,
   .mw-small-editor.mw-small-editor-skin-dark {
     max-width: 100%;
+    top: 0 !important;
+    left: 0 !important;
+    border-radius: 0;
+    position: fixed !important;
+    margin-top: 0 !important;
+    transform: translateX(0) !important;
   }
   .mw-small-editor.mw-small-editor-skin-lite .mw-bar,
   .mw-small-editor.mw-small-editor-skin-dark .mw-bar {
@@ -8137,23 +8143,6 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
     transform: translateX(-50%);
     left: 50%;
     min-width: 150px;
-  }
-  .mw-small-editor.mw-small-editor-skin-lite .mw-bar::-webkit-scrollbar,
-  .mw-small-editor.mw-small-editor-skin-dark .mw-bar::-webkit-scrollbar {
-    width: 3px;
-    height: 3px;
-  }
-  .mw-small-editor.mw-small-editor-skin-lite .mw-bar::-webkit-scrollbar-track,
-  .mw-small-editor.mw-small-editor-skin-dark .mw-bar::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  .mw-small-editor.mw-small-editor-skin-lite .mw-bar::-webkit-scrollbar-thumb,
-  .mw-small-editor.mw-small-editor-skin-dark .mw-bar::-webkit-scrollbar-thumb {
-    background: #888;
-  }
-  .mw-small-editor.mw-small-editor-skin-lite .mw-bar::-webkit-scrollbar-thumb:hover,
-  .mw-small-editor.mw-small-editor-skin-dark .mw-bar::-webkit-scrollbar-thumb:hover {
-    background: #555;
   }
   .mw-small-editor.mw-small-editor-skin-lite .mw-bar .mw-bar-control-item,
   .mw-small-editor.mw-small-editor-skin-dark .mw-bar .mw-bar-control-item,
@@ -8456,6 +8445,14 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   height: 100%;
   opacity: 0;
   cursor: pointer;
+}
+.mw-editor-color-picker .mw-editor-color-picker-color-indicator {
+  height: 3px;
+  display: block;
+  overflow: hidden;
+  width: 24px;
+  position: absolute;
+  bottom: 4px;
 }
 .mw-editor-table-manager {
   white-space: nowrap;
