@@ -153,11 +153,21 @@
                 window.addEventListener('livewire:load', function () {
                     window.mw.items_editor_sort();
                 });
-                Livewire.on('customFieldDeleted', event => {
-                    mw.notification.success('Custom field deleted!');
-                    if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
-                        mw.top().app.dispatch('customFieldUpdatedGlobal', {});
-                    }
+                Livewire.on('customFieldUpdated', event => {
+                    setTimeout(function() {
+                        mw.notification.success('Custom field reordered!');
+                        if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
+                            mw.top().app.dispatch('customFieldUpdatedGlobal', {});
+                        }
+                    }, 300);
+                });
+                Livewire.on('executeCustomFieldDelete', event => {
+                    setTimeout(function() {
+                        mw.notification.success('Custom field deleted!');
+                        if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
+                            mw.top().app.dispatch('customFieldUpdatedGlobal', {});
+                        }
+                    }, 300);
                 });
             </script>
 

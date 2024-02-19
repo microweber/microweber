@@ -37,8 +37,6 @@ class CustomFieldsListComponent extends AdminComponent
     public function executeCustomFieldDelete($id)
     {
         mw()->fields_manager->delete($id);
-
-        $this->emit('customFieldDeleted');
     }
 
     public function render()
