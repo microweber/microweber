@@ -1235,30 +1235,30 @@ class MicroweberTemplate
         }
 
 
-        if (!defined('CATEGORY_ID') and $this->categoryId) {
+        if (!defined('CATEGORY_ID')) {
             define('CATEGORY_ID', $this->categoryId);
         }
 
-        if (!defined('PAGE_ID') and $this->pageId) {
+        if (!defined('PAGE_ID')) {
             define('PAGE_ID', $this->pageId);
         }
 
-        if (!defined('POST_ID') and $this->postId) {
+        if (!defined('POST_ID')) {
             define('POST_ID', $this->postId);
         }
-        if (!defined('CONTENT_ID') and $this->contentId) {
+        if (!defined('CONTENT_ID')) {
             define('CONTENT_ID', $this->contentId);
         }
 
-        if (!defined('MAIN_PAGE_ID') and $this->mainPageId) {
+        if (!defined('MAIN_PAGE_ID')) {
             define('MAIN_PAGE_ID', $this->mainPageId);
         }
-        if (!defined('ROOT_PAGE_ID') and $this->rootPageId) {
+        if (!defined('ROOT_PAGE_ID')) {
             define('ROOT_PAGE_ID', $this->rootPageId);
         }
 
 
-        if (!defined('PARENT_PAGE_ID') and $this->parentPageId) {
+        if (!defined('PARENT_PAGE_ID')) {
             define('PARENT_PAGE_ID', $this->parentPageId);
         }
 
@@ -1318,9 +1318,12 @@ class MicroweberTemplate
             define('THIS_TEMPLATE_DIR', $this->getActiveTemplateDir());
         }
 
+
         if (defined('THIS_TEMPLATE_DIR') == false) {
             define('THIS_TEMPLATE_DIR', $this->getTemplateFolderName());
         }
+
+
     }
 
 }

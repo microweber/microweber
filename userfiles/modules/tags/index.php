@@ -18,7 +18,7 @@ $root_page_id_tags = false;
 if($root_page_id){
     $root_page_id_tags = $root_page_id;
 } else {
-    $root_page_id_tags = MAIN_PAGE_ID;
+    $root_page_id_tags = main_page_id();
 }
 
 if($root_page_id){
@@ -31,7 +31,7 @@ if ($cont_id) {
     $tags_url_base = content_link($cont_id);
     $content_tags_data = content_tags($cont_id, true);
 } else {
-    $content_tags_data = content_tags(MAIN_PAGE_ID, true);
+    $content_tags_data = content_tags(main_page_id(), true);
 }
 
 if($tags_url_base){
