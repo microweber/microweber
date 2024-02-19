@@ -77,7 +77,7 @@
             }
             .js-modal-livewire-content {
                 max-width: 480px;
-                max-height: calc(100% - 100px);
+                max-height: calc(100vh - 100px);
             }
         }
         @media only screen and (min-width: 768px) {
@@ -85,7 +85,7 @@
                 padding-top: 8%;
             }
             .js-modal-livewire-content {
-                max-height: calc(100% - 100px);
+                max-height: calc(100vh - 100px);
                 overflow: auto;
             }
         }
