@@ -42,18 +42,18 @@ class TemplateMetaTagsRenderer
             if (isset($params['content_id']) and $params['content_id']) {
                 $meta_content_id = $params['content_id'];
             } else {
-                $meta_content_id = PAGE_ID;
-                if (CONTENT_ID > 0) {
-                    $meta_content_id = CONTENT_ID;
+                $meta_content_id = page_id();
+                if (content_id() > 0) {
+                    $meta_content_id = content_id();
                 }
             }
-            if(POST_ID == 0){
+            if(post_id() == 0){
 
                 if (isset($params['category_id']) and $params['category_id']) {
                     $meta_category_id = $params['category_id'];
                 } else {
-                    if (CATEGORY_ID > 0) {
-                        $meta_category_id = CATEGORY_ID;
+                    if (category_id() > 0) {
+                        $meta_category_id = category_id();
                     }
                 }
             }

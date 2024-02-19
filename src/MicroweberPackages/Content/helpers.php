@@ -45,6 +45,10 @@ function page_id()
 {
     return app()->content_manager->page_id();
 }
+function main_page_id()
+{
+    return app()->content_manager->main_page_id();
+}
 
 
 

@@ -47,7 +47,7 @@ function save_option($dataOrKey, $value = false, $group = false, $lang = false)
             $lang = $_POST['lang'];
         }
     }
-    if ($dataOrKey && $group) {
+    if ($dataOrKey && is_string($dataOrKey) && $group) {
 
         $option = array();
         $option['option_value'] = $value;
@@ -59,6 +59,7 @@ function save_option($dataOrKey, $value = false, $group = false, $lang = false)
             }
           //  $option['lang'] = $lang;
         }
+
         return app()->option_manager->save($option);
     } else {
         return app()->option_manager->save($dataOrKey);

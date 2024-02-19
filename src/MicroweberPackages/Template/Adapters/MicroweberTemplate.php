@@ -1234,7 +1234,13 @@ class MicroweberTemplate
             }
         }
 
+        $this->defineContentConstants();
+        $this->defineTemplateConstants();
 
+    }
+
+    function defineContentConstants()
+    {
         if (!defined('CATEGORY_ID')) {
             define('CATEGORY_ID', $this->categoryId);
         }
@@ -1261,8 +1267,10 @@ class MicroweberTemplate
         if (!defined('PARENT_PAGE_ID')) {
             define('PARENT_PAGE_ID', $this->parentPageId);
         }
+    }
 
-
+    function defineTemplateConstants()
+    {
         // template folders constants
         if (!defined('TEMPLATES_DIR')) {
             define('TEMPLATES_DIR', templates_dir());
@@ -1322,7 +1330,6 @@ class MicroweberTemplate
         if (defined('THIS_TEMPLATE_DIR') == false) {
             define('THIS_TEMPLATE_DIR', $this->getTemplateFolderName());
         }
-
 
     }
 

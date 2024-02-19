@@ -31,14 +31,12 @@ class CustomFieldsListComponent extends AdminComponent
             }
         }
 
-        $this->dispatchBrowserEvent('customFieldUpdated');
+        $this->emit('customFieldUpdated');
     }
 
     public function executeCustomFieldDelete($id)
     {
         mw()->fields_manager->delete($id);
-
-        $this->emit('customFieldDeleted');
     }
 
     public function render()

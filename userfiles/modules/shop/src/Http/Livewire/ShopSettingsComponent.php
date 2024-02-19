@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Modules\Shop\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
@@ -13,23 +14,26 @@ class ShopSettingsComponent extends ModuleSettingsComponent
 
     public function render()
     {
-        $findShopPages = Page::where('content_type', 'page')
-            ->where('subtype','dynamic')
-            ->where('is_shop', 1)
-            ->get();
 
-        $shopPagesDropdownOptions = [];
-        if ($findShopPages->count() > 0) {
-            foreach ($findShopPages as $shopPage) {
-                $shopPagesDropdownOptions[$shopPage->id] = $shopPage->title;
+        $allShops = app()->content_repository->getAllShopPages();
+
+        $shopPagesDropdownOptions = [
+            0 => 'Default'
+        ];
+        if ($allShops) {
+            foreach ($allShops as $shopPage) {
+                $shopPagesDropdownOptions[$shopPage['id']] = $shopPage['title'];
             }
         }
 
         $mainPageId = $this->getMainPageId();
 
         $productsQueryAll = Product::query();
-        $productsQueryAll->where('parent', $mainPageId);
+        if ($mainPageId) {
+            $productsQueryAll->where('parent', $mainPageId);
+        }
         $productsQueryAll->where('is_active', 1);
+        $productsQueryAll->where('is_deleted', 0);
         $allProducts = $productsQueryAll->get();
 
         $customFields = [];
@@ -46,10 +50,10 @@ class ShopSettingsComponent extends ModuleSettingsComponent
             }
         }
 
-       return view('microweber-module-shop::admin.livewire.settings', [
-           'shopPagesDropdownOptions'=>$shopPagesDropdownOptions,
-           'customFields'=>$customFields
-       ]);
+        return view('microweber-module-shop::admin.livewire.settings', [
+            'shopPagesDropdownOptions' => $shopPagesDropdownOptions,
+            'customFields' => $customFields
+        ]);
     }
 
     public function getMainPageId()
@@ -60,7 +64,7 @@ class ShopSettingsComponent extends ModuleSettingsComponent
         }
 
         $findFirstShop = Page::where('content_type', 'page')
-            ->where('subtype','dynamic')
+            ->where('subtype', 'dynamic')
             ->where('is_shop', 1)
             ->first();
 

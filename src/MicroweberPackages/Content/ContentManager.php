@@ -96,6 +96,11 @@ class ContentManager
         return $this->app->template->getPageId();
     }
 
+    function main_page_id()
+    {
+        return $this->app->template->getMainPageId();
+    }
+
 
     /**
      * Get single content item by id from the content_table.
@@ -1079,26 +1084,26 @@ class ContentManager
 
                         if ($link != false) {
                             $active_parent_class = '';
-                            if (intval($item['parent']) != 0 and intval($item['parent']) == intval(MAIN_PAGE_ID)) {
+                            if (intval($item['parent']) != 0 and intval($item['parent']) == intval(main_page_id())) {
                                 $active_parent_class = 'active-parent';
-                            } elseif (intval($item['id']) == intval(MAIN_PAGE_ID)) {
+                            } elseif (intval($item['id']) == intval(main_page_id())) {
                                 $active_parent_class = 'active-parent';
                             } else {
                                 $active_parent_class = '';
                             }
 
-                            if ($item['id'] == CONTENT_ID) {
+                            if ($item['id'] == content_id()) {
                                 $active_class = 'active';
                             } elseif (isset($active_ids) and !is_array($active_ids) and $item['id'] == $active_ids) {
                                 $active_class = 'active';
                             }
                             if (isset($active_ids) and is_array($active_ids) and in_array($item['id'], $active_ids)) {
                                 $active_class = 'active';
-                            } elseif ($item['id'] == PAGE_ID) {
+                            } elseif ($item['id'] == page_id()) {
                                 $active_class = 'active';
-                            } elseif ($item['id'] == POST_ID) {
+                            } elseif ($item['id'] == post_id()) {
                                 $active_class = 'active';
-                            } elseif (CATEGORY_ID != false and intval($item['subtype_value']) != 0 and $item['subtype_value'] == CATEGORY_ID) {
+                            } elseif (category_id() != false and intval($item['subtype_value']) != 0 and $item['subtype_value'] == category_id()) {
                                 $active_class = 'active';
                             } else {
                                 $active_class = '';

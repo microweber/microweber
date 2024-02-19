@@ -343,17 +343,8 @@ class DatabaseWriter
         // All db tables
         $topItemsForSave = array();
         $otherItemsForSave = array();
+        $lastItemsForSave = array();
 
-
-        $tables_content = $this->content;
-        $tables_last = [];
-
-        //users table must be last
-        if(isset($tables_content['users'])){
-            $tables_last['users'] = $tables_content['users'];
-            unset($tables_content['users']);
-        }
-        $tables_content = array_merge($tables_content, $tables_last);
 
 
         foreach ($this->content as $table => $items) {
@@ -361,12 +352,13 @@ class DatabaseWriter
             if (!\Schema::hasTable($table)) {
                 continue;
             }
-
             if (!empty($items)) {
                 foreach ($items as $item) {
                     $item['save_to_table'] = $table;
                     if (isset($item['content_type']) && $item['content_type'] == 'page') {
                         $topItemsForSave[] = $item;
+                    }  else if (isset($item['content_type']) && $item['content_type'] == 'users') {
+                        $lastItemsForSave[] = $item;
                     } else {
                         $otherItemsForSave[] = $item;
                     }
@@ -375,7 +367,7 @@ class DatabaseWriter
             $this->logger->setLogInfo('Prepare content for table: ' . $table);
         }
 
-        $itemsForSave = array_merge($topItemsForSave, $otherItemsForSave);
+        $itemsForSave = array_merge($topItemsForSave, $otherItemsForSave,$lastItemsForSave);
 
         if (!empty($itemsForSave)) {
 

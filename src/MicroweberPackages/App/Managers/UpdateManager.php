@@ -187,11 +187,15 @@ class UpdateManager
             if (isset($websiteOptions['app_base_path']) and $websiteOptions['app_base_path']) {
                 $app_base_path = $websiteOptions['app_base_path'];
             }
+
             $needPostUpdateAction = false;
             if ($config_version != MW_VERSION) {
+
                 $needPostUpdateAction = true;
             } else if ($app_version != MW_VERSION) {
                 $needPostUpdateAction = true;
+
+
             } else if ($app_base_path != base_path()) {
                 $needPostUpdateAction = true;
             }
@@ -213,20 +217,24 @@ class UpdateManager
             $bootstrap_cached_folder = normalize_path(base_path('bootstrap/cache/'),true);
             rmdir_recursive($bootstrap_cached_folder);
 
+
             // Booting the template to register the migrations
             if (!defined('TEMPLATE_DIR')) {
+
                 $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
+
                 if(!$the_active_site_template){
                     $the_active_site_template = Config::get('microweber.install_default_template');
                 }
                 if ($the_active_site_template) {
-                    app()->content_manager->define_constants(['active_site_template' => $the_active_site_template]);
+
+                    app()->template->defineTemplateConstants();
                 }
+
             }
             if (defined('TEMPLATE_DIR')) {
-                app()->template_manager->boot_template();
+             //   app()->template_manager->boot_template();
             }
-
 
             try {
                 $this->log_msg('Applying post update actions');

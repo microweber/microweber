@@ -329,12 +329,13 @@ export default {
 
             mw.app.on('onModuleReloaded', moduleId => {
                 // restart livewire on module reload
+
                 var canvasWindow = mw.top().app.canvas.getWindow();
                 if (canvasWindow) {
                     if (canvasWindow.Livewire) {
                         canvasWindow.Livewire.restart();
                     }
-                } 
+                }
             });
 
 
