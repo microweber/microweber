@@ -68,6 +68,8 @@ export const previewMode = function () {
 
     mw.cookie.set('isEditMode', false);
 
+    mw.app.dispatch('mw.previewMode');
+
     _prepareCss()
 
 }
@@ -78,6 +80,8 @@ export const liveEditMode = function () {
     mw.app.canvas.getDocument().documentElement.classList.remove('mw-le--page-preview');
     mw.app.canvas.getDocument().body.classList.add('mw-live-edit');
     mw.cookie.set('isEditMode', true);
+    mw.app.dispatch('mw.editMode');
+
     _prepareCss()
 
 }

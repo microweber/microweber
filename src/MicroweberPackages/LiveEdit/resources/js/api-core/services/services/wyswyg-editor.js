@@ -10,20 +10,29 @@ export class WyswygEditor extends MicroweberBaseClass {
 
         this.config = {
             selector: '[contenteditable="true"]',
+
+
+
+
+
+
         //   editor_deselector : /(NoEditor|NoRichText|module)/,
             noneditable_class: 'module',
             skin: 'noskin',
             editable_root: false,
-            //forced_root_block: '', deprecateds
+            forced_root_block: '', // deprecateds
             // forced_root_block: false,
             object_resizing: false,
-
             resize: false,
             media_live_embeds: false,
             paste_as_text: false,
             paste_auto_cleanup_on_paste: true,
             paste_convert_headers_to_strong: false,
-            toolbar: false,
+       //     force_br_newlines : false,
+            force_br_newlines : true,
+
+            force_p_newlines : false,
+             toolbar: false,
             keep_styles: true,
             promotion: false,
             statusbar: false,
@@ -39,12 +48,14 @@ export class WyswygEditor extends MicroweberBaseClass {
             typeahead_urls: false,
             resize_img_proportional: false,
             allow_unsafe_link_target: true,
+            merge_siblings: true,
             format_empty_lines: false,
+            format_noneditable_selector: false,
             strict_loading_mode: false,
             relative_urls: false,
             remove_script_host: false,
             inline_boundaries: false,
-               convert_urls: false,
+            convert_urls: false,
             convert_fonts_to_spans: false,
             convert_fonts: false,
             convert_urls_to_links: false,
@@ -56,8 +67,8 @@ export class WyswygEditor extends MicroweberBaseClass {
             model: 'dom',
 
             plugins: 'mwtinymce',
-
-
+            noneditable_noneditable_class: '.module',
+        //    noneditable_regexp: [/<custom-token>/g],
 
             cleanup: false,
             // valid_elements: '*[*],script[*],style[*]',
@@ -116,10 +127,42 @@ export class WyswygEditor extends MicroweberBaseClass {
                 });
             },
         };
+
+
+
+   /*     mw.app.on('mw.previewMode' , () => {
+            const liveEditIframe = mw.app.canvas.getWindow();
+            const liveEditIframeDocument = mw.app.canvas.getDocument();
+            if (liveEditIframeDocument && liveEditIframe && liveEditIframe.tinyMCE) {
+                const mwTinymceEditor = liveEditIframe.tinyMCE;
+                mwTinymceEditor.remove();
+
+            }
+        });*/
     }
+    initCKEditor() {
+
+
+        // const liveEditIframe = mw.app.canvas.getWindow();
+        // const liveEditIframeDocument = mw.app.canvas.getDocument();
+        //
+        //
+        //
+        // liveEditIframe.DecoupledEditor
+        //     .create( document.querySelectorAll( '[contenteditable=true]' ) )
+        //     .then( editor => {
+        //
+        //     } )
+        //     .catch( error => {
+        //         console.error( error );
+        //     } );
+    }
+
 
     //deprecated
     initEditor(element) {
+//this.initCKEditor();
+ return;
 
 
 

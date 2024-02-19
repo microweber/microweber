@@ -7,7 +7,9 @@ if(window.self !== window.top) {
     mw.require('liveedit.css');
     //mw.require('options.js');
 
-   mw.lib.require('tinymce');
+
+    //mw.lib.require('tinymce');
+   //  mw.lib.require('tinymce');
 
     mw.liveEditSaveService = {
         grammarlyFix: function (data) {
@@ -93,8 +95,6 @@ if(window.self !== window.top) {
             mw.$('[data-mce-bogus]', doc).remove();
             mw.$('.edit .ui-resizable-handle', doc).remove();
             mw.$('script', doc).remove();
-
-
 
 
             //var doc = mw.$(doc).find('script').remove();
@@ -243,19 +243,19 @@ if(window.self !== window.top) {
             mw.trigger('beforeSaveStart', data);
             // todo:
 
-             if(mw.top().app) {
-                  if (mw.top().app && mw.top().app.cssEditor) {
+            if (mw.top().app) {
+                if (mw.top().app && mw.top().app.cssEditor) {
 
-                      mw.top().app.cssEditor.publishIfChanged();
-                 }
-             }
+                    mw.top().app.cssEditor.publishIfChanged();
+                }
+            }
 
-             if(mw.top().app) {
-                  if (mw.top().app && mw.top().options) {
+            if (mw.top().app) {
+                if (mw.top().app && mw.top().options) {
 
-                      mw.top().options.publishTempOptions(document);
-                 }
-             }
+                    mw.top().options.publishTempOptions(document);
+                }
+            }
             if (mw.liveEditSaveService.saveDisabled) {
                 return false;
             }
@@ -375,7 +375,6 @@ if(window.self !== window.top) {
     };
 
 
-
     addEventListener('load', () => {
 
         window.addEventListener('keydown', function (event) {
@@ -383,30 +382,29 @@ if(window.self !== window.top) {
         });
 
 
-        mw.$('span.mw-powered-by').on("click", function(e) {
+        mw.$('span.mw-powered-by').on("click", function (e) {
             mw.top().tools.open_global_module_settings_modal('white_label/admin', 'mw-powered-by');
             return false;
         });
 
 
-
-        const _handleEmptyEditFields = function() {
+        const _handleEmptyEditFields = function () {
 
             function manageNode(node) {
                 const isEmptyLike = !node.innerHTML.trim();
 
-                if(isEmptyLike && node.innerHTML.trim() === node.textContent.trim()) {
+                if (isEmptyLike && node.innerHTML.trim() === node.textContent.trim()) {
                     // mw.element(node).append(`<p class="element" data-mwplaceholder="${mw.lang(`This is sample text for your page`)}"></p>`);
                 } else {
-                    node.classList[ isEmptyLike ? 'add' : 'remove']('mw-le-empty-element');
+                    node.classList[isEmptyLike ? 'add' : 'remove']('mw-le-empty-element');
                 }
             }
 
-            document.querySelectorAll('.edit').forEach(function(node) {
-                if(!node.__$$_handleEmptyEditFields) {
+            document.querySelectorAll('.edit').forEach(function (node) {
+                if (!node.__$$_handleEmptyEditFields) {
                     node.__$$_handleEmptyEditFields = true;
                     manageNode(node);
-                    node.addEventListener('input', function(){
+                    node.addEventListener('input', function () {
                         manageNode(this);
                     });
                 }
@@ -420,23 +418,21 @@ if(window.self !== window.top) {
         _handleEmptyEditFields()
 
 
-
     });
 
 
     let _beforeUnload = null;
 
     mw.top().app.isNavigating = () => {
-        return !!_beforeUnload && _beforeUnload.returnValue  && _beforeUnload.defaultPrevented === true
+        return !!_beforeUnload && _beforeUnload.returnValue && _beforeUnload.defaultPrevented === true
     };
-
 
 
     self.onbeforeunload = function (event) {
         _beforeUnload = event;
 
         // prevent user from leaving if there are unsaved changes
-    //    var liveEditIframe = window;
+        //    var liveEditIframe = window;
 
         var liveEditIframe = mw.top().app.canvas.getWindow();
 
@@ -446,12 +442,12 @@ if(window.self !== window.top) {
 
 
         setTimeout(function (liveEditIframe) {
-                if(liveEditIframe) {
-                    if (liveEditIframe && liveEditIframe.mw) {
-                        liveEditIframe.mw.isNavigating = false;
-                    }
+            if (liveEditIframe) {
+                if (liveEditIframe && liveEditIframe.mw) {
+                    liveEditIframe.mw.isNavigating = false;
                 }
-        }, 1500,liveEditIframe);
+            }
+        }, 1500, liveEditIframe);
 
 
         if (liveEditIframe
@@ -495,16 +491,15 @@ if(window.self !== window.top) {
     };
 
 
-
     document.documentElement.addEventListener('click', function (event) {
 
         var target = event.target;
         var link = mw.tools.firstParentOrCurrentWithTag(target, 'a');
 
-        if(link && link.href.indexOf('javascript:') !== 0 && !link.isContentEditable) {
+        if (link && link.href.indexOf('javascript:') !== 0 && !link.isContentEditable) {
             const tmp = document.createElement('a');
             tmp.href = link.href;
-            if(tmp.host !== location.host && (!link.target || link.target === '_self')) {
+            if (tmp.host !== location.host && (!link.target || link.target === '_self')) {
                 event.preventDefault();
                 open(link.href);
             }
@@ -516,7 +511,6 @@ if(window.self !== window.top) {
             return mw.top().app.editor.dispatch('Ctrl+S', event);
         }
     });
-
 
 
     document.body.addEventListener('mouseenter', function (event) {
