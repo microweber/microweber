@@ -248,7 +248,14 @@ mw.askusertostay = false;
                 mw.tools.scrollTo('#' + id);
             }
 
-
+            // if(self !== top && top && top.mw) {
+            //     if (id) {
+            //         setTimeout(function () {
+            //             mw.top().app.dispatch('onModuleReloaded', id);
+            //
+            //         }, 78);
+            //     }
+            // }
 
             resolve(this);
         }, config);
@@ -613,6 +620,13 @@ mw.requireAsync = (url, key) => {
             }
             $( this ).trigger('ModuleReload')
 
+              //
+              // if(self !== top && top && top.mw) {
+              //     if (module[i] && module[i].id) {
+              //         mw.top().app.dispatch('onModuleReloaded', module[i].id);
+              //     }
+              // }
+
           });
         }
         return false;
@@ -693,15 +707,7 @@ mw.requireAsync = (url, key) => {
             callback.call();
         }
     }
-    if(self !== top && top && top.mw) {
-        if (!currId && module && module.id) {
-            currId = module.id;
-        }
 
-        if (currId) {
-            mw.top().app.dispatch('onModuleReloaded', currId);
-        }
-    }
   }
 
   mw.clear_cache = function() {
@@ -833,6 +839,15 @@ mw.requireAsync = (url, key) => {
               count++;
               obj.done.call($(selector)[0], data);
               mw.trigger('moduleLoaded');
+
+              if (id) {
+                  if (self !== top && top && top.mw) {
+
+                      mw.top().app.dispatch('onModuleReloaded', id);
+
+                  }
+              }
+
           }, 33);
       }
 
@@ -855,6 +870,7 @@ mw.requireAsync = (url, key) => {
       if(mw.on && !hasDone){
         mw.on.moduleReload(id, "", true);
         mw.trigger('moduleLoaded');
+
       }
     if($.fn.selectpicker) {
         $('.selectpicker').selectpicker();
