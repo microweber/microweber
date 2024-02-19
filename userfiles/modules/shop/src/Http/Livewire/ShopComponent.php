@@ -199,6 +199,9 @@ class ShopComponent extends Component
                 if (get_option('disable_custom_field_' . $customFieldNameKey, $this->moduleId) == 1) {
                     continue;
                 }
+                if (!isset($availableCustomFieldsValues[$customFieldNameKey])) {
+                    continue;
+                }
 
                 $customFieldObject = new \stdClass();
                 $customFieldObject->name = $customField->name;
