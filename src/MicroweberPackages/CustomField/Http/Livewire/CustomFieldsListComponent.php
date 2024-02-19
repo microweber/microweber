@@ -31,7 +31,7 @@ class CustomFieldsListComponent extends AdminComponent
             }
         }
 
-        $this->dispatchBrowserEvent('customFieldUpdated');
+        $this->emit('customFieldUpdated');
     }
 
     public function executeCustomFieldDelete($id)

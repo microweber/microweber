@@ -153,6 +153,12 @@
                 window.addEventListener('livewire:load', function () {
                     window.mw.items_editor_sort();
                 });
+                Livewire.on('customFieldDeleted', event => {
+                    mw.notification.success('Custom field deleted!');
+                    if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
+                        mw.top().app.dispatch('customFieldUpdatedGlobal', {});
+                    }
+                });
             </script>
 
         </div>
