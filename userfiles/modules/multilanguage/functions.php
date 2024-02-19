@@ -56,7 +56,7 @@ if (!empty($supportedLanguages)) {
 
                 foreach ($supportedLanguages as $locale) {
                     $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
-                    $contentLink = $pm->link(CONTENT_ID, 'content');
+                    $contentLink = $pm->link(content_id(), 'content');
                     $contentLink = trim($contentLink);
 
                     if (empty($contentLink)) {
@@ -87,13 +87,13 @@ if (!empty($supportedLanguages)) {
             $inPage = false;
             $inProduct = false;
             $inCategory = false;
-            if (PAGE_ID == CONTENT_ID) {
+            if (page_id() == content_id()) {
                 $inPage = true;
             } else {
                 $inProduct = true;
             }
 
-            if ($inPage && CATEGORY_ID !== 0) {
+            if ($inPage && category_id() !== 0) {
                 $inCategory = true;
             }
 
@@ -101,9 +101,9 @@ if (!empty($supportedLanguages)) {
                 $pm = new \MicroweberPackages\Multilanguage\MultilanguagePermalinkManager($locale['locale']);
 
                 if ($inCategory) {
-                    $contentLink = $pm->link(CATEGORY_ID, 'category');
+                    $contentLink = $pm->link(category_id(), 'category');
                 } else {
-                    $contentLink = $pm->link(CONTENT_ID, 'content');
+                    $contentLink = $pm->link(category_id(), 'content');
                 }
                 if (empty($contentLink)) {
                     continue;
