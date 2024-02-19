@@ -40,6 +40,51 @@ $editorSpacing: 5px;
     -webkit-user-select: none;
     user-select: none;
 
+    @media (max-width: 800px) {
+        max-width: 100%;
+        .mw-bar {
+            max-width: 100%;
+            overflow-y: hidden;
+            overflow-x: auto;
+            .mw-bar-control-item-group-contents{
+                max-width: 90%;
+                text-align: center;
+                background: white;
+                margin: 3px auto;
+                border-radius: 4px;
+                transform: translateX(-50%);
+                left: 50%;
+                min-width: 150px;
+            }
+            &::-webkit-scrollbar {
+                width: 3px;
+                height: 3px;
+              }
+
+
+              &::-webkit-scrollbar-track {
+                background: #f1f1f1;
+              }
+
+
+              &::-webkit-scrollbar-thumb {
+                background: #888;
+              }
+
+
+              &::-webkit-scrollbar-thumb:hover {
+                background: #555;
+              }
+             .mw-bar-control-item, .mw-editor-controller-component  {
+                position: static;
+            }
+        }
+    }
+
+
+
+
+
 
     .mw-editor-dropdown-option{
         padding: 10px 10px;

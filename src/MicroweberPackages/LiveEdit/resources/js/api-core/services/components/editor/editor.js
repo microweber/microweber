@@ -46,10 +46,12 @@ export const EditorComponent = function () {
                     controls: [
                         'lineHeight',
                         'fontSelector',
-                        'fontSize',
+                        ,
                     ]
                 }
             },
+
+            'fontSize',
 
             {
                 group: {

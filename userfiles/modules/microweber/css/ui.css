@@ -224,7 +224,7 @@ html[dir="rtl"] .mw-ui-col:last-child > .mw-col-container {
   padding-inline-end: 0;
 }
 .mw-col img {
-  height: auto ;
+  height: auto;
   max-width: 100%;
 }
 .free-element {
@@ -2768,7 +2768,7 @@ html.mw-loading:after {
   min-width: 60px;
 }
 .mwiconlist-icon:hover {
-    background-color: #efecec3d;
+  background-color: #efecec3d;
 }
 .mw-icon-list .mw-ui-btn-nav {
   padding-bottom: 16px;
@@ -2804,7 +2804,6 @@ html.mw-loading:after {
   z-index: 1;
   font-size: 22px !important;
   border-radius: 3px;
-
   width: 12%;
   color: #939393;
   display: inline-block;
@@ -8117,6 +8116,52 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
+@media (max-width: 800px) {
+  .mw-small-editor.mw-small-editor-skin-lite,
+  .mw-small-editor.mw-small-editor-skin-dark {
+    max-width: 100%;
+  }
+  .mw-small-editor.mw-small-editor-skin-lite .mw-bar,
+  .mw-small-editor.mw-small-editor-skin-dark .mw-bar {
+    max-width: 100%;
+    overflow-y: hidden;
+    overflow-x: auto;
+  }
+  .mw-small-editor.mw-small-editor-skin-lite .mw-bar .mw-bar-control-item-group-contents,
+  .mw-small-editor.mw-small-editor-skin-dark .mw-bar .mw-bar-control-item-group-contents {
+    max-width: 90%;
+    text-align: center;
+    background: white;
+    margin: 3px auto;
+    border-radius: 4px;
+    transform: translateX(-50%);
+    left: 50%;
+    min-width: 150px;
+  }
+  .mw-small-editor.mw-small-editor-skin-lite .mw-bar::-webkit-scrollbar,
+  .mw-small-editor.mw-small-editor-skin-dark .mw-bar::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+  .mw-small-editor.mw-small-editor-skin-lite .mw-bar::-webkit-scrollbar-track,
+  .mw-small-editor.mw-small-editor-skin-dark .mw-bar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  .mw-small-editor.mw-small-editor-skin-lite .mw-bar::-webkit-scrollbar-thumb,
+  .mw-small-editor.mw-small-editor-skin-dark .mw-bar::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  .mw-small-editor.mw-small-editor-skin-lite .mw-bar::-webkit-scrollbar-thumb:hover,
+  .mw-small-editor.mw-small-editor-skin-dark .mw-bar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  .mw-small-editor.mw-small-editor-skin-lite .mw-bar .mw-bar-control-item,
+  .mw-small-editor.mw-small-editor-skin-dark .mw-bar .mw-bar-control-item,
+  .mw-small-editor.mw-small-editor-skin-lite .mw-bar .mw-editor-controller-component,
+  .mw-small-editor.mw-small-editor-skin-dark .mw-bar .mw-editor-controller-component {
+    position: static;
+  }
+}
 .mw-small-editor.mw-small-editor-skin-lite .mw-editor-dropdown-option,
 .mw-small-editor.mw-small-editor-skin-dark .mw-editor-dropdown-option {
   padding: 10px 10px;
@@ -8322,11 +8367,11 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-small-editor.mw-small-editor-skin-lite mw-editor-button.mw-editor-controller-button.active-control {
   color: white;
-  background-color: #4592ff;
+  background-color: #4592ff !important;
 }
 .mw-small-editor.mw-small-editor-skin-lite mw-editor-button.mw-editor-controller-button.active-control:hover,
 .mw-small-editor.mw-small-editor-skin-lite mw-editor-button.mw-editor-controller-button.active-control:focus {
-  background-color: #4592ff;
+  background-color: #4592ff !important;
   color: white;
 }
 .mw-small-editor.mw-small-editor-skin-lite mw-editor-button.mw-editor-controller-button:hover,
@@ -8665,7 +8710,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   user-select: none;
 }
 .mw-editor-controller-button.active-control {
-  background-color: #4592ff;
+  background-color: #4592ff !important;
   color: #fff;
 }
 .mw-editor-controller-button.mw-editor-group-button {
@@ -8719,6 +8764,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   min-width: 100%;
   overflow: auto;
   max-height: calc(100vh - 200px);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 .mw-editor-controller-component-select .mw-editor-controller-component-select-values-holder::-webkit-scrollbar {
   width: 7px;
