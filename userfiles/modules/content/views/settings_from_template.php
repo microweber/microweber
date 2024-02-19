@@ -54,9 +54,11 @@ if (!empty($template_config)) {
  ?>
 <?php if (is_array($data_fields_conf)): ?>
     <div class="card-body mb-3 fields">
-        <div class="card-header no-border">
-            <label class="form-label"><?php _e("Template settings"); ?></label>
-            <a href="javascript:;" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#template-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('Template settings') ?></a>
+        <div class="card-header no-border  d-flex align-items-center gap-3 mb-3">
+            <a href="javascript:;" class="mw-admin-action-links mw-adm-liveedit-tabs d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#template-settings"><span class="collapse-action-label"></span>&nbsp;
+                <?php _e('Show template settings') ?>
+                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z"/></svg>
+            </a>
         </div>
         <div class="card-body py-0">
             <div class="collapse" id="template-settings">
