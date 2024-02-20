@@ -1229,6 +1229,16 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
+
+                var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(scope.api.elementNode(scope.api.getSelection().focusNode), ['safe-mode', 'regular-mode'])
+
+                if(!isSafeMode) {
+                    return api.execCommand('insertUnorderedList');
+                }
+
+
+
+
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
                 const parentLi = mw.tools.firstParentOrCurrentWithTag(node, 'li');
@@ -1306,7 +1316,29 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
+
+
+                var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(scope.api.elementNode(scope.api.getSelection().focusNode), ['safe-mode', 'regular-mode'])
+
+                if(!isSafeMode) {
+                    return api.execCommand('insertOrderedList')
+                }
                 var sel = api.getSelection();
+                var range = sel.getRangeAt(0);
+
+                if(api.isCrossBlockSelection()) {
+
+                    api.getSelectionChildNodes().forEach(node => {
+                        if(node.nodeType === 1) {
+                            node
+                        }
+                    })
+
+                    return;
+                }
+
+
+
                 var node = api.elementNode(sel.focusNode);
                 const parentLi = mw.tools.firstParentOrCurrentWithTag(node, 'li');
                 const isInLi = node.nodeName !== 'LI' && !!parentLi;
