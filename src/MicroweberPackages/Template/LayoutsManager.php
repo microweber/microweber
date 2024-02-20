@@ -398,7 +398,7 @@ class LayoutsManager
                             }
 
                             if (isset($options['content_type']) && $options['content_type'] == 'post') {
-                                if ($to_return_temp['content_type'] !== 'post') {
+                                if (isset($to_return_temp['content_type']) && $to_return_temp['content_type'] !== 'post') {
                                     continue;
                                 }
                             } else {
