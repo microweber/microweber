@@ -1,0 +1,17 @@
+{
+  "name": "microweber-modules/toc",
+  "description": "toc",
+  "license": "MIT",
+  "homepage": "https://microweber.org/go/toc",
+  "authors": [
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "keywords": [
+    "toc"
+  ],
+  "type": "microweber-module",
+  "target-dir": "toc"
+}
