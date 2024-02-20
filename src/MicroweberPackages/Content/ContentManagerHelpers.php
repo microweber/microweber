@@ -680,7 +680,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             $ref_page_url = xss_clean($ref_page_url);
 
         }
-
+        //dd($ref_page_url,$post_data);
         $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
 
         if ($multilanguageIsActive) {
