@@ -1561,9 +1561,12 @@ MWEditor.controllers = {
             var el = MWEditor.core.colorPicker({
                 displayDocument: mw.top().win.document,
                 props: {
-                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
-                        '    <path fill="currentColor" d="M9.62,12L12,5.67L14.37,12M11,3L5.5,17H7.75L8.87,14H15.12L16.25,17H18.5L13,3H11Z" />\n' +
-                        '</svg>', tooltip: 'Text color'
+                    innerHTML: `
+                        <svg viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M9.62,12L12,5.67L14.37,12M11,3L5.5,17H7.75L8.87,14H15.12L16.25,17H18.5L13,3H11Z" />
+                        </svg>
+                    `,
+                    tooltip: 'Text color'
                 }
             });
             el.on('change', function (e, val) {
@@ -1581,6 +1584,25 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
+
+
+            var css = opt.css;
+            var font = css.font();
+            var color = font.color;
+
+            var colorIndicator = opt.controller.element.get(0).querySelector('.mw-editor-color-picker-color-indicator');
+
+            if(!colorIndicator) {
+                colorIndicator = opt.controller.element.get(0).ownerDocument.createElement('span');
+                colorIndicator.className = 'mw-editor-color-picker-color-indicator';
+                opt.controller.element.get(0).appendChild(colorIndicator)
+            }
+
+            colorIndicator.style.backgroundColor = color;
+
+
+
+
             rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
         };
         this.element = this.render();
@@ -1589,9 +1611,12 @@ MWEditor.controllers = {
         this.render = function () {
             var el = MWEditor.core.colorPicker({
                 props: {
-                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
-                        '    <path fill="currentColor" d="M19,11.5C19,11.5 17,13.67 17,15A2,2 0 0,0 19,17A2,2 0 0,0 21,15C21,13.67 19,11.5 19,11.5M5.21,10L10,5.21L14.79,10M16.56,8.94L7.62,0L6.21,1.41L8.59,3.79L3.44,8.94C2.85,9.5 2.85,10.47 3.44,11.06L8.94,16.56C9.23,16.85 9.62,17 10,17C10.38,17 10.77,16.85 11.06,16.56L16.56,11.06C17.15,10.47 17.15,9.5 16.56,8.94Z" />\n' +
-                        '</svg>', tooltip: 'Text background color'
+                    innerHTML: `
+                        <svg viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M19,11.5C19,11.5 17,13.67 17,15A2,2 0 0,0 19,17A2,2 0 0,0 21,15C21,13.67 19,11.5 19,11.5M5.21,10L10,5.21L14.79,10M16.56,8.94L7.62,0L6.21,1.41L8.59,3.79L3.44,8.94C2.85,9.5 2.85,10.47 3.44,11.06L8.94,16.56C9.23,16.85 9.62,17 10,17C10.38,17 10.77,16.85 11.06,16.56L16.56,11.06C17.15,10.47 17.15,9.5 16.56,8.94Z" />\n' +
+                        </svg>
+                    `,
+                    tooltip: 'Text background color'
                 }
             });
             el.on('change', function (e, val) {
@@ -1610,6 +1635,25 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
+
+
+            var css = opt.css;
+            var font = css.font();
+            var color = css.background().color;
+
+            console.log(css)
+            console.log(color)
+
+            var colorIndicator = opt.controller.element.get(0).querySelector('.mw-editor-color-picker-color-indicator');
+
+            if(!colorIndicator) {
+                colorIndicator = opt.controller.element.get(0).ownerDocument.createElement('span');
+                colorIndicator.className = 'mw-editor-color-picker-color-indicator';
+                opt.controller.element.get(0).appendChild(colorIndicator)
+            }
+
+            colorIndicator.style.backgroundColor = color;
+
             rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
         };
         this.element = this.render();

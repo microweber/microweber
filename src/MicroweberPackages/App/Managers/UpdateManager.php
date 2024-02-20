@@ -178,8 +178,7 @@ class UpdateManager
         if(defined('MW_VERSION')) {
             $websiteOptions = app()->option_repository->getWebsiteOptions();
 
-            $config_version = Config::get('microweber.version');
-            $app_version = false;
+             $app_version = false;
             $app_base_path = false;
             if (isset($websiteOptions['app_version']) and $websiteOptions['app_version']) {
                 $app_version = $websiteOptions['app_version'];
@@ -187,13 +186,15 @@ class UpdateManager
             if (isset($websiteOptions['app_base_path']) and $websiteOptions['app_base_path']) {
                 $app_base_path = $websiteOptions['app_base_path'];
             }
+
             $needPostUpdateAction = false;
-            if ($config_version != MW_VERSION) {
+           if ($app_version != MW_VERSION) {
                 $needPostUpdateAction = true;
-            } else if ($app_version != MW_VERSION) {
-                $needPostUpdateAction = true;
+
+
             } else if ($app_base_path != base_path()) {
                 $needPostUpdateAction = true;
+
             }
 
             if ($needPostUpdateAction) {
@@ -213,20 +214,24 @@ class UpdateManager
             $bootstrap_cached_folder = normalize_path(base_path('bootstrap/cache/'),true);
             rmdir_recursive($bootstrap_cached_folder);
 
+
             // Booting the template to register the migrations
             if (!defined('TEMPLATE_DIR')) {
+
                 $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
+
                 if(!$the_active_site_template){
                     $the_active_site_template = Config::get('microweber.install_default_template');
                 }
                 if ($the_active_site_template) {
-                    app()->content_manager->define_constants(['active_site_template' => $the_active_site_template]);
+
+                    app()->template->defineTemplateConstants();
                 }
+
             }
             if (defined('TEMPLATE_DIR')) {
-                app()->template_manager->boot_template();
+             //   app()->template_manager->boot_template();
             }
-
 
             try {
                 $this->log_msg('Applying post update actions');
@@ -257,6 +262,9 @@ class UpdateManager
             $option['option_key'] = 'app_base_path';
             $option['option_group'] = 'website';
             save_option($option);
+
+
+       
 
 
             mw()->cache_manager->delete('db');

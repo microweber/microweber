@@ -3,6 +3,16 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [2.0.12] - 2024-02-19
+- Maintenance release
+- Fix display of text editor on small screen
+- Fix problem with the update function not saving the new version number in the database
+- Fix custom fields not updating the list of fields after save
+- Fix problem with livewire modules needing initialization after module reload 
+- Fix modal window not closing if you are focused on color picker field 
+- Fix CRTL+S not working in the text editor if you are with caps lock on or on non-latin keyboard
+- Other issues
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.10...2.0.11 "")
 
 
 ## [2.0.11] - 2024-02-16

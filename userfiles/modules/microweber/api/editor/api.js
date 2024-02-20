@@ -674,9 +674,9 @@
             },
             targetSupportsFormatting: function (target) {
                 var case1 = !!target && !!target.classList && !target.classList.contains('edit');
-                var case2 = !!target.querySelector && !target.querySelector('table,tr,td,div,p,section,h1,h2,h3,h4,h5,h6,article,aside,figcaption,figure,footer,header,hgroup,main,nav');
+                // var case2 = !!target.querySelector && !target.querySelector('table,tr,td,div,p,section,h1,h2,h3,h4,h5,h6,article,aside,figcaption,figure,footer,header,hgroup,main,nav');
 
-                return  case1 && case2;
+                return  case1 /*&& case2 */
             },
             getFocusedNeighbours: function(focused) {
                 var res = [focused];

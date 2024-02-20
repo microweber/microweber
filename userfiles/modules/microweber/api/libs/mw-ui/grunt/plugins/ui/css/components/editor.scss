@@ -42,6 +42,12 @@ $editorSpacing: 5px;
 
     @media (max-width: 800px) {
         max-width: 100%;
+        top: 0 !important;
+        left: 0 !important;
+        border-radius: 0;
+        position: fixed !important;
+        margin-top: 0 !important;
+        transform: translateX(0) !important;
         .mw-bar {
             max-width: 100%;
             overflow-y: hidden;
@@ -56,25 +62,7 @@ $editorSpacing: 5px;
                 left: 50%;
                 min-width: 150px;
             }
-            &::-webkit-scrollbar {
-                width: 3px;
-                height: 3px;
-              }
 
-
-              &::-webkit-scrollbar-track {
-                background: #f1f1f1;
-              }
-
-
-              &::-webkit-scrollbar-thumb {
-                background: #888;
-              }
-
-
-              &::-webkit-scrollbar-thumb:hover {
-                background: #555;
-              }
              .mw-bar-control-item, .mw-editor-controller-component  {
                 position: static;
             }
@@ -416,6 +404,14 @@ $editorSpacing: 5px;
         height: 100%;
         opacity: 0;
         cursor: pointer;
+    }
+    .mw-editor-color-picker-color-indicator{
+        height: 3px;
+        display: block;
+        overflow: hidden;
+        width: 24px;
+        position: absolute;
+        bottom: 4px;
     }
 }
 

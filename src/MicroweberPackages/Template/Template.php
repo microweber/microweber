@@ -810,6 +810,10 @@ class Template
     {
         return $this->templateAdapter->defineConstants($content);
     }
+    public function defineTemplateConstants()
+    {
+        return $this->templateAdapter->defineTemplateConstants();
+    }
 
     public function getContentId()
     {
