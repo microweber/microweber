@@ -472,11 +472,13 @@ MWEditor.controllers = {
 
 
 
+
                 if(sel.getRangeAt(0).collapsed) {
                     var node = api.elementNode(sel.focusNode);
                     var actionTarget = node;//mw.tools.firstBlockLikeLevel(node);
                     api.action(actionTarget.parentNode, function () {
                         var isBold = Number(rootScope.actionWindow.getComputedStyle(actionTarget).fontWeight) > 400;
+                        api.cleanStyle('font-weight')
                         let weight;
                         if(isBold) {
                             weight = '400';
@@ -519,6 +521,7 @@ MWEditor.controllers = {
 
                     });
                 } else {
+                    api.cleanStyle('font-weight')
                     api.execCommand('bold');
                 }
 
@@ -909,6 +912,16 @@ MWEditor.controllers = {
             var css = opt.css;
             var font = css.font();
             var size = font.size;
+
+            if(opt.api.isCrossSelection()) {
+                api.getSelectionChildren().filter(node => node.nodeName !== 'BR').forEach(node => {
+                    if(getComputedStyle(node).fontSize != size) {
+
+                        size = ' '
+                    }
+                })
+            }
+
             opt.controller.element.displayValue(size);
             opt.controller.element.find('.mw-editor-dropdown-option.active').removeClass('active');
             opt.controller.element.find('.mw-editor-dropdown-option.active').removeClass('active');
@@ -946,7 +959,7 @@ MWEditor.controllers = {
             dropdown.select.on('change', function (e, val) {
 
                 if(val) {
-
+                    scope.api.cleanStyle('font-size')
                     api.fontSize(val.value);
                 }
             });

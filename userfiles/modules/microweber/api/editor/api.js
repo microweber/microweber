@@ -254,6 +254,35 @@
             },
 
 
+            cleanStyle: function(propety) { //propety -> 'font-size'
+                const sel = scope.api.getSelection();
+
+                const camel = propety.replace(/-./g, x=>x[1].toUpperCase());
+
+                function perNode(node) {
+                    node.style[camel] = '';
+                    const sel = mw.tools.generateSelectorForNode(node);
+                    mw.top().app.cssEditor.removeSheetRuleProperty(sel, propety);
+                    node.querySelectorAll('*').forEach(node => {
+                        perNode(node)
+                    })
+                }
+
+
+                if(sel.collapsed) {
+                    let startNode =  scope.api.elementNode(sel.anchorNode);
+                    let startBlockNode = mw.tools.firstBlockLevel(startNode);
+                    perNode(startNode)
+                } else if(scope.api.isCrossBlockSelection()) {
+                    scope.api.getSelectionChildren().filter(node => sel.containsNode(node)).forEach(node => perNode(node))
+                } else {
+                    let startNode =  scope.api.elementNode(sel.anchorNode);
+                    let startBlockNode = mw.tools.firstBlockLevel(startNode);
+                    perNode(startBlockNode)
+                }
+            },
+
+
             isCrossSelection: function() {
                 const sel = scope.api.getSelection();
                 return sel.anchorNode !== sel.focusNode;
