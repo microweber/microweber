@@ -39,7 +39,7 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
  * save_option($key, $value, $group);
  *
  */
-function save_option($dataOrKey, $value = false, $group = false, $lang = false)
+function save_option($optionKey, $value = false, $group = false, $lang = false)
 {
   //  $lang = false;
     if(!$lang) {
@@ -47,11 +47,13 @@ function save_option($dataOrKey, $value = false, $group = false, $lang = false)
             $lang = $_POST['lang'];
         }
     }
-    if ($dataOrKey && is_string($dataOrKey) && $group) {
+    if ($optionKey &&
+        ( is_string($optionKey) || is_numeric($optionKey) )
+        && $group) {
 
         $option = array();
         $option['option_value'] = $value;
-        $option['option_key'] = $dataOrKey;
+        $option['option_key'] = $optionKey;
         $option['option_group'] = $group;
         if($lang){
             if($lang != app()->lang_helper->default_lang()){
@@ -62,7 +64,7 @@ function save_option($dataOrKey, $value = false, $group = false, $lang = false)
 
         return app()->option_manager->save($option);
     } else {
-        return app()->option_manager->save($dataOrKey);
+        return app()->option_manager->save($optionKey);
     }
 }
 

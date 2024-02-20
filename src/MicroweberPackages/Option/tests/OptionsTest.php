@@ -28,6 +28,46 @@ class OptionsTest extends TestCase
         $options = $option->getValue('a_test', 'test'); //instance
         $this->assertEquals($now, $options);
     }
+    public function testOptionsWithNumericKey()
+    {
+        $data = array();
+        $now = rand(1, 9999999);
+        $option_group = rand(1, 9999999);
+        $option_key = rand(1, 9999999);
+        $data['option_value'] = $now;
+        $data['option_key'] =  $option_key;
+        $data['option_group'] =  $option_group;
+        $save = save_option($data);
+
+        $get = get_option( $option_key, $option_group); // if this broke maybe you dont destroy MEMORY variable in Class when save OPTION
+
+        $this->assertEquals($now, $get);
+
+        $options = OptionFacade::getValue( $option_key, $option_group); // static
+        $this->assertEquals($now, $options);
+
+        $option  = new Option();
+        $options = $option->getValue( $option_key, $option_group); //instance
+        $this->assertEquals($now, $options);
+
+    }
+
+    public function testOptionsSaveWithParseString()
+    {
+        $now = date('YmdHis');
+        $str = "option_key=".$now."&option_group=test&option_value=test2";
+        $save = save_option($str);
+        $get =  get_option($now, 'test');
+        $this->assertEquals('test2', $get);
+
+
+        //test numeric key
+        $now = rand(1, 9999999);
+        $str = "option_key=".$now."&option_group=test&option_value=test2";
+        $save = save_option($str);
+        $get =  get_option($now, 'test');
+        $this->assertEquals('test2', $get);
+    }
 
 
     public function testOptionsManagerClass()
