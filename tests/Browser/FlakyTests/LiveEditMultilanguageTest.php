@@ -146,17 +146,28 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
             $browser->switchFrame($iframeElement);
             // Switch to English
 
-            $browser->within(new FrontendSwitchLanguage(), function ($browser) {
+//            $browser->within(new FrontendSwitchLanguage(), function ($browser) {
+//                $browser->switchLanguage('en_US');
+//            });
+            $browser->within(new LiveEditSwitchLanguage(), function ($browser) {
                 $browser->switchLanguage('en_US');
             });
+
+
+
             $browser->pause(1000);
             $browser->assertSee('This is my text on english language');
 
             // Switch back to Bulgarian
             $browser->pause(1000);
-            $browser->within(new FrontendSwitchLanguage(), function ($browser) {
+//            $browser->within(new FrontendSwitchLanguage(), function ($browser) {
+//                $browser->switchLanguage('bg_BG');
+//            });
+            $browser->within(new LiveEditSwitchLanguage(), function ($browser) {
                 $browser->switchLanguage('bg_BG');
             });
+
+
             $browser->pause(1000);
             $browser->assertSee('Текст написан на български, това е българска страница');
 
