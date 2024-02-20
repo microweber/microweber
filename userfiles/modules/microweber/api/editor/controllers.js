@@ -1577,7 +1577,8 @@ MWEditor.controllers = {
                         mw.top().app.cssEditor.temp(el, 'color', val)
                     }, true);
                 } else {
-                    api.execCommand('foreColor', false, val, true);
+
+                    api.execCommand('foreColor', false, val, false);
                 }
 
             });
@@ -1628,7 +1629,7 @@ MWEditor.controllers = {
                         mw.top().app.cssEditor.temp(el, 'background-color', val)
                     }, true);
                 } else {
-                    api.execCommand('backcolor', false, val, true);
+                    api.execCommand('backcolor', false, val, false);
                 }
 
             });
@@ -1641,8 +1642,6 @@ MWEditor.controllers = {
             var font = css.font();
             var color = css.background().color;
 
-            console.log(css)
-            console.log(color)
 
             var colorIndicator = opt.controller.element.get(0).querySelector('.mw-editor-color-picker-color-indicator');
 
