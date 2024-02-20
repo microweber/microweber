@@ -19,7 +19,9 @@ class BladeUIServiceProvider extends ServiceProvider
 
         $defaltPath = config('blade-icons.sets.default.path');
         if ($defaltPath) {
+            $defaltPath = base_path($defaltPath);
             $defaltPath = normalize_path($defaltPath, true);
+
             if (!is_dir($defaltPath)) {
                 mkdir_recursive($defaltPath);
             }

@@ -75,9 +75,8 @@ class LiveEditTypingTest extends DuskTestCase
                 $browser->clickSaveButton($browser);
             });
             $browser->switchFrameDefault();
-            $browser->pause(1000);
 
-            $browser->visit($link.'?editmode=n');
+             $browser->visit($link);
             $browser->pause(1000);
             $browser->waitFor('#test-element-in-safe-mode', 30);
 
