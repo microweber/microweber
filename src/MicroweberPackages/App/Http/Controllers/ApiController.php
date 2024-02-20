@@ -608,19 +608,21 @@ class ApiController  extends FrontendController
 
             if(isset( $_SERVER['HTTP_REFERER'])){
                 $requestUri = $_SERVER['HTTP_REFERER'];
-                $requestUri = str_replace(site_url(), '', $requestUri);
+              //  $requestUri = str_replace(site_url(), '', $requestUri);
+
 
                 $request = new \Illuminate\Http\Request();
                 $request->server->replace($_SERVER);
                 $request->server->set('REQUEST_URI', $requestUri);
 
                 URL::setRequest($request);
-              //  $currentUrl = URL::current();
+                $currentUrl = URL::current();
+
+
             }
         }
 
-
-        $request_data = array_merge($_GET, $_POST);
+         $request_data = array_merge($_GET, $_POST);
 
         // sanitize attributes
         if($request_data){
