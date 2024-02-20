@@ -5,6 +5,7 @@ namespace MicroweberPackages\App\Http\Controllers;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\URL;
 use MicroweberPackages\App\Http\Middleware\ApiAuth;
 use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
 use MicroweberPackages\App\Managers\Helpers\VerifyCsrfTokenHelper;
@@ -595,6 +596,26 @@ class ApiController  extends FrontendController
             $editmode_sess = app()->user_manager->session_get('editmode');
             if ($editmode_sess == true and !defined('IN_EDIT')) {
                 define('IN_EDIT', true);
+            }
+        }
+
+
+
+
+        $requestUri = '';
+        if(is_ajax()){
+
+
+            if(isset( $_SERVER['HTTP_REFERER'])){
+                $requestUri = $_SERVER['HTTP_REFERER'];
+                $requestUri = str_replace(site_url(), '', $requestUri);
+
+                $request = new \Illuminate\Http\Request();
+                $request->server->replace($_SERVER);
+                $request->server->set('REQUEST_URI', $requestUri);
+
+                URL::setRequest($request);
+              //  $currentUrl = URL::current();
             }
         }
 

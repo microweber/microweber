@@ -40,7 +40,10 @@ if(window.self !== window.top) {
             mw.liveEditSaveService.saving = true;
 
             /************  START base64  ************/
-            data.from_url = location.href;
+            data.from_url = window.location.href;
+
+
+
             data = JSON.stringify(data);
             data = btoa(encodeURIComponent(data).replace(/%([0-9A-F]{2})/g,
                 function toSolidBytes(match, p1) {
