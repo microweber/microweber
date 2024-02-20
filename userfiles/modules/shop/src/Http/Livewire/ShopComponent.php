@@ -152,10 +152,10 @@ class ShopComponent extends Component
         $productPrices = [];
         foreach ($allProducts as $product) {
 
+            $productPrices[] = $product->price;
+
             if ($product->hasSpecialPrice()) {
                 $productPrices[] = $product->special_price;
-            } else {
-                $productPrices[] = $product->price;
             }
 
             if (!empty($product->customField)) {
@@ -181,9 +181,14 @@ class ShopComponent extends Component
                 }
             }
         }
+
         if (!empty($productPrices)) {
             $this->minPrice = min($productPrices);
             $this->maxPrice = max($productPrices);
+
+            $this->minPrice = floor($this->minPrice) - 1;
+            $this->maxPrice = floor($this->maxPrice) + 1;
+
             if (empty($this->priceFrom)) {
                 $this->priceFrom = $this->minPrice;
             }
