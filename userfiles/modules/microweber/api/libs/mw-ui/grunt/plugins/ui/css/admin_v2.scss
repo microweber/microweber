@@ -3183,3 +3183,22 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
     background-position: center center !important;
     background-repeat: no-repeat !important;
 }
+
+
+
+
+#mw_global_reset_content_editor {
+    #select_edit_field{
+        padding: 20px;
+    }
+
+    .mw-ui-box, .mw-ui-box-header{
+        background-color: #fff!important;
+    }
+
+    #select_edit_field  > li li:hover, #select_edit_field  > li li.selected{
+       border: none !important;
+        color: #007BFFFF;
+
+    }
+}
