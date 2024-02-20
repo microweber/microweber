@@ -109,7 +109,11 @@ class ShopComponent extends Component
 
         $mainPageId = $this->getMainPageId();
         $productsQuery = Product::query();
-        $productsQuery->where('parent', $mainPageId);
+
+        if ($mainPageId > 0) {
+            $productsQuery->where('parent', $mainPageId);
+        }
+        
         $productsQuery->where('is_active', 1);
         $productsQuery->where('is_deleted', 0);
 
