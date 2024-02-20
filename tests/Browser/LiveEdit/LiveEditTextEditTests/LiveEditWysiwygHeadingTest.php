@@ -1,9 +1,8 @@
 <?php
 
-namespace Tests\Browser\FlakyTests\LiveEditTextEditTests;
+namespace Tests\Browser\LiveEdit\LiveEditTextEditTests;
 
 use Facebook\WebDriver\WebDriverBy;
-use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;

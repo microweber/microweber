@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\FlakyTests\LiveEditTextEditTests;
+namespace Tests\Browser\LiveEdit\LiveEditTextEditTests;
 
 
 use Facebook\WebDriver\WebDriverBy;
