@@ -274,9 +274,12 @@ export default {
                             return;
                         }
 
-                        if(!editTarget.id){
+                        if(!editTarget.id && !editTarget.classList.contains('edit')) {
+
                             editTarget.id = mw.id('mw-element-');
+
                         }
+
 
 
 

@@ -3,7 +3,7 @@
         <li>
             <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="showCodeEditor()">
 
-                <svg class="me-1" xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18">
+                <svg class="mb-1 me-1" xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18">
                     <path
                         d="M0-360v-240h60v80h80v-80h60v240h-60v-100H60v100H0Zm310 0v-180h-70v-60h200v60h-70v180h-60Zm170 0v-200q0-17 11.5-28.5T520-600h180q17 0 28.5 11.5T740-560v200h-60v-180h-40v140h-60v-140h-40v180h-60Zm320 0v-240h60v180h100v60H800Z"/>
                 </svg>
@@ -13,7 +13,7 @@
 
         <li>
             <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="openContentResetContent()">
-                <svg class="me-1" xmlns="http://www.w3.org/2000/svg"
+                <svg class="mb-1 me-1" xmlns="http://www.w3.org/2000/svg"
                      height="18" viewBox="0 -960 960 960" width="18">
                     <path
                         d="M204-318q-22-38-33-78t-11-82q0-134 93-228t227-94h7l-64-64 56-56 160 160-160 160-56-56 64-64h-7q-100 0-170 70.5T240-478q0 26 6 51t18 49l-60 60ZM481-40 321-200l160-160 56 56-64 64h7q100 0 170-70.5T720-482q0-26-6-51t-18-49l60-60q22 38 33 78t11 82q0 134-93 228t-227 94h-7l64 64-56 56Z"/>
@@ -24,7 +24,7 @@
 
         <li>
             <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="clearCache()">
-                <svg class="me-1" xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18">
+                <svg class="mb-1 me-1" xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18">
                     <path
                         d="M280-720v520-520Zm170 600H280q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v172q-17-5-39.5-8.5T680-560v-160H280v520h132q6 21 16 41.5t22 38.5Zm-90-160h40q0-63 20-103.5l20-40.5v-216h-80v360Zm160-230q17-11 38.5-22t41.5-16v-92h-80v130ZM680-80q-83 0-141.5-58.5T480-280q0-83 58.5-141.5T680-480q83 0 141.5 58.5T880-280q0 83-58.5 141.5T680-80Zm66-106 28-28-74-74v-112h-40v128l86 86Z"/>
                 </svg>

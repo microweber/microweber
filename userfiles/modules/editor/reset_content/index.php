@@ -34,11 +34,15 @@
 </style>
 
 
-<div class="mw-ui-box mw-ui-box-content text-center">
-    <span class="mdi mdi-alert mw-color-important" style="font-size:32px"></span>
-    <br>
-    <h3> <?php _e('Warning'); ?></h3>
-   <?php _e('This will reset the content of the selected element!'); ?>
+<div class="d-flex align-items-center gap-4 mb-4">
+    <div>
+        <span class="mdi mdi-alert mw-color-important" style="font-size:45px"></span>
+    </div>
+
+   <div>
+       <h3 class="mb-1"> <?php _e('Warning'); ?></h3>
+       <p class="mb-0"><?php _e('This will reset the content of the selected element!'); ?></p>
+   </div>
 </div>
 
 <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
