@@ -178,8 +178,7 @@ class UpdateManager
         if(defined('MW_VERSION')) {
             $websiteOptions = app()->option_repository->getWebsiteOptions();
 
-            $config_version = Config::get('microweber.version');
-            $app_version = false;
+             $app_version = false;
             $app_base_path = false;
             if (isset($websiteOptions['app_version']) and $websiteOptions['app_version']) {
                 $app_version = $websiteOptions['app_version'];
@@ -189,15 +188,13 @@ class UpdateManager
             }
 
             $needPostUpdateAction = false;
-            if ($config_version != MW_VERSION) {
-
-                $needPostUpdateAction = true;
-            } else if ($app_version != MW_VERSION) {
+           if ($app_version != MW_VERSION) {
                 $needPostUpdateAction = true;
 
 
             } else if ($app_base_path != base_path()) {
                 $needPostUpdateAction = true;
+
             }
 
             if ($needPostUpdateAction) {
@@ -265,6 +262,9 @@ class UpdateManager
             $option['option_key'] = 'app_base_path';
             $option['option_group'] = 'website';
             save_option($option);
+
+
+       
 
 
             mw()->cache_manager->delete('db');
