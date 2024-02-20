@@ -155,7 +155,7 @@
                     closeButtonAction: 'remove',
                     disableTextSelection: true,
                     title: mw.lang('Choose color'),
-                    overlayClose: true,
+                    overlayClose: false,
                     closeOnEscape: false, //todo: escape destroys the dialog
                     footer: footer
                     // skin: 'mw_modal_simple mw_modal_live_edit_settings',
@@ -195,6 +195,7 @@
 
 
                 ok.on('click', function() {
+
                     if(vall) {
                         el.trigger('change', vall);
                     }
@@ -208,8 +209,44 @@
 
                 mw.element('.a-color-picker-row.a-color-picker-palette', dlg.container).before(cf.frame);
 
+
+
+                    if('EyeDropper' in window) {
+                    var edBtn = mw.element('<span class="a-color-picker-palette-color a-color-picker-palette-color-picker" style="border: 0;"><svg fill="white" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M120-120v-190l358-358-58-56 58-56 76 76 124-124q5-5 12.5-8t15.5-3q8 0 15 3t13 8l94 94q5 6 8 13t3 15q0 8-3 15.5t-8 12.5L705-555l76 78-57 57-56-58-358 358H120Zm80-80h78l332-334-76-76-334 332v78Zm447-410 96-96-37-37-96 96 37 37Zm0 0-37-37 37 37Z"/></svg></span>')
+
+                      edBtn.on('click', async function(){
+                        const ed = new EyeDropper();
+                        const color = await ed.open();
+                      if(color) {
+
+                        el.trigger('change', color.sRGBHex);
+
+                        dlg.remove();
+                      }
+                      })
+                      mw.element('.a-color-picker-row.a-color-picker-palette', dlg.container).prepend(edBtn);
+
+
+                    }
+
+
+                    mw.element('.a-color-picker-row.a-color-picker-palette .a-color-picker-palette-color:not(.a-color-picker-palette-color-picker)', dlg.container).on('click', function(){
+                        if(vall) {
+                            el.trigger('change', vall);
+                        }
+                        dlg.remove();
+                    });
+
+
                 cf.field.addEventListener('keydown', function (e){
                     if (e.key === 'Escape') {
+                        dlg.remove();
+                    }
+
+                    if (e.key === 'Enter') {
+                        if(vall) {
+                            el.trigger('change', vall);
+                        }
                         dlg.remove();
                     }
                 })
@@ -218,6 +255,7 @@
                     if(isColor(this.value)) {
                         _pauseSetValue = true;
                         picker.setColor(this.value);
+                        vall = this.value
                         _pauseSetValue = false;
                     }
                 });
