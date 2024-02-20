@@ -27,7 +27,7 @@
             v-model="fontSize"
             :min="0"
             :max="100"
-            :step="5"
+            :step="1"
         ></SliderSmall>
 
 
@@ -41,7 +41,7 @@
             v-model="lineHeight"
             :min="0"
             :max="100"
-            :step="5"
+            :step="1"
         ></SliderSmall>
 
 
