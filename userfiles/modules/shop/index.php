@@ -14,18 +14,12 @@
 use MicroweberPackages\Page\Models\Page;
 
 $contentFromId = get_option('content_from_id', $params['id']);
-if (!$contentFromId) {
-    $findFirstShop = Page::where('content_type', 'page')
-        ->where('subtype','dynamic')
-        ->where('is_shop', 1)
-        ->first();
 
-    if ($findFirstShop) {
-        save_option('content_from_id', $findFirstShop->id, $params['id']);
-        save_option('filtering_by_tags', 1, $params['id']);
-        save_option('filtering_by_categories', 1, $params['id']);
-        save_option('filtering_by_custom_fields', 1, $params['id']);
-    }
+$appliedDefaultSettings = get_option('applied_default_shop_settings', $params['id']);
+if (!$appliedDefaultSettings) {
+    save_option('filtering_by_tags', 1, $params['id']);
+    save_option('filtering_by_categories', 1, $params['id']);
+    save_option('filtering_by_custom_fields', 1, $params['id']);
 }
 
 if (!isset($params['template'])) {
