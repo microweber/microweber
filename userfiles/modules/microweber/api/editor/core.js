@@ -156,6 +156,7 @@
                     disableTextSelection: true,
                     title: mw.lang('Choose color'),
                     overlayClose: false,
+                    overlay: 'rgba(0,0,0,0)',
                     closeOnEscape: false, //todo: escape destroys the dialog
                     footer: footer
                     // skin: 'mw_modal_simple mw_modal_live_edit_settings',
