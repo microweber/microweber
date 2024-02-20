@@ -36,8 +36,10 @@ if ($module_template != false) {
             for (var i = 0; i < headerElements.length; i++) {
 
                 var currentHeaderElement = headerElements[i];
-                currentHeaderElement.id = 'toc-' + id + '-' + i;
-
+                if (currentHeaderElement.id == '') {
+                    currentHeaderElement.id = mw.id();
+                }
+                
                 var link = document.createElement('a');
                 link.href = '#' + currentHeaderElement.id;
                 link.innerHTML = headerElements[i].textContent;
