@@ -79,7 +79,16 @@ class LiveEditTypingTest extends DuskTestCase
 
             $browser->visit($link.'?editmode=n');
             $browser->pause(1000);
-            $browser->waitForText('New text in safe mode element', 30);
+            $browser->assertPresent('#test-element-in-safe-mode');
+
+            $output = $browser->script("
+            //check if its  font
+            var  isTrue = document.getElementById('test-element-in-safe-mode').innerText === 'New text in safe mode element';
+            return isTrue;
+            ");
+            $this->assertEquals($output[0], true, 'New text in safe mode element must be the same');
+
+            //$browser->waitForText('New text in safe mode element', 30);
         });
     }
 
@@ -96,7 +105,10 @@ class LiveEditTypingTest extends DuskTestCase
                 'title' => 'My new page ' . time(),
                 'content_type' => 'page',
                 'content' => '
-<div><h1 id="test-element-not-safe-mode">Be able to delete element with backspace</h1></div>',
+<div class="regular-mode">
+<p id="test-element-not-safe-mode-another-must-merge">some text</p>
+<h1 id="test-element-not-safe-mode">Be able to delete element with backspace</h1>
+</div>',
                 'subtype' => 'static',
                 'is_active' => 1,
             );
@@ -143,6 +155,7 @@ class LiveEditTypingTest extends DuskTestCase
             $browser->visit($link.'?editmode=n' );
             $browser->pause(1000);
              $browser->assertNotPresent('#test-element-not-safe-mode');
+             $browser->assertPresent('#test-element-not-safe-mode-another-must-merge');
         });
     }
 }

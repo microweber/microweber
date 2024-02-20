@@ -30,7 +30,7 @@ class LiveEditWysiwygTest extends DuskTestCase
                 'content_type' => 'page',
                 'content' => '
 
-<div class="container-fluid col-sm-12 mx-auto mx-lg-0  ">
+<div class="container-fluid col-sm-12 mx-auto mx-lg-0  " id="my-text-parent-container">
    <h6 class="font-weight-normal" id="my-text-parent"><font id="my-text-here" color="#ff0000">Enter text here</font></h6>
 </div>
 
@@ -63,10 +63,19 @@ class LiveEditWysiwygTest extends DuskTestCase
             });
 
             $browser->doubleClick('#my-text-here');
-            $browser->pause(1500);
+            $browser->pause(500);
+            $output = $browser->script("
+            var  isTrue = document.querySelector('#my-text-parent-container').parentNode.id === '';
+            return isTrue;
+            ");
+            $this->assertEquals($output[0], true, 'The edit field must not have id');
 
             $browser->keys('#my-text-here', 'New text in my element');
             $browser->pause(200);
+
+
+
+
 
             $output = $browser->script("
             var  isTrue = document.querySelectorAll('#my-text-parent font').length === 1;
