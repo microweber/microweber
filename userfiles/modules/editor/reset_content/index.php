@@ -34,7 +34,7 @@
 </style>
 
 
-<div class="d-flex align-items-center justify-content-center gap-4 mb-4">
+<div class="d-flex align-items-center gap-4 mb-4">
     <div>
         <span class="mdi mdi-alert mw-color-important" style="font-size:45px"></span>
     </div>
