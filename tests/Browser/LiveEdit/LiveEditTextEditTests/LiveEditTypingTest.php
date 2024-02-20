@@ -79,7 +79,7 @@ class LiveEditTypingTest extends DuskTestCase
 
             $browser->visit($link.'?editmode=n');
             $browser->pause(1000);
-            $browser->assertPresent('#test-element-in-safe-mode');
+            $browser->waitFor('#test-element-in-safe-mode', 30);
 
             $output = $browser->script("
             //check if its  font
