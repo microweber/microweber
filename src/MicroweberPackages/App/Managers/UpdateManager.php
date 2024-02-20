@@ -173,12 +173,13 @@ class UpdateManager
 
         return admin_url('view:admin__modules__market?' . $params);
     }
+
     public function perform_post_update_if_needed()
     {
-        if(defined('MW_VERSION')) {
+        if (defined('MW_VERSION')) {
             $websiteOptions = app()->option_repository->getWebsiteOptions();
 
-             $app_version = false;
+            $app_version = false;
             $app_base_path = false;
             if (isset($websiteOptions['app_version']) and $websiteOptions['app_version']) {
                 $app_version = $websiteOptions['app_version'];
@@ -188,13 +189,10 @@ class UpdateManager
             }
 
             $needPostUpdateAction = false;
-           if ($app_version != MW_VERSION) {
+            if ($app_version != MW_VERSION) {
                 $needPostUpdateAction = true;
-
-
             } else if ($app_base_path != base_path()) {
                 $needPostUpdateAction = true;
-
             }
 
             if ($needPostUpdateAction) {
@@ -202,6 +200,7 @@ class UpdateManager
             }
         }
     }
+
     public function post_update($version = false)
     {
         if (mw_is_installed()) {
@@ -211,7 +210,7 @@ class UpdateManager
 
             $this->app->event_manager->trigger('mw.update.post');
 
-            $bootstrap_cached_folder = normalize_path(base_path('bootstrap/cache/'),true);
+            $bootstrap_cached_folder = normalize_path(base_path('bootstrap/cache/'), true);
             rmdir_recursive($bootstrap_cached_folder);
 
 
@@ -220,7 +219,7 @@ class UpdateManager
 
                 $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
 
-                if(!$the_active_site_template){
+                if (!$the_active_site_template) {
                     $the_active_site_template = Config::get('microweber.install_default_template');
                 }
                 if ($the_active_site_template) {
@@ -230,7 +229,7 @@ class UpdateManager
 
             }
             if (defined('TEMPLATE_DIR')) {
-             //   app()->template_manager->boot_template();
+                //   app()->template_manager->boot_template();
             }
 
             try {
@@ -244,7 +243,6 @@ class UpdateManager
             }
 
 
-
             //$system_refresh->run();
 
             $this->_set_time_limit();
@@ -256,15 +254,11 @@ class UpdateManager
             save_option($option);
 
 
-
             $option = array();
             $option['option_value'] = base_path();
             $option['option_key'] = 'app_base_path';
             $option['option_group'] = 'website';
             save_option($option);
-
-
-       
 
 
             mw()->cache_manager->delete('db');
@@ -278,8 +272,8 @@ class UpdateManager
             //   scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
 
 
-            scan_for_modules(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
-            scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
+            scan_for_modules(['no_cache' => true, 'reload_modules' => true, 'cleanup_db' => true]);
+            scan_for_elements(['no_cache' => true, 'reload_modules' => true, 'cleanup_db' => true]);
 
             mw()->layouts_manager->scan();
             mw()->template->clear_cached_custom_css();
@@ -376,16 +370,16 @@ class UpdateManager
     {
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
-            return ['status'=>'Not allowed action.', 'active'=> false];
+            return ['status' => 'Not allowed action.', 'active' => false];
         }
-        $table =  'system_licenses';
+        $table = 'system_licenses';
         if ($table == false) {
-            return ['status'=>'Not allowed action.', 'active'=> false];
+            return ['status' => 'Not allowed action.', 'active' => false];
         }
 
         $findLicense = SystemLicenses::where('id', $params['id'])->first();
         if ($findLicense == null) {
-            return ['status'=>'License not found', 'active'=> false];
+            return ['status' => 'License not found', 'active' => false];
         }
 
         $composerClient = new Client();
@@ -400,7 +394,7 @@ class UpdateManager
         if ($adm == false) {
             return;
         }
-        $table =  'system_licenses';
+        $table = 'system_licenses';
         if ($table == false) {
             return;
         }
@@ -449,7 +443,7 @@ class UpdateManager
             $params = $params2;
         }
 
-        $table =  'system_licenses';
+        $table = 'system_licenses';
         if ($table == false) {
             return;
         }
@@ -466,7 +460,7 @@ class UpdateManager
         if ($adm == false) {
             return;
         }
-        $table =  'system_licenses';
+        $table = 'system_licenses';
         if ($table == false) {
             return;
         }
@@ -483,7 +477,7 @@ class UpdateManager
         if ($adm == false) {
             return;
         }
-        $table =  'system_licenses';
+        $table = 'system_licenses';
         if ($table == false) {
             return;
         }
@@ -500,11 +494,11 @@ class UpdateManager
 
             $findSystemLicense = SystemLicenses::where('local_key', $licenseLocalKey)->first();
             if ($findSystemLicense !== null) {
-                return array('is_invalid'=>true, 'warning' => _e('License key already exist', true));
+                return array('is_invalid' => true, 'warning' => _e('License key already exist', true));
             }
 
             if (!isset($consumeLicense['servers']) || empty($consumeLicense['servers'])) {
-                return array('is_invalid'=>true, 'warning' => _e('License key is invalid', true));
+                return array('is_invalid' => true, 'warning' => _e('License key is invalid', true));
             }
 
             $licenseServers = end($consumeLicense['servers']);
@@ -560,10 +554,10 @@ class UpdateManager
 
             $newSystemLicense->save();
 
-            return array('id' => $newSystemLicense->id, 'success' => 'License key saved', 'is_active'=>true);
+            return array('id' => $newSystemLicense->id, 'success' => 'License key saved', 'is_active' => true);
         }
 
-        return array('is_invalid'=>true, 'warning' => _e('License key is not valid', true));
+        return array('is_invalid' => true, 'warning' => _e('License key is not valid', true));
     }
 
     private function install_from_remote($url)
