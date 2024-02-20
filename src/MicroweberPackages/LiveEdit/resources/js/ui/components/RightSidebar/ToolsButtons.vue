@@ -1,5 +1,5 @@
 <template>
-    <ul class="d-grid gap-2 list-unstyled p-3">
+    <ul class="d-grid gap-2 list-unstyled p-3 pb-0">
 
 <!--            <li>-->
 <!--                <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="show('style-editor')">-->
