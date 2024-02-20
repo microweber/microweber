@@ -47,7 +47,7 @@
 
 
                             } else {
-                                const childNodes = api.getSelectionNodes();
+                                const childNodes = api.getSelectionChildNodes();
                                 childNodes.forEach(node => {
                                     if(scope.editArea === node) {
                                         var newBlock = document.createElement('div');
@@ -288,7 +288,7 @@
                     }
                 return nodes;
             },
-            getSelectionNodes: function () {
+            getSelectionChildNodes: function () {
                 const sel = scope.api.getSelection();
                 const range = sel.getRangeAt(0);
                 const  commonAncestorContainer = scope.api.elementNode(range.commonAncestorContainer)
