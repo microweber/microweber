@@ -882,21 +882,7 @@ class FrontendController extends Controller
 
         if (isset($content['require_login']) and $content['require_login'] == 1) {
             if (app()->user_manager->id() == 0) {
-
                 return app()->url_manager->redirect(login_url() . '?redirect=' . urlencode(mw()->url_manager->current()));
-
-//                $page_non_active = array();
-//                $page_non_active['id'] = 0;
-//                $page_non_active['content_type'] = 'page';
-//                $page_non_active['parent'] = '0';
-//                $page_non_active['url'] = app()->url_manager->string();
-//                $page_non_active['content'] = ' <module type="users/login" class="user-require-login-on-view" /> ';
-//                $page_non_active['simply_a_file'] = 'clean.php';
-//                $page_non_active['layout_file'] = 'clean.php';
-//                $page_non_active['page_require_login'] = true;
-//
-//                template_var('content', $page_non_active['content']);
-//                $content = $page_non_active;
             }
         }
         if (!defined('IS_HOME')) {
@@ -909,10 +895,8 @@ class FrontendController extends Controller
         $this->app->content_manager->define_constants($content);
 
         $the_active_site_template = app()->template->templateAdapter->getTemplateFolderName();
- 
-//        if($content and isset($content['id'])){
-//        $this->app->content_manager->content_id=intval($content['id']);
-//        }
+
+
 
         event_trigger('mw.front', $content);
 
@@ -1606,4 +1590,7 @@ class FrontendController extends Controller
             // error out
         }
     }
+
+
+
 }
