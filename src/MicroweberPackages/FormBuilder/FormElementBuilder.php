@@ -10,6 +10,7 @@ use MicroweberPackages\FormBuilder\Elements\Date;
 use MicroweberPackages\FormBuilder\Elements\DateTimeLocal;
 use MicroweberPackages\FormBuilder\Elements\Email;
 use MicroweberPackages\FormBuilder\Elements\File;
+use MicroweberPackages\FormBuilder\Elements\FileOption;
 use MicroweberPackages\FormBuilder\Elements\Label;
 use MicroweberPackages\FormBuilder\Elements\MwEditor;
 use MicroweberPackages\FormBuilder\Elements\MwModuleSettings;
@@ -36,6 +37,7 @@ class FormElementBuilder extends Manager
         'MwEditor' => MwEditor::class,
         'MwModuleSettings' => MwModuleSettings::class,
         'TextOption' => TextOption::class,
+        'FileOption' => FileOption::class,
         'TextArea' => TextArea::class,
         'TextAreaOption' => TextAreaOption::class,
     ];

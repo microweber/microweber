@@ -667,22 +667,19 @@ class UserManager
                 }
                 $to = $data['email'];
                 if ($register_email_content != false and trim($register_email_subject) != '') {
-                    if (!empty($data)) {
-                        foreach ($data as $key => $value) {
-                            if (!is_array($value) and is_string($key)) {
-                                $register_email_content = str_ireplace('{' . $key . '}', $value, $register_email_content);
-                            }
-                        }
-                    }
+
                     $verify_email_link = $this->app->format->encrypt($data['id']);
                     $verify_email_link = api_url('users/verify_email_link') . '?key=' . $verify_email_link;
-                    $register_email_content = str_ireplace('{verify_email_link}', $verify_email_link, $register_email_content);
+                    $data['verify_email_link'] = $verify_email_link;
 
 
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
+                        $twig = new \MicroweberPackages\View\TwigView();
+                        $parsed_twig_email = $twig->render($register_email_content, $data);
+
                         $sender = new \MicroweberPackages\Utils\Mail\MailSender();
-                        return $sender->send($to, $register_email_subject, $register_email_content, false, false, false, false, false, false, $appendFiles);
+                        return $sender->send($to, $register_email_subject, $parsed_twig_email, false, false, false, false, false, false, $appendFiles);
 
                     }
                 }
