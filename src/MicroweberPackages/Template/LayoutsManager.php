@@ -1014,6 +1014,11 @@ class LayoutsManager
                         }
                     }
                 }
+                $option = array();
+                $option['option_value'] = $css_cont_new;
+                $option['option_key'] = 'template_css';
+                $option['option_group'] = 'template_' . $template;
+                save_option($option);
                 $resp = array();
                 $resp['url'] = $this->app->url_manager->link_to_file($live_edit_css);
                 if ($css_cont_new != '' and $css_cont != $css_cont_new) {

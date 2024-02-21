@@ -122,8 +122,7 @@ class AdminTemplateStyle
     {
         $styles = $this->getLiveEditStylesheets();
         $html = '';
-
-        if ($styles) {
+         if ($styles) {
             foreach ($styles as $key => $style) {
                 $html .= '<link id="' . $key . '" href="' . $style . '" rel="stylesheet" type="text/css"/>' . "\n";
             }
@@ -160,6 +159,7 @@ class AdminTemplateStyle
         if ($custom_admin_css) {
             $return['live-edit-theme-compiled'] = $custom_admin_css;
         }
+
         return $return;
     }
 

@@ -172,16 +172,6 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     }
 
-    setMultiplePropertiesForSelector(sel, propsAndVals = [], record = true, skipMedia = false) {
-
-        if (propsAndVals.length > 0) {
-            propsAndVals.forEach(function (propAndVal) {
-                var prop = propAndVal[0];
-                var val = propAndVal[1];
-                mw.top().app.cssEditor.setPropertyForSelector(sel, prop, val, record, skipMedia);
-            });
-        }
-    }
 
     recordTimeout = {}
 
