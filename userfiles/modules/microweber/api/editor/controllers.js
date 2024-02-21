@@ -1611,12 +1611,16 @@ MWEditor.controllers = {
                             <path fill="currentColor" d="M9.62,12L12,5.67L14.37,12M11,3L5.5,17H7.75L8.87,14H15.12L16.25,17H18.5L13,3H11Z" />
                         </svg>
                     `,
-                    tooltip: 'Text color'
+                    tooltip: 'Text color',
+                },
+                api,
+                getColor: function() {
+                    return getComputedStyle(api.elementNode(api.getSelection().focusNode)).color
                 }
             });
             el.on('change', function (e, val) {
                 var sel = scope.getSelection();
-                if(sel.isCollapsed) {
+                if(sel.isCollapsed ) {
                     var el = scope.api.elementNode(sel.focusNode);
                     scope.api.action(mw.tools.firstBlockLikeLevel(el.parentNode), function () {
                         mw.top().app.cssEditor.temp(el, 'color', val)
@@ -1654,6 +1658,7 @@ MWEditor.controllers = {
         this.element = this.render();
     },
     textBackgroundColor: function (scope, api, rootScope) {
+
         this.render = function () {
             var el = MWEditor.core.colorPicker({
                 props: {
@@ -1663,18 +1668,25 @@ MWEditor.controllers = {
                         </svg>
                     `,
                     tooltip: 'Text background color'
+                },
+                api,
+                getColor: function() {
+                    return getComputedStyle(api.elementNode(api.getSelection().focusNode)).backgroundColor
                 }
             });
+
             el.on('change', function (e, val) {
 
                 var sel = scope.getSelection();
-                if(sel.isCollapsed) {
+                if(sel.isCollapsed ) {
                     var el = scope.api.elementNode(sel.focusNode);
                     scope.api.action(mw.tools.firstBlockLikeLevel(el.parentNode), function () {
-                        mw.top().app.cssEditor.temp(el, 'background-color', val)
+                        scope.api.cleanStyle('background-color');
+                        mw.top().app.cssEditor.temp(el, 'background-color', val);
                     }, true);
                 } else {
                     api.execCommand('backcolor', false, val, false);
+
                 }
 
             });
