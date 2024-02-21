@@ -110,7 +110,7 @@ class ContactFormTest extends TestCase
         $params = array();
         $params['for_id'] = $optionGroup;
         $params['for'] = 'contact-form-global-settings-test-module';
-        $params['message'] = 'HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE';
+        $params['message'] = 'HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE <a href="https://evil.com">Click Me </a> <script>alert("Hello")</script>';
         $params['email'] = 'unit.b.slaveykov@unittest-global.com';
         $params['Company'] = 'CloudVisionLtd-Global';
         $params['Phone'] = '0885451012-Global';
@@ -119,6 +119,12 @@ class ContactFormTest extends TestCase
 
         $response = mw()->forms_manager->post($params);
         $this->assertArrayHasKey('success', $response);
+
+
+        $getFormSaved = mw()->forms_manager->get_entires('limit=1&for_id=' . $optionGroup);
+        $getFormSavedCustomFields = $getFormSaved[0]['custom_fields'];
+
+        $this->assertEquals($getFormSavedCustomFields['message'], 'HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE <a href="https://evil.com">Click Me </a> ');
 
         $mailToUser = [];
         $mailToReceivers = [];

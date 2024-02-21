@@ -9,6 +9,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
         super();
         this.settings = {
             cssUrl: null,
+            tempStylesheetId: 'mw-liveedit-dynamic-temp-style',
             saveUrl: mw.settings.api_url + "current_template_save_custom_css",
             document: document,
             ...config
@@ -62,16 +63,16 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
 
 
-        var tempStylesheetElement = this.settings.document.querySelector('#mw-liveedit-dynamic-temp-style');
+        var tempStylesheetElement = this.settings.document.querySelector('#' + this.settings.tempStylesheetId);
 
         if (tempStylesheetElement == null) {
-            mw.app._cssTemp = mw.tools.createStyle('#mw-liveedit-dynamic-temp-style', css, this.settings.document.body);
+            mw.app._cssTemp = mw.tools.createStyle('#' + this.settings.tempStylesheetId, css, this.settings.document.body);
 
         } else {
             mw.app._cssTemp._cssTemp = tempStylesheetElement;
         }
 
-        mw.app._cssTemp.id = 'mw-liveedit-dynamic-temp-style';
+        mw.app._cssTemp.id =  this.settings.tempStylesheetId;
         if (!mw.app._cssTemp) {
 
         } else {
@@ -87,6 +88,8 @@ export class StylesheetEditor extends MicroweberBaseClass {
             this.settings.document.querySelector('link#mw-template-settings'),
             this.settings.document.querySelector('#mw-liveedit-dynamic-temp-style'),
             this.settings.document.querySelector('#mw-custom-user-css'),
+            this.settings.document.querySelector('#' + this.settings.tempStylesheetId)
+
         ];
 
         // const sheets = this.settings.document.querySelectorAll('[rel="stylesheet"],style,[type="text/css"]');
@@ -172,16 +175,6 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     }
 
-    setMultiplePropertiesForSelector(sel, propsAndVals = [], record = true, skipMedia = false) {
-
-        if (propsAndVals.length > 0) {
-            propsAndVals.forEach(function (propAndVal) {
-                var prop = propAndVal[0];
-                var val = propAndVal[1];
-                mw.top().app.cssEditor.setPropertyForSelector(sel, prop, val, record, skipMedia);
-            });
-        }
-    }
 
     recordTimeout = {}
 
@@ -421,95 +414,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
         this.getLiveeditCSS();
     }
 
-    applyThemeCSSVariablesFromText(cssVariablesText) {
-        cssVariablesText = cssVariablesText.trim();
-        var cssVariables = cssVariablesText.split(';');
 
-        if (cssVariables && cssVariables.length > 0) {
-            cssVariables.forEach(function (variableOriginal) {
-                var variablePair = variableOriginal.split(':');
-
-                if (variablePair.length === 2) {
-                    var variableName = variablePair[0].trim();
-                    var variableValue = variablePair[1].trim().replace(';', '');
-
-                    var ActiveSelector = ':root';
-                    var prop = variableName;
-                    var value = variableValue;
-
-                    mw.top().app.cssEditor.setPropertyForSelector(ActiveSelector, prop, value, false);
-
-                }
-            });
-        }
-    }
-
-    //Retrieve all --root CSS variables
-    getThemeCSSVariables() {
-
-        var targetStylesheetIds = ["theme-style"];
-
-        var cssVariables = this.getAllCSSVariables(targetStylesheetIds);
-        return cssVariables;
-    }
-
-    getThemeCSSVariablesAsText() {
-        var formattedText = '';
-        var cssVariables = this.getThemeCSSVariables();
-
-        if (cssVariables && cssVariables.length > 0) {
-            cssVariables.forEach(function (variableOriginal) {
-                var variableName = variableOriginal.replace('--', '');
-                var variableValue = mw.top().app.cssEditor.getPropertyForSelector(':root', variableOriginal);
-                formattedText += variableOriginal + ': ' + variableValue + ';\n';
-            });
-        }
-
-        return formattedText;
-    }
-
-    getAllCSSVariables(targetStylesheetIds = null) {
-        var canvasDocument = mw.top().app.canvas.getDocument();
-
-        var allStyleSheets = Array.from(canvasDocument.styleSheets);
-        var cssVariables = [];
-
-        allStyleSheets.forEach(styleSheet => {
-
-
-            var skip = false;
-            if (targetStylesheetIds && targetStylesheetIds.length > 0) {
-                skip = true;
-            }
-
-            if (targetStylesheetIds && styleSheet.ownerNode && targetStylesheetIds.includes(styleSheet.ownerNode.id)) {
-                skip = false;
-            }
-
-            if (!skip) {
-                try {
-                    var rootRule = [...styleSheet.rules].find(rule => rule.selectorText === ":root");
-
-                    if (rootRule) {
-                        var declarations = rootRule.style;
-                        for (var i = 0; i < declarations.length; i++) {
-                            var property = declarations[i];
-                            if (property.startsWith("--")) {
-                                cssVariables.push(property);
-                            }
-                        }
-                    }
-                } catch (error) {
-                    // Handle security exceptions for cross-origin stylesheets
-                }
-            }
-
-
-        });
-
-
-        return cssVariables;
-    }
 
 
 }

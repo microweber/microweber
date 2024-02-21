@@ -415,6 +415,7 @@ class FormsManager
                             } else {
                                 $customFieldValue = $paramValues;
                             }
+
                            // file_put_contents(storage_path().'/log.txt', print_r($fieldsData, true), FILE_APPEND);
 
                             $fieldsData[] = [
@@ -709,9 +710,9 @@ class FormsManager
         foreach ($fieldsData as $dataValue) {
             $formDataValue = new FormDataValue();
             $formDataValue->field_type = $dataValue['field_type'];
-            $formDataValue->field_name = $dataValue['field_name'];
-            $formDataValue->field_key = $dataValue['field_key'];
-            $formDataValue->field_value = $dataValue['field_value'];
+            $formDataValue->field_name = xss_clean($dataValue['field_name']);
+            $formDataValue->field_key = xss_clean($dataValue['field_key']);
+            $formDataValue->field_value = xss_clean($dataValue['field_value']);
             $formDataValue->field_value_json = $dataValue['field_value_json'];
             $formDataValue->form_data_id = $save;
             $formDataValue->save();

@@ -552,7 +552,7 @@ if (self === top) {
                         position: fixed;
                         left: 50%;
                         transform: translateX(-50%);
-                        z-index: 999;
+                        z-index: 1001;
                         transition: top 0.3s;
                         background: #3498db;
                         color: #fff !important;
