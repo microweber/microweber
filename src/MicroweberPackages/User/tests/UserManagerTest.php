@@ -528,7 +528,7 @@ class UserManagerTest extends TestCase
         // Save custom mail template and test it
         $templateId = save_mail_template([
             'type' => 'new_user_registration',
-            'message' => '{{username}}--unit-testing-welcome-{{email}}'
+            'message' => 'Hey {{username}}, We are so exited you are joining us. {{username}}--unit-testing-welcome-{{email}}'
         ]);
         Option::setValue('new_user_registration_mail_template', $templateId, 'users');
 
