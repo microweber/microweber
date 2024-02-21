@@ -21,15 +21,19 @@ class FileOption extends Text
         $this->setName($optionKey);
         $this->setAttribute('option-group', $optionGroup);
 
-        $this->model = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', $this->optionKey)->where('option_group', $this->optionGroup)->first();
-        if ($this->model) {
-            $this->value($this->model->option_value);
-        }
     }
 
-
-    public function getType()
+    public function render()
     {
-        return 'text-option';
+
+        return <<<HTML
+            <div>
+                        <module type="admin/components/file_append"
+                              title="File attachments"
+                              option_group="$this->optionGroup"
+                              option_key="$this->optionKey" />
+              </div>
+  HTML;
     }
+
 }
