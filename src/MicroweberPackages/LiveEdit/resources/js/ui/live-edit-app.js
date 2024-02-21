@@ -4,6 +4,7 @@
 import '../api-core/services/bootstrap.js';
 
 import {StylesheetEditor} from "../api-core/services/services/stylesheet-editor.service.js";
+import {CssVarsEditor} from "../api-core/services/services/css-vars-editor.service.js";
 // vue
 import {createApp} from 'vue';
 import App from './App.vue';
@@ -66,8 +67,10 @@ mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
         cssUrl: cssUrl
 
     });
-
-    mw.app.register('cssEditor', cssGUIEditor);
+    const CssVarsEditorInstance = new CssVarsEditor();
+ //   mw.app.register('cssEditor', cssGUIEditor);
+    mw.app.cssEditor = cssGUIEditor;
+    mw.app.cssVarsEditor = CssVarsEditorInstance;
     mw.app.dispatch('ready');
 });
 

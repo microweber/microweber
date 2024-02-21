@@ -23,9 +23,15 @@ if ($code == false) {
     }
 }
 
-$enable_full_page_cache = get_option('enable_full_page_cache','website');
 
 $lazyload = get_option('lazyload', $params['id']);
+if ($lazyload == false) {
+    if (isset($params['lazyload'])) {
+        $lazyload = intval($params['lazyload']);
+    }
+}
+
+
 
 $thumb = get_option('upload_thumb', $params['id']);
 
@@ -103,11 +109,19 @@ if (strpos($h, 'px') !== false) {
     $video->setHeight($h . 'px');
 }
 
+if($code){
+    if(\Illuminate\Support\Str::startsWith($code, 'http')){
+        $upload = $code;
+        $code = false;
+    }
+}
+
 if ($upload) {
     $video->setUploadedVideoUrl($upload);
 }
 
 if ($code) {
+
     $video->setEmbedCode($code);
 }
 
