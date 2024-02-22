@@ -15,7 +15,7 @@ class ConfigSave extends Repository
      * @var array
      */
     protected $beforeSave = [];
-    public $changed_keys = [];
+
 
     /**
      * New keys for save
@@ -87,7 +87,7 @@ class ConfigSave extends Repository
     public function set($key, $val = null)
     {
         if($key and $val ){
-            $this->changed_keys[$key] = $val;
+            $this->changedKeys[$key] = $val;
         }
         self::$configCache = [];
         return parent::set($key, $val);
@@ -95,8 +95,8 @@ class ConfigSave extends Repository
 
     public function get($key, $val = null)
     {
-        if ($key and isset($this->changed_keys[$key])) {
-            //  return $this->changed_keys[$key];
+        if ($key and isset($this->changedKeys[$key])) {
+            //  return $this->changedKeys[$key];
         }
         if(isset(self::$configCache[$key])){
             return self::$configCache[$key];
@@ -110,7 +110,7 @@ class ConfigSave extends Repository
         self::$configCache = [];
         // Aggregating files array from changed keys
         $aggr = array();
-        foreach ($this->changed_keys as $key => $value) {
+        foreach ($this->changedKeys as $key => $value) {
             array_set($aggr, $key, $value);
         }
 
