@@ -52,8 +52,10 @@ class ShopSettingsComponent extends ModuleSettingsComponent
 
         return view('microweber-module-shop::admin.livewire.settings', [
             'shopPagesDropdownOptions' => $shopPagesDropdownOptions,
-            'customFields' => $customFields
+            'customFields' => $customFields,
+            'moduleType' => $this->moduleType,
         ]);
+
     }
 
     public function getMainPageId()
