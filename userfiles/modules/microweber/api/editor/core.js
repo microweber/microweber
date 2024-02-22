@@ -142,6 +142,8 @@
             el.on('click', function (e){
 
 
+
+
                 var ok = mw.$(`<button class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component">${mw.lang('OK')}</button>`);
                 var cancel = mw.$(`<button class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component">${mw.lang('Cancel')}</button>`);
                 var footer = mw.$(`<div class="d-flex justify-content-between w-100"></div>`);
@@ -157,10 +159,28 @@
                     title: mw.lang('Choose color'),
                     overlayClose: false,
                     overlay: 'rgba(0,0,0,0)',
-                    closeOnEscape: false, //todo: escape destroys the dialog
-                    footer: footer
-                    // skin: 'mw_modal_simple mw_modal_live_edit_settings',
+                    closeOnEscape: false,
+                    beforeRemove: function() {
+                        if(config.api ) {
+                            var fn = config.api.elementNode(config.api.getSelection().focusNode);
+                            if(fn) {
+                                fn.ownerDocument.body.classList.remove('mw-le--hide-selection')
+                            }
+                        }
+                    }
+                    // footer: footer
+
                 });
+
+                if(config.api ) {
+                    var fn = config.api.elementNode(config.api.getSelection().focusNode);
+                    if(fn) {
+                        fn.ownerDocument.body.classList.add('mw-le--hide-selection')
+                    }
+                }
+
+
+                var vall = config.getColor ? config.getColor() : undefined;
 
                 var cf = new MWEditor.core.capsulatedField({
                     placeholder: '#efecec',
@@ -169,12 +189,18 @@
                     css: 'text-align: center;'
                 });
 
+                cf.field.value =  vall || '';
+
                 var _pauseSetValue = false;
 
 
 
 
-                var vall = null;
+
+
+
+
+
 
 
                var picker = mw.colorPicker({
@@ -183,11 +209,15 @@
 
                     method: 'inline',
                     showHEX: false,
+                    value: vall,
                     onchange: function (color) {
                         vall = color
 
                         if(!_pauseSetValue) {
-                            cf.field.value = color;
+                            cf.field.value = vall;
+
+                            el.trigger('change', vall);
+
                         }
 
                     },

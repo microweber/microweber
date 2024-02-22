@@ -107,7 +107,7 @@ class RolesController extends AdminController
         $oldRole = Role::with('permissions')->find($request->id);
 
         $role = Role::create([
-            'name' => $oldRole->name . ' (dublicate)',
+            'name' => $oldRole->name . ' (duplicate)',
         ]);
         $role->givePermissionTo($oldRole->permissions);
 

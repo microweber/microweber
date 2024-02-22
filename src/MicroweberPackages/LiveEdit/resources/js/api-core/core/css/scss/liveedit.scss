@@ -4,6 +4,11 @@
 @import "dialog";
 @import "resizer";
 
+.mw-le--hide-selection ::selection {
+    color: revert-layer !important;
+    background: transparent !important;
+}
+
 mw-le-element{
     display: block;
 }
@@ -60,14 +65,14 @@ body:not(.is_admin) [contenteditable="true"]{
 #sidebar-menu{
     overflow: auto;
     max-height: calc(100vh - 80px);
-    padding: 0 !important;  
+    padding: 0 !important;
 }
 
 
 html:not(.mw-le--page-preview) .mw-prevent-interaction{
     cursor: default;
-    -webkit-user-select: none; 
-    user-select: none;  
+    -webkit-user-select: none;
+    user-select: none;
     * {
         pointer-events: none !important;
     }

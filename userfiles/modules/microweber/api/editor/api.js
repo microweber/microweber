@@ -20,6 +20,17 @@
 
     MWEditor.api = function (scope) {
         return {
+            normalize: function(target) {
+                if(typeof target === 'undefined') {
+                    const sel = scope.api.getSelection();
+                    if(sel.rangeCount) {
+                        target = scope.api.elementNode(sel.getRangeAt(0).commonAncestorContainer)
+                    }
+                }
+                if(target) {
+                    target.normalize();
+                }
+            },
             textAlign: function(value) {
                 var api = scope.api;
                 var sel = api.getSelection();

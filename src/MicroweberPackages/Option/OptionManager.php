@@ -453,7 +453,7 @@ class OptionManager
 
                     $save = $findModuleOption->save();
 
-                    // Remove dublicates
+                    // Remove duplicates
                     ModuleOption::where('id', '!=', $findModuleOption->id)->where('option_key', $data['option_key'])->where('option_group', $data['option_group'])->delete();
 
                     $this->memoryModuleOptionGroup = [];
@@ -470,7 +470,7 @@ class OptionManager
                     $findOption->option_value = $data['option_value'];
                     $save = $findOption->save();
 
-                    // Remove dublicates
+                    // Remove duplicates
                     Option::where('id', '!=', $findOption->id)->where('option_key', $data['option_key'])->where('option_group', $data['option_group'])->delete();
 
                     $this->memoryOptionGroup = [];

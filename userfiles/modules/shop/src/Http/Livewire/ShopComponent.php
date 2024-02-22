@@ -251,10 +251,23 @@ class ShopComponent extends Component
     public function getAvailableCategories($mainPageId)
     {
         $categoryQuery = Category::query();
-        $categoryQuery->where('rel_id', $mainPageId);
-        $categoryQuery->orderBy('position');
+        if ($mainPageId > 0) {
+            $categoryQuery->where('rel_id', $mainPageId);
+        } else {
+            $shopIds = [];
+            $getAllShopPages = app()->content_repository->getAllShopPages();
+            if (!empty($getAllShopPages)) {
+                foreach ($getAllShopPages as $shopPage) {
+                    $shopIds[] = $shopPage['id'];
+                }
+            }
+            $categoryQuery->whereIn('rel_id', $shopIds);
+        }
 
-        return $categoryQuery->where('parent_id',0)->get();
+        $categoryQuery->orderBy('position');
+        $categoryQuery->where('parent_id',0);
+
+        return $categoryQuery->get();
     }
 
 }

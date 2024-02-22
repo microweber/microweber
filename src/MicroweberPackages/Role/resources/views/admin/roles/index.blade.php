@@ -53,7 +53,7 @@
 
                         <form method="post" action="{{ route('roles.clone') }}" class="d-inline">
                             <input type="hidden" value="{{ $row->id }}" name="id">
-                            <button type="submit" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered">Dublicate</button>
+                            <button type="submit" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered">Duplicate</button>
                         </form>
 
                         <form id="delete_form" method="POST" action="{{ route('roles.destroy',$row->id) }}" class="d-inline">

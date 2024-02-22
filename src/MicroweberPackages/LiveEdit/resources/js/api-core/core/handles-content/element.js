@@ -71,26 +71,7 @@ export class ElementHandleContent {
 
                 }
             },
-            // {
-            //     title: 'Duplicate',
-            //     text: '',
-            //     icon: this.handleIcons.icon('duplicate'),
-            //     className: 'mw-handle-clone-button',
-            //     onTarget: (target, selfBtn) => {
-            //
-            //         const selfVisible = this.elementHandleButtonsVisibility.shouldShowCloneButtonInMoreButton(target);
-            //
-            //         this.setMenuVisible(selfVisible, selfBtn);
-            //
-            //     },
-            //
-            //
-            //     action: (el) => {
-            //
-            //         this.elementActions.cloneElementFirstClonableParent(el);
-            //
-            //     }
-            // },
+
             {
                 title: 'Move backward',
                 text: '',
@@ -181,51 +162,9 @@ export class ElementHandleContent {
         ];
 
 
-        const elementResetSizeMenu = [
-            {
-                title: 'Reset Element Size',
-                text: '',
-                icon: this.handleIcons.icon('reset-image-size'),
 
-                className: 'mw-handle-reset-image-button',
-
-                action: (el) => {
-                    this.elementActions.resetElementSizeOnSelfOfParent(el);
-                },
-                onTarget: (target, selfBtn) => {
-
-
-
-                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowResetElementSizeButton(target);
-
-                    this.setMenuVisible(selfVisible, selfBtn);
-                },
-
-            },
-
-
-        ];
         const elementResetImageSizeMenu = [
-          /*  {
-                title: 'Reset Image Size',
-                text: '',
-                icon: this.handleIcons.icon('reset-image-size'),
 
-                className: 'mw-handle-reset-image-button',
-
-                action: (el) => {
-                    this.elementActions.resetImageSize(el);
-                },
-                onTarget: (target, selfBtn) => {
-
-
-
-                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowResetImageSizeButton(target);
-
-                    this.setMenuVisible(selfVisible, selfBtn);
-                 },
-
-            },*/
             {
                 title: 'Fit Image',
                 text: '',
@@ -239,6 +178,7 @@ export class ElementHandleContent {
                 },
                 onTarget: (target, selfBtn) => {
                     var selfVisible =  this.elementHandleButtonsVisibility.shouldShowFitImageButton(target);
+                    console.log(selfVisible)
 
                      this.setMenuVisible(selfVisible, selfBtn);
                 },
@@ -261,6 +201,56 @@ export class ElementHandleContent {
                  },
 
             },
+
+        ];
+
+        const elementEditImageUploadMenu = [
+            {
+                title: 'Change Image',
+                text: '',
+                icon: this.handleIcons.icon('image-change'),
+
+                className: 'mw-handle-element-open-upload-image-editor-button',
+
+                action: (el) => {
+
+                    this.elementActions.editImage(el);
+
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowEditImageButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+                    },
+            }
+        ];
+
+
+        const elementResetSizeMenu = [
+            {
+                title: 'Reset Element Size',
+                text: '',
+                icon: this.handleIcons.icon('reset-image-size'),
+
+                className: 'mw-handle-reset-image-button',
+
+                action: (el) => {
+                    this.elementActions.resetElementSizeOnSelfOfParent(el);
+                },
+                onTarget: (target, selfBtn) => {
+
+
+
+                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowResetElementSizeButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+                },
+
+            },
+            ...elementResetImageSizeMenu,
+            ...elementEditImageUploadMenu,
+
 
         ];
 
@@ -333,27 +323,7 @@ export class ElementHandleContent {
             }
 
         ];
-        const elementEditImageUploadMenu = [
-            {
-                title: 'Change Image',
-                text: '',
-                icon: this.handleIcons.icon('image-change'),
 
-                className: 'mw-handle-element-open-upload-image-editor-button',
-
-                action: (el) => {
-
-                    this.elementActions.editImage(el);
-
-
-                },
-                onTarget: (target, selfBtn) => {
-                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowEditImageButton(target);
-
-                    this.setMenuVisible(selfVisible, selfBtn);
-                    },
-            }
-        ];
 
 
         const elementEditImageInEditorMenu = [
@@ -452,7 +422,7 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible =  this.elementHandleButtonsVisibility.shouldShowEditButton(target);
 
-                  //  selfBtn.style.display = selfVisible ? '' : 'none';
+
 
                     this.setMenuVisible(selfVisible, selfBtn);
                 },
@@ -482,7 +452,7 @@ export class ElementHandleContent {
             ...elementEditStyleMenu,
 
             ...elementBackgroundImageMenu,
-            // ...elementLinkMenuGroup,
+
             {
                 title: 'Settings',
                 text: '',
@@ -520,13 +490,11 @@ export class ElementHandleContent {
                 }
             },
 
-            // ...cloneAbleMenu,
-            //  ...elementImageMenu,
            ...cloneAbleMenuInMoreMenu,
-            ...elementEditImageUploadMenu,
+
             ...elementEditImageInEditorMenu,
-            ...elementResetSizeMenu,
-            ...elementResetImageSizeMenu,
+
+
 
         ]
 
@@ -553,13 +521,7 @@ export class ElementHandleContent {
                     menu: [
                         ...elementEditImageUploadMenu,
                         ...elementEditImageInEditorMenu,
-                        ...elementResetImageSizeMenu,
-                        // {
-                        //     name: 'Cloneable',
-                        //
-                        //     nodes: cloneAbleMenuInMoreMenu,
-                        //
-                        // },
+
                         {
                             name: 'Reset Element Size',
                             nodes:
@@ -603,6 +565,7 @@ export class ElementHandleContent {
             }
         ]
 
+
         var menuItems = [
             {
                 name: 'primary',
@@ -612,29 +575,16 @@ export class ElementHandleContent {
                 name: 'dynamic',
                 nodes: []
             },
-            // {
-            //     name: 'cloneAbleMenu',
-            //     nodes: cloneAbleMenu
-            // },
-            // {
-            //     name: 'Image settings',
-            //     nodes: elementResetImageSizeMenu
-            //
-            // },
 
-
-            // {
-            //     name: 'tail',
-            //     nodes: tail
-            // },
             ];
 
-        // if(tailMenuQuickSettings.length > 0) {
-        //     menuItems.push({
-        //         name: 'tailMenuQuickSettings',
-        //         nodes: tailMenuQuickSettings
-        //     });
-        // }
+          if(tailMenuQuickSettings.length > 0) {
+            console.log(tailMenuQuickSettings)
+              menuItems.push({
+                  name: 'tailMenuQuickSettings',
+                  nodes: tailMenuQuickSettings
+              });
+          }
 
         menuItems.push({
             name: 'tail',
