@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Template\Adapters;
 
-use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateMetaTagsRenderer;
+use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateMetaTagsPlaceholderReplacer;
 use MicroweberPackages\Template\Http\Livewire\Admin\StyleSettingsFirstLevelConvertor;
 use MicroweberPackages\View\View;
 
@@ -192,7 +192,7 @@ class MicroweberTemplate
 
         if (isset($params['meta_tags']) and $params['meta_tags']) {
             $params['layout'] = $l;
-            $meta_tags_render = new TemplateMetaTagsRenderer();
+            $meta_tags_render = new TemplateMetaTagsPlaceholderReplacer();
             $l = $meta_tags_render->render($params);
         }
 

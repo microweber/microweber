@@ -86,7 +86,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
         this.changed = true;
         const sheets = [
             this.settings.document.querySelector('link#mw-template-settings'),
-            this.settings.document.querySelector('#mw-liveedit-dynamic-temp-style'),
+           // this.settings.document.querySelector('#mw-liveedit-dynamic-temp-style'),
             this.settings.document.querySelector('#mw-custom-user-css'),
             this.settings.document.querySelector('#' + this.settings.tempStylesheetId)
 

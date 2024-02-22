@@ -22,6 +22,12 @@ if (!$appliedDefaultSettings) {
     save_option('filtering_by_custom_fields', 1, $params['id']);
 }
 
+$module_template = get_module_option('template', $params['id']);
+if (!empty($module_template)) {
+    $module_template = str_replace('.php', '', $module_template);
+    $params['template'] = $module_template;
+}
+
 if (!isset($params['template'])) {
     $params['template'] = 'default';
 }

@@ -15,8 +15,7 @@
                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab" href="#products">  <?php _e('Products'); ?></a>
                    <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#settings">  <?php _e('Settings'); ?></a>
 
-<!--                   <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
-            -->
+                   <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
                </nav>
 
                <div class="tab-content py-3">
@@ -34,9 +33,12 @@
                        <livewire:microweber-module-shop::shop-settings :moduleId="$moduleId" moduleType="shop" />
                    </div>
 
-<!--                   <div class="tab-pane fade" id="templates">
-                       <module type="admin/modules/templates" parent-module="shop" parent-module-id="{{$moduleId}}" />
-                   </div>-->
+                  <div class="tab-pane fade" id="templates">
+
+                      <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" moduleType="shop" />
+
+                   </div>
+
                </div>
 
            </div>

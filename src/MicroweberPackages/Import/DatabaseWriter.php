@@ -114,6 +114,14 @@ class DatabaseWriter
 
         if ($this->overwriteById && isset($item['id'])) {
 
+            if ($item['save_to_table'] == 'users') {
+                $findUser = \DB::table($item['save_to_table'])->where('id', $item['id'])->first();
+                if ($findUser) {
+                    $this->logger->setLogInfo('Skip overwriting "' . $item['save_to_table'] . '"  User id: ' . $findUser->id);
+                    return array('item' => $item, 'itemIdDatabase' => $findUser->id);
+                }
+            }
+
             $itemIdDatabase = DatabaseSave::save($item['save_to_table'], $item);
             $this->logger->setLogInfo('Saving in table "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase);
 
@@ -196,7 +204,7 @@ class DatabaseWriter
         $dbSelectParams['do_not_replace_site_url'] = 1;
         $dbSelectParams['fields'] = 'id';
 
-        foreach (DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
+        foreach (DatabaseDuplicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
             if (isset($item[$tableField])) {
                 $dbSelectParams[$tableField] = $item[$tableField];
             }
@@ -273,17 +281,12 @@ class DatabaseWriter
     public function runWriter()
     {
 
-
-
         try {
             DB::beginTransaction();
 
             $this->logger->clearLog();
             $this->_deleteOldCssFiles();
             $this->_deleteOldContent();
-
-
-
 
 
             if (isset($this->content->__table_structures)) {
@@ -344,8 +347,6 @@ class DatabaseWriter
         $topItemsForSave = array();
         $otherItemsForSave = array();
         $lastItemsForSave = array();
-
-
 
         foreach ($this->content as $table => $items) {
 

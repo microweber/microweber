@@ -33,6 +33,7 @@
         "blade-ui-kit/blade-heroicons": "*",
         "blade-ui-kit/blade-icons": "*",
         "blade-ui-kit/blade-ui-kit": "*",
+        "butschster/meta-tags": "v3.0-beta1",
         "composer/composer": "v2.7.1",
         "composer/installers": "1.9.0",
         "darkaonline/l5-swagger": "*",
@@ -80,7 +81,7 @@
         "omnipay/paypal": "*",
         "omnipay/stripe": "v3.2.0",
         "opis/closure": "^3.6@dev",
-        "phenx/php-svg-lib": "0.5.1",
+        "phenx/php-svg-lib": "0.5.2",
         "phpdocumentor/reflection-docblock": "^5.0@dev",
         "phpoffice/phpspreadsheet": "1.29.0",
         "phpseclib/phpseclib": "~3.0",
@@ -210,7 +211,8 @@
                 "wire-elements/modal",
                 "rappasoft/laravel-livewire-tables",
                 "spatie/laravel-ignition",
-                "barryvdh/laravel-debugbar"
+                "barryvdh/laravel-debugbar",
+                "butschster/meta-tags"
             ]
         }
     }

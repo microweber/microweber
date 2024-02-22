@@ -27,13 +27,6 @@ class BackupServiceProvider extends ServiceProvider implements DeferrableProvide
      */
     public function boot()
     {
-        /**
-         * @property \MicroweberPackages\Backup\BackupManager    $backup_manager
-         */
-        $this->app->singleton('backup_manager', function ($app) {
-            return new BackupManager();
-        });
-
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
     }

@@ -4,14 +4,14 @@
 import '../api-core/services/bootstrap.js';
 
 import {StylesheetEditor} from "../api-core/services/services/stylesheet-editor.service.js";
-import {CssVarsEditor} from "../api-core/services/services/css-vars-editor.service.js";
+import {ThemeCssVarsEditor} from "../api-core/services/services/theme-css-vars-editor.service.js";
 // vue
 import {createApp} from 'vue';
+
 import App from './App.vue';
-
 // vue click away
-import VueClickAway from "vue3-click-away";
 
+import VueClickAway from "vue3-click-away";
 // emiter
 import mitt from 'mitt';
 import './css/app.sass';
@@ -67,10 +67,10 @@ mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
         cssUrl: cssUrl
 
     });
-    const CssVarsEditorInstance = new CssVarsEditor();
+    const themeCssVarsEditorInstance = new ThemeCssVarsEditor();
  //   mw.app.register('cssEditor', cssGUIEditor);
     mw.app.cssEditor = cssGUIEditor;
-    mw.app.cssVarsEditor = CssVarsEditorInstance;
+    mw.app.themeCssVarsEditor = themeCssVarsEditorInstance;
     mw.app.dispatch('ready');
 });
 

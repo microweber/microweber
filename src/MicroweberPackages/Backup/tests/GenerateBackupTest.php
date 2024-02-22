@@ -2,9 +2,11 @@
 namespace MicroweberPackages\Backup\tests;
 
 use MicroweberPackages\Backup\GenerateBackup;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Multilanguage\tests\MultilanguageTest;
+use MicroweberPackages\Post\Models\Post;
 
 
 /**
@@ -55,7 +57,17 @@ class GenerateBackupTest extends TestCase
 
     public function testSingleTableBackup() {
 
-        $sessionId = SessionStepper::generateSessionId(4);
+        $getAllContent = Content::all();
+        $getAllContent->each(function ($content) {
+            $content->delete();
+        });
+
+        $post = new Post();
+        $post->url = 'test-post';
+        $post->title = 'Test post';
+        $post->save();
+
+        $sessionId = SessionStepper::generateSessionId(1);
 
         $backup = new GenerateBackup();
         $backup->setSessionId($sessionId);
@@ -72,6 +84,9 @@ class GenerateBackupTest extends TestCase
 
         $this->assertNotEmpty($content['content'][0]['url']);
         $this->assertNotEmpty($content['__table_structures']['content']['url']);
+
+        $this->assertSame($content['content'][0]['url'], 'test-post');
+        $this->assertSame($content['content'][0]['title'], 'Test post');
 
 
     }
