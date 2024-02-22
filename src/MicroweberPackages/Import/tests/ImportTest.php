@@ -10,7 +10,7 @@ use MicroweberPackages\Post\Models\Post;
 /**
  * Run test
  * @author Bobi Microweber
- * @command php phpunit.phar --filter Import
+ * @command php phpunit.phar --filter ImportTest
  */
 /**
  * @runTestsInSeparateProcesses

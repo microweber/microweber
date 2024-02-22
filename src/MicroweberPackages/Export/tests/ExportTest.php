@@ -2,8 +2,8 @@
 namespace MicroweberPackages\Export\tests;
 
 use Faker\Factory;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Backup\BackupManager;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Import;
 use MicroweberPackages\Post\Models\Post;
@@ -94,7 +94,7 @@ class ExportTest extends TestCase
 			$i++;
 		}
 
-        $contentCount = get_content('count=1');
+        $contentCount = (int) get_content('count=1');
 
         $zip = new \ZipArchive;
         $res = $zip->open(self::$_exportedFile);
@@ -107,16 +107,19 @@ class ExportTest extends TestCase
         $jsonExportTest = json_decode($jsonFileContent,true);
 
         $this->assertTrue(!empty($jsonExportTest['content']));
-        $this->assertEquals(count($jsonExportTest['content']),$contentCount);
+        $this->assertEquals(count($jsonExportTest['content']), $contentCount);
 
 	}
 
 	public function testImportZipFile() {
 
-		foreach(get_content('no_limit=1&content_type=post') as $content) {
-			//echo 'Delete content..' . PHP_EOL;
-			$this->assertArrayHasKey(0, delete_content(array('id'=>$content['id'], 'forever'=>true)));
-		}
+        $getContent = get_content('no_limit=1&content_type=post');
+        if (!empty($getContent)) {
+            foreach ($getContent as $content) {
+                //echo 'Delete content..' . PHP_EOL;
+                $this->assertArrayHasKey(0, delete_content(array('id' => $content['id'], 'forever' => true)));
+            }
+        }
 
 		if (empty(self::$_exportedFile)) {
 			$this->assertTrue(false);
