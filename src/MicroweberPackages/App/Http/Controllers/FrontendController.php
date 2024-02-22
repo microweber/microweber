@@ -1545,7 +1545,7 @@ class FrontendController extends Controller
     public function adstxt()
     {
         header('Content-Type: text/plain');
-        $adsTxt = $this->websiteOptions['ads_txt'];
+        $adsTxt = $this->websiteOptions['ads_txt'] ?? false;
 
         if ($adsTxt == false) {
             $adsTxt = "";
