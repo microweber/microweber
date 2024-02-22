@@ -64,6 +64,8 @@ class TaggableFileStore implements Store
      * @var array
      */
     protected static $flushedTags = array();
+    public $events  = array();
+    public $options  = array();
 
     protected $emitEvents = false;
 
