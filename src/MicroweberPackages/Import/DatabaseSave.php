@@ -249,7 +249,6 @@ class DatabaseSave
 
 	public static function save($table, $data)
 	{
-
 		$data['skip_cache'] = true;
 		$data['allow_html'] = true;
 		$data['allow_scripts'] = true;

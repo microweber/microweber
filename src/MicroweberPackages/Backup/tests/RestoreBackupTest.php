@@ -6,6 +6,7 @@ use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Export\Export;
 use MicroweberPackages\Export\SessionStepper;
+use MicroweberPackages\Import\DatabaseSave;
 use MicroweberPackages\Multilanguage\tests\MultilanguageTest;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\User\Models\User;
@@ -42,6 +43,9 @@ class RestoreBackupTest extends TestCase
         $createUser->is_active = 1;
         $createUser->save();
 
+        $findUser = User::where('username', 'unitTestUser')->first();
+        $userOriginalPassword = $findUser->password;
+
         $post = new Post();
         $post->url = 'test-post';
         $post->title = 'Test post';
@@ -64,6 +68,11 @@ class RestoreBackupTest extends TestCase
             }
         }
 
+        $findUser = User::where('username', 'unitTestUser')->first();
+        $findUser->password = 'newPasswordStrong1234';
+        $findUser->save();
+        $newUserPassword = $findUser->password;
+
         $exportedFile = $backupStart['data']['filepath'];
 
         $zip = new \ZipArchive;
@@ -73,9 +82,20 @@ class RestoreBackupTest extends TestCase
         $jsonFileInsideZip = str_replace('.zip', '.json', $exportedFile);
         $jsonFileInsideZip = basename($jsonFileInsideZip);
         $jsonFileContent = $zip->getFromName($jsonFileInsideZip);
-
         $jsonExportTest = json_decode($jsonFileContent,true);
 
-        dd($jsonExportTest['users']);
+
+        // Restore
+        $sessionId = SessionStepper::generateSessionId(1);
+        $restore = new \MicroweberPackages\Backup\Restore();
+        $restore->setFile($exportedFile);
+        $restore->setOvewriteById(true);
+        $restore->setWriteOnDatabase(true);
+        $restore->setSessionId($sessionId);
+        $restoreStatus = $restore->start();
+
+        $findUser = User::where('username', 'unitTestUser')->first();
+
+        $this->assertEquals($newUserPassword, $findUser->password);
     }
 }
