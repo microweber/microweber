@@ -251,7 +251,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(LiveEditRouteServiceProvider::class);
 
         $this->app->register(ViewServiceProvider::class);
-        $this->app->register(MetaTagsServiceProvider::class);
         $this->app->register(MicroweberUIServiceProvider::class);
         $this->app->register(BladeUIServiceProvider::class);
         $this->app->register(LivewireServiceProvider::class);
@@ -304,6 +303,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->register(TemplateManagerServiceProvider::class);
         $this->app->register(DatabaseManagerServiceProvider::class);
+        $this->app->register(MetaTagsServiceProvider::class);
 
         // Shop
         $this->app->register(ShopManagerServiceProvider::class);

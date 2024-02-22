@@ -8,6 +8,15 @@ use Illuminate\Support\ServiceProvider;
 
 class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplicationServiceProvider
 {
+    public function register(): void
+    {
+        parent::register();
+
+        if(app()->environment() === 'testing') {
+            $this->app->register(MetaTagsUnitTestServiceProvider::class);
+        }
+
+    }
 
     protected function packages()
     {
@@ -80,8 +89,5 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
         });
     }
 
-    public function registerSystemMetaTags(): void
-    {
 
-    }
 }
