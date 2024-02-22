@@ -8126,6 +8126,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
     position: fixed !important;
     margin-top: 0 !important;
     transform: translateX(0) !important;
+    display: none !important;
   }
   .mw-small-editor.mw-small-editor-skin-lite .mw-bar,
   .mw-small-editor.mw-small-editor-skin-dark .mw-bar {

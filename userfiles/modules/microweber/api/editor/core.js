@@ -151,6 +151,10 @@
                 footer.append(cancel);
                 footer.append(ok);
 
+                var changeStart = false;
+
+                var vall = config.getColor ? config.getColor() : undefined;
+
 
                   dlg = mw.top().dialog({
                     width: 280,
@@ -167,6 +171,9 @@
                                 fn.ownerDocument.body.classList.remove('mw-le--hide-selection')
                             }
                         }
+                        if(changeStart) {
+                            el.trigger('changeEnd', vall);
+                        }
                     }
                     // footer: footer
 
@@ -180,7 +187,7 @@
                 }
 
 
-                var vall = config.getColor ? config.getColor() : undefined;
+
 
                 var cf = new MWEditor.core.capsulatedField({
                     placeholder: '#efecec',
@@ -197,12 +204,6 @@
 
 
 
-
-
-
-
-
-
                var picker = mw.colorPicker({
                     // element: tip.get(0),
                     element: dlg.container,
@@ -213,8 +214,15 @@
                     onchange: function (color) {
                         vall = color
 
+
+
                         if(!_pauseSetValue) {
                             cf.field.value = vall;
+
+                            if(!changeStart) {
+                                changeStart = true;
+                                el.trigger('changeStart', vall);
+                            }
 
                             el.trigger('change', vall);
 

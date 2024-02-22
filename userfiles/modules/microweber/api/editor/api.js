@@ -49,7 +49,7 @@
 
 
                         api.action(parent, function () {
-                            if(scope.settings.editMode === 'liveedit') {
+                            if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
 
                                 children.forEach(node => {
                                     mw.top().app.cssEditor.temp(node, 'text-align', value);
@@ -90,7 +90,7 @@
 
 
               api.action(actionTarget.parentNode, function () {
-                  if(scope.settings.editMode === 'liveedit') {
+                  if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
                       mw.top().app.cssEditor.temp(actionTarget, 'text-align', value);
                   } else {
 
@@ -273,7 +273,10 @@
                 function perNode(node) {
                     node.style[camel] = '';
                     const sel = mw.tools.generateSelectorForNode(node);
-                    mw.top().app.cssEditor.removeSheetRuleProperty(sel, propety);
+                    if( mw.top().app.cssEditor) {
+                        mw.top().app.cssEditor.removeSheetRuleProperty(sel, propety);
+                    }
+
                     node.querySelectorAll('*').forEach(node => {
                         perNode(node)
                     })
@@ -682,7 +685,7 @@
             fontFamily: function (font_name, sel) {
                 var range = (sel || scope.getSelection()).getRangeAt(0);
                 scope.api.execCommand("styleWithCSS", null, true);
-                if (range.collapsed) {
+                if (range.collapsed &&  mw.top().app.cssEditor) {
                     var el = scope.api.elementNode(range.commonAncestorContainer);
                     scope.api.action(mw.tools.firstBlockLevel(el), function () {
 
@@ -1003,6 +1006,14 @@
                 mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                 mw.$(scope).trigger('execCommand');
             },
+            execCommandSimple: function (cmd, def, val) {
+                if(window.tinyMCE && window.tinyMCE.activeEditor) {
+                    var camelcasecmd = cmd.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+                    window.tinyMCE.activeEditor.execCommand(camelcasecmd, def, val);
+                } else {
+                    scope.actionWindow.document.execCommand(cmd, def, val);
+                }
+            },
             execCommand: function (cmd, def, val, recordTimeout) {
 
 
@@ -1035,12 +1046,7 @@
                                     if(current) {
                                         current.contentEditable = 'inherit';
                                     }
-                                    if(window.tinyMCE && window.tinyMCE.activeEditor) {
-                                        var camelcasecmd = cmd.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
-                                        window.tinyMCE.activeEditor.execCommand(camelcasecmd, def, val);
-                                    } else {
-                                        scope.actionWindow.document.execCommand(cmd, def, val);
-                                    }
+                                    scope.execCommandSimple(cmd, def, val)
                                     parent.contentEditable = pce;
 
                                     if(current) {
@@ -1068,12 +1074,32 @@
             lineHeight: function (size) {
 
                 if (scope.api.isSelectionEditable()) {
-                    var sel = scope.getSelection();
-                    var el = scope.api.elementNode(sel.focusNode);
-                    var parent = mw.tools.firstBlockLevel(el)
-                    scope.api.action(parent.parentNode, function () {
-                        parent.style.lineHeight = size
-                    });
+
+
+
+                        var sel = scope.getSelection();
+                        var el = scope.api.elementNode(sel.focusNode);
+                        var parent = mw.tools.firstBlockLevel(el)
+                        scope.api.action(parent.parentNode, function () {
+
+                            if(scope.api.isCrossBlockSelection()) {
+                                const childNodes = scope.api.getSelectionChildNodes();
+                                childNodes.forEach(node => {
+                                    if(scope.editArea === node) {
+
+                                    } else {
+                                        node.style.lineHeight = size
+                                    }
+
+                                })
+                            } else {
+
+
+                                parent.style.lineHeight = size
+                            }
+                        });
+
+
                 }
 
             },

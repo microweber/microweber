@@ -348,6 +348,7 @@ MWEditor.interactionControls = {
         this.interact = function (data) {
             if (!data.eventIsActionLike) { return; }
             var td = mw.tools.firstParentOrCurrentWithTag(data.localTarget, 'td');
+
             rootScope.document.querySelectorAll('.mw-editor-td-focus').forEach(td => td.classList.remove('mw-editor-td-focus'));
             if (td) {
                 clearTimeout(lscope.__tableManagerTimeout);
@@ -399,7 +400,10 @@ MWEditor.interactionControls = {
                 })
 
             } else {
-                this.element.$node.hide();
+                if(!mw.tools.firstParentOrCurrentWithClass(data.localTarget, 'mw-editor-table-manager')) {
+                    this.element.$node.hide();
+                }
+
             }
         };
 
