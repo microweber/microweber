@@ -160,7 +160,7 @@ class Template
         $layout = Str::replaceFirst('<head>', '<head>' . $alpineScript, $layout);
         $layout = Str::replaceFirst('</head>', $styles . '</head>', $layout);
         $layout = Str::replaceFirst('</head>', $scripts . '</head>', $layout);
-        $layout = Str::replaceFirst('</head>', $modal . '</head>', $layout);
+        $layout = Str::replaceFirst('</body>', $modal . '</body>', $layout);
 
 
         return $layout;

@@ -9,7 +9,10 @@ class LivewireHeadTags implements TagInterface, \Stringable
 {
     public function toHtml(): string
     {
-
+        // @todo this is not working correctly
+        // it appends in header and adds div , must be in after body
+        // see  $this->app->template->append_livewire_to_layout($l);
+        return '';
 
         $alpineUrl = mw_includes_url() . 'api/libs/alpine/alpine.min.js';
 
@@ -19,11 +22,13 @@ class LivewireHeadTags implements TagInterface, \Stringable
         $styles = \Livewire\Livewire::styles();
         $modal = \Livewire\Livewire::mount('livewire-ui-modal')->html();
 
-        $append_html = ''  . "\r\n";
-        $append_html .= $alpineScript  . "\r\n";
-        $append_html .= $scripts  . "\r\n";
+        $append_html = '' . "\r\n";
+        $append_html .= $alpineScript . "\r\n";
+        $append_html .= $scripts . "\r\n";
         $append_html .= $styles . "\r\n";
-        $append_html .= $modal  . "\r\n";
+
+        // @todo this must be in footer
+        $append_html .= $modal . "\r\n";
 
 
         return $append_html;

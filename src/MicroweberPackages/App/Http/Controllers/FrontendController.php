@@ -1174,8 +1174,13 @@ class FrontendController extends Controller
                 }
 
 
+
                 $l = $this->app->template->frontend_append_meta_tags($l);
-              //  $l = $this->app->template->append_livewire_to_layout($l);
+
+                // @todo remove this and fix src/MicroweberPackages/MetaTags/Entities/LivewireHeadTags.php
+                $l = $this->app->template->append_livewire_to_layout($l);
+
+
              //   $l = $this->app->template->append_api_js_to_layout($l);
             }
 
@@ -1545,7 +1550,7 @@ class FrontendController extends Controller
     public function adstxt()
     {
         header('Content-Type: text/plain');
-        $adsTxt = $this->websiteOptions['ads_txt'] ?? false;
+        $adsTxt = $this->websiteOptions['ads_txt'] ?? '';
 
         if ($adsTxt == false) {
             $adsTxt = "";
