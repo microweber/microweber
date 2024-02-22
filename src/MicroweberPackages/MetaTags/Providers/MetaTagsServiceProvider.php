@@ -93,6 +93,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'webmaster_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\WebmasterHeadTags()
             );
+            $package->addTag(
+                'author_head_tags',
+                new \MicroweberPackages\MetaTags\Entities\AuthorHeadTags()
+            );
         });
     }
 

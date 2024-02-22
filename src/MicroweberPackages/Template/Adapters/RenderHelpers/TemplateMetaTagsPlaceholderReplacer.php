@@ -9,7 +9,7 @@ use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 
 
-class TemplateMetaTagsRenderer
+class TemplateMetaTagsPlaceholderReplacer
 {
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
@@ -47,7 +47,7 @@ class TemplateMetaTagsRenderer
                     $meta_content_id = content_id();
                 }
             }
-            if(post_id() == 0){
+            if (post_id() == 0) {
 
                 if (isset($params['category_id']) and $params['category_id']) {
                     $meta_category_id = $params['category_id'];
@@ -62,7 +62,7 @@ class TemplateMetaTagsRenderer
             $useFromContentId = 0;
             $useFromCategoryId = 0;
             if ($meta_category_id > 0) {
-                 $useFromCategoryId = $meta_category_id;
+                $useFromCategoryId = $meta_category_id;
             }
 
             if ($meta_content_id > 0) {
@@ -71,11 +71,10 @@ class TemplateMetaTagsRenderer
             }
 
 
-
             if ($useFromCategoryId > 0) {
                 $meta_category_data = app()->category_manager->get_by_id($useFromCategoryId);
 
-                if($meta_category_data) {
+                if ($meta_category_data) {
                     $meta['title'] = $meta_category_data['title'];
                     $meta['description'] = $meta_category_data['description'];
                     if (isset($meta_category_data['category_meta_title']) and $meta_category_data['category_meta_title'] != '') {
@@ -128,7 +127,6 @@ class TemplateMetaTagsRenderer
 //                }
 
 
-
                 $meta['content_url'] = app()->content_manager->link($meta_content_id);
                 if (isset($meta['content_type'])) {
                     $meta['og_type'] = $meta['content_type'];
@@ -138,14 +136,14 @@ class TemplateMetaTagsRenderer
                     } elseif ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {
                         $meta['og_type'] = $meta['subtype'];
                     }
-                    if($meta['content_type']=='product') {
-                    	// fetch sku, currency, price for product structured data
-                    	$meta['product_currency'] = app()->option_manager->get('currency', 'payments');
-                    	$product_price = app()->shop_manager->get_product_price($meta_content_id);
+                    if ($meta['content_type'] == 'product') {
+                        // fetch sku, currency, price for product structured data
+                        $meta['product_currency'] = app()->option_manager->get('currency', 'payments');
+                        $product_price = app()->shop_manager->get_product_price($meta_content_id);
                         $meta['product_price'] = $product_price;
-			            $product_fields = app()->fields_manager->get(['rel_type'=>'content', 'rel_id'=>$meta_content_id, 'return_full'=>true]);
-			            $meta['product_sku'] = '';
-			            if (empty(!$product_fields)) {
+                        $product_fields = app()->fields_manager->get(['rel_type' => 'content', 'rel_id' => $meta_content_id, 'return_full' => true]);
+                        $meta['product_sku'] = '';
+                        if (empty(!$product_fields)) {
                             foreach ($product_fields as $k => $field_data) {
                                 if ($field_data['name_key'] == 'sku' && !empty($field_data['value'])) {
                                     $meta['product_sku'] = $field_data['value'];
@@ -201,11 +199,9 @@ class TemplateMetaTagsRenderer
                     $meta['content_meta_description'] = $this->websiteOptions['website_description'];
                 }
 
-                if(!isset($meta['og_description']) and isset($meta['content_meta_description'])){
+                if (!isset($meta['og_description']) and isset($meta['content_meta_description'])) {
                     $meta['og_description'] = $meta['content_meta_description'];
                 }
-
-
 
 
                 if (isset($meta['title']) and $meta['title'] != '') {
@@ -254,99 +250,10 @@ class TemplateMetaTagsRenderer
             $layout = $l;
 
 
-
             return $layout;
         }
 
     }
 
-    public function get_template_meta_webmaster_tags() : array
-    {
-        $headers = array();
-        $headers[] = $this->_render_webmasters_tags();
 
-        $analyticsTag = true;
-        $fbPixel = true;
-        $settings = get_option('settings','init_scwCookiedefault');
-        if ($settings) {
-            $getCookieNotice = json_decode($settings, true);
-            if (isset($getCookieNotice['cookies_policy']) && $getCookieNotice['cookies_policy'] == 'y') {
-                $analyticsTag = true;
-                $fbPixel = false;
-                if (Cookie::get('google-analytics-allow') == 1) {
-                    $analyticsTag = true;
-                }
-                if (Cookie::get('facebook-pixel-allow') == 1) {
-                    $fbPixel = true;
-                }
-            }
-        }
-        if ($analyticsTag) {
-            $headers[] = $this->_render_analytics_tags();
-        }
-        if ($fbPixel) {
-            $headers[] = $this->_render_fb_pixel_tags();
-        }
-
-        return $headers;
-    }
-
-
-    private function _render_webmasters_tags()
-    {
-        $configs = [
-            'google' => $this->websiteOptions['google-site-verification-code'],
-            'bing' => $this->websiteOptions['bing-site-verification-code'],
-            'alexa' => $this->websiteOptions['alexa-site-verification-code'],
-            'pinterest' => $this->websiteOptions['pinterest-site-verification-code'],
-            'yandex' => $this->websiteOptions['yandex-site-verification-code']
-        ];
-
-        $webmasters = Webmasters::make($configs);
-
-        return $webmasters->render();
-    }
-
-    private function _render_fb_pixel_tags()
-    {
-        $code = $this->websiteOptions['facebook-pixel-id'];
-
-        if ($code) {
-            $pixel = PHP_EOL;
-            $pixel .= <<<EOT
-<!-- Facebook Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window,document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '$code');
-fbq('track', 'PageView');
-</script>
-<noscript>
- <img height="1" width="1"
-src="https://www.facebook.com/tr?id=$code&ev=PageView
-&noscript=1"/>
-</noscript>
-<!-- End Facebook Pixel Code -->
-EOT;
-            return $pixel;
-        }
-    }
-
-    private function _render_analytics_tags()
-    {
-        $code = $this->websiteOptions['google-analytics-id'];
-
-        if ($code) {
-            $analytics = new Analytics;
-            $analytics->setGoogle($code);
-            return $analytics->render();
-        }
-
-    }
 }
