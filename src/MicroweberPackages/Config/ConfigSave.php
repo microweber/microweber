@@ -15,6 +15,7 @@ class ConfigSave extends Repository
      * @var array
      */
     protected $beforeSave = [];
+    public $changed_keys = [];
 
     /**
      * New keys for save
