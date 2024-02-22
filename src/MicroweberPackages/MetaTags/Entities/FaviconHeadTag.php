@@ -11,9 +11,10 @@ class FaviconHeadTag implements TagInterface, \Stringable
     {
         $favicon_image = false;
         $favicon_html = '';
+        $websiteOptions = app()->option_repository->getWebsiteOptions();
 
-        if (isset($this->websiteOptions['favicon_image'])) {
-            $favicon_image = $this->websiteOptions['favicon_image'];
+        if (isset($websiteOptions['favicon_image'])) {
+            $favicon_image = $websiteOptions['favicon_image'];
         }
 
         if (!$favicon_image) {
@@ -25,6 +26,7 @@ class FaviconHeadTag implements TagInterface, \Stringable
         if ($favicon_image) {
             $favicon_html = '<link rel="shortcut icon" href="' . $favicon_image . '" />';
         }
+
         return $favicon_html;
     }
 

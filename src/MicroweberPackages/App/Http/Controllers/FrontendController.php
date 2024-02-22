@@ -1125,8 +1125,10 @@ class FrontendController extends Controller
 //                }
 //            }
 
+           // $template_footer_src = $this->app->template->foot(true);
+
+
             $template_headers_src = $this->app->template->head(true);
-            $template_footer_src = $this->app->template->foot(true);
 
             $template_headers_src_callback = $this->app->template->head_callback($page);
             if (is_array($template_headers_src_callback) and !empty($template_headers_src_callback)) {

@@ -3,6 +3,7 @@
 namespace MicroweberPackages\MetaTags\tests\Browser;
 
 use Facebook\WebDriver\WebDriverBy;
+use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\tests\TestHelpers;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\LiveEditWaitUntilLoaded;
@@ -21,7 +22,7 @@ class MetaTagsFrontendTest extends DuskTestCase
             $this->markTestSkipped('This test can be run only in testing environment');
             return;
         }
-        $this->browse(function ($browser) {
+        $this->browse(function (Browser $browser) {
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
@@ -40,6 +41,7 @@ class MetaTagsFrontendTest extends DuskTestCase
 
         save_option('website_head', $customHeadTags, 'website');
         save_option('website_footer', $customHeadTagsFooter, 'website');
+        save_option('favicon_image', site_url() . 'favicon.ico', 'website');
 
         $website_head_option = get_option('website_head', 'website');
         $website_footer_option = get_option('website_footer', 'website');
@@ -60,7 +62,7 @@ class MetaTagsFrontendTest extends DuskTestCase
         $this->assertEquals($saveUserData, user_id());
 
 
-        $this->browse(function ($browser) use ($siteUrl) {
+        $this->browse(function (Browser $browser) use ($siteUrl) {
 
 
             $browser->visit($siteUrl . '?editmode=n');
@@ -71,7 +73,7 @@ class MetaTagsFrontendTest extends DuskTestCase
 
             $browser->visit($siteUrl . '?editmode=y');
 
-            $browser->within(new LiveEditWaitUntilLoaded(), function ($browser) {
+            $browser->within(new LiveEditWaitUntilLoaded(), function (Browser $browser) {
                 $browser->waitUntilLoaded();
             });
 
@@ -89,6 +91,14 @@ class MetaTagsFrontendTest extends DuskTestCase
 
     private function performMetaTagsAssertions($browser)
     {
+        $selector = 'link[rel="shortcut icon"]';
+        $output = $browser->script("
+            //check its only 1 of this selector
+            var  isTrue = document.querySelectorAll('{$selector}').length === 1;
+            return isTrue;
+            ");
+        $this->assertEquals($output[0], true, 'Meta tags Selector ' . $selector . ' must be only 1');
+
         $selectors = [
 
             '#test-custom-head-tags',
