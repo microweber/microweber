@@ -108,7 +108,7 @@ class User extends Authenticatable implements MustVerifyEmail
     );
 
     protected $rules = [
-        'email' => 'required'
+     //   'email' => 'required'
     ];
 
     private $validator;
@@ -203,13 +203,32 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         if ($requireUsername && isset($data['id']) && $data['id'] > 0) {
-            $this->rules['username'] = [
-                'required',
-                'min:1',
-                'max:50',
-                Rule::unique('users', 'username')->ignore($data['id'], 'id')
-            ];
+            if (isset($data['username']) && !empty($data['username'])) {
+                $this->rules['username'] = [
+                    'required',
+                    'min:1',
+                    'max:50',
+                    Rule::unique('users', 'username')->ignore($data['id'], 'id')
+                ];
+            }
+        } else if ($requireUsername) {
+            $this->rules['username'] = 'required|min:1|max:50|unique:users';
         }
+
+
+        if (isset($data['id']) && $data['id'] > 0
+            and isset($data['email']) && !empty($data['email'])
+        ) {
+            $this->rules['email'] = [
+                'min:0',
+                'max:500',
+                Rule::unique('users', 'email')->ignore($data['id'], 'email')
+            ];
+        } else if (isset($data['email']) && !empty($data['email'])) {
+            $this->rules['email'] = 'min:0|max:500|unique:users';
+        }
+
+
 
         $this->validator = \Validator::make($data, $this->rules);
         if ($this->validator->fails()) {

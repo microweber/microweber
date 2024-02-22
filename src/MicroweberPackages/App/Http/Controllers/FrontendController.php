@@ -1107,23 +1107,23 @@ class FrontendController extends Controller
 
 
 
-            $headers = event_trigger('site_header', $the_active_site_template);
-            $template_headers_append = '';
-            $one = 1;
-            if (is_array($headers)) {
-                foreach ($headers as $modify) {
-                    if ($modify != false and is_string($modify) and $modify != '') {
-                        $template_headers_append = $template_headers_append . $modify;
-                    }
-                }
-                if ($template_headers_append != false and $template_headers_append != '') {
-                    //  $l = str_ireplace('</head>', $template_headers_append . '</head>', $l, $one);
-
-                    $l = Str::replaceFirst('</head>', $template_headers_append . '</head>', $l);
-
-
-                }
-            }
+//            $headers = event_trigger('site_header', $the_active_site_template);
+//            $template_headers_append = '';
+//            $one = 1;
+//            if (is_array($headers)) {
+//                foreach ($headers as $modify) {
+//                    if ($modify != false and is_string($modify) and $modify != '') {
+//                        $template_headers_append = $template_headers_append . $modify;
+//                    }
+//                }
+//                if ($template_headers_append != false and $template_headers_append != '') {
+//                    //  $l = str_ireplace('</head>', $template_headers_append . '</head>', $l, $one);
+//
+//                    $l = Str::replaceFirst('</head>', $template_headers_append . '</head>', $l);
+//
+//
+//                }
+//            }
 
             $template_headers_src = $this->app->template->head(true);
             $template_footer_src = $this->app->template->foot(true);
