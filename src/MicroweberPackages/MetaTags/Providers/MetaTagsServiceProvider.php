@@ -90,6 +90,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 new \MicroweberPackages\MetaTags\Entities\CustomHeadTagsFromSiteHeaderEvent()
             );
             $package->addTag(
+                'custom_head_tags_from_callback',
+                new \MicroweberPackages\MetaTags\Entities\CustomHeadTagsFromCallback()
+            );
+            $package->addTag(
                 'webmaster_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\WebmasterHeadTags()
             );

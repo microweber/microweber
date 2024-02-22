@@ -129,6 +129,8 @@ class MetaTagsFrontendTest extends DuskTestCase
             '#meta-tags-test-inserted-from-event-site_header',
             '#mw-meta-tags-test-inserted-from-template_head',
             '#mw-meta-tags-test-inserted-from-template_foot',
+            '#mw-meta-tags-test-inserted-from-template_head_as_string',
+            '#mw-meta-tags-test-inserted-from-template_foot_as_string',
         ];
 
         foreach ($selectors as $selector) {

@@ -1127,17 +1127,17 @@ class FrontendController extends Controller
 
            // $template_footer_src = $this->app->template->foot(true);
 
-
-            $template_headers_src = $this->app->template->head(true);
-
-            $template_headers_src_callback = $this->app->template->head_callback($page);
-            if (is_array($template_headers_src_callback) and !empty($template_headers_src_callback)) {
-                foreach ($template_headers_src_callback as $template_headers_src_callback_str) {
-                    if (is_string($template_headers_src_callback_str)) {
-                        $template_headers_src = $template_headers_src . "\n" . $template_headers_src_callback_str;
-                    }
-                }
-            }
+// moved to src/MicroweberPackages/MetaTags/Entities/CustomHeadTagsFromCallback.php
+//            $template_headers_src = $this->app->template->head(true);
+//
+//            $template_headers_src_callback = $this->app->template->head_callback($page);
+//            if (is_array($template_headers_src_callback) and !empty($template_headers_src_callback)) {
+//                foreach ($template_headers_src_callback as $template_headers_src_callback_str) {
+//                    if (is_string($template_headers_src_callback_str)) {
+//                        $template_headers_src = $template_headers_src . "\n" . $template_headers_src_callback_str;
+//                    }
+//                }
+//            }
 
 // moved to src/MicroweberPackages/MetaTags/Entities/WebmasterHeadTags.php
 //            if (isset($page['created_by'])) {
@@ -1147,10 +1147,10 @@ class FrontendController extends Controller
 //                }
 //            }
 
-            if ($template_headers_src != false and is_string($template_headers_src)) {
-                //$l = str_ireplace('</head>', $template_headers_src . '</head>', $l, $one);
-                $l = Str::replaceFirst('</head>', $template_headers_src . '</head>', $l);
-            }
+//            if ($template_headers_src != false and is_string($template_headers_src)) {
+//                //$l = str_ireplace('</head>', $template_headers_src . '</head>', $l, $one);
+//                $l = Str::replaceFirst('</head>', $template_headers_src . '</head>', $l);
+//            }
 
             $template_footer_src = $this->app->template->foot(true);
 
