@@ -1210,7 +1210,13 @@ class UserManager
                     return $this->socialite->with($provider)->with(["prompt" => "select_account"])->redirect();
             }
 
-            return $this->socialite->with($provider)->redirect();
+
+            try {
+                return $this->socialite->with($provider)->redirect();
+            } catch (\InvalidArgumentException $e) {
+                return $e->getMessage();
+            }
+
         }
     }
 
