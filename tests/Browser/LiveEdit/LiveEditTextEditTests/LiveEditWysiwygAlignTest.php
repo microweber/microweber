@@ -112,7 +112,7 @@ class LiveEditWysiwygAlignTest extends DuskTestCase
  === '" . $expectedTextAlign . "';
             return isTrue;
         ");
-            $this->assertEquals($output[0], true, 'The element must be aligned: ' . $expectedTextAlign);
+            $this->assertEquals(true, $output[0], 'The element must be aligned: ' . $expectedTextAlign);
 
             $browser->within(new LiveEditSaveButton(), function ($browser) {
                 $browser->clickSaveButton($browser);
@@ -127,7 +127,7 @@ class LiveEditWysiwygAlignTest extends DuskTestCase
  === '" . $expectedTextAlign . "';
             return isTrue;
         ");
-            $this->assertEquals($output[0], true, 'The element must be aligned center');
+            $this->assertEquals(true, $output[0], 'The element must be aligned center');
 
 
         });

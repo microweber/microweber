@@ -284,39 +284,16 @@ function get_template_colors_settings()
 
 }
 
-function get_template_meta_tags_render()
-{
-    $in = new \MicroweberPackages\Template\Adapters\RenderHelpers\TemplateMetaTagsRenderer();
-    return $in->get_template_meta_tags_render();
-
-}
+//function get_template_meta_webmaster_tags()
+//{
+//    $in = new \MicroweberPackages\Template\Adapters\RenderHelpers\TemplateMetaTagsRenderer();
+//    return $in->get_template_meta_webmaster_tags();
+//
+//}
 
 function mw_header_scripts()
 {
-    $header = mw()->template->head(true);
-
-    $template_headers_src_callback = mw()->template->head_callback();
-    if (is_array($template_headers_src_callback) and !empty($template_headers_src_callback)) {
-        foreach ($template_headers_src_callback as $template_headers_src_callback_str) {
-            if (is_string($template_headers_src_callback_str)) {
-                $header .= "\n" . $template_headers_src_callback_str;
-            }
-        }
-    }
-
-    $metaTags = get_template_meta_tags_render();
-    if (!empty($metaTags)) {
-        foreach ($metaTags as $metaTag) {
-            $header .= "\n" . $metaTag;
-        }
-    }
-
-    $getWebsiteHeadOption = get_option('website_head', 'website');
-    if ($getWebsiteHeadOption != false) {
-        $header .= "\n" . $getWebsiteHeadOption;
-    }
-
-    return $header;
+    return app()->template->getHeadMetaTags();
 }
 
 function mw_footer_scripts()

@@ -250,13 +250,7 @@ class TemplateMetaTagsRenderer
                 }
             }
 
-            $headers = $this->get_template_meta_tags_render();
-            foreach ($headers as $headers_append) {
-                if ($headers_append != false) {
-                    $one = 1;
-                    $l = str_ireplace('</head>', $headers_append . '</head>', $l, $one);
-                }
-            }
+
             $layout = $l;
 
 
@@ -266,7 +260,7 @@ class TemplateMetaTagsRenderer
 
     }
 
-    public function get_template_meta_tags_render()
+    public function get_template_meta_webmaster_tags() : array
     {
         $headers = array();
         $headers[] = $this->_render_webmasters_tags();

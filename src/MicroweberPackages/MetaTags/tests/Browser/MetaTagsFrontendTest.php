@@ -42,6 +42,14 @@ class MetaTagsFrontendTest extends DuskTestCase
         save_option('website_head', $customHeadTags, 'website');
         save_option('website_footer', $customHeadTagsFooter, 'website');
         save_option('favicon_image', site_url() . 'favicon.ico', 'website');
+        save_option('google-site-verification-code', 'google-site-verification-code', 'website');
+        save_option('bing-site-verification-code', 'bing-site-verification-code', 'website');
+        save_option('alexa-site-verification-code', 'alexa-site-verification-code', 'website');
+        save_option('pinterest-site-verification-code', 'pinterest-site-verification-code', 'website');
+        save_option('yandex-site-verification-code', 'yandex-site-verification-code', 'website');
+
+
+
 
         $website_head_option = get_option('website_head', 'website');
         $website_footer_option = get_option('website_footer', 'website');
@@ -89,15 +97,27 @@ class MetaTagsFrontendTest extends DuskTestCase
 
     }
 
-    private function performMetaTagsAssertions($browser)
+    private function performMetaTagsAssertions(Browser $browser)
     {
-        $selector = 'link[rel="shortcut icon"]';
-        $output = $browser->script("
+        $selectors = [
+            'link[rel="shortcut icon"]',
+            'link[rel="author"]',
+            'meta[name="google-site-verification"]',
+            'meta[name="msvalidate.01"]',
+            'meta[name="alexaVerifyID"]',
+            'meta[name="p:domain_verify"]',
+            'meta[name="yandex-verification"]',
+        ];
+        foreach ($selectors as $selector) {
+            $output = $browser->script("
             //check its only 1 of this selector
             var  isTrue = document.querySelectorAll('{$selector}').length === 1;
             return isTrue;
             ");
-        $this->assertEquals($output[0], true, 'Meta tags Selector ' . $selector . ' must be only 1');
+            $this->assertEquals(true, $output[0], 'Meta tags Selector ' . $selector . ' must be only 1');
+        }
+
+
 
         $selectors = [
 
@@ -120,7 +140,7 @@ class MetaTagsFrontendTest extends DuskTestCase
             var  isTrue = document.querySelectorAll('{$selector}').length === 1;
             return isTrue;
             ");
-            $this->assertEquals($output[0], true, 'Meta tags Selector ' . $selector . ' must be only 1');
+            $this->assertEquals(true, $output[0], 'Meta tags Selector ' . $selector . ' must be only 1');
 
 
         }

@@ -166,23 +166,34 @@ class Template
         return $layout;
     }
 
-    public function frontend_append_meta_tags($layout)
+    public function getHeadMetaTags()
     {
+        event_trigger('mw.template.getHeadMetaTags');
+
         Meta::includePackages([
             'frontend'
         ]);
 
+        event_trigger('mw.template.afterGetHeadMetaTags');
+
+        $meta = Meta::toHtml();
+        return $meta;
+    }
+
+    public function frontend_append_meta_tags($layout)
+    {
+
         event_trigger('mw.template.before_render', $layout);
 
-     //   $layout = $this->append_livewire_to_layout($layout);
-      //  $layout = $this->append_api_js_to_layout($layout);
+        //   $layout = $this->append_livewire_to_layout($layout);
+        //  $layout = $this->append_api_js_to_layout($layout);
+        $meta = $this->getHeadMetaTags();
 
-
-       $meta = Meta::toHtml();
-       $layout = Str::replaceFirst('<head>', '<head>' . $meta, $layout);
+        $layout = Str::replaceFirst('<head>', '<head>' . $meta, $layout);
 
         return $layout;
     }
+
     /**
      * @deprecated
      */
@@ -343,7 +354,8 @@ class Template
     {
         return $this->fontsAdapter->getFontsStylesheetCss();
     }
-   public function getFonts()
+
+    public function getFonts()
     {
         return $this->fontsAdapter->getFonts();
     }
@@ -834,6 +846,7 @@ class Template
     {
         return $this->templateAdapter->defineConstants($content);
     }
+
     public function defineTemplateConstants()
     {
         return $this->templateAdapter->defineTemplateConstants();

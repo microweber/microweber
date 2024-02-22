@@ -1139,13 +1139,13 @@ class FrontendController extends Controller
                 }
             }
 
-
-            if (isset($page['created_by'])) {
-                $author = app()->user_manager->get_by_id($page['created_by']);
-                if (is_array($author) and isset($author['profile_url']) and $author['profile_url'] != false) {
-                    $template_headers_src = $template_headers_src . "\n" . '<link rel="author" href="' . trim($author['profile_url']) . '" />' . "\n";
-                }
-            }
+// moved to src/MicroweberPackages/MetaTags/Entities/WebmasterHeadTags.php
+//            if (isset($page['created_by'])) {
+//                $author = app()->user_manager->get_by_id($page['created_by']);
+//                if (is_array($author) and isset($author['profile_url']) and $author['profile_url'] != false) {
+//                    $template_headers_src = $template_headers_src . "\n" . '<link rel="author" href="' . trim($author['profile_url']) . '" />' . "\n";
+//                }
+//            }
 
             if ($template_headers_src != false and is_string($template_headers_src)) {
                 //$l = str_ireplace('</head>', $template_headers_src . '</head>', $l, $one);

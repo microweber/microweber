@@ -86,7 +86,7 @@ class LiveEditTypingTest extends DuskTestCase
             var  isTrue = document.getElementById('test-element-in-safe-mode').innerText === 'New text in safe mode element';
             return isTrue;
             ");
-            $this->assertEquals($output[0], true, 'New text in safe mode element must be the same');
+            $this->assertEquals(true, $output[0], 'New text in safe mode element must be the same');
 
             //$browser->waitForText('New text in safe mode element', 30);
         });
