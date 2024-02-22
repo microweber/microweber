@@ -2,7 +2,9 @@
 
 namespace MicroweberPackages\Template\Adapters;
 
-
+/**
+ * @deprecated
+ */
 class TemplateStackRenderer
 {
     /** @var \MicroweberPackages\App\LaravelApplication */

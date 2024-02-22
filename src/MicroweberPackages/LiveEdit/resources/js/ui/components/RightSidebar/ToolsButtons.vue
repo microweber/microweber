@@ -198,8 +198,8 @@ export default {
 
         editStylesheetVariablesInEditor() {
 
-            if (mw.top().app.cssVarsEditor) {
-                var vals = mw.top().app.cssVarsEditor.getThemeCSSVariablesAsText();
+            if (mw.top().app.themeCssVarsEditor) {
+                var vals = mw.top().app.themeCssVarsEditor.getThemeCSSVariablesAsText();
                 if (vals) {
 
                     var btn = document.createElement('button');
@@ -207,7 +207,7 @@ export default {
                     btn.innerHTML = mw.lang('Apply CSS Variables');
                     btn.onclick = function (ev) {
                         var newVals = mw.top().doc.getElementById('cssVariablesTextarea').value;
-                        mw.top().app.cssVarsEditor.applyThemeCSSVariablesFromText(newVals);
+                        mw.top().app.themeCssVarsEditor.applyThemeCSSVariablesFromText(newVals);
                     };
 
 

@@ -1,7 +1,7 @@
 import MicroweberBaseClass from "../containers/base-class.js";
 
 
-export class CssVarsEditor extends MicroweberBaseClass {
+export class ThemeCssVarsEditor extends MicroweberBaseClass {
     constructor() {
         super();
 
@@ -99,4 +99,4 @@ export class CssVarsEditor extends MicroweberBaseClass {
 
 }
 
-export default CssVarsEditor;
+export default ThemeCssVarsEditor;
