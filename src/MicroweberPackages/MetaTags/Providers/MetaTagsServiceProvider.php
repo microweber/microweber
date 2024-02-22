@@ -12,7 +12,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
     {
         parent::register();
 
-        if(app()->environment() === 'testing') {
+        if (app()->environment() === 'testing') {
             $this->app->register(MetaTagsUnitTestServiceProvider::class);
         }
 
@@ -85,7 +85,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'custom_user_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\CustomUserHeadTags()
             );
-
+            $package->addTag(
+                'custom_head_tags_from_site_header_event',
+                new \MicroweberPackages\MetaTags\Entities\CustomHeadTagsFromSiteHeaderEvent()
+            );
         });
     }
 

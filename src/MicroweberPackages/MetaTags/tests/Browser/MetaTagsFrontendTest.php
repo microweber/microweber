@@ -21,11 +21,19 @@ class MetaTagsFrontendTest extends DuskTestCase
             $this->markTestSkipped('This test can be run only in testing environment');
             return;
         }
+        $this->browse(function ($browser) {
+            $browser->within(new AdminLogin, function ($browser) {
+                $browser->fillForm();
+            });
 
+        });
 
         $pageId = $this->_generatePage('my-page-for-meta-tags-test', 'My page for meta tags test');
 
         $siteUrl = content_link($pageId);
+
+        $contentItem = get_content_by_id($pageId);
+        $this->assertEquals($contentItem['created_by'], user_id());
 
         $customHeadTags = '<script id="test-custom-head-tags">console.log("test custom head tags");</script>';
         $customHeadTagsFooter = '<script id="test-custom-head-tags-footer">console.log("test custom head tags footer");</script>';
@@ -40,16 +48,25 @@ class MetaTagsFrontendTest extends DuskTestCase
         $this->assertEquals($customHeadTagsFooter, $website_footer_option);
 
 
+        $profileUrl = 'https://www.facebook.com/microweber';
+        $saveUserData = save_user([
+            'id' => user_id(),
+            'profile_url' => $profileUrl
+        ]);
+
+        $getUser = get_user();
+
+        $this->assertEquals($getUser['profile_url'], $profileUrl);
+        $this->assertEquals($saveUserData, user_id());
+
+
         $this->browse(function ($browser) use ($siteUrl) {
-            $browser->within(new AdminLogin, function ($browser) {
-                $browser->fillForm();
-            });
+
 
             $browser->visit($siteUrl . '?editmode=n');
 
 
             $this->performMetaTagsAssertions($browser);
-
 
 
             $browser->visit($siteUrl . '?editmode=y');
@@ -72,16 +89,33 @@ class MetaTagsFrontendTest extends DuskTestCase
 
     private function performMetaTagsAssertions($browser)
     {
-        $browser->assertPresent('#test-custom-head-tags');
-        $browser->assertPresent('#test-custom-head-tags-footer');
-        $browser->assertPresent('#mw-template-settings');
-        $browser->assertPresent('#mw-js-core-scripts');
-        $browser->assertPresent('#mw-system-default-css');
+        $selectors = [
 
-        $browser->assertPresent('#meta-tags-test-inserted-from-event-site_header');
+            '#test-custom-head-tags',
+            '#test-custom-head-tags-footer',
+            '#mw-template-settings',
+            '#mw-js-core-scripts',
+            '#mw-system-default-css',
+            '#meta-tags-test-inserted-from-event-site_header',
+            '#mw-meta-tags-test-inserted-from-template_head',
+            '#mw-meta-tags-test-inserted-from-template_foot',
+        ];
 
-        $browser->assertPresent('#mw-meta-tags-test-inserted-from-template_head');
-        $browser->assertPresent('#mw-meta-tags-test-inserted-from-template_foot');
+        foreach ($selectors as $selector) {
+            $browser->assertPresent($selector);
+
+
+            $output = $browser->script("
+            //check its only 1 of this selector
+            var  isTrue = document.querySelectorAll('{$selector}').length === 1;
+            return isTrue;
+            ");
+            $this->assertEquals($output[0], true, 'Meta tags Selector ' . $selector . ' must be only 1');
+
+
+        }
+
+
     }
 
 }
