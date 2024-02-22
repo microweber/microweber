@@ -196,7 +196,7 @@ class DatabaseWriter
         $dbSelectParams['do_not_replace_site_url'] = 1;
         $dbSelectParams['fields'] = 'id';
 
-        foreach (DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
+        foreach (DatabaseDuplicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
             if (isset($item[$tableField])) {
                 $dbSelectParams[$tableField] = $item[$tableField];
             }

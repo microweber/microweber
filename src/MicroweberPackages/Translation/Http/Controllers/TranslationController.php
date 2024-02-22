@@ -164,8 +164,8 @@ class TranslationController {
                    ->get();
 
                if ($getTranslationText->count() > 1) {
-                   foreach($getTranslationText as $dublicatedText) {
-                       $dublicatedText->delete();
+                   foreach($getTranslationText as $duplicatedText) {
+                       $duplicatedText->delete();
                    }
                }
 

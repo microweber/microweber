@@ -2,13 +2,13 @@
 namespace MicroweberPackages\Import;
 
 /**
- * Microweber - Backup Module Database Dublicate Checker
+ * Microweber - Backup Module Database Duplicate Checker
  *
- * @namespace MicroweberPackages\Backup
+ * @namespace MicroweberPackages\Import
  * @package DatabaseWriter
  * @author Bozhidar Slaveykov
  */
-class DatabaseDublicateChecker
+class DatabaseDuplicateChecker
 {
 
 	public static $tableFields = array();
