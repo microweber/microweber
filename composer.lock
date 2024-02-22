@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9fbcdc3d89af0c1e7fc586289f244af",
+    "content-hash": "6975b3347d651c7ddc2c3edbd4b0a54a",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -762,6 +762,85 @@
                 }
             ],
             "time": "2023-01-15T23:15:59+00:00"
+        },
+        {
+            "name": "butschster/meta-tags",
+            "version": "v3.0-beta1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/butschster/LaravelMetaTags.git",
+                "reference": "1cf3e5f5272af874697a866d6bb8759f5ab14e01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/butschster/LaravelMetaTags/zipball/1cf3e5f5272af874697a866d6bb8759f5ab14e01",
+                "reference": "1cf3e5f5272af874697a866d6bb8759f5ab14e01",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/config": "^9.0|^10.0",
+                "illuminate/console": "^9.0|^10.0",
+                "illuminate/contracts": "^9.0|^10.0",
+                "illuminate/support": "^9.0|^10.0",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^9.3",
+                "vimeo/psalm": "^5.15"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Butschster\\Head\\Providers\\MetaTagsServiceProvider"
+                    ],
+                    "aliases": {
+                        "Meta": "Butschster\\Head\\Facades\\Meta",
+                        "PackageManager": "Butschster\\Head\\Facades\\PackageManager"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Butschster\\Head\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev",
+                    "email": "butschster@gmail.com"
+                }
+            ],
+            "description": "The most powerful and extendable tools for managing SEO Meta Tags in your Laravel project",
+            "keywords": [
+                "laravel5",
+                "lumen",
+                "metatags",
+                "opengraph",
+                "seo",
+                "webmaster"
+            ],
+            "support": {
+                "issues": "https://github.com/butschster/LaravelMetaTags/issues",
+                "source": "https://github.com/butschster/LaravelMetaTags/tree/v3.0-beta1"
+            },
+            "funding": [
+                {
+                    "url": "https://opencollective.com/laravelmetatags",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://www.patreon.com/butschster",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2023-09-10T07:51:59+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",

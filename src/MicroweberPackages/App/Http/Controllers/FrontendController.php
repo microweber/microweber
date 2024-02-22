@@ -117,29 +117,33 @@ class FrontendController extends Controller
             $page_url = $this->page_url;
         }
 
-        $favicon_image = false;
 
-        if (isset($this->websiteOptions['favicon_image'])) {
-            $favicon_image = $this->websiteOptions['favicon_image'];
-        }
+        // moved to src/MicroweberPackages/MetaTags/Entities/FaviconHeadTag.php
+//        $favicon_image = false;
+//
+//        if (isset($this->websiteOptions['favicon_image'])) {
+//            $favicon_image = $this->websiteOptions['favicon_image'];
+//        }
+//
+//        if (!$favicon_image) {
+//            $ui_favicon = mw()->ui->brand_favicon();
+//            if ($ui_favicon and trim($ui_favicon) != '') {
+//                $favicon_image = trim($ui_favicon);
+//            }
+//        }
+//        if ($favicon_image) {
+//            mw()->template->head('<link rel="shortcut icon" href="' . $favicon_image . '" />');
+//        }
+//
 
-        if (!$favicon_image) {
-            $ui_favicon = mw()->ui->brand_favicon();
-            if ($ui_favicon and trim($ui_favicon) != '') {
-                $favicon_image = trim($ui_favicon);
-            }
-        }
-        if ($favicon_image) {
-            mw()->template->head('<link rel="shortcut icon" href="' . $favicon_image . '" />');
-        }
 
-
-        $animations = get_option('animations-global', 'template');
-        //dd($animations);
-        if ($animations) {
-            // adds the animations definitions to the head
-            mw()->template->head('<script id="template-animations-data">mw.__pageAnimations = ' . $animations . '</script>');
-        }
+        // moved to src/MicroweberPackages/MetaTags/Entities/FrontendAnimationsScriptTag.php
+//        $animations = get_option('animations-global', 'template');
+//        //dd($animations);
+//        if ($animations) {
+//            // adds the animations definitions to the head
+//            mw()->template->head('<script id="template-animations-data">mw.__pageAnimations = ' . $animations . '</script>');
+//        }
 
 
         $page = false;
@@ -1097,12 +1101,13 @@ class FrontendController extends Controller
             $is_admin = app()->user_manager->is_admin();
             // $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
 
+// moved to src/MicroweberPackages/MetaTags/Entities/SystemDefaultCssHeadTags.php
+//            $default_css_url = $this->app->template->get_default_system_ui_css_url();
+//            $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
 
-            $default_css_url = $this->app->template->get_default_system_ui_css_url();
-            $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
 
 
-            $headers = event_trigger('site_header', TEMPLATE_NAME);
+            $headers = event_trigger('site_header', $the_active_site_template);
             $template_headers_append = '';
             $one = 1;
             if (is_array($headers)) {
@@ -1167,8 +1172,9 @@ class FrontendController extends Controller
                 }
 
 
-                $l = $this->app->template->append_livewire_to_layout($l);
-                $l = $this->app->template->append_api_js_to_layout($l);
+                $l = $this->app->template->frontend_append_meta_tags($l);
+              //  $l = $this->app->template->append_livewire_to_layout($l);
+             //   $l = $this->app->template->append_api_js_to_layout($l);
             }
 
 
@@ -1207,77 +1213,86 @@ class FrontendController extends Controller
                 $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
             }*/
 
-            $live_edit_css_folder = userfiles_path() . 'css' . DS . $the_active_site_template . DS;
-            $live_edit_url_folder = userfiles_url() . 'css/' . $the_active_site_template . '/';
-            $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
 
-            $custom_live_edit = normalize_path($custom_live_edit, false);
+            // moved to src/MicroweberPackages/MetaTags/Entities/LiveEditCssHeadTags.php
 
-            $liv_ed_css = false;
-            if (is_file($custom_live_edit)) {
-                $custom_live_editmtime = filemtime($custom_live_edit);
-                $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings"  crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />';
-                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
-            }
+//            $live_edit_css_folder = userfiles_path() . 'css' . DS . $the_active_site_template . DS;
+//            $live_edit_url_folder = userfiles_url() . 'css/' . $the_active_site_template . '/';
+//            $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
+//
+//            $custom_live_edit = normalize_path($custom_live_edit, false);
+//
+//            $liv_ed_css = false;
+//            if (is_file($custom_live_edit)) {
+//                $custom_live_editmtime = filemtime($custom_live_edit);
+//                $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings"  crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />';
+//                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+//            }
 
+// moved to src/MicroweberPackages/MetaTags/Entities/CustomFontsCssHeadTags.php
+//            $liv_ed_css_get_custom_css_content_fonts = $this->app->template->get_custom_fonts_css_content();
+//            if ($liv_ed_css_get_custom_css_content_fonts == false) {
+//                if ($is_editmode) {
+//                    $liv_ed_css = '<link rel="stylesheet"  crossorigin="anonymous" referrerpolicy="no-referrer"  id="mw-custom-user-fonts" type="text/css" />';
+//                }
+//            } else {
+//                $liv_ed_css = $this->app->template->get_custom_fonts_css_url();
+//
+//                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-fonts" type="text/css"  crossorigin="anonymous" referrerpolicy="no-referrer" />';
+//            }
+//
+//            if ($liv_ed_css != false) {
+//                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+//            }
 
-            $liv_ed_css_get_custom_css_content_fonts = $this->app->template->get_custom_fonts_css_content();
-            if ($liv_ed_css_get_custom_css_content_fonts == false) {
-                if ($is_editmode) {
-                    $liv_ed_css = '<link rel="stylesheet"  crossorigin="anonymous" referrerpolicy="no-referrer"  id="mw-custom-user-fonts" type="text/css" />';
-                }
-            } else {
-                $liv_ed_css = $this->app->template->get_custom_fonts_css_url();
+            //src/MicroweberPackages/MetaTags/Entities/CustomCssHeadTags.php
 
-                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-fonts" type="text/css"  crossorigin="anonymous" referrerpolicy="no-referrer" />';
-            }
-
-            if ($liv_ed_css != false) {
-                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
-            }
-
-
-            $liv_ed_css_get_custom_css_content = $this->app->template->get_custom_css_content();
-            if ($liv_ed_css_get_custom_css_content == false) {
-                if ($is_editmode) {
-                    $liv_ed_css = '<link rel="stylesheet"  crossorigin="anonymous" referrerpolicy="no-referrer"  id="mw-custom-user-css" type="text/css" />';
-                }
-            } else {
-                $liv_ed_css = $this->app->template->get_custom_css_url();
-
-                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css"  crossorigin="anonymous" referrerpolicy="no-referrer" />';
-            }
-
-            if ($liv_ed_css != false) {
-                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
-            }
+//            $liv_ed_css_get_custom_css_content = $this->app->template->get_custom_css_content();
+//            if ($liv_ed_css_get_custom_css_content == false) {
+//                if ($is_editmode) {
+//                    $liv_ed_css = '<link rel="stylesheet"  crossorigin="anonymous" referrerpolicy="no-referrer"  id="mw-custom-user-css" type="text/css" />';
+//                }
+//            } else {
+//                $liv_ed_css = $this->app->template->get_custom_css_url();
+//
+//                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css"  crossorigin="anonymous" referrerpolicy="no-referrer" />';
+//            }
+//
+//            if ($liv_ed_css != false) {
+//                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+//            }
 
 
             //    }
 
-            // Add custom head tags
-            $website_head_tags = $this->websiteOptions['website_head'];
-            $rep_count = 1;
-            if ($website_head_tags != false) {
-                $l = str_ireplace('</head>', $website_head_tags . '</head>', $l, $rep_count);
-            }
 
-            if (defined('MW_VERSION')) {
-                $generator_tag = "\n" . '<meta name="generator" content="' . addslashes(mw()->ui->brand_name()) . '" />' . "\n";
-                $l = str_ireplace('</head>', $generator_tag . '</head>', $l, $rep_count);
-            }
+            // moved to src/MicroweberPackages/MetaTags/Entities/CustomUserHeadTags.php
+            // Add custom head tags
+//            $website_head_tags = $this->websiteOptions['website_head'];
+//            $rep_count = 1;
+//            if ($website_head_tags != false) {
+//                $l = str_ireplace('</head>', $website_head_tags . '</head>', $l, $rep_count);
+//            }
+
+
+
+            // moved to src/MicroweberPackages/MetaTags/Entities/GeneratorHeadTag.php
+//            if (defined('MW_VERSION')) {
+//                $generator_tag = "\n" . '<meta name="generator" content="' . addslashes(mw()->ui->brand_name()) . '" />' . "\n";
+//                $l = str_ireplace('</head>', $generator_tag . '</head>', $l, $rep_count);
+//            }
 
 
             $template_config = $this->app->template->get_config();
-            $enable_default_css = true;
-            if ($template_config and isset($template_config["standalone_ui"]) and $template_config["standalone_ui"]) {
-                if (!$is_editmode and !$back_to_editmode) {
-                    $enable_default_css = false;
-                }
-            }
-            if ($enable_default_css) {
-                $l = str_ireplace('<head>', '<head>' . $default_css, $l);
-            }
+//            $enable_default_css = true;
+//            if ($template_config and isset($template_config["standalone_ui"]) and $template_config["standalone_ui"]) {
+//                if (!$is_editmode and !$back_to_editmode) {
+//                    $enable_default_css = false;
+//                }
+//            }
+//            if ($enable_default_css) {
+//                $l = str_ireplace('<head>', '<head>' . $default_css, $l);
+//            }
 
 
             if (isset($content['original_link']) and trim($content['original_link']) != '') {

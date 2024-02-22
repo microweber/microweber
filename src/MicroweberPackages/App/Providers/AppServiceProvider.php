@@ -61,6 +61,7 @@ use MicroweberPackages\Media\MediaManagerServiceProvider;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
 use MicroweberPackages\Menu\Providers\MenuServiceProvider;
+use MicroweberPackages\MetaTags\Providers\MetaTagsServiceProvider;
 use MicroweberPackages\MicroweberUI\Providers\MicroweberUIServiceProvider;
 use MicroweberPackages\Module\ModuleServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
@@ -250,6 +251,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(LiveEditRouteServiceProvider::class);
 
         $this->app->register(ViewServiceProvider::class);
+        $this->app->register(MetaTagsServiceProvider::class);
         $this->app->register(MicroweberUIServiceProvider::class);
         $this->app->register(BladeUIServiceProvider::class);
         $this->app->register(LivewireServiceProvider::class);

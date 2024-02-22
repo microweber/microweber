@@ -3,6 +3,7 @@
 
 namespace MicroweberPackages\Template;
 
+use Butschster\Head\Facades\Meta;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
 use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
@@ -142,6 +143,9 @@ class Template
         return $this->js_adapter->get_apijs_combined_url();
     }
 
+    /**
+     * @deprecated
+     */
     public function append_livewire_to_layout($layout)
     {
         $alpineUrl = mw_includes_url() . 'api/libs/alpine/alpine.min.js';
@@ -162,6 +166,26 @@ class Template
         return $layout;
     }
 
+    public function frontend_append_meta_tags($layout)
+    {
+        Meta::includePackages([
+            'frontend'
+        ]);
+
+        event_trigger('mw.template.before_render', $layout);
+
+     //   $layout = $this->append_livewire_to_layout($layout);
+      //  $layout = $this->append_api_js_to_layout($layout);
+
+
+       $meta = Meta::toHtml();
+       $layout = Str::replaceFirst('<head>', '<head>' . $meta, $layout);
+
+        return $layout;
+    }
+    /**
+     * @deprecated
+     */
     public function append_api_js_to_layout($layout)
     {
         $apijs_combined_loaded = $this->get_apijs_combined_url();
