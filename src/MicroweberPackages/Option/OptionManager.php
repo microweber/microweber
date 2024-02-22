@@ -175,6 +175,7 @@ class OptionManager
      * $this->get('my_key', 'my_group');
      */
     public $memoryOptionGroupNew = [];
+    public $memoryOptionGroup = [];
     public function get($optionKey, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false)
     {
         if (!mw_is_installed()) {
