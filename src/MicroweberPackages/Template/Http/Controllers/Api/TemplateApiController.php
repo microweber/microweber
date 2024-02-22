@@ -36,7 +36,7 @@ class TemplateApiController
             if (!is_file($filePath)) {
                 return ['error'=>'Template dosen\'t have default content file.'];
             }
-            $sessionId = SessionStepper::generateSessionId(0);
+            $sessionId = SessionStepper::generateSessionId(1);
 
             $installTemplate = new TemplateInstaller();
             $installTemplate->setSessionId($sessionId);

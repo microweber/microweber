@@ -126,7 +126,7 @@ class ExportTest extends TestCase
 			return;
 		}
 
-        $sessionId = SessionStepper::generateSessionId(0);
+        $sessionId = SessionStepper::generateSessionId(1);
 		$manager = new Import();
         $manager->setSessionId($sessionId);
 		$manager->setFile(self::$_exportedFile);
