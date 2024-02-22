@@ -20,7 +20,6 @@ class ImportTest extends TestCase
 
     public function testImportSampleCsvFile() {
 
-        $sample = userfiles_path() . '/modules/admin/import_tool/samples/sample.csv';
         $sample = userfiles_path() . '/modules/admin/import_export_tool/samples/sample.csv';
         $sample = normalize_path($sample, false);
 

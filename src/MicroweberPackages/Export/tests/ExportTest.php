@@ -4,6 +4,8 @@ namespace MicroweberPackages\Export\tests;
 use Faker\Factory;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Backup\BackupManager;
+use MicroweberPackages\Export\SessionStepper;
+use MicroweberPackages\Import\Import;
 use MicroweberPackages\Post\Models\Post;
 
 
@@ -48,14 +50,16 @@ class ExportTest extends TestCase
 	public function testFullExport() {
 
 		clearcache();
+        $sessionId = SessionStepper::generateSessionId(20);
 
-		$manager = new BackupManager();
+        $manager = new \MicroweberPackages\Export\Export();
+        $manager->setSessionId($sessionId);
 		$manager->setExportAllData(true);
 
 		$i = 0;
 		while (true) {
 
-			$export = $manager->startExport();
+			$export = $manager->start();
 
 			$exportBool = false;
 			if (!empty($export)) {
@@ -90,11 +94,20 @@ class ExportTest extends TestCase
 			$i++;
 		}
 
-
         $contentCount = get_content('count=1');
-        $json_expor_test = json_decode(file_get_contents(self::$_exportedFile),true);
-        $this->assertTrue(!empty($json_expor_test['content']));
-        $this->assertEquals(count($json_expor_test['content']),$contentCount);
+
+        $zip = new \ZipArchive;
+        $res = $zip->open(self::$_exportedFile);
+        $this->assertTrue($res === TRUE);
+
+        $jsonFileInsideZip = str_replace('.zip', '.json', self::$_exportedFile);
+        $jsonFileInsideZip = basename($jsonFileInsideZip);
+        $jsonFileContent = $zip->getFromName($jsonFileInsideZip);
+
+        $jsonExportTest = json_decode($jsonFileContent,true);
+
+        $this->assertTrue(!empty($jsonExportTest['content']));
+        $this->assertEquals(count($jsonExportTest['content']),$contentCount);
 
 	}
 
@@ -110,11 +123,13 @@ class ExportTest extends TestCase
 			return;
 		}
 
-		$manager = new BackupManager();
-		$manager->setImportFile(self::$_exportedFile);
+        $sessionId = SessionStepper::generateSessionId(20);
+		$manager = new Import();
+        $manager->setSessionId($sessionId);
+		$manager->setFile(self::$_exportedFile);
 		$manager->setBatchImporting(false);
 
-		$import = $manager->startImport();
+		$import = $manager->start();
 
 		$importBool = false;
 		if (!empty($import)) {
@@ -149,73 +164,5 @@ class ExportTest extends TestCase
 		}
 	}
 
-	public function testImportSampleCsvFile() {
-
-	    $sample = userfiles_path() . '/modules/admin/backup/samples/sample.csv';
-        $sample = normalize_path($sample, false);
-
-        $manager = new BackupManager();
-        $manager->setImportFile($sample);
-        $manager->setBatchImporting(false);
-
-        $importStatus = $manager->startImport();
-
-        $this->assertSame(true, $importStatus['done']);
-        $this->assertSame(100, $importStatus['percentage']);
-        $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
-    }
-
-    public function testImportSampleJsonFile() {
-
-        $sample = userfiles_path() . '/modules/admin/backup/samples/sample.json';
-        $sample = normalize_path($sample, false);
-
-        $manager = new BackupManager();
-        $manager->setImportFile($sample);
-        $manager->setBatchImporting(false);
-
-        $importStatus = $manager->startImport();
-
-        $this->assertSame(true, $importStatus['done']);
-        $this->assertSame(100, $importStatus['percentage']);
-        $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
-    }
-
-    public function testImportSampleXlsxFile() {
-
-        $sample = userfiles_path() . '/modules/admin/backup/samples/sample.xlsx';
-        $sample = normalize_path($sample, false);
-
-        $manager = new BackupManager();
-        $manager->setImportFile($sample);
-        $manager->setBatchImporting(false);
-
-        $importStatus = $manager->startImport();
-
-
-        $this->assertSame(true, $importStatus['done']);
-        $this->assertSame(100, $importStatus['percentage']);
-        $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
-    }
-
-	public function testImportWrongFile() {
-
-		$manager = new BackupManager();
-		$manager->setImportFile('wrongfile.txt');
-		$manager->setBatchImporting(false);
-
-		$importStatus = $manager->startImport();
-
-		$this->assertArrayHasKey('error', $importStatus);
-	}
-
-	public function testExportWithWrongFormat()
-	{
-		$export = new BackupManager();
-		$export->setExportType('xml_');
-		$exportStatus = $export->startExport();
-
-		$this->assertArrayHasKey('error', $exportStatus);
-	}
 
 }
