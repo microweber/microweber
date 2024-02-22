@@ -437,8 +437,9 @@ class MenuManager
             $title = '';
             $url = '';
             $is_active = true;
-            $url = $item['url']  = trim(  $item['url'] );
-
+            if(isset($item['url'])) {
+                $url = $item['url'] = trim($item['url']);
+            }
             if (intval($item['content_id']) > 0 ) {
                  $cont = $this->app->content_manager->get_by_id($item['content_id']);
 
