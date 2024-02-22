@@ -1618,16 +1618,30 @@ MWEditor.controllers = {
                     return getComputedStyle(api.elementNode(api.getSelection().focusNode)).color
                 }
             });
+            el.on('changeStart', function (e, val) {
+                var sel = scope.getSelection();
+                var el = scope.api.elementNode(sel.focusNode);
+                scope.state.record({
+                    target: el,
+                    value: el.innerHTML
+                });
+            })
+            el.on('changeEnd', function (e, val) {
+                var sel = scope.getSelection();
+                var el = scope.api.elementNode(sel.focusNode);
+                scope.state.record({
+                    target: el,
+                    value: el.innerHTML
+                });
+            })
             el.on('change', function (e, val) {
                 var sel = scope.getSelection();
+                var el = scope.api.elementNode(sel.focusNode);
                 if(sel.isCollapsed ) {
-                    var el = scope.api.elementNode(sel.focusNode);
-                    scope.api.action(mw.tools.firstBlockLikeLevel(el.parentNode), function () {
-                        mw.top().app.cssEditor.temp(el, 'color', val)
-                    }, true);
+                    mw.top().app.cssEditor.temp(el, 'color', val)
                 } else {
 
-                    api.execCommand('foreColor', false, val, false);
+                    api.execCommandSimple('foreColor', false, val, false);
                 }
 
             });
@@ -1671,26 +1685,42 @@ MWEditor.controllers = {
                 },
                 api,
                 getColor: function() {
-                    return getComputedStyle(api.elementNode(api.getSelection().focusNode)).backgroundColor
+                    var color = getComputedStyle(api.elementNode(api.getSelection().focusNode)).backgroundColor
+                    return color !== 'rgba(0, 0, 0, 0)' ? color : 'rgba(0, 0, 0, 1)'
                 }
             });
 
-            el.on('change', function (e, val) {
-
+            el.on('changeStart', function (e, val) {
                 var sel = scope.getSelection();
+                var el = scope.api.elementNode(sel.focusNode);
+                scope.api.cleanStyle('background-color');
+                scope.state.record({
+                    target: el,
+                    value: el.innerHTML
+                });
+            })
+            el.on('changeEnd', function (e, val) {
+                var sel = scope.getSelection();
+                var el = scope.api.elementNode(sel.focusNode);
+                scope.state.record({
+                    target: el,
+                    value: el.innerHTML
+                });
+            })
+            el.on('change', function (e, val) {
+                var sel = scope.getSelection();
+                var el = scope.api.elementNode(sel.focusNode);
                 if(sel.isCollapsed ) {
-                    var el = scope.api.elementNode(sel.focusNode);
-                    scope.api.action(mw.tools.firstBlockLikeLevel(el.parentNode), function () {
-                        scope.api.cleanStyle('background-color');
-                        mw.top().app.cssEditor.temp(el, 'background-color', val);
-                    }, true);
-                } else {
-                    api.execCommand('backcolor', false, val, false);
 
+                    mw.top().app.cssEditor.temp(el, 'background-color', val)
+                } else {
+
+                    api.execCommandSimple('backcolor', false, val, false);
                 }
 
             });
             return el;
+
         };
         this.checkSelection = function (opt) {
 

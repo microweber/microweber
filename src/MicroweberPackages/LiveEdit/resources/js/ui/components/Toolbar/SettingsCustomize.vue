@@ -43,7 +43,7 @@
 
 
 <script>
-import CSSGUIService from "../../../api-core/services/services/css-gui.service.js";
+
 
 import ToolsButtons from "../RightSidebar/ToolsButtons.vue";
 import ToolbarMulilanguageSelector from "./ToolbarMulilanguageSelector.vue";
@@ -87,17 +87,7 @@ export default {
                   CSSGUIService.show()
               }
             }
-            // if (this.buttonIsActive) {
-            //     this.buttonIsActive = false;
-            //      CSSGUIService.hide()
-            // } else if (this.buttonIsActiveStyleEditor) {
-            //     this.buttonIsActiveStyleEditor = false;
-            //         CSSGUIService.hide()
-            // }  else {
-            //     this.emitter.emit('live-edit-ui-show', name);
-            // }
 
-           //  this.emitter.emit('live-edit-ui-show', name);
         },
 
         hideMoreSettingsDropdown() {
@@ -178,21 +168,11 @@ export default {
             } else {
                 instance.buttonIsActive = false;
                 instance.buttonIsActiveStyleEditor = false;
-               // instance.buttonIsActive = !instance.buttonIsActive;
-              //  instance.buttonIsActiveStyleEditor = !instance.buttonIsActiveStyleEditor;
+
             }
 
 
-            // if (instance.buttonIsActive) {
-            //
-            //     CSSGUIService.show()
-            // } else if (instance.buttonIsActiveStyleEditor) {
-            //
-            //     CSSGUIService.show()
-            // } else {
-            //
-            //     CSSGUIService.hide()
-            // }
+
         });
     },
     data() {

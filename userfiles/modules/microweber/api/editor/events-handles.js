@@ -6,7 +6,8 @@ class MWEditorEventHandles {
 
 
      backSpace(e) {
-        var sel = mw.top().app.richTextEditorAPI.getSelection();
+
+        var sel = this.scope.getSelection();
         var mergeNodeNames = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P'];
         const getParentHolder = (focusNode) => {
             var prev = null;

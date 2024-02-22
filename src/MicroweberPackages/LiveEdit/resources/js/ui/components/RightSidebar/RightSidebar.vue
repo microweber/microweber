@@ -178,8 +178,7 @@ export default {
                 rightSidebarInstance.buttonIsActive = false;
                 rightSidebarInstance.closeSidebar()
 
-                //    rightSidebarInstance.showSidebar = false;
-                //   rightSidebarInstance.buttonIsActive = false;
+
 
 
             } else {
