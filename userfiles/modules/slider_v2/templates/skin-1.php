@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Default
+name: skin 1
 
-description: Default
+description: skin 1
 
 */
 ?>
@@ -31,7 +31,7 @@ description: Default
     }
 </style>
 
-<div id="js-slider-<?php echo $params['id']; ?>" class="slider_v2-default swiper">
+<div id="js-slider-<?php echo $params['id']; ?>" class="slider_v2-default swiper" >
     <div class="swiper-wrapper">
 
         <?php if($slides): ?>
@@ -45,28 +45,25 @@ description: Default
                 <div class="js-slide-image-<?php echo $slide['itemId']; ?>"
                      style="
                          background-image: url('<?php echo $slide['image'];?>');
-                         ">
+                         border-radius: 30px;">
                 </div>
 
-                <div style="height: calc(100vh - 100px);" class="d-flex flex-column justify-content-center align-items-center">
-                    <div>
-                        <h3 class="header-section-title js-slide-title-<?php echo $slide['itemId']; ?>">
-                            <?php echo $slide['title'];?>
-                        </h3>
-                    </div>
-                    <div>
-                        <p class="header-section-p js-slide-description-<?php echo $slide['itemId']; ?>">
-                            <?php echo $slide['description'];?>
-                        </p>
-                    </div>
+                <div style="height: 650px; border-radius: 30px; padding-inline-start: 100px;" class="d-flex flex-column justify-content-center align-items-start text-start gap-4">
+
+                    <h3 class="header-section-title js-slide-title-<?php echo $slide['itemId']; ?>">
+                        <?php echo $slide['title'];?>
+                    </h3>
+
+
+                    <p class="header-section-p js-slide-description-<?php echo $slide['itemId']; ?>">
+                        <?php echo $slide['description'];?>
+                    </p>
 
 
                     <?php if(!empty($slide['buttonText']) && isset($slide['showButton']) && $slide['showButton'] == true): ?>
-                    <div>
                         <button class="btn btn-primary js-slide-button-<?php echo $slide['itemId']; ?>">
                             <?php echo $slide['buttonText'];?>
                         </button>
-                    </div>
                     <?php endif; ?>
                 </div>
 
@@ -77,6 +74,6 @@ description: Default
     </div>
 
     <div id="js-slide-pagination-<?php echo $params['id']; ?>" class="swiper-pagination"></div>
-    <div id="js-slide-pagination-previous-<?php echo $params['id']; ?>" class="mw-slider-v2-buttons-slide mw-slider-v2-button-prev"></div>
-    <div id="js-slide-pagination-next-<?php echo $params['id']; ?>" class="mw-slider-v2-buttons-slide mw-slider-v2-button-next"></div>
+<!--    <div id="js-slide-pagination-previous---><?php //echo $params['id']; ?><!--" class="mw-slider-v2-buttons-slide mw-slider-v2-button-prev"></div>-->
+<!--    <div id="js-slide-pagination-next---><?php //echo $params['id']; ?><!--" class="mw-slider-v2-buttons-slide mw-slider-v2-button-next"></div>-->
 </div>
