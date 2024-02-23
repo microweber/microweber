@@ -247,6 +247,15 @@ class User extends Authenticatable implements MustVerifyEmail
             return false;
         }
 
+        if (isset($data['thumbnail']) && !empty($data['thumbnail'])) {
+            $parseThumbnail = parse_url($data['thumbnail']);
+            if (isset($parseThumbnail['host']) && !empty($parseThumbnail['host'])) {
+                if (site_hostname() != $parseThumbnail['host']) {
+                    unset($data['thumbnail']);
+                }
+            }
+        }
+
         $dataToFill = [];
         if (is_admin()) {
             $dataToFill = array_intersect_key($data, array_flip($this->fillable));

@@ -86,6 +86,7 @@ class SaveUserApiTest extends TestCase
                 'is_verified' => 1,
                 'phone' => 'phoneEditedFromAdmin',
                 'profile_url' => 'profileUrlEditedFromAdmin',
+                'thumbnail' => 'https://microweber.com/userfiles/templates/microweber_com/home/img/designs/6.jpg',
             ]
         );
         $this->assertSame(intval($saveUserId->getContent()), intval($userData->data->id));
@@ -97,6 +98,7 @@ class SaveUserApiTest extends TestCase
         $this->assertSame($getUser['is_verified'], 1);
         $this->assertSame($getUser['phone'], 'phoneEditedFromAdmin');
         $this->assertSame($getUser['profile_url'], 'profileUrlEditedFromAdmin');
+        $this->assertSame($getUser['thumbnail'], null); // external thumbnail can't be saved
 
 
     }
