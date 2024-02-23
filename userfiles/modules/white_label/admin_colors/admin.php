@@ -1,4 +1,15 @@
-<?php if (!have_license('modules/white_label')): ?>
+
+
+<?php
+$haveLicense = false;
+if (function_exists('have_license')) {
+    $haveLicense = have_license('modules/white_label');
+}
+if (defined('HAS_ACTIVE_SUBSCRIPTION') && HAS_ACTIVE_SUBSCRIPTION == true) {
+    $haveLicense = true;
+}
+
+if (!$haveLicense): ?>
     <div class="module-live-edit-settings">
         <module type="admin/modules/activate" prefix="modules/white_label"/>
     </div>
