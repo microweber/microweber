@@ -21,6 +21,10 @@ class UserManager
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
+
+    /** @var SocialiteManager */
+    public $socialite;
+
     public function __construct($app = null)
     {
 
