@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Cookie;
+use MicroweberPackages\MetaTags\Facades\FrontendMetaTags;
 
 function template_option_group()
 {
@@ -293,25 +294,10 @@ function get_template_colors_settings()
 
 function mw_header_scripts()
 {
-    return app()->template->getHeadMetaTags();
+    return FrontendMetaTags::getHeadMetaTags();
 }
 
 function mw_footer_scripts()
 {
-    $footer = mw()->template->foot(true);
-    $template_footer_src_callback = mw()->template->foot_callback();
-    if (is_array($template_footer_src_callback) and !empty($template_footer_src_callback)) {
-        foreach ($template_footer_src_callback as $template_footer_src_callback_str) {
-            if (is_string($template_footer_src_callback_str)) {
-                $footer .= "\n" . $template_footer_src_callback_str;
-            }
-        }
-    }
-
-    $getWebsiteFooterOption = get_option('website_footer', 'website');
-    if ($getWebsiteFooterOption != false) {
-        $footer .= "\n" . $getWebsiteFooterOption;
-    }
-
-    return $footer;
+    return FrontendMetaTags::getFooterMetaTags();
 }
