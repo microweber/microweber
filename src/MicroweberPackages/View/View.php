@@ -5,6 +5,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 // Handles working with PHP output templates
+#[AllowDynamicProperties]
 class View
 {
     public $v;
