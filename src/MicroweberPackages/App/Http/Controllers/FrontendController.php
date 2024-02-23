@@ -1223,18 +1223,18 @@ class FrontendController extends Controller
 
             // moved to src/MicroweberPackages/MetaTags/Entities/LiveEditCssHeadTags.php
 
-//            $live_edit_css_folder = userfiles_path() . 'css' . DS . $the_active_site_template . DS;
-//            $live_edit_url_folder = userfiles_url() . 'css/' . $the_active_site_template . '/';
-//            $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
-//
-//            $custom_live_edit = normalize_path($custom_live_edit, false);
-//
-//            $liv_ed_css = false;
-//            if (is_file($custom_live_edit)) {
-//                $custom_live_editmtime = filemtime($custom_live_edit);
-//                $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings"  crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />';
-//                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
-//            }
+            $live_edit_css_folder = userfiles_path() . 'css' . DS . $the_active_site_template . DS;
+            $live_edit_url_folder = userfiles_url() . 'css/' . $the_active_site_template . '/';
+            $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
+
+            $custom_live_edit = normalize_path($custom_live_edit, false);
+
+            $liv_ed_css = false;
+            if (is_file($custom_live_edit)) {
+                $custom_live_editmtime = filemtime($custom_live_edit);
+                $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings"  crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />';
+                $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+            }
 
 // moved to src/MicroweberPackages/MetaTags/Entities/CustomFontsCssHeadTags.php
 //            $liv_ed_css_get_custom_css_content_fonts = $this->app->template->get_custom_fonts_css_content();
