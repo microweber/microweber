@@ -16,6 +16,7 @@ return;
     </script>
 
     <?php print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
+    <?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getHeadMetaTags() ;    ?>
 
     <script type="text/javascript">
         mw.lib.require('jqueryui');

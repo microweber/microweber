@@ -6,6 +6,7 @@ use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\tests\TestHelpers;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\LiveEditWaitUntilLoaded;
 use Tests\DuskTestCase;
 
@@ -97,6 +98,12 @@ class MetaTagsFrontendTest extends DuskTestCase
 
     private function performMetaTagsAssertions(Browser $browser)
     {
+        $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+            $browser->validate();
+        });
+
+
+
         $selectors = [
             'link[rel="shortcut icon"]',
             'link[rel="author"]',

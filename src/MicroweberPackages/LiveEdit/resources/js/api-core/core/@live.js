@@ -970,7 +970,12 @@ export class LiveEdit {
                 mw.app.editor.dispatch('editNodeRequest', selected);
             } else if (selected &&  selected === _dblclicktarget) {
                 if(!selected.isContentEditable) {
-                    setTimeout(()=>{mw.top().app.richTextEditorAPI.getSelection().collapseToStart()}, 20)
+                    setTimeout(()=>{
+                        var sel = mw.top().app.richTextEditorAPI.getSelection();
+                        if(sel && sel.rangeCount > 0) {
+                            sel.collapseToStart();
+                        }
+                    }, 20);
                 }
                 mw.app.editor.dispatch('editNodeRequest', selected);
 

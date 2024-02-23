@@ -4,9 +4,9 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta charset="UTF-8">
 
+      <?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getHeadMetaTags() ;    ?>
 
 
-      <?php print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
 
       <script>
           mw.lib.require('jqueryui');
@@ -28,6 +28,12 @@
       </script>
   </head>
   <body class="mw-external-loading">
-    {content}
+    <div>
+        {content}
+    </div>
+
+
+    <?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getFooterMetaTags() ;    ?>
+
   </body>
 </html>
