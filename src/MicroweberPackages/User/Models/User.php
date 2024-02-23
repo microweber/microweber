@@ -248,11 +248,18 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         if (isset($data['thumbnail']) && !empty($data['thumbnail'])) {
+            $passThumbnail = false;
             $parseThumbnail = parse_url($data['thumbnail']);
             if (isset($parseThumbnail['host']) && !empty($parseThumbnail['host'])) {
-                if (site_hostname() != $parseThumbnail['host']) {
-                    unset($data['thumbnail']);
+                if (site_hostname() == $parseThumbnail['host']) {
+                    $localThumbnailFile = url2dir($data['thumbnail']);
+                    if (is_file($localThumbnailFile)) {
+                        $passThumbnail = true;
+                    }
                 }
+            }
+            if (!$passThumbnail) {
+                unset($data['thumbnail']);
             }
         }
 

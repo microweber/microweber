@@ -77,6 +77,10 @@ class SaveUserApiTest extends TestCase
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
+        $findUser = User::find($userData->data->id);
+        $findUser->thumbnail = null;
+        $findUser->save();
+
         $saveUserId = $this->post(
             route('api.save_user'),
             [
@@ -98,6 +102,25 @@ class SaveUserApiTest extends TestCase
         $this->assertSame($getUser['is_verified'], 1);
         $this->assertSame($getUser['phone'], 'phoneEditedFromAdmin');
         $this->assertSame($getUser['profile_url'], 'profileUrlEditedFromAdmin');
+        $this->assertSame($getUser['thumbnail'], null); // external thumbnail can't be saved
+
+
+        // save thumbnail xss
+        $findUser = User::where('id', $userData->data->id)->first();
+        $findUser->thumbnail = null;
+        $findUser->save();
+
+        $saveUserId = $this->post(
+            route('api.save_user'),
+            [
+                'id' => $userData->data->id,
+                'thumbnail' => site_url() . '%22onscrollend=%22alert(1)%22style=%22display:block;overflow:auto;border:1px%20dashed;width:500px;height:100px;%22/',
+            ]
+        );
+        $this->assertSame(intval($saveUserId->getContent()), intval($userData->data->id));
+
+        $getUser = get_user_by_id($userData->data->id);
+
         $this->assertSame($getUser['thumbnail'], null); // external thumbnail can't be saved
 
 
