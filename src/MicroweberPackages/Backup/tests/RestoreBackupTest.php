@@ -53,7 +53,7 @@ class RestoreBackupTest extends TestCase
 
         $sessionId = SessionStepper::generateSessionId(20);
 
-        for ($i = 1; $i <= 19; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
 
             $backup = new GenerateBackup();
             $backup->setSessionId($sessionId);
@@ -63,6 +63,7 @@ class RestoreBackupTest extends TestCase
             $backup->setAllowSkipTables(false);
 
             $backupStart = $backup->start();
+
             if (isset($status['success'])) {
                 break;
             }
