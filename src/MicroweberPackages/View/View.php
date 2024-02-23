@@ -10,6 +10,9 @@ class View
 {
     public $v;
 
+    public $config;
+    public $params;
+
     public function __construct($v)
     {
         $this->v = realpath($v);
