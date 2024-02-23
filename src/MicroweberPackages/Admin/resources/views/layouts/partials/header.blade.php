@@ -12,7 +12,8 @@
 
 
     <link rel="stylesheet" href="<?php print mw_includes_url(); ?>css/fonts/fonts.css">
-    <?php print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
+    <?php //print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
+    <?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getHeadMetaTags() ;    ?>
 
     <script type="text/javascript">
 
@@ -73,8 +74,8 @@
     ?>
     <?php if ($enableLivewireScripts) { ?>
 
-        <?php print \Livewire\Livewire::scripts(); ?>
-        <?php print \Livewire\Livewire::styles(); ?>
+        <?php //print \Livewire\Livewire::scripts(); ?>
+        <?php //print \Livewire\Livewire::styles(); ?>
 
 
 
@@ -186,16 +187,18 @@ $bodyClassesStr = $bodyClasses ? implode(' ', $bodyClasses) : '';
 <body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?> <?php print $additionalBodyClassesStr; ?>">
 
 
-<?php if ($enableLivewireScripts) { ?>
+
+
+
+<?php
+
+/*<?php if ($enableLivewireScripts) { ?>
 <div>
     <div>
         @livewire('livewire-ui-modal')
     </div>
 </div>
-<?php } ?>
-
-
-<?php
+<?php } ?>*/
 
 // must be moved to ajax and to the notification class because its too slow to load
 //$new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates');

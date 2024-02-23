@@ -8,8 +8,7 @@
     <meta name="robots" content="noindex">
 
 
-    <?php print \MicroweberPackages\Admin\Facades\AdminManager::scripts();    ?>
-    <?php print \MicroweberPackages\Admin\Facades\AdminManager::styles();    ?>
+
 
     <script>
         mwAdmin = true;
@@ -17,11 +16,20 @@
     </script>
 
 
+    <?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getHeadMetaTags() ;    ?>
+
+
+
 </head>
 
 <body class="is_admin loading">
 
 <module type="users/login" template="admin" />
+
+
+
+<?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getFooterMetaTags() ;    ?>
+
 
 </body>
 </html>
