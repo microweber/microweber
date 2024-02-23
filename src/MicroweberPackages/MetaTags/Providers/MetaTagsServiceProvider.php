@@ -110,6 +110,15 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'author_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\AuthorHeadTags()
             );
+
+            $package->addTag(
+                'custom_user_footer_tags',
+                new \MicroweberPackages\MetaTags\Entities\CustomUserFooterTags()
+            );
+            $package->addTag(
+                'custom_footer_tags_from_callback',
+                new \MicroweberPackages\MetaTags\Entities\CustomFooterTagsFromCallback()
+            );
         });
     }
 

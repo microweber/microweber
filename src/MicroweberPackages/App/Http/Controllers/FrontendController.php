@@ -1151,27 +1151,27 @@ class FrontendController extends Controller
 //                //$l = str_ireplace('</head>', $template_headers_src . '</head>', $l, $one);
 //                $l = Str::replaceFirst('</head>', $template_headers_src . '</head>', $l);
 //            }
-
-            $template_footer_src = $this->app->template->foot(true);
-
-            $template_footer_src_callback = $this->app->template->foot_callback($page);
-            if (is_array($template_footer_src_callback) and !empty($template_footer_src_callback)) {
-                foreach ($template_footer_src_callback as $template_footer_src_callback_str) {
-                    if (is_string($template_footer_src_callback_str)) {
-                        $template_footer_src = $template_footer_src . "\n" . $template_footer_src_callback_str;
-                    }
-                }
-            }
+            $template_footer_src = '';
+//            $template_footer_src = $this->app->template->foot(true);
+//
+//            $template_footer_src_callback = $this->app->template->foot_callback($page);
+//            if (is_array($template_footer_src_callback) and !empty($template_footer_src_callback)) {
+//                foreach ($template_footer_src_callback as $template_footer_src_callback_str) {
+//                    if (is_string($template_footer_src_callback_str)) {
+//                        $template_footer_src = $template_footer_src . "\n" . $template_footer_src_callback_str;
+//                    }
+//                }
+//            }
             if (is_string($l)) {
                 // Add custom footer tags
-                $website_footer_tags = $this->websiteOptions['website_footer'];
-                if ($website_footer_tags != false) {
-                    $template_footer_src .= $website_footer_tags . "\n";
-                }
-
-                if ($template_footer_src != false and is_string($template_footer_src)) {
-                    $l = Str::replaceFirst('</body>', $template_footer_src . '</body>', $l);
-                }
+//                $website_footer_tags = $this->websiteOptions['website_footer'];
+//                if ($website_footer_tags != false) {
+//                    $template_footer_src .= $website_footer_tags . "\n";
+//                }
+//
+//                if ($template_footer_src != false and is_string($template_footer_src)) {
+//                    $l = Str::replaceFirst('</body>', $template_footer_src . '</body>', $l);
+//                }
 
 
 
