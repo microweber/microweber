@@ -6,6 +6,7 @@ namespace MicroweberPackages\Template;
 use Butschster\Head\Facades\Meta;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
+use MicroweberPackages\MetaTags\Facades\FrontendMetaTags;
 use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
 use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateOptimizeLoadingHelper;
@@ -168,20 +169,29 @@ class Template
 
     public function getHeadMetaTags()
     {
-        event_trigger('mw.template.getHeadMetaTags');
+        return FrontendMetaTags::getHeadMetaTags();
 
-        Meta::includePackages([
-            'frontend'
-        ]);
+//        Meta::includePackages([
+//            'frontend'
+//        ]);
+//        $meta = Meta::placement('head')->toHtml();
+//        return $meta;
+    }
 
-        event_trigger('mw.template.afterGetHeadMetaTags');
-
-        $meta = Meta::toHtml();
-        return $meta;
+    public function getFooterMetaTags()
+    {
+        return FrontendMetaTags::getFooterMetaTags();
+//        Meta::includePackages([
+//            'frontend'
+//        ]);
+//        $meta = Meta::placement('footer')->toHtml();
+//        return $meta;
     }
 
     public function frontend_append_meta_tags($layout)
     {
+
+
 
         event_trigger('mw.template.before_render', $layout);
 
@@ -190,6 +200,10 @@ class Template
         $meta = $this->getHeadMetaTags();
 
         $layout = Str::replaceFirst('<head>', '<head>' . $meta, $layout);
+
+        $meta = $this->getFooterMetaTags();
+        $layout = Str::replaceFirst('</body>', $meta . '</body>', $layout);
+
 
         return $layout;
     }

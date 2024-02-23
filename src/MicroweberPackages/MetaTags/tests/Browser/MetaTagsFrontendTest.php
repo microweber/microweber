@@ -117,7 +117,12 @@ class MetaTagsFrontendTest extends DuskTestCase
             $this->assertEquals(true, $output[0], 'Meta tags Selector ' . $selector . ' must be only 1');
         }
 
-
+        $output = $browser->script("
+            //check it must not have divs in head tags
+            var  isTrue = document.querySelectorAll('head > div').length === 0;
+            return isTrue;
+            ");
+        $this->assertEquals(true, $output[0], 'Meta tags must not have divs in head tags');
 
         $selectors = [
 
