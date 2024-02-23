@@ -49,8 +49,6 @@ class MetaTagsFrontendTest extends DuskTestCase
         save_option('yandex-site-verification-code', 'yandex-site-verification-code', 'website');
 
 
-
-
         $website_head_option = get_option('website_head', 'website');
         $website_footer_option = get_option('website_footer', 'website');
 
@@ -117,7 +115,20 @@ class MetaTagsFrontendTest extends DuskTestCase
             $this->assertEquals(true, $output[0], 'Meta tags Selector ' . $selector . ' must be only 1');
         }
 
+        $output = $browser->script("
+            //check it must not have divs in head tags
+            var  isTrue = document.querySelectorAll('head > div').length === 0;
+            return isTrue;
+            ");
+        $this->assertEquals(true, $output[0], 'Meta tags must not have divs in head tags');
 
+
+        $output = $browser->script("
+            //check window.livewire exists
+            var  isTrue = typeof window.livewire !== 'undefined';
+            return isTrue;
+            ");
+        $this->assertEquals(true, $output[0], 'window.livewire must exists');
 
         $selectors = [
 

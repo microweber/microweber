@@ -19,6 +19,8 @@ use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 use MicroweberPackages\Option\Traits\ModuleOptionTrait;
 
+
+#[AllowDynamicProperties]
 class OptionManager
 {
     public $app;

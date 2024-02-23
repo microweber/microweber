@@ -21,6 +21,10 @@ class UserManager
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
+
+    /** @var SocialiteManager */
+    public $socialite;
+
     public function __construct($app = null)
     {
 
@@ -921,22 +925,6 @@ class UserManager
             } catch (\Exception $e) {
                 return array('error' => $e->getMessage());
             }
-
-            if (isset($params['attributes']) or isset($params['data_fields'])) {
-                $params['extended_save'] = true;
-            }
-
-            if (isset($params['extended_save'])) {
-                if (isset($data_to_save['password'])) {
-                    unset($data_to_save['password']);
-                }
-
-                if (isset($data_to_save['id'])) {
-                    $data_to_save['table'] = 'users';
-                    $this->app->database_manager->extended_save($data_to_save);
-                }
-            }
-
 
             if (isset($params['id']) and intval($params['id']) != 0) {
                 $id_to_return = intval($params['id']);

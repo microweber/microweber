@@ -75,7 +75,7 @@ Route::post('api/save_user', function (Request $request) {
     $input = Input::all();
 
     return save_user($input);
-})->middleware(['api']);
+})->middleware(['api'])->name('api.save_user');
 
 Route::post('api/delete_user', function (Request $request) {
     if (!defined('MW_API_CALL')) {

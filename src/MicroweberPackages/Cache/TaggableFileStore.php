@@ -17,6 +17,7 @@ use MicroweberPackages\Cache\CacheFileHandler\CacheFileHandler;
 use MicroweberPackages\Cache\CacheFileHandler\MemoryCacheFileHandler;
 use MicroweberPackages\Cache\Events\CacheFlushed;
 
+#[AllowDynamicProperties]
 class TaggableFileStore implements Store
 {
     use InteractsWithTime, RetrievesMultipleKeys;

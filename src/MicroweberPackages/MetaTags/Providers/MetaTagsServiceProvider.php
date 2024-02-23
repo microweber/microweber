@@ -12,6 +12,11 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
     {
         parent::register();
 
+
+        $this->app->singleton(\MicroweberPackages\MetaTags\FrontendMetaTagsRenderer::class, function ($app) {
+            return new \MicroweberPackages\MetaTags\FrontendMetaTagsRenderer();
+        });
+
         if (app()->environment() === 'testing') {
             $this->app->register(MetaTagsUnitTestServiceProvider::class);
         }
@@ -54,6 +59,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             $package->addTag(
                 'live_wire_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\LivewireHeadTags()
+            );
+            $package->addTag(
+                'live_wire_footer_tags',
+                new \MicroweberPackages\MetaTags\Entities\LivewireFooterTags()
             );
 
         });
@@ -100,6 +109,15 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             $package->addTag(
                 'author_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\AuthorHeadTags()
+            );
+
+            $package->addTag(
+                'custom_user_footer_tags',
+                new \MicroweberPackages\MetaTags\Entities\CustomUserFooterTags()
+            );
+            $package->addTag(
+                'custom_footer_tags_from_callback',
+                new \MicroweberPackages\MetaTags\Entities\CustomFooterTagsFromCallback()
             );
         });
     }

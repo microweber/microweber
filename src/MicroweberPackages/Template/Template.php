@@ -6,6 +6,7 @@ namespace MicroweberPackages\Template;
 use Butschster\Head\Facades\Meta;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
+use MicroweberPackages\MetaTags\Facades\FrontendMetaTags;
 use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
 use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateOptimizeLoadingHelper;
@@ -166,30 +167,22 @@ class Template
         return $layout;
     }
 
-    public function getHeadMetaTags()
-    {
-        event_trigger('mw.template.getHeadMetaTags');
-
-        Meta::includePackages([
-            'frontend'
-        ]);
-
-        event_trigger('mw.template.afterGetHeadMetaTags');
-
-        $meta = Meta::toHtml();
-        return $meta;
-    }
 
     public function frontend_append_meta_tags($layout)
     {
+
 
         event_trigger('mw.template.before_render', $layout);
 
         //   $layout = $this->append_livewire_to_layout($layout);
         //  $layout = $this->append_api_js_to_layout($layout);
-        $meta = $this->getHeadMetaTags();
+        $meta = FrontendMetaTags::getHeadMetaTags();
 
         $layout = Str::replaceFirst('<head>', '<head>' . $meta, $layout);
+
+        $meta = FrontendMetaTags::getFooterMetaTags();
+        $layout = Str::replaceFirst('</body>', $meta . '</body>', $layout);
+
 
         return $layout;
     }
