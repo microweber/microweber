@@ -66,7 +66,7 @@ class RestoreBackupTest extends TestCase
         ];
 
         $sessionId = SessionStepper::generateSessionId(3);
-//@todo steps dont work if set to more than 3 or 1, only works with 3 
+//@todo steps dont work if set to more than 3 or 1, only works with 3
         for ($i = 1; $i <= 2; $i++) {
 
             $backup = new GenerateBackup();

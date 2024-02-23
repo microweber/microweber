@@ -375,7 +375,7 @@ trait ParserLoadModuleTrait
 
             $l1 = new View($try_file1);
             $l1->config = $config;
-          //  $l1->app = app();
+            $l1->app = app();
 
             if (!isset($attrs['module'])) {
                 $attrs['module'] = $module_name;

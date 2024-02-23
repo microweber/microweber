@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class View
 {
     public $v;
-
+    public $app;
     public $config;
     public $params;
 
