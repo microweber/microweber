@@ -201,23 +201,24 @@ class AppServiceProvider extends ServiceProvider
             load_all_service_providers_for_modules();
         }
 
-        event_bind('mw.init', function () {
-            $this->executePostUpdateActionIfNeeded();
-        });
+// this is done on the controller
+//        event_bind('mw.init', function () {
+//            $this->executePostUpdateActionIfNeeded();
+//        });
 
 
     }
-    protected function executePostUpdateActionIfNeeded()
-    {
-        $is_installed = mw_is_installed();
-
-        if ($is_installed) {
-            $version = get_option('app_version', 'website');
-            if ($version != MW_VERSION) {
-               app()->update->post_update(MW_VERSION);
-            }
-        }
-    }
+//    protected function executePostUpdateActionIfNeeded()
+//    {
+//        $is_installed = mw_is_installed();
+//
+//        if ($is_installed) {
+//            $version = get_option('app_version', 'website');
+//            if ($version != MW_VERSION) {
+//               app()->update->post_update(MW_VERSION);
+//            }
+//        }
+//    }
 
     protected function registerLaravelProviders()
     {
