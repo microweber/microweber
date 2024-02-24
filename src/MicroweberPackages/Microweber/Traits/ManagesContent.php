@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Microweber\Traits;
 
+//@todo move to class
 trait ManagesContent
 {
     /**

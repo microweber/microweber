@@ -19,6 +19,7 @@ class ManagesContentTest extends TestCase
 
         $get = app()->microweber->contentGetById($pageId);
 
+
         $this->assertEquals($get['id'], $pageId);
         $this->assertEquals($get['title'], $title);
         $this->assertEquals($get['url'], $url);
