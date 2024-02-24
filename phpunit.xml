@@ -71,11 +71,18 @@
 <!--        </testsuite>-->
         <testsuite name="MicroweberModuleListTests">
             <directory>./src/MicroweberPackages/Module/slow_tests/</directory>
+            <exclude>./src/MicroweberPackages/*/tests/Browser/</exclude>
+
+            <exclude>./userfiles/modules/*/tests/Browser/</exclude>
+
+
         </testsuite>
 
 
         <testsuite name="MicroweberModulesTests">
             <directory>./userfiles/modules/*/tests/</directory>
+            <exclude>./src/MicroweberPackages/*/tests/Browser/</exclude>
+
             <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
             <exclude>./userfiles/modules/*/tests/Browser/</exclude>
 
@@ -84,6 +91,10 @@
         <testsuite name="MicroweberSlowTests">
             <directory>./src/MicroweberPackages/Helper/tests/*</directory>
             <directory>./src/MicroweberPackages/App/tests/*</directory>
+            <exclude>./src/MicroweberPackages/*/tests/Browser/</exclude>
+
+            <exclude>./userfiles/modules/*/tests/Browser/</exclude>
+
         </testsuite>
     </testsuites>
     <source>

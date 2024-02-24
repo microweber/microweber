@@ -18,6 +18,7 @@ use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Helper\XSSSecurity;
 use MicroweberPackages\Media\Repositories\MediaRepository;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
+use MicroweberPackages\Microweber\Microweber;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 use MicroweberPackages\Multilanguage\TranslateManager;
@@ -114,6 +115,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property Translator                    $translator
  * @property MultilanguageRepository       $multilanguage_repository
  * @property TranslateManager       $translate_manager
+ * @property Microweber       $microweber
 
 
 

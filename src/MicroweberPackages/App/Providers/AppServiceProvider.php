@@ -62,6 +62,7 @@ use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
 use MicroweberPackages\Menu\Providers\MenuServiceProvider;
 use MicroweberPackages\MetaTags\Providers\MetaTagsServiceProvider;
+use MicroweberPackages\Microweber\Providers\MicroweberServiceProvider;
 use MicroweberPackages\MicroweberUI\Providers\MicroweberUIServiceProvider;
 use MicroweberPackages\Module\ModuleServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
@@ -348,6 +349,7 @@ class AppServiceProvider extends ServiceProvider
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
+        $this->app->register(MicroweberServiceProvider::class);
 
 
 
