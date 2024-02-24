@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="<?php print mw_includes_url(); ?>css/fonts/fonts.css">
     <?php //print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
-    <?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getHeadMetaTags() ;    ?>
+    <?php print mw_admin_header_scripts() ;    ?>
 
     <script type="text/javascript">
 

@@ -29,13 +29,13 @@ Your id must be unique. Styles with the same id will be overwritten.
 ### Printing all head tags 
   
  ```php
-print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getHeadMetaTags()();    
+print mw_admin_header_scripts()();    
 ```
 
 ### Printing all footer tags
 
  ```php
-print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getFooterMetaTags();    
+print mw_admin_footer_scripts();    
 ```
 
 

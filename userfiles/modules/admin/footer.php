@@ -1,7 +1,10 @@
             </div>
             <!--  /.main.container -->
         </div>
-        <!--  /#mw-admin-main-block -->
+
+            <?php print mw_admin_footer_scripts() ;    ?>
+
+            <!--  /#mw-admin-main-block -->
     </body>
 </html><?php
 

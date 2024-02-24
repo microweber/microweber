@@ -13,6 +13,10 @@ class LiveEditTypingTest extends DuskTestCase
 {
     public function testLiveEditTypingOnSafeModeText()
     {
+
+//        $this->markTestIncomplete('This test is failing and must be fixed');
+//        return;
+
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
