@@ -800,7 +800,7 @@ if ($creteCategoryIn == 'shop') {
                                                         ->setModel($categoryModel)
                                                         ->value($data['category_meta_title'])
 
-                                                        ->value($data['category_meta_title']) ->autocomplete(false) ;
+                                                        ->value($data['category_meta_title']) ->autocomplete('off') ;
                                                     ?>
                                                 </div>
                                             </div>
@@ -814,7 +814,7 @@ if ($creteCategoryIn == 'shop') {
                                                     echo $formBuilder->textArea('category_meta_description')
                                                         ->setModel($categoryModel)
                                                         ->value($data['category_meta_description'])
-                                                        ->autocomplete(false);
+                                                        ->autocomplete('off');
                                                     ?>
                                                 </div>
                                             </div>
@@ -829,7 +829,7 @@ if ($creteCategoryIn == 'shop') {
                                                     echo $formBuilder->Text('category_meta_keywords')
                                                         ->setModel($categoryModel)
                                                         ->value($data['category_meta_keywords'])
-                                                        ->autocomplete(false);
+                                                        ->autocomplete('off');
                                                     ?>
                                                 </div>
 
