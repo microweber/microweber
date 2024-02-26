@@ -24,7 +24,7 @@ class StatsEvent extends Model
         $newStatsEvent->utm_campaign = '';
         $newStatsEvent->utm_term = '';
         $newStatsEvent->utm_content = '';
-
+        $newStatsEvent->user_id = app()->user_manager->id();
         $newStatsEvent->session_id = app()->user_manager->session_id();
 
         if (isset($visitorData['utm_visitor_id'])) {
