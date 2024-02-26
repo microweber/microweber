@@ -4,7 +4,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta charset="UTF-8">
 
-      <?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getHeadMetaTags() ;    ?>
+      <?php print mw_admin_header_scripts() ;    ?>
 
 
 
@@ -33,7 +33,7 @@
     </div>
 
 
-    <?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getFooterMetaTags() ;    ?>
+    <?php print mw_admin_footer_scripts() ;    ?>
 
   </body>
 </html>

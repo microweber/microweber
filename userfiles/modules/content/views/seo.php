@@ -22,7 +22,7 @@
                     echo $formBuilder->Text('content_meta_title')
                         ->setModel($contentModel)
                         ->value($value)
-                        ->autocomplete(false) ;
+                        ->autocomplete('off') ;
                     ?>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                         ->setModel($contentModel)
                         ->value($description)
                         ->setAttribute('rows' , '8')
-                        ->autocomplete(false);
+                        ->autocomplete('off');
                     ?>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                     echo $formBuilder->text('content_meta_keywords')
                         ->setModel($contentModel)
                         ->value($keywords)
-                        ->autocomplete(false);
+                        ->autocomplete('off');
                     ?>
                 </div>
 

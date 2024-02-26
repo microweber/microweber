@@ -17,6 +17,8 @@ runs:
       shell: bash
     - name: Setup Chrome Action
       uses: browser-actions/setup-chrome@v1
+      with:
+        chrome-version: 122
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
       env:
@@ -51,7 +53,7 @@ runs:
       run: |
         composer update "laravel/dusk" --prefer-dist --no-interaction --no-progress -W
         php artisan dusk:install
-        php artisan dusk:chrome-driver
+        php artisan dusk:chrome-driver 122
       shell: bash
     - name: Update Chrome Driver
       run: |

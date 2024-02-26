@@ -1,0 +1,31 @@
+{
+  "name": "microweber-packages/microweber",
+  "description": "Microweber CMS.",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Microweber",
+      "email": "info@microweber.com"
+    },
+    {
+      "name": "Peter Ivanov",
+      "email": "peter@microweber.com"
+    }
+  ],
+
+  "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\Microweber\\": ""
+    },
+    "files": [
+      "helpers.php"
+    ]
+  },
+
+  "minimum-stability": "dev",
+  "homepage": "http://microweber.com",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}

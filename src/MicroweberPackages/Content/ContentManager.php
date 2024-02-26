@@ -159,6 +159,11 @@ class ContentManager
         return $this->crud->get_by_url($url, $no_recursive);
     }
 
+    public function get_by_title($title = '')
+    {
+        return $this->get(['single'=>true, 'title' => $title]);
+    }
+
     public function get_content_id_from_url($url = '')
     {
         $content = $this->get_by_url($url);
@@ -2213,10 +2218,11 @@ class ContentManager
                 $params['id'] = $id;
             }
         }
-        $adm = $this->app->user_manager->is_admin();
-        if ($adm == false) {
-            return array('error' => 'You must be admin to publish content!');
-        }
+//admin check is moved to middelware
+//        $adm = $this->app->user_manager->is_admin();
+//        if ($adm == false) {
+//            return array('error' => 'You must be admin to publish content!');
+//        }
 
         if (!isset($params['id'])) {
             return array('error' => 'You must provide id parameter!');

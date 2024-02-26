@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
-    <?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getHeadMetaTags() ;    ?>
+    <?php print mw_admin_header_scripts() ;    ?>
 
 
     <script>
@@ -115,7 +115,7 @@
 <?php event_trigger('mw.live_edit.footer'); ?>
 
 
-<?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getFooterMetaTags();    ?>
+<?php print mw_admin_footer_scripts();    ?>
 
 
 

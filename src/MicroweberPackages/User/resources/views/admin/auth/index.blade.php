@@ -16,7 +16,7 @@
     </script>
 
 
-    <?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getHeadMetaTags() ;    ?>
+    <?php print mw_admin_header_scripts() ;    ?>
 
 
 
@@ -28,7 +28,7 @@
 
 
 
-<?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getFooterMetaTags() ;    ?>
+<?php print mw_admin_footer_scripts() ;    ?>
 
 
 </body>

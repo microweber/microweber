@@ -251,7 +251,7 @@ if (!empty($template_config)) {
                                 ->value($value)
                                 ->readOnly($readOnly)
                                 ->setReadValueFromModelField('value')
-                                ->autocomplete(false);
+                                ->autocomplete('off');
 
                         } else {
 
@@ -261,7 +261,7 @@ if (!empty($template_config)) {
                                 ->readOnly($readOnly)
                                 ->setReadValueFromModelField('value')
                                 ->placeholder($field['title'])
-                                ->autocomplete(false);
+                                ->autocomplete('off');
                         }
                         ?>
                     </div>

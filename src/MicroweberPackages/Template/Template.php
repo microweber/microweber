@@ -6,7 +6,6 @@ namespace MicroweberPackages\Template;
 use Butschster\Head\Facades\Meta;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
-use MicroweberPackages\MetaTags\Facades\FrontendMetaTags;
 use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
 use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateOptimizeLoadingHelper;
@@ -176,11 +175,11 @@ class Template
 
         //   $layout = $this->append_livewire_to_layout($layout);
         //  $layout = $this->append_api_js_to_layout($layout);
-        $meta = FrontendMetaTags::getHeadMetaTags();
+        $meta = mw_header_scripts();
 
         $layout = Str::replaceFirst('<head>', '<head>' . $meta, $layout);
 
-        $meta = FrontendMetaTags::getFooterMetaTags();
+        $meta = mw_footer_scripts();
         $layout = Str::replaceFirst('</body>', $meta . '</body>', $layout);
 
 

@@ -13,6 +13,10 @@ class LiveEditTypingTest extends DuskTestCase
 {
     public function testLiveEditTypingOnSafeModeText()
     {
+
+//        $this->markTestIncomplete('This test is failing and must be fixed');
+//        return;
+
         $siteUrl = $this->siteUrl;
 
         $this->browse(function (Browser $browser) use ($siteUrl) {
@@ -23,7 +27,6 @@ class LiveEditTypingTest extends DuskTestCase
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
-
 
 
             $params = array(
@@ -77,7 +80,7 @@ class LiveEditTypingTest extends DuskTestCase
             $browser->pause(1000);
             $browser->switchFrameDefault();
 
-             $browser->visit($link. '?editmode=n');
+            $browser->visit($link . '?editmode=n');
             $browser->pause(1000);
             $browser->waitFor('#test-element-in-safe-mode', 30);
 
@@ -152,10 +155,10 @@ class LiveEditTypingTest extends DuskTestCase
                 $browser->clickSaveButton($browser);
             });
             $browser->switchFrameDefault();
-            $browser->visit($link.'?editmode=n' );
+            $browser->visit($link . '?editmode=n');
             $browser->pause(1000);
-             $browser->assertNotPresent('#test-element-not-safe-mode');
-             $browser->assertPresent('#test-element-not-safe-mode-another-must-merge');
+            $browser->assertNotPresent('#test-element-not-safe-mode');
+            $browser->assertPresent('#test-element-not-safe-mode-another-must-merge');
         });
     }
 }

@@ -5,7 +5,7 @@
 <?php event_trigger('mw.admin.footer'); ?>
 
 
-<?php print \MicroweberPackages\MetaTags\Facades\AdminMetaTags::getFooterMetaTags() ;    ?>
+<?php print mw_admin_footer_scripts() ;    ?>
 
 
 

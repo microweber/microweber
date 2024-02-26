@@ -13,13 +13,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
         parent::register();
 
 
-        $this->app->singleton(\MicroweberPackages\MetaTags\FrontendMetaTagsRenderer::class, function ($app) {
-            return new \MicroweberPackages\MetaTags\FrontendMetaTagsRenderer();
-        });
 
-        $this->app->singleton(\MicroweberPackages\MetaTags\AdminMetaTagsRenderer::class, function ($app) {
-            return new \MicroweberPackages\MetaTags\AdminMetaTagsRenderer();
-        });
+        $this->app->singleton(\MicroweberPackages\MetaTags\FrontendMetaTagsRenderer::class);
+        $this->app->singleton(\MicroweberPackages\MetaTags\AdminMetaTagsRenderer::class);
+
 
         if (app()->environment() === 'testing') {
             $this->app->register(MetaTagsUnitTestServiceProvider::class);

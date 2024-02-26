@@ -292,12 +292,3 @@ function get_template_colors_settings()
 //
 //}
 
-function mw_header_scripts()
-{
-    return FrontendMetaTags::getHeadMetaTags();
-}
-
-function mw_footer_scripts()
-{
-    return FrontendMetaTags::getFooterMetaTags();
-}

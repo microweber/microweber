@@ -265,7 +265,7 @@ if (isset($params['quick_edit'])) {
 
             var val = $('#content-title-field').val();
 
-            
+
 
 
             if (slugEdited === false) {
@@ -274,7 +274,7 @@ if (isset($params['quick_edit'])) {
                 $('.js-slug-base-url').text(slug);
             }
         }
- 
+
 
     </script>
 
@@ -462,7 +462,7 @@ if (isset($params['quick_edit'])) {
                                     <div class="card-body" id="content-title-field-row">
 
                                         <div class="row">
-                                            
+
 
 
                                             <?php if (isset($edit_page_info['title'])): ?>
@@ -486,7 +486,7 @@ if (isset($params['quick_edit'])) {
                                                             ->placeholder(e('Enter '. e($type) .' title'))
                                                             ->id('content-title-field')
                                                             ->onkeyup('slugFromTitle(this); ')
-                                                            ->autocomplete(false);
+                                                            ->autocomplete('off');
                                                         ?>
 
                                                         <?php
@@ -585,7 +585,7 @@ if (isset($params['quick_edit'])) {
                                                                 ->value($data['slug'])
                                                                 ->id('content-slug-field')
                                                                 ->oninput('slugFromUrlField(this);')
-                                                                ->autocomplete(false);
+                                                                ->autocomplete('off');
                                                             ?>
                                                         </div>
                                                     <?php
@@ -645,7 +645,7 @@ if (isset($params['quick_edit'])) {
                                                                             ->setModel($contentModel)
                                                                             ->value($data['content_body'])
                                                                             ->onSaveCallback('mw.edit_content.handle_form_submit();')
-                                                                            ->autocomplete(false);
+                                                                            ->autocomplete('off');
                                                                         ?>
                                                                     <?php else: ?>
 
@@ -656,7 +656,7 @@ if (isset($params['quick_edit'])) {
                                                                             ->setModel($contentModel)
                                                                             ->value($data['content'])
                                                                             ->onSaveCallback('mw.edit_content.handle_form_submit();')
-                                                                            ->autocomplete(false);
+                                                                            ->autocomplete('off');
                                                                         ?>
 
                                                                     <?php endif; ?>
