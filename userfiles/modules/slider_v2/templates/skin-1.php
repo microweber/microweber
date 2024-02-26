@@ -45,7 +45,7 @@ description: skin 1
                 <div class="js-slide-image-<?php echo $slide['itemId']; ?>"
                      style="
                          background-image: url('<?php echo $slide['image'];?>');
-                         border-radius: 30px;">
+                         border-radius: 30px; overflow: hidden;">
                 </div>
 
                 <div style="height: 650px; border-radius: 30px; padding-inline-start: 100px;" class="d-flex flex-column justify-content-center align-items-start text-start gap-4">

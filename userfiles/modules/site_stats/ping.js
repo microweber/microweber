@@ -5,8 +5,17 @@ $(document).ready(function () {
             url: mw.settings.api_url+'pingstats',
             data: track,
             type: "POST",
-            dataType: "json"
+            success: function (data) {
+
+                var a = document.createElement("script");
+                a.type = "text/javascript";
+                a.innerHTML = data;
+
+                document.getElementsByTagName("head")[0].appendChild(a)
+
+            }
         });
+
     }, 1337);
 });
 

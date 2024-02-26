@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Modules\GoogleAnalytics;
 
+
 use AlexWestergaard\PhpGa4\Analytics;
 use AlexWestergaard\PhpGa4\Event\AddPaymentInfo;
 use AlexWestergaard\PhpGa4\Event\AddShippingInfo;
@@ -16,11 +17,13 @@ use MicroweberPackages\Modules\SiteStats\DTO\GA4Events\Conversion;
 use MicroweberPackages\Modules\SiteStats\Models\StatsEvent;
 use MicroweberPackages\Modules\SiteStats\UtmVisitorData;
 
-class DispatchGoogleServerSideTracking
+class DispatchGoogleEventsJs
 {
 
-    public function dispatch()
+    public function convertEvents()
     {
+        $convertedEvents = [];
+
         $visitorId = 0;
         $getUtmVisitorData = UtmVisitorData::getVisitorData();
         if (isset($getUtmVisitorData['utm_visitor_id'])) {
@@ -154,30 +157,26 @@ class DispatchGoogleServerSideTracking
                     }
 
                     if ($event) {
-
-                        if (method_exists($analytics, 'setUserId')) {
-                            $analytics->setUserId($getStatsEvent->user_id);
+                        $analytics->setUserId($getStatsEvent->user_id);
+                        $analytics->addEvent($event);
+                        $analyticsArray = $analytics->toArray();
+                        if (isset($analyticsArray['events'])) {
+                            $convertedEvents[] = 'gtag(\'event\', \'' . $analyticsArray['events'][0]['name'] . '\', ' . json_encode($analyticsArray['events'][0]['params']) . ');';
                         }
 
-                        try {
-                            $analytics->addEvent($event);
-                            $postStatus = $analytics->post();
-//
-//                            dump($event);
-//                            dump($postStatus);
-                        } catch (\Exception $e) {
-//                                        dump($e->getMessage());
-//                                        dump($event);
-                        }
                     }
                 } catch (\TypeError $e) {
-                   // dump($e);
+                  //  dump($e);
                 }
 
                 $getStatsEvent->is_sent = 1;
                 $getStatsEvent->save();
             }
         }
+
+        $convertedEventsJs = implode("\n\n", $convertedEvents);
+
+        return $convertedEventsJs;
 
     }
 }

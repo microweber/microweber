@@ -64,15 +64,11 @@ event_bind('mw.pageview', function ($params = false) {
             return;
         }
 
-        $src_code = '$(document).ready(function () {
-            setTimeout(function () {
-                $.ajax({
-                    url: mw.settings.api_url+\'pingstats\',
-                    type: "POST",
-                    dataType: "json"
-                });
-            }, 3337);
-        });';
+        $src_code = '';
+        $ping_js = userfiles_path() . 'modules/site_stats/ping.js';
+        if (is_file($ping_js)) {
+            $src_code = file_get_contents($ping_js);
+        }
 
         $src = '<script async>' . $src_code . '</script>';
 
@@ -208,7 +204,16 @@ api_expose('pingstats', function ($params = false) {
         'referer'=>$referer,
     ]));
 
-    $response = response('var mwpingstats={}');
+    $pingStatsViewResponse = "var mwpingstats={}; \n";
+
+    $overwriteResponse = mw()->event_manager->trigger('mw.pingstats.response');
+    if (!empty($overwriteResponse)) {
+        foreach ($overwriteResponse as $response) {
+            $pingStatsViewResponse .= $response . "\n";
+        }
+    }
+
+    $response = response($pingStatsViewResponse);
 
     $response->header('Pragma', 'no-cache');
     $response->header('Content-Type', 'text/javascript');
