@@ -218,7 +218,8 @@ class AdminJsCategoryTree
         $appendPage['content_type'] = $page['content_type'];
         $appendPage['parent_type'] = 'page';
         $appendPage['title'] = $page['title'];
-        $appendPage['url'] = $page['url'];
+  //      $appendPage['url'] = $page['url'];
+        $appendPage['url'] = content_link($page['id']);
         $appendPage['is_active'] = $page['is_active'];
         $appendPage['subtype'] = $page['subtype'];
         $appendPage['position'] = (int)$page['position'];;

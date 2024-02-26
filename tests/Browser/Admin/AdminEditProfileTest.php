@@ -187,8 +187,6 @@ class AdminEditProfileTest extends DuskTestCase
 
             // $browser->click('#user-save-button');
 
-
-
             $browser->pause(3000);
 
             $findUser = User::where('email', $new_email)->first();

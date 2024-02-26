@@ -106,7 +106,7 @@ class LiveEditWysiwygTest extends DuskTestCase
     public function testLiveEditTypingInTextWithFontAndEnterKey()
     {
         $this->markTestSkipped('testLiveEditTypingInTextWithFontAndEnterKey test has not been implemented yet.');
-        return;
+    return;
 
         $siteUrl = $this->siteUrl;
 

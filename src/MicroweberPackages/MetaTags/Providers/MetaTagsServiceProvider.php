@@ -38,7 +38,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
 
         PackageManager::create('admin', function (Package $package) {
             $package->requires([
-                'core_css',
+           //     'core_css',
                 'admin_default_css_and_js',
                 'core',
                 'admin_custom_css_and_js',
