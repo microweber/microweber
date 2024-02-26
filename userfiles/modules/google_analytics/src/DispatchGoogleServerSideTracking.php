@@ -159,16 +159,16 @@ class DispatchGoogleServerSideTracking
                             $analytics->setUserId($getStatsEvent->user_id);
                             $analytics->addEvent($event);
                             $postStatus = $analytics->post();
-//
-                            dump($event);
-                            dump($postStatus);
+////
+//                            dump($event);
+//                            dump($postStatus);
                         } catch (\Exception $e) {
-                                        dump($e->getMessage());
-                                        dump($event);
+//                                        dump($e->getMessage());
+//                                        dump($event);
                         }
                     }
                 } catch (\TypeError $e) {
-                    dump($e);
+//                    dump($e);
                 }
 
 //                $getStatsEvent->is_sent = 1;
