@@ -18,6 +18,20 @@
             <exclude>./tests/Browser/SlowTests</exclude>
             <exclude>./tests/Browser/FlakyTests</exclude>
         </testsuite>
+
+
+        <testsuite name="MicroweberMultilanguageTests">
+            <directory suffix="Test.php">./tests/Browser/Multilanguage</directory>
+        </testsuite>
+        <testsuite name="MicroweberTemplatesTests">
+            <directory>./userfiles/templates/*/tests/Browser</directory>
+            <directory>./userfiles/templates/*/src/tests/Browser</directory>
+        </testsuite>
+        <testsuite name="MicroweberSlowTests">
+            <directory>./tests/Browser/SlowTests</directory>
+        </testsuite>
+
+
         <testsuite name="MicroweberShopTests">
             <directory suffix="Test.php">./tests/Browser/ShopTests</directory>
         </testsuite>
@@ -32,17 +46,6 @@
             <directory suffix="Test.php">./tests/Browser/Admin</directory>
         </testsuite>
 
-
-        <testsuite name="MicroweberMultilanguageTests">
-            <directory suffix="Test.php">./tests/Browser/Multilanguage</directory>
-        </testsuite>
-        <testsuite name="MicroweberTemplatesTests">
-            <directory>./userfiles/templates/*/tests/Browser</directory>
-            <directory>./userfiles/templates/*/src/tests/Browser</directory>
-        </testsuite>
-        <testsuite name="MicroweberSlowTests">
-            <directory>./tests/Browser/SlowTests</directory>
-        </testsuite>
 
         <testsuite name="MicroweberFlakyTests">
             <directory>./tests/Browser/FlakyTests</directory>
