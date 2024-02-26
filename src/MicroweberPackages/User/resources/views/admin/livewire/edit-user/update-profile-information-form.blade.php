@@ -10,6 +10,16 @@
 
         <x-slot name="form">
 
+
+            <div wire:ignore>
+                <script>
+                    Livewire.on('saved' , function(){
+                        mw.notification.success('User settings are saved');
+                    })
+                </script>
+            </div>
+
+
             <!-- Profile Photo -->
             <div class="form-label mb-3 text-center" x-data="{}">
                 <!-- Profile Photo File Input -->

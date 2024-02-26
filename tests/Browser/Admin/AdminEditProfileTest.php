@@ -61,7 +61,7 @@ class AdminEditProfileTest extends DuskTestCase
 
             $browser->click('#user-save-button');
 
-            $browser->waitForText('Saved',10);
+            $browser->waitForText('User settings are saved',10);
 
             $browser->pause(3000);
 
@@ -110,8 +110,8 @@ class AdminEditProfileTest extends DuskTestCase
             $browser->typeSlowly('phone', $phone);
 
             $browser->pause(300);
-            $browser->press('Save');
-            $browser->waitForText('Saved',10);
+            $browser->click('#user-save-button');
+            $browser->waitForText('User settings are saved',10);
             $browser->pause(3000);
 
             $browser->clickLink('Users');
@@ -186,6 +186,8 @@ class AdminEditProfileTest extends DuskTestCase
             $browser->click('button[id="user-save-button"]');
 
             // $browser->click('#user-save-button');
+
+
 
             $browser->pause(3000);
 
