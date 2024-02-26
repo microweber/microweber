@@ -154,6 +154,11 @@ class DispatchGoogleServerSideTracking
                     }
 
                     if ($event) {
+
+                        if (method_exists($analytics, 'setUserId')) {
+                            $analytics->setUserId($getStatsEvent->user_id);
+                        }
+
                         try {
                             $analytics->addEvent($event);
                             $postStatus = $analytics->post();
