@@ -171,8 +171,8 @@ class DispatchGoogleServerSideTracking
 //                    dump($e);
                 }
 
-//                $getStatsEvent->is_sent = 1;
-//                $getStatsEvent->save();
+                $getStatsEvent->is_sent = 1;
+                $getStatsEvent->save();
             }
         }
 
