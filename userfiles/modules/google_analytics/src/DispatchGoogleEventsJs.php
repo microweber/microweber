@@ -42,6 +42,7 @@ class DispatchGoogleEventsJs
         $analytics->setClientId($visitorId);
 
         $getStatsEvents = StatsEvent::where('is_sent', null)->where('utm_visitor_id', $visitorId)->get();
+
         if ($getStatsEvents->count() > 0) {
             foreach ($getStatsEvents as $getStatsEvent) {
 
@@ -157,14 +158,10 @@ class DispatchGoogleEventsJs
                     }
 
                     if ($event) {
-                        $analytics->setUserId($getStatsEvent->user_id);
-                        $analytics->addEvent($event);
-                        $analyticsArray = $analytics->toArray();
-                        if (isset($analyticsArray['events'])) {
-                            $convertedEvents[] = 'gtag(\'event\', \'' . $analyticsArray['events'][0]['name'] . '\', ' . json_encode($analyticsArray['events'][0]['params']) . ');';
-                        }
-
+                        $eventArray = $event->toArray();
+                        $convertedEvents[] = 'gtag(\'event\', \'' . $eventArray['name'] . '\', ' . json_encode($eventArray['params']) . ');';
                     }
+
                 } catch (\TypeError $e) {
                   //  dump($e);
                 }
