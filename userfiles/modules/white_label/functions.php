@@ -40,7 +40,24 @@ function get_white_label_config()
 
     if (is_file($file_local)) {
         $cont = file_get_contents($file_local);
-        return json_decode($cont, true);
+        $file_local_json = json_decode($cont, true);
+
+        $saas_file = storage_path('branding_saas.json');
+        if (is_file($saas_file)) {
+            $cont = file_get_contents($saas_file);
+            $saas_file_json = json_decode($cont, true);
+            foreach ($saas_file_json as $key=>$value) {
+                if (!isset($file_local_json[$key])) {
+                    $file_local_json[$key] = $value;
+                } else {
+                    if (empty($file_local_json[$key])) {
+                        $file_local_json[$key] = $value;
+                    }
+                }
+            }
+        }
+
+        return $file_local_json;
     }
 
     if (is_file($file)) {
