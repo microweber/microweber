@@ -12,6 +12,12 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
     {
         parent::register();
 
+
+
+        $this->app->singleton(\MicroweberPackages\MetaTags\FrontendMetaTagsRenderer::class);
+        $this->app->singleton(\MicroweberPackages\MetaTags\AdminMetaTagsRenderer::class);
+
+
         if (app()->environment() === 'testing') {
             $this->app->register(MetaTagsUnitTestServiceProvider::class);
         }
@@ -23,6 +29,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
 
         PackageManager::create('frontend', function (Package $package) {
             $package->requires([
+                'core_css',
                 'core',
                 'custom_user_css',
                 'custom_user_meta_tags',
@@ -30,19 +37,26 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
         });
 
         PackageManager::create('admin', function (Package $package) {
-            $package->requires('core');
+            $package->requires([
+                'core_css',
+                'admin_default_css_and_js',
+                'core',
+                'admin_custom_css_and_js',
+            ]);
+
         });
-
-
+        PackageManager::create('core_css', function (Package $package) {
+            $package->addTag(
+                'system_default_css_head_tags',
+                new \MicroweberPackages\MetaTags\Entities\SystemDefaultCssHeadTags()
+            );
+        });
         PackageManager::create('core', function (Package $package) {
             $package->addTag(
                 'favicon_head_tag',
                 new \MicroweberPackages\MetaTags\Entities\FaviconHeadTag()
             );
-            $package->addTag(
-                'system_default_css_head_tags',
-                new \MicroweberPackages\MetaTags\Entities\SystemDefaultCssHeadTags()
-            );
+
             $package->addTag(
                 'generator_head_tag',
                 new \MicroweberPackages\MetaTags\Entities\GeneratorHeadTag()
@@ -54,6 +68,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             $package->addTag(
                 'live_wire_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\LivewireHeadTags()
+            );
+            $package->addTag(
+                'live_wire_footer_tags',
+                new \MicroweberPackages\MetaTags\Entities\LivewireFooterTags()
             );
 
         });
@@ -101,7 +119,35 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'author_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\AuthorHeadTags()
             );
+
+            $package->addTag(
+                'custom_user_footer_tags',
+                new \MicroweberPackages\MetaTags\Entities\CustomUserFooterTags()
+            );
+            $package->addTag(
+                'custom_footer_tags_from_callback',
+                new \MicroweberPackages\MetaTags\Entities\CustomFooterTagsFromCallback()
+            );
         });
+
+
+        PackageManager::create('admin_default_css_and_js', function (Package $package) {
+            $package->addTag(
+                'admin_default_head_tags',
+                new \MicroweberPackages\MetaTags\Entities\SystemDefaultAdminCssHeadTags()
+            );
+
+
+        });
+        PackageManager::create('admin_custom_css_and_js', function (Package $package) {
+            $package->addTag(
+                'admin_head_tags_from_admin_manager',
+                new \MicroweberPackages\MetaTags\Entities\AdminHeadTagsFromAdminManager()
+            );
+
+
+        });
+
     }
 
 

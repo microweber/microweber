@@ -76,6 +76,20 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     //protected $hidden = array('password', 'remember_token');
+
+    protected $fillableByUser = array(
+        'username',
+        'password',
+        'email',
+        'first_name',
+        'last_name',
+        'thumbnail',
+        'user_information',
+        'profile_url',
+        'website_url',
+        'phone',
+    );
+
     protected $fillable = array(
         'updated_at',
         'created_at',
@@ -228,13 +242,35 @@ class User extends Authenticatable implements MustVerifyEmail
             $this->rules['email'] = 'min:0|max:500|unique:users';
         }
 
-
-
         $this->validator = \Validator::make($data, $this->rules);
         if ($this->validator->fails()) {
             return false;
         }
-        $this->fill($data);
+
+        if (isset($data['thumbnail']) && !empty($data['thumbnail'])) {
+            $passThumbnail = false;
+            $parseThumbnail = parse_url($data['thumbnail']);
+            if (isset($parseThumbnail['host']) && !empty($parseThumbnail['host'])) {
+                if (site_hostname() == $parseThumbnail['host']) {
+                    $localThumbnailFile = url2dir($data['thumbnail']);
+                    if (is_file($localThumbnailFile)) {
+                        $passThumbnail = true;
+                    }
+                }
+            }
+            if (!$passThumbnail) {
+                unset($data['thumbnail']);
+            }
+        }
+
+        $dataToFill = [];
+        if (is_admin()) {
+            $dataToFill = array_intersect_key($data, array_flip($this->fillable));
+        } else {
+            $dataToFill = array_intersect_key($data, array_flip($this->fillableByUser));
+        }
+
+        $this->fill($dataToFill);
 
         return true;
     }

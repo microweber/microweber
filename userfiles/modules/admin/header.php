@@ -15,7 +15,7 @@ return;
         admin_url = '<?php print admin_url(); ?>';
     </script>
 
-    <?php print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
+     <?php print mw_admin_header_scripts() ;    ?>
 
     <script type="text/javascript">
         mw.lib.require('jqueryui');

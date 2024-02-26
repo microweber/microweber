@@ -51,7 +51,7 @@ export const EditorComponent = function () {
                 }
             },
 
-            'fontSize',
+
 
             {
                 group: {
@@ -60,6 +60,7 @@ export const EditorComponent = function () {
                 }
             },
             'format',
+            'fontSize',
             {
                 group: {
                     controller: 'alignLeft',

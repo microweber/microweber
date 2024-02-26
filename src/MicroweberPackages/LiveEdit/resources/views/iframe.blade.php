@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
-    @livewireScripts
-    @livewireStyles
-    <?php print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
+    <?php print mw_admin_header_scripts() ;    ?>
+
 
     <script>
 
@@ -114,5 +113,11 @@
 
 <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
 <?php event_trigger('mw.live_edit.footer'); ?>
+
+
+<?php print mw_admin_footer_scripts();    ?>
+
+
+
 </body>
 </html>

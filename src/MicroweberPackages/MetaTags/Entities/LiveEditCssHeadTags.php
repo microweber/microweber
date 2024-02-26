@@ -10,9 +10,9 @@ class LiveEditCssHeadTags implements TagInterface, \Stringable
     public function toHtml(): string
     {
 
-        // @todo this is not working correctly
-        // it appends in header and adds div , must be in after body
-        return '';
+//        // @todo this is not working correctly
+//        // it appends in header and adds div , must be in after body
+//        return '';
 
 
         $the_active_site_template = app()->template->templateAdapter->getTemplateFolderName();
@@ -34,7 +34,7 @@ class LiveEditCssHeadTags implements TagInterface, \Stringable
 
     public function getPlacement(): string
     {
-        return Meta::PLACEMENT_HEAD;
+        return Meta::PLACEMENT_FOOTER;
     }
 
     public function __toString(): string

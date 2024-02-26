@@ -161,6 +161,7 @@ showEditTab: 'main'
 
                             @php
                                 $itemId = false;
+                                $printedItemsIdsInList =  $printedItemsIdsInList ?? [];
 
                                 if(isset($item['itemId'])){
                                     $itemId = $item['itemId'];
@@ -168,6 +169,14 @@ showEditTab: 'main'
                                     $itemId = $item['id'];
                                 } else {
                                     continue;
+                                }
+
+                                if($itemId){
+                                    if(in_array($itemId, $printedItemsIdsInList)){
+                                        // skip if already printed , repeating ids are not allowed
+                                        continue;
+                                    }
+                                    $printedItemsIdsInList[] = $itemId;
                                 }
                             @endphp
 

@@ -6,6 +6,7 @@ use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\tests\TestHelpers;
 use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\LiveEditWaitUntilLoaded;
 use Tests\DuskTestCase;
 
@@ -47,8 +48,6 @@ class MetaTagsFrontendTest extends DuskTestCase
         save_option('alexa-site-verification-code', 'alexa-site-verification-code', 'website');
         save_option('pinterest-site-verification-code', 'pinterest-site-verification-code', 'website');
         save_option('yandex-site-verification-code', 'yandex-site-verification-code', 'website');
-
-
 
 
         $website_head_option = get_option('website_head', 'website');
@@ -99,6 +98,12 @@ class MetaTagsFrontendTest extends DuskTestCase
 
     private function performMetaTagsAssertions(Browser $browser)
     {
+        $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+            $browser->validate();
+        });
+
+
+
         $selectors = [
             'link[rel="shortcut icon"]',
             'link[rel="author"]',
@@ -117,7 +122,20 @@ class MetaTagsFrontendTest extends DuskTestCase
             $this->assertEquals(true, $output[0], 'Meta tags Selector ' . $selector . ' must be only 1');
         }
 
+        $output = $browser->script("
+            //check it must not have divs in head tags
+            var  isTrue = document.querySelectorAll('head > div').length === 0;
+            return isTrue;
+            ");
+        $this->assertEquals(true, $output[0], 'Meta tags must not have divs in head tags');
 
+
+        $output = $browser->script("
+            //check window.livewire exists
+            var  isTrue = typeof window.livewire !== 'undefined';
+            return isTrue;
+            ");
+        $this->assertEquals(true, $output[0], 'window.livewire must exists');
 
         $selectors = [
 

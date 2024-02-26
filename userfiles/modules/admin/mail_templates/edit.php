@@ -228,7 +228,7 @@ if (!empty($template_id)) {
                                 ->setModel($mailTemplateModel)
                                // ->value($template['message'])
                                // ->onSaveCallback('mw.handle_mail_template_save();')
-                                ->autocomplete(false);
+                                ->autocomplete('off');
                             ?>
                         </div>
                     </div>
@@ -244,7 +244,7 @@ if (!empty($template_id)) {
                             ->setModel($mailTemplateModel)
                             ->value($template['message'])
                             ->onSaveCallback('mw.handle_mail_template_save();')
-                            ->autocomplete(false);
+                            ->autocomplete('off');
                         ?>
                     </div>
                 </div>

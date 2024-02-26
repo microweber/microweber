@@ -36,21 +36,32 @@ class AdminController extends Controller
 
     public $app;
     private $render_content;
+    private $hasNoAdmin;
 
     public function __construct()
     {
         $this->app = mw();
 
         event_trigger('mw.init');
+        $is_installed = mw_is_installed();
+
+        if ($is_installed) {
+            $this->hasNoAdmin = User::where('is_admin', 1)->limit(1)->count('id') == 0;
+        }
     }
 
     public function index(Request $request)
     {
+
         return $this->render();
     }
 
     public function dashboard(Request $request)
     {
+       if($this->hasNoAdmin){
+           return $this->index($request);
+       }
+
         return view('admin::admin.dashboard');
     }
 

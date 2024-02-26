@@ -4,9 +4,9 @@
 
 type: layout
 
-name: skin 1
+name: Default
 
-description: skin 1
+description: Default
 
 */
 ?>

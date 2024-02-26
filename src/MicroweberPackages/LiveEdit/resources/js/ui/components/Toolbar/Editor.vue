@@ -269,6 +269,10 @@ export default {
                             editTarget = DomService.firstParentOrCurrentWithAnyOfClasses(editTarget, ['edit', 'regular-mode'])
                         }
 
+                        if(editTarget.classList.contains('no-typing')) {
+                            return;
+                        }
+
 
                         if(!editTarget) {
                             return;

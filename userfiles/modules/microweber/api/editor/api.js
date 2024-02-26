@@ -290,9 +290,7 @@
                 } else if(scope.api.isCrossBlockSelection()) {
                     scope.api.getSelectionChildren().filter(node => sel.containsNode(node)).forEach(node => perNode(node))
                 } else {
-                    let startNode =  scope.api.elementNode(sel.anchorNode);
-                    let startBlockNode = mw.tools.firstBlockLevel(startNode);
-                    perNode(startBlockNode)
+                    scope.api.getSelectionChildren().filter(node => sel.containsNode(node)).forEach(node => perNode(node))
                 }
             },
 
@@ -1046,7 +1044,7 @@
                                     if(current) {
                                         current.contentEditable = 'inherit';
                                     }
-                                    scope.execCommandSimple(cmd, def, val)
+                                    scope.api.execCommandSimple(cmd, def, val)
                                     parent.contentEditable = pce;
 
                                     if(current) {
@@ -1118,7 +1116,14 @@
                 if (sel.isCollapsed) {
                     var node = scope.api.elementNode(sel.focusNode);
                     scope.api.action(node.parentNode, function () {
-                        node.style.fontSize = size + unit;
+
+                        if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
+
+                            mw.top().app.cssEditor.temp(node, 'font-size', size + unit);
+
+                        }  else {
+                            node.style.fontSize = size + unit;
+                        }
                     });
 
                     return;

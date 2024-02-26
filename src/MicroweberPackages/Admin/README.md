@@ -24,22 +24,18 @@ Your id must be unique. Styles with the same id will be overwritten.
 ```php
 \MicroweberPackages\Admin\Facades\AdminManager::addCustomHeadTag('<script>alert("ok")</script>');
 ```
-
-## Printing scripts in admin layout 
-
-For example, in your layout, you can print the scripts with the following code:
-
- ```php
-print \MicroweberPackages\Admin\Facades\AdminManager::scripts();    
-print \MicroweberPackages\Admin\Facades\AdminManager::styles();    
-print \MicroweberPackages\Admin\Facades\AdminManager::customHeadTags();    
-```
-
+ 
 
 ### Printing all head tags 
   
  ```php
-print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    
+print mw_admin_header_scripts()();    
+```
+
+### Printing all footer tags
+
+ ```php
+print mw_admin_footer_scripts();    
 ```
 
 

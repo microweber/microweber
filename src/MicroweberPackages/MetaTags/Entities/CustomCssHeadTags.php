@@ -26,7 +26,7 @@ class CustomCssHeadTags implements TagInterface, \Stringable
 
     public function getPlacement(): string
     {
-        return Meta::PLACEMENT_HEAD;
+        return Meta::PLACEMENT_FOOTER;
     }
 
     public function __toString(): string

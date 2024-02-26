@@ -1,0 +1,26 @@
+{
+    "name": "microweber-packages/meta-tags",
+    "description": "Microweber CMS.",
+    "version": "0.0.1",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\MetaTags\\": ""
+        },
+        "files": [
+            "helpers/meta_tags_functions.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "homepage": "http://microweber.com",
+    "license": "MIT",
+    "support": {
+        "email": "support@microweber.com"
+    }
+}

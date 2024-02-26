@@ -72,10 +72,11 @@ class Export
     public function start()
     {
         MultilanguageHelpers::setMultilanguageEnabled(false);
+        \Config::set('microweber.disable_model_cache', 1);
 
         if (!$this->sessionId) {
-            return array("error" => "SessionId is missing.");
-        }
+            throw new \Exception('SessionId is missing.');
+         }
 
         SessionStepper::setSessionId($this->sessionId);
 
@@ -143,13 +144,19 @@ class Export
         if ($this->exportTemplates) {
             $exportWithZip = true;
         }
+        if ($this->exportWithZip) {
+            $exportWithZip = true;
+        }
 
         if ($this->exportOnlyTemplate) {
             $exportWithZip = true;
             unset($export['files']);
         }
+        if($exportMediaUserFiles){
+            $exportWithZip = true;
+        }
 
-        if ($exportWithZip || $exportMediaUserFiles) {
+        if ($exportWithZip) {
 
             // Make Zip
             $zipExport = new ZipBatchExport();

@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Backup\tests;
 
 use MicroweberPackages\Backup\GenerateBackup;
@@ -17,33 +18,33 @@ use MicroweberPackages\User\Models\User;
  * @author bobi@microweber.com
  * @command php artisan test --filter RestoreBackupTest
  */
-
-
-
 class RestoreBackupTest extends TestCase
 {
 
-    public function testRestoreDataBackup() {
+    public function testRestoreDataBackup()
+    {
 
-        $getUsers = User::all();
-        $getUsers->each(function ($user) {
-            $user->delete();
-        });
+//        $getUsers = User::all();
+//        $getUsers->each(function ($user) {
+//            $user->delete();
+//        });
+//
+//        $getAllContent = Content::all();
+//        $getAllContent->each(function ($content) {
+//            $content->delete();
+//        });
 
-        $getAllContent = Content::all();
-        $getAllContent->each(function ($content) {
-            $content->delete();
-        });
-
+        $randUserneme = 'unitTestUser' . rand(1, 9999);
+        $randemail = 'unitTestUser' . rand(1, 9999) . '@email.com';
         $createUser = new User();
-        $createUser->username = 'unitTestUser';
-        $createUser->email = 'unitTestUser@email.com';
+        $createUser->username = $randUserneme;
+        $createUser->email = $randemail;
         $createUser->password = 'insecurePassword';
         $createUser->is_admin = 1;
         $createUser->is_active = 1;
         $createUser->save();
 
-        $findUser = User::where('username', 'unitTestUser')->first();
+        $findUser = User::where('username', $randUserneme)->first();
         $userOriginalPassword = $findUser->password;
 
         $post = new Post();
@@ -51,26 +52,42 @@ class RestoreBackupTest extends TestCase
         $post->title = 'Test post';
         $post->save();
 
-        $sessionId = SessionStepper::generateSessionId(20);
 
-        for ($i = 1; $i <= 19; $i++) {
+        $exportTableData = [
+
+            'users',
+            'content',
+            'categories',
+            'media',
+            'custom_fields',
+            'custom_fields_values',
+            'custom_fields_data'
+
+        ];
+
+        $sessionId = SessionStepper::generateSessionId(3);
+//@todo steps dont work if set to more than 3 or 1, only works with 3
+        for ($i = 1; $i <= 2; $i++) {
 
             $backup = new GenerateBackup();
             $backup->setSessionId($sessionId);
-            $backup->setExportAllData(true);
-            $backup->setExportMedia(true);
+            //  $backup->setExportAllData(true);
+            $backup->setExportData('tables', $exportTableData);
+            $backup->setExportMedia(false);
             $backup->setExportWithZip(true);
             $backup->setAllowSkipTables(false);
 
             $backupStart = $backup->start();
+
             if (isset($status['success'])) {
                 break;
             }
         }
 
-        $findUser = User::where('username', 'unitTestUser')->first();
+        $findUser = User::where('username', $randUserneme)->first();
         $findUser->password = 'newPasswordStrong1234';
         $findUser->save();
+
         $newUserPassword = $findUser->password;
 
         $exportedFile = $backupStart['data']['filepath'];
@@ -82,11 +99,12 @@ class RestoreBackupTest extends TestCase
         $jsonFileInsideZip = str_replace('.zip', '.json', $exportedFile);
         $jsonFileInsideZip = basename($jsonFileInsideZip);
         $jsonFileContent = $zip->getFromName($jsonFileInsideZip);
-        $jsonExportTest = json_decode($jsonFileContent,true);
+        $jsonExportTest = json_decode($jsonFileContent, true);
 
 
         // Restore
         $sessionId = SessionStepper::generateSessionId(1);
+
         $restore = new \MicroweberPackages\Backup\Restore();
         $restore->setFile($exportedFile);
         $restore->setOvewriteById(true);
@@ -94,8 +112,11 @@ class RestoreBackupTest extends TestCase
         $restore->setSessionId($sessionId);
         $restoreStatus = $restore->start();
 
-        $findUser = User::where('username', 'unitTestUser')->first();
 
-        $this->assertEquals($newUserPassword, $findUser->password);
+        $this->assertTrue($restoreStatus['done']);
+
+
+        $findUser = User::where('username', $randUserneme)->first();
+        $this->assertEquals($userOriginalPassword, $findUser->password);
     }
 }

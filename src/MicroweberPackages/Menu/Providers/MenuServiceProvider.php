@@ -16,7 +16,6 @@ use MicroweberPackages\Menu\MenuManager;
 use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Menu\TranslateTables\TranslateMenu;
-use MicroweberPackages\Multilanguage\TranslateTablesRegistrator;
 
 class MenuServiceProvider extends ServiceProvider
 {
