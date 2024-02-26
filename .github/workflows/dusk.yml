@@ -39,34 +39,28 @@ jobs:
         run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
       - name: Run Dusk Tests Core Tests
         run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
           php artisan dusk --testsuite MicroweberCoreTests
       - name: Run Dusk Shop Tests
         run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
           php artisan dusk --testsuite MicroweberShopTests
       - name: Run Dusk Microweber Pages Tests
         run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
           php artisan dusk --testsuite MicroweberPagesTests
       - name: Run Dusk Multilanguage Tests
         run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
           php artisan dusk --testsuite MicroweberMultilanguageTests
       - name: Run Dusk Admin Tests
         run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
           php artisan dusk --testsuite MicroweberAdminTest
       - name: Run Dusk LiveEdit Tests
         run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
           php artisan dusk --testsuite MicroweberLiveEditTest
       - name: Run Dusk Template Tests
         run: |
           php artisan dusk --testsuite MicroweberTemplatesTests
-#      - name: Run Dusk Flaky Tests
-#        run: |
-#          php artisan dusk --testsuite MicroweberFlakyTests
+      - name: Run Dusk Flaky Tests
+        run: |
+          php artisan dusk --testsuite MicroweberFlakyTests
       - name: Run Dusk Slow Tests
         run: |
           php artisan dusk --testsuite MicroweberSlowTests

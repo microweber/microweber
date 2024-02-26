@@ -18,7 +18,9 @@
             <exclude>./tests/Browser/SlowTests</exclude>
             <exclude>./tests/Browser/FlakyTests</exclude>
         </testsuite>
-
+        <testsuite name="MicroweberAdminTest">
+            <directory suffix="Test.php">./tests/Browser/Admin</directory>
+        </testsuite>
 
         <testsuite name="MicroweberMultilanguageTests">
             <directory suffix="Test.php">./tests/Browser/Multilanguage</directory>
@@ -42,9 +44,7 @@
         <testsuite name="MicroweberLiveEditTest">
             <directory suffix="Test.php">./tests/Browser/LiveEdit</directory>
         </testsuite>
-        <testsuite name="MicroweberAdminTest">
-            <directory suffix="Test.php">./tests/Browser/Admin</directory>
-        </testsuite>
+
 
 
         <testsuite name="MicroweberFlakyTests">
