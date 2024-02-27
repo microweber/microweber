@@ -52,6 +52,7 @@ class GoogleAnalyticsServiceProvider extends PackageServiceProvider
                 $dispatchGoogleEventsJs = new DispatchGoogleEventsJs();
                 return $dispatchGoogleEventsJs->convertEvents();
             });
+
         }
 
         parent::register();

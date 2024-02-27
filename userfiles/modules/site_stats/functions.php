@@ -1,5 +1,7 @@
 <?php
 
+use MicroweberPackages\Modules\SiteStats\UtmVisitorData;
+
 require_once(__DIR__ . DS . 'vendor' . DS . 'autoload.php');
 
 
@@ -198,6 +200,12 @@ api_expose('pingstats', function ($params = false) {
                 }
             }
         }
+    }
+
+    if (!isset($_COOKIE['_mw_stats_visitor_data'])) {
+        UtmVisitorData::setVisitorData([
+            'utm_visitor_id' => md5(rand(100000000, 999999999).time()),
+        ]);
     }
 
     event(new \MicroweberPackages\Modules\SiteStats\Events\PingStatsEvent([
