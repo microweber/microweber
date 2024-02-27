@@ -31,6 +31,8 @@ class DispatchGoogleEventsJs
             $visitorId = $getUtmVisitorData['utm_visitor_id'];
         }
 
+        $measurementId = get_option('google-measurement-id', 'website');
+        $apiSecret = get_option('google-measurement-api-secret', 'website');
         $isGoogleEnhancedConversions = get_option('google-enhanced-conversions-enabled', 'website');
         $googleEnhancedConversionId = get_option('google-enhanced-conversion-id', 'website');
         $googleEnhancedConversionLabel = get_option('google-enhanced-conversion-label', 'website');
@@ -174,8 +176,7 @@ class DispatchGoogleEventsJs
 
         if ($userId) {
             $convertedEventsJs .= "gtag('set', {'user_id': '$userId'}); \n";
-            $convertedEventsJs .= "gtag('set', {'userId': '$userId'}); \n";
-            $convertedEventsJs .= "gtag('set', {'USER_ID': '$userId'}); \n";
+            $convertedEventsJs .= "gtag('config', '$measurementId', {'user_id': '$userId'}); \n";
         }
 
 
