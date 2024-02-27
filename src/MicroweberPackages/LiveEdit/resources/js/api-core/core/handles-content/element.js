@@ -178,7 +178,7 @@ export class ElementHandleContent {
                 },
                 onTarget: (target, selfBtn) => {
                     var selfVisible =  this.elementHandleButtonsVisibility.shouldShowFitImageButton(target);
-                    console.log(selfVisible)
+
 
                      this.setMenuVisible(selfVisible, selfBtn);
                 },
@@ -576,10 +576,10 @@ export class ElementHandleContent {
                 nodes: []
             },
 
-            ];
+        ];
 
           if(tailMenuQuickSettings.length > 0) {
-            console.log(tailMenuQuickSettings)
+
               menuItems.push({
                   name: 'tailMenuQuickSettings',
                   nodes: tailMenuQuickSettings

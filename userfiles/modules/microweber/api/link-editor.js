@@ -69,7 +69,7 @@ mw.lib.require('xss');
                     data.url = _filterXSS(data.url);
                 }
                 if(data.text) {
-                    data.text = _filterXSS(data.text);
+                    // data.text = _filterXSS(data.text);
                 }
             }
             return data;

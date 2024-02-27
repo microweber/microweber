@@ -155,6 +155,7 @@ export class LiveEdit {
                 } else {
                     menu.style.top = ``;
                 }
+
             },
             offsetMenuTransform: function(scroll, off, menu){
                 let transform = -60;
@@ -197,6 +198,10 @@ export class LiveEdit {
             this.elementHandleContent.menu.setTarget(target);
 
 
+
+
+
+
             if (target.className.includes('col-')) {
                 elementHandle.resizer.disable()
             } else {
@@ -216,7 +221,15 @@ export class LiveEdit {
             const classNameNamespaces = ['col-', 'w-', 'h-'];
 
 
-            const resizerEnabled = !Array.from(target.classList).find(cls => !!classNameNamespaces.find(c => cls.indexOf(c) === 0)) && !DomService.hasAnyOfClasses(target, exceptions) && !DomService.hasParentsWithClass(target, 'img-as-background');
+            let resizerEnabled = !Array.from(target.classList).find(cls => !!classNameNamespaces.find(c => cls.indexOf(c) === 0)) && !DomService.hasAnyOfClasses(target, exceptions) && !DomService.hasParentsWithClass(target, 'img-as-background');
+
+
+            if(resizerEnabled) {
+                resizerEnabled = !liveEditHelpers.targetIsIcon(target)
+            }
+
+
+
 
             elementHandle.resizerEnabled(resizerEnabled)
         });

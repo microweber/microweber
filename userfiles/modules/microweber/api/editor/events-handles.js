@@ -41,6 +41,7 @@ class MWEditorEventHandles {
             if(node.nodeName === 'SPAN' && node.attributes.length === 0) {
                 toUnwrap.push(node)
             } else if(node.firstChild === node.lastChild
+                && !!node.lastChild
                 && node.nodeName === node.lastChild.nodeName
                 && style === node.lastChild.getAttribute('style') && !node.id && !node.lastChild.id){
                     toUnwrap.push(node)
@@ -58,11 +59,24 @@ class MWEditorEventHandles {
             }
         }
 
+
+        var all =  cmn.parentNode.querySelectorAll('*[style*="var"]');
+
+        all.forEach(node => {
+            if (node.style) {
+                if (node.isContentEditable) {
+                    [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
+                }
+            }
+        });
+
     }
 
 
 
      backSpace(e) {
+
+
 
         var sel = this.scope.getSelection();
         var mergeNodeNames = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P'];
@@ -89,7 +103,7 @@ class MWEditorEventHandles {
             var unsupported = ['IMG', 'BR', 'UL', 'OL', 'DL'];
 
             var children = Array
-            .from(node.children)
+            .from(node.childNodes)
             .filter(node => unsupported.indexOf(node.nodeName) === -1)
 
             let child = children[children.length - 1];
@@ -129,6 +143,13 @@ class MWEditorEventHandles {
                     const target = deepLastChild(parent.previousElementSibling);
 
 
+
+
+                    if(target.nodeType !== 1) {
+                        setTimeout(() => this.normalize(), 10)
+                        return
+                    }
+
                     if(target && sel.focusNode.nodeName !== target.nodeName) {
                         this.scope.api.setCursorAtEnd(target);
                         const edit = mw.tools.firstParentOrCurrentWithClass(target, 'edit') || this.scope.$editArea[0];
@@ -137,9 +158,24 @@ class MWEditorEventHandles {
                             target: edit,
                             value: edit.innerHTML
                         });
-                        while (parent.firstChild) {
-                            target.appendChild(parent.firstChild)
+
+
+
+                        if(parent.querySelector(target.nodeName) === null) {
+                            while (parent.firstChild) {
+
+                                target.appendChild(parent.firstChild)
+                            }
+                        } else {
+                            let ctarget = target
+                            while (parent.firstChild) {
+                                let curr = parent.firstChild
+                                ctarget.after(curr)
+                                ctarget = (curr)
+                            }
                         }
+
+
                         parent.remove();
                         this.scope.state.record({
 
@@ -153,6 +189,8 @@ class MWEditorEventHandles {
         } else if(sel.type === 'Range') {
 
         }
+
+
 
         this.normalize()
 
