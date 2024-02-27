@@ -171,10 +171,14 @@ class DispatchGoogleEventsJs
             }
         }
 
+        $userId = user_id();
 
         $convertedEventsJs = '';
         if (!empty($convertedEvents)) {
             $convertedEventsJs .= 'if (typeof(gtag) !== "undefined") {' . "\n";
+            if ($userId) {
+                $convertedEventsJs .= "gtag('set', {'user_id': '$userId'});";
+            }
             $convertedEventsJs .= implode("\n\n", $convertedEvents);
             $convertedEventsJs .= "\n" . '}';
         }
