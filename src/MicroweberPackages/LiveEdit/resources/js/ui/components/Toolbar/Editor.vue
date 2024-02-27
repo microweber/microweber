@@ -269,7 +269,12 @@ export default {
                             editTarget = DomService.firstParentOrCurrentWithAnyOfClasses(editTarget, ['edit', 'regular-mode'])
                         }
 
-                        if(editTarget.classList.contains('no-typing')) {
+
+                        if(!editTarget) {
+                            return;
+                        }
+
+                        if(editTarget.classList && editTarget.classList.contains('no-typing')) {
                             return;
                         }
 
@@ -279,8 +284,15 @@ export default {
                         }
 
                         if(!editTarget.id && !editTarget.classList.contains('edit')) {
+                            var canBeElement = mw.app.liveEdit.canBeElement(editTarget);
+                            if(canBeElement) {
 
-                            editTarget.id = mw.id('mw-element-');
+                                // @todo move this to the elementStyleEditor
+                                //  makes new id if not exists on element
+                                // maybe move this to the elementStyleEditor
+                                // no need to do this here id we dont use the id
+                                editTarget.id = mw.id('mw-element-');
+                            }
 
                         }
 
