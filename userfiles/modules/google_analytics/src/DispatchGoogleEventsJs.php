@@ -184,7 +184,10 @@ class DispatchGoogleEventsJs
 
             $gtagUserData = [];
             $gtagUserData['sha256_email_address'] = hash('sha256', $getUser['email'], false);
-            $gtagUserData['sha256_phone_number'] = hash('sha256', $getUser['phone'], false);
+
+            if (!empty($getUser['phone'])) {
+                $gtagUserData['sha256_phone_number'] = hash('sha256', $getUser['phone'], false);
+            }
 
             $userDataAddress = [];
             if (!empty($getUser['first_name'])) {
@@ -208,7 +211,7 @@ class DispatchGoogleEventsJs
             if (!empty($getUser['country'])) {
                 $userDataAddress['country'] = $getUser['country'];
             }
-            
+
             if (!empty($userDataAddress)) {
                 $gtagUserData['address'] = $userDataAddress;
             }
