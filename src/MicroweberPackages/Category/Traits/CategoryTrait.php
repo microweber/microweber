@@ -180,9 +180,10 @@ trait CategoryTrait
             $categoryNames = [];
             foreach ($categories as $category) {
                 $categoryTitle = category_title($category->id);
-                if (!empty($categoryTitle)) {
-                    $categoryNames[] = $categoryTitle;
+                if (empty($categoryTitle)) {
+                    continue;
                 }
+                $categoryNames[] = $categoryTitle;
             }
             return implode(', ', $categoryNames);
         }
