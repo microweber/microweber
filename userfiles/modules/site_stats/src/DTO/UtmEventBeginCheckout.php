@@ -46,6 +46,7 @@ class UtmEventBeginCheckout extends UtmEvent
                 }
                 $this->eventData['items'][] = $item;
             }
+
             if (isset($data->cartData['total'])) {
                 $this->eventData['total'] = $data->cartData['total'];
             }
