@@ -171,7 +171,13 @@ class DispatchGoogleEventsJs
             }
         }
 
-        $convertedEventsJs = implode("\n\n", $convertedEvents);
+
+        $convertedEventsJs = '';
+        if (!empty($convertedEvents)) {
+            $convertedEventsJs .= 'if (typeof(gtag) !== "undefined") {' . "\n";
+            $convertedEventsJs .= implode("\n\n", $convertedEvents);
+            $convertedEventsJs .= "\n" . '}';
+        }
 
         return $convertedEventsJs;
 
