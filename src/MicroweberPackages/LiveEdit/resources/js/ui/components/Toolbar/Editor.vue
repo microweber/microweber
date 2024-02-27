@@ -342,7 +342,20 @@ export default {
                     if (canvasWindow.Livewire) {
                        // canvasWindow.Livewire.restart();
                        // canvasWindow.Livewire.rescan();
-                      canvasWindow.Livewire.rescan();
+                    //  canvasWindow.Livewire.rescan();
+                       setTimeout(() => {
+
+                           try {
+                               canvasWindow.Livewire.restart();
+                           } catch (e) {
+
+                               consolel.log('Livewire.restart error');
+                               console.error(e);
+                           }
+
+
+                       }, 100)
+
                     }
                 }
             });

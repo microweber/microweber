@@ -1068,6 +1068,7 @@
 
             viewTypeSelector.find('.btn').on('click', function (val){
                 scope.viewType( this.dataset.viewType );
+                mw.storage.set('mw-file-manager-view-type', this.dataset.viewType);
             });
 
             topBar.append(selectEl);
@@ -1335,20 +1336,24 @@
 
         this.init = function (){
             createRoot();
-            this.requestData(this.settings.query, function (data){
+            this.requestData(this.settings.query,  (data) => {
+
+                let viewType = scope.settings.viewType;
+                let getViewTypeFromStorage = mw.storage.get('mw-file-manager-view-type');
+                if (getViewTypeFromStorage) {
+                    viewType = getViewTypeFromStorage;
+                }
+
                 scope.updateData(data);
                 scope.view();
                 scope.path(scope.settings.query.path, false);
                 scope.sort(scope.settings.query.orderBy, scope.settings.query.order, false);
-                scope.viewType(scope.settings.viewType, true);
+                scope.viewType(viewType, true);
                 scope.dispatch('ready');
             });
             if (this.settings.element) {
                 mw.element(this.settings.element).empty().append(this.root);
             }
-
-
-
         };
         this.init();
     };

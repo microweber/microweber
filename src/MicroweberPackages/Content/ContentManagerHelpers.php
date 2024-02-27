@@ -192,8 +192,8 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                         DB::table('custom_fields')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
 
+                        DB::table('content_data')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
 
-                        DB::table('content_data')->where('content_id', '=', $c_id)->delete();
 
 
                         DB::table('menus')->where('content_id', '=', $c_id)->delete();

@@ -42,6 +42,13 @@ class TaggableFileStore implements Store
      */
     protected $directoryData = false;
 
+    /**
+     * The default cache time in seconds.
+     *
+     * @param  int|null $seconds
+     */
+    protected $default = null;
+
     /*
      * The directory data of tag map files
      * @var array[]

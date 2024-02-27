@@ -16,10 +16,7 @@
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\Microweber\\": ""
-    },
-    "files": [
-      "helpers.php"
-    ]
+    }
   },
 
   "minimum-stability": "dev",

@@ -13,6 +13,21 @@ class View
     public $config;
     public $params;
 
+
+    //deprecated params
+    public $page;
+    public $module;
+    public $page_id;
+    public $application;
+    public $content;
+    public $category;
+    public $content_id;
+    public $post_id;
+    public $category_id;
+    public $meta_tags;
+    public $render_file;
+
+
     public function __construct($v)
     {
         $this->v = realpath($v);
