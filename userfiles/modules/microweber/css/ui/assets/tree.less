@@ -233,13 +233,7 @@
             margin-block: 2px 0;
         }
     }
-  .mw-tree-toggler:after {
-    content: "\F0536";
-    transition: .3s;
-    position: relative;
-    display: inline-block;
-    transform: rotate(90deg);
-  }
+
 
     .opened > .mw-tree-item-content-root .mw-tree-toggler:after {
       transform: rotate(180deg);
@@ -358,38 +352,10 @@
       font-family: "Material Design Icons";
   }
 
-  li.type-category > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-    content: 'c';
-    font-family: 'Microweber';
-  }
 
-  li.type-page > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-      content: "\F0214";
-  }
-
-  li.type-page.subtype-home > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-    content: "\F02DC";
-   }
-
-  li.type-page.subtype-shop > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-    content: "\F049A";
-   }
-
-  li.type-page.subtype-dynamic > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-    content: "\F1009";
-     z-index: 1;
-  }
-  .mw-tree-item-hidden {
-    display: none;
-  }
 }
 
-html[dir="ltr"] .mw-tree-context-menu-content{
-    right: 0;
-}
-html[dir="rtl"] .mw-tree-context-menu-content{
-    left: 0;
-}
+
 
 html[dir="rtl"]{
     /*.mw-tree-nav-skin-default{

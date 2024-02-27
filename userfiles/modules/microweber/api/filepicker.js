@@ -325,7 +325,7 @@ mw.filePicker = function (options) {
         }
         else if(this.settings.nav === 'tabs') {
 
-            var ul = $('<div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper mx-0" />');
+            var ul = $('<div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper mx-0 w-100" />');
             this.settings.components.forEach(function (item) {
                 ul.append('<a href="javascript:;" class="js-filepicker-pick-type-tab-'+item.type+'   btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100" data-type="'+item.type+'">'+item.label+'</a>');
             });

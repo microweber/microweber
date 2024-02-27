@@ -1091,9 +1091,12 @@
 
                                 })
                             } else {
+                                if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
 
-
-                                parent.style.lineHeight = size
+                                    mw.top().app.cssEditor.temp(node, 'line-height', size);
+                                } else {
+                                    parent.style.lineHeight = size
+                                }
                             }
                         });
 
@@ -1196,6 +1199,9 @@
                 var sel = scope.getSelection();
                 var el = scope.api.elementNode(sel.focusNode);
                 var elLink = el.nodeName === 'A' ? el : mw.tools.firstParentWithTag(el, 'a');
+
+                console.log(result)
+                console.log(elLink)
 
 
                 if (elLink) {

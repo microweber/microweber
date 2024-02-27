@@ -13,6 +13,7 @@ use AlexWestergaard\PhpGa4\Event\PageView;
 use AlexWestergaard\PhpGa4\Event\Purchase;
 use AlexWestergaard\PhpGa4\Event\Signup;
 use AlexWestergaard\PhpGa4\Item;
+use AlexWestergaard\PhpGa4\Exception\Ga4IOException;
 use MicroweberPackages\Modules\SiteStats\DTO\GA4Events\Conversion;
 use MicroweberPackages\Modules\SiteStats\Models\StatsEvent;
 use MicroweberPackages\Modules\SiteStats\UtmVisitorData;
@@ -35,11 +36,6 @@ class DispatchGoogleEventsJs
         $isGoogleEnhancedConversions = get_option('google-enhanced-conversions-enabled', 'website');
         $googleEnhancedConversionId = get_option('google-enhanced-conversion-id', 'website');
         $googleEnhancedConversionLabel = get_option('google-enhanced-conversion-label', 'website');
-
-        $analytics = Analytics::new(
-            $measurementId, $apiSecret
-        );
-        $analytics->setClientId($visitorId);
 
         $getStatsEvents = StatsEvent::where('is_sent', null)->where('utm_visitor_id', $visitorId)->get();
 
@@ -162,7 +158,9 @@ class DispatchGoogleEventsJs
                         $convertedEvents[] = 'gtag(\'event\', \'' . $eventArray['name'] . '\', ' . json_encode($eventArray['params']) . ');';
                     }
 
-                } catch (\TypeError $e) {
+                } catch (Ga4IOException $e) {
+
+                } catch (Exception $e) {
                   //  dump($e);
                 }
 
@@ -171,7 +169,62 @@ class DispatchGoogleEventsJs
             }
         }
 
-        $convertedEventsJs = implode("\n\n", $convertedEvents);
+        $userId = user_id();
+
+        $convertedEventsJs = '';
+        $convertedEventsJs .= 'if (typeof(gtag) !== "undefined") {' . "\n";
+
+        if ($userId) {
+            $convertedEventsJs .= "gtag('config', '$measurementId', {'user_id': '$userId'}); \n";
+            $convertedEventsJs .= "gtag('set', {'user_id': '$userId'}); \n";
+        }
+
+
+        $getUser = app()->user_manager->get_by_id($userId);
+        if ($getUser) {
+
+            $gtagUserData = [];
+            $gtagUserData['sha256_email_address'] = hash('sha256', $getUser['email'], false);
+
+            if (!empty($getUser['phone'])) {
+                $gtagUserData['sha256_phone_number'] = hash('sha256', $getUser['phone'], false);
+            }
+
+            $userDataAddress = [];
+            if (!empty($getUser['first_name'])) {
+                $userDataAddress['first_name'] = $getUser['first_name'];
+            }
+            if (!empty($getUser['last_name'])) {
+                $userDataAddress['last_name'] = $getUser['last_name'];
+            }
+            if (!empty($getUser['street'])) {
+                $userDataAddress['street'] = $getUser['street'];
+            }
+            if (!empty($getUser['city'])) {
+                $userDataAddress['city'] = $getUser['city'];
+            }
+            if (!empty($getUser['region'])) {
+                $userDataAddress['region'] = $getUser['region'];
+            }
+            if (!empty($getUser['postal_code'])) {
+                $userDataAddress['postal_code'] = $getUser['postal_code'];
+            }
+            if (!empty($getUser['country'])) {
+                $userDataAddress['country'] = $getUser['country'];
+            }
+
+            if (!empty($userDataAddress)) {
+                $gtagUserData['address'] = $userDataAddress;
+            }
+
+            $convertedEventsJs .= "gtag('set', 'user_data', " . json_encode($gtagUserData) . "); \n";
+        }
+
+        if (!empty($convertedEvents)) {
+            $convertedEventsJs .= implode("\n\n", $convertedEvents);
+        }
+
+        $convertedEventsJs .= "\n" . '}';
 
         return $convertedEventsJs;
 
