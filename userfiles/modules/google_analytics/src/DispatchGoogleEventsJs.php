@@ -30,16 +30,9 @@ class DispatchGoogleEventsJs
             $visitorId = $getUtmVisitorData['utm_visitor_id'];
         }
 
-        $measurementId = get_option('google-measurement-id', 'website');
-        $apiSecret = get_option('google-measurement-api-secret', 'website');
         $isGoogleEnhancedConversions = get_option('google-enhanced-conversions-enabled', 'website');
         $googleEnhancedConversionId = get_option('google-enhanced-conversion-id', 'website');
         $googleEnhancedConversionLabel = get_option('google-enhanced-conversion-label', 'website');
-
-        $analytics = Analytics::new(
-            $measurementId, $apiSecret
-        );
-        $analytics->setClientId($visitorId);
 
         $getStatsEvents = StatsEvent::where('is_sent', null)->where('utm_visitor_id', $visitorId)->get();
 
@@ -163,7 +156,7 @@ class DispatchGoogleEventsJs
                     }
 
                 } catch (Exception $e) {
-                  //  dump($e);
+                  //  dump($e); 
                 }
 
                 $getStatsEvent->is_sent = 1;
