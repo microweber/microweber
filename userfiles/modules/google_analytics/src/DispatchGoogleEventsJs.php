@@ -13,6 +13,7 @@ use AlexWestergaard\PhpGa4\Event\PageView;
 use AlexWestergaard\PhpGa4\Event\Purchase;
 use AlexWestergaard\PhpGa4\Event\Signup;
 use AlexWestergaard\PhpGa4\Item;
+use AlexWestergaard\PhpGa4\Exception\Ga4IOException;
 use MicroweberPackages\Modules\SiteStats\DTO\GA4Events\Conversion;
 use MicroweberPackages\Modules\SiteStats\Models\StatsEvent;
 use MicroweberPackages\Modules\SiteStats\UtmVisitorData;
@@ -155,8 +156,10 @@ class DispatchGoogleEventsJs
                         $convertedEvents[] = 'gtag(\'event\', \'' . $eventArray['name'] . '\', ' . json_encode($eventArray['params']) . ');';
                     }
 
+                } catch (Ga4IOException $e) {
+
                 } catch (Exception $e) {
-                  //  dump($e); 
+                  //  dump($e);
                 }
 
                 $getStatsEvent->is_sent = 1;
