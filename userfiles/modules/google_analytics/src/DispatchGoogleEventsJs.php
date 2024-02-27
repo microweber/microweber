@@ -177,7 +177,7 @@ class DispatchGoogleEventsJs
         if (!empty($convertedEvents)) {
             $convertedEventsJs .= 'if (typeof(gtag) !== "undefined") {' . "\n";
             if ($userId) {
-                $convertedEventsJs .= "gtag('set', {'user_id': '$userId'});";
+                $convertedEventsJs .= "gtag('set', {'user_id': '$userId'}); \n";
             }
             $convertedEventsJs .= implode("\n\n", $convertedEvents);
             $convertedEventsJs .= "\n" . '}';
