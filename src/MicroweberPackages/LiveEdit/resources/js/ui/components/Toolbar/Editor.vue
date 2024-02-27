@@ -361,7 +361,6 @@ export default {
                                canvasWindow.Livewire.restart();
                            } catch (e) {
 
-                               consolel.log('Livewire.restart error');
                                console.error(e);
                            }
 
