@@ -170,16 +170,39 @@ class DispatchGoogleEventsJs
         $userId = user_id();
 
         $convertedEventsJs = '';
-        if (!empty($convertedEvents)) {
-            $convertedEventsJs .= 'if (typeof(gtag) !== "undefined") {' . "\n";
-            if ($userId) {
-                $convertedEventsJs .= "gtag('set', {'user_id': '$userId'}); \n";
-                $convertedEventsJs .= "gtag('set', {'userId': '$userId'}); \n";
-                $convertedEventsJs .= "gtag('set', {'USER_ID': '$userId'}); \n";
-            }
-            $convertedEventsJs .= implode("\n\n", $convertedEvents);
-            $convertedEventsJs .= "\n" . '}';
+        $convertedEventsJs .= 'if (typeof(gtag) !== "undefined") {' . "\n";
+
+        if ($userId) {
+            $convertedEventsJs .= "gtag('set', {'user_id': '$userId'}); \n";
+            $convertedEventsJs .= "gtag('set', {'userId': '$userId'}); \n";
+            $convertedEventsJs .= "gtag('set', {'USER_ID': '$userId'}); \n";
         }
+
+
+        $getUser = app()->user_manager->get_by_id($userId);
+        if ($getUser) {
+
+            $gtagUserData = [];
+            $gtagUserData['sha256_email_address'] = hash('sha256', $getUser['email'], false);
+            $gtagUserData['sha256_phone_number'] = hash('sha256', $getUser['phone'], false);
+            $gtagUserData['address'] = [
+                'first_name' => $getUser['first_name'],
+                'last_name' => $getUser['last_name'],
+//                'street' => $getUser['street'],
+//                'city' => $getUser['city'],
+//                'region' => $getUser['region'],
+//                'postal_code' => $getUser['postal_code'],
+//                'country' => $getUser['country']
+            ];
+
+            $convertedEventsJs .= "gtag('set', 'user_data', " . json_encode($gtagUserData) . "); \n";
+        }
+
+        if (!empty($convertedEvents)) {
+            $convertedEventsJs .= implode("\n\n", $convertedEvents);
+        }
+
+        $convertedEventsJs .= "\n" . '}';
 
         return $convertedEventsJs;
 
