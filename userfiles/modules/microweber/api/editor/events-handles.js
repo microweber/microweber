@@ -34,7 +34,7 @@ class MWEditorEventHandles {
                     }
                 }
             });
-            const style = node.getAttribute('style')
+            const style = node.getAttribute('style');
             if(!style || !style.trim()) {
                 node.removeAttribute('style');
             }
