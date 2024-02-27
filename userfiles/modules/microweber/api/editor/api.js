@@ -28,6 +28,28 @@
                     }
                 }
                 if(target) {
+
+
+                    const walker = document.createTreeWalker(target, NodeFilter.SHOW_TEXT);
+                    const emptyNodes = [];
+                    while(walker.nextNode()) {
+
+                      if(!walker.currentNode.nodeValue) {
+                        emptyNodes.push(walker.currentNode)
+                      }
+                    }
+                    emptyNodes.forEach(node => node.remove());
+                    var all =  target.parentNode.querySelectorAll('*[style*="var"]');
+
+                    all.forEach(node => {
+                        if (node.style) {
+                            if (node.isContentEditable) {
+                                [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
+                            }
+                        }
+                    });
+
+
                     target.normalize();
                 }
             },

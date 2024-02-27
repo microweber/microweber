@@ -869,6 +869,7 @@ MWEditor.controllers = {
                         target: target.target === '_blank'
                     };
                 } else if(!sel.isCollapsed) {
+
                     val = {
                         url: '',
                         text: api.getSelectionHTML(),
@@ -878,6 +879,7 @@ MWEditor.controllers = {
                 var linkEditor = new mw.LinkEditor({
                     mode: 'dialog',
                 });
+
                 if(val) {
                     linkEditor.setValue(val);
                 }

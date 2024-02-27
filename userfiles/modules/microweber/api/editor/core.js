@@ -179,6 +179,12 @@
 
                 });
 
+                dlg.overlay.addEventListener('click', e => {
+                    setTimeout(() => {
+                        dlg.remove()
+                    }, 20)
+                })
+
                 if(config.api ) {
                     var fn = config.api.elementNode(config.api.getSelection().focusNode);
                     if(fn) {
