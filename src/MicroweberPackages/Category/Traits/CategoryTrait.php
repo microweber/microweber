@@ -152,4 +152,40 @@ trait CategoryTrait
         return collect($categories);
     }
 
+    public function hasCategories()
+    {
+        $categories = $this->categoryNames();
+        if ($categories) {
+            return true;
+        }
+        return false;
+    }
+
+    public function categoryName()
+    {
+        $categories = $this->getCategoriesAttribute();
+        if ($categories) {
+            $categoryTitle = category_title($categories[0]->id);
+            if (!empty($categoryTitle)) {
+                return $categoryTitle;
+            }
+        }
+        return false;
+    }
+
+    public function categoryNames()
+    {
+        $categories = $this->getCategoriesAttribute();
+        if ($categories) {
+            $categoryNames = [];
+            foreach ($categories as $category) {
+                $categoryTitle = category_title($category->id);
+                if (!empty($categoryTitle)) {
+                    $categoryNames[] = $categoryTitle;
+                }
+            }
+            return implode(', ', $categoryNames);
+        }
+        return false;
+    }
 }
