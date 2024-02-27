@@ -162,7 +162,7 @@ class DispatchGoogleEventsJs
                         $convertedEvents[] = 'gtag(\'event\', \'' . $eventArray['name'] . '\', ' . json_encode($eventArray['params']) . ');';
                     }
 
-                } catch (\TypeError $e) {
+                } catch (Exception $e) {
                   //  dump($e);
                 }
 
