@@ -185,15 +185,33 @@ class DispatchGoogleEventsJs
             $gtagUserData = [];
             $gtagUserData['sha256_email_address'] = hash('sha256', $getUser['email'], false);
             $gtagUserData['sha256_phone_number'] = hash('sha256', $getUser['phone'], false);
-            $gtagUserData['address'] = [
-                'first_name' => $getUser['first_name'],
-                'last_name' => $getUser['last_name'],
-//                'street' => $getUser['street'],
-//                'city' => $getUser['city'],
-//                'region' => $getUser['region'],
-//                'postal_code' => $getUser['postal_code'],
-//                'country' => $getUser['country']
-            ];
+
+            $userDataAddress = [];
+            if (!empty($getUser['first_name'])) {
+                $userDataAddress['first_name'] = $getUser['first_name'];
+            }
+            if (!empty($getUser['last_name'])) {
+                $userDataAddress['last_name'] = $getUser['last_name'];
+            }
+            if (!empty($getUser['street'])) {
+                $userDataAddress['street'] = $getUser['street'];
+            }
+            if (!empty($getUser['city'])) {
+                $userDataAddress['city'] = $getUser['city'];
+            }
+            if (!empty($getUser['region'])) {
+                $userDataAddress['region'] = $getUser['region'];
+            }
+            if (!empty($getUser['postal_code'])) {
+                $userDataAddress['postal_code'] = $getUser['postal_code'];
+            }
+            if (!empty($getUser['country'])) {
+                $userDataAddress['country'] = $getUser['country'];
+            }
+            
+            if (!empty($userDataAddress)) {
+                $gtagUserData['address'] = $userDataAddress;
+            }
 
             $convertedEventsJs .= "gtag('set', 'user_data', " . json_encode($gtagUserData) . "); \n";
         }
