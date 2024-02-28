@@ -5,6 +5,32 @@
         <livewire:microweber-option::dropdown :dropdownOptions="$shopPagesDropdownOptions" optionKey="dropdown" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
+    <div class="d-flex gap-2">
+
+        <div style="width:100%">
+            <label class="live-edit-label">Default Limit</label>
+            <livewire:microweber-option::numeric optionKey="default_limit" :optionGroup="$moduleId" :module="$moduleType"  />
+        </div>
+
+        <div style="width:100%">
+            <label class="live-edit-label">Default Sort</label>
+            @php
+                $defaultSortOptions = [
+                    '' => 'Default',
+                    'created_by_asc' => 'Newest',
+                    'created_by_desc' => 'Oldest',
+                    'title_asc' => 'Title: A-Z',
+                    'title_desc' => 'Title: Z-A',
+                    'price_asc' => 'Price: Low to High',
+                    'price_desc' => 'Price: High to Low'
+                ];
+            @endphp
+            <livewire:microweber-option::dropdown :dropdownOptions="$defaultSortOptions" optionKey="default_sort" :optionGroup="$moduleId" :module="$moduleType"  />
+        </div>
+    </div>
+
+
+
     <div>
         <label class="live-edit-label">Tags Filtering</label>
         <livewire:microweber-option::toggle-reversed optionKey="disable_tags_filtering" :optionGroup="$moduleId" :module="$moduleType"  />
