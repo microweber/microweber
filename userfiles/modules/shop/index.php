@@ -22,6 +22,7 @@ if (!$appliedDefaultSettings) {
     save_option('filtering_by_tags', 1, $params['id']);
     save_option('filtering_by_categories', 1, $params['id']);
     save_option('filtering_by_custom_fields', 1, $params['id']);
+    save_option('applied_default_shop_settings', 1, $params['id']);
 }
 
 $module_template = get_module_option('template', $params['id']);

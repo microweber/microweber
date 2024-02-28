@@ -9,7 +9,7 @@
 
         <div style="width:100%">
             <label class="live-edit-label">Default Limit</label>
-            <livewire:microweber-option::numeric optionKey="default_limit" :optionGroup="$moduleId" :module="$moduleType"  />
+            <livewire:microweber-option::text type="number" optionKey="default_limit" :optionGroup="$moduleId" :module="$moduleType" />
         </div>
 
         <div style="width:100%">
@@ -17,12 +17,12 @@
             @php
                 $defaultSortOptions = [
                     '' => 'Default',
-                    'created_by.asc' => 'Newest',
-                    'created_by.desc' => 'Oldest',
-                    'title.asc' => 'Title: A-Z',
-                    'title.desc' => 'Title: Z-A',
-                    'price.asc' => 'Price: Low to High',
-                    'price.desc' => 'Price: High to Low'
+                    'created_by_asc' => 'Newest',
+                    'created_by_desc' => 'Oldest',
+                    'title_asc' => 'Title: A-Z',
+                    'title_desc' => 'Title: Z-A',
+                    'price_asc' => 'Price: Low to High',
+                    'price_desc' => 'Price: High to Low'
                 ];
             @endphp
             <livewire:microweber-option::dropdown :dropdownOptions="$defaultSortOptions" optionKey="default_sort" :optionGroup="$moduleId" :module="$moduleType"  />
