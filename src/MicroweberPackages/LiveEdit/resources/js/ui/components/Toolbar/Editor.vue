@@ -136,6 +136,13 @@ export default {
                 this.emitter.emit('live-edit-ui-show', 'style-editor');
             });
 
+
+
+
+          mw.app.canvas.on('canvasDocumentKeydown', async (event) => {
+            mw.app.registerChangedState(event.target);
+
+          })
           mw.app.canvas.on('canvasDocumentClick', async (event) => {
             var element = event.target;
 
@@ -151,7 +158,6 @@ export default {
             mw.app.editor.on('editNodeRequest', async (element) => {
 
 
-                mw.app.registerChangedState(element);
 
 
                 function imagePicker(onResult) {
