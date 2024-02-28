@@ -173,6 +173,12 @@ class FrontendController extends Controller
         $is_editmode = app()->url_manager->param('editmode');
         $legacy_edimode_must_redirect = false;
         $is_editmode_iframe = false;
+
+        $secFetchDest = request()->header('Sec-Fetch-Dest');
+        if ($secFetchDest == 'iframe') {
+            $is_editmode = 'iframe';
+        }
+
         if ($is_editmode == 'iframe') {
             $is_editmode_iframe = true;
 
@@ -1319,7 +1325,6 @@ class FrontendController extends Controller
                 }
             }
 
-            $secFetchDest = request()->header('Sec-Fetch-Dest');
 
             if ($secFetchDest == 'iframe' and $is_admin and !$is_no_editmode) {
 
