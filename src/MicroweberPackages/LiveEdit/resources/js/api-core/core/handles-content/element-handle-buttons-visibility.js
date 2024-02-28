@@ -271,6 +271,18 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
 
     }
 
+
+    shouldShowAlignImageButton(target) {
+        var selfVisible = true;
+
+        var canDrop = mw.app.liveEdit.elementHandleContent.settingsTarget.canImageBeAligned(target);
+        if (!canDrop) {
+            selfVisible = false;
+        }
+        return selfVisible;
+    }
+
+
     isPlaceholder(target) {
         return target.classList.contains('mw-img-placeholder');
     }
