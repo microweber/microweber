@@ -70,18 +70,22 @@ class FrontendSwitchLanguage extends BaseComponent
                 $browser->switchFrame($iframeElement);
             }
         }
+
+
         $browser->pause(300);
         $browser->click('.module-multilanguage > .mw-dropdown-default');
         $browser->pause(400);
       //  $browser->script('$(\'li[data-value="'.$locale.'"]\', ".module-multilanguage").click()');
-     //  $browser->script('$(\'li[data-value="'.$locale.'"]\', ".module-multilanguage").click()');
-      $browser->click('.module-multilanguage li[data-value="'.$locale.'"]');
-        $browser->pause(400);
-     //   $browser->pause(10000);
+     $browser->script('$(\'li[data-value="'.$locale.'"]\', ".module-multilanguage").click()');
+  //    $browser->click('.module-multilanguage li[data-value="'.$locale.'"]');
+         $browser->pause(400);
+
+        //   $browser->pause(10000);
         $browser->waitUntil('!$.active');
-        //$browser->waitForReload(false, 30);
-        $browser->pause(400);
-       $browser->waitFor('.module-multilanguage', 30);
+     //  $browser->waitForReload(false, 30);
+        $browser->pause(2500);
+
+        $browser->waitFor('.module-multilanguage', 30);
 
         $browser->switchFrameDefault();
         if ($browser->element('#mw-page-set-back-to-edit-mode')) {
