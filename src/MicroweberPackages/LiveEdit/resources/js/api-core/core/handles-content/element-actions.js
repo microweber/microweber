@@ -4,7 +4,7 @@ import {ElementManager} from "../classes/element";
 import {LinkPicker} from "../../services/services/link-picker";
 import {DomService} from "../classes/dom";
 import {HandleIcons} from "../handle-icons";
-import { func } from "prop-types";
+import {func} from "prop-types";
 
 export class ElementActions extends MicroweberBaseClass {
     proto = null;
@@ -146,12 +146,13 @@ export class ElementActions extends MicroweberBaseClass {
             }
         })
     }
+
     cloneElementFirstClonableParent(target) {
 
         var hasCloneableClassOnParents = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable', 'mw-col']);
 
         if (hasCloneableClassOnParents) {
-            return  this.cloneElement(hasCloneableClassOnParents);
+            return this.cloneElement(hasCloneableClassOnParents);
         }
     }
 
@@ -279,12 +280,14 @@ export class ElementActions extends MicroweberBaseClass {
             mw.app.liveEdit.handles.get('element').set(el);
         }
     }
+
     moveForwardFirstClonableParent(target) {
         const hasCloneable = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['cloneable', 'mw-col']);
         if (hasCloneable) {
             this.moveForward(hasCloneable);
         }
     }
+
     moveForward(el) {
         const next = el.nextElementSibling;
 
@@ -296,9 +299,10 @@ export class ElementActions extends MicroweberBaseClass {
             mw.app.liveEdit.handles.get('element').set(el);
         }
     }
+
     resetElementSizeOnSelfOfParent(el) {
         const hasResizedClass = DomService.firstParentOrCurrentWithAnyOfClasses(el, ['mw-resized']);
-        if(hasResizedClass){
+        if (hasResizedClass) {
             el = hasResizedClass;
         }
 
@@ -316,6 +320,7 @@ export class ElementActions extends MicroweberBaseClass {
         mw.top().app.cssEditor.setPropertyForSelector(sel, 'height', '', true, true);
         this.proto.elementHandle.set(el);
     }
+
     resetImageSize(el) {
         mw.app.registerUndoState(el);
         el.style.width = '';
@@ -340,9 +345,6 @@ export class ElementActions extends MicroweberBaseClass {
         });
 
 
-
-
-
         var _pauseSetValue = false;
 
 
@@ -354,7 +356,7 @@ export class ElementActions extends MicroweberBaseClass {
             showHEX: true,
             onchange: function (color) {
                 // mw.top().app.liveEdit.handles.get('element').getTarget().style.backgroundColor = color;
-                if(selfBtn) {
+                if (selfBtn) {
                     selfBtn.querySelector('.mw-le--handle-icon--color-color').style.backgroundColor = color;
                 }
                 var target = mw.top().app.liveEdit.handles.get('element').getTarget();
@@ -389,7 +391,7 @@ export class ElementActions extends MicroweberBaseClass {
 
     editImageWithEditor(element) {
         mw.app.editImageDialog.editImage(element.src, (imgData) => {
-            if (typeof imgData !==  'undefined' && imgData.src) {
+            if (typeof imgData !== 'undefined' && imgData.src) {
 
                 element.src = imgData.src
 
@@ -404,6 +406,7 @@ export class ElementActions extends MicroweberBaseClass {
         });
 
     }
+
     editBackgroundImageOnParent(element) {
 
         const hasBgOnParent = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['background-image-holder', 'img-holder']);
@@ -424,27 +427,28 @@ export class ElementActions extends MicroweberBaseClass {
             });
         }
     }
+
     editBackgroundImage(element) {
 
         const hasBgOnParent = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['background-image-holder', 'img-holder']);
-        if(hasBgOnParent){
+        if (hasBgOnParent) {
             element = hasBgOnParent;
         }
 
         mw.top().app.registerUndoState(element);
 
-/*
-        if(element.style.backgroundImage) {
-        var bg = element.style.backgroundImage.trim().split('url(')[1];
-        if (bg) {
+        /*
+                if(element.style.backgroundImage) {
+                var bg = element.style.backgroundImage.trim().split('url(')[1];
+                if (bg) {
 
-            bg = bg.split(')')[0]
-                .trim()
-                .split('"')
-                .join('');
+                    bg = bg.split(')')[0]
+                        .trim()
+                        .split('"')
+                        .join('');
 
-            }
-        }*/
+                    }
+                }*/
 
         var dialog = this.imagePicker(function (res) {
             mw.top().app.registerChange(element);
@@ -459,7 +463,8 @@ export class ElementActions extends MicroweberBaseClass {
             mw.top().app.registerChangedState(element);
         });
     }
-     imagePicker(onResult) {
+
+    imagePicker(onResult) {
         var dialog;
         var picker = new mw.filePicker({
             type: 'images',
@@ -490,6 +495,31 @@ export class ElementActions extends MicroweberBaseClass {
             mw.top().app.liveEdit.handles.get('element').set(target);
         })
         return dialog;
+    }
+
+
+    alignImage(element, align) {
+
+        mw.app.registerUndoState(element);
+        const flexOnParent = DomService.firstParentOrCurrentWithAnyOfClasses(element, ['element']);
+        if (!flexOnParent) {
+            return;
+        }
+
+        if(flexOnParent.classList) {
+            flexOnParent.classList.remove('d-flex', 'justify-content-center', 'justify-content-end', 'justify-content-start');
+        }
+        if (align == 'left') {
+            flexOnParent.classList.add('d-flex', 'justify-content-start');
+        } else if (align == 'center') {
+            flexOnParent.classList.add('d-flex', 'justify-content-center');
+        } else if (align == 'right') {
+            flexOnParent.classList.add('d-flex', 'justify-content-end');
+        } else if (align == 'clear') {
+            flexOnParent.classList.remove('d-flex', 'justify-content-center', 'justify-content-end', 'justify-content-start');
+        }
+
+        mw.app.registerChangedState(element);
     }
 
 

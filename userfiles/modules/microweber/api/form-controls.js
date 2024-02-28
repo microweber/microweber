@@ -397,9 +397,22 @@ mw.emitter = {
                 var el = this.element;
                 $(li).find('input').on('click', function(){
                     mw.top().app.canvas.getWindow().mw.tools.scrollTo(el);
-                    scope.link = mw.top().app.canvas.getWindow().location.href.split('#')[0] + '#mw@' + el.id;
-                    scope.url = mw.top().app.canvas.getWindow().location.href.split('#')[0] + '#mw@' + el.id;
-                    scope.src = mw.top().app.canvas.getWindow().location.href.split('#')[0] + '#mw@' + el.id;
+                    var initialLocation = mw.top().app.canvas.getWindow().location.href;
+                    var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
+
+                    //sometimes the url can be modified by pop state, so we use iframedata original url
+                    if(typeof liveEditIframeData !== 'undefined'){
+                        if(typeof liveEditIframeData.content_link !== 'undefined'){
+                            initialLocation = liveEditIframeData.content_link;
+                        }
+                    }
+
+
+
+                    var elementUrl = initialLocation.split('#')[0] + '#mw@' + el.id;
+                    scope.link = elementUrl;
+                    scope.url = elementUrl;
+                    scope.src = elementUrl;
 
                     scope.valid();
                 });

@@ -2,6 +2,7 @@
 
 <div>
     <label class="form-control-live-edit-label-wrapper">
+
         <input
             {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => 'form-control-live-edit-input']) !!}
         />

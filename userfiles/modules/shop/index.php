@@ -17,9 +17,12 @@ $contentFromId = get_option('content_from_id', $params['id']);
 
 $appliedDefaultSettings = get_option('applied_default_shop_settings', $params['id']);
 if (!$appliedDefaultSettings) {
+    save_option('default_sort', 'created_by_asc', $params['id']);
+    save_option('default_limit', 10, $params['id']);
     save_option('filtering_by_tags', 1, $params['id']);
     save_option('filtering_by_categories', 1, $params['id']);
     save_option('filtering_by_custom_fields', 1, $params['id']);
+    save_option('applied_default_shop_settings', 1, $params['id']);
 }
 
 $module_template = get_module_option('template', $params['id']);

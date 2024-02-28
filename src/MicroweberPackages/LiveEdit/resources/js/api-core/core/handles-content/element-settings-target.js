@@ -65,6 +65,21 @@ export class ElementSettingsTarget extends MicroweberBaseClass {
     }
 
 
+    canImageBeAligned(target) {
+        if (!target) {
+            return false;
+        }
+        if (target.tagName !== 'IMG') {
+            return false;
+        }
+
+
+        var can = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['row']);
+        return can;
+
+    }
+
+
 
 
 }

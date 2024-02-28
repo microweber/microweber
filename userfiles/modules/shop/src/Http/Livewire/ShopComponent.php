@@ -24,16 +24,16 @@ class ShopComponent extends Component
     public string $moduleTemplateNamespace = '';
 
     public $keywords;
-    public $sort = '';
-    public $direction = '';
-    public $offers = '';
-    public $limit = 10;
+    public $sort;
+    public $direction;
+    public $offers;
+    public $limit;
 
-    public $priceFrom = 0;
-    public $priceTo = 0;
+    public $priceFrom;
+    public $priceTo;
 
-    public $minPrice = 0;
-    public $maxPrice = 1000;
+    public $minPrice;
+    public $maxPrice;
 
     public $queryString = [
         'keywords',
@@ -87,15 +87,19 @@ class ShopComponent extends Component
 
     public function render()
     {
+        $productCardSettings = [
+            'hide_price'=>false
+        ];
+
         $filterSettings = [
             'disable_tags_filtering'=>false,
+            'disable_keyword_filtering'=>false,
+            'disable_sort_filtering'=>false,
+            'disable_limit_filtering'=>false,
             'disable_categories_filtering'=>false,
             'disable_custom_fields_filtering'=>false,
             'disable_price_range_filtering'=>false,
             'disable_offers_filtering'=>false,
-            'disable_sort_filtering'=>false,
-            'disable_limit_filtering'=>false,
-            'disable_keyword_filtering'=>false,
             'disable_search'=>false,
             'disable_pagination'=>false,
         ];
@@ -104,6 +108,25 @@ class ShopComponent extends Component
         if (!empty($getModuleOptions)) {
             foreach ($getModuleOptions as $moduleOption) {
                 $filterSettings[$moduleOption['option_key']] = $moduleOption['option_value'];
+            }
+        }
+
+        if (isset($filterSettings['hide_price'])) {
+            $productCardSettings['hide_price'] = $filterSettings['hide_price'];
+        }
+
+        $limit = $this->limit;
+        if (isset($filterSettings['default_limit'])) {
+            $limit = $filterSettings['default_limit'];
+        }
+
+        if (isset($filterSettings['default_sort'])) {
+            if (str_contains(',',$filterSettings['default_sort'])) {
+                $defaultSortUndot = explode(',', $filterSettings['default_sort']);
+                if (!empty($defaultSortUndot)) {
+                    $this->sort = $defaultSortUndot[0];
+                    $this->direction = $defaultSortUndot[1];
+                }
             }
         }
 
@@ -145,7 +168,9 @@ class ShopComponent extends Component
         }
 
         $productsQueryAll = Product::query();
-        $productsQueryAll->where('parent', $mainPageId);
+        if ($mainPageId > 0) {
+            $productsQueryAll->where('parent', $mainPageId);
+        }
         $productsQueryAll->where('is_active', 1);
         $allProducts = $productsQueryAll->get();
 
@@ -193,10 +218,10 @@ class ShopComponent extends Component
             $this->minPrice = floor($this->minPrice) - 1;
             $this->maxPrice = floor($this->maxPrice) + 1;
 
-            if (empty($this->priceFrom)) {
+            if (empty($priceFrom)) {
                 $this->priceFrom = $this->minPrice;
             }
-            if (empty($this->priceTo)) {
+            if (empty($priceTo)) {
                 $this->priceTo = $this->maxPrice;
             }
         }
@@ -220,15 +245,20 @@ class ShopComponent extends Component
             }
         }
 
-        $products = $productsQuery->paginate($this->limit);
+        $products = $productsQuery->paginate($limit);
 
         if (empty($this->moduleTemplateNamespace)) {
             $this->moduleTemplateNamespace = 'microweber-module-shop::livewire.shop.index';
         }
 
        return view($this->moduleTemplateNamespace, [
+            'minPrice'=>$this->minPrice,
+            'maxPrice'=>$this->maxPrice,
+            'priceTo'=>$this->priceTo,
+            'priceFrom'=>$this->priceFrom,
             'filterSettings'=>$filterSettings,
             'products' => $products,
+            'productCardSettings'=>$productCardSettings,
             'filteredTags' => $this->getTags(),
             'filteredCustomFields'=>$this->getCustomFields(),
             'filteredCategory' => $this->getCategory(),

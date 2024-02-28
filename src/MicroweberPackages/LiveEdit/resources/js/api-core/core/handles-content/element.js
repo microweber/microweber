@@ -349,6 +349,109 @@ export class ElementHandleContent {
         ];
 
 
+        const elementEditImageAlignMenuAlignLeft = [
+            {
+                title: 'Align Image Left',
+                text: '',
+                icon: this.handleIcons.icon('fine-tune'),
+
+                className: 'mw-handle-element-open-image-editor-align-image-left-button',
+
+                action: (el) => {
+
+                    this.elementActions.alignImage(el, 'left');
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowAlignImageButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+                },
+            }
+        ];
+
+        const elementEditImageAlignMenuAlignRight = [
+            {
+                title: 'Align Image Right',
+                text: '',
+                icon: this.handleIcons.icon('fine-tune'),
+
+                className: 'mw-handle-element-open-image-editor-align-image-right-button',
+
+                action: (el) => {
+
+                    this.elementActions.alignImage(el, 'right');
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowAlignImageButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+                },
+            }
+        ];
+
+        const elementEditImageAlignMenuAlignCenter = [
+            {
+                title: 'Align Image Center',
+                text: '',
+                icon: this.handleIcons.icon('fine-tune'),
+
+                className: 'mw-handle-element-open-image-editor-align-image-right-button',
+
+                action: (el) => {
+
+                    this.elementActions.alignImage(el, 'center');
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowAlignImageButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+                },
+            }
+        ];
+        const elementEditImageAlignMenuAlignClear = [
+            {
+                title: 'Align Image Clear',
+                text: '',
+                icon: this.handleIcons.icon('fine-tune'),
+
+                className: 'mw-handle-element-open-image-editor-align-image-clear-button',
+
+                action: (el) => {
+
+                    this.elementActions.alignImage(el, 'clear');
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowAlignImageButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+                },
+            }
+        ];
+
+
+        const elementEditImageAlignMenu = [
+            {
+                title: 'Align Image',
+                text: '',
+                icon: this.handleIcons.icon('fine-tune'),
+                className: 'mw-handle-element-open-image-editor-align-image-button',
+                menu: [
+                    ...elementEditImageAlignMenuAlignLeft,
+                        ...elementEditImageAlignMenuAlignCenter,
+                        ...elementEditImageAlignMenuAlignRight,
+                        ...elementEditImageAlignMenuAlignClear,
+                ]
+            }
+        ];
+
+
+
+
+
         const elementBackgroundImageMenu = [
             {
                 title: 'Background Image',
@@ -493,10 +596,15 @@ export class ElementHandleContent {
            ...cloneAbleMenuInMoreMenu,
 
             ...elementEditImageInEditorMenu,
+         //   ...elementEditImageAlignMenu,
+             // ...elementEditImageAlignMenuAlignLeft,
+             // ...elementEditImageAlignMenuAlignRight,
+             // ...elementEditImageAlignMenuAlignCenter,
+             // ...elementEditImageAlignMenuAlignClear,
 
 
 
-        ]
+        ];
 
         var tailMenuQuickSettings = [];
 

@@ -73,12 +73,19 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
         url = new URL(url);
 
-        url.searchParams.set('editmode', 'iframe');
-
+      //  url.searchParams.set('editmode', 'iframe');
 
         if(url.host !== top.location.host) {
-            url = `${mw.settings.site_url}?editmode=iframe`;
+            url = `${mw.settings.site_url}`;
         }
+
+        // if(url.host !== top.location.host) {
+        //     url = `${mw.settings.site_url}?editmode=iframe`;
+        // }
+
+        // if(url.host !== top.location.host) {
+        //     url = `${mw.settings.site_url}?editmode=iframe`;
+        // }
         liveEditIframe.src = url.toString();
 
         liveEditIframe.frameBorder = 0;
@@ -128,12 +135,10 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
             liveEditIframe.contentWindow.document.body.addEventListener('click', (event) => {
 
-
                 if (mw.app.liveEdit.handles.targetIsOrInsideHandle(event.target ) ) {
                     return;
                 }
                 this.dispatch('canvasDocumentClick', event)
-
 
             });
 
