@@ -40,6 +40,17 @@
         <livewire:microweber-option::toggle-reversed optionKey="disable_keyword_filtering" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
+    <div class="d-flex gap-2">
+        <div style="width:100%">
+        <label class="live-edit-label">Sort Filtering</label>
+        <livewire:microweber-option::toggle-reversed optionKey="disable_sort_filtering" :optionGroup="$moduleId" :module="$moduleType"  />
+        </div>
+        <div style="width:100%">
+            <label class="live-edit-label">Limit Filtering</label>
+            <livewire:microweber-option::toggle-reversed optionKey="disable_limit_filtering" :optionGroup="$moduleId" :module="$moduleType"  />
+        </div>
+    </div>
+
     <div>
         <label class="live-edit-label">Tags Filtering</label>
         <livewire:microweber-option::toggle-reversed optionKey="disable_tags_filtering" :optionGroup="$moduleId" :module="$moduleType"  />

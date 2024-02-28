@@ -35,18 +35,18 @@ class ShopComponent extends Component
     public $minPrice = 0;
     public $maxPrice = 1000;
 
-    public $queryString = [
-        'keywords',
-        'category',
-        'tags',
-        'customFields',
-        'limit',
-        'sort',
-        'direction',
-        'priceFrom',
-        'priceTo',
-        'offers'
-    ];
+//    public $queryString = [
+//        'keywords',
+//        'category',
+//        'tags',
+//        'customFields',
+//        'limit',
+//        'sort',
+//        'direction',
+//        'priceFrom',
+//        'priceTo',
+//        'offers'
+//    ];
 
 
     public function updatedOffers()
@@ -87,15 +87,21 @@ class ShopComponent extends Component
 
     public function render()
     {
+        $productCardSettings = [
+            'hide_price'=>false
+        ];
+
         $filterSettings = [
             'disable_tags_filtering'=>false,
+            'disable_keyword_filtering'=>false,
+            'disable_sort_filtering'=>false,
+            'disable_limit_filtering'=>false,
             'disable_categories_filtering'=>false,
             'disable_custom_fields_filtering'=>false,
             'disable_price_range_filtering'=>false,
             'disable_offers_filtering'=>false,
             'disable_sort_filtering'=>false,
             'disable_limit_filtering'=>false,
-            'disable_keyword_filtering'=>false,
             'disable_search'=>false,
             'disable_pagination'=>false,
         ];
@@ -105,6 +111,10 @@ class ShopComponent extends Component
             foreach ($getModuleOptions as $moduleOption) {
                 $filterSettings[$moduleOption['option_key']] = $moduleOption['option_value'];
             }
+        }
+
+        if (isset($filterSettings['hide_price'])) {
+            $productCardSettings['hide_price'] = $filterSettings['hide_price'];
         }
 
         if (isset($filterSettings['default_limit'])) {
@@ -148,7 +158,7 @@ class ShopComponent extends Component
             $filters['customFields'] = $this->customFields;
         }
         if (!empty($this->priceFrom) || !empty($this->priceTo)) {
-            $filters['priceBetween'] = $this->priceFrom . ',' . $this->priceTo;
+            //$filters['priceBetween'] = $this->priceFrom . ',' . $this->priceTo;
         }
         if (!empty($this->offers)) {
             $filters['offers'] = $this->offers;
@@ -243,6 +253,7 @@ class ShopComponent extends Component
        return view($this->moduleTemplateNamespace, [
             'filterSettings'=>$filterSettings,
             'products' => $products,
+            'productCardSettings'=>$productCardSettings,
             'filteredTags' => $this->getTags(),
             'filteredCustomFields'=>$this->getCustomFields(),
             'filteredCategory' => $this->getCategory(),
