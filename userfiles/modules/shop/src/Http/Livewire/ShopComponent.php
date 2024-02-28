@@ -168,7 +168,9 @@ class ShopComponent extends Component
         }
 
         $productsQueryAll = Product::query();
-        $productsQueryAll->where('parent', $mainPageId);
+        if ($mainPageId > 0) {
+            $productsQueryAll->where('parent', $mainPageId);
+        }
         $productsQueryAll->where('is_active', 1);
         $allProducts = $productsQueryAll->get();
 
@@ -209,22 +211,18 @@ class ShopComponent extends Component
             }
         }
 
-        $minPrice = 0;
-        $maxPrice = 0;
-        $priceFrom = 0;
-        $priceTo = 0;
         if (!empty($productPrices)) {
-            $minPrice = min($productPrices);
-            $maxPrice = max($productPrices);
+            $this->minPrice = min($productPrices);
+            $this->maxPrice = max($productPrices);
 
-            $minPrice = floor($minPrice) - 1;
-            $maxPrice = floor($maxPrice) + 1;
+            $this->minPrice = floor($this->minPrice) - 1;
+            $this->maxPrice = floor($this->maxPrice) + 1;
 
             if (empty($priceFrom)) {
-                $priceFrom = $minPrice;
+                $this->priceFrom = $this->minPrice;
             }
             if (empty($priceTo)) {
-                $priceTo = $maxPrice;
+                $this->priceTo = $this->maxPrice;
             }
         }
 
@@ -254,10 +252,8 @@ class ShopComponent extends Component
         }
 
        return view($this->moduleTemplateNamespace, [
-            'minPrice'=>$minPrice,
-            'maxPrice'=>$maxPrice,
-            'priceFrom'=>$priceFrom,
-            'priceTo'=>$priceTo,
+            'minPrice'=>$this->minPrice,
+            'maxPrice'=>$this->maxPrice,
             'filterSettings'=>$filterSettings,
             'products' => $products,
             'productCardSettings'=>$productCardSettings,
