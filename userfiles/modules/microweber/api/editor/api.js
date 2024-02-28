@@ -20,6 +20,28 @@
 
     MWEditor.api = function (scope) {
         return {
+            normalizeStyles: function(target) {
+                if(typeof target === 'undefined') {
+                    const sel = scope.api.getSelection();
+                    if(sel.rangeCount) {
+                        target = scope.api.elementNode(sel.getRangeAt(0).commonAncestorContainer)
+                    }
+                }
+                if(target) {
+                    var all =  target.parentNode.querySelectorAll('*[style*="var"]');
+
+                    all.forEach(node => {
+                        if (node.style) {
+                            if (node.isContentEditable) {
+                                [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
+                            }
+                        }
+                        if(!node.style.length) {
+                            node.removeAttribute('style');
+                        }
+                    });
+                }
+            },
             normalize: function(target) {
                 if(typeof target === 'undefined') {
                     const sel = scope.api.getSelection();
@@ -34,24 +56,16 @@
                     const emptyNodes = [];
                     while(walker.nextNode()) {
 
+                        console.log(walker.currentNode)
+
                       walker.currentNode.nodeValue = walker.currentNode.nodeValue.replace(/[\u200B-\u200D\uFEFF]/g, '');
                       if(!walker.currentNode.nodeValue) {
                         emptyNodes.push(walker.currentNode)
                       }
                     }
                     emptyNodes.forEach(node => node.remove());
-                    var all =  target.parentNode.querySelectorAll('*[style*="var"]');
 
-                    all.forEach(node => {
-                        if (node.style) {
-                            if (node.isContentEditable) {
-                                [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
-                            }
-                        }
-                        if(!node.style.length) {
-                            node.removeAttribute('style');
-                        }
-                    });
+                    scope.api.normalize(target)
 
 
                     target.normalize();

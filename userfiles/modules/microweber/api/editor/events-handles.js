@@ -3,6 +3,9 @@ class MWEditorEventHandles {
         this.scope = scope;
     }
 
+
+
+
     normalize () {
         var sel = this.scope.getSelection();
         if(!sel.rangeCount) {
@@ -60,15 +63,7 @@ class MWEditorEventHandles {
         }
 
 
-        var all =  cmn.parentNode.querySelectorAll('*[style*="var"]');
-
-        all.forEach(node => {
-            if (node.style) {
-                if (node.isContentEditable) {
-                    [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
-                }
-            }
-        });
+         this.scope.api.normalize()
 
     }
 
@@ -136,8 +131,11 @@ class MWEditorEventHandles {
 
         if(sel.type === 'Caret') {
 
+
             if(sel.focusOffset === 0) {
                 var parent = getParentHolder(sel.focusNode);
+
+
 
                 if (parent) {
                     const target = deepLastChild(parent.previousElementSibling);
@@ -145,13 +143,17 @@ class MWEditorEventHandles {
 
 
 
-                    if(target.nodeType !== 1) {
-                        setTimeout(() => this.normalize(), 10)
+                    if(target && target.nodeType !== 1) {
+                        setTimeout(() => this.scope.api.normalizeStyles(), 10)
+
                         return
                     }
 
+
+
                     if(target && sel.focusNode.nodeName !== target.nodeName) {
                         this.scope.api.setCursorAtEnd(target);
+
                         const edit = mw.tools.firstParentOrCurrentWithClass(target, 'edit') || this.scope.$editArea[0];
                         this.scope.state.record({
 
@@ -192,7 +194,7 @@ class MWEditorEventHandles {
 
 
 
-        this.normalize()
+        setTimeout(() => this.scope.api.normalizeStyles(), 110)
 
      }
 
