@@ -107,6 +107,20 @@ class ShopComponent extends Component
             }
         }
 
+        if (isset($filterSettings['default_limit'])) {
+            $this->limit = $filterSettings['default_limit'];
+        }
+
+        if (isset($filterSettings['default_sort'])) {
+            if (str_contains('.',$filterSettings['default_sort'])) {
+                $defaultSortUndot = explode('.', $filterSettings['default_sort']);
+                if (!empty($defaultSortUndot)) {
+                    $this->sort = $defaultSortUndot[0];
+                    $this->direction = $defaultSortUndot[1];
+                }
+            }
+        }
+
         $mainPageId = $this->getMainPageId();
         $productsQuery = Product::query();
 
