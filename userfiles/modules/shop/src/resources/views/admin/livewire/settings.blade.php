@@ -30,6 +30,15 @@
     </div>
 
 
+    <div>
+        <label class="live-edit-label">Hide price</label>
+        <livewire:microweber-option::toggle optionKey="hide_price" :optionGroup="$moduleId" :module="$moduleType"  />
+    </div>
+
+    <div>
+        <label class="live-edit-label">Keyword Filtering</label>
+        <livewire:microweber-option::toggle-reversed optionKey="disable_keyword_filtering" :optionGroup="$moduleId" :module="$moduleType"  />
+    </div>
 
     <div>
         <label class="live-edit-label">Tags Filtering</label>
