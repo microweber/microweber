@@ -3,7 +3,7 @@ namespace MicroweberPackages\Modules\Shop\Http\Livewire\Traits;
 
 trait ShopCategoriesTrait {
 
-    public $category = '';
+    public $category;
 
     public function filterCategory($category)
     {
@@ -18,7 +18,7 @@ trait ShopCategoriesTrait {
 
     public function filterClearCategory()
     {
-        $this->category = '';
+        $this->category = null;
 
         $this->setPage(1);
     }
