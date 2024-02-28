@@ -29,7 +29,7 @@
 }
 @media screen and (min-width: 768px) {
     .mw-dialog-container .mw-file-manager-view-table-wrap{
-        max-height: calc(100vh - 310px);
+        max-height: calc(100vh - 400px);
     }
 }
 .mw-file-manager-root.no-results .mw-file-manager-view-table-wrap{
@@ -541,8 +541,7 @@
     padding-bottom: 0;
     position: sticky;
     bottom: 0;
-    background:#fff;
-    z-index: 100;
+    background: #fff;
 }
 
 .mw-file-manager-bar-view-sort-selector{

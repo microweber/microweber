@@ -3,7 +3,7 @@ namespace MicroweberPackages\Modules\Shop\Http\Livewire\Traits;
 
 trait ShopTagsTrait {
 
-    public $tags = '';
+    public $tags;
 
     public function filterTag($tagSlug)
     {

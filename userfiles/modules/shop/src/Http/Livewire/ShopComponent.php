@@ -24,16 +24,16 @@ class ShopComponent extends Component
     public string $moduleTemplateNamespace = '';
 
     public $keywords;
-    public $sort = '';
-    public $direction = '';
-    public $offers = '';
-    public $limit = 10;
+    public $sort;
+    public $direction;
+    public $offers;
+    public $limit;
 
-    public $priceFrom = 0;
-    public $priceTo = 0;
+    public $priceFrom;
+    public $priceTo;
 
-    public $minPrice = 0;
-    public $maxPrice = 1000;
+    public $minPrice;
+    public $maxPrice;
 
     public $queryString = [
         'keywords',
@@ -87,15 +87,19 @@ class ShopComponent extends Component
 
     public function render()
     {
+        $productCardSettings = [
+            'hide_price'=>false
+        ];
+
         $filterSettings = [
             'disable_tags_filtering'=>false,
+            'disable_keyword_filtering'=>false,
+            'disable_sort_filtering'=>false,
+            'disable_limit_filtering'=>false,
             'disable_categories_filtering'=>false,
             'disable_custom_fields_filtering'=>false,
             'disable_price_range_filtering'=>false,
             'disable_offers_filtering'=>false,
-            'disable_sort_filtering'=>false,
-            'disable_limit_filtering'=>false,
-            'disable_keyword_filtering'=>false,
             'disable_search'=>false,
             'disable_pagination'=>false,
         ];
@@ -107,8 +111,13 @@ class ShopComponent extends Component
             }
         }
 
+        if (isset($filterSettings['hide_price'])) {
+            $productCardSettings['hide_price'] = $filterSettings['hide_price'];
+        }
+
+        $limit = $this->limit;
         if (isset($filterSettings['default_limit'])) {
-            $this->limit = $filterSettings['default_limit'];
+            $limit = $filterSettings['default_limit'];
         }
 
         if (isset($filterSettings['default_sort'])) {
@@ -200,18 +209,22 @@ class ShopComponent extends Component
             }
         }
 
+        $minPrice = 0;
+        $maxPrice = 0;
+        $priceFrom = 0;
+        $priceTo = 0;
         if (!empty($productPrices)) {
-            $this->minPrice = min($productPrices);
-            $this->maxPrice = max($productPrices);
+            $minPrice = min($productPrices);
+            $maxPrice = max($productPrices);
 
-            $this->minPrice = floor($this->minPrice) - 1;
-            $this->maxPrice = floor($this->maxPrice) + 1;
+            $minPrice = floor($minPrice) - 1;
+            $maxPrice = floor($maxPrice) + 1;
 
-            if (empty($this->priceFrom)) {
-                $this->priceFrom = $this->minPrice;
+            if (empty($priceFrom)) {
+                $priceFrom = $minPrice;
             }
-            if (empty($this->priceTo)) {
-                $this->priceTo = $this->maxPrice;
+            if (empty($priceTo)) {
+                $priceTo = $maxPrice;
             }
         }
 
@@ -234,15 +247,20 @@ class ShopComponent extends Component
             }
         }
 
-        $products = $productsQuery->paginate($this->limit);
+        $products = $productsQuery->paginate($limit);
 
         if (empty($this->moduleTemplateNamespace)) {
             $this->moduleTemplateNamespace = 'microweber-module-shop::livewire.shop.index';
         }
 
        return view($this->moduleTemplateNamespace, [
+            'minPrice'=>$minPrice,
+            'maxPrice'=>$maxPrice,
+            'priceFrom'=>$priceFrom,
+            'priceTo'=>$priceTo,
             'filterSettings'=>$filterSettings,
             'products' => $products,
+            'productCardSettings'=>$productCardSettings,
             'filteredTags' => $this->getTags(),
             'filteredCustomFields'=>$this->getCustomFields(),
             'filteredCategory' => $this->getCategory(),
