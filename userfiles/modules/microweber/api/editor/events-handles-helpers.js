@@ -1,11 +1,8 @@
 class MWEditorEventHandlesHelpers {
 
     mergeSiblings(element, sibling = true) {
+// from ckeditor https://github.com/ckeditor/ckeditor4/blob/d9ccba34d186be696f1322a0fde29660b1840279/core/dom/element.js#L1184-L1190
 
-        // // Merge empty links and anchors also.
-        // if (!(inlineOnly === false || ['A', 'A'].includes(this.nodeName))) {
-        //     return;
-        // }
 
         this.mergeElements(element, sibling, true);
         this.mergeElements(element, sibling);

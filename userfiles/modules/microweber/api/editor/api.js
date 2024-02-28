@@ -34,6 +34,7 @@
                     const emptyNodes = [];
                     while(walker.nextNode()) {
 
+                      walker.currentNode.nodeValue = walker.currentNode.nodeValue.replace(/[\u200B-\u200D\uFEFF]/g, '');
                       if(!walker.currentNode.nodeValue) {
                         emptyNodes.push(walker.currentNode)
                       }
@@ -47,8 +48,20 @@
                                 [...node.style].filter(prop => node.style[prop].includes('var(')).forEach(prop => node.style.removeProperty(prop))
                             }
                         }
+                        if(!node.style.length) {
+                            node.removeAttribute('style');
+                        }
                     });
 
+
+                    target.normalize();
+
+                    Array
+                    .from(target.parentNode.querySelectorAll('span,b,strong,em,i,u'))
+                    .filter(node => {
+                        return !node.attributes.lngth && !node.textContent && node.isContentEditable;
+                    })
+                    .forEach(node => node.remove())
 
                     target.normalize();
                 }
