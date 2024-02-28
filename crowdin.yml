@@ -1,0 +1,18 @@
+#
+# Choose file structure in Crowdin
+# e.g. true or false
+#
+"preserve_hierarchy": true
+
+#
+# Files configuration
+#
+files: [
+  {
+    "source": "src/MicroweberPackages/Translation/resources/lang/en_US.json",
+    "translation": "src/MicroweberPackages/Translation/resources/lang/%locale_with_underscore%.%file_extension%",
+    "first_line_contains_header": false,
+    "skip_untranslated_strings": true,
+    "scheme": "source_phrase,translation"
+  }
+]
