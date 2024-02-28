@@ -106,10 +106,10 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
             // Switch to Bulgarian
             $browser->pause(3000);
 
-            $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
-            $browser->switchFrame($iframeElement);
-
-
+//            $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
+//            $browser->switchFrame($iframeElement);
+//
+//
 
 //            $browser->within(new FrontendSwitchLanguage(), function ($browser) {
 //                $browser->switchLanguage('bg_BG');
@@ -160,15 +160,15 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
 
             // Switch back to Bulgarian
             $browser->pause(1000);
-//            $browser->within(new FrontendSwitchLanguage(), function ($browser) {
-//                $browser->switchLanguage('bg_BG');
-//            });
+            $browser->within(new FrontendSwitchLanguage(), function ($browser) {
+                $browser->switchLanguage('en_US');
+            });
             $browser->within(new LiveEditSwitchLanguage(), function ($browser) {
                 $browser->switchLanguage('bg_BG');
             });
 
 
-            $browser->pause(1000);
+            $browser->pause(3000);
             $browser->assertSee('Текст написан на български, това е българска страница');
 
 
