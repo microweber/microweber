@@ -254,6 +254,8 @@ class ShopComponent extends Component
        return view($this->moduleTemplateNamespace, [
             'minPrice'=>$this->minPrice,
             'maxPrice'=>$this->maxPrice,
+            'priceTo'=>$this->priceTo,
+            'priceFrom'=>$this->priceFrom,
             'filterSettings'=>$filterSettings,
             'products' => $products,
             'productCardSettings'=>$productCardSettings,
