@@ -209,18 +209,22 @@ class ShopComponent extends Component
             }
         }
 
+        $minPrice = 0;
+        $maxPrice = 0;
+        $priceFrom = 0;
+        $priceTo = 0;
         if (!empty($productPrices)) {
-            $this->minPrice = min($productPrices);
-            $this->maxPrice = max($productPrices);
+            $minPrice = min($productPrices);
+            $maxPrice = max($productPrices);
 
-            $this->minPrice = floor($this->minPrice) - 1;
-            $this->maxPrice = floor($this->maxPrice) + 1;
+            $minPrice = floor($minPrice) - 1;
+            $maxPrice = floor($maxPrice) + 1;
 
-            if (empty($this->priceFrom)) {
-                $this->priceFrom = $this->minPrice;
+            if (empty($priceFrom)) {
+                $priceFrom = $minPrice;
             }
-            if (empty($this->priceTo)) {
-                $this->priceTo = $this->maxPrice;
+            if (empty($priceTo)) {
+                $priceTo = $maxPrice;
             }
         }
 
@@ -250,6 +254,10 @@ class ShopComponent extends Component
         }
 
        return view($this->moduleTemplateNamespace, [
+            'minPrice'=>$minPrice,
+            'maxPrice'=>$maxPrice,
+            'priceFrom'=>$priceFrom,
+            'priceTo'=>$priceTo,
             'filterSettings'=>$filterSettings,
             'products' => $products,
             'productCardSettings'=>$productCardSettings,
