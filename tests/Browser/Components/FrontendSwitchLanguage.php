@@ -78,9 +78,10 @@ class FrontendSwitchLanguage extends BaseComponent
       $browser->click('.module-multilanguage li[data-value="'.$locale.'"]');
         $browser->pause(400);
      //   $browser->pause(10000);
-        $browser->waitForReload(false, 30);
+        $browser->waitUntil('!$.active');
+        //$browser->waitForReload(false, 30);
         $browser->pause(400);
-    //   $browser->waitFor('.module-multilanguage', 30);
+       $browser->waitFor('.module-multilanguage', 30);
 
         $browser->switchFrameDefault();
         if ($browser->element('#mw-page-set-back-to-edit-mode')) {
