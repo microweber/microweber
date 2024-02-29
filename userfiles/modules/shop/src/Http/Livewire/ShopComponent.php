@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Shop\Http\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCategoriesTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCustomFieldsTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopTagsTrait;
@@ -255,7 +256,37 @@ class ShopComponent extends Component
             $this->moduleTemplateNamespace = 'microweber-module-shop::livewire.shop.index';
         }
 
+       $filteredCategory = $this->getCategory();
+
+       $breadcrumb = [];
+       $breadcrumb[] = [
+           'name'=>_e('Home', true),
+           'link'=>site_url()
+       ];
+       $findShopPage = Page::where('id', $this->getMainPageId())->first();
+       if ($findShopPage) {
+           $breadcrumb[] = [
+             'name'=>$findShopPage->name,
+             'link'=> ''
+           ];
+       } else {
+           $breadcrumb[] = [
+               'name'=>_e('Shop', true),
+               'link'=> ''
+           ];
+       }
+       if (!empty($filteredCategory)) {
+           $findCategory = Category::where('id', $filteredCategory)->first();
+           if ($findCategory) {
+               $breadcrumb[] = [
+                   'name'=>$findCategory->title,
+                   'link'=> category_link($findCategory->id)
+               ];
+           }
+       }
+
        return view($this->moduleTemplateNamespace, [
+            'breadcrumb'=>$breadcrumb,
             'products' => $products,
             'productCardSettings'=>$productCardSettings,
             'filteredPriceFrom'=>$priceFrom,
@@ -265,7 +296,7 @@ class ShopComponent extends Component
             'filterSettings'=>$filterSettings,
             'filteredTags' => $this->getTags(),
             'filteredCustomFields'=>$this->getCustomFields(),
-            'filteredCategory' => $this->getCategory(),
+            'filteredCategory' => $filteredCategory,
             'availableCustomFields'=>$availableCustomFields,
             'availableTags' => $availableTags,
             'availableCategories' => $this->getAvailableCategories($mainPageId),
