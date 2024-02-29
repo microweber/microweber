@@ -8,12 +8,12 @@
         }
 
         let shopPriceRange = noUiSlider.create(priceRangeElement, {
-            start: [{{$priceFrom}},{{$priceTo}}],
+            start: [{{$filteredPriceFrom}},{{$filteredPriceTo}}],
             step: 1,
             connect: true,
             range: {
-                'min': {{ $minPrice }},
-                'max': {{ $maxPrice }}
+                'min': {{ $filteredMinPrice }},
+                'max': {{ $filteredMaxPrice }}
             }
         });
 
@@ -30,10 +30,17 @@
 
         shopPriceRange.on('update', function (values) {
 
-            shopPriceRangeFrom.value = values[0];
-            shopPriceRangeTo.value = values[1];
-            shopPriceRangeFrom.dispatchEvent(new Event('input'));
-            shopPriceRangeTo.dispatchEvent(new Event('input'));
+            let filteredPriceFrom = parseFloat('{{$filteredPriceFrom}}');
+            let filteredPriceTo = parseFloat('{{$filteredPriceTo}}');
+
+            shopPriceRangeFrom.value = parseFloat(values[0]);
+            shopPriceRangeTo.value = parseFloat(values[1]);
+
+            if ((filteredPriceFrom != shopPriceRangeFrom.value)
+                || (filteredPriceTo != shopPriceRangeTo.value)) {
+                shopPriceRangeFrom.dispatchEvent(new Event('input'));
+                shopPriceRangeTo.dispatchEvent(new Event('input'));
+            }
 
         });
 

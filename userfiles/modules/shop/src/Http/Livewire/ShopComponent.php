@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Shop\Http\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCategoriesTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCustomFieldsTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopTagsTrait;
@@ -211,18 +212,22 @@ class ShopComponent extends Component
             }
         }
 
+        $minPrice = 0;
+        $maxPrice = 0;
+        $priceFrom = 0;
+        $priceTo = 0;
         if (!empty($productPrices)) {
-            $this->minPrice = min($productPrices);
-            $this->maxPrice = max($productPrices);
+            $minPrice = min($productPrices);
+            $maxPrice = max($productPrices);
 
-            $this->minPrice = floor($this->minPrice) - 1;
-            $this->maxPrice = floor($this->maxPrice) + 1;
+            $minPrice = floor($minPrice) - 1;
+            $maxPrice = floor($maxPrice) + 1;
 
             if (empty($priceFrom)) {
-                $this->priceFrom = $this->minPrice;
+                $priceFrom = $minPrice;
             }
             if (empty($priceTo)) {
-                $this->priceTo = $this->maxPrice;
+                $priceTo = $maxPrice;
             }
         }
 
@@ -251,17 +256,47 @@ class ShopComponent extends Component
             $this->moduleTemplateNamespace = 'microweber-module-shop::livewire.shop.index';
         }
 
+       $filteredCategory = $this->getCategory();
+
+       $breadcrumb = [];
+       $breadcrumb[] = [
+           'name'=>_e('Home', true),
+           'link'=>site_url()
+       ];
+       $findShopPage = Page::where('id', $this->getMainPageId())->first();
+       if ($findShopPage) {
+           $breadcrumb[] = [
+             'name'=>$findShopPage->name,
+             'link'=> ''
+           ];
+       } else {
+           $breadcrumb[] = [
+               'name'=>_e('Shop', true),
+               'link'=> ''
+           ];
+       }
+       if (!empty($filteredCategory)) {
+           $findCategory = Category::where('id', $filteredCategory)->first();
+           if ($findCategory) {
+               $breadcrumb[] = [
+                   'name'=>$findCategory->title,
+                   'link'=> category_link($findCategory->id)
+               ];
+           }
+       }
+
        return view($this->moduleTemplateNamespace, [
-            'minPrice'=>$this->minPrice,
-            'maxPrice'=>$this->maxPrice,
-            'priceTo'=>$this->priceTo,
-            'priceFrom'=>$this->priceFrom,
-            'filterSettings'=>$filterSettings,
+            'breadcrumb'=>$breadcrumb,
             'products' => $products,
             'productCardSettings'=>$productCardSettings,
+            'filteredPriceFrom'=>$priceFrom,
+            'filteredPriceTo'=>$priceTo,
+            'filteredMinPrice'=>$minPrice,
+            'filteredMaxPrice'=>$maxPrice,
+            'filterSettings'=>$filterSettings,
             'filteredTags' => $this->getTags(),
             'filteredCustomFields'=>$this->getCustomFields(),
-            'filteredCategory' => $this->getCategory(),
+            'filteredCategory' => $filteredCategory,
             'availableCustomFields'=>$availableCustomFields,
             'availableTags' => $availableTags,
             'availableCategories' => $this->getAvailableCategories($mainPageId),
