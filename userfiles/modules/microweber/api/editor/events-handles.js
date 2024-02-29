@@ -6,69 +6,6 @@ class MWEditorEventHandles {
 
 
 
-    normalize () {
-        var sel = this.scope.getSelection();
-        if(!sel.rangeCount) {
-            return;
-        }
-
-        let cmn = this.scope.api.elementNode(sel.getRangeAt(0).commonAncestorContainer);
-        if(cmn) {
-            cmn = mw.tools.firstBlockLevel(cmn)
-        }
-
-        if(!cmn) {
-            return;
-        }
-
-        cmn.normalize();
-
-        let toUnwrap = [];
-
-        const nodes = cmn.querySelectorAll('span,strong,b,i,em,font');
-
-        const normalizeStyles = ['color'];
-
-        nodes.forEach(node => {
-            normalizeStyles.forEach(st => {
-                if(node.style[st]) {
-                    if(getComputedStyle(node.parentNode)[st] === node.style[st]) {
-                        node.style[st] = ''
-                    }
-                }
-            });
-            const style = node.getAttribute('style');
-            if(!style || !style.trim()) {
-                node.removeAttribute('style');
-            }
-            if(node.nodeName === 'SPAN' && node.attributes.length === 0) {
-                toUnwrap.push(node)
-            } else if(node.firstChild === node.lastChild
-                && !!node.lastChild
-                && node.nodeName === node.lastChild.nodeName
-                && style === node.lastChild.getAttribute('style') && !node.id && !node.lastChild.id){
-                    toUnwrap.push(node)
-            }  else if(node.nodeName === node.parentNode.nodeName && node.attributes.length === 0){
-                    toUnwrap.push(node)
-            }
-        });
-
-        while (toUnwrap[0]) {
-            if(!toUnwrap[0].ownerDocument) {
-                toUnwrap.splice(0, 1);
-            } else {
-                toUnwrap[0].replaceWith(...toUnwrap[0].childNodes);
-                toUnwrap.splice(0, 1);
-            }
-        }
-
-
-         this.scope.api.normalize()
-
-    }
-
-
-
      backSpace(e) {
 
 

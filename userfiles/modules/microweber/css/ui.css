@@ -8078,6 +8078,8 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-small-editor.mw-small-editor-skin-lite,
 .mw-small-editor.mw-small-editor-skin-dark {
+  -webkit-user-select: none;
+  user-select: none;
   margin-top: -20px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
   border-radius: 5px;

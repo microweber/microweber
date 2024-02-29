@@ -29,7 +29,11 @@ export const Handle = function (options) {
 
     var _visible = true;
     var _currentTarget = null;
+    var _prevTarget = null;
 
+    this.getPreviousTarget = function () {
+        return _prevTarget;
+    }
     this.getTarget = function () {
         return _currentTarget
     }
@@ -204,6 +208,11 @@ export const Handle = function (options) {
     }
 
     this.set = function (target, forced) {
+
+
+        if( _currentTarget !== target) {
+            _prevTarget = _currentTarget;
+        }
 
 
 

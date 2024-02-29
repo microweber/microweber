@@ -170,6 +170,21 @@ export class LiveEdit {
             }
         });
 
+        let lastPrevTarget = null;
+
+        elementHandle.on('hide', e => {
+
+            const prev = elementHandle.getPreviousTarget();
+            if(prev) {
+                const target = mw.tools.firstParentOrCurrentWithAnyOfClasses(prev, ['edit', 'safe-mode']);
+                if(lastPrevTarget !== target) {
+                    mw.top().app.richTextEditorAPI.normalize(target);
+                    lastPrevTarget = target;
+                }
+
+            }
+        })
+
         this.isResizing = false;
 
         elementHandle.resizer.on('resizeStart', e => {

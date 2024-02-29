@@ -1299,10 +1299,12 @@ var MWEditor = function (options) {
 
 
             scope.$editArea.on('keydown', async event => {
+
                 if (event.keyCode == 90 && event.ctrlKey)  {
                     if(event.shiftKey) {
                         scope.state.redo()
                     } else {
+
                         scope.state.undo()
                     }
                     event.preventDefault()

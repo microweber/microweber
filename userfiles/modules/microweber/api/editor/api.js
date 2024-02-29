@@ -20,6 +20,77 @@
 
     MWEditor.api = function (scope) {
         return {
+            normalizeNesting (cmn) {
+
+
+                if(!cmn) {
+                    var sel = this.scope.getSelection();
+                    if(!sel.rangeCount) {
+                        return;
+                    }
+
+                      cmn = this.scope.api.elementNode(sel.getRangeAt(0).commonAncestorContainer);
+                    if(cmn) {
+                        cmn = mw.tools.firstBlockLevel(cmn)
+                    }
+                }
+
+
+                if(!cmn) {
+                    return;
+                }
+
+                cmn.normalize();
+
+                let toUnwrap = [];
+
+                cmn.querySelectorAll('font').forEach(font => {
+                    const color = font.color;
+                    const span = mw.tools.setTag(font, 'span');
+                    span.style.color = color;
+                    span.removeAttribute('color');
+                })
+                const nodes = cmn.querySelectorAll('span,strong,b,i,em,font,small,big,u,s');
+
+                const normalizeStyles = ['color'];
+
+                nodes.forEach(node => {
+                    normalizeStyles.forEach(st => {
+                        if(node.style[st]) {
+                            if(getComputedStyle(node.parentNode)[st] === node.style[st]) {
+                                node.style[st] = ''
+                            }
+                        }
+                    });
+                    const style = node.getAttribute('style');
+                    if(!style || !style.trim()) {
+                        node.removeAttribute('style');
+                    }
+                    if(node.nodeName === 'SPAN' && node.attributes.length === 0) {
+                        toUnwrap.push(node)
+                    } else if(node.firstChild === node.lastChild
+                        && !!node.lastChild
+                        && node.nodeName === node.lastChild.nodeName
+                        && style === node.lastChild.getAttribute('style') && !node.id && !node.lastChild.id){
+                            toUnwrap.push(node)
+                    }  else if(node.nodeName === node.parentNode.nodeName && node.attributes.length === 0){
+                            toUnwrap.push(node)
+                    }
+                });
+
+                while (toUnwrap[0]) {
+                    if(!toUnwrap[0].ownerDocument) {
+                        toUnwrap.splice(0, 1);
+                    } else {
+                        toUnwrap[0].replaceWith(...toUnwrap[0].childNodes);
+                        toUnwrap.splice(0, 1);
+                    }
+                }
+
+
+
+
+            },
             normalizeStyles: function(target) {
                 if(typeof target === 'undefined') {
                     const sel = scope.api.getSelection();
@@ -54,10 +125,8 @@
 
                     const walker = document.createTreeWalker(target, NodeFilter.SHOW_TEXT);
                     const emptyNodes = [];
+
                     while(walker.nextNode()) {
-
-                        console.log(walker.currentNode)
-
                       walker.currentNode.nodeValue = walker.currentNode.nodeValue.replace(/[\u200B-\u200D\uFEFF]/g, '');
                       if(!walker.currentNode.nodeValue) {
                         emptyNodes.push(walker.currentNode)
@@ -65,7 +134,7 @@
                     }
                     emptyNodes.forEach(node => node.remove());
 
-                    scope.api.normalize(target)
+                     scope.api.normalizeNesting(target)
 
 
                     target.normalize();
