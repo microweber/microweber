@@ -256,9 +256,13 @@ class ShopComponent extends Component
         }
 
        return view($this->moduleTemplateNamespace, [
-            'filterSettings'=>$filterSettings,
             'products' => $products,
             'productCardSettings'=>$productCardSettings,
+            'filteredPriceFrom'=>$priceFrom,
+            'filteredPriceTo'=>$priceTo,
+            'filteredMinPrice'=>$minPrice,
+            'filteredMaxPrice'=>$maxPrice,
+            'filterSettings'=>$filterSettings,
             'filteredTags' => $this->getTags(),
             'filteredCustomFields'=>$this->getCustomFields(),
             'filteredCategory' => $this->getCategory(),
