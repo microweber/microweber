@@ -81,6 +81,10 @@ if ($module_template != false) {
 }
 
 
+
+
+
+
 if (is_file($template_file) != false) {
     include($template_file);
 } else {
