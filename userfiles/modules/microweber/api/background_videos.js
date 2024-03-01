@@ -3,7 +3,7 @@ const renderBgVideos = function() {
     function rend(root) {
         Array.from(root.querySelectorAll('[data-mwvideo]')).forEach(function(node){
             var url = node.dataset.mwvideo.trim();
-            node.innerHTML = `<video src="${url}" autoplay muted></video>`;
+            node.innerHTML = `<video src="${url}" autoplay muted loop playsinline></video>`;
         });
     }
 
