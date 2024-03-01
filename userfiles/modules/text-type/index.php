@@ -4,13 +4,20 @@ $marqueeOptions = [];
 $marqueeOptions['data-template'] = '';
 $marqueeOptions['text'] = 'Your cool text here!';
 $marqueeOptions['fontSize'] = "46";
-$marqueeOptions['animationSpeed'] = "normal";
+$marqueeOptions['typeSpeed'] = "normal";
+$marqueeOptions['backSpeed'] = "normal";
+$marqueeOptions['loop'] = true;
 
 $getMarqueeOptions = \MicroweberPackages\Option\Models\ModuleOption::where('option_group', $params['id'])->get();
 if (!empty($getMarqueeOptions)) {
     foreach ($getMarqueeOptions as $option) {
         $marqueeOptions[$option['option_key']] = $option['option_value'];
     }
+}
+
+$loop = $marqueeOptions['loop'];
+if ($loop == 0) {
+    $loop = false;
 }
 
 $textsJsonArray = [];
@@ -22,22 +29,8 @@ if (isset($expText[0])) {
 
 $fontSize = $marqueeOptions['fontSize'];
 
-$animationSpeed = 110;
-if ($marqueeOptions['animationSpeed'] == 'slow') {
-    $animationSpeed = 90;
-}
-if ($marqueeOptions['animationSpeed'] == 'medium') {
-    $animationSpeed = 80;
-}
-if ($marqueeOptions['animationSpeed'] == 'high') {
-    $animationSpeed = 70;
-}
-if ($marqueeOptions['animationSpeed'] == 'fast') {
-    $animationSpeed = 60;
-}
-if ($marqueeOptions['animationSpeed'] == 'ultra_fast') {
-    $animationSpeed = 50;
-}
+$typeSpeed = convertTextSpeedToNumber($marqueeOptions['typeSpeed']);
+$backSpeed = convertTextSpeedToNumber($marqueeOptions['backSpeed']);
 
 $module_template = $marqueeOptions['data-template'];
 if ($module_template == false and isset($params['template'])) {

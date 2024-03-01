@@ -24,15 +24,16 @@
 <!-- Element to contain animated typing -->
 <span id="js-element-<?php echo $randId;?>"></span>
 
-<!-- Load library from the CDN -->
-<script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
-
 <!-- Setup and start animation! -->
 <script>
-    var typed = new Typed('#js-element-<?php echo $randId;?>', {
-        strings: <?php echo $textsJsonArray; ?>,
-        typeSpeed: <?php echo $animationSpeed; ?>,
-        backSpeed: 0,
-        loop: true
+    mw.require("https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js");
+
+    $(document).ready(function () {
+        new Typed('#js-element-<?php echo $randId;?>', {
+            strings: <?php echo $textsJsonArray; ?>,
+            typeSpeed: <?php echo $typeSpeed; ?>,
+            backSpeed: <?php echo $backSpeed; ?>,
+            loop: <?php echo $loop; ?>
+        });
     });
 </script>
