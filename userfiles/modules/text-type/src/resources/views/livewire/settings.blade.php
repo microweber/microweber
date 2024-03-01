@@ -18,6 +18,11 @@
             <livewire:microweber-option::toggle-reversed optionKey="disable_loop" :optionGroup="$moduleId" :module="$moduleType"  />
         </div>
 
+        <div class="mt-1">
+            <label class="live-edit-label">{{__('Shuffle')}} </label>
+            <livewire:microweber-option::toggle optionKey="shuffle" :optionGroup="$moduleId" :module="$moduleType"  />
+        </div>
+
         <div class="mt-3">
             <label class="live-edit-label">{{__('Type speed')}} </label>
             @php

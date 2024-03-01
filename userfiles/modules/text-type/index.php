@@ -6,6 +6,7 @@ $marqueeOptions['text'] = 'Your cool text here!';
 $marqueeOptions['fontSize'] = "46";
 $marqueeOptions['typeSpeed'] = "normal";
 $marqueeOptions['backSpeed'] = "normal";
+$marqueeOptions['shuffle'] = false;
 $marqueeOptions['disable_loop'] = false;
 
 $getMarqueeOptions = \MicroweberPackages\Option\Models\ModuleOption::where('option_group', $params['id'])->get();
@@ -13,6 +14,11 @@ if (!empty($getMarqueeOptions)) {
     foreach ($getMarqueeOptions as $option) {
         $marqueeOptions[$option['option_key']] = $option['option_value'];
     }
+}
+
+$shuffle = false;
+if ($marqueeOptions['shuffle'] == 1) {
+    $shuffle = true;
 }
 
 $loop = true;

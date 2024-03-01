@@ -26,14 +26,15 @@
 
 <!-- Setup and start animation! -->
 <script>
-    mw.require("//unpkg.com/typed.js@2.1.0/dist/typed.umd.js");
+    mw.lib.require("typed");
 
     $(document).ready(function () {
         new Typed('#js-element-<?php echo $randId;?>', {
             strings: <?php echo $textsJsonArray; ?>,
             typeSpeed: <?php echo $typeSpeed; ?>,
             backSpeed: <?php echo $backSpeed; ?>,
-            loop: <?php if ($loop): ?> true <?php else: ?> false <?php endif; ?>
+            shuffle: <?php if ($shuffle){ echo 'true'; } else { echo 'false'; } ?>,
+            loop: <?php if ($loop){ echo 'true'; } else { echo 'false'; } ?>
         });
     });
 </script>

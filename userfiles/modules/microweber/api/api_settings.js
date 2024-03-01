@@ -271,6 +271,13 @@
             }
         ],
 
+
+        typed: [
+            function () {
+                mw.require(mw.settings.libs_url + "typed/typed.umd.js")
+            }
+        ],
+
         swiper: [
             function () {
                 mw.require(mw.settings.libs_url + "swiper/swiper-bundle.min.css");
