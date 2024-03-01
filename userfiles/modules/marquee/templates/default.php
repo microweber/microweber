@@ -23,11 +23,11 @@
 
     .marquee-<?php echo $randId; ?> {
         width: 100%;
-        font-size: <?php echo $fontSize; ?>;
+        font-size: <?php echo $fontSize; ?>px;
         white-space: nowrap;
         overflow: hidden;
         display: inline-block;
-        animation: marquee-<?php echo $randId; ?> <?php echo $animationSpeed; ?>s linear infinite;
+        animation: marquee-<?php echo $randId; ?> <?php echo ($animationSpeed); ?>s linear infinite;
     }
 
     .marquee-<?php echo $randId; ?> div {
