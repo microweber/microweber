@@ -31,7 +31,9 @@
 <script>
     var typed = new Typed('#js-element-<?php echo $randId;?>', {
         strings: ['<i>First</i> sentence.', '&amp; a second sentence.'],
-        typeSpeed: 50,
-        fontSize: "55px"
+        typeSpeed: <?php echo $animationSpeed; ?>,
+        typeSpeed: 40,
+        backSpeed: 0,
+        loop: true
     });
 </script>
