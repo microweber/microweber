@@ -1,6 +1,6 @@
 preserve_hierarchy: 1
 files:
-  - source: src/MicroweberPackages/Translation/resources/lang/en_US.json
-    translation: src/MicroweberPackages/Translation/resources/lang/%locale_with_underscore%.%file_extension%
-    first_line_contains_header: 
+  - source: /src/MicroweberPackages/Translation/resources/lang/en_US.json
+    translation: /src/MicroweberPackages/Translation/resources/lang/%locale_with_underscore%.%file_extension%
+    first_line_contains_header:
     scheme: 'source_phrase,translation'
