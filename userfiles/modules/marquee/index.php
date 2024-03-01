@@ -1,8 +1,10 @@
 <?php
 
 $marqueeOptions = [];
-$marqueeOptions['fontSize'] = '';
 $marqueeOptions['data-template'] = '';
+$marqueeOptions['text'] = 'Your cool text here!';
+$marqueeOptions['fontSize'] = "26px";
+$marqueeOptions['animationSpeed'] = "0.3";
 
 $getMarqueeOptions = \MicroweberPackages\Option\Models\ModuleOption::where('option_group', $params['id'])->get();
 if (!empty($getMarqueeOptions)) {
@@ -10,6 +12,10 @@ if (!empty($getMarqueeOptions)) {
         $marqueeOptions[$option['option_key']] = $option['option_value'];
     }
 }
+
+$text = $marqueeOptions['text'];
+$fontSize = $marqueeOptions['fontSize'];
+$animationSpeed = $marqueeOptions['animationSpeed'];
 
 $module_template = $marqueeOptions['data-template'];
 if ($module_template == false and isset($params['template'])) {

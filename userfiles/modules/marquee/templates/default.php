@@ -20,10 +20,11 @@
     }
 
     .marquee {
+        font-size: "<?php echo $fontSize; ?>";
         white-space: nowrap;
         overflow: hidden;
         display: inline-block;
-        animation: marquee 10s linear infinite;
+        animation: marquee <?php echo $animationSpeed; ?>s linear infinite;
     }
 
     .marquee div {
@@ -44,6 +45,6 @@
 
 <div class="wrapper">
     <div class="marquee">
-            Hello world!
+        <?php echo $text; ?>
     </div>
 </div>
