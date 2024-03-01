@@ -217,7 +217,7 @@ export class LiveEdit {
 
 
 
-            if (target.className.includes('col-')) {
+            if (target.className.includes('col-') || target.className.includes('no-resize') ) {
                 elementHandle.resizer.disable()
             } else {
                 elementHandle.resizer.enable()

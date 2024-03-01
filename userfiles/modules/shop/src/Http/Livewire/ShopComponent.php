@@ -220,7 +220,7 @@ class ShopComponent extends Component
             $minPrice = min($productPrices);
             $maxPrice = max($productPrices);
 
-            $minPrice = floor($minPrice) - 1;
+            $minPrice = floor($minPrice);
             $maxPrice = floor($maxPrice) + 1;
 
             if (empty($priceFrom)) {
