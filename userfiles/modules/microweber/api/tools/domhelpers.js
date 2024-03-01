@@ -549,7 +549,7 @@ var domHelp = {
         return false;
     },
     firstBlockLikeLevel: function (el) {
-        var blockLikes = ['TD', 'DIV', 'LI', 'DD', 'DT'];
+        var blockLikes = ['TD', 'DIV', 'LI', 'DD', 'DT', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'MAIN', 'HEADER', 'P'];
         while(el && el.classList) {
             if(mw.tools.isBlockLevel(el) || blockLikes.indexOf(el.nodeName) !== -1 ) {
                 return el;
