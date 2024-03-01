@@ -33,7 +33,8 @@
             strings: <?php echo $textsJsonArray; ?>,
             typeSpeed: <?php echo $typeSpeed; ?>,
             backSpeed: <?php echo $backSpeed; ?>,
-            loop: <?php echo $loop; ?>
+            loop: <?php if ($loop): ?> true <?php else: ?> false <?php endif; ?>
         });
     });
 </script>
+<?php dump($loop); ?>
