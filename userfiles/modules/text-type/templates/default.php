@@ -32,7 +32,6 @@
     var typed = new Typed('#js-element-<?php echo $randId;?>', {
         strings: <?php echo $textsJsonArray; ?>,
         typeSpeed: <?php echo $animationSpeed; ?>,
-        typeSpeed: 40,
         backSpeed: 0,
         loop: true
     });

@@ -22,21 +22,21 @@ if (isset($expText[0])) {
 
 $fontSize = $marqueeOptions['fontSize'];
 
-$animationSpeed = 50;
+$animationSpeed = 110;
 if ($marqueeOptions['animationSpeed'] == 'slow') {
-    $animationSpeed = 40;
+    $animationSpeed = 90;
 }
 if ($marqueeOptions['animationSpeed'] == 'medium') {
-    $animationSpeed = 45;
+    $animationSpeed = 80;
 }
 if ($marqueeOptions['animationSpeed'] == 'high') {
-    $animationSpeed = 30;
+    $animationSpeed = 70;
 }
 if ($marqueeOptions['animationSpeed'] == 'fast') {
-    $animationSpeed = 20;
+    $animationSpeed = 60;
 }
 if ($marqueeOptions['animationSpeed'] == 'ultra_fast') {
-    $animationSpeed = 15;
+    $animationSpeed = 50;
 }
 
 $module_template = $marqueeOptions['data-template'];
