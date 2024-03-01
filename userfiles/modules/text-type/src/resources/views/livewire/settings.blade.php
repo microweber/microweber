@@ -4,6 +4,9 @@
         <div>
             <label class="live-edit-label"><?php _e("Text"); ?></label>
             <livewire:microweber-option::textarea optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
+            <small>
+                <?php _e("Every new line will be seperated as text animation."); ?>
+            </small>
         </div>
 
         <div class="mt-3">
