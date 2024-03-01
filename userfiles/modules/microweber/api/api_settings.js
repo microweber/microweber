@@ -380,6 +380,12 @@
             }
         ],
 
+        gsap: [
+            function () {
+                mw.require(mw.settings.libs_url + 'gsap' + '/gsap-umd.js');
+            }
+        ],
+
         xss: [
             function () {
                 mw.require(mw.settings.libs_url + "xss/xss.min.js");
