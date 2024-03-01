@@ -30,7 +30,7 @@
 <!-- Setup and start animation! -->
 <script>
     var typed = new Typed('#js-element-<?php echo $randId;?>', {
-        strings: ['<i>First</i> sentence.', '&amp; a second sentence.'],
+        strings: <?php echo $textsJsonArray; ?>,
         typeSpeed: <?php echo $animationSpeed; ?>,
         typeSpeed: 40,
         backSpeed: 0,

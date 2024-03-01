@@ -13,7 +13,13 @@ if (!empty($getMarqueeOptions)) {
     }
 }
 
+$textsJsonArray = [];
 $text = $marqueeOptions['text'];
+$expText = explode(PHP_EOL, $text);
+if (isset($expText[0])) {
+    $textsJsonArray = json_encode($expText);
+}
+
 $fontSize = $marqueeOptions['fontSize'];
 
 $animationSpeed = 50;
