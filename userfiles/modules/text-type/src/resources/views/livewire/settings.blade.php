@@ -7,6 +7,7 @@
         </div>
 
         <div class="mt-3">
+            <label class="live-edit-label"><?php _e("Text Size"); ?></label>
             <livewire:microweber-option::range-slider labelUnit="px" min="9" max="140" label="Text - Size" optionKey="fontSize" :optionGroup="$moduleId" :module="$moduleType"  />
         </div>
 
