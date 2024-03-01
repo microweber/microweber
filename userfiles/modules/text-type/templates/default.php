@@ -37,4 +37,3 @@
         });
     });
 </script>
-<?php dump($loop); ?>

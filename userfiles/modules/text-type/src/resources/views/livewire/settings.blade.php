@@ -15,7 +15,7 @@
 
         <div class="mt-1">
             <label class="live-edit-label">{{__('Loop animation')}} </label>
-            <livewire:microweber-option::toggle-reversed optionKey="loop" :optionGroup="$moduleId" :module="$moduleType"  />
+            <livewire:microweber-option::toggle-reversed optionKey="disable_loop" :optionGroup="$moduleId" :module="$moduleType"  />
         </div>
 
         <div class="mt-3">

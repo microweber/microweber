@@ -6,7 +6,7 @@ $marqueeOptions['text'] = 'Your cool text here!';
 $marqueeOptions['fontSize'] = "46";
 $marqueeOptions['typeSpeed'] = "normal";
 $marqueeOptions['backSpeed'] = "normal";
-$marqueeOptions['loop'] = true;
+$marqueeOptions['disable_loop'] = false;
 
 $getMarqueeOptions = \MicroweberPackages\Option\Models\ModuleOption::where('option_group', $params['id'])->get();
 if (!empty($getMarqueeOptions)) {
@@ -15,8 +15,8 @@ if (!empty($getMarqueeOptions)) {
     }
 }
 
-$loop = $marqueeOptions['loop'];
-if ($loop == 0) {
+$loop = true;
+if ($marqueeOptions['disable_loop'] == 1) {
     $loop = false;
 }
 
