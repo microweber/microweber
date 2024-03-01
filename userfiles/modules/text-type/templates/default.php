@@ -26,7 +26,7 @@
 
 <!-- Setup and start animation! -->
 <script>
-    mw.require("https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js");
+    mw.require("//unpkg.com/typed.js@2.1.0/dist/typed.umd.js");
 
     $(document).ready(function () {
         new Typed('#js-element-<?php echo $randId;?>', {
