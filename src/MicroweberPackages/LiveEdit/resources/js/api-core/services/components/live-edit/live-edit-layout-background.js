@@ -7,6 +7,23 @@ export class LiveEditLayoutBackground extends BaseComponent {
 
     }
 
+    getBackgroundCursor(node) {
+        if(node && node.style){
+            var bg = node.style.cursor;
+            if (bg) {
+                return bg;
+            }
+        }
+    }
+    setBackgroundCursor(node, url) {
+        mw.app.registerUndoState(node);
+        mw.app.registerAskUserToStay(true);
+
+
+        mw.top().app.cssEditor.temp(node, 'cursor',  `url("${url}") 0 0, auto`);
+
+        mw.top().app.registerChangedState(node);
+    }
     getBackgroundImage(node) {
 
         if(node && node.style){

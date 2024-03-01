@@ -123,7 +123,7 @@ export class SingleFilePickerComponent extends MicroweberBaseClass {
 
 
     previewImage () {
-        return `<img src="${this.file}" style="border-radius:4px;">`;
+        return `<img src="${this.file}" class="w-100" style="border-radius:4px;">`;
     }
 
     previewVideo () {

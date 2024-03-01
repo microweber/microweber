@@ -6,6 +6,7 @@
         <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100 active js-filepicker-pick-type-tab-image">Image</span>
         <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100 js-filepicker-pick-type-tab-video">Video</span>
         <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100 js-filepicker-pick-type-tab-color">Color</span>
+        <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Other</span>
     </div>
     <br>
 
@@ -38,6 +39,24 @@
 
 
         </div>
+    </div>
+
+
+
+
+
+    <div class="bg-tab">
+
+        <h4>Other settings</h4>
+
+        Cursor image, must be small image, for example 32x32px
+
+        <div id="bg--cursor-picker">
+
+        </div>
+
+
+
     </div>
 
 
@@ -93,6 +112,7 @@
 
             let bgImage = mw.top().app.layoutBackground.getBackgroundImage(bgNode);
             let bgVideo = mw.top().app.layoutBackground.getBackgroundVideo(bgNode);
+            let bgCursor = mw.top().app.layoutBackground.getBackgroundCursor(bgNode);
 
             if(!picker) {
                 picker = mw.app.singleFilePickerComponent({
@@ -106,6 +126,18 @@
                     file:  bgVideo ? bgVideo : null,
                     canEdit: false
                 });
+
+
+                cursorPicker = mw.app.singleFilePickerComponent({
+                    element: '#bg--cursor-picker',
+                    accept: 'images',
+                    file:  bgCursor ? bgCursor : null,
+                    canEdit: false
+                });
+                cursorPicker.on('change', () => {
+                    const {bg, bgOverlay, bgNode, target} = getTargets();
+                    mw.top().app.layoutBackground.setBackgroundCursor(target, cursorPicker.file);
+                })
 
                 picker.on('change', () => {
                     const {bg, bgOverlay, bgNode, target} = getTargets();
