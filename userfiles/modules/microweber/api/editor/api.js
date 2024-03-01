@@ -50,7 +50,7 @@
                     span.style.color = color;
                     span.removeAttribute('color');
                 })
-                const nodes = cmn.querySelectorAll('span,strong,b,i,em,font,small,big,u,s');
+                const nodes = cmn.querySelectorAll('span,strong,b,i,em,font,small,big,u,s,strike');
 
                 const normalizeStyles = ['color'];
 
@@ -98,7 +98,11 @@
                         target = scope.api.elementNode(sel.getRangeAt(0).commonAncestorContainer)
                     }
                 }
+
+
                 if(target) {
+                    target = mw.tools.firstBlockLikeLevel(target);
+                    console.log(target)
                     var all =  target.parentNode.querySelectorAll('*[style*="var"]');
 
                     all.forEach(node => {
@@ -140,7 +144,7 @@
                     target.normalize();
 
                     Array
-                    .from(target.parentNode.querySelectorAll('span,b,strong,em,i,u'))
+                    .from(target.parentNode.querySelectorAll('span,strong,b,i,em,font,small,big,u,s,strike'))
                     .filter(node => {
                         return !node.attributes.lngth && !node.textContent && node.isContentEditable;
                     })
