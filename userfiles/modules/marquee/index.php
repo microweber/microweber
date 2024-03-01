@@ -2,6 +2,7 @@
 
 $marqueeOptions = [];
 $marqueeOptions['fontSize'] = '';
+$marqueeOptions['data-template'] = '';
 
 $getMarqueeOptions = \MicroweberPackages\Option\Models\ModuleOption::where('option_group', $params['id'])->get();
 if (!empty($getMarqueeOptions)) {
@@ -10,15 +11,7 @@ if (!empty($getMarqueeOptions)) {
     }
 }
 
-
-
-$module_template = $option['data-template'];
-if ($module_template == false and isset($params['template'])) {
-    $module_template = $params['template'];
-}
-
-
-$module_template = $option['data-template'];
+$module_template = $marqueeOptions['data-template'];
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }
