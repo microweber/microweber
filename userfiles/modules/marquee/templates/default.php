@@ -13,27 +13,30 @@
 
 ?>
 
+<?php $randId = md5($params['id']); ?>
+
 <style>
-    .wrapper {
-        max-width: 100%;
+    .wrapper-<?php echo $randId; ?> {
+        width: 100%;
         overflow: hidden;
     }
 
-    .marquee {
-        font-size: "<?php echo $fontSize; ?>";
+    .marquee-<?php echo $randId; ?> {
+        width: 100%;
+        font-size: <?php echo $fontSize; ?>;
         white-space: nowrap;
         overflow: hidden;
         display: inline-block;
-        animation: marquee <?php echo $animationSpeed; ?>s linear infinite;
+        animation: marquee-<?php echo $randId; ?> <?php echo $animationSpeed; ?>s linear infinite;
     }
 
-    .marquee div {
+    .marquee-<?php echo $randId; ?> div {
         display: inline-block;
     }
 
-    @keyframes marquee {
+    @keyframes marquee-<?php echo $randId; ?> {
         0% {
-            transform: translate(0, 0);
+            transform: translate(50%, 0);
         }
 
         100% {
@@ -43,8 +46,8 @@
 
 </style>
 
-<div class="wrapper">
-    <div class="marquee">
+<div class="wrapper-<?php echo $randId; ?>">
+    <div class="marquee-<?php echo $randId; ?>">
         <?php echo $text; ?>
     </div>
 </div>

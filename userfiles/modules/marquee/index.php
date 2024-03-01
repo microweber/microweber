@@ -3,8 +3,8 @@
 $marqueeOptions = [];
 $marqueeOptions['data-template'] = '';
 $marqueeOptions['text'] = 'Your cool text here!';
-$marqueeOptions['fontSize'] = "26px";
-$marqueeOptions['animationSpeed'] = "0.3";
+$marqueeOptions['fontSize'] = "46px";
+$marqueeOptions['animationSpeed'] = "10";
 
 $getMarqueeOptions = \MicroweberPackages\Option\Models\ModuleOption::where('option_group', $params['id'])->get();
 if (!empty($getMarqueeOptions)) {
