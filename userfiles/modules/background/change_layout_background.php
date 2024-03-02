@@ -6,7 +6,7 @@
         <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100 active js-filepicker-pick-type-tab-image">Image</span>
         <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100 js-filepicker-pick-type-tab-video">Video</span>
         <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100 js-filepicker-pick-type-tab-color">Color</span>
-        <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Other</span>
+        <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100" style="display: none;" id="change-background-tab-link">Other</span>
     </div>
     <br>
 
