@@ -34,11 +34,11 @@ class LiveEditLinkScrollTest extends DuskTestCase
                 'content_type' => 'page',
                 'content' => '
                 <div class="container-fluid col-sm-12 mx-auto mx-lg-0  ">
+<br><br><br><br>
+<a href="#mw@contact-form-to-scroll-to" id="click-to-scroll-to">
 
-<a href="#mw@contact-form-to-scroll-to">
-                   <b class="font-weight-normal" id="click-to-scroll-to">
 Click to scroll to
-</b>
+
  </a>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
@@ -142,6 +142,37 @@ Click to scroll to
 
             $this->assertTrue($output[0], 'Element is not in viewport');
 
+
+
+            //scroll to top
+            $output = $browser->script("
+            window.scrollTo(0, 0);
+        ");
+            $browser->pause(1000);
+
+            $browser->click('#click-to-scroll-to');
+            $browser->pause(2000);
+
+
+            $output = $browser->script("
+
+            //is in viewport
+
+            var el = document.getElementById('contact-form-to-scroll-to');
+            var rect = el.getBoundingClientRect();
+            var isVisible = (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+            );
+            return isVisible;
+
+
+
+        ");
+
+            $this->assertTrue($output[0], 'Element is not in viewport');
 
         });
     }
