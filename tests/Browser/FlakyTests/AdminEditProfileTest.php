@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Admin;
+namespace Tests\Browser\FlakyTests;
 
 use App\Models\User;
 use Faker\Factory;

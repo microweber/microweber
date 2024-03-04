@@ -17,6 +17,7 @@ class LiveEditWysiwygAlignTest extends DuskTestCase
 
     public function testLiveEditAlignCenter()
     {
+
         $this->performAlignOnElements('center');
         $this->performAlignOnElements('center',true);
     }
@@ -92,6 +93,8 @@ class LiveEditWysiwygAlignTest extends DuskTestCase
                 $browser->validate();
             });
 
+            $browser->click('#my-text-here');
+            $browser->pause(200);
             $browser->doubleClick('#my-text-here');
 
             if ($onSelectedText ) {
