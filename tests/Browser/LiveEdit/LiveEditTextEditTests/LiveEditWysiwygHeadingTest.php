@@ -92,7 +92,9 @@ class LiveEditWysiwygHeadingTest extends DuskTestCase
                 'content_type' => 'page',
                 'content' => '
                 <div class="container-fluid col-sm-12 mx-auto mx-lg-0  ">
-                   <h6 class="font-weight-normal" id="my-text-parent"><font id="my-text-here" color="#ff0000">Enter text for format</font></h6>
+                   <h6 class="font-weight-normal" id="my-text-parent">
+                   <font id="my-text-here" color="#ff0000">Enter text for format</font>
+                   </h6>
                 </div>
             ',
                 'subtype' => 'static',
