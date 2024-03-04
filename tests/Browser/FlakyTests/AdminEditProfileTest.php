@@ -73,6 +73,13 @@ class AdminEditProfileTest extends DuskTestCase
             $this->assertEquals($last_name, $findUser->last_name);
             $this->assertEquals($phone, $findUser->phone);
 
+
+            //chancge back to 1
+            $findUser->username = 1;
+            $findUser->password = 1;
+            $findUser->save();
+
+
         });
     }
 
