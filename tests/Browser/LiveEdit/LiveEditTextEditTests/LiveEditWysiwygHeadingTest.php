@@ -93,7 +93,7 @@ class LiveEditWysiwygHeadingTest extends DuskTestCase
                 'content' => '
                 <div class="container-fluid col-sm-12 mx-auto mx-lg-0  ">
                    <h6 class="font-weight-normal" id="my-text-parent">
-                   <font id="my-text-here" color="#ff0000">Enter text for format</font>
+                   <span id="my-text-here" style="color:#ff0000">Enter text for format</span>
                    </h6>
                 </div>
             ',
