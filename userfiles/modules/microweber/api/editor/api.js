@@ -46,9 +46,9 @@
 
                 cmn.querySelectorAll('font').forEach(font => {
                     const color = font.color;
-                    const span = mw.tools.setTag(font, 'span');
+                    /*const span = mw.tools.setTag(font, 'span');
                     span.style.color = color;
-                    span.removeAttribute('color');
+                    span.removeAttribute('color');*/
                 })
                 const nodes = cmn.querySelectorAll('span,strong,b,i,em,font,small,big,u,s,strike');
 
