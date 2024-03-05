@@ -22,7 +22,11 @@ class ShopModuleTest extends DuskTestCase
     {
         $siteUrl = $this->siteUrl;
 
-        Product::truncate();
+        $productsAll = Product::all();
+        foreach ($productsAll as $product) {
+            $product->delete();
+        }
+        clearcache();
 
         $pageId = $this->_generatePage('my-page-for-products-module-test', 'My page for products module test');
         $products = [];
