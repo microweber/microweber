@@ -494,6 +494,27 @@ export class ElementHandleContent {
             }
         ];
 
+        const elementMakeFreeOnMoreButton = [
+            {
+                title: 'Make Free Element',
+                text: '',
+                icon: this.handleIcons.icon('free-element'),
+
+                className: 'mw-handle-element-make-free-button',
+
+                action: (el) => {
+
+                    alert('Make Free Element')
+
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = true;
+                    this.setMenuVisible(selfVisible, selfBtn);
+                    },
+            }
+        ];
+
         const primaryMenu = [
             {
                 title: 'Drag',
@@ -613,6 +634,7 @@ export class ElementHandleContent {
             elementResetSizeMenu.length > 0 ||
             elementEditImageUploadMenu.length > 0 ||
             elementEditImageInEditorMenu.length > 0 ||
+            elementMakeFreeOnMoreButton.length > 0 ||
             elementBackgroundImageMenuOnMoreButton.length > 0;
 
 
@@ -629,6 +651,7 @@ export class ElementHandleContent {
                     menu: [
                         ...elementEditImageUploadMenu,
                         ...elementEditImageInEditorMenu,
+                        ...elementMakeFreeOnMoreButton,
 
                         {
                             name: 'Reset Element Size',
