@@ -76,13 +76,35 @@ class FrontendSwitchLanguage extends BaseComponent
         $browser->click('.module-multilanguage > .mw-dropdown-default');
         $browser->pause(400);
       //  $browser->script('$(\'li[data-value="'.$locale.'"]\', ".module-multilanguage").click()');
-     $browser->script('$(\'li[data-value="'.$locale.'"]\', ".module-multilanguage").click()');
-  //    $browser->click('.module-multilanguage li[data-value="'.$locale.'"]');
+  //   $browser->script('$(\'li[data-value="'.$locale.'"]\', ".module-multilanguage").click()');
+    $browser->click('.module-multilanguage li[data-value="'.$locale.'"]');
          $browser->pause(400);
 
         //   $browser->pause(10000);
-        $browser->waitUntil('!$.active');
+      $browser->waitUntil('!$.active',15);
      //  $browser->waitForReload(false, 30);
+
+        $metaLocale = str_replace('_', '-', $locale);
+        // get fromn <link rel="alternate" href="http://127.0.0.1:8000/en_US/my-new-page-ml-1709641346" hreflang="en-US" />
+
+
+        $output = $browser->script("
+            var  getLink = function(hreflang) {
+                var links = document.getElementsByTagName('link');
+                for (var i = 0; i < links.length; i++) {
+                    if (links[i].getAttribute('rel') == 'alternate' && links[i].getAttribute('hreflang') == hreflang) {
+                        return links[i].getAttribute('href');
+                    }
+                }
+                return null;
+            }
+            return getLink('".$metaLocale."');
+            ");
+        $contentLink = $output[0];
+
+         $browser->waitForLocation($contentLink, 30);
+    //    $browser->visit($contentLink);
+
         $browser->pause(2500);
 
         $browser->waitFor('.module-multilanguage', 30);

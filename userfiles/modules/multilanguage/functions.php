@@ -103,17 +103,20 @@ if (!empty($supportedLanguages)) {
                 if ($inCategory) {
                     $contentLink = $pm->link(category_id(), 'category');
                 } else {
-                    $contentLink = $pm->link(category_id(), 'content');
+                    $contentLink = $pm->link(content_id(), 'content');
                 }
+
                 if (empty($contentLink)) {
                     continue;
                 }
 
                 $metaLocale = $locale['locale'];
-                $expMetaLocale = explode('_', $metaLocale);
-                if (count($expMetaLocale) > 1) {
-                    $metaLocale = $expMetaLocale[0];
-                }
+                $metaLocale = str_replace('_', '-', $metaLocale);
+//                $expMetaLocale = explode('_', $metaLocale);
+//                if (count($expMetaLocale) > 1) {
+//                    $metaLocale = $expMetaLocale[0];
+//                }
+
 
                 $metaTagsHtml .= '<link rel="alternate" href="' . $contentLink . '" hreflang="' . $metaLocale . '" />' . "\n";
             }

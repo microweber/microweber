@@ -79,6 +79,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
 
         PackageManager::create('custom_user_css', function (Package $package) {
             $package->addTag(
+                'live_edit_css_head_tags_preload',
+                new \MicroweberPackages\MetaTags\Entities\LiveEditCssHeadPrealoadTags()
+            );
+            $package->addTag(
                 'live_edit_css_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\LiveEditCssHeadTags()
             );

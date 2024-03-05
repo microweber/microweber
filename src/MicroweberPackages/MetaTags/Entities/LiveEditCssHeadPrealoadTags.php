@@ -5,7 +5,7 @@ namespace MicroweberPackages\MetaTags\Entities;
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\MetaTags\Meta;
 
-class LiveEditCssHeadTags implements TagInterface, \Stringable
+class LiveEditCssHeadPrealoadTags implements TagInterface, \Stringable
 {
     public function toHtml(): string
     {
@@ -23,7 +23,7 @@ class LiveEditCssHeadTags implements TagInterface, \Stringable
         $liv_ed_css = '';
         if (is_file($custom_live_edit)) {
             $custom_live_editmtime = filemtime($custom_live_edit);
-            $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings"  crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />';
+            $liv_ed_css = '<link  rel="preload" as="style"  href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '"  crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />';
         }
 
         return $liv_ed_css;
@@ -31,7 +31,7 @@ class LiveEditCssHeadTags implements TagInterface, \Stringable
 
     public function getPlacement(): string
     {
-        return Meta::PLACEMENT_FOOTER;
+        return Meta::PLACEMENT_HEAD;
     }
 
     public function __toString(): string
@@ -43,7 +43,7 @@ class LiveEditCssHeadTags implements TagInterface, \Stringable
     public function toArray(): array
     {
         return [
-            'type' => 'live_edit_css_head_tags',
+            'type' => 'live_edit_css_head_tags_preload',
         ];
     }
 }

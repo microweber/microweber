@@ -42,6 +42,9 @@ class FeedMapToArray
                     $tagKey = str_replace($this->importFeed->content_tag . '.', '', $tagKey);
 
                     $saveItem = Arr::get($item, $tagKey);
+                    if (empty($saveItem)) {
+                        $saveItem = null;
+                    }
 
                     $mappedData[$itemI][$internalKey] = $saveItem;
                 }
@@ -57,6 +60,9 @@ class FeedMapToArray
                 $tagKeyClear = str_replace($this->importFeed->content_tag . '.', '', $tagKeyClear);
 
                 $saveItem = Arr::get($item, $tagKeyClear);
+                if (empty($saveItem)) {
+                    $saveItem = null;
+                }
 
                 if (isset(ItemMapReader::$itemTypes[$internalKey])) {
 

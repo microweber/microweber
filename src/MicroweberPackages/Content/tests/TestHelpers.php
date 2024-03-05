@@ -1,6 +1,8 @@
 <?php
 namespace MicroweberPackages\Content\tests;
 
+use MicroweberPackages\Product\Models\Product;
+
 trait TestHelpers {
     private function _generateCategory($url, $title, $pageId)
     {
@@ -33,6 +35,22 @@ trait TestHelpers {
         $savePost = save_content($params);
 
         return $savePost;
+    }
+
+    private function _generateProduct($url, $title, $pageId, $categoryIds = array())
+    {
+        $params = array(
+            'parent' => $pageId,
+            'categories' => $categoryIds,
+            'title' => $title,
+            'url' => $url,
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'is_active' => 1,
+        );
+        $saveProduct = save_content($params);
+
+        return $saveProduct;
     }
 
     private function _generatePage($url, $title)
