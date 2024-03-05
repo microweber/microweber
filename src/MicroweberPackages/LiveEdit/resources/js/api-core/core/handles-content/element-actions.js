@@ -522,5 +522,9 @@ export class ElementActions extends MicroweberBaseClass {
         mw.app.registerChangedState(element);
     }
 
+    makeFreeDraggableElement(element) {
 
+        $(element).draggable().css("position", "absolute");
+
+    }
 }
