@@ -15,7 +15,7 @@ use MicroweberPackages\Page\Models\Page;
 
 $shopIsEnabled = false;
 $getShopCount = Page::select('id')->where('is_shop', 1)->count();
-if (get_option('shop_disabled') == 'n') {
+if (get_option('shop_disabled', 'website') == 'n') {
     $shopIsEnabled = true;
 }
 if (!$shopIsEnabled || $getShopCount == 0) {
