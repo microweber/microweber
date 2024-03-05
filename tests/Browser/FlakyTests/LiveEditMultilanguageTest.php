@@ -137,11 +137,15 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
 
 
             $browser->typeSlowly('#h1-test-element', 'Текст написан на български, това е българска страница');
+            $browser->pause(200);
             $browser->click('#mw-back-to-element-settings-editor-button'  );
+            $browser->pause(100);
 
             $browser->within(new LiveEditSaveButton(), function ($browser) {
                 $browser->clickSaveButton($browser);
             });
+            $browser->pause(100);
+
             $browser->switchFrameDefault();
 
 
