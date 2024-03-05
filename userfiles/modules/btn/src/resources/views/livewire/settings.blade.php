@@ -38,6 +38,7 @@ showAdvancedDesign: false
             <label class="live-edit-label">{{__('Align')}} </label>
             <livewire:microweber-option::radio-modern :options="$alignOptions" optionKey="align" :optionGroup="$moduleId" :module="$moduleType"  />
         </div>
+
         <div class="mt-3">
             <label class="live-edit-label">{{__('Open link in new window')}} </label>
             <livewire:microweber-option::toggle optionKey="url_blank" :optionGroup="$moduleId" :module="$moduleType"  />

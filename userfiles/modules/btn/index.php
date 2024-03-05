@@ -11,6 +11,7 @@ $btn_options['url'] = '';
 $btn_options['url_blank'] = '';
 $btn_options['text'] = '';
 $btn_options['icon'] = '';
+$btn_options['icon_position'] = '';
 $btn_options['button_id'] = '';
 
 $get_btn_options = get_module_options($params['id']);
@@ -81,8 +82,15 @@ if ($text == false and isset($params['text'])) {
 if ($text === '$notext') {
     $text = '';
 }
+
 if ($icon) {
-    $text = $icon . ($text !== '' ? '&nbsp;' : '') . $text;
+
+    if ($btn_options['icon_position'] == 'right') {
+        $text = $text .  ($text !== '' ? '&nbsp;' : '') . $icon;
+    } else {
+        $text = $icon . ($text !== '' ? '&nbsp;' : '') . $text;
+    }
+
 }
 
 if ($url == false and isset($params['url'])) {
