@@ -635,7 +635,7 @@ export class ElementHandleContent {
             elementResetSizeMenu.length > 0 ||
             elementEditImageUploadMenu.length > 0 ||
             elementEditImageInEditorMenu.length > 0 ||
-            elementMakeFreeOnMoreButton.length > 0 ||
+           // elementMakeFreeOnMoreButton.length > 0 ||
             elementBackgroundImageMenuOnMoreButton.length > 0;
 
 
@@ -652,7 +652,7 @@ export class ElementHandleContent {
                     menu: [
                         ...elementEditImageUploadMenu,
                         ...elementEditImageInEditorMenu,
-                        ...elementMakeFreeOnMoreButton,
+                    //    ...elementMakeFreeOnMoreButton,
 
                         {
                             name: 'Reset Element Size',
