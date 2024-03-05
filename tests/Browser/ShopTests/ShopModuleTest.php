@@ -28,6 +28,8 @@ class ShopModuleTest extends DuskTestCase
         }
         clearcache();
 
+        save_option('shop_disabled', 'n', 'website'); 
+
         $pageId = $this->_generatePage('my-page-for-products-module-test', 'My page for products module test');
         $products = [];
         $products[] = $this->_generateProduct('my-first-product', 'My first product', $pageId,[]);
