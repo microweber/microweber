@@ -139,7 +139,14 @@ export default {
 
 
 
-          mw.app.canvas.on('canvasDocumentKeydown', async (event) => {
+          // mw.app.canvas.on('canvasDocumentKeydown', async (event) => {
+          //
+          //     if (mw.app.isPreview()) {
+          //         return;
+          //
+          //
+          // })
+          mw.app.canvas.on('canvasDocumentInput', async (event) => {
 
               if (mw.app.isPreview()) {
                   return;
@@ -148,12 +155,6 @@ export default {
               if (!can) {
                   return;
               }
-              if (event.keyCode && mw.app.keyboard.keyboardKeysHelper.isKeyNonInteractive(event.keyCode)) {
-                  // press f5
-                  return;
-              }
-
-
 
             mw.app.registerChangedState(event.target);
 

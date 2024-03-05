@@ -141,6 +141,21 @@ export class LiveEditCanvas extends MicroweberBaseClass {
                 this.dispatch('canvasDocumentClick', event)
 
             });
+            liveEditIframe.contentWindow.document.body.addEventListener('input', (event) => {
+
+                if (mw.app.liveEdit.handles.targetIsOrInsideHandle(event.target ) ) {
+                    return;
+                }
+                if (event.target && event.target.nodeName) {
+                    // is input or textarea
+                    if (event.target.nodeName === 'INPUT' || event.target.nodeName === 'TEXTAREA') {
+                        return;
+                    }
+                }
+
+                this.dispatch('canvasDocumentInput', event)
+
+            });
 
 
             liveEditIframe.contentWindow.document.addEventListener('keydown', (event) => {
