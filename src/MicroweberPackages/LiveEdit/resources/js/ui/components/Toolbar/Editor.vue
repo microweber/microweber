@@ -148,7 +148,7 @@ export default {
               if (!can) {
                   return;
               }
-              if (event.keyCode && event.keyCode === 116) {
+              if (event.keyCode && mw.app.keyboard.keyboardKeysHelper.isKeyNonInteractive(event.keyCode)) {
                   // press f5
                   return;
               }
