@@ -441,9 +441,9 @@ if(window.self !== window.top) {
         _beforeUnload = event;
 
         // prevent user from leaving if there are unsaved changes
-        //    var liveEditIframe = window;
+         var liveEditIframe = self;
 
-        var liveEditIframe = mw.top().app.canvas.getWindow();
+       // var liveEditIframe = mw.top().app.canvas.getWindow();
 
         liveEditIframe.mw.isNavigating = true;
 
@@ -456,7 +456,7 @@ if(window.self !== window.top) {
                     liveEditIframe.mw.isNavigating = false;
                 }
             }
-        }, 1500, liveEditIframe);
+        }, 1, liveEditIframe);
 
 
         if (liveEditIframe

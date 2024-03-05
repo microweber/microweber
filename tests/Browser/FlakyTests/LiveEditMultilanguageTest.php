@@ -12,6 +12,7 @@ use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
 use Tests\Browser\Components\LiveEditSaveButton;
 use Tests\Browser\Components\LiveEditSwitchLanguage;
+use Tests\Browser\Components\LiveEditWaitUntilLoaded;
 use Tests\DuskTestCaseMultilanguage;
 
 
@@ -97,7 +98,9 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });
-
+            $browser->within(new LiveEditWaitUntilLoaded(), function (Browser $browser) {
+                $browser->waitUntilLoaded();
+            });
             $browser->within(new LiveEditSaveButton(), function ($browser) {
                 $browser->clickSaveButton($browser);
             });

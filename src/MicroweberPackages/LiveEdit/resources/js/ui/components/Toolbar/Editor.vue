@@ -140,6 +140,14 @@ export default {
 
 
           mw.app.canvas.on('canvasDocumentKeydown', async (event) => {
+
+              if (mw.app.isPreview()) {
+                  return;
+              }
+              var can = mw.app.liveEdit.canBeEditable(event.target)
+              if (!can) {
+                  return;
+              }
             mw.app.registerChangedState(event.target);
 
           })
