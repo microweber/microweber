@@ -29,11 +29,12 @@ class ShopSettingsComponent extends ModuleSettingsComponent
         $mainPageId = $this->getMainPageId();
 
         $productsQueryAll = Product::query();
-        if ($mainPageId) {
+        if ($mainPageId > 0) {
             $productsQueryAll->where('parent', $mainPageId);
         }
         $productsQueryAll->where('is_active', 1);
         $productsQueryAll->where('is_deleted', 0);
+
         $allProducts = $productsQueryAll->get();
 
         $customFields = [];
@@ -63,15 +64,6 @@ class ShopSettingsComponent extends ModuleSettingsComponent
         $contentFromId = get_option('content_from_id', $this->moduleId);
         if ($contentFromId) {
             return $contentFromId;
-        }
-
-        $findFirstShop = Page::where('content_type', 'page')
-            ->where('subtype', 'dynamic')
-            ->where('is_shop', 1)
-            ->first();
-
-        if ($findFirstShop) {
-            return $findFirstShop->id;
         }
 
         return 0;
