@@ -148,6 +148,13 @@ export default {
               if (!can) {
                   return;
               }
+              if (event.keyCode && event.keyCode === 116) {
+                  // press f5
+                  return;
+              }
+
+
+
             mw.app.registerChangedState(event.target);
 
           })
