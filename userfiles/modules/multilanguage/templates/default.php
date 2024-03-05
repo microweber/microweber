@@ -24,6 +24,9 @@ description: MW Default
                 } else {
                     echo 1;
                 } ?>;
+
+
+
                 $.post(mw.settings.api_url + "multilanguage/change_language", {locale: selected, is_admin: is_admin})
                     .done(function (data) {
                         if (data.refresh) {
@@ -34,6 +37,9 @@ description: MW Default
                             }
                         }
                     });
+
+
+
             });
             mw.dropdown();
         });

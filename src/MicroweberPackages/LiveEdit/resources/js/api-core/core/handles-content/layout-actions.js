@@ -14,6 +14,7 @@ export const afterLayoutChange = target => {
 
                     .addClass('mw-le-ghost-layout')
                     .addClass('noedit')
+                    .addClass('no-typing')
                     .addClass('noelement')
                     .addClass('mw-handle-item-layout-plus')
                     .addClass('mw-handle-item-layout-plus-top')

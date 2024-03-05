@@ -1,4 +1,5 @@
 import MicroweberBaseClass from "../../services/containers/base-class";
+import liveEditHelpers from "../live-edit-helpers.service.js";
 
 import {DomService} from "../classes/dom";
 
@@ -209,6 +210,11 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
         if (target.classList.contains('no-typing') || target.classList.contains('mw-row')) {
             target.contentEditable = false;
             selfVisible = false;
+        }
+
+        if( liveEditHelpers.targetIsIcon(target)) {
+            target.contentEditable = false;
+            selfVisible = true;
         }
 
         return selfVisible;
