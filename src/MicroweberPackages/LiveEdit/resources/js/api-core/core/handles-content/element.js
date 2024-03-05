@@ -504,7 +504,7 @@ export class ElementHandleContent {
 
                 action: (el) => {
 
-                    alert('Make Free Element')
+                    this.elementActions.makeFreeDraggableElement(el);
 
 
                 },
@@ -622,6 +622,7 @@ export class ElementHandleContent {
              // ...elementEditImageAlignMenuAlignRight,
              // ...elementEditImageAlignMenuAlignCenter,
              // ...elementEditImageAlignMenuAlignClear,
+              ...elementMakeFreeOnMoreButton,
 
 
 
