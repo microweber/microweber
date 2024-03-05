@@ -13,6 +13,16 @@
 
 use MicroweberPackages\Page\Models\Page;
 
+$shopIsEnabled = false;
+$getShopCount = Page::select('id')->where('is_shop', 1)->count();
+if (get_option('shop_disabled') == 'n') {
+    $shopIsEnabled = true;
+}
+if (!$shopIsEnabled || $getShopCount == 0) {
+    print lnotif('First you need to enable the shop module from admin.');
+    return;
+}
+
 $contentFromId = get_option('content_from_id', $params['id']);
 
 $appliedDefaultSettings = get_option('applied_default_shop_settings', $params['id']);
