@@ -43,7 +43,7 @@ only_admin_access();
             ?>
 
             <script>
-                if(typeof mw.top === 'function'){
+                if(typeof mw.top === 'function' && typeof mw.top().app === 'object' && typeof mw.top().app.dispatch === 'function'){
                     mw.top().app.dispatch('populateSupportedLanguages', <?php echo json_encode($supportedLanguages); ?>);
                 }
             </script>
