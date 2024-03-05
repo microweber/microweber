@@ -5,6 +5,7 @@
             mw.options.form('.js-shop-module', function () {
                 mw.notification.success("<?php _ejs("Saved"); ?>.");
                 window.location.reload();
+                mw.reload_module_everywhere("shop");
             });
         });
     </script>
