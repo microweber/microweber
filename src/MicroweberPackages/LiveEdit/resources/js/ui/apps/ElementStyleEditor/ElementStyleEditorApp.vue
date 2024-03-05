@@ -110,7 +110,18 @@ export default {
         }
     },
 
-    methods: {},
+    methods: {
+
+        applyPropertyToActiveNode(activeNode,prop, val) {
+
+            mw.top().app.dispatch('mw.elementStyleEditor.applyCssPropertyToNode', {
+                node: activeNode,
+                prop: prop,
+                val: val
+            });
+        },
+
+    },
     mounted() {
 
         mw.top().app.on('cssEditorSettings', (settings) => {

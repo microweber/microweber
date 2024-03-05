@@ -188,11 +188,8 @@ export default {
             }
 
             if (this.activeNode) {
-                mw.top().app.dispatch('mw.elementStyleEditor.applyCssPropertyToNode', {
-                    node: this.activeNode,
-                    prop: prop,
-                    val: val
-                });
+                this.$root.applyPropertyToActiveNode(this.activeNode, prop, val);
+
             }
         },
 
