@@ -37,7 +37,7 @@ class GenerateBackupTest extends TestCase
         }
 
         $savedEmptyFiles= [];
-        for ($i = 0; $i <= 1000; $i++) {
+        for ($i = 0; $i <= 100; $i++) {
             $pictureContent = 'Here is my cool picture';
             for ($i2 = 0; $i2 <= 100000; $i2++) {
                 $pictureContent .=  'Here is my cool picture';

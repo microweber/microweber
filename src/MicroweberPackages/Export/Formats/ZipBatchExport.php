@@ -133,7 +133,6 @@ class ZipBatchExport extends DefaultExport
         $selectBatch = ($currentStep - 1);
 
         if (!isset($filesBatch[$selectBatch])) {
-
            SessionStepper::finish();
         }
 
