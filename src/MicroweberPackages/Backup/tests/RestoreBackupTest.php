@@ -65,9 +65,11 @@ class RestoreBackupTest extends TestCase
 
         ];
 
-        $sessionId = SessionStepper::generateSessionId(3);
-//@todo steps dont work if set to more than 3 or 1, only works with 3
-        for ($i = 1; $i <= 2; $i++) {
+        $sessionId = SessionStepper::generateSessionId(4);
+
+        for ($i = 1; $i <= 3; $i++) {
+
+          //  echo "Step: #" . $i . PHP_EOL;
 
             $backup = new GenerateBackup();
             $backup->setSessionId($sessionId);
@@ -78,8 +80,7 @@ class RestoreBackupTest extends TestCase
             $backup->setAllowSkipTables(false);
 
             $backupStart = $backup->start();
-
-            if (isset($status['success'])) {
+            if (isset($backupStart['success'])) {
                 break;
             }
         }
