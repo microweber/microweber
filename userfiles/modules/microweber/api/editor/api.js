@@ -124,7 +124,7 @@
                         target = scope.api.elementNode(sel.getRangeAt(0).commonAncestorContainer)
                     }
                 }
-                if(target) {
+                if(target && target.parentNode && target.ownerDocument) {
 
 
                     const walker = document.createTreeWalker(target, NodeFilter.SHOW_TEXT);
