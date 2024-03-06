@@ -109,13 +109,6 @@
                     </tr>
 
                     <tr>
-                        <td><?php _e('Help'); ?></td>
-                        <td>
-                                <?php _e('Calendly is a popular online scheduling tool that allows individuals or businesses to schedule meetings or appointments with others.'); ?>
-                        </td>
-                    </tr>
-
-                    <tr>
                         <td><?php _e('Homepage'); ?></td>
                         <td>
                                 <?php if (isset($package['homepage'])): ?>
