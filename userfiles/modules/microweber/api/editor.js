@@ -1455,6 +1455,7 @@ var MWEditor = function (options) {
                                range.insertNode(txt);
                                txt.parentNode.focus();
                                range.collapse(false);
+                               mw.top().app.registerChangedState(txt.parentNode);
                             }
 
 
