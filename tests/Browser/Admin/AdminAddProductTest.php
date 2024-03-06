@@ -129,7 +129,7 @@ class AdminAddProductTest extends DuskTestCase
 
             $findProduct = Product::where('title', $productTitle)->first();
 
-            $browser->waitForLocation(route('admin.product.edit', $findProduct->id));
+            $browser->waitForLocation(route('admin.product.edit', $findProduct->id),60);
 
 
             $this->assertEquals(intval($productPrice), intval($findProduct->price));

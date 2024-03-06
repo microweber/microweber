@@ -18,7 +18,7 @@ class ShopModuleTest extends DuskTestCase
 
     use TestHelpers;
 
-    public function testProductsModuleIsDidplayingLatestsPosts()
+    public function testProductsModuleIsDidplayingLatestsProducts()
     {
         $siteUrl = $this->siteUrl;
 
@@ -28,9 +28,9 @@ class ShopModuleTest extends DuskTestCase
         }
         clearcache();
 
-        save_option('shop_disabled', 'n', 'website'); 
+        save_option('shop_disabled', 'n', 'website');
 
-        $pageId = $this->_generatePage('my-page-for-products-module-test', 'My page for products module test');
+        $pageId = $this->_generateShopPage('my-page-for-products-module-test', 'My page for products module test');
         $products = [];
         $products[] = $this->_generateProduct('my-first-product', 'My first product', $pageId,[]);
         $products[] = $this->_generateProduct('my-second-product', 'My second product', $pageId,[]);
@@ -43,8 +43,7 @@ class ShopModuleTest extends DuskTestCase
         $params = array(
             'id' => $pageId,
             'title' => $title,
-            'content_type' => 'page',
-            'subtype' => 'static',
+
             'content' => '<div class="container">
 <h1>Products for test</h1>
 <module type="shop" id="'.$moduleIdRand.'" /></div>',

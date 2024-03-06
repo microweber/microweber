@@ -62,6 +62,9 @@ ForceType 'text/css; charset=UTF-8'
     RewriteCond %{REQUEST_URI} ^/public/.*\.php$ [NC]
     RewriteRule ^ - [F]
 
+    RewriteCond %{REQUEST_URI} ^/userfiles/standalone-update/.*\.php$ [NC]
+    RewriteRule ^ - [L]
+
     RewriteCond %{REQUEST_URI} !^/\.well-known
     RewriteRule "(^|/)\." - [F]
 
@@ -75,8 +78,12 @@ ForceType 'text/css; charset=UTF-8'
     RewriteRule ^tests/(.*)?$ / [F,L]
     RewriteRule ^composer\.(lock|json)$ / [F,L]
 
+
+
+
     RewriteRule ^userfiles/modules/.*\.php$ - [F,L]
     RewriteRule ^userfiles/templates/.*\.php$ - [F,L]
+
 
 
 
