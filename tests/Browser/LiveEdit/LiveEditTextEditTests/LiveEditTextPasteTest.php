@@ -8,6 +8,7 @@ use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\LiveEditSaveButton;
+use Tests\Browser\Components\LiveEditWaitUntilLoaded;
 use Tests\DuskTestCase;
 
 class LiveEditTextPasteTest extends DuskTestCase
@@ -51,14 +52,9 @@ class LiveEditTextPasteTest extends DuskTestCase
             $browser->visit($link . '?editmode=y');
             $browser->pause(4000);
 
-            $browser->waitFor('#live-editor-frame', 30)
-                ->withinFrame('#live-editor-frame', function ($browser) {
-                    $browser->pause(1000);
-                    $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-                        $browser->validate();
-                    });
-
-                });
+            $browser->within(new LiveEditWaitUntilLoaded(), function ($browser) {
+                $browser->waitUntilLoaded();
+            });
 
             $iframeElement = $browser->driver->findElement(WebDriverBy::id('live-editor-frame'));
 

@@ -41,7 +41,9 @@ class LiveEditSaveButton extends BaseComponent
 
     public function clickSaveButton(Browser $browser)
     {
+        $browser->pause(100);
         $browser->switchFrameDefault();
+        $browser->pause(100);
         $browser->click('#save-button');
         $browser->waitUntil('!$.active', 10);
 //        $browser->waitUntil('!#save-button[disabled]', 10);
