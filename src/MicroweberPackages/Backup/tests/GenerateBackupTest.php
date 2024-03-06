@@ -19,6 +19,65 @@ use MicroweberPackages\Post\Models\Post;
 
 class GenerateBackupTest extends TestCase
 {
+
+    public function testBigFilesBackup() {
+
+        $getAllContent = Content::all();
+        $getAllContent->each(function ($content) {
+            $content->delete();
+        });
+
+        $post = new Post();
+        $post->url = 'test-post';
+        $post->title = 'Test post';
+        $post->save();
+
+        if (!is_dir(media_uploads_path() . 'pictures/')) {
+            mkdir_recursive(media_uploads_path() . 'pictures/');
+        }
+
+        $savedEmptyFiles= [];
+        for ($i = 0; $i <= 100; $i++) {
+            $pictureContent = 'Here is my cool picture';
+            for ($i2 = 0; $i2 <= 100000; $i2++) {
+                $pictureContent .=  'Here is my cool picture';
+            }
+
+            $emptyFilePath = media_uploads_path() . 'pictures/picture'.$i.'.jpg';
+            file_put_contents($emptyFilePath,$pictureContent);
+            $savedEmptyFiles[] = $emptyFilePath;
+        }
+
+        $sessionId = SessionStepper::generateSessionId(100);
+
+        $done = false;
+        for ($i = 1; $i <= 100; $i++) {
+
+            $backup = new GenerateBackup();
+            $backup->setSessionId($sessionId);
+            $backup->setExportAllData(true);
+            $backup->setAllowSkipTables(false);
+            $backup->setExportTables(['content']);
+            $backup->setExportMedia(true);
+            $backup->setExportModules([]);
+            $backup->setExportTemplates([]);
+
+            $status = $backup->start();
+
+           /// echo 'Step: #'. $i;
+
+            if (isset($status['success'])) {
+                $done = true;
+                break;
+            }
+
+        }
+
+        $this->assertTrue($done, 'Backup not created');
+        $this->assertTrue(is_file($status['data']['filepath']), 'File not found');
+
+    }
+
     public function testSingleModuleBackup() {
 
         \Config::set('microweber.allow_php_files_upload', true);

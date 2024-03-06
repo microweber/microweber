@@ -114,13 +114,13 @@ class DatabaseWriter
 
         if ($this->overwriteById && isset($item['id'])) {
 
-//            if ($item['save_to_table'] == 'users') {
-//                $findUser = \DB::table($item['save_to_table'])->where('id', $item['id'])->first();
-//                if ($findUser) {
-//                    $this->logger->setLogInfo('Skip overwriting "' . $item['save_to_table'] . '"  User id: ' . $findUser->id);
-//                    return array('item' => $item, 'itemIdDatabase' => $findUser->id);
-//                }
-//            }
+            if ($item['save_to_table'] == 'users') {
+                $findUser = \DB::table($item['save_to_table'])->where('email', $item['email'])->first();
+                if ($findUser) {
+                    $this->logger->setLogInfo('Skip overwriting "' . $item['save_to_table'] . '"  User email: ' . $findUser->email);
+                    return array('item' => $item, 'itemIdDatabase' => $findUser->id);
+                }
+            }
 
             $itemIdDatabase = DatabaseSave::save($item['save_to_table'], $item);
             $this->logger->setLogInfo('Saving in table "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase);

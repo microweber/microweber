@@ -622,7 +622,7 @@ export class ElementHandleContent {
              // ...elementEditImageAlignMenuAlignRight,
              // ...elementEditImageAlignMenuAlignCenter,
              // ...elementEditImageAlignMenuAlignClear,
-              ...elementMakeFreeOnMoreButton,
+           //   ...elementMakeFreeOnMoreButton,
 
 
 
