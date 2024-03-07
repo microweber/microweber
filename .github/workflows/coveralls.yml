@@ -120,16 +120,16 @@ jobs:
         flag-name: run-${{ join(matrix.*, '-') }}
         parallel: true
         files: tests/coverages/dusk-clover.xml tests/coverages/js-report/lcov.info
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      with:
-        args: >
-          -Dproject.settings=./sonar-project.properties
-          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
-          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+#    - name: SonarQube Scan
+#      uses: sonarsource/sonarqube-scan-action@master
+#      env:
+#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+#      with:
+#        args: >
+#          -Dproject.settings=./sonar-project.properties
+#          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+#          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
 
     - name: Upload Screenshots
       if: failure()
