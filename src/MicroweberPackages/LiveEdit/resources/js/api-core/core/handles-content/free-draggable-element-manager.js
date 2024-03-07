@@ -1,15 +1,101 @@
 import MicroweberBaseClass from "../../services/containers/base-class";
+import { ElementManager } from "../classes/element";
 
 
 export class FreeDraggableElementManager extends MicroweberBaseClass {
 
-    proto = null;
 
-    constructor(proto) {
+    constructor() {
         super();
-        this.proto = proto;
     }
 
+
+    static toPercent(node, container){
+        if(!node || node.nodeType !== 1) {
+            return
+        }
+        if(!container) {
+            container = mw.tools.firstParentWithAnyOfClasses(node, ['mw-layout-container'])
+        }
+        if(!container) {
+            return
+        }
+        const containerOff = container.getBoundingClientRect();
+        const el = ElementManager(node);
+        const off = node.getBoundingClientRect();
+
+        el.css({
+            left: ((off.left / containerOff.width) * 100) + '%',
+            top: ((off.top / containerOff.height) * 100) + '%',
+        })
+
+    }
+
+
+    setLayoutHeight(layout) {
+        if(!layout || layout.nodeType !== 1) {
+            return
+        }
+        const container = layout.querySelector('.mw-layout-container');
+        if(!container) {
+            return
+        }
+
+        const containerOff = ElementManager(container).offset();
+
+        mw.app.dispatch('liveEditRefreshHandlesPosition');
+
+        let containerheight = 50;
+
+        layout.querySelectorAll('.element,.module').forEach(node => {
+            if(!mw.tools.firstParentWithAnyOfClasses(node, ['element', 'module'])) {
+                const el = ElementManager(node);
+                const off = ElementManager(node).offset();
+
+                if(((off.offsetTop - containerOff.offsetTop) + off.height) > containerheight) {
+                    containerheight = (off.offsetTop - containerOff.offsetTop) + off.height;
+                }
+
+            }
+        })
+        container.style.height = containerheight + 'px';
+
+    }
+
+    freeLayoutNodes(layout) {
+        if(!layout || layout.nodeType !== 1) {
+            return
+        }
+        const container = layout.querySelector('.mw-layout-container');
+        if(!container) {
+            return
+        }
+
+        container.style.position = 'relative';
+
+        const containerOff = ElementManager(container).offset();
+
+
+        let containerheight = 50;
+
+        layout.querySelectorAll('.element,.module').forEach(node => {
+            if(!mw.tools.firstParentWithAnyOfClasses(node, ['element', 'module'])) {
+                const el = ElementManager(node);
+                const off = ElementManager(node).offset();
+
+                if(((off.offsetTop - containerOff.offsetTop) + off.height) > containerheight) {
+                    containerheight = (off.offsetTop - containerOff.offsetTop) + off.height;
+                }
+                el.css({
+                    top: off.offsetTop - containerOff.offsetTop,
+                    left: off.offsetLeft - containerOff.offsetLeft,
+                    position: 'absolute'
+                })
+            }
+        })
+        container.style.height = containerheight + 'px';
+
+    }
 
     makeFreeDraggableElement(element) {
         //$(element).draggable();
@@ -54,9 +140,6 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
     destroyFreeDraggableElement(element) {
         $(element).draggable('destroy');
-
-        mw.app.dispatch('liveEditRefreshHandlesPosition');
-
     }
 
 }

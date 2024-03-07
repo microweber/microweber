@@ -83,6 +83,8 @@ $rand = 'pic-sorter-' . uniqid();
 
                         let i = 0; l = urls.length;
 
+                        mw.spinner({element: dialog.dialogContainer, size: 32, decorate: true})
+
                         for ( ; i < l; i++) {
 
                            await after_upld(urls[i], 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
