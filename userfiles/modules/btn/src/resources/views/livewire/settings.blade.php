@@ -44,11 +44,6 @@ showAdvancedDesign: false
             <livewire:microweber-option::toggle optionKey="url_blank" :optionGroup="$moduleId" :module="$moduleType"  />
         </div>
 
-
-
-
-
-
     </div>
     <div x-show="showEditTab=='design'">
         <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType" />
