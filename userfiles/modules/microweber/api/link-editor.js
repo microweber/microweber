@@ -113,7 +113,10 @@ mw.lib.require('xss');
                 var nav = scope.controllers;
                 var dropdown = [];
 
+                var navTitle = document.createElement('li');
+                navTitle.innerHTML = `<label class="form-label font-weight-bold mt-2 p-0">${mw.lang('Choose from')}</label>`;
 
+                scope.nav.appendChild(navTitle)
 
 
 
@@ -135,8 +138,21 @@ mw.lib.require('xss');
                 nav.forEach(function (ctrl, index){
                     scope.nav.appendChild(createA(ctrl, index));
                 });
-                this.settings.selectedIndex = this.settings.selectedIndex || 0
-                this.nav.children[this.settings.selectedIndex].querySelector('a').click();
+                this.settings.selectedIndex = this.settings.selectedIndex || 0;
+
+
+                let navCount = -1;
+                for(let i = 0; i < this.nav.children.length; i++) {
+                    const link = this.nav.children[i].querySelector('a');
+                    if(link) {
+                        navCount++;
+                        if(navCount === this.settings.selectedIndex) {
+                            link.click()
+                        }
+                    }
+                }
+
+
                 this.root.prepend(this.nav);
 
                 if(dropdown.length) {
