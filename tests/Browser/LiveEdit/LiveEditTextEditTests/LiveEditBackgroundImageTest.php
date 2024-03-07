@@ -66,7 +66,12 @@ class LiveEditBackgroundImageTest extends DuskTestCase
 
 
             });
-            $browser->click('#' . $moduleIdRandom);
+
+         //  $browser->click('#' . $moduleIdRandom);
+    //        $browser->click('#' . $moduleIdRandom . ' .module-background');
+          //  $browser->click('#' . $moduleIdRandom . ' .regular-mode');
+            $browser->pause(1500);
+
             $browser->doubleClick('#' . $moduleIdRandom . ' .module-background');
 
             $browser->switchFrameDefault();
@@ -161,8 +166,10 @@ class LiveEditBackgroundImageTest extends DuskTestCase
             $link = content_link($saved_id);
 
             $browser->visit($link . '?editmode=y');
-            $browser->pause(4000);
 
+            $browser->within(new LiveEditWaitUntilLoaded(), function ($browser) {
+                $browser->waitUntilLoaded();
+            });
             $browser->waitFor('#live-editor-frame', 30)
                 ->withinFrame('#live-editor-frame', function ($browser) {
                     $browser->pause(1000);
@@ -177,7 +184,9 @@ class LiveEditBackgroundImageTest extends DuskTestCase
 
 
             });
-            $browser->click('#' . $moduleIdRandom);
+            $browser->pause(4000);
+
+           // $browser->click('#' . $moduleIdRandom);
             $browser->doubleClick('#' . $moduleIdRandom . ' .module-background');
 
             $browser->switchFrameDefault();
@@ -297,7 +306,10 @@ class LiveEditBackgroundImageTest extends DuskTestCase
             $link = content_link($saved_id);
 
             $browser->visit($link . '?editmode=y');
-            $browser->pause(4000);
+            $browser->within(new LiveEditWaitUntilLoaded(), function ($browser) {
+                $browser->waitUntilLoaded();
+            });
+
 
             $browser->waitFor('#live-editor-frame', 30)
                 ->withinFrame('#live-editor-frame', function ($browser) {
@@ -313,7 +325,7 @@ class LiveEditBackgroundImageTest extends DuskTestCase
 
 
             });
-            $browser->click('#' . $moduleIdRandom);
+     //       $browser->click('#' . $moduleIdRandom);
             $browser->doubleClick('#' . $moduleIdRandom . ' .module-background');
 
             $browser->switchFrameDefault();
