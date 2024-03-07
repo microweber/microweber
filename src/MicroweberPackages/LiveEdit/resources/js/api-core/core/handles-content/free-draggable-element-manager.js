@@ -52,11 +52,16 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
         );
 
 
+        mw.app.dispatch('liveEditRefreshHandlesPosition');
+
+
    //     $(element).draggable().css("position", "absolute");
     }
 
     destroyFreeDraggableElement(element) {
         $(element).draggable('destroy');
+
+        mw.app.dispatch('liveEditRefreshHandlesPosition');
 
     }
 

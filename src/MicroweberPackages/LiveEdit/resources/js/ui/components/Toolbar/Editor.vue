@@ -391,7 +391,7 @@ export default {
                     ) {
 
                         mw.top().app.liveEdit.elementHandleContent.elementActions.destroyFreeDraggableElement(data.node)
-                        mw.app.dispatch('liveEditRefreshHandlesPosition');
+                    //    mw.app.dispatch('liveEditRefreshHandlesPosition');
 
                     }
                     else if(
@@ -402,7 +402,7 @@ export default {
                     ) {
 
                         mw.top().app.liveEdit.elementHandleContent.elementActions.makeFreeDraggableElement(data.node)
-                        mw.app.dispatch('liveEditRefreshHandlesPosition');
+                        //mw.app.dispatch('liveEditRefreshHandlesPosition');
                     }
                 }
             });
