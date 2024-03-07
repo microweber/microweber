@@ -25,6 +25,9 @@ if (isset($btn_options['link'])) {
     if (isset($btnOptionsLink['url'])) {
         $btn_options['url'] = $btnOptionsLink['url'];
     }
+    if (isset($btnOptionsLink['data']['id'])) {
+        $btn_options['url'] = content_link($btnOptionsLink['data']['id']);
+    }
 }
 
 $align = get_module_option('align', $params['id']);
