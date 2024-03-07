@@ -34,7 +34,7 @@
 
         <div class="form-group">
             <label for="zIndexInput">Z-Index:</label>
-            <input id="zIndexInput" class="form-control" type="number" v-model.number="zIndexValue">
+            <input id="zIndexInput" class="form-control" type="number" min="0" v-model.number="zIndexValue">
         </div>
 
         <button @click="resetAllProperties">Reset All</button>
