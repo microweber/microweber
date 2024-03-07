@@ -18,7 +18,8 @@ $config['settings']['translatable_options'] = [
     'url_blank',
     'icon',
     'text',
-    'url'
+    'url',
+    'link'
 ];
 
 $config['settings']['autoload_namespace'] = [
