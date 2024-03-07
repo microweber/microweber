@@ -4,7 +4,7 @@ import {ElementManager} from "../classes/element";
 import {LinkPicker} from "../../services/services/link-picker";
 import {DomService} from "../classes/dom";
 import {HandleIcons} from "../handle-icons";
-import {FreeDraggableElementManager} from "./free-draggable-element-manager";
+
 
 export class ElementActions extends MicroweberBaseClass {
     proto = null;
@@ -14,7 +14,7 @@ export class ElementActions extends MicroweberBaseClass {
         this.proto = proto;
 
         this.handleIcons = new HandleIcons();
-        this.freeDraggableElementManager = new FreeDraggableElementManager();
+        this.freeDraggableElementManager = mw.top().app.freeDraggableElementManager;
 
     }
 

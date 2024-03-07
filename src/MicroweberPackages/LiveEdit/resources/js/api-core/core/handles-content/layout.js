@@ -175,6 +175,25 @@ export class LayoutHandleContent {
 
         const primaryNavigation = [
 
+             {
+                title: this.rootScope.lang('Design mode'),
+                text: '',
+                icon: '<img src="https://cdn-icons-png.freepik.com/512/2482/2482702.png" style="width:30px"> ',
+                className: 'mw-handle-insert-button',
+                onTarget: function(target, selfNode) {
+
+                    if(DomService.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
+                        selfNode.classList.remove('mw-le-handle-menu-button-disabled');
+                    } else {
+                        selfNode.classList.add('mw-le-handle-menu-button-disabled');
+                    }
+                },
+                action: function (target, selfNode, rootScope) {
+                    mw.top().app.freeDraggableElementManager.freeLayoutNodes(target)
+
+                }
+            },
+
 
             {
                 title: this.rootScope.lang('Clone'),
