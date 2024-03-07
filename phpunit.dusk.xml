@@ -41,6 +41,11 @@
             <directory suffix="Test.php">./tests/Browser/Pages</directory>
         </testsuite>
 
+        <testsuite name="ModulesDuskTests">
+            <directory suffix="Test.php">./userfiles/modules/*/src/tests/Browser/</directory>
+        </testsuite>
+
+
         <testsuite name="MicroweberLiveEditTest">
             <directory suffix="Test.php">./tests/Browser/LiveEdit</directory>
         </testsuite>
