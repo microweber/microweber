@@ -4,7 +4,7 @@
 
 
     <div v-if="!selectedElement" class="mb-4">
-<div class="alert alert-primary">Please select an element to edit</div>
+        <div class="alert alert-primary">Please select an element to edit</div>
     </div>
 
     <div class="mb-4" :class="{'style-editor-disabled': !selectedElement}">
@@ -54,6 +54,11 @@
             <div class="mb-4" v-show="showClassApplier">
                 <ElementStyleEditorClassApplier></ElementStyleEditorClassApplier>
             </div>
+
+
+            <div class="mb-4" v-show="showPosition">
+                <ElementStyleEditorPosition></ElementStyleEditorPosition>
+            </div>
         </div>
     </div>
 
@@ -75,6 +80,7 @@ import ElementStyleEditorClassApplier from './ElementStyleEditorClassApplier.vue
 import ElementStyleEditorRoundedCorners from "./ElementStyleEditorRoundedCorners.vue";
 import ElementStyleEditorShadow from "./ElementStyleEditorShadow.vue";
 import ElementStyleEditorLayoutSettings from "./ElementStyleEditorLayoutSettings.vue";
+import ElementStyleEditorPosition from "./ElementStyleEditorPosition.vue";
 
 export default {
     components: {
@@ -91,6 +97,7 @@ export default {
         ElementStyleEditorShadow,
         ElementStyleEditorClassApplier,
         ElementStyleEditorLayoutSettings,
+        ElementStyleEditorPosition,
     },
 
     data() {
@@ -107,12 +114,13 @@ export default {
             showAnimations: true,
             showClassApplier: true,
             showRoundedCorners: true,
+            showPosition: true,
         }
     },
 
     methods: {
 
-        applyPropertyToActiveNode(activeNode,prop, val) {
+        applyPropertyToActiveNode(activeNode, prop, val) {
 
             mw.top().app.dispatch('mw.elementStyleEditor.applyCssPropertyToNode', {
                 node: activeNode,
@@ -136,6 +144,7 @@ export default {
                 this.showContainer = false;
                 this.showAnimations = false;
                 this.showClassApplier = false;
+                this.showPosition = false;
 
                 if (settings.fieldSettings.components.includes('background')) {
                     this.showBackground = true;
@@ -166,6 +175,9 @@ export default {
 
                 if (settings.fieldSettings.components.includes('roundedCorners')) {
                     this.showRoundedCorners = true;
+                }
+                if (settings.fieldSettings.components.includes('position')) {
+                    this.showPosition = true;
                 }
 
                 if (settings.fieldSettings.components.includes('classes')) {

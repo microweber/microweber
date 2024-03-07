@@ -295,8 +295,11 @@ export class StylesheetEditor extends MicroweberBaseClass {
     }
 
     temp(node, prop, val) {
-        val = (val || '').trim();
+        if(typeof(val) === 'number') {
 
+        } else {
+            val = (val || '').trim();
+        }
         if (node.length) {
             node = node[0];
         }
