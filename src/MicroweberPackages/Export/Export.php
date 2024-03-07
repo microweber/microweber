@@ -196,6 +196,10 @@ class Export
                 $zipExport->setExportOnlyTemplate($this->exportOnlyTemplate);
             }
 
+            if ($this->exportFileName) {
+                $zipExport->setExportFileName($this->exportFileName);
+            }
+
             $zipExportReady = $zipExport->start();
 
             if (isset($zipExportReady['download']) && !empty($zipExportReady['download'])) {
