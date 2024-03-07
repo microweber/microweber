@@ -10,25 +10,24 @@ export class ElementSettingsTarget extends MicroweberBaseClass {
     }
 
     getSettingsTarget(target) {
-        if(!target){
+        if (!target) {
             return target;
         }
 
-        if(!target.firstElementChild) {
+        if (!target.firstElementChild) {
             return target;
         }
-
 
 
         var firstChild = target.firstElementChild;
-       // var isCloneableImage = (target.classList.contains('cloneable') && target.nodeName === 'IMG');
+        // var isCloneableImage = (target.classList.contains('cloneable') && target.nodeName === 'IMG');
         var isCloneableWithImageAsFirstChild = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.nodeName === 'IMG';
         var isCloneableWithImageAsFirstChildAsBg = target.classList && target.classList.contains('cloneable') && firstChild && firstChild.classList && firstChild.classList.contains('img-as-background');
 
-        if(isCloneableWithImageAsFirstChild){
+        if (isCloneableWithImageAsFirstChild) {
             // move the element to the image for edit
             target = firstChild;
-        } else if(isCloneableWithImageAsFirstChildAsBg){
+        } else if (isCloneableWithImageAsFirstChildAsBg) {
             // move the element to the image for edit
             target = firstChild.firstElementChild;
         }
@@ -38,13 +37,13 @@ export class ElementSettingsTarget extends MicroweberBaseClass {
 
 
     canDropInTarget(target) {
-        if(!target){
+        if (!target) {
             return false;
         }
 
-        if(target.classList && target.classList.contains('edit')) {
+        if (target.classList && target.classList.contains('edit')) {
             const noBlocksInThese = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'];
-            if(noBlocksInThese.indexOf(target.nodeName.toLowerCase()) !== -1) {
+            if (noBlocksInThese.indexOf(target.nodeName.toLowerCase()) !== -1) {
                 return false;
             }
 
@@ -52,10 +51,10 @@ export class ElementSettingsTarget extends MicroweberBaseClass {
 
         var can = DomService.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['allow-drop', 'nodrop']);
 
-        if(!can) {
-            if(target.classList && target.classList.contains('mw-col')) {
-                if(target.firstElementChild && target.firstElementChild.classList.contains('mw-col-container')) {
-                    if(target.firstElementChild.firstElementChild && target.firstElementChild.firstElementChild.classList.contains('allow-drop')) {
+        if (!can) {
+            if (target.classList && target.classList.contains('mw-col')) {
+                if (target.firstElementChild && target.firstElementChild.classList.contains('mw-col-container')) {
+                    if (target.firstElementChild.firstElementChild && target.firstElementChild.firstElementChild.classList.contains('allow-drop')) {
                         can = true;
                     }
                 }
@@ -79,7 +78,33 @@ export class ElementSettingsTarget extends MicroweberBaseClass {
 
     }
 
+    canBeFreeDraggableElement(target) {
+        if (!target) {
+            return false;
+        }
+        var can = false;
+        var node = target;
+        if (node && node && node.nodeType === 1) {
+            var css = mw.CSSParser(node);
 
+            if (!css || !css.get) return;
+
+            var result = css.get.position();
+            if (result) {
+
+                if (result === 'absolute' || result === 'relative' || result === 'fixed' || result === 'sticky') {
+                    can = true;
+                }
+
+                if (result === 'static' || result === 'initial' || result === 'inherit' || result === 'unset' || result === 'revert') {
+                    can = false;
+                }
+            }
+
+        }
+        return can;
+
+    }
 
 
 }
