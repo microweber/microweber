@@ -336,6 +336,27 @@ export const CSSParser = function(el) {
         }
     }
 
+
+    f.position = function(){
+        return css.position;
+    }
+    f.top = function(){
+        return css.top;
+    }
+    f.left = function(){
+        return css.left;
+    }
+
+    f.zIndex = function(){
+        return css.zIndex;
+    }
+    f.display = function(){
+        return css.display;
+    }
+    f.overflow = function(){
+        return css.overflow;
+    }
+
     return {
         el: el,
         css: css,

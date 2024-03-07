@@ -357,7 +357,7 @@ export default {
                         }, 110)
 
 
-                    mw.app.wyswygEditor.initEditor(element);
+             //       mw.app.wyswygEditor.initEditor(element);
 
 
 
@@ -365,6 +365,41 @@ export default {
 
                 mw.app.liveEdit.handles.hide();
                 mw.app.liveEdit.pause();
+            });
+
+            mw.app.on('liveEditRefreshHandlesPosition', moduleId => {
+                mw.app.liveEdit.handles.reposition();
+            });
+
+            mw.top().app.on('mw.elementStyleEditor.applyCssPropertyToNode', function (data) {
+
+                //free draggable element
+                if(data.prop === 'position' && data.node) {
+                    if(
+                        data.val === 'static'
+                        || data.val === ''
+                        || data.val === null
+                        || data.val === 'initial'
+                        || data.val === 'inherit'
+                        || data.val === 'unset'
+                        || data.val === 'revert'
+                    ) {
+
+                        mw.top().app.liveEdit.elementHandleContent.elementActions.destroyFreeDraggableElement(data.node)
+                    //    mw.app.dispatch('liveEditRefreshHandlesPosition');
+
+                    }
+                    else if(
+                        data.val === 'absolute'
+                        || data.val === 'relative'
+                        || data.val === 'fixed'
+                        || data.val === 'sticky'
+                    ) {
+
+                        mw.top().app.liveEdit.elementHandleContent.elementActions.makeFreeDraggableElement(data.node)
+                        //mw.app.dispatch('liveEditRefreshHandlesPosition');
+                    }
+                }
             });
 
 

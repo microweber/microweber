@@ -5,6 +5,11 @@ import { ElementManager } from "../classes/element";
 export class FreeDraggableElementManager extends MicroweberBaseClass {
 
 
+    constructor() {
+        super();
+    }
+
+
     static toPercent(node, container){
         if(!node || node.nodeType !== 1) {
             return
@@ -38,6 +43,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
         const containerOff = ElementManager(container).offset();
 
+        mw.app.dispatch('liveEditRefreshHandlesPosition');
 
         let containerheight = 50;
 
@@ -92,34 +98,44 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
     }
 
     makeFreeDraggableElement(element) {
+        //$(element).draggable();
+        // make on percent
+        $(element).draggable(
+            {
+              //  containment: "parent",
+                scroll: false,
+                start: function (event, ui) {
 
-
-        const layout = $(element).parents( ".module-layouts").eq(0);
-        layout.append(grid.get(0))
-
-        $(element)
-            .draggable({
-                 grid: [ 20, 20 ],
-                 start: function( event, ui ) {
-
-                 },
-                 drag: function( event, ui ) {
-                    var snapTolerance = $(this).draggable('option', 'snapTolerance');
-                    var topRemainder = ui.position.top % 20;
-                    var leftRemainder = ui.position.left % 20;
-
-                    if (topRemainder <= snapTolerance) {
-                        ui.position.top = ui.position.top - topRemainder;
-                    }
-
-                    if (leftRemainder <= snapTolerance) {
-                        ui.position.left = ui.position.left - leftRemainder;
-                    }
                 },
-                containment: layout
-            })
-            .css("position", "absolute");
+                drag: function (event, ui) {
+                    mw.app.dispatch('liveEditRefreshHandlesPosition');
 
+                },
+                stop: function (event, ui) {
+
+                    mw.top().app.dispatch('mw.elementStyleEditor.applyCssPropertyToNode', {
+                        node: this[0],
+                        prop: 'top',
+                        val: $(this).position().top
+                    });
+
+                    mw.top().app.dispatch('mw.elementStyleEditor.applyCssPropertyToNode', {
+                        node: this[0],
+                        prop: 'left',
+                        val: $(this).position().left
+                    });
+
+                    mw.app.dispatch('liveEditRefreshHandlesPosition');
+
+                }
+            }
+        );
+
+
+        mw.app.dispatch('liveEditRefreshHandlesPosition');
+
+
+   //     $(element).draggable().css("position", "absolute");
     }
 
     destroyFreeDraggableElement(element) {

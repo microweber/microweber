@@ -79,6 +79,14 @@ export const liveEditComponent = () => {
     mw.app.registerChange = function(element){
         var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
         if(edit) {
+            mw.tools.foreachParents(edit, function () {
+                if (mw.tools.hasClass(this, 'edit')) {
+                    mw.tools.addClass(this, 'changed')
+                }
+            });
+         //   var editParents = mw.tools.firstParentOrCurrentWithClass(edit, 'edit');
+
+
             if(edit.getAttribute('rel') && edit.getAttribute('field')) {
                 edit.classList.add('changed');
                 mw.app.dispatch('editChanged', edit);
