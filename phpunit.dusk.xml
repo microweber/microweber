@@ -7,6 +7,11 @@
          colors="true"
 >
     <testsuites>
+
+        <testsuite name="MicroweberAdminTest">
+            <directory suffix="Test.php">./tests/Browser/Admin</directory>
+        </testsuite>
+
         <testsuite name="MicroweberCoreTests">
             <directory suffix="Test.php">./tests/Browser</directory>
             <exclude>./tests/Browser/Admin</exclude>
@@ -18,9 +23,7 @@
             <exclude>./tests/Browser/SlowTests</exclude>
             <exclude>./tests/Browser/FlakyTests</exclude>
         </testsuite>
-        <testsuite name="MicroweberAdminTest">
-            <directory suffix="Test.php">./tests/Browser/Admin</directory>
-        </testsuite>
+
 
         <testsuite name="MicroweberMultilanguageTests">
             <directory suffix="Test.php">./tests/Browser/Multilanguage</directory>
