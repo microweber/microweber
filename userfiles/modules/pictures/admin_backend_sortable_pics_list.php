@@ -142,7 +142,7 @@ $rand = 'pic-sorter-' . uniqid();
 
                 <?php
 
-                $tn = thumbnail($item['filename'], 480, 480, true); ?>
+                $tn = thumbnail($item['filename'], 880, 880); ?>
                 <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span>
                 <?php if ($key == 0): ?>
 
