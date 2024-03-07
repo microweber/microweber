@@ -69,9 +69,9 @@
                     $backupFileNamePrefix = str_slug($backupFileNamePrefix);
                     $backupFileNamePrefix = str_replace('-', '_', $backupFileNamePrefix);
                     ?>
-                    <input class="form-control" name="" style="width:100%" value="<?php echo $backupFileNamePrefix; ?>.zip" />
+                    <input class="form-control" name="backup_filename" style="width:100%" value="<?php echo $backupFileNamePrefix; ?>.zip" />
                 </div>
-            </div> 
+            </div>
 
         </div>
 
