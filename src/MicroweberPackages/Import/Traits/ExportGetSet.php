@@ -124,6 +124,10 @@ trait ExportGetSet
      */
     public function setExportFileName($filename)
     {
+        $filename = trim($filename);
+        $filename = str_slug($filename);
+        $filename = str_replace('-', '_', $filename);
+
         $this->exportFileName = $filename;
     }
 }
