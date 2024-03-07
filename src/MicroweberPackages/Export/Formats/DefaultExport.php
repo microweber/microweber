@@ -10,7 +10,6 @@ class DefaultExport implements ExportInterface
 	public $type = 'json';
 	public $data;
 	public $overwrite = false;
-    public $exportFileName = '';
 
 	public function __construct($data = array())
 	{
@@ -32,11 +31,6 @@ class DefaultExport implements ExportInterface
 		// start exporting
 	}
 
-    public function setExportFilename($name)
-    {
-        $this->exportFileName = $name;
-    }
-
 	protected function _generateFilename($name = false)
 	{
 		if ($name) {
@@ -45,7 +39,7 @@ class DefaultExport implements ExportInterface
 			$exportFilename = 'backup_' . date("Y-m-d-his") . '.' . $this->type;
 		}
 
-        if ($this->exportFileName) {
+        if (isset($this->exportFileName) && !empty($this->exportFileName)) {
             $exportFilename = $this->exportFileName . '.' . $this->type;
         }
 

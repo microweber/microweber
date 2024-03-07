@@ -8,6 +8,8 @@ trait ExportGetSet
      */
     public $exportWithZip = false;
 
+    public $exportFileName = false;
+
     /**
      * @param bool $bool
      * @return void
@@ -114,5 +116,18 @@ trait ExportGetSet
         } else {
             $this->skipTables[] = $tableOrTables;
         }
+    }
+
+    /**
+     * @param $filename
+     * @return void
+     */
+    public function setExportFileName($filename)
+    {
+        $filename = trim($filename);
+        $filename = str_slug($filename);
+        $filename = str_replace('-', '_', $filename);
+
+        $this->exportFileName = $filename;
     }
 }
