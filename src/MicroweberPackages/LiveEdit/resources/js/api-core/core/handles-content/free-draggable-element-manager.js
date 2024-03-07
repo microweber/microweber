@@ -41,12 +41,6 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
                     mw.app.dispatch('liveEditRefreshHandlesPosition');
 
-                    // $(this).css('z-index', 1000);
-                   // $(this).css('position', 'absolute');
-                 //   $(this).css('width', $(this).outerWidth());
-                  //  $(this).css('height', $(this).outerHeight());
-                 //   $(this).css('top', $(this).position().top);
-               //     $(this).css('left', $(this).position().left);
                 }
             }
         );

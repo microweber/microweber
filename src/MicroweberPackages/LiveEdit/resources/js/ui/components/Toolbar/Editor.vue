@@ -369,11 +369,6 @@ export default {
 
             mw.app.on('liveEditRefreshHandlesPosition', moduleId => {
                 mw.app.liveEdit.handles.reposition();
-                // mw.app.liveEdit.handles.hide();
-                // mw.app.liveEdit.pause();
-                // mw.app.liveEdit.handles.show();
-                // mw.app.liveEdit.play();
-
             });
 
             mw.top().app.on('mw.elementStyleEditor.applyCssPropertyToNode', function (data) {
