@@ -65,6 +65,10 @@ class Lang
     function current_lang()
     {
         $locale = app()->getLocale();
+        if($locale ==='none'){
+            $locale = 'en_US';
+
+        }
         if($locale ==='en'){
             $locale = 'en_US'; // for the multi language
         }
