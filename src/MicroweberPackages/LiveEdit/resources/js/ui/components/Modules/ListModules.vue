@@ -89,7 +89,7 @@ export default {
 
             if (filterKeyword != '' && filterKeyword) {
                 modulesFiltered = modulesFiltered.filter((item) => {
-                    return item.name.toUpperCase().includes(filterKeyword.toUpperCase())
+                    return item.keywords.toUpperCase().includes(filterKeyword.toUpperCase())
                 });
             }
 

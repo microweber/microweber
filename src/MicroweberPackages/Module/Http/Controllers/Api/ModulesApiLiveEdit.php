@@ -512,7 +512,7 @@ class ModulesApiLiveEdit extends Controller
                             'description' => $module_item['description'],
                             'settings' => $module_item['settings'],
                             'as_element' => $module_item['as_element'],
-                            'keywords'=>$module_item['keywords'] ?? '',
+                            'keywords'=>$module_item['keywords'] ?? $module_item['name'],
                         ];
 
                         if (isset($hide_from_display_list)) {
