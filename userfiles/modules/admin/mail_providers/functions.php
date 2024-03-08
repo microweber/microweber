@@ -166,7 +166,8 @@ function sync_mail_subscriber($params) {
         $provider = new \MicroweberPackages\Utils\Mail\MailSubscriber();
 
         if (isset($params['list_id'])) {
-            $getFormLists = get_form_lists("?id=".$params['list_id'].'&limit=1');
+          //  $getFormLists = get_form_lists("?id=".$params['list_id'].'&limit=1');
+            $getFormLists = get_form_lists(['id' => $params['list_id'],'limit'=>1]);
             if (isset($getFormLists[0]['title'])) {
                 $provider->setListTitle($getFormLists[0]['title']);
             }
