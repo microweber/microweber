@@ -1578,6 +1578,8 @@ class FrontendController extends Controller
             $robots .= 'Disallow: /database/' . "\n";
             $robots .= 'Disallow: /vendor/' . "\n";
             $robots .= 'Disallow: /src/' . "\n";
+            $robots .= 'Disallow: /api/' . "\n";
+            $robots .= 'Disallow: /admin/' . "\n";
             $robots .= 'Disallow: /userfiles/modules/*/*.php' . "\n";
             $robots .= 'Disallow: /userfiles/templates/*/*.php' . "\n";
         }
