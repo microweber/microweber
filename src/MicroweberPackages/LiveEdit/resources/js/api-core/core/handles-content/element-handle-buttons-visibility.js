@@ -277,6 +277,11 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
 
     }
 
+    shouldShowFreeDraggableButton(target) {
+        var selfVisible = mw.app.liveEdit.elementHandleContent.settingsTarget.canBeFreeDraggableElement(target);
+        return selfVisible;
+    }
+
 
     shouldShowAlignImageButton(target) {
         var selfVisible = true;

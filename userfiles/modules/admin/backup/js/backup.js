@@ -109,6 +109,7 @@ mw.backup = {
         var include_templates = [];
         var include_media = 0;
         backupType = $('input[name*="backup_by_type"]:checked');
+        backupFilename = $('input[name*="backup_filename"]');
 
         if (backupType.val() == 'custom') {
             $('.js-include-tables:checked').each(function () {
@@ -134,6 +135,7 @@ mw.backup = {
             mw.backup.export({
                 session_id: data.session_id,
                 type: backupType.val(),
+                backup_filename: backupFilename.val(),
                 include_media: include_media,
                 include_tables: include_tables,
                 include_modules: include_modules,
@@ -149,6 +151,7 @@ mw.backup = {
 
     next: function () {
 
+        backupFilename = $('input[name*="backupFilename"]');
         backupType = $('input[name*="backup_by_type"]:checked');
 
         $('#mw-backup-type').hide();

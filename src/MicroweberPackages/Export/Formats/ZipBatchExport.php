@@ -53,6 +53,10 @@ class ZipBatchExport extends DefaultExport
                 $customZipFileName = 'export_' . str_slug($this->exportOnlyTemplate) . date("Y-m-d-his");
             }
 
+            if (!empty($this->exportFileName)) {
+                $customZipFileName = $this->exportFileName;
+            }
+
             $generateFileName = $this->_generateFilename($customZipFileName);
 
             cache_save($generateFileName, $cacheKey, $this->_cacheGroupName, 60 * 10);

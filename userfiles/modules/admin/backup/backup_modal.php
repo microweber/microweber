@@ -9,6 +9,7 @@
 
             <div class="card bg-light mb-4">
                 <div class="card-body">
+
                     <label class="form-check py-2">
                         <input class="form-check-input mt-3 me-3" type="radio" name="backup_by_type" checked="checked" value="content" />
 
@@ -57,6 +58,20 @@
                 </div>
             </div>
 
+
+            <div class="card bg-light mb-4" style="width:100%">
+                    <div class="card-body">
+                        <label>
+                            <?php _e("Backup filename") ?>
+                        </label>
+                    <?php
+                    $backupFileNamePrefix = 'backup_'.site_hostname().'_'.time();
+                    $backupFileNamePrefix = str_slug($backupFileNamePrefix);
+                    $backupFileNamePrefix = str_replace('-', '_', $backupFileNamePrefix);
+                    ?>
+                    <input class="form-control" name="backup_filename" style="width:100%" value="<?php echo $backupFileNamePrefix; ?>" />
+                </div>
+            </div>
 
         </div>
 

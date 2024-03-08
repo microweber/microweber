@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\LiveEdit;
+namespace MicroweberPackages\Modules\ContactForm\tests\Browser;
 
 use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;

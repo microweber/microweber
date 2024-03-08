@@ -118,6 +118,6 @@ class RestoreBackupTest extends TestCase
 
 
         $findUser = User::where('username', $randUserneme)->first();
-        $this->assertEquals($userOriginalPassword, $findUser->password);
+        $this->assertEquals($newUserPassword, $findUser->password);
     }
 }

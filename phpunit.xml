@@ -60,6 +60,8 @@
 
         <testsuite name="MicroweberModulesImportToolTests">
             <directory>./userfiles/modules/admin/import_export_tool/src/tests/</directory>
+            <exclude>./userfiles/modules/*/src/tests/Browser/</exclude>
+
         </testsuite>
 
 <!--        <testsuite name="MicroweberTestMultilanguage">-->

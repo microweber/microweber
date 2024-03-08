@@ -183,6 +183,8 @@ class BackupController
         $backup = new GenerateBackup();
         $backup->setSessionId($request->get('session_id'));
         $backup_by_type = $request->get('type');
+        $backup_filename = $request->get('backup_filename');
+
         if ($backup_by_type == 'custom') {
 
             $includeMedia = false;
@@ -210,6 +212,10 @@ class BackupController
             $backup->setExportAllData(true);
             $backup->setExportMedia(true);
             $backup->setExportWithZip(true);
+        }
+
+        if (!empty($backup_filename)) {
+            $backup->setExportFileName($backup_filename);
         }
 
         return $backup->start();

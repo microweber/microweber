@@ -83,6 +83,8 @@ $rand = 'pic-sorter-' . uniqid();
 
                         let i = 0; l = urls.length;
 
+                        mw.spinner({element: dialog.dialogContainer, size: 32, decorate: true})
+
                         for ( ; i < l; i++) {
 
                            await after_upld(urls[i], 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
@@ -142,7 +144,7 @@ $rand = 'pic-sorter-' . uniqid();
 
                 <?php
 
-                $tn = thumbnail($item['filename'], 480, 480, true); ?>
+                $tn = thumbnail($item['filename'], 880, 880); ?>
                 <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span>
                 <?php if ($key == 0): ?>
 

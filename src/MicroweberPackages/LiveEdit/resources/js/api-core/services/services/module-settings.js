@@ -208,7 +208,7 @@ export class ModuleSettings extends MicroweberBaseClass {
         let dialogSettings = {
             // url: route('live_edit.module_settings') + '?id=' + moduleId+ '&type=' + moduleType+ '&live_edit=true',
             url: src,
-            width: 320,
+            width: 370,
             height: 'auto',
             draggable: true,
             skin: 'mw_modal_simple mw_modal_live_edit_settings',

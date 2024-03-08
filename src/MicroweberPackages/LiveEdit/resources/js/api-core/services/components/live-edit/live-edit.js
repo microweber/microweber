@@ -10,6 +10,7 @@ import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler";
 import LiveEditImageDialog from "./live-edit-image-dialog";
 import {LiveEditLayoutBackground} from "./live-edit-layout-background";
 import LiveEditFontManager from "./live-edit-font-manager";
+import { FreeDraggableElementManager } from '../../../core/handles-content/free-draggable-element-manager.js';
 
 
 export const liveEditComponent = () => {
@@ -62,6 +63,7 @@ export const liveEditComponent = () => {
   //  mw.app.state =mw.liveEditState;
     mw.app.editImageDialog =  new LiveEditImageDialog();
     mw.app.layoutBackground =  new LiveEditLayoutBackground();
+    mw.app.freeDraggableElementManager =  new FreeDraggableElementManager();
     mw.app.wyswygEditor =  new WyswygEditor();
 
     mw.app.fontManager =  new LiveEditFontManager();
@@ -79,6 +81,14 @@ export const liveEditComponent = () => {
     mw.app.registerChange = function(element){
         var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
         if(edit) {
+            mw.tools.foreachParents(edit, function () {
+                if (mw.tools.hasClass(this, 'edit')) {
+                    mw.tools.addClass(this, 'changed')
+                }
+            });
+         //   var editParents = mw.tools.firstParentOrCurrentWithClass(edit, 'edit');
+
+
             if(edit.getAttribute('rel') && edit.getAttribute('field')) {
                 edit.classList.add('changed');
                 mw.app.dispatch('editChanged', edit);

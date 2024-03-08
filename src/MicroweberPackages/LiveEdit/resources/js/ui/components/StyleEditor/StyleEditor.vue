@@ -31,7 +31,8 @@ export default {
                 'animations',
                 'classes',
                 'roundedCorners',
-                'border'
+                'border',
+                'position',
             ];
 
             mw.top().app.dispatch('cssEditorSettings', styleEditorSettings);
@@ -69,6 +70,9 @@ export default {
             return src;
 
         },
+
+
+        // deprecated
         showStyleEditorModal: function () {
 
 
@@ -101,7 +105,19 @@ export default {
                 var styleEditorSettings = {
                     fieldSettings: {}
                 };
-                styleEditorSettings.fieldSettings.components = ['elementSelector', 'typography', 'spacing', 'background', 'border'];
+                styleEditorSettings.fieldSettings.components = [
+                    'elementSelector',
+                    'typography',
+                    'spacing',
+                    'container',
+                    'grid',
+                    'background',
+                    'animations',
+                    'classes',
+                    'roundedCorners',
+                    'border',
+                    'position',
+                ];
 
                 mw.top().app.dispatch('cssEditorSettings', styleEditorSettings);
 
