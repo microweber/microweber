@@ -10,12 +10,14 @@ use MicroweberPackages\Export\Formats\JsonExport;
 use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Export\Formats\XmlExport;
 use MicroweberPackages\Export\Formats\ZipBatchExport;
+use MicroweberPackages\Import\Traits\ExportFileNameGetSet;
 use MicroweberPackages\Import\Traits\ExportGetSet;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class Export
 {
     use ExportGetSet;
+    use ExportFileNameGetSet;
 
     public $type = 'json';
     public $exportData = ['categoryIds' => [], 'contentIds' => [], 'tables' => []];

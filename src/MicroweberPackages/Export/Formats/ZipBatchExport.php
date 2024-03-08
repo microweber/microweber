@@ -5,12 +5,14 @@ namespace MicroweberPackages\Export\Formats;
 use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Export\SessionStepper;
+use MicroweberPackages\Import\Traits\ExportFileNameGetSet;
 use MicroweberPackages\Import\Traits\ExportGetSet;
 use function Symfony\Component\String\s;
 
 class ZipBatchExport extends DefaultExport
 {
     use ExportGetSet;
+    use ExportFileNameGetSet;
 
     /**
      * The type of export
