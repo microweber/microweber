@@ -35,7 +35,7 @@ class LiveEditBackgroundImageTest extends DuskTestCase
             $params = array(
                 'title' => 'My new page for typing ' . time(),
                 'content_type' => 'page',
-                'content' => '<module type="layouts" template="header/skin-1" id="' . $moduleIdRandom . '"/>
+                'content' => '<module type="layouts" template="content/skin-2" id="' . $moduleIdRandom . '"/>
     <module type="layouts" template="features/skin-2" id="features-skin-2"/>
             ',
                 'subtype' => 'static',
@@ -66,8 +66,10 @@ class LiveEditBackgroundImageTest extends DuskTestCase
 
 
             });
-
+            $browser->pause(1500);
          //  $browser->click('#' . $moduleIdRandom);
+    //        $browser->click('#' . $moduleIdRandom . ' .module-background');
+            $browser->click('#' . $moduleIdRandom . ' .mw-layout-container');
     //        $browser->click('#' . $moduleIdRandom . ' .module-background');
           //  $browser->click('#' . $moduleIdRandom . ' .regular-mode');
             $browser->pause(1500);
@@ -85,9 +87,19 @@ class LiveEditBackgroundImageTest extends DuskTestCase
 
             $browser->switchFrame($iframeElement);
             //bg--image-picker img
+            //bg--image-picker
 
-            $browser->waitFor('#bg--image-picker img', 30);
-            $browser->click('#bg--image-picker img');
+            //mw-filepicker-component
+            if($browser->element('#bg--image-picker img')){
+                $browser->waitFor('#bg--image-picker img', 30);
+                $browser->click('#bg--image-picker img');
+            } else {
+                $browser->waitFor('#bg--image-picker .mw-filepicker-component', 30);
+                $browser->click('#bg--image-picker .mw-filepicker-component');
+            }
+
+
+
 
 
             $browser->switchFrameDefault();
@@ -296,7 +308,7 @@ class LiveEditBackgroundImageTest extends DuskTestCase
                 'title' => 'My new page for typing ' . time(),
                 'content_type' => 'page',
                 'content' => '
-                <module type="layouts" template="header/skin-1" id="' . $moduleIdRandom . '"/>
+                <module type="layouts" template="content/skin-2" id="' . $moduleIdRandom . '"/>
             ',
                 'subtype' => 'static',
                 'is_active' => 1,
