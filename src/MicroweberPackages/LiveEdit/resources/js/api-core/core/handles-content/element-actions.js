@@ -14,7 +14,7 @@ export class ElementActions extends MicroweberBaseClass {
         this.proto = proto;
 
         this.handleIcons = new HandleIcons();
-        this.freeDraggableElementManager = mw.top().app.freeDraggableElementManager;
+
 
     }
 
@@ -524,10 +524,10 @@ export class ElementActions extends MicroweberBaseClass {
     }
 
     makeFreeDraggableElement(element) {
-        this.freeDraggableElementManager.makeFreeDraggableElement(element);
+        mw.app.freeDraggableElementManager.makeFreeDraggableElement(element);
     }
 
     destroyFreeDraggableElement(element) {
-        this.freeDraggableElementManager.destroyFreeDraggableElement(element);
+        mw.app.freeDraggableElementManager.destroyFreeDraggableElement(element);
     }
 }
