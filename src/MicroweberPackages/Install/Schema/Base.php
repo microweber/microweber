@@ -35,7 +35,7 @@ class Base
             'notifications' => 'integer',
             'settings' => 'text',
             'categories' => 'text',
-
+            'keywords'=>'text'
         ];
 
         return [
