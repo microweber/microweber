@@ -2,11 +2,13 @@
 namespace MicroweberPackages\Export\Formats;
 
 use MicroweberPackages\Export\Formats\Interfaces\ExportInterface;
+use MicroweberPackages\Import\Traits\ExportFileNameGetSet;
 use function backup_location;
 use function route;
 
 class DefaultExport implements ExportInterface
 {
+    use ExportFileNameGetSet;
 	public $type = 'json';
 	public $data;
 	public $overwrite = false;
