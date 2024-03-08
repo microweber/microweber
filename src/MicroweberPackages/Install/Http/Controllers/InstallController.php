@@ -272,6 +272,11 @@ class InstallController extends Controller
             Config::set('app.fallback_locale', 'en');
 
             if (isset($input['site_lang'])) {
+
+                if($input['site_lang'] === 'none'){
+                    $input['site_lang'] = 'en_US';
+                }
+
                 Config::set('app.locale', $input['site_lang']);
                 Config::set('microweber.site_lang', $input['site_lang']);
             }
