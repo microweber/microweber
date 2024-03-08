@@ -1084,7 +1084,8 @@ export class LiveEdit {
 
 
     getNoElementClasses = function () {
-        var noelements = ['mw-ui-col','edit', 'mw-col-container', 'mw-ui-col-container','container', 'img-holder','module'];
+        var _moveable = ['moveable-control', 'moveable-origin', 'moveable-line','moveable-direction', 'moveable-rotation', 'moveable-guideline-group']
+        var noelements = ['mw-ui-col','edit', 'mw-col-container', 'mw-ui-col-container','container', 'img-holder','module', ..._moveable];
         var noelements_le = ['mw-le-spacer','background-image-holder','mw-layout-overlay-container','mw-le-resizer','mw-layout-overlay-container','mw-layout-overlay','mw-layout-overlay-background','mw-layout-overlay-background-image','mw-layout-overlay-wrapper'];
 
 

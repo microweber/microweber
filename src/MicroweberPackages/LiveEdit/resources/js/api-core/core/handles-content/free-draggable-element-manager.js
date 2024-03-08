@@ -2,11 +2,16 @@ import MicroweberBaseClass from "../../services/containers/base-class";
 import { ElementManager } from "../classes/element";
 
 
+
+
 export class FreeDraggableElementManager extends MicroweberBaseClass {
 
 
     constructor() {
         super();
+         // mw.require('https://cdnjs.cloudflare.com/ajax/libs/moveable/0.53.0/moveable.min.js');
+         mw.top().app.canvas.getWindow().mw.require('https://cdnjs.cloudflare.com/ajax/libs/moveable/0.53.0/moveable.min.js');
+
     }
 
 
@@ -25,9 +30,11 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
         const off = getComputedStyle(node);
 
 
+
+
         el.css({
-            left: ((off.left / containerOff.width) * 100) + '%',
-            top: ((off.top / containerOff.height) * 100) + '%',
+            left: ((parseFloat(off.left) / containerOff.width) * 100) + '%',
+            top: ((parseFloat(off.top) / containerOff.height) * 100) + '%',
         })
 
     }
@@ -79,7 +86,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
         let containerheight = 50;
 
-        container.querySelectorAll('.element .element,.module').forEach(node => {
+        container.querySelectorAll('.element,.module').forEach(node => {
 
 
                 const el = ElementManager(node);
@@ -103,39 +110,111 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
     }
 
+    adapters = {
+        jQuery: function(element, container, scope) {
+            $(element).draggable(
+                        {
+                            // containment: container,
+                            scroll: false,
+                            start: function (event, ui) {
+
+                            },
+                            drag: function (event, ui) {
+
+
+                                scope.setLayoutHeight(container)
+
+                                mw.app.dispatch('liveEditRefreshHandlesPosition');
+
+                            },
+                            stop: function (event, ui) {
+
+
+
+                                FreeDraggableElementManager.toPercent(this);
+
+                                mw.app.dispatch('liveEditRefreshHandlesPosition');
+
+                            }
+                        }
+                    );
+        },
+        movable: function(element, container, scope) {
+            const draggable = true;
+            const throttleDrag = 1;
+            const edgeDraggable = false;
+            const startDragRotate = 0;
+            const throttleDragRotate = 0;
+
+            const Mvb = mw.top().app.canvas.getWindow().Moveable;
+
+
+            const mvb = new Mvb(container, {
+                 target: element,
+
+                 draggable: draggable,
+                 throttleDrag: throttleDrag,
+                 edgeDraggable: edgeDraggable,
+                 startDragRotate: startDragRotate,
+                 throttleDragRotate: throttleDragRotate,
+                 resizable: true,
+                 rotatable: true,
+                 snappable: true,
+                 scalable: true,
+                 snapContainer: container,
+
+                maxSnapElementGuidelineDistance: 50,
+                maxSnapElementGapDistance: 50,
+                snapRotataionThreshold: 5,
+                snapRotationDegrees: [0, 90, 180, 270],
+
+                isDisplaySnapDigit: true,
+                isDisplayInnerSnapDigit: true,
+                snapGap: true,
+                snapDirections: {"top":true,"left":true,"bottom":true,"right":true,"center":true,"middle":true},
+                elementSnapDirections: {"top":true,"left":true,"bottom":true,"right":true,"center":true,"middle":true},
+                snapThreshold: true,
+                elementGuidelines: [".element", ".module", ".container"],
+                hideDefaultLines: false,
+
+
+                // radius
+                roundable: false,
+                isDisplayShadowRoundControls: "horizontal",
+                roundClickable: "control",
+                roundPadding: 15
+
+             });
+             mvb.on("drag", e => {
+                console.log(e)
+                //  e.target.style.transform = e.transform;
+                 e.target.style.top = e.top + 'px';
+                 e.target.style.left = e.left + 'px';
+                 mw.top().app.liveEdit.handles.hide();
+                 mw.app.liveEdit.pause();
+                 scope.setLayoutHeight(container)
+             });
+             mvb.on("resize", e => {
+                e.target.style.width = `${e.width}px`;
+                e.target.style.height = `${e.height}px`;
+                e.target.style.transform = e.drag.transform;
+                mw.top().app.liveEdit.handles.hide();
+                mw.app.liveEdit.pause();
+                scope.setLayoutHeight(container)
+            });
+            mvb.on("rotate", e => {
+                e.target.style.transform = e.drag.transform;
+                mw.top().app.liveEdit.handles.hide();
+                mw.app.liveEdit.pause();
+                scope.setLayoutHeight(container)
+            });
+        }
+    }
+
     makeFreeDraggableElement(element, container) {
-
-        const scope = this;
-
-        $(element).draggable(
-            {
-                // containment: container,
-                scroll: false,
-                start: function (event, ui) {
-
-                },
-                drag: function (event, ui) {
-
-
-                    scope.setLayoutHeight(container)
-
-                    mw.app.dispatch('liveEditRefreshHandlesPosition');
-
-                },
-                stop: function (event, ui) {
-
-                    FreeDraggableElementManager.toPercent(this);
-
-                    mw.app.dispatch('liveEditRefreshHandlesPosition');
-
-                }
-            }
-        );
-
-
+        const adapter = 'movable';
+        this.adapters[adapter](element, container, this);
         mw.app.dispatch('liveEditRefreshHandlesPosition');
-
-
     }
 
     destroyFreeDraggableElement(element) {
