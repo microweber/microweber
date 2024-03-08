@@ -22,6 +22,8 @@ jobs:
       - uses: ./.github/actions/setup-php
         with:
           php_version: ${{ matrix.php-versions }}
+          extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
+          coverage: xdebug
       - name: Npm install
         uses: actions/setup-node@v3
         with:
