@@ -172,12 +172,22 @@ class DispatchGoogleEventsJs
         $userId = user_id();
 
         $convertedEventsJs = '';
+        $convertedEventsJs .= 'window.dataLayer = window.dataLayer || [];' . "\n";
+        $convertedEventsJs .= 'if (typeof(gtag) === "undefined") {' . "\n";
+        $convertedEventsJs .= 'function gtag(){dataLayer.push(arguments);}' . "\n";
+        $convertedEventsJs .= '}' . "\n";
         $convertedEventsJs .= 'if (typeof(gtag) !== "undefined") {' . "\n";
 
         if ($userId) {
             $convertedEventsJs .= "gtag('config', '$measurementId', {'user_id': '$userId'}); \n";
             $convertedEventsJs .= "gtag('set', {'user_id': '$userId'}); \n";
         }
+        $convertedEventsJs .= "gtag('consent', 'default', {
+              'ad_storage': 'granted',
+              'ad_user_data': 'granted',
+              'ad_personalization': 'granted',
+              'analytics_storage': 'granted'
+            });" . "\n";
 
 
         $getUser = app()->user_manager->get_by_id($userId);
