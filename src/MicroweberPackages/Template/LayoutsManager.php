@@ -1014,6 +1014,11 @@ class LayoutsManager
                         }
                     }
                 }
+
+                if($css_cont_new != ''){
+                    $css_cont_new = str_ireplace(userfiles_url(), '../../', $css_cont_new);
+                }
+
                 $option = array();
                 $option['option_value'] = $css_cont_new;
                 $option['option_key'] = 'template_css';
