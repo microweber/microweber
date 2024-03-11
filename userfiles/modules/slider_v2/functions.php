@@ -1,6 +1,7 @@
 <?php
 function getCssForSlide($slide)
 {
+        $elementsAlign = 'center';
         $imageBackgroundFilter = 'inherit';
         $imageBackgroundColor = 'inherit';
         $descriptionColor = 'inherit';
@@ -9,6 +10,9 @@ function getCssForSlide($slide)
         $descriptionFontSize = '18px';
         $titleFontSize = '36px';
         $imageBackgroundOpacity = 'inherit';
+        if (isset($slide['elementsAlign'])) {
+            $elementsAlign = $slide['elementsAlign'];
+        }
         if (isset($slide['imageBackgroundFilter'])) {
             $imageBackgroundFilter = $slide['imageBackgroundFilter'];
         }
@@ -67,10 +71,29 @@ function getCssForSlide($slide)
         // End Button CSS
 
 
+        // Slide Elements CSS
+        $slideElementsCss = '.js-slide-elements-'.$slide['itemId'].' { ';
+        $slideElementsCss .= 'display: flex; ';
+        $slideElementsCss .= 'flex-direction: column; ';
+        $slideElementsCss .= 'justify-content: center; ';
+
+        if ($elementsAlign == 'left') {
+            $slideElementsCss .= 'align-items: flex-start; ';
+            $slideElementsCss .= 'padding-left: 40px; ';
+        } else if ($elementsAlign == 'right') {
+            $slideElementsCss .= 'align-items: flex-end; ';
+            $slideElementsCss .= 'padding-right: 40px; ';
+        } else {
+            $slideElementsCss .= 'align-items: center; ';
+        }
+
+        $slideElementsCss .= '}';
 
         return '
 
     <style>
+        '.$slideElementsCss.'
+
         .js-slide-title-'.$slide['itemId'].' {
             color: '.$titleColor.' !important;
             font-size: '.$titleFontSize.' !important;

@@ -50,6 +50,18 @@ showMainEditTab: 'mainSettings'
                 'help' => 'Slide Description',
             ],
             [
+                'type' => 'select',
+                'label' => 'Elements Align',
+                'name' => 'elementsAlign',
+                'placeholder' => 'Elements Align',
+                'help' => 'Elements Align',
+                'options'=> [
+                    'left' => 'Left',
+                    'center' => 'Center',
+                    'right' => 'Right',
+                ],
+            ],
+            [
                 'type' => 'toggle',
                 'label' => 'Show button',
                 'name' => 'showButton',
