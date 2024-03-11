@@ -28,13 +28,28 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
         const containerOff = container.getBoundingClientRect();
         const el = ElementManager(node);
         const off = getComputedStyle(node);
-
-
-
-
         el.css({
             left: ((parseFloat(off.left) / containerOff.width) * 100) + '%',
             top: ((parseFloat(off.top) / containerOff.height) * 100) + '%',
+        })
+
+    }
+
+    static toPixel(node){
+
+
+        if(!node || node.nodeType !== 1) {
+            return
+        }
+
+        const el = ElementManager(node);
+
+        const css = getComputedStyle(node);
+
+
+        el.css({
+            left: css.left,
+            top: css.top,
         })
 
     }
@@ -86,7 +101,15 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
         let containerheight = 50;
 
+
+        const toBeFree = [];
+
+
         container.querySelectorAll('.element,.module').forEach(node => {
+
+                if(node.querySelector('.element,.module')) {
+                    return
+                }
 
 
                 const el = ElementManager(node);
@@ -95,18 +118,29 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
                 if(((off.offsetTop - containerOff.offsetTop) + off.height) > containerheight) {
                     containerheight = (off.offsetTop - containerOff.offsetTop) + off.height;
                 }
-                el.css({
-                    top: off.offsetTop - containerOff.offsetTop,
-                    left: off.offsetLeft - containerOff.offsetLeft,
-                    width: off.width,
-                    height: off.height,
-                    position: 'absolute'
+
+                toBeFree.push({
+                    el, node,
+                    css: {
+                        top: off.offsetTop - containerOff.offsetTop,
+                        left: off.offsetLeft - containerOff.offsetLeft,
+                        width: off.width,
+                        maxWidth: '100%',
+                        height: off.height,
+                        position: 'absolute'
+                    }
                 })
 
-                this.makeFreeDraggableElement(node, container)
+
+
+
 
         })
         container.style.height = containerheight + 'px';
+        toBeFree.forEach(obj => {
+            obj.el.css(obj.css)
+            this.makeFreeDraggableElement(obj.node, container)
+        })
 
     }
 
@@ -148,6 +182,31 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
             const Mvb = mw.top().app.canvas.getWindow().Moveable;
 
+            if(!Mvb.mw) {
+                Mvb.mw = {};
+                Mvb.mw._movables = [];
+
+                mw.top().app.liveEdit.handles.get('element').on('targetChange', node => {
+
+                    Mvb.mw._movables.forEach(instance => {
+                        instance.selfElement.style.display = 'none';
+                    });
+                    if(node.__mw_movable) {
+
+                        node.__mw_movable.selfElement.style.display = 'block';
+                    }
+
+                })
+                mw.top().app.liveEdit.handles.get('module').on('targetChange', node => {
+                    Mvb.mw._movables.forEach(instance => {
+                        instance.selfElement.style.display = 'none';
+                    })
+                    if(node.__mw_movable) {
+                        node.__mw_movable.selfElement.style.display = 'block';
+                    }
+                })
+            }
+
 
             const mvb = new Mvb(container, {
                  target: element,
@@ -160,7 +219,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
                  resizable: true,
                  rotatable: true,
                  snappable: true,
-                 scalable: true,
+                 scalable: false,
                  snapContainer: container,
 
                 maxSnapElementGuidelineDistance: 50,
@@ -184,6 +243,37 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
                 roundClickable: "control",
                 roundPadding: 15
 
+             });
+             element.dataset.hideResizer = 'true';
+             element.dataset.hideOutline = 'true';
+
+             Mvb.mw._movables.push(mvb)
+
+
+             element.__mw_movable = mvb;
+
+             mvb.selfElement.style.display = 'none';
+
+
+             mvb.on("dragStart", e => {
+                container.querySelectorAll('[data-hide-resizer]').forEach(node => {
+                    if(node !== e.target){
+                        FreeDraggableElementManager.toPixel(node);
+                    }
+                 })
+
+
+            });
+             mvb.on("dragEnd", e => {
+
+
+                 container.querySelectorAll('[data-hide-resizer]').forEach(node => {
+
+                        FreeDraggableElementManager.toPercent(node);
+
+                 })
+
+                 mw.app.dispatch('liveEditRefreshHandlesPosition');
              });
              mvb.on("drag", e => {
                 console.log(e)

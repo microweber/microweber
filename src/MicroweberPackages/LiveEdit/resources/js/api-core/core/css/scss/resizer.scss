@@ -42,3 +42,13 @@
     left: 0;
     width: 100%;
 }
+
+[data-hide-resizer="true"] {
+    .mw-le-resizer{
+        display: none !important;
+    }
+}
+[data-hide-outline="true"] {
+    border-color: transparent !important
+}
+

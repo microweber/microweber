@@ -230,6 +230,9 @@ export const Handle = function (options) {
         this.draggable.setElement(target);
         if(_currentTarget !== target || forced) {
             _currentTarget = target;
+            this.wrapper.get(0).dataset.hideResizer = _currentTarget.dataset.hideResizer === 'true';
+            this.wrapper.get(0).dataset.hideOutline = _currentTarget.dataset.hideOutline === 'true';
+
             this.dispatch('targetChange', target);
         }
         setTimeout(() => this.wrapper.addClass('mw-handle-active'), 1);
