@@ -1,6 +1,7 @@
 <?php
 function getCssForSlide($slide)
 {
+        $alignItems = 'center';
         $imageBackgroundFilter = 'inherit';
         $imageBackgroundColor = 'inherit';
         $descriptionColor = 'inherit';
@@ -9,6 +10,9 @@ function getCssForSlide($slide)
         $descriptionFontSize = '18px';
         $titleFontSize = '36px';
         $imageBackgroundOpacity = 'inherit';
+        if (isset($slide['alignItems'])) {
+            $alignItems = $slide['alignItems'];
+        }
         if (isset($slide['imageBackgroundFilter'])) {
             $imageBackgroundFilter = $slide['imageBackgroundFilter'];
         }
@@ -34,9 +38,62 @@ function getCssForSlide($slide)
             $imageBackgroundOpacity = $slide['imageBackgroundOpacity'];
         }
 
+
+        // Button CSS
+        $buttonCss = '.js-slide-button-'.$slide['itemId'].' {
+            font-size: '.$buttonFontSize.' !important;
+        ';
+
+        if (isset($slide['buttonBackgroundColor'])) {
+            $buttonCss .= 'background-color: '.$slide['buttonBackgroundColor'].' !important; ';
+        }
+        if (isset($slide['buttonBorderColor'])) {
+            $buttonCss .= 'border-color: '.$slide['buttonBorderColor'].' !important; ';
+        }
+        if (isset($slide['buttonTextColor'])) {
+            $buttonCss .= 'color: '.$slide['buttonTextColor'].' !important; ';
+        } else {
+            $buttonCss .= 'color: '.$descriptionColor.' !important ';
+        }
+        $buttonCss .= '
+        }';
+        // Hover Button CSS
+         $buttonCss .= '.js-slide-button-'.$slide['itemId'].':hover {
+         ';
+            if (isset($slide['buttonBackgroundHoverColor'])) {
+                $buttonCss .= 'background-color: '.$slide['buttonBackgroundHoverColor'].' !important; ';
+            }
+            if (isset($slide['buttonTextHoverColor'])) {
+                $buttonCss .= 'color: '.$slide['buttonTextHoverColor'].' !important; ';
+            }
+          $buttonCss .= '
+        }';
+        // End Button CSS
+
+
+        // Slide Elements CSS
+        $slideItemsCss = '.js-slide-elements-'.$slide['itemId'].' { ';
+        $slideItemsCss .= 'display: flex; ';
+        $slideItemsCss .= 'flex-direction: column; ';
+        $slideItemsCss .= 'justify-content: center; ';
+
+        if ($alignItems == 'left') {
+            $slideItemsCss .= 'align-items: flex-start; ';
+            $slideItemsCss .= 'padding-left: 40px; ';
+        } else if ($alignItems == 'right') {
+            $slideItemsCss .= 'align-items: flex-end; ';
+            $slideItemsCss .= 'padding-right: 40px; ';
+        } else {
+            $slideItemsCss .= 'align-items: center; ';
+        }
+
+        $slideItemsCss .= '}';
+
         return '
 
     <style>
+        '.$slideItemsCss.'
+
         .js-slide-title-'.$slide['itemId'].' {
             color: '.$titleColor.' !important;
             font-size: '.$titleFontSize.' !important;
@@ -45,10 +102,9 @@ function getCssForSlide($slide)
             color: '.$descriptionColor.' !important;
             font-size: '.$descriptionFontSize.' !important;
         }
-        .js-slide-button-'.$slide['itemId'].' {
-            color: '.$descriptionColor.' !important;
-            font-size: '.$buttonFontSize.' !important;
-        }
+
+        '.$buttonCss.'
+
         .js-slide-image-'.$slide['itemId'].' {
             background-size: cover;
             background-repeat: no-repeat;

@@ -25,7 +25,14 @@
                                 <svg fill="none" xmlns="http://www.w3.org/2000/svg" class="icon" width="32" height="32" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
                             </span>
 
-                        <input v-model="filterKeyword" autofocus type="text" placeholder="Type to Search..." class="modules-list-search-field form-control rounded-0">
+                        <input v-model="filterKeyword" autofocus type="search" placeholder="Type to Search..." class="modules-list-search-field form-control rounded-0">
+
+                        <span v-show="filterKeyword.length > 0" style="position: absolute; cursor: pointer;color: #aeaeae;top: 15px;right: 13px;padding: 3px;" v-on:click="filterClearKeyword()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"></path>
+                            </svg>
+                        </span>
+
                     </div>
 
                     <ul class="modules-list-categories py-5">
@@ -277,6 +284,10 @@ export default {
 
         getLayoutsListFromService(cache) {
             return mw.app.layouts.list(cache);
+        },
+        filterClearKeyword() {
+            this.filterKeyword = '';
+            this.filterLayouts();
         },
         searchInAll() {
             this.filterCategory = '';

@@ -56,20 +56,25 @@ class PostController extends AdminController
             app()->content_manager->define_constants($data);
         }
 
-        $layout_options = array();
-        $layout_options['site_template'] = ACTIVE_SITE_TEMPLATE;
-        $layout_options['no_cache'] = true;
-        $layout_options['no_folder_sort'] = true;
-        $layout_options['content_type'] = 'post';
+        return view('post::admin.posts.edit',$data);
 
-        $layouts = mw()->layouts_manager->get_all($layout_options);
-        if (empty($layouts)) {
-            return view('post::admin.posts.edit',$data);
-        }
+        //@todo
 
-        $data['allLayouts'] = $layouts;
-
-        return view('post::admin.posts.create',$data);
+//        $layout_options = array();
+//        $layout_options['site_template'] = ACTIVE_SITE_TEMPLATE;
+//        $layout_options['no_cache'] = true;
+//        $layout_options['no_folder_sort'] = true;
+//        $layout_options['content_type'] = 'post';
+//
+//        $layouts = mw()->layouts_manager->get_all($layout_options);
+//
+//        if (empty($layouts)) {
+//            return view('post::admin.posts.edit',$data);
+//        }
+//
+//        $data['allLayouts'] = $layouts;
+//
+//        return view('post::admin.posts.create',$data);
     }
 
     public function edit(Request $request, $id) {
