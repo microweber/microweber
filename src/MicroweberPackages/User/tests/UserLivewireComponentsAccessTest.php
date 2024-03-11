@@ -37,7 +37,11 @@ class UserLivewireComponentsAccessTest extends TestCase
 
     public function testIfCanViewComponentAsAdmin()
     {
-
+        $option = array();
+        $option['option_value'] = 'n';
+        $option['option_key'] = 'is_active';
+        $option['option_group'] = 'multilanguage_settings';
+        save_option($option);
         $this->actingAsAdmin();
 
         foreach ($this->componentsList as $component) {
@@ -48,6 +52,11 @@ class UserLivewireComponentsAccessTest extends TestCase
 
     public function testIfCannotViewComponentAsUser()
     {
+        $option = array();
+        $option['option_value'] = 'n';
+        $option['option_key'] = 'is_active';
+        $option['option_group'] = 'multilanguage_settings';
+        save_option($option);
         $this->actingAsUser();
         foreach ($this->componentsList as $component) {
              Livewire::test($component)->assertUnauthorized();
