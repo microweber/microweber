@@ -3,6 +3,7 @@
 
 namespace MicroweberPackages\Menu\tests;
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;
 
 class MenuManagerTest extends TestCase
@@ -29,6 +30,7 @@ class MenuManagerTest extends TestCase
             'title' => $this->page_title,
             'content_type' => 'page',
             'is_active' => 1,
+            'url'=> 'test-page-' . uniqid(),
         ];
         $this->page_id = save_content($params);
         $this->assertGreaterThan(0, $this->page_id);
@@ -122,8 +124,15 @@ class MenuManagerTest extends TestCase
         $params = array(
             'id' => $menuItemOfSubpage['id'],
             'parent_id' => $menuItemOfParentPage['id'],
+            'url'=>site_url().'this-is-the-url/custom-url'
         );
         $menu_item_add_page = app()->menu_manager->menu_item_save($params);
+
+
+        $findSavedMenu = DB::table('menus')->where('id', $menu_item_add_page)->first();
+        $this->assertEquals($findSavedMenu->url, '{SITE_URL}this-is-the-url/custom-url');
+
+
         $testIsInMenu = is_in_menu( $menu['id'], $subpage_id);
         $this->assertTrue($testIsInMenu);
 

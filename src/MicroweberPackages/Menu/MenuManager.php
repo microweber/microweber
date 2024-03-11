@@ -111,7 +111,7 @@ class MenuManager
 
 
 
-        if (isset($data_to_save['url'])  and $data_to_save['url'] != false and !empty($data_to_save['url'])) {
+        if (isset($data_to_save['url']) && !empty($data_to_save['url'])) {
             $data_to_save['url'] =app()->url_manager->replace_site_url($data_to_save['url']);
         }
 
@@ -133,6 +133,7 @@ class MenuManager
         }
 
         $saveMenu->save();
+
         $this->app->cache_manager->delete('content');
         $this->app->cache_manager->delete('content_fields');
         $this->app->cache_manager->delete('content_fields');
