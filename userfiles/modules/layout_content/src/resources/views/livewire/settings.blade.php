@@ -54,7 +54,7 @@ showMainEditTab: 'mainSettings'
                 'help' => 'Enter Button Text',
             ],
             [
-                'type' => 'url',
+                'type' => 'link-picker',
                 'label' => 'Button Link',
                 'name' => 'buttonLink',
                 'placeholder' => 'https://yourwebsite.com',
