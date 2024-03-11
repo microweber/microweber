@@ -51,10 +51,10 @@ showMainEditTab: 'mainSettings'
             ],
             [
                 'type' => 'select',
-                'label' => 'Elements Align',
-                'name' => 'elementsAlign',
-                'placeholder' => 'Elements Align',
-                'help' => 'Elements Align',
+                'label' => 'Align Items',
+                'name' => 'alignItems',
+                'placeholder' => 'Align Items',
+                'help' => 'Align Items',
                 'options'=> [
                     'left' => 'Left',
                     'center' => 'Center',

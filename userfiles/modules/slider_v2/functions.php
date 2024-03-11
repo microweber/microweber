@@ -1,7 +1,7 @@
 <?php
 function getCssForSlide($slide)
 {
-        $elementsAlign = 'center';
+        $alignItems = 'center';
         $imageBackgroundFilter = 'inherit';
         $imageBackgroundColor = 'inherit';
         $descriptionColor = 'inherit';
@@ -10,8 +10,8 @@ function getCssForSlide($slide)
         $descriptionFontSize = '18px';
         $titleFontSize = '36px';
         $imageBackgroundOpacity = 'inherit';
-        if (isset($slide['elementsAlign'])) {
-            $elementsAlign = $slide['elementsAlign'];
+        if (isset($slide['alignItems'])) {
+            $alignItems = $slide['alignItems'];
         }
         if (isset($slide['imageBackgroundFilter'])) {
             $imageBackgroundFilter = $slide['imageBackgroundFilter'];
@@ -72,27 +72,27 @@ function getCssForSlide($slide)
 
 
         // Slide Elements CSS
-        $slideElementsCss = '.js-slide-elements-'.$slide['itemId'].' { ';
-        $slideElementsCss .= 'display: flex; ';
-        $slideElementsCss .= 'flex-direction: column; ';
-        $slideElementsCss .= 'justify-content: center; ';
+        $slideItemsCss = '.js-slide-elements-'.$slide['itemId'].' { ';
+        $slideItemsCss .= 'display: flex; ';
+        $slideItemsCss .= 'flex-direction: column; ';
+        $slideItemsCss .= 'justify-content: center; ';
 
-        if ($elementsAlign == 'left') {
-            $slideElementsCss .= 'align-items: flex-start; ';
-            $slideElementsCss .= 'padding-left: 40px; ';
-        } else if ($elementsAlign == 'right') {
-            $slideElementsCss .= 'align-items: flex-end; ';
-            $slideElementsCss .= 'padding-right: 40px; ';
+        if ($alignItems == 'left') {
+            $slideItemsCss .= 'align-items: flex-start; ';
+            $slideItemsCss .= 'padding-left: 40px; ';
+        } else if ($alignItems == 'right') {
+            $slideItemsCss .= 'align-items: flex-end; ';
+            $slideItemsCss .= 'padding-right: 40px; ';
         } else {
-            $slideElementsCss .= 'align-items: center; ';
+            $slideItemsCss .= 'align-items: center; ';
         }
 
-        $slideElementsCss .= '}';
+        $slideItemsCss .= '}';
 
         return '
 
     <style>
-        '.$slideElementsCss.'
+        '.$slideItemsCss.'
 
         .js-slide-title-'.$slide['itemId'].' {
             color: '.$titleColor.' !important;
