@@ -3,6 +3,22 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [2.0.13] - 2024-03-11
+- Maintenance release
+- Fixes on the backup module
+- Fixes on the contact form module
+- Fixes on the menu module in multilanguage mode
+- Fixes on button link picker in multilanguage mode
+- Fixes on google analytics module
+- Fixes on social links module
+- Various fixes on the live edit
+- Added marque module
+- Added text typing effect module
+- Other issues
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.12...2.0.13 "")
+
+
+
 ## [2.0.12] - 2024-02-19
 - Maintenance release
 - Fix display of text editor on small screen
@@ -12,7 +28,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix modal window not closing if you are focused on color picker field 
 - Fix CRTL+S not working in the text editor if you are with caps lock on or on non-latin keyboard
 - Other issues
-- [See all changes...](https://github.com/microweber/microweber/compare/2.0.10...2.0.11 "")
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.11...2.0.12 "")
 
 
 ## [2.0.11] - 2024-02-16
