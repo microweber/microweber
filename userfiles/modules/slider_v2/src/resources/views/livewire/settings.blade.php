@@ -62,6 +62,20 @@ showMainEditTab: 'mainSettings'
                 'help' => 'Button text',
             ],
             [
+                'type' => 'color',
+                'label' => 'Button Background color',
+                'name' => 'buttonBackgroundColor',
+                'placeholder' => 'Button background color',
+                'help' => 'Button background color',
+            ],
+            [
+                'type' => 'color',
+                'label' => 'Button text color',
+                'name' => 'buttonTextColor',
+                'placeholder' => 'Button text color',
+                'help' => 'Button text color',
+            ],
+            [
                 'type' => 'range',
                 'label' => 'Button Font Size',
                 'name' => 'buttonFontSize',
