@@ -370,7 +370,7 @@ class OrderManager
                 if($notifiables){
                     $product = Product::find($item['rel_id']);
                     if ($product) {
-                        Notification::send($notifiables, new ProductOutOfStockNotification($product));
+                        Notification::sendNow($notifiables, new ProductOutOfStockNotification($product));
                     }
                 }
             }

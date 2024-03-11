@@ -189,7 +189,7 @@ class UserCommentReplyComponent extends Component
         RateLimiter::hit('save-comment:'.$hasRateLimiterId);
 
        // event(new NewComment($comment));
-      //  Notification::send(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
+      //  Notification::sendNow(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
 
         if ($needsApproval) {
             $this->successMessage = _e('Your comment has been added, Waiting moderation.', true);
