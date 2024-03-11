@@ -731,7 +731,7 @@ class FormsManager
 
         $adminUsers = (User::whereIsAdmin(1)->get());
         if ($adminUsers and $adminUsers->count() != 0) {
-            Notification::send($adminUsers, new NewFormEntry($formModel));
+            Notification::sendNow($adminUsers, new NewFormEntry($formModel));
         }
 
         if ($skip_saving_emails == 'y') {

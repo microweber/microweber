@@ -278,7 +278,7 @@ class NotificationsManager
     {
         $notifyAdmin = User::where('is_admin', 1)->first();
         if ($notifyAdmin) {
-            \Illuminate\Support\Facades\Notification::send($notifyAdmin, new LegacyNotification($params));
+            \Illuminate\Support\Facades\Notification::sendNow($notifyAdmin, new LegacyNotification($params));
         }
 
 
