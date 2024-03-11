@@ -37,7 +37,7 @@ export default {
         }
 
 
-        const iconClasses = ['icon', 'mw-icon', 'material-icons', 'mdi'];
+        const iconClasses = ['icon', 'mw-icon', 'material-icons', 'mdi', 'fa'];
         var isIcon = target.className.includes('mw-micon-');
 
         if (!isIcon) {
