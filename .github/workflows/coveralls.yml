@@ -88,9 +88,12 @@ jobs:
         node-version: 16
         cache: 'npm'
         cache-dependency-path: ./package-lock.json
-    - name: Copy vite config stub
+#    - name: Copy vite config stub
+#      run: |
+#        cp tests/vite.config.js.stub vite.config.js
+    - name: Replace requireEnv in vite.config.js
       run: |
-        cp tests/vite.config.js.stub vite.config.js
+        sed -i 's/requireEnv: true,/requireEnv: false,/' vite.config.js
     - name: Remove screenshot layout test
       run: |
         rm -f userfiles/templates/big/src/tests/Browser/BigScreenshotLayoutsTest.php
@@ -108,7 +111,7 @@ jobs:
         composer test:dusk
     - name: Combine JS coverage
       run: |
-        nyc merge tests/coverages/js/*.json tests/coverages/coverage.raw.json
+        nyc merge tests/coverages/js tests/coverages/coverage.raw.json
         istanbul report --dir tests/coverages/js-report --include tests/coverages/coverage.raw.json lcov
     - name: Combine clover file
       working-directory: ./tests

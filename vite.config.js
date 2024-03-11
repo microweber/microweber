@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
+import istanbul from 'vite-plugin-istanbul';
 
 export default defineConfig({
     build: {
@@ -33,6 +34,16 @@ export default defineConfig({
             ],
             publicDirectory: "public",
             refresh: true,
+        }),
+
+
+        istanbul({
+            include: 'src/MicroweberPackages/LiveEdit/*',
+            exclude: ['node_modules', 'tests/'],
+            extension: [ '.js', '.ts', '.vue' ],
+            forceBuildInstrument: true,
+            requireEnv: true,
+            //requireEnv: false,
         })
 
     ]

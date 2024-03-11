@@ -73,6 +73,23 @@ class GenerateBackupTest extends TestCase
 
         }
 
+        $zip = new \ZipArchive();
+        $zip->open($status['data']['filepath']);
+
+        $jsonFileInsideZip = str_replace('.zip', '.json', $status['data']['filepath']);
+        $jsonFileInsideZip = basename($jsonFileInsideZip);
+        $jsonFileContent = $zip->getFromName($jsonFileInsideZip);
+        $jsonBackupTest = json_decode($jsonFileContent, true);
+        foreach ($jsonBackupTest as $table=>$tableData) {
+            foreach ($tableData as $tableRow) {
+                foreach ($tableRow as $tableKey=>$tableValue) {
+                   if (str_contains($tableValue, site_url())) {
+                      $this->assertTrue(false, 'Json file has not replaced site urls.');
+                   }
+                }
+            }
+        }
+
         $this->assertTrue($done, 'Backup not created');
         $this->assertTrue(is_file($status['data']['filepath']), 'File not found');
 

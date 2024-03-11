@@ -221,7 +221,11 @@ class MailSubscriber
 
 			try {
 				$groupsApi = (new MailerLite($settings['api_key']))->groups();
-				$allGroups = $groupsApi->get();
+			//	$allGroups = $groupsApi->get();
+				$allGroups =  $groupsApi->where(['name' => $this->listTitle])->get();
+
+
+
 
                 $groupId = false;
 				foreach($allGroups as $group) {

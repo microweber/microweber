@@ -23,7 +23,6 @@ jobs:
         with:
           php_version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
-          coverage: xdebug
       - name: Npm install
         uses: actions/setup-node@v3
         with:
@@ -38,7 +37,8 @@ jobs:
       - name: Run Laravel Server
         #run: php artisan serve-test --env=testing > /dev/null 2>&1 &
         #run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /dev/null 2>&1 &
-        run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
+       # run: APP_ENV=testing && php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
+        run: APP_ENV=testing && php artisan serve-test-code-coverage --ansi --env=testing --no-interaction --quiet &
       - name: Run Dusk Tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/

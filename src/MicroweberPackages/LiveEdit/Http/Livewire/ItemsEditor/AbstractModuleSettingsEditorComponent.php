@@ -19,7 +19,6 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
     public array $editorSettings = [];
 
 
-
     public function getSettingsKey()
     {
         $editorSettings = $this->getEditorSettings();
@@ -46,8 +45,11 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
     public function getItems()
     {
         $settings = get_module_option($this->getSettingsKey(), $this->moduleId);
-       // $settings = app()->url_manager->replace_site_url_back($settings);
-         $json = @json_decode($settings, true);
+        $json = @json_decode($settings, true);
+
+        if (!empty($json)) {
+            $json = app()->url_manager->replace_site_url_back($json);
+        }
 
         if ($json) {
             $this->items = $json;
@@ -67,7 +69,6 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         $this->areYouSureDeleteModalOpened = true;
         $this->selectedItemsIds = [$itemId];
     }
-
 
 
     public function confirmDeleteSelectedItems()
@@ -126,11 +127,15 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
 
     public function saveItems($allItems)
     {
+        if (!empty($allItems)) {
+            $allItems = app()->url_manager->replace_site_url($allItems);
+        }
+        $allItemsJson = json_encode($allItems);
         $save = array(
             'option_group' => $this->moduleId,
             'module' => $this->moduleType,
             'option_key' => $this->getSettingsKey(),
-            'option_value' => json_encode($allItems)
+            'option_value' => $allItemsJson
         );
         save_option($save);
 

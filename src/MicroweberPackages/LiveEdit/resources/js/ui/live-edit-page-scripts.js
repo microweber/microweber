@@ -463,7 +463,11 @@ if(window.self !== window.top) {
             && liveEditIframe.mw && liveEditIframe.mw.askusertostay) {
             return true;
         } else {
-            mw.top().spinner({element: mw.top().app.canvas.getFrame().parentElement, decorate: true, size: 52}).show()
+            var frame = mw.top().app.canvas.getFrame();
+            if(frame.parentElement) {
+                mw.top().spinner({element: frame.parentElement, decorate: true, size: 52}).show()
+            }
+
         }
     };
 

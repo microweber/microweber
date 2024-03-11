@@ -271,6 +271,7 @@ class ContentRepository extends AbstractRepository
 
             if ($check and !empty($check)) {
                 $check = (array)$check;
+                $check = app()->url_manager->replace_site_url_back($check);
                 return $check;
             }
 

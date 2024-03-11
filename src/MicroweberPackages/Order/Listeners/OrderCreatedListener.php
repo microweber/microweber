@@ -22,7 +22,7 @@ class OrderCreatedListener
         }
 
         // Admin panel notification
-        Notification::send(User::whereIsAdmin(1)->get(), new NewOrderNotification($order));
+        Notification::sendNow(User::whereIsAdmin(1)->get(), new NewOrderNotification($order));
 
 
         // delete old notifications for orders older than 30 days

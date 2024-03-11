@@ -49,11 +49,14 @@ Microweber CMS primarily focuses on e-commerce, making it an ideal choice for as
 
 ## See it in action
 
+- [Create website](https://microweber.com) with Microweber
 - [Microweber Live Demo](https://demo.microweber.org/?template=dream)
-- [Microweber Video](https://sitestatic.microweber.com/userfiles/templates/mw/videos/1.mp4)
-- [Deploy as DigitalOcean 1-Click App](https://marketplace.digitalocean.com/apps/microweber?action=deploy&refcode=83e0646738fe)
-- [Deploy as alwaysdata 1-Click App](https://www.alwaysdata.com/en/marketplace/microweber/)
-- [Plesk Extension](https://microweber.org/go/plesk_plugin/)
+- [Microweber Videos](https://www.youtube.com/c/microweberwebsitebuildercms)
+- [Deploy Microweber on DigitalOcean](https://marketplace.digitalocean.com/apps/microweber?action=deploy&refcode=83e0646738fe)
+- [Deploy Microweber Azure](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/microwebercms.microweber-cms?tab=Overview)
+- [Deploy Microweber on Linode](https://www.linode.com/marketplace/apps/microweber/microweber-cms/)
+- [Deploy Microweber on Vultr](https://www.vultr.com/marketplace/apps/microweber)
+- [Use Microweber Plesk plugin](https://microweber.org/go/plesk_plugin/)
 
 ## System Requirements
 
@@ -61,7 +64,7 @@ To run Microweber, you need the following components:
 
 - HTTP server
 - Database server
-- PHP >= 8.1
+- PHP >= 8.2
     - `lib-xml` with DOM support
     - `GD` PHP extension
     - `intl` PHP extension

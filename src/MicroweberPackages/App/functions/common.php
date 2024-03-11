@@ -33,9 +33,9 @@ if (! function_exists('app')) {
     }
 }
 
-function mw_is_installed()
+function mw_is_installed() : bool
 {
-    return Config::get('microweber.is_installed');
+    return (bool) Config::get('microweber.is_installed');
 }
 
 if (!function_exists('d')) {
