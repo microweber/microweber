@@ -62,7 +62,7 @@
 
                           <div class="d-flex align-items-center mx-1">
                             <label class="d-xl-block d-none mx-2"><?php _e("Sort") ?></label>
-                            <select class="form-select form-select-sm" wire:model.stop="filters.orderBy" >
+                            <select x-on:change="openSortDropdown = false" class="form-select form-select-sm" wire:model.stop="filters.orderBy" >
                                 <option value=""><?php _e("Any") ?></option>
                                 <option value="id,desc"><?php _e("Id Desc") ?></option>
                                 <option value="id,asc"><?php _e("Id Asc") ?></option>
@@ -74,7 +74,7 @@
 
                             <div class="d-flex align-items-center mx-1">
                                 <label class="d-xl-block d-none mx-2"><?php _e("Limit") ?></label>
-                                <select class="form-select form-select-sm" wire:model="paginationLimit">
+                                <select x-on:change="openSortDropdown = false" class="form-select form-select-sm" wire:model="paginationLimit">
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>

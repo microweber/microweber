@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\Password;
 /**
  * Run test
  * @author Bobi Slaveykvo Microweber
- * @command php phpunit.phar --filter UserTest
+ * @command php artisan test --filter UserManager
  */
 
 
@@ -56,6 +56,21 @@ class UserManagerTest extends TestCase
         $isDownload = $response->headers->get('content-disposition');
         $this->assertTrue(str_contains($isDownload, 'filename='));
 
+    }
+
+    public function testExportAllUsersData()
+    {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+        $response = $this->call('GET', route('admin.users.index') . '?exportResults=true');
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        $isDownload = $response->headers->get('content-disposition');
+        $this->assertTrue(str_contains($isDownload, 'filename='));
+
+        $response->assertDownload();
 
     }
 
