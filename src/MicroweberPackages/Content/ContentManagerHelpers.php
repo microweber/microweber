@@ -1130,6 +1130,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                         }
                         $html_to_save = $the_field_data['html'];
 
+                        $html_to_save = app()->url_manager->replace_site_url($html_to_save);
+
                         $html_to_save = $content = $this->app->parser->make_tags($html_to_save);
 
                         //\Log::info($html_to_save);
