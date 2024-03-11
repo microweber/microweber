@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7c0c31f83604a5f8e93c7be27faaf9a",
+    "content-hash": "10a0473024df2373a60fee584a51c3de",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -6966,6 +6966,48 @@
                 "source": "https://github.com/maxmind/web-service-common-php/tree/v0.9.0"
             },
             "time": "2022-03-28T17:43:20+00:00"
+        },
+        {
+            "name": "microweber-deps/image-comparator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-deps/image-comparator.git",
+                "reference": "d3fe1cbfb5a84b2e9415e64b7b00d60e92e368a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-deps/image-comparator/zipball/d3fe1cbfb5a84b2e9415e64b7b00d60e92e368a8",
+                "reference": "d3fe1cbfb5a84b2e9415e64b7b00d60e92e368a8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": "^8.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SapientPro\\ImageComparator\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SapientPro",
+                    "email": "info@sapient.pro",
+                    "homepage": "https://sapient.pro/"
+                }
+            ],
+            "description": "Compare images using PHP, check sapientpro/image-comparator",
+            "support": {
+                "source": "https://github.com/microweber-deps/image-comparator/tree/master"
+            },
+            "time": "2024-03-11T12:03:08+00:00"
         },
         {
             "name": "microweber-deps/laravel-cors",
