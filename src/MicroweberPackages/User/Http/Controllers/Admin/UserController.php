@@ -36,9 +36,16 @@ class UserController extends AdminController
         if ($exportResults) {
 
             $users = $usersQuery->get();
+            $exportedUsers = [];
+            foreach ($users as $user) {
+                $exportedUser = $user->toArray();
+                $exportedUser['created_at'] = $user->created_at->format('Y-m-d H:i:s');
+                $exportedUser['updated_at'] = $user->updated_at->format('Y-m-d H:i:s');
+                $exportedUsers[] = $exportedUser;
+            }
 
             $exportExcel = new XlsxExport();
-            $exportExcel->data['mw_export_users_' . date('Y-m-d-H-i-s')] = $users->toArray();
+            $exportExcel->data['mw_export_users_' . date('Y-m-d-H-i-s')] = $exportedUsers;
             $exportExcel = $exportExcel->start();
             $exportExcelFile = $exportExcel['files']['0']['filepath'];
 
