@@ -34,6 +34,40 @@ function getCssForSlide($slide)
             $imageBackgroundOpacity = $slide['imageBackgroundOpacity'];
         }
 
+
+        // Button CSS
+        $buttonCss = '.js-slide-button-'.$slide['itemId'].' {
+            font-size: '.$buttonFontSize.' !important;
+        ';
+
+        if (isset($slide['buttonBackgroundColor'])) {
+            $buttonCss .= 'background-color: '.$slide['buttonBackgroundColor'].' !important; ';
+        }
+        if (isset($slide['buttonBorderColor'])) {
+            $buttonCss .= 'border-color: '.$slide['buttonBorderColor'].' !important; ';
+        }
+        if (isset($slide['buttonTextColor'])) {
+            $buttonCss .= 'color: '.$slide['buttonTextColor'].' !important; ';
+        } else {
+            $buttonCss .= 'color: '.$descriptionColor.' !important ';
+        }
+        $buttonCss .= '
+        }';
+        // Hover Button CSS
+         $buttonCss .= '.js-slide-button-'.$slide['itemId'].':hover {
+         ';
+            if (isset($slide['buttonBackgroundHoverColor'])) {
+                $buttonCss .= 'background-color: '.$slide['buttonBackgroundHoverColor'].' !important; ';
+            }
+            if (isset($slide['buttonTextHoverColor'])) {
+                $buttonCss .= 'color: '.$slide['buttonTextHoverColor'].' !important; ';
+            }
+          $buttonCss .= '
+        }';
+        // End Button CSS
+
+
+
         return '
 
     <style>
@@ -45,10 +79,9 @@ function getCssForSlide($slide)
             color: '.$descriptionColor.' !important;
             font-size: '.$descriptionFontSize.' !important;
         }
-        .js-slide-button-'.$slide['itemId'].' {
-            color: '.$descriptionColor.' !important;
-            font-size: '.$buttonFontSize.' !important;
-        }
+
+        '.$buttonCss.'
+
         .js-slide-image-'.$slide['itemId'].' {
             background-size: cover;
             background-repeat: no-repeat;
