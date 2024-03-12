@@ -73,6 +73,16 @@ class OptionsTest extends TestCase
     public function testOptionsManagerClass()
     {
 
+
+        $data = array();
+        $now = date('YmdHis');
+        $data['option_value'] = $now;
+        $data['option_key'] = 'test_option_website_group';
+        $data['option_group'] = 'website';
+        $save = mw()->option_manager->save($data);
+
+
+
         // test get and save
         $data = array();
         $now = date('YmdHis');
