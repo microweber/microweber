@@ -544,3 +544,27 @@ html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
 
 
 }
+
+
+.insert-abs-module-button{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: white;
+    display: block;
+    padding: 10px;
+    border: none;
+    font-size: 19px;
+    border-radius: 5px;
+    box-shadow: #11111a1a 0 4px 16px, #11111a0d 0 8px 32px;
+    padding: 11px 11px 9px !important;
+    display: inline-flex;
+    border-radius: 7px;
+    border: 1px solid transparent;
+    box-shadow: #11111a1a 0 4px 16px, #11111a0d 0 8px 32px;
+    background-color: #fff;
+    min-width: 100px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}

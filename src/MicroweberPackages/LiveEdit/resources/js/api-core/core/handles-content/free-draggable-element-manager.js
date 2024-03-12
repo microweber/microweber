@@ -15,6 +15,25 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
     }
 
 
+    static getStyle(node){
+        const res = {};
+        if(!node || node.nodeType !== 1) {
+            return res
+        }
+
+        let i = 0, l = node.style.length;
+
+        for ( ; i < l; i++ ) {
+            const prop = node.style[i];
+            if(prop.indexOf('--') !== -1) {
+                continue;
+            }
+            res[prop] = node.style.getPropertyValue(prop)
+        }
+
+        return res;
+    }
+
     static toPercent(node, container){
         if(!node || node.nodeType !== 1) {
             return
@@ -264,20 +283,28 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
 
             });
-             mvb.on("dragEnd", e => {
 
 
-                 container.querySelectorAll('[data-hide-resizer]').forEach(node => {
+
+            const afterChanged = () => {
+                container.querySelectorAll('[data-hide-resizer]').forEach(node => {
 
                         FreeDraggableElementManager.toPercent(node);
 
-                 })
+                        mw.top().app.cssEditor.style(node, FreeDraggableElementManager.getStyle(node));
+                        node.removeAttribute('style')
 
-                 mw.app.dispatch('liveEditRefreshHandlesPosition');
-             });
+                });
+
+                mw.app.registerChangedState(container);
+                mw.app.dispatch('liveEditRefreshHandlesPosition');
+            }
+
+             mvb.on("dragEnd", afterChanged)
+             mvb.on("resizeEnd", afterChanged)
+             mvb.on("rotateEnd", afterChanged)
+
              mvb.on("drag", e => {
-                console.log(e)
-                //  e.target.style.transform = e.transform;
                  e.target.style.top = e.top + 'px';
                  e.target.style.left = e.left + 'px';
                  mw.top().app.liveEdit.handles.hide();

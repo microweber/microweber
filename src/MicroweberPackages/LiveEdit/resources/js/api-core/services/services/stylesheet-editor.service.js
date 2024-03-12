@@ -288,13 +288,13 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
 
 
-    style(node, css = {}) {
+    style(node, css = {}, record) {
         for (let i in css) {
-            this.temp(node, i, css[i]);
+            this.temp(node, i, css[i], record);
         }
     }
 
-    temp(node, prop, val) {
+    temp(node, prop, val, record) {
         if(typeof(val) === 'number') {
 
         } else {
@@ -308,7 +308,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
         const sel = mw.tools.generateSelectorForNode(node);
 
-        this.setPropertyForSelector(sel, prop, val);
+        this.setPropertyForSelector(sel, prop, val, record);
 
 
 

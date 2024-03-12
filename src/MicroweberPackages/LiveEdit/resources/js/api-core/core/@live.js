@@ -755,7 +755,9 @@ export class LiveEdit {
 
             const hasBg = DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['background-image-holder', 'img-holder']);
 
-            if(hasBg && hasBg !== bgImageHandles.getTarget() && this.canBeEditable(hasBg)) {
+
+
+            if(hasBg  && this.canBeEditable(hasBg)) {
                 bgImageHandles.setTarget(hasBg)
             }
 

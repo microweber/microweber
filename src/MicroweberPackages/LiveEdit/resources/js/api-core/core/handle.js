@@ -132,6 +132,7 @@ export const Handle = function (options) {
         const off = DomService.offset(target);
         const scroll = getScroll();
         const menu = this.wrapper.get(0).querySelector('.mw-handle-item-menus-holder');
+        const insertabsmodulebutton = this.wrapper.get(0).querySelector('.insert-abs-module-button');
 
 
 
@@ -152,6 +153,11 @@ export const Handle = function (options) {
 
             menu.style.transition = `none`;
             menu.style.transform = transform ? `translateY(${transform}px)` : '';
+
+            if(insertabsmodulebutton) {
+                insertabsmodulebutton.style.transition = `none`;
+                insertabsmodulebutton.style.transform = transform ? `translateY(${transform}px)` : '';
+            }
 
 
             if(typeof this.settings.onPosition === 'function') {
