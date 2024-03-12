@@ -11,9 +11,27 @@ use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
 
 class LivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {
+    public $template_name = 'big';
 
     public function testIfCanAccessAllComponents()
     {
+
+        $this->assertTrue(mw_is_installed());
+
+        save_option('current_template', $this->template_name, 'template');
+        scan_for_modules(['no_cache' => true, 'reload_modules' => true, 'cleanup_db' => true]);
+        scan_for_elements(['no_cache' => true, 'reload_modules' => true, 'cleanup_db' => true]);
+
+        $system_refresh = new \MicroweberPackages\Install\DbInstaller();
+        $system_refresh->createSchema();
+        app()->rebootApplication();
+        try {
+
+
+        } catch (\Exception $e) {
+
+
+        }
 
         load_all_service_providers_for_modules();
         load_all_functions_files_for_modules();
@@ -26,7 +44,7 @@ class LivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
         $componentsList = Livewire::getComponentAliases();
         foreach ($componentsList as $component) {
 
-            if(str_contains($component, 'Microweber')){
+            if (str_contains($component, 'Microweber')) {
                 Livewire::test($component)->assertOk();
             }
         }
@@ -34,10 +52,10 @@ class LivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
     }
 
 
-    public function setUp() : void
+    public function setUp(): void
     {
 
-        if (! $this->app) {
+        if (!$this->app) {
             $this->refreshApplication();
         }
 

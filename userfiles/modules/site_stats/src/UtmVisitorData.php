@@ -28,7 +28,7 @@ class UtmVisitorData
                 $visitorData = json_decode($visitorData, true);
 
                 return $visitorData;
-            } catch (\DecryptException $e) {
+            } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
                 return false;
             }
         }

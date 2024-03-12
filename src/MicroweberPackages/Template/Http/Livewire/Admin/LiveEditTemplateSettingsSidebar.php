@@ -18,6 +18,9 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
 
     public function getSettings()
     {
+
+
+
         $getTemplateConfig = mw()->template->get_config();
 
         $optionGroup = 'mw-template-' . $getTemplateConfig['dir_name'] . '-settings';

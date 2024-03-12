@@ -42,6 +42,13 @@ class UserLivewireComponentsAccessTest extends TestCase
         $option['option_key'] = 'is_active';
         $option['option_group'] = 'multilanguage_settings';
         save_option($option);
+
+        load_all_service_providers_for_modules();
+        load_all_functions_files_for_modules();
+        load_service_providers_for_template();
+        load_functions_files_for_template();
+
+
         $this->actingAsAdmin();
 
         foreach ($this->componentsList as $component) {
@@ -57,6 +64,13 @@ class UserLivewireComponentsAccessTest extends TestCase
         $option['option_key'] = 'is_active';
         $option['option_group'] = 'multilanguage_settings';
         save_option($option);
+
+        load_all_service_providers_for_modules();
+        load_all_functions_files_for_modules();
+        load_service_providers_for_template();
+        load_functions_files_for_template();
+
+
         $this->actingAsUser();
         foreach ($this->componentsList as $component) {
              Livewire::test($component)->assertUnauthorized();
