@@ -8,7 +8,7 @@ class ShippingManagerTest extends TestCase
     public function testGetShippingModules()
     {
 
-        $shippingModules = app()->shipping_manager->getShippingModules();
+        $shippingModules = app()->shipping_manager->getShippingModules(false);
         $this->assertNotEmpty($shippingModules);
 
         foreach ($shippingModules as $shippingModule) {
