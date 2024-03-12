@@ -11,6 +11,10 @@ class ShopManagerTest extends TestCase
     {
         $check_module = 'shop/shipping/gateways/country';
         if (is_module($check_module)) {
+
+            app()->shipping_manager->driver('shop/shipping/gateways/country')->enable();
+
+
             $shipping_options = app()->shipping_manager->getShippingModules();
             $this->assertNotEmpty($shipping_options);
             $found = false;
