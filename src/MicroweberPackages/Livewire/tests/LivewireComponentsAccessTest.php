@@ -15,9 +15,23 @@ class LivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 
     public function testIfCanAccessAllComponents()
     {
+
+        $this->assertTrue(mw_is_installed());
+
         save_option('current_template', $this->template_name, 'template');
         scan_for_modules(['no_cache' => true, 'reload_modules' => true, 'cleanup_db' => true]);
         scan_for_elements(['no_cache' => true, 'reload_modules' => true, 'cleanup_db' => true]);
+
+        $system_refresh = new \MicroweberPackages\Install\DbInstaller();
+        $system_refresh->createSchema();
+        app()->rebootApplication();
+        try {
+
+
+        } catch (\Exception $e) {
+
+
+        }
 
         load_all_service_providers_for_modules();
         load_all_functions_files_for_modules();
