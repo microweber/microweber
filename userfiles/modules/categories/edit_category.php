@@ -578,6 +578,7 @@ if ($creteCategoryIn == 'shop') {
                                             } else {
                                                 $apiJsTree .= '?is_blog=1';
                                             }
+                                            $apiJsTree .= '&show_hidden=true';
                                             echo $apiJsTree;
                                             ?>", function (data) {
                                             var categoryParentSelector = new mw.tree({
