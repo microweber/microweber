@@ -24,9 +24,6 @@ class AdminJsCategoryTree
     public function getPagesDatabase()
     {
         $getPagesQuery = Page::query();
-        $getPagesQuery->where('is_active', 1);
-        $getPagesQuery->where('is_deleted', 0);
-
         $getPagesQuery->orderBy('position', 'ASC');
 
         $getPages = $getPagesQuery->get();
@@ -38,12 +35,10 @@ class AdminJsCategoryTree
 
     public function getCategoriesDatabase()
     {
-        $categories = get_categories('no_limit=true&is_deleted=0&is_hidden=0&orderby=position asc');
-
+        $categories = get_categories('no_limit=true&orderby=position asc');
         if ($categories) {
             $this->categories = $categories;
         }
-
 
     }
 
