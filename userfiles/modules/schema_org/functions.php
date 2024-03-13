@@ -44,6 +44,7 @@ event_bind('mw.front', function ($params = false) {
                     ->product()
                     ->offers($schemaOffers)
                     ->name($getContentById['title'])
+                    ->description($getContentById['content'])
                     ->brand($graph->organization());
 
                 $graph->hide(\Spatie\SchemaOrg\Organization::class);
@@ -60,6 +61,7 @@ event_bind('mw.front', function ($params = false) {
                 $graph
                     ->article()
                     ->name($getContentById['title'])
+                    ->articleBody($getContentById['content'])
                     ->brand($graph->organization());
 
                 $graph->hide(\Spatie\SchemaOrg\Organization::class);
