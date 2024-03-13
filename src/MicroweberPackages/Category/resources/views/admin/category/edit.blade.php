@@ -28,7 +28,15 @@
         </div>
 
         <div class="ms-3 mb-3 d-flex align-items-center">
-            <a class="tblr-body-color form-label mb-0 text-decoration-none font-weight-bold d-md-block d-none" href="{{route('admin.page.index')}}" class="mb-0">
+            <a class="tblr-body-color form-label mb-0 text-decoration-none font-weight-bold d-md-block d-none"
+
+            <?php if ($isShopAttribute == 1): ?>
+             href="{{route('admin.shop.category.index')}}"
+                <?php else : ?>
+             href="{{route('admin.category.index')}}"
+                <?php endif; ?>
+
+               class="mb-0">
 
 
                 @if($id == 0)
