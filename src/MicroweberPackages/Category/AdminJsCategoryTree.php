@@ -128,6 +128,10 @@ class AdminJsCategoryTree
                     }
                 }
 
+//                if ($page['is_hidden'] == 1) {
+//                    continue;
+//                }
+
                 if (isset($page['parent']) && $page['parent'] > 0) {
 
                     $getAndAppendPageChildren = $this->getAndAppendPageChildren($page['parent']);
@@ -166,6 +170,18 @@ class AdminJsCategoryTree
             if (isset($category['rel_type'])
                 and trim($category['rel_type']) == 'content'
                 and $category['rel_id'] == $parentId) {
+
+
+                $skipHidden = true;
+                if (isset($this->filters['show_hidden']) && $this->filters['show_hidden']) {
+                    $skipHidden = false;
+                }
+
+                if ($skipHidden) {
+                    if ($category['is_hidden'] == 1) {
+                        continue;
+                    }
+                }
 
                 $this->appendCategory($category);
                 $getAndAppendCategoryChildren = $this->getAndAppendCategoryChildren($category['id']);
