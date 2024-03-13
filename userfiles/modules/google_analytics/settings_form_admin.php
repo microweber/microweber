@@ -19,8 +19,14 @@ $isGoogleEnhancedConversions = get_option('google-enhanced-conversions-enabled',
                 item.on('change input paste', function (e) {
                     if (this.name == 'google-analytics-id') {
                         let validationErrorElement = mw.$(this).next('.js-validation-error');
-                        if (!this.value.includes('UA-')) {
-                            validationErrorElement.html('Google Analytics ID must start with "UA-"');
+                        let passGAIValidation = false;
+                        if (this.value.includes('UA-')) {
+                            passGAIValidation = true;
+                        } else if (this.value.includes('GTM-')) {
+                            passGAIValidation = true;
+                        }
+                        if (!passGAIValidation) {
+                            validationErrorElement.html('Google Analytics ID must start with "UA-" or "GTM-"');
                             return;
                         } else {
                             validationErrorElement.html('');
