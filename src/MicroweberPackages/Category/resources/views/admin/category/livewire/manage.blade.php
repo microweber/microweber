@@ -308,6 +308,7 @@ if (isset($isShop) and $isShop){
                         categoryTree = mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
                             options: treeDataOpts,
                             params: {
+                                show_hidden: true,
                                 no_limit: true,
                                 <?php if($isShop): ?>
                                 is_shop: 1,
