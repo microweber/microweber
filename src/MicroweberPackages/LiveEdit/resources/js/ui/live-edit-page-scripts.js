@@ -446,9 +446,9 @@ if(window.self !== window.top) {
        // var liveEditIframe = mw.top().app.canvas.getWindow();
 
         liveEditIframe.mw.isNavigating = true;
-
-        mw.top().app.canvas.dispatch('liveEditCanvasBeforeUnload');
-
+        if( typeof(mw.top) === 'function' && mw.top().app.canvas) {
+            mw.top().app.canvas.dispatch('liveEditCanvasBeforeUnload');
+        }
 
         setTimeout(function (liveEditIframe) {
             if (liveEditIframe) {
@@ -463,11 +463,12 @@ if(window.self !== window.top) {
             && liveEditIframe.mw && liveEditIframe.mw.askusertostay) {
             return true;
         } else {
-            var frame = mw.top().app.canvas.getFrame();
-            if(frame.parentElement) {
-                mw.top().spinner({element: frame.parentElement, decorate: true, size: 52}).show()
+            if( typeof(mw.top) === 'function' && mw.top().app.canvas) {
+                var frame = mw.top().app.canvas.getFrame();
+                if (frame && frame.parentElement) {
+                    mw.top().spinner({element: frame.parentElement, decorate: true, size: 52}).show()
+                }
             }
-
         }
     };
 
