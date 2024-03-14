@@ -60,7 +60,7 @@ function getSchemaOrgContentFilled($graph, $contentId)
                 ->product($getContentById['url'])
                 ->offers($schemaOffers)
                 ->name($getContentById['title'])
-                ->description($getContentById['content'])
+                ->description(content_description($contentId))
                 ->brand($graph->organization());
 
             if (method_exists($graph, 'hide')) {
@@ -78,7 +78,7 @@ function getSchemaOrgContentFilled($graph, $contentId)
             $graph
                 ->article($getContentById['url'])
                 ->name($getContentById['title'])
-                ->articleBody($getContentById['content'])
+                ->articleBody(content_description($contentId))
                 ->brand($graph->organization());
 
             if (method_exists($graph, 'hide')) {
