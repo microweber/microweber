@@ -7,6 +7,7 @@ class VideoTest extends TestCase
 {
     public function testModule()
     {
-        $this->assertTrue(true);
+        
+
     }
 }

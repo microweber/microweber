@@ -1,5 +1,4 @@
 <?php
-
 namespace MicroweberPackages\Modules\Video\tests\Browser;
 
 use Illuminate\Support\Facades\Auth;
