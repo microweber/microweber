@@ -15,22 +15,20 @@
     </div>
 
 
-
-
     <div :class="{'d-none': !showPosition }">
 
         <DropdownSmall v-model="selectedPosition" :options="selectedPositionOptions" :label="'Position'"/>
 
-<!--
-        <div class="form-group">
-            <label for="topInput">Top (px):</label>
-            <input id="topInput" class="form-control" type="number" v-model.number="topValue">
-        </div>
+        <!--
+                <div class="form-group">
+                    <label for="topInput">Top (px):</label>
+                    <input id="topInput" class="form-control" type="number" v-model.number="topValue">
+                </div>
 
-        <div class="form-group">
-            <label for="leftInput">Left (px):</label>
-            <input id="leftInput" class="form-control" type="number" v-model.number="leftValue">
-        </div>-->
+                <div class="form-group">
+                    <label for="leftInput">Left (px):</label>
+                    <input id="leftInput" class="form-control" type="number" v-model.number="leftValue">
+                </div>-->
 
         <div class="form-group">
             <label for="zIndexInput">Z-Index:</label>
@@ -65,10 +63,25 @@ export default {
             zIndexValue: 0
         };
     },
+
+
+    mounted() {
+        this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
+            if (elementStyleEditorShow !== 'position') {
+                this.showPosition = false;
+            } else {
+                this.showPosition = true;
+            }
+        });
+
+    },
     methods: {
         togglePosition: function () {
-            this.showPosition = !this.showPosition;
-            this.emitter.emit('element-style-editor-show', 'position');
+            if (!this.showPosition) {
+                this.emitter.emit('element-style-editor-show', 'position');
+            } else {
+                this.emitter.emit('element-style-editor-show', 'none');
+            }
         },
 
         makeElementFreelyDraggableElementIfPositionAllows() {
@@ -95,8 +108,8 @@ export default {
             if (!this.activeNode) return;
 
             this.applyPropertyToActiveNode('position', this.selectedPosition);
-           // this.applyPropertyToActiveNode('top', `${this.topValue}px`);
-          //  this.applyPropertyToActiveNode('left', `${this.leftValue}px`);
+            // this.applyPropertyToActiveNode('top', `${this.topValue}px`);
+            //  this.applyPropertyToActiveNode('left', `${this.leftValue}px`);
             this.applyPropertyToActiveNode('zIndex', this.zIndexValue);
             this.makeElementFreelyDraggableElementIfPositionAllows();
         },
