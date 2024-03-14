@@ -11,8 +11,7 @@ class SchemaOrgTest extends TestCase
     public function testModule()
     {
 
-        include_once __DIR__ . "/../../functions.php";
-
+        load_all_functions_files_for_modules();
 
         // TEST PAGE
 
