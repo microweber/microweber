@@ -654,15 +654,18 @@ export class ElementHandleContent {
                     title: 'Quick Settings',
                     icon: this.handleIcons.icon('more'),
                     menu: [
-                        ...elementEditImageUploadMenu,
-                        ...elementEditImageInEditorMenu,
-                      ...cloneAbleMenuInMoreMenu,
-                       ...elementMakeFreeOnMoreButton,
+
 
                         {
                             name: 'Reset Element Size',
-                            nodes:
-                            elementResetSizeMenu
+                            nodes: [
+                                ...elementResetSizeMenu,
+                                ...elementEditImageUploadMenu,
+                        ...elementEditImageInEditorMenu,
+                      ...cloneAbleMenuInMoreMenu,
+                       ...elementMakeFreeOnMoreButton,
+                            ]
+
 
                         },
                         {
