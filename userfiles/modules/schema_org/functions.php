@@ -62,6 +62,9 @@ function getSchemaOrgContentFilled($graph, $contentId)
                 ->offers($schemaOffers)
                 ->url(content_link($contentId))
                 ->name($getContentById['title'])
+                ->headline($getContentById['title'])
+                ->author(user_name($getContentById['created_by']))
+                ->image(get_picture($contentId))
                 ->description(content_description($contentId))
                 ->brand($graph->organization());
 
@@ -80,6 +83,9 @@ function getSchemaOrgContentFilled($graph, $contentId)
             $graph->webPage($getContentById['url'])
                 ->url(content_link($contentId))
                 ->name($getContentById['title'])
+                ->headline($getContentById['title'])
+                ->author(user_name($getContentById['created_by']))
+                ->image(get_picture($contentId))
                 ->description(content_description($contentId))
                 ->brand($graph->organization());
 
@@ -100,6 +106,9 @@ function getSchemaOrgContentFilled($graph, $contentId)
                 ->article($getContentById['url'])
                 ->url(content_link($contentId))
                 ->name($getContentById['title'])
+                ->headline($getContentById['title'])
+                ->author(user_name($getContentById['created_by']))
+                ->image(get_picture($contentId))
                 ->articleBody(content_description($contentId))
                 ->brand($graph->organization());
 
