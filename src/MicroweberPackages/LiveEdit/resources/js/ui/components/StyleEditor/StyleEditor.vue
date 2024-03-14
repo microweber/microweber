@@ -31,6 +31,7 @@ export default {
                 'animations',
                 'classes',
                 'roundedCorners',
+                'listStyleEditor',
                 'border',
                 'position',
             ];
@@ -115,6 +116,7 @@ export default {
                     'animations',
                     'classes',
                     'roundedCorners',
+                    'listStyleEditor',
                     'border',
                     'position',
                 ];

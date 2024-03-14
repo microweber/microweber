@@ -395,7 +395,6 @@ export default {
                         || data.val === 'fixed'
                         || data.val === 'sticky'
                     ) {
-
                         mw.top().app.liveEdit.elementHandleContent.elementActions.makeFreeDraggableElement(data.node)
                         //mw.app.dispatch('liveEditRefreshHandlesPosition');
                     }
