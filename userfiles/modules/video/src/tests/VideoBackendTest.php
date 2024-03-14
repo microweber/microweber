@@ -71,7 +71,9 @@ class VideoBackendTest extends TestCase
         $this->assertTrue(Str::contains($renderData['code'], 'allow="autoplay"'));
         $this->assertTrue(Str::contains($renderData['code'], 'width="560px"'));
         $this->assertTrue(Str::contains($renderData['code'], 'height="315px"'));
+
         $this->assertSame($renderData['provider'], 'youtube');
 
     }
+
 }

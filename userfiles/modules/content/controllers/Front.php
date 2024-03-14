@@ -1041,12 +1041,20 @@ class Front
 
             mw()->app->event_manager->trigger('module.content.front.render', $data);
 
-
-
-
             if (isset($template_file) and is_file($template_file) != false) {
                 include($template_file);
+                ?>
 
+                <?php
+                $contentIds = [];
+                foreach ($data as $dataItem) {
+                    $contentIds[] = $dataItem['id'];
+                }
+                $schemaOrgScript = getSchemaOrgScriptByContentIds($contentIds);
+                echo $schemaOrgScript;
+                ?>
+
+                <?php
                 $params['ajax_paging'] = true;
                 ?>
                 <?php if (isset($params['ajax_paging']) or isset($params['ajax-paging'])): ?>
