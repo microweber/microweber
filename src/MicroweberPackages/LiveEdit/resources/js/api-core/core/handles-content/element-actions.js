@@ -524,7 +524,13 @@ export class ElementActions extends MicroweberBaseClass {
     }
 
     makeFreeDraggableElement(element) {
-        mw.app.freeDraggableElementManager.makeFreeDraggableElement(element);
+        var elementToMakeDraggable = mw.app.freeDraggableElementTools.getTargetNode(element)
+        if(!elementToMakeDraggable){
+            return;
+
+        }
+
+        mw.app.freeDraggableElementManager.makeFreeDraggableElement(elementToMakeDraggable);
     }
 
     destroyFreeDraggableElement(element) {
