@@ -380,7 +380,13 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
     }
 
     destroyFreeDraggableElement(element) {
-        $(element).draggable('destroy');
+
+        if(element.__mw_movable){
+            element.__mw_movable.destroy();
+            element.__mw_movable = null;
+        }
+
+
     }
 
 }

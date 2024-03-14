@@ -640,7 +640,7 @@ export class ElementHandleContent {
                 {
                     title: 'Quick Settings',
                     icon: this.handleIcons.icon('more'),
-                    type: 'select',
+                    type: 'list',
                     menu: [
                         {
                             name: 'More settings menu',
@@ -649,7 +649,7 @@ export class ElementHandleContent {
                                     ...elementEditImageUploadMenu,
                                     ...elementEditImageInEditorMenu,
                                     ...cloneAbleMenuInMoreMenu,
-                                    ...elementMakeFreeOnMoreButton,
+                              //      ...elementMakeFreeOnMoreButton,
                                 ]
 
                         },
