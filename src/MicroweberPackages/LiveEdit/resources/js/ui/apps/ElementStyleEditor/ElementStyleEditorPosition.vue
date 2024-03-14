@@ -1,4 +1,7 @@
 <template>
+
+
+    <div v-if="canChangePosition">
     <div class="d-flex">
 
         <svg fill="currentColor" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
@@ -37,6 +40,8 @@
 
         <button @click="resetAllProperties">Reset All</button>
     </div>
+
+    </div>
 </template>
 
 <script>
@@ -58,6 +63,7 @@ export default {
             activeNode: null,
             isReady: false,
             selectedPosition: null,
+            canChangePosition: null,
             topValue: 0,
             leftValue: 0,
             zIndexValue: 0
@@ -91,13 +97,6 @@ export default {
 
             if (!this.activeNode) return;
 
-            // if(this.selectedPosition === 'static') {
-            //     mw.top().app.liveEdit.elementHandleContent.elementActions.destroyFreeDraggableElement(this.activeNode)
-            // }
-            // else if(this.selectedPosition === 'absolute' || this.selectedPosition === 'relative' || this.selectedPosition === 'fixed' || this.selectedPosition === 'sticky') {
-            //     mw.top().app.liveEdit.elementHandleContent.elementActions.makeFreeDraggableElement(this.activeNode)
-            // }
-
         },
 
         applyPosition() {
@@ -127,12 +126,25 @@ export default {
             this.topValue = null;
             this.leftValue = null;
             this.zIndexValue = null;
+            this.canChangePosition = null;
         },
         populateStyleEditor: function (node) {
             if (node && node && node.nodeType === 1) {
                 var css = mw.CSSParser(node);
                 this.isReady = false;
                 this.resetAllProperties();
+
+                this.canChangePosition = mw.tools.hasAnyOfClassesOnNodeOrParent(node, [
+                    'element',
+                    'module',
+                    'position-relative',
+                    'position-absolute',
+                    'position-fixed',
+                    'position-sticky'
+                ]);
+
+
+
                 this.activeNode = node;
 
                 this.populateCssPosition(css);
