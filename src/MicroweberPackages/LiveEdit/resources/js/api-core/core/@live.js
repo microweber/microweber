@@ -1084,6 +1084,25 @@ export class LiveEdit {
 
     };
 
+    getClassesToKeep = function () {
+       var  classesToKeep = [
+            'element',
+            'no-typing',
+            'safe-mode',
+            'edit',
+            'nodrop',
+            'allow-drop',
+            'module',
+            'module-overlap',
+            'module-overlap-on-hover',
+            'allow-typing',
+            'allow-edit',
+            'img-as-background',
+            'image-holder',
+        ];
+
+        return classesToKeep;
+    }
 
     getNoElementClasses = function () {
         var _moveable = ['moveable-control', 'moveable-origin', 'moveable-line','moveable-direction', 'moveable-rotation', 'moveable-guideline-group']

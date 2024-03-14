@@ -5,6 +5,7 @@ import { afterLayoutChange } from "../../core/handles-content/layout-actions";
 
 export const insertModule = (target = null, module, options = {}, insertLocation = 'top') => {
 
+    console.log(target, module, options, insertLocation);
 
     if (!target || !module) {
         return;
@@ -16,7 +17,8 @@ export const insertModule = (target = null, module, options = {}, insertLocation
                 && !mw.top().win.mw.app.liveEdit.handles.get('element').isVisible()
                 && !mw.top().win.mw.app.liveEdit.handles.get('module').isVisible();
 
-        await target.ownerDocument.defaultView.mw.module.insert(target, module, options, insertLocation, mw.liveEditState);
+        const itm = await target.ownerDocument.defaultView.mw.module.insert(target, module, options, insertLocation, mw.liveEditState);
+
 
 
 
@@ -32,7 +34,7 @@ export const insertModule = (target = null, module, options = {}, insertLocation
 
 
         mw.top().win.mw.app.dispatch('moduleInserted')
-        resolve();
+        resolve(itm);
 
         afterLayoutChange(target)
     });

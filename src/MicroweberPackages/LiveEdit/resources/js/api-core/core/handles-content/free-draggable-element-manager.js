@@ -9,9 +9,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
     constructor() {
         super();
-         // mw.require('https://cdnjs.cloudflare.com/ajax/libs/moveable/0.53.0/moveable.min.js');
-         mw.top().app.canvas.getWindow().mw.require('https://cdnjs.cloudflare.com/ajax/libs/moveable/0.53.0/moveable.min.js');
-
+        mw.top().app.canvas.getWindow().mw.require('moveable.js');
     }
 
 
@@ -70,6 +68,30 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
             left: css.left,
             top: css.top,
         })
+
+    }
+
+
+    static getElementContainer(node) {
+        if(!node) {
+            return
+        }
+        if(node.nodeType !== 1) {
+            node =  node.parentNode;
+        }
+        if(!node) {
+            return
+        }
+
+        return mw.tools.firstParentOrCurrentWithAnyOfClasses(node, ['mw-layout-container'])
+    }
+
+    static getLayoutContainer(layout) {
+        if(!layout || layout.nodeType !== 1) {
+            return
+        }
+
+        return layout.classList.contains('mw-layout-container') ? layout : layout.querySelector('.mw-layout-container')
 
     }
 
@@ -163,7 +185,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
     }
 
-    adapters = {
+    #adapters = {
         jQuery: function(element, container, scope) {
             $(element).draggable(
                         {
@@ -274,19 +296,18 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
              mvb.selfElement.style.display = 'none';
 
 
-             mvb.on("dragStart", e => {
+          ;
+
+
+
+            const beforeChange = (e) => {
                 container.querySelectorAll('[data-hide-resizer]').forEach(node => {
                     if(node !== e.target){
                         FreeDraggableElementManager.toPixel(node);
                     }
                  })
-
-
-            });
-
-
-
-            const afterChanged = () => {
+            }
+            const afterChanged = (e) => {
                 container.querySelectorAll('[data-hide-resizer]').forEach(node => {
 
                         FreeDraggableElementManager.toPercent(node);
@@ -299,6 +320,10 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
                 mw.app.registerChangedState(container);
                 mw.app.dispatch('liveEditRefreshHandlesPosition');
             }
+
+            mvb.on("dragStart", beforeChange)
+             mvb.on("resizeStart", beforeChange)
+             mvb.on("rotateStart", beforeChange)
 
              mvb.on("dragEnd", afterChanged)
              mvb.on("resizeEnd", afterChanged)
@@ -330,7 +355,13 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
     makeFreeDraggableElement(element, container) {
         const adapter = 'movable';
-        this.adapters[adapter](element, container, this);
+        if(!element) {
+            return;
+        }
+        if(!container) {
+            container = FreeDraggableElementManager.getElementContainer(element);
+        }
+        this.#adapters[adapter](element, container, this);
         mw.app.dispatch('liveEditRefreshHandlesPosition');
     }
 

@@ -278,7 +278,8 @@ var insertModule = function (target, module, config, pos) {
             }
         }
         mw.$(mw.drag.plusBottom.currentNode)[action](el);
-        mw.load_module(module, '#' + id, function () {
+        mw.load_module(module, '#' + id, function (a,v) {
+            console.log(this, a,v)
             resolve(this);
         }, config);
     });

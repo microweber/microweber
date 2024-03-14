@@ -59,6 +59,10 @@
             <div class="mb-4" v-show="showPosition">
                 <ElementStyleEditorPosition></ElementStyleEditorPosition>
             </div>
+
+            <div class="mb-4" v-show="showListStyleEditor">
+                <ElementStyleEditorUlOlListStyleEditor></ElementStyleEditorUlOlListStyleEditor>
+            </div>
         </div>
     </div>
 
@@ -81,6 +85,7 @@ import ElementStyleEditorRoundedCorners from "./ElementStyleEditorRoundedCorners
 import ElementStyleEditorShadow from "./ElementStyleEditorShadow.vue";
 import ElementStyleEditorLayoutSettings from "./ElementStyleEditorLayoutSettings.vue";
 import ElementStyleEditorPosition from "./ElementStyleEditorPosition.vue";
+import ElementStyleEditorUlOlListStyleEditor from "./ElementStyleEditorUlOlListStyleEditor.vue";
 
 export default {
     components: {
@@ -98,6 +103,7 @@ export default {
         ElementStyleEditorClassApplier,
         ElementStyleEditorLayoutSettings,
         ElementStyleEditorPosition,
+        ElementStyleEditorUlOlListStyleEditor,
     },
 
     data() {
@@ -115,6 +121,7 @@ export default {
             showClassApplier: true,
             showRoundedCorners: true,
             showPosition: true,
+            showListStyleEditor: true,
         }
     },
 
@@ -145,6 +152,7 @@ export default {
                 this.showAnimations = false;
                 this.showClassApplier = false;
                 this.showPosition = false;
+                this.showListStyleEditor = false;
 
                 if (settings.fieldSettings.components.includes('background')) {
                     this.showBackground = true;
@@ -182,6 +190,10 @@ export default {
 
                 if (settings.fieldSettings.components.includes('classes')) {
                     this.showClassApplier = true;
+                }
+
+                if (settings.fieldSettings.components.includes('listStyleEditor')) {
+                    this.showListStyleEditor = true;
                 }
             }
         });

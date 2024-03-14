@@ -9,9 +9,6 @@ function getSharerSocialNetworks() {
         'twitter' => array(
             'icon' => 'mdi-twitter'
         ),
-        'googleplus' => array(
-            'icon' => 'mdi-google-plus'
-        ),
         'pinterest' => array(
             'icon' => 'mdi-pinterest'
         ),
