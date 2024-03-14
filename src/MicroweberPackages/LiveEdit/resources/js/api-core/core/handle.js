@@ -138,10 +138,6 @@ export const Handle = function (options) {
 
 
 
-
-
-
-
         if(menu) {
 
             let transform = 0
@@ -165,8 +161,6 @@ export const Handle = function (options) {
             }
 
             menu.style.marginLeft = 0
-
-
 
 
 

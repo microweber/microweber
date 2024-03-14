@@ -70,7 +70,7 @@ mw.load_module = function(name, selector, callback, attributes) {
         done: function() {
             mw.settings.sortables_created = false;
             if (typeof callback === 'function') {
-                callback.call(mw.$(selector)[0]);
+                callback.call(this);
             }
         }
     });
@@ -128,6 +128,8 @@ mw.module = {
             mw.element(target)[action](el);
             mw.load_module(module, '#' + id, function () {
                 resolve(this);
+
+                console.log(this)
 
                 mw.tools.scrollTo('#' + id)
             }, config);

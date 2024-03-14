@@ -136,11 +136,13 @@ export class LayoutHandleContent {
 
         this.btnInsertModule = ElementManager(`<button type="button" class="insert-abs-module-button">Insert</button>`);
         this.btnInsertModule.on('click', function(){
-            mw.app.editor.dispatch('insertModuleRequest', mw.top().app.liveEdit.layoutHandle.getTarget().querySelector('.edit .element'));
+            mw.app.editor.dispatch('insertFreeModuleRequest', mw.top().app.liveEdit.layoutHandle.getTarget().querySelector('.mw-layout-container'));
+
+
         });
 
 
-       //  this.root.append(this.btnInsertModule);
+        this.root.append(this.btnInsertModule);
 
 
         setTimeout(() => { this.addButtons() }, 100);
@@ -186,7 +188,7 @@ export class LayoutHandleContent {
 
         const primaryNavigation = [
 
-            /* {
+             {
                 title: this.rootScope.lang('Design mode'),
                 text: '',
                 icon: '<img src="https://cdn-icons-png.freepik.com/512/2482/2482702.png" style="width:30px"> ',
@@ -203,7 +205,7 @@ export class LayoutHandleContent {
                     mw.top().app.freeDraggableElementManager.freeLayoutNodes(target)
 
                 }
-            },*/
+            },
 
 
             {

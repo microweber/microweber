@@ -106,7 +106,8 @@ mw.load_module = function(name, selector, callback, attributes) {
         done: function() {
             mw.settings.sortables_created = false;
             if (typeof callback === 'function') {
-                callback.call(mw.$(selector)[0]);
+
+                callback.call(this);
             }
         }
     });
@@ -224,7 +225,7 @@ mw.reload_modules = function(array, callback, simultaneously) {
     }
 };
 mw.reload_module_everywhere = function(module, eachCallback) {
- 
+
     mw.tools.eachWindow(function () {
         if(this.mw && this.mw.reload_module){
             this.mw.reload_module(module, function(){
@@ -237,7 +238,7 @@ mw.reload_module_everywhere = function(module, eachCallback) {
 };
 
 mw.reload_module = function(module, callback) {
- 
+
     if(module.constructor === [].constructor){
         var l = module.length, i=0, w = 1;
         for( ; i<l; i++){

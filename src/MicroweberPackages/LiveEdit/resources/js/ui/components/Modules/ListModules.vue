@@ -67,6 +67,9 @@ export default {
             return mw.app.modules.list();
         },
         insertModule(moduleItem) {
+            return this[this.insertModuleMode](moduleItem)
+        },
+        async insertFreeModule(moduleItem) {
             var module = moduleItem.module;
             var options = {};
 
@@ -74,11 +77,25 @@ export default {
                 options.as_element = true;
             }
 
-            //var insertLocation = 'top';
 
-          //  var insertLocation = 'bottom';
+
+
+            const itm = await mw.app.editor.insertModule(module, options, 'bottom', this.target);
+            console.log(itm)
+
+            mw.top().app.freeDraggableElementManager.makeFreeDraggableElement(itm)
+            this.showModal = false;
+        },
+        insertModuleDefault(moduleItem) {
+            var module = moduleItem.module;
+            var options = {};
+
+            if (moduleItem.as_element) {
+                options.as_element = true;
+            }
             var insertLocation = this.insertModulePosition;
-            mw.app.editor.insertModule(module, options,insertLocation);
+
+            mw.app.editor.insertModule(module, options, insertLocation, this.target);
             this.showModal = false;
         },
         filterModules() {
@@ -125,7 +142,20 @@ export default {
                 instance.filterModules();
             });
 
-            mw.app.editor.on('insertModuleRequest', function (el) {
+
+            mw.app.editor.on('insertFreeModuleRequest',   (el) => {
+                this.target = el || null;
+                this.insertModuleMode = 'insertFreeModule';
+                instance.showModal = true;
+                mw.app.registerChangedState(el);
+                setTimeout(() => {
+                    $('.mw-modules-list-search-block').focus()
+                }, 78)
+            });
+
+            mw.app.editor.on('insertModuleRequest',   (el) => {
+                this.target = el || null;
+                 this.insertModuleMode = 'insertModuleDefault';
                 instance.showModal = true;
                 mw.app.registerChangedState(el);
                 setTimeout(() => {
@@ -163,7 +193,9 @@ export default {
             modulesList: [],
             modulesListFiltered: [],
             modulesCategoriesList: [],
-            showModal: false
+            showModal: false,
+            target: null,
+            insertModuleMode: 'insertModuleDefault',
         }
     }
 }

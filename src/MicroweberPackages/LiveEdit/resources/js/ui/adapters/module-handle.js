@@ -49,7 +49,7 @@ export class EditorHandles extends BaseComponent {
             target = mw.app.liveEdit.handles.get('element').getTarget();
             if(!target) {
                 target = mw.app.liveEdit.handles.get('module').getTarget();
-            }            
+            }
         }
 
 
@@ -61,7 +61,7 @@ export class EditorHandles extends BaseComponent {
         if(!target) {
             target = mw.app.liveEdit.handles.get('layout').getTarget()
         }
-        
+
         return insertModule(target, 'layouts', options, insertLocation);
     };
 

@@ -236,7 +236,7 @@ mw.askusertostay = false;
 
 
         mw.$(target)[action](el);
-        mw.load_module(module, '#' + id, function () {
+        mw.load_module(module, '#' + id, function (a,b) {
             if(stateManager) {
                 stateManager.record({
                     target: parent,
@@ -248,14 +248,9 @@ mw.askusertostay = false;
                 mw.tools.scrollTo('#' + id);
             }
 
-            // if(self !== top && top && top.mw) {
-            //     if (id) {
-            //         setTimeout(function () {
-            //             mw.top().app.dispatch('onModuleReloaded', id);
-            //
-            //         }, 78);
-            //     }
-            // }
+
+
+
 
             resolve(this);
         }, config);
@@ -473,7 +468,7 @@ mw.requireAsync = (url, key) => {
         done: function() {
           mw.settings.sortables_created = false;
           if (mw.is.func(callback)) {
-            callback.call(mw.$(selector)[0]);
+            callback.call(this);
           }
         }
       });
@@ -832,12 +827,19 @@ mw.requireAsync = (url, key) => {
       } else{
         id = docdata.body.querySelector(['id']);
       }
-      mw.$(selector).replaceWith($(docdata.body).html());
+      var curr = mw.$(selector);
+      curr.after($(docdata.body).html());
+
+      var _newNode = curr.next();
+      curr.remove()
+
+
+
       var count = 0;
       if(hasDone){
           setTimeout(function(){
               count++;
-              obj.done.call($(selector)[0], data);
+              obj.done.call(_newNode[0], data);
               mw.trigger('moduleLoaded');
 
               if (id) {
