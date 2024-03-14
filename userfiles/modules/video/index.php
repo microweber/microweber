@@ -109,19 +109,18 @@ if (strpos($h, 'px') !== false) {
     $video->setHeight($h . 'px');
 }
 
-if($code){
-    if(\Illuminate\Support\Str::startsWith($code, 'http')){
-        $upload = $code;
-        $code = false;
-    }
-}
+//if($code){
+//    if(\Illuminate\Support\Str::startsWith($code, 'http')){
+//        $upload = $code;
+//        $code = false;
+//    }
+//}
 
 if ($upload) {
     $video->setUploadedVideoUrl($upload);
 }
 
 if ($code) {
-
     $video->setEmbedCode($code);
 }
 
