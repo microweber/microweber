@@ -1,4 +1,10 @@
-<!-- Facebook Pixel Code -->
+<?php
+
+return;
+
+?><?php
+
+/*<!-- Facebook Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -14,4 +20,4 @@ fbq('track', 'PageView');
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=<?php print $this->getConfig('Facebook_Pixel', 'code'); ?>&ev=PageView&noscript=1"
 /></noscript>
-<!-- End Facebook Pixel Code -->
+<!-- End Facebook Pixel Code -->*/
