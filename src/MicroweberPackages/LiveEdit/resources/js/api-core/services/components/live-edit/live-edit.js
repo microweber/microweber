@@ -64,6 +64,7 @@ export const liveEditComponent = () => {
     mw.app.editImageDialog =  new LiveEditImageDialog();
     mw.app.layoutBackground =  new LiveEditLayoutBackground();
     mw.app.freeDraggableElementManager =  new FreeDraggableElementManager();
+    mw.app.freeDraggableElementTools =  FreeDraggableElementManager;
     mw.app.wyswygEditor =  new WyswygEditor();
 
     mw.app.fontManager =  new LiveEditFontManager();
