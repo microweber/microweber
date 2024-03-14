@@ -59,6 +59,7 @@ function getSchemaOrgContentFilled($graph, $contentId)
             $graph
                 ->product($getContentById['url'])
                 ->offers($schemaOffers)
+                ->url(content_link($contentId))
                 ->name($getContentById['title'])
                 ->description(content_description($contentId))
                 ->brand($graph->organization());
@@ -73,10 +74,20 @@ function getSchemaOrgContentFilled($graph, $contentId)
             return $graph;
         }
 
+        if ($contentType == 'page') {
+
+            $graph->webPage($getContentById['url'])
+                ->url(content_link($contentId))
+                ->name($getContentById['title'])
+                ->description(content_description($contentId))
+                ->brand($graph->organization());
+        }
+
         if ($contentType == 'post') {
 
             $graph
                 ->article($getContentById['url'])
+                ->url(content_link($contentId))
                 ->name($getContentById['title'])
                 ->articleBody(content_description($contentId))
                 ->brand($graph->organization());
