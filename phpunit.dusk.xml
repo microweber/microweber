@@ -46,6 +46,7 @@
 
         <testsuite name="MicroweberModulesDuskTests">
             <directory suffix="Test.php">./userfiles/modules/*/src/tests/Browser/</directory>
+            <directory suffix="Test.php">./userfiles/modules/*/tests/Browser/</directory>
         </testsuite>
 
 

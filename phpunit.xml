@@ -83,7 +83,9 @@
 
         <testsuite name="MicroweberModulesTests">
             <directory>./userfiles/modules/*/tests/</directory>
+            <directory>./userfiles/modules/*/src/tests/</directory>
             <exclude>./src/MicroweberPackages/*/tests/Browser/</exclude>
+            <exclude>./src/MicroweberPackages/*/src/tests/Browser/</exclude>
 
             <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
             <exclude>./userfiles/modules/*/tests/Browser/</exclude>
