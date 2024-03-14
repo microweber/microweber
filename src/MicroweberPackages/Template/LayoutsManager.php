@@ -1016,6 +1016,8 @@ class LayoutsManager
                 }
 
                 if($css_cont_new != ''){
+
+                    $css_cont_new = str_ireplace('././media/', userfiles_url().'media/', $css_cont_new);
                     $css_cont_new = str_ireplace(userfiles_url(), '../../', $css_cont_new);
                 }
 
