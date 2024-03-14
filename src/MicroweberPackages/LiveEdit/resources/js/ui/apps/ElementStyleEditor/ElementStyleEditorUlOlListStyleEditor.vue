@@ -3,7 +3,10 @@
         <div>
 
             <div class="d-flex">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M360-200v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm0-240q-33 0-56.5-23.5T120-720q0-33 23.5-56.5T200-800q33 0 56.5 23.5T280-720q0 33-23.5 56.5T200-640Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                    <path
+                        d="M360-200v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200-160q-33 0-56.5-23.5T120-240q0-33 23.5-56.5T200-320q33 0 56.5 23.5T280-240q0 33-23.5 56.5T200-160Zm0-240q-33 0-56.5-23.5T120-480q0-33 23.5-56.5T200-560q33 0 56.5 23.5T280-480q0 33-23.5 56.5T200-400Zm0-240q-33 0-56.5-23.5T120-720q0-33 23.5-56.5T200-800q33 0 56.5 23.5T280-720q0 33-23.5 56.5T200-640Z"/>
+                </svg>
 
                 <b class="mw-admin-action-links ms-3" :class="{'active': showUlUlListElementClasses }"
                    v-on:click="toggleShowUlClasses">
@@ -12,8 +15,32 @@
             </div>
 
             <div v-if="showUlUlListElementClasses">
+                <div class="form-control-live-edit-label-wrapper my-4 d-flex align-items-center flex-wrap gap-2">
+                    <label class="live-edit-label">Select a class:</label>
+                    <div v-for="(classObj, index) in predefinedUlClasses" :key="index" class="form-check">
+                        <input class="form-check-input d-none" type="radio" :id="'ulClassRadio' + index"
+                               :value="classObj.key" v-model="selectedClass"  @change="applySelectedClass">
+
+                        <label class="form-check-label" :for="'ulClassRadio' + index">
 
 
+                            {{ classObj.value }}
+
+
+                            <div>
+                                <div>
+                                    <ul :class="classObj.key">
+                                        <li>Item 1</li>
+                                        <li>Item 2</li>
+                                        <li>Item 3</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+<!--
                 <div class="form-control-live-edit-label-wrapper my-4 d-flex align-items-center flex-wrap gap-2">
                     <label class="live-edit-label" for="ulClassesSelect">Select a class:</label>
                     <select class="form-control-live-edit-input form-select" id="ulClassesSelect"
@@ -24,6 +51,7 @@
                         </option>
                     </select>
                 </div>
+-->
 
 
             </div>
