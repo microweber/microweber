@@ -70,7 +70,7 @@ if($upload and !$code){
     $prior = 2;
 }
 
-$video = new \Microweber\Modules\Video\VideoEmbed();
+$video = new \MicroweberPackages\Modules\Video\VideoEmbed();
 $video->setId($params['id']);
 $video->setAutoplay($autoplay);
 
@@ -108,13 +108,6 @@ if (strpos($h, 'px') !== false) {
 } else {
     $video->setHeight($h . 'px');
 }
-
-//if($code){
-//    if(\Illuminate\Support\Str::startsWith($code, 'http')){
-//        $upload = $code;
-//        $code = false;
-//    }
-//}
 
 if ($upload) {
     $video->setUploadedVideoUrl($upload);
