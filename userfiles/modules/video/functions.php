@@ -218,5 +218,6 @@ function render_video_module($params)
         'upload' => $upload,
         'provider' => $provider,
         'thumbnailApplied' => $thumbnailApplied,
+        'prior' => $prior
     ];
 }

@@ -565,9 +565,10 @@ class VideoEmbed
 
         $protocol = "http://";
 
-        if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
-            $secure_connection = true;
-            $protocol = "https://";
+        if (isset($_SERVER['SERVER_PORT'])) {
+            if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
+                $protocol = "https://";
+            }
         }
 
         return $protocol;

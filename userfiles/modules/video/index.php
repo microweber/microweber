@@ -8,6 +8,8 @@ $lazyload = $renderData['lazyload'];
 $upload = $renderData['upload'];
 $provider = $renderData['provider'];
 $thumbnailApplied = $renderData['thumbnailApplied'];
+$prior = $renderData['prior'];
+
 
 $module_template = get_option('template', $params['id']);
 if (empty($module_template)) {
