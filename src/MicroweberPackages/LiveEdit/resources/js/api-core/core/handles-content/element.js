@@ -7,8 +7,6 @@ import {ElementSettingsTarget} from "./element-settings-target";
 import {ElementHandleButtonsVisibility} from "./element-handle-buttons-visibility";
 
 
-
-
 export class ElementHandleContent {
     constructor(rootScope) {
 
@@ -47,7 +45,6 @@ export class ElementHandleContent {
     }
 
     initMenu() {
-
 
 
         const cloneAbleMenu = [
@@ -96,7 +93,7 @@ export class ElementHandleContent {
                 className: 'mw-handle-move-back-button',
                 onTarget: (target, selfBtn) => {
 
-                    const selfVisible =  this.elementHandleButtonsVisibility.shouldShowMoveForwardButton(target);
+                    const selfVisible = this.elementHandleButtonsVisibility.shouldShowMoveForwardButton(target);
 
                     this.setMenuVisible(selfVisible, selfBtn);
                 },
@@ -150,7 +147,7 @@ export class ElementHandleContent {
                 className: 'mw-handle-move-back-button',
                 onTarget: (target, selfBtn) => {
 
-                    const selfVisible =  this.elementHandleButtonsVisibility.shouldShowMoveForwardInMoreButton(target);
+                    const selfVisible = this.elementHandleButtonsVisibility.shouldShowMoveForwardInMoreButton(target);
 
                     this.setMenuVisible(selfVisible, selfBtn);
                 },
@@ -160,7 +157,6 @@ export class ElementHandleContent {
             },
 
         ];
-
 
 
         const elementResetImageSizeMenu = [
@@ -177,10 +173,10 @@ export class ElementHandleContent {
                     el.dataset.objectFit = 'contain';
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowFitImageButton(target);
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowFitImageButton(target);
 
 
-                     this.setMenuVisible(selfVisible, selfBtn);
+                    this.setMenuVisible(selfVisible, selfBtn);
                 },
 
             },
@@ -198,7 +194,7 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = this.elementHandleButtonsVisibility.shouldShowFitImageButton(target);
                     this.setMenuVisible(selfVisible, selfBtn);
-                 },
+                },
 
             },
 
@@ -222,7 +218,7 @@ export class ElementHandleContent {
                     var selfVisible = this.elementHandleButtonsVisibility.shouldShowEditImageButton(target);
 
                     this.setMenuVisible(selfVisible, selfBtn);
-                    },
+                },
             }
         ];
 
@@ -241,8 +237,7 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
 
 
-
-                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowResetElementSizeButton(target);
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowResetElementSizeButton(target);
 
                     this.setMenuVisible(selfVisible, selfBtn);
                 },
@@ -267,7 +262,7 @@ export class ElementHandleContent {
                     this.elementActions.editLink(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =   this.elementHandleButtonsVisibility.shouldShowLinkButton(target);
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowLinkButton(target);
 
                     this.setMenuVisible(selfVisible, selfBtn);
                 },
@@ -285,7 +280,7 @@ export class ElementHandleContent {
                     this.elementActions.removeLink(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowUnlinkButton(target);
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowUnlinkButton(target);
                     this.setMenuVisible(selfVisible, selfBtn);
                 },
 
@@ -316,14 +311,13 @@ export class ElementHandleContent {
                 },
                 onTarget: (target, selfBtn) => {
                     var selfVisible = this.elementHandleButtonsVisibility.shouldShowStyleEditorButton(target);
-                     this.setMenuVisible(selfVisible, selfBtn);
+                    this.setMenuVisible(selfVisible, selfBtn);
 
                 },
 
             }
 
         ];
-
 
 
         const elementEditImageInEditorMenu = [
@@ -344,7 +338,7 @@ export class ElementHandleContent {
                     var selfVisible = this.elementHandleButtonsVisibility.shouldShowEditImageButton(target);
 
                     this.setMenuVisible(selfVisible, selfBtn);
-                    },
+                },
             }
         ];
 
@@ -441,15 +435,12 @@ export class ElementHandleContent {
                 className: 'mw-handle-element-open-image-editor-align-image-button',
                 menu: [
                     ...elementEditImageAlignMenuAlignLeft,
-                        ...elementEditImageAlignMenuAlignCenter,
-                        ...elementEditImageAlignMenuAlignRight,
-                        ...elementEditImageAlignMenuAlignClear,
+                    ...elementEditImageAlignMenuAlignCenter,
+                    ...elementEditImageAlignMenuAlignRight,
+                    ...elementEditImageAlignMenuAlignClear,
                 ]
             }
         ];
-
-
-
 
 
         const elementBackgroundImageMenu = [
@@ -470,7 +461,7 @@ export class ElementHandleContent {
                     var selfVisible = this.elementHandleButtonsVisibility.shouldShowBackroundImageEditorButton(target);
 
                     this.setMenuVisible(selfVisible, selfBtn);
-                    },
+                },
             }
         ];
         const elementBackgroundImageMenuOnMoreButton = [
@@ -490,7 +481,7 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = this.elementHandleButtonsVisibility.shouldShowBackroundImageEditorButtonOnTheMoreButton(target);
                     this.setMenuVisible(selfVisible, selfBtn);
-                    },
+                },
             }
         ];
 
@@ -509,10 +500,10 @@ export class ElementHandleContent {
 
                 },
                 onTarget: (target, selfBtn) => {
-                     var selfVisible =  this.elementHandleButtonsVisibility.shouldShowFreeDraggableButton(target);
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowFreeDraggableButton(target);
 
                     this.setMenuVisible(selfVisible, selfBtn);
-                    },
+                },
             }
         ];
 
@@ -525,7 +516,7 @@ export class ElementHandleContent {
                 action: () => {
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowDragButton(target);
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowDragButton(target);
 
                     this.setMenuVisible(selfVisible, selfBtn);
 
@@ -545,8 +536,7 @@ export class ElementHandleContent {
                     this.elementActions.editElement(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowEditButton(target);
-
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowEditButton(target);
 
 
                     this.setMenuVisible(selfVisible, selfBtn);
@@ -561,11 +551,11 @@ export class ElementHandleContent {
                 className: 'mw-handle-add-button',
 
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowInsertModuleButton(target);
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowInsertModuleButton(target);
 
                     this.setMenuVisible(selfVisible, selfBtn);
 
-                 },
+                },
 
                 action: (el) => {
 
@@ -589,11 +579,11 @@ export class ElementHandleContent {
 
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowSettingsButton(target);
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowSettingsButton(target);
 
                     this.setMenuVisible(selfVisible, selfBtn);
 
-                 }
+                }
             },
             {
                 title: 'Background color',
@@ -601,13 +591,13 @@ export class ElementHandleContent {
                 icon: this.handleIcons.icon('color'),
                 className: 'mw-handle-insert-color-button',
 
-                action: (el, selfBtn) =>  {
+                action: (el, selfBtn) => {
                     this.elementActions.editBackgroundColor(el, selfBtn);
 
                 },
                 onTarget: (target, selfBtn) => {
-                    var selfVisible =  this.elementHandleButtonsVisibility.shouldShowEditBackgroundColorButton(target);
-                    if(selfVisible) {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowEditBackgroundColorButton(target);
+                    if (selfVisible) {
                         selfBtn.querySelector('.mw-le--handle-icon--color-color').style.backgroundColor = getComputedStyle(target).backgroundColor;
                     }
 
@@ -615,16 +605,15 @@ export class ElementHandleContent {
                 }
             },
 
-       //    ...cloneAbleMenuInMoreMenu,
+            //    ...cloneAbleMenuInMoreMenu,
 
             ...elementEditImageInEditorMenu,
-         //   ...elementEditImageAlignMenu,
-             // ...elementEditImageAlignMenuAlignLeft,
-             // ...elementEditImageAlignMenuAlignRight,
-             // ...elementEditImageAlignMenuAlignCenter,
-             // ...elementEditImageAlignMenuAlignClear,
+            //   ...elementEditImageAlignMenu,
+            // ...elementEditImageAlignMenuAlignLeft,
+            // ...elementEditImageAlignMenuAlignRight,
+            // ...elementEditImageAlignMenuAlignCenter,
+            // ...elementEditImageAlignMenuAlignClear,
             ...elementMakeFreeOnMoreButton,
-
 
 
         ];
@@ -634,39 +623,39 @@ export class ElementHandleContent {
 
         var shouldShowMoreMenu = true;
 
-      // var shouldShowMoreMenu =
-      //       cloneAbleMenuInMoreMenu.length > 0 ||
-      //       elementResetSizeMenu.length > 0 ||
-      //       elementEditImageUploadMenu.length > 0 ||
-      //       elementEditImageInEditorMenu.length > 0 ||
-      //      // elementMakeFreeOnMoreButton.length > 0 ||
-      //       elementBackgroundImageMenuOnMoreButton.length > 0;
-      //
+        // var shouldShowMoreMenu =
+        //       cloneAbleMenuInMoreMenu.length > 0 ||
+        //       elementResetSizeMenu.length > 0 ||
+        //       elementEditImageUploadMenu.length > 0 ||
+        //       elementEditImageInEditorMenu.length > 0 ||
+        //      // elementMakeFreeOnMoreButton.length > 0 ||
+        //       elementBackgroundImageMenuOnMoreButton.length > 0;
+        //
 
 
-        if(shouldShowMoreMenu) {
+        if (shouldShowMoreMenu) {
 
 
-
-
-             tailMenuQuickSettings = [
+            tailMenuQuickSettings = [
                 {
                     title: 'Quick Settings',
                     icon: this.handleIcons.icon('more'),
                     menu: [
+                        {
+                            name: 'More settings menu',
+                            nodes:
+                                [
+                                    ...elementEditImageUploadMenu,
+                                    ...elementEditImageInEditorMenu,
+                                    ...cloneAbleMenuInMoreMenu,
+                                    ...elementMakeFreeOnMoreButton,
+                                ]
 
-
+                        },
                         {
                             name: 'Reset Element Size',
-                            nodes: [
-                                ...elementResetSizeMenu,
-                                ...elementEditImageUploadMenu,
-                        ...elementEditImageInEditorMenu,
-                      ...cloneAbleMenuInMoreMenu,
-                       ...elementMakeFreeOnMoreButton,
-                            ]
-
-
+                            nodes:
+                            elementResetSizeMenu,
                         },
                         {
                             name: 'Image Background',
@@ -680,9 +669,6 @@ export class ElementHandleContent {
         }
 
 
-
-
-
         const tail = [
             {
                 title: this.rootScope.lang('Delete'),
@@ -693,9 +679,9 @@ export class ElementHandleContent {
                     this.elementActions.deleteElement(el);
                 },
                 onTarget: (target, selfBtn) => {
-                    let selfVisible =  this.elementHandleButtonsVisibility.shouldShowDeleteElementButton(target);
+                    let selfVisible = this.elementHandleButtonsVisibility.shouldShowDeleteElementButton(target);
 
-                    if(selfVisible) {
+                    if (selfVisible) {
 
                         selfBtn.classList.remove('mw-le-handle-menu-button-hidden');
                     } else {
@@ -718,14 +704,14 @@ export class ElementHandleContent {
 
         ];
 
-          if(tailMenuQuickSettings.length > 0) {
+        if (tailMenuQuickSettings.length > 0) {
 
 
-              menuItems.push({
-                  name: 'tailMenuQuickSettings',
-                  nodes: tailMenuQuickSettings
-              });
-          }
+            menuItems.push({
+                name: 'tailMenuQuickSettings',
+                nodes: tailMenuQuickSettings
+            });
+        }
 
         menuItems.push({
             name: 'tail',
@@ -736,16 +722,15 @@ export class ElementHandleContent {
             id: 'mw-handle-item-element-menu',
             title: 'Element',
             handleScope: this,
-            menus:menuItems,
+            menus: menuItems,
 
 
         });
 
 
-        console.log(  22222222 )
-        console.log(  this.menu )
+        console.log(22222222)
+        console.log(this.menu)
     }
-
 
 
     setMenuVisible(isVisible, node) {

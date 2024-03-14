@@ -5,6 +5,7 @@
 if(window.self !== window.top) {
 
     mw.require('liveedit.css');
+    mw.require('moveable.js');
     //mw.require('options.js');
 
 

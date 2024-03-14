@@ -9,7 +9,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
     constructor() {
         super();
-        mw.top().app.canvas.getWindow().mw.require('moveable.js');
+
     }
 
 
