@@ -1,4 +1,8 @@
-<!-- Mautic Tracking script -->
+<?php
+
+return;
+
+?><!-- Mautic Tracking script -->
 <script>
     (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
         w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),

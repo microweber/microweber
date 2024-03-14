@@ -50,6 +50,13 @@ class LiveEditMenusApi extends Controller
                 if ($ref) {
                     $item['ref'] = $ref;
                 }
+
+                $onclick = $menuItem->getAttribute('onclick');
+                if ($onclick) {
+                    $item['onclick'] = $onclick;
+                }
+
+
                 $id = $menuItem->getAttribute('id');
                 if ($id) {
                     $item['id'] = $id;

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "10a0473024df2373a60fee584a51c3de",
+    "content-hash": "e8c70354b72087c866eabc5dac4bc792",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -11968,6 +11968,80 @@
             "time": "2023-04-12T10:02:12+00:00"
         },
         {
+            "name": "spatie/schema-org",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/schema-org.git",
+                "reference": "355d1ec7ee2d18b368a54e43ffebf23a3bd1ffcf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/schema-org/zipball/355d1ec7ee2d18b368a54e43ffebf23a3bd1ffcf",
+                "reference": "355d1ec7ee2d18b368a54e43ffebf23a3bd1ffcf",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.6",
+                "graham-campbell/analyzer": "^3.0.5",
+                "illuminate/collections": "^8.62.0",
+                "league/flysystem": "^2.3.0 || ^3.0",
+                "pestphp/pest": "^1.21",
+                "symfony/console": "^5.3.7 || 6.0",
+                "twig/twig": "^3.3.3"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\SchemaOrg\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tom Witkowski",
+                    "email": "dev.gummibeer@gmail.com",
+                    "homepage": "https://gummibeer.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A fluent builder Schema.org types and ld+json generator",
+            "homepage": "https://github.com/spatie/schema-org",
+            "keywords": [
+                "schema-org",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/schema-org/issues",
+                "source": "https://github.com/spatie/schema-org/tree/main"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-01-11T14:59:19+00:00"
+        },
+        {
             "name": "spatie/url",
             "version": "2.3.0",
             "source": {
@@ -19277,6 +19351,7 @@
         "laracasts/presenter": 20,
         "laravel/cashier": 20,
         "league/csv": 20,
+        "microweber-deps/image-comparator": 20,
         "microweber-deps/seo-helper": 20,
         "microweber-packages/microweber-class-alias": 20,
         "opis/closure": 20,

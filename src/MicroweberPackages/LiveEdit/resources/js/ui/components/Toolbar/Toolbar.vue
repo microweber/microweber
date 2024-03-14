@@ -89,7 +89,7 @@ html.preview .back-to-edit{
                 </span>
                 <div id="user-menu" class="card mw-le-nav-box">
                     <nav>
-                        <a v-for="menuItem in menu" :href="menuItem.href" :id="menuItem.id" :ref="menuItem.ref?menuItem.ref:''" :class="menuItem.class?menuItem.class:''">
+                        <a v-for="menuItem in menu" :href="menuItem.href" :onclick="menuItem.onclick" :target="menuItem.target" :id="menuItem.id" :ref="menuItem.ref?menuItem.ref:''" :class="menuItem.class?menuItem.class:''">
                             <span v-html="menuItem.icon_html"></span>
                             {{ menuItem.title }}
 

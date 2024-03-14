@@ -1,4 +1,8 @@
-<!-- Smartsupp Live Chat script -->
+<?php
+
+return;
+
+?><!-- Smartsupp Live Chat script -->
 <script type="text/javascript">
 var _smartsupp = _smartsupp || {};
 _smartsupp.key = '<?php print $this->getConfig('Smartsupp', 'code'); ?>';
