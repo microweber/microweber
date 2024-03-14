@@ -105,6 +105,7 @@ if(window.self !== window.top) {
             mw.$('[data-mce-bogus]', doc).remove();
             mw.$('.edit .ui-resizable-handle', doc).remove();
             mw.$('script', doc).remove();
+            mw.$('.moveable-control-box', doc).remove();
 
 
             //var doc = mw.$(doc).find('script').remove();

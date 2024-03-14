@@ -72,6 +72,20 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
     }
 
 
+    static getTargetNode(node) {
+        if(!node) {
+            return
+        }
+        if(node.nodeType !== 1) {
+            node =  node.parentNode;
+        }
+        if(!node) {
+            return
+        }
+        return mw.tools.firstParentOrCurrentWithAnyOfClasses(node, ['element', 'module'])
+    }
+
+
     static getElementContainer(node) {
         if(!node) {
             return
