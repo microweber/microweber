@@ -24,6 +24,7 @@ function getSchemaOrgContentFilled($graph, $contentId)
 
     if (isset($getContentById['content_type'])) {
         $contentType = $getContentById['content_type'];
+
         if ($contentType == 'product') {
 
             $productPrice = 0;
@@ -81,6 +82,16 @@ function getSchemaOrgContentFilled($graph, $contentId)
                 ->name($getContentById['title'])
                 ->description(content_description($contentId))
                 ->brand($graph->organization());
+
+            if (method_exists($graph, 'hide')) {
+                $graph->hide(\Spatie\SchemaOrg\Organization::class);
+            }
+
+            $graph
+                ->organization()
+                ->name(site_hostname());
+
+            return $graph;
         }
 
         if ($contentType == 'post') {
