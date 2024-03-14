@@ -615,7 +615,7 @@ export class ElementHandleContent {
                 }
             },
 
-           ...cloneAbleMenuInMoreMenu,
+       //    ...cloneAbleMenuInMoreMenu,
 
             ...elementEditImageInEditorMenu,
          //   ...elementEditImageAlignMenu,
@@ -632,13 +632,16 @@ export class ElementHandleContent {
         var tailMenuQuickSettings = [];
 
 
-        var shouldShowMoreMenu = cloneAbleMenuInMoreMenu.length > 0 ||
-            elementResetSizeMenu.length > 0 ||
-            elementEditImageUploadMenu.length > 0 ||
-            elementEditImageInEditorMenu.length > 0 ||
-           // elementMakeFreeOnMoreButton.length > 0 ||
-            elementBackgroundImageMenuOnMoreButton.length > 0;
+        var shouldShowMoreMenu = true;
 
+      // var shouldShowMoreMenu =
+      //       cloneAbleMenuInMoreMenu.length > 0 ||
+      //       elementResetSizeMenu.length > 0 ||
+      //       elementEditImageUploadMenu.length > 0 ||
+      //       elementEditImageInEditorMenu.length > 0 ||
+      //      // elementMakeFreeOnMoreButton.length > 0 ||
+      //       elementBackgroundImageMenuOnMoreButton.length > 0;
+      //
 
 
         if(shouldShowMoreMenu) {
@@ -653,7 +656,8 @@ export class ElementHandleContent {
                     menu: [
                         ...elementEditImageUploadMenu,
                         ...elementEditImageInEditorMenu,
-                    //    ...elementMakeFreeOnMoreButton,
+                      ...cloneAbleMenuInMoreMenu,
+                       ...elementMakeFreeOnMoreButton,
 
                         {
                             name: 'Reset Element Size',
@@ -713,6 +717,7 @@ export class ElementHandleContent {
 
           if(tailMenuQuickSettings.length > 0) {
 
+
               menuItems.push({
                   name: 'tailMenuQuickSettings',
                   nodes: tailMenuQuickSettings
@@ -732,6 +737,10 @@ export class ElementHandleContent {
 
 
         });
+
+
+        console.log(  22222222 )
+        console.log(  this.menu )
     }
 
 
