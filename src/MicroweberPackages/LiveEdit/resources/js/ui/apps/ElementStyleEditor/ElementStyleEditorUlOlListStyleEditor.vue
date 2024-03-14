@@ -16,12 +16,12 @@
 
             <div v-if="showUlUlListElementClasses">
                 <div class="form-control-live-edit-label-wrapper my-4 d-flex align-items-center flex-wrap gap-2">
-                    <label class="live-edit-label">Select a class:</label>
-                    <div v-for="(classObj, index) in predefinedUlClasses" :key="index" class="form-check">
+                    <label class="live-edit-label w-100">Select a style:</label>
+                    <div v-for="(classObj, index) in predefinedUlClasses" :key="index" class="form-check mw-live-edit-list-style-editor-wrapper">
                         <input class="form-check-input d-none" type="radio" :id="'ulClassRadio' + index"
                                :value="classObj.key" v-model="selectedClass"  @change="applySelectedClass">
 
-                        <label class="form-check-label" :for="'ulClassRadio' + index">
+                        <label class="live-edit-label" :for="'ulClassRadio' + index">
 
 
                             {{ classObj.value }}
@@ -29,7 +29,7 @@
 
                             <div>
                                 <div>
-                                    <ul :class="classObj.key">
+                                    <ul class="mb-0" :class="classObj.key">
                                         <li>Item 1</li>
                                         <li>Item 2</li>
                                         <li>Item 3</li>
