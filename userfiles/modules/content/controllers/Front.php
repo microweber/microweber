@@ -1050,8 +1050,10 @@ class Front
                 foreach ($data as $dataItem) {
                     $contentIds[] = $dataItem['id'];
                 }
-                $schemaOrgScript = getSchemaOrgScriptByContentIds($contentIds);
-                echo $schemaOrgScript;
+                if (function_exists('getSchemaOrgScriptByContentIds')) {
+                    $schemaOrgScript = getSchemaOrgScriptByContentIds($contentIds);
+                    echo $schemaOrgScript;
+                }
                 ?>
 
                 <?php
