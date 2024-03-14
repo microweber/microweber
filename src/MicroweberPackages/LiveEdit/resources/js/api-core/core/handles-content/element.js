@@ -640,6 +640,7 @@ export class ElementHandleContent {
                 {
                     title: 'Quick Settings',
                     icon: this.handleIcons.icon('more'),
+                    type: 'select',
                     menu: [
                         {
                             name: 'More settings menu',
