@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Multilanguage;
+namespace Tests\Browser\LastTests;
 
 use Tests\DuskTestCaseMultilanguage;
 
