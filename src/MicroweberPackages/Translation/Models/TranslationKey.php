@@ -88,16 +88,21 @@ class TranslationKey extends Model
             return $filter['page'];
         });
 
-        $getTranslationsKeys = $queryModel->paginate(100);
-        $pagination = $getTranslationsKeys->links("pagination::bootstrap-4-flex");
+        if (isset($filter['all'])) {
+            $getTranslationsKeys = $queryModel->get();
+            $pagination = null;
+        } else {
+            $getTranslationsKeys = $queryModel->paginate(100);
+            $pagination = $getTranslationsKeys->links("pagination::bootstrap-4-flex");
+        }
+
 
         $group = [];
 
         foreach ($getTranslationsKeys as $translationKey) {
 
             $translationLocales = [];
-            $getTranslationTextLocales = TranslationText::
-                where('translation_key_id', $translationKey->id)
+            $getTranslationTextLocales = TranslationText::where('translation_key_id', $translationKey->id)
                 ->get()
                 ->toArray();
 
