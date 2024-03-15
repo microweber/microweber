@@ -4,7 +4,7 @@ namespace MicroweberPackages\Translation;
 
 class TranslationRefreshLangKeys
 {
-    public function start()
+    public function start($params)
     {
         $langEnJsonPath = __DIR__ . '/resources/lang/en_US.json';
 
@@ -33,6 +33,10 @@ class TranslationRefreshLangKeys
 
         if ($langDiff > 0) {
             $langFromJson = json_encode($langFromJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+            if (isset($params['saveIn'])) {
+                $langEnJsonPath = $params['saveIn'];
+            }
             file_put_contents($langEnJsonPath, $langFromJson);
         }
     }
