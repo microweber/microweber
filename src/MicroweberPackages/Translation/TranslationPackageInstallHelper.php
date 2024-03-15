@@ -66,33 +66,36 @@ class TranslationPackageInstallHelper
     public static function installLanguage( string $locale)
     {
         $locale = sanitize_path($locale);
-        $file = __DIR__ . '/resources/lang_xlsx/' . $locale . '.xlsx';
+        $file = __DIR__ . '/resources/lang/' . $locale . '.json';
 
         if (is_file($file)) {
+
             if (php_can_use_func('set_time_limit')) {
                 @set_time_limit(-0);
             }
 
-            $readFile = new XlsxReader($file);
-            $data = $readFile->readData();
-            $translations = $data['content'];
+            $json = file_get_contents($file);
+            $translations = json_decode($json, true);
+
             $forImport = [];
             if ($translations) {
-                foreach ($translations as $translation_item) {
-                    if (!isset($translation_item['translation_locale'])) {
-                        $translation_item['translation_locale'] = $locale;
-                    }
-                    if (isset($translation_item['translation_locale'])) {
-                        $forImport[] = $translation_item;
-
-                    }
+                foreach ($translations as $translationKey=>$translationText) {
+                    $forImport[] = [
+                        'translation_namespace' => '*',
+                        'translation_group' => '*',
+                        'translation_key' => $translationKey,
+                        'translation_text' => $translationText,
+                        'translation_locale' => $locale,
+                    ];
                 }
             }
-             $import = new \MicroweberPackages\Translation\TranslationImport();
+
+            $import = new \MicroweberPackages\Translation\TranslationImport();
 
             if (is_object(self::$logger) and method_exists(self::$logger, 'log')) {
                 $import->logger = self::$logger;
             }
+
             return $import->import($forImport);
         }
     }
