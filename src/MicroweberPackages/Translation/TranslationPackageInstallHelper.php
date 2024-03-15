@@ -16,7 +16,7 @@ class TranslationPackageInstallHelper
 {
     static $logger = null;
 
-    public static function getAvailableTranslations($type = 'xlsx')
+    public static function getAvailableTranslations($type = 'json')
     {
         $translations = [];
 
