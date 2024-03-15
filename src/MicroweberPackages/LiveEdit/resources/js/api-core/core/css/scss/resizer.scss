@@ -43,12 +43,14 @@
     width: 100%;
 }
 
-[data-hide-resizer="true"] {
+[data-hide-resizer="true"],
+[data-mw-free-element="true"] {
     .mw-le-resizer{
         display: none !important;
     }
 }
-[data-hide-outline="true"] {
+[data-hide-outline="true"],
+[data-mw-free-element="true"] {
     border-color: transparent !important
 }
 
