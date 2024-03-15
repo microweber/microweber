@@ -74,6 +74,31 @@ class VideoBackendTest extends TestCase
 
         $this->assertSame($renderData['provider'], 'youtube');
 
+        // Situation 6: $code is youtube short url
+        save_option('embed_url', 'https://www.youtube.com/shorts/TQ5p2RSOVSc', $params['id']);
+        save_option('autoplay', 1, $params['id']);
+        save_option('width', 560, $params['id']);
+        save_option('height', 315, $params['id']);
+        save_option('loop', 1, $params['id']);
+        save_option('hide_controls', 1, $params['id']);
+        save_option('muted', 1, $params['id']);
+        save_option('lazyload', 1, $params['id']);
+
+        $renderData = render_video_module($params);
+
+        $this->assertIsArray($renderData);
+        $this->assertArrayHasKey('code', $renderData);
+        $this->assertTrue(Str::contains($renderData['code'], 'video_background_cover.svg'));
+        $this->assertTrue(Str::contains($renderData['code'], 'http://youtube.com/embed/TQ5p2RSOVSc'));
+        $this->assertTrue(Str::contains($renderData['code'], 'mute=1'));
+        $this->assertTrue(Str::contains($renderData['code'], 'autoplay=1'));
+        $this->assertTrue(Str::contains($renderData['code'], 'wmode=transparent'));
+        $this->assertTrue(Str::contains($renderData['code'], 'allow="autoplay"'));
+        $this->assertTrue(Str::contains($renderData['code'], 'width="560px"'));
+        $this->assertTrue(Str::contains($renderData['code'], 'height="315px"'));
+
+        $this->assertSame($renderData['provider'], 'youtube');
+
     }
 
 }
