@@ -251,6 +251,11 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
             const startDragRotate = 0;
             const throttleDragRotate = 0;
 
+            if(element.__mw_movable){
+                element.__mw_movable.destroy();
+                element.__mw_movable = null;
+            }
+
             const Mvb = mw.top().app.canvas.getWindow().Moveable;
 
             if(!Mvb.mw) {

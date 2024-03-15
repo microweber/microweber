@@ -3209,3 +3209,27 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 
     }
 }
+
+
+.mw-live-edit-list-style-editor-wrapper {
+    border: 1px solid #ececec;
+    padding: 10px;
+    padding-bottom: 0;
+    transition: .3s;
+    cursor: pointer;
+
+    ul {
+        padding-left: 12px;
+        cursor: pointer;
+    }
+
+    .live-edit-label {
+        cursor: pointer;
+    }
+
+    &:hover {
+        transform: scale(1.02);
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+    }
+}
