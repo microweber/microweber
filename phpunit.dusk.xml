@@ -22,6 +22,7 @@
             <exclude>./tests/Browser/ShopTests</exclude>
             <exclude>./tests/Browser/SlowTests</exclude>
             <exclude>./tests/Browser/FlakyTests</exclude>
+            <exclude>./tests/Browser/LastTests</exclude>
         </testsuite>
 
 
@@ -55,10 +56,15 @@
         </testsuite>
 
 
-
         <testsuite name="MicroweberFlakyTests">
             <directory>./tests/Browser/FlakyTests</directory>
         </testsuite>
+
+
+        <testsuite name="MicroweberLastTests">
+            <directory>./tests/Browser/LastTests</directory>
+        </testsuite>
+
     </testsuites>
 
     <source>
