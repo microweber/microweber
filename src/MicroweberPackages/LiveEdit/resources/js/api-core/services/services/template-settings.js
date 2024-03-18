@@ -132,7 +132,63 @@ export class TemplateSettings extends MicroweberBaseClass {
             });
     }
 
-};
+    getPredefinedBoxShadows() {
+        var predefinedShadows = [
+
+            {
+                name: "Shadow 1",
+                value: "5px 5px 10px 0px rgba(0,0,0,0.2)"
+            },
+            {
+                name: "Shadow 2",
+                value: "0px 10px 20px 5px rgba(0,0,0,0.3) inset"
+            },
+            {
+                name: "Shadow 3",
+                value: "-5px -5px 15px 0px rgba(0,0,255,0.4) inset"
+            },
+            {
+                name: "Shadow 4",
+                value: "0px 8px 24px rgba(149, 157, 165, 0.2)"
+            },
+
+            {
+                name: "Shadow 5",
+                value: "0px 7px 29px 0px rgba(100, 100, 111, 0.2)"
+            },
+
+
+        ];
+
+        var predefinedShadows = [
+            {
+                name: "No shadow",
+                value: ""
+            }, {
+                name: "Custom",
+                value: "custom"
+            },
+            {
+                name: "Shadow 1",
+                value: "5px 5px 10px 0px rgba(0,0,0,0.2)"
+            },
+            {
+                name: "Shadow 2",
+                value: "0px 10px 20px 5px rgba(0,0,0,0.3) inset"
+            },
+            {
+                name: "Shadow 3",
+                value: "-5px -5px 15px 5px rgba(0,0,0,0.3) inset"
+            }
+
+        ];
+
+
+        return predefinedShadows;
+    }
+
+
+}
 
 
 

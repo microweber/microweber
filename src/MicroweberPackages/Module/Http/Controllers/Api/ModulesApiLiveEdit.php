@@ -511,7 +511,7 @@ class ModulesApiLiveEdit extends Controller
                             'template' => $module_item['template'],
                             'description' => $module_item['description'],
                             'settings' => $module_item['settings'],
-                            'as_element' => $module_item['as_element'],
+                            'as_element' => $module_item['as_element'] ?? false,
                             'keywords'=>$module_item['keywords'] ?? $module_item['name'],
                         ];
 
