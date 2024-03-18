@@ -119,7 +119,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
             return
         }
         const container = layout.classList.contains('mw-layout-container') ? layout : layout.querySelector('.mw-layout-container');
-        if(!container) {
+        if(!container || !container.style.height) {
             return
         }
         mw.top().app.cssEditor.style(container, {
@@ -216,34 +216,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
     }
 
     #adapters = {
-        jQuery: function(element, container, scope) {
-            $(element).draggable(
-                        {
-                            // containment: container,
-                            scroll: false,
-                            start: function (event, ui) {
 
-                            },
-                            drag: function (event, ui) {
-
-
-                                scope.setLayoutHeight(container)
-
-                                mw.app.dispatch('liveEditRefreshHandlesPosition');
-
-                            },
-                            stop: function (event, ui) {
-
-
-
-                                FreeDraggableElementManager.toPercent(this);
-
-                                mw.app.dispatch('liveEditRefreshHandlesPosition');
-
-                            }
-                        }
-                    );
-        },
         movable: function(element, container, scope) {
             const draggable = true;
             const throttleDrag = 1;
@@ -251,10 +224,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
             const startDragRotate = 0;
             const throttleDragRotate = 0;
 
-            if(element.__mw_movable){
-                element.__mw_movable.destroy();
-                element.__mw_movable = null;
-            }
+
 
             const Mvb = mw.top().app.canvas.getWindow().Moveable;
 
@@ -343,6 +313,8 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
                  })
             }
             const afterChanged = (e) => {
+                console.log(e);
+
                 container.querySelectorAll('[data-hide-resizer]').forEach(node => {
                     FreeDraggableElementManager.toPercent(node);
                     mw.top().app.cssEditor.style(node, FreeDraggableElementManager.getStyle(node));
@@ -364,8 +336,14 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
             mvb.on("rotateEnd", afterChanged)
 
              mvb.on("drag", e => {
-                 e.target.style.top = e.top + 'px';
-                 e.target.style.left = e.left + 'px';
+
+                var eTop =  Math.max(0, e.top);
+                var eLeft =   Math.max(0, e.left);
+
+
+
+                 e.target.style.top = eTop + 'px';
+                 e.target.style.left = eLeft + 'px';
                  mw.top().app.liveEdit.handles.hide();
                  mw.app.liveEdit.pause();
                  scope.setLayoutHeight(container)
@@ -389,12 +367,14 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
     freeElement(element, container = null) {
         const adapter = 'movable';
+
         if(!element) {
             return;
         }
         if(!container) {
             container = FreeDraggableElementManager.getElementContainer(element);
         }
+
         this.#adapters[adapter](element, container, this);
         element.dataset.mwFreeElement = true;
     }
