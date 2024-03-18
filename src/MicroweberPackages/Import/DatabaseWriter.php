@@ -123,6 +123,15 @@ class DatabaseWriter
                 } elseif ($findUserByUsername) {
                     $this->logger->setLogInfo('Skip overwriting "' . $item['save_to_table'] . '"  Username: ' . $findUserByUsername->username);
                     return array('item' => $item, 'itemIdDatabase' => $findUserByUsername->id);
+                } else {
+                    $findUserIsAdmin = \DB::table($item['save_to_table'])
+                        ->where('is_admin', 1)
+                        ->where('id', $item['id'])
+                        ->first();
+                    if ($findUserIsAdmin) {
+                        $this->logger->setLogInfo('Skip overwriting "' . $item['save_to_table'] . '"  User is admin: ' . $findUserIsAdmin->email);
+                        return array('item' => $item, 'itemIdDatabase' => $findUserIsAdmin->id);
+                    }
                 }
             }
 
