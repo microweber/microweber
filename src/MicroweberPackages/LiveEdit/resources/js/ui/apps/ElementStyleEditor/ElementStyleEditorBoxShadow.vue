@@ -1,43 +1,75 @@
 <template>
     <div>
         <div class="box-shadow-options">
+            <PredefinedBoxShadowsSelect :predefinedShadows="predefinedShadows"
+                                        :selectedShadow="selectedShadow"
+                                        @update:selectedShadow="handleShadowChange"/>
+            <div class="form-group" v-if="canCustomizeBoxShadowOptions">
 
-
-            <div class="form-group">
-
-
-                <PredefinedBoxShadowsSelect :predefinedShadows="predefinedShadows"
-                                            :selectedShadow="selectedShadow"
-                                            @update:selectedShadow="handleShadowChange"/>
-
-                <SliderSmall label="Horizontal Shadow Length" v-model="boxShadowOptions.horizontalLength" :min="-300"
-                             :max="300" :step="1"></SliderSmall>
-                <SliderSmall label="Vertical Shadow Length" v-model="boxShadowOptions.verticalLength" :min="-300"
-                             :max="300" :step="1"></SliderSmall>
-                <SliderSmall label="Blur Radius" v-model="boxShadowOptions.blurRadius" :min="0" :max="30"
-                             :step="1"></SliderSmall>
-                <SliderSmall label="Spread Radius" v-model="boxShadowOptions.spreadRadius" :min="0" :max="30"
-                             :step="1"></SliderSmall>
-
-
-                <ColorPicker v-model="boxShadowOptions.shadowColor" v-bind:color=boxShadowOptions.shadowColor
-                             :label="'Color'"
-                             @change="handleBoxShadowColorChange"/>
-
-            </div>
-            <div class="form-group">
-                <div class="form-check">
-                    <label for="inset"> Inset</label>
-                    <input style="margin-inline: -15px 8px;"
-                           type="checkbox"
-                           id="inset"
-                           class="form-check-input"
-                           v-model="boxShadowOptions.inset"
-                           @change="applyBoxShadow"
-                    />
-
+                <div v-for="(boxShadowOptionsGroup, index) in boxShadowOptionsGroups" :key="index">
+                    <ColorPicker v-model="boxShadowOptionsGroup.shadowColor"
+                                 v-bind:color=boxShadowOptionsGroup.shadowColor
+                                 :label="'Color'"
+                                 @change="handleBoxShadowColorChange(boxShadowOptionsGroup.shadowColor, index)"/>
+                    <SliderSmall label="Horizontal Shadow Length" v-model="boxShadowOptionsGroup.horizontalLength"
+                                 :min="-300"
+                                 :max="300" :step="1"></SliderSmall>
+                    <SliderSmall label="Vertical Shadow Length" v-model="boxShadowOptionsGroup.verticalLength"
+                                 :min="-300" :max="300" :step="1"></SliderSmall>
+                    <SliderSmall label="Blur Radius" v-model="boxShadowOptionsGroup.blurRadius" :min="0" :max="30"
+                                 :step="1"></SliderSmall>
+                    <SliderSmall label="Spread Radius" v-model="boxShadowOptionsGroup.spreadRadius" :min="0" :max="30"
+                                 :step="1"></SliderSmall>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <label for="inset"> Inset</label>
+                            <input style="margin-inline: -15px 8px;"
+                                   type="checkbox"
+                                   id="inset"
+                                   class="form-check-input"
+                                   v-model="boxShadowOptionsGroup.inset"
+                                   @change="applyBoxShadow"
+                            />
+                        </div>
+                    </div>
                 </div>
+
+
             </div>
+
+            <!--            <div class="form-group" v-if="canCustomizeBoxShadowOptions">
+
+
+                            <SliderSmall label="Horizontal Shadow Length" v-model="boxShadowOptions.horizontalLength" :min="-300"
+                                         :max="300" :step="1"></SliderSmall>
+                            <SliderSmall label="Vertical Shadow Length" v-model="boxShadowOptions.verticalLength" :min="-300"
+                                         :max="300" :step="1"></SliderSmall>
+                            <SliderSmall label="Blur Radius" v-model="boxShadowOptions.blurRadius" :min="0" :max="30"
+                                         :step="1"></SliderSmall>
+                            <SliderSmall label="Spread Radius" v-model="boxShadowOptions.spreadRadius" :min="0" :max="30"
+                                         :step="1"></SliderSmall>
+
+
+                            <ColorPicker v-model="boxShadowOptions.shadowColor" v-bind:color=boxShadowOptions.shadowColor
+                                         :label="'Color'"
+                                         @change="handleBoxShadowColorChange"/>
+
+                        </div>
+
+
+                        <div class="form-group" v-if="canCustomizeBoxShadowOptions">
+                            <div class="form-check">
+                                <label for="inset"> Inset</label>
+                                <input style="margin-inline: -15px 8px;"
+                                       type="checkbox"
+                                       id="inset"
+                                       class="form-check-input"
+                                       v-model="boxShadowOptions.inset"
+                                       @change="applyBoxShadow"
+                                />
+
+                            </div>
+                        </div>-->
 
 
         </div>
@@ -61,6 +93,7 @@ export default {
             'activeNode': null,
             'isReady': false,
             selectedShadow: '',
+            canCustomizeBoxShadowOptions: false,
             boxShadowOptions: {
                 horizontalLength: '',
                 verticalLength: '',
@@ -68,6 +101,16 @@ export default {
                 spreadRadius: '',
                 shadowColor: '',
                 inset: '',
+            },
+            boxShadowOptionsGroups: {
+                0: {
+                    horizontalLength: '',
+                    verticalLength: '',
+                    blurRadius: '',
+                    spreadRadius: '',
+                    shadowColor: '',
+                    inset: '',
+                }
             },
             predefinedShadows: predefinedShadows
         };
@@ -125,11 +168,13 @@ export default {
             }
         },
 
-        handleBoxShadowColorChange(color) {
+        handleBoxShadowColorChange(color, index) {
             if (typeof (color) != 'string') {
                 return;
             }
-            this.boxShadowOptions.shadowColor = color;
+            //   this.boxShadowOptions.shadowColor = color;
+            this.boxShadowOptionsGroups[index].shadowColor = color;
+            this.applyBoxShadow();
         },
 
         toggleBoxShadow: function () {
@@ -167,58 +212,87 @@ export default {
         },
         populateCssBoxShadow: function (css) {
             if (!css || !css.get) return;
+            if (!this.activeNode || !this.activeNode.style) return;
 
-            var result = css.get.boxShadow();
 
-            for (let i in result) {
-                if (typeof result[i] === 'number') {
-                    result[i] = `${result[i]}`;
-                }
-            }
+            var boxShadowVal = getComputedStyle(this.activeNode)
+            boxShadowVal = boxShadowVal.getPropertyValue('box-shadow');
 
-            var resultCss = '';
 
-            if (result.offsetX) {
-                resultCss += result.offsetX.replace('px', '') + 'px ';
-                // Remove "px" from the size
-                this.boxShadowOptions.horizontalLength = result.offsetX.replace('px', '');
-            }
-            if (result.offsetY) {
-                resultCss += ' ' + result.offsetY.replace('px', '') + 'px ';
-                // Remove "px" from the size
-                this.boxShadowOptions.verticalLength = result.offsetY.replace('px', '');
-            }
-            if (result.blurRadius) {
-                resultCss += ' ' + result.blurRadius.replace('px', '') + 'px ';
-                // Remove "px" from the size
-                this.boxShadowOptions.blurRadius = result.blurRadius.replace('px', '');
-            }
-            if (result.spreadRadius) {
-                resultCss += ' ' + result.spreadRadius.replace('px', '') + 'px ';
-                // Remove "px" from the size
-                this.boxShadowOptions.spreadRadius = result.spreadRadius.replace('px', '');
-            }
-            if (result.color) {
-                resultCss += ' ' + result.color;
-                this.boxShadowOptions.shadowColor = result.color;
-            }
-            if (result.inset) {
-                if (result.inset === true) {
-                    resultCss += ' ' + 'inset';
-                }
-                this.boxShadowOptions.inset = result.inset;
-            }
-            var resultCssTrim = resultCss.replace(/\s+/g, ' '); // replace double space
-
-            resultCssTrim = resultCssTrim.trim();
-
-            if (this.predefinedShadows.some(shadow => shadow.value === resultCssTrim)) {
-                this.selectedShadow = resultCssTrim;
-            } else if (resultCssTrim === '' || resultCssTrim === 'none' || resultCssTrim === 'initial' || resultCssTrim === 'unset' || resultCssTrim === 'inherit' || resultCssTrim === '0px 0px 0px 0px rgba(0,0,0,0)') {
+            if (boxShadowVal === '' || boxShadowVal === 'none' || boxShadowVal === 'initial' || boxShadowVal === 'unset' || boxShadowVal === 'inherit' || boxShadowVal === '0px 0px 0px 0px rgba(0,0,0,0)') {
                 this.selectedShadow = '';
+                return;
             } else {
-                this.selectedShadow = 'custom';
+                if (this.predefinedShadows.some(shadow => shadow.value === boxShadowVal)) {
+                    this.selectedShadow = boxShadowVal;
+                } else {
+                    this.selectedShadow = 'custom';
+                }
+                //this.selectedShadow = boxShadowVal;
+                //this.selectedShadow = boxShadowVal;
+                //check if in predefined
+                // if (this.predefinedShadows.some(shadow => shadow.value === boxShadowVal)) {
+                //     this.selectedShadow = boxShadowVal;
+                // } else if (this.predefinedShadows.some(
+                //     shadow => shadow.value.replace('0px', '') === boxShadowVal || shadow.value.replace('0px 0px 0px 0px', 'none') === boxShadowVal
+                // )) {
+                //     this.selectedShadow = boxShadowVal;
+                // } else {
+                //     this.selectedShadow = 'custom';
+                // }
             }
+
+            // var result = css.get.boxShadow();
+            //
+            // for (let i in result) {
+            //     if (typeof result[i] === 'number') {
+            //         result[i] = `${result[i]}`;
+            //     }
+            // }
+            //
+            // var resultCss = '';
+            //
+            // if (result.offsetX) {
+            //     resultCss += result.offsetX.replace('px', '') + 'px ';
+            //     // Remove "px" from the size
+            //     this.boxShadowOptions.horizontalLength = result.offsetX.replace('px', '');
+            // }
+            // if (result.offsetY) {
+            //     resultCss += ' ' + result.offsetY.replace('px', '') + 'px ';
+            //     // Remove "px" from the size
+            //     this.boxShadowOptions.verticalLength = result.offsetY.replace('px', '');
+            // }
+            // if (result.blurRadius) {
+            //     resultCss += ' ' + result.blurRadius.replace('px', '') + 'px ';
+            //     // Remove "px" from the size
+            //     this.boxShadowOptions.blurRadius = result.blurRadius.replace('px', '');
+            // }
+            // if (result.spreadRadius) {
+            //     resultCss += ' ' + result.spreadRadius.replace('px', '') + 'px ';
+            //     // Remove "px" from the size
+            //     this.boxShadowOptions.spreadRadius = result.spreadRadius.replace('px', '');
+            // }
+            // if (result.color) {
+            //     resultCss += ' ' + result.color;
+            //     this.boxShadowOptions.shadowColor = result.color;
+            // }
+            // if (result.inset) {
+            //     if (result.inset === true) {
+            //         resultCss += ' ' + 'inset';
+            //     }
+            //     this.boxShadowOptions.inset = result.inset;
+            // }
+            // var resultCssTrim = resultCss.replace(/\s+/g, ' '); // replace double space
+            //
+            // resultCssTrim = resultCssTrim.trim();
+            //
+            // if (this.predefinedShadows.some(shadow => shadow.value === resultCssTrim)) {
+            //     this.selectedShadow = resultCssTrim;
+            // } else if (resultCssTrim === '' || resultCssTrim === 'none' || resultCssTrim === 'initial' || resultCssTrim === 'unset' || resultCssTrim === 'inherit' || resultCssTrim === '0px 0px 0px 0px rgba(0,0,0,0)') {
+            //     this.selectedShadow = '';
+            // } else {
+            //     this.selectedShadow = 'custom';
+            // }
 
         },
         handleShadowChange(selectedShadow) {
@@ -238,85 +312,43 @@ export default {
 
             // this.applyPropertyToActiveNode('boxShadow', selectedShadow);
 
+            this.canCustomizeBoxShadowOptions = false;
+            //   this.canCustomizeBoxShadowOptions = 1;
+            var selected = this.selectedShadow;
+            var parseShadowValues = this.parseShadowValues(selected);
 
-            // Split the selected shadow value and update corresponding properties
-            // Replace 'px' with an empty string
-            var selected = this.selectedShadow.replace(/px/g, '');
 
-            var parseShadow = this.parseShadowValues(selected);
+            this.applyPropertyToActiveNode('boxShadow', selectedShadow);
 
-            // Split the shadow value into an array
-            // const shadowValues = selected.split(' ');
             //
-            // // Set the properties based on the split values
-            // this.boxShadowOptions.horizontalLength = shadowValues[0];
-            // this.boxShadowOptions.verticalLength = shadowValues[1];
-            // this.boxShadowOptions.blurRadius = shadowValues[2];
-            // this.boxShadowOptions.spreadRadius = shadowValues[3]; // Set spread radius
-            // this.boxShadowOptions.shadowColor = shadowValues[4];
             //
-            // // Check if there is an inset property
-            // if (shadowValues.length > 5) {
-            //     this.boxShadowOptions.inset = shadowValues[5];
-            // } else {
-            //     this.boxShadowOptions.inset = ''; // Reset inset if not present
+            // //if more than 1 shadow
+            // if (parseShadowValues.length > 1) {
+            //
+            //     this.canCustomizeBoxShadowOptions = false;
+            //     return;
+            // }
+            //
+            //
+            // if(parseShadowValues[0]){
+            //     this.canCustomizeBoxShadowOptions = true;
+            //     this.boxShadowOptions.horizontalLength = parseShadowValues[0].horizontalLength.replace(/px/g, '');;
+            //     this.boxShadowOptions.verticalLength = parseShadowValues[0].verticalLength.replace(/px/g, '');;
+            //     this.boxShadowOptions.blurRadius = parseShadowValues[0].blurRadius.replace(/px/g, '');;
+            //     this.boxShadowOptions.spreadRadius = parseShadowValues[0].spreadRadius.replace(/px/g, '');;
+            //     this.boxShadowOptions.shadowColor = parseShadowValues[0].shadowColor;
+            //     this.boxShadowOptions.inset = parseShadowValues[0].inset;
+            //
+            //     this.applyBoxShadow();
             // }
 
-            //  Apply the updated shadow
-            // this.boxShadowOptions
 
-            this.boxShadowOptions.horizontalLength = parseShadow.horizontalLength;
-            this.boxShadowOptions.verticalLength = parseShadow.verticalLength;
-            this.boxShadowOptions.blurRadius = parseShadow.blurRadius;
-            this.boxShadowOptions.spreadRadius = parseShadow.spreadRadius;
-            this.boxShadowOptions.shadowColor = parseShadow.shadowColor;
-            this.boxShadowOptions.inset = parseShadow.inset;
-
-
-            this.applyBoxShadow();
         },
 
         parseShadowValues(shadowString) {
-            // Split the shadow string by spaces
-            const shadowValues = shadowString.split(' ');
+            var shadowValues = mw.top().app.templateSettings.cssBoxShadowsParser.parseBoxShadowValues(shadowString);
 
-            // Extract color information
-            let colorIndex = shadowValues.findIndex(val => val.startsWith("rgba"));
-            const shadowColor = colorIndex !== -1 ? shadowValues[colorIndex] : '';
-
-            // Extract inset property
-            let inset = '';
-            if (shadowString.includes("inset")) {
-                inset = 'inset';
-            }
-
-            // Set default values for other properties
-            let horizontalLength = '';
-            let verticalLength = '';
-            let blurRadius = '';
-            let spreadRadius = '';
-
-            // If color information is found, parse other values accordingly
-            if (colorIndex !== -1) {
-                // Parse the values for horizontalLength, verticalLength, blurRadius, and spreadRadius
-                const valuesString = shadowValues.slice(0, colorIndex).join(' ');
-                const values = valuesString.split(/px|\s+/).filter(val => val !== '');
-
-                if (values.length >= 1) horizontalLength = values[0];
-                if (values.length >= 2) verticalLength = values[1];
-                if (values.length >= 3) blurRadius = values[2];
-                if (values.length >= 4) spreadRadius = values[3] || '';
-            }
-
-            // Construct and return the parsed shadow values
-            return {
-                horizontalLength,
-                verticalLength,
-                blurRadius,
-                spreadRadius,
-                shadowColor,
-                inset
-            };
+            return shadowValues;
         },
 
 

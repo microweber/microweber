@@ -1,9 +1,12 @@
 <template>
-    <div>
-        <label>Predefined Shadows:</label>
+    <div class="form-control-live-edit-label-wrapper my-4 d-flex align-items-center flex-wrap gap-2">
+        <label class="live-edit-label px-0 col-4">Shadow:</label>
         <select :value="selectedShadow" @change="selectPredefinedShadow">
-            <option v-for="(shadow, index) in predefinedShadows" :key="index" :value="shadow.value">
+            <option v-for="(shadow, index) in predefinedShadows" :key="index" :value="shadow.value"
+                    :style="{ boxShadow: shadow.value }">
+
                 {{ shadow.name }}
+                 
             </option>
         </select>
     </div>
