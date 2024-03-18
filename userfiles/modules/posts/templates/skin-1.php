@@ -11,7 +11,6 @@ description: Dictionary
 */
 ?>
 
-<script>mw.lib.require('bootstrap3ns');</script>
 <style>
     .mw-dictionary .site-content {
         overflow: hidden;
@@ -295,7 +294,7 @@ description: Dictionary
                                     <div class="glossary__results__item col-md-3 col-sm-6" data-item="<?php print $item['title'] ?>">
                                         <a class="card card__content" href="<?php print $item['link'] ?>">
                                             <?php if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
-                                                <h4 class="card__title"><?php print character_limiter($item['title'], 20) ?></h4>
+                                                <h4  itemprop="name" class="card__title"><?php print character_limiter($item['title'], 20) ?></h4>
                                             <?php endif; ?>
                                             <?php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
                                                 <p class="mb-0" itemprop="description"><?php print character_limiter($item['description'], 100) ?></p>

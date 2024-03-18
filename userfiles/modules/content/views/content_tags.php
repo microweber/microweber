@@ -84,7 +84,13 @@ if ($all_existing_tags == null) {
 <div class="y-0">
     <div>
         <div id="content-tags-block"></div>
+
+
+
         <div id="content-tags-search-block"></div>
         <input type="hidden" name="tag_names" value="<?php print implode(',', $tags_str); ?>" id="tags"/>
+
+        <small>Separate using commas or Enter key.</small>
+
     </div>
 </div>

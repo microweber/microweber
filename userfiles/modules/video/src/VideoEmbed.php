@@ -300,6 +300,7 @@ class VideoEmbed
             } else {
                 $videoUrl = $this->getEmbedCode();
                 $videoUrlHost = $this->_getUrlHost($videoUrl);
+
                 switch ($videoUrlHost) {
                     case 'youtube.com':
                         $html = $this->_getYoutubePlayer($videoUrl);
@@ -408,25 +409,41 @@ class VideoEmbed
 
     protected function _getYoutubePlayer($url)
     {
+        $videoId = '';
+
         $urlParse = parse_url($url);
-        if (!isset($urlParse['query']) or $urlParse['query'] == false) {
+        if (isset($urlParse['query'])) {
+            $id = explode('v=', $urlParse['query']);
+            parse_str($urlParse['query'], $query);
+            if (isset($query['v'])) {
+                $videoId = $query['v'];
+            }
+        }
+        if (isset($urlParse['path'])) {
+            $parsed = [];
+            $parsePath = explode('/', $urlParse['path']);
+            foreach ($parsePath as $path) {
+                $path = trim($path);
+                if (!empty($path)) {
+                    $parsed[] = $path;
+                }
+            }
+            if (isset($parsed[0]) && $parsed[0] == 'shorts') {
+                $videoId = $parsed[1];
+            }
+        }
+
+        if (!$videoId) {
             return false;
         }
 
-        $id = explode('v=', $urlParse['query']);
-        parse_str($urlParse['query'], $query);
-
-        if (isset($query['v'])) {
-
-            $videoUrl = $this->_getPortocol() . 'youtube.com/embed/' . $query['v'] . '?v=1&wmode=transparent&autoplay=' . $this->isAutoplay();
-
-            if ($this->isAutoplay()){
-                $videoUrl .= '&mute=1';
-            }
-            return $this->_getVideoIframe($videoUrl);
+        $videoUrl = $this->_getPortocol() . 'youtube.com/embed/' . $videoId . '?v=1&wmode=transparent&autoplay=' . $this->isAutoplay();
+        if ($this->isAutoplay()){
+            $videoUrl .= '&mute=1';
         }
 
-        return false;
+        return $this->_getVideoIframe($videoUrl);
+
     }
 
     protected function _getDailyMotionPlayer($url)
