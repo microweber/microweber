@@ -19,7 +19,9 @@ trait MediaTrait
 
     public function media()
     {
-        return $this->hasMany(Media::class, 'rel_id')->orderBy('position', 'asc');
+        return $this->hasMany(Media::class, 'rel_id')
+            ->where('rel_type', $this->getMorphClass()) 
+            ->orderBy('position', 'asc');
     }
 
     public function thumbnail($width = 100, $height = 100, $crop = false)

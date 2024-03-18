@@ -89,7 +89,7 @@ if ($columns_xl != null OR $columns_xl != false OR $columns_xl != '') {
                                     <?php endif; ?>
 
                                     <?php if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
-                                        <div class="thumbnail" style="background: url('<?php print thumbnail($item['image'], 535, 285, true); ?>')">
+                                        <div class="thumbnail" itemprop="image" style="background: url('<?php print thumbnail($item['image'], 535, 285, true); ?>')">
                                             <!--<img src="<?php print thumbnail($item['image'], 535, 285, true); ?>"/>-->
                                         </div>
                                     <?php endif; ?>
@@ -97,7 +97,7 @@ if ($columns_xl != null OR $columns_xl != false OR $columns_xl != '') {
                             </a>
                             <br>
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
-                                <h6 class="m-0"><a href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h6>
+                                <h6 itemprop="name" class="m-0"><a href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h6>
                             <?php endif; ?>
 
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields)): ?>
@@ -107,7 +107,7 @@ if ($columns_xl != null OR $columns_xl != false OR $columns_xl != '') {
 
 
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
-                                <p class="mt-3"><?php print $item['description'] ?></p>
+                                <p itemprop="description" class="mt-3"><?php print $item['description'] ?></p>
                             <?php endif; ?>
 
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
