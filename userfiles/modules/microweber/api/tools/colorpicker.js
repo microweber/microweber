@@ -121,7 +121,7 @@
                 });
             }
             sett.palette = mw.tools.colorPickerColors;
-          //  sett.paletteEditable = true;
+            sett.paletteEditable = true;
         }
 
 
@@ -153,6 +153,20 @@
 
 
             frame = sett.attachTo.ownerDocument.defaultView.AColorPicker.createPicker(sett); // AColorPicker works only with local window
+            frame.on('coloradd', (picker, color) => {
+                if (typeof mw.top().app !== 'undefined'
+                    && typeof mw.top().app.templateSettings !== 'undefined'
+                    && typeof mw.top().app.templateSettings.colorPaletteManager !== 'undefined') {
+                     mw.top().app.templateSettings.colorPaletteManager.addToPaletteMemory(color);
+                }
+            });
+            frame.on('colorremove', (picker, color) => {
+                if (typeof mw.top().app !== 'undefined'
+                    && typeof mw.top().app.templateSettings !== 'undefined'
+                    && typeof mw.top().app.templateSettings.colorPaletteManager !== 'undefined') {
+                    mw.top().app.templateSettings.colorPaletteManager.removeFromPaletteMemory(color);
+                }
+            });
 
             frame.onchange = function (data) {
 
@@ -187,6 +201,23 @@
             sett.attachTo = mw.$('.mw-tooltip-content', tip)[0]
 
             frame = AColorPicker.createPicker(sett);
+
+
+            frame.on('coloradd', (picker, color) => {
+                if (typeof mw.top().app !== 'undefined'
+                    && typeof mw.top().app.templateSettings !== 'undefined'
+                    && typeof mw.top().app.templateSettings.colorPaletteManager !== 'undefined') {
+                    mw.top().app.templateSettings.colorPaletteManager.addToPaletteMemory(color);
+                }
+            });
+            frame.on('colorremove', (picker, color) => {
+                if (typeof mw.top().app !== 'undefined'
+                    && typeof mw.top().app.templateSettings !== 'undefined'
+                    && typeof mw.top().app.templateSettings.colorPaletteManager !== 'undefined') {
+                    mw.top().app.templateSettings.colorPaletteManager.removeFromPaletteMemory(color);
+                }
+            });
+
 
 
             frame.onchange = function (data) {

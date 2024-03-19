@@ -17,6 +17,7 @@ export default class ColorPaletteManager extends MicroweberBaseClass {
         var colors = [];
         var colorsFromDocument = this.getColorsFromCanvasDocument();
         var colorsFromPallete = this.getColorsFromCanvasDocument();
+        var colorsFromMemory = this.getPaletteFromMemory();
 
         if (colorsFromPallete.length > 0) {
             for (var i = 0; i < colorsFromPallete.length; i++) {
@@ -25,10 +26,18 @@ export default class ColorPaletteManager extends MicroweberBaseClass {
                 }
             }
         }
-        if(colorsFromDocument.length > 0) {
+        if (colorsFromDocument.length > 0) {
             for (var i = 0; i < colorsFromDocument.length; i++) {
                 if (colors.indexOf(colorsFromDocument[i]) === -1) {
                     colors.push(colorsFromDocument[i]);
+                }
+            }
+        }
+
+        if (colorsFromMemory.length > 0) {
+            for (var i = 0; i < colorsFromMemory.length; i++) {
+                if (colors.indexOf(colorsFromMemory[i]) === -1) {
+                    colors.push(colorsFromMemory[i]);
                 }
             }
         }
@@ -40,10 +49,55 @@ export default class ColorPaletteManager extends MicroweberBaseClass {
     }
 
     addToPalette(color) {
+        var converter = new ColorConverter();
+        color = converter.rgbToHex(color);
         if (this.palette.indexOf(color) === -1) {
             this.palette.push(color);
         }
     }
+
+    getPaletteFromMemory() {
+        var colors = [];
+        var memory = mw.storage.get('colorPalette');
+        if (memory) {
+            colors = memory;
+        }
+        return colors;
+    }
+
+    addToPaletteMemory(color) {
+        var converter = new ColorConverter();
+        color = converter.rgbToHex(color);
+
+        var memory = this.getPaletteFromMemory();
+        if (memory.indexOf(color) === -1) {
+            memory.push(color);
+        }
+        mw.storage.set('colorPalette', memory);
+
+        if (this.palette.indexOf(color) === -1) {
+            this.palette.push(color);
+        }
+    }
+
+    removeFromPaletteMemory(color) {
+        var converter = new ColorConverter();
+        color = converter.rgbToHex(color);
+
+        var memory = this.getPaletteFromMemory();
+        var index = memory.indexOf(color);
+        if (index !== -1) {
+            memory.splice(index, 1);
+        }
+        mw.storage.set('colorPalette', memory);
+
+        var index = this.palette.indexOf(color);
+        if (index !== -1) {
+            this.palette.splice(index, 1);
+        }
+
+    }
+
 
     getColorsFromPalette() {
         var colors = [];
