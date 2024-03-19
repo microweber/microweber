@@ -6,7 +6,7 @@
                     :style="{ boxShadow: shadow.value }">
 
                 {{ shadow.name }}
-                 
+
             </option>
         </select>
     </div>
