@@ -22,7 +22,7 @@ export class ColorPicker extends MicroweberBaseClass {
         let randId = this.generateRandId(10);
 
         let colorPickerDialog = mw.top().dialog({
-            content: '<div id="color-picker-'+randId+'" style="width:232px;height:325px;"></div>',
+            content: '<div id="color-picker-'+randId+'" style="width:232px;min-height:325px;"></div>',
             title: 'Color Picker',
             footer: false,
             width: 240,
@@ -82,7 +82,7 @@ export class ColorPicker extends MicroweberBaseClass {
         let randId = this.generateRandId(10);
 
         let colorPickerDialog = mw.top().dialog({
-            content: '<div id="color-picker-'+randId+'" style="width:232px;height:325px;"></div>',
+            content: '<div id="color-picker-'+randId+'" style="width:232px;min-height:325px;"></div>',
             title: 'Color Picker',
             footer: false,
             width: 240,

@@ -243,7 +243,7 @@ export default {
             this.marginRight = val;
             this.marginBottom = val;
             this.marginLeft = val;
-            
+
 
         },
 

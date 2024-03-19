@@ -172,7 +172,18 @@
                             }
                         }
                         if(changeStart) {
+
+
                             el.trigger('changeEnd', vall);
+
+                            if (typeof mw.top().app !== 'undefined'
+                                && typeof mw.top().app.templateSettings !== 'undefined'
+                                && typeof mw.top().app.templateSettings.colorPaletteManager !== 'undefined')
+                            {
+                                 mw.top().app.templateSettings.colorPaletteManager.addToPalette(vall);
+
+                            }
+
                         }
                     }
                     // footer: footer
