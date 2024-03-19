@@ -318,14 +318,53 @@
                     class="a-color-picker-palette-color color-picker-palette-color-reset"></div>
                     `)
             resetColorButton.on('click', function (e) {
+
+
                 e.stopPropagation()
                 if (proto.settings.onchange) {
                     proto.settings.onchange('revert-layer');
                 }
             });
+
+
             frameEl.append(removeColorButton.get(0))
             frameEl.append(resetColorButton.get(0))
+
+
+
+
+            if (typeof mw.top().app !== 'undefined'
+                && typeof mw.top().app.templateSettings !== 'undefined'
+                && typeof mw.top().app.templateSettings.colorPaletteManager !== 'undefined') {
+                        if (proto.settings.value) {
+                            var inMemory = mw.top().app.templateSettings.colorPaletteManager.isInPaletteMemory(proto.settings.value);
+                                if(inMemory) {
+                                    var removeColorFromMemory = mw.element(`
+                                                            <div
+                                                                class="a-color-picker-palette-color color-picker-palette-color-remove-from-palette"></div>
+                                                                `)
+                                    removeColorFromMemory.on('click', function (e) {
+                                        e.stopPropagation()
+                                        if (proto.settings.value) {
+                                            var color = proto.settings.value;
+
+                                            mw.top().app.templateSettings.colorPaletteManager.removeFromPaletteMemory(color);
+
+                                            if (proto.settings.onchange) {
+                                                proto.settings.onchange('revert-layer');
+                                            }
+                                        }
+
+                                    });
+                                    frameEl.append(removeColorFromMemory.get(0));
+
+
+                                }
+                        }
+            }
+
         }
+
 
 
         if (this.tip) {
