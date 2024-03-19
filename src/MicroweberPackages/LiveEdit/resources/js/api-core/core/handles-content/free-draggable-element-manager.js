@@ -209,7 +209,8 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
         })
         container.style.height = containerheight + 'px';
         toBeFree.forEach(obj => {
-            obj.el.css(obj.css)
+            obj.el.css(obj.css);
+            container.append(obj.el.get(0))
             this.makeFreeDraggableElement(obj.node, container)
         })
 
@@ -253,6 +254,10 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
                 })
             }
 
+            if(!element || element.__mw_movable) {
+                return;
+            }
+
 
             const mvb = new Mvb(container, {
                 target: element,
@@ -268,8 +273,8 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
                 scalable: false,
                 snapContainer: container,
 
-                maxSnapElementGuidelineDistance: 50,
-                maxSnapElementGapDistance: 50,
+                /*maxSnapElementGuidelineDistance: 50,
+                maxSnapElementGapDistance: 50,*/
                 snapRotataionThreshold: 5,
                 snapRotationDegrees: [0, 90, 180, 270],
 
@@ -290,8 +295,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
                 roundPadding: 15
 
              });
-             element.dataset.hideResizer = 'true';
-             element.dataset.hideOutline = 'true';
+
 
              Mvb.mw._movables.push(mvb)
 
@@ -306,7 +310,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
 
             const beforeChange = (e) => {
-                container.querySelectorAll('[data-hide-resizer]').forEach(node => {
+                container.querySelectorAll('[data-mw-free-element]').forEach(node => {
                     if(node !== e.target){
                         FreeDraggableElementManager.toPixel(node);
                     }
@@ -315,7 +319,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
             const afterChanged = (e) => {
                 console.log(e);
 
-                container.querySelectorAll('[data-hide-resizer]').forEach(node => {
+                container.querySelectorAll('[data-mw-free-element]').forEach(node => {
                     FreeDraggableElementManager.toPercent(node);
                     mw.top().app.cssEditor.style(node, FreeDraggableElementManager.getStyle(node));
                     node.removeAttribute('style')
@@ -344,13 +348,15 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
                  e.target.style.top = eTop + 'px';
                  e.target.style.left = eLeft + 'px';
+
                  mw.top().app.liveEdit.handles.hide();
                  mw.app.liveEdit.pause();
                  scope.setLayoutHeight(container)
              });
              mvb.on("resize", e => {
                 e.target.style.width = `${e.width}px`;
-                e.target.style.height = `${e.height}px`;
+                e.target.style.height = `auto`;
+                e.target.style.minHeight = `${e.height}px`;
                 e.target.style.transform = e.drag.transform;
                 mw.top().app.liveEdit.handles.hide();
                 mw.app.liveEdit.pause();
@@ -385,12 +391,16 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
     }
 
     init() {
-        mw.top().app.canvas.getDocument().querySelectorAll('[data-hide-resizer="true"]').forEach(node => this.freeElement(node))
+        mw.top().app.canvas.getDocument().querySelectorAll('[data-mw-free-element="true"]').forEach(node => this.freeElement(node))
     }
 
-    destroyFreeDraggableElement(element) {
+    static destroyFreeDraggableElement(element) {
 
         if(element.__mw_movable){
+            var i = element.ownerDocument.defaultView.mw._movables.indexOf(mvb);
+            if(i > -1) {
+                element.ownerDocument.defaultView.mw._movables.splice(i, 1)
+            }
             element.__mw_movable.destroy();
             element.__mw_movable = null;
             delete element.dataset.mwFreeElement;
