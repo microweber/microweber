@@ -3,7 +3,7 @@ import { ElementManager } from "../../core/classes/element";
 import { afterLayoutChange } from "../../core/handles-content/layout-actions";
 
 
-export const insertModule = (target = null, module, options = {}, insertLocation = 'top') => {
+export const insertModule = (target = null, module, options = {}, insertLocation = 'top', explicitAction) => {
 
     console.log(target, module, options, insertLocation);
 
@@ -17,7 +17,7 @@ export const insertModule = (target = null, module, options = {}, insertLocation
                 && !mw.top().win.mw.app.liveEdit.handles.get('element').isVisible()
                 && !mw.top().win.mw.app.liveEdit.handles.get('module').isVisible();
 
-        const itm = await target.ownerDocument.defaultView.mw.module.insert(target, module, options, insertLocation, mw.liveEditState);
+        const itm = await target.ownerDocument.defaultView.mw.module.insert(target, module, options, insertLocation, mw.liveEditState, explicitAction);
 
 
 

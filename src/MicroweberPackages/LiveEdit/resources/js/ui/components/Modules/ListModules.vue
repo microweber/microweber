@@ -80,8 +80,8 @@ export default {
 
 
 
-            const itm = await mw.app.editor.insertModule(module, options, 'bottom', this.target);
-            console.log(itm)
+            const itm = await mw.app.editor.insertModule(module, options, 'bottom', this.target, 'append');
+
 
             mw.top().app.freeDraggableElementManager.makeFreeDraggableElement(itm)
             this.showModal = false;

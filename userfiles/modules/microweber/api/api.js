@@ -173,7 +173,7 @@ mw.askusertostay = false;
             return  false
          }
     },
-    insert: function(target, module, config, pos, stateManager) {
+    insert: function(target, module, config, pos, stateManager, explicitAction) {
 
 
 
@@ -235,7 +235,7 @@ mw.askusertostay = false;
 
 
 
-        mw.$(target)[action](el);
+        mw.$(target)[explicitAction || action](el);
         mw.load_module(module, '#' + id, function (a,b) {
             if(stateManager) {
                 stateManager.record({

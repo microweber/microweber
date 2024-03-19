@@ -54,3 +54,45 @@
     border-color: transparent !important
 }
 
+.moveable-control-box{
+    .moveable-control{
+        border: 1px solid #056aff !important;
+        border-radius: 2px !important;
+        background: #ffffff !important;
+        width: 10px !important;
+        height: 10px !important;
+        margin-left: -5px !important;
+        margin-top: -5px !important;
+    }
+}
+
+.mw-le-resizable--info{
+    position: absolute;
+    z-index: 11;
+    font-size: 12px;
+    letter-spacing: .5px;
+    pointer-events: none !important;
+
+    &.mw-le-resizable--info-position--top{
+        left: 50%;
+        bottom: 100%;
+        transform: translate(-50%, -10px);
+    }
+    &.mw-le-resizable--info-position--bottom{
+        left: 50%;
+        top: 100%;
+        transform: translate(-50%, 10px);
+    }
+
+    .mw-le-resizable--info-content{
+        display: inline-block;
+        text-align: center;
+        background-color: #056aff;
+        color: white;
+        border-radius: 5px;
+        padding: 5px 10px;
+        min-width: 70px;
+        pointer-events: none !important;
+    }
+}
+
