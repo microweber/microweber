@@ -151,8 +151,14 @@ export const Handle = function (options) {
             menu.style.transform = transform ? `translateY(${transform}px)` : '';
 
             if(insertabsmodulebutton) {
-                insertabsmodulebutton.style.transition = `none`;
-                insertabsmodulebutton.style.transform = transform ? `translateY(${transform}px)` : '';
+                if(target.querySelector('[field*="free-element-container"]')) {
+                    insertabsmodulebutton.style.display = ``;
+                    insertabsmodulebutton.style.transition = `none`;
+                    insertabsmodulebutton.style.transform = transform ? `translateY(${transform}px)` : '';
+                } else {
+                    insertabsmodulebutton.style.display = `none`;
+                }
+
             }
 
 

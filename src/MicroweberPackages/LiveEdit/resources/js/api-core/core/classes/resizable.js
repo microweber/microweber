@@ -1,3 +1,49 @@
+import { ElementManager } from "./element";
+
+export class ResizableInfo  {
+    constructor(options = {}) {
+
+        const defaults = {
+            element: null,
+            position: 'bottom'
+        };
+
+        this.settings = Object.assign({}, defaults, options);
+        this.element = this.settings.element;
+
+        this.create()
+
+
+    };
+
+
+    show(content = '') {
+        this.root.get(0).firstElementChild.innerHTML = content;
+        this.root.get(0).style.display = 'block';
+    }
+
+    hide() {
+        this.root.get(0).style.display = 'none';
+    }
+
+
+    create() {
+
+        this.root = ElementManager(`
+            <div class="mw-le-resizable--info mw-le-resizable--info-position--${this.settings.position}">
+                <div class="mw-le-resizable--info-content">
+
+                </div>
+            </div>
+        `);
+
+        if(this.element) {
+            this.element.appendChild(this.root.get(0))
+        }
+        this.hide()
+    }
+}
+
 export class Resizable  {
 
     constructor(options = {}) {
@@ -12,7 +58,7 @@ export class Resizable  {
         this.settings = Object.assign({}, defaults, options);
         this.element = this.settings.element;
         this.document = this.settings.document;
-        this.element.classList.add('mw-le-resizable');
+        this.element.classList.add('mw-le-resizable', 'no-element');
 
     };
 
@@ -61,7 +107,9 @@ export class Resizable  {
 
 
         e.preventDefault();
-        this.dispatch('resize', { height: setHeight ? this.element.offsetHeight : (''), width: this.element.offsetWidth });
+        const info = { height: setHeight ? this.element.offsetHeight : (''), width: this.element.offsetWidth }
+        this.dispatch('resize', info);
+        this.info.show(`${info.width}x${this.element.offsetHeight}`)
 
     }
 
@@ -71,6 +119,8 @@ export class Resizable  {
         }
         this.listeners = {};
         this.activeHandle = null;
+
+        this.info.hide()
 
         this.dispatch('resizeStop');
         if(mw.top() && mw.top().app) {
@@ -154,6 +204,10 @@ export class Resizable  {
         this.element.appendChild(nodeR);
         this.element.appendChild(nodeB);
         this.element.appendChild(nodeL);
+
+        this.info = new ResizableInfo({
+            element: this.element
+        })
     }
 
     mount() {
