@@ -70,6 +70,9 @@ export default class ColorPaletteManager extends MicroweberBaseClass {
         color = converter.rgbToHex(color);
 
         var memory = this.getPaletteFromMemory();
+        if (!memory) {
+            memory = [];
+        }
         if (memory.indexOf(color) === -1) {
             memory.push(color);
         }
