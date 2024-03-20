@@ -477,6 +477,7 @@ body.loaded #bubble-nav span {
 .modules-list-block {
     max-width: 960px !important;
     margin: 0 auto !important;
+    max-height: 960px !important;
 }
 
 .modules-list-block-item-is-locked-true:before {

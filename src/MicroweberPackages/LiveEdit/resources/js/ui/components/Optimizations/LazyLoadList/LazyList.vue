@@ -21,8 +21,8 @@
     </template>
 
     <!-- list footer -->
-    <div style="background:red" v-show="((page !== items.length - 1) || !loading)" id="end-of-list" ref="end-of-list">
-        aaa
+    <div v-show="((page !== items.length - 1) || !loading)" id="end-of-list" ref="end-of-list">
+        
     </div>
 
   </div>
@@ -96,13 +96,12 @@
       // load more items when scrolling to the end of the list
       loadItems(){
 
-          console.log('loadItems', this.page, this.items.length)
+          //console.log('loadItems', this.page, this.items.length)
 
         if(this.page === this.items.length - 1) return
 
         const element = this.$refs["end-of-list"] //this.endOfList;
-
-          console.log('end-of-list', element);
+          //console.log('end-of-list', element);
 
         if(!element) return
 
