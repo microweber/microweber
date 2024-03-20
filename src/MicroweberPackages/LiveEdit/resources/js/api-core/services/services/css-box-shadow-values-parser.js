@@ -1,64 +1,76 @@
+import ColorConverter from "./color-converter.js";
+
 export default class CssBoxShadowValuesParser {
+
+    replaceRGBWithHex(shadowString) {
+        const convert = new ColorConverter();
+        const rgbRegex = /rgba?\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})(,\s*(1|0?\.\d+))?\)/g;
+        const hslRegex = /hsla?\((\d{1,3}),\s*(\d{1,3}%),\s*(\d{1,3}%)(,\s*(1|0?\.\d+))?\)/g;
+
+        let result = shadowString.replace(rgbRegex, (match) => convert.rgbOrRgbaToHex(match));
+        result = result.replace(hslRegex, (match) => convert.hslToHex(match));
+
+        return result;
+    }
+
     parseBoxShadowValues(shadowString) {
-        // Split the shadow string by semicolons to get individual shadows
-        const shadowStrings = shadowString.split(';');
 
-        // Parse each individual shadow value
-        const shadows = shadowStrings.map(this.parseSingleValue);
+        const hexShadowString = this.replaceRGBWithHex(shadowString);
+        const shadowStrings = hexShadowString.split(',');
 
-        return shadows;
+        const parsedShadows = [];
+
+        for (const shadow of shadowStrings) {
+            const parsedShadow = this.parseSingleValue(shadow.trim());
+
+            parsedShadows.push(parsedShadow);
+        }
+
+        return parsedShadows;
     }
 
     parseSingleValue(shadowValue) {
-        // Split the shadow value by commas to get individual shadows
-        const shadowParts = shadowValue.split(',');
+        const shadowParts = shadowValue.split(/\s+(?![^(]*\))/);
 
-        // Initialize variables to store parsed values
-        const shadows = [];
+        let inset = false;
+        let horizontalLength = '0px';
+        let verticalLength = '0px';
+        let blurRadius = '0px';
+        let spreadRadius = '0px';
+        let shadowColor = '';
 
-        // Loop through each individual shadow part
-        for (const part of shadowParts) {
-            // Split the shadow part by spaces to get individual components
-            const parts = part.trim().split(/\s+/);
 
-            // Initialize variables for this particular shadow
-            let inset = false;
-            let horizontalLength = '0px';
-            let verticalLength = '0px';
-            let blurRadius = '0px';
-            let spreadRadius = '0px';
-            let shadowColor = 'rgba(0, 0, 0, 0)'; // Default shadow color
+        const convert = new ColorConverter();
 
-            // Loop through each component of this shadow part
-            for (const part of parts) {
-                if (part === 'inset') {
-                    inset = true;
-                } else if (part.endsWith('px') || part.endsWith('em') || part.endsWith('%')) {
-                    if (horizontalLength === '0px') {
-                        horizontalLength = part;
-                    } else if (verticalLength === '0px') {
-                        verticalLength = part;
-                    } else if (blurRadius === '0px') {
-                        blurRadius = part;
-                    } else if (spreadRadius === '0px') {
-                        spreadRadius = part;
-                    }
-                } else if (part.startsWith('rgb') || part.startsWith('hsl')) {
-                    shadowColor = part;
+         for (const part of shadowParts) {
+            if (part === 'inset') {
+                inset = 'inset';
+            } else if (part.endsWith('px') || part.endsWith('em') || part.endsWith('%')) {
+                if (horizontalLength === '0px') {
+                    horizontalLength = part;
+                } else if (verticalLength === '0px') {
+                    verticalLength = part;
+                } else if (blurRadius === '0px') {
+                    blurRadius = part;
+                } else if (spreadRadius === '0px') {
+                    spreadRadius = part;
                 }
+            } else if (part.startsWith('rgb(') || part.startsWith('rgba(')) {
+                shadowColor = convert.rgbOrRgbaToHex(part) || '';
+            } else if (part.startsWith('hsl(')) {
+                shadowColor = convert.hslToHex(part) || '';
+            } else if (part.startsWith('#')) {
+                shadowColor = part;
             }
-
-            // Add this parsed shadow to the shadows array
-            shadows.push({
-                inset,
-                horizontalLength,
-                verticalLength,
-                blurRadius,
-                spreadRadius,
-                shadowColor
-            });
         }
 
-        return shadows;
+         return {
+            inset,
+            horizontalLength,
+            verticalLength,
+            blurRadius,
+            spreadRadius,
+            shadowColor
+        };
     }
 }

@@ -6,36 +6,41 @@
                                         @update:selectedShadow="handleShadowChange"/>
             <div class="form-group" v-if="canCustomizeBoxShadowOptions">
 
+
                 <div v-for="(boxShadowOptionsGroup, index) in boxShadowOptionsGroups" :key="index">
-                    <ColorPicker v-model="boxShadowOptionsGroup.shadowColor"
-                                 v-bind:color=boxShadowOptionsGroup.shadowColor
-                                 :label="'Color'"
-                                 @change="handleBoxShadowColorChange(boxShadowOptionsGroup.shadowColor, index)"/>
-                    <SliderSmall label="Horizontal Shadow Length" v-model="boxShadowOptionsGroup.horizontalLength"
-                                 :min="-300"
-                                 :max="300" :step="1"></SliderSmall>
-                    <SliderSmall label="Vertical Shadow Length" v-model="boxShadowOptionsGroup.verticalLength"
-                                 :min="-300" :max="300" :step="1"></SliderSmall>
-                    <SliderSmall label="Blur Radius" v-model="boxShadowOptionsGroup.blurRadius" :min="0" :max="30"
-                                 :step="1"></SliderSmall>
-                    <SliderSmall label="Spread Radius" v-model="boxShadowOptionsGroup.spreadRadius" :min="0" :max="30"
-                                 :step="1"></SliderSmall>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <label for="inset"> Inset</label>
-                            <input style="margin-inline: -15px 8px;"
-                                   type="checkbox"
-                                   id="inset"
-                                   class="form-check-input"
-                                   v-model="boxShadowOptionsGroup.inset"
-                                   @change="applyBoxShadow"
-                            />
-                        </div>
-                    </div>
+                    <BoxShadowOptionsGroup :boxShadowOptionsGroup="boxShadowOptionsGroup" :index="index"
+                                           @changeOptions="handleBoxShadowOptionsChange"/>
                 </div>
 
 
+                <!--                <div v-for="(boxShadowOptionsGroup, index) in boxShadowOptionsGroups" :key="index">
+                                    <ColorPicker v-model="boxShadowOptionsGroup.shadowColor"
+                                                 v-bind:color=boxShadowOptionsGroup.shadowColor
+                                                 :label="'Color'"
+                                                 @change="handleBoxShadowColorChange(boxShadowOptionsGroup.shadowColor, index)"/>
+                                    <SliderSmall label="Horizontal Shadow Length" v-model="boxShadowOptionsGroup.horizontalLength"
+                                                 :min="-300"
+                                                 :max="300" :step="1"></SliderSmall>
+                                    <SliderSmall label="Vertical Shadow Length" v-model="boxShadowOptionsGroup.verticalLength"
+                                                 :min="-300" :max="300" :step="1"></SliderSmall>
+                                    <SliderSmall label="Blur Radius" v-model="boxShadowOptionsGroup.blurRadius" :min="0" :max="30"
+                                                 :step="1"></SliderSmall>
+                                    <SliderSmall label="Spread Radius" v-model="boxShadowOptionsGroup.spreadRadius" :min="0" :max="30"
+                                                 :step="1"></SliderSmall>
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label for="inset"> Inset</label>
+                                            <input style="margin-inline: -15px 8px;"
+                                                   type="checkbox"
+                                                   id="inset"
+                                                   class="form-check-input"
+                                                   v-model="boxShadowOptionsGroup.inset"
+                                                   @change="applyBoxShadow"
+                                            />
+                                        </div>
+                                    </div>-->
             </div>
+
 
             <!--            <div class="form-group" v-if="canCustomizeBoxShadowOptions">
 
@@ -82,9 +87,10 @@ import ColorPicker from "./components/ColorPicker.vue";
 
 import SliderSmall from "./components/SliderSmall.vue";
 import PredefinedBoxShadowsSelect from "./components/PredefinedBoxShadowsSelect.vue";
+import BoxShadowOptionsGroup from "./components/BoxShadowOptionsGroup.vue";
 
 export default {
-    components: {ColorPicker, SliderSmall, PredefinedBoxShadowsSelect},
+    components: {ColorPicker, SliderSmall, PredefinedBoxShadowsSelect, BoxShadowOptionsGroup},
 
     data() {
         var predefinedShadows = mw.top().app.templateSettings.getPredefinedBoxShadows();
@@ -167,7 +173,10 @@ export default {
                 this.$root.applyPropertyToActiveNode(this.activeNode, prop, val);
             }
         },
+        handleBoxShadowOptionsChange(updatedOptions, index) {
+            this.boxShadowOptionsGroups[index] = updatedOptions;
 
+        },
         handleBoxShadowColorChange(color, index) {
             if (typeof (color) != 'string') {
                 return;
@@ -312,14 +321,18 @@ export default {
 
             // this.applyPropertyToActiveNode('boxShadow', selectedShadow);
 
-            this.canCustomizeBoxShadowOptions = false;
-            //   this.canCustomizeBoxShadowOptions = 1;
+            // this.canCustomizeBoxShadowOptions = false;
+            //  this.canCustomizeBoxShadowOptions = 1;
             var selected = this.selectedShadow;
             var parseShadowValues = this.parseShadowValues(selected);
 
-
             this.applyPropertyToActiveNode('boxShadow', selectedShadow);
 
+            if (this.canCustomizeBoxShadowOptions) {
+                if (parseShadowValues.length > 0) {
+                    this.boxShadowOptionsGroups = parseShadowValues;
+                }
+            }
             //
             //
             // //if more than 1 shadow
