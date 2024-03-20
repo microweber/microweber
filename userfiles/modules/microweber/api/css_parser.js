@@ -363,7 +363,12 @@ mw.CSSParser = function(el){
     f.overflow = function(){
         return css.overflow;
     }
-
+    f.textOrientation = function(){
+        return css.textOrientation;
+    }
+    f.textWritingMode = function(){
+        return css.writingMode;
+    }
 
 
     return {

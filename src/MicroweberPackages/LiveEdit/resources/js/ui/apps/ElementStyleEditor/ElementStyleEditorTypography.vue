@@ -1,8 +1,11 @@
 <template>
 
     <div class="d-flex">
-        <svg fill="currentColor" height="24" width="24"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
-            <path d="M21,7V3h-4v1H7V3H3v4h1v10H3v4h4v-1h10v1h4v-4h-1V7H21 M18,4h2v2h-2V4 M4,4h2v2H4V4 M6,20H4v-2h2V20 M20,20h-2v-2h2V20   M18,17h-1v1H7v-1H6V7h1V6h10v1h1V17 M16,8v2h-3v6h-2v-6H8V8H16z"></path>
+        <svg fill="currentColor" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 24 24"
+             style="enable-background:new 0 0 24 24;" xml:space="preserve">
+            <path
+                d="M21,7V3h-4v1H7V3H3v4h1v10H3v4h4v-1h10v1h4v-4h-1V7H21 M18,4h2v2h-2V4 M4,4h2v2H4V4 M6,20H4v-2h2V20 M20,20h-2v-2h2V20   M18,17h-1v1H7v-1H6V7h1V6h10v1h1V17 M16,8v2h-3v6h-2v-6H8V8H16z"></path>
         </svg>
 
         <b class="mw-admin-action-links ms-3" :class="{'active': showTypography }" v-on:click="toggleTypography">
@@ -10,61 +13,72 @@
         </b>
     </div>
     <div v-if="showTypography">
-     <div>
+        <div>
 
-        <div class="my-4 pt-2">
-            <FontPicker v-model="fontFamily" v-bind:value=fontFamily @change="handleFontChange" :label="'Family'"/>
+            <div class="my-4 pt-2">
+                <FontPicker v-model="fontFamily" v-bind:value=fontFamily @change="handleFontChange" :label="'Family'"/>
+            </div>
+
+
+            <Align :textAlign="textAlign" @update:textAlign="setTextAlignment"/>
+
+
+            <ColorPicker v-model="color" v-bind:color=color :label="'Color'" @change="handleFontColorChange"/>
+
+            <SliderSmall
+                label="Font Size"
+                v-model="fontSize"
+                :min="0"
+                :max="100"
+                :step="1"
+            ></SliderSmall>
+
+
+            <DropdownSmall v-model="fontWeight" :options="fontWeightOptions" :label="'Weight'"/>
+            <DropdownSmall v-model="textTransform" :options="textTransformOptions" :label="'Transform'"/>
+            <DropdownSmall v-model="fontStyle" :options="fontStylesOptions" :label="'Style'"/>
+
+
+            <SliderSmall
+                label="Line Height"
+                v-model="lineHeight"
+                :min="0"
+                :max="100"
+                :step="1"
+            ></SliderSmall>
+
+
+            <SliderSmall
+                label="Letter Spacing"
+                v-model="letterSpacing"
+                :min="1"
+                :max="100"
+                :step="1"
+            ></SliderSmall>
+
+
+            <SliderSmall
+                label="Word Spacing"
+                v-model="wordSpacing"
+                :min="1"
+                :max="100"
+                :step="1"
+            ></SliderSmall>
+
+
+
+            <DropdownSmall v-model="textWritingMode" :options="textWritingModeOptions" :label="'Writing Mode'"/>
+
+
+            <div v-if="textWritingMode !== 'horizontal-tb' && textWritingMode !== ''">
+
+                <DropdownSmall v-model="textOrientation" :options="textOrientationOptions" :label="'Orientation'"/>
+
+            </div>
+
+
+
         </div>
-
-
-        <Align :textAlign="textAlign" @update:textAlign="setTextAlignment"/>
-
-
-        <ColorPicker v-model="color" v-bind:color=color :label="'Color'" @change="handleFontColorChange"/>
-
-        <SliderSmall
-            label="Font Size"
-            v-model="fontSize"
-            :min="0"
-            :max="100"
-            :step="1"
-        ></SliderSmall>
-
-
-        <DropdownSmall v-model="fontWeight" :options="fontWeightOptions" :label="'Weight'"/>
-        <DropdownSmall v-model="textTransform" :options="textTransformOptions" :label="'Transform'"/>
-        <DropdownSmall v-model="fontStyle" :options="fontStylesOptions" :label="'Style'"/>
-
-
-        <SliderSmall
-            label="Line Height"
-            v-model="lineHeight"
-            :min="0"
-            :max="100"
-            :step="1"
-        ></SliderSmall>
-
-
-
-         <SliderSmall
-             label="Letter Spacing"
-             v-model="letterSpacing"
-             :min="1"
-             :max="100"
-             :step="1"
-         ></SliderSmall>
-
-
-         <SliderSmall
-             label="Word Spacing"
-             v-model="wordSpacing"
-             :min="1"
-             :max="100"
-             :step="1"
-         ></SliderSmall>
-
-
-    </div>
     </div>
 
 </template>
@@ -113,6 +127,26 @@ export default {
                 {"key": "italic", "value": "Italic"},
                 {"key": "oblique", "value": "Oblique"}
             ],
+
+            "textOrientationOptions": [
+                {"key": "normal", "value": ""},
+                {"key": "initial", "value": "Initial"},
+                {"key": "inherit", "value": "Inherit"},
+                {"key": "mixed", "value": "Mixed"},
+                {"key": "upright", "value": "Upright"},
+                {"key": "sideways", "value": "Sideways"},
+                {"key": "sideways-right", "value": "Sideways Right"}
+
+            ],
+            "textWritingModeOptions": [
+                {"key": "normal", "value": ""},
+                {"key": "horizontal-tb", "value": "Horizontal"},
+                {"key": "vertical-rl", "value": "Vertical"},
+                // {"key": "vertical-lr", "value": "Vertical Reversed"},
+                // {"key": "sideways-rl", "value": "Sideways"},
+                // {"key": "sideways-lr", "value": "Sideways Reversed"},
+
+            ],
             'textAlign': null,
             'fontSize': null,
             'fontWeight': 'normal',
@@ -124,6 +158,8 @@ export default {
 
             'color': null,
             'textTransform': 'none',
+            'textOrientation': null,
+            'textWritingMode': null,
             'textDecorationIsBold': null,
             'textDecorationIsItalic': null,
             'textDecorationIsUnderline': null,
@@ -148,6 +184,7 @@ export default {
             this.textDecorationIsItalic = null;
             this.textDecorationIsUnderline = null;
             this.textDecorationIsStrikethrough = null;
+            this.textOrientation = null;
             this.letterSpacing = null;
             this.wordSpacing = null;
         },
@@ -168,7 +205,8 @@ export default {
                 this.populateCssTextTransform(css);
                 this.populateLetterSpacing(css);
                 this.populateWordSpacing(css);
-
+                this.populateTextOrientation(css);
+                this.populateTextWritingMode(css)
 
 
                 setTimeout(() => {
@@ -183,6 +221,11 @@ export default {
             var letterSpacing = css.get.letterSpacing();
             this.letterSpacing = letterSpacing;
         },
+        populateTextOrientation: function (css) {
+            if (!css || !css.get) return;
+            var orientation = css.get.textOrientation();
+            this.textOrientation = orientation;
+        },
 
         populateWordSpacing: function (css) {
             if (!css || !css.get) return;
@@ -190,7 +233,15 @@ export default {
             var letterSpacing = css.get.wordSpacing();
             this.wordSpacing = letterSpacing;
         },
+        populateTextWritingMode: function (css) {
+            if (!css || !css.get) return;
+            var writingMode = css.get.textWritingMode();
 
+            console.log(1111)
+            console.log(writingMode)
+
+            this.textWritingMode = writingMode;
+        },
 
         populateCssTextAlign: function (css) {
             if (!css || !css.get) return;
@@ -285,7 +336,7 @@ export default {
     watch: {
         '$root.selectedElement': {
             handler: function (element) {
-                if(element) {
+                if (element) {
                     this.populateStyleEditor(element);
                 }
             },
@@ -333,7 +384,15 @@ export default {
         },
 
         wordSpacing: function (newValue, oldValue) {
-            this.applyPropertyToActiveNode( 'wordSpacing', newValue + 'px');
+            this.applyPropertyToActiveNode('wordSpacing', newValue + 'px');
+        },
+
+        textOrientation: function (newValue, oldValue) {
+            this.applyPropertyToActiveNode('textOrientation', newValue);
+        },
+
+        textWritingMode: function (newValue, oldValue) {
+            this.applyPropertyToActiveNode('writingMode', newValue);
         },
     },
 
