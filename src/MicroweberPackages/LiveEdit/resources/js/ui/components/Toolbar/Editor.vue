@@ -173,7 +173,10 @@ export default {
           });
             mw.app.editor.on('editNodeRequest', async (element) => {
 
-
+                if (mw.app.isPreview()) {
+                    console.log('Cannot edit in preview mode');
+                    return;
+                }
 
 
                 function imagePicker(onResult) {
@@ -183,24 +186,44 @@ export default {
                 if (liveEditHelpers.targetIsIcon(element)) {
                     const iconPicker = mw.app.get('iconPicker').pickIcon(element);
 
+                     iconPicker.picker.on('sizeChange', val => {
+                         var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+                        if(edit) {
+                            mw.top().app.registerChangedState(edit);
+                        }
 
-                    iconPicker.picker.on('sizeChange', val => {
                         element.style.fontSize = `${val}px`;
                         mw.top().app.liveEdit.handles.get('element').position(mw.top().app.liveEdit.handles.get('element').getTarget())
-                        mw.top().app.registerChange(element);
-                    });
 
+
+                    });
+                    iconPicker.picker.on('select', val => {
+                        var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+                        if(edit) {
+                            mw.top().app.registerChangedState(edit);
+                        }
+
+                    });
                     iconPicker.picker.on('colorChange', val => {
+                        var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+                        if(edit) {
+                            mw.top().app.registerChangedState(edit);
+                        }
 
                         element.style.color = `${val}`;
-                        mw.top().app.registerChange(element);
+
                     });
 
                     iconPicker.picker.on('reset', val => {
+                        var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+
+                        if(edit) {
+                            mw.top().app.registerChangedState(edit);
+                        }
 
                         element.style.color = ``;
                         element.style.fontSize = ``;
-                        mw.top().app.registerChange(element);
+
 
                     });
 

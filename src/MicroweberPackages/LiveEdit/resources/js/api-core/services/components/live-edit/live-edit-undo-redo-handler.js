@@ -76,7 +76,7 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
     }
 
 
-    afterUndoRed() {
+    afterUndoRedo() {
         mw.app.canvas.getDocument().querySelectorAll('.mw-element-is-dragged').forEach(node => {
             node.classList.remove('mw-element-is-dragged')
         });
@@ -153,11 +153,15 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
                 mw.$(data.active.prev).html(data.active.prevValue);
             }
         }
-        this.afterUndoRed()
+        this.afterUndoRedo()
     }
 
+    registerUndoStateNow = (element) => {
+        if(!element){
+            return;
+        }
 
-    registerUndoState = (element) => {
+
         var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
         var module = mw.tools.firstParentOrCurrentWithClass(element, 'module');
         if (edit && edit.getAttribute('rel') && edit.getAttribute('field') && edit.innerHTML) {
@@ -176,6 +180,19 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
                 value: element.innerHTML
             });
         }
+    }
+    registerUndoStateTimeout = null;
+
+    registerUndoState = (element) => {
+       // this.registerUndoStateNow(element);
+        if(this.registerUndoStateTimeout) {
+            clearTimeout(this.registerUndoStateTimeout);
+        }
+        this.registerUndoStateTimeout = setTimeout(() => {
+            this.registerUndoStateNow(element);
+        }, 100, element);
+
+
     }
 }
 
