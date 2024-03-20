@@ -474,6 +474,10 @@ body.loaded #bubble-nav span {
     transform: translateX(0px);
 }
 
+.modules-list-block {
+    max-width: 960px !important;
+    margin: 0 auto !important;
+}
 
 .modules-list-block-item-is-locked-true:before {
     content: '';
