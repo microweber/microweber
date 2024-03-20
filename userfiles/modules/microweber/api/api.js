@@ -234,6 +234,10 @@ mw.askusertostay = false;
         }
 
 
+        if(target.classList.contains('mw-free-layout-container')) {
+            action = 'append'
+        }
+
 
         mw.$(target)[explicitAction || action](el);
         mw.load_module(module, '#' + id, function (a,b) {

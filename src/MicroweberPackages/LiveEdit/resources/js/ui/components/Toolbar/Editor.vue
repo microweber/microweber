@@ -288,7 +288,7 @@ export default {
                         var isSafeMode = DomService.parentsOrCurrentOrderMatchOrOnlyFirst(editTarget, ['safe-mode', 'regular-mode']);
 
                         if(!isSafeMode) {
-                            editTarget = DomService.firstParentOrCurrentWithAnyOfClasses(editTarget, ['edit', 'regular-mode'])
+                            editTarget = DomService.firstParentOrCurrent(editTarget, '.edit,.regular-mode,[data-mw-free-element="true"]')
                         }
 
 
@@ -329,10 +329,16 @@ export default {
                         editTarget.contentEditable = true;
                         mw.app.liveEdit.pause();
 
+
+                        if(editTarget.__mw_movable) {
+
+                            editTarget.__mw_movable.selfElement.style.display = 'none';
+                        }
+
                        mw.app.richTextEditor.smallEditorInteract(element);
                        mw.app.richTextEditor.positionSmallEditor(element);
 
-                       mw.app.richTextEditor.observe()
+                       mw.app.richTextEditor.observe();
 
 
 

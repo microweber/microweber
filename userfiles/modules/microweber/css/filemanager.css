@@ -540,6 +540,7 @@
     border-top: 1px solid #dbdcdd;
     padding-bottom: 0;
     position: sticky;
+    z-index: 2;
     bottom: 0;
     background: #fff;
 }

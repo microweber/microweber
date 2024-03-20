@@ -219,10 +219,22 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
     }
 
+    static getFirstFreeNode(element) {
+        if(!element) {
+            return;
+        }
+        while (element) {
+            if(element.dataset && element.dataset.mwFreeElement === 'true') {
+                return element;
+            }
+            element = element.parentNode
+        }
+
+    }
+
     #adapters = {
 
         movable: function(element, container, scope) {
-            console.log(element, container)
             const draggable = true;
             const throttleDrag = 1;
             const edgeDraggable = false;
@@ -242,18 +254,21 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
                     Mvb.mw._movables.forEach(instance => {
                         instance.selfElement.style.display = 'none';
                     });
-                    if(node.__mw_movable) {
 
-                        node.__mw_movable.selfElement.style.display = 'block';
+                    const free = FreeDraggableElementManager.getFirstFreeNode(node)
+                    if(free && free.__mw_movable) {
+                        free.__mw_movable.selfElement.style.display = 'block';
                     }
+
 
                 })
                 mw.top().app.liveEdit.handles.get('module').on('targetChange', node => {
                     Mvb.mw._movables.forEach(instance => {
                         instance.selfElement.style.display = 'none';
                     })
-                    if(node.__mw_movable) {
-                        node.__mw_movable.selfElement.style.display = 'block';
+                    const free = FreeDraggableElementManager.getFirstFreeNode(node)
+                    if(free && free.__mw_movable) {
+                        free.__mw_movable.selfElement.style.display = 'block';
                     }
                 })
             }
@@ -302,10 +317,25 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
              });
 
 
-             Mvb.mw._movables.push(mvb)
+             Mvb.mw._movables.push(mvb);
+
+
+             mvb.__mwlisteners = [];
+
+             const keyPress = e => {
+                if(element.offsetHeight < element.scrollHeight) {
+                    element.style.height =  element.scrollHeight + 'px';
+                }
+             }
+
+             mvb.__mwlisteners.push({
+                name: 'keyPress',
+                handle: keyPress
+             })
 
 
              element.__mw_movable = mvb;
+             element.addEventListener('keyPress', keyPress) ;
 
              mvb.selfElement.style.display = 'none';
              mvb.selfElement.classList.add('no-element');
@@ -365,7 +395,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
                 e.target.style.top = eTop + 'px';
                  e.target.style.left = eLeft + 'px';
 
-/* e.target.style.transform = e.transform*/
+                 // e.target.style.transform = e.transform
 
                  mw.top().app.liveEdit.handles.hide();
                  mw.app.liveEdit.pause();
@@ -377,14 +407,14 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
              })
              mvb.on("resize", e => {
                 const heightProp = e.target.nodeName !== 'IMG' ? 'height' : 'height'
-               e.target.style.width = `${e.width}px`;
+                e.target.style.width = `${e.width}px`;
                 e.target.style.height = `auto`;
                 e.target.style[heightProp] = `${e.height}px`;
-                 e.target.style.transform = 'none';
+                e.target.style.transform = 'none';
 
 
 
-                //e.target.style.transform = e.transform
+                 // e.target.style.transform = e.transform
 
                 mw.top().app.liveEdit.handles.hide();
                 mw.app.liveEdit.pause();
@@ -403,12 +433,22 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
     freeElement(element, container = null) {
         const adapter = 'movable';
 
+
         if(!element) {
             return;
         }
+
         if(!container) {
             container = FreeDraggableElementManager.getElementContainer(element);
         }
+
+        const css = getComputedStyle(element);
+        if(css.position === 'static') {
+            element.style.position = 'absolute';
+            element.style.top = '50%';
+            element.style.left = '50%';
+        }
+
 
         this.#adapters[adapter](element, container, this);
         element.dataset.mwFreeElement = true;
@@ -430,8 +470,14 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
             if(i > -1) {
                 element.ownerDocument.defaultView.mw._movables.splice(i, 1)
             }
+            if(element.__mw_movable.__mwlisteners){
+                element.__mw_movable.__mwlisteners.forEach(l => {
+                    element.removeEventListener(l.name, l.handle)
+                })
+            }
             element.__mw_movable.destroy();
             element.__mw_movable = null;
+
             delete element.dataset.mwFreeElement;
         }
 

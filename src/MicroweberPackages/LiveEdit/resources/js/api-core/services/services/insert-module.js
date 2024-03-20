@@ -5,7 +5,7 @@ import { afterLayoutChange } from "../../core/handles-content/layout-actions";
 
 export const insertModule = (target = null, module, options = {}, insertLocation = 'top', explicitAction) => {
 
-    console.log(target, module, options, insertLocation);
+
 
     if (!target || !module) {
         return;
