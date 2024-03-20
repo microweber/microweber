@@ -501,6 +501,8 @@
                     actionNodes.color = cinput;
                     cinput.on('input', function () {
                         scope.dispatch('colorChange', cinput.get(0).value);
+
+
                     });
                     var cpHolder = mw.element()
                     // cel.append(cinput);

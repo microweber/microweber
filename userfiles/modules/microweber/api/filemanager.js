@@ -769,6 +769,9 @@
                     scope.path(scope.path() + '/' + item.name);
                 });
             }
+
+
+
             if(this.settings.selectable) {
                 if ((this.settings.canSelectFolder || item.type === 'file') && this.canSelect(item)) {
                     var check = _check();
@@ -777,6 +780,13 @@
                             scope[check.input.get(0).checked ? 'unselect' : 'select'](item);
                             _selectedUI();
                             scope.dispatch('selectionChanged', scope.getSelected());
+                        });
+                        row.on('dblclick', function(e){
+                            scope['select'](item);
+                            var val = scope.getSelected();
+                            scope.dispatch('insertByValue', scope.getSelected());
+                            e.stopPropagation();
+                            e.preventDefault();
                         });
                     }
                     check.input.on('change', function () {

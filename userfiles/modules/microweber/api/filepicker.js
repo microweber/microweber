@@ -251,6 +251,10 @@ mw.filePicker = function (options) {
                      fm.on('insert', function (){
                          scope.result();
                      });
+                     fm.on('insertByValue', function (val){
+                         scope.setSectionValue(val.map(a=>a.url));
+                         scope.result();
+                     });
                      fm.on('selectionChanged', function (val){
 
                          scope.setSectionValue(val.map(a=>a.url));
