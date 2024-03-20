@@ -21,7 +21,9 @@
     </template>
 
     <!-- list footer -->
-    <div v-show="((page !== items.length - 1) || !loading)" id="end-of-list" ref="end-of-list"/>
+    <div style="background:red" v-show="((page !== items.length - 1) || !loading)" id="end-of-list" ref="end-of-list">
+        aaa
+    </div>
 
   </div>
 </template>
@@ -81,16 +83,27 @@
     methods:{
       // set the list and update it when data changes
       updateList() {
-        const chunckedArray = chunkArray(this.data,this.itemsPerRender) // chunkArray(data,itemsPerRender) to get array of small arrays
-        this.items = chunckedArray
-        this.itemsToDisplay =  chunckedArray[0]
+            const chunckedArray = chunkArray(this.data,this.itemsPerRender) // chunkArray(data,itemsPerRender) to get array of small arrays
+            this.items = chunckedArray
+            this.itemsToDisplay =  chunckedArray[0]
+            this.page = 0
+            // scroll to top
+            if (this.$refs['container']) {
+              this.$refs['container'].scrollTop = 0;
+            }
        },
 
       // load more items when scrolling to the end of the list
       loadItems(){
+
+          console.log('loadItems', this.page, this.items.length)
+
         if(this.page === this.items.length - 1) return
 
         const element = this.$refs["end-of-list"] //this.endOfList;
+
+          console.log('end-of-list', element);
+
         if(!element) return
 
         const position = element.getBoundingClientRect();
