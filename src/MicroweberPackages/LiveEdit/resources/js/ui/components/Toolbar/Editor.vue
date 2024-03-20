@@ -195,6 +195,10 @@ export default {
                         element.style.fontSize = `${val}px`;
                         mw.top().app.liveEdit.handles.get('element').position(mw.top().app.liveEdit.handles.get('element').getTarget())
 
+                        if(edit) {
+                            mw.top().app.registerChangedState(edit);
+                        }
+
 
                     });
                     iconPicker.picker.on('select', val => {
@@ -212,6 +216,10 @@ export default {
 
                         element.style.color = `${val}`;
 
+                        if(edit) {
+                            mw.top().app.registerChangedState(edit);
+                        }
+
                     });
 
                     iconPicker.picker.on('reset', val => {
@@ -225,6 +233,11 @@ export default {
                         element.style.fontSize = ``;
 
 
+                        if(edit) {
+                            mw.top().app.registerChangedState(edit);
+                        }
+
+
                     });
 
 
@@ -232,12 +245,17 @@ export default {
 
                     setTimeout(function(){
                         mw.app.liveEdit.play();
+                        var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+                        if(edit) {
+                            mw.top().app.registerChangedState(edit);
+                        }
                         var target = mw.top().app.liveEdit.handles.get('element').getTarget();
                         if(!target){
                             return;
                         }
                         mw.top().app.liveEdit.handles.get('element').set(null);
                         mw.top().app.liveEdit.handles.get('element').set(target);
+
                     }, 70)
 
 
