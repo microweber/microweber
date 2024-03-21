@@ -3,12 +3,12 @@ namespace MicroweberPackages\Modules\MailTemplates;
 
 class MailTemplates
 {
-    private $mailTempalatesPaths = [];
+    private static $mailTempalatesPaths = [];
 
     public function __construct()
     {
         $defaultMailTemplatesPath = normalize_path(dirname(MW_PATH) . '/View/emails');
-        $this->mailTempalatesPaths = $defaultMailTemplatesPath;
+        $this->registerMailTemplatePath($defaultMailTemplatesPath);
     }
 
     public function registerMailTemplatePath($path)
@@ -16,12 +16,12 @@ class MailTemplates
         if (!is_dir($path)) {
             return false;
         }
-        $this->mailTempalatesPaths[] = $path;
+        self::$mailTempalatesPaths[] = $path;
     }
 
     public function getMailTemplatePath()
     {
-        return $this->mailTempalatesPaths;
+        return self::$mailTempalatesPaths;
     }
 
 }
