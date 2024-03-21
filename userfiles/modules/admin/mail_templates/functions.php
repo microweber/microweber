@@ -7,16 +7,10 @@ function get_mail_template_types()
 
     $email_template_types = array();
 
-    $default_mail_templates = normalize_path(dirname(MW_PATH) . '/View/emails');
-    $default_mail_templates = scandir($default_mail_templates);
+    $default_mail_templates = app()->mail_templates->getMailTemplateFiles();
 
     foreach ($default_mail_templates as $template_file) {
-        if (strpos($template_file, "blade.php") !== false) {
-
-            $template_type = str_replace('.blade.php', false, $template_file);
-
-            $email_template_types[] = $template_type;
-        }
+        $email_template_types[] = $template_file['type'];
     }
 
     return $email_template_types;
