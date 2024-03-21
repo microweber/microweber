@@ -223,7 +223,7 @@ function get_default_mail_templates()
             'id' => $template['file'],
             'type' => $template['type'],
             'name' => $template['name'],
-            'subject' => $template['name'],
+            'subject' => $template['subject'],
             'path' => $template['path'],
             'from_name' => get_email_from_name(),
             'from_email' => get_email_from(),
