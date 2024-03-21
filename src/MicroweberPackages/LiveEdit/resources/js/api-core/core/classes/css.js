@@ -362,7 +362,9 @@ export const CSSParser = function(el) {
     f.textWritingMode = function(){
         return css.writingMode;
     }
-
+    f.mixBlendMode = function(){
+        return css.mixBlendMode;
+    }
 
     return {
         el: el,

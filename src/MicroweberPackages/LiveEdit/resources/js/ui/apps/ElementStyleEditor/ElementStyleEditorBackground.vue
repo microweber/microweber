@@ -1,7 +1,9 @@
 <template>
 
     <div class="d-flex">
-        <svg fill="currentColor" height="24" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+        <svg fill="currentColor" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 24 24"
+             style="enable-background:new 0 0 24 24;" xml:space="preserve">
             <path d="M12.2,3.9c4.5,0,8.1,3.6,8.1,8.1s-3.6,8.1-8.1,8.1S4.1,16.5,4.1,12S7.7,3.9,12.2,3.9"></path>
         </svg>
         <b class="mw-admin-action-links ms-3" :class="{'active': showBackground }" v-on:click="toggleBackground">
@@ -31,6 +33,9 @@
         <DropdownSmall v-model="backgroundClip" :options="backgroundClipOptions"
                        :label="'Clip'"/>
 
+
+
+        <DropdownSmall v-model="mixBlendMode" :options="mixBlendModeOptions" :label="'Blend Mode'"/>
 
 
     </div>
@@ -85,6 +90,27 @@ export default {
                 {key: "100% 100%", value: "Scale"}
             ],
 
+            'mixBlendModeOptions': [
+                {key: "normal", value: "Normal"},
+                {key: "multiply", value: "Multiply"},
+                {key: "screen", value: "Screen"},
+                {key: "overlay", value: "Overlay"},
+                {key: "darken", value: "Darken"},
+                {key: "lighten", value: "Lighten"},
+                {key: "color-dodge", value: "Color Dodge"},
+                {key: "color-burn", value: "Color Burn"},
+                {key: "hard-light", value: "Hard Light"},
+                {key: "soft-light", value: "Soft Light"},
+                {key: "difference", value: "Difference"},
+                {key: "exclusion", value: "Exclusion"},
+                {key: "hue", value: "Hue"},
+                {key: "saturation", value: "Saturation"},
+                {key: "color", value: "Color"},
+                {key: "luminosity", value: "Luminosity"},
+                {key: "plus-darker", value: "Plus Darker"},
+                {key: "plus-lighter", value: "Plus Lighter"},
+            ],
+
             'activeNode': null,
             'isReady': false,
             'backgroundImage': null,
@@ -94,18 +120,19 @@ export default {
             'backgroundSize': 'auto',
             'backgroundImageUrl': null,
             'backgroundClip': null,
+            'mixBlendMode': null,
         };
     },
 
     methods: {
         toggleBackground: function () {
-           // this.showBackground = !this.showBackground;
-         //    this.emitter.emit('element-style-editor-show', 'background');
-          if(!this.showBackground){
-              this.emitter.emit('element-style-editor-show', 'background');
-          } else {
-              this.emitter.emit('element-style-editor-show', 'none');
-          }
+            // this.showBackground = !this.showBackground;
+            //    this.emitter.emit('element-style-editor-show', 'background');
+            if (!this.showBackground) {
+                this.emitter.emit('element-style-editor-show', 'background');
+            } else {
+                this.emitter.emit('element-style-editor-show', 'none');
+            }
         },
 
         resetAllProperties: function () {
@@ -116,6 +143,7 @@ export default {
             this.backgroundRepeat = null;
             this.backgroundSize = 'auto';
             this.backgroundClip = null;
+            this.mixBlendMode = null;
         },
 
         populateStyleEditor: function (node) {
@@ -126,6 +154,7 @@ export default {
                 this.activeNode = node;
 
                 this.populateCssBackground(css);
+                this.populateCssMixBlendMode(css);
 
 
                 setTimeout(() => {
@@ -156,6 +185,14 @@ export default {
             this.backgroundPosition = bg.position;
             this.backgroundRepeat = bg.repeat;
             this.backgroundClip = bg.clip;
+        },
+
+        populateCssMixBlendMode: function (css) {
+            if (!css || !css.get) return;
+            var bg = css.get.mixBlendMode();
+            if (bg.mixBlendMode) {
+                this.mixBlendMode = bg.mixBlendMode;
+            }
         },
 
         handleBackgroundColorChange: function (color) {
@@ -223,13 +260,12 @@ export default {
 
         '$root.selectedElement': {
             handler: function (element) {
-                if(element) {
+                if (element) {
                     this.populateStyleEditor(element);
                 }
             },
             deep: true
         },
-
 
 
         // Background-related property watchers
@@ -259,6 +295,9 @@ export default {
         },
         backgroundSize: function (newValue, oldValue) {
             this.applyPropertyToActiveNode('backgroundSize', newValue);
+        },
+        mixBlendMode: function (newValue, oldValue) {
+            this.applyPropertyToActiveNode('mixBlendMode', newValue);
         },
     },
 }
