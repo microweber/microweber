@@ -37,7 +37,7 @@ class MailTemplates
                         'type' => $template_type,
                         'name' => $template_name,
                         'file' => $file,
-                        'path' => $path
+                        'path' => $path . $file
                     ];
                 }
             }

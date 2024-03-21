@@ -30,8 +30,6 @@ $data = get_mail_templates($get_params); ?>
         <thead>
         <tr>
             <th><?php _e("Name"); ?></th>
-            <th><?php _e("Type"); ?></th>
-            <th><?php _e("Subject"); ?></th>
             <th><?php _e("From Name"); ?></th>
             <th><?php _e("From Email"); ?></th>
             <th style="width:120px;" class="text-center"><?php _e("Is Active"); ?></th>
@@ -41,9 +39,11 @@ $data = get_mail_templates($get_params); ?>
         <tbody>
         <?php foreach ($data as $item): ?>
             <tr>
-                <td class="small"><?php print $item['name'] ?></td>
-                <td class="small"><?php print $item['type'] ?></td>
-                <td class="small"><?php print $item['subject'] ?></td>
+                <td class="small">
+<!--                    <?php print $item['name'] ?> <br />
+                    <?php print $item['type'] ?> <br />-->
+                    <?php print $item['subject'] ?>
+                </td>
                 <td class="small"><?php print $item['from_name'] ?></td>
                 <td class="small"><?php print $item['from_email'] ?></td>
                 <td class="text-center">

@@ -201,10 +201,14 @@ function get_mail_template_by_id($id, $type = false)
 {
 
     $templates = get_mail_templates();
+    $templates = array_merge($templates, get_default_mail_templates());
+
     foreach ($templates as $template) {
         if ($template['id'] == $id) {
             if (isset($template['is_default'])) {
-                $template['message'] = file_get_contents(normalize_path(dirname(MW_PATH) . '/View/emails') . $template['id']);
+                if (isset($template['path']) && is_file($template['path'])) {
+                    $template['message'] = file_get_contents($template['path']);
+                }
             }
             return $template;
         }
@@ -226,6 +230,7 @@ function get_default_mail_templates()
             'type' => $template['type'],
             'name' => $template['name'],
             'subject' => $template['name'],
+            'path' => $template['path'],
             'from_name' => get_email_from_name(),
             'from_email' => get_email_from(),
             'copy_to' => '',
