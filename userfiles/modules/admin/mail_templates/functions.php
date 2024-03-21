@@ -218,6 +218,9 @@ function get_default_mail_templates()
 
     $templates = array();
 
+
+    dump(app()->mail_templates->getMailTemplatePath());
+
     $default_mail_templates = normalize_path(dirname(MW_PATH) . '/View/emails');
     $default_mail_templates = scandir($default_mail_templates);
 

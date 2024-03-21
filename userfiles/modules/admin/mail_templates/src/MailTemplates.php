@@ -19,4 +19,9 @@ class MailTemplates
         $this->mailTempalatesPaths[] = $path;
     }
 
+    public function getMailTemplatePath()
+    {
+        return $this->mailTempalatesPaths;
+    }
+
 }
