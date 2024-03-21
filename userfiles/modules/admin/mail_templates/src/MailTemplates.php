@@ -20,6 +20,20 @@ class MailTemplates
         self::$mailTempalatesPaths[] = $path;
     }
 
+    private function getSubjectFromTemplate($templateContent)
+    {
+        $subject = '';
+        $lines = explode("\n", $templateContent);
+        foreach ($lines as $line) {
+            if (str_contains($line, 'subject:')) {
+                $subject = str_replace('subject:', '', $line);
+                $subject = trim($subject);
+                break;
+            }
+        }
+        return $subject;
+    }
+
     public function getMailTemplateFiles()
     {
         $templateFiles = [];
@@ -29,15 +43,20 @@ class MailTemplates
             foreach ($files as $file) {
                 if (str_contains($file, "blade.php")) {
 
-                    $template_type = str_replace('.blade.php', false, $file);
-                    $template_name = str_replace('_', ' ', $template_type);
-                    $template_name = ucfirst($template_name);
+
+                    $templateType = str_replace('.blade.php', false, $file);
+                    $templateName = str_replace('_', ' ', $templateType);
+                    $templateName = ucfirst($templateName);
+
+                    $templateContent = file_get_contents($path . $file);
+                    $templateSubject = $this->getSubjectFromTemplate($templateContent);
 
                     $templateFiles[] = [
-                        'type' => $template_type,
-                        'name' => $template_name,
+                        'type' => $templateType,
+                        'name' => $templateName,
                         'file' => $file,
-                        'path' => $path . $file
+                        'path' => $path . $file,
+                        'subject' => $templateSubject
                     ];
                 }
             }
