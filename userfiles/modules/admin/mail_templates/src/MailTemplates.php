@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Modules\MailTemplates;
 
 class MailTemplates
@@ -19,9 +20,30 @@ class MailTemplates
         self::$mailTempalatesPaths[] = $path;
     }
 
-    public function getMailTemplatePath()
+    public function getMailTemplateFiles()
     {
-        return self::$mailTempalatesPaths;
+        $templateFiles = [];
+        $paths = self::$mailTempalatesPaths;
+        foreach ($paths as $path) {
+            $files = scandir($path);
+            foreach ($files as $file) {
+                if (str_contains($file, "blade.php")) {
+
+                    $template_type = str_replace('.blade.php', false, $file);
+                    $template_name = str_replace('_', ' ', $template_type);
+                    $template_name = ucfirst($template_name);
+
+                    $templateFiles[] = [
+                        'type' => $template_type,
+                        'name' => $template_name,
+                        'file' => $file,
+                        'path' => $path
+                    ];
+                }
+            }
+        }
+
+        return $templateFiles;
     }
 
 }

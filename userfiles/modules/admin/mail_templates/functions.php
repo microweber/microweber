@@ -216,34 +216,23 @@ function get_mail_template_by_id($id, $type = false)
 function get_default_mail_templates()
 {
 
-    $templates = array();
+    $templates = [];
 
+    $default_mail_templates = app()->mail_templates->getMailTemplateFiles();
+    foreach ($default_mail_templates as $template) {
 
-    dump(app()->mail_templates->getMailTemplatePath());
-
-    $default_mail_templates = normalize_path(dirname(MW_PATH) . '/View/emails');
-    $default_mail_templates = scandir($default_mail_templates);
-
-    foreach ($default_mail_templates as $template_file) {
-        if (strpos($template_file, "blade.php") !== false) {
-
-            $template_type = str_replace('.blade.php', false, $template_file);
-            $template_name = str_replace('_', ' ', $template_type);
-            $template_name = ucfirst($template_name);
-
-            $templates[] = array(
-                'id' => $template_file,
-                'type' => $template_type,
-                'name' => $template_name,
-                'subject' => $template_name,
-                'from_name' => get_email_from_name(),
-                'from_email' => get_email_from(),
-                'copy_to' => '',
-                'message' => '',
-                'is_default' => true,
-                'is_active' => 1
-            );
-        }
+        $templates[] = array(
+            'id' => $template['file'],
+            'type' => $template['type'],
+            'name' => $template['name'],
+            'subject' => $template['name'],
+            'from_name' => get_email_from_name(),
+            'from_email' => get_email_from(),
+            'copy_to' => '',
+            'message' => '',
+            'is_default' => true,
+            'is_active' => 1
+        );
     }
 
     return $templates;
