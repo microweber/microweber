@@ -236,10 +236,6 @@ export default {
         populateTextWritingMode: function (css) {
             if (!css || !css.get) return;
             var writingMode = css.get.textWritingMode();
-
-            console.log(1111)
-            console.log(writingMode)
-
             this.textWritingMode = writingMode;
         },
 
