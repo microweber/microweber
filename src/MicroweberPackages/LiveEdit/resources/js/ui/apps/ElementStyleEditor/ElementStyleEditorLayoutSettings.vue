@@ -1,14 +1,16 @@
 <template>
-    <div class="mb-4" v-if="activeLayoutNode">
+    <div v-if="activeLayoutNode">
 
 
-        <div class="row" role="alert">
-
-                <div>
-                    <input type="button" class="btn btn-dark live-edit-toolbar-buttons btn-sm btn-block w-100"
-                           value="Edit layout" @click="editLayout">
-                </div>
-
+        <div class="mb-4 d-flex">
+            <svg fill="currentColor" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 24 24"
+                 style="enable-background:new 0 0 24 24;" xml:space="preserve">
+            <path d="M12.2,3.9c4.5,0,8.1,3.6,8.1,8.1s-3.6,8.1-8.1,8.1S4.1,16.5,4.1,12S7.7,3.9,12.2,3.9"></path>
+        </svg>
+            <b class="mw-admin-action-links ms-3" v-on:click="editLayout">
+                Section settings
+            </b>
         </div>
 
 
@@ -35,7 +37,15 @@ export default {
     },
 
     watch: {
+        '$root.selectedElement': {
+            handler: function (element) {
+                if (element) {
 
+                    this.populateLayoutSettings(element);
+                }
+            },
+            deep: true
+        },
         '$root.selectedLayout': {
             handler: function (element) {
                 if (element) {
@@ -56,16 +66,24 @@ export default {
         },
 
         populateLayoutSettings: function (node) {
-            if (node && node.nodeType === 1) {
 
+            this.activeLayoutNode = null;
+
+            var layoutNode = mw.tools.firstParentOrCurrentWithAnyOfClasses(node, ['module-layouts']);
+
+            if (node && node.nodeType === 1) {
+                
                 this.isReady = false;
 
-                this.activeLayoutNode = node;
+                if (layoutNode) {
 
+                    this.activeLayoutNode = layoutNode;
 
-                setTimeout(() => {
-                    this.isReady = true;
-                }, 100);
+                    setTimeout(() => {
+                        this.isReady = true;
+                    }, 100);
+
+                }
             }
         },
 

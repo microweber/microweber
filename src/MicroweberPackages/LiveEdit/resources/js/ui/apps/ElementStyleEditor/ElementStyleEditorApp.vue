@@ -10,6 +10,8 @@
     <div class="mb-4" :class="{'style-editor-disabled': !selectedElement}">
         <div class="d-flex flex-column">
 
+
+
             <div class="mb-4" v-show="showElementSelector">
                 <ElementStyleEditorElementSelector></ElementStyleEditorElementSelector>
             </div>
@@ -63,6 +65,12 @@
             <div class="mb-4" v-show="showListStyleEditor">
                 <ElementStyleEditorUlOlListStyleEditor></ElementStyleEditorUlOlListStyleEditor>
             </div>
+
+            <div class="mb-4" v-show="showLayoutSettings">
+                <ElementStyleEditorLayoutSettings></ElementStyleEditorLayoutSettings>
+            </div>
+
+
         </div>
     </div>
 
@@ -122,6 +130,9 @@ export default {
             showRoundedCorners: true,
             showPosition: true,
             showListStyleEditor: true,
+            showLayoutSettings: true,
+            showImageSettings: true,
+            showClassApplierSettings: true,
         }
     },
 
@@ -153,6 +164,7 @@ export default {
                 this.showClassApplier = false;
                 this.showPosition = false;
                 this.showListStyleEditor = false;
+                this.showLayoutSettings = false;
 
                 if (settings.fieldSettings.components.includes('background')) {
                     this.showBackground = true;
@@ -195,6 +207,19 @@ export default {
                 if (settings.fieldSettings.components.includes('listStyleEditor')) {
                     this.showListStyleEditor = true;
                 }
+
+                if (settings.fieldSettings.components.includes('layoutSettings')) {
+                    this.showLayoutSettings = true;
+                }
+
+                if (settings.fieldSettings.components.includes('imageSettings')) {
+                    this.showImageSettings = true;
+                }
+
+                if (settings.fieldSettings.components.includes('classApplier')) {
+                    this.showClassApplierSettings = true;
+                }
+
             }
         });
 

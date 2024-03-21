@@ -32,6 +32,9 @@ export default {
                 'classes',
                 'roundedCorners',
                 'listStyleEditor',
+                'layoutSettings',
+                'imageSettings',
+                'classApplier',
                 'border',
                 'position',
             ];
@@ -117,6 +120,9 @@ export default {
                     'classes',
                     'roundedCorners',
                     'listStyleEditor',
+                    'layoutSettings',
+                    'imageSettings',
+                    'classApplier',
                     'border',
                     'position',
                 ];
