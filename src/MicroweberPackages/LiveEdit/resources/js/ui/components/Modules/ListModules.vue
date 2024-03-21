@@ -26,9 +26,16 @@
                            v-model="filterKeyword"
                            placeholder="Type to Search..."
                            class="js-modules-list-search-input form-control mw-modules-list-search-block rounded-0">
+
+                         <span v-show="filterKeyword.length > 0" style="position: absolute; cursor: pointer;color: #aeaeae;top: 15px;right: 2modules-list-block3px;padding: 3px;" v-on:click="filterClearKeyword()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"></path>
+                            </svg>
+                        </span>
+
                 </div>
 
-                <div class="modules-list-block">
+                <div class="modules-list-block" style="width:100%;padding:20px;">
 
                     <div v-if="filterKeyword && filterKeyword.trim().length > 0" class="pl-4 mb-3 mt-3">
                         Looking for {{filterKeyword}}
@@ -95,10 +102,14 @@ export default {
                 itm = wrapper.get(0)
 
             }
-mw.top().app.freeDraggableElementManager.freeLayoutNodes(this.target)
+            mw.top().app.freeDraggableElementManager.freeLayoutNodes(this.target)
             mw.top().app.freeDraggableElementManager.makeFreeDraggableElement(itm)
 
             this.showModal = false;
+        },
+        filterClearKeyword() {
+            this.filterKeyword = '';
+            this.filterModules();
         },
         insertModuleDefault(moduleItem) {
             var module = moduleItem.module;
