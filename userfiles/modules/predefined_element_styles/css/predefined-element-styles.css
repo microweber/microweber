@@ -86,3 +86,121 @@
     margin-left: -50px;
     background-color: var(--accent-color-two);
 }
+
+
+.three {
+    --three-text-accent-color-one: currentColor;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.5em;
+    padding-bottom: 15px;
+}
+
+.three:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 5px;
+    width: 55px;
+    background-color: var(--three-text-accent-color-one);
+}
+
+.three:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 2px;
+    height: 1px;
+    width: 95%;
+    max-width: 255px;
+    background-color: var(--three-text-accent-color-one);
+}
+
+
+.seven {
+    --seven-text-accent-color-one: currentColor;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+}
+
+.seven:after, .seven:before {
+    content: " ";
+    display: block;
+    border-bottom: 1px solid var(--seven-text-accent-color-one);
+    border-top: 1px solid var(--seven-text-accent-color-one);
+    height: 5px;
+}
+
+
+.twelve {
+    --twelve-text-accent-color-one: currentColor;
+    font-size: 26px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    margin: auto;
+    white-space: nowrap;
+    padding-bottom: 13px;
+}
+
+.twelve:before {
+    background-color: var(--twelve-text-accent-color-one);
+    content: '';
+    display: block;
+    height: 3px;
+    width: 75px;
+    margin-bottom: 5px;
+}
+
+.twelve:after {
+    background-color: var(--twelve-text-accent-color-one);
+    content: '';
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    width: 75px;
+    margin-bottom: 0.25em;
+}
+
+
+.thirteen {
+    --thirteen-text-accent-color-one: currentColor;
+    position: relative;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+
+    text-align: center;
+    margin: auto;
+
+    border: 2px solid #222;
+    padding: 5px 11px 3px 11px;
+}
+
+.thirteen:before, .thirteen:after {
+    background-color: var(--thirteen-text-accent-color-one);
+    position: absolute;
+    content: '';
+    height: 7px;
+
+    width: 7px;
+    border-radius: 50%;
+    bottom: 12px;
+}
+
+.thirteen h1:before {
+    left: -20px;
+}
+
+.thirteen h1:after {
+    right: -20px;
+}

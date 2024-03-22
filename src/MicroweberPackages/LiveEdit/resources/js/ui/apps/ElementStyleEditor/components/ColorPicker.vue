@@ -79,6 +79,9 @@ export default {
             if (newColor == 'none') {
                 return '';
             }
+            if (newColor == 'currentColor') {
+                return '';
+            }
             if (newColor == 'rgb(0 0 0 / 0%)') {
                 return 'transparent';
             }
