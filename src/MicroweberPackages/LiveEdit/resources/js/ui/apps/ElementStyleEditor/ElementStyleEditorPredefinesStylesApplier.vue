@@ -108,7 +108,8 @@ export default {
             }
         },
         populateCssVariablesEditorForSelectedClass() {
-            if (!this.isReady) {
+
+            if (!this.selectedClass) {
                 return;
             }
             //remove vars from other predefined claases if exist
@@ -117,7 +118,7 @@ export default {
                     if (key !== this.selectedClass) {
                         Object.keys(this.predefinedClassesVariables[key]).forEach(variableKey => {
                          //   this.predefinedClassesVariables[key][variableKey] = '';
-                            this.$root.applyPropertyToActiveNode(this.activeNode, variableKey, '');
+                        //    this.$root.applyPropertyToActiveNode(this.activeNode, variableKey, '');
 
                         });
                     }
@@ -129,7 +130,15 @@ export default {
             if (this.selectedClass && this.predefinedClassesVariables[this.selectedClass]) {
                 if (this.activeNode) {
                     Object.keys(this.predefinedClassesVariables[this.selectedClass]).forEach(key => {
-                        this.$root.applyPropertyToActiveNode(this.activeNode, key, this.predefinedClassesVariables[this.selectedClass][key]);
+                        var variableValue = mw.top().app.cssEditor.getPropertyForSelector( this.activeNode, key);
+
+                        console.log('variableValue',key, variableValue)
+
+                        if(variableValue){
+                            this.predefinedClassesVariables[this.selectedClass][key] = variableValue;
+                        }
+
+                    //    this.$root.applyPropertyToActiveNode(this.activeNode, key, this.predefinedClassesVariables[this.selectedClass][key]);
                     });
 
                 }

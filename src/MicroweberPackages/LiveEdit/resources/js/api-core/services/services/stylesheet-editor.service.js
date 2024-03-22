@@ -131,6 +131,9 @@ export class StylesheetEditor extends MicroweberBaseClass {
         var canvasDocument = mw.top().app.canvas.getDocument();
 
         if (selector) {
+            if(typeof selector === 'object') {
+                return getComputedStyle(selector).getPropertyValue(prop);
+            }
 
             if (selector.indexOf(':root') === 0) {
                 return getComputedStyle(canvasDocument.querySelector(selector)).getPropertyValue(prop);

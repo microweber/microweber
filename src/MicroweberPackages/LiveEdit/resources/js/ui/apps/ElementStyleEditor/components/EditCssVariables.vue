@@ -4,6 +4,8 @@
         <div v-for="(value, key) in predefinedClassesVariables[selectedClass]" :key="key">
             <label>{{ key }}:</label>
             <input type="text" v-model="predefinedClassesVariables[selectedClass][key]">
+
+             <button @click="predefinedClassesVariables[selectedClass][key] = ''">Reset</button>
         </div>
     </div>
 </template>
