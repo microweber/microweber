@@ -1,0 +1,88 @@
+.one {
+
+    padding-bottom: 5px;
+}
+
+.one:before {
+    width: 28px;
+    height: 5px;
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    margin-left: -14px;
+    background-color: currentColor;
+}
+
+.one:after {
+    width: 100px;
+    height: 1px;
+    display: block;
+    content: "";
+    position: relative;
+    margin-top: 25px;
+    left: 50%;
+    margin-left: -50px;
+    background-color: currentColor;
+}
+
+
+.varone {
+    --accent-color-one: currentColor;
+    padding-bottom: 5px;
+}
+
+.varone:before {
+    width: 28px;
+    height: 5px;
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    margin-left: -14px;
+    background-color: var(--accent-color-one);
+}
+
+.varone:after {
+    width: 100px;
+    height: 1px;
+    display: block;
+    content: "";
+    position: relative;
+    margin-top: 25px;
+    left: 50%;
+    margin-left: -50px;
+    background-color: var(--accent-color-one);
+}
+
+
+.varto {
+    --accent-color-two: currentColor;
+    padding-bottom: 5px;
+}
+
+.varto:before {
+    width: 28px;
+    height: 5px;
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    margin-left: -14px;
+    background-color: var(--accent-color-two);
+}
+
+.varto:after {
+    width: 100px;
+    height: 1px;
+    display: block;
+    content: "";
+    position: relative;
+    margin-top: 25px;
+    left: 50%;
+    margin-left: -50px;
+    background-color: var(--accent-color-two);
+}

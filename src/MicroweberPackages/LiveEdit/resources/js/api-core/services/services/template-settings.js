@@ -1,6 +1,7 @@
 import MicroweberBaseClass from "../containers/base-class.js";
 import CssBoxShadowValuesParser from "./css-box-shadow-values-parser.js";
 import ColorPaletteManager from "./color-palette-manager.js";
+import PredefinedElementStylesManager from "./predefined-element-styles-manager.js";
 
 import axios from 'axios';
 
@@ -9,12 +10,14 @@ export class TemplateSettings extends MicroweberBaseClass {
 
     cssBoxShadowsParser = null;
     colorPaletteManager = null;
+    predefinedElementStylesManager =  null;
 
     constructor() {
         super();
 
         this.cssBoxShadowsParser = new CssBoxShadowValuesParser();
         this.colorPaletteManager = new ColorPaletteManager();
+        this.predefinedElementStylesManager = new PredefinedElementStylesManager();
     }
 
     helperClasses = {

@@ -34,7 +34,7 @@ export default {
                 'listStyleEditor',
                 'layoutSettings',
                 'imageSettings',
-                'classApplier',
+                'predefinedStylesApplierSettings',
                 'border',
                 'position',
             ];
@@ -122,7 +122,7 @@ export default {
                     'listStyleEditor',
                     'layoutSettings',
                     'imageSettings',
-                    'classApplier',
+                    'predefinedStylesApplierSettings',
                     'border',
                     'position',
                 ];

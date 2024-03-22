@@ -69,6 +69,9 @@
             <div class="mb-4" v-show="showLayoutSettings">
                 <ElementStyleEditorLayoutSettings></ElementStyleEditorLayoutSettings>
             </div>
+     <div class="mb-4" v-show="showPredefinedStylesApplierSettings">
+                <ElementStyleEditorPredefinesStylesApplier></ElementStyleEditorPredefinesStylesApplier>
+            </div>
 
 
         </div>
@@ -94,6 +97,7 @@ import ElementStyleEditorShadow from "./ElementStyleEditorShadow.vue";
 import ElementStyleEditorLayoutSettings from "./ElementStyleEditorLayoutSettings.vue";
 import ElementStyleEditorPosition from "./ElementStyleEditorPosition.vue";
 import ElementStyleEditorUlOlListStyleEditor from "./ElementStyleEditorUlOlListStyleEditor.vue";
+import ElementStyleEditorPredefinesStylesApplier from "./ElementStyleEditorPredefinesStylesApplier.vue";
 
 export default {
     components: {
@@ -112,6 +116,7 @@ export default {
         ElementStyleEditorLayoutSettings,
         ElementStyleEditorPosition,
         ElementStyleEditorUlOlListStyleEditor,
+        ElementStyleEditorPredefinesStylesApplier,
     },
 
     data() {
@@ -132,7 +137,7 @@ export default {
             showListStyleEditor: true,
             showLayoutSettings: true,
             showImageSettings: true,
-            showClassApplierSettings: true,
+            showPredefinedStylesApplierSettings: true,
         }
     },
 
@@ -216,8 +221,8 @@ export default {
                     this.showImageSettings = true;
                 }
 
-                if (settings.fieldSettings.components.includes('classApplier')) {
-                    this.showClassApplierSettings = true;
+                if (settings.fieldSettings.components.includes('predefinedStylesApplierSettings')) {
+                    this.showPredefinedStylesApplierSettings = true;
                 }
 
             }
