@@ -7,16 +7,10 @@ function get_mail_template_types()
 
     $email_template_types = array();
 
-    $default_mail_templates = normalize_path(dirname(MW_PATH) . '/View/emails');
-    $default_mail_templates = scandir($default_mail_templates);
+    $default_mail_templates = app()->mail_templates->getMailTemplateFiles();
 
     foreach ($default_mail_templates as $template_file) {
-        if (strpos($template_file, "blade.php") !== false) {
-
-            $template_type = str_replace('.blade.php', false, $template_file);
-
-            $email_template_types[] = $template_type;
-        }
+        $email_template_types[] = $template_file['type'];
     }
 
     return $email_template_types;
@@ -201,10 +195,14 @@ function get_mail_template_by_id($id, $type = false)
 {
 
     $templates = get_mail_templates();
+    $templates = array_merge($templates, get_default_mail_templates());
+
     foreach ($templates as $template) {
         if ($template['id'] == $id) {
             if (isset($template['is_default'])) {
-                $template['message'] = file_get_contents(normalize_path(dirname(MW_PATH) . '/View/emails') . $template['id']);
+                if (isset($template['path']) && is_file($template['path'])) {
+                    $template['message'] = file_get_contents($template['path']);
+                }
             }
             return $template;
         }
@@ -216,31 +214,24 @@ function get_mail_template_by_id($id, $type = false)
 function get_default_mail_templates()
 {
 
-    $templates = array();
+    $templates = [];
 
-    $default_mail_templates = normalize_path(dirname(MW_PATH) . '/View/emails');
-    $default_mail_templates = scandir($default_mail_templates);
+    $default_mail_templates = app()->mail_templates->getMailTemplateFiles();
+    foreach ($default_mail_templates as $template) {
 
-    foreach ($default_mail_templates as $template_file) {
-        if (strpos($template_file, "blade.php") !== false) {
-
-            $template_type = str_replace('.blade.php', false, $template_file);
-            $template_name = str_replace('_', ' ', $template_type);
-            $template_name = ucfirst($template_name);
-
-            $templates[] = array(
-                'id' => $template_file,
-                'type' => $template_type,
-                'name' => $template_name,
-                'subject' => $template_name,
-                'from_name' => get_email_from_name(),
-                'from_email' => get_email_from(),
-                'copy_to' => '',
-                'message' => '',
-                'is_default' => true,
-                'is_active' => 1
-            );
-        }
+        $templates[] = array(
+            'id' => $template['file'],
+            'type' => $template['type'],
+            'name' => $template['name'],
+            'subject' => $template['subject'],
+            'path' => $template['path'],
+            'from_name' => get_email_from_name(),
+            'from_email' => get_email_from(),
+            'copy_to' => '',
+            'message' => '',
+            'is_default' => true,
+            'is_active' => 1
+        );
     }
 
     return $templates;
