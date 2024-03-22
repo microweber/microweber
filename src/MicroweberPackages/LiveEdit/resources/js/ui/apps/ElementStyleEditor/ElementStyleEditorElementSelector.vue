@@ -103,7 +103,7 @@ export default {
                         if (node.id) {
                           return true;
                         }
-                        var can = mw.top().app.liveEdit.canBeElement(node)
+
                         var isInaccessible = mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(node);
                         if (isInaccessible) {
                             return false;

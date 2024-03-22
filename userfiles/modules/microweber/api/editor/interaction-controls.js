@@ -187,13 +187,15 @@ MWEditor.interactionControls = {
                 mw.tools.confirm(mw.msg.del, function() {
                     rootScope.state.unpause();
 
+                    const edit = mw.tools.firstParentOrCurrentWithClass(scope.$target.get(0), 'edit') || rootScope.$editArea[0];
+
                     rootScope.state.record({
-                        target: rootScope.$editArea[0],
-                        value: rootScope.$editArea[0].innerHTML
+                        target:edit,
+                        value: edit.innerHTML
                     });
                     scope.$target.remove()
                     el.hide();
-                    rootScope.api.afterExecCommand(); console.log(rootScope.state)
+                    rootScope.api.afterExecCommand();
                     rootScope._syncTextArea();
                 });
 
@@ -214,9 +216,10 @@ MWEditor.interactionControls = {
                         var url = res.src ? res.src : res;
                         if(!url) return;
                         rootScope.state.unpause();
+                        const edit = mw.tools.firstParentOrCurrentWithClass(scope.$target.get(0), 'edit') || rootScope.$editArea[0];
                         rootScope.state.record({
-                            target: rootScope.$editArea[0],
-                            value: rootScope.$editArea[0].innerHTML
+                            target: edit,
+                            value: edit.innerHTML
                         });
                         url = url.toString();
                         scope.$target.attr('src', url);
@@ -263,9 +266,10 @@ MWEditor.interactionControls = {
                         scope.__resizing = true;
 
                         rootScope.state.unpause();
+                        const edit = mw.tools.firstParentOrCurrentWithClass(scope.$target.get(0), 'edit') || rootScope.$editArea[0];
                         rootScope.state.record({
-                            target: rootScope.$editArea[0],
-                            value: rootScope.$editArea[0].innerHTML
+                            target: edit,
+                            value: edit.innerHTML
                         });
 
 
@@ -275,9 +279,10 @@ MWEditor.interactionControls = {
                         scope.__resizing = false;
                         rootScope.api.afterExecCommand();
                         rootScope._syncTextArea();
+                        const edit = mw.tools.firstParentOrCurrentWithClass(scope.$target.get(0), 'edit') || rootScope.$editArea[0];
                         rootScope.state.record({
-                            target: rootScope.$editArea[0],
-                            value: rootScope.$editArea[0].innerHTML
+                            target: edit,
+                            value: edit.innerHTML
                         });
 
                     },
@@ -409,9 +414,10 @@ MWEditor.interactionControls = {
 
         this._afterAction = function () {
             this.element.$node.hide();
+            const edit = mw.tools.firstParentOrCurrentWithClass(lscope.getActiveCell(), 'edit') || rootScope.$editArea[0];
             rootScope.state.record({
-                target: rootScope.$editArea[0],
-                value: rootScope.$editArea[0].innerHTML
+                target: edit,
+                value: edit.innerHTML
             });
         };
 
@@ -437,9 +443,10 @@ MWEditor.interactionControls = {
             });
 
             insertDD.select.on('change', function (e, data, node) {
+                const edit = mw.tools.firstParentOrCurrentWithClass(lscope.getActiveCell(), 'edit') || rootScope.$editArea[0];
                 rootScope.state.record({
-                    target: rootScope.$editArea[0],
-                    value: rootScope.$editArea[0].innerHTML
+                    target: edit,
+                    value: edit.innerHTML
                 });
 
 
@@ -461,11 +468,14 @@ MWEditor.interactionControls = {
             });
 
             deletetDD.select.on('change', function (e, data, node) {
+                const edit = mw.tools.firstParentOrCurrentWithClass(lscope.getActiveCell(), 'edit') || rootScope.$editArea[0];
                 rootScope.state.record({
-                    target: rootScope.$editArea[0],
-                    value: rootScope.$editArea[0].innerHTML
+                    target: edit,
+                    value: edit.innerHTML
                 });
-                lscope[e.detail.value.action]();
+                if(e.detail) {
+                    lscope[e.detail.value.action]();
+                }
                 lscope._afterAction()
             });
 

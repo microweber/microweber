@@ -4,10 +4,47 @@ class MWEditorEventHandles {
     }
 
 
+    static isVoid(element) {
+        const voidElements = ['AREA', 'BASE', 'BR', 'COL', 'COMMAND', 'EMBED', 'HR', 'IMG', 'INPUT', 'KEYGEN', 'LINK', 'META', 'PARAM', 'SOURCE', 'TRACK', 'WBR'];
+        var unsupported = ['IMG', 'UL', 'OL', 'DL', ...voidElements];
+        return unsupported.indexOf(element.nodeName) !== -1;
+    }
+
+    insertBR(e, edit) {
+
+        this.scope.state.record({
+
+            target: edit,
+            value: edit.innerHTML
+        });
+
+        var sel = this.scope.api.getSelection() ;
+        var range = sel.getRangeAt(0);
+        var br = range.commonAncestorContainer.ownerDocument.createElement('br');
+
+        range.insertNode(br);
+        range = range.cloneRange();
+
+        if(!br.nextSibling || !br.nextSibling.nodeValue) {
+            br.after(document.createTextNode('\u200B'))
+        }
+        range.selectNode ( br );
+        range.collapse(false);
+
+
+        sel.removeAllRanges();
+        sel.addRange(range);
+
+
+        e.preventDefault();
+       this.scope.state.record({
+            target: edit,
+            value: edit.innerHTML
+        });
+    }
 
 
      backSpace(e) {
-
 
 
         var sel = this.scope.getSelection();
@@ -28,43 +65,28 @@ class MWEditorEventHandles {
         }
 
         const deepLastChild = node => {
-            if(!node) {
+            console.log(877, node)
+            console.log(8771, MWEditorEventHandles.isVoid(node))
+            if(!node || MWEditorEventHandles.isVoid(node)) {
                 return null
             }
 
-            var unsupported = ['IMG', 'BR', 'UL', 'OL', 'DL'];
 
             var children = Array
             .from(node.childNodes)
-            .filter(node => unsupported.indexOf(node.nodeName) === -1)
+            .filter(node => !MWEditorEventHandles.isVoid(node))
 
             let child = children[children.length - 1];
             if(!child) {
-                return node;
+                const isVoid = MWEditorEventHandles.isVoid(node)
+
+                return isVoid ? null : node;
             }
             if(child) {
                 return deepLastChild(child)
             }
         }
-        const deepFirstChild = node => {
-            if(!node) {
-                return null
-            }
 
-            var unsupported = ['IMG', 'BR', 'UL', 'OL', 'DL'];
-
-            var children = Array
-            .from(node.children)
-            .filter(node => unsupported.indexOf(node.nodeName) === -1)
-
-            let child = children[0];
-            if(!child) {
-                return node;
-            }
-            if(child) {
-                return deepLastChild(child)
-            }
-        }
 
         if(sel.type === 'Caret') {
 
@@ -81,6 +103,7 @@ class MWEditorEventHandles {
 
 
                     if(target && target.nodeType !== 1) {
+
                         setTimeout(() => this.scope.api.normalizeStyles(), 10)
 
                         return
@@ -101,6 +124,8 @@ class MWEditorEventHandles {
 
 
                         if(parent.querySelector(target.nodeName) === null) {
+                            console.log(1, target)
+                            console.log(2, MWEditorEventHandles.isVoid(target))
                             while (parent.firstChild) {
 
                                 target.appendChild(parent.firstChild)
@@ -138,7 +163,18 @@ class MWEditorEventHandles {
      enter(e) {
 
         let focusNode = this.scope.api.elementNode(this.scope.getSelection().focusNode);
-        let focusActualTarget =this.scope.getActualTarget(focusNode)
+        let focusActualTarget = this.scope.getActualTarget(focusNode);
+
+        const isNoclone = mw.tools.hasAnyOfClasses(focusActualTarget, ['col', 'row', 'mw-col', 'mw-row']);
+
+        if(isNoclone) {
+            const canHasBR = mw.tools.hasAnyOfClasses(focusActualTarget, ['col',  'mw-col', ]);
+            const edit = mw.tools.firstParentOrCurrentWithClass(focusActualTarget, 'edit') ||this.scope.$editArea[0];
+            if(canHasBR) {
+                this.insertBR(e, edit);
+            }
+            return;
+        }
 
         var isSafeMode = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(focusNode, ['safe-mode', 'regular-mode']);
 
@@ -211,37 +247,9 @@ class MWEditorEventHandles {
             const edit = mw.tools.firstParentOrCurrentWithClass(focusNode, 'edit') ||this.scope.$editArea[0];
 
 
-            if (!isLi || (isLi && event.shiftKey)) {
+            if (!isLi || (isLi && e.shiftKey)) {
 
-               this.scope.state.record({
-
-                    target: edit,
-                    value: edit.innerHTML
-                });
-
-                var sel = this.scope.api.getSelection() ;
-                var range = sel.getRangeAt(0);
-                var br = range.commonAncestorContainer.ownerDocument.createElement('br');
-
-                range.insertNode(br);
-                range = range.cloneRange();
-
-                if(!br.nextSibling || !br.nextSibling.nodeValue) {
-                    br.after(document.createTextNode('\u200B'))
-                }
-                range.selectNode ( br );
-                range.collapse(false);
-
-
-                sel.removeAllRanges();
-                sel.addRange(range);
-
-
-                e.preventDefault();
-               this.scope.state.record({
-                    target: edit,
-                    value: edit.innerHTML
-                });
+               this.insertBR(e);
                 return;
             }
         }
