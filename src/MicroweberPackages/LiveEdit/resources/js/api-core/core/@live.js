@@ -1139,6 +1139,10 @@ export class LiveEdit {
             can = DomService.hasAnyOfClasses(el, exceptions);
         }
 
+        if(can) {
+            can = !DomService.firstParentOrCurrent(el.parentElement, '[data-mw-free-element="true"]')
+        }
+
 
         return can;
     }

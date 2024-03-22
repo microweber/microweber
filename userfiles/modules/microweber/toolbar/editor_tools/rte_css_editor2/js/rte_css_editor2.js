@@ -64,14 +64,10 @@ $(document).on('ready', function () {
         canSelect: function (node, li) {
             var can = mw.top().app.liveEdit.canBeElement(node)
             return can;
-            var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
-            return !cant;
-            // return mw.tools.isEditable(node) || node.classList.contains('edit');
+
         },
         onHover: function (e, target, node, element) {
-            if (typeof targetMw !== 'undefined') {
-                //   targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
-            }
+
         },
         onSelect: function (e, target, node, element) {
             setTimeout(function () {

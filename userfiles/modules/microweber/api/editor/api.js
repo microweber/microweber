@@ -102,7 +102,7 @@
 
                 if(target) {
                     target = mw.tools.firstBlockLikeLevel(target);
-                    console.log(target)
+
                     var all =  target.parentNode.querySelectorAll('*[style*="var"]');
 
                     all.forEach(node => {
@@ -252,6 +252,9 @@
                 var focusedNode = sel.focusNode;
                 var el = api.elementNode(focusedNode);
 
+                const edit = mw.tools.firstParentOrCurrentWithClass(el, 'edit') || scope.$editArea[0];
+
+
                 if(api.isCrossBlockSelection()) {
 
                     var off = sel.focusOffset;
@@ -270,7 +273,10 @@
                         sel.getRangeAt(0).setEnd(last, 1)
                     }
 
-
+                    scope.state.record({
+                        target: edit,
+                        value: edit.innerHTML
+                    });
 
                     return;
                 }
@@ -331,8 +337,8 @@
 
 
                 scope.state.record({
-                    target: scope.$editArea[0],
-                    value: scope.$editArea[0].innerHTML
+                    target: edit,
+                    value: edit.innerHTML
                 });
 
                  if(focusedNodeBlockRes) {
@@ -343,8 +349,8 @@
                     if(elisInline) {
                         inlinNodeHandle();
                         scope.state.record({
-                            target: scope.$editArea[0],
-                            value: scope.$editArea[0].innerHTML
+                            target: edit,
+                            value: edit.innerHTML
                         });
                         return;
                      }
@@ -354,8 +360,8 @@
                             if(focusedNode.nodeType === 3) {
                                 textNodeHandle()
                                 scope.state.record({
-                                    target: scope.$editArea[0],
-                                    value: scope.$editArea[0].innerHTML
+                                    target: edit,
+                                    value: edit.innerHTML
                                 });
                             }
 
@@ -384,6 +390,10 @@
                         scope.api.setCursorAtStart(el);
                     });
                 }
+                scope.state.record({
+                    target: edit,
+                    value: edit.innerHTML
+                });
             },
 
 
@@ -771,17 +781,20 @@
                     clearTimeout( scope.api._actionTimeout )
                 }
 
-                scope.api._actionTimeout = setTimeout(function(){
-                scope.state.record({
-                    target: targetParent,
-                    value: targetParent.innerHTML
-                });
-                func.call();
 
-                scope.state.record({
-                    target: targetParent,
-                    value: targetParent.innerHTML
-                });
+
+                scope.api._actionTimeout = setTimeout(function(){
+                    const edit = mw.tools.firstParentOrCurrentWithClass(targetParent, 'edit') || scope.$editArea[0];
+                    scope.state.record({
+                        target: edit,
+                        value: edit.innerHTML
+                    });
+                    func.call();
+
+                    scope.state.record({
+                        target: edit,
+                        value: edit.innerHTML
+                    });
                     scope.dispatch('action');
                     scope.registerChange();
                 }, (recordTimeout ? 600 : 78));
@@ -1215,7 +1228,7 @@
                             } else {
                                 if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
 
-                                    mw.top().app.cssEditor.temp(node, 'line-height', size);
+                                    mw.top().app.cssEditor.temp(el, 'line-height', size);
                                 } else {
                                     parent.style.lineHeight = size
                                 }
