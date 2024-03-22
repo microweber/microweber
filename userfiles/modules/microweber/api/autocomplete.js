@@ -48,6 +48,7 @@ mw.autoComplete = function(options){
         this.inputField = document.createElement('input');
         this.inputField.className = 'mw-ui-invisible-field mw-autocomplete-field mw-ui-field-' + this.options.size;
         this.inputField.name = this.options.name || 'search';
+        this.inputField.autocomplete = 'off';
         if(this.options.placeholder){
             this.inputField.placeholder = this.options.placeholder;
         }
