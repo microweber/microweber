@@ -118,7 +118,7 @@ export default {
                     if (key !== this.selectedClass) {
                         Object.keys(this.predefinedClassesVariables[key]).forEach(variableKey => {
                          //   this.predefinedClassesVariables[key][variableKey] = '';
-                        //    this.$root.applyPropertyToActiveNode(this.activeNode, variableKey, '');
+                           this.$root.applyPropertyToActiveNode(this.activeNode, variableKey, '');
 
                         });
                     }

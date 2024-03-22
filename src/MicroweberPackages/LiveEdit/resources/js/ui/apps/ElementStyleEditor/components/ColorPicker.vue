@@ -82,11 +82,21 @@ export default {
             if (newColor == 'rgb(0 0 0 / 0%)') {
                 return 'transparent';
             }
-            var colorHex = mw.color.rgbOrRgbaToHex(newColor)
-            if(colorHex == '#00000000'){
-                return '';
+            //check fi string lie green, etc
+            if (newColor.includes('rgb') || newColor.includes('rgba')) {
+                var colorHex = mw.color.rgbOrRgbaToHex(newColor)
+                if (colorHex == '#00000000') {
+                    return '';
+                }
+                return colorHex;
             }
-            return colorHex;
+            return newColor;
+            //
+            // var colorHex = mw.color.rgbOrRgbaToHex(newColor)
+            // if(colorHex == '#00000000'){
+            //     return '';
+            // }
+            // return colorHex;
         },
 
         setHexColorDisplay(newColor) {
