@@ -15,3 +15,6 @@ $config['settings']['autoload_namespace'] = [
         'namespace' => 'MicroweberPackages\Modules\MailTemplates'
     ],
 ];
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\MailTemplates\MailTemplatesServiceProvider::class
+];
