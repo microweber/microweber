@@ -16,8 +16,11 @@ class AdminWebAppManifestTags implements TagInterface, \Stringable
             return '';
         }
         $manifestRoute = route('admin.web-app-manifest');
+        $template_headers_src_items = [];
         $template_headers_src_items[] = '<link crossorigin="use-credentials" rel="manifest" href="' . $manifestRoute . '" />';
         $template_headers_src_items[] = '<meta name="mobile-web-app-capable" content="yes">';
+        $template_headers_src_items[] = '<meta name="apple-mobile-web-app-capable" content="yes">';
+        $template_headers_src_items[] = '<meta name="application-name" content="' . site_hostname() . '">';
 
         $template_headers_src = implode("\n", $template_headers_src_items);
 
