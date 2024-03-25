@@ -566,8 +566,7 @@ if (!function_exists('array_recursive_diff')) {
         return $aReturn;
     }
 }
-
-function get_favicon_tag()
+function get_favicon_image()
 {
     $favicon_image = get_option('favicon_image', 'website');
 
@@ -577,6 +576,11 @@ function get_favicon_tag()
             $favicon_image = trim($ui_favicon);
         }
     }
+    return $favicon_image;
+}
+function get_favicon_tag()
+{
+    $favicon_image = get_favicon_image();
 
     if ($favicon_image) {
         echo '<link rel="shortcut icon" href="' . $favicon_image . '" />';

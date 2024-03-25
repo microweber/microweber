@@ -140,17 +140,18 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'admin_default_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\SystemDefaultAdminCssHeadTags()
             );
-
-
+            $package->addTag(
+                'admin_web_app_manifest',
+                new \MicroweberPackages\MetaTags\Entities\AdminWebAppManifestTags()
+            );
         });
         PackageManager::create('admin_custom_css_and_js', function (Package $package) {
             $package->addTag(
                 'admin_head_tags_from_admin_manager',
                 new \MicroweberPackages\MetaTags\Entities\AdminHeadTagsFromAdminManager()
             );
-
-
         });
+
 
     }
 
