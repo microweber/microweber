@@ -88,6 +88,8 @@ export default class PredefinedElementStylesManager {
 
                         //if (selectorClass.indexOf('predefined-style-') !== -1) {
                         classes.push(selectorClass);
+
+
                         //   }
                     }
                 }

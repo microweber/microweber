@@ -11,11 +11,11 @@
             </div>
             <div  v-else>
                 <input type="text" v-model="predefinedClassesVariables[selectedClass][key]">
-
+                <button @click="predefinedClassesVariables[selectedClass][key] = ''">Reset</button>
             </div>
 
 
-            <button @click="predefinedClassesVariables[selectedClass][key] = ''">Reset</button>
+
         </div>
     </div>
 </template>

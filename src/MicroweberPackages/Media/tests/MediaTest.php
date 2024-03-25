@@ -2,31 +2,15 @@
 
 namespace MicroweberPackages\Media\tests;
 
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
-use Illuminate\Database\Eloquent\Model;
-
-use MicroweberPackages\Media\Traits\MediaTrait;
-
-class ContentTestModel extends Model
-{
-    use MediaTrait;
-
-    protected $table = 'content';
-
-  /*  public static function boot()
-    {
-        parent::boot();
-
-    }*/
-
-}
 
 class MediaTest extends TestCase
 {
     public function testAddMediaToModel()
     {
-        $newPage = new ContentTestModel();
+        $newPage = new Content();
         $newPage->title = 'Pictures from Sofia';
 
         $newPage->addMedia([
@@ -59,7 +43,7 @@ class MediaTest extends TestCase
 
     public function testDeleteMediaToModel()
     {
-        $newPage = new ContentTestModel();
+        $newPage = new Content();
 
         $newPage->title = 'Pictures from Sofia';
         $newPage->addMedia([
