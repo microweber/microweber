@@ -265,6 +265,20 @@
                     api.getSelectionChildren().forEach(node => {
                         if(acceptsFormat.indexOf(node.nodeName.toLowerCase()) !== -1) {
                             last = mw.tools.setTag(node, value);
+
+                            if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
+                                mw.top().app.cssEditor.temp(last, 'font-size', '')
+                            } else {
+                                last.style.fontSize = ''
+                            }
+                            last.querySelectorAll('[style*="font-size"],[id*="mw"]').forEach(node => {
+                                if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
+                                    mw.top().app.cssEditor.temp(node, 'font-size', '')
+                                } else {
+                                    node.style.fontSize = ''
+                                }
+                            })
+
                         }
 
                     })
@@ -343,7 +357,18 @@
 
                  if(focusedNodeBlockRes) {
                     var el = mw.tools.setTag(focusedNodeBlock, value);
-                        el.style.fontSize = '';
+                    if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
+                        mw.top().app.cssEditor.temp(el, 'font-size', '')
+                    } else {
+                        el.style.fontSize = ''
+                    }
+                    el.querySelectorAll('[style*="font-size"],[id*="mw"]').forEach(node => {
+                        if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
+                            mw.top().app.cssEditor.temp(node, 'font-size', '')
+                        } else {
+                            node.style.fontSize = ''
+                        }
+                    })
                         scope.api.setCursorAtStart(el);
                  } else {
                     if(elisInline) {
@@ -386,7 +411,18 @@
                 if(block && block.parentNode) {
                     scope.api.action(block.parentNode.parentNode, function () {
                         var el = mw.tools.setTag(block, value);
-                        el.style.fontSize = '';
+                        if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
+                            mw.top().app.cssEditor.temp(el, 'font-size', '')
+                        } else {
+                            el.style.fontSize = ''
+                        }
+                        el.querySelectorAll('[style*="font-size"],[id*="mw"]').forEach(node => {
+                            if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
+                                mw.top().app.cssEditor.temp(node, 'font-size', '')
+                            } else {
+                                node.style.fontSize = ''
+                            }
+                        })
                         scope.api.setCursorAtStart(el);
                     });
                 }
