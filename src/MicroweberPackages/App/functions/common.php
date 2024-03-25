@@ -566,6 +566,15 @@ if (!function_exists('array_recursive_diff')) {
         return $aReturn;
     }
 }
+
+function route_exists($routeName) : bool
+{
+    if (\Illuminate\Support\Facades\Route::has($routeName)) {
+        return true;
+    }
+    return false;
+}
+
 function get_favicon_image()
 {
     $favicon_image = get_option('favicon_image', 'website');

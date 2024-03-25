@@ -12,10 +12,14 @@ class AdminWebAppManifestTags implements TagInterface, \Stringable
 {
     public function toHtml(): string
     {
-
+        if (!route_exists('admin.web-app-manifest')) {
+            return '';
+        }
         $manifestRoute = route('admin.web-app-manifest');
-        $template_headers_src = '<link crossorigin="use-credentials" rel="manifest" href="' . $manifestRoute . '">';
+        $template_headers_src_items[] = '<link crossorigin="use-credentials" rel="manifest" href="' . $manifestRoute . '" />';
+        $template_headers_src_items[] = '<meta name="mobile-web-app-capable" content="yes">';
 
+        $template_headers_src = implode("\n", $template_headers_src_items);
 
         return $template_headers_src;
 

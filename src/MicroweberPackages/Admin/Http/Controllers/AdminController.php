@@ -84,26 +84,26 @@ class AdminController extends Controller
             $favicon_image = site_url('favicon.ico');
         }
 
-
         $manifest = [
             "name" => "$website_name on $hostname",
             "short_name" => $website_name,
             "description" => $website_name . " Admin",
             "start_url" => admin_url(),
             "scope" => site_url(),
-            "background_color" => "#EEE",
-            "theme_color" => "#4A148C",
+            "background_color" => "#2196f3",
+            "theme_color" => "#2196f3",
             "icons" => [
                 [
                     "src" => $favicon_image,
                     "purpose" => "any"
                 ]
             ],
-
-            // "display" => "standalone"
             "display" => "browser"
         ];
-        return response()->json($manifest);
+
+         $manifestJson = json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
+         return response($manifestJson)->header('Content-Type', 'application/manifest+json');
     }
 
 
