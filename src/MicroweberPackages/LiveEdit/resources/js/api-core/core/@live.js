@@ -449,6 +449,8 @@ export class LiveEdit {
     selectNode(target, event) {
 
 
+
+
         if(target.nodeName === 'BODY') {
 
             return
@@ -471,6 +473,10 @@ export class LiveEdit {
 
             }
             return;
+        }
+
+        if(target.classList.contains('mw-free-layout-container')) {
+            target = DomService.firstParentOrCurrentWithClass(target, 'module-layouts')
         }
 
 
@@ -558,6 +564,8 @@ export class LiveEdit {
         if (first) {
             first = this._hoverAndSelectExceptions(first)
             const type = this.elementAnalyzer.getType(first);
+
+
 
 
 

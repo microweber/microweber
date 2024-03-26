@@ -38,6 +38,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
     }
 
     static toPercent(node, container){
+        return;
         if(!node || node.nodeType !== 1) {
             return
         }
@@ -58,7 +59,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
     }
 
     static toPixel(node){
-
+        return;
 
         if(!node || node.nodeType !== 1) {
             return
@@ -154,7 +155,8 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
                 }
 
 
-        })
+        });
+        console.log(containerheight)
         container.style.height = containerheight + 'px';
 
     }
@@ -287,7 +289,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
                 startDragRotate: startDragRotate,
                 throttleDragRotate: throttleDragRotate,
                 resizable: true,
-                rotatable: false,
+                rotatable: true,
                 selectable: true,
                 snappable: true,
                 scalable: false,
@@ -387,15 +389,9 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
              mvb.on("drag", e => {
 
-                var eTop =  Math.max(0, e.top);
-                var eLeft =   Math.max(0, e.left);
 
-                e.target.style.transform = 'none';
 
-                e.target.style.top = eTop + 'px';
-                 e.target.style.left = eLeft + 'px';
-
-                 // e.target.style.transform = e.transform
+                e.target.style.transform = e.transform
 
                  mw.top().app.liveEdit.handles.hide();
                  mw.app.liveEdit.pause();
@@ -410,11 +406,16 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
                 e.target.style.width = `${e.width}px`;
                 e.target.style.height = `auto`;
                 e.target.style[heightProp] = `${e.height}px`;
-                e.target.style.transform = 'none';
+                // e.target.style.transform = 'none';
 
 
 
-                 // e.target.style.transform = e.transform
+
+
+                e.target.style.transform =  e.transform
+
+
+
 
                 mw.top().app.liveEdit.handles.hide();
                 mw.app.liveEdit.pause();
@@ -445,8 +446,8 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
         const css = getComputedStyle(element);
         if(css.position === 'static') {
             element.style.position = 'absolute';
-            element.style.top = '50%';
-            element.style.left = '50%';
+            element.style.top = container.offsetHeight/2 - element.offsetHeight/2 + 'px';
+            element.style.left = container.offsetWidth/2 - element.offsetWidth/2 + 'px';
         }
 
 

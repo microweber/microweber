@@ -65,8 +65,7 @@ class MWEditorEventHandles {
         }
 
         const deepLastChild = node => {
-            console.log(877, node)
-            console.log(8771, MWEditorEventHandles.isVoid(node))
+
             if(!node || MWEditorEventHandles.isVoid(node)) {
                 return null
             }
@@ -124,8 +123,7 @@ class MWEditorEventHandles {
 
 
                         if(parent.querySelector(target.nodeName) === null) {
-                            console.log(1, target)
-                            console.log(2, MWEditorEventHandles.isVoid(target))
+
                             while (parent.firstChild) {
 
                                 target.appendChild(parent.firstChild)
