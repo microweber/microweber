@@ -1,0 +1,27 @@
+.mw-pre-el-neon-text {
+  --neon-text-accent-color-1: #B8BEE0FF;
+  --neon-text-accent-color-2: #FF00AA33;
+  --neon-text-accent-color-3: #FF33BB4C;
+  --neon-text-accent-color-4: #FFBB3333;
+  --neon-text-accent-color-5: #33BBFF66;
+  --neon-text-accent-color-6: #FF00AA7F;
+  animation: neon-text-lights 5s 750ms linear infinite; }
+
+@keyframes neon-text-lights {
+  0% {
+    color: var(--neon-text-accent-color-1);
+    text-shadow: 0 0 1em var(--neon-text-accent-color-2), 0 0 0.125em var(--neon-text-accent-color-3), -1em -0.125em 0.5em rgba(255, 187, 51, 0), 1em 0.125em 0.5em rgba(51, 187, 255, 0); }
+  30% {
+    color: var(--neon-text-accent-color-1);
+    text-shadow: 0 0 1em var(--neon-text-accent-color-2), 0 0 0.125em var(--neon-text-accent-color-3), -0.5em -0.125em 0.25em var(--neon-text-accent-color-4), 0.5em 0.125em 0.25em var(--neon-text-accent-color-5); }
+  40% {
+    color: #e6eaff;
+    text-shadow: 0 0 1em var(--neon-text-accent-color-6), 0 0 0.125em var(--neon-text-accent-color-2), -0.25em -0.125em 0.125em var(--neon-text-accent-color-4), 0.25em 0.125em 0.125em var(--neon-text-accent-color-5); }
+  70% {
+    color: #d1d8fa;
+    text-shadow: 0 0 1em var(--neon-text-accent-color-6), 0 0 0.125em var(--neon-text-accent-color-3), 0.5em -0.125em 0.25em var(--neon-text-accent-color-4), -0.5em 0.125em 0.25em var(--neon-text-accent-color-5); }
+  100% {
+    color: #b8bee0;
+    text-shadow: 0 0 1em var(--neon-text-accent-color-1), 0 0 0.125em var(--neon-text-accent-color-2), 1em -0.125em 0.5em rgba(255, 187, 51, 0), -1em 0.125em 0.5em rgba(51, 187, 255, 0); } }
+
+/*# sourceMappingURL=mw-pre-el-neon-text.css.map */

@@ -1,0 +1,26 @@
+.one {
+  padding-bottom: 5px; }
+
+.one:before {
+  width: 28px;
+  height: 5px;
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  margin-left: -14px;
+  background-color: currentColor; }
+
+.one:after {
+  width: 100px;
+  height: 1px;
+  display: block;
+  content: "";
+  position: relative;
+  margin-top: 25px;
+  left: 50%;
+  margin-left: -50px;
+  background-color: currentColor; }
+
+/*# sourceMappingURL=mw-pre-el-one.css.map */

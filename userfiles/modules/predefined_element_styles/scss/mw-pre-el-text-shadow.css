@@ -1,0 +1,25 @@
+.mw-pre-el-text-shadow {
+  --text-shadow-text-accent-color-1: #ffffff;
+  --text-shadow-text-accent-color-2: #8c0fd3;
+  font-style: italic;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: var(--text-shadow-text-accent-color-1) 1px;
+  -webkit-text-stroke-width: 1px;
+  text-shadow: 2px 2px 10px var(--text-shadow-text-accent-color-2);
+  transition: all 0.5s ease-in-out;
+  text-align: center;
+  letter-spacing: 0.2em;
+  animation: text-shadow-flicker 0.5s ease-in-out infinite alternate; }
+  .mw-pre-el-text-shadow:hover {
+    color: var(--text-shadow-text-accent-color-1); }
+
+@keyframes text-shadow-flicker {
+  0% {
+    opacity: 0.5;
+    text-shadow: 2px 2px 10px var(--text-shadow-text-accent-color-2); }
+  100% {
+    opacity: 1;
+    text-shadow: 2px 2px 20px var(--text-shadow-text-accent-color-2); } }
+
+/*# sourceMappingURL=mw-pre-el-text-shadow.css.map */

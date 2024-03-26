@@ -1,0 +1,30 @@
+.mw-pre-el-varto {
+    &:before {
+        width: 28px;
+        height: 5px;
+        display: block;
+        content: "";
+        position: absolute;
+        bottom: 3px;
+        left: 50%;
+        margin-left: -14px;
+        background-color: var(--accent-color-two);
+    }
+
+    &:after {
+        width: 100px;
+        height: 1px;
+        display: block;
+        content: "";
+        position: relative;
+        margin-top: 25px;
+        left: 50%;
+        margin-left: -50px;
+        background-color: var(--accent-color-two);
+    }
+
+}
+
+
+
+
