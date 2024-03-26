@@ -9,6 +9,14 @@
                               @change="predefinedClassesVariables[selectedClass][key] = $event"
                               v-bind:color="predefinedClassesVariables[selectedClass][key]"></ColorPicker>
             </div>
+            <div v-else-if="key.includes('size')">
+                <SliderSmall v-model="predefinedClassesVariables[selectedClass][key]"
+                             v-bind:min="0"
+                             v-bind:max="100"
+                             v-bind:step="1"
+                             v-bind:label="key"
+                             v-bind:unit="key.includes('px') ? 'px' : ''"></SliderSmall>
+            </div>
             <div  v-else>
                 <input type="text" v-model="predefinedClassesVariables[selectedClass][key]">
                 <button @click="predefinedClassesVariables[selectedClass][key] = ''">Reset</button>
@@ -22,9 +30,11 @@
 
 <script>
 import ColorPicker from "./ColorPicker.vue";
+import Slider from '@vueform/slider';
+import SliderSmall from "./SliderSmall.vue";
 
 export default {
-    components: {ColorPicker},
+    components: {ColorPicker, Slider,SliderSmall},
     props: ['selectedClass', 'predefinedClassesVariables'],
 
     watch: {

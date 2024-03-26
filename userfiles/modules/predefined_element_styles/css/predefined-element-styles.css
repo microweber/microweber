@@ -92,6 +92,7 @@
 
 .three {
     --three-text-accent-color-one: currentColor;
+    --three-text-accent-width-size: 55px;
     font-size: 28px;
     font-weight: 500;
     letter-spacing: 0;
@@ -105,7 +106,7 @@
     left: 0;
     bottom: 0;
     height: 5px;
-    width: 55px;
+    width: var(--three-text-accent-width-size);
     background-color: var(--three-text-accent-color-one);
 }
 
