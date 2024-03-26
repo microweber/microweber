@@ -26,32 +26,30 @@
   100% {
     color: #b8bee0;
     text-shadow: 0 0 1em var(--neon-text-accent-color-1), 0 0 0.125em var(--neon-text-accent-color-2), 1em -0.125em 0.5em rgba(255, 187, 51, 0), -1em 0.125em 0.5em rgba(51, 187, 255, 0); } }
-.one {
+.mw-pre-el-one {
   --mw-pre-el-one-pblock: 3px;
   padding-bottom: var(--mw-pre-el-one-pblock);
   position: relative; }
-
-.one:before {
-  width: 28px;
-  height: 5px;
-  display: block;
-  content: "";
-  position: absolute;
-  bottom: 3px;
-  left: 50%;
-  margin-left: -14px;
-  background-color: currentColor; }
-
-.one:after {
-  width: 100px;
-  height: 1px;
-  display: block;
-  content: "";
-  position: relative;
-  margin-top: 25px;
-  left: 50%;
-  margin-left: -50px;
-  background-color: currentColor; }
+  .mw-pre-el-one:before {
+    width: 28px;
+    height: 5px;
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    margin-left: -14px;
+    background-color: currentColor; }
+  .mw-pre-el-one:after {
+    width: 100px;
+    height: 1px;
+    display: block;
+    content: "";
+    position: relative;
+    margin-top: 25px;
+    left: 50%;
+    margin-left: -50px;
+    background-color: currentColor; }
 
 .mw-pre-el-three {
   --three-text-accent-color-one: currentColor;
