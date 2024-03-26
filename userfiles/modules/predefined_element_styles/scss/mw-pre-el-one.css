@@ -1,5 +1,6 @@
 .one {
-  padding-bottom: 5px; }
+  padding-bottom: 5px;
+  position: relative; }
 
 .one:before {
   width: 28px;

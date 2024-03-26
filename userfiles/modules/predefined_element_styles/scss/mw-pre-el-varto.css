@@ -1,22 +1,24 @@
-.mw-pre-el-varto:before {
-  width: 28px;
-  height: 5px;
-  display: block;
-  content: "";
-  position: absolute;
-  bottom: 3px;
-  left: 50%;
-  margin-left: -14px;
-  background-color: var(--accent-color-two); }
-.mw-pre-el-varto:after {
-  width: 100px;
-  height: 1px;
-  display: block;
-  content: "";
-  position: relative;
-  margin-top: 25px;
-  left: 50%;
-  margin-left: -50px;
-  background-color: var(--accent-color-two); }
+.mw-pre-el-varto {
+  position: relative; }
+  .mw-pre-el-varto:before {
+    width: 28px;
+    height: 5px;
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    margin-left: -14px;
+    background-color: var(--accent-color-two); }
+  .mw-pre-el-varto:after {
+    width: 100px;
+    height: 1px;
+    display: block;
+    content: "";
+    position: relative;
+    margin-top: 25px;
+    left: 50%;
+    margin-left: -50px;
+    background-color: var(--accent-color-two); }
 
 /*# sourceMappingURL=mw-pre-el-varto.css.map */

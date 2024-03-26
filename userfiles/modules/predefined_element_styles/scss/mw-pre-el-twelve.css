@@ -6,7 +6,8 @@
   text-align: center;
   margin: auto;
   white-space: nowrap;
-  padding-bottom: 13px; }
+  padding-bottom: 13px;
+  position: relative; }
   .mw-pre-el-twelve:before {
     background-color: var(--twelve-text-accent-color-one);
     content: '';

@@ -1,6 +1,7 @@
 .mw-pre-el-varone {
   --accent-color-one: currentColor;
-  padding-bottom: 5px; }
+  padding-bottom: 5px;
+  position: relative; }
   .mw-pre-el-varone:before {
     width: 28px;
     height: 5px;
