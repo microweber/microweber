@@ -58,9 +58,9 @@ class AdminController extends Controller
 
     public function dashboard(Request $request)
     {
-       if($this->hasNoAdmin){
-           return $this->index($request);
-       }
+        if ($this->hasNoAdmin) {
+            return $this->index($request);
+        }
 
         return view('admin::admin.dashboard');
     }
@@ -72,7 +72,39 @@ class AdminController extends Controller
         return $this->render();
     }
 
+    public function webAppManifest()
+    {
+        $website_name = get_option('website_name', 'website');
+        $hostname = site_hostname();
+        if (!$website_name) {
+            $website_name = 'Microweber';
+        }
+        $favicon_image = get_favicon_image();
+        if (!$favicon_image) {
+            $favicon_image = site_url('favicon.ico');
+        }
 
+        $manifest = [
+            "name" => "$website_name on $hostname",
+            "short_name" => $website_name,
+            "description" => $website_name . " Admin",
+            "start_url" => admin_url(),
+            "scope" => site_url(),
+            "background_color" => "#2196f3",
+            "theme_color" => "#2196f3",
+            "icons" => [
+                [
+                    "src" => $favicon_image,
+                    "purpose" => "any"
+                ]
+            ],
+            "display" => "browser"
+        ];
+
+         $manifestJson = json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
+         return response($manifestJson)->header('Content-Type', 'application/manifest+json');
+    }
 
 
     public function render()
@@ -123,8 +155,8 @@ class AdminController extends Controller
 
         $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count();
 
-    //   $view .= (!$hasNoAdmin ? 'create' : 'index') . '.php';
-     $view .= (!$hasNoAdmin ? 'create_main' : 'index_main') . '.php';
+        //   $view .= (!$hasNoAdmin ? 'create' : 'index') . '.php';
+        $view .= (!$hasNoAdmin ? 'create_main' : 'index_main') . '.php';
         $layout = new MicroweberView($view);
 
         if ($this->render_content) {
@@ -132,17 +164,17 @@ class AdminController extends Controller
         }
         $layout = $layout->__toString();
 
-     //   $layout = app(StringBlade::class)->render($layout, []);
+        //   $layout = app(StringBlade::class)->render($layout, []);
 
-       $layout = mw()->parser->process($layout);
+        $layout = mw()->parser->process($layout);
         event_trigger('on_load');
 
 
         //event_trigger('mw.admin.header');
 
-      //  return $layout;
-     return view('admin::layouts.legacy',['content' => $layout]  )->render();;
-    //   return app(StringBlade::class)->render($layout, []);
+        //  return $layout;
+        return view('admin::layouts.legacy', ['content' => $layout])->render();;
+        //   return app(StringBlade::class)->render($layout, []);
     }
 
     private function hasNoAdmin()
@@ -152,7 +184,6 @@ class AdminController extends Controller
             $this->execCreateAdmin();
         }
     }
-
 
 
     private function execCreateAdmin()

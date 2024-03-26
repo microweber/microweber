@@ -567,7 +567,15 @@ if (!function_exists('array_recursive_diff')) {
     }
 }
 
-function get_favicon_tag()
+function route_exists($routeName) : bool
+{
+    if (\Illuminate\Support\Facades\Route::has($routeName)) {
+        return true;
+    }
+    return false;
+}
+
+function get_favicon_image()
 {
     $favicon_image = get_option('favicon_image', 'website');
 
@@ -577,6 +585,11 @@ function get_favicon_tag()
             $favicon_image = trim($ui_favicon);
         }
     }
+    return $favicon_image;
+}
+function get_favicon_tag()
+{
+    $favicon_image = get_favicon_image();
 
     if ($favicon_image) {
         echo '<link rel="shortcut icon" href="' . $favicon_image . '" />';

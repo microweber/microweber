@@ -56,7 +56,9 @@ class RssController extends Controller
                 if(isset($item['content_body']) and $item['content_body']){
                     $content = $item['content_body'];
                 }
+                $content = app()->parser->process($content);
                 $content = app()->url_manager->replace_site_url_back($content);
+
                 $tmp['description'] = $content;
                 $tmp['tags'] = content_tags($item['id']);
                 $tmp['categories'] = content_categories($item['id']);
