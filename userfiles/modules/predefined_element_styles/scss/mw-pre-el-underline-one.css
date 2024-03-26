@@ -1,18 +1,18 @@
 .mw-pre-el-underline-one {
   padding-bottom: 5px;
-  --text-underline-test-color: currentColor;
+  --mw-pre-el-underline-one-color: currentColor;
   position: relative;
-  --text-underline-test-size: 5px; }
+  --mw-pre-el-underline-one-size: 5px; }
   .mw-pre-el-underline-one:after {
     position: absolute;
     bottom: 0;
     left: 0;
-    fill: var(--text-underline-test-color);
-    background-color: var(--text-underline-test-color);
+    fill: var(--mw-pre-el-underline-one-color);
+    background-color: var(--mw-pre-el-underline-one-color);
     content: "";
     display: block;
     width: 100%;
-    height: var(--text-underline-test-size);
+    height: var(--mw-pre-el-underline-one-size);
     mask-repeat: repeat-x;
     mask-position: center;
     mask-size: 100%;
