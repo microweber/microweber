@@ -3,7 +3,7 @@
   padding-bottom: var(--mw-pre-el-underline-seven-pblock);
   position: relative;
   --mw-pre-el-underline-seven-color: currentColor;
-  --mw-pre-el-underline-seven-size: 450px; }
+  --mw-pre-el-underline-seven-size: 750px; }
   .mw-pre-el-underline-seven:after {
     position: absolute;
     top: 50%;
