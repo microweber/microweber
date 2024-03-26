@@ -1,0 +1,25 @@
+.mw-pre-el-varone {
+  --accent-color-one: currentColor;
+  padding-bottom: 5px; }
+  .mw-pre-el-varone:before {
+    width: 28px;
+    height: 5px;
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    margin-left: -14px;
+    background-color: var(--accent-color-one); }
+  .mw-pre-el-varone:after {
+    width: 100px;
+    height: 1px;
+    display: block;
+    content: "";
+    position: relative;
+    margin-top: 25px;
+    left: 50%;
+    margin-left: -50px;
+    background-color: var(--accent-color-one); }
+
+/*# sourceMappingURL=mw-pre-el-varone.css.map */

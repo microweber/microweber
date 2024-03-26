@@ -1,0 +1,26 @@
+.mw-pre-el-three {
+  --three-text-accent-color-one: currentColor;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.5em;
+  padding-bottom: 15px; }
+  .mw-pre-el-three:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 5px;
+    width: 55px;
+    background-color: var(--three-text-accent-color-one); }
+  .mw-pre-el-three:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 2px;
+    height: 1px;
+    width: 95%;
+    max-width: 255px;
+    background-color: var(--three-text-accent-color-one); }
+
+/*# sourceMappingURL=mw-pre-el-three.css.map */
