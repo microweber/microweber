@@ -1,14 +1,14 @@
 .mw-pre-el-underline-three {
-    padding-bottom: 5px;
     --mw-pre-el-underline-three-color: currentColor;
+    --mw-pre-el-underline-three-size: 24px;
+    --mw-pre-el-underline-three-pblock: 3px;
+    padding-bottom: var(--mw-pre-el-underline-three-pblock);
     position: relative;
-    --mw-pre-el-underline-three-size: 5px;
 
     &:after {
         position: absolute;
         bottom: 0;
         left: 0;
-
         fill: var(--mw-pre-el-underline-three-color);
         background-color: var(--mw-pre-el-underline-three-color);
         content: "";

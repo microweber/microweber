@@ -1,6 +1,7 @@
 .one {
 
-    padding-bottom: 5px;
+    --mw-pre-el-one-pblock: 3px;
+    padding-bottom: var(--mw-pre-el-one-pblock);
     position: relative;
 }
 

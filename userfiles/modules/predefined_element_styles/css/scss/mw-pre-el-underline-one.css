@@ -1,5 +1,6 @@
 .mw-pre-el-underline-one {
-  padding-bottom: 5px;
+  --mw-pre-el-underline-one-pblock: 3px;
+  padding-bottom: var(--mw-pre-el-underline-one-pblock);
   --mw-pre-el-underline-one-color: currentColor;
   position: relative;
   --mw-pre-el-underline-one-size: 5px; }

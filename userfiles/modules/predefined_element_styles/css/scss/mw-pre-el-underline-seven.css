@@ -1,7 +1,9 @@
 .mw-pre-el-underline-seven {
+  --mw-pre-el-underline-seven-pblock: 0px;
+  padding-bottom: var(--mw-pre-el-underline-seven-pblock);
   position: relative;
   --mw-pre-el-underline-seven-color: currentColor;
-  --mw-pre-el-underline-seven-size: 360px; }
+  --mw-pre-el-underline-seven-size: 450px; }
   .mw-pre-el-underline-seven:after {
     position: absolute;
     top: 50%;
@@ -11,7 +13,7 @@
     background-color: var(--mw-pre-el-underline-seven-color);
     content: "";
     display: block;
-    width: 100%;
+    width: calc(100% + 80px);
     height: var(--mw-pre-el-underline-seven-size);
     mask-repeat: repeat-x;
     mask-position: center;
