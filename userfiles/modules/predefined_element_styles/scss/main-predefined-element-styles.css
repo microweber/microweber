@@ -48,7 +48,8 @@
     color: #b8bee0;
     text-shadow: 0 0 1em var(--neon-text-accent-color-1), 0 0 0.125em var(--neon-text-accent-color-2), 1em -0.125em 0.5em rgba(255, 187, 51, 0), -1em 0.125em 0.5em rgba(51, 187, 255, 0); } }
 .one {
-  padding-bottom: 5px; }
+  padding-bottom: 5px;
+  position: relative; }
 
 .one:before {
   width: 28px;
@@ -78,7 +79,8 @@
   font-size: 30px;
   font-weight: 300;
   letter-spacing: 1px;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  position: relative; }
   .mw-pre-el-seven:after, .mw-pre-el-seven:before {
     content: " ";
     display: block;
@@ -92,7 +94,8 @@
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1.5em;
-  padding-bottom: 15px; }
+  padding-bottom: 15px;
+  position: relative; }
   .mw-pre-el-three:before {
     content: "";
     position: absolute;
@@ -111,18 +114,19 @@
     max-width: 255px;
     background-color: var(--three-text-accent-color-one); }
 
-.thirteen {
+.mw-pre-el-thirteen {
   --thirteen-text-accent-color-one: currentColor;
   position: relative;
   font-size: 20px;
   font-weight: 700;
   letter-spacing: 0px;
   text-transform: uppercase;
+  position: relative;
   text-align: center;
   margin: auto;
   border: 2px solid #222;
   padding: 5px 11px 3px 11px; }
-  .thirteen:before, .thirteen:after {
+  .mw-pre-el-thirteen:before, .mw-pre-el-thirteen:after {
     background-color: var(--thirteen-text-accent-color-one);
     position: absolute;
     content: '';
@@ -130,9 +134,9 @@
     width: 7px;
     border-radius: 50%;
     bottom: 12px; }
-  .thirteen h1:before {
+  .mw-pre-el-thirteen h1:before {
     left: -20px; }
-  .thirteen h1:after {
+  .mw-pre-el-thirteen h1:after {
     right: -20px; }
 
 .mw-pre-el-twelve {
@@ -143,7 +147,8 @@
   text-align: center;
   margin: auto;
   white-space: nowrap;
-  padding-bottom: 13px; }
+  padding-bottom: 13px;
+  position: relative; }
   .mw-pre-el-twelve:before {
     background-color: var(--twelve-text-accent-color-one);
     content: '';
@@ -164,7 +169,8 @@
 
 .mw-pre-el-varone {
   --accent-color-one: currentColor;
-  padding-bottom: 5px; }
+  padding-bottom: 5px;
+  position: relative; }
   .mw-pre-el-varone:before {
     width: 28px;
     height: 5px;
@@ -186,25 +192,27 @@
     margin-left: -50px;
     background-color: var(--accent-color-one); }
 
-.mw-pre-el-varto:before {
-  width: 28px;
-  height: 5px;
-  display: block;
-  content: "";
-  position: absolute;
-  bottom: 3px;
-  left: 50%;
-  margin-left: -14px;
-  background-color: var(--accent-color-two); }
-.mw-pre-el-varto:after {
-  width: 100px;
-  height: 1px;
-  display: block;
-  content: "";
-  position: relative;
-  margin-top: 25px;
-  left: 50%;
-  margin-left: -50px;
-  background-color: var(--accent-color-two); }
+.mw-pre-el-varto {
+  position: relative; }
+  .mw-pre-el-varto:before {
+    width: 28px;
+    height: 5px;
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    margin-left: -14px;
+    background-color: var(--accent-color-two); }
+  .mw-pre-el-varto:after {
+    width: 100px;
+    height: 1px;
+    display: block;
+    content: "";
+    position: relative;
+    margin-top: 25px;
+    left: 50%;
+    margin-left: -50px;
+    background-color: var(--accent-color-two); }
 
 /*# sourceMappingURL=main-predefined-element-styles.css.map */
