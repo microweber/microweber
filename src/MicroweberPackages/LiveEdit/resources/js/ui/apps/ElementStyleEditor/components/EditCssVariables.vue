@@ -2,7 +2,6 @@
     <div v-if="selectedClass && predefinedClassesVariables[selectedClass] && Object.keys(predefinedClassesVariables[selectedClass]).length > 0">
 
         <div v-for="(value, key) in predefinedClassesVariables[selectedClass]" :key="key">
-            <label>{{ key }}:</label>
 
             <div v-if="key.includes('color')">
                 <ColorPicker  v-model="predefinedClassesVariables[selectedClass][key]"
@@ -11,6 +10,7 @@
             </div>
             <div v-else-if="key.includes('size')">
                 <SliderSmall v-model="predefinedClassesVariables[selectedClass][key]"
+                             @update:modelValue="updateValue(key, $event)"
                              v-bind:min="0"
                              v-bind:max="100"
                              v-bind:step="1"
@@ -36,10 +36,24 @@ import SliderSmall from "./SliderSmall.vue";
 export default {
     components: {ColorPicker, Slider,SliderSmall},
     props: ['selectedClass', 'predefinedClassesVariables'],
-
+    methods: {
+        updateValue(key, value) {
+            // Append 'px' if the key includes 'px'
+            if (key.includes('px')) {
+                value += 'px';
+            }
+            this.predefinedClassesVariables[this.selectedClass][key] = value;
+        //    this.$set(this.predefinedClassesVariables[this.selectedClass], key, value);
+            this.$emit('variables-changed', this.predefinedClassesVariables);
+        }
+    },
     watch: {
+
         predefinedClassesVariables: {
             handler(newValue) {
+// add px if size
+
+
 
                 this.$emit('variables-changed', newValue);
             },
