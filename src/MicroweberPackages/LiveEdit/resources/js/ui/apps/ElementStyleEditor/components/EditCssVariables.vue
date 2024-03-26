@@ -38,11 +38,9 @@ export default {
     props: ['selectedClass', 'predefinedClassesVariables'],
     methods: {
         updateValue(key, value) {
-            // Append 'px' if the key includes 'px'
             if (!key.includes('px')) {
                 value += 'px';
             }
-
             this.predefinedClassesVariables[this.selectedClass][key] = value;
             this.$emit('variables-changed', this.predefinedClassesVariables);
         }
@@ -51,9 +49,6 @@ export default {
 
         predefinedClassesVariables: {
             handler(newValue) {
-// add px if size
-
-
                 this.$emit('variables-changed', newValue);
             },
             deep: true
