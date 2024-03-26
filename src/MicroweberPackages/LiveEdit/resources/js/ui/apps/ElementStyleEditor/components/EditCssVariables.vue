@@ -1,6 +1,6 @@
 <template>
     <div v-if="selectedClass && predefinedClassesVariables[selectedClass] && Object.keys(predefinedClassesVariables[selectedClass]).length > 0">
-        <h3>Edit CSS Variables for {{ selectedClass }}</h3>
+
         <div v-for="(value, key) in predefinedClassesVariables[selectedClass]" :key="key">
             <label>{{ key }}:</label>
 
