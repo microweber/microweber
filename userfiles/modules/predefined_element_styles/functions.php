@@ -7,7 +7,9 @@ api_expose_admin('predefined_element_styles_get_previews', function ($data) {
     $files = glob($dir . '*.jpg');
     $previews = [];
     foreach ($files as $file) {
-        $previews[] = basename($file);
+        $basename = basename($file);
+        $noext = no_ext($basename);
+        $previews[$noext] = modules_url() . 'predefined_element_styles/css/scss/' . $noext . '.jpg';
     }
     return $previews;
 });

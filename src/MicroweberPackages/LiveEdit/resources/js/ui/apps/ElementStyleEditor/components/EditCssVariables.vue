@@ -12,6 +12,7 @@
             <div v-else-if="key.includes('size')">
                 <SliderSmall v-model="predefinedClassesVariables[selectedClass][key]"
                              @update:modelValue="updateValue(key, $event)"
+                             :showLabel="false"
                              v-bind:min="0"
                              v-bind:max="100"
                              v-bind:step="1"

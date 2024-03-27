@@ -1,3 +1,6 @@
+import axios from "axios";
+
+
 export default class PredefinedElementStylesManager {
 
     getPredefinedClasses() {
@@ -16,6 +19,15 @@ export default class PredefinedElementStylesManager {
 
 
         return predefinedClasses;
+    }
+
+    getPredefinedStylesScreenshotUrls() {
+        var apiUrlForSkinPrefeniedStylesPrevew = mw.settings.api_url + 'predefined_element_styles_get_previews';
+
+        return axios.get(apiUrlForSkinPrefeniedStylesPrevew).then(function (response) {
+            return response.data;
+        });
+
     }
 
     getPredefinedClassesVaribles(predefinedClasses) {

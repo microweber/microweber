@@ -16,15 +16,20 @@
             </div>
 
             <div v-if="showPredefinedStylesClasses">
+
                 <div class="form-control-live-edit-label-wrapper my-4">
-                    <label class="live-edit-label" for="styleSelect">Select a style:</label>
-                    <select id="styleSelect" class="form-control-live-edit-input form-select" v-model="selectedClass" @change="applySelectedClass">
-                        <option value="">Select a style</option>
-                        <option v-for="(classObj, index) in predefinedClasses" :key="index" :value="classObj">
-                            {{ classObj }}
-                        </option>
-                    </select>
+                    <label class="live-edit-label">Select a style:</label>
+                    <div v-for="(classObj, index) in predefinedClasses" :key="index">
+                        <input type="radio" :id="classObj" :value="classObj" v-model="selectedClass" @change="applySelectedClass">
+                        <label :for="classObj">{{ classObj }}
+
+                         <img v-if="predefinedClassesScreenshots && predefinedClassesScreenshots[classObj]" :src="predefinedClassesScreenshots[classObj]" alt="screenshot" width="100" height="100">
+
+                        </label>
+                    </div>
                 </div>
+
+
 
 
                 <EditCssVariables :selectedClass="selectedClass"
@@ -44,10 +49,12 @@ export default {
     components: {
         EditCssVariables
     },
+
     data() {
         var predefinedClasses = mw.top().app.templateSettings.predefinedElementStylesManager.getPredefinedClasses();
         var canShowPredefinedStylesClasses = false;
         var predefinedClassesVariables = false;
+        var predefinedClassesScreenshots = false;
         if (predefinedClasses && predefinedClasses.length > 0) {
             canShowPredefinedStylesClasses = true;
             predefinedClassesVariables = mw.top().app.templateSettings.predefinedElementStylesManager.getPredefinedClassesVaribles(predefinedClasses);
@@ -58,6 +65,7 @@ export default {
             canShowPredefinedStylesClasses: canShowPredefinedStylesClasses,
             showPredefinedStylesClasses: false,
             predefinedClassesVariables: predefinedClassesVariables,
+            predefinedClassesScreenshots: predefinedClassesScreenshots,
             selectedClass: '',
             predefinedClasses: predefinedClasses,
         };
@@ -173,6 +181,15 @@ export default {
         }
     },
     mounted() {
+        if(this.canShowPredefinedStylesClasses){
+            var predefinedClassesScreenshotsData = mw.top().app.templateSettings.predefinedElementStylesManager.getPredefinedStylesScreenshotUrls();
+            predefinedClassesScreenshotsData.then((data) => {
+                this.predefinedClassesScreenshots = data;
+            });
+        }
+
+
+
         this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
             if (this.$root.selectedElement) {
                 this.populateStyleEditor(this.$root.selectedElement);
