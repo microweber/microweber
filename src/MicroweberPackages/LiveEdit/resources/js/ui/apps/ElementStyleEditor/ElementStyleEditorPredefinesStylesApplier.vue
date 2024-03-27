@@ -18,17 +18,16 @@
             <div v-if="showPredefinedStylesClasses">
 
                 <div class="form-control-live-edit-label-wrapper my-4">
-                    <label class="live-edit-label">Select a style:</label>
 
-                    <h2 @click="showRadioButtons = !showRadioButtons" v-if="selectedClass && !showRadioButtons" :class="selectedClass">Example text</h2>
-                    <h2 @click="showRadioButtons = !showRadioButtons" v-if="!selectedClass && !showRadioButtons">Select a style</h2>
+                    <h3 class="predefined-styles-rended" @click="showRadioButtons = !showRadioButtons" v-if="selectedClass && !showRadioButtons" :class="selectedClass">TEXT</h3>
+                    <label class="live-edit-label cursor-pointer" @click="showRadioButtons = !showRadioButtons" v-if="!selectedClass && !showRadioButtons">Select a style:</label>
 
 <!--                    <button @click="showRadioButtons = !showRadioButtons">Toggle Radio Buttons</button>-->
 
 
                     <div class="row align-items-center justify-content-center gap-3">
                         <div v-if="showRadioButtons" v-for="(classObj, index) in predefinedClasses" :key="index">
-                            <div class="mw-live-edit-predefines-styles-box">
+                            <div class="mw-live-edit-predefines-styles-box mx-auto">
                                 <label :for="classObj">
                                     <input type="radio" :id="classObj" :value="classObj" v-model="selectedClass" @change="applySelectedClass">
                                     <span :class="classObj">TEXT</span>

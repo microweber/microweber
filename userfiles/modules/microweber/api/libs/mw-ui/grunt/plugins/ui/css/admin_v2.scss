@@ -3243,6 +3243,9 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
     border: 1px solid #ececec;
     padding: 10px;
     transition: .3s;
+    height: 130px;
+    width: 130px;
+    background-color: #f5f5f5;
 
     * {
         cursor: pointer;
@@ -3258,5 +3261,25 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 
     input {
         display: none;
+    }
+
+    label {
+        span {
+            &:after {
+                mask-size: 100px;
+            }
+        }
+    }
+}
+
+.predefined-styles-rended {
+    height: 80px;
+    width: 80px;
+    margin: 30px auto !important;
+    text-align: center;
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.02);
     }
 }
