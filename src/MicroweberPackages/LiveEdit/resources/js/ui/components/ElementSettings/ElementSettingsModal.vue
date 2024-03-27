@@ -1,22 +1,23 @@
 <template>
 
     <VueDragResize :isActive="true" :w="200" :h="200" v-on:resizing="resize" v-on:dragging="resize">
-        <h3>Hello World!</h3>
+       <h3>Hello World!</h3>
         <p>{{ top }} х {{ left }} </p>
-        <p>{{ width }} х {{ height }}</p>
+        <p>{{ width }} х {{ height }}</p>>
     </VueDragResize>
 
 </template>
 
 <script>
-import VueDragResize from 'vue-drag-resize';
 
 export default {
 
-
-    components: {
-        VueDragResize
+    mounted() {
+        mw.top().app.on('openElementSettingsModal', (data) => {
+            this.openModal();
+        });
     },
+
 
     data() {
         return {
@@ -28,12 +29,12 @@ export default {
     },
 
     methods: {
-        resize(newRect) {
-            this.width = newRect.width;
-            this.height = newRect.height;
-            this.top = newRect.top;
-            this.left = newRect.left;
-        }
+
+        openModal() {
+          alert(3333);
+        },
+
+
     }
 }
 </script>

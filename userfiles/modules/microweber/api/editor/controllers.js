@@ -1870,7 +1870,12 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
 
 
-                var node = api.elementNode(sel.focusNode);
+
+                mw.top().app.dispatch('openElementSettingsModal', {
+                    'scope':scope,
+                    'setting': 'textEffect'
+                });
+
 
             });
             return el;

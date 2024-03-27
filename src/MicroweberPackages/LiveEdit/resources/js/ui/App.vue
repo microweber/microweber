@@ -6,7 +6,7 @@
         <RightSidebar></RightSidebar>
         <ListLayouts></ListLayouts>
         <ListModules></ListModules>
-<!--        <ElementSettingsModal></ElementSettingsModal>-->
+       <ElementSettingsModal></ElementSettingsModal>
 
     </div>
 
