@@ -29,7 +29,7 @@ class UserRegisteredListener
             $newRegEvent = new NewRegistrationAdminNotification($event->user);
             $registerEmailToAdminsEnabled = Option::getValue('register_email_to_admins_enabled', 'users');
             if ($registerEmailToAdminsEnabled) {
-                Notification::sendNow($adminUser, $newRegEvent);
+                Notification::send($adminUser, $newRegEvent);
             }
         } catch (\Exception $e) {
 
