@@ -86,7 +86,7 @@ export const EditorComponent = function () {
             {
                 group: {
                     controller: 'textColor',
-                    controls: ['textBackgroundColor']
+                    controls: ['textColor','textBackgroundColor','textEffectClassApplier']
                 }
             },
             'table',
@@ -97,6 +97,10 @@ export const EditorComponent = function () {
 
         ]
     ];
+
+
+
+
 
 
     const liveEditor = mw.Editor({

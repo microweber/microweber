@@ -32,6 +32,8 @@
         "react-filerobot-image-editor": "^4.4.0",
         "vue": "^3.2.36",
         "vue-color-kit": "^1.0.5",
+        "vue-drag-resize": "^1.5.4",
+        "vue-final-modal": "^4.5.4",
         "vue-loader": "^17.0.1",
         "vue3-click-away": "^1.2.4",
         "vue3-tags-input": "^1.0.12",

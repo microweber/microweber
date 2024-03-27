@@ -1746,6 +1746,10 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
+
+
+
+
     table: function (scope, api, rootScope) {
         this.render = function () {
             var el = MWEditor.core.button({
@@ -1849,6 +1853,36 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
+
+
+
+
+    textEffectClassApplier: function (scope, api, rootScope) {
+        this.render = function () {
+            var aiIconSVG = '<svg color="gray.100" fill="currentColor" height="22" viewBox="0 0 22 22" width="22" xmlns="http://www.w3.org/2000/svg" class="ai-writer-container-1fy6kej"><path d="M12 0h-1L5 14h5v8h1l6-14h-5V0z"></path></svg>';
+            var scope = this;
+            var el = MWEditor.core.button({
+                props: {
+                    tooltip: rootScope.lang('Text styles'),
+                    innerHTML: aiIconSVG
+                }
+            });
+            el.on('mousedown touchstart', function (e) {
+
+
+                var node = api.elementNode(sel.focusNode);
+
+            });
+            return el;
+        };
+        this.checkSelection = function (opt, ee, tt) {
+
+
+        };
+        this.element = this.render();
+    },
+
+
 
 
 

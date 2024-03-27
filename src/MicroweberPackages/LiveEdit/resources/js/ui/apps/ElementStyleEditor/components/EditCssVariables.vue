@@ -30,11 +30,10 @@
 
 <script>
 import ColorPicker from "./ColorPicker.vue";
-import Slider from '@vueform/slider';
 import SliderSmall from "./SliderSmall.vue";
 
 export default {
-    components: {ColorPicker, Slider, SliderSmall},
+    components: {ColorPicker, SliderSmall},
     props: ['selectedClass', 'predefinedClassesVariables'],
     methods: {
         updateValue(key, value) {

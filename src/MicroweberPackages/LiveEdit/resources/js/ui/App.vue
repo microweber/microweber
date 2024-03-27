@@ -6,12 +6,13 @@
         <RightSidebar></RightSidebar>
         <ListLayouts></ListLayouts>
         <ListModules></ListModules>
+<!--        <ElementSettingsModal></ElementSettingsModal>-->
 
     </div>
 
 </template>
 
- 
+
 
 <script>
 
@@ -20,9 +21,11 @@ import LeftSidebar from "./components/LeftSidebar/LeftSidebar.vue";
 import RightSidebar from "./components/RightSidebar/RightSidebar.vue";
 import ListLayouts from "./components/Layouts/ListLayouts.vue";
 import ListModules from "./components/Modules/ListModules.vue";
+import ElementSettingsModal from "./components/ElementSettings/ElementSettingsModal.vue";
 
 export default {
     components: {
+        ElementSettingsModal,
         Toolbar,
         LeftSidebar,
         RightSidebar,

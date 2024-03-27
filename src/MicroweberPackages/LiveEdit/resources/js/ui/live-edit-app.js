@@ -10,6 +10,7 @@ import {createApp} from 'vue';
 
 import App from './App.vue';
 // vue click away
+import VueDragResize from 'vue-drag-resize'
 
 import VueClickAway from "vue3-click-away";
 // emiter
@@ -82,6 +83,7 @@ window.top.addEventListener('popstate', function () {
 const emitter = mitt();
 
 const app = createApp(App);
+app.component('vue-drag-resize', VueDragResize);
 
 app.directive("tooltip", {
     mounted: (el, binding) => {
