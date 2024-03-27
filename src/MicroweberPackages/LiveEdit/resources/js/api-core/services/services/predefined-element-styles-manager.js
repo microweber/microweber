@@ -17,6 +17,11 @@ export default class PredefinedElementStylesManager {
             }
         }
 
+        if(predefinedClasses.length > 0){
+            //add default class 1st to reset
+            predefinedClasses.unshift('predefined-style-none');
+        }
+
 
         return predefinedClasses;
     }

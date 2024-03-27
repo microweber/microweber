@@ -19,23 +19,32 @@
 
                 <div class="form-control-live-edit-label-wrapper my-4">
                     <label class="live-edit-label">Select a style:</label>
-                    <div v-for="(classObj, index) in predefinedClasses" :key="index">
-                        <input type="radio" :id="classObj" :value="classObj" v-model="selectedClass" @change="applySelectedClass">
-                        <label :for="classObj">{{ classObj }}
 
-                         <img v-if="predefinedClassesScreenshots && predefinedClassesScreenshots[classObj]" :src="predefinedClassesScreenshots[classObj]" alt="screenshot" width="100" height="100">
+                    <h2 @click="showRadioButtons = !showRadioButtons" v-if="selectedClass && !showRadioButtons" :class="selectedClass">Example text</h2>
+                    <h2 @click="showRadioButtons = !showRadioButtons" v-if="!selectedClass && !showRadioButtons">Select a style</h2>
 
+<!--                    <button @click="showRadioButtons = !showRadioButtons">Toggle Radio Buttons</button>-->
+
+
+
+                    <div v-if="showRadioButtons" v-for="(classObj, index) in predefinedClasses" :key="index">
+                        <label :for="classObj">
+                            <input type="radio" :id="classObj" :value="classObj" v-model="selectedClass" @change="applySelectedClass">
+                             <h2 :class="classObj">Example text</h2>
                         </label>
                     </div>
                 </div>
 
 
+<!--
+                <img v-if="predefinedClassesScreenshots && predefinedClassesScreenshots[classObj]" :src="predefinedClassesScreenshots[classObj]" alt="screenshot" width="100" height="100">
+-->
 
-
+                <div class="form-control-live-edit-label-wrapper my-4">
                 <EditCssVariables :selectedClass="selectedClass"
                                   :predefinedClassesVariables="predefinedClassesVariables"
                                   @variables-changed="handleVariablesChanged"></EditCssVariables>
-
+                </div>
             </div>
         </div>
     </div>
@@ -54,18 +63,18 @@ export default {
         var predefinedClasses = mw.top().app.templateSettings.predefinedElementStylesManager.getPredefinedClasses();
         var canShowPredefinedStylesClasses = false;
         var predefinedClassesVariables = false;
-        var predefinedClassesScreenshots = false;
+      //  var predefinedClassesScreenshots = false;
         if (predefinedClasses && predefinedClasses.length > 0) {
             canShowPredefinedStylesClasses = true;
             predefinedClassesVariables = mw.top().app.templateSettings.predefinedElementStylesManager.getPredefinedClassesVaribles(predefinedClasses);
-
         }
 
         return {
             canShowPredefinedStylesClasses: canShowPredefinedStylesClasses,
             showPredefinedStylesClasses: false,
+            showRadioButtons: false,
             predefinedClassesVariables: predefinedClassesVariables,
-            predefinedClassesScreenshots: predefinedClassesScreenshots,
+        //    predefinedClassesScreenshots: predefinedClassesScreenshots,
             selectedClass: '',
             predefinedClasses: predefinedClasses,
         };
@@ -91,7 +100,7 @@ export default {
                 this.activeNode.classList.add(this.selectedClass);
                 this.populateCssVariablesEditorForSelectedClass();
 
-
+this.showRadioButtons = false;
                 // Optionally, you can emit an event to indicate changes
                 if (mw.top().app) {
                     mw.top().app.registerChangedState(this.activeNode);
@@ -140,7 +149,6 @@ export default {
                     Object.keys(this.predefinedClassesVariables[this.selectedClass]).forEach(key => {
                         var variableValue = mw.top().app.cssEditor.getPropertyForSelector( this.activeNode, key);
 
-                        console.log('variableValue',key, variableValue)
 
                         if(variableValue){
                             this.predefinedClassesVariables[this.selectedClass][key] = variableValue;
@@ -182,10 +190,26 @@ export default {
     },
     mounted() {
         if(this.canShowPredefinedStylesClasses){
-            var predefinedClassesScreenshotsData = mw.top().app.templateSettings.predefinedElementStylesManager.getPredefinedStylesScreenshotUrls();
-            predefinedClassesScreenshotsData.then((data) => {
-                this.predefinedClassesScreenshots = data;
-            });
+            // var predefinedClassesScreenshotsData = mw.top().app.templateSettings.predefinedElementStylesManager.getPredefinedStylesScreenshotUrls();
+            // predefinedClassesScreenshotsData.then((data) => {
+            //     this.predefinedClassesScreenshots = data;
+            // });
+
+            var predefinedClassesStylesheets = mw.top().app.templateSettings.predefinedElementStylesManager.getPredefinedElementStylsheetsFromDocument();
+            //append to curent document if stylsheed is not already added
+
+            if(predefinedClassesStylesheets && predefinedClassesStylesheets.length > 0){
+                predefinedClassesStylesheets.forEach((stylesheet) => {
+
+                    if(!document.querySelector('link[href="'+stylesheet+'"]')){
+                        var link = document.createElement('link');
+                        link.href = stylesheet.href;
+                        link.rel = 'stylesheet';
+                        document.head.appendChild(link);
+                    }
+                });
+            }
+
         }
 
 

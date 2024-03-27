@@ -9,6 +9,16 @@
                              @change="predefinedClassesVariables[selectedClass][key] = $event"
                              v-bind:color="predefinedClassesVariables[selectedClass][key]"></ColorPicker>
             </div>
+            <div v-else-if="key.includes('size-small')">
+                <SliderSmall v-model="predefinedClassesVariables[selectedClass][key]"
+                             @update:modelValue="updateValue(key, $event)"
+                             :showLabel="false"
+                             v-bind:min="0"
+                             v-bind:max="30"
+                             v-bind:step="1"
+                             v-bind:label="key"
+                             v-bind:unit="key.includes('px') ? 'px' : ''"></SliderSmall>
+            </div>
             <div v-else-if="key.includes('size')">
                 <SliderSmall v-model="predefinedClassesVariables[selectedClass][key]"
                              @update:modelValue="updateValue(key, $event)"
