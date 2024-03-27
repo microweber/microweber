@@ -3236,15 +3236,24 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 
 
 .mw-live-edit-predefines-styles-box {
-    border: 1px solid #ececec;
-    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    font-size: 24px;
+    border: 1px solid #ececec;
+    padding: 10px;
+    transition: .3s;
+
+    * {
+        cursor: pointer;
+    }
+
+
 
     &:hover {
         cursor: pointer;
+        transform: scale(1.02);
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     }
 
     input {
