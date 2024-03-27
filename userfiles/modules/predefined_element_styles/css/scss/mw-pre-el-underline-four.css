@@ -1,6 +1,6 @@
 .mw-pre-el-underline-four {
-  --mw-pre-el-underline-four-pblock: 3px;
-  padding-bottom: var(--mw-pre-el-underline-four-pblock);
+  --mw-pre-el-underline-four-pb-size: 3px;
+  padding-bottom: var(--mw-pre-el-underline-four-pb-size);
   --mw-pre-el-underline-four-color: currentColor;
   position: relative;
   --mw-pre-el-underline-four-size: 5px; }

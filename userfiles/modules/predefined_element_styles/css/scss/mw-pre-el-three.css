@@ -4,8 +4,8 @@
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1.5em;
-  --mw-pre-el-three-pblock: 15px;
-  padding-bottom: var(--mw-pre-el-three-pblock);
+  --mw-pre-el-three-pb-size: 15px;
+  padding-bottom: var(--mw-pre-el-three-pb-size);
   position: relative; }
   .mw-pre-el-three:before {
     content: "";

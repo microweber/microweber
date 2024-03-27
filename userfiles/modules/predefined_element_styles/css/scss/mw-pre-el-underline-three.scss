@@ -1,8 +1,8 @@
 .mw-pre-el-underline-three {
     --mw-pre-el-underline-three-color: currentColor;
     --mw-pre-el-underline-three-size: 3px;
-    --mw-pre-el-underline-three-pblock: 3px;
-    padding-bottom: var(--mw-pre-el-underline-three-pblock);
+    --mw-pre-el-underline-three-pb-size: 3px;
+    padding-bottom: var(--mw-pre-el-underline-three-pb-size);
     position: relative;
 
     &:after {

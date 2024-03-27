@@ -1,6 +1,6 @@
 .mw-pre-el-underline-seven {
-  --mw-pre-el-underline-seven-pblock: 0px;
-  padding-bottom: var(--mw-pre-el-underline-seven-pblock);
+  --mw-pre-el-underline-seven-pb-size: 0px;
+  padding-bottom: var(--mw-pre-el-underline-seven-pb-size);
   position: relative;
   --mw-pre-el-underline-seven-color: currentColor;
   --mw-pre-el-underline-seven-size: 750px; }

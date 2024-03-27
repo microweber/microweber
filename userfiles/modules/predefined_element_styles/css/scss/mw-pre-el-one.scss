@@ -1,6 +1,6 @@
 .mw-pre-el-one {
-    --mw-pre-el-one-pblock: 3px;
-    padding-bottom: var(--mw-pre-el-one-pblock);
+    --mw-pre-el-one-pb-size: 3px;
+    padding-bottom: var(--mw-pre-el-one-pb-size);
     position: relative;
 
     &:before {
