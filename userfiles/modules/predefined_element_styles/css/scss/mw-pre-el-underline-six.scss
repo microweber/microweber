@@ -1,9 +1,9 @@
 .mw-pre-el-underline-six {
-    --mw-pre-el-underline-six-pb-size: 30px;
+    --mw-pre-el-underline-six-pb-size: 10px;
     padding-bottom: var(--mw-pre-el-underline-six-pb-size);
     --mw-pre-el-underline-six-color: currentColor;
     position: relative;
-    --mw-pre-el-underline-six-size: 45px;
+    --mw-pre-el-underline-six-size: 15px;
 
     &:after {
         position: absolute;
