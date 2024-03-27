@@ -177,7 +177,7 @@ $microweber_login = get_option('enable_user_microweber_registration', 'users') =
 
                        <?php if ($facebook): ?>
                            <div class="col my-1">
-                               <a href="#" class="btn w-100">
+                               <a href="<?php print api_link('user_social_login?provider=facebook') ?>" class="btn w-100">
                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                        <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3"></path>
@@ -189,7 +189,7 @@ $microweber_login = get_option('enable_user_microweber_registration', 'users') =
 
                        <?php if ($twitter): ?>
                            <div class="col my-1">
-                               <a href="#" class="btn w-100">
+                               <a href="<?php print api_link('user_social_login?provider=twitter') ?>" class="btn w-100">
                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                        <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c0 -.249 1.51 -2.772 1.818 -4.013z"></path>
@@ -202,7 +202,7 @@ $microweber_login = get_option('enable_user_microweber_registration', 'users') =
 
                        <?php if ($github): ?>
                            <div class="col my-1">
-                               <a href="#" class="btn w-100">
+                               <a href="<?php print api_link('user_social_login?provider=github') ?>" class="btn w-100">
                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon text-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path></svg>
                                    <?php _e("Login with Github"); ?>
                                </a>
@@ -211,7 +211,7 @@ $microweber_login = get_option('enable_user_microweber_registration', 'users') =
 
                        <?php if ($linkedIn): ?>
                            <div class="col my-1">
-                               <a href="#" class="btn w-100">
+                               <a href="<?php print api_link('user_social_login?provider=linkedin') ?>" class="btn w-100">
                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                        <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
@@ -227,7 +227,7 @@ $microweber_login = get_option('enable_user_microweber_registration', 'users') =
 
                        <?php if ($google): ?>
                            <div class="col my-1">
-                               <a href="#" class="btn w-100">
+                               <a href="<?php print api_link('user_social_login?provider=google') ?>" class="btn w-100">
                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-google" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                        <path d="M17.788 5.108a9 9 0 1 0 3.212 6.892h-8"></path>
