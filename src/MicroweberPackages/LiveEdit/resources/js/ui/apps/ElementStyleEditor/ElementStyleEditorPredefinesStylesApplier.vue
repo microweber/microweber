@@ -26,12 +26,15 @@
 <!--                    <button @click="showRadioButtons = !showRadioButtons">Toggle Radio Buttons</button>-->
 
 
-
-                    <div v-if="showRadioButtons" v-for="(classObj, index) in predefinedClasses" :key="index">
-                        <label :for="classObj">
-                            <input type="radio" :id="classObj" :value="classObj" v-model="selectedClass" @change="applySelectedClass">
-                             <h2 :class="classObj">Example text</h2>
-                        </label>
+                    <div class="row align-items-center justify-content-center gap-2">
+                        <div v-if="showRadioButtons" v-for="(classObj, index) in predefinedClasses" :key="index">
+                            <div class="mw-live-edit-predefines-styles-box">
+                                <label :for="classObj">
+                                    <input type="radio" :id="classObj" :value="classObj" v-model="selectedClass" @change="applySelectedClass">
+                                    <span :class="classObj">TEXT</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
