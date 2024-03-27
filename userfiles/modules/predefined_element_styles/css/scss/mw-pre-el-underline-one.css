@@ -3,7 +3,7 @@
   padding-bottom: var(--mw-pre-el-underline-one-pb-size);
   --mw-pre-el-underline-one-color: currentColor;
   position: relative;
-  --mw-pre-el-underline-one-size: 35px; }
+  --mw-pre-el-underline-one-size: 15px; }
   .mw-pre-el-underline-one:after {
     position: absolute;
     bottom: 0;
