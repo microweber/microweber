@@ -1,0 +1,26 @@
+.mw-pre-el-underline-one {
+  --mw-pre-el-underline-one-pblock: 10px;
+  padding-bottom: var(--mw-pre-el-underline-one-pblock);
+  --mw-pre-el-underline-one-color: currentColor;
+  position: relative;
+  --mw-pre-el-underline-one-size: 35px; }
+  .mw-pre-el-underline-one:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    fill: var(--mw-pre-el-underline-one-color);
+    background-color: var(--mw-pre-el-underline-one-color);
+    content: "";
+    display: block;
+    width: 100%;
+    height: var(--mw-pre-el-underline-one-size);
+    mask-repeat: repeat-x;
+    mask-position: center;
+    mask-size: 100%;
+    mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 257 20.11"><defs><style>.cls-1{fill:%2300101c;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><polyline class="cls-1" points="0 0 13.52 14 27.05 0 40.57 14 54.09 0 67.62 14 81.14 0 94.67 14 108.19 0 121.72 14 135.24 0 148.77 14 162.29 0 175.82 14 189.34 0 202.87 14 216.4 0 229.93 14 243.46 0 257 14 257 20.11 243.46 6.11 229.93 20.11 216.4 6.11 202.87 20.11 189.34 6.11 175.82 20.11 162.29 6.11 148.77 20.11 135.24 6.11 121.72 20.11 108.19 6.11 94.67 20.11 81.14 6.11 67.62 20.11 54.09 6.11 40.57 20.11 27.05 6.11 13.52 20.11 0 6.11"/></g></g></svg>');
+    -webkit-mask-repeat: repeat-x;
+    -webkit-mask-position: center;
+    -webkit-mask-size: 100%;
+    -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 257 20.11"><defs><style>.cls-1{fill:%2300101c;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><polyline class="cls-1" points="0 0 13.52 14 27.05 0 40.57 14 54.09 0 67.62 14 81.14 0 94.67 14 108.19 0 121.72 14 135.24 0 148.77 14 162.29 0 175.82 14 189.34 0 202.87 14 216.4 0 229.93 14 243.46 0 257 14 257 20.11 243.46 6.11 229.93 20.11 216.4 6.11 202.87 20.11 189.34 6.11 175.82 20.11 162.29 6.11 148.77 20.11 135.24 6.11 121.72 20.11 108.19 6.11 94.67 20.11 81.14 6.11 67.62 20.11 54.09 6.11 40.57 20.11 27.05 6.11 13.52 20.11 0 6.11"/></g></g></svg>'); }
+
+/*# sourceMappingURL=mw-pre-el-underline-one.css.map */

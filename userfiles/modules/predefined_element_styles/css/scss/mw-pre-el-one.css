@@ -1,10 +1,8 @@
-.one {
-
-    padding-bottom: 5px;
-    position: relative;
-}
-
-.one:before {
+.mw-pre-el-one {
+  --mw-pre-el-one-pblock: 3px;
+  padding-bottom: var(--mw-pre-el-one-pblock);
+  position: relative; }
+  .mw-pre-el-one:before {
     width: 28px;
     height: 5px;
     display: block;
@@ -13,10 +11,8 @@
     bottom: 3px;
     left: 50%;
     margin-left: -14px;
-    background-color: currentColor;
-}
-
-.one:after {
+    background-color: currentColor; }
+  .mw-pre-el-one:after {
     width: 100px;
     height: 1px;
     display: block;
@@ -25,5 +21,6 @@
     margin-top: 25px;
     left: 50%;
     margin-left: -50px;
-    background-color: currentColor;
-}
+    background-color: currentColor; }
+
+/*# sourceMappingURL=mw-pre-el-one.css.map */

@@ -16,9 +16,9 @@
             </div>
 
             <div v-if="showPredefinedStylesClasses">
-                <div>
-                    <label for="styleSelect">Select a style:</label>
-                    <select id="styleSelect" class="form-control" v-model="selectedClass" @change="applySelectedClass">
+                <div class="form-control-live-edit-label-wrapper my-4">
+                    <label class="live-edit-label" for="styleSelect">Select a style:</label>
+                    <select id="styleSelect" class="form-control-live-edit-input form-select" v-model="selectedClass" @change="applySelectedClass">
                         <option value="">Select a style</option>
                         <option v-for="(classObj, index) in predefinedClasses" :key="index" :value="classObj">
                             {{ classObj }}
