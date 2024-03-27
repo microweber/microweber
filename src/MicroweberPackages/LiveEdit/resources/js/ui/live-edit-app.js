@@ -10,7 +10,8 @@ import {createApp} from 'vue';
 
 import App from './App.vue';
 // vue click away
-import VueDragResize from 'vue-drag-resize'
+import VueDragResize from 'vue-drag-resize';
+import { createVfm } from 'vue-final-modal'
 
 import VueClickAway from "vue3-click-away";
 // emiter
@@ -18,6 +19,10 @@ import mitt from 'mitt';
 import './css/app.sass';
 import './css/gui.css';
 import './css/index.css';
+import 'vue-final-modal/style.css';
+
+
+const vfm = createVfm();
 
 
 // const canvas = new LiveEditCanvas();
@@ -95,4 +100,5 @@ app.directive("tooltip", {
 });
 app.config.globalProperties.emitter = emitter;
 app.use(VueClickAway);
+app.use(vfm);
 app.mount('#live-edit-app');
