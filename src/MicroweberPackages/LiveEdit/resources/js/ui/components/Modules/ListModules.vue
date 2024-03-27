@@ -93,10 +93,12 @@ export default {
 
 
 
-            const nodesToWrap = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P']
+            const nodesToWrap = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P'];
+
+
 
             if(nodesToWrap.indexOf(itm.nodeName) !== -1) {
-                const wrapper = ElementManager(`<div class="no-element" id="${mw.id('free-element-')}"></div>`);
+                const wrapper = ElementManager(`<div id="${mw.id('free-element-')}"></div>`);
                 ElementManager(itm).after(wrapper);
                 wrapper.append(itm)
                 itm = wrapper.get(0)

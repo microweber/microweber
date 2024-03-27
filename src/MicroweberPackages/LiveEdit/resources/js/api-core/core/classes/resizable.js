@@ -97,7 +97,11 @@ export class Resizable  {
         if(this.settings.maxHeight) {
             calcH = Math.min(calcH, this.settings.maxHeight)
         }
-         this.element.style.width = `${calcW}px`;
+        if(this.settings.direction !== 'vertical') {
+            this.element.style.width = `${calcW}px`;
+        }
+
+
 
          var setHeight = target && (target.$name !== 'right' && target.$name !== 'left');
 

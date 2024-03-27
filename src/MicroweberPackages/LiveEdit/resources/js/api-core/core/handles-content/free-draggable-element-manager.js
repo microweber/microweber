@@ -1,6 +1,9 @@
 import MicroweberBaseClass from "../../services/containers/base-class";
+import { DomService } from "../classes/dom";
 import { ElementManager } from "../classes/element";
 import { ResizableInfo } from "../classes/resizable";
+
+
 
 
 
@@ -156,7 +159,7 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
 
 
         });
-        console.log(containerheight)
+
         container.style.height = containerheight + 'px';
 
     }
@@ -237,6 +240,9 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
     #adapters = {
 
         movable: function(element, container, scope) {
+
+
+
             const draggable = true;
             const throttleDrag = 1;
             const edgeDraggable = false;
@@ -461,7 +467,78 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
     }
 
     init() {
-        mw.top().app.canvas.getDocument().querySelectorAll('[data-mw-free-element="true"]').forEach(node => this.freeElement(node))
+        mw.top().app.canvas.getDocument().querySelectorAll('[data-mw-free-element="true"]').forEach(node => this.freeElement(node));
+        this.initLayouts();
+    }
+
+    initLayouts() {
+        const Mvb = mw.top().app.canvas.getWindow().Moveable;
+        mw.top().app.canvas.getDocument().querySelectorAll('.mw-free-layout-container').forEach(node => {
+
+            const resizer = new Resizable({
+                element: node,
+                document: node.ownerDocument,
+                direction: 'vertical',
+            });
+
+            resizer.mount();
+
+
+            resizer.handles.top.style.display = 'none';
+            resizer.handles.right.style.display = 'none';
+
+            resizer.handles.left.style.display = 'none';
+
+            ElementManager(resizer.handles.bottom ).css({
+                'width': '35px',
+                'height': '35px',
+                'background': '#0078ff',
+                'right': '10%',
+                'bottom': '25px',
+                'left': 'auto',
+                'padding': '8px',
+                'border-radius': '5px',
+            }).html(`
+            <svg height="19px" width="19px" version="1.1"   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 0 349.455 349.455" xml:space="preserve">
+       <path style="fill:#ffffff;" d="M248.263,240.135c-1.407-1.407-3.314-2.197-5.304-2.197c-1.989,0-3.896,0.79-5.304,2.197
+           l-45.429,45.429l0.001-221.673l45.428,45.429c1.407,1.407,3.314,2.197,5.304,2.197c1.989,0,3.896-0.79,5.304-2.197l14.143-14.143
+           c1.406-1.406,2.196-3.314,2.196-5.303c0-1.989-0.79-3.897-2.196-5.303L180.032,2.197C178.625,0.79,176.717,0,174.728,0
+           c-1.989,0-3.896,0.79-5.304,2.197L87.049,84.573c-1.406,1.407-2.196,3.314-2.196,5.303c0,1.989,0.79,3.897,2.197,5.304
+           l14.143,14.142c1.464,1.464,3.384,2.196,5.303,2.196c1.919,0,3.839-0.732,5.304-2.197l45.429-45.43l-0.001,221.673l-45.428-45.429
+           c-1.407-1.407-3.314-2.197-5.304-2.197c-1.989,0-3.896,0.79-5.304,2.197l-14.143,14.143c-1.406,1.406-2.196,3.314-2.196,5.303
+           c0,1.989,0.79,3.897,2.196,5.303l82.374,82.374c1.465,1.464,3.385,2.197,5.304,2.197c1.919,0,3.839-0.733,5.304-2.197l82.375-82.375
+           c1.406-1.406,2.196-3.314,2.196-5.303c0-1.989-0.79-3.897-2.196-5.303L248.263,240.135z"/>
+       </svg>
+            `)
+
+
+
+
+            resizer.on('resizeStop', () => {
+
+            })
+
+           /* const mvb = new Mvb(node, {
+                target: node,
+
+                draggable: false,
+
+                resizable: false,
+                rotatable: false,
+                selectable: false,
+                snappable: false,
+                scalable: false,
+                snapContainer: false,
+
+
+                hideDefaultLines: true,
+
+                roundable: false,
+
+
+             });*/
+        })
     }
 
     static destroyFreeDraggableElement(element) {
