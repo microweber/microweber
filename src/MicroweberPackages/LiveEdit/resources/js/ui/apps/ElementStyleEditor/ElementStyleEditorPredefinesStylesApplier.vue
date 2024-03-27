@@ -26,7 +26,7 @@
 <!--                    <button @click="showRadioButtons = !showRadioButtons">Toggle Radio Buttons</button>-->
 
 
-                    <div class="row align-items-center justify-content-center gap-2">
+                    <div class="row align-items-center justify-content-center gap-3">
                         <div v-if="showRadioButtons" v-for="(classObj, index) in predefinedClasses" :key="index">
                             <div class="mw-live-edit-predefines-styles-box">
                                 <label :for="classObj">
