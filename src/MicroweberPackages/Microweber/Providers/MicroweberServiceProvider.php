@@ -54,6 +54,7 @@ use MicroweberPackages\Microweber\Microweber;
 use MicroweberPackages\MicroweberUI\Providers\MicroweberUIServiceProvider;
 use MicroweberPackages\Module\ModuleServiceProvider;
 use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
+use MicroweberPackages\Notification\Providers\MailTemplatesServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Offer\Providers\OfferServiceProvider;
 use MicroweberPackages\OpenApi\Providers\SwaggerServiceProvider;
@@ -197,6 +198,7 @@ class MicroweberServiceProvider extends ServiceProvider
         //   $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
         $this->app->register(CountryServiceProvider::class);
         $this->app->register(\EloquentFilter\ServiceProvider::class);
+        $this->app->register(MailTemplatesServiceProvider::class);
         $this->app->register(NotificationServiceProvider::class);
         $this->app->register(QueueServiceProvider::class);
         $this->app->register(QueueEventServiceProvider::class);

@@ -8,8 +8,6 @@ class MailTemplatesServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->singleton('mail_templates', function ($app) {
-            return new MailTemplates();
-        });
+         // Register the service the package provides.
     }
 }

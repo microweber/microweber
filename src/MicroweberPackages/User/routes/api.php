@@ -122,7 +122,7 @@ Route::name('api.user.')
     Route::post('register', 'UserRegisterController@register')->name('register')->middleware(['allowed_ips']);
 
     Route::post('/forgot-password', 'UserForgotPasswordController@send')
-        ->middleware(['throttle:30,1'])
+        ->middleware(['throttle:120,10'])
         ->name('password.email');
     Route::post('/reset-password', 'UserForgotPasswordController@update')->name('password.update');
 
