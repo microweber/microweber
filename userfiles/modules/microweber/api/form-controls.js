@@ -737,27 +737,23 @@ mw.emitter = {
 
 
 
-                        var conf = {
-                            method: 'POST',
+                        $.ajax({
                             url: url,
-                            body: JSON.stringify({
-                                limit: '5',
-                                keyword: query || treeEl.value,
-                                order_by: 'updated_at desc',
-                                search_in_fields: 'title',
-                            })
-                        }
-
-
-
-
-                        fetch(url, conf)
-                            .then(response => response.json())
-                            .then(json => {
-                                callback(json);
-                            }).catch(()=>{
+                            type: 'POST',
+                            data:
+                                {
+                                    limit: '5',
+                                    keyword: query || treeEl.value,
+                                    order_by: 'updated_at desc',
+                                    search_in_fields: 'title',
+                                },
+                            success: function (response) {
+                                callback(response);
+                            },
+                            error: function () {
                                 callback();
-                            });
+                            }
+                        });
 
                     },
                     // custom rendering functions for options and items
