@@ -374,7 +374,12 @@ export class ElementActions extends MicroweberBaseClass {
     editImage(element) {
         var dialog = this.imagePicker(function (res) {
 
-            mw.top().app.registerUndoState(element);
+
+            var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+
+            if(edit) {
+                mw.app.registerSyncAction(edit, true);
+            }
             var url = res.src ? res.src : res;
             if (!url) return;
             url = url.toString();
@@ -385,8 +390,6 @@ export class ElementActions extends MicroweberBaseClass {
 
             mw.app.liveEdit.play();
             dialog.remove();
-
-            mw.top().app.registerChangedState(element);
         });
     }
 
@@ -394,15 +397,15 @@ export class ElementActions extends MicroweberBaseClass {
         mw.app.editImageDialog.editImage(element.src, (imgData) => {
             if (typeof imgData !== 'undefined' && imgData.src) {
 
+
                 element.src = imgData.src
 
                 if (imgData.sizeChanged) {
-                    // reset width and height
-                    //   element.style.width = '';
+
                     element.style.height = 'auto';
                 }
             }
-            mw.top().app.registerChange(element);
+
             mw.app.liveEdit.play();
         });
 
@@ -415,7 +418,10 @@ export class ElementActions extends MicroweberBaseClass {
             element = hasBgOnParent;
 
             var dialog = this.imagePicker(function (res) {
-                mw.top().app.registerChange(element);
+                var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+                if(edit) {
+                    mw.top().app.registerChangedState(edit);
+                }
                 var url = res.src ? res.src : res;
                 if (!url) return;
                 url = url.toString();
@@ -424,7 +430,9 @@ export class ElementActions extends MicroweberBaseClass {
                 mw.app.liveEdit.play();
                 dialog.remove();
 
-                mw.top().app.registerChangedState(element);
+                if(edit) {
+                    mw.top().app.registerChangedState(edit);
+                }
             });
         }
     }
@@ -436,7 +444,10 @@ export class ElementActions extends MicroweberBaseClass {
             element = hasBgOnParent;
         }
 
-        mw.top().app.registerUndoState(element);
+        var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+                if(edit) {
+                    mw.top().app.registerChangedState(edit);
+                }
 
         /*
                 if(element.style.backgroundImage) {
@@ -452,7 +463,10 @@ export class ElementActions extends MicroweberBaseClass {
                 }*/
 
         var dialog = this.imagePicker(function (res) {
-            mw.top().app.registerChange(element);
+            var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+                if(edit) {
+                    mw.top().app.registerChangedState(edit);
+                }
             var url = res.src ? res.src : res;
             if (!url) return;
             url = url.toString();
@@ -461,7 +475,9 @@ export class ElementActions extends MicroweberBaseClass {
             mw.app.liveEdit.play();
             dialog.remove();
 
-            mw.top().app.registerChangedState(element);
+            if(edit) {
+                mw.top().app.registerChangedState(edit);
+            }
         });
     }
 

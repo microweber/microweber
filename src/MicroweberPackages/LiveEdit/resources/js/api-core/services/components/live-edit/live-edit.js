@@ -76,8 +76,12 @@ export const liveEditComponent = () => {
 
 
 
-    mw.app.registerUndoState = function(element){
-        return mw.app.undoHandler.registerUndoState(element);
+    mw.app.registerUndoState = function(element, isNow = false){
+        let method = 'registerUndoState';
+        if(isNow) {
+            method = 'registerUndoStateNow';
+        }
+        return mw.app.undoHandler[method](element);
     };
     mw.app.registerChange = function(element){
         var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
@@ -110,13 +114,18 @@ export const liveEditComponent = () => {
             liveEditIframe.mw.askusertostay = toStay;
         }
     };
-    mw.app.registerChangedState = function(element){
+    mw.app.registerSyncAction = function(element, isNow){
+        mw.app.registerChangedState(element, isNow);
+        setTimeout(function(){
+            mw.app.registerChangedState(element, isNow);
+        }, 110);
+    };
+
+    mw.app.registerChangedState = function(element, isNow){
         mw.app.registerChange(element);
-        mw.app.registerUndoState(element);
+        mw.app.registerUndoState(element, isNow);
         mw.app.registerAskUserToStay(true);
-        if(mw.app.liveEdit) {
-      //      mw.app.liveEdit.handles.reposition();
-        }
+
 
     };
 
