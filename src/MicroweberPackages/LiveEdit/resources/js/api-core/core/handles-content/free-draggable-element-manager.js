@@ -506,11 +506,14 @@ export class FreeDraggableElementManager extends MicroweberBaseClass {
             });
 
             resizer.on('ready', () => {
+                if(!resizer.handles){
+                    return;
+                }
                 resizer.handles.top.style.display = 'none';
                 resizer.handles.right.style.display = 'none';
 
                 resizer.handles.left.style.display = 'none';
-            })
+            });
 
             resizer.mount();
 
