@@ -20,7 +20,7 @@
         "bootstrap": "^4.6.2",
         "bootstrap-select": "^1.13.18",
         "filerobot-image-editor": "^4.4.0",
-        "follow-redirects": "^1.15.5",
+        "follow-redirects": ">=1.15.6",
         "gulp-include": "^2.4.1",
         "ion-rangeslider": "^2.3.1",
         "jquery": "^3.6.0",
