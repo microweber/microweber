@@ -136,13 +136,17 @@ export class ElementActions extends MicroweberBaseClass {
             }
         }
 
-        var parentEditField = mw.tools.firstParentWithClass(el, 'edit');
+
 
         Confirm(ElementManager('<span>Are you sure you want to delete this element?</span>'), () => {
-            mw.app.registerChangedState(el);
+            var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['regular-mode','edit', 'safe-mode']);
+
+            if(edit) {
+                mw.app.registerSyncAction(edit, true);
+            }
             el.remove()
-            if (parentEditField) {
-                mw.app.registerUndoState(parentEditField);
+            if (edit) {
+
                 mw.app.liveEdit.handles.get('element').set(null);
             }
         })
@@ -396,7 +400,11 @@ export class ElementActions extends MicroweberBaseClass {
     editImageWithEditor(element) {
         mw.app.editImageDialog.editImage(element.src, (imgData) => {
             if (typeof imgData !== 'undefined' && imgData.src) {
+                var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
 
+                if(edit) {
+                    mw.app.registerSyncAction(edit, true);
+                }
 
                 element.src = imgData.src
 
