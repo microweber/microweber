@@ -502,7 +502,7 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = this.elementHandleButtonsVisibility.shouldShowFreeDraggableButton(target);
 
-                    this.setMenuVisible(selfVisible, selfBtn);
+                    this.setMenuVisible(false, selfBtn);
                 },
             }
         ];

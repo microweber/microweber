@@ -1,3 +1,4 @@
+import { type } from "jquery";
 import { ElementManager } from "./element";
 
 export class ResizableInfo  {
@@ -105,8 +106,21 @@ export class Resizable  {
 
          var setHeight = target && (target.$name !== 'right' && target.$name !== 'left');
 
+
          if(setHeight) {
-            this.element.style.height = `${calcH}px`;
+
+            let heightProp = 'height';
+            if(this.settings.heightProp) {
+                if(typeof this.settings.heightProp === 'function') {
+                    this.settings.heightProp.call(this, calcH);
+                }
+                if(typeof this.settings.heightProp === 'string') {
+                    this.element.style[heightProp] = `${calcH}px`;
+                }
+            } else {
+                this.element.style[heightProp] = `${calcH}px`;
+            }
+
          }
 
 

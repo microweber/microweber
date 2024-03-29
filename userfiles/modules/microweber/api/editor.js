@@ -1253,47 +1253,6 @@ var MWEditor = function (options) {
             }
 
 
-            function nodePath(baseNode, targetNode, currentPath = []) {
-                if (baseNode == targetNode) return currentPath;
-                currentPath.unshift(targetNode);
-                return nodePath(baseNode, targetNode.parentNode, currentPath);
-              }
-
-              function pasteSplitManager(e) {
-                const {target: editor} = e;
-                const cursorNode = scope.getSelection().anchorNode;
-                const [child]    = nodePath(editor, cursorNode);
-                const wrappers   = Array.from({length: 2}, () => editor.cloneNode(false));
-
-
-
-                wrappers.forEach(wrapper => {
-                    wrapper.removeAttribute("id");
-                    wrapper.querySelectorAll('[style]').forEach(el => {
-                        el.removeAttribute("style");
-                    })
-                });
-
-
-                let seenChild = false;
-                for (const node of editor.childNodes) {
-                  if (!seenChild && node == child) {
-                    seenChild = true;
-                  } else if (!seenChild) {
-                    wrappers[0].append(node.cloneNode(true));
-                  } else {
-                    wrappers[1].append(node.cloneNode(true));
-                  }
-                }
-
-                wrappers.forEach(wrapper => {
-                    wrapper.removeAttribute("id");
-                    wrapper.querySelectorAll('[style]').forEach(el => {
-                        el.removeAttribute("style");
-                    })
-                });
-              }
-
 
 
 

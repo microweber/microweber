@@ -36,6 +36,17 @@
 .mw-layout-container{
     position: relative;
     z-index: 1;
+    &.mw-free-layout-container{
+        .mw-le-resizer-b{
+            opacity: 0;
+            transition: opacity .2s;
+        }
+        &:hover{
+            .mw-le-resizer-b{
+                opacity: 1;
+            }
+        }
+    }
 }
 .mw-layout-background-node{
     background-repeat: no-repeat;
@@ -46,8 +57,8 @@
     object-fit: cover;
 }
 .mw-layout-background-block video,
-.mw-layout-background-block, 
-.mw-layout-background-node, 
+.mw-layout-background-block,
+.mw-layout-background-node,
 .mw-layout-background-overlay{
     position: absolute !important;
     top: 0;
