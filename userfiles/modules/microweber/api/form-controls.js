@@ -734,12 +734,15 @@ mw.emitter = {
 
                     },
                     load: function(query, callback) {
+
+
+
                         var conf = {
                             method: 'POST',
                             url: url,
                             body: JSON.stringify({
                                 limit: '5',
-                                keyword: treeEl.value,
+                                keyword: query || treeEl.value,
                                 order_by: 'updated_at desc',
                                 search_in_fields: 'title',
                             })
