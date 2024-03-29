@@ -816,6 +816,7 @@ mw.emitter = {
 
                 scope.autoComplete.focus_node.addEventListener('click', e => {
                     e.stopPropagation()
+                    e.target.focus()
                 })
 
                 if(dialog) {
