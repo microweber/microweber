@@ -681,6 +681,7 @@ mw.emitter = {
             UIFormControllers._title(this.settings, root);
             var treeEl = document.createElement('input');
             treeEl.className = 'form-group mw-link-editor-posts-search';
+            treeEl.autocomplete = 'off';
 
             if (options.text) {
                 _linkText = mw.controlFields.field({
