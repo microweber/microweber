@@ -262,6 +262,7 @@ export const Draggable = function (options, rootSettings) {
 
 
 
+
                 if(!canUpload) {
                     return;
                 }
@@ -280,12 +281,8 @@ export const Draggable = function (options, rootSettings) {
                         var id = mw.id('dropped-video');
 
 
-                        // ElementManager(scope.target)[scope.action](`<div id="${id}" class="module module-video" data-type="video" autoplay="true" url="${res.src}" data-url="${res.src}">`);
-                        // ElementManager(scope.target)[scope.action](`<video id="${id}" class="module module-video" autoplay="true" controls playsinline style="width:100%" data-type="video" src="${res.src}" url="${res.src}" data-url="${res.src}">`);
                         ElementManager(scope.target)[scope.action](`<video id="${id}" class="element" autoplay="false" controls playsinline style="width:100%" data-type="video" src="${res.src}" url="${res.src}" data-url="${res.src}">`);
-                        setTimeout(() => {
-                             // mw.reload_module_everywhere('#' + id);
-                        }, 100)
+
                         mw.app.registerChange(edit);
 
                     } else if(isImage) {
@@ -326,17 +323,7 @@ export const Draggable = function (options, rootSettings) {
                     scope.dispatch('beforeDrop', {element: scope.element, event: e});
 
 
-
-                      // ElementManager(scope.target)[scope.action](scope.element);
-                    // todo
-
-
-
-
-                         ElementManager(scope.target)[scope.action](mw.top()._dragTarget);
-
-
-
+                    ElementManager(scope.target)[scope.action](mw.top()._dragTarget);
 
                     e.stopPropagation();
                     e.preventDefault();
