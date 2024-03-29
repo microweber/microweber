@@ -1259,19 +1259,25 @@ var MWEditor = function (options) {
 
             scope.$editArea.on('keydown', async event => {
 
-                if (event.keyCode == 90 && event.ctrlKey)  {
-                    if(event.shiftKey) {
-                        scope.state.redo()
-                    } else {
+                const ignoreTargets = ['TEXTAREA', 'INPUT', 'SELECT', 'BUTTON'];
 
-                        scope.state.undo()
+
+                if(!ignoreTargets.includes(event.target.nodeName)) {
+
+                    if (event.keyCode == 90 && event.ctrlKey)  {
+                        if(event.shiftKey) {
+                            scope.state.redo()
+                        } else {
+
+                            scope.state.undo()
+                        }
+                        event.preventDefault()
+                    } else if (event.keyCode == 89 && event.ctrlKey)  {
+                        if(!event.shiftKey) {
+                            scope.state.redo()
+                        }
+                        event.preventDefault()
                     }
-                    event.preventDefault()
-                } else if (event.keyCode == 89 && event.ctrlKey)  {
-                    if(!event.shiftKey) {
-                        scope.state.redo()
-                    }
-                    event.preventDefault()
                 }
             });
 
