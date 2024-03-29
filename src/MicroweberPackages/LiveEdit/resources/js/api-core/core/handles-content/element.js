@@ -244,7 +244,7 @@ export class ElementHandleContent {
 
             },
             ...elementResetImageSizeMenu,
-            ...elementEditImageUploadMenu,
+           // ...elementEditImageUploadMenu,
 
 
         ];
@@ -607,7 +607,8 @@ export class ElementHandleContent {
 
             //    ...cloneAbleMenuInMoreMenu,
 
-            ...elementEditImageInEditorMenu,
+            ...elementEditImageUploadMenu,
+           // ...elementEditImageInEditorMenu,
             //   ...elementEditImageAlignMenu,
             // ...elementEditImageAlignMenuAlignLeft,
             // ...elementEditImageAlignMenuAlignRight,

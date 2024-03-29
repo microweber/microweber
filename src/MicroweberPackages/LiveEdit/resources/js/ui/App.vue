@@ -7,7 +7,7 @@
         <ListLayouts></ListLayouts>
         <ListModules></ListModules>
        <ElementSettingsModal></ElementSettingsModal>
-       <ModalsContainer ></ModalsContainer >
+<!--       <ModalsContainer ></ModalsContainer >-->
 
     </div>
 
