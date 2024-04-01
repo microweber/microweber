@@ -81,6 +81,13 @@ To run Microweber, you need the following components:
     - `pdo_sqlite` PHP extension
     - `pdo_mysql` PHP extension
 
+### PHP installation command
+
+```bash
+sudo apt install php8.2-{bcmath,bz2,curl,curl,dom,fileinfo,gd,intl,mbstring,mysql,opcache,sqlite3,xmlrpc,zip}
+```
+
+
 ### HTTP Server
 
 #### Apache
