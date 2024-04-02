@@ -46,7 +46,16 @@ trait TestHelpers {
             'url' => $url,
             'content_type' => 'product',
             'subtype' => 'product',
+            
             'is_active' => 1,
+
+            'custom_fields_advanced' => array(
+                array('type'=>'dropdown','name'=>'Color', 'value' => array('Purple','Blue')),
+                array('type'=>'upload','name'=>'User image', 'required' => 'true'),
+                array('type'=>'upload','name'=>'Company logo', 'required' => 'true'),
+                array('type'=>'price','name'=>'Price', 'value' => '9.99'),
+
+            ),
         );
         $saveProduct = save_content($params);
 

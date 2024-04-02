@@ -187,6 +187,19 @@ function get_currency_code() {
     return $curr;
 }
 
+
+
+/**
+ * @see get_currency_code()
+ * @alias get_currency_code()
+ */
+if (!function_exists('currency_code')) {
+    function currency_code() {
+        return get_currency_code();
+    }
+}
+
+
 function mw_shop_recover_shopping_cart($sid = false)
 {
     return mw()->cart_manager->recover_cart($sid);

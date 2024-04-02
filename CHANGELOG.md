@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [2.0.13] - 2024-03-11
+## [2.0.13] - 2024-04-02
 - Maintenance release
 - Fixes on the backup module
 - Fixes on the contact form module

@@ -10,17 +10,17 @@ class LivewireHeadTags implements TagInterface, \Stringable
     public function toHtml(): string
     {
 
-
+/*
         $alpineUrl = mw_includes_url() . 'api/libs/alpine/alpine.min.js';
 
-        $alpineScript = '<script src="' . $alpineUrl . '" defer></script>';
+        $alpineScript = '<script src="' . $alpineUrl . '" defer></script>';*/
 
         $scripts = \Livewire\Livewire::scripts();
         $styles = \Livewire\Livewire::styles();
-        $modal = \Livewire\Livewire::mount('livewire-ui-modal')->html();
+       // $modal = \Livewire\Livewire::mount('livewire-ui-modal')->html();
 
         $append_html = '' . "\r\n";
-        $append_html .= $alpineScript . "\r\n";
+      //  $append_html .= $alpineScript . "\r\n";
         $append_html .= $scripts . "\r\n";
         $append_html .= $styles . "\r\n";
 
