@@ -89,6 +89,9 @@ export default {
 
 
 
+            if(this.target.classList.contains('mw-free-layout-container')) {
+                this.target = this.target.querySelector('.edit')
+            }
             let itm = await mw.app.editor.insertModule(module, options, 'bottom', this.target, 'append');
 
 
@@ -104,7 +107,7 @@ export default {
                 itm = wrapper.get(0)
 
             }
-            mw.top().app.freeDraggableElementManager.freeLayoutNodes(this.target)
+            // mw.top().app.freeDraggableElementManager.freeLayoutNodes(this.target)
             mw.top().app.freeDraggableElementManager.makeFreeDraggableElement(itm)
 
             this.showModal = false;

@@ -208,7 +208,11 @@ export const Draggable = function (options, rootSettings) {
 
 
 
-             if(e.target !== mw.top()._dragTarget || !mw.top()._dragTarget.contains(e.target)) {
+
+             if(DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['mw-free-layout-container'])) {
+                 return;
+
+             } else if(e.target !== mw.top()._dragTarget || !mw.top()._dragTarget.contains(e.target)) {
                  var targetAction = scope.dropableService.getTarget(e.target, scope.element);
 
 
