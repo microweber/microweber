@@ -11,14 +11,21 @@ description: Shop Inner
 */
 ?>
 <?php
+$for_id = $for_id ?? false;
+if (!isset($params['content-id'])) {
+    if(content_id()){
+        $for_id = content_id();
+    }
+} else {
+    $for_id = $params['content-id'];
+}
 
-if (isset($params['content-id'])) {
-    $product = get_content_by_id($params["content-id"]);
+if ($for_id) {
+    $product = get_content_by_id($for_id);
     $title = $product['title'];
 } else {
     $title = _e("Product", true);
 }
-
 
 ?>
 
