@@ -237,7 +237,9 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
 
 
             resizer.on('resizeStart', () => {
-                document.body.classList.add('mw-live--layout-resizing');
+                console.log(12)
+
+                mw.top().app.canvas.getDocument().body.classList.add('mw-live--layout-resizing');;
                 mw.top().app.liveEdit.handles.hide();
                 mw.app.liveEdit.pause();
             });
@@ -250,7 +252,7 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
 
                 FreeDraggableElementManager.saveLayoutHeight(node);
 
-                document.body.classList.remove('mw-live--layout-resizing');
+                mw.top().app.canvas.getDocument().body.classList.remove('mw-live--layout-resizing');;
 
                 mw.app.liveEdit.play();
             })

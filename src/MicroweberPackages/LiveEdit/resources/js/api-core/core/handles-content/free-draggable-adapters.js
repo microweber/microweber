@@ -93,7 +93,7 @@ export const movable = function(element, container) {
                 node.removeAttribute('style')
             });
 
-            mw.top().app.freeDraggableElementManager.saveLayoutHeight(container);
+            mw.top().app.freeDraggableElementTools.saveLayoutHeight(container);
 
             mvb.info.hide()
 
@@ -179,18 +179,7 @@ export const movable = function(element, container) {
                   });
 
                 rec.instance.selfElement.style.display = 'block';
-                /*const off = ElementManager(node).offset();
-                console.log(node)
-                console.log(off)
-                console.log(rec.instance)
 
-                ElementManager(rec.element).css({
-                    top: off.offsetTop + 'px',
-                    left: off.offsetLeft + 'px',
-                    width: off.width + 'px',
-                    height: off.height + 'px',
-                    display: 'block'
-                })*/
             }
 
         }
@@ -203,8 +192,13 @@ export const movable = function(element, container) {
         })
         const layout = mw.top().app.freeDraggableElementTools.getElementContainer(node)
         if(layout ) {
-            let rec = mw.top()._freeContainers.some(obj => obj.container === layout);
+            let rec = mw.top()._freeContainers.find(obj => obj.container === layout);
             if(rec){
+                rec.instance.setState({
+                    target: node
+                  }, (e,b) => {
+
+                  });
                 rec.instance.selfElement.style.display = 'block';
             }
 
