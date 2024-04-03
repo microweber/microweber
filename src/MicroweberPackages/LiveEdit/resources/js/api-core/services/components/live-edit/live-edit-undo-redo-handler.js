@@ -93,6 +93,11 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
             var target = data.active.target;
 
 
+            if(target === '$liveEditStyle' && mw.top().app.cssEditor) {
+                console.log(data.active)
+                mw.top().app.cssEditor.style(data.active.value.selector, data.active.value.value, false);
+                return;
+            }
             if(target === '$liveEditCSS' && mw.top().app.cssEditor) {
                 mw.top().app.cssEditor.setPropertyForSelector(data.active.value.selector, data.active.value.property, data.active.value.value, false);
                 return;

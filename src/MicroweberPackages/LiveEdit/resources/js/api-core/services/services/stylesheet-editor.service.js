@@ -1,6 +1,7 @@
 import MicroweberBaseClass from "../containers/base-class.js";
 import CSSJSON from "../../core/libs/cssjson/cssjson.js";
 import getComputedStyle from "@popperjs/core/lib/dom-utils/getComputedStyle";
+import { type } from "jquery";
 
 mw.lib.require('jseldom');
 
@@ -303,6 +304,14 @@ export class StylesheetEditor extends MicroweberBaseClass {
         } else {
             val = (val || '').trim();
         }
+
+        if(typeof(node) === 'string') {
+            node = mw.app.canvas.getDocument().querySelector(node);
+        }
+        if(!node) {
+            return;
+        }
+
         if (node.length) {
             node = node[0];
         }

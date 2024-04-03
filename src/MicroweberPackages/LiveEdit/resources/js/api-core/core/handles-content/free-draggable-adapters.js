@@ -8,14 +8,20 @@ export const movable = function(element, container) {
 
     const Mvb = mw.top().app.canvas.getWindow().Moveable;
 
-    if(!mw.top()._freeContainers) {
 
-        mw.top()._freeContainers = [];
-    }
 
-    const containerMovable = mw.top()._freeContainers.find(instance => instance.container === container);
+        const toRemove = ['mw-le-resizer', 'moveable-control-box', 'mw-free-node-controller', 'mw-le-resizable--info']
 
-    if(!containerMovable) {
+        Array.from(container.children).forEach(node => {
+            for (let i = 0; i < toRemove.length; i++) {
+                if(node.classList.contains(toRemove[i])) {
+                    node.remove();
+                    break;
+                }
+            }
+        })
+
+
 
         const mvb = new Mvb(container, {
             target: element,
@@ -54,12 +60,7 @@ export const movable = function(element, container) {
 
          });
 
-
-
-
-
-
-
+         container.__mvb = mvb
 
 
          mvb.selfElement.classList.add('no-element');
@@ -68,11 +69,27 @@ export const movable = function(element, container) {
             element: mvb.selfElement.querySelector('.moveable-s')
          })
 
-      ;
+
 
 
 
         const beforeChange = (e) => {
+            const ccss = getComputedStyle(e.target);
+            const css = {
+                width: ccss.width,
+                height: ccss.height,
+                minHeight: ccss.minHeight,
+                top: ccss.top,
+                left: ccss.left,
+                transform: ccss.transform,
+            }
+             mw.top().app.state.record({
+                target: '$liveEditStyle',
+                value: {
+                    selector:  mw.tools.generateSelectorForNode(e.target),
+                    value: css
+                }
+            });
             container.querySelectorAll('[data-mw-free-element]').forEach(node => {
                 // if(node !== e.target){
                     mw.top().app.freeDraggableElementTools.toPixel(node);
@@ -81,23 +98,41 @@ export const movable = function(element, container) {
              if(element.nodeName === 'IMG' && getComputedStyle(element).objectFit === 'fill'){
                 mw.top().app.cssEditor.style(element, {
                     'object-fit': 'contain'
-                });
+                }, false);
              }
+
         }
         const afterChanged = (e) => {
 
 
             container.querySelectorAll('[data-mw-free-element]').forEach(node => {
                 mw.top().app.freeDraggableElementTools.toPercent(node);
-                mw.top().app.cssEditor.style(node, mw.top().app.freeDraggableElementTools.getStyle(node));
+                mw.top().app.cssEditor.style(node, mw.top().app.freeDraggableElementTools.getStyle(node), false);
                 node.removeAttribute('style')
             });
 
             mw.top().app.freeDraggableElementTools.saveLayoutHeight(container);
 
-            mvb.info.hide()
+            mvb.info.hide();
 
-            mw.app.registerChangedState(container);
+            const ccss = getComputedStyle(e.target);
+            const css = {
+                width: ccss.width,
+                height: ccss.height,
+                minHeight: ccss.minHeight,
+                top: ccss.top,
+                left: ccss.left,
+                transform: ccss.transform,
+            }
+             mw.top().app.state.record({
+                target: '$liveEditStyle',
+                value: {
+                    selector:  mw.tools.generateSelectorForNode(e.target),
+                    value: css
+                }
+            });
+
+            // mw.app.registerChangedState(mw.tools.firstParentOrCurrentWithClass(e.target, 'edit'), true);
             mw.app.dispatch('liveEditRefreshHandlesPosition');
         }
 
@@ -130,14 +165,7 @@ export const movable = function(element, container) {
             e.target.style[heightProp] = `${e.height}px`;
             // e.target.style.transform = 'none';
 
-
-
-
-
             e.target.style.transform =  e.transform
-
-
-
 
             mw.top().app.liveEdit.handles.hide();
             mw.app.liveEdit.pause();
@@ -156,58 +184,6 @@ export const movable = function(element, container) {
             instance: mvb,
             element
         })
-    }
-
-
-
-    mw.top().app.liveEdit.handles.get('element').on('targetChange', node => {
-
-        mw.top()._freeContainers.forEach(obj => {
-
-            obj.instance.selfElement.style.display = 'none';
-        });
-
-        const layout = mw.top().app.freeDraggableElementTools.getElementContainer(node)
-        if(layout ) {
-            let rec = mw.top()._freeContainers.find(obj => obj.container === layout);
-
-            if(rec){
-                rec.instance.setState({
-                    target: node
-                  }, (e,b) => {
-
-                  });
-
-                rec.instance.selfElement.style.display = 'block';
-
-            }
-
-        }
-
-
-    })
-    mw.top().app.liveEdit.handles.get('module').on('targetChange', node => {
-        mw.top()._freeContainers.forEach(obj => {
-            obj.instance.selfElement.style.display = 'none';
-        })
-        const layout = mw.top().app.freeDraggableElementTools.getElementContainer(node)
-        if(layout ) {
-            let rec = mw.top()._freeContainers.find(obj => obj.container === layout);
-            if(rec){
-                rec.instance.setState({
-                    target: node
-                  }, (e,b) => {
-
-                  });
-                rec.instance.selfElement.style.display = 'block';
-            }
-
-        }
-    })
-
-    if(!element || element.__mw_movable) {
-        return;
-    }
 
 
 

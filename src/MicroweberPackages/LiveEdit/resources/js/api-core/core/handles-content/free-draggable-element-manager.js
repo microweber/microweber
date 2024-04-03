@@ -149,116 +149,189 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
     constructor() {
         super();
 
-        mw.app.on('onLiveEditReady', event => {
+        mw.top().on('onLiveEditReady', event => {
             this.init();
         });
 
+        mw.top().app.state.on('undo', () => this.initLayouts());
+        mw.top().app.state.on('redo', () => this.initLayouts());
+
+
+        this.#handleTargetChange();
+
+
+    }
+
+    #handleTargetChange(){
+        mw.top().app.liveEdit.handles.get('element').on('targetChange', node => {
+
+            if(!mw.top()._freeContainers){
+                return
+            }
+
+            mw.top()._freeContainers.forEach(obj => {
+
+                obj.instance.selfElement.style.display = 'none';
+            });
+
+            const layout = mw.top().app.freeDraggableElementTools.getElementContainer(node)
+            if(layout ) {
+                let rec = mw.top()._freeContainers.find(obj => obj.container === layout);
+
+                if(rec){
+                    rec.instance.setState({
+                        target: node
+                      }, (e,b) => {
+
+                      });
+
+                    rec.instance.selfElement.style.display = 'block';
+
+                }
+
+            }
+
+
+        })
+        mw.top().app.liveEdit.handles.get('module').on('targetChange', node => {
+            if(!mw.top()._freeContainers){
+                return
+            }
+            mw.top()._freeContainers.forEach(obj => {
+                obj.instance.selfElement.style.display = 'none';
+            })
+            const layout = mw.top().app.freeDraggableElementTools.getElementContainer(node)
+            if(layout ) {
+                let rec = mw.top()._freeContainers.find(obj => obj.container === layout);
+                if(rec){
+                    rec.instance.setState({
+                        target: node
+                      }, (e,b) => {
+
+                      });
+                    rec.instance.selfElement.style.display = 'block';
+                }
+
+            }
+        })
     }
 
     #adapter  = adapter;
 
-    initLayouts() {
-        const Mvb = mw.top().app.canvas.getWindow().Moveable;
-        mw.top().app.canvas.getDocument().querySelectorAll('.mw-free-layout-container').forEach(node => {
+    initLayout(node) {
+        const _freNodeController = document.createElement('div');
+        _freNodeController.classList.add('mw-free-node-controller');
+        _freNodeController.style.position = 'absolute';
+        _freNodeController.style.zIndex = '10';
+        node.appendChild(_freNodeController);
+
+        console.log('initLayout', node);
 
 
-            if(node.__layoutReady) {
+        const sync = (css = {}) => {
+            for (const key in css) {
+                _freNodeController.target.style[key] = css[key];
+            }
+        }
+
+
+        this.#adapter.call(this, _freNodeController, node, this);
+        _freNodeController.style.display = 'none';
+
+
+
+        const resizer = new Resizable({
+            element: node,
+            document: node.ownerDocument,
+            direction: 'vertical',
+            heightProp: height => {
+                node.style.minHeight = Math.max(height, node.__autoLayoutHeight ? node.__autoLayoutHeight : 100 ) + 'px';
+            },
+        });
+
+        resizer.on('ready', () => {
+            if(!resizer.handles){
                 return;
             }
-            node.__layoutReady = true;
+            resizer.handles.top.style.display = 'none';
+            resizer.handles.right.style.display = 'none';
+
+            resizer.handles.left.style.display = 'none';
+        });
+
+        resizer.mount();
 
 
 
-            const _freNodeController = document.createElement('div');
-            _freNodeController.classList.add('mw-free-node-controller');
-            _freNodeController.style.position = 'absolute';
-            _freNodeController.style.zIndex = '10';
-            node.appendChild(_freNodeController);
-
-
-            const sync = (css = {}) => {
-                for (const key in css) {
-                    _freNodeController.target.style[key] = css[key];
-                }
-            }
-
-
-            this.#adapter.call(this, _freNodeController, node, this);
-
-
-
-            const resizer = new Resizable({
-                element: node,
-                document: node.ownerDocument,
-                direction: 'vertical',
-                heightProp: height => {
-                    node.style.minHeight = Math.max(height, node.__autoLayoutHeight ? node.__autoLayoutHeight : 100 ) + 'px';
-                },
-            });
-
-            resizer.on('ready', () => {
-                if(!resizer.handles){
-                    return;
-                }
-                resizer.handles.top.style.display = 'none';
-                resizer.handles.right.style.display = 'none';
-
-                resizer.handles.left.style.display = 'none';
-            });
-
-            resizer.mount();
+        ElementManager(resizer.handles.bottom ).css({
+            'width': '35px',
+            'height': '35px',
+            'background': '#0078ff',
+            'right': '10%',
+            'bottom': '25px',
+            'left': 'auto',
+            'padding': '8px',
+            'border-radius': '5px',
+        }).html(`
+        <svg height="19px" width="19px" version="1.1"   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 349.455 349.455" xml:space="preserve">
+            <path style="fill:#ffffff;" d="M248.263,240.135c-1.407-1.407-3.314-2.197-5.304-2.197c-1.989,0-3.896,0.79-5.304,2.197
+                l-45.429,45.429l0.001-221.673l45.428,45.429c1.407,1.407,3.314,2.197,5.304,2.197c1.989,0,3.896-0.79,5.304-2.197l14.143-14.143
+                c1.406-1.406,2.196-3.314,2.196-5.303c0-1.989-0.79-3.897-2.196-5.303L180.032,2.197C178.625,0.79,176.717,0,174.728,0
+                c-1.989,0-3.896,0.79-5.304,2.197L87.049,84.573c-1.406,1.407-2.196,3.314-2.196,5.303c0,1.989,0.79,3.897,2.197,5.304
+                l14.143,14.142c1.464,1.464,3.384,2.196,5.303,2.196c1.919,0,3.839-0.732,5.304-2.197l45.429-45.43l-0.001,221.673l-45.428-45.429
+                c-1.407-1.407-3.314-2.197-5.304-2.197c-1.989,0-3.896,0.79-5.304,2.197l-14.143,14.143c-1.406,1.406-2.196,3.314-2.196,5.303
+                c0,1.989,0.79,3.897,2.196,5.303l82.374,82.374c1.465,1.464,3.385,2.197,5.304,2.197c1.919,0,3.839-0.733,5.304-2.197l82.375-82.375
+                c1.406-1.406,2.196-3.314,2.196-5.303c0-1.989-0.79-3.897-2.196-5.303L248.263,240.135z"/>
+        </svg>
+        `)
 
 
 
+        resizer.on('resizeStart', () => {
 
-            ElementManager(resizer.handles.bottom ).css({
-                'width': '35px',
-                'height': '35px',
-                'background': '#0078ff',
-                'right': '10%',
-                'bottom': '25px',
-                'left': 'auto',
-                'padding': '8px',
-                'border-radius': '5px',
-            }).html(`
-            <svg height="19px" width="19px" version="1.1"   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 349.455 349.455" xml:space="preserve">
-                <path style="fill:#ffffff;" d="M248.263,240.135c-1.407-1.407-3.314-2.197-5.304-2.197c-1.989,0-3.896,0.79-5.304,2.197
-                    l-45.429,45.429l0.001-221.673l45.428,45.429c1.407,1.407,3.314,2.197,5.304,2.197c1.989,0,3.896-0.79,5.304-2.197l14.143-14.143
-                    c1.406-1.406,2.196-3.314,2.196-5.303c0-1.989-0.79-3.897-2.196-5.303L180.032,2.197C178.625,0.79,176.717,0,174.728,0
-                    c-1.989,0-3.896,0.79-5.304,2.197L87.049,84.573c-1.406,1.407-2.196,3.314-2.196,5.303c0,1.989,0.79,3.897,2.197,5.304
-                    l14.143,14.142c1.464,1.464,3.384,2.196,5.303,2.196c1.919,0,3.839-0.732,5.304-2.197l45.429-45.43l-0.001,221.673l-45.428-45.429
-                    c-1.407-1.407-3.314-2.197-5.304-2.197c-1.989,0-3.896,0.79-5.304,2.197l-14.143,14.143c-1.406,1.406-2.196,3.314-2.196,5.303
-                    c0,1.989,0.79,3.897,2.196,5.303l82.374,82.374c1.465,1.464,3.385,2.197,5.304,2.197c1.919,0,3.839-0.733,5.304-2.197l82.375-82.375
-                    c1.406-1.406,2.196-3.314,2.196-5.303c0-1.989-0.79-3.897-2.196-5.303L248.263,240.135z"/>
-            </svg>
-            `)
+
+            mw.top().app.canvas.getDocument().body.classList.add('mw-live--layout-resizing');;
+            mw.top().app.liveEdit.handles.hide();
+            mw.app.liveEdit.pause();
+        });
 
 
 
-            resizer.on('resizeStart', () => {
-                console.log(12)
-
-                mw.top().app.canvas.getDocument().body.classList.add('mw-live--layout-resizing');;
-                mw.top().app.liveEdit.handles.hide();
-                mw.app.liveEdit.pause();
-            });
+        resizer.on('resizeStop', () => {
 
 
 
-            resizer.on('resizeStop', () => {
+            FreeDraggableElementManager.saveLayoutHeight(node);
 
+            mw.top().app.canvas.getDocument().body.classList.remove('mw-live--layout-resizing');;
 
-
-                FreeDraggableElementManager.saveLayoutHeight(node);
-
-                mw.top().app.canvas.getDocument().body.classList.remove('mw-live--layout-resizing');;
-
-                mw.app.liveEdit.play();
-            })
-
-
+            mw.app.liveEdit.play();
         })
+
+
+    }
+
+    initLayouts() {
+
+        if(!mw.top()._freeContainers) {
+
+            mw.top()._freeContainers = [];
+        }
+
+        let layouts = mw.top().app.canvas.getDocument().querySelectorAll('.mw-free-layout-container');
+
+
+        mw.top()._freeContainers = mw.top()._freeContainers.filter(instance => !!instance.container.__mvb);
+
+        let i = 0, l = layouts.length;
+        for ( ; i < l; i++) {
+            const containerMovable = mw.top()._freeContainers.find(instance => instance.container === layouts[i] );
+            console.log(containerMovable, this)
+            if(!containerMovable) {
+                this.initLayout(layouts[i])
+            }
+        }
     }
 
 
