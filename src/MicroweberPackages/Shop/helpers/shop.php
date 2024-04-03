@@ -172,6 +172,13 @@ function currency_format($amount, $curr = false)
 {
     return app()->shop_manager->currency_format($amount, $curr);
 }
+
+function currency_symbol($curr = false)
+{
+    return get_currency_symbol($curr);
+}
+
+
 function get_currency_symbol($curr = false)
 {
     return app()->shop_manager->currency_symbol($curr);

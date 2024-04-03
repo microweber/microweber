@@ -1,3 +1,4 @@
+<?php must_have_access(); ?>
 <script type="text/javascript">
     $(document).ready(function () {
         mw.options.form('#maintenance_mode_option', function () {

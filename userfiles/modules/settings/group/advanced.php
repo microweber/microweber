@@ -159,6 +159,16 @@
                                       </div>
                                   </div>
                               </div>
+
+                              <div class="col-xl-6 col-12 my-xl-0 my-3">
+                                  <div class="card mx-2 h-100">
+                                      <div class="card-body">
+                                          <label class="form-label"><?php _e("Web App manifest settings"); ?></label>
+                                          <small class="advanced-settings-small-helper d-block mb-2"><?php _e("Configuring Web App manifest settings"); ?></small>
+                                          <a class="btn btn-sm btn-outline-primary" href="javascript:settings_load_module('Web app settings','settings/group/web_manifest_settings')"><?php _e("Edit Web App manifest settings"); ?></a>
+                                      </div>
+                                  </div>
+                              </div>
                           </div>
 
 
