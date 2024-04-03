@@ -1,4 +1,3 @@
-
 <?php
 if (isset($params['name'])) {
     $params['menu-name'] = $params['name'];
