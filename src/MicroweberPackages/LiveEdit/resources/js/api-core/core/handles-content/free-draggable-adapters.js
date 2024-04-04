@@ -1,6 +1,7 @@
 
 import { ElementManager } from "../classes/element";
 import { ResizableInfo } from "../classes/resizable";
+import liveEditHelpersService from "../live-edit-helpers.service";
 
 export const movable = function(element, container) {
 
@@ -165,7 +166,10 @@ export const movable = function(element, container) {
             e.target.style[heightProp] = `${e.height}px`;
             // e.target.style.transform = 'none';
 
-            e.target.style.transform =  e.transform
+            e.target.style.transform =  e.transform;
+            if(liveEditHelpersService.targetIsIcon(e.target)) {
+                e.target.style.fontSize = `${e.height}px`;
+            }
 
             mw.top().app.liveEdit.handles.hide();
             mw.app.liveEdit.pause();

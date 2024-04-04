@@ -120,7 +120,8 @@ export default {
                 itm.id = id
             }
 
-            mw.top().app.freeDraggableElementManager.initLayouts()
+            mw.top().app.freeDraggableElementManager.initLayouts();
+            mw.top().app.freeDraggableElementManager.freeElement(itm,  mw.top().tools.firstParentOrCurrentWithClass(this.target, 'mw-free-layout-container'));
 
             mw.app.registerChangedState(edit, true)
 
