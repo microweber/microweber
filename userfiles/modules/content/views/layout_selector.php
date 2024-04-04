@@ -556,6 +556,17 @@ mw.reload_module("#<?php print $params['id']?>", function () {
                                             <small class="text-muted d-block mb-2"><?php _e("You are using this template."); ?> &nbsp; <?php _e("The change will affect only the current page."); ?></small>
                                             <div>
                                                 <?php if ($templates != false and !empty($templates)): ?>
+
+                                                <?php
+
+                                                    // sort by name
+                                                    usort($templates, function($a, $b) {
+                                                        if(isset($a['name']) && isset($b['name'])) {
+                                                            return strcmp($a['name'], $b['name']);
+                                                        }
+                                                    });
+                                                    ?>
+
                                                     <select name="active_site_template" id="active_site_template_<?php print $rand; ?>" class="form-select mw-edit-page-template-selector" data-width="100%" data-live-search="true" data-size="7">
                                                         <?php foreach ($templates as $item): ?>
                                                             <?php
