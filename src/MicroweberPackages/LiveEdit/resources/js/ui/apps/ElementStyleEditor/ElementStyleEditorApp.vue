@@ -58,7 +58,7 @@
             </div>
 
 
-<!--            
+<!--
 <div class="mb-4" v-show="showPosition">
                 <ElementStyleEditorPosition></ElementStyleEditorPosition>
             </div>-->

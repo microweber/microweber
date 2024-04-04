@@ -418,6 +418,13 @@ export default {
                 mw.app.liveEdit.handles.reposition();
             });
 
+            mw.top().app.freeDraggableElementManager.initLayouts();
+            mw.app.canvas.on('liveEditCanvasLoaded',function(frame){
+                 mw.top().app.freeDraggableElementManager.initLayouts();
+            });
+``
+
+
             mw.top().app.on('mw.elementStyleEditor.applyCssPropertyToNode', function (data) {
 
                 //free draggable element
