@@ -133,8 +133,15 @@ export const movable = function(element, container) {
                 }
             });
 
+
+
             // mw.app.registerChangedState(mw.tools.firstParentOrCurrentWithClass(e.target, 'edit'), true);
             mw.app.dispatch('liveEditRefreshHandlesPosition');
+
+
+            mw.top().app.registerChange(e.target);
+
+            mw.top().app.registerAskUserToStay(true);
         }
 
         mvb.on("dragStart", beforeChange)

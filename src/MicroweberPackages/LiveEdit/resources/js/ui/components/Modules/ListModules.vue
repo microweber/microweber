@@ -95,7 +95,7 @@ export default {
                 this.target = this.target.querySelector('.edit')
             }
 
-            const edit = mw.top().tools.firstParentWithClass(this.target, 'edit')
+            const edit = mw.top().tools.firstParentOrCurrentWithClass(this.target, 'edit')
             mw.app.registerChangedState(edit, true)
             let itm = await mw.app.editor.insertModule(module, options, 'bottom', this.target, 'append');
 
