@@ -431,8 +431,8 @@ export default {
                         || data.val === 'unset'
                         || data.val === 'revert'
                     ) {
-
-                        mw.top().app.liveEdit.elementHandleContent.elementActions.destroyFreeDraggableElement(data.node)
+//@todo
+                      //  mw.top().app.liveEdit.elementHandleContent.elementActions.destroyFreeDraggableElement(data.node)
                     //    mw.app.dispatch('liveEditRefreshHandlesPosition');
 
                     }
@@ -442,7 +442,8 @@ export default {
                         || data.val === 'fixed'
                         || data.val === 'sticky'
                     ) {
-                        mw.top().app.liveEdit.elementHandleContent.elementActions.makeFreeDraggableElement(data.node)
+                        //@todo 
+                      //  mw.top().app.liveEdit.elementHandleContent.elementActions.makeFreeDraggableElement(data.node)
                         //mw.app.dispatch('liveEditRefreshHandlesPosition');
                     }
                 }
