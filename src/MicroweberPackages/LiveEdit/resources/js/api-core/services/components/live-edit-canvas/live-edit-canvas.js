@@ -128,10 +128,9 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
             target.classList.add('live-edit-frame-loaded');
 
-            // liveEditIframe.contentWindow.addEventListener('beforeunload', event => {
-            //     mw.spinner({element: target, decorate: true, size: 52}).show()
-            //
-            // });
+           ['mousedown', 'touchstart'].forEach(e => {
+            liveEditIframe.contentWindow.document.body.addEventListener(e, event => this.dispatch('canvasDocumentClickStart', event));
+           })
 
             liveEditIframe.contentWindow.document.body.addEventListener('click', (event) => {
 

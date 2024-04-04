@@ -1,7 +1,7 @@
 import MicroweberBaseClass from "../../services/containers/base-class";
 import { DomService } from "../classes/dom";
 import { ElementManager } from "../classes/element";
-import { ResizableInfo } from "../classes/resizable";
+
 import { movable } from "./free-draggable-adapters";
 
 
@@ -45,7 +45,7 @@ export class FreeDraggableElementManagerTools extends MicroweberBaseClass {
     }
 
     static toPercent(node, container){
-        return;
+
         if(!node || node.nodeType !== 1) {
             return
         }
@@ -65,8 +65,25 @@ export class FreeDraggableElementManagerTools extends MicroweberBaseClass {
 
     }
 
+    static getFreeElements(container) {
+        return container.querySelectorAll('[data-mw-free-element="true"]');
+    }
+
+    static containerElementsToPixel(container){
+        FreeDraggableElementManagerTools
+            .getFreeElements(container)
+            .forEach(node => FreeDraggableElementManagerTools.toPixel(node));
+    }
+
+
+    static containerElementsToPercent(container){
+        FreeDraggableElementManagerTools
+            .getFreeElements(container)
+            .forEach(node => FreeDraggableElementManagerTools.toPercent(node));
+    }
+
     static toPixel(node){
-        return;
+
 
         if(!node || node.nodeType !== 1) {
             return
@@ -183,6 +200,12 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
                         target: node
                       }, (e,b) => {
 
+                        rec.instance.dragStart({
+                            target: node,
+                            type: 'targetChange',
+                            preventDefault: e => 1,
+                            ...mw.top().app.liveEdit.pointerCoordinates
+                    })
                       });
 
                     rec.instance.selfElement.style.display = 'block';
@@ -290,6 +313,7 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
 
         resizer.on('resizeStart', () => {
 
+            FreeDraggableElementManagerTools.containerElementsToPixel(node)
 
             mw.top().app.canvas.getDocument().body.classList.add('mw-live--layout-resizing');;
             mw.top().app.liveEdit.handles.hide();
@@ -303,6 +327,7 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
 
 
             FreeDraggableElementManager.saveLayoutHeight(node);
+            FreeDraggableElementManagerTools.containerElementsToPercent(node)
 
             mw.top().app.canvas.getDocument().body.classList.remove('mw-live--layout-resizing');;
 
@@ -391,6 +416,7 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
         const css = getComputedStyle(element);
         if (css.position === 'static') {
             element.style.position = 'absolute';
+            element.style.maxWidth = '100%';
             element.style.top = container.offsetHeight/2 - element.offsetHeight/2 + 'px';
             element.style.left = container.offsetWidth/2 - element.offsetWidth/2 + 'px';
         }

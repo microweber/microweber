@@ -1,4 +1,5 @@
 
+import { parse } from "vue/compiler-sfc";
 import { ElementManager } from "../classes/element";
 import { ResizableInfo } from "../classes/resizable";
 import liveEditHelpersService from "../live-edit-helpers.service";
@@ -66,6 +67,10 @@ export const movable = function(element, container) {
 
          mvb.selfElement.classList.add('no-element');
 
+         mvb.rotateInfo = new ResizableInfo({
+            element: mvb.selfElement.querySelector('.moveable-rotation-control'),
+            position: 'top'
+         })
          mvb.info = new ResizableInfo({
             element: mvb.selfElement.querySelector('.moveable-s')
          })
@@ -114,6 +119,7 @@ export const movable = function(element, container) {
 
             mw.top().app.freeDraggableElementTools.saveLayoutHeight(container);
 
+            mvb.rotateInfo.hide();
             mvb.info.hide();
 
             const ccss = getComputedStyle(e.target);
@@ -154,26 +160,48 @@ export const movable = function(element, container) {
 
          mvb.on("drag", e => {
 
+            e.target.style.left = `${e.left}px`;
+            e.target.style.top = `${e.top}px`;
 
-
-            e.target.style.transform = e.transform
+           //  e.target.style.transform = e.transform
 
              mw.top().app.liveEdit.handles.hide();
              mw.app.liveEdit.pause();
              mw.top().app.freeDraggableElementManager.setLayoutHeight(container)
          });
-         mvb.on("scale", e => {
 
-            e.target.style.transform = e.transform;
-         })
+
+         var prevX = 0;
+         var prevY = 0;
+
          mvb.on("resize", e => {
             const heightProp = e.target.nodeName !== 'IMG' ? 'height' : 'height'
             e.target.style.width = `${e.width}px`;
             e.target.style.height = `auto`;
             e.target.style[heightProp] = `${e.height}px`;
-            // e.target.style.transform = 'none';
 
-            e.target.style.transform =  e.transform;
+
+
+            if(e.drag ) {
+                // e.target.style.left = `${e.drag.left + e.drag.layerX}px`;
+                // e.target.style.top = `${e.drag.top + e.drag.layerY}px`;
+
+                const delta = [...e.delta];
+                delta[0] = delta[0] > 1 ? 1 : delta[0] < -1 ? -1 : delta[0];
+                delta[1] = delta[1] > 1 ? 1 : delta[1] < -1 ? -1 : delta[1];
+
+
+                e.target.style.left = `${e.drag.left + (delta[0] )}px`;
+
+                e.target.style.top = `${e.drag.top + (delta[1] )}px`;
+
+
+
+            }
+
+            console.log(e.delta, e)
+
+            // e.target.style.transform =  e.transform;
             if(liveEditHelpersService.targetIsIcon(e.target)) {
                 e.target.style.fontSize = `${e.height}px`;
             }
@@ -181,13 +209,19 @@ export const movable = function(element, container) {
             mw.top().app.liveEdit.handles.hide();
             mw.app.liveEdit.pause();
             mw.top().app.freeDraggableElementManager.setLayoutHeight(container)
-            mvb.info.show(`${e.width}x${e.height}`)
+            mvb.info.show(`${e.width}x${e.height}`);
+
         });
         mvb.on("rotate", e => {
-            e.target.style.transform = e.drag.transform;
+            // e.target.style.transform = e.drag.transform;
+
+            e.target.style.transform = 'rotate(' + e.absoluteRotation + 'deg)';
             mw.top().app.liveEdit.handles.hide();
             mw.app.liveEdit.pause();
-            mw.top().app.freeDraggableElementManager.setLayoutHeight(container)
+            mw.top().app.freeDraggableElementManager.setLayoutHeight(container);
+            console.log(e)
+            //mvb.rotateInfo.show(`${e.absoluteRotation.toFixed(2)}&deg;`);
+            mvb.rotateInfo.show(`${Math.round(e.absoluteRotation)}&deg;`);
         });
 
         mw.top()._freeContainers.push({
