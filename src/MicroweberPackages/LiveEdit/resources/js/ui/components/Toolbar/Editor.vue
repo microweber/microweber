@@ -442,7 +442,7 @@ export default {
                         || data.val === 'fixed'
                         || data.val === 'sticky'
                     ) {
-                        //@todo 
+                        //@todo
                       //  mw.top().app.liveEdit.elementHandleContent.elementActions.makeFreeDraggableElement(data.node)
                         //mw.app.dispatch('liveEditRefreshHandlesPosition');
                     }

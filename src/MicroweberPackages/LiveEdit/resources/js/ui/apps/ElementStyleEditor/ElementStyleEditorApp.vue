@@ -58,9 +58,10 @@
             </div>
 
 
-            <div class="mb-4" v-show="showPosition">
+<!--            
+<div class="mb-4" v-show="showPosition">
                 <ElementStyleEditorPosition></ElementStyleEditorPosition>
-            </div>
+            </div>-->
 
             <div class="mb-4" v-show="showListStyleEditor">
                 <ElementStyleEditorUlOlListStyleEditor></ElementStyleEditorUlOlListStyleEditor>
