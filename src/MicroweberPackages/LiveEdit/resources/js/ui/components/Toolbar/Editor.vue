@@ -422,7 +422,7 @@ export default {
             mw.app.canvas.on('liveEditCanvasLoaded',function(frame){
                  mw.top().app.freeDraggableElementManager.initLayouts();
             });
-``
+ 
 
 
             mw.top().app.on('mw.elementStyleEditor.applyCssPropertyToNode', function (data) {
