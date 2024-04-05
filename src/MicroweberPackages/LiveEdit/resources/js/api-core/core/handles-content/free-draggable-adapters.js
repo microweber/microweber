@@ -35,6 +35,7 @@ export const movable = function(element, container) {
             throttleDragRotate: 0,
             resizable: true,
             rotatable: true,
+            throttleRotate: 1,
             selectable: true,
             snappable: true,
             scalable: false,
@@ -96,10 +97,13 @@ export const movable = function(element, container) {
                     value: css
                 }
             });
-            container.querySelectorAll('[data-mw-free-element]').forEach(node => {
-                // if(node !== e.target){
+
+            const isFixed = container.classList.contains('mw-free-layout-container-fixed');
+
+            mw.top().app.freeDraggableElementTools.getFreeElements(container).forEach(node => {
+                if(!isFixed){
                     mw.top().app.freeDraggableElementTools.toPixel(node);
-                // }
+                }
              });
              if(element.nodeName === 'IMG' && getComputedStyle(element).objectFit === 'fill'){
                 mw.top().app.cssEditor.style(element, {
@@ -111,8 +115,13 @@ export const movable = function(element, container) {
         const afterChanged = (e) => {
 
 
-            container.querySelectorAll('[data-mw-free-element]').forEach(node => {
-                mw.top().app.freeDraggableElementTools.toPercent(node);
+            const isFixed = container.classList.contains('mw-free-layout-container-fixed');
+
+            mw.top().app.freeDraggableElementTools.getFreeElements(container).forEach(node => {
+                if(!isFixed){
+                    mw.top().app.freeDraggableElementTools.toPercent(node);
+                }
+
                 mw.top().app.cssEditor.style(node, mw.top().app.freeDraggableElementTools.getStyle(node), false);
                 node.removeAttribute('style')
             });
@@ -160,8 +169,14 @@ export const movable = function(element, container) {
 
          mvb.on("drag", e => {
 
+            let etop = e.top;
+
+            if(etop < 0) {
+                etop = 0;
+            }
+
             e.target.style.left = `${e.left}px`;
-            e.target.style.top = `${e.top}px`;
+            e.target.style.top = `${etop}px`;
 
            //  e.target.style.transform = e.transform
 
@@ -223,6 +238,9 @@ export const movable = function(element, container) {
             //mvb.rotateInfo.show(`${e.absoluteRotation.toFixed(2)}&deg;`);
             mvb.rotateInfo.show(`${Math.round(e.absoluteRotation)}&deg;`);
         });
+
+        mw.top().app.canvas.on('resize', () => mvb.updateRect());
+
 
         mw.top()._freeContainers.push({
             container,
