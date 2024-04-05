@@ -421,6 +421,11 @@
                 mw.require(mw.settings.libs_url + 'codemirror' + '/style.css');
             }
 
+        ],
+        masonry: [
+            function () {
+                mw.require(mw.settings.libs_url + 'masonry' + '/masonry.js');
+            }
         ]
     };
 
