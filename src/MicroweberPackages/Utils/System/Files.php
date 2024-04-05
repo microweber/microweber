@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Utils\System;
 
+use Illuminate\Support\Str;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 use FilesystemIterator;
@@ -1117,6 +1118,11 @@ class Files
 
     public function is_allowed_file($fileName)
     {
+        if (Str::contains($fileName, ['*', ':', '?', '"', '<', '>', '|'])) {
+            return false;
+        }
+
+
         $allowedImages = $this->get_allowed_files_extensions_for_upload('images', true);
         $allowedVideos = $this->get_allowed_files_extensions_for_upload('videos', true);
         $allowedAudios = $this->get_allowed_files_extensions_for_upload('audios', true);

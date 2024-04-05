@@ -53,6 +53,7 @@ class ZipReader extends DefaultReader
             }
             $zipExtract->setLogger(ImportLogger::class);
             $extracted = $zipExtract->extractTo($backupLocation);
+
             if (!$extracted) {
                 return;
             }
@@ -61,6 +62,14 @@ class ZipReader extends DefaultReader
         }
 
         $files = array();
+
+        $backupLocation = normalize_path($backupLocation, false);
+        if(!is_dir($backupLocation)) {
+            ImportLogger::setLogInfo('The zip file has no files to import.');
+            return;
+        }
+
+
 
         $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($backupLocation));
         if ($rii) {
