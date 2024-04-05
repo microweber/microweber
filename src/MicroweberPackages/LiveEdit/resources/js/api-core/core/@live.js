@@ -45,6 +45,32 @@ export class LiveEdit {
         this.liveEditHelpers = liveEditHelpers;
 
 
+        this.pointerCoordinates = {
+            pageX: 0,
+            pageY: 0,
+            clientX: 0,
+            clientY: 0,
+        }
+
+
+
+
+mw.top().app.canvas.on('canvasDocumentClickStart', e => {
+     const {
+        pageX,
+        pageY,
+        clientX,
+        clientY,
+    } = e;
+    this.pointerCoordinates = {
+        pageX,
+        pageY,
+        clientX,
+        clientY,
+    }
+})
+
+
 
         var defaults = {
             elementClass: 'element',
