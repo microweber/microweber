@@ -66,7 +66,12 @@ export class FreeDraggableElementManagerTools extends MicroweberBaseClass {
     }
 
     static getFreeElements(container) {
-        return container.querySelectorAll('[data-mw-free-element="true"]');
+        if(!container) {
+            return [];
+        }
+        return Array
+                .from(container.querySelectorAll('[data-mw-free-element="true"]'))
+                .filter(node => DomService.firstParentWithAnyOfClasses(node, ['mw-layout-container']) === container);
     }
 
     static containerElementsToPixel(container){
@@ -245,17 +250,13 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
         const _freNodeController = document.createElement('div');
         _freNodeController.classList.add('mw-free-node-controller');
         _freNodeController.style.position = 'absolute';
-        _freNodeController.style.zIndex = '10';
+        _freNodeController.style.display = 'none';
         node.appendChild(_freNodeController);
 
         console.log('initLayout', node);
 
 
-        const sync = (css = {}) => {
-            for (const key in css) {
-                _freNodeController.target.style[key] = css[key];
-            }
-        }
+
 
 
         this.#adapter.call(this, _freNodeController, node, this);
@@ -263,76 +264,82 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
 
 
 
-        const resizer = new Resizable({
-            element: node,
-            document: node.ownerDocument,
-            direction: 'vertical',
-            heightProp: height => {
-                node.style.minHeight = Math.max(height, node.__autoLayoutHeight ? node.__autoLayoutHeight : 100 ) + 'px';
-            },
-        });
+        const isResizable = node.dataset.resizable !== 'false';
 
-        resizer.on('ready', () => {
-            if(!resizer.handles){
-                return;
-            }
-            resizer.handles.top.style.display = 'none';
-            resizer.handles.right.style.display = 'none';
+        if(isResizable){
 
-            resizer.handles.left.style.display = 'none';
-        });
+            const resizer = new Resizable({
+                element: node,
+                document: node.ownerDocument,
+                direction: 'vertical',
+                heightProp: height => {
+                    node.style.minHeight = Math.max(height, node.__autoLayoutHeight ? node.__autoLayoutHeight : 100 ) + 'px';
+                },
+            });
 
-        resizer.mount();
+            resizer.on('ready', () => {
+                if(!resizer.handles){
+                    return;
+                }
+                resizer.handles.top.style.display = 'none';
+                resizer.handles.right.style.display = 'none';
 
+                resizer.handles.left.style.display = 'none';
+            });
 
-
-        ElementManager(resizer.handles.bottom ).css({
-            'width': '35px',
-            'height': '35px',
-            'background': '#0078ff',
-            'right': '10%',
-            'bottom': '25px',
-            'left': 'auto',
-            'padding': '8px',
-            'border-radius': '5px',
-        }).html(`
-        <svg height="19px" width="19px" version="1.1"   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                viewBox="0 0 349.455 349.455" xml:space="preserve">
-            <path style="fill:#ffffff;" d="M248.263,240.135c-1.407-1.407-3.314-2.197-5.304-2.197c-1.989,0-3.896,0.79-5.304,2.197
-                l-45.429,45.429l0.001-221.673l45.428,45.429c1.407,1.407,3.314,2.197,5.304,2.197c1.989,0,3.896-0.79,5.304-2.197l14.143-14.143
-                c1.406-1.406,2.196-3.314,2.196-5.303c0-1.989-0.79-3.897-2.196-5.303L180.032,2.197C178.625,0.79,176.717,0,174.728,0
-                c-1.989,0-3.896,0.79-5.304,2.197L87.049,84.573c-1.406,1.407-2.196,3.314-2.196,5.303c0,1.989,0.79,3.897,2.197,5.304
-                l14.143,14.142c1.464,1.464,3.384,2.196,5.303,2.196c1.919,0,3.839-0.732,5.304-2.197l45.429-45.43l-0.001,221.673l-45.428-45.429
-                c-1.407-1.407-3.314-2.197-5.304-2.197c-1.989,0-3.896,0.79-5.304,2.197l-14.143,14.143c-1.406,1.406-2.196,3.314-2.196,5.303
-                c0,1.989,0.79,3.897,2.196,5.303l82.374,82.374c1.465,1.464,3.385,2.197,5.304,2.197c1.919,0,3.839-0.733,5.304-2.197l82.375-82.375
-                c1.406-1.406,2.196-3.314,2.196-5.303c0-1.989-0.79-3.897-2.196-5.303L248.263,240.135z"/>
-        </svg>
-        `)
+            resizer.mount();
 
 
 
-        resizer.on('resizeStart', () => {
+            ElementManager(resizer.handles.bottom ).css({
+                'width': '35px',
+                'height': '35px',
+                'background': '#0078ff',
+                'right': '10%',
+                'bottom': '25px',
+                'left': 'auto',
+                'padding': '8px',
+                'border-radius': '5px',
+            }).html(`
+            <svg height="19px" width="19px" version="1.1"   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 349.455 349.455" xml:space="preserve">
+                <path style="fill:#ffffff;" d="M248.263,240.135c-1.407-1.407-3.314-2.197-5.304-2.197c-1.989,0-3.896,0.79-5.304,2.197
+                    l-45.429,45.429l0.001-221.673l45.428,45.429c1.407,1.407,3.314,2.197,5.304,2.197c1.989,0,3.896-0.79,5.304-2.197l14.143-14.143
+                    c1.406-1.406,2.196-3.314,2.196-5.303c0-1.989-0.79-3.897-2.196-5.303L180.032,2.197C178.625,0.79,176.717,0,174.728,0
+                    c-1.989,0-3.896,0.79-5.304,2.197L87.049,84.573c-1.406,1.407-2.196,3.314-2.196,5.303c0,1.989,0.79,3.897,2.197,5.304
+                    l14.143,14.142c1.464,1.464,3.384,2.196,5.303,2.196c1.919,0,3.839-0.732,5.304-2.197l45.429-45.43l-0.001,221.673l-45.428-45.429
+                    c-1.407-1.407-3.314-2.197-5.304-2.197c-1.989,0-3.896,0.79-5.304,2.197l-14.143,14.143c-1.406,1.406-2.196,3.314-2.196,5.303
+                    c0,1.989,0.79,3.897,2.196,5.303l82.374,82.374c1.465,1.464,3.385,2.197,5.304,2.197c1.919,0,3.839-0.733,5.304-2.197l82.375-82.375
+                    c1.406-1.406,2.196-3.314,2.196-5.303c0-1.989-0.79-3.897-2.196-5.303L248.263,240.135z"/>
+            </svg>
+            `)
 
-            FreeDraggableElementManagerTools.containerElementsToPixel(node)
-
-            mw.top().app.canvas.getDocument().body.classList.add('mw-live--layout-resizing');;
-            mw.top().app.liveEdit.handles.hide();
-            mw.app.liveEdit.pause();
-        });
 
 
+            resizer.on('resizeStart', () => {
 
-        resizer.on('resizeStop', () => {
+                FreeDraggableElementManagerTools.containerElementsToPixel(node)
+
+                mw.top().app.canvas.getDocument().body.classList.add('mw-live--layout-resizing');;
+                mw.top().app.liveEdit.handles.hide();
+                mw.app.liveEdit.pause();
+            });
 
 
 
-            FreeDraggableElementManager.saveLayoutHeight(node);
-            FreeDraggableElementManagerTools.containerElementsToPercent(node)
+            resizer.on('resizeStop', () => {
 
-            mw.top().app.canvas.getDocument().body.classList.remove('mw-live--layout-resizing');;
 
-            mw.app.liveEdit.play();
-        })
+
+                FreeDraggableElementManager.saveLayoutHeight(node);
+                FreeDraggableElementManagerTools.containerElementsToPercent(node)
+
+                mw.top().app.canvas.getDocument().body.classList.remove('mw-live--layout-resizing');;
+
+                mw.app.liveEdit.play();
+            })
+
+        }
 
 
     }
@@ -436,7 +443,7 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
 
 
     init() {
-        mw.top().app.canvas.getDocument().querySelectorAll('[data-mw-free-element="true"]').forEach(node => this.freeElement(node));
+        this.getFreeElements().forEach(node => this.freeElement(node));
         this.initLayouts();
         mw.top().app.on('moduleInserted', () => {
 

@@ -96,3 +96,10 @@
     }
 }
 
+
+.mw-layout-container.mw-free-layout-container > .edit{
+    pointer-events: none;
+    &>.element, &>.module {
+        pointer-events: all;
+    }
+}
