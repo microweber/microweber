@@ -52,21 +52,25 @@ export class LayoutActions extends MicroweberBaseClass {
     }
 
     cloneLayout(target) {
-        mw.app.registerUndoState(target)
 
+        mw.top().app.registerChangedState(target, true);
         var el = document.createElement('div');
         el.innerHTML = target.outerHTML;
         ElementManager('[id]', el).each(function () {
             this.id = 'le-id-' + new Date().getTime();
         });
+
         ElementManager(target).after(el.innerHTML);
         var newEl = target.nextElementSibling;
-        mw.app.registerChange(target);
+
         mw.reload_module(newEl, function () {
             mw.top().app.state.record({
                 target: mw.tools.firstParentWithClass(target, 'edit'),
                 value: parent.innerHTML
             });
+
+
+            mw.top().app.registerChangedState(mw.tools.firstParentWithClass(target, 'edit'), true)
 
             newEl.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
             mw.app.dispatch('layoutCloned', newEl);
@@ -74,7 +78,7 @@ export class LayoutActions extends MicroweberBaseClass {
     }
 
     moveUp(target) {
-        mw.app.registerUndoState(target)
+        mw.top().app.registerChangedState(mw.tools.firstParentWithClass(target, 'edit'), true)
 
         var prev = target.previousElementSibling;
         if (!prev) return;
@@ -98,7 +102,7 @@ export class LayoutActions extends MicroweberBaseClass {
             prev.classList.remove("mw-le-target-to-animate");
             target.style.transform = '';
             prev.style.transform = '';
-            mw.app.registerChange(target);
+            mw.top().app.registerChangedState(mw.tools.firstParentWithClass(target, 'edit'), true)
             target.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
             this.proto.layoutHandle.set(target, true)
 
@@ -107,7 +111,7 @@ export class LayoutActions extends MicroweberBaseClass {
     }
 
     moveDown(target) {
-        mw.app.registerUndoState(target)
+        mw.top().app.registerChangedState(mw.tools.firstParentWithClass(target, 'edit'), true)
 
         var prev = target.nextElementSibling;
         if (!prev) return;
@@ -131,7 +135,7 @@ export class LayoutActions extends MicroweberBaseClass {
             prev.classList.remove("mw-le-target-to-animate")
             target.style.transform = '';
             prev.style.transform = '';
-            mw.app.registerChange(target)
+            mw.top().app.registerChangedState(mw.tools.firstParentWithClass(target, 'edit'), true)
             target.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
             this.proto.layoutHandle.set(target, true)
         }, 300)

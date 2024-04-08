@@ -69,6 +69,11 @@ body:not(.is_admin) [contenteditable="true"]{
 }
 
 
+body:has(.element[contenteditable="true"]){
+    .moveable-control-box{
+        display: none !important;
+    }
+}
 html:not(.mw-le--page-preview) .mw-prevent-interaction{
     cursor: default;
     -webkit-user-select: none;
