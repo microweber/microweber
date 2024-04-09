@@ -391,7 +391,7 @@ export default {
                             node.contentEditable = 'inherit';
                         })
 
-                        // mw.top().app.richTextEditor.api.getSelection().getRangeAt(0).collapse();
+
 
 
 

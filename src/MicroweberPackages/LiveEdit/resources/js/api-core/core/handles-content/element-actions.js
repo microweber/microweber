@@ -18,6 +18,7 @@ export class ElementActions extends MicroweberBaseClass {
 
     }
 
+
     editElement(el) {
         if (el.firstElementChild) {
             var firstChild = el.firstElementChild;

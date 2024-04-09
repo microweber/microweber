@@ -148,6 +148,10 @@ export const movable = function(element, container) {
                 }
             });
 
+            const type = e.target.classList.contains('module') ? 'module' : 'element';
+
+            mw.top().app.liveEdit.handles.get(type).set(e.target);
+
 
 
             // mw.app.registerChangedState(mw.tools.firstParentOrCurrentWithClass(e.target, 'edit'), true);
