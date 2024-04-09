@@ -203,6 +203,10 @@ This project thrives thanks to all the contributors. [Learn how to contribute](C
 
 Become a financial contributor and help sustain our community. [Contribute here](https://opencollective.com/microweber/contribute).
 
+### Translations
+
+You can assist us in translating Microweber. [Contribute here](https://crowdin.com/project/microweber-cms/invite?h=f57b2dfce31781806cc50eda749d20c01582429). Your help is greatly appreciated!
+
 #### Individuals
 
 [![Individual Contributors](https://opencollective.com/microweber/individuals.svg?width=890)](https://opencollective.com/microweber)
