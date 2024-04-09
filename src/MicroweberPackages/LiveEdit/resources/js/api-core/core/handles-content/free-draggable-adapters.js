@@ -198,8 +198,7 @@ export const movable = function(element, container) {
 
 
             if(e.drag ) {
-                // e.target.style.left = `${e.drag.left + e.drag.layerX}px`;
-                // e.target.style.top = `${e.drag.top + e.drag.layerY}px`;
+
 
                 const delta = [...e.delta];
                 delta[0] = delta[0] > 1 ? 1 : delta[0] < -1 ? -1 : delta[0];
@@ -214,11 +213,9 @@ export const movable = function(element, container) {
 
             }
 
-            console.log(e.delta, e)
 
-            // e.target.style.transform =  e.transform;
             if(liveEditHelpersService.targetIsIcon(e.target)) {
-                e.target.style.fontSize = `${e.height}px`;
+                e.target.style.fontSize = `${Math.min(e.height, e.width)}px`;
             }
 
             mw.top().app.liveEdit.handles.hide();
@@ -228,14 +225,13 @@ export const movable = function(element, container) {
 
         });
         mvb.on("rotate", e => {
-            // e.target.style.transform = e.drag.transform;
+
 
             e.target.style.transform = 'rotate(' + e.absoluteRotation + 'deg)';
             mw.top().app.liveEdit.handles.hide();
             mw.app.liveEdit.pause();
             mw.top().app.freeDraggableElementManager.setLayoutHeight(container);
-            console.log(e)
-            //mvb.rotateInfo.show(`${e.absoluteRotation.toFixed(2)}&deg;`);
+
             mvb.rotateInfo.show(`${Math.round(e.absoluteRotation)}&deg;`);
         });
 

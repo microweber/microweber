@@ -198,6 +198,8 @@ export default {
                 this.insertModuleMode = 'insertFreeModule';
                 instance.showModal = true;
 
+
+
                 setTimeout(() => {
                     $('.mw-modules-list-search-block').focus()
                 }, 78)
@@ -205,7 +207,19 @@ export default {
 
             mw.app.editor.on('insertModuleRequest',   (el) => {
                 this.target = el || null;
-                 this.insertModuleMode = 'insertModuleDefault';
+
+
+
+                const isFree = mw.tools.firstParentOrCurrentWithClass(el, 'mw-free-layout-container');
+
+
+                if(isFree) {
+                    this.insertModuleMode = 'insertFreeModule';
+                      this.target = isFree;
+                } else {
+                    this.insertModuleMode = 'insertModuleDefault';
+                }
+
                 instance.showModal = true;
 
                 setTimeout(() => {

@@ -79,6 +79,11 @@ export const State = function(options){
         if(this.paused()) {
             return this;
         }
+
+
+        this._state = this._state.filter( (obj, index) => arr.findIndex((item) => item.value === obj.value) === index );
+
+
         if(this._activeIndex>-1) {
             var i = 0;
             while ( i <  this._activeIndex) {

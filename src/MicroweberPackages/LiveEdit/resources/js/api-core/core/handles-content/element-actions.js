@@ -168,7 +168,7 @@ export class ElementActions extends MicroweberBaseClass {
         if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
             el = el.parentNode;
         }
-        mw.app.registerUndoState(el)
+       mw.top().app.registerSyncAction(el);
 
         ElementManager(el).after(el.outerHTML);
         var next = el.nextElementSibling;
@@ -181,7 +181,7 @@ export class ElementActions extends MicroweberBaseClass {
         newNode.querySelectorAll('[id]').forEach(node => node.id = mw.id())
 
         this.proto.elementHandle.set(el);
-        mw.app.registerChangedState(el);
+
         mw.app.liveEdit.handles.get('element').set(null);
         mw.app.liveEdit.handles.get('element').set(el);
     }
@@ -278,9 +278,10 @@ export class ElementActions extends MicroweberBaseClass {
     moveBackward(el) {
         const prev = el.previousElementSibling;
         if (prev) {
+            mw.app.registerSyncAction(el);
             prev.before(el);
             this.proto.elementHandle.set(el);
-            mw.app.registerChangedState(el);
+
             mw.app.liveEdit.handles.get('element').set(null);
             mw.app.liveEdit.handles.get('element').set(el);
         }
@@ -297,6 +298,7 @@ export class ElementActions extends MicroweberBaseClass {
         const next = el.nextElementSibling;
 
         if (next) {
+            mw.app.registerSyncAction(el);
             next.after(el);
             this.proto.elementHandle.set(el);
             mw.app.registerChangedState(el);
