@@ -70,7 +70,10 @@ if (!isset($params['prefix'])) {
                             if (inModal) {
                                 inModal.remove();
                             }
+
                          }
+                        mw.alert('License activated, click here to <a href="javascript:window.location.reload()">reload the page</a> or press F5 to reload the page');
+
 
                     } else{
                         mw.notification.error(result.warning,5000);
