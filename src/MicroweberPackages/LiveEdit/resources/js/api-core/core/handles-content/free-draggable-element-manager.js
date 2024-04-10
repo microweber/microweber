@@ -205,7 +205,7 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
     }
 
     #handleTargetChange(){
-        mw.top().app.liveEdit.handles.get('element').on('targetChange', node => {
+        mw.top().app.liveEdit.handles.get('element').on('targetChange', (node, event ) => {
 
             if(!mw.top()._freeContainers){
                 return
@@ -220,18 +220,23 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
             if(layout ) {
                 let rec = mw.top()._freeContainers.find(obj => obj.container === layout);
 
-                if(rec){
-                    rec.instance.setState({
-                        target: node
-                      }, (e,b) => {
 
-                        rec.instance.dragStart({
-                            target: node,
-                            type: 'targetChange',
-                            preventDefault: e => 1,
-                            ...mw.top().app.liveEdit.pointerCoordinates
-                        })
-                      });
+
+                if(rec){
+                    if(event){
+                        rec.instance.setState({
+                            target: node
+                        }, (e,b) => {
+
+                            rec.instance.dragStart({
+                                target: node,
+                                type: 'targetChange',
+                                preventDefault: e => 1,
+                                ...mw.top().app.liveEdit.pointerCoordinates
+                            })
+
+                        });
+                    }
 
                     rec.instance.selfElement.style.display = 'block';
 
@@ -241,7 +246,7 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
 
 
         })
-        mw.top().app.liveEdit.handles.get('module').on('targetChange', node => {
+        mw.top().app.liveEdit.handles.get('module').on('targetChange', (node, event) => {
             if(!mw.top()._freeContainers){
                 return
             }
@@ -252,6 +257,7 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
             if(layout ) {
                 let rec = mw.top()._freeContainers.find(obj => obj.container === layout);
                 if(rec){
+                    if(event){
                     rec.instance.setState({
                         target: node
                       }, (e,b) => {
@@ -263,6 +269,7 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
                             ...mw.top().app.liveEdit.pointerCoordinates
                         })
                       });
+                      }
                     rec.instance.selfElement.style.display = 'block';
                 }
 

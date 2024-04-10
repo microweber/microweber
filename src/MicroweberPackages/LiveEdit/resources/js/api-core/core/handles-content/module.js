@@ -4,6 +4,7 @@ import {DomService} from '../classes/dom.js';
 import {Confirm} from "../classes/dialog";
 import {HandleIcons} from "../handle-icons";
 import liveEditHelpers from "../live-edit-helpers.service";
+import { FreeElementActions } from "./free-element-actions.js";
 
 export const moduleSettingsDispatch = function (target) {
     mw.app.editor.dispatch('onModuleSettingsRequest', target);
@@ -38,6 +39,15 @@ export class ModuleHandleContent {
 
         this.menusHolder.append(this.menu.root.get(0));
         this.root.append(this.menusHolder);
+    }
+
+    setMenuVisible(isVisible, node) {
+        if (isVisible) {
+            node.classList.remove('mw-le-handle-menu-button-hidden');
+        } else {
+            node.classList.add('mw-le-handle-menu-button-hidden');
+        }
+
     }
 
     initMenu() {
@@ -168,6 +178,41 @@ export class ModuleHandleContent {
                         name: 'Favorite',
                         nodes: [
                             tailMenuFavorite,
+
+                            {
+                                title: 'Bring to front',
+                                text: '',
+                                icon: handleIcons.icon('layer-up'),
+                                className: 'mw-handle-settings-button',
+
+                                action: (el) => {
+                                   FreeElementActions.zIndexIncrement(  el);
+
+                                },
+                                onTarget: (target, selfBtn) => {
+                                    var selfVisible = mw.top().app.freeDraggableElementTools.isFreeElement(target);
+
+                                    this.setMenuVisible(selfVisible, selfBtn);
+
+                                }
+                            },
+                            {
+                                title: 'Bring to back',
+                                text: '',
+                                icon: handleIcons.icon('layer-down'),
+                                className: 'mw-handle-settings-button',
+
+                                action: (el) => {
+                                    FreeElementActions.zIndexDecrement( el);
+
+                                },
+                                onTarget: (target, selfBtn) => {
+                                    var selfVisible = mw.top().app.freeDraggableElementTools.isFreeElement(target);
+
+                                    this.setMenuVisible(selfVisible, selfBtn);
+
+                                }
+                            },
                         ]
                     }, {
                         name: 'Reset Module',

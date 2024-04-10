@@ -25,7 +25,7 @@ export const Handle = function (options) {
     const _e = {};
     this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
     this.off = (e, f) => { _e[e] && _e[e].indexOf(f) !== -1 ?_e[e].splice(_e[e].indexOf(f), 1) :  '' };
-    this.dispatch = (e, f) => { _e[e] ? _e[e].forEach( (c) => { c.call(this, f); }) : ''; };
+    this.dispatch = (e, f, g) => { console.log(e, f, g); _e[e] ? _e[e].forEach( (c) => { c.call(this, f, g); }) : ''; };
 
     var _visible = true;
     var _currentTarget = null;
@@ -213,8 +213,8 @@ export const Handle = function (options) {
         return _draggable;
     }
 
-    this.set = function (target, forced) {
-
+    this.set = function (target, forced, event) {
+        console.log(target, forced, event)
 
         if( _currentTarget !== target) {
             _prevTarget = _currentTarget;
@@ -240,7 +240,8 @@ export const Handle = function (options) {
             this.wrapper.get(0).dataset.hideOutline = _currentTarget.dataset.hideOutline === 'true' || _currentTarget.dataset.mwFreeElement === 'true';
 
 
-            this.dispatch('targetChange', target);
+
+            this.dispatch('targetChange', target, event);
         }
         setTimeout(() => this.wrapper.addClass('mw-handle-active'), 1);
         return this;

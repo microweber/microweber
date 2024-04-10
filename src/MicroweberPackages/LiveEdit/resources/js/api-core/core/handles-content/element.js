@@ -198,6 +198,40 @@ export class ElementHandleContent {
                 },
 
             },
+            {
+                title: 'Bring to front',
+                text: '',
+                icon: this.handleIcons.icon('layer-up'),
+                className: 'mw-handle-settings-button',
+
+                action: (el) => {
+                   FreeElementActions.zIndexIncrement(  el);
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = mw.top().app.freeDraggableElementTools.isFreeElement(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+
+                }
+            },
+            {
+                title: 'Bring to back',
+                text: '',
+                icon: this.handleIcons.icon('layer-down'),
+                className: 'mw-handle-settings-button',
+
+                action: (el) => {
+                    FreeElementActions.zIndexDecrement( el);
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = mw.top().app.freeDraggableElementTools.isFreeElement(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+
+                }
+            },
 
         ];
 
@@ -569,40 +603,7 @@ export class ElementHandleContent {
 
             ...elementBackgroundImageMenu,
 
-            {
-                title: 'Bring to front',
-                text: '',
-                icon: this.handleIcons.icon('layer-up'),
-                className: 'mw-handle-settings-button',
 
-                action: (el) => {
-                   FreeElementActions.zIndexIncrement(  el);
-
-                },
-                onTarget: (target, selfBtn) => {
-                    var selfVisible = mw.top().app.freeDraggableElementTools.isFreeElement(target);
-
-                    this.setMenuVisible(selfVisible, selfBtn);
-
-                }
-            },
-            {
-                title: 'Bring to back',
-                text: '',
-                icon: this.handleIcons.icon('layer-down'),
-                className: 'mw-handle-settings-button',
-
-                action: (el) => {
-                    FreeElementActions.zIndexDecrement( el);
-
-                },
-                onTarget: (target, selfBtn) => {
-                    var selfVisible = mw.top().app.freeDraggableElementTools.isFreeElement(target);
-
-                    this.setMenuVisible(selfVisible, selfBtn);
-
-                }
-            },
 
             {
                 title: 'Settings',

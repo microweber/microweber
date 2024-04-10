@@ -27,7 +27,8 @@ export const movable = function(element, container) {
 
         const mvb = new Mvb(container, {
             target: element,
-
+            rotationPosition: "bottom",
+            rotationPosition: "right",
             draggable: true,
             throttleDrag: 1,
             edgeDraggable: false,

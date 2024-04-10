@@ -9,8 +9,10 @@ export const Handles = function (handles) {
     }
 
 
-    this.set = function (handle, target){
-         this.get(handle).set(target)
+    this.set = function (handle, target, forced = false, event = null){
+
+
+         this.get(handle).set(target, forced, event);
     }
 
     this.hide = function(handle) {
