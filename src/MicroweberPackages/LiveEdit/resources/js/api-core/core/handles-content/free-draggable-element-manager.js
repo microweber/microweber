@@ -65,6 +65,13 @@ export class FreeDraggableElementManagerTools extends MicroweberBaseClass {
 
     }
 
+    static isFreeElement(node) {
+        if(!node) {
+            return false;
+        }
+        return node.dataset.mwFreeElement === 'true';
+    }
+
     static getFreeElements(container) {
         if(!container) {
             return [];
@@ -122,6 +129,19 @@ export class FreeDraggableElementManagerTools extends MicroweberBaseClass {
         return mw.tools.firstParentOrCurrentWithAnyOfClasses(node, ['element', 'module'])
     }
 
+
+    static getNeighbours(node) {
+        if(!node) {
+            return
+        }
+        if(node.nodeType !== 1) {
+            node =  node.parentNode;
+        }
+        if(!node) {
+            return
+        }
+        return FreeDraggableElementManagerTools.getFreeElements(FreeDraggableElementManagerTools.getElementContainer(node));
+    }
 
     static getElementContainer(node) {
         if(!node) {
@@ -210,7 +230,7 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
                             type: 'targetChange',
                             preventDefault: e => 1,
                             ...mw.top().app.liveEdit.pointerCoordinates
-                    })
+                        })
                       });
 
                     rec.instance.selfElement.style.display = 'block';
@@ -236,6 +256,12 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
                         target: node
                       }, (e,b) => {
 
+                        rec.instance.dragStart({
+                            target: node,
+                            type: 'targetChange',
+                            preventDefault: e => 1,
+                            ...mw.top().app.liveEdit.pointerCoordinates
+                        })
                       });
                     rec.instance.selfElement.style.display = 'block';
                 }

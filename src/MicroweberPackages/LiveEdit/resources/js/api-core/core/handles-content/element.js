@@ -5,6 +5,7 @@ import {ElementActions} from "./element-actions";
 import {DomService} from "../classes/dom";
 import {ElementSettingsTarget} from "./element-settings-target";
 import {ElementHandleButtonsVisibility} from "./element-handle-buttons-visibility";
+import { FreeElementActions } from "./free-element-actions.js";
 
 
 export class ElementHandleContent {
@@ -567,6 +568,41 @@ export class ElementHandleContent {
             ...elementEditStyleMenu,
 
             ...elementBackgroundImageMenu,
+
+            {
+                title: 'Bring to front',
+                text: '',
+                icon: this.handleIcons.icon('layer-up'),
+                className: 'mw-handle-settings-button',
+
+                action: (el) => {
+                   FreeElementActions.zIndexIncrement(  el);
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = mw.top().app.freeDraggableElementTools.isFreeElement(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+
+                }
+            },
+            {
+                title: 'Bring to back',
+                text: '',
+                icon: this.handleIcons.icon('layer-down'),
+                className: 'mw-handle-settings-button',
+
+                action: (el) => {
+                    FreeElementActions.zIndexDecrement( el);
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = mw.top().app.freeDraggableElementTools.isFreeElement(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+
+                }
+            },
 
             {
                 title: 'Settings',

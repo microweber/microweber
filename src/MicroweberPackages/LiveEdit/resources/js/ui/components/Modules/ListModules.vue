@@ -38,7 +38,7 @@
                 <div class="modules-list-block" style="width:100%;padding:20px;">
 
                     <div v-if="filterKeyword && filterKeyword.trim().length > 0" class="pl-4 mb-3 mt-3">
-                        Looking for {{filterKeyword}}
+                        Looking for <strong>{{filterKeyword}}</strong>
                     </div>
 
                     <div v-if="modulesCategoriesList.length > 0" v-for="category in modulesCategoriesList" class="modules-list-block-category-section">
@@ -55,6 +55,13 @@
                             <div class="modules-list-block-item-description">{{ item.description }}</div>
                         </div>
                     </div>
+                    <h1 v-else>
+
+                        <div class="alert " role="alert">
+
+                            <h5 class="text-secondary fw-normal">No results for <strong>{{filterKeyword}}</strong></h5>
+                        </div>
+                    </h1>
 
                     <div class="modules-list-block-no-results" style="display: none;">Nothing found...</div>
 
@@ -74,6 +81,10 @@ import { ElementManager } from '../../../api-core/core/classes/element';
 
 export default {
     methods: {
+        modal() {
+            this.showModal = true;
+            this.filterModules();
+        },
         getModulesList() {
             return mw.app.modules.list();
         },
@@ -96,7 +107,8 @@ export default {
             }
 
             const edit = mw.top().tools.firstParentOrCurrentWithClass(this.target, 'edit')
-            mw.app.registerChangedState(edit, true)
+            mw.app.registerChangedState(edit, true);
+            this.showModal = false;
             let itm = await mw.app.editor.insertModule(module, options, 'bottom', this.target, 'append');
 
 
@@ -125,7 +137,7 @@ export default {
 
             mw.app.registerChangedState(edit, true)
 
-            this.showModal = false;
+
         },
         filterClearKeyword() {
             this.filterKeyword = '';
@@ -153,9 +165,22 @@ export default {
             let filterKeyword = this.filterKeyword.trim();
             let modulesFiltered = this.modulesList;
 
+            let notAllowedModules = [];
+
+
+
+            if(this.insertModuleMode === 'insertFreeModule') {
+                notAllowedModules = [
+                    'Empty Element', 'Spacer', 'Multiple Columns'
+                ]
+            }
+
 
             if (filterKeyword != '' && filterKeyword) {
                 modulesFiltered = modulesFiltered.filter((item) => {
+                    if(notAllowedModules.includes(item.name)){
+                        return false;
+                    }
                     return item.keywords.toUpperCase().includes(filterKeyword.toUpperCase())
                 });
             }
@@ -164,6 +189,12 @@ export default {
             instance.modulesListFiltered = [];
             instance.modulesCategoriesList = [];
             modulesFiltered.forEach(function(moduleElement) {
+
+                console.log(moduleElement.name, notAllowedModules)
+
+                if(notAllowedModules.includes(moduleElement.name)){
+                    return;
+                }
 
                 if (!instance.modulesCategoriesList.includes(moduleElement.categories)) {
                     instance.modulesCategoriesList.push(moduleElement.categories);
@@ -196,7 +227,7 @@ export default {
             mw.app.editor.on('insertFreeModuleRequest',   (el) => {
                 this.target = el || null;
                 this.insertModuleMode = 'insertFreeModule';
-                instance.showModal = true;
+                instance.modal();
 
 
 
@@ -220,7 +251,7 @@ export default {
                     this.insertModuleMode = 'insertModuleDefault';
                 }
 
-                instance.showModal = true;
+                instance.modal();
 
                 setTimeout(() => {
                     $('.mw-modules-list-search-block').focus()
@@ -233,7 +264,7 @@ export default {
         this.emitter.on("live-edit-ui-show", show => {
             if (show == 'show-modules') {
                 if (instance.showModal == false) {
-                    instance.showModal = true;
+                    instance.modal();
                 } else {
                     instance.showModal = false;
                 }
