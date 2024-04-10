@@ -134,7 +134,7 @@ if (isset($editorSettings['config']['realtimeEditing'])) {
                 @if ($realtimeEditing)
                     <x-microweber-ui::icon-picker label="{{$field['label']}}" wire:model.debounce.500ms="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @else
-                    <x-microweber-ui::icon-picker label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
+                    <x-microweber-ui::icon-picker addUnsavedClass="true" label="{{$field['label']}}" wire:model.defer="itemState.{{$field['name']}}" placeholder="{{ $placeholder }}" name="{{ $field['name'] }}" />
                 @endif
 
             @elseif($field['type'] == 'date' )
