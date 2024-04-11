@@ -43,7 +43,8 @@
                         </li>
 
                         <li v-for="categoryName in layoutsList.categories"
-                            v-on:click="filterCategorySubmit(categoryName)">
+                            v-on:click="filterCategorySubmit(categoryName)" :class="[categoryName ? categoryName: '']">
+                            {{categoryName}}
 
                             <a class="mw-admin-action-links" :class="[categoryName == filterCategory ? 'active animate__animated animate__pulse': '']">
                                 {{categoryName}}
