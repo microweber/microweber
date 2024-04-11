@@ -190,7 +190,7 @@ export default {
             instance.modulesCategoriesList = [];
             modulesFiltered.forEach(function(moduleElement) {
 
-                console.log(moduleElement.name, notAllowedModules)
+
 
                 if(notAllowedModules.includes(moduleElement.name)){
                     return;

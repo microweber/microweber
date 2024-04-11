@@ -604,21 +604,23 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
 
             }
 
+
             if (type/* && type !== 'edit'*/) {
 
                 if (type === 'element') {
                     this.handles.hide('module');
-                    this.handles.set(type, first)
+                    this.handles.set(type, first, undefined, event);
+
                 } else if (type === 'module') {
                     this.handles.hide('element');
-                    this.handles.set(type, first)
+                    this.handles.set(type, first, undefined, event)
                 } else if (type === 'layout') {
 
-                    this.handles.set('layout', first);
+                    this.handles.set('layout', first, undefined, event);
                 } else if (type === 'edit') {
-                    this.handles.set('element', first);
+                    this.handles.set('element', first, undefined, event);
                 }  else if (type === 'icon') {
-                    this.handles.set('element', first);
+                    this.handles.set('element', first, undefined, event);
                 } else {
                     this.handles.hide();
                 }
@@ -627,7 +629,7 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
         } else {
             const layout = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['module-layouts']);
             if (layout) {
-                this.handles.set('layout', layout)
+                this.handles.set('layout', layout, undefined, event)
                 this.activeNode = layout;
             }
         }
