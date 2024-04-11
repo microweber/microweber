@@ -23,16 +23,20 @@ const _prepareCss = () => {
                 html.mw-le--page-preview .mw-le-spacer,
                 html.mw-le--page-preview .mw-le-spacer *,
                 html.mw-le--page-preview .mw-le-spacer * *,
-                html.mw-le--page-preview .mw-le-resizable{
+                html.mw-le--page-preview .mw-le-resizer,
+                html.mw-le--page-preview .mw-layout-container > .mw-le-resizable,
+                html.mw-le--page-preview .mw-handle-item {
 
                     opacity:0 !important;
                     pointer-events: none !important;
                 }
 
 
+                html.mw-le--page-preview .moveable-control-box,
                 html.mw-le--page-preview .mw_image_resizer,
                 html.mw-le--page-preview #live_edit_toolbar_holder,
-                html.mw-le--page-preview .mw-handle-item,
+                html.mw-le--page-preview .mw-handle-item.mw-le-resizable,
+                html.mw-le--page-preview .mw-layout-container > .mw-le-resizable,
                 html.mw-le--page-preview .mw-selector,
                 html.mw-le--page-preview .mw_dropable,
                 html.mw-le--page-preview .mw-padding-ctrl,

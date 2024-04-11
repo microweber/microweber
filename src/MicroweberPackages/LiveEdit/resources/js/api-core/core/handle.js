@@ -25,7 +25,7 @@ export const Handle = function (options) {
     const _e = {};
     this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
     this.off = (e, f) => { _e[e] && _e[e].indexOf(f) !== -1 ?_e[e].splice(_e[e].indexOf(f), 1) :  '' };
-    this.dispatch = (e, f, g) => { console.log(e, f, g); _e[e] ? _e[e].forEach( (c) => { c.call(this, f, g); }) : ''; };
+    this.dispatch = (e, f, g) => {  _e[e] ? _e[e].forEach( (c) => { c.call(this, f, g); }) : ''; };
 
     var _visible = true;
     var _currentTarget = null;
@@ -214,7 +214,7 @@ export const Handle = function (options) {
     }
 
     this.set = function (target, forced, event) {
-        console.log(target, forced, event)
+
 
         if( _currentTarget !== target) {
             _prevTarget = _currentTarget;

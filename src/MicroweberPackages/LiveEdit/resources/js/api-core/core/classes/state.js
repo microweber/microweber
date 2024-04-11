@@ -76,8 +76,15 @@ export const State = function(options){
     };
 
     this.record = function(item){
+
         if(this.paused()) {
             return this;
+        }
+
+        if(typeof this.options.hooks.beforeRecord === 'function'){
+            if(!this.options.hooks.beforeRecord.call(this, item)){
+                return this;
+            }
         }
 
 

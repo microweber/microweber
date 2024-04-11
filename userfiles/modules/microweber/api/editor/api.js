@@ -355,6 +355,8 @@
                     value: edit.innerHTML
                 });
 
+
+
                  if(focusedNodeBlockRes) {
                     var el = mw.tools.setTag(focusedNodeBlock, value);
                     if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
@@ -408,23 +410,56 @@
 
                 var block = mw.tools.firstBlockLikeLevel(el);
 
+
+
                 if(block && block.parentNode) {
-                    scope.api.action(block.parentNode.parentNode, function () {
-                        var el = mw.tools.setTag(block, value);
-                        if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
-                            mw.top().app.cssEditor.temp(el, 'font-size', '')
-                        } else {
-                            el.style.fontSize = ''
-                        }
-                        el.querySelectorAll('[style*="font-size"],[id*="mw"]').forEach(node => {
+                        scope.state.record({
+                            target: edit,
+                            value: edit.innerHTML
+                        });
+
+
+                        if(!block.classList.contains('edit')  ) {
+                            var el = mw.tools.setTag(block, value);
                             if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
-                                mw.top().app.cssEditor.temp(node, 'font-size', '')
+                                mw.top().app.cssEditor.temp(el, 'font-size', '')
                             } else {
-                                node.style.fontSize = ''
+                                el.style.fontSize = ''
                             }
-                        })
+                            el.querySelectorAll('[style*="font-size"],[id*="mw"]').forEach(node => {
+                                if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
+                                    mw.top().app.cssEditor.temp(node, 'font-size', '')
+                                } else {
+                                    node.style.fontSize = ''
+                                }
+                            })
+                        } else {
+                            el.normalize();
+                            el.childNodes.forEach(node => {
+                                if(node.nodeType === 3) {
+                                    var newBlock = document.createElement(value);
+                                    node.after(newBlock);
+                                    newBlock.appendChild(node)
+                                } else if(['HR', 'BR'].indexOf(node.nodeName) === -1) {
+                                    var el = mw.tools.setTag(node, value);
+                                    if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
+                                        mw.top().app.cssEditor.temp(el, 'font-size', '')
+                                    } else {
+                                        el.style.fontSize = ''
+                                    }
+                                    el.querySelectorAll('[style*="font-size"],[id*="mw"]').forEach(node => {
+                                        if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
+                                            mw.top().app.cssEditor.temp(node, 'font-size', '')
+                                        } else {
+                                            node.style.fontSize = ''
+                                        }
+                                    })
+                                }
+                            })
+                        }
+
+
                         scope.api.setCursorAtStart(el);
-                    });
                 }
                 scope.state.record({
                     target: edit,
@@ -1149,8 +1184,7 @@
                                 || keysToRemove.indexOf(key) !== -1
                                 || keysValuesToRemove.find(a => a[key] === node.style[key]);
                                 if(toRemove) {
-                                    console.log(node, parent)
-                                    console.log(key)
+
                                     node.style[key] = '';
                                 }
                             }
@@ -1371,8 +1405,7 @@
                 var el = scope.api.elementNode(sel.focusNode);
                 var elLink = el.nodeName === 'A' ? el : mw.tools.firstParentWithTag(el, 'a');
 
-                console.log(result)
-                console.log(elLink)
+
 
 
                 if (elLink) {
