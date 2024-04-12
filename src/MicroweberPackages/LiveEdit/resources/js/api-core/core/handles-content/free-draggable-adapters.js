@@ -7,6 +7,20 @@ import liveEditHelpersService from "../live-edit-helpers.service";
 export const movable = function(element, container) {
 
 
+    const collision = (target) => {
+         const all = container.querySelectorAll('.mw-free-element-droppable');
+         const temp = [];
+         for(let i = 0; i < all.length; i++) {
+                if(all[i] === target) {
+                    continue;
+                }
+                if(mw.tools.collision(target, all[i])) {
+                    temp.push( all[i]);
+                }
+         }
+    };
+
+
 
     const Mvb = mw.top().app.canvas.getWindow().Moveable;
 
@@ -164,6 +178,8 @@ export const movable = function(element, container) {
             mw.top().app.registerAskUserToStay(true);
         }
 
+
+
         mvb.on("dragStart", beforeChange)
         mvb.on("resizeStart", beforeChange)
         mvb.on("rotateStart", beforeChange)
@@ -182,6 +198,9 @@ export const movable = function(element, container) {
 
             e.target.style.left = `${e.left}px`;
             e.target.style.top = `${etop}px`;
+
+            const col = collision(e.target);
+            console.log(col)
 
            //  e.target.style.transform = e.transform
 

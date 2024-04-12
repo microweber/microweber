@@ -16,15 +16,8 @@
             if(!node || node.nodeType === 3){
                 return false;
             }
-            var name = node.nodeName;
-            if(typeof this._isBlockCache[name] !== 'undefined'){
-                return this._isBlockCache[name];
-            }
-            var test = document.createElement(name);
-            this.fragment().appendChild(test);
-            this._isBlockCache[name] = getComputedStyle(test).display === 'block';
-            this.fragment().removeChild(test);
-            return this._isBlockCache[name];
+            const blockLike = ['flex', 'block', 'grid', 'table', 'list-item', 'table-row', 'table-cell', 'table-row-group', 'table-header-group', 'table-footer-group', 'table-column-group', 'table-column', 'table-caption', 'table-cell', 'table-row', 'inline-block', 'inline-table', 'inline-flex', 'inline-grid', 'flow-root', 'grid', 'grid-item', 'grid-line', 'grid-row', 'grid-column', 'grid-area', 'grid-auto-rows', 'grid-auto-columns', 'grid-template-rows', 'grid-template-columns', 'grid-template-areas', 'grid-template', 'grid-auto-flow', 'grid-row-gap', 'grid-column-gap', 'grid-gap', 'grid-row-start', 'grid-row-end', 'grid-column-start', 'grid-column-end', 'grid-area'];
+            return blockLike.indexOf(getComputedStyle(node).display)  !== -1;
         },
         _isInlineCache:{},
         isInlineLevel:function(node){

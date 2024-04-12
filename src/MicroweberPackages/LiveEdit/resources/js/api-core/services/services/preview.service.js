@@ -63,6 +63,7 @@ export const previewMode = function () {
     document.documentElement.classList.add('preview');
 
     document.documentElement.style.setProperty('--toolbar-height', '0px');
+
     mw.app.canvas.getDocument().documentElement.classList.add('mw-le--page-preview');
     mw.app.canvas.getDocument().body.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = 'inherit');
 
@@ -74,7 +75,12 @@ export const previewMode = function () {
 
     mw.app.dispatch('mw.previewMode');
 
-    _prepareCss()
+    _prepareCss();
+
+    mw.app.canvas.getDocument().body.querySelectorAll('.mw-free-layout-container').forEach(node => {
+        const movable = node.__mvb;
+        movable.draggable = false;
+    });
 
 }
 
@@ -86,7 +92,11 @@ export const liveEditMode = function () {
     mw.cookie.set('isEditMode', true);
     mw.app.dispatch('mw.editMode');
 
-    _prepareCss()
+    _prepareCss();
+    mw.app.canvas.getDocument().body.querySelectorAll('.mw-free-layout-container').forEach(node => {
+        const movable = node.__mvb;
+        movable.draggable = true;
+    });
 
 }
 

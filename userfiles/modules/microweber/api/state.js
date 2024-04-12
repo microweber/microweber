@@ -81,12 +81,10 @@
 
         this.record = function(item){
 
-
-
             if(this.paused()) {
                 return this;
             }
-            if(typeof this.options.interceptors.beforeRecord === 'function'){
+            if(this.options.interceptors && typeof this.options.interceptors.beforeRecord === 'function'){
                 if(!this.options.interceptors.beforeRecord.call(this, item, this.state())){
                     return this;
                 }

@@ -45,6 +45,10 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
     }
 
     canInsertBeforeOrAfter (node) {
+        const cant = ['LI', 'TR', 'TBODY', 'DT', 'DD'];
+        if (cant.indexOf(node.nodeName) !== -1) {
+            return false;
+        }
         return this.canAccept(node.parentNode);
     }
 

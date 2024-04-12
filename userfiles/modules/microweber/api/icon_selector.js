@@ -707,9 +707,13 @@
 
         var renderSearchResults = function (conf) {
             var res = search(conf);
+
             if(!res) return;
             var pg = createPaging(res.all.length, res.page);
             var root = mw.element();
+            if(!res.data.length) {
+                root.append( mw.element(`<div class="alert" role="alert"><h5 class="text-secondary fw-normal">No results for <strong>${conf.term}</strong></h5></div>`));
+            }
             res.data.forEach(function (iconItem){
                 var icon = mw.element({
                     tag: 'span',
