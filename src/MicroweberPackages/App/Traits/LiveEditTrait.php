@@ -115,11 +115,16 @@ trait LiveEditTrait
 
 
         $viteScript = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js');
+        $viteScriptCss = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/api-core/core/css/scss/liveedit.scss');
 
         if ($viteScript) {
 
+
             $viteScriptSrc = '<script src="' . $viteScript . '"></script>';
             $viteScriptSrc .= '<script>window.mwLiveEditIframeBackUrl = "' . $liveEditUrl . '"; </script>';
+
+            $viteScriptSrc .= '<link rel="stylesheet" href="' . $viteScriptCss . '">';
+
             $html = str_ireplace('</body>', $viteScriptSrc . '</body>', $html, $c);
             return $html;
         }

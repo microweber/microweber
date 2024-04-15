@@ -61,7 +61,7 @@
         "laravel-vite-plugin": "^0.7.2",
         "postcss": ">=8.4.31",
         "tippy.js": "^6.3.7",
-        "vite": ">=4.5.2",
+        "vite": ">=4.5.3",
         "y18n": "^5.0.8",
         "vite-plugin-istanbul": "^5.0.0"
     }

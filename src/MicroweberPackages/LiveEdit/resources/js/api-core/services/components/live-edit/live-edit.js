@@ -1,7 +1,7 @@
 import { EditorHandles } from '../../../../ui/adapters/module-handle.js';
 import {LiveEdit} from '../../../core/@live.js';
 import {DomService} from '../../../core/classes/dom.js';
-import liveeditCssDist from '../../../core/css/scss/liveedit.scss';
+//import liveeditCssDist from '../../../core/css/scss/liveedit.scss';
 import {ModuleSettings} from "../../services/module-settings";
 import {TemplateSettings} from "../../services/template-settings";
 import {WyswygEditor} from "../../services/wyswyg-editor";
@@ -14,13 +14,14 @@ import { FreeDraggableElementManager } from '../../../core/handles-content/free-
 
 
 export const liveEditComponent = () => {
-    const frame = mw.app.canvas.getFrame();
-    const frameHolder = frame.parentElement;
+   // const frame = mw.app.canvas.getFrame();
+  //  const frameHolder = frame.parentElement;
     const doc = mw.app.canvas.getDocument();
-    const link = doc.createElement('style');
-    link.textContent = liveeditCssDist;
+   // const link = doc.createElement('style');
+   // link.textContent = liveeditCssDist;
+    // moved to vite.config.js
 
-    doc.head.prepend(link);
+    //doc.head.prepend(link);
 
     const liveEdit = new LiveEdit({
         root: doc.body,

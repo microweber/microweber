@@ -8,7 +8,9 @@ export default defineConfig({
         open: true,
         port: 3000,
         assetsInlineLimit: 0,
-        outDir: './public/build'
+        outDir: './public/build',
+        manifest: "manifest.json"
+
     },
     plugins: [
         vue({
@@ -25,6 +27,7 @@ export default defineConfig({
               // 'resources/js/app.js',
               //  'userfiles/modules/microweber/api/live-edit-app/index.js',
                // 'userfiles/modules/microweber/api/live-edit-app/app.js',
+                'src/MicroweberPackages/LiveEdit/resources/js/api-core/core/css/scss/liveedit.scss',
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js',
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js',
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js',
