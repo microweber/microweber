@@ -1402,6 +1402,7 @@
             },
             link: function (result) {
                 var sel = scope.getSelection();
+                var common = scope.api.elementNode(sel.getRangeAt(0).commonAncestorContainer);
                 var el = scope.api.elementNode(sel.focusNode);
                 var elLink = el.nodeName === 'A' ? el : mw.tools.firstParentWithTag(el, 'a');
 
@@ -1422,7 +1423,15 @@
                     });
 
                 } else {
-                    scope.api.insertHTML('<a '+(result.target ? 'target="_blank"' : '')+' href="'+ result.url +'">'+ (result.text || (sel.toString().trim()) || result.url) +'</a>');
+                    scope.api.execCommand('createLink', true, result.url);
+
+                    if(result.target) {
+                        setTimeout(() => {
+                            console.log(common, common.querySelectorAll(`a[href="${result.url}"]`))
+                            common.querySelectorAll(`a[href="${result.url}"]`).forEach(a => a.target = '_blank');
+                        }, 120)
+                    }
+                    // scope.api.insertHTML('<a '+(result.target ? 'target="_blank"' : '')+' href="'+ result.url +'">'+ (result.text || (sel.toString().trim()) || result.url) +'</a>');
                 }
             },
             unlink: function () {

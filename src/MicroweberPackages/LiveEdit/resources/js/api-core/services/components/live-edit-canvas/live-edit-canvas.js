@@ -3,7 +3,7 @@ import  MicroweberBaseClass  from "../../containers/base-class.js";
 
 export class LiveEditCanvas extends MicroweberBaseClass {
 
-    constructor() {
+    constructor(options = {}) {
         super();
     }
 
@@ -12,7 +12,8 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
     go(url) {
         if(this.#canvas && this.#canvas.ownerDocument && this.#canvas.contentWindow) {
-            this.#canvas.src = url;
+            this.setUrl(url);
+            // this.#canvas.src = url;
         }
     }
 
@@ -52,6 +53,15 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         return false;
     }
 
+    async setUrl(url) {
+        url = url.toString();
+        this.dispatch('setUrl', url);
+        if (this.options && this.options.onSetUrl) {
+            await this.options.onSetUrl(url);
+        }
+        this.#canvas.src = url;
+    }
+
     mount(target) {
 
         this.dispatch('liveEditBeforeLoaded');
@@ -86,7 +96,9 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         // if(url.host !== top.location.host) {
         //     url = `${mw.settings.site_url}?editmode=iframe`;
         // }
-        liveEditIframe.src = url.toString();
+
+        this.#canvas = liveEditIframe;
+
 
         liveEditIframe.frameBorder = 0;
         liveEditIframe.id="live-editor-frame";
@@ -94,7 +106,8 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         liveEditIframe.referrerPolicy = "no-referrer";
         liveEditIframe.loading = "lazy";
 
-        this.#canvas = liveEditIframe;
+        this.setUrl(url);
+
         target.innerHTML = '';
         target.appendChild(liveEditIframe);
 

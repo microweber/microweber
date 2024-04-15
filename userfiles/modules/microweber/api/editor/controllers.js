@@ -876,8 +876,10 @@ MWEditor.controllers = {
                         target: target.target === '_blank'
                     };
                 }
+
                 var linkEditor = new mw.LinkEditor({
                     mode: 'dialog',
+                    hideTextFied: true
                 });
 
                 if(val) {

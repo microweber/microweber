@@ -19,12 +19,33 @@ import focus from '@alpinejs/focus';
 import { DynamicTargetMenus } from './services/dynamic-target-menus.js';
 import {LiveEditCanvas} from "./components/live-edit-canvas/live-edit-canvas";
 import { SingleFilePickerComponent } from './services/single-file-picker-component.js';
+import { MWBroadcast } from './services/broadcast.js';
+import { MWDocumentFocus } from './services/document.focus.service.js';
 
 mw.app = new MWUniversalContainer();
 
-//setTimeout(function() {
-const canvas = new LiveEditCanvas();
-mw.app.register('canvas', canvas);
+
+    const canvasSetUrlInterceptor = async (url) => {
+        return new Promise((resolve) => {
+            if(mw.top().app.documentFocus.isActive()) {
+
+            } else {
+
+            }
+        });
+    };
+
+
+    const canvas = new LiveEditCanvas({
+        onSetUrl: canvasSetUrlInterceptor
+    });
+
+
+
+
+    mw.app.register('documentFocus', MWDocumentFocus);
+    mw.app.register('broadcast', MWBroadcast);
+    mw.app.register('canvas', canvas);
     mw.app.register('commands', Commands);
     mw.app.register('modules', Modules);
 

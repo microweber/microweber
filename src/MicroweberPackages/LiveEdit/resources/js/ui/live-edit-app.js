@@ -81,7 +81,7 @@ mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
 });
 
 window.top.addEventListener('popstate', function () {
-    mw.app.canvas.getFrame().src = decodeURIComponent(new URLSearchParams(window.top.location.search).get('url') || '/');
+    mw.app.canvas.setUrl(decodeURIComponent(new URLSearchParams(window.top.location.search).get('url') || '/'));
 })
 
 
