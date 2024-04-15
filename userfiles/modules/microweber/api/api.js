@@ -218,6 +218,12 @@ mw.askusertostay = false;
 
 
         var parent = mw.$(target).parent().get(0);
+        if(!parent){
+            parent = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['edit', 'module']);
+        }
+        if(!parent){
+            parent = target;
+        }
 
         if(stateManager) {
             stateManager.record({
