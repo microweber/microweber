@@ -52,8 +52,19 @@ export default {
                     var activeNodeSelected = mw.top().app.liveEdit.getSelectedNode();
                     var targetWindow = mw.top().app.canvas.getWindow();
 
-                    var can = true;
                     var activeNode = event.target;
+
+                    if(activeNode && activeNode.getAttribute('data-mw-free-element')){
+                       // check if has child
+                        var hasChild = activeNode.firstElementChild;
+                        if(hasChild){
+                            activeNode = hasChild;
+                        }
+                    }
+
+
+                    var can = true;
+                   // var activeNode = event.target;
                     //
                     // var activeElement = mw.top().app.liveEdit.handles.get('element').getTarget();
                     // var activeModule = mw.top().app.liveEdit.handles.get('module').getTarget();
