@@ -286,7 +286,7 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
         _freNodeController.style.display = 'none';
         node.appendChild(_freNodeController);
 
-        console.log('initLayout', node);
+
 
 
 
@@ -382,6 +382,49 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
         if(!mw.top()._freeContainers) {
 
             mw.top()._freeContainers = [];
+
+
+            mw.top().app.canvas.getDocument().addEventListener('keydown', (e) => {
+
+
+
+
+                if(mw.top()._freeContainers) {
+                    const targetIsFreeElement = mw.top()._freeContainers.find(obj => obj.element.style.display === 'block');
+                    if(targetIsFreeElement) {
+                        e.preventDefault()
+                        const comp = getComputedStyle(targetIsFreeElement.instance.target)
+                        let nodeLeft = parseFloat(comp.left);
+                        let nodeTop = parseFloat(comp.top);
+                        if(isNaN(nodeLeft)){
+                            nodeLeft = 0
+                        }
+                        if(isNaN(nodeTop)){
+                            nodeTop = 0
+                        }
+
+                        if (kc === 37){
+                            targetIsFreeElement.instance.target.style.left = nodeLeft - 1 + 'px';
+                        }
+                        if (kc === 39){
+                            targetIsFreeElement.instance.target.style.left = nodeLeft + 1 + 'px';
+                        }
+
+                        if (kc === 38){
+                            targetIsFreeElement.instance.target.style.top = nodeTop - 1 + 'px';
+                        }
+                        if (kc === 40){
+                            targetIsFreeElement.instance.target.style.top = nodeTop + 1 + 'px';
+                        }
+                    }
+                }
+
+
+
+
+
+
+            })
         }
 
         let layouts = mw.top().app.canvas.getDocument().querySelectorAll('.mw-free-layout-container');
@@ -392,7 +435,7 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
         let i = 0, l = layouts.length;
         for ( ; i < l; i++) {
             const containerMovable = mw.top()._freeContainers.find(instance => instance.container === layouts[i] );
-            console.log(containerMovable, this)
+
             if(!containerMovable) {
                 this.initLayout(layouts[i])
             }

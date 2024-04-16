@@ -21,6 +21,7 @@ import {LiveEditCanvas} from "./components/live-edit-canvas/live-edit-canvas";
 import { SingleFilePickerComponent } from './services/single-file-picker-component.js';
 import { MWBroadcast } from './services/broadcast.js';
 import { MWDocumentFocus } from './services/document.focus.service.js';
+import { da } from 'vuetify/locale';
 
 mw.app = new MWUniversalContainer();
 
@@ -64,6 +65,27 @@ mw.app = new MWUniversalContainer();
     mw.app.singleFilePickerComponent = options => {
         return new SingleFilePickerComponent(options)
     };
+
+    mw.app.broadcast.on('canvasURL', (data) => {
+
+        if(data.url === mw.top().win.document.getElementById('live-editor-frame').src && !mw.app.documentFocus.isActive()) {
+            console.log(1112, data)
+            mw.app.broadcast.message('canvasURLAlreadyOpened', {...data});
+        }
+    })
+
+    mw.app.broadcast.on('canvasURLAlreadyOpened', (data) => {
+
+        if(data.url === mw.top().win.document.getElementById('live-editor-frame').src && mw.app.documentFocus.isActive()) {
+            console.log(125, data)
+            mw.confirm('This page is already opened in another tab! Edit here?', function(){
+
+            }, function(){
+
+            });
+
+        }
+    })
 
 
 
