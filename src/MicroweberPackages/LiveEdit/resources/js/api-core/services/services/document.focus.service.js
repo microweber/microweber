@@ -1,28 +1,60 @@
-export class MWDocumentFocus extends BaseComponent {
+import  MicroweberBaseClass  from "../containers/base-class.js";
+
+export class MWDocumentFocus extends MicroweberBaseClass {
     constructor() {
         super();
         this.#init();
     }
 
     #state = 'focus';
+    #visibilityState = globalThis.top.document.visibilityState;
 
     setState(state) {
         this.#state = state;
-        this.dispatch('state', this.#state);
-        this.dispatch(this.#state);
+        this.dispatch('state', this.getState());
+        this.dispatch(this.getState());
+    }
+
+    getState() {
+        return this.#state;
     }
 
     isActive() {
-        return this.#state === 'focus';
+        return this.isVisible() && this.isFocused();
+    }
+
+    isVisible() {
+        return this.#visibilityState === 'visible';
+    }
+    isFocused() {
+        return this.getState() === 'focus';
     }
 
 
     #init() {
-        globalThis.addEventListener('focus', function(e) {
+
+        globalThis.top.document.addEventListener("visibilitychange", () => {
+            this.#visibilityState = globalThis.top.document.visibilityState;
+
+        });
+        globalThis.addEventListener('focus', e => {
+
+            if(this.isActive()) {
+                return
+            }
+
             this.setState(e.type);
         });
-        globalThis.addEventListener('blur', function(e) {
-            this.setState(e.type);
+        globalThis.addEventListener('blur', e => {
+            if(!this.isActive()) {
+                return
+            }
+            let isFocused = Array.from(e.target).find(w => w.document.hasFocus());
+
+            if(!isFocused) {
+                this.setState(e.type);
+            }
+
         });
     }
 }
