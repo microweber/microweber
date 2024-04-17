@@ -6,6 +6,29 @@ import liveEditHelpersService from "../live-edit-helpers.service";
 
 export const movable = function(element, container) {
 
+      const closestElement = (x, y) => {
+        const all = container.querySelectorAll('.mw-free-element-droppable');
+        let closestEl = elements.eq(0);
+        let offset = closestEl.offset();
+        offset.left += closestEl.outerWidth() / 2;
+        offset.top += closestEl.outerHeight() / 2;
+        let minDist = Math.sqrt((offset.left - x) * (offset.left - x) + (offset.top - y) * (offset.top - y));
+
+        all.forEach(el => {
+
+          offset = el.offset();
+          offset.left += el.outerWidth() / 2;
+          offset.top += el.outerHeight() / 2;
+          const dist = Math.sqrt((offset.left - x) * (offset.left - x) + (offset.top - y) * (offset.top - y));
+          if (dist < minDist) {
+            minDist = dist;
+            closestEl = el;
+          }
+        });
+
+        return closestEl;
+      };
+
 
     const collision = (target) => {
          const all = container.querySelectorAll('.mw-free-element-droppable');

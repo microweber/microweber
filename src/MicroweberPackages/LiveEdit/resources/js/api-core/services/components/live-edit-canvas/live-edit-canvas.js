@@ -8,6 +8,15 @@ export class LiveEditCanvas extends MicroweberBaseClass {
     }
 
     #canvas = null;
+    async #registerURL(url){
+
+        mw.top().app.broadcast.message('canvasURL', {url});
+        this.dispatch('setUrl', url);
+        if (this.options && this.options.onSetUrl) {
+            await this.options.onSetUrl(url);
+        }
+    };
+
 
 
     go(url) {
@@ -55,10 +64,8 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
     async setUrl(url) {
         url = url.toString();
-        this.dispatch('setUrl', url);
-        if (this.options && this.options.onSetUrl) {
-            await this.options.onSetUrl(url);
-        }
+        await this.#registerURL( url);
+
         this.#canvas.src = url;
     }
 

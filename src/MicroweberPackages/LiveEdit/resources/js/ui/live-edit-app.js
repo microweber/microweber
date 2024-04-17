@@ -49,6 +49,8 @@ mw.app.canvas.on('liveEditBeforeLoaded', function () {
 
 mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
 
+      mw.top().app.broadcast.message('canvasURL', {url: data.frameWindow.location.href})
+
     window.top.history.pushState(null, null, `?url=${encodeURIComponent(data.frameWindow.location.href)}`);
 
 
