@@ -113,24 +113,24 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
 
             if (data.active.action) {
                 data.active.action(data);
-            } else if (doc.body.contains(target)) {
+            } else   {
+                // actual target may not be present in the document must be get by selector
                 const getTarget = function(target) {
-                    if(!target.parentNode || !target.ownerDocument) {
-                        var selector;
-                        if(target.id) {
-                            selector = '#' + target.id;
-                        } else if(target.classList.contains('edit')) {
-                            var field = node.getAttribute('field');
-                            var rel = node.getAttribute('rel');
-                            if(field && rel){
-                                selector = '.edit[field="'+field+'"][rel="'+rel+'"]';
-                            }
-                        }
-                        if (selector) {
-                            target = doc.querySelector(selector)
-                        }
 
+                    var selector;
+                    if(target.id) {
+                        selector = '#' + target.id;
+                    } else if(target.classList.contains('edit')) {
+                        var field = target.getAttribute('field');
+                        var rel = target.getAttribute('rel');
+                        if(field && rel){
+                            selector = '.edit[field="'+field+'"][rel="'+rel+'"]';
+                        }
                     }
+                    if (selector) {
+                        target = doc.querySelector(selector)
+                    }
+
                     return target;
                 }
 
@@ -142,6 +142,12 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
 
                 target = getTarget(target);
 
+                console.log(target, target.parentNode, target.ownerDocument)
+                if(originalEditField){
+                    console.log(originalEditField, originalEditField.parentNode, originalEditField.ownerDocument)
+
+                }
+
                 if(target) {
                     mw.element(target).html(data.active.value);
                 }
@@ -149,10 +155,6 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
                     mw.element(originalEditField).html(data.active.originalEditFieldInnerHTML);
                 }
 
-            } else {
-                if (target.id) {
-                    mw.element(doc.getElementById(target.id)).html(data.active.value);
-                }
             }
             if (data.active.prev) {
                 mw.$(data.active.prev).html(data.active.prevValue);
