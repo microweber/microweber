@@ -49,7 +49,7 @@ description: Default
                 </div>
 
                 <div class="js-slide-elements-<?php echo $slide['itemId']; ?>" style="height: calc(100vh - 100px);">
-                    <div>
+                    <div class="mb-2">
                         <h3 class="header-section-title js-slide-title-<?php echo $slide['itemId']; ?>">
                             <?php echo $slide['title'];?>
                         </h3>
@@ -62,7 +62,7 @@ description: Default
 
 
                     <?php if(!empty($slide['buttonText']) && isset($slide['showButton']) && $slide['showButton'] == true): ?>
-                    <div>
+                    <div class="mt-5">
                         <button class="btn btn-primary js-slide-button-<?php echo $slide['itemId']; ?>">
                             <?php echo $slide['buttonText'];?>
                         </button>
