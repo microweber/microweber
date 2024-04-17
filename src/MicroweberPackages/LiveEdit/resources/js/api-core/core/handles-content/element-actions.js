@@ -354,7 +354,7 @@ export class ElementActions extends MicroweberBaseClass {
 
 
         var _pauseSetValue = false;
-
+        mw.app.registerSyncAction(el);
 
         var picker = mw.colorPicker({
             // element: tip.get(0),
@@ -454,7 +454,6 @@ export class ElementActions extends MicroweberBaseClass {
         if (hasBgOnParent) {
             element = hasBgOnParent;
         }
-
         var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
                 if(edit) {
                     mw.top().app.registerChangedState(edit);
@@ -481,7 +480,10 @@ export class ElementActions extends MicroweberBaseClass {
             var url = res.src ? res.src : res;
             if (!url) return;
             url = url.toString();
-            element.style.backgroundImage = `url(${url})`
+            element.style.backgroundImage = null;
+            //element.style.backgroundImage = `url('${url}')`
+
+            mw.top().app.cssEditor.temp(element, 'background-image', `url('${url}')`);
 
             mw.app.liveEdit.play();
             dialog.remove();
