@@ -255,6 +255,10 @@
                 const edit = mw.tools.firstParentOrCurrentWithClass(el, 'edit') || scope.$editArea[0];
 
 
+                mw.top().app.registerChange(edit)
+
+
+
                 if(api.isCrossBlockSelection()) {
 
                     var off = sel.focusOffset;
@@ -267,13 +271,15 @@
                             last = mw.tools.setTag(node, value);
 
                             if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
-                                mw.top().app.cssEditor.temp(last, 'font-size', '')
+                                mw.top().app.cssEditor.temp(last, 'font-size', '');
+                                last.style.fontSize = ''
                             } else {
                                 last.style.fontSize = ''
                             }
                             last.querySelectorAll('[style*="font-size"],[id*="mw"]').forEach(node => {
                                 if(scope.settings.editMode === 'liveedit' &&  mw.top().app.cssEditor) {
-                                    mw.top().app.cssEditor.temp(node, 'font-size', '')
+                                    mw.top().app.cssEditor.temp(node, 'font-size', '');
+                                    node.style.fontSize = ''
                                 } else {
                                     node.style.fontSize = ''
                                 }
@@ -287,10 +293,15 @@
                         sel.getRangeAt(0).setEnd(last, 1)
                     }
 
+
                     scope.state.record({
                         target: edit,
                         value: edit.innerHTML
                     });
+
+                    scope.registerChange();
+
+
 
                     return;
                 }

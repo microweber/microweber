@@ -142,11 +142,7 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
 
                 target = getTarget(target);
 
-                console.log(target, target.parentNode, target.ownerDocument)
-                if(originalEditField){
-                    console.log(originalEditField, originalEditField.parentNode, originalEditField.ownerDocument)
 
-                }
 
                 if(target) {
                     mw.element(target).html(data.active.value);
