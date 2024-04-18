@@ -62,6 +62,7 @@ export default {
         'allow-typing',
         'allow-edit',
         'img-as-background',
+        'hovered',
         'image-holder',
       ],
       classes: []
@@ -177,7 +178,7 @@ export default {
           //is in edit field
           var isInEditField = mw.top().app.liveEdit.liveEditHelpers.targetIsInEditField(element);
           var isInaccessible = mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(element);
- 
+
           if (isInEditField && !isInaccessible) {
             this.canShowClassApplier = true;
             this.populateStyleEditor(element);

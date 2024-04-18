@@ -107,10 +107,14 @@ class ZipReader extends DefaultReader
 		$backupFiles = scandir($backupLocation);
 
 		foreach ($backupFiles as $filename) {
-			$file = $backupLocation . $filename;
+			$file = $backupLocation .DS. $filename;
+            $file = normalize_path($file, false);
+
+
 			if (!is_file($file)) {
 				continue;
 			}
+
 
 			$fileExtension = get_file_extension($file);
 			$importToTable = str_replace('.'.$fileExtension, false, $filename);

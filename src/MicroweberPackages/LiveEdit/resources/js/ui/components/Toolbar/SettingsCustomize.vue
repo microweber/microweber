@@ -80,8 +80,11 @@ export default {
 
             } else if(name === 'style-editor') {
               if(this.buttonIsActiveStyleEditor){
-                  this.buttonIsActiveStyleEditor = false;
-                  CSSGUIService.hide()
+
+                  this.emitter.emit("live-edit-ui-show", 'close-element-style-editor')
+              //    this.buttonIsActive = false;
+               //   this.buttonIsActiveStyleEditor = false;
+                //  CSSGUIService.hide()
               } else {
                   this.buttonIsActiveStyleEditor = true;
                   this.buttonIsActive = false;
