@@ -95,8 +95,8 @@ export default {
             this.showSidebar = false;
             this.showElementStyleEditor = false;
             this.buttonIsActive = false;
-
             CSSGUIService.hide();
+            this.emitter.emit("live-edit-ui-show", 'template-settings-close');
 
         },
         closeElementStyleEditorIfOpened() {

@@ -170,6 +170,9 @@ export default {
             } else if (show == 'style-editor') {
                 instance.buttonIsActive = false;
                 instance.buttonIsActiveStyleEditor = true;
+            }else if (show == 'template-settings-close') {
+                instance.buttonIsActive = false;
+                instance.buttonIsActiveStyleEditor = false;
             } else {
                 instance.buttonIsActive = false;
                 instance.buttonIsActiveStyleEditor = false;
