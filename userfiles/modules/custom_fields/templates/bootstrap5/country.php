@@ -10,14 +10,14 @@
             </label>
         <?php endif; ?>
 
-            <div class="mw-text-start my-2">
-                <select class="form-select">
-                    <option><?php _e($data['placeholder']) ?></option>
-                    <option><?php foreach ($data['values'] as $country): ?>
-                    <option value="<?php echo $country ?>"><?php echo $country ?></option>
-                    <?php endforeach; ?></option>
-                </select>
-            </div>
+
+        <select class="form-select">
+            <option><?php _e($data['placeholder']) ?></option>
+            <option><?php foreach ($data['values'] as $country): ?>
+            <option value="<?php echo $country ?>"><?php echo $country ?></option>
+            <?php endforeach; ?></option>
+        </select>
+
 
         <?php if ($data['help']): ?>
             <small class="form-text text-muted"><?php echo $data['help']; ?></small>
