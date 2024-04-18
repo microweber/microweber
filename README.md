@@ -103,7 +103,7 @@ server {
   location / {
     try_files $uri $uri/ /index.php$is_args$args;
   }
-  location ~ /(vendor|src|config|storage|.git|.env) {
+  location ~ /(vendor|src|config|database|bootstrap|storage|app|routes|.git|.env) {
     deny all;
     return 404;
   }
