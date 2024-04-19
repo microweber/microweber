@@ -1,4 +1,11 @@
 
+.content-categories-images:after{
+    content: '.';
+    font-size: 0;
+    overflow: hidden;
+    display: block;
+    clear: both ;
+}
 .content-categories-images {
     text-align: justify;
 }
