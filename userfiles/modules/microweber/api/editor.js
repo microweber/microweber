@@ -1325,6 +1325,14 @@ var MWEditor = function (options) {
                         scope.api.saveSelection();
                         ta.focus({preventScroll: true, focusVisible: false});
                         setTimeout(() => {
+
+
+                            var toRemove = 'div,main';
+                            while (ta.querySelectorAll(toRemove).length) {
+                                var first = ta.querySelector(toRemove);
+                                 first.replaceWith(...first.childNodes);
+                            }
+
                             scope.api.restoreSelection();
                             var content;
 
@@ -1358,8 +1366,12 @@ var MWEditor = function (options) {
                                     ta.innerHTML = ta.firstChild.innerHTML;
                                 }
 
+                                // by default we'll remove all classes and styles
 
-                                ta.querySelectorAll('.' + classesToremove.join(',.')).forEach(el => el.classList.remove(...classesToremove));
+                                ta.querySelectorAll('[class]').forEach(el => el.removeAttribute('class'));
+                                ta.querySelectorAll('[style]').forEach(el => el.removeAttribute('style'));
+                                ta.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+                                //ta.querySelectorAll('.' + classesToremove.join(',.')).forEach(el => el.classList.remove(...classesToremove));
 
                                 if(plainTextNodes.includes(e.target.nodeName) || mw.tools.firstParentWithTag(e.target, titles)){
                                     content = ta.textContent;
@@ -1410,7 +1422,11 @@ var MWEditor = function (options) {
 
                             if(!!content) {
                                 content = content.trim();
-                               // scope.api.insertHTML(content);
+                                scope.api.insertHTML(content);
+                                return;
+                               var edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit') ;
+                               edit.contentEditable = true;
+                               edit.querySelectorAll('[contenteditable]').forEach(node => node.removeAttribute('contenteditable'));
                                var range = scope.api.getSelection().getRangeAt(0);
                                var doc = this.actionWindow.document.createRange().createContextualFragment(content);
                                range.deleteContents();
