@@ -88,6 +88,7 @@ showMainEditTab: 'video'
         <div class="d-flex gap-3 w-full mt-3">
             <div>
                 <label class="live-edit-label">{{__('Autoplay')}} </label>
+                <small class="text-muted">{{__('Autoplay only works with muted video')}} </small>
                 <livewire:microweber-option::toggle optionKey="autoplay" :optionGroup="$moduleId" :module="$moduleType"  />
             </div>
 
@@ -129,7 +130,7 @@ showMainEditTab: 'video'
 
             <div>
                 <livewire:microweber-live-edit::module-select-template
-                    :disableScreenshots="true" 
+                    :disableScreenshots="true"
                     :moduleId="$moduleId" :moduleType="$moduleType"/>
             </div>
         </div>
