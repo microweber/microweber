@@ -711,8 +711,7 @@ td, tr, th, .theme-dark .input-group-text {
 }
 
 small.text-muted {
-    color: var(--tblr-body-color) !important;
-    font-size: 14px !important;
+    color: color-mix(in srgb, var(--tblr-body-color) 30%, --tblr-body-color) !important;
 }
 
 .form-label {
