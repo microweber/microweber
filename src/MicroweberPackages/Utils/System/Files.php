@@ -1210,11 +1210,11 @@ class Files
                 break;
             case 'file':
             case 'files':
-                $are_allowed .= ',css,json,zip,gzip,psd,csv,7z';
+                $are_allowed .= ',css,json,zip,gzip,psd,csv,7z,rar,gz,woff,woff2,ttf,oet,otf,cur,ico';
                 break;
             case 'documents':
             case 'doc':
-                $are_allowed .= ',doc,docx,pdf,odt,rtf,txt,pps,ppt,pptx,xls,xlsx';
+                $are_allowed .= ',doc,docx,pdf,odt,rtf,txt,pps,ppt,pptx,xls,xlsx,xml';
                 break;
             case 'archives':
             case 'arc':
