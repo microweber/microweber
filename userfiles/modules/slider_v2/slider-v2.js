@@ -41,7 +41,9 @@ class SliderV2 {
 
     slideTo(index) {
         if (this.driver == 'swiper') {
-            this.driverInstance.slideTo(index);
+            if(this.driverInstance && this.driverInstance.slideTo) {
+                this.driverInstance.slideTo(index);
+            }
         }
     }
 
