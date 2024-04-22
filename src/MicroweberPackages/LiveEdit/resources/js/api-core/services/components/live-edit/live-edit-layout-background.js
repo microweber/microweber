@@ -91,6 +91,58 @@ export class LiveEditLayoutBackground extends BaseComponent {
 
     }
 
+    getBackgroundImageSize(node) {
+        if(node && node.style){
+            var bg = node.style.backgroundSize;
+            return (bg || '').trim() || 'auto';
+        }
+    }
+
+    setBackgroundImageSize(node, url) {
+        mw.app.registerUndoState(node);
+        mw.app.registerAskUserToStay(true);
+        let bg
+
+
+
+        if (!url) {
+            bg = 'auto'
+        } else {
+            url = url.toString();
+            bg = url
+        }
+
+
+        node.innerHTML = ``;
+        node.style.backgroundSize = bg;
+
+
+
+
+        var isInsideBackgroundModule = liveEditHelpers.targetGetFirstModuleOfType(node, 'background');
+
+        console.log(isInsideBackgroundModule, node);
+        if (isInsideBackgroundModule) {
+
+            //set bg image option
+            var optionsBg = {
+                group: isInsideBackgroundModule.id,
+                key: 'data-background-size',
+                module: 'background',
+                value: url
+            };
+            mw.top().options.tempOption(isInsideBackgroundModule, optionsBg);
+
+
+
+
+        }
+
+
+        mw.top().app.registerChangedState(node);
+
+    }
+
     getBackgroundVideo(node){
         if(node && node.dataset && node.dataset.mwvideo){
             return node.dataset.mwvideo;

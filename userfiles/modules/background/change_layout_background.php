@@ -17,6 +17,29 @@
         </div>
 
 
+        <br>
+<div class="mb-3">
+  <label class="form-label">Image size</label>
+  <div class="form-selectgroup">
+    <label class="form-selectgroup-item">
+      <input type="radio" name="backgroundSize" value="auto" class="form-selectgroup-input" checked />
+      <span class="form-selectgroup-label">Auto</span>
+    </label>
+    <label class="form-selectgroup-item">
+      <input type="radio" name="backgroundSize" value="cover" class="form-selectgroup-input" />
+      <span class="form-selectgroup-label">Cover</span>
+    </label>
+    <label class="form-selectgroup-item">
+      <input type="radio" name="backgroundSize" value="contain" class="form-selectgroup-input" />
+      <span class="form-selectgroup-label">Fit</span>
+    </label>
+    <label class="form-selectgroup-item">
+      <input type="radio" name="backgroundSize" value="100% 100%" class="form-selectgroup-input" />
+      <span class="form-selectgroup-label">Scale</span>
+    </label>
+  </div>
+</div>
+
 
 
 
@@ -113,6 +136,22 @@
             let bgImage = mw.top().app.layoutBackground.getBackgroundImage(bgNode);
             let bgVideo = mw.top().app.layoutBackground.getBackgroundVideo(bgNode);
             let bgCursor = mw.top().app.layoutBackground.getBackgroundCursor(bgNode);
+            let bgSize = mw.top().app.layoutBackground.getBackgroundImageSize(bgNode);
+            if(!bgSize) {
+                bgSize = 'auto' ;
+            }
+
+            document.querySelectorAll('[name="backgroundSize"]').forEach(function (el) {
+                el.checked = el.value === bgSize;
+                el.addEventListener('change', function () {
+                    const {bg, bgOverlay, bgNode, target} = getTargets();
+                    mw.top().app.layoutBackground.setBackgroundImageSize(bgNode, this.value);
+                    // mw.top().app.registerChange(mw.top().app.liveEdit.handles.get('layout').getTarget());
+                })
+            });
+
+
+
 
             if(!picker) {
                 picker = mw.app.singleFilePickerComponent({
