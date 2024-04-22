@@ -15,7 +15,7 @@
 
                     <div class="mw-modal-body py-4">
 
-                        @foreach($formData->getFormDataValues() as $formDataValue)
+                    @foreach($formData->getFormDataValues() as $formDataValue)
                             <b>{{$formDataValue['field_name'] }}:</b><br/>
                             <div style="word-wrap: break-word">
                                 {!! $formDataValue['field_value'] !!}
