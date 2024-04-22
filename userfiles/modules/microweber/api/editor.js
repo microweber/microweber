@@ -1423,6 +1423,7 @@ var MWEditor = function (options) {
                             if(!!content) {
                                 content = content.trim();
                                 scope.api.insertHTML(content);
+                                mw.element(ta).remove();
                                 return;
                                var edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit') ;
                                edit.contentEditable = true;
