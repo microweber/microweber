@@ -97,6 +97,10 @@ class FieldsManager
             return $fieldParseInput;
         }
 
+
+
+        $fieldParseInput = rtrim( $fieldParseInput , ',');
+
         preg_match_all(
             '/(\[.*?\])/',
             $fieldParseInput,

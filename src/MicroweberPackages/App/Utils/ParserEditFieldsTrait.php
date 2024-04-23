@@ -230,6 +230,7 @@ trait ParserEditFieldsTrait
                     $isReg = $this->registry->isParsedEditField($field, $rel, $data_id);
 
                     if ($isReg) {
+
                         continue;
                     }
                     $this->_current_parser_rel_prevoius = $this->_current_parser_rel;
@@ -318,6 +319,7 @@ trait ParserEditFieldsTrait
                                         pq($elem_clone)->html($field_content);
                                     }
                                 } else {
+
                                     pq($elem_clone)->html($field_content);
                                 }
 
@@ -335,7 +337,8 @@ trait ParserEditFieldsTrait
 
                                 $elem_clone_content = pq($elem_clone)->htmlOuter();
                                 $elem_clone_content = $this->_edit_field_add_modules_for_processing($elem_clone_content, $field, $rel, $data_id, $prevous_mod_obj);
-
+                                //$elem_clone_content = $this->_replace_editable_fields($elem_clone_content, $no_cache = 1, $from_parent = $layout, $coming_from_parent_id, $prevous_mod_obj);
+                                //   pq($elem)->html($elem_clone_content);
 
                                 pq($elem)->replaceWith($elem_clone_content);
 
@@ -366,15 +369,17 @@ trait ParserEditFieldsTrait
 
                     } else {
 
-
-                        //   $elem_clone = $elem->cloneNode();
-
+                        //  $el_html = pq($elem_clone)->htmlOuter();
                         $el_html = pq($elem)->htmlOuter();
 
                         $elem_clone_content = $this->_edit_field_add_modules_for_processing($el_html, $field, $rel, $data_id, $prevous_mod_obj);
 
+
                         pq($elem)->replaceWith($elem_clone_content);
 
+                        //     pq($elem)->html($elem_clone_content);
+
+                        //    pq($elem)->html($elem_clone_content);
 
                         if (strstr($el_html, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
                             pq($elem)->html('<!-- edit_field_not_found_in_database -->');
@@ -569,6 +574,14 @@ trait ParserEditFieldsTrait
                         $v1 = $v1 . '-' . $prevous_mod_obj->getId();
 
                     }
+
+                    //check for id attribute
+                    $id = pq($elem)->attr('id');
+                    $coming_from_parent_id = pq($elem)->attr('parent-module-id');
+                    if ($id and $coming_from_parent_id) {
+                        $this->registry->registerModuleIdFromDatabase($id);
+                    }
+
 
                     $v1 = '<mw-unprocessed-module-tag>mw_replace_back_this_module_for_processing_' . $v1 . '</mw-unprocessed-module-tag>';
                     if (!$this->parser_modules_collection->has($v1)) {
