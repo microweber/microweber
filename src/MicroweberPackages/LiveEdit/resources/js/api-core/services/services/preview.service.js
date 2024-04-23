@@ -1,12 +1,7 @@
 import  CSSGUIService from "../../../api-core/services/services/css-gui.service.js";
 
 
-let isEditMode = mw.cookie.get('isEditMode');
-if(isEditMode === undefined) {
-    mw.cookie.set('isEditMode', true);
-}
 
-isEditMode = mw.cookie.get('isEditMode') === 'true';
 
 
 
@@ -59,6 +54,18 @@ const _prepareCss = () => {
 }
 
 
+
+
+const isEditMode = function (value) {
+
+    if(value === undefined){
+        return mw.top().app.isEditMode || false
+    }
+    mw.top().app.isEditMode = value;
+
+}
+
+
 export const previewMode = function () {
     document.documentElement.classList.add('preview');
 
@@ -71,7 +78,9 @@ export const previewMode = function () {
 
     document.querySelector('#user-menu-wrapper').classList.remove('active');
 
-    mw.cookie.set('isEditMode', false);
+
+
+    isEditMode(false)
 
     mw.app.dispatch('mw.previewMode');
 
@@ -89,7 +98,7 @@ export const liveEditMode = function () {
     document.documentElement.style.setProperty('--toolbar-height', document.documentElement.style.getPropertyValue('--toolbar-static-height'));
     mw.app.canvas.getDocument().documentElement.classList.remove('mw-le--page-preview');
     mw.app.canvas.getDocument().body.classList.add('mw-live-edit');
-    mw.cookie.set('isEditMode', true);
+    isEditMode(true)
     mw.app.dispatch('mw.editMode');
 
     _prepareCss();
@@ -101,7 +110,7 @@ export const liveEditMode = function () {
 }
 
 mw.app.isPreview = () => {
-    return mw.cookie.get('isEditMode') === 'false';
+    return isEditMode() === false;
 }
 
 
@@ -109,8 +118,8 @@ mw.app.isPreview = () => {
 
 
 export const pagePreviewToggle = function () {
-    isEditMode = !isEditMode;
-    if (!isEditMode) {
+
+    if (!mw.app.isPreview()) {
         previewMode();
     } else {
         liveEditMode()
