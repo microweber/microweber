@@ -501,10 +501,10 @@ class ParserProcessor
                                         $curent_mod_rel = $mod_obj->getEditFieldRel();
                                         $curent_mod_field = $mod_obj->getEditField();
 
-
-                                        if($curent_mod_rel == 'module' and $curent_mod_field){
-                                            $mod_id =  $curent_mod_field . '-' . $mod_id;
-                                        }
+// check this again if repeating modules ids appear again, uncomment this
+//                                        if($curent_mod_rel == 'module' and $curent_mod_field){
+//                                            $mod_id =  $curent_mod_field . '-' . $mod_id;
+//                                        }
 
 
                                         $mod_id = $this->_str_clean_mod_id($mod_id);
