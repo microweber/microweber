@@ -67,10 +67,32 @@ mw.app = new MWUniversalContainer();
     };
 
     mw.app.broadcast.on('canvasURL', (data) => {
+        console.log(9999999, data);
 
-        if(data.url === mw.top().win.document.getElementById('live-editor-frame').src && !mw.app.documentFocus.isActive()) {
-            console.log(1112, data)
-            mw.app.broadcast.message('canvasURLAlreadyOpened', {...data});
+        mw.app.broadcast.record('canvasURL', data.url);
+
+        const isActive = mw.app.documentFocus.isActive();
+
+        if(data.url === mw.top().win.document.getElementById('live-editor-frame').src ) {
+
+            const ok = mw.element(`<button class="btn btn-primary" data-action="save">Update</button>`);
+            const cancel = mw.element(`<button class="btn">Canel</button>`);
+
+            const dlg = mw.dialog({
+                overlay: true,
+                content: 'This page is already opened in another tab! Edit here?',
+                footer: [cancel.get(0), ok.get(0)],
+                id: 'canvasURLAlreadyOpened'
+            })
+
+            ok.on('click', function(){
+                dlg.remove()
+            });
+            cancel.on('click', function(){
+                dlg.remove();
+
+            });
+            // mw.app.broadcast.message('canvasURLAlreadyOpened', {...data});
         }
     })
 
