@@ -874,16 +874,23 @@ class ContentManagerHelpers extends ContentManagerCrud
                     $is_module = 1;
                     $save_page = false;
                 }
+
+
 //                $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
 //
-////                if($multilanguageIsActive){
-////                      $lang_from_url = detect_lang_from_url($ref_page_url);
-////                        if(isset($lang_from_url['target_url'])){
-////                            $ref_page_url = $lang_from_url['target_url'];
-////                        }
-////                }
+//               if($multilanguageIsActive){
+//                     $lang_from_url = detect_lang_from_url($ref_page_url);
+//                       if(isset($lang_from_url['target_url'])){
+//                           $ref_page_url = $lang_from_url['target_url'];
+//                       }
+//               }
 
+                if($from_url == site_url()){
+                    $pd = $this->app->content_manager->homepage();
 
+                }
+
+ 
                 if ($is_admin == true and is_array($pd) and $is_module == false) {
                     $save_page = $pd;
                     if (!isset($_GET['mw_quick_edit'])) {
