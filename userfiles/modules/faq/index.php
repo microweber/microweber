@@ -9,6 +9,7 @@ $defaults = array(
     'question' => '',
     'answer' => ''
 );
+$useTextFromLiveEdit = get_module_option('use_content_from_live_edit', $params['id']);
 
 $data = json_decode($settings, true);
 

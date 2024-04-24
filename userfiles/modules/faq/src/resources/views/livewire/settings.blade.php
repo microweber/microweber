@@ -46,8 +46,6 @@ showMainEditTab: 'mainSettings'
         ]
     ];
 
-
-dump($use_content_from_live_edit);
     if($use_content_from_live_edit != 1) {
         $editorSettings['schema'][] =  [
             'type' => 'textarea',
