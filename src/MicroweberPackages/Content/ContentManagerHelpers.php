@@ -713,17 +713,26 @@ class ContentManagerHelpers extends ContentManagerCrud
             $ref_page_url = xss_clean($ref_page_url);
 
         }
-        //dd($ref_page_url,$post_data);
-        $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
+
+
+
+         $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
 
         if ($multilanguageIsActive) {
             $lang_from_url = detect_lang_from_url($ref_page_url);
-            if (isset($lang_from_url['target_locale'])
+            if (isset($post_data['lang'])
+                and ($post_data['lang'])
+            ) {
+
+                change_language_by_locale($post_data['lang'] ,true);
+            } else if (isset($lang_from_url['target_locale'])
                 and isset($lang_from_url['target_locale'])
             ) {
 
-                change_language_by_locale($lang_from_url['target_locale']);
+                change_language_by_locale($lang_from_url['target_locale'],true);
             }
+
+
         }
 
 

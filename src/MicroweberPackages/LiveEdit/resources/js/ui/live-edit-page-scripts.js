@@ -43,11 +43,17 @@ if(window.self !== window.top) {
             /************  START base64  ************/
             data.from_url = window.location.href;
 
-            //sometimes the url can be modified by pop state, so we use iframedata original url
+
             if(typeof mw.liveEditIframeData !== 'undefined'){
+                //sometimes the url can be modified by pop state, so we use iframedata original url
                 if(typeof mw.liveEditIframeData.content_link !== 'undefined'){
                     data.from_url =  mw.liveEditIframeData.content_link;
                 }
+
+                //sometimes the lang can be modified from another tab, so we use iframedata original lang
+                if(typeof mw.liveEditIframeData.multiLanguageCurrentLanguage !== 'undefined'){
+                    data.lang = mw.liveEditIframeData.multiLanguageCurrentLanguage;
+                 }
             }
 
 
