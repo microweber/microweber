@@ -374,6 +374,78 @@ export class ElementHandleContent {
 
                     this.setMenuVisible(selfVisible, selfBtn);
                 },
+            },
+            {
+                title: ' Image options',
+                text: '',
+                icon: this.handleIcons.icon('settings'),
+
+                className: 'mw-handle-element-open-image-editor-fine-tune-button',
+
+                action: (el) => {
+                    const dialogContent = `
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" name="title" placeholder="Image title" value="${el.title || ''}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Alt</label>
+                            <input type="text" class="form-control" name="alt" placeholder="Image alt text" value="${el.alt || ''}">
+                            <small class="text-muted">This text will appear if image fails to load</small>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-label">Loading</div>
+                            <div>
+                                <label class="form-check ">
+                                    <input class="form-check-input" type="radio" name="loading" value="eager" ${el.loading === 'eager' ? ' checked ' : ''}>
+                                    <span class="form-check-label">Default</span>
+                                    <small class="text-muted">Loads an image immediately</small>
+                                </label>
+                                <label class="form-check ">
+                                    <input class="form-check-input" type="radio" name="loading" value="lazy"  ${el.loading === 'lazy' ? ' checked ' : ''}>
+                                    <span class="form-check-label">Lazy</span>
+                                    <span class="text-muted">Defer loading of until image is present in the viewport</span>
+                                </label>
+                            </div>
+                        </div>
+                    `;
+
+                    const ok = mw.element(`<button class="btn btn-primary" data-action="save">Update</button>`);
+                    const cancel = mw.element(`<button class="btn">Canel</button>`);
+
+                    const dlg = mw.dialog({
+                        content: dialogContent,'title': 'Image options',
+                        footer: [cancel.get(0), ok.get(0)],
+                    });
+
+
+
+
+                    ok.on('click', function(){
+
+                        el.title = dlg.dialogContainer.querySelector('[name="title"]').value;
+                        el.alt = dlg.dialogContainer.querySelector('[name="alt"]').value;
+                        el.loading = dlg.dialogContainer.querySelector('[name="loading"]:checked').value;
+
+
+                        mw.app.registerChange(el)
+                        mw.app.registerAskUserToStay(true)
+
+
+                        dlg.remove();
+                    });
+                    cancel.on('click', function(){
+                        dlg.remove();
+
+                    });
+
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowEditImageButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+                },
             }
         ];
 

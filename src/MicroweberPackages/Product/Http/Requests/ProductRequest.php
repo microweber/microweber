@@ -13,8 +13,10 @@ class ProductRequest extends ContentSaveRequest
         $validator->after(function ($validator) {
             $mainPrice = $this->input('price');
             $specialPrice = $this->input('content_data.special_price');
-            if ($specialPrice !== null && $specialPrice > $mainPrice) {
-                $validator->errors()->add('content_data.special_price', 'Special price must not be greater than the main price.');
+            if($mainPrice && $specialPrice) {
+                if ($specialPrice > $mainPrice) {
+                    $validator->errors()->add('content_data.special_price', 'Special price must not be greater than the main price.');
+                }
             }
         });
     }
@@ -24,8 +26,7 @@ class ProductRequest extends ContentSaveRequest
         'content_meta_title' => 'max:500',
         'content_meta_keywords' => 'max:500',
         'original_link' => 'max:500',
-        //'price' => 'required|min:0.01|numeric',
-        'price' => 'required|min:0|numeric',
+        'price' => 'nullable|numeric',
         'content_data.special_price' => 'nullable|numeric',
         'qty' => 'max:50',
         'sku' => 'max:500',
