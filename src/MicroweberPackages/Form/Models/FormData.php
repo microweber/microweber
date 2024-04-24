@@ -19,8 +19,11 @@ class FormData extends Model
     public function formDataValues()
     {
         return $this->hasMany(FormDataValue::class)
-            ->where('field_value', '!=', '')
-            ->orWhere('field_value_json', '!=', '');
+            ->where(function($join){
+                $join->where('field_value', '!=', '')
+                    ->orWhere('field_value_json', '!=', '');
+
+            });
     }
 
     public function formList()
