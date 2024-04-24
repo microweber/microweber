@@ -59,7 +59,7 @@ const _prepareCss = () => {
 const isEditMode = function (value) {
 
     if(value === undefined){
-        return mw.top().app.isEditMode || false
+        return mw.top().app.isEditMode === undefined ? true : mw.top().app.isEditMode;
     }
     mw.top().app.isEditMode = value;
 
