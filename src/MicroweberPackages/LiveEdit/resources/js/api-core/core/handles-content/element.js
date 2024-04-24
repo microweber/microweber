@@ -382,7 +382,10 @@ export class ElementHandleContent {
 
                 className: 'mw-handle-element-open-image-editor-fine-tune-button',
 
+
+
                 action: (el) => {
+                    const defaultLoading = ['auto', 'eager'];
                     const dialogContent = `
                         <div class="mb-3">
                             <label class="form-label">Title</label>
@@ -397,7 +400,7 @@ export class ElementHandleContent {
                             <div class="form-label">Loading</div>
                             <div>
                                 <label class="form-check ">
-                                    <input class="form-check-input" type="radio" name="loading" value="eager" ${el.loading === 'eager' ? ' checked ' : ''}>
+                                    <input class="form-check-input" type="radio" name="loading" value="eager" ${defaultLoading.includes(el.loading)  ? ' checked ' : ''}>
                                     <span class="form-check-label">Default</span>
                                     <small class="text-muted">Loads an image immediately</small>
                                 </label>
@@ -411,7 +414,7 @@ export class ElementHandleContent {
                     `;
 
                     const ok = mw.element(`<button class="btn btn-primary" data-action="save">Update</button>`);
-                    const cancel = mw.element(`<button class="btn">Canel</button>`);
+                    const cancel = mw.element(`<button class="btn">Cancel</button>`);
 
                     const dlg = mw.dialog({
                         content: dialogContent,'title': 'Image options',
