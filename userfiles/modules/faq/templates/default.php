@@ -82,11 +82,13 @@ description: Default
 
             <div class="collapse allow-drop"   id="collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>" class="collapse <?php if ($key == 0) : ?> show <?php endif; ?>" aria-labelledby="header-item-<?php print $edit_field_key ?>" data-parent="#mw-accordion-module-<?php print $params['id'] ?>">
                 <div class="card-body px-5 py-5 ">
-                    <div class="allow-drop">
-                        <div class="element">
-                            <p class="lead faq-default-answer"> <?php print isset($slide['answer']) ? $slide['answer'] : 'FAQ Answer' ?></p>
-                        </div>
-                    </div>
+
+
+
+                    <?php include modules_path() . 'faq/templates/partials/render_faq_item_content.php'; ?>
+
+
+
                 </div>
             </div>
         </div>
