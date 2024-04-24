@@ -8,14 +8,26 @@ use MicroweberPackages\Product\Models\Product;
 class ProductRequest extends ContentSaveRequest
 {
     public $model = Product::class;
-
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $mainPrice = $this->input('price');
+            $specialPrice = $this->input('content_data.special_price');
+            if($mainPrice && $specialPrice) {
+                if ($specialPrice > $mainPrice) {
+                    $validator->errors()->add('content_data.special_price', 'Special price must not be greater than the main price.');
+                }
+            }
+        });
+    }
     public $rules = [
         'title' => 'required|max:500',
         'url' => 'max:500',
         'content_meta_title' => 'max:500',
         'content_meta_keywords' => 'max:500',
         'original_link' => 'max:500',
-        //'price' => 'required|min:0.01|numeric',
+        'price' => 'nullable|numeric',
+        'content_data.special_price' => 'nullable|numeric',
         'qty' => 'max:50',
         'sku' => 'max:500',
         'content_data.barcode' => 'max:200',

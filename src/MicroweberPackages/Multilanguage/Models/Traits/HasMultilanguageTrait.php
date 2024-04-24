@@ -187,7 +187,8 @@ trait HasMultilanguageTrait
 
     public function translations()
     {
-        return $this->hasMany(MultilanguageTranslations::class, 'rel_id');
+        return $this->hasMany(MultilanguageTranslations::class, 'rel_id')
+            ->where('rel_type', $this->getMorphClass());
     }
 
     public function getTranslationsFormated()
