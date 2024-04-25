@@ -118,6 +118,12 @@
 
 <?php print mw_admin_footer_scripts();    ?>
 
+<script>
+
+mw.settings.adminUrl = '<?php print admin_url(); ?>';
+
+</script>
+
 
 
 </body>

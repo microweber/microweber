@@ -338,8 +338,10 @@
                 mw.$(this.options.closeButtonAppendTo, this.dialogMain).append(this.closeButton)
             }
             else {
-                this.dialogHolder.appendChild(this.closeButton);
+                if (this.options.closeButton !== false) {
+                    this.dialogHolder.appendChild(this.closeButton);
 
+                }
             }
 
             this.dialogOverlay();

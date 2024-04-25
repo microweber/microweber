@@ -37,25 +37,12 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         }
 
         if(this.isUrlOpened(url)) {
-
-            const ok = mw.element(`<button class="btn btn-primary" data-action="save">Update</button>`);
-            const cancel = mw.element(`<button class="btn">Cancel</button>`);
-
-            const dlg = mw.dialog({
-                overlay: true,
-                content: 'This page is already opened in another tab! Edit here?',
-                footer: [cancel.get(0), ok.get(0)],
-                id: 'canvasURLAlreadyOpened'
-            })
-
-            ok.on('click', async function(){
-                dlg.remove()
-                await open();
-            });
-            cancel.on('click', function(){
-                dlg.remove();
-
-            });
+            const action = await mw.app.pageAlreadyOpened.handle();
+            if(action) {
+                open()
+            } else {
+                mw.top().win.location.href = mw.settings.adminUrl;
+            }
 
         } else{
             await open();
@@ -63,7 +50,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
     };
 
     isUrlOpened(url) {
-       return  mw.top().app.broadcast.findByKeyValue('canvasURL', this.#urlAsValue(url));
+       return  mw.top().app.broadcast.findByKeyValue('canvasURL', this.#urlAsValue(url), false).length > 1;
     }
 
 
