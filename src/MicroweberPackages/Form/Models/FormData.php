@@ -31,7 +31,7 @@ class FormData extends Model
         return $this->belongsTo(FormList::class);
     }
 
-    public function getFormDataValues()
+    public function getFormDataValues() : array
     {
         $formDataValues = [];
         $allValues = $this->formDataValues()->get();

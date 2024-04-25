@@ -725,6 +725,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             ) {
 
                 change_language_by_locale($post_data['lang'] ,true);
+                unset($post_data['lang']);
             } else if (isset($lang_from_url['target_locale'])
                 and isset($lang_from_url['target_locale'])
             ) {
@@ -890,7 +891,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                 }
 
- 
+
                 if ($is_admin == true and is_array($pd) and $is_module == false) {
                     $save_page = $pd;
                     if (!isset($_GET['mw_quick_edit'])) {
