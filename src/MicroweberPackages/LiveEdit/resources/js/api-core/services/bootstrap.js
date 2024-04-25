@@ -67,7 +67,7 @@ mw.app = new MWUniversalContainer();
     };
 
     mw.app.broadcast.on('canvasURL', (data) => {
-        console.log(9999999, data);
+
 
         mw.app.broadcast.record('canvasURL', data.url);
 
@@ -76,7 +76,7 @@ mw.app = new MWUniversalContainer();
         if(data.url === mw.top().win.document.getElementById('live-editor-frame').src ) {
 
             const ok = mw.element(`<button class="btn btn-primary" data-action="save">Update</button>`);
-            const cancel = mw.element(`<button class="btn">Canel</button>`);
+            const cancel = mw.element(`<button class="btn">Cancel</button>`);
 
             const dlg = mw.dialog({
                 overlay: true,

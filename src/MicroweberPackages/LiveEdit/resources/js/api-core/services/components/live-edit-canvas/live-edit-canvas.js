@@ -8,14 +8,63 @@ export class LiveEditCanvas extends MicroweberBaseClass {
     }
 
     #canvas = null;
-    async #registerURL(url){
 
-        mw.top().app.broadcast.message('canvasURL', {url});
-        this.dispatch('setUrl', url);
-        if (this.options && this.options.onSetUrl) {
-            await this.options.onSetUrl(url);
+
+    #urlAsValue(url) {
+        const urlObj = new URL(url);
+        urlObj.search = '';
+        urlObj.hash = '';
+        let result = urlObj.toString().trim();
+
+        // unify the way urls are stored
+        if(result.lastIndexOf('/') === result.length - 1) {
+            result = result.substring(0, result.length - 1);
+        }
+
+        return result;
+    };
+
+
+
+
+    async #registerURL(url){
+        const open = async () => {
+            mw.top().app.broadcast.message('canvasURL', {url: this.#urlAsValue(url)});
+            this.dispatch('setUrl', url);
+            if (this.options && this.options.onSetUrl) {
+                await this.options.onSetUrl(url);
+            }
+        }
+
+        if(this.isUrlOpened(url)) {
+
+            const ok = mw.element(`<button class="btn btn-primary" data-action="save">Update</button>`);
+            const cancel = mw.element(`<button class="btn">Cancel</button>`);
+
+            const dlg = mw.dialog({
+                overlay: true,
+                content: 'This page is already opened in another tab! Edit here?',
+                footer: [cancel.get(0), ok.get(0)],
+                id: 'canvasURLAlreadyOpened'
+            })
+
+            ok.on('click', async function(){
+                dlg.remove()
+                await open();
+            });
+            cancel.on('click', function(){
+                dlg.remove();
+
+            });
+
+        } else{
+            await open();
         }
     };
+
+    isUrlOpened(url) {
+       return  mw.top().app.broadcast.findByKeyValue('canvasURL', this.#urlAsValue(url));
+    }
 
 
 
