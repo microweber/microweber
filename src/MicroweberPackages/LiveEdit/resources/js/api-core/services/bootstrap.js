@@ -69,7 +69,7 @@ mw.app = new MWUniversalContainer();
     };
 
     mw.app.broadcast.on('canvasURL', async (data) => {
-        console.log(1)
+
 
 
         mw.app.broadcast.record('canvasURL', data.url);
@@ -77,10 +77,10 @@ mw.app = new MWUniversalContainer();
         const isActive = mw.app.documentFocus.isActive();
 
         if(mw.top().app.canvas.isUrlOpened(data.url) ) {
-            console.log`    2`
 
-            const action = await mw.app.pageAlreadyOpened.handle();
-console.log(3)
+
+            const action = await mw.app.pageAlreadyOpened.handle(data.url);
+
             if(action) {
 
             } else {
