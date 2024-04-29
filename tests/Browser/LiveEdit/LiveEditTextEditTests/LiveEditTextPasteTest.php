@@ -79,7 +79,7 @@ class LiveEditTextPasteTest extends DuskTestCase
              $browser->pause(400);
             $output = $browser->script("
 
-            var myTextElement = navigator.clipboard.readText();
+            var myTextElement = await navigator.clipboard.readText();
 
             return myTextElement;
 
@@ -91,6 +91,7 @@ class LiveEditTextPasteTest extends DuskTestCase
             $browser->click('#my-text-to-paste-to');
             $browser->pause(100);
             $browser->keys('#my-text-to-paste-to', [WebDriverKeys::CONTROL, 'v']);
+            $browser->pause(1000);
 
             $innerText = $browser->element('#my-text-to-paste-to')->getText();
 
