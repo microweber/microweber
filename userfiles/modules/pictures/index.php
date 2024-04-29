@@ -104,7 +104,7 @@ if (isset($params['rel_id']) == true) {
         $data = get_pictures("rel_id=0&rel_type={$for}&session_id={$sid}");
     }
 
-    if (empty($data)) {
+    if (empty($data) and in_live_edit()) {
         $isDefaultSettingsApplied = get_option('default_settings_is_applied', $params['id']);
         if (!$isDefaultSettingsApplied) {
             $path = modules_path() . 'pictures' . DS . 'default-images' . DS;
