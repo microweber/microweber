@@ -1,4 +1,24 @@
+<style>
+    .change-layout-background-wrapper span {
+        font-size: 12px;
 
+    }
+
+    .change-layout-background-wrapper {
+        max-width: 70%;
+    }
+</style>
+
+<script>
+    $(document).ready(function() {
+        $('.change-layout-background-wrapper span').on('click', function() {
+            // Remove 'active' class from all spans
+            $('.change-layout-background-wrapper span').removeClass('active');
+            // Add 'active' class to the clicked span
+            $(this).addClass('active');
+        });
+    });
+</script>
 
 <div>
 
@@ -18,24 +38,24 @@
 
 
         <br>
-<div class="mb-3">
-  <label class="form-label">Image size</label>
-  <div class="form-selectgroup">
-    <label class="form-selectgroup-item">
+<div class="change-layout-background-wrapper">
+  <label class="live-edit-label">Image size</label>
+  <div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper mx-0">
+    <label class="form-selectgroup-item w-100">
       <input type="radio" name="backgroundSize" value="auto" class="form-selectgroup-input" checked />
-      <span class="form-selectgroup-label">Auto</span>
+      <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Auto</span>
     </label>
-    <label class="form-selectgroup-item">
+    <label class="form-selectgroup-item w-100">
       <input type="radio" name="backgroundSize" value="cover" class="form-selectgroup-input" />
-      <span class="form-selectgroup-label">Cover</span>
+      <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Cover</span>
     </label>
-    <label class="form-selectgroup-item">
+    <label class="form-selectgroup-item w-100">
       <input type="radio" name="backgroundSize" value="contain" class="form-selectgroup-input" />
-      <span class="form-selectgroup-label">Fit</span>
+      <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Fit</span>
     </label>
-    <label class="form-selectgroup-item">
+    <label class="form-selectgroup-item w-100">
       <input type="radio" name="backgroundSize" value="100% 100%" class="form-selectgroup-input" />
-      <span class="form-selectgroup-label">Scale</span>
+      <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Scale</span>
     </label>
   </div>
 </div>

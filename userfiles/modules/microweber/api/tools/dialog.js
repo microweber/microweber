@@ -170,6 +170,7 @@
             // skin: 'default'
         });
 
+
         this.id = this.options.id;
 
 
@@ -334,12 +335,16 @@
 
             this.options.root.body.appendChild(this.dialogMain);
             this.dialogMain.appendChild(this.dialogHolder);
+
             if (this.options.closeButtonAppendTo) {
-                mw.$(this.options.closeButtonAppendTo, this.dialogMain).append(this.closeButton)
+                if (this.options.closeButton !== false) {
+                    mw.$(this.options.closeButtonAppendTo, this.dialogMain).append(this.closeButton)
+                }
             }
             else {
-                this.dialogHolder.appendChild(this.closeButton);
-
+                if (this.options.closeButton !== false) {
+                    this.dialogHolder.appendChild(this.closeButton);
+                }
             }
 
             this.dialogOverlay();

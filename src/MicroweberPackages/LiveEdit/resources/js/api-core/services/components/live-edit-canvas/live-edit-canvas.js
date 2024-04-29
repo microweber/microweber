@@ -36,34 +36,27 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             }
         }
 
+
         if(this.isUrlOpened(url)) {
 
-            const ok = mw.element(`<button class="btn btn-primary" data-action="save">Update</button>`);
-            const cancel = mw.element(`<button class="btn">Cancel</button>`);
+            const action = await mw.app.pageAlreadyOpened.handle(url);
 
-            const dlg = mw.dialog({
-                overlay: true,
-                content: 'This page is already opened in another tab! Edit here?',
-                footer: [cancel.get(0), ok.get(0)],
-                id: 'canvasURLAlreadyOpened'
-            })
+            if(action) {
 
-            ok.on('click', async function(){
-                dlg.remove()
-                await open();
-            });
-            cancel.on('click', function(){
-                dlg.remove();
+                open()
+            } else {
 
-            });
+                mw.top().win.location.href = mw.settings.adminUrl;
+            }
 
         } else{
+
             await open();
         }
     };
 
     isUrlOpened(url) {
-       return  mw.top().app.broadcast.findByKeyValue('canvasURL', this.#urlAsValue(url));
+       return  mw.top().app.broadcast.findByKeyValue('canvasURL', this.#urlAsValue(url), false).length > 1;
     }
 
 
@@ -112,10 +105,16 @@ export class LiveEditCanvas extends MicroweberBaseClass {
     }
 
     async setUrl(url) {
-        url = url.toString();
-        await this.#registerURL( url);
+
+
+
 
         this.#canvas.src = url;
+
+
+        url = url.toString();
+
+        await this.#registerURL( url);
     }
 
     mount(target) {
@@ -139,21 +138,16 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
         url = new URL(url);
 
-      //  url.searchParams.set('editmode', 'iframe');
+
 
         if(url.host !== top.location.host) {
             url = `${mw.settings.site_url}`;
         }
 
-        // if(url.host !== top.location.host) {
-        //     url = `${mw.settings.site_url}?editmode=iframe`;
-        // }
-
-        // if(url.host !== top.location.host) {
-        //     url = `${mw.settings.site_url}?editmode=iframe`;
-        // }
 
         this.#canvas = liveEditIframe;
+
+
 
 
         liveEditIframe.frameBorder = 0;
@@ -171,7 +165,6 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         window.onbeforeunload = function () {
             if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw
            && liveEditIframe.contentWindow.mw.askusertostay){
-               // prevent user from leaving the page
 
 
                return true;
@@ -188,6 +181,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
 
         liveEditIframe.addEventListener('load', e => {
+
             mw.spinner({element: target, decorate: true}).remove();
 
             if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw) {
@@ -250,6 +244,8 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             if(liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw) {
                 liveEditIframe.contentWindow.mw.isNavigating = false;
             }
+
+
             this.dispatch('liveEditCanvasLoaded', {frame: liveEditIframe, frameWindow: liveEditIframe.contentWindow, frameDocument: liveEditIframe.contentWindow.document});
 
 

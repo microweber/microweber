@@ -17,22 +17,22 @@ export class MWBroadcast extends BaseComponent {
 
     #channel = new BroadcastChannel("Microweber");
 
-    findByKey(key) {
+    findByKey(key, excludeSameIdentity = false) {
         let curr = mw.storage.get('mw-broadcast-data');
         const res = []
         for(let identity in curr) {
-            if(curr[identity][key]) {
-                res.push(curr[identity]);
+            if(curr[identity][key] && (!excludeSameIdentity || identity !== this.getIdentity())) {
+                res.push({...curr[identity], identity});
             }
         }
         return res;
     }
-    findByKeyValue(key, value) {
+    findByKeyValue(key, value, excludeSameIdentity = false) {
         let curr = mw.storage.get('mw-broadcast-data');
         const res = []
         for(let identity in curr) {
-            if(curr[identity][key] === value) {
-                res.push(curr[identity]);
+            if(curr[identity][key] === value && (!excludeSameIdentity || identity !== this.getIdentity())) {
+                res.push({...curr[identity], identity});
             }
         }
         return res;
@@ -75,7 +75,14 @@ export class MWBroadcast extends BaseComponent {
                 this.dispatch('remote-' + e.data.action, e.data);
             }
         };
+        globalThis.addEventListener('unload', e => {
+
+             let curr = mw.storage.get('mw-broadcast-data');
+             delete curr[this.getIdentity()];
+             mw.storage.set('mw-broadcast-data', curr);
+        });
         globalThis.addEventListener('beforeunload', e => {
+
              let curr = mw.storage.get('mw-broadcast-data');
              delete curr[this.getIdentity()];
              mw.storage.set('mw-broadcast-data', curr);

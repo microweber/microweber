@@ -22,6 +22,7 @@ import { SingleFilePickerComponent } from './services/single-file-picker-compone
 import { MWBroadcast } from './services/broadcast.js';
 import { MWDocumentFocus } from './services/document.focus.service.js';
 import { da } from 'vuetify/locale';
+import { MWPageAlreadyOpened } from './components/live-edit/page-already-opened.service.js';
 
 mw.app = new MWUniversalContainer();
 
@@ -57,6 +58,7 @@ mw.app = new MWUniversalContainer();
     mw.app.register('linkPicker', LinkPicker);
     mw.app.register('colorPicker', ColorPicker);
     mw.app.register('dynamicTargetMenus', DynamicTargetMenus);
+    mw.app.register('pageAlreadyOpened', MWPageAlreadyOpened);
 
 
     mw.app.normalizeBase64Image = normalizeBase64Image;
@@ -66,48 +68,30 @@ mw.app = new MWUniversalContainer();
         return new SingleFilePickerComponent(options)
     };
 
-    mw.app.broadcast.on('canvasURL', (data) => {
+    mw.app.broadcast.on('canvasURL', async (data) => {
+
 
 
         mw.app.broadcast.record('canvasURL', data.url);
 
         const isActive = mw.app.documentFocus.isActive();
 
-        if(data.url === mw.top().win.document.getElementById('live-editor-frame').src ) {
+        if(mw.top().app.canvas.isUrlOpened(data.url) ) {
 
-            const ok = mw.element(`<button class="btn btn-primary" data-action="save">Update</button>`);
-            const cancel = mw.element(`<button class="btn">Cancel</button>`);
 
-            const dlg = mw.dialog({
-                overlay: true,
-                content: 'This page is already opened in another tab! Edit here?',
-                footer: [cancel.get(0), ok.get(0)],
-                id: 'canvasURLAlreadyOpened'
-            })
+            const action = await mw.app.pageAlreadyOpened.handle(data.url);
 
-            ok.on('click', function(){
-                dlg.remove()
-            });
-            cancel.on('click', function(){
-                dlg.remove();
+            if(action) {
 
-            });
-            // mw.app.broadcast.message('canvasURLAlreadyOpened', {...data});
-        }
-    })
+            } else {
+                mw.top().win.location.href = mw.settings.adminUrl;
+            }
 
-    mw.app.broadcast.on('canvasURLAlreadyOpened', (data) => {
 
-        if(data.url === mw.top().win.document.getElementById('live-editor-frame').src && mw.app.documentFocus.isActive()) {
-            console.log(125, data)
-            mw.confirm('This page is already opened in another tab! Edit here?', function(){
-
-            }, function(){
-
-            });
 
         }
     })
+
 
 
 
