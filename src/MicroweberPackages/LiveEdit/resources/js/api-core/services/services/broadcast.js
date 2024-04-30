@@ -7,13 +7,19 @@ export class MWBroadcast extends BaseComponent {
 
         this.max = 0;
 
-        this.#init();
+        if(! mw.top().MWBroadcastIdentity) {
+            mw.top().MWBroadcastIdentity = mw.id();
+        }
 
+        this.#init();
     }
 
-    static identity = mw.id();
 
-    getIdentity() { return MWBroadcast.identity; }
+
+    getIdentity() {
+
+        return mw.top().MWBroadcastIdentity;
+    }
 
     #channel = new BroadcastChannel("Microweber");
 
@@ -21,7 +27,7 @@ export class MWBroadcast extends BaseComponent {
         let curr = mw.storage.get('mw-broadcast-data');
         const res = []
         for(let identity in curr) {
-            if(curr[identity][key] && (!excludeSameIdentity || identity !== this.getIdentity())) {
+            if(curr[identity][key] && curr[identity][key] && (!excludeSameIdentity || identity !== this.getIdentity())) {
                 res.push({...curr[identity], identity});
             }
         }
@@ -31,7 +37,7 @@ export class MWBroadcast extends BaseComponent {
         let curr = mw.storage.get('mw-broadcast-data');
         const res = []
         for(let identity in curr) {
-            if(curr[identity][key] === value && (!excludeSameIdentity || identity !== this.getIdentity())) {
+            if(curr[identity][key] && curr[identity][key] === value && (!excludeSameIdentity || identity !== this.getIdentity())) {
                 res.push({...curr[identity], identity});
             }
         }
@@ -77,15 +83,20 @@ export class MWBroadcast extends BaseComponent {
         };
         globalThis.addEventListener('unload', e => {
 
-             let curr = mw.storage.get('mw-broadcast-data');
-             delete curr[this.getIdentity()];
-             mw.storage.set('mw-broadcast-data', curr);
-        });
-        globalThis.addEventListener('beforeunload', e => {
+
 
              let curr = mw.storage.get('mw-broadcast-data');
              delete curr[this.getIdentity()];
              mw.storage.set('mw-broadcast-data', curr);
+
+        });
+        globalThis.addEventListener('beforeunload', e => {
+
+
+             let curr = mw.storage.get('mw-broadcast-data');
+             delete curr[this.getIdentity()];
+             mw.storage.set('mw-broadcast-data', curr);
+
         });
     }
 }

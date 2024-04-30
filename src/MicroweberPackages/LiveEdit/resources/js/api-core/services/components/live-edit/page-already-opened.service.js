@@ -1,4 +1,5 @@
 export class MWPageAlreadyOpened{
+
     constructor() {
 
         mw.top().app.broadcast.on('refreshFocusedPage', data => {
@@ -6,11 +7,11 @@ export class MWPageAlreadyOpened{
                 return;
             }
 
-            if(data.url === mw.top().app.canvas.getUrl()) {
+            if(data.url === this.getScopeURL()) {
                 if(data.skipIdentity && data.skipIdentity.includes(mw.top().app.broadcast.getIdentity())) {
                     return;
                 }
-                mw.top().app.canvas.refresh();
+                this.scopeRefresh();
             }
         })
         mw.top().app.broadcast.on('saveAndGoToAdmin', data => {
@@ -19,8 +20,8 @@ export class MWPageAlreadyOpened{
                 return;
             }
 
-            if(data.url === mw.top().app.canvas.getUrl() && mw.top().app.documentFocus.isActive()) {
-                mw.top().app.canvas.refresh();
+            if(data.url === this.getScopeURL() && mw.top().app.documentFocus.isActive()) {
+                this.scopeRefresh();
             }
         })
         mw.top().app.broadcast.on('closePage', data => {
@@ -28,13 +29,27 @@ export class MWPageAlreadyOpened{
                 return;
             }
 
-            if(data.url === mw.top().app.canvas.getUrl()) {
+            if(data.url === this.getScopeURL()) {
                 if(data.skipIdentity && data.skipIdentity.includes(mw.top().app.broadcast.getIdentity())) {
                     return;
                 }
                 mw.top().win.location.href = mw.settings.adminUrl;
             }
         })
+    }
+
+    scopeRefresh() {
+        if(mw.top().app && mw.top().app.canvas) {
+            return mw.top().app.canvas.refresh();
+        }
+        return location.reload();
+    }
+
+    getScopeURL() {
+        if(mw.top().app && mw.top().app.canvas) {
+            return mw.top().app.canvas.getUrl();
+        }
+        return location.href;
     }
 
     async saveAndBack() {

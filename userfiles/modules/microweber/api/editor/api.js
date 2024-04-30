@@ -1438,7 +1438,7 @@
 
                     if(result.target) {
                         setTimeout(() => {
-                            console.log(common, common.querySelectorAll(`a[href="${result.url}"]`))
+
                             common.querySelectorAll(`a[href="${result.url}"]`).forEach(a => a.target = '_blank');
                         }, 120)
                     }

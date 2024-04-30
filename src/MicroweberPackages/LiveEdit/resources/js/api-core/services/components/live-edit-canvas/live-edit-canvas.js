@@ -21,6 +21,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             result = result.substring(0, result.length - 1);
         }
 
+
         return result;
     };
 
@@ -55,7 +56,13 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         }
     };
 
+    isUrlSame(url) {
+
+        return this.#urlAsValue(url) === this.#urlAsValue(this.#canvas.src);
+    }
+
     isUrlOpened(url) {
+        console.log(mw.top().app.broadcast.findByKeyValue('canvasURL', this.#urlAsValue(url), false))
        return  mw.top().app.broadcast.findByKeyValue('canvasURL', this.#urlAsValue(url), false).length > 1;
     }
 

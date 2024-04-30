@@ -76,7 +76,8 @@ mw.app = new MWUniversalContainer();
 
         const isActive = mw.app.documentFocus.isActive();
 
-        if(mw.top().app.canvas.isUrlOpened(data.url) ) {
+        if(mw.top().app.canvas.getWindow() && mw.top().app.canvas.isUrlOpened(data.url) && mw.top().app.canvas.isUrlSame(data.url)  ) {
+
 
 
             const action = await mw.app.pageAlreadyOpened.handle(data.url);
