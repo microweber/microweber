@@ -3,6 +3,20 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+
+## [2.0.14] - 2024-04-30
+- Maintenance release
+- Fixes on the Multi language module
+- Fixes on the backup module
+- Fixes the contact form module
+- Added image alt and title to the image module
+- More work done on the free draggable elements
+- Icons are now resizable
+- Other issues
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.13...2.0.14 "")
+
+
+
 ## [2.0.13] - 2024-04-02
 - Maintenance release
 - Fixes on the backup module
