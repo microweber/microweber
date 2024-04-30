@@ -54,7 +54,7 @@ if (class_exists(\App\Console\Kernel::class,false)) {
 
 $app->singleton(
     \Illuminate\Contracts\Debug\ExceptionHandler::class,
-    \MicroweberPackages\App\Exceptions\Handler::class
+    \Illuminate\Foundation\Exceptions\Handler::class
 );
 
 /*
