@@ -3,16 +3,33 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+
 ## [2.0.14] - 2024-04-30
 - Maintenance release
 - Fixes on the Multi language module
 - Fixes on the backup module
-- Fixes the contact form module 
+- Fixes the contact form module
 - Added image alt and title to the image module
 - More work done on the free draggable elements
 - Icons are now resizable
 - Other issues
 - [See all changes...](https://github.com/microweber/microweber/compare/2.0.13...2.0.14 "")
+
+
+
+## [2.0.13] - 2024-04-02
+- Maintenance release
+- Fixes on the backup module
+- Fixes on the contact form module
+- Fixes on the menu module in multilanguage mode
+- Fixes on button link picker in multilanguage mode
+- Fixes on google analytics module
+- Fixes on social links module
+- Various fixes on the live edit
+- Added marque module
+- Added text typing effect module
+- Other issues
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.12...2.0.13 "")
 
 
 
