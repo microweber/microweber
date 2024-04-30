@@ -111,6 +111,9 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         return false;
     }
 
+      getUrl(url) {
+        return this.#canvas.src;
+      }
     async setUrl(url) {
 
 
