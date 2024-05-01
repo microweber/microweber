@@ -60,7 +60,7 @@ git commit -m "Added/Fixed/Updated XXX issue"
 
 **NOTE**:
 
-- A Pull Request should have only one unique isse fix to make it simple for review.
+- A Pull Request should have only one unique issue fix to make it simple for review.
 - Multiple fixes for same issue can be grouped into single Pull Request.
 
 
