@@ -108,6 +108,16 @@ class UserRegisterController extends Controller
             }
             // event(new UserWasRegistered($created, $request->all()));
         }
+        if($should_login){
+            $created['success'] = 'Registration is completed.';
+            $created['status'] = 'success';
+        }else{
+            if($registration_approval_required == true and !$isVerfiedEmailRequired){
+                $created['success'] = 'Registration done. Wait for Approval by Admin!';
+            }else{
+                $created['success'] = 'Verification email sent. Please verify your email first!';
+            }
+        }
 
         $resource = new \MicroweberPackages\User\Http\Resources\UserResource($request, $created);
 
