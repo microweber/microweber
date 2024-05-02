@@ -62,7 +62,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
     }
 
     isUrlOpened(url) {
-        console.log(mw.top().app.broadcast.findByKeyValue('canvasURL', this.#urlAsValue(url), false))
+
        return  mw.top().app.broadcast.findByKeyValue('canvasURL', this.#urlAsValue(url), false).length > 1;
     }
 

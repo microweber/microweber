@@ -26,6 +26,12 @@ const _prepareCss = () => {
                     pointer-events: none !important;
                 }
 
+                html.mw-le--page-preview .mw-handle-item * {
+
+                    opacity:0 !important;
+                    pointer-events: none !important;
+                }
+
 
                 html.mw-le--page-preview .moveable-control-box,
                 html.mw-le--page-preview .mw_image_resizer,
