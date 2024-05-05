@@ -80,7 +80,7 @@
                            id="js-install-package-action"
                            onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
                            class="btn btn-success btn-sm js-package-install-btn">
-                            {{_('Install')}}
+                            {{_e('Install')}}
                         </a>
 
                     @endif
