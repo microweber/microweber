@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
-## [2.0.14] - 2024-04-30
+## [2.0.14] - 2024-05-07
 - Maintenance release
 - Fixes on the Multi language module
 - Fixes on the backup module
