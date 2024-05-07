@@ -42,7 +42,7 @@ jobs:
            'microweber-templates/beauty',
 #          'microweber-templates/blank',
 #          'microweber-templates/bookstore',
-#          'microweber-templates/burger',
+           'microweber-templates/burger',
 #          'microweber-templates/business',
 #          'microweber-templates/car-services',
 #          'microweber-templates/clothes',
