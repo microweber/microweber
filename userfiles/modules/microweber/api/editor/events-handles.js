@@ -11,13 +11,14 @@ class MWEditorEventHandles {
     }
 
     insertBR(e, edit) {
+        if (typeof edit !== 'undefined' && edit && edit.innerHTML) {
 
-        this.scope.state.record({
+            this.scope.state.record({
 
-            target: edit,
-            value: edit.innerHTML
-        });
-
+                target: edit,
+                value: edit.innerHTML
+            });
+        }
         var sel = this.scope.api.getSelection() ;
         var range = sel.getRangeAt(0);
         var br = range.commonAncestorContainer.ownerDocument.createElement('br');
@@ -37,10 +38,13 @@ class MWEditorEventHandles {
 
 
         e.preventDefault();
-       this.scope.state.record({
-            target: edit,
-            value: edit.innerHTML
-        });
+
+        if( typeof edit !== 'undefined' &&  edit && edit.innerHTML) {
+            this.scope.state.record({
+                target: edit,
+                value: edit.innerHTML
+            });
+        }
     }
 
 
