@@ -61,6 +61,7 @@ class LayoutsManager
 
         return $res;
     }
+
     public function get_layout_details($params)
     {
         $layout_options = array();
@@ -81,7 +82,7 @@ class LayoutsManager
         }
 
 
-        if($layouts){
+        if ($layouts) {
             foreach ($layouts as $layout) {
                 if (isset($layout['layout_file']) and $layout['layout_file']) {
                     $layout['layout_file'] = str_replace('____', '/', $layout['layout_file']);
@@ -95,6 +96,7 @@ class LayoutsManager
         }
 
     }
+
     public function get_elements_from_current_site_template()
     {
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
@@ -134,7 +136,7 @@ class LayoutsManager
 
         if ($element_file) {
             $view = new View($element_file);
-            if(is_array($attr) and !empty($attr)){
+            if (is_array($attr) and !empty($attr)) {
                 $view->set($attr);
             }
             return $view->display();
@@ -411,9 +413,9 @@ class LayoutsManager
                             $layout_file_preview = str_replace('/', '__', $layout_file);
 
                             $skipLayoutFiles = [
-                               '404.php',
-                               'forgot_password.php',
-                               'login.php',
+                                '404.php',
+                                'forgot_password.php',
+                                'login.php',
                                 'register.php',
                                 'reset_password.php',
                                 'layouts/sign-up.php',
@@ -425,7 +427,7 @@ class LayoutsManager
 
                             $to_return_temp['layout_file'] = $layout_file;
                             $to_return_temp['layout_file_preview'] = $layout_file_preview;
-                            $to_return_temp['layout_file_preview_url'] = site_url('new-content-preview-'. uniqid()) . '?content_id=0&no_editmode=true&preview_layout=' . $layout_file_preview;
+                            $to_return_temp['layout_file_preview_url'] = site_url('new-content-preview-' . uniqid()) . '?content_id=0&no_editmode=true&preview_layout=' . $layout_file_preview;
 
                             $to_return_temp['filename'] = $filename;
                             $screen = str_ireplace('.php', '.png', $filename);
@@ -865,175 +867,17 @@ class LayoutsManager
                 $live_edit_css = $template_folder . 'live_edit.css';
 
                 $css_cont = false;
+                $css_cont_new = false;
                 if (isset($params['css_file_content'])) {
                     $css_cont_new = $params['css_file_content'];
 
-                } else {
-
-
-                    $fcont = '';
-                    if (is_file($live_edit_css)) {
-                        $fcont = file_get_contents($live_edit_css);
-                    }
-
-                    $css_cont = $fcont;
-                    $css_cont_new = $css_cont;
-
-                    //@import on top
-                    $sort_params = array();
-                    $sort_params2 = array();
-                    foreach ($params as $item) {
-                        if (isset($item['selector']) and trim($item['selector']) == '@import' and isset($item['value'])) {
-                            if ($item['value'] != 'reset') {
-                                $sort_params[] = $item;
-                            }
-                        } else {
-                            $sort_params2[] = $item;
-                        }
-                    }
-
-
-                    $params = array_merge($sort_params, $sort_params2);
-
-
-                    foreach ($params as $item) {
-                        $curr = '';
-
-                        if (isset($item['css']) and isset($item['selector']) and !isset($item['property'])) {
-                            //  $item['property'] =  $item['css'];
-                        }
-
-
-                        if (!isset($item['css']) and isset($item['property']) and isset($item['value'])) {
-                            if ($item['value'] == 'reset') {
-                                $item['css'] = 'reset';
-                            } else {
-
-                                if (isset($item['selector']) and trim($item['selector']) == '@import' and isset($item['value'])) {
-                                    $props = explode(',', $item['property']);
-
-                                    foreach ($props as $prop) {
-                                        $curr .= $prop . ' ' . $item['value'] . ';' . "\n";
-                                    }
-                                } else {
-                                    $props = explode(',', $item['property']);
-                                    $curr = '';
-                                    foreach ($props as $prop) {
-                                        if (isset($item['value']) and trim($item['value']) != '') {
-                                            $curr .= $prop . ':' . $item['value'] . ';' . "\n";
-                                        }
-                                    }
-                                }
-                                if ($curr != '') {
-                                    $item['css'] = $curr;
-                                }
-                            }
-                        } else {
-
-                            if (!isset($item['css']) and !isset($item['selector'])) {
-                                $find_css = $this->__array_search_key('css', $item);
-                                $find_selector = $this->__array_search_key('selector', $item);
-                                if ($find_css and $find_selector) {
-                                    $item['css'] = $find_css;
-                                    $item['selector'] = $find_selector;
-                                }
-
-                            }
-
-                            if (isset($item['css'])) {
-
-                                $props = explode(';', $item['css']);
-                                $curr = '';
-                                $css_props = array();
-                                foreach ($props as $prop) {
-
-                                    $prop_key = substr($prop, 0, strpos($prop, ':'));
-                                    $prop_val = substr($prop, strpos($prop, ':') + 1, 9999);
-                                    $prop_key = trim($prop_key);
-                                    $prop_val = trim($prop_val);
-                                    if ($prop_key and $prop_val) {
-                                        $css_props[$prop_key] = $prop_val;
-                                    }
-
-                                }
-                                $curr = '';
-                                if ($css_props) {
-                                    foreach ($css_props as $prop_k => $prop_v) {
-                                        $curr .= $prop_k . ':' . $prop_v . '; ' . "\n";
-                                    }
-                                }
-                                if ($curr != '') {
-                                    $item['css'] = $curr;
-                                }
-                            }
-                        }
-
-                        if (isset($item['selector']) and trim($item['selector']) != '' and isset($item['css'])) {
-                            $item['selector'] = str_ireplace('.element-current', '', $item['selector']);
-                            $item['selector'] = str_ireplace('.mwfx', '', $item['selector']);
-                            $item['selector'] = str_ireplace('.mw_image_resizer', '', $item['selector']);
-                            $item['selector'] = str_ireplace('.ui-resizable', '', $item['selector']);
-                            $item['selector'] = str_ireplace('.ui-draggable', '', $item['selector']);
-                            $item['css'] = str_ireplace('background:url(;', '', $item['css']);
-                            $item['css'] = str_ireplace('background:;', '', $item['css']);
-                            $item['css'] = str_ireplace('background-image:url(;', '', $item['css']);
-                            $item['css'] = str_ireplace('background-image: url("");', 'background-image: none;', $item['css']);
-
-                            $sel = trim($item['selector']);
-                            $css = trim($item['css']);
-
-                            if (trim($sel) != '' and strlen($sel) > 2 and strlen($css) > 2) {
-                                $delim = "\n /* $sel */ \n";
-
-                                //$item["css"] = str_ireplace($this_template_url, '', $item["css"]);
-                                //$item["css"] = str_ireplace($template_url, '', $item["css"]);
-
-                                $item['css'] = str_ireplace('http://', '//', $item['css']);
-                                $item['css'] = str_ireplace('https://', '//', $item['css']);
-
-                                $is_existing = explode($delim, $css_cont_new);
-
-                                if (!empty($is_existing)) {
-                                    $srings = $this->app->format->string_between($css_cont_new, $delim, $delim);
-
-                                    if ($srings != false) {
-                                        $css_cont_new = str_ireplace($srings, '', $css_cont_new);
-                                        $css_cont_new = str_ireplace($delim, '', $css_cont_new);
-                                    }
-                                }
-                                if (trim($item['css']) != 'reset' and trim($item['css']) != 'reset;') {
-                                    $css_cont_new .= $delim;
-                                    if (isset($sel) and trim($sel) == '@import') {
-                                        $css_cont_new .= $sel . ' ' . $item['css'] . ' ';
-                                    } else {
-                                        $css_cont_new .= $sel . ' { ' . $item['css'] . ' }';
-                                    }
-                                    $css_cont_new .= $delim;
-                                }
-                            }
-                        }
-                    }
                 }
 
-                if($css_cont_new != ''){
+                app()->template->liveEditCssAdapter->saveLiveEditCssContent($css_cont_new, $template);
+                $saveCustomCssPath = app()->template->liveEditCssAdapter->getLiveEditCssPath($template);
 
-                    $css_cont_new = str_ireplace('././media/', userfiles_url().'media/', $css_cont_new);
-                    $css_cont_new = str_ireplace(userfiles_url(), '../../', $css_cont_new);
-                }
-
-                $option = array();
-                $option['option_value'] = $css_cont_new;
-                $option['option_key'] = 'template_css';
-                $option['option_group'] = 'template_' . $template;
-                save_option($option);
                 $resp = array();
-                $resp['url'] = $this->app->url_manager->link_to_file($live_edit_css);
-                if ($css_cont_new != '' and $css_cont != $css_cont_new) {
-                    file_put_contents($live_edit_css, $css_cont_new);
-                    //  print $css_cont_new;
-                } else if ($css_cont_new == '' and isset($params['css_file_content'])) {
-                    file_put_contents($live_edit_css, '');
-                }
+                $resp['url'] = $this->app->url_manager->link_to_file($saveCustomCssPath);
 
 
                 $resp['content'] = $css_cont_new;
@@ -1053,7 +897,7 @@ class LayoutsManager
 
     private function __array_search_key($needle_key, $array)
     {
-        foreach ($array AS $key => $value) {
+        foreach ($array as $key => $value) {
             if ($key == $needle_key) return $value;
             if (is_array($value)) {
                 if (($result = $this->__array_search_key($needle_key, $value)) !== false)

@@ -15,7 +15,7 @@ class ImportSubscribersFileReader
         $environment = App::environment();
         $folder = storage_path('newsletter_subscribers_list/') . ('default' . DIRECTORY_SEPARATOR);
 
-        if(defined('MW_IS_MULTISITE') and MW_IS_MULTISITE) {
+        if(mw_is_multisite()) {
             $folder = storage_path('newsletter_subscribers_list/') . ($environment . DIRECTORY_SEPARATOR);
         }
 

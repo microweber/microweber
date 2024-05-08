@@ -1,10 +1,10 @@
 <?php
 
-if (! function_exists('str_random')) {
+if (!function_exists('str_random')) {
     /**
      * If the given value is not an array, wrap it in one.
      *
-     * @param  mixed  $value
+     * @param mixed $value
      * @return array
      */
     function str_random($length = 16)
@@ -16,6 +16,14 @@ if (! function_exists('str_random')) {
 function mw_admin_prefix_url()
 {
     return config('microweber.admin_url', 'admin');
+}
+
+function mw_is_multisite(): bool
+{
+    if (defined('MW_IS_MULTISITE') and MW_IS_MULTISITE) {
+        return true;
+    }
+    return false;
 }
 
 
@@ -581,7 +589,6 @@ $_mw_real_table_names = array();
 $_mw_assoc_table_names = array();
 
 
-
 function strip_tags_content($text, $tags = '', $invert = false)
 {
     preg_match_all('/<(.+?)[\s]*\/?[\s]*>/si', trim($tags), $tags);
@@ -808,6 +815,7 @@ function template_stack_add($src, $group = 'default')
 {
     return mw()->template->stack_add($src, $group);
 }
+
 /**
  * @deprecated
  */
@@ -1200,16 +1208,16 @@ if (!function_exists('is_cli')) {
             return $is;
         }
 
-        if(!empty($_SERVER) and isset($_SERVER['SERVER_SOFTWARE']) and isset($_SERVER['SERVER_PROTOCOL'])) {
+        if (!empty($_SERVER) and isset($_SERVER['SERVER_SOFTWARE']) and isset($_SERVER['SERVER_PROTOCOL'])) {
             $is = false;
             return $is;
         }
 
         $php_sapi_name = false;
-        if(defined('PHP_SAPI')){
-            $php_sapi_name= PHP_SAPI;
-        } else if (function_exists('php_sapi_name')){
-            $php_sapi_name= php_sapi_name();
+        if (defined('PHP_SAPI')) {
+            $php_sapi_name = PHP_SAPI;
+        } else if (function_exists('php_sapi_name')) {
+            $php_sapi_name = php_sapi_name();
         }
 
 
@@ -1239,7 +1247,6 @@ if (!function_exists('is_cli')) {
 }
 
 
-
 if (!function_exists('php_can_use_func')) {
     /**
      * Function to check if you can use a PHP function
@@ -1266,7 +1273,7 @@ if (!function_exists('php_can_use_func')) {
             }
         }
 
-        if (str_contains(INI_SYSTEM_CHECK_DISABLED,  (string)$func_name)) {
+        if (str_contains(INI_SYSTEM_CHECK_DISABLED, (string)$func_name)) {
             return false;
         }
 

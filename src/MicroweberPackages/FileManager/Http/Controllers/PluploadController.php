@@ -80,7 +80,7 @@ class PluploadController extends Controller
         $host_dir = 'default';
 
 
-        if (defined('MW_IS_MULTISITE') and MW_IS_MULTISITE) {
+        if (mw_is_multisite()) {
             if (isset($host['host'])) {
                 $host_dir = $host['host'];
                 $host_dir = str_ireplace('www.', '', $host_dir);

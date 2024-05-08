@@ -206,14 +206,14 @@ class AdminEditorToolsController
                     }
                 }
 
-                $live_edit_css_folder = userfiles_path() . 'css' . DS . $active_site_template . DS;
-                $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
-                if (is_file($custom_live_edit)) {
-                    $live_edit_url_folder = userfiles_url() . 'css/' . $active_site_template . '/';
-                    $custom_live_editmtime = filemtime($custom_live_edit);
-                    $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
-                    $layout = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
-                }
+//                $live_edit_css_folder = userfiles_path() . 'css' . DS . $active_site_template . DS;
+//                $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
+//                if (is_file($custom_live_edit)) {
+//                    $live_edit_url_folder = userfiles_url() . 'css/' . $active_site_template . '/';
+//                    $custom_live_editmtime = filemtime($custom_live_edit);
+//                    $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
+//                    $layout = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
+//                }
             }
         }
 

@@ -11,22 +11,14 @@ class LiveEditCssHeadPrealoadTags implements TagInterface, \Stringable
     {
 
 
+        $live_edit_url = app()->template->liveEditCssAdapter->getLiveEditCssUrl();
 
-        $the_active_site_template = app()->template->templateAdapter->getTemplateFolderName();
+        if (($live_edit_url)) {
+            $liv_ed_css = '<link  rel="preload" as="style"  href="' . $live_edit_url . '"  crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />';
+            return $liv_ed_css;
 
-        $live_edit_css_folder = userfiles_path() . 'css' . DS . $the_active_site_template . DS;
-        $live_edit_url_folder = userfiles_url() . 'css/' . $the_active_site_template . '/';
-        $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
-
-        $custom_live_edit = normalize_path($custom_live_edit, false);
-
-        $liv_ed_css = '';
-        if (is_file($custom_live_edit)) {
-            $custom_live_editmtime = filemtime($custom_live_edit);
-            $liv_ed_css = '<link  rel="preload" as="style"  href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '"  crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />';
         }
-
-        return $liv_ed_css;
+        return '';
     }
 
     public function getPlacement(): string
