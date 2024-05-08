@@ -13,7 +13,7 @@ class TemplateLiveEditCss
         return $live_edit_css_folder;
     }
 
-    public function getLiveEditCssPath($the_active_site_template)
+    public function getLiveEditCssPath($the_active_site_template, $check_exists = true)
     {
         $live_edit_css_folder = $this->getLiveEditCssSaveFolder($the_active_site_template);
         $custom_live_edit = $live_edit_css_folder . $this->getLiveEditCssFilename();
@@ -24,10 +24,18 @@ class TemplateLiveEditCss
         }
 
         $custom_live_edit = normalize_path($custom_live_edit, false);
-        if ($custom_live_edit_multisite and is_file($custom_live_edit_multisite)) {
-            return $custom_live_edit_multisite;
-        } else if ($custom_live_edit and is_file($custom_live_edit)) {
-            return $custom_live_edit;
+        if ($check_exists) {
+            if ($custom_live_edit_multisite and is_file($custom_live_edit_multisite)) {
+                return $custom_live_edit_multisite;
+            } else if ($custom_live_edit and is_file($custom_live_edit)) {
+                return $custom_live_edit;
+            }
+        } else {
+            if ($custom_live_edit_multisite) {
+                return $custom_live_edit_multisite;
+            } else if ($custom_live_edit) {
+                return $custom_live_edit;
+            }
         }
         return false;
     }
@@ -77,7 +85,7 @@ class TemplateLiveEditCss
             $template = app()->template->templateAdapter->getTemplateFolderName();
         }
         $css_cont_new = $css_cont;
-        $custom_live_edit_css_path = $this->getLiveEditCssPath($template);
+        $custom_live_edit_css_path = $this->getLiveEditCssPath($template,false);
 
         if (mw_is_multisite()) {
             $live_edit_css_folder = $this->getLiveEditCssSaveFolder($template);
