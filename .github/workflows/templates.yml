@@ -128,7 +128,7 @@ jobs:
       run: |
         php -r "if (function_exists('opcache_reset')) { var_dump(opcache_reset()); } else { echo 'opcache_reset function does not exist.'; }"
     - name: Install template
-      run: composer require ${{ matrix.templates }} --no-cache
+      run: composer require ${{ matrix.templates }} --no-cache -vvv
     - name: Remove screenshot layout test
       run: |
         rm -f userfiles/templates/big/src/tests/Browser/BigScreenshotLayoutsTest.php
