@@ -122,13 +122,15 @@ trait CategoryTrait
     }
 /*
     public function categories()
+// moved to getCategoriesAttribute
     {
         return $this->hasMany(Category::class, 'rel_id');
     }*/
 
     public function categoryItems()
     {
-        return $this->hasMany(CategoryItem::class, 'rel_id');
+        return $this->hasMany(CategoryItem::class, 'rel_id')
+            ->where('rel_type', $this->getMorphClass());
     }
 
     public function getParentsByCategoryId($id)
@@ -146,7 +148,8 @@ trait CategoryTrait
     public function getCategoriesAttribute()
     {
         $categories = [];
-        foreach ($this->categoryItems()->with('category')->get() as $category) {
+        foreach ($this->categoryItems()
+                     ->with('category')->get() as $category) {
             $categories[] = $category;
         }
         return collect($categories);

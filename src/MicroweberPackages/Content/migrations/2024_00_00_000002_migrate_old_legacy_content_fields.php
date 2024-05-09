@@ -34,6 +34,33 @@ class MigrateOldLegacyContentFields extends Migration
                 }
             }
 
+
+            //check in content fields for fieldn with content_body, content, anf title and move them to content table
+
+            $fields = DB::table('content_fields')
+                ->where(function ($query) {
+                    $query->where('field', 'content_body')
+                        ->orWhere('field', 'content')
+                        ->orWhere('field', 'title');
+                })->where('rel_type', 'content')
+                ->get();
+            if($fields){
+                foreach ($fields as $field){
+                    // update content table by rel_id
+                    $content = DB::table('content')->where('id', $field->rel_id)->first();
+                    if($content){
+                        if($field->field == 'content_body'){
+                            DB::table('content')->where('id', $field->rel_id)->update(['content_body' => $field->value]);
+                        } else if($field->field == 'content'){
+                            DB::table('content')->where('id', $field->rel_id)->update(['content' => $field->value]);
+                        } else if($field->field == 'title'){
+                            DB::table('content')->where('id', $field->rel_id)->update(['title' => $field->value]);
+                        }
+                        DB::table('content_fields')->where('id', $field->id)->delete();
+                    }
+                }
+            }
+
         }
 
 

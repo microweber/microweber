@@ -22,6 +22,8 @@
     @endif
 
     <div>
+
+
         @if($content->categories->count() > 0)
             <span class="manage-post-item-cats-inline-list">
             @php

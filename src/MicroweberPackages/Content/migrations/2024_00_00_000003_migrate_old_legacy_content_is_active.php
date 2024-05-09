@@ -31,14 +31,10 @@ class MigrateOldLegacyContentIsActive extends Migration
                         $itemArr = (array)$item;
                         $setval = 1;
                         if (isset($itemArr[$field]) and $itemArr[$field] === 'n') {
-                            $setval = 0;
+                            DB::table('content')->where('id', $item->id)->update([$field => 0]);
                         } else if (isset($itemArr[$field]) and $itemArr[$field] === 'y') {
-                            $setval = 1;
-                        } else if (isset($itemArr[$field]) and $itemArr[$field]) {
-                            $setval = $itemArr[$field];
+                            DB::table('content')->where('id', $item->id)->update([$field => 1]);
                         }
-
-                        DB::table('content')->where('id', $item->id)->update([$field => $setval]);
                     }
                 }
             }

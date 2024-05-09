@@ -21,6 +21,7 @@ class MigrateOldLegacyRelFields extends Migration
                 'content_fields',
                 'content_data',
                 'custom_fields',
+                'categories',
                 'categories_items',
             ];
 
