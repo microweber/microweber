@@ -34,6 +34,44 @@ class MigrateOldLegacyMediaFields extends Migration
                 }
             }
 
+
+            //check if it has updated_at and created_at
+
+            $checkUpdatedAt = Schema::hasColumn('media', 'updated_at');
+            $checkCreatedAt = Schema::hasColumn('media', 'created_at');
+            if (!$checkUpdatedAt) {
+                Schema::table('media', function (Blueprint $table) {
+                    $table->timestamp('updated_at')->nullable();
+                });
+            }
+            if (!$checkCreatedAt) {
+                Schema::table('media', function (Blueprint $table) {
+                    $table->timestamp('created_at')->nullable();
+                });
+            }
+
+
+            $checkUpdatedOn = Schema::hasColumn('media', 'updated_on');
+            $checkCreatedOn = Schema::hasColumn('media', 'created_on');
+            //update updated_at from updated_on
+
+            if ($checkUpdatedOn) {
+                $fields = DB::table('media')->whereNotNull('updated_on')->get();
+                if ($fields) {
+                    foreach ($fields as $item) {
+                        DB::table('media')->where('id', $item->id)->update(['updated_at' => $item->updated_on]);
+                    }
+                }
+            }
+            if ($checkCreatedOn) {
+                $fields = DB::table('media')->whereNotNull('created_on')->get();
+                if ($fields) {
+                    foreach ($fields as $item) {
+                        DB::table('media')->where('id', $item->id)->update(['created_at' => $item->created_on]);
+                    }
+                }
+            }
+
         }
 
 

@@ -47,11 +47,14 @@
          </span>
         @endif
 
+        @if($content->updated_at)
         <div>
             <small class="text-muted" style="font-size: 12px !important;">
                 {{ _e("Updated") }}: {{$content->updated_at->format('M d, Y, h:i A')}}
             </small>
         </div>
+         @endif
+
     </div>
 
 </div>

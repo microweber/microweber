@@ -20,6 +20,18 @@ class EnsureCommentsTableReplyToCommentIdExits extends Migration
                 if (!Schema::hasColumn('comments', 'reply_to_comment_id')) {
                     $table->integer('reply_to_comment_id')->nullable();
                 }
+
+                if (!Schema::hasColumn('comments', 'is_spam')) {
+                    $table->integer('is_spam')->nullable();
+                }
+
+                if (!Schema::hasColumn('comments', 'is_new')) {
+                    $table->integer('is_new')->nullable();
+                }
+
+                if (!Schema::hasColumn('comments', 'for_newsletter')) {
+                    $table->integer('for_newsletter')->nullable();
+                }
             });
         }
     }
