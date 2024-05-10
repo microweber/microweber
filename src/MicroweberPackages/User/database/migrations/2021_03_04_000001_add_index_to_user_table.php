@@ -20,10 +20,6 @@ class AddIndexToUserTable extends Migration
                     $table->index('is_admin');
                 }
 
-                //check if username is unique
-                if(!$table->hasIndex('username')) {
-                    $table->unique('username');
-                }
 
             });
         } catch (Exception $e) {

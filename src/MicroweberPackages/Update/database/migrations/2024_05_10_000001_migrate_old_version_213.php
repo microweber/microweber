@@ -342,14 +342,12 @@ class MigrateOldVersion213 extends Migration
             $checkCustomFieldNameValues = Schema::hasColumn('custom_fields', 'custom_field_values_plain');
 
 
-
             $checkCustomFieldNamePlain = Schema::hasColumn('custom_fields', 'custom_field_name_plain');
-            $checkCustomFieldNameValuesPlain = Schema::hasColumn('custom_fields', 'custom_field_name_plain');
+            $checkCustomFieldNameNamePlain = Schema::hasColumn('custom_fields', 'custom_field_name_plain');
 
-            if ($checkCustomFieldNameValuesPlain
-
+            if (
+                $checkCustomFieldNameValues
                 and $checkCustomFieldNamePlain
-                and $checkCustomFieldNameValuesPlain
             ) {
                 //migrate those felds to the table custom fields values
                 $allOldFields = DB::table('custom_fields')
@@ -475,9 +473,14 @@ class MigrateOldVersion213 extends Migration
             if (!Schema::hasTable($table)) {
                 continue;
             }
+            if (!Schema::hasColumn($table, 'created_at')) {
+                Schema::table($table, function (Blueprint $table) {
+                    $table->timestamp('created_at')->nullable();
+                });
+            }
 
-            if (Schema::hasColumn($table, 'created_at')) {
-                if (Schema::hasColumn($table, 'created_on')) {
+            if (Schema::hasColumn($table, 'created_at')
+                and Schema::hasColumn($table, 'created_on')) {
                     //move all to created_at
                     $all = DB::table($table)->whereNotNull('created_on')->get();
                     if ($all) {
@@ -489,11 +492,17 @@ class MigrateOldVersion213 extends Migration
                     Schema::table($table, function (Blueprint $table) {
                         $table->dropColumn('created_on');
                     });
-                }
             }
 
-            if (Schema::hasColumn($table, 'updated_at')) {
-                if (Schema::hasColumn($table, 'updated_on')) {
+            if (!Schema::hasColumn($table, 'updated_at')) {
+                Schema::table($table, function (Blueprint $table) {
+                    $table->timestamp('updated_at')->nullable();
+                });
+            }
+
+
+            if (Schema::hasColumn($table, 'updated_at')
+                and Schema::hasColumn($table, 'updated_on')) {
                     //move all to created_at
                     $all = DB::table($table)->whereNotNull('updated_on')->get();
                     if ($all) {
@@ -505,7 +514,7 @@ class MigrateOldVersion213 extends Migration
                     Schema::table($table, function (Blueprint $table) {
                         $table->dropColumn('updated_on');
                     });
-                }
+
             }
 
         }
