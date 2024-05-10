@@ -4,21 +4,28 @@
 
             <h1 class="main-pages-title d-lg-flex card-title">
 
-                <a class="@if(isset($currentCategory) and $currentCategory) text-decoration-none @else text-decoration-none @endif" onclick="livewire.emit('deselectAllCategories');return false;">
-                    {{_e(ucfirst($this->contentType).'s')}}
+                <a class="@if(isset($currentCategory) and $currentCategory) cursor-pointer text-decoration-none @else cursor-pointer text-decoration-none @endif" onclick="livewire.emit('deselectAllCategories');return false;">
+                    {{_e(ucfirst($this->contentType))}}
                 </a>
 
-                @if(isset($currentCategory) and $currentCategory)
-                    <span class="form-label text-muted">&nbsp; \ &nbsp;
-                    {{$currentCategory['title']}}
-                    </span>
-                @endif
 
                 @if(isset($currentPage) and $currentPage)
-                    <span class="form-label text-muted">&nbsp; \ &nbsp;
-                    {{$currentPage['title']}}
-                    </span>
+                    <small class="text-muted"> &nbsp; \ &nbsp; </small>
+                    <a class="cursor-pointer form-label text-muted" onclick="livewire.emit('selectPageFromTableList','{{$currentPage['id']}}');return false;">
+                        {{$currentPage['title']}}
+                    </a>
                 @endif
+
+
+                @if(isset($currentCategory) and $currentCategory)
+                    <small class="text-muted"> &nbsp; \ &nbsp; </small>
+
+                    <a class="cursor-pointer form-label text-muted" onclick="livewire.emit('selectCategoryFromTableList','{{$currentCategory['id']}}');return false;">
+                    {{$currentCategory['title']}}
+                    </a>
+                @endif
+
+
 
                 @if($isInTrashed)
                     <span class="form-label text-muted">&nbsp; \ &nbsp;
