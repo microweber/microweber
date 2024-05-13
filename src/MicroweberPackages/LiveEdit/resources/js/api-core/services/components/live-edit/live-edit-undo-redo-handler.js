@@ -85,76 +85,98 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
         }
     }
 
+
+    #stateTypeHandles = {
+        $liveEditStyle: (selector, value) => {
+            mw.top().app.cssEditor.style( selector,  value, false)
+        }
+    }
+
+    #stateTypeHandle(data) {
+        var doc = mw.app.canvas.getDocument();
+
+        var target = data.active.target;
+
+
+        if(target === '$multistate' ) {
+            for (let i = 0; i < data.active.value; i++) {
+                data.active.value[i];
+                const type = data.active.value[i].type
+                if(this.#stateTypeHandles[type]) {
+                    this.#stateTypeHandles[type](data.active.value[i]);
+                }
+
+            }
+            return;
+        }
+        if(target === '$liveEditStyle' && mw.top().app.cssEditor) {
+
+            mw.top().app.cssEditor.style(data.active.value.selector, data.active.value.value, false);
+            return;
+        }
+        if(target === '$liveEditCSS' && mw.top().app.cssEditor) {
+            mw.top().app.cssEditor.setPropertyForSelector(data.active.value.selector, data.active.value.property, data.active.value.value, false);
+            return;
+        }
+        if (typeof target === 'string') {
+            target = doc.querySelector(data.active.target);
+        }
+
+        if (!data.active || (!target && !data.active.action)) {
+
+            return;
+        }
+
+        if (data.active.action) {
+            data.active.action(data);
+        } else   {
+            // actual target may not be present in the document must be get by selector
+            const getTarget = function(target) {
+
+                var selector;
+                if(target.id) {
+                    selector = '#' + target.id;
+                } else if(target.classList.contains('edit')) {
+                    var field = target.getAttribute('field');
+                    var rel = target.getAttribute('rel');
+                    if(field && rel){
+                        selector = '.edit[field="'+field+'"][rel="'+rel+'"]';
+                    }
+                }
+                if (selector) {
+                    target = doc.querySelector(selector)
+                }
+
+                return target;
+            }
+
+            var originalEditField;
+
+            if(data.active.originalEditField && data.active.originalEditField !== target) {
+                originalEditField = getTarget(data.active.originalEditField);
+            }
+
+            target = getTarget(target);
+
+
+
+            if(target) {
+                mw.element(target).html(data.active.value);
+            }
+            if(originalEditField) {
+                mw.element(originalEditField).html(data.active.originalEditFieldInnerHTML);
+            }
+
+        }
+        if (data.active.prev) {
+            mw.$(data.active.prev).html(data.active.prevValue);
+        }
+    }
+
     handleUndoRedo = (data) => {
 
         if (data.active) {
-            var doc = mw.app.canvas.getDocument();
-
-            var target = data.active.target;
-
-
-            if(target === '$liveEditStyle' && mw.top().app.cssEditor) {
-                console.log(data.active)
-                mw.top().app.cssEditor.style(data.active.value.selector, data.active.value.value, false);
-                return;
-            }
-            if(target === '$liveEditCSS' && mw.top().app.cssEditor) {
-                mw.top().app.cssEditor.setPropertyForSelector(data.active.value.selector, data.active.value.property, data.active.value.value, false);
-                return;
-            }
-            if (typeof target === 'string') {
-                target = doc.querySelector(data.active.target);
-            }
-
-            if (!data.active || (!target && !data.active.action)) {
-
-                return;
-            }
-
-            if (data.active.action) {
-                data.active.action(data);
-            } else   {
-                // actual target may not be present in the document must be get by selector
-                const getTarget = function(target) {
-
-                    var selector;
-                    if(target.id) {
-                        selector = '#' + target.id;
-                    } else if(target.classList.contains('edit')) {
-                        var field = target.getAttribute('field');
-                        var rel = target.getAttribute('rel');
-                        if(field && rel){
-                            selector = '.edit[field="'+field+'"][rel="'+rel+'"]';
-                        }
-                    }
-                    if (selector) {
-                        target = doc.querySelector(selector)
-                    }
-
-                    return target;
-                }
-
-                var originalEditField;
-
-                if(data.active.originalEditField && data.active.originalEditField !== target) {
-                    originalEditField = getTarget(data.active.originalEditField);
-                }
-
-                target = getTarget(target);
-
-
-
-                if(target) {
-                    mw.element(target).html(data.active.value);
-                }
-                if(originalEditField) {
-                    mw.element(originalEditField).html(data.active.originalEditFieldInnerHTML);
-                }
-
-            }
-            if (data.active.prev) {
-                mw.$(data.active.prev).html(data.active.prevValue);
-            }
+            this.#stateTypeHandle(data)
         }
         this.afterUndoRedo()
     }
