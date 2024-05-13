@@ -47,6 +47,7 @@ export default {
                 if (undoStateTarget) {
                     mw.app.registerChange(undoStateTarget);
                 }
+                this.setButtons()
             })
             mw.app.state.on('redo', () => function () {
                 var redoStateTarget = null;
@@ -57,6 +58,7 @@ export default {
                 if (redoStateTarget) {
                     mw.app.registerChange(redoStateTarget);
                 }
+                this.setButtons()
             })
         })
 
