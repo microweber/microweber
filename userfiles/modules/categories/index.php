@@ -14,7 +14,7 @@ if (isset($params['for-content-id'])) {
 }
 
 if (isset($params['for-current-content-id'])) {
-    $params['for-content-id'] = CONTENT_ID;
+    $params['for-content-id'] = content_id();
 }
 
 
@@ -25,7 +25,7 @@ if (intval($selected_max_depth) > 0) {
 
 
 if (isset($params['from-page']) and trim($params['from-page']) != 'false') {
-    $params['content_id'] = PAGE_ID;
+    $params['content_id'] = page_id();
 }
 
 
@@ -67,7 +67,7 @@ if ($only_products_in_stock == 1) {
     $shop = get_content('single=1&content_type=page&is_shop=1');
     if ($shop) {
 
-        $categories = get_categories('rel_id=' . $shop['id'] . '&is_deleted=0&is_hidden=0&order_by=position asc');
+        $categories = get_categories('rel_id=' . $shop['id'] . 'rel_type=content&is_deleted=0&is_hidden=0&order_by=position asc');
         foreach ($categories as $k => $v) {
             $has_products = app()->category_repository->hasProductsInStock($v['id']);
             if (!$has_products) {

@@ -204,6 +204,25 @@ class MigrateOldVersion213 extends Migration
                     }
                 }
             }
+
+
+            //ensure all categories have slug
+            $categories = DB::table('categories')->whereNull('url')->get();
+            if ($categories) {
+                foreach ($categories as $category) {
+                    $categoryArr = (array)$category;
+                    if (isset($categoryArr['id']) and isset($categoryArr['title'])) {
+                        $slug = str_slug($categoryArr['title']);
+                        $check = DB::table('categories')->where('id', $categoryArr['id'])->where('url', $slug)->first();
+                        if (!$check) {
+                            DB::table('categories')->where('id', $categoryArr['id'])->update(['url' => $slug]);
+                        } else {
+                            $slug = $slug . '-' . $categoryArr['id'];
+                            DB::table('categories')->where('id', $categoryArr['id'])->update(['url' => $slug]);
+                        }
+                    }
+                }
+            }
         }
     }
 
