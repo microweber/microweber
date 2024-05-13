@@ -24,42 +24,42 @@
 
                             <div class="mb-2">
                                 <label class="font-weight-bold"><?php _e("Country"); ?>:</label>
-                                <input type="text" name="country" class="form-control" value="<?php print $order['country'] ?>">
+                                <input type="text" name="country" class="form-control" value="<?php print $order['country'] ?? '' ?>">
                             </div>
 
                             <div class="mb-2">
                                 <label class="font-weight-bold"><?php _e("City"); ?>:</label>
-                                <input type="text" name="city" class="form-control" value="<?php print $order['city'] ?>">
+                                <input type="text" name="city" class="form-control" value="<?php print $order['city']  ?? '' ?>">
                             </div>
 
                             <div class="mb-2">
                                 <label class="font-weight-bold"><?php _e("State"); ?>:</label>
-                                <input type="text" name="state" class="form-control" value="<?php print $order['state'] ?>">
+                                <input type="text" name="state" class="form-control" value="<?php print $order['state']  ?? '' ?>">
                             </div>
 
                             <div class="mb-2">
                                 <label class="font-weight-bold"><?php _e("Post code"); ?>:</label>
-                                <input type="text" name="zip" class="form-control" value="<?php print $order['zip'] ?>">
+                                <input type="text" name="zip" class="form-control" value="<?php print $order['zip']  ?? '' ?>">
                             </div>
 
                             <div class="mb-2">
                                 <label class="font-weight-bold"><?php _e("Address"); ?>:</label>
-                                <input type="text" name="address" class="form-control" value="<?php print $order['address'] ?>">
+                                <input type="text" name="address" class="form-control" value="<?php print $order['address'] ?? '' ?>">
                             </div>
 
                             <div class="mb-2">
                                 <label class="font-weight-bold"><?php _e("Address 2"); ?>:</label>
-                                <input type="text" name="address2" class="form-control" value="<?php print $order['address2'] ?>">
+                                <input type="text" name="address2" class="form-control" value="<?php print $order['address2']  ?? '' ?>">
                             </div>
 
                             <div class="mb-4">
                                 <label class="font-weight-bold"><?php _e("Phone"); ?>:</label>
-                                <input type="text" name="phone" class="form-control" value="<?php print $order['phone'] ?>">
+                                <input type="text" name="phone" class="form-control" value="<?php print $order['phone']  ?? '' ?>">
                             </div>
 
                             <div class="mb-2">
                                 <label class="font-weight-bold"><?php _e('Additional information'); ?>:</label>
-                                <textarea name="other_info" class="form-control"><?php print $order['other_info'] ?></textarea>
+                                <textarea name="other_info" class="form-control"><?php print $order['other_info']  ?? '' ?></textarea>
                             </div>
                         </div>
 
