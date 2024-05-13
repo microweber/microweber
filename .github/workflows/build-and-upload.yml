@@ -147,12 +147,8 @@ jobs:
           rm -f *.php
           rm -f *.yml
           find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
-          cp -r userfiles/ update/
-          cp -r vendor/ update/
-          cp -r src/ update/
-          cd update/
           zip -r microweber-update-${{ env.GITHUB_REF_SLUG }}.zip `ls -A`
-          cp microweber-update-${{ env.GITHUB_REF_SLUG }}.zip ../microweber-update-${{ env.GITHUB_REF_SLUG }}.zip
+          cp microweber-update-${{ env.GITHUB_REF_SLUG }}.zip microweber-update-${{ env.GITHUB_REF_SLUG }}.zip
       - name: Upload zip
         run: |
           echo insecure >> ~/.curlrc
